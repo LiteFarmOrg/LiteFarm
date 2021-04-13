@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
 import { pointImgDict } from '../LocationMapping';
 import { lineImgDict } from '../LocationMapping';
 import { areaImgDict } from '../LocationMapping';
@@ -52,4 +50,7 @@ export default function PureSelectionHandler({ locations, history }) {
   });
 }
 
-// {{ padding: '17px 50px 25px' }}
+PureSelectionHandler.prototype = {
+  locations: PropTypes.array,
+  history: PropTypes.func,
+};

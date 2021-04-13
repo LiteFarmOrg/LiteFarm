@@ -58,7 +58,6 @@ const useMapAssetRenderer = () => {
       point.marker.asset = point.asset;
       point.marker.type = point.type;
       markers.push(point.marker);
-      console.log(point);
     });
 
     const mcOptions = { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2 };
@@ -67,23 +66,14 @@ const useMapAssetRenderer = () => {
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
     });
 
-    console.log('asset geometries');
-    console.log(assetGeometries);
-
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      console.log('click cluster');
       if (map.getZoom() === 20 && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
         };
-        console.log('max zoom in');
         cluster.markers_.map((point) => {
-          // console.log(pointAssets.point.type)
-          // console.log(point).asset
-          console.log(point);
-
           pointAssets[point.type].push({
             asset: point.asset,
             isVisible: true,
@@ -93,9 +83,6 @@ const useMapAssetRenderer = () => {
             type: point.type,
           });
         });
-        console.log('point assets');
-        console.log(pointAssets.gate[0]);
-        console.log(pointAssets.gate[0].marker.position);
 
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
         // cluster.center()
@@ -144,9 +131,7 @@ const useMapAssetRenderer = () => {
           );
     });
 
-    console.log(newState);
     setAssetGeometries(newState);
-    // if (assetGeometries.gate.length > 0) console.log(getDistance(assetGeometries.gate[0], assetGeometries.gate[1]))
     // Create marker clusters
     let pointsArray = [];
     assetGeometries.gate.forEach((item) => {
@@ -155,11 +140,8 @@ const useMapAssetRenderer = () => {
     assetGeometries.water_valve.forEach((item) => {
       pointsArray.push(item);
     });
-    console.log(pointsArray);
 
     createMarkerClusters(maps, map, pointsArray);
-    // createMarkerClusters(maps, map, assetGeometries.water_valve)
-    // createMarkerClusters(maps, map, assetGeometries.gate)
     // TODO: only fitBounds if there is at least one location in the farm
     hasLocation && map.fitBounds(mapBounds);
   };
@@ -337,9 +319,6 @@ const useMapAssetRenderer = () => {
   // Draw a point
   const drawPoint = (map, maps, mapBounds, point, isVisible) => {
     const { point: grid_point, name, type } = point;
-    // console.log("draw point")
-    // console.log(point)
-    // createMarkerClusters(maps, map, point.point)
     mapBounds.extend(grid_point);
 
     var marker = new maps.Marker({

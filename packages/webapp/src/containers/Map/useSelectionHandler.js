@@ -24,11 +24,10 @@ const useSelectionHandler = () => {
 
   const [dismissSelection, setDismissSelection] = useState(false);
 
+  let dismiss = false;
+
   useEffect(() => {
-    console.log('use effect');
-    console.log(dismissSelection);
     if (dismissSelection) {
-      console.log('reset overlapped locations');
       setOverlappedLocations({ ...initOverlappedLocations });
       setDismissSelection(false);
       return;
@@ -74,12 +73,24 @@ const useSelectionHandler = () => {
   }, [overlappedLocations, dismissSelection]);
 
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
-    console.log('handle selection');
-    console.log(dismissSelection);
-    let overlappedLocationsCopy = null;
+    // console.log('handle selection');
+    // console.log(overlappedLocations)
+    const initOverlappedLocationsCopy = {
+      area: [],
+      line: [],
+      point: [],
+    };
+    console.log(dismiss);
+    let overlappedLocationsCopy = dismiss
+      ? { ...initOverlappedLocationsCopy }
+      : { ...overlappedLocations };
+    console.log(initOverlappedLocations);
 
     if (isLocationAsset) {
-      overlappedLocationsCopy = { ...overlappedLocations };
+      // overlappedLocationsCopy = { ...overlappedLocations };
+      // console.log(initOverlappedLocations)
+      dismiss = false;
+
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType)) {
           locationAssets[locationType].forEach((area) => {
@@ -133,11 +144,9 @@ const useSelectionHandler = () => {
 
       setOverlappedLocations({ ...overlappedLocationsCopy });
     } else {
-      console.log('dismiss selection component');
       setDismissSelection(true);
       dispatch(canShowSelection(false));
-      // overlappedLocations = initOverlappedLocations;
-      // setOverlappedLocations(initOverlappedLocations);
+      dismiss = true;
     }
   };
 

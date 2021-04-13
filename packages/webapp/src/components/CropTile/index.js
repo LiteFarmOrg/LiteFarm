@@ -29,9 +29,15 @@ export default function PureCropTile({
     const parts = date.toDateString().split(' ')
     displayDate = `${parts[1]} ${parts[2]} '${parts[3].slice(-2)}`;
   }
+
+  const imageKey = crop_translation_key.toLowerCase();
   return (
     <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}>
-      <div className={styles.img}></div>
+      <img
+        src={`crop-images/${imageKey}.jpg`}
+        alt={imageKey}
+        className={styles.img}
+      />
       <div className={styles.info}>
         <div className={styles.infoMain} style={{marginBottom: '2px'}}>{variety}</div>
         <div className={styles.infoBody} style={{marginBottom: '2px'}}>{t(`crop:${crop_translation_key}`)}</div>

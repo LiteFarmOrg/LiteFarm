@@ -369,8 +369,9 @@ async function fieldCropFactory({
   promisedCrop = cropFactory(),
 } = {}, fieldCrop = fakeFieldCrop()) {
   const [location, field, crop] = await Promise.all([promisedLocation, promisedField, promisedCrop]);
+  const [{ created_by_user_id }] = location;
   const [{ location_id }] = field;
-  const [{ crop_id, created_by_user_id }] = crop;
+  const [{ crop_id }] = crop;
   const base = baseProperties(created_by_user_id);
   return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 

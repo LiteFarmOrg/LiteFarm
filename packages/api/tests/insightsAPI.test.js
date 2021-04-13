@@ -30,7 +30,7 @@ let faker = require('faker');
 const moment = require('moment');
 const insigntController = require('../src/controllers/insightController');
 
-xdescribe('insights test', () => {
+describe('insights test', () => {
   let middleware;
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 
@@ -55,10 +55,13 @@ xdescribe('insights test', () => {
 
     async function generateSaleData(crop, quantity, user) {
       const [{ user_id, farm_id }] = user ? user : await createUserFarm(1);
-      const [{ field_id, created_by_user_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const { location_id, created_by_user_id } = location;
+      const [field] = await mocks.fieldFactory({ promisedLocation: [location] });
       const [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }] }, crop);
       const [{ field_crop_id }] = await mocks.fieldCropFactory({
-        promisedField: [{ field_id, created_by_user_id }],
+        promisedLocation: [location],
+        promisedField: [field],
         promisedCrop: [{ crop_id }],
       });
       const [{ sale_id }] = await mocks.saleFactory({ promisedUserFarm: [{ user_id, farm_id }] });
@@ -303,7 +306,7 @@ xdescribe('insights test', () => {
     });
   });
 
-  describe('labour happiness', () => {
+  xdescribe('labour happiness', () => {
     test('Should get labour happiness if Im on my farm as an owner', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
       getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {
@@ -694,8 +697,8 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as an owner', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -705,8 +708,8 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as a manager', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -716,8 +719,8 @@ xdescribe('insights test', () => {
       test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();

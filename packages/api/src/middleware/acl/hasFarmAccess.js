@@ -19,6 +19,8 @@ const entitiesGetters = {
   sale_id: fromSale,
   shift_id: fromShift,
   location_id: fromLocation,
+  //TODO remove
+  field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
 }
 const userFarmModel = require('../../models/userFarmModel');

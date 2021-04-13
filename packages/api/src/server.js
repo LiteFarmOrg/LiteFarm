@@ -18,8 +18,6 @@ require('dotenv').config();
 require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
-const https = require('https');
-const fs = require('fs');
 const app = express();
 const environment = process.env.NODE_ENV || 'development';
 const promiseRouter = require('express-promise-router');
@@ -156,7 +154,10 @@ app.use(bodyParser.json())
 
 const port = process.env.PORT || 5000;
 if (environment === 'development' || environment === 'production' || environment === 'integration') {
-
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log('LiteFarm Backend listening on port ' + port + '!');
+  });
   waterBalanceScheduler.registerHourlyJob();
   waterBalanceScheduler.registerDailyJob();
 
@@ -165,23 +166,6 @@ if (environment === 'development' || environment === 'production' || environment
   farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
   console.log('LiteFarm Water Balance Scheduler Enabled');
-}
-
-if(environment === 'production'){
-  const options = {
-    key: fs.readFileSync(process.env.KEY_FILE_LOCATION, 'utf8'),
-    cert: fs.readFileSync(process.env.CERT_FILE_LOCATION, 'utf8'),
-    ca: fs.readFileSync(process.env.CA_FILE_LOCATION, 'utf8'),
-  };
-  https.createServer(options, app).listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log('LiteFarm Backend listening on port ' + port + '!');
-  })
-}else {
-  app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log('LiteFarm Backend listening on port ' + port + '!');
-  });
 }
 
 app.on('close', () => {

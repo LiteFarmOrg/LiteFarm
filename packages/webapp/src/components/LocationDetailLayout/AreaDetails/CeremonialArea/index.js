@@ -17,6 +17,7 @@ export default function PureCeremonialArea({
   isViewLocationPage,
   isEditLocationPage,
   useHookFormPersist,
+  handleRetire,
 }) {
   const { t } = useTranslation();
   const {
@@ -70,6 +71,7 @@ export default function PureCeremonialArea({
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/ceremonial_area/${match.params.location_id}/edit`)}
+          onRetire={handleRetire}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

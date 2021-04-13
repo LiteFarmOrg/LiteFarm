@@ -7,6 +7,7 @@ import {
   editFarmSiteBoundarySuccess,
   getLocationObjectFromFarmSiteBoundary,
   postFarmSiteBoundarySuccess,
+  deleteFarmSiteBoundarySuccess,
 } from '../../../farmSiteBoundarySlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -91,7 +92,41 @@ export function* editFarmSiteBoundaryLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteFarmSiteBoundaryLocation = createAction(`deleteFarmSiteBoundaryLocationSaga`);
+
+export function* deleteFarmSiteBoundaryLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteFarmSiteBoundarySuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FSB'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.FSB')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* farmSiteBoundaryLocationSaga() {
   yield takeLatest(postFarmSiteBoundaryLocation.type, postFarmSiteBoundaryLocationSaga);
   yield takeLatest(editFarmSiteBoundaryLocation.type, editFarmSiteBoundaryLocationSaga);
+  yield takeLatest(deleteFarmSiteBoundaryLocation.type, deleteFarmSiteBoundaryLocationSaga);
 }

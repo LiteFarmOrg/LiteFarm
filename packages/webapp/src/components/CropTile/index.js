@@ -34,7 +34,7 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
       fieldArea={fieldCrop.location.total_area}
     >
       <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}>
-        <div className={styles.img}>{'image'}</div>
+        <div className={styles.img}></div>
         <div className={styles.info}>
           <div className={styles.infoMain} style={{ marginBottom: '2px' }}>
             {variety}

@@ -16,12 +16,10 @@ import {
 } from '../../../fieldCropSlice';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
-import { useTranslation } from 'react-i18next';
 
 function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { t } = useTranslation();
   const submitForm = (data) => {
     isEditLocationPage &&
       dispatch(editFieldLocation({ ...data, ...match.params, figure_id: field.figure_id }));

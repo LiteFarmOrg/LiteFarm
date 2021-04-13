@@ -105,6 +105,10 @@
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
+    "CONFIRM_RETIRE": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
@@ -249,6 +253,10 @@
         "STEP_TWO": "MISSING",
         "TITLE": "MISSING"
       }
+    },
+    "UNABLE_TO_RETIRE": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
     },
     "WATER_VALVE": {
       "EDIT_TITLE": "MISSING",

@@ -7,6 +7,7 @@ import {
   editFieldSuccess,
   getLocationObjectFromField,
   postFieldSuccess,
+  deleteFieldSuccess,
 } from '../../../fieldSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -87,7 +88,41 @@ export function* editFieldLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteFieldLocation = createAction(`deleteFieldLocationSaga`);
+
+export function* deleteFieldLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteFieldSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FIELD'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.FIELD')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* fieldLocationSaga() {
   yield takeLatest(postFieldLocation.type, postFieldLocationSaga);
   yield takeLatest(editFieldLocation.type, editFieldLocationSaga);
+  yield takeLatest(deleteFieldLocation.type, deleteFieldLocationSaga);
 }

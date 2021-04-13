@@ -21,6 +21,7 @@ export default function PureWatercourse({
   isViewLocationPage,
   isEditLocationPage,
   useHookFormPersist,
+  handleRetire,
 }) {
   const { t } = useTranslation();
   const unit = system === 'metric' ? 'm' : 'ft';
@@ -86,6 +87,7 @@ export default function PureWatercourse({
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/watercourse/${match.params.location_id}/edit`)}
+          onRetire={handleRetire}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

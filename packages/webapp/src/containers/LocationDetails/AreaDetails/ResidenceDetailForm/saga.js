@@ -7,6 +7,7 @@ import {
   editResidenceSuccess,
   getLocationObjectFromResidence,
   postResidenceSuccess,
+  deleteResidenceSuccess,
 } from '../../../residenceSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -93,7 +94,41 @@ export function* editResidenceLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteResidenceLocation = createAction(`deleteResidenceLocationSaga`);
+
+export function* deleteResidenceLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteResidenceSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.RESIDENCE')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* residenceLocationSaga() {
   yield takeLatest(postResidenceLocation.type, postResidenceLocationSaga);
   yield takeLatest(editResidenceLocation.type, editResidenceLocationSaga);
+  yield takeLatest(deleteResidenceLocation.type, deleteResidenceLocationSaga);
 }

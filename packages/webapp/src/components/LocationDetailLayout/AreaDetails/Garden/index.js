@@ -169,6 +169,7 @@ export default function PureGarden({
               inputRef={register({ required: true })}
               value={'Transitional'}
               name={gardenEnum.organic_status}
+              disabled={isViewLocationPage}
             />
           </div>
           <div style={{ paddingBottom: '20px' }}>

@@ -27,7 +27,6 @@ export const containsCrops = (type) => {
     locationEnum.field,
     locationEnum.garden,
     locationEnum.greenhouse,
-    locationEnum.garden,
     locationEnum.buffer_zone,
   ].includes(type);
 };

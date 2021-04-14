@@ -25,24 +25,36 @@ export default function PureCropList({
 
   const { ref: containerRef, width: containerWidth } = useComponentWidth();
 
+  const [{ gap, padding }, setGap] = useState({});
   const cardWidth = 88;
-  const minGap = 24;
-  const getMinGap = (cropCount) => {
-    const numberOfGap = Math.floor((containerWidth - cardWidth) / (cardWidth + minGap));
-    const numberOfCard = numberOfGap + 1;
-    if (cropCount < numberOfCard || numberOfCard <= 2) {
-      return minGap;
-    } else {
-      return (containerWidth - numberOfCard * cardWidth) / numberOfGap;
-    }
-  };
-  const [gap, setGap] = useState();
   useEffect(() => {
+    const minGap = 24;
+    const getMinGap = (cropCount) => {
+      const numberOfGap = Math.floor((containerWidth - cardWidth) / (cardWidth + minGap));
+      const numberOfCard = numberOfGap + 1;
+      if (cropCount < numberOfCard || numberOfCard <= 1) {
+        return { gap: minGap, padding: 0 };
+      } else if (numberOfCard === 2) {
+        const gap = (containerWidth - numberOfCard * cardWidth) / numberOfGap;
+        if (gap >= 48) {
+          return { gap: gap / 2, padding: gap / 4 };
+        } else {
+          return { gap: gap, padding: 0 };
+        }
+      } else {
+        return { gap: (containerWidth - numberOfCard * cardWidth) / numberOfGap, padding: 0 };
+      }
+    };
+
     setGap(
-      Math.max(
-        getMinGap(pastCrops?.length),
-        getMinGap(plannedCrops?.length),
-        getMinGap(activeCrops?.length),
+      [pastCrops?.length, plannedCrops?.length, activeCrops?.length].reduce(
+        ({ padding: maxPadding, gap: maxGap }, cropCount) => {
+          const { gap, padding } = getMinGap(cropCount);
+          return gap >= maxGap && padding >= maxPadding
+            ? { gap, padding }
+            : { padding: maxPadding, gap: maxGap };
+        },
+        { padding: 0, gap: 24 },
       ),
     );
   }, [containerWidth, pastCrops, plannedCrops, activeCrops]);
@@ -107,7 +119,10 @@ export default function PureCropList({
               </div>
               <div className={styles.labelDivider} />
             </div>
-            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+            <div
+              className={styles.tileContainer}
+              style={{ columnGap: gap, padding: `0 ${padding}px` }}
+            >
               {activeCrops.map((fc) => (
                 <PureCropTile
                   history={history}
@@ -129,7 +144,10 @@ export default function PureCropList({
               </div>
               <div className={styles.labelDivider} />
             </div>
-            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+            <div
+              className={styles.tileContainer}
+              style={{ columnGap: gap, padding: `0 ${padding}px` }}
+            >
               {plannedCrops.map((fc) => (
                 <PureCropTile
                   history={history}
@@ -151,7 +169,10 @@ export default function PureCropList({
               </div>
               <div className={styles.labelDivider} />
             </div>
-            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+            <div
+              className={styles.tileContainer}
+              style={{ columnGap: gap, padding: `0 ${padding}px` }}
+            >
               {pastCrops.map((fc) => (
                 <PureCropTile
                   history={history}

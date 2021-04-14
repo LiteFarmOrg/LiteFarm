@@ -22,6 +22,15 @@ export const isArea = (type) => {
   ].includes(type);
 };
 
+export const containsCrops = (type) => {
+  return [
+    locationEnum.field,
+    locationEnum.garden,
+    locationEnum.greenhouse,
+    locationEnum.buffer_zone,
+  ].includes(type);
+};
+
 export const isNoFillArea = (type) => {
   return [locationEnum.farm_site_boundary].includes(type);
 };

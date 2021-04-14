@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PureGreenhouse from '../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
-import { editGreenhouseLocation, deleteGreenhouseLocation } from './saga';
+import { deleteGreenhouseLocation, editGreenhouseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { measurementSelector } from '../../../userFarmSlice';
+import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { greenhouseSelector } from '../../../greenhouseSlice';
 import {
@@ -19,6 +19,7 @@ import RetireConfirmationModal from '../../../../components/Modals/RetireConfirm
 
 function EditGreenhouseDetailForm({ history, match }) {
   const dispatch = useDispatch();
+  const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
@@ -50,12 +51,12 @@ function EditGreenhouseDetailForm({ history, match }) {
     } else {
       setShowCannotRetireModal(true);
     }
-  }
+  };
 
   const confirmRetire = () => {
     isViewLocationPage && dispatch(deleteGreenhouseLocation({ location_id }));
     setShowConfirmRetireModal(false);
-  }
+  };
 
   return (
     <>
@@ -68,6 +69,7 @@ function EditGreenhouseDetailForm({ history, match }) {
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}
+        isAdmin={isAdmin}
       />
       {isViewLocationPage && showCannotRetireModal && (
         <UnableToRetireModal dismissModal={() => setShowCannotRetireModal(false)} />

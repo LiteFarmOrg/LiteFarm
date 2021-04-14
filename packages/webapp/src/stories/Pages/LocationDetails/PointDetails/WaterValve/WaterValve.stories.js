@@ -28,6 +28,7 @@ View.args = {
   match: { params: { location_id: 'location_id' } },
   submitForm: (data) => {},
   system: 'metric',
+  isAdmin: true,
   useHookFormPersist: () => ({
     persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
   }),
@@ -41,6 +42,7 @@ Edit.args = {
   isEditLocationPage: true,
   submitForm: (data) => {},
   system: 'metric',
+  isAdmin: true,
   useHookFormPersist: () => ({
     persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
   }),

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
-import { editFieldLocation, deleteFieldLocation } from './saga';
+import { deleteFieldLocation, editFieldLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { measurementSelector } from '../../../userFarmSlice';
+import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { fieldSelector } from '../../../fieldSlice';
 import {
@@ -19,6 +19,7 @@ import RetireConfirmationModal from '../../../../components/Modals/RetireConfirm
 
 function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
+  const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
@@ -43,12 +44,12 @@ function EditFieldDetailForm({ history, match }) {
     } else {
       setShowCannotRetireModal(true);
     }
-  }
+  };
 
   const confirmRetire = () => {
     isViewLocationPage && dispatch(deleteFieldLocation({ location_id }));
     setShowConfirmRetireModal(false);
-  }
+  };
 
   return (
     <>
@@ -61,6 +62,7 @@ function EditFieldDetailForm({ history, match }) {
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}
+        isAdmin={isAdmin}
       />
       {isViewLocationPage && showCannotRetireModal && (
         <UnableToRetireModal dismissModal={() => setShowCannotRetireModal(false)} />

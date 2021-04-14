@@ -21,6 +21,7 @@ export default function PureBufferZone({
   isEditLocationPage,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -74,6 +75,7 @@ export default function PureBufferZone({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/buffer_zone/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

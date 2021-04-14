@@ -23,6 +23,7 @@ export default function PureFence({
   isEditLocationPage,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -77,6 +78,7 @@ export default function PureFence({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/fence/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

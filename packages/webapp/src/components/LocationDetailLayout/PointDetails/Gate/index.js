@@ -17,6 +17,7 @@ export default function PureGate({
   submitForm,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -65,6 +66,7 @@ export default function PureGate({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/gate/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

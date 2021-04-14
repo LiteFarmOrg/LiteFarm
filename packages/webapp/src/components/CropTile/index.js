@@ -30,8 +30,8 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
     <EditFieldCropModal
       cropBeingEdited={fieldCrop}
       handler={() => {}}
-      field={fieldCrop.location}
-      fieldArea={fieldCrop.location.total_area}
+      field={fieldCrop?.location}
+      fieldArea={fieldCrop?.location?.total_area}
     >
       <div
         className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}

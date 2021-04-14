@@ -5,7 +5,7 @@ export const initialState = {
   canShowSuccessHeader: false,
   canShowSelection: false,
   locations: [],
-  zoomLevel: 1,
+  zoomLevel: null,
   position: null,
 };
 
@@ -55,6 +55,6 @@ export const canShowSelectionSelector = (state) =>
 export const locationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].locations;
 export const setZoomLevelSelector = (state) =>
-  state?.tempStateReducer[mapLocationReducer.name].setZoomLevel;
+  state?.tempStateReducer[mapLocationReducer.name].zoomLevel;
 export const setPositionSelector = (state) =>
-  state?.tempStateReducer[mapLocationReducer.name].setPosition;
+  state?.tempStateReducer[mapLocationReducer.name].position;

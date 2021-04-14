@@ -85,6 +85,9 @@ const useMapAssetRenderer = () => {
           });
         });
 
+        const latlng = map.getCenter().toJSON();
+        dispatch(setPosition(latlng));
+        dispatch(setZoomLevel(map.getZoom()));
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
       }
     });
@@ -216,11 +219,11 @@ const useMapAssetRenderer = () => {
 
     // Event listener for area click
     maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
-      const latlng = mapsMouseEvent.latLng;
-      const lat = latlng.lat();
-      const lng = latlng.lng();
-      dispatch(setPosition({ lat: lat, lng: lng }));
+      const latlng = map.getCenter().toJSON();
+
+      dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
+
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
@@ -306,6 +309,10 @@ const useMapAssetRenderer = () => {
 
     // Event listener for line click
     maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
+      const latlng = map.getCenter().toJSON();
+
+      dispatch(setPosition(latlng));
+      dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
@@ -340,6 +347,9 @@ const useMapAssetRenderer = () => {
 
     // Event listener for point click
     maps.event.addListener(marker, 'click', function (mapsMouseEvent) {
+      const latlng = map.getCenter().toJSON();
+      dispatch(setPosition(latlng));
+      dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 

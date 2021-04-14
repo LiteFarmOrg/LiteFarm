@@ -234,6 +234,14 @@ export default function Map({ history }) {
     if (history.location.isStepBack) {
       reconstructOverlay();
     }
+
+    if (history.location.cameraInfo) {
+      const { zoom, location } = history.location.cameraInfo;
+      if (zoom && location) {
+        map.setZoom(zoom);
+        map.setCenter(location);
+      }
+    }
   };
 
   const handleClickAdd = () => {

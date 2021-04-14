@@ -7,7 +7,7 @@ import moment from 'moment';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -139,7 +139,7 @@ class EstimatedRevenue extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

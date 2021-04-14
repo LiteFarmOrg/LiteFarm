@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import sharedStyles from '../shared.module.scss';
-import { ProgressBar } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
+import { LinearProgress } from '@material-ui/core';
 
 class BiodiversitySpecies extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class BiodiversitySpecies extends Component {
             {t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', { count })}
           </Main>
         </div>
-        <ProgressBar className={sharedStyles.progress} now={percent} />
+        <LinearProgress value={percent} variant="determinate" />
       </div>
     );
   }

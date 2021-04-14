@@ -108,6 +108,15 @@ export const expiredFieldCropsSelector = createSelector(
   },
 );
 
+export const currentAndPlannedFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime,
+    );
+  },
+);
+
 export const currentFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
@@ -138,6 +147,12 @@ export const fieldCropsByLocationIdSelector = (location_id) =>
 export const expiredFieldCropsByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, expiredFieldCropsSelector], (location_id, fieldCrops) =>
     fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+export const currentAndPlannedFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector(
+    [() => location_id, currentAndPlannedFieldCropsSelector],
+    (location_id, fieldCrops) =>
+      fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
   );
 
 export const currentFieldCropsByLocationIdSelector = (location_id) =>

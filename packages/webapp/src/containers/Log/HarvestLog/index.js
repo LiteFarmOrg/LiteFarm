@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
@@ -26,7 +26,7 @@ function HarvestLog() {
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
   const fields = useSelector(fieldsSelector);
-  const crops = useSelector(currentFieldCropsSelector);
+  const crops = useSelector(currentAndPlannedFieldCropsSelector);
 
   useEffect(() => {
     dispatch(getFieldCrops());

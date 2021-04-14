@@ -40,7 +40,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       contrastText: colors.grey900,
-      main: colors.yellow300,
+      main: colors.teal700,
     },
     secondary: {
       contrastText: colors.grey900,

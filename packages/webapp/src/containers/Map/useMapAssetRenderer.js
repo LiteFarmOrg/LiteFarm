@@ -3,8 +3,8 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
-import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
+import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
@@ -208,6 +208,7 @@ const useMapAssetRenderer = () => {
         text: name,
         color: 'white',
         fontSize: '16px',
+        pointerEvents: 'none',
       },
     });
     marker.setMap(map);

@@ -15,7 +15,11 @@ import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
+import {
+  createPrice,
+  createYield,
+  postFieldCrop,
+} from '../../../containers/LocationDetails/LocationFieldCrop/saga';
 import { numberOnKeyDown } from '../../Form/Input';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { Label, Semibold, Underlined } from '../../Typography';

@@ -286,7 +286,7 @@ class EditFieldCropModal extends React.Component {
   render() {
     const { isByArea, bed_config } = this.state;
     return (
-      <div>
+      <>
         {React.cloneElement(this.props.children, { onClick: this.handleShow })}
 
         <Dialog
@@ -448,7 +448,7 @@ class EditFieldCropModal extends React.Component {
             </Button>
           </div>
         </Dialog>
-      </div>
+      </>
     );
   }
 }

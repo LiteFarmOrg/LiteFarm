@@ -1,15 +1,17 @@
 import { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
+import { setZoomLevel, setPosition } from '../mapSlice';
 import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 const useMapAssetRenderer = () => {
   const { handleSelection } = useSelectionHandler();
+  const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
     const nextAssetGeometries = {};
@@ -214,6 +216,11 @@ const useMapAssetRenderer = () => {
 
     // Event listener for area click
     maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
+      const latlng = mapsMouseEvent.latLng;
+      const lat = latlng.lat();
+      const lng = latlng.lng();
+      dispatch(setPosition({ lat: lat, lng: lng }));
+      dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 

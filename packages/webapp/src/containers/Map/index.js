@@ -14,6 +14,8 @@ import {
   setSuccessMessageSelector,
   canShowSelectionSelector,
   locationsSelector,
+  setPositionSelector,
+  setZoomLevelSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 

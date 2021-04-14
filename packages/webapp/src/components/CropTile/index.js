@@ -26,18 +26,24 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
     const parts = date.toDateString().split(' ');
     displayDate = `${parts[1]} ${parts[2]} '${parts[3].slice(-2)}`;
   }
+
+  const imageKey = crop_translation_key.toLowerCase();
   return (
     <EditFieldCropModal
       cropBeingEdited={fieldCrop}
       handler={() => {}}
-      field={fieldCrop.location}
-      fieldArea={fieldCrop.location.total_area}
+      field={fieldCrop?.location}
+      fieldArea={fieldCrop?.location?.total_area}
     >
       <div
         className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}
         style={style}
       >
-        <div className={styles.img}></div>
+        <img
+          src={`crop-images/${imageKey}.jpg`}
+          alt={imageKey}
+          className={styles.img}
+        />
         <div className={styles.info}>
           <div className={styles.infoMain} style={{ marginBottom: '2px' }}>
             {variety}

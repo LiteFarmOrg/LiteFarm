@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { pointImgDict } from '../LocationMapping';
 import { lineImgDict } from '../LocationMapping';
 import { areaImgDict } from '../LocationMapping';
+import { containsCrops } from '../../../containers/Map/constants';
 
 export default function PureSelectionHandler({ locations, history }) {
   const imgMapping = (assetType, locationType) => {
@@ -30,7 +31,9 @@ export default function PureSelectionHandler({ locations, history }) {
   };
 
   const loadEditView = (location) => {
-    history.push(`/${location.type}/${location.id}/details`);
+    containsCrops(location.type)
+      ? history.push(`/${location.type}/${location.id}/crops`)
+      : history.push(`/${location.type}/${location.id}/details`);
   };
 
   return locations.map((location, idx) => {

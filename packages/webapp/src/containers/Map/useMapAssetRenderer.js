@@ -1,15 +1,17 @@
-import { defaultColour } from './styles.module.scss';
+import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
-import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
+import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
+import { setZoomLevel, setPosition } from '../mapSlice';
+import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 const useMapAssetRenderer = () => {
   const { handleSelection } = useSelectionHandler();
+  const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
     const nextAssetGeometries = {};
@@ -83,6 +85,9 @@ const useMapAssetRenderer = () => {
           });
         });
 
+        const latlng = map.getCenter().toJSON();
+        dispatch(setPosition(latlng));
+        dispatch(setZoomLevel(map.getZoom()));
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
       }
     });
@@ -203,18 +208,24 @@ const useMapAssetRenderer = () => {
         strokeColor: colour,
         strokeOpacity: 0,
         strokeWeight: 0,
+        scaledSize: new maps.Size(0, 0),
       },
       label: {
         text: name,
         color: 'white',
         fontSize: '16px',
-        pointerEvents: 'none',
+        className: styles.mapLabel,
       },
     });
     marker.setMap(map);
 
     // Event listener for area click
     maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
+      const latlng = map.getCenter().toJSON();
+
+      dispatch(setPosition(latlng));
+      dispatch(setZoomLevel(map.getZoom()));
+
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
@@ -301,18 +312,25 @@ const useMapAssetRenderer = () => {
     });
 
     // Event listener for line click
+    maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
+      const latlng = map.getCenter().toJSON();
 
-    let asset;
-    if(isAreaLine) {
-      linePolygon.setOptions( { visible: isVisible });
-      asset = { polygon: linePolygon, polyline }
-    } else {
-      asset = { polyline }
-    }
-    maps.event.addListener(isAreaLine ? linePolygon: polyline, 'click', function (mapsMouseEvent) {
+      dispatch(setPosition(latlng));
+      dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
+
+    let asset;
+    if (isAreaLine) {
+      linePolygon.setOptions({ visible: isVisible });
+      asset = { polygon: linePolygon, polyline };
+    } else {
+      asset = { polyline };
+    }
     polyline.setOptions({ visible: isVisible });
+    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
+      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+    })
 
     return {
       ...asset,
@@ -344,6 +362,9 @@ const useMapAssetRenderer = () => {
 
     // Event listener for point click
     maps.event.addListener(marker, 'click', function (mapsMouseEvent) {
+      const latlng = map.getCenter().toJSON();
+      dispatch(setPosition(latlng));
+      dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 

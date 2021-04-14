@@ -9,7 +9,12 @@ import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
-import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
+import {
+  createPrice,
+  createYield,
+  putFieldCrop,
+} from '../../../containers/LocationDetails/LocationFieldCrop/saga';
+
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';
 import { Dialog } from '@material-ui/core';

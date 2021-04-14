@@ -469,6 +469,7 @@ describe('Location tests', () => {
         }
 
         putLocation(data, {user_id: user, farm_id: farm}, asset, location[0].location_id, (err, res) => {
+          console.log(res.body);
           expect(res.status).toBe(200);
           expect(res.body.name).toBe('Test Name323');
           done();

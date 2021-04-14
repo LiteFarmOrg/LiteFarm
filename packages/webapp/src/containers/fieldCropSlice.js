@@ -93,7 +93,7 @@ export const fieldCropsSelector = createSelector(
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
       ...cropEntities[fieldCrop.crop_id],
-      ...cropLocationEntities[fieldCrop.location_id],
+      location: cropLocationEntities[fieldCrop.location_id],
       ...fieldCrop,
     }));
   },
@@ -104,6 +104,15 @@ export const expiredFieldCropsSelector = createSelector(
   (fieldCrops, lastActiveDatetime) => {
     return fieldCrops.filter(
       (fieldCrop) => new Date(fieldCrop.end_date).getTime() < lastActiveDatetime,
+    );
+  },
+);
+
+export const currentAndPlannedFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime,
     );
   },
 );
@@ -139,6 +148,12 @@ export const expiredFieldCropsByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, expiredFieldCropsSelector], (location_id, fieldCrops) =>
     fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
   );
+export const currentAndPlannedFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector(
+    [() => location_id, currentAndPlannedFieldCropsSelector],
+    (location_id, fieldCrops) =>
+      fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
 
 export const currentFieldCropsByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, currentFieldCropsSelector], (location_id, fieldCrops) =>
@@ -156,5 +171,12 @@ export const fieldCropStatusSelector = createSelector(
   [fieldCropReducerSelector],
   ({ loading, error, loaded }) => {
     return { loading, error, loaded };
+  },
+);
+
+export const locationWithFieldCropSelector = createSelector(
+  [cropLocationEntitiesSelector, fieldCropsSelector],
+  (locationEntities, fieldCrops) => {
+    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
   },
 );

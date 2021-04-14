@@ -6,14 +6,14 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
-import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
-import { fieldsSelector } from '../fieldSlice';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
+  canShowSelectionSelector,
+  locationsSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -30,6 +30,7 @@ import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
+import PureSelectionHandler from '../../components/Map/SelectionHandler';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
@@ -49,11 +50,9 @@ import {
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
-  const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
@@ -64,7 +63,17 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
-
+  const showSelection = useSelector(canShowSelectionSelector);
+  const locations = useSelector(locationsSelector);
+  const initialLineData = {
+    [locationEnum.watercourse]: {
+      width: 4,
+      buffer_width: 4,
+    },
+    [locationEnum.buffer_zone]: {
+      width: 8,
+    },
+  };
   useEffect(() => {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
@@ -94,6 +103,12 @@ export default function Map({ history }) {
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, []);
+
+  useEffect(() => {
+    if (isLineWithWidth() && !drawingState.isActive) {
+      dispatch(upsertFormData(initialLineData[drawingState.type]));
+    }
+  }, [drawingState.type, drawingState.isActive]);
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
@@ -290,7 +305,7 @@ export default function Map({ history }) {
   };
 
   const handleConfirm = () => {
-    if (!lineTypesWithWidth.includes(drawingState.type)) {
+    if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
       dispatch(upsertFormData(locationData));
       history.push(`/create_location/${drawingState.type}`);
@@ -301,6 +316,10 @@ export default function Map({ history }) {
     const data = { ...getOverlayInfo(), ...lineData };
     dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
+  };
+
+  const isLineWithWidth = () => {
+    return lineTypesWithWidth.includes(drawingState.type);
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
@@ -342,9 +361,7 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
-                showLineModal={
-                  lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive
-                }
+                showLineModal={isLineWithWidth() && !drawingState.isActive}
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
@@ -367,6 +384,11 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
+        {showSelection && (
+          <div className={styles.selectionContainer}>
+            <PureSelectionHandler locations={locations} history={history} />
+          </div>
+        )}
 
         {!drawingState.type && (
           <PureMapFooter

@@ -85,7 +85,11 @@
     }
   },
   "MAP": {
+    "FAIL_DELETE": "Failed to retire",
+    "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
+    "SUCCESS_DELETE": " successfully retired",
+    "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
   },
   "NEW_FIELD_CROP": {

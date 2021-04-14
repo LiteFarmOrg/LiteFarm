@@ -1,25 +1,24 @@
 .container {
-    display: flex;
-    height: 48px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 24px;
-  }
-  
-  .headerText {
-    font-family: Open Sans;
-    color: var(--grey900);
-    font-style: normal;
-    font-size: 14px;
-    line-height: 18px;
-  }
-  
-  .farmName {
-    font-weight: 600;
-  }
-  
-  .farmMap {
-    font-weight: 400;
-  }
-  
+  display: flex;
+  height: 48px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 24px;
+}
+
+.headerText {
+  font-family: Open Sans;
+  color: var(--grey900);
+  font-style: normal;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.farmName {
+  font-weight: 600;
+}
+
+.farmMap {
+  font-weight: 400;
+}

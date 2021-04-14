@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const surfaceWaterProperties = ['used_for_irrigation'];
+const surfaceWaterProperties = ['used_for_irrigation', 'location_id'];
 export const getLocationObjectFromSurfaceWater = (data) => {
   return {
     figure: {
@@ -17,8 +17,7 @@ export const getLocationObjectFromSurfaceWater = (data) => {
 };
 const getSurfaceWaterFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.surface_water, surfaceWaterProperties),
@@ -53,12 +52,14 @@ const surfaceWaterSlice = createSlice({
     onLoadingSurfaceWaterFail: onLoadingFail,
     getSurfaceWatersSuccess: upsertManySurfaceWaterWithLocation,
     postSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
+    editSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
     deleteSurfaceWaterSuccess: surfaceWaterAdapter.removeOne,
   },
 });
 export const {
   getSurfaceWatersSuccess,
   postSurfaceWaterSuccess,
+  editSurfaceWaterSuccess,
   onLoadingSurfaceWaterStart,
   onLoadingSurfaceWaterFail,
   deleteSurfaceWaterSuccess,
@@ -79,10 +80,8 @@ export const surfaceWatersSelector = createSelector(
   },
 );
 
-export const surfaceWaterSelector = createSelector(
-  surfaceWaterReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const surfaceWaterSelector = (location_id) =>
+  createSelector(surfaceWaterEntitiesSelector, (entities) => entities[location_id]);
 
 export const surfaceWaterStatusSelector = createSelector(
   [surfaceWaterReducerSelector],

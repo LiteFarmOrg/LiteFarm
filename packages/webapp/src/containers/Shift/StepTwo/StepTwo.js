@@ -6,7 +6,7 @@ import PureStepTwo from '../../../components/Shift/StepTwo';
 import { toastr } from 'react-redux-toastr';
 import history from '../../../history';
 import { submitShift } from '../actions';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { useTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 
@@ -17,7 +17,7 @@ function StepTwo() {
   const [finalForm, setFinalForm] = useState({});
   const [cropDurations, setCropDurations] = useState({});
   const [mood, setMood] = useState(null);
-  const crops = useSelector(currentFieldCropsSelector);
+  const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const users = useSelector(userFarmSelector);
   const fields = useSelector(fieldsSelector);
 

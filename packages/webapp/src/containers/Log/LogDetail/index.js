@@ -15,7 +15,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
@@ -345,7 +345,9 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.fcInfo}>
-                  <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}</div>
+                  <div style={{ marginBottom: '10px' }}>
+                    {this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}
+                  </div>
                   <div className={styles.innerList}>
                     {this.getFertName(selectedLog.fertilizerLog.fertilizer_id)}
                   </div>
@@ -596,7 +598,7 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),

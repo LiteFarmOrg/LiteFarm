@@ -1,8 +1,7 @@
 import {
   barnColour,
-  ceremonialSiteColour,
-  watercourseColour,
   bufferZoneColour,
+  ceremonialSiteColour,
   farmBoundColour,
   farmBoundHoverColour,
   fenceColour,
@@ -12,6 +11,7 @@ import {
   naturalAreaColour,
   residenceColour,
   surfaceWaterColour,
+  watercourseColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -93,7 +93,7 @@ export const lineStyles = {
       strokeWeight: 2,
       fillColor: bufferZoneColour,
       fillOpacity: 0.3,
-    }
+    },
   },
 };
 

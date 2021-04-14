@@ -1,13 +1,26 @@
 .areaContainer {
-  display: flex;
+  display: inline-flex;
   width: 100%;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
+
   label {
     font-size: 14px;
   }
+
   input {
-    width: 40%;
+    flex-grow: 1;
+    margin-bottom: 16px;
   }
+}
+
+.dialogContainer {
+  padding: 16px;
+  margin: 16px;
+  max-width: calc(640px - 32px) !important;
+  width: calc(100% - 32px) !important;
+}
+
+.dialog {
+  margin: 0
 }

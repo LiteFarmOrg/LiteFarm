@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { areaStyles, lineStyles, icons } from './mapStyles';
-import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
-import { useSelector, useDispatch } from 'react-redux';
+import { areaStyles, icons, lineStyles } from './mapStyles';
+import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
+import { useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
@@ -13,7 +13,7 @@ export default function useDrawingManager() {
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
   const [widthPolygon, setWidthPolygon] = useState(null);
-  const [lineWidth, setLineWidth] = useState(8);
+  const [lineWidth, setLineWidth] = useState(null);
   const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
@@ -37,7 +37,8 @@ export default function useDrawingManager() {
   useEffect(() => {
     if (
       drawingToCheck?.type === 'polyline' &&
-      [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType)
+      [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType) &&
+      !!lineWidth
     ) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();

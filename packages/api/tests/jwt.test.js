@@ -106,11 +106,7 @@ describe('JWT Tests', () => {
     }
   }
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
 
   beforeEach(async () => {

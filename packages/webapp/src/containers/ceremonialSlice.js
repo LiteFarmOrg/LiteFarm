@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const ceremonialProperties = [];
+const ceremonialProperties = ['location_id'];
 export const getLocationObjectFromCeremonial = (data) => {
   return {
     figure: {
@@ -17,8 +17,8 @@ export const getLocationObjectFromCeremonial = (data) => {
 };
 const getCeremonialFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
+
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.ceremonial_area, ceremonialProperties),
@@ -53,12 +53,14 @@ const ceremonialSlice = createSlice({
     onLoadingCeremonialFail: onLoadingFail,
     getCeremonialsSuccess: upsertManyCeremonialWithLocation,
     postCeremonialSuccess: upsertOneCeremonialWithLocation,
+    editCeremonialSuccess: upsertOneCeremonialWithLocation,
     deleteCeremonialSuccess: ceremonialAdapter.removeOne,
   },
 });
 export const {
   getCeremonialsSuccess,
   postCeremonialSuccess,
+  editCeremonialSuccess,
   onLoadingCeremonialStart,
   onLoadingCeremonialFail,
   deleteCeremonialSuccess,
@@ -79,10 +81,8 @@ export const ceremonialsSelector = createSelector(
   },
 );
 
-export const ceremonialSelector = createSelector(
-  ceremonialReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const ceremonialSelector = (location_id) =>
+  createSelector(ceremonialEntitiesSelector, (entities) => entities[location_id]);
 
 export const ceremonialStatusSelector = createSelector(
   [ceremonialReducerSelector],

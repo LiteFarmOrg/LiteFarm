@@ -22,7 +22,44 @@ import { fencesSelector, fenceStatusSelector } from './fenceSlice';
 import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
-import { fieldCropsSelector } from './fieldCropSlice';
+
+export const sortedAreaSelector = createSelector(
+  [
+    barnsSelector,
+    ceremonialsSelector,
+    farmSiteBoundarysSelector,
+    fieldsSelector,
+    gardensSelector,
+    greenhousesSelector,
+    surfaceWatersSelector,
+    naturalAreasSelector,
+    residencesSelector,
+  ],
+  (
+    barns,
+    ceremonials,
+    farmSiteBoundaries,
+    fields,
+    gardens,
+    greenhouses,
+    surfaceWaters,
+    naturalAreas,
+    residences,
+  ) => {
+    const result = [
+      ...barns,
+      ...ceremonials,
+      ...farmSiteBoundaries,
+      ...fields,
+      ...gardens,
+      ...greenhouses,
+      ...surfaceWaters,
+      ...naturalAreas,
+      ...residences,
+    ];
+    return result.sort((a, b) => b.total_area - a.total_area);
+  },
+);
 
 export const areaSelector = createSelector(
   [
@@ -60,6 +97,7 @@ export const areaSelector = createSelector(
     return result;
   },
 );
+
 export const areaStatusSelector = createSelector(
   [
     barnStatusSelector,
@@ -166,6 +204,9 @@ export const cropLocationEntitiesSelector = createSelector(
   },
 );
 
+export const cropLocationByIdSelector = (location_id) =>
+  createSelector(cropLocationEntitiesSelector, (entities) => entities[location_id]);
+
 export const cropLocationStatusSelector = createSelector(
   [fieldStatusSelector, gardenStatusSelector, greenhouseStatusSelector, bufferZoneStatusSelector],
   (fieldStatus, gardenStatus, greenhouseStatus, bufferzoneStatus) => ({
@@ -182,11 +223,4 @@ export const cropLocationStatusSelector = createSelector(
     error:
       fieldStatus.error || gardenStatus.error || greenhouseStatus.error || bufferzoneStatus.error,
   }),
-);
-
-export const locationWithFieldCropSelector = createSelector(
-  [cropLocationEntitiesSelector, fieldCropsSelector],
-  (locationEntities, fieldCrops) => {
-    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
-  },
 );

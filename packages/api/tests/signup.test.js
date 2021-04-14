@@ -38,11 +38,6 @@ xdescribe('These are tests for auth0 signup and user creation', () => {
     done();
   })
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   beforeAll(async () => {
     middleware = require('../src/middleware/acl/isSelf');

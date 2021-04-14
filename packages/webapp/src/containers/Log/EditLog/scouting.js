@@ -16,7 +16,7 @@ import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -138,7 +138,7 @@ class ScoutingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),

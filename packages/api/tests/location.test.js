@@ -205,7 +205,7 @@ describe('Location tests', () => {
     })
   });
 
-  xdescribe('DELETE /location ', () => {
+  describe('DELETE /location ', () => {
     test('should delete field', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
@@ -336,6 +336,36 @@ describe('Location tests', () => {
         });
     });
 
+    test('should fail to create a field without a name', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.name = '';
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field without grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points = [{}];
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field with only 2 grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points.pop();
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
     test('should fail to create a location without asset', (done) => {
       const validData = locationData(locations.BARN);
       delete validData.barn;
@@ -367,6 +397,7 @@ describe('Location tests', () => {
           done();
         });
     })
+
 
     test('should fail to modify  a user through the location graph', (done) => {
       const validData = locationData(locations.BARN);
@@ -438,6 +469,7 @@ describe('Location tests', () => {
         }
 
         putLocation(data, {user_id: user, farm_id: farm}, asset, location[0].location_id, (err, res) => {
+          console.log(res.body);
           expect(res.status).toBe(200);
           expect(res.body.name).toBe('Test Name323');
           done();

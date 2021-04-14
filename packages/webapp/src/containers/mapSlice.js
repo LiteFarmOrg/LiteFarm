@@ -5,6 +5,8 @@ export const initialState = {
   canShowSuccessHeader: false,
   canShowSelection: false,
   locations: [],
+  zoomLevel: null,
+  position: null,
 };
 
 const mapLocationReducer = createSlice({
@@ -23,6 +25,12 @@ const mapLocationReducer = createSlice({
     locations: (state, { payload: locationData }) => {
       state.locations = locationData;
     },
+    setZoomLevel: (state, { payload: zoom }) => {
+      state.zoomLevel = zoom;
+    },
+    setPosition: (state, { payload: pos }) => {
+      state.position = pos;
+    },
   },
 });
 
@@ -31,6 +39,8 @@ export const {
   canShowSuccessHeader,
   canShowSelection,
   locations,
+  setZoomLevel,
+  setPosition,
 } = mapLocationReducer.actions;
 export default mapLocationReducer.reducer;
 export const locationInfoSelector = (state) => state?.tempStateReducer[mapLocationReducer.name];
@@ -44,3 +54,7 @@ export const canShowSelectionSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].canShowSelection;
 export const locationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].locations;
+export const setZoomLevelSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].zoomLevel;
+export const setPositionSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].position;

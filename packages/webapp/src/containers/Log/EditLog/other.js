@@ -15,7 +15,7 @@ import parseCrops from '../Utility/parseCrops';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 
 class OtherLog extends Component {
   constructor(props) {
@@ -113,7 +113,7 @@ class OtherLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),

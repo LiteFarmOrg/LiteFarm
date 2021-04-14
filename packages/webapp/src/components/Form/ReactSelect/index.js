@@ -105,7 +105,7 @@ const ReactSelect = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div>
+    <div style={style}>
       {(label || toolTipContent || icon) && (
         <div
           style={{
@@ -121,7 +121,7 @@ const ReactSelect = ({
       )}{' '}
       <Select
         customStyles
-        styles={{ ...styles, container: (provided, state) => ({ ...provided, ...style }) }}
+        styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
         placeholder={placeholder}
         options={options}
         components={{

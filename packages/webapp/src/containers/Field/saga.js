@@ -78,6 +78,7 @@ export function* postFieldCropSaga({ payload: fieldCrop }) {
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
+    console.log(result);
     yield put(postFieldCropSuccess(result.data));
   } catch (e) {
     console.log('failed to add fieldCrop to database');

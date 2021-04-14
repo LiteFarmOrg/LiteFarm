@@ -40,9 +40,9 @@ const insightController = {
                 JOIN "activityLog" al ON hu.activity_id = al.activity_id
                 JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
                 JOIN "fieldCrop" fc ON fc.field_crop_id = ac.field_crop_id
-                JOIN "field" f ON fc.field_id = f.field_id
+                JOIN "location" ON fc.location_id = location.location_id
                 JOIN "crop" c ON fc.crop_id = c.crop_id
-                WHERE f.farm_id = ? AND al.deleted = FALSE
+                WHERE location.farm_id = ? AND al.deleted = FALSE
                 AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
         const data = saleData.rows.concat(harvestData.rows);
         if (data) {
@@ -83,22 +83,25 @@ const insightController = {
         // have null values for the om values. Hence, we need to return 0 by default.
         const data = await knex.raw(
           `SELECT DISTINCT
-            f.field_id,
-            f.field_name,
-            f.grid_points,
+            f.location_id,
+            location.name,
+            area.grid_points,
             COALESCE(AVG(table_2.om), 0) as om,
             COALESCE(AVG(organic_carbon), 0) as organic_carbon,
             COALESCE(AVG(total_carbon), 0) as total_carbon
           FROM "field" f
+          JOIN "location" on location.location_id = f.location_id
+          JOIN "figure" on figure.location_id = location.location_id
+          JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
-          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.field_id
-          FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl
-          WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
-          ) table_2 ON table_2.field_id = f.field_id
-          WHERE f.farm_id = ?
-          AND f.deleted = false
-          GROUP BY f.field_id
-          ORDER BY f.field_name`, [farmID, farmID]);
+          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
+          FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl, "location" location, "figure" figure, "area" area
+          WHERE location.farm_id = ? and f.location_id = af.location_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id and location.location_id = f.location_id and figure.location_id = location.location_id and figure.figure_id = area.figure_id
+          ) table_2 ON table_2.location_id = f.location_id
+          WHERE location.farm_id = ?
+          AND location.deleted = false
+          GROUP BY f.location_id, location.name, area.grid_points
+          ORDER BY location.name`, [farmID, farmID]);
 
         if (data.rows) {
           const body = await insightHelpers.getSoilOM(data.rows);
@@ -107,6 +110,7 @@ const insightController = {
           res.status(200).send({});
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({
           error,
         });
@@ -120,8 +124,8 @@ const insightController = {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
           `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key
-          FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
-          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
+          FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc, "location"
+          WHERE location.location_id=f.location_id, location.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.location_id = f.location_id and st.task_id = t.task_id and 
           st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
 
         if (data.rows) {
@@ -141,13 +145,16 @@ const insightController = {
       try {
         const farmID = req.params.farm_id;
         const dataPoints = await knex.raw(
-          `SELECT f.grid_points, SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
+          `SELECT area.grid_points, SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
           FROM "field" f
+          JOIN "location" on location.location_id = f.location_id
+          JOIN "figure" on figure.location_id = location.location_id
+          JOIN "area" on figure.figure_id = area.figure_id
           LEFT JOIN "fieldCrop" fc
-          ON fc.field_id = f.field_id
-          WHERE f.farm_id = ?
-          AND f.deleted = false
-          GROUP BY f.grid_points`, [farmID]);
+          ON fc.location_id = f.location_id
+          WHERE location.farm_id = ?
+          AND location.deleted = false
+          GROUP BY area.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
           res.status(200).send(body);
@@ -155,6 +162,7 @@ const insightController = {
           res.status(200).send({});
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
@@ -183,6 +191,7 @@ const insightController = {
         }
 
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
@@ -199,8 +208,8 @@ const insightController = {
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT fc.crop_id
           FROM "fieldCrop" fc 
-          join "field" f on fc.field_id = f.field_id 
-          where f.farm_id = ?)
+          join "location" on fc.location_id = location.location_id 
+          where location.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
   },
@@ -211,9 +220,9 @@ const insightController = {
         const farmID = req.params.farm_id;
         const prevDate = await insightHelpers.formatPreviousDate(new Date(), 'day');
         const dataPoints = await knex.raw(
-          `SELECT c.crop_common_name, f.field_name, f.field_id, w.plant_available_water
-          FROM "fieldCrop" fc, "field" f, "waterBalance" w, "crop" c
-          WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = w.crop_id and w.field_id = f.field_id and
+          `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
+          FROM "fieldCrop" fc, "location", "waterBalance" w, "crop" c
+          WHERE fc.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.field_id = location.location_id and
            fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
@@ -222,6 +231,7 @@ const insightController = {
           res.status(200).send({ preview: 0, data: {} });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
@@ -265,10 +275,10 @@ const insightController = {
         const farmID = req.params.farm_id;
         const prevDate = insightHelpers.formatPreviousDate(new Date(), 'year');
         const dataPoints = await knex.raw(
-          `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
-      FROM "field" f, "nitrogenBalance" n
-      WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
-      GROUP BY f.field_id`, [farmID, prevDate]);
+          `SELECT location.location_id, location.name, AVG(n.nitrogen_value) as nitrogen_value
+      FROM "location", "nitrogenBalance" n
+      WHERE location.farm_id = ? and n.field_id = location.location_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+      GROUP BY location.location_id`, [farmID, prevDate]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body);
@@ -276,6 +286,7 @@ const insightController = {
           res.status(200).send({ preview: 0, data: 'No data yet' });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };

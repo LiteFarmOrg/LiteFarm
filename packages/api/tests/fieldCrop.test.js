@@ -37,11 +37,6 @@ describe('FieldCrop Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postFieldCropRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post('/field_crop')
@@ -126,7 +121,7 @@ describe('FieldCrop Tests', () => {
         crop_common_name: 'crop',
         user_added: true,
       });
-      [fieldCrop] = await mocks.fieldCropFactory({ promisedLocation: [field], promisedCrop: [crop] });
+      [fieldCrop] = await mocks.fieldCropFactory({ promisedField: [field], promisedCrop: [crop] });
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
 
@@ -416,7 +411,7 @@ describe('FieldCrop Tests', () => {
         let fieldCrop = mocks.fakeFieldCrop();
         fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.end_date = moment().subtract(10, 'd').toDate();
-        await mocks.fieldCropFactory({ promisedCrop: [crop], promisedLocation: [field] }, fieldCrop);
+        await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] }, fieldCrop);
         getRequest(`/field_crop/expired/farm/${farm.farm_id}`, {}, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(1);

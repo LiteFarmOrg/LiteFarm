@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
-import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 import TextArea from '../../Form/TextArea';
 import { Label } from '../../Typography';
@@ -23,10 +23,10 @@ class DefaultLogForm extends React.Component {
     // this is only called if DefaultLogForm is in an edit form
     if (selectedCrops) {
       selectedCrops.forEach((sc) => {
-        if (!selectedCropsMap[sc.field_id]) {
-          selectedCropsMap[sc.field_id] = [];
+        if (!selectedCropsMap[sc.location_id]) {
+          selectedCropsMap[sc.location_id] = [];
         }
-        selectedCropsMap[sc.field_id].push(sc);
+        selectedCropsMap[sc.location_id].push(sc);
       });
     }
 
@@ -57,7 +57,7 @@ class DefaultLogForm extends React.Component {
       if (
         c.field_crop_id !== fieldCrop.field_crop_id &&
         c.crop_id === fieldCrop.crop_id &&
-        c.field_id === fieldCrop.field_id
+        c.location_id === fieldCrop.location_id
       ) {
         return true;
       }
@@ -74,18 +74,18 @@ class DefaultLogForm extends React.Component {
 
     // remove associated crop selections for field if field is removed from dropdown
     const activeFields = options.map((o) => o.value);
-    const removedFields = fields.filter((f) => activeFields.indexOf(f.field_id) === -1);
+    const removedFields = fields.filter((f) => activeFields.indexOf(f.location_id) === -1);
     removedFields &&
       removedFields.map((rm) => {
-        return this.props.dispatch(actions.reset(`${parent}${model}.crop.${rm.field_id}`));
+        return this.props.dispatch(actions.reset(`${parent}${model}.crop.${rm.location_id}`));
       });
 
     // map field_crops to fields that are selected in dropdown
     if (options.find((o) => o.value === 'all')) {
       selectedFields = this.state.fieldOptionsWithoutAll;
       fields.map((f) => {
-        return (cropOptionsMap[f.field_id] = crops
-          .filter((c) => c.field_id === f.field_id)
+        return (cropOptionsMap[f.location_id] = crops
+          .filter((c) => c.location_id === f.location_id)
           .map((c) => {
             let hasDup = this.hasSameCrop(c);
             if (hasDup) {
@@ -105,7 +105,7 @@ class DefaultLogForm extends React.Component {
     } else {
       options.map((o) => {
         return (cropOptionsMap[o.value] = crops
-          .filter((c) => c.field_id === o.value)
+          .filter((c) => c.location_id === o.value)
           .map((c) => {
             let hasDup = this.hasSameCrop(c);
             if (hasDup) {
@@ -172,16 +172,16 @@ class DefaultLogForm extends React.Component {
     if (model === '.seedLog' && model === '.irrigationLog') {
       if (fields && crops) {
         for (let c of crops) {
-          if (!included.includes(c.field_id)) {
-            included.push(c.field_id);
-            filteredFields.push({ value: c.field_id, label: c.field_name });
+          if (!included.includes(c.location_id)) {
+            included.push(c.location_id);
+            filteredFields.push({ value: c.location_id, label: c.name });
           }
         }
       }
     } else {
       if (fields) {
         for (let f of fields) {
-          filteredFields.push({ value: f.field_id, label: f.field_name });
+          filteredFields.push({ value: f.location_id, label: f.name });
         }
       }
     }
@@ -216,7 +216,7 @@ class DefaultLogForm extends React.Component {
       discing: 'Discing',
     };
     // format options for react-select dropdown components
-    //const fieldOptions = fields && fields.map((f) => ({ value: f.field_id, label: f.field_name }));
+    //const fieldOptions = fields && fields.map((f) => ({ value: f.location_id, label: f.name }));
 
     let parsedTypeOptions;
     if (typeOptions && typeOptions.includes('ridgeTill')) {
@@ -338,7 +338,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     fields: fieldsSelector(state),
   };
 };

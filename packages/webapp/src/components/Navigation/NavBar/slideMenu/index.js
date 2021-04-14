@@ -56,17 +56,11 @@ function SlideMenu({
         </ListItem>
         {manageOpen && (
           <>
-            <ListItem className={classes.subListItem} button onClick={() => handleClick('/Field')}>
-              <ListItemText
-                classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.FIELDS')}
-              />
-            </ListItem>
             <ListItem
               className={classes.subListItem}
               button
               onClick={() => {
-                setDefaultDateRange();
+                // setDefaultDateRange();
                 handleClick('/Log');
               }}
             >

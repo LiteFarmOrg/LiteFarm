@@ -43,19 +43,13 @@ const diseaseModel = require('../src/models/diseaseModel');
 const harvestUseModel = require('../src/models/harvestUseModel');
 
 
-xdescribe('Log Tests', () => {
+describe('Log Tests', () => {
   let middleware;
   let owner;
   let farm;
 
   beforeAll(() => {
     token = global.token;
-  });
-
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
   });
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -240,7 +234,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -302,13 +296,13 @@ xdescribe('Log Tests', () => {
           await fieldModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
-          }).findById(field.field_id).delete();
+          }).findById(field.location_id).delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -347,7 +341,7 @@ xdescribe('Log Tests', () => {
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
               expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-              expect(res.body[0].field[0].field_id).toBe(field.field_id);
+              expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
           });
@@ -358,7 +352,7 @@ xdescribe('Log Tests', () => {
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
               expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-              expect(res.body[0].field[0].field_id).toBe(field.field_id);
+              expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
           });
@@ -369,7 +363,7 @@ xdescribe('Log Tests', () => {
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
               expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-              expect(res.body[0].field[0].field_id).toBe(field.field_id);
+              expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
           });
@@ -570,7 +564,7 @@ xdescribe('Log Tests', () => {
             notes: fakeActivityLog.notes,
             quantity_kg: fakefertilizingLog.quantity_kg,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }],
-            fields: [{ field_id: field.field_id }],
+            fields: [{ location_id: field.location_id }],
             fertilizer_id: fertilizer.fertilizer_id,
           };
         });
@@ -758,7 +752,7 @@ xdescribe('Log Tests', () => {
             });
           });
 
-          test('Circumvent authorization by modifying farm_id, field_id, field_crop_id in body', async (done) => {
+          test('Circumvent authorization by modifying farm_id, location_id, field_crop_id in body', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.farm_id = farmunAuthorizedUser.farm_id;
             putRequest(sampleRequestBody, {
@@ -784,10 +778,10 @@ xdescribe('Log Tests', () => {
             });
           });
 
-          test('Circumvent authorization by modifying activity_id/field_crop_id/field_id/fertilizer_id in body', async (done) => {
+          test('Circumvent authorization by modifying activity_id/field_crop_id/location_id/fertilizer_id in body', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
-            sampleRequestBody.fields = [{ field_id: unauthorizedField.field_id }];
+            sampleRequestBody.fields = [{ location_id: unauthorizedField.location_id }];
             sampleRequestBody.crops = [{ field_crop_id: unauthorizedFieldCrop.field_crop_id }];
             sampleRequestBody.fertilizer_id = unauthorizedFertilizer.fertilizer_id;
             putRequest(sampleRequestBody, {
@@ -859,14 +853,14 @@ xdescribe('Log Tests', () => {
               notes: fakeActivityLog.notes,
               quantity_kg: fakefertilizingLog.quantity_kg,
               crops: [{ field_crop_id: fieldCrop.field_crop_id }],
-              fields: [{ field_id: field.field_id }],
+              fields: [{ location_id: field.location_id }],
               fertilizer_id: fertilizer.fertilizer_id,
             };
           });
 
           //TODO fail
           xtest('Should return 403 if field references a new farm', async (done) => {
-            sampleRequestBody.fields = [sampleRequestBody.fields[0], { field_id: field1.field_id }];
+            sampleRequestBody.fields = [sampleRequestBody.fields[0], { location_id: field1.location_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -874,7 +868,7 @@ xdescribe('Log Tests', () => {
           });
 
           test('Should return 403 if field, fieldCrop, and fertilizer reference a new farm', async (done) => {
-            sampleRequestBody.fields = [{ field_id: field1.field_id }];
+            sampleRequestBody.fields = [{ location_id: field1.location_id }];
             sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
             sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
@@ -885,7 +879,7 @@ xdescribe('Log Tests', () => {
 
           test('Should return 403 if field and fieldCrop reference 2 farms', async (done) => {
             sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: fieldCrop1.field_crop_id }];
-            sampleRequestBody.fields = [sampleRequestBody.fields[0], { field_id: field1.field_id }];
+            sampleRequestBody.fields = [sampleRequestBody.fields[0], { location_id: field1.location_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -936,13 +930,13 @@ xdescribe('Log Tests', () => {
               notes: fakeActivityLog1.notes,
               quantity_kg: fakefertilizingLog.quantity_kg,
               crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-              fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+              fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
               fertilizer_id: fertilizer1.fertilizer_id,
             };
           });
 
           test('Owner should change fertilizerLog to a different field  ', async (done) => {
-            sampleRequestBody.fields = [{ field_id: field1.field_id }];
+            sampleRequestBody.fields = [{ location_id: field1.location_id }];
             sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
@@ -963,7 +957,7 @@ xdescribe('Log Tests', () => {
                 user_id: owner.user_id,
               }).where('activity_id', activityLog[0].activity_id);
               expect(activityFieldLog.length).toBe(1);
-              expect(activityFieldLog[0].field_id).toBe(field1.field_id);
+              expect(activityFieldLog[0].location_id).toBe(field1.location_id);
               const activityCrops = await activityCropsModel.query().context({
                 showHidden: true,
                 user_id: owner.user_id,
@@ -994,7 +988,7 @@ xdescribe('Log Tests', () => {
                 user_id: owner.user_id,
               }).where('activity_id', activityLog[0].activity_id);
               expect(activityFieldLog.length).toBe(2);
-              expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+              expect(activityFieldLog[1].location_id).toBe(field1.location_id);
               const activityCrops = await activityCropsModel.query().context({
                 showHidden: true,
                 user_id: owner.user_id,
@@ -1032,7 +1026,7 @@ xdescribe('Log Tests', () => {
           });
 
           test('Should return 403 if field reference a field that is not in fieldCrop in the database', async (done) => {
-            sampleRequestBody.fields = [{ field_id: field1.field_id }];
+            sampleRequestBody.fields = [{ location_id: field1.location_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -1164,7 +1158,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1202,14 +1196,14 @@ xdescribe('Log Tests', () => {
           await fieldModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
-          }).findById(field.field_id).delete();
+          }).findById(field.location_id).delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
             expect(res.body[0].pestControlLog.target_disease_id).toBe(disease.disease_id);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1242,7 +1236,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             pesticide_id: pesticide1.pesticide_id,
             ...fakePesticideControlLog,
 
@@ -1269,7 +1263,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1350,7 +1344,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1381,7 +1375,7 @@ xdescribe('Log Tests', () => {
             notes: fakeActivityLog.notes,
             selectedUseTypes: [],
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeHarvestLog,
 
           };
@@ -1407,7 +1401,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1488,7 +1482,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1518,7 +1512,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeseedLog,
 
           };
@@ -1544,7 +1538,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1621,7 +1615,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop.length).toBe(0);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1651,7 +1645,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakefieldWorkLog,
 
           };
@@ -1678,7 +1672,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1690,7 +1684,7 @@ xdescribe('Log Tests', () => {
 
         test('Owner should put fieldWorkLog tests with a empty field', async (done) => {
           const [emptyField] = await mocks.fieldFactory({ promisedFarm: [farm] });
-          sampleRequestBody.fields = [{ field_id: emptyField.field_id }];
+          sampleRequestBody.fields = [{ location_id: emptyField.location_id }];
           sampleRequestBody.crops = [];
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
@@ -1711,7 +1705,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(1);
-            expect(activityFieldLog[0].field_id).toBe(emptyField.field_id);
+            expect(activityFieldLog[0].location_id).toBe(emptyField.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1795,7 +1789,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop.length).toBe(0);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1825,7 +1819,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeSoilDataLog,
 
           };
@@ -1852,7 +1846,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -1941,7 +1935,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body.map(activityLog => activityLog.activity_id)).toEqual([activityLog.activity_id, activityLog1.activity_id]);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -1971,7 +1965,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeIrrigationLog,
 
           };
@@ -1997,7 +1991,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -2078,7 +2072,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -2108,7 +2102,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeScoutingLog,
 
           };
@@ -2134,7 +2128,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -2208,7 +2202,7 @@ xdescribe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
-            expect(res.body[0].field[0].field_id).toBe(field.field_id);
+            expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
@@ -2236,7 +2230,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
-            fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
+            fields: [{ location_id: field.location_id }, { location_id: field1.location_id }],
 
 
           };
@@ -2256,7 +2250,7 @@ xdescribe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityFieldLog.length).toBe(2);
-            expect(activityFieldLog[1].field_id).toBe(field1.field_id);
+            expect(activityFieldLog[1].location_id).toBe(field1.location_id);
             const activityCrops = await activityCropsModel.query().context({
               showHidden: true,
               user_id: owner.user_id,
@@ -2302,7 +2296,7 @@ xdescribe('Log Tests', () => {
           notes: fakeActivityLog.notes,
           quantity_kg: fakefertilizingLog.quantity_kg,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           fertilizer_id: fertilizer.fertilizer_id,
         };
       });
@@ -2342,7 +2336,7 @@ xdescribe('Log Tests', () => {
       });
 
       test('Should return 400 when all fields do not exist', async (done) => {
-        sampleRequestBody.fields = [{ field_id: 'invalid' }];
+        sampleRequestBody.fields = [{ location_id: 'invalid' }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           //TODO should return 400
           expect(res.status).toBe(403);
@@ -2351,7 +2345,7 @@ xdescribe('Log Tests', () => {
       });
 
       test('Should return 400 when  only 1 field does not exist', async (done) => {
-        sampleRequestBody.fields = [{ field_id: 'invalid' }, sampleRequestBody.fields[0]];
+        sampleRequestBody.fields = [{ location_id: 'invalid' }, sampleRequestBody.fields[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -2360,7 +2354,7 @@ xdescribe('Log Tests', () => {
       //TODO fail
       xtest('Should return 403 when 1 of the 2 fields references a farm that the user does have access to', async (done) => {
         const [newField] = await mocks.fieldFactory();
-        sampleRequestBody.fields = [{ field_id: newField.field_id }, sampleRequestBody.fields[0]];
+        sampleRequestBody.fields = [{ location_id: newfield.location_id }, sampleRequestBody.fields[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           //     //TODO should return 400
           expect(res.status).toBe(403);
@@ -2431,7 +2425,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -2452,7 +2446,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -2603,7 +2597,7 @@ xdescribe('Log Tests', () => {
           quantity_kg: fakePestControlLog.quantity_kg,
           type: fakePestControlLog.type,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           pesticide_id: pesticide.pesticide_id,
           target_disease_id: disease.disease_id,
         };
@@ -2635,7 +2629,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -2656,7 +2650,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -2799,7 +2793,7 @@ xdescribe('Log Tests', () => {
           notes: fakeActivityLog.notes,
           quantity_kg: fakeHarvestLog.quantity_kg,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           selectedUseTypes: [
             fakeHarvestUseType,
           ],
@@ -2839,7 +2833,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -2860,7 +2854,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -3016,7 +3010,7 @@ xdescribe('Log Tests', () => {
           space_width_cm: fakeSeedLog.space_width_cm,
           'rate_seeds/m2': fakeSeedLog['rate_seeds/m2'],
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
         };
 
       });
@@ -3046,7 +3040,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3067,7 +3061,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -3202,7 +3196,7 @@ xdescribe('Log Tests', () => {
           notes: fakeActivityLog.notes,
           type: fakeFieldWorkLog.type,
           crops: [], //TODO validate crops is empty
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
         };
 
       });
@@ -3232,7 +3226,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3253,7 +3247,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           done();
         });
       });
@@ -3383,7 +3377,7 @@ xdescribe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           crops: [], //TODO validate crops is empty
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           ...fakeSoilDataLog,
         };
       });
@@ -3413,7 +3407,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3434,7 +3428,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           done();
         });
       });
@@ -3565,7 +3559,7 @@ xdescribe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           ...fakeIrrigationLog,
         };
       });
@@ -3596,7 +3590,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3617,7 +3611,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -3754,7 +3748,7 @@ xdescribe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
           ...fakeScoutingLog,
         };
 
@@ -3785,7 +3779,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3806,7 +3800,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -3941,7 +3935,7 @@ xdescribe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
-          fields: [{ field_id: field1.field_id }],
+          fields: [{ location_id: field1.location_id }],
         };
       });
 
@@ -3964,7 +3958,7 @@ xdescribe('Log Tests', () => {
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
         let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
-        sampleRequestBody.fields = [{ field_id: field1.field_id }, { field_id: field2.field_id }];
+        sampleRequestBody.fields = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
         sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -3979,7 +3973,7 @@ xdescribe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityFields.length).toBe(2);
-          expect(activityFields[1].field_id).toBe(field2.field_id);
+          expect(activityFields[1].location_id).toBe(field2.location_id);
           const activityCropss = await activityCropsModel.query().context({
             showHidden: true,
             user_id: owner.user_id,

@@ -15,7 +15,7 @@ const isActive = (status) => status === cropStatus.active;
 const isPast = (status) => status === cropStatus.past;
 const isPlanned = (status) => status === cropStatus.planned;
 
-export default function PureCropTile({ fieldCrop, className, status, history, onClick }) {
+export default function PureCropTile({ fieldCrop, className, status, history, onClick, style }) {
   const { t } = useTranslation();
   const { variety, crop_translation_key, start_date, end_date } = fieldCrop;
   let displayDate;
@@ -33,7 +33,10 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
       field={fieldCrop.location}
       fieldArea={fieldCrop.location.total_area}
     >
-      <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}>
+      <div
+        className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}
+        style={style}
+      >
         <div className={styles.img}></div>
         <div className={styles.info}>
           <div className={styles.infoMain} style={{ marginBottom: '2px' }}>

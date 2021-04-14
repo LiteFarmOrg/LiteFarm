@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
 import NewFieldCropModal from '../Forms/NewFieldCropModal';
+import { useComponentWidth } from '../../containers/hooks/useComponentWidthHeight';
 
 export default function PureCropList({
   onFilterChange,
@@ -21,6 +22,31 @@ export default function PureCropList({
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
+
+  const { ref: containerRef, width: containerWidth } = useComponentWidth();
+
+  const cardWidth = 88;
+  const minGap = 24;
+  const getMinGap = (cropCount) => {
+    const numberOfGap = Math.floor((containerWidth - cardWidth) / (cardWidth + minGap));
+    const numberOfCard = numberOfGap + 1;
+    if (cropCount < numberOfCard || numberOfCard <= 2) {
+      return minGap;
+    } else {
+      return (containerWidth - numberOfCard * cardWidth) / numberOfGap;
+    }
+  };
+  const [gap, setGap] = useState();
+  useEffect(() => {
+    setGap(
+      Math.max(
+        getMinGap(pastCrops?.length),
+        getMinGap(plannedCrops?.length),
+        getMinGap(activeCrops?.length),
+      ),
+    );
+  }, [containerWidth, pastCrops, plannedCrops, activeCrops]);
+
   return (
     <Layout>
       <PageTitle title={title} onGoBack={() => history.push('/map')} />
@@ -71,69 +97,74 @@ export default function PureCropList({
           handler={() => {}}
         />
       )}
-      {activeCrops.length > 0 && (
-        <>
-          <div className={styles.labelContainer}>
-            <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
-            <div className={styles.cropCount} style={{ backgroundColor: '#037A0F' }}>
-              {activeCrops.length}
+      <div ref={containerRef}>
+        {activeCrops.length > 0 && (
+          <>
+            <div className={styles.labelContainer}>
+              <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
+              <div className={styles.cropCount} style={{ backgroundColor: '#037A0F' }}>
+                {activeCrops.length}
+              </div>
+              <div className={styles.labelDivider} />
             </div>
-            <div className={styles.labelDivider} />
-          </div>
-          <div className={styles.tileContainer}>
-            {activeCrops.map((fc) => (
-              <PureCropTile
-                history={history}
-                key={fc.field_crop_id}
-                fieldCrop={fc}
-                status={'Active'}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      {plannedCrops.length > 0 && (
-        <>
-          <div className={styles.labelContainer}>
-            <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
-            <div className={styles.cropCount} style={{ backgroundColor: '#7E4C0E' }}>
-              {plannedCrops.length}
+            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+              {activeCrops.map((fc) => (
+                <PureCropTile
+                  history={history}
+                  key={fc.field_crop_id}
+                  fieldCrop={fc}
+                  status={'Active'}
+                  style={{ width: `${cardWidth}px` }}
+                />
+              ))}
             </div>
-            <div className={styles.labelDivider} />
-          </div>
-          <div className={styles.tileContainer}>
-            {plannedCrops.map((fc) => (
-              <PureCropTile
-                history={history}
-                key={fc.field_crop_id}
-                fieldCrop={fc}
-                status={'Planned'}
-              />
-            ))}
-          </div>
-        </>
-      )}
-      {pastCrops.length > 0 && (
-        <>
-          <div className={styles.labelContainer}>
-            <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
-            <div className={styles.cropCount} style={{ backgroundColor: '#085D50' }}>
-              {pastCrops.length}
+          </>
+        )}
+        {plannedCrops.length > 0 && (
+          <>
+            <div className={styles.labelContainer}>
+              <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
+              <div className={styles.cropCount} style={{ backgroundColor: '#7E4C0E' }}>
+                {plannedCrops.length}
+              </div>
+              <div className={styles.labelDivider} />
             </div>
-            <div className={styles.labelDivider} />
-          </div>
-          <div className={styles.tileContainer}>
-            {pastCrops.map((fc) => (
-              <PureCropTile
-                history={history}
-                key={fc.field_crop_id}
-                fieldCrop={fc}
-                status={'Past'}
-              />
-            ))}
-          </div>
-        </>
-      )}
+            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+              {plannedCrops.map((fc) => (
+                <PureCropTile
+                  history={history}
+                  key={fc.field_crop_id}
+                  fieldCrop={fc}
+                  status={'Planned'}
+                  style={{ width: `${cardWidth}px` }}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        {pastCrops.length > 0 && (
+          <>
+            <div className={styles.labelContainer}>
+              <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
+              <div className={styles.cropCount} style={{ backgroundColor: '#085D50' }}>
+                {pastCrops.length}
+              </div>
+              <div className={styles.labelDivider} />
+            </div>
+            <div className={styles.tileContainer} style={{ columnGap: gap }}>
+              {pastCrops.map((fc) => (
+                <PureCropTile
+                  history={history}
+                  key={fc.field_crop_id}
+                  fieldCrop={fc}
+                  status={'Past'}
+                  style={{ width: `${cardWidth}px` }}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </Layout>
   );
 }

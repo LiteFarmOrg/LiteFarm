@@ -3,8 +3,8 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
-import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
+import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
@@ -264,9 +264,10 @@ const useMapAssetRenderer = () => {
       ],
     });
     polyline.setMap(map);
+    let linePolygon;
     if ([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
-      const linePolygon = new maps.Polygon({
+      linePolygon = new maps.Polygon({
         paths: polyPath,
         ...lineStyles[type].polyStyles,
       });
@@ -305,6 +306,7 @@ const useMapAssetRenderer = () => {
     polyline.setOptions({ visible: isVisible });
     return {
       polyline,
+      polygon: linePolygon,
       location_id: line.location_id,
       location_name: line.name,
       isVisible,

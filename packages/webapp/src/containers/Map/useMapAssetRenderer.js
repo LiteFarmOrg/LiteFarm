@@ -1,4 +1,4 @@
-import { defaultColour } from './styles.module.scss';
+import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -203,12 +203,13 @@ const useMapAssetRenderer = () => {
         strokeColor: colour,
         strokeOpacity: 0,
         strokeWeight: 0,
+        scaledSize: new maps.Size(0, 0),
       },
       label: {
         text: name,
         color: 'white',
         fontSize: '16px',
-        pointerEvents: 'none',
+        className: styles.mapLabel,
       },
     });
     marker.setMap(map);
@@ -303,13 +304,13 @@ const useMapAssetRenderer = () => {
     // Event listener for line click
 
     let asset;
-    if(isAreaLine) {
-      linePolygon.setOptions( { visible: isVisible });
-      asset = { polygon: linePolygon, polyline }
+    if (isAreaLine) {
+      linePolygon.setOptions({ visible: isVisible });
+      asset = { polygon: linePolygon, polyline };
     } else {
-      asset = { polyline }
+      asset = { polyline };
     }
-    maps.event.addListener(isAreaLine ? linePolygon: polyline, 'click', function (mapsMouseEvent) {
+    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
     polyline.setOptions({ visible: isVisible });

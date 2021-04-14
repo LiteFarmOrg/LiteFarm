@@ -67,8 +67,8 @@ export default function Map({ history }) {
   const locations = useSelector(locationsSelector);
   const initialLineData = {
     [locationEnum.watercourse]: {
-      width: 4,
-      buffer_width: 4,
+      width: 1,
+      buffer_width: 15,
     },
     [locationEnum.buffer_zone]: {
       width: 8,

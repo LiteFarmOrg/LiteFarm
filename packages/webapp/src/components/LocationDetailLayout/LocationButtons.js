@@ -8,6 +8,7 @@ export default function SubmitButton({
   isViewLocationPage,
   isEditLocationPage,
   onRetire,
+  isAdmin,
   onEdit,
 }) {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export default function SubmitButton({
           {t('common:SAVE')}
         </Button>
       )}
-      {isViewLocationPage && (
+      {isViewLocationPage && isAdmin && (
         <>
           <Button onClick={onRetire} color={'secondary'} fullLength>
             {t('common:RETIRE')}

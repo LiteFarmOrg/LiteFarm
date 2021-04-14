@@ -29,7 +29,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
 import { getFieldCrops } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
@@ -541,7 +541,7 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
     expenses: expenseSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
   };

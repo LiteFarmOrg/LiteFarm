@@ -40,11 +40,7 @@ describe('Sign Up Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
   beforeEach(() => {
     emailMiddleware.sendEmail.mockClear();

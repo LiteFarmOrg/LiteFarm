@@ -13,7 +13,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -168,7 +168,7 @@ class EditSale extends Component {
 const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

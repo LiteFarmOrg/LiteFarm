@@ -11,7 +11,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { getDurationString } from './../../../util/index';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 
 class MyShift extends Component {
@@ -229,7 +229,7 @@ const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
     fields: fieldsSelector(state),
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),

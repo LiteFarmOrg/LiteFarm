@@ -11,7 +11,7 @@ import { dateRangeSelector, shiftSelector } from '../selectors';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { Main } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
@@ -124,7 +124,7 @@ const mapStateToProps = (state) => {
     shifts: shiftSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
   };
 };
 

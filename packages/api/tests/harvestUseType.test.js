@@ -33,11 +33,6 @@ describe('harvestUseType Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function getHarvestUseTypeByFarmID({ user_id = owner.user_id, farm_id = farm.farm_id, url = `/log/harvest_use_types/farm/${farm.farm_id}` }, callback) {
     chai.request(server).get(url)
@@ -82,7 +77,7 @@ describe('harvestUseType Tests', () => {
     let manager;
     let unAuthorizedUser;
     let farmunAuthorizedUser;
-   
+
 
     beforeEach(async () => {
       [worker] = await mocks.usersFactory();

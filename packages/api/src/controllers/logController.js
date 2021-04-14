@@ -19,17 +19,18 @@ const { Model } = require('objection');
 const ExceptionHandler = require('../LiteFarmUtility/exceptionHandler');
 const lodash = require('lodash');
 
-const ActivityLogModel = require('../models/activityLogModel');
-const FertilizerLog = require('../models/fertilizerLogModel');
-const PestControlLog = require('../models/pestControlLogModel');
-const ScoutingLog = require('../models/scoutingLogModel');
-const IrrigationLog = require('../models/irrigationLogModel');
-const FieldWorkLog = require('../models/fieldWorkLogModel');
+const ActivityLogModelModel = require('../models/activityLogModel');
+const FertilizerLogModel = require('../models/fertilizerLogModel');
+const PestControlLogModel = require('../models/pestControlLogModel');
+const ScoutingLogModel = require('../models/scoutingLogModel');
+const IrrigationLogModel = require('../models/irrigationLogModel');
+const FieldWorkLogModel = require('../models/fieldWorkLogModel');
 const SoilDataLog = require('../models/soilDataLogModel');
 const SeedLog = require('../models/seedLogModel');
-const fieldCrop = require('../models/fieldCropModel');
+const fieldCropModel = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
-const field = require('../models/fieldModel');
+const fieldModel = require('../models/fieldModel');
+const locationModel = require('../models/locationModel');
 const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
 const HarvestUseModel = require('../models/harvestUseModel');
 
@@ -100,7 +101,6 @@ const logController = {
           res.status(200).send(rows);
         }
       } catch (error) {
-        console.log(error);
         //handle more exceptions
         res.status(400).json({
           error,
@@ -142,7 +142,7 @@ const logController = {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
-          await baseController.delete(ActivityLogModel, req.params.activity_id, req);
+          await baseController.delete(ActivityLogModelModel, req.params.activity_id, req);
           return res.sendStatus(200);
         } else {
           throw { code: 400, message: 'No log id defined' };
@@ -182,10 +182,10 @@ const logServices = {
     const { body, user } = req;
     const logModel = getActivityModelKind(body.activity_kind);
     const user_id = user.user_id;
-    const activityLog = await baseController.post(ActivityLogModel, body, req, { trx });
+    const activityLog = await baseController.post(ActivityLogModelModel, body, req, { trx });
     //insert crops,fields and beds
-    await baseController.relateModels(activityLog, fieldCrop, body.crops, trx);
-    await baseController.relateModels(activityLog, field, body.fields, trx);
+    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
+    await baseController.relateModels(activityLog, locationModel, body.fields, trx);
     if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await baseController.postRelated(activityLog, logModel, body, req, { trx });
     } else if (logModel.tableName === 'harvestLog') {
@@ -204,7 +204,7 @@ const logServices = {
   },
 
   async getLogById(id) {
-    const log = await baseController.getIndividual(ActivityLogModel, id);
+    const log = await baseController.getIndividual(ActivityLogModelModel, id);
     if (!(log && log[0])) {
       throw new Error('Log not found');
     }
@@ -216,18 +216,18 @@ const logServices = {
   },
 
   async getLogByFarm(farm_id) {
-    var logs = await ActivityLogModel.query().whereNotDeleted()
+    const logs = await ActivityLogModelModel.query().whereNotDeleted()
       .distinct('users.first_name', 'users.last_name', 'activityLog.activity_id', 'activityLog.activity_kind',
         'activityLog.date', 'activityLog.user_id', 'activityLog.notes', 'activityLog.action_needed', 'activityLog.photo')
       .join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id')
-      .join('field', 'field.field_id', 'activityFields.field_id')
-      .join('userFarm', 'userFarm.farm_id', '=', 'field.farm_id')
+      .join('location', 'location.location_id', 'activityFields.location_id')
+      .join('userFarm', 'userFarm.farm_id', '=', 'location.farm_id')
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
     for (const log of logs) {
       // get fields and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');
-      await baseController.getRelated(log, field);
+      await baseController.getRelated(log, locationModel);
 
       // get related models for specialized logs
       const logKind = getActivityModelKind(log.activity_kind);
@@ -242,19 +242,21 @@ const logServices = {
       }
     }
     return logs;
+
+
   },
 
   async patchLog(logId, trx, req) {
     const { body, user } = req;
-    const log = await baseController.getIndividual(ActivityLogModel, logId);
+    const log = await baseController.getIndividual(ActivityLogModelModel, logId);
     const user_id = user.user_id;
-    const activityLog = await baseController.updateIndividualById(ActivityLogModel, logId, body, req, { trx });
+    const activityLog = await baseController.updateIndividualById(ActivityLogModelModel, logId, body, req, { trx });
 
     //insert fieldCrops,fields
     // TODO: change body.crops to body.fieldCrops
-    await baseController.relateModels(activityLog, fieldCrop, body.crops, trx);
+    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
     // TODO: Deprecate fields field in req.body
-    await baseController.relateModels(activityLog, field, body.fields, trx);
+    await baseController.relateModels(activityLog, locationModel, body.fields, trx);
 
     const logKind = getActivityModelKind(log[0].activity_kind);
     if (!logKind.isOther) {
@@ -278,17 +280,17 @@ function getActivityModelKind(activity_kind) {
 
 
   if (activity_kind === 'fertilizing') {
-    return FertilizerLog;
+    return FertilizerLogModel;
   } else if (activity_kind === 'pestControl') {
-    return PestControlLog;
+    return PestControlLogModel;
   } else if (activity_kind === 'scouting') {
-    return ScoutingLog;
+    return ScoutingLogModel;
   } else if (activity_kind === 'irrigation') {
-    return IrrigationLog;
+    return IrrigationLogModel;
   } else if (activity_kind === 'harvest') {
     return HarvestLog;
   } else if (activity_kind === 'fieldWork') {
-    return FieldWorkLog;
+    return FieldWorkLogModel;
   } else if (activity_kind === 'soilData') {
     return SoilDataLog;
   } else if (activity_kind === 'others') {

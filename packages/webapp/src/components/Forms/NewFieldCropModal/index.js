@@ -135,7 +135,6 @@ class NewFieldCropModal extends React.Component {
           bed_num,
         };
       }
-      console.log(this.props);
       this.props.dispatch(
         postFieldCrop({
           crop_id: newFieldCrop.crop_id,

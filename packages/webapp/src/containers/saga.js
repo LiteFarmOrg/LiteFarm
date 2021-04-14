@@ -379,7 +379,15 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
       onTaskSuccess.push(getUserFarmsSuccess);
     }
 
-    const responses = yield all(tasks);
+    const responses = yield all(
+      tasks.map((task) => {
+        try {
+          return task;
+        } catch (e) {
+          console.log(e);
+        }
+      }),
+    );
     yield all(responses.map((response, index) => put(onTaskSuccess[index](response.data))));
     yield all([put(getLogs()), put(getAllShifts()), put(getSales()), put(getExpense())]);
   } catch (e) {

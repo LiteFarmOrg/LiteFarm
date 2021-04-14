@@ -54,9 +54,6 @@ const EditSeedingLog = React.lazy(() => import('./containers/Log/EditLog/seeding
 const EditSoilDataLog = React.lazy(() => import('./containers/Log/EditLog/soilData'));
 const EditOtherLog = React.lazy(() => import('./containers/Log/EditLog/other'));
 const Shift = React.lazy(() => import('./containers/Shift'));
-const Field = React.lazy(() => import('./containers/Field'));
-const NewField = React.lazy(() => import('./containers/Field/NewField'));
-const EditField = React.lazy(() => import('./containers/Field/EditField'));
 const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne'));
 const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
 const Finances = React.lazy(() => import('./containers/Finances'));
@@ -285,11 +282,10 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/field" exact component={Field} />
+
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 
-            <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -444,10 +440,8 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/field" exact component={Field} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
-            <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -563,7 +557,33 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/field" exact component={Field} />
+            <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
+            <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
+            <Route
+              path="/farm_site_boundary/:location_id/details"
+              exact
+              component={EditFarmSiteBoundaryForm}
+            />
+            <Route path="/field/:location_id" component={FieldDetails} />
+            <Route path="/garden/:location_id" component={GardenDetails} />
+            <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
+            <Route
+              path="/surface_water/:location_id/details"
+              exact
+              component={EditSurfaceWaterForm}
+            />
+
+            <Route
+              path="/natural_area/:location_id/details"
+              exact
+              component={EditNaturalAreaForm}
+            />
+            <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
+            <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
+            <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
+            <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
+            <Route path="/gate/:location_id/details" exact component={EditGateForm} />
+            <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
 
             <Route path="/map" exact component={Map} />
             <Route path="/log" exact component={Log} />

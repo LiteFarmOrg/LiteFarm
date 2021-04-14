@@ -213,6 +213,7 @@ const useMapAssetRenderer = () => {
         text: name,
         color: 'white',
         fontSize: '16px',
+        pointerEvents: 'none',
       },
     });
     marker.setMap(map);
@@ -245,6 +246,7 @@ const useMapAssetRenderer = () => {
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
     const { line_points: points, name, type, width } = line;
+    let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
     const { colour, dashScale, dashLength } = lineStyles[type];
@@ -274,9 +276,10 @@ const useMapAssetRenderer = () => {
       ],
     });
     polyline.setMap(map);
-    if ([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
+    const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(type);
+    if (isAreaLine) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
-      const linePolygon = new maps.Polygon({
+      linePolygon = new maps.Polygon({
         paths: polyPath,
         ...lineStyles[type].polyStyles,
       });
@@ -313,12 +316,22 @@ const useMapAssetRenderer = () => {
 
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
+    let asset;
+    if(isAreaLine) {
+      linePolygon.setOptions( { visible: isVisible });
+      asset = { polygon: linePolygon, polyline }
+    } else {
+      asset = { polyline }
+    }
+    maps.event.addListener(isAreaLine ? linePolygon: polyline, 'click', function (mapsMouseEvent) {
+     
     polyline.setOptions({ visible: isVisible });
+
     return {
-      polyline,
+      ...asset,
       location_id: line.location_id,
       location_name: line.name,
       isVisible,

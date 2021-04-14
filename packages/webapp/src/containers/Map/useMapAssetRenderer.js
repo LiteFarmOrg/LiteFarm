@@ -3,8 +3,8 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
-import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
+import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
@@ -208,6 +208,7 @@ const useMapAssetRenderer = () => {
         text: name,
         color: 'white',
         fontSize: '16px',
+        pointerEvents: 'none',
       },
     });
     marker.setMap(map);
@@ -235,6 +236,7 @@ const useMapAssetRenderer = () => {
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
     const { line_points: points, name, type, width } = line;
+    let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
     const { colour, dashScale, dashLength } = lineStyles[type];
@@ -264,9 +266,10 @@ const useMapAssetRenderer = () => {
       ],
     });
     polyline.setMap(map);
-    if ([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
+    const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(type);
+    if (isAreaLine) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
-      const linePolygon = new maps.Polygon({
+      linePolygon = new maps.Polygon({
         paths: polyPath,
         ...lineStyles[type].polyStyles,
       });
@@ -298,13 +301,21 @@ const useMapAssetRenderer = () => {
     });
 
     // Event listener for line click
-    maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
+
+    let asset;
+    if(isAreaLine) {
+      linePolygon.setOptions( { visible: isVisible });
+      asset = { polygon: linePolygon, polyline }
+    } else {
+      asset = { polyline }
+    }
+    maps.event.addListener(isAreaLine ? linePolygon: polyline, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
-
     polyline.setOptions({ visible: isVisible });
+
     return {
-      polyline,
+      ...asset,
       location_id: line.location_id,
       location_name: line.name,
       isVisible,

@@ -20,6 +20,7 @@ export default function PureBarn({
   isEditLocationPage,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -79,6 +80,7 @@ export default function PureBarn({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/barn/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

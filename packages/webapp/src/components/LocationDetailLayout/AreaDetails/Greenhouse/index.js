@@ -23,6 +23,7 @@ export default function PureGreenhouse({
   isEditLocationPage,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -94,6 +95,7 @@ export default function PureGreenhouse({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/greenhouse/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from 'react-bootstrap';
 import Button from '../../Form/Button';
 import { connect } from 'react-redux';
 import { cropsSelector } from '../../../containers/cropSlice';
-import { getCrops } from '../../../containers/saga';
 import { DEC_RADIX } from '../../../containers/Field/constants';
 import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import DateContainer from '../../../components/Inputs/DateContainer';
@@ -47,8 +46,6 @@ class EditFieldCropModal extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { estimated_unit, area_unit } = this.state;
-
-    dispatch(getCrops());
     const fieldCrop = this.state.fieldCrop;
     const estimated_yield = roundToTwoDecimal(
       convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') /
@@ -134,7 +131,7 @@ class EditFieldCropModal extends React.Component {
       putFieldCrop({
         field_crop_id: parseInt(this.props.cropBeingEdited.field_crop_id, DEC_RADIX),
         crop_id: parseInt(editedFieldCrop.crop_id, DEC_RADIX),
-        field_id: this.props.cropBeingEdited.field_id,
+        location_id: this.props.cropBeingEdited.location.location_id,
         start_date: editedFieldCrop.start_date,
         end_date: editedFieldCrop.end_date,
         area_used: convertToMetric(editedFieldCrop.area_used, area_unit, 'm2'),

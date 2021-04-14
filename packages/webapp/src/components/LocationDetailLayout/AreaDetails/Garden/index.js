@@ -23,6 +23,7 @@ export default function PureGarden({
   isEditLocationPage,
   useHookFormPersist,
   handleRetire,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -80,6 +81,7 @@ export default function PureGarden({
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/garden/${match.params.location_id}/edit`)}
           onRetire={handleRetire}
+          isAdmin={isAdmin}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

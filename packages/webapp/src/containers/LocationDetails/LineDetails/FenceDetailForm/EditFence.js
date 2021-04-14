@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PureFence from '../../../../components/LocationDetailLayout/LineDetails/Fence';
-import { editFenceLocation, deleteFenceLocation } from './saga';
+import { deleteFenceLocation, editFenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { measurementSelector } from '../../../userFarmSlice';
+import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { fenceSelector } from '../../../fenceSlice';
 import {
@@ -19,6 +19,7 @@ import RetireConfirmationModal from '../../../../components/Modals/RetireConfirm
 
 function EditFenceDetailForm({ history, match }) {
   const dispatch = useDispatch();
+  const isAdmin = useSelector(isAdminSelector);
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
     isEditLocationPage &&
@@ -44,12 +45,12 @@ function EditFenceDetailForm({ history, match }) {
     } else {
       setShowCannotRetireModal(true);
     }
-  }
+  };
 
   const confirmRetire = () => {
     isViewLocationPage && dispatch(deleteFenceLocation({ location_id }));
     setShowConfirmRetireModal(false);
-  }
+  };
 
   return (
     <>
@@ -62,6 +63,7 @@ function EditFenceDetailForm({ history, match }) {
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}
+        isAdmin={isAdmin}
       />
       {isViewLocationPage && showCannotRetireModal && (
         <UnableToRetireModal dismissModal={() => setShowCannotRetireModal(false)} />

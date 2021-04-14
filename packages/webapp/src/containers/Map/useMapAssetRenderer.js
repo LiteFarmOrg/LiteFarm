@@ -316,28 +316,28 @@ const useMapAssetRenderer = () => {
 
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     let asset;
-    if(isAreaLine) {
-      linePolygon.setOptions( { visible: isVisible });
-      asset = { polygon: linePolygon, polyline }
+    if (isAreaLine) {
+      linePolygon.setOptions({ visible: isVisible });
+      asset = { polygon: linePolygon, polyline };
     } else {
-      asset = { polyline }
+      asset = { polyline };
     }
-    maps.event.addListener(isAreaLine ? linePolygon: polyline, 'click', function (mapsMouseEvent) {
-     
-    polyline.setOptions({ visible: isVisible });
+    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
+      polyline.setOptions({ visible: isVisible });
 
-    return {
-      ...asset,
-      location_id: line.location_id,
-      location_name: line.name,
-      isVisible,
-      asset: 'line',
-      type: line.type,
-    };
+      return {
+        ...asset,
+        location_id: line.location_id,
+        location_name: line.name,
+        isVisible,
+        asset: 'line',
+        type: line.type,
+      };
+    });
   };
 
   // Draw a point

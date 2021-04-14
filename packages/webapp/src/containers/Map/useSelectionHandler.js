@@ -1,7 +1,7 @@
 import { isArea, isLine, isPoint } from './constants';
 import { useState, useEffect } from 'react';
-import { canShowSelection, locations } from '../mapSlice';
-import { useDispatch } from 'react-redux';
+import { canShowSelection, locations, canShowSelectionSelector } from '../mapSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
 
 const useSelectionHandler = () => {
@@ -15,8 +15,12 @@ const useSelectionHandler = () => {
   let [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
 
   const [dismissSelection, setDismissSelection] = useState(false);
+  const showSelection = useSelector(canShowSelectionSelector);
 
   useEffect(() => {
+    if (showSelection) {
+      dispatch(canShowSelection(false));
+    }
     if (dismissSelection) {
       setOverlappedLocations(clone(initOverlappedLocations));
       setDismissSelection(false);

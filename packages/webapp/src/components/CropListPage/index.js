@@ -89,7 +89,7 @@ export default function PureCropList({
       {/*  </div>*/}
       {/*)}*/}
 
-      {/*TODO: deprecate*/}
+
       {isAdmin && (
         <NewFieldCropModal
           location_id={match.params.location_id}

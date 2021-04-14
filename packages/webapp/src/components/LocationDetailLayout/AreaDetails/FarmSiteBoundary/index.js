@@ -17,6 +17,7 @@ export default function PureFarmSiteBoundary({
   isViewLocationPage,
   isEditLocationPage,
   useHookFormPersist,
+  handleRetire,
 }) {
   const { t } = useTranslation();
   const {
@@ -73,6 +74,7 @@ export default function PureFarmSiteBoundary({
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/farm_site_boundary/${match.params.location_id}/edit`)}
+          onRetire={handleRetire}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

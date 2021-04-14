@@ -23,6 +23,44 @@ import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
 
+export const sortedAreaSelector = createSelector(
+  [
+    barnsSelector,
+    ceremonialsSelector,
+    farmSiteBoundarysSelector,
+    fieldsSelector,
+    gardensSelector,
+    greenhousesSelector,
+    surfaceWatersSelector,
+    naturalAreasSelector,
+    residencesSelector,
+  ],
+  (
+    barns,
+    ceremonials,
+    farmSiteBoundaries,
+    fields,
+    gardens,
+    greenhouses,
+    surfaceWaters,
+    naturalAreas,
+    residences,
+  ) => {
+    const result = [
+      ...barns,
+      ...ceremonials,
+      ...farmSiteBoundaries,
+      ...fields,
+      ...gardens,
+      ...greenhouses,
+      ...surfaceWaters,
+      ...naturalAreas,
+      ...residences,
+    ];
+    return result.sort((a, b) => b.total_area - a.total_area);
+  },
+);
+
 export const areaSelector = createSelector(
   [
     barnsSelector,
@@ -59,6 +97,7 @@ export const areaSelector = createSelector(
     return result;
   },
 );
+
 export const areaStatusSelector = createSelector(
   [
     barnStatusSelector,

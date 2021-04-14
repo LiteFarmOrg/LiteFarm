@@ -1,4 +1,4 @@
-import { defaultColour } from './styles.module.scss';
+import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -208,12 +208,13 @@ const useMapAssetRenderer = () => {
         strokeColor: colour,
         strokeOpacity: 0,
         strokeWeight: 0,
+        scaledSize: new maps.Size(0, 0),
       },
       label: {
         text: name,
         color: 'white',
         fontSize: '16px',
-        pointerEvents: 'none',
+        className: styles.mapLabel,
       },
     });
     marker.setMap(map);
@@ -326,18 +327,19 @@ const useMapAssetRenderer = () => {
     } else {
       asset = { polyline };
     }
+    polyline.setOptions({ visible: isVisible });
     maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
-      polyline.setOptions({ visible: isVisible });
+      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+    })
 
-      return {
-        ...asset,
-        location_id: line.location_id,
-        location_name: line.name,
-        isVisible,
-        asset: 'line',
-        type: line.type,
-      };
-    });
+    return {
+      ...asset,
+      location_id: line.location_id,
+      location_name: line.name,
+      isVisible,
+      asset: 'line',
+      type: line.type,
+    };
   };
 
   // Draw a point

@@ -29,7 +29,7 @@ export const containsCrops = (type) => {
     locationEnum.greenhouse,
     locationEnum.garden,
     locationEnum.buffer_zone,
-  ];
+  ].includes(type);
 };
 
 export const isNoFillArea = (type) => {

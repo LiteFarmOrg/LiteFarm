@@ -15,7 +15,7 @@
 
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
@@ -99,6 +99,7 @@ export function* putFieldCropSaga({ payload: fieldCrop }) {
       fieldCrop,
       header,
     );
+
     yield put(putFieldCropSuccess(fieldCrop));
     toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
   } catch (e) {
@@ -196,11 +197,11 @@ const formatDate = (currDate) => {
 };
 
 export default function* fieldSaga() {
-  yield takeEvery(postFieldCrop.type, postFieldCropSaga);
-  yield takeEvery(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
-  yield takeEvery(deleteFieldCrop.type, deleteFieldCropSaga);
-  yield takeEvery(createYield.type, createYieldSaga);
-  yield takeEvery(createPrice.type, createPriceSaga);
-  yield takeEvery(putFieldCrop.type, putFieldCropSaga);
-  yield takeEvery(deleteField.type, deleteFieldSaga);
+  yield takeLatest(postFieldCrop.type, postFieldCropSaga);
+  yield takeLatest(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
+  yield takeLatest(deleteFieldCrop.type, deleteFieldCropSaga);
+  yield takeLatest(createYield.type, createYieldSaga);
+  yield takeLatest(createPrice.type, createPriceSaga);
+  yield takeLatest(putFieldCrop.type, putFieldCropSaga);
+  yield takeLatest(deleteField.type, deleteFieldSaga);
 }

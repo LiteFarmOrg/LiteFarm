@@ -647,7 +647,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -961,7 +960,6 @@
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
   "SLIDE_MENU": {
-    "FIELDS": "Campos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",

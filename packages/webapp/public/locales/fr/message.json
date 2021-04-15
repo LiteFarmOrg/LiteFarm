@@ -48,12 +48,10 @@
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "MISSING",
       "EMPTY_NAME": "MISSING",
       "UPDATE_NAME": "MISSING"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
       "UPDATE_NAME": "MISSING"
     }
   },

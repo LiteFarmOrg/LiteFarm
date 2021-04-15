@@ -1,11 +1,11 @@
 import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { sortedAreaSelector, lineSelector, pointSelector } from '../locationSlice';
-import { setZoomLevel, setPosition } from '../mapSlice';
-import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
+import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { setPosition, setZoomLevel } from '../mapSlice';
+import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
@@ -204,12 +204,13 @@ const useMapAssetRenderer = () => {
       position: polygon.getAveragePoint(),
       map: map,
       icon: {
-        path: 'M 0,0 0,1',
+        path: 'M 0,0 0,0',
         strokeColor: colour,
         strokeOpacity: 0,
         strokeWeight: 0,
-        scaledSize: new maps.Size(0, 0),
       },
+      clickable: false,
+      crossOnDrag: false,
       label: {
         text: name,
         color: 'white',
@@ -330,7 +331,7 @@ const useMapAssetRenderer = () => {
     polyline.setOptions({ visible: isVisible });
     maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-    })
+    });
 
     return {
       ...asset,

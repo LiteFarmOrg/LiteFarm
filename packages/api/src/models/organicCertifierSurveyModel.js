@@ -33,12 +33,10 @@ class organicCertifierSurveyModel extends BaseModel {
         survey_id: { type: 'string' },
         farm_id: { type: 'string' },
         interested: { type: 'boolean' },
-        certifiers: {
-          type: 'array',
-          items: {
-            type: 'string',
-          },
-        },
+        certification_id: { type: 'integer' },
+        certifier_id: { type: 'integer' },
+        requested_certification: { type: 'string' },
+        requested_certifier: { type: 'string' },
         ...super.baseProperties,
       },
       additionalProperties: false,

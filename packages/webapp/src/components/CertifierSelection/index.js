@@ -72,7 +72,6 @@ export default function PureCertifierSelectionScreen({ certifiers = [], history 
           {t('CERTIFICATION.CERTIFIER_SELECTION.NOT_FOUND')}
         </Text>{' '}
         <Infoi
-          placement={'bottom-end'}
           style={{ transform: 'translateY(2px)' }}
           content={t('CERTIFICATION.CERTIFIER_SELECTION.INFO')}
         />
@@ -95,25 +94,11 @@ export default function PureCertifierSelectionScreen({ certifiers = [], history 
 }
 
 PureCertifierSelectionScreen.prototype = {
-  farms: PropTypes.arrayOf(
+  certifiers: PropTypes.arrayOf(
     PropTypes.exact({
-      farmName: PropTypes.string,
-      address: PropTypes.arrayOf(PropTypes.string),
-      farm_id: PropTypes.string,
-      coordinate: PropTypes.exact({
-        lon: PropTypes.number,
-        lat: PropTypes.number,
-      }),
-      ownerName: PropTypes.string,
+      certifierTranslation: PropTypes.string,
+      certifier_id: PropTypes.string,
     }),
   ),
-  onGoBack: PropTypes.func,
-  onProceed: PropTypes.func,
-  onSelectFarm: PropTypes.func,
-  onCreateFarm: PropTypes.func,
-  isOnBoarding: PropTypes.bool,
-  isSearchable: PropTypes.bool,
-  onFilterChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  title: PropTypes.string,
+  history: PropTypes.object,
 };

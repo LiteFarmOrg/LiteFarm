@@ -32,6 +32,15 @@
       "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
   "CHOOSE_FARM": {

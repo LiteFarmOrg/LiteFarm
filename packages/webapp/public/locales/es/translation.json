@@ -32,6 +32,15 @@
       "WHY": "Por qué nosotros preguntamos ésto?",
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
   "CHOOSE_FARM": {

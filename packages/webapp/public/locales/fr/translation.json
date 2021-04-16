@@ -32,6 +32,15 @@
       "WHY": "MISSING",
       "WHY_ANSWER": "MISSING"
     },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WARNING": "MISSING"
   },
   "CHOOSE_FARM": {

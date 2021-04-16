@@ -32,6 +32,15 @@
       "WHY": "Why are we asking this?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "Requested Certifier",
+      "TITLE": "Request a certifier"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
   "CHOOSE_FARM": {

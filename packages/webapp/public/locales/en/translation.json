@@ -37,9 +37,9 @@
       "TITLE": "Request a certifier"
     },
     "SUMMARY": {
-      "GOOD_NEWS": "MISSING",
-      "INFORMATION": "MISSING",
-      "TITLE": "MISSING"
+      "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
+      "INFORMATION": "We'll indicate this information throughout the app with a",
+      "TITLE": "You are interested in applying for:"
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },

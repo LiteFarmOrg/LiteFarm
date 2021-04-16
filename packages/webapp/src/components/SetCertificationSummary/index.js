@@ -3,8 +3,9 @@ import React from 'react';
 import { Main, Semibold, Text } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
-import { ReactComponent as Farmland } from '../../assets/images/certification/Farmland.svg';
+import Farmland from '../../assets/images/certification/Farmland.svg';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
+import { colors } from '../../assets/theme';
 
 export default function PureSetCertificationSummary({
   onSubmit,
@@ -28,14 +29,17 @@ export default function PureSetCertificationSummary({
         </>
       }
     >
-      <Text>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
-      <Semibold>
+      <Text style={{ padding: '8px 0' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
+      <Semibold style={{ color: colors.teal700 }}>
         {certificationTranslation} {t('common:FROM')} {certifierAbbreviation}
       </Semibold>
-      <Farmland />
-      <Main>{t('CERTIFICATION.SUMMARY.GOOD_NEWS')}</Main>
+      <div>
+        <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />
+      </div>
+
+      <Main style={{ padding: '20px 0' }}>{t('CERTIFICATION.SUMMARY.GOOD_NEWS')}</Main>
       <Main>
-        {t('CERTIFICATION.SUMMARY.INFORMATION')} <Leaf />
+        {t('CERTIFICATION.SUMMARY.INFORMATION')} <Leaf style={{ marginLeft: '4px' }} />
       </Main>
     </Layout>
   );

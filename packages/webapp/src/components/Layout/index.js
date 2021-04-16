@@ -14,7 +14,11 @@ const Layout = ({ classes = {}, children, buttonGroup, hasWhiteBackground, isSVG
         {children}
       </div>
       <Footer
-        style={{ bottom: 0, position: 'sticky', ...classes.footer }}
+        style={{
+          bottom: 0,
+          position: hasWhiteBackground ? 'sticky' : 'relative',
+          ...classes.footer,
+        }}
         hasWhiteBackground={hasWhiteBackground}
       >
         {buttonGroup}

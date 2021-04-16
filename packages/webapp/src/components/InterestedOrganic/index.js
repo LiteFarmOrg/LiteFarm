@@ -41,7 +41,7 @@ export default function PureInterestedOrganic({
         <Infoi placement={'bottom'} content={content} style={{ transform: 'translateY(2px)' }} />{' '}
       </Main>
 
-      <Radio {...inputs[0]} defaultChecked={true} />
+      <Radio {...inputs[0]} />
       <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />
     </Form>
   );

@@ -9,7 +9,7 @@ const Layout = ({ classes = {}, children, buttonGroup, hasWhiteBackground, isSVG
     <>
       <div
         className={clsx(styles.container, isSVG && styles.svgContainer)}
-        style={classes.container}
+        style={{ paddingBottom: hasWhiteBackground ? '104px' : undefined, ...classes.container }}
       >
         {children}
       </div>

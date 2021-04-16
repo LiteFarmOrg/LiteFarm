@@ -19,6 +19,13 @@
       "TITLE": "What type of certification?",
       "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app."
     },
+    "CERTIFIER_SELECTION": {
+      "INFO": "That probably means LiteFarm doesn't currently work with your certifier - sorry! LiteFarm does produce generic forms that are helpful in most cases though.",
+      "NOT_FOUND": "Don’t see your certifier?",
+      "REQUEST_CERTIFIER": "Request a certifier",
+      "TITLE": "Who is your certifier?"
+    },
+    "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",

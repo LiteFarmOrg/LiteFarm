@@ -14,7 +14,7 @@ const entitiesGetters = {
   expense_type_id: fromFarmExpenseType,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
-  fields: fromFields,
+  locations: fromLocations,
   activity_id: fromActivity,
   sale_id: fromSale,
   shift_id: fromShift,
@@ -87,11 +87,11 @@ async function fromFertilizer(fertilizerId) {
   return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
 }
 
-async function fromFields(fields) {
-  if (!fields || !fields.length) {
+async function fromLocations(locations) {
+  if (!locations || !locations.length) {
     return {};
   }
-  const location_ids = fields ? fields.map((location) => location.location_id) : undefined;
+  const location_ids = locations ? locations.map((location) => location.location_id) : undefined;
   try {
     const userFarms = await knex('location').join('userFarm', 'location.farm_id', 'userFarm.farm_id')
       .whereIn('location.location_id', location_ids).distinct('location.farm_id');

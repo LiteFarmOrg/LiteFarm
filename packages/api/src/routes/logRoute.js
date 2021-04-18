@@ -20,8 +20,9 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const isCreator = require('../middleware/acl/isCreator');
 const conditionallyApplyMiddleware = require('../middleware/acl/conditionally.apply');
+const validateLogLocationId = require('../middleware/validation/logLocationId');
 
-router.post('/', hasFarmAccess({ body: 'fields' }), checkScope(['add:logs']), logController.logController.addLog());
+router.post('/', hasFarmAccess({ body: 'locations' }), checkScope(['add:logs']), validateLogLocationId, logController.logController.addLog());
 //TODO get log by id specification
 router.get('/:activity_id', hasFarmAccess({ mixed: 'activity_id' }), checkScope(['get:logs']), logController.logController.getLogByActivityId());
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:logs']), logController.logController.getLogByFarmId());

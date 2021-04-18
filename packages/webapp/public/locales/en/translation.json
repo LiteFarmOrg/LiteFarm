@@ -11,6 +11,22 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "CERTIFICATION": {
+    "CERTIFICATION_SELECTION": {
+      "ORGANIC": "Organic",
+      "PGS": "Participatory guarantee system",
+      "REQUEST_CERTIFICATION": "Request another type of certification",
+      "TITLE": "What type of certification?",
+      "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app."
+    },
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
+      "TITLE": "Interested in certifications?",
+      "WHY": "Why are we asking this?",
+      "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+    },
+    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
     "CHOOSE_TITLE": "Choose your farm",
@@ -688,21 +704,14 @@
     "NOTIFICATION_TEASER": "Coming Soon!"
   },
   "ORGANIC": {
-    "INTERESTED_IN_ORGANIC": {
-      "PARAGRAPH": "Do you plan to pursue or renew organic certification this season?",
-      "TITLE": "Interested in Organic?",
-      "WHY": "Why are we asking this?",
-      "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
-    },
     "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "Certificate name is required",
-      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
-      "CERTIFIER_NAME_LABEL": "Certifier’s name",
-      "SELECT_CERTIFIER": "Please select your certifier",
-      "THROUGH_APP": "throughout the app!",
-      "WILL_INDICATE": "We'll indicate data required for organic certification with"
-    },
-    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it's ready."
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
+      "SELECT_CERTIFIER": "MISSING",
+      "THROUGH_APP": "MISSING",
+      "WILL_INDICATE": "MISSING"
+    }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
   "PASSWORD_RESET_SUCCESS_MODAL": {

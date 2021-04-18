@@ -11,10 +11,10 @@ export default function InterestedOrganic() {
   const { t } = useTranslation(['translation', 'common']);
   const { register, handleSubmit, setValue } = useForm();
   const INTERESTED = 'interested';
-  const title = t('ORGANIC.INTERESTED_IN_ORGANIC.TITLE');
-  const paragraph = t('ORGANIC.INTERESTED_IN_ORGANIC.PARAGRAPH');
-  const underlined = t('ORGANIC.INTERESTED_IN_ORGANIC.WHY');
-  const content = t('ORGANIC.INTERESTED_IN_ORGANIC.WHY_ANSWER');
+  const title = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.TITLE');
+  const paragraph = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.PARAGRAPH');
+  const underlined = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY');
+  const content = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY_ANSWER');
   const ref = register({ required: true });
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   const dispatch = useDispatch();

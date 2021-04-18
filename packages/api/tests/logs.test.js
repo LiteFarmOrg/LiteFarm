@@ -935,6 +935,199 @@ describe('Log Tests', () => {
             };
           });
 
+          test('Owner should put fertilizing log for a field', async (done) => {
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              done();
+            });
+          });
+
+
+          test('Owner should put fertilizing log for a garden', async (done) => {
+            const [garden] = await mocks.gardenFactory({ promisedFarm: [farm] });
+
+            sampleRequestBody.locations.push(garden);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              done();
+            });
+          });
+
+          test('Owner should put fertilizing log for a bufferZone', async (done) => {
+            const [bufferZone] = await mocks.buffer_zoneFactory({ promisedFarm: [farm] });
+
+            sampleRequestBody.locations.push(bufferZone);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              done();
+            });
+          });
+
+          test('Owner should put fertilizing log for a greenhouse', async (done) => {
+            const [greenhouse] = await mocks.greenhouseFactory({ promisedFarm: [farm] });
+
+            sampleRequestBody.locations.push(greenhouse);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              done();
+            });
+          });
+
+          test('Owner should put fertilizing log for a greenhouse, a field, a garden, and a bufferZone', async (done) => {
+            const [greenhouse] = await mocks.greenhouseFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(greenhouse);
+            const [garden] = await mocks.gardenFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(garden);
+            const [bufferZone] = await mocks.buffer_zoneFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(bufferZone);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              done();
+            });
+          });
+
+          test('Should return 400 if log reference a barn', async (done) => {
+            const [barn] = await mocks.barnFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(barn);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+
+          test('Should return 400 if log reference a ceremonial_area', async (done) => {
+            const [ceremonial_area] = await mocks.ceremonial_areaFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(ceremonial_area);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a farm_site_boundary', async (done) => {
+            const [farm_site_boundary] = await mocks.farm_site_boundaryFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(farm_site_boundary);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a surface_water', async (done) => {
+            const [surface_water] = await mocks.surface_waterFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(surface_water);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a natural_area', async (done) => {
+            const [natural_area] = await mocks.natural_areaFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(natural_area);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a residence', async (done) => {
+            const [residence] = await mocks.residenceFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(residence);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a watercourse', async (done) => {
+            const [watercourse] = await mocks.watercourseFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(watercourse);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a fence', async (done) => {
+            const [fence] = await mocks.fenceFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(fence);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a gate', async (done) => {
+            const [gate] = await mocks.gateFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(gate);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+          test('Should return 400 if log reference a water_valve', async (done) => {
+            const [water_valve] = await mocks.water_valveFactory({ promisedFarm: [farm] });
+            sampleRequestBody.locations.push(water_valve);
+            putRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+              done();
+            });
+          });
+
           test('Owner should change fertilizerLog to a different field  ', async (done) => {
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
             sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];

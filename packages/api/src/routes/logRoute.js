@@ -34,7 +34,7 @@ router.put('/:activity_id', checkScope(['edit:logs']),
     req.role === 3,
     isCreator({ params: 'activity_id' }),
     hasFarmAccess({ mixed: 'activity_id' }),
-  )(req, res, next), logController.logController.putLog());
+  )(req, res, next), validateLogLocationId, logController.logController.putLog());
 
 router.delete('/:activity_id', checkScope(['delete:logs']),
   (req, res, next) => conditionallyApplyMiddleware(

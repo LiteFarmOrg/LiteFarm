@@ -103,20 +103,20 @@ async function fromLocations(locations) {
 }
 
 async function fromActivity(req) {
-  const user_id = req.user.user_id
+  const user_id = req.user.user_id;
   const { activity_id } = req.params;
   const { farm_id } = req.headers;
 
-  if (req.body.fields) {
-    const fields = [];
+  if (req.body.locations) {
+    const locations = [];
     let fieldCrops;
-    for (const location of req.body.fields) {
+    for (const location of req.body.locations) {
       if (!location.location_id) {
         return {};
       }
-      fields.push(location.location_id);
+      locations.push(location.location_id);
     }
-    if (fields.length === 0) {
+    if (locations.length === 0) {
       return {};
     }
 
@@ -135,7 +135,7 @@ async function fromActivity(req) {
       .join('location', 'userFarm.farm_id', 'location.farm_id')
       .leftJoin('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
       .skipUndefined()
-      .whereIn('location.location_id', fields)
+      .whereIn('location.location_id', locations)
       .whereIn('fieldCrop.field_crop_id', fieldCrops)
       .where('userFarm.user_id', user_id)
       .where('userFarm.farm_id', farm_id)

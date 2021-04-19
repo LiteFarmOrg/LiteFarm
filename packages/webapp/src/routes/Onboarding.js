@@ -33,6 +33,9 @@ const InterestedOrganic = React.lazy(() =>
 const OrganicPartners = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/OrganicPartners'),
 );
+const CertificationSelection = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/CertificationSelection'),
+);
 
 function OnboardingFlow({
   step_one,
@@ -61,7 +64,10 @@ function OnboardingFlow({
           />
         )}
         {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
-        {interested && <Route path="/organic_partners" exact component={OrganicPartners} />}
+        {/* {interested && <Route path="/organic_partners" exact component={OrganicPartners} />} */}
+        {interested && (
+          <Route path="/certification_selection" exact component={CertificationSelection} />
+        )}
         {step_four && <Route path="/outro" exact component={Outro} />}
         <Route>
           <>

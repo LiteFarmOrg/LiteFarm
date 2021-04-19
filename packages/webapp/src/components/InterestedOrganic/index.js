@@ -16,6 +16,8 @@ export default function PureInterestedOrganic({
   onGoBack,
   underlined,
   content,
+  disabled,
+  radioClick,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
@@ -26,7 +28,7 @@ export default function PureInterestedOrganic({
           <Button onClick={onGoBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} fullLength disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -41,8 +43,8 @@ export default function PureInterestedOrganic({
         <Infoi placement={'bottom'} content={content} style={{ transform: 'translateY(2px)' }} />{' '}
       </Main>
 
-      <Radio {...inputs[0]} />
-      <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />
+      <Radio {...inputs[0]} onClick={() => radioClick(true)} />
+      <Radio style={{ marginBottom: '32px' }} {...inputs[1]} onClick={() => radioClick(false)} />
     </Form>
   );
 }

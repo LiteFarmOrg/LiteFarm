@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getCertifiers, patchInterested, postCertifiers } from '../saga';
@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function InterestedOrganic() {
   const { t } = useTranslation(['translation', 'common']);
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, watch } = useForm({ mode: 'onChange' });
   const INTERESTED = 'interested';
   const title = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.TITLE');
   const paragraph = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.PARAGRAPH');
@@ -18,19 +18,25 @@ export default function InterestedOrganic() {
   const ref = register({ required: true });
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   const dispatch = useDispatch();
+
+  const [interested, setInterested] = useState(survey.interested);
+  const [disabled, setDisabled] = useState(interested === undefined);
+
   useEffect(() => {
     if (!survey.survey_id) {
       dispatch(getCertifiers());
     }
     if (survey) {
-      setValue(INTERESTED, survey.interested === false ? 'false' : 'true');
+      if (survey.interested !== undefined) {
+        setValue(INTERESTED, interested === false ? 'false' : 'true');
+      }
     }
-  }, [survey, dispatch]);
+  }, [survey, dispatch, interested]);
 
   const onSubmit = (data) => {
     const interested = data.interested === 'true';
     const callback = () =>
-      interested ? history.push('/organic_partners') : history.push('/outro');
+      interested ? history.push('/certification_selection') : history.push('/outro');
     if (survey.survey_id) {
       dispatch(patchInterested({ interested, callback }));
     } else {
@@ -39,6 +45,11 @@ export default function InterestedOrganic() {
   };
   const onGoBack = () => {
     history.push('/consent');
+  };
+
+  const radioClick = (interested) => {
+    if (disabled) setDisabled(false);
+    setInterested(interested);
   };
 
   return (
@@ -50,18 +61,20 @@ export default function InterestedOrganic() {
         underlined={underlined}
         content={content}
         onGoBack={onGoBack}
+        disabled={disabled}
+        radioClick={radioClick}
         inputs={[
           {
             label: t('common:YES'),
             inputRef: ref,
             name: INTERESTED,
-            defaultValue: true,
+            value: true,
           },
           {
             label: t('common:NO'),
             inputRef: ref,
             name: INTERESTED,
-            defaultValue: false,
+            value: false,
           },
         ]}
       />

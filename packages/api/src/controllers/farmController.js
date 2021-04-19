@@ -33,6 +33,7 @@ const farmController = {
         }
 
         const units = await this.getCountry(country);
+        const { country_id } = await this.getCountryID(country);
         if (!units) {
           await trx.rollback();
           return res.status(400).send('No unit info for given country');
@@ -43,6 +44,7 @@ const farmController = {
           address: req.body.address,
           grid_points: req.body.grid_points,
           units,
+          country_id: country_id,
         }
         const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
@@ -170,6 +172,11 @@ const farmController = {
     const { iso, unit } = await knex('countries').select('*').where('country_name', country).first();
     return { currency: iso, measurement: unit.toLowerCase() };
   },
+
+  async getCountryID(countryName) {
+    const { id } = await knex('countries').select('*').where('country_name', countryName).first();
+    return { country_id: id };
+  }
 }
 
 module.exports = farmController;

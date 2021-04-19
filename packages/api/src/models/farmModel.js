@@ -43,7 +43,7 @@ class Farm extends baseModel {
             lng: { type: 'number' },
           },
         },
-        country: { type: 'string' },
+        country_id: { type: 'integer' },
         farm_phone_number: { type : 'string' },
         units: {
           type : 'object',

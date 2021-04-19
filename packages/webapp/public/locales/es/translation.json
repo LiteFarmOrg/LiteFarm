@@ -105,25 +105,25 @@
     },
     "BARN": {
       "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar granero",
       "NAME": "Granero",
       "TITLE": "Agregar Granero",
       "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
     },
     "BUFFER_ZONE": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar delimitante",
       "NAME": "Zona delimitante",
       "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
     "CEREMONIAL_AREA": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar area ceremonial",
       "NAME": "Area ceremonial",
       "TITLE": "Agregar area ceremonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Retirar esta ubicación la eliminará del mapa de la granja.",
+      "TITLE": "Retirar ubicación?"
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
@@ -137,20 +137,20 @@
       "TITLE": "Exporta tu mapa"
     },
     "FARM_SITE_BOUNDARY": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar limites de la granja",
       "NAME": "Limites de la granja",
       "TITLE": "Agregar Limites de la granja"
     },
     "FENCE": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar cerco",
       "LENGTH": "Longitud del cerco",
       "NAME": "Cercado",
-      "PRESSURE_TREATED": "Esta este cercado tratado con presion?",
+      "PRESSURE_TREATED": "Esto cerco es tratado a presión?",
       "TITLE": "Agregar Cerco"
     },
     "FIELD": {
       "DATE": "Fecha de transición",
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar campo",
       "FIELD_TYPE": "Que tipo de campo es?",
       "NAME": "Campo",
       "NON_ORGANIC": "No organico",
@@ -160,23 +160,23 @@
     },
     "GARDEN": {
       "DATE": "Fecha de transición",
-      "EDIT_TITLE": "MISSING",
-      "GARDEN_TYPE": "Tipo de Jardin",
-      "NAME": "Jardin",
+      "EDIT_TITLE": "Editar huerto",
+      "GARDEN_TYPE": "Tipo de huerto",
+      "NAME": "Huerto",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
-      "TITLE": "Agregar Jardin",
+      "TITLE": "Agregar huerto",
       "TRANSITIONING": "En transición"
     },
     "GATE": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar puerta",
       "NAME": "Puerta",
       "TITLE": "Agregar puerta"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Hay enriquecimiento de CO₂?",
       "DATE": "Fecha de transicion",
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar invernadero",
       "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
       "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
       "NAME": "Invernadero",
@@ -202,7 +202,7 @@
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
-      "GARDEN": "Jardin",
+      "GARDEN": "Huerto",
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
@@ -218,12 +218,12 @@
       "WV": "Valvula de agua"
     },
     "NATURAL_AREA": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar area natural",
       "NAME": "Area natural",
       "TITLE": "Agregar area natural"
     },
     "RESIDENCE": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar residencia",
       "NAME": "Residencia",
       "TITLE": "Agregar residencia"
     },
@@ -237,14 +237,14 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "SURFACE_WATER": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar agua de superficie",
       "IRRIGATION": "Es esta area usada para riego?",
       "NAME": "Agua de superficie",
       "TITLE": "Agregar agua de superficie"
     },
     "TAB": {
-      "CROPS": "MISSING",
-      "DETAILS": "MISSING"
+      "CROPS": "Cultivo",
+      "DETAILS": "Detalles"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -271,11 +271,11 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos activos o planificados.",
+      "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar valvula de agua",
       "GROUNDWATER": "Agua de pozo",
       "MAX_FLOW_RATE": "Flujo maximo",
       "MUNICIPAL_WATER": "Agua municipal",
@@ -287,7 +287,7 @@
     },
     "WATERCOURSE": {
       "BUFFER": "Zona de proteccion",
-      "EDIT_TITLE": "MISSING",
+      "EDIT_TITLE": "Editar arroyo",
       "IRRIGATION": "Es usado para riego?",
       "LENGTH": "Longitud total",
       "NAME": "Arroyo",
@@ -515,11 +515,11 @@
     "SUCCESSFULLY_JOINED": "Se ha unido de manera exitosa"
   },
   "LOCATION_CROPS": {
-    "ACTIVE_CROPS": "MISSING",
-    "ADD_NEW": "MISSING",
-    "INPUT_PLACEHOLDER": "MISSING",
-    "PAST_CROPS": "MISSING",
-    "PLANNED_CROPS": "MISSING"
+    "ACTIVE_CROPS": "Cultivos activos",
+    "ADD_NEW": "Agregar un cultivo",
+    "INPUT_PLACEHOLDER": "Teclear para buscar",
+    "PAST_CROPS": "Cultivos pasados",
+    "PLANNED_CROPS": "Cultivos planificados"
   },
   "LOG_COMMON": {
     "ACTION": "Acción",
@@ -755,9 +755,9 @@
       "ADDRESS": "Dirección",
       "CURRENCY": "Moneda de circulación",
       "FARM_NAME": "Nombre de la finca",
-      "IMPERIAL": "MISSING",
+      "IMPERIAL": "Britanico",
       "MAKE_REQUEST": "Hacer solicitud",
-      "METRIC": "MISSING",
+      "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
       "REQUEST_DATA": "Ud. puede solicitar información para descargar y nosotros enviaremos información de la finca a su email en formato de csv.",
       "UNITS": "Unidades"

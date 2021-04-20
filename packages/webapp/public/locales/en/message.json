@@ -48,12 +48,10 @@
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field",
       "EMPTY_NAME": "Field name cannot be empty",
       "UPDATE_NAME": "Failed To update Field name"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Field",
       "UPDATE_NAME": "Successfully changed field name"
     }
   },

@@ -13,16 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const locationModel = require('../../models/locationModel');
 const fieldCropModel = require('../../models/fieldCropModel');
-const activityFieldsModel = require('../../models/activityFieldsModel');
 const activityLogModel = require('../../models/activityLogModel');
-const { fieldCropEnabledLocations } = require('./location');
+const { raw } = require('objection');
 
 async function validateLocationDependency(req, res, next) {
 
   const location_id = req?.params?.location_id;
-  const fieldCrops = await fieldCropModel.query().whereNotDeleted().where({ location_id });
+  const fieldCrops = await fieldCropModel.query().whereNotDeleted().where({ location_id }).andWhere(raw('end_date >= now()'));
   if (fieldCrops.length) {
     return res.status(400).send('Location can be deleted when it has a fieldCrop');
   }

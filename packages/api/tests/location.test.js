@@ -230,6 +230,18 @@ describe('Location tests', () => {
       });
     });
 
+    test('should delete field when field is referenced by expired fieldCrops', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const expiredFieldCrop = mocks.fakeFieldCrop();
+      expiredFieldCrop.end_date = expiredFieldCrop.start_date;
+      await mocks.fieldCropFactory({ promisedField: [field1] }, expiredFieldCrop);
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
+
     test('Delete should return 400 when field is referenced by log', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);

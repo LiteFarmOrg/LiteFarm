@@ -6,6 +6,7 @@ import history from '../../history';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
+import { getLanguageFromLocalStorage } from '../../util';
 
 const loginUrl = () => `${url}/google`;
 
@@ -20,7 +21,12 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
         Authorization: 'Bearer ' + google_id_token,
       },
     };
-    const result = yield call(axios.post, loginUrl(), {}, header);
+    const result = yield call(
+      axios.post,
+      loginUrl(),
+      { language_preference: getLanguageFromLocalStorage() },
+      header,
+    );
     const { id_token, user } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);

@@ -6,6 +6,7 @@ import { ReactComponent as SignupPortuguese } from '../../assets/images/signUp/s
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFromLocalStorage } from '../../util';
 
 export default function PureWelcomeScreen({ onClick }) {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ export default function PureWelcomeScreen({ onClick }) {
     es: <SignupSpanish />,
     pt: <SignupPortuguese />,
   };
-  const language = localStorage.getItem('litefarm_lang');
+  const language = getLanguageFromLocalStorage();
   return (
     <Layout
       isSVG

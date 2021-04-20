@@ -21,7 +21,7 @@ import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './consta
 import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { getFirstNameLastName } from '../../util';
+import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
 import { axios } from '../saga';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
@@ -100,7 +100,7 @@ export function* customCreateUserSaga({ payload: data }) {
   try {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const selectedLanguage = getLanguageFromLocalStorage();
     const language_preference = selectedLanguage.includes('-')
       ? selectedLanguage.split('-')[0]
       : selectedLanguage;

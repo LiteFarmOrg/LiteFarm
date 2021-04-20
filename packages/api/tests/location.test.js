@@ -535,6 +535,7 @@ describe('Location tests', () => {
         },
       };
       putLocation(data, { user_id: user, farm_id: farm }, locations.GARDEN, location[0].location_id, (err, res) => {
+        console.log(data);
         expect(res.status).toBe(200);
         expect(res.body.name).toBe('Test Name323');
         expect(res.body.figure.type).toBe(locations.GARDEN);

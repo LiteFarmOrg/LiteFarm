@@ -8,13 +8,12 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon } = {}) =>
     arrow: {
       zIndex: -1,
       color: 'var(--grey400)',
-      width: '20px',
-      height: '10px',
+      // width: '15px',
       overflow: 'initial',
       '&::before': {
-        width: '29px',
-        height: '15px',
-        transform: `translate(${arrowOffset}px, -4px) rotate(45deg)`,
+        // width: '15px',
+        // height: '15px',
+        transform: `translate(${arrowOffset}px, 0px) rotate(45deg)`,
       },
     },
     tooltip: {
@@ -26,7 +25,7 @@ const useStyles = ({ arrowOffset = 0, isChildrenIcon } = {}) =>
       textAlign: 'left',
       maxWidth: '264px',
       userSelect: 'none',
-      marginTop: isChildrenIcon ? '8px' : '16px',
+      margin: isChildrenIcon ? '8px 0' : '16px 0',
       fontSize: '14px',
       lineHeight: '24px',
       color: colors.grey900,

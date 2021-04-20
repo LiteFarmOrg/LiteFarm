@@ -2,10 +2,10 @@ import React from 'react';
 import decorators from '../config/decorators';
 import PureChooseFarmScreen from '../../../components/ChooseFarm';
 import {
-  Secondary,
   Active,
+  Secondary,
   SecondaryWithoutOwnerName,
-} from '../../ChooseFarmMenuItem/ChooseFarmMenuItem.stories';
+} from '../../MenuItem/ChooseFarmMenuItem.stories';
 
 export default {
   title: 'Page/PureChooseFarmScreen',

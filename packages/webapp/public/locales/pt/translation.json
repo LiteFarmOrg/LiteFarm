@@ -19,11 +19,27 @@
       "TITLE": "MISSING",
       "TOOLTIP": "MISSING"
     },
+    "CERTIFIER_SELECTION": {
+      "INFO": "MISSING",
+      "NOT_FOUND": "MISSING",
+      "REQUEST_CERTIFIER": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "INPUT_PLACEHOLDER": "MISSING",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Você planeja buscar ou renovar a certificação orgânica e/o agroecolôgica nesta temporada?",
       "TITLE": "MISSING",
       "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },

@@ -19,11 +19,27 @@
       "TITLE": "MISSING",
       "TOOLTIP": "MISSING"
     },
+    "CERTIFIER_SELECTION": {
+      "INFO": "MISSING",
+      "NOT_FOUND": "MISSING",
+      "REQUEST_CERTIFIER": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "INPUT_PLACEHOLDER": "MISSING",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Planea conseguir o renovar certificación orgánica esta temporada?",
       "TITLE": "MISSING",
       "WHY": "Por qué nosotros preguntamos ésto?",
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },

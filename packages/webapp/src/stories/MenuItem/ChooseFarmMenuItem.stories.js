@@ -2,7 +2,7 @@ import React from 'react';
 import ChooseFarmMenuItem from '../../components/ChooseFarm/ChooseFarmMenu/ChooseFarmMenuItem';
 
 export default {
-  title: 'Components/ChooseFarmMenuItem',
+  title: 'Components/MenuItem/ChooseFarm',
   component: ChooseFarmMenuItem,
   decorators: [(story) => <div style={{ padding: '24px' }}>{story()}</div>],
 };

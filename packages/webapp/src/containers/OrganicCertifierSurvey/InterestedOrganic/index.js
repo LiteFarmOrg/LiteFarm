@@ -23,9 +23,6 @@ export default function InterestedOrganic() {
   const [disabled, setDisabled] = useState(interested === undefined);
 
   useEffect(() => {
-    if (!survey.survey_id) {
-      dispatch(getCertifiers());
-    }
     if (survey) {
       if (survey.interested !== undefined) {
         setValue(INTERESTED, interested === false ? 'false' : 'true');

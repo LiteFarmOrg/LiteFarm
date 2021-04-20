@@ -2,18 +2,24 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import PureCertificationSelection from '../../../components/CertificationSelection';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCertifiers, patchInterested, postCertifiers } from '../saga';
+import { getAllSupportedCertifications, patchInterested, postCertifiers } from '../saga';
 import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
 import { useTranslation } from 'react-i18next';
 import {
   setCertificationSelection,
   setCertificationSelectionSelector,
+  setcertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
   const selectedCertificationType = useSelector(setCertificationSelectionSelector);
+  const certificationTypes = useSelector(setcertificationTypesSelector);
+
+  useEffect(() => {
+    dispatch(getAllSupportedCertifications());
+  }, [dispatch]);
 
   //   const [disabled, setDisabled] = useState(survey.interested === undefined);
   //   const [interested, setInterested] = useState(survey.interested);
@@ -49,6 +55,7 @@ export default function CertificationSelection() {
         dispatch={dispatch}
         setCertificationSelection={setCertificationSelection}
         selectedCertificationType={selectedCertificationType}
+        certificationTypes={certificationTypes}
         // disabled={disabled}
         // radioClick={radioClick}
         // inputs={[

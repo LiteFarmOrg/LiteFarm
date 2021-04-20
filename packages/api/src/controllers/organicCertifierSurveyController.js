@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
+const certificationModel = require('../models/certificationModel');
 
 const organicCertifierSurveyController = {
   getCertifiersByFarmId() {
@@ -24,6 +25,25 @@ const organicCertifierSurveyController = {
         const result = await organicCertifierSurveyModel.query().whereNotDeleted().where({ farm_id })
           .first().select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested',
             'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
+        if (!result) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(result);
+        }
+      } catch (error) {
+        //handle more exceptions
+        console.error(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  },
+
+  getAllSupportedCertifications() {
+    return async (req, res) => {
+      try {
+        const result = await certificationModel.query().select('*');
         if (!result) {
           res.sendStatus(404);
         } else {

@@ -10,14 +10,13 @@ import { useForm } from 'react-hook-form';
 
 export default function PureCertificationSelection({
   onSubmit,
-  title,
-  inputs,
   inputClasses = {},
   redirectConsent,
   onGoBack,
   dispatch,
   setCertificationSelection,
   selectedCertificationType,
+  certificationTypes,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -42,6 +41,7 @@ export default function PureCertificationSelection({
     setValue(SELECTION, selectedCertificationType);
     setDisabled(selectedCertificationType === null);
   }, [selectionType, selectedCertificationType]);
+
   return (
     <Form
       onSubmit={onSubmit}
@@ -57,22 +57,24 @@ export default function PureCertificationSelection({
       }
     >
       <Title>{t('CERTIFICATION.CERTIFICATION_SELECTION.TITLE')}</Title>
-      <Radio
-        classes={inputClasses}
-        label={t('CERTIFICATION.CERTIFICATION_SELECTION.ORGANIC')}
-        name={SELECTION}
-        value={'organic'}
-        inputRef={register({ required: true })}
-        onChange={() => setSelectionType('organic')}
-      />
-      <Radio
-        classes={inputClasses}
-        label={t('CERTIFICATION.CERTIFICATION_SELECTION.PGS')}
-        name={SELECTION}
-        value={'pgs'}
-        inputRef={register({ required: true })}
-        onChange={() => setSelectionType('pgs')}
-      />
+
+      {certificationTypes.map((item, idx) => {
+        return (
+          <div key={idx}>
+            <Radio
+              classes={inputClasses}
+              label={t(
+                `CERTIFICATION.CERTIFICATION_SELECTION.${item.certification_translation_key}`,
+              )}
+              name={SELECTION}
+              value={item.certification_type}
+              inputRef={register({ required: true })}
+              onChange={() => setSelectionType(item.certification_type)}
+            />
+          </div>
+        );
+      })}
+
       <div style={{ marginBottom: '8px' }}>
         <Radio
           classes={inputClasses}

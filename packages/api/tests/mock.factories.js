@@ -860,6 +860,10 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
   }).returning('*');
 }
 
+async function allSupportedCertificationsFactory() {
+  return knex('certifications').returning('*');
+}
+
 async function barnFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
@@ -1090,4 +1094,5 @@ module.exports = {
   residenceFactory,
   buffer_zoneFactory,
   gateFactory,
+  allSupportedCertificationsFactory
 };

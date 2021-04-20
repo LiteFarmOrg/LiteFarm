@@ -7,6 +7,7 @@ import {
   onLoadingCertifierSurveyFail,
   onLoadingCertifierSurveyStart,
 } from './slice';
+import { setcertificationTypes } from './organicCertifierSurveySlice';
 import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
@@ -33,6 +34,22 @@ export function* getCertifiersSaga() {
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail(e));
     console.log('failed to fetch certifiers from database');
+  }
+}
+
+export const getAllSupportedCertifications = createAction(`getAllSupportedCertificationsSaga`);
+export function* getAllSupportedCertificationsSaga() {
+  try {
+    const { user_id, farm_id } = yield select(loginSelector);
+    const header = getHeader(user_id, farm_id);
+    const result = yield call(
+      axios.get,
+      `${url}/organic_certifier_survey/supported_certifications`,
+      header,
+    );
+    yield put(setcertificationTypes(result.data));
+  } catch (e) {
+    console.log('failed to get all certification ntypes');
   }
 }
 
@@ -116,4 +133,5 @@ export default function* certifierSurveySaga() {
   yield takeLatest(patchCertifiers.type, patchCertifiersSaga);
   yield takeLatest(getCertifiers.type, getCertifiersSaga);
   yield takeLatest(postCertifiers.type, postCertifiersSaga);
+  yield takeLatest(getAllSupportedCertifications.type, getAllSupportedCertificationsSaga);
 }

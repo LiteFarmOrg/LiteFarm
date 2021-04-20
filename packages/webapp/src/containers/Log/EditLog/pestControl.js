@@ -29,8 +29,10 @@ import Select from 'react-select';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import { numberOnKeyDown } from '../../../components/Form/Input';
 import TextArea from '../../../components/Form/TextArea';
 
@@ -335,7 +337,7 @@ class PestControlLog extends Component {
           ? d.disease_common_name
           : this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
-    const selectedFields = selectedLog.field.map((f) => ({
+    const selectedFields = selectedLog.location.map((f) => ({
       value: f.location_id,
       label: f.name,
     }));
@@ -628,7 +630,7 @@ class PestControlLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

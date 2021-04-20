@@ -101,7 +101,6 @@ export function* editLog(payload) {
     fertilizer_id: parseInt(fertConfig.fertilizer_id, 10),
     notes: fertConfig.notes,
   };
-  console.log(log);
 
   try {
     const result = yield call(axios.put, logURL + `/${fertConfig.activity_id}`, log, header);

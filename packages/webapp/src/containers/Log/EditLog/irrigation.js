@@ -16,9 +16,11 @@ import parseFields from '../Utility/parseFields';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
-import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 
 // const customFieldset = () => {
 //   return (<div>
@@ -105,7 +107,7 @@ class IrrigationLog extends Component {
     const crops = this.props.crops;
     const locations = this.props.locations;
     const { selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({
+    const selectedFields = selectedLog.location.map((f) => ({
       value: f.location_id,
       label: f.name,
     }));
@@ -177,7 +179,7 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

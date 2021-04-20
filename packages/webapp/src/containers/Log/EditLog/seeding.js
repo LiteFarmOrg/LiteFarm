@@ -17,8 +17,10 @@ import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from 
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import TextArea from '../../../components/Form/TextArea';
 
 class SeedingLog extends Component {
@@ -104,7 +106,7 @@ class SeedingLog extends Component {
 
   render() {
     const { crops, locations, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({
+    const selectedFields = selectedLog.location.map((f) => ({
       value: f.location_id,
       label: f.name,
     }));
@@ -182,7 +184,7 @@ class SeedingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     farm: userFarmSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),

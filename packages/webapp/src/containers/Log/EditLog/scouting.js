@@ -14,9 +14,11 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
-import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -76,7 +78,7 @@ class ScoutingLog extends Component {
   render() {
     const crops = this.props.crops;
     const locations = this.props.locations;
-    const selectedFields = this.props.selectedLog.field.map((f) => ({
+    const selectedFields = this.props.selectedLog.location.map((f) => ({
       value: f.location_id,
       label: f.name,
     }));
@@ -139,7 +141,7 @@ class ScoutingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   };

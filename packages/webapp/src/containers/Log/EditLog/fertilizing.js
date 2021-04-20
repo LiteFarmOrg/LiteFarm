@@ -293,6 +293,7 @@ class FertilizingLog extends Component {
                 model=".fertLog"
                 style={styles.labelContainer}
                 isCropNotRequired={true}
+                locations={this.props.locations}
               />
               <div className={styles.defaultFormDropDown}>
                 <label>{this.props.t('LOG_COMMON.PRODUCT')}</label>

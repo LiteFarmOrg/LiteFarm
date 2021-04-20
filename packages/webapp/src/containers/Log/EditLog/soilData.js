@@ -23,9 +23,9 @@ import {
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
-import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -216,7 +216,7 @@ class soilDataLog extends Component {
 
   render() {
     const { crops, locations, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({
+    const selectedFields = selectedLog.location.map((f) => ({
       value: f.location_id,
       label: f.name,
     }));
@@ -344,7 +344,7 @@ class soilDataLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

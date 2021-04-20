@@ -20,12 +20,13 @@ const { getLocationsByFarm, deleteLocation,
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const { modelMapping } = require('../middleware/validation/location');
+const validateLocationDependency = require('../middleware/validation/deleteLocation');
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']),
   getLocationsByFarm());
 
 router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
-  deleteLocation());
+  validateLocationDependency, deleteLocation());
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],

@@ -14,8 +14,8 @@ import { deleteLog, editLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 
 class FieldWorkLog extends Component {
   constructor(props) {
@@ -57,15 +57,15 @@ class FieldWorkLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, selectedLog, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, selectedLog, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log);
     let formValue = {
       activity_id: selectedLog.activity_id,
       activity_kind: 'fieldWork',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       type: log.type.value,
       notes: log.notes || '',
       user_id: localStorage.getItem('user_id'),
@@ -74,15 +74,15 @@ class FieldWorkLog extends Component {
   }
 
   render() {
-    const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+    const { crops, locations, selectedLog } = this.props;
+    const selectedFields = selectedLog.location.map((f) => ({
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -106,7 +106,7 @@ class FieldWorkLog extends Component {
             selectedFields={selectedFields}
             parent="logReducer.forms"
             model=".fieldWorkLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
             typeField={true}
@@ -129,7 +129,7 @@ class FieldWorkLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   };

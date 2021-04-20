@@ -10,8 +10,10 @@ import {
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
@@ -25,7 +27,7 @@ function HarvestLog() {
   const defaultData = useSelector(harvestLogDataSelector);
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
-  const fields = useSelector(fieldsSelector);
+  const locations = useSelector(locationsWithCurrentAndPlannedFieldCropSelector);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ function HarvestLog() {
           activity_kind: 'harvest',
           date: data.defaultDate,
           crops: data.defaultCrop,
-          fields: data.defaultField,
+          locations: data.defaultField,
           notes: data.defaultNotes,
           quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
         }
@@ -57,7 +59,7 @@ function HarvestLog() {
           activity_kind: 'harvest',
           date: data.defaultDate,
           crops: data.defaultCrop,
-          fields: data.defaultField,
+          locations: data.defaultField,
           notes: data.defaultNotes,
           quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
         };
@@ -71,7 +73,7 @@ function HarvestLog() {
       <PureHarvestLog
         onGoBack={onBack}
         onNext={onNext}
-        fields={fields}
+        locations={locations}
         crops={crops}
         unit={unit}
         defaultData={defaultData}

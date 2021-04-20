@@ -15,8 +15,10 @@ import parseCrops from '../Utility/parseCrops';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import TextArea from '../../../components/Form/TextArea';
 
 class SeedingLog extends Component {
@@ -42,14 +44,14 @@ class SeedingLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, crops, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, crops, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log, crops);
     let formValue = {
       activity_kind: 'seeding',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes,
       space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm'),
       space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm'),
@@ -60,7 +62,7 @@ class SeedingLog extends Component {
   }
 
   render() {
-    const { crops, fields } = this.props;
+    const { crops, locations } = this.props;
 
     return (
       <div className="page-container">
@@ -78,7 +80,7 @@ class SeedingLog extends Component {
         >
           <DefaultLogForm
             model=".seedLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={false}
             isCropNotRequired={false}
@@ -119,7 +121,7 @@ class SeedingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     farm: userFarmSelector(state),
   };
 };

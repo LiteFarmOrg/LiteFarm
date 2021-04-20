@@ -25,8 +25,10 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import TextArea from '../../../components/Form/TextArea';
 import ReactSelect from '../../../components/Form/ReactSelect';
@@ -129,7 +131,7 @@ class PestControlLog extends Component {
 
   handleSubmit(pestControlLog) {
     const selectedCrops = parseCrops(pestControlLog);
-    const selectedFields = parseFields(pestControlLog, this.props.fields);
+    const selectedFields = parseFields(pestControlLog, this.props.locations);
 
     let pcConfig = {
       activity_kind: 'pestControl',
@@ -140,7 +142,7 @@ class PestControlLog extends Component {
         this.state.quantity_unit,
         'kg',
       ),
-      fields: selectedFields,
+      locations: selectedFields,
       crops: selectedCrops,
       target_disease_id: Number(parseInt(pestControlLog.disease_id, 10)),
       pesticide_id: Number(parseInt(pestControlLog.pesticide_id.value, 10)),
@@ -250,7 +252,7 @@ class PestControlLog extends Component {
   };
   render() {
     let crops = this.props.crops;
-    let fields = this.props.fields;
+    let locations = this.props.locations;
     let diseases;
     if (this.props.diseases) {
       diseases = this.props.diseases.filter((disease) => {
@@ -304,7 +306,7 @@ class PestControlLog extends Component {
                 isCropNotRequired={true}
                 model={'.pestControlLog'}
                 style={styles.labelContainer}
-                fields={fields}
+                locations={locations}
                 crops={crops}
               />
               <div className={styles.targetDropDown}>
@@ -612,7 +614,7 @@ class PestControlLog extends Component {
             </Popup>
           </div>
         }
-        {(!crops || !fields || !diseases || !pesticides) && (
+        {(!crops || !locations || !diseases || !pesticides) && (
           <p>{this.props.t('LOG_PESTICIDE.MISSING_DATA')}</p>
         )}
       </div>
@@ -623,7 +625,7 @@ class PestControlLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

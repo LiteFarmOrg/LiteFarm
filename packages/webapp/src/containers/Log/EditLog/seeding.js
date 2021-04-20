@@ -83,15 +83,15 @@ class SeedingLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, crops, fields, selectedLog } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, crops, locations, selectedLog } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log, crops);
     let formValue = {
       activity_id: selectedLog.activity_id,
       activity_kind: 'seeding',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes || '',
       space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm'),
       space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm'),
@@ -103,15 +103,15 @@ class SeedingLog extends Component {
   }
 
   render() {
-    const { crops, fields, selectedLog } = this.props;
+    const { crops, locations, selectedLog } = this.props;
     const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -135,7 +135,7 @@ class SeedingLog extends Component {
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
             model=".seedLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={false}
             isCropNotRequired={false}
@@ -182,7 +182,7 @@ class SeedingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     farm: userFarmSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),

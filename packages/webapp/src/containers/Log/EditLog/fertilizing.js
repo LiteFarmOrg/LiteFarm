@@ -23,8 +23,10 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 import { numberOnKeyDown } from '../../../components/Form/Input';
 import TextArea from '../../../components/Form/TextArea';
 
@@ -142,7 +144,7 @@ class FertilizingLog extends Component {
 
   handleSubmit(fertLog) {
     const selectedCrops = parseCrops(fertLog);
-    const selectedFields = parseFields(fertLog, this.props.fields);
+    const selectedFields = parseFields(fertLog, this.props.locations);
     const { selectedLog } = this.props;
 
     let fertConfig = {
@@ -157,7 +159,7 @@ class FertilizingLog extends Component {
       p_percentage: fertLog.p_percentage,
       nh4_n_ppm: fertLog.nh4_n_ppm,
       k_percentage: fertLog.k_percentage,
-      fields: selectedFields,
+      locations: selectedFields,
       crops: selectedCrops,
       fertilizer_type: fertLog.product,
     };
@@ -253,17 +255,17 @@ class FertilizingLog extends Component {
   };
 
   render() {
-    const { crops, fields, fertilizers, selectedLog } = this.props;
+    const { crops, locations, fertilizers, selectedLog } = this.props;
 
     const fertilizerOptions = this.sortFert(fertilizers);
-    const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+    const selectedFields = selectedLog.location.map((f) => ({
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -473,7 +475,7 @@ class FertilizingLog extends Component {
             </Popup>
           </div>
         }
-        {(!crops || !fields || !fertilizers) && (
+        {(!crops || !locations || !fertilizers) && (
           <p>{this.props.t('LOG_COMMON.ERROR_MISSING_CROP_FIELDS')}</p>
         )}
       </div>
@@ -484,7 +486,7 @@ class FertilizingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),

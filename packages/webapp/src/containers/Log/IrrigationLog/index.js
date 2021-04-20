@@ -38,15 +38,15 @@ class IrrigationLog extends Component {
   }
 
   handleSubmit(irrigationLog) {
-    const { dispatch, fields } = this.props;
+    const { dispatch, locations } = this.props;
     let selectedCrops = parseCrops(irrigationLog);
-    let selectedFields = parseFields(irrigationLog, fields);
+    let selectedFields = parseFields(irrigationLog, locations);
 
     let formValue = {
       activity_kind: 'irrigation',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       type: irrigationLog.type.value,
       notes: irrigationLog.notes,
       'flow_rate_l/min': convertToMetric(
@@ -61,7 +61,7 @@ class IrrigationLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
     const rateOptions = [this.state.ratePerMin, this.state.ratePerHr];
 
     const customFieldset = () => {
@@ -94,7 +94,7 @@ class IrrigationLog extends Component {
           <DefaultLogForm
             style={styles.labelContainer}
             model=".irrigationLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             isCropNotRequired={true}
             notesField={true}
@@ -112,7 +112,7 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     farm: userFarmSelector(state),
   };
 };

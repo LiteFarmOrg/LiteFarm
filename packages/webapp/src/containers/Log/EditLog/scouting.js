@@ -55,8 +55,8 @@ class ScoutingLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log);
     let selectedLog = this.props.selectedLog;
     let formValue = {
@@ -64,7 +64,7 @@ class ScoutingLog extends Component {
       activity_kind: 'scouting',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       action_needed: log.action_needed,
       type: log.type.value.toLowerCase(),
       notes: log.notes,
@@ -75,15 +75,15 @@ class ScoutingLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
     const selectedFields = this.props.selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = this.props.selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -107,7 +107,7 @@ class ScoutingLog extends Component {
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
             model=".scoutingLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
             typeField={true}
@@ -139,7 +139,7 @@ class ScoutingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   };

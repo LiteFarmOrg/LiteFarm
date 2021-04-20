@@ -195,7 +195,7 @@ class PestControlLog extends Component {
 
   handleSubmit(pestControlLog) {
     const selectedCrops = parseCrops(pestControlLog);
-    const selectedFields = parseFields(pestControlLog, this.props.fields);
+    const selectedFields = parseFields(pestControlLog, this.props.locations);
     const { selectedLog } = this.props;
 
     let pcConfig = {
@@ -208,7 +208,7 @@ class PestControlLog extends Component {
         this.state.quantity_unit,
         'kg',
       ),
-      fields: selectedFields,
+      locations: selectedFields,
       crops: selectedCrops,
       target_disease_id: Number(parseInt(pestControlLog.disease_id, 10)),
       pesticide_id: Number(parseInt(pestControlLog.pesticide_id.value, 10)),
@@ -313,7 +313,7 @@ class PestControlLog extends Component {
   };
 
   render() {
-    const { crops, fields, diseases, pesticides, selectedLog } = this.props;
+    const { crops, locations, diseases, pesticides, selectedLog } = this.props;
     const { original_disease } = this.state;
 
     const pesticideOptions =
@@ -336,13 +336,13 @@ class PestControlLog extends Component {
           : this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -369,7 +369,7 @@ class PestControlLog extends Component {
                 selectedFields={selectedFields}
                 model={'.pestControlLog'}
                 style={styles.labelContainer}
-                fields={fields}
+                locations={locations}
                 crops={crops}
                 isCropNotRequired={true}
               />
@@ -617,7 +617,7 @@ class PestControlLog extends Component {
             </Popup>
           </div>
         }
-        {(!crops || !fields || !diseases || !pesticides) && (
+        {(!crops || !locations || !diseases || !pesticides) && (
           <p>{this.props.t('LOG_PESTICIDE.MISSING_DATA')}</p>
         )}
       </div>
@@ -628,7 +628,7 @@ class PestControlLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

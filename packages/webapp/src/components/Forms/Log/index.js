@@ -4,9 +4,11 @@ import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
-import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 import TextArea from '../../Form/TextArea';
 import { Label } from '../../Typography';
@@ -142,33 +144,26 @@ class DefaultLogForm extends React.Component {
     const crops = this.props.crops;
     const fields = this.props.fields;
     const model = this.props.model;
-    let filtered = [];
-
-    for (let crop of crops) {
-      if (moment().isBefore(moment(crop.end_date))) {
-        filtered.push(crop);
-      }
-    }
 
     let displayLiveCropMessage = false;
 
     if (model === '.seedLog' || model === '.irrigationLog') {
-      if (filtered.length < 1) {
+      if (crops.length < 1) {
         displayLiveCropMessage = true;
       }
     }
 
     this.setState({
-      crops: filtered,
+      crops,
       displayLiveCropMessage,
     });
-    this.filterFieldOptions(filtered, fields, model);
+    this.filterFieldOptions(crops, fields, model);
   };
 
   filterFieldOptions = (crops, fields, model) => {
     let included = [];
     let filteredFields = [];
-
+    console.log(crops);
     if (model === '.seedLog' && model === '.irrigationLog') {
       if (fields && crops) {
         for (let c of crops) {
@@ -205,6 +200,7 @@ class DefaultLogForm extends React.Component {
       isCropNotRequired,
       isCropNotNeeded,
     } = this.props;
+
     // 'plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'
     const { fieldOptions, displayLiveCropMessage } = this.state;
     const tillageTypeLabels = {
@@ -339,7 +335,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    fields: locationsWithCurrentAndPlannedFieldCropSelector(state),
   };
 };
 

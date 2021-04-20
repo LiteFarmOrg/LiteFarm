@@ -524,6 +524,7 @@
   "LOG_COMMON": {
     "ACTION": "Ação",
     "ACTIVITY": "Atividade",
+    "ADD_A_LOG": "MISSING",
     "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
     "ADD_NEW_LOG": "Adicionar Novo registro",
     "ALL": "Todos",
@@ -553,7 +554,6 @@
     "LOG_HELP": "Ajuda com o registro",
     "LOG_HELP_EXPLANATION": "Use os filtros abaixo para pesquisar seu histórico de registro. Útil para manter registros de insumos e outras atividades agrícolas para sua equipe e certificadores.",
     "LOG_HISTORY": "Histórico de registro",
-    "NEW_LOG": "Registro Novo",
     "NITRATE": "Nitrato",
     "NOTES": "Notas",
     "OTHER": "Outro",
@@ -571,14 +571,14 @@
     "SELECT_FIELD": "Selecionar Campo",
     "SELECT_FIELD_CROP": "Selecionar Cultivo",
     "SELECT_PRODUCT": "selecione o produto",
+    "SELECT_TASK": "MISSING",
     "SELECT_TYPE": "Selecionar Tipo",
     "SHOW": "Mostrar",
     "SOIL_DATA": "Dados do Solo",
     "TO": "Para",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro, você deve adicionar cultivos aos campos. Você pode fazer isso navegando em Campos -> Seu campo -> Novo cultivo de campo",
-    "WATER": "Água",
-    "WHAT_LOG": "O que você quer registrar?"
+    "WATER": "Água"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Ação necessária",
@@ -603,9 +603,10 @@
     "TITLE": "Registro de Trabalho de Campo"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_USE_TYPE": "Adicione um uso",
+    "ADD_CUSTOM_HARVEST_USE": "MISSING",
     "CROP": "Choose a crop",
     "CROP_PLACEHOLDER": "Select a crop",
+    "CUSTOM_HARVEST_USE": "MISSING",
     "FIELD": "Choose a field",
     "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
@@ -613,7 +614,6 @@
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
-    "HARVEST_USE_TYPE_TITLE": "Registro de colheita (passo 2 de 3)",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Registro de Colheita (passo 1 de 3)",

@@ -524,6 +524,7 @@
   "LOG_COMMON": {
     "ACTION": "Action",
     "ACTIVITY": "Activity",
+    "ADD_A_LOG": "Add a log",
     "ADD_CUSTOM_PRODUCT": "Add a custom product ",
     "ADD_NEW_LOG": "Add New Log",
     "ALL": "All",
@@ -553,7 +554,6 @@
     "LOG_HELP": "Log Help",
     "LOG_HELP_EXPLANATION": "Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.",
     "LOG_HISTORY": "Log History",
-    "NEW_LOG": "New Log",
     "NITRATE": "Nitrate",
     "NOTES": "Notes",
     "OTHER": "Other",
@@ -571,14 +571,14 @@
     "SELECT_FIELD": "Select Field",
     "SELECT_FIELD_CROP": "Select Field Crop",
     "SELECT_PRODUCT": "select product",
+    "SELECT_TASK": "Select task",
     "SELECT_TYPE": "Select Type",
     "SHOW": "Show",
     "SOIL_DATA": "Soil Data",
     "TO": "To",
     "TYPE": "Type",
     "WARNING": "To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop",
-    "WATER": "Water",
-    "WHAT_LOG": "What do you want to log?"
+    "WATER": "Water"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Action Needed",
@@ -603,9 +603,10 @@
     "TITLE": "Field Work Log"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_USE_TYPE": "Add custom use",
+    "ADD_CUSTOM_HARVEST_USE": "Add custom harvest use",
     "CROP": "Choose a crop",
     "CROP_PLACEHOLDER": "Select a crop",
+    "CUSTOM_HARVEST_USE": "Custom harvest uses",
     "FIELD": "Choose a field",
     "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
@@ -613,7 +614,6 @@
     "HARVEST_QUANTITY": "Harvest Quantity",
     "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
-    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
     "QUANTITY": "Quantity",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Harvest Log (step 1)",

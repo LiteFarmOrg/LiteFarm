@@ -78,16 +78,16 @@ class IrrigationLog extends Component {
   }
 
   handleSubmit(irrigationLog) {
-    const { dispatch, fields } = this.props;
+    const { dispatch, locations } = this.props;
     let selectedCrops = parseCrops(irrigationLog);
-    let selectedFields = parseFields(irrigationLog, fields);
+    let selectedFields = parseFields(irrigationLog, locations);
     let selectedLog = this.props.selectedLog;
     let formValue = {
       activity_id: selectedLog.activity_id,
       activity_kind: 'irrigation',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       type: irrigationLog.type.value,
       notes: irrigationLog.notes,
       'flow_rate_l/min': convertToMetric(
@@ -103,16 +103,16 @@ class IrrigationLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
     const { selectedLog } = this.props;
     const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
     const rateOptions = [this.state.ratePerMin, this.state.ratePerHr];
     //const rateOptions = [this.state.ratePerMin, this.state.ratePerHr];
@@ -153,7 +153,7 @@ class IrrigationLog extends Component {
             selectedFields={selectedFields}
             style={styles.labelContainer}
             model=".irrigationLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
             isCropNotRequired={true}
@@ -177,7 +177,7 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

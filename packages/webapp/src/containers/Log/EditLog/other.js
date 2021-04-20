@@ -45,15 +45,15 @@ class OtherLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, selectedLog, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, selectedLog, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log);
     let formValue = {
       activity_id: selectedLog.activity_id,
       activity_kind: 'other',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes,
       user_id: localStorage.getItem('user_id'),
     };
@@ -61,15 +61,15 @@ class OtherLog extends Component {
   }
 
   render() {
-    const { crops, fields, selectedLog } = this.props;
+    const { crops, locations, selectedLog } = this.props;
     const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     return (
@@ -93,7 +93,7 @@ class OtherLog extends Component {
             selectedFields={selectedFields}
             parent="logReducer.forms"
             model=".otherLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
             isCropNotRequired={true}
@@ -114,7 +114,7 @@ class OtherLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   };

@@ -285,7 +285,7 @@ class LogDetail extends Component {
                 <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
                 <div className={styles.innerTaskList}>
                   {selectedLog.field.map((f) => {
-                    return <p>{f.field_name}</p>;
+                    return <p>{f.name}</p>;
                   })}
                 </div>
               </div>
@@ -596,7 +596,7 @@ class LogDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     farm: userFarmSelector(state),
     crops: currentAndPlannedFieldCropsSelector(state),
     users: userFarmSelector(state),

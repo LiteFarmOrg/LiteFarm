@@ -44,12 +44,12 @@ export function* getAllSupportedCertificationsSaga() {
     const header = getHeader(user_id, farm_id);
     const result = yield call(
       axios.get,
-      `${url}/organic_certifier_survey/supported_certifications`,
+      `${url}/organic_certifier_survey/${farm_id}/supported_certifications`,
       header,
     );
     yield put(setcertificationTypes(result.data));
   } catch (e) {
-    console.log('failed to get all certification ntypes');
+    console.log('failed to get all certification types');
   }
 }
 

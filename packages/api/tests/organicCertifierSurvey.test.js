@@ -48,10 +48,10 @@ describe('organicCertifierSurvey Tests', () => {
   //     .end(callback)
   // }
 
-  function getAllSupportedCertificationsRequest({ }, callback) {
-    chai.request(server).get(`/organic_certifier_survey/supported_certifications`)
+  function getAllSupportedCertificationsRequest({ farm_id = farm.farm_id }, callback) {
+    chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifications`)
       // .set('user_id', user_id)
-      // .set('farm_id', farm_id)
+      .set('farm_id', farm_id)
       .end(callback)
   }
 

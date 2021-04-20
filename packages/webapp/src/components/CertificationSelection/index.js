@@ -17,6 +17,8 @@ export default function PureCertificationSelection({
   setCertificationSelection,
   selectedCertificationType,
   certificationTypes,
+  setRequestedCertification,
+  requestedCertification,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -34,17 +36,27 @@ export default function PureCertificationSelection({
   });
   const SELECTION = 'selection';
   const [selectionType, setSelectionType] = useState(null);
+  const [requested, setRequested] = useState(null);
   const [disabled, setDisabled] = useState(selectedCertificationType === null);
 
   useEffect(() => {
     if (selectionType !== null) dispatch(setCertificationSelection(selectionType));
+    if (requested !== null || requested !== '') dispatch(setRequestedCertification(requested));
     setValue(SELECTION, selectedCertificationType);
-    setDisabled(selectedCertificationType === null);
-  }, [selectionType, selectedCertificationType]);
+    setDisabled(
+      selectedCertificationType === null ||
+        (selectedCertificationType === 'other' && requestedCertification === null),
+    );
+  }, [selectionType, selectedCertificationType, requested, requestedCertification]);
+
+  const submit = (data) => {
+    if (requestedCertification !== null) data.requested = requestedCertification;
+    onSubmit(data);
+  };
 
   return (
     <Form
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(submit)}
       buttonGroup={
         <>
           <Button onClick={onGoBack} color={'secondary'} fullLength>
@@ -93,7 +105,15 @@ export default function PureCertificationSelection({
         )}
       </div>
       {selectedCertificationType === 'other' && (
-        <Input label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')} />
+        <Input
+          label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
+          onChange={(e) => setRequested(e.target.value)}
+          defaultValue={
+            requestedCertification !== null || requestedCertification !== ''
+              ? requestedCertification
+              : null
+          }
+        />
       )}
     </Form>
   );

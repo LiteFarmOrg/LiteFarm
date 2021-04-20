@@ -9,7 +9,14 @@ import { convertToMetric } from '../../../util';
 import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 
-export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, unit, dispatch }) {
+export default function PureHarvestAllocation({
+  onGoBack,
+  onNext,
+  defaultData,
+  unit,
+  dispatch,
+  isEdit,
+}) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
@@ -62,7 +69,7 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
     >
       <TitleLayout
         onGoBack={onBack}
-        title={t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
+        title={isEdit?.isEdit ? t('LOG_COMMON.EDIT_A_LOG') : t('LOG_COMMON.ADD_A_LOG')}
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>

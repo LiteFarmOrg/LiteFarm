@@ -63,7 +63,7 @@ function HarvestAllocation() {
         onNext={onNext}
         defaultData={defaultData}
         unit={unit}
-        isEdit={isEditStepThree}
+        isEdit={isEdit}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

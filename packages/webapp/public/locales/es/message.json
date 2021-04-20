@@ -48,12 +48,10 @@
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "No se pudo borrar el campo",
       "EMPTY_NAME": "El nombre de campo no puede quedar vacío",
       "UPDATE_NAME": "No se pudo actualizar nombre del campo"
     },
     "SUCCESS": {
-      "DELETE": "Campo eliminado exitosamente",
       "UPDATE_NAME": "Nombre del campo cambiado exitosamente"
     }
   },
@@ -85,12 +83,12 @@
     }
   },
   "MAP": {
-    "FAIL_DELETE": "MISSING",
-    "FAIL_PATCH": "MISSING",
-    "FAIL_POST": "MISSING",
-    "SUCCESS_DELETE": "MISSING",
-    "SUCCESS_PATCH": "MISSING",
-    "SUCCESS_POST": "MISSING"
+    "FAIL_DELETE": "Fallo al retirar",
+    "FAIL_PATCH": "Fallo al actualizar",
+    "FAIL_POST": "Fallo al crear",
+    "SUCCESS_DELETE": "Retiro exitosamente",
+    "SUCCESS_PATCH": "Actualizo exitosamente",
+    "SUCCESS_POST": "Creo exitosamente"
   },
   "NEW_FIELD_CROP": {
     "ERROR": {

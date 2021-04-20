@@ -11,6 +11,38 @@
     "NO_ADDRESS": "MISSING",
     "TELL_US_ABOUT_YOUR_FARM": "MISSING"
   },
+  "CERTIFICATION": {
+    "CERTIFICATION_SELECTION": {
+      "ORGANIC": "MISSING",
+      "PGS": "MISSING",
+      "REQUEST_CERTIFICATION": "MISSING",
+      "TITLE": "MISSING",
+      "TOOLTIP": "MISSING"
+    },
+    "CERTIFIER_SELECTION": {
+      "INFO": "MISSING",
+      "NOT_FOUND": "MISSING",
+      "REQUEST_CERTIFIER": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "INPUT_PLACEHOLDER": "MISSING",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "MISSING",
+      "TITLE": "MISSING",
+      "WHY": "MISSING",
+      "WHY_ANSWER": "MISSING"
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "WARNING": "MISSING"
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "MISSING",
     "CHOOSE_TITLE": "MISSING",
@@ -647,7 +679,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",
@@ -689,12 +720,6 @@
     "NOTIFICATION_TEASER": "MISSING"
   },
   "ORGANIC": {
-    "INTERESTED_IN_ORGANIC": {
-      "PARAGRAPH": "MISSING",
-      "TITLE": "MISSING",
-      "WHY": "MISSING",
-      "WHY_ANSWER": "MISSING"
-    },
     "PARTNERS": {
       "CERTIFIER_NAME_ERROR": "MISSING",
       "CERTIFIER_NAME_INFO": "MISSING",
@@ -702,8 +727,7 @@
       "SELECT_CERTIFIER": "MISSING",
       "THROUGH_APP": "MISSING",
       "WILL_INDICATE": "MISSING"
-    },
-    "WARNING": "MISSING"
+    }
   },
   "OUTRO": "MISSING",
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -961,7 +985,6 @@
     "WRONG_BROWSER_BOTTOM": "MISSING"
   },
   "SLIDE_MENU": {
-    "FIELDS": "MISSING",
     "FINANCES": "MISSING",
     "INSIGHTS": "MISSING",
     "LOGS": "MISSING",

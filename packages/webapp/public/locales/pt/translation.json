@@ -11,6 +11,38 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
+  "CERTIFICATION": {
+    "CERTIFICATION_SELECTION": {
+      "ORGANIC": "MISSING",
+      "PGS": "MISSING",
+      "REQUEST_CERTIFICATION": "MISSING",
+      "TITLE": "MISSING",
+      "TOOLTIP": "MISSING"
+    },
+    "CERTIFIER_SELECTION": {
+      "INFO": "MISSING",
+      "NOT_FOUND": "MISSING",
+      "REQUEST_CERTIFIER": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "INPUT_PLACEHOLDER": "MISSING",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "Você planeja buscar ou renovar a certificação orgânica e/o agroecolôgica nesta temporada?",
+      "TITLE": "MISSING",
+      "WHY": "Porque estamos perguntando isto?",
+      "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
     "CHOOSE_TITLE": "Escolha seu sítio/fazenda",
@@ -647,7 +679,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -689,21 +720,14 @@
     "NOTIFICATION_TEASER": "Em breve!"
   },
   "ORGANIC": {
-    "INTERESTED_IN_ORGANIC": {
-      "PARAGRAPH": "Você planeja buscar ou renovar a certificação orgânica e/o agroecolôgica nesta temporada?",
-      "TITLE": "Interessado em orgânicos ou agroecologia?",
-      "WHY": "Porque estamos perguntando isto?",
-      "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
-    },
     "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "Certificate name is required",
-      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
-      "CERTIFIER_NAME_LABEL": "Certifier’s name",
-      "SELECT_CERTIFIER": "Selecione o seu certificador",
-      "THROUGH_APP": "em todo o aplicativo!",
-      "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"
-    },
-    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
+      "SELECT_CERTIFIER": "MISSING",
+      "THROUGH_APP": "MISSING",
+      "WILL_INDICATE": "MISSING"
+    }
   },
   "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -961,7 +985,6 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
-    "FIELDS": "Campos",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

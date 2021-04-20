@@ -17,6 +17,23 @@ Underlined.propTypes = {
   style: PropTypes.object,
 };
 
+export const AddLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+  return (
+    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
+      +{' '}
+      <span className={clsx(styles.underlined)} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+AddLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
 export const Title = ({ children = 'Title', className = '', style, ...props }) => {
   return (
     <h3 className={clsx(styles.title, className)} style={style} {...props}>

@@ -23,9 +23,9 @@ import {
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
-import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -166,8 +166,8 @@ class soilDataLog extends Component {
     const log = logForm.soilDataLog;
     let cec_unit = this.state.cec_denominator;
 
-    const { dispatch, crops, fields, selectedLog } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, crops, locations, selectedLog } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log, crops);
 
     const bulkDensity = convertToMetric(
@@ -185,7 +185,7 @@ class soilDataLog extends Component {
       activity_kind: 'soilData',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes || '',
       depth_cm: convertToMetric(log.depth_cm.value, this.state.depth_unit, 'cm').toString() || '',
       texture: log.texture.value,
@@ -215,15 +215,15 @@ class soilDataLog extends Component {
   }
 
   render() {
-    const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({
-      value: f.field_id,
-      label: f.field_name,
+    const { crops, locations, selectedLog } = this.props;
+    const selectedFields = selectedLog.location.map((f) => ({
+      value: f.location_id,
+      label: f.name,
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
-      field_id: fc.field_id,
+      location_id: fc.location_id,
     }));
 
     const customFieldset = () => {
@@ -282,7 +282,7 @@ class soilDataLog extends Component {
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
             model=".soilDataLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             isCropNotNeeded={true}
             notesField={true}
@@ -344,7 +344,7 @@ class soilDataLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

@@ -16,8 +16,8 @@ import { addLog } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -74,8 +74,8 @@ class soilDataLog extends Component {
     const log = logForm.soilDataLog;
     let cec_unit = this.state.cec_denominator;
 
-    const { dispatch, crops, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, crops, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log, crops);
 
     const bulkDensity = convertToMetric(
@@ -92,7 +92,7 @@ class soilDataLog extends Component {
       activity_kind: 'soilData',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes || '',
       depth_cm: convertToMetric(log.depth_cm.value, this.state.depth_unit, 'cm').toString() || '',
       texture: log.texture.value,
@@ -122,7 +122,7 @@ class soilDataLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
 
     const customFieldset = () => {
       return (
@@ -192,7 +192,7 @@ class soilDataLog extends Component {
         >
           <DefaultLogForm
             model=".soilDataLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
             customFieldset={customFieldset}
@@ -248,7 +248,7 @@ class soilDataLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
   };
 };

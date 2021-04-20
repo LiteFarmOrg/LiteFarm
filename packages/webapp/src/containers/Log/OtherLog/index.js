@@ -12,8 +12,8 @@ import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 
 class OtherLog extends Component {
   constructor(props) {
@@ -33,14 +33,14 @@ class OtherLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log);
     let formValue = {
       activity_kind: 'other',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       notes: log.notes,
     };
     dispatch(addLog(formValue));
@@ -48,7 +48,7 @@ class OtherLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
 
     return (
       <div className="page-container">
@@ -66,7 +66,7 @@ class OtherLog extends Component {
           <DefaultLogForm
             isCropNotRequired={true}
             model=".otherLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             notesField={true}
           />
@@ -80,7 +80,7 @@ class OtherLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
   };
 };
 

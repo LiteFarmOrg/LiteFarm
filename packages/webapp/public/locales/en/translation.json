@@ -19,11 +19,27 @@
       "TITLE": "What type of certification?",
       "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app."
     },
+    "CERTIFIER_SELECTION": {
+      "INFO": "That probably means LiteFarm doesn't currently work with your certifier - sorry! LiteFarm does produce generic forms that are helpful in most cases though.",
+      "NOT_FOUND": "Don’t see your certifier?",
+      "REQUEST_CERTIFIER": "Request a certifier",
+      "TITLE": "Who is your certifier?"
+    },
+    "INPUT_PLACEHOLDER": "Type to search",
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
       "WHY": "Why are we asking this?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "Requested Certifier",
+      "TITLE": "Request a certifier"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
+      "INFORMATION": "We'll indicate this information throughout the app with a",
+      "TITLE": "You are interested in applying for:"
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },

@@ -553,6 +553,7 @@
     "DATE": "Fecha",
     "DEFAULT_PRODUCT": "Producto defectuoso",
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
+    "EDIT_A_LOG": "MISSING",
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
     "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
@@ -619,6 +620,7 @@
     "TITLE": "Registro de trabajo de campo"
   },
   "LOG_HARVEST": {
+    "ADD_A_HARVEST_USE": "MISSING",
     "ADD_CUSTOM_HARVEST_USE": "MISSING",
     "CROP": "Selecciona un cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
@@ -626,13 +628,11 @@
     "FIELD": "Selecciona un campo",
     "FIELD_PLACEHOLDER": "Selecciona campo",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
-    "HARVEST_ALLOCATION_TITLE": "Registro de cosecha (paso 3)",
     "HARVEST_QUANTITY": "Cantidad de cosecha",
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
     "QUANTITY": "Cantidad",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
-    "TITLE": "Registro de cosecha (paso 1)",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {

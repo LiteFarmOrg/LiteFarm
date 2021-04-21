@@ -37,7 +37,6 @@ describe('Yield Tests', () => {
 	});
 
 
-	// FUNCTIONS
 
 	function postYieldRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
 		chai

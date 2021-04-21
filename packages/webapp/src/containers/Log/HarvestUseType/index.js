@@ -1,6 +1,7 @@
 import React from 'react';
 import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
 import {
+  canEditSelector,
   canEditStepTwo,
   canEditStepTwoSelector,
   harvestLogData,
@@ -21,7 +22,7 @@ function HarvestUseType() {
   const farm = useSelector(userFarmSelector);
   const isEditStepTwo = useSelector(canEditStepTwoSelector);
   const selectedLog = useSelector(currentLogSelector);
-
+  const isEdit = useSelector(canEditSelector);
   const onBack = (data) => {
     dispatch(canEditStepTwo(false));
     const tempProps = JSON.parse(JSON.stringify(data));
@@ -102,7 +103,7 @@ function HarvestUseType() {
         defaultData={defaultData}
         farm={farm}
         showUseTypeRequiredError={showUseTypeRequiredError}
-        isEdit={isEditStepTwo}
+        isEdit={isEdit}
         selectedLog={selectedLog}
         history={history}
       />

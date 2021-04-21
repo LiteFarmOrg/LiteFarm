@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PureHarvestLog from '../../../components/Logs/HarvestLog';
 import {
+  canEditSelector,
   canEditStepOne,
   canEditStepOneSelector,
   harvestFormData,
@@ -29,7 +30,7 @@ function HarvestLog() {
   const selectedLog = useSelector(currentLogSelector);
   const locations = useSelector(locationsWithCurrentAndPlannedFieldCropSelector);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
-
+  const isEdit = useSelector(canEditSelector);
   useEffect(() => {
     dispatch(getFieldCrops());
     dispatch(getHarvestUseTypes());
@@ -77,7 +78,7 @@ function HarvestLog() {
         crops={crops}
         unit={unit}
         defaultData={defaultData}
-        isEdit={isEditStepOne}
+        isEdit={isEdit}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

@@ -37,8 +37,6 @@ describe('Price Tests', () => {
 	});
 
 
-	// FUNCTIONS
-
 	function postPriceRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
 		chai
 			.request(server)

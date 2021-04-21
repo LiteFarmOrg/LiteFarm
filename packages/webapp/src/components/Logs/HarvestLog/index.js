@@ -193,9 +193,7 @@ export default function PureHarvestLog({
   const handleFieldChange = (location) => {
     defaultData.resetCrop = true;
     setLocation(location);
-    console.log(location);
     let data = cropOptions.filter((cropOption) => {
-      console.log(cropOption);
       return cropOption.location_id === location.value;
     });
     setFilteredCropOptions(data);
@@ -221,7 +219,7 @@ export default function PureHarvestLog({
     >
       <TitleLayout
         onGoBack={onGoBack}
-        title={t('LOG_HARVEST.TITLE')}
+        title={isEdit?.isEdit ? t('LOG_COMMON.EDIT_A_LOG') : t('LOG_COMMON.ADD_A_LOG')}
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>

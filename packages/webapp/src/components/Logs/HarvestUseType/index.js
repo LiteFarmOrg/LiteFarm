@@ -50,27 +50,36 @@ export default function PureHarvestUseType({
   const onCustomHarvestUseTypeClick = () => {
     setCustomHarvestUsePage(true);
   };
-
+  const title = useMemo(() => {
+    if (isCustomHarvestUsePage) {
+      return t('LOG_HARVEST.CUSTOM_HARVEST_USE')
+        .split(' ')
+        .map((word) => {
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(' ');
+    } else if (isEdit?.isEdit) {
+      return t('LOG_COMMON.EDIT_A_LOG');
+    } else {
+      return t('LOG_COMMON.ADD_A_LOG');
+    }
+  }, [isEdit, isCustomHarvestUsePage]);
   return (
     <TitleLayout
       onGoBack={() =>
         isCustomHarvestUsePage ? setCustomHarvestUsePage(false) : history.push('/harvest_log')
       }
-      title={
-        isCustomHarvestUsePage
-          ? t('LOG_HARVEST.CUSTOM_HARVEST_USE')
-              .split(' ')
-              .map((word) => {
-                return word[0].toUpperCase() + word.substring(1);
-              })
-              .join(' ')
-          : t('LOG_COMMON.ADD_A_LOG')
-      }
+      title={title}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         !isCustomHarvestUsePage && (
           <>
-            <Button color={'success'} fullLength onClick={onCustomHarvestUseTypeClick}>
+            <Button
+              color={'success'}
+              fullLength
+              onClick={onCustomHarvestUseTypeClick}
+              style={{ marginTop: '24px' }}
+            >
               <>
                 <Apple style={{ marginRight: '8px', transform: 'translateY(-3px)' }} />{' '}
                 {t('LOG_HARVEST.CUSTOM_HARVEST_USE')}

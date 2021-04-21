@@ -21,7 +21,6 @@ import { chooseFarmFlowSelector, endSpotLight } from '../ChooseFarm/chooseFarmFl
 import PureNavBar from '../../components/Navigation/NavBar';
 import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
-import { setDefaultDateRange } from '../Log/actions';
 
 const NavBar = (props) => {
   const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin } = props;
@@ -39,7 +38,6 @@ const NavBar = (props) => {
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
-        setDefaultDateRange={() => dispatch(setDefaultDateRange())}
         showFinances={isAdmin}
       />
     </Suspense>

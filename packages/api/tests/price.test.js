@@ -36,11 +36,7 @@ describe('Price Tests', () => {
 		token = global.token;
 	});
 
-	afterAll((done) => {
-		server.close(() =>{
-			done();
-		});
-	})
+
 	// FUNCTIONS
 
 	function postPriceRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {

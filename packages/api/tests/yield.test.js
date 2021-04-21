@@ -36,11 +36,6 @@ describe('Yield Tests', () => {
 		token = global.token;
 	});
 
-	afterAll((done) => {
-		server.close(() =>{
-			done();
-		});
-	})
 
 	// FUNCTIONS
 

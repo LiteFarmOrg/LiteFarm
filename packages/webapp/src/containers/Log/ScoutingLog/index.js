@@ -13,8 +13,10 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  locationsWithCurrentAndPlannedFieldCropSelector,
+} from '../../fieldCropSlice';
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -34,14 +36,14 @@ class ScoutingLog extends Component {
   }
 
   handleSubmit(log) {
-    const { dispatch, fields } = this.props;
-    let selectedFields = parseFields(log, fields);
+    const { dispatch, locations } = this.props;
+    let selectedFields = parseFields(log, locations);
     let selectedCrops = parseCrops(log);
     let formValue = {
       activity_kind: 'scouting',
       date: this.state.date,
       crops: selectedCrops,
-      fields: selectedFields,
+      locations: selectedFields,
       action_needed: log.action_needed,
       type: log.type.value.toLowerCase(),
       notes: log.notes || '',
@@ -51,7 +53,7 @@ class ScoutingLog extends Component {
 
   render() {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
 
     return (
       <div className="page-container">
@@ -68,7 +70,7 @@ class ScoutingLog extends Component {
         >
           <DefaultLogForm
             model=".scoutingLog"
-            fields={fields}
+            locations={locations}
             crops={crops}
             isCropNotRequired={true}
             notesField={true}
@@ -94,7 +96,7 @@ class ScoutingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
   };
 };
 

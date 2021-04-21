@@ -150,7 +150,7 @@ class Log extends Component {
   }
 
   render() {
-    let { crops, fields, logs } = this.props;
+    let { crops, locations, logs } = this.props;
 
     // data needed to populate dropdowns and tables
     let cropOptions = (crops &&
@@ -158,8 +158,8 @@ class Log extends Component {
         return { label: this.props.t(`crop:${c.crop_translation_key}`), value: c.crop_id };
       })) || [{ value: '', label: '' }];
     cropOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_CROPS') });
-    let fieldOptions = (fields &&
-      fields.map((f) => {
+    let fieldOptions = (locations &&
+      locations.map((f) => {
         return { label: f.name, value: f.location_id };
       })) || [{ value: '', label: '' }];
     fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_FIELDS') });
@@ -378,7 +378,7 @@ class Log extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    locations: fieldsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
     dates: startEndDateSelector(state),

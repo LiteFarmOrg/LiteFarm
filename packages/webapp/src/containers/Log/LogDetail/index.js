@@ -14,11 +14,11 @@ import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
+import { cropLocationsSelector } from '../../locationSlice';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -284,8 +284,8 @@ class LogDetail extends Component {
               <div className={styles.innerInfo}>
                 <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
                 <div className={styles.innerTaskList}>
-                  {selectedLog.field.map((f) => {
-                    return <p>{f.field_name}</p>;
+                  {selectedLog.location.map((f) => {
+                    return <p>{f.name}</p>;
                   })}
                 </div>
               </div>
@@ -596,7 +596,7 @@ class LogDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     crops: currentAndPlannedFieldCropsSelector(state),
     users: userFarmSelector(state),

@@ -67,7 +67,7 @@ export function* addLog(payload) {
     user_id: user_id,
     quantity_kg: fertConfig.quantity_kg,
     crops: fertConfig.crops,
-    fields: fertConfig.fields,
+    locations: fertConfig.locations,
     fertilizer_id: parseInt(fertConfig.fertilizer_id, 10),
     notes: fertConfig.notes,
   };
@@ -97,7 +97,7 @@ export function* editLog(payload) {
     user_id: user_id,
     quantity_kg: fertConfig.quantity_kg,
     crops: fertConfig.crops,
-    fields: fertConfig.fields,
+    locations: fertConfig.locations,
     fertilizer_id: parseInt(fertConfig.fertilizer_id, 10),
     notes: fertConfig.notes,
   };

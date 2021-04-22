@@ -17,7 +17,9 @@ export default function SetCertificationSummary() {
 
   const onSubmit = () => {
     dispatch(patchStepFour());
-    history.push('/outro');
+    setTimeout(() => {
+      history.push('/outro');
+    }, 100);
   };
 
   const onGoBack = () => {

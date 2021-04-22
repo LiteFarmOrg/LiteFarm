@@ -68,7 +68,8 @@ function OnboardingFlow({
   const loadSummary = useSelector(loadSummarySelector);
   const requestedCertifier = useSelector(isRequestingCertifierSelector);
   const hasUserFarms = useSelector(userFarmLengthSelector);
-
+  console.log(selected);
+  console.log(step_four);
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
@@ -96,7 +97,7 @@ function OnboardingFlow({
             {step_four && <Route path="/outro" exact component={Outro} />}
           </>
         )}
-        {step_four && <Route path="/outro" exact component={Outro} />}
+        {!selected && step_four && <Route path="/outro" exact component={Outro} />}
         <Route>
           <>
             {step_four && !has_consent && <Redirect to={'/consent'} />}

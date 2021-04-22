@@ -148,8 +148,8 @@ export function* getAllShiftSaga() {
                 task_id: shift.task_id,
                 duration: shift.duration,
                 field_crop_id: shift.field_crop_id,
-                field_id: shift.field_id,
-                is_field: shift.is_field,
+                location_id: shift.location_id,
+                is_location: shift.is_location,
                 shift_id: shift.shift_id,
               },
             ],
@@ -159,8 +159,8 @@ export function* getAllShiftSaga() {
             task_id: shift.task_id,
             duration: shift.duration,
             field_crop_id: shift.field_crop_id,
-            field_id: shift.field_id,
-            is_field: shift.is_field,
+            location_id: shift.location_id,
+            is_location: shift.is_location,
             shift_id: shift.shift_id,
           });
         }

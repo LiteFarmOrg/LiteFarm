@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
-import { stepOneSelector } from '../../shiftSlice';
+import { resetStepOne, stepOneSelector } from '../../shiftSlice';
 import PureStepTwo from '../../../components/Shift/StepTwo';
 import { toastr } from 'react-redux-toastr';
 import history from '../../../history';
@@ -38,6 +38,11 @@ function StepTwo() {
     setFinalForm(mutateFinalForm);
     isCurrentUserInShift();
   }, []);
+
+  const onCancel = () => {
+    dispatch(resetStepOne());
+    history.push('/shift');
+  }
 
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };
@@ -178,6 +183,7 @@ function StepTwo() {
       finalForm={finalForm}
       setFinalForm={setFinalForm}
       crops={crops}
+      onCancel={onCancel}
       locations={locations}
       selectedTasks={selectedTasks}
       onNext={finishShift}

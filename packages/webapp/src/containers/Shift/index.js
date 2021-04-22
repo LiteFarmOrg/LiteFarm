@@ -45,11 +45,6 @@ import { colors } from '../../assets/theme';
 class Shift extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      startDate: moment().startOf('year'),
-      endDate: moment().endOf('year'),
-      nameFilter: 'all',
-    };
     this.filterShifts = this.filterShifts.bind(this);
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
@@ -76,13 +71,15 @@ class Shift extends Component {
 
   filterShifts() {
     const shifts = this.props.shifts || [];
-    const { startDate, endDate, shiftType } = this.props;
+    const { startDate, endDate } = this.props.dates;
+    const { shiftType } = this.props;
     const nameFilter = shiftType?.value ?? 'all';
+    console.log(startDate);
     return shifts
       ?.filter(
         (shift) =>
-          startDate.isSameOrBefore(shift.shift_date, 'day') &&
-          endDate.isSameOrAfter(shift.shift_date, 'day') &&
+          moment(startDate).isSameOrBefore(shift.shift_date, 'day') &&
+          moment(endDate).isSameOrAfter(shift.shift_date, 'day') &&
           this.checkFilter(shift, 'user_id', nameFilter),
       )
       .map((shift) => ({
@@ -157,7 +154,6 @@ class Shift extends Component {
     let { startDate, endDate } = this.props.dates;
     startDate = moment(startDate);
     endDate = moment(endDate);
-
     return (
       <div className={styles.logContainer}>
         <Title>{this.props.t('SHIFT.TITLE')}</Title>

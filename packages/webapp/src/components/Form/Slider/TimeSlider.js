@@ -8,7 +8,7 @@ import styles from '../../Typography/typography.module.scss';
 import clsx from 'clsx';
 
 
-const CustomSlider= withStyles({
+const CustomSlider = withStyles({
   root: {
     color: '--teal900',
     height: 2,
@@ -16,51 +16,60 @@ const CustomSlider= withStyles({
   }
 })(Slider)
 
-const TimeSlider = ({ classes = {}, style, label, setValue,...props }) => {
-  const [time, setTime] = useState(0);
-  const [duration, setDuration] = useState({ hours: 0, minutes: 0 });
+const TimeSlider = ({
+      classes = {},
+      initialTime = 15,
+      step = 15,
+      minimum = 15,
+      max = 720,
+      style,
+      label,
+      setValue,
+      ...props
+}) => {
+  const [ time, setTime ] = useState(initialTime);
+  const [ duration, setDuration ] = useState({ hours: 0, minutes: 0 });
   useEffect(() => {
-    const {getDurationString, ...data} =  getDuration(time)
+    const { getDurationString, ...data } = getDuration(time)
     setDuration(data);
     setValue(time);
-  }, [time])
+  }, [ time ])
   const getTimeTag = (time, unit) => (
-    <><span className={clsx(styles.semibold, sliderStyles.time)} >{time}</span><span className={clsx(sliderStyles.unit)}>{unit} </span> </>
+    <><span className={clsx(styles.semibold, sliderStyles.time)}>{time}</span><span
+      className={clsx(sliderStyles.unit)}>{unit} </span> </>
   )
 
 
   return (
     <>
-    <Label>{label ? label: ''}</Label>
-    <div className={sliderStyles.rectangle} style={style}>
-      <div className={sliderStyles.durationText}>
-        { !duration.hours && !duration.minutes  &&<Semibold className={clsx(sliderStyles.noTime)}>0m</Semibold>}
-        <>
-          {
-            !!duration.hours && getTimeTag(duration.hours, duration.hours > 1 ? 'hrs': 'hr')
-          }
-          {
-            !!duration.minutes && getTimeTag(duration.minutes, 'mins')
-          }
-        </>
+      <Label>{label ? label : ''}</Label>
+      <div className={sliderStyles.rectangle} style={style}>
+        <div className={sliderStyles.durationText}>
+          {!duration.hours && !duration.minutes && <Semibold className={clsx(sliderStyles.noTime)}>0m</Semibold>}
+          <>
+            {
+              !!duration.hours && getTimeTag(duration.hours, duration.hours > 1 ? 'hrs' : 'hr')
+            }
+            {
+              !!duration.minutes && getTimeTag(duration.minutes, 'mins')
+            }
+          </>
+        </div>
+        <div>
+          <CustomSlider
+            value={time}
+            step={step}
+            min={minimum}
+            onChange={(_, value) => setTime(value)}
+            max={max}
+            {...props}
+          />
+        </div>
       </div>
-      <div>
-        <CustomSlider
-          defaultValue={time}
-          step={15}
-          min={15}
-          onChange={(_, value) => setTime(value)}
-          max={720}
-          {...props}
-        />
-      </div>
-    </div>
     </>
   );
 };
 
-TimeSlider.propTypes = {
-
-};
+TimeSlider.propTypes = {};
 
 export default TimeSlider;

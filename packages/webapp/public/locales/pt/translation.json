@@ -957,7 +957,7 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
       "DURATION": "Duração",
-      "FIELD_CROPS": "Campos / Culturas",
+      "LOCATION_CROPS": "Locations/Crops",
       "SUBMITTED_FOR": "Insira para",
       "TASK": "Tarefa",
       "TITLE": "Detalhes do turno"

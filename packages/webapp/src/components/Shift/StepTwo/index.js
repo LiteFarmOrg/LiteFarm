@@ -13,12 +13,12 @@ import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
-import { integerOnKeyDown } from '../../Form/Input';
 import TimeSlider from "../../Form/Slider/TimeSlider";
 
 function PureStepTwo({
                        onGoBack,
                        onNext,
+                       onCancel,
                        isCurrentShiftUser,
                        finalForm,
                        setFinalForm,
@@ -62,6 +62,7 @@ function PureStepTwo({
 
   useEffect(() => {
     const keys = Object.keys(finalForm);
+    console.log(keys, finalForm)
     const cropsHaveValidDurations = keys.reduce((cond, k) => {
       if (finalForm[k].is_location) {
         return cond;
@@ -145,7 +146,7 @@ function PureStepTwo({
   };
 
   const handleFieldChange = (selectedOption, task_id) => {
-    let mutatingFinalForm = { ...finalForm };
+    let mutatingFinalForm = JSON.parse(JSON.stringify(finalForm));
     mutatingFinalForm[task_id].is_location = true;
     mutatingFinalForm[task_id].val = [];
     if (selectedOption) {
@@ -219,16 +220,16 @@ function PureStepTwo({
       let fieldDiv = document.getElementById('field' + task_id);
       fieldDiv.style.display = 'none';
     }
-    let mutatingFinalForm = { ...finalForm };
+    let mutatingFinalForm = JSON.parse(JSON.stringify(finalForm));
 
-    const mutatingCropDurations = { ...cropDurations };
+    const mutatingCropDurations = JSON.parse(JSON.stringify(cropDurations));
     if (mutatingFinalForm && mutatingFinalForm[task_id]) {
       mutatingFinalForm[task_id] = {};
     }
     if (mutatingCropDurations && mutatingCropDurations[task_id]) {
       mutatingCropDurations[task_id] = [];
     }
-    const mutatedDefaultCrops = { ...defaultCrops };
+    const mutatedDefaultCrops = JSON.parse(JSON.stringify(defaultCrops));
     mutatedDefaultCrops[task_id] = [];
     setDefaultCrops(mutatedDefaultCrops);
     setCropDurations(mutatingCropDurations);
@@ -268,12 +269,10 @@ function PureStepTwo({
   return (
     <TitleLayout
       onGoBack={onGoBack}
+      onCancel={onCancel}
       title={t('SHIFT.NEW_SHIFT.STEP_TWO')}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button type={'submit'} fullLength disabled={!nextEnabled} onClick={finishOrIndicateMood}>
             {isCurrentShiftUser || isEO ? t('common:NEXT') : t('common:FINISH')}
           </Button>
@@ -332,7 +331,7 @@ function InputDuration({
   const [ innerCropDurations, setCropDurations ] = useState({
     [task.task_id]: { hours: '', minutes: '' },
   });
-  const [allCropsEnabled, setAllCropsEnabled] = useState(true);
+  const [ allCropsEnabled, setAllCropsEnabled ] = useState(true);
   const { t } = useTranslation([ 'translation', 'crop', 'common', 'task' ]);
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
@@ -386,14 +385,14 @@ function InputDuration({
         >
           <div className={styles.cropButton}>
             <img src={cropImg} alt=""/>
-            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}</div>
+            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.CROPS')}</div>
           </div>
           <div
             className={styles.fieldButton}
             onClick={() => toggleCropOrField(task.task_id, 'field')}
           >
             <img src={fieldImg} alt=""/>
-            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}</div>
+            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.LOCATIONS')}</div>
           </div>
         </div>
       </div>
@@ -462,7 +461,7 @@ function InputDuration({
             </div>
             {
               !allCropsEnabled && (
-                <div className={styles.cropDurationContainer} >
+                <div className={styles.cropDurationContainer}>
                   {
                     cropDurations[task.task_id]?.map((cd) => {
                       return (
@@ -486,7 +485,7 @@ function InputDuration({
             }
             {
               allCropsEnabled && (
-                <div >
+                <div>
                   <div className={styles.durationContainer}>
                     <div className={styles.durationInput}>
                       <TimeSlider label={t('SHIFT.TIME_TOTAL')} setValue={(durationInMinutes) => {
@@ -523,9 +522,7 @@ function InputDuration({
         </div>
         <Label>{t('SHIFT.EDIT_SHIFT.LOCATIONS_LABEL')}</Label>
         <div className={styles.selectInner}>
-          {defaultFields[task.task_id] && (
             <Select
-              defaultValue={defaultFields[task.task_id]}
               isMulti
               isSearchable={false}
               name="selectByFields"
@@ -535,29 +532,20 @@ function InputDuration({
               classNamePrefix="select"
               value={selectedFields}
               onChange={(selectedOption) => {
-                setSelectedFields(selectedOption);
-                handleFieldChange(selectedOption, task.task_id);
+                setSelectedFields(selectedOption)
+                handleFieldChange(selectedOption, task.task_id)
               }}
             />
-          )}
-          {!defaultFields[task.task_id] && (
-            <Select
-              isMulti
-              isSearchable={false}
-              name="selectByFields"
-              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
-              options={state.fieldOptions}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={(selectedOption) => handleFieldChange(selectedOption, task.task_id)}
-            />
-          )}
         </div>
-        <div className={styles.durationContainer}>
-          <div className={styles.durationInput}>
-            <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration}/>
-          </div>
-        </div>
+        {
+          selectedFields?.length ?  (
+            <div className={styles.durationContainer}>
+              <div className={styles.durationInput}>
+                <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration}/>
+              </div>
+            </div>
+          ) : null
+        }
       </div>
     </div>
   );

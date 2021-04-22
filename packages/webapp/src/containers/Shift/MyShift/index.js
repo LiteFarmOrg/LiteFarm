@@ -13,6 +13,7 @@ import { fieldsSelector } from '../../fieldSlice';
 import { getDuration } from './../../../util/index';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
+import { cropLocationEntitiesSelector } from "../../locationSlice";
 
 class MyShift extends Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class MyShift extends Component {
       tasks: {},
       showModal: false, // for confirming deleting a shift
     };
-    this.getFieldName = this.getFieldName.bind(this);
+    this.getLocationName = this.getLocationName.bind(this);
     this.getTaskName = this.getTaskName.bind(this);
     this.getCropName = this.getCropName.bind(this);
     this.editShift = this.editShift.bind(this);
@@ -36,7 +37,7 @@ class MyShift extends Component {
     let newTasks = {};
     // let fieldTasks = {}s;
     let addedCrops = [],
-      addedFields = [];
+      addedLocations = [];
     for (let task of tasks) {
       let newTask = {
         taskName: '',
@@ -45,23 +46,23 @@ class MyShift extends Component {
       };
       let duration = task.duration;
       if (task.is_location) {
-        let name = this.getFieldName(task.field_id);
+        let name = this.getLocationName(task.location_id);
         if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({ name: name, is_location: true });
           newTask.duration += duration;
 
           newTasks[task.task_id] = newTask;
-          addedFields.push(name);
+          addedLocations.push(name);
         } else {
           newTasks[task.task_id].duration += duration;
 
-          if (!addedFields.includes(name)) {
+          if (!addedLocations.includes(name)) {
             newTasks[task.task_id].aoiNames.push({
               name: name,
               is_location: true,
             });
-            addedFields.push(name);
+            addedLocations.push(name);
           }
         }
       } else {
@@ -97,10 +98,11 @@ class MyShift extends Component {
     });
   }
 
-  getFieldName(field_id) {
-    for (let field of this.props.fields) {
-      if (field.field_id === field_id) {
-        return field.name;
+  getLocationName(location_id) {
+    const locations = Object.keys(this.props.locations).map(k => this.props.locations[k]);
+    for (let location of locations) {
+      if (location.location_id === location_id) {
+        return location.name;
       }
     }
     return 'no name';
@@ -173,7 +175,7 @@ class MyShift extends Component {
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
             <strong>{this.props.t('SHIFT.MY_SHIFT.TASK')}</strong>
-            <strong>{this.props.t('SHIFT.MY_SHIFT.FIELD_CROPS')}</strong>
+            <strong>{this.props.t('SHIFT.MY_SHIFT.LOCATION_CROPS')}</strong>
             <strong>{this.props.t('SHIFT.MY_SHIFT.DURATION')}</strong>
           </div>
           {taskArr.map((task) => {
@@ -210,16 +212,19 @@ class MyShift extends Component {
             );
           })}
         </div>
-        <ConfirmModal
-          open={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
-          onConfirm={() => {
-            let shiftId = this.props.selectedShift.shift_id;
-            this.props.dispatch(deleteShift(shiftId));
-            this.setState({ showModal: false });
-          }}
-          message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
-        />
+        {
+          this.state &&
+          <ConfirmModal
+            open={this.state.showModal}
+            onClose={() => this.setState({ showModal: false })}
+            onConfirm={() => {
+              let shiftId = this.props.selectedShift.shift_id;
+              this.props.dispatch(deleteShift(shiftId));
+              this.setState({ showModal: false });
+            }}
+            message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
+          />
+        }
       </div>
     );
   }
@@ -228,7 +233,7 @@ class MyShift extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
-    fields: fieldsSelector(state),
+    locations: cropLocationEntitiesSelector(state),
     crops: currentAndPlannedFieldCropsSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),

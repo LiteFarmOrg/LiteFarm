@@ -938,8 +938,10 @@
       "CHOOSE_WORKERS": "Choose worker",
       "CROPS_ON_THIS_FARM": "Crops on this farm",
       "CROPS_ON_YOUR_FARM": "Crops on your farm",
+      "CROPS": "Crops",
       "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
       "FIELDS_ON_YOUR_FARM": "Fields on your farm",
+      "LOCATIONS": "Locations",
       "LOCATIONS_LABEL": "Locations",
       "CROPS_LABEL": "Crops",
       "HAPPY": "Happy",
@@ -960,7 +962,7 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
       "DURATION": "Duration",
-      "FIELD_CROPS": "Fields/Crops",
+      "LOCATION_CROPS": "Locations/Crops",
       "SUBMITTED_FOR": "Submitted For",
       "TASK": "Task",
       "TITLE": "Shift Detail"

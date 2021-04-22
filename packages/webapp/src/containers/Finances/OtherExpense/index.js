@@ -14,6 +14,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -113,7 +114,7 @@ class OtherExpense extends Component {
     let detailedHistory = [];
 
     let subTotal = 0;
-    const language = localStorage.getItem('litefarm_lang');
+    const language = getLanguageFromLocalStorage();
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {

@@ -36,7 +36,7 @@ const Button = ({
 };
 
 Button.propTypes = {
-  color: PropTypes.oneOf(['primary', 'secondary', 'none']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'success', 'none']),
   disabled: PropTypes.bool,
   fullLength: PropTypes.bool,
   children: PropTypes.node,

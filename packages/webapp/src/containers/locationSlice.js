@@ -224,3 +224,10 @@ export const cropLocationStatusSelector = createSelector(
       fieldStatus.error || gardenStatus.error || greenhouseStatus.error || bufferzoneStatus.error,
   }),
 );
+
+export const cropLocationsSelector = createSelector(
+  [fieldsSelector, gardensSelector, greenhousesSelector, bufferZonesSelector],
+  (fields, gardens, greenhouses, bufferzones) => {
+    return [...fields, ...gardens, ...greenhouses, ...bufferzones];
+  },
+);

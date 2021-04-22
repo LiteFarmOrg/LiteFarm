@@ -49,7 +49,6 @@ export function* getHarvestUseTypesSaga() {
 }
 
 export function* addCustomHarvestUseTypeSaga(action) {
-  console.log('addCustomHarvestUseTypeSaga');
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -66,6 +65,7 @@ export function* addCustomHarvestUseTypeSaga(action) {
     );
     if (result) {
       yield put(getHarvestUseTypes());
+      history.push('/harvest_use_type', { isCustomHarvestUsePage: true });
       toastr.success(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE'));
     }
   } catch (e) {

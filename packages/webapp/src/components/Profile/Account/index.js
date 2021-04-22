@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 export default function PureAccount({ userFarm, onSubmit }) {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export default function PureAccount({ userFarm, onSubmit }) {
     { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
     { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
   ];
-  const language_preference = localStorage.getItem('litefarm_lang');
+  const language_preference = getLanguageFromLocalStorage();
   const defaultLanguageOption = useMemo(() => {
     for (const option of options) {
       if (language_preference.includes(option.value)) return option;

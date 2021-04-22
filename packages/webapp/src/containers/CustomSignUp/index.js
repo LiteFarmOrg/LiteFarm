@@ -18,7 +18,7 @@ import {
   ENTER_PASSWORD_PAGE,
   inlineErrors,
 } from './constants';
-import { isChrome } from '../../util';
+import { getLanguageFromLocalStorage, isChrome } from '../../util';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -71,9 +71,9 @@ function CustomSignUp() {
   useEffect(() => {
     if (
       componentToShow === ENTER_PASSWORD_PAGE &&
-      i18n.language !== localStorage.getItem('litefarm_lang')
+      i18n.language !== getLanguageFromLocalStorage()
     ) {
-      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+      i18n.changeLanguage(getLanguageFromLocalStorage());
     }
   }, [componentToShow]);
 

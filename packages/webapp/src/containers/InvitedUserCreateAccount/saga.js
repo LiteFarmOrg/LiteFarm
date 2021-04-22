@@ -8,7 +8,7 @@ import {
 } from '../userFarmSlice';
 import history from '../../history';
 import { toastr } from 'react-redux-toastr';
-import { getFirstNameLastName } from '../../util';
+import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
 import { purgeState } from '../../index';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
@@ -30,10 +30,7 @@ export function* acceptInvitationWithSSOSaga({
         Authorization: 'Bearer ' + google_id_token,
       },
     };
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-')
-      ? selectedLanguage.split('-')[0]
-      : selectedLanguage;
+    const language_preference = getLanguageFromLocalStorage();
     const user = {
       ...userForm,
       language_preference,
@@ -49,6 +46,7 @@ export function* acceptInvitationWithSSOSaga({
     );
     const { id_token, user: resUserFarm } = result.data;
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
@@ -80,10 +78,7 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
         Authorization: 'Bearer ' + invite_token,
       },
     };
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-')
-      ? selectedLanguage.split('-')[0]
-      : selectedLanguage;
+    const language_preference = getLanguageFromLocalStorage();
 
     const user = {
       ...userForm,
@@ -94,7 +89,10 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUserFarm } = result.data;
+
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
+
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));

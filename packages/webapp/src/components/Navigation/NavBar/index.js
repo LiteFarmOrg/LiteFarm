@@ -23,6 +23,7 @@ import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -92,7 +93,6 @@ export default function PureNavBar({
   resetSpotlight,
   showSwitchFarm,
   history,
-  setDefaultDateRange,
   showFinances,
   defaultOpenFloater,
 }) {
@@ -119,7 +119,7 @@ export default function PureNavBar({
   const toggleManage = () => {
     setManageOpen(!manageOpen);
   };
-  const selectedLanguage = localStorage.getItem('litefarm_lang');
+  const selectedLanguage = getLanguageFromLocalStorage();
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
@@ -271,7 +271,6 @@ export default function PureNavBar({
             closeDrawer={closeDrawer}
             toggleManage={toggleManage}
             setIsDrawerOpen={setIsDrawerOpen}
-            setDefaultDateRange={setDefaultDateRange}
             showFinances={showFinances}
           />
         </SwipeableDrawer>

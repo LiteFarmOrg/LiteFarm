@@ -48,12 +48,10 @@
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "Falha na exclusão do campo",
       "EMPTY_NAME": "O nome do campo não pode estar vazio",
       "UPDATE_NAME": "Falha ao atualizar o nome do campo"
     },
     "SUCCESS": {
-      "DELETE": "Campo Excluído com Sucesso",
       "UPDATE_NAME": "Nome de campo alterado com sucesso"
     }
   },

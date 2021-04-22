@@ -5,7 +5,7 @@ import { weatherSelector } from './weatherSlice';
 import { getWeather } from './saga';
 import utils from './utils';
 import { useTranslation } from 'react-i18next';
-import { userFarmSelector } from '../userFarmSlice';
+import { getLanguageFromLocalStorage } from '../../util';
 
 export default function WeatherBoard() {
   const {
@@ -19,7 +19,7 @@ export default function WeatherBoard() {
     measurement,
     city,
   } = useSelector(weatherSelector);
-  const language_preference = localStorage.getItem('litefarm_lang');
+  const language_preference = getLanguageFromLocalStorage();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getWeather());

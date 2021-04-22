@@ -71,7 +71,6 @@ const userController = {
             locale: language_preference,
           };
           const sender = 'system@litefarm.org';
-          console.log('template_path:', template_path);
           if (userResult.email && template_path) {
             sendEmail(template_path, replacements, userResult.email, { sender });
           }

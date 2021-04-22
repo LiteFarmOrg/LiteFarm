@@ -14,18 +14,17 @@
  */
 
 exports.up = function(knex) {
-    return Promise.all([
-      knex.schema.alterTable('farm', (table) => {
-        table.integer('country_id').references('id').inTable('countries').nullable();
-      }),
-    ])
-  };
-  
-  exports.down = function(knex) {
-    return Promise.all([
-      knex.schema.alterTable('farm', (table) => {
-        table.dropColumn('country_id');
-      }),
-    ])
-  };
-  
+  return Promise.all([
+    knex.schema.alterTable('farm', (table) => {
+      table.integer('country_id').references('id').inTable('countries').nullable();
+    }),
+  ]);
+};
+
+exports.down = function(knex) {
+  return Promise.all([
+    knex.schema.alterTable('farm', (table) => {
+      table.dropColumn('country_id');
+    }),
+  ]);
+};

@@ -5,12 +5,12 @@ const certifiers = [
 
 exports.up = async function(knex) {
     await knex.batchInsert('certifiers', certifiers);
-  
+
 };
 
-exports.down = function(knex) {
-    return Promise.all([
-        knex.schema.dropTable('certifiers'),
-    ])
-  
+exports.down = async function(knex) {
+    for (const certifier of certifiers) {
+        await knex('certifiers').where(certifier).delete();
+    }
+
 };

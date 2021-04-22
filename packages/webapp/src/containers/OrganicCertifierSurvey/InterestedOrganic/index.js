@@ -27,15 +27,7 @@ export default function InterestedOrganic() {
 
   const [interested, setInterested] = useState(survey.interested);
 
-  useEffect(() => {
-    console.log(interested);
-    // if (survey) {
-    //   if (survey.interested !== undefined) {
-    //     console.log(interested)
-    //     setValue(INTERESTED, interested === false ? 'false' : 'true');
-    //   }
-    // }
-  }, [survey, dispatch, interested]);
+  useEffect(() => {}, [survey, dispatch, interested]);
 
   const onSubmit = (data) => {
     const interested = data.interested === 'true';

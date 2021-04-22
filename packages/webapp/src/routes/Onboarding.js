@@ -20,11 +20,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
-import {
-  selectedCertificationTypeSelector,
-  isRequestingCertifierSelector,
-  loadSummarySelector,
-} from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
+import { selectedCertificationTypeSelector } from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -34,9 +30,6 @@ const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const InterestedOrganic = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
-);
-const OrganicPartners = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/OrganicPartners'),
 );
 const CertificationSelection = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/CertificationSelection'),
@@ -65,11 +58,7 @@ function OnboardingFlow({
 }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
   const selected = useSelector(selectedCertificationTypeSelector);
-  const loadSummary = useSelector(loadSummarySelector);
-  const requestedCertifier = useSelector(isRequestingCertifierSelector);
   const hasUserFarms = useSelector(userFarmLengthSelector);
-  console.log(selected);
-  console.log(step_four);
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>

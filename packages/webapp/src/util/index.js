@@ -92,7 +92,7 @@ export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
 
 export const getDuration = (timeInMinutes) => {
   if(timeInMinutes === 0) {
-    return '0m'
+    return { durationString: '0m', minutes: 0, hours: 0 };
   }
   const hours = parseInt(timeInMinutes / 60, 10);
   const minutes = timeInMinutes - hours * 60;

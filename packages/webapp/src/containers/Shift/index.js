@@ -74,7 +74,6 @@ class Shift extends Component {
     const { startDate, endDate } = this.props.dates;
     const { shiftType } = this.props;
     const nameFilter = shiftType?.value ?? 'all';
-    console.log(startDate);
     return shifts
       ?.filter(
         (shift) =>
@@ -231,7 +230,6 @@ class Shift extends Component {
               return {
                 onClick: (e, handleOriginal) => {
                   if (rowInfo && rowInfo.original) {
-                    console.log(rowInfo.original)
                     this.props.dispatch(setSelectedShift(rowInfo.original));
                     history.push('/my_shift');
                   }

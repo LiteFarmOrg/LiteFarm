@@ -29,14 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SlideMenu({
-  history,
-  manageOpen,
-  closeDrawer,
-  toggleManage,
-  setDefaultDateRange,
-  showFinances,
-}) {
+function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinances }) {
   const { t } = useTranslation();
   const classes = useStyles();
   const handleClick = (link) => {
@@ -60,7 +53,6 @@ function SlideMenu({
               className={classes.subListItem}
               button
               onClick={() => {
-                // setDefaultDateRange();
                 handleClick('/Log');
               }}
             >

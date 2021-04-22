@@ -99,13 +99,14 @@ const loginController = {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
+        const { language_preference } = req.body;
         // TODO optimize this query
         const ssoUser = await userModel.query().findById(user_id);
         const passwordUser = await userModel.query().where({ email }).first();
         const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
-          const newUser = { user_id, email, first_name, last_name };
+          const newUser = { user_id, email, first_name, last_name, language_preference };
           await userModel.query().insert(newUser);
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
@@ -118,6 +119,7 @@ const loginController = {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
             first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
+            language_preference: ssoUser?.language_preference ?? passwordUser?.language_preference ?? language_preference,
           },
         });
       } catch (err) {

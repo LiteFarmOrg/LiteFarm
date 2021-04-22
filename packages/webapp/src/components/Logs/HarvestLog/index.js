@@ -11,12 +11,12 @@ import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
-import { convertFromMetric, roundToTwoDecimal } from '../../../util';
+import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
 
 export default function PureHarvestLog({
   onGoBack,
   onNext,
-  fields,
+  locations,
   crops,
   unit,
   defaultData,
@@ -26,31 +26,33 @@ export default function PureHarvestLog({
 }) {
   const { t } = useTranslation(['translation', 'crop', 'common']);
   let [date, setDate] = useState(moment());
-  let [field, setField] = useState(null);
+  let [location, setLocation] = useState(null);
   let [crop, setCrop] = useState(null);
   let [quantity, setQuantity] = useState(0);
   let [filteredCropOptions, setFilteredCropOptions] = useState([]);
   let [selectedCrop, setSelectedCrop] = useState({});
-
   useEffect(() => {
     setDate(setDefaultDate());
-    setField(setDefaultField());
+    setLocation(setDefaultField());
     setCrop(setDefaultCrop());
     setQuantity(setDefaultQuantity());
     setSelectedCrop(selectedCropValue);
     setFilteredCropOptions(setDefaultCropOptions);
   }, []);
 
-  let fieldOptions = fields.map(({ field_name, field_id }) => ({
-    label: field_name,
-    value: field_id,
+  let locationOptions = locations.map(({ name, location_id }) => ({
+    label: name,
+    value: location_id,
   }));
 
-  let cropOptions = crops.map(({ crop_translation_key, crop_id, field_name }) => ({
-    label: t(`crop:${crop_translation_key}`),
-    value: crop_id,
-    field_name: field_name,
-  }));
+  let cropOptions = crops.map(
+    ({ crop_translation_key, crop_id, location: { name: location_name, location_id } }) => ({
+      label: t(`crop:${crop_translation_key}`),
+      value: crop_id,
+      location_name,
+      location_id,
+    }),
+  );
 
   const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
@@ -65,7 +67,7 @@ export default function PureHarvestLog({
 
   const setDefaultField = () => {
     if (isEdit.isEditStepOne) {
-      return { label: selectedLog.field[0].field_name, value: selectedLog.field[0].field_id };
+      return { label: selectedLog.location[0].name, value: selectedLog.location[0].location_id };
     }
     return defaultData.defaultField ? defaultData.defaultField : null;
   };
@@ -93,7 +95,7 @@ export default function PureHarvestLog({
   const setDefaultCropOptions = () => {
     if (isEdit.isEditStepOne) {
       let data = cropOptions.filter((e) => {
-        return e.field_name === selectedLog.field[0].field_name;
+        return e.location_id === selectedLog.location[0].location_id;
       });
       setFilteredCropOptions(data);
     }
@@ -133,42 +135,26 @@ export default function PureHarvestLog({
   };
 
   const onSubmit = (data) => {
-    if (isTwoDecimalPlaces(data.quantity)) {
-      defaultData.validQuantity = true;
-      dispatch(harvestLogData(defaultData));
-    } else {
-      defaultData.validQuantity = false;
-      dispatch(harvestLogData(defaultData));
-    }
-    if (defaultData.validQuantity) {
-      if (isEdit.isEditStepOne) {
-        let tempProps = selectedLog.harvestUse;
-        if (unit === 'lb') {
-          tempProps.map((item) => {
-            item.quantity_kg = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg'));
-          });
-        } else if (unit === 'kg') {
-          tempProps.map((item) => {
-            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
-          });
-        }
-        defaultData.selectedUseTypes = tempProps;
-      } else {
-        let tempProps = JSON.parse(JSON.stringify(defaultData.selectedUseTypes));
-        tempProps.map((item) => {
-          if (item.quantity_kg) {
-            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
-          }
-        });
-        defaultData.selectedUseTypes = tempProps;
-      }
+    const validQuantity = !!isTwoDecimalPlaces(data.quantity);
+    dispatch(harvestLogData({ ...defaultData, validQuantity }));
+
+    if (validQuantity) {
+      const selectedUseTypes = defaultData?.selectedUseTypes?.length
+        ? defaultData?.selectedUseTypes
+        : selectedLog?.harvestUse?.map((harvestUse) => ({
+            ...harvestUse,
+            quantity_kg: roundToTwoDecimal(
+              unit === 'lb' ? getMass(harvestUse.quantity_kg) : harvestUse.quantity_kg,
+            ),
+          }));
+
       onNext({
         defaultDate: date,
-        defaultField: field,
+        defaultField: location,
         defaultCrop: selectedCrop,
         defaultQuantity: data.quantity,
         defaultNotes: data.notes,
-        selectedUseTypes: defaultData.selectedUseTypes ? defaultData.selectedUseTypes : [],
+        selectedUseTypes: selectedUseTypes ?? [],
         validQuantity: true,
         resetCrop: false,
         filteredCropOptions: filteredCropOptions,
@@ -188,11 +174,11 @@ export default function PureHarvestLog({
 
   const onError = (data) => {};
 
-  const handleFieldChange = (field) => {
+  const handleFieldChange = (location) => {
     defaultData.resetCrop = true;
-    setField(field);
-    let data = cropOptions.filter((e) => {
-      return e.field_name === field.label;
+    setLocation(location);
+    let data = cropOptions.filter((cropOption) => {
+      return cropOption.location_id === location.value;
     });
     setFilteredCropOptions(data);
     defaultData.filteredCropOptions = data;
@@ -217,14 +203,14 @@ export default function PureHarvestLog({
     >
       <TitleLayout
         onGoBack={onGoBack}
-        title={t('LOG_HARVEST.TITLE')}
+        title={isEdit?.isEdit ? t('LOG_COMMON.EDIT_A_LOG') : t('LOG_COMMON.ADD_A_LOG')}
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>
             <Button onClick={onGoBack} color={'secondary'} fullLength>
               {t('common:CANCEL')}
             </Button>
-            <Button type={'submit'} disabled={!field || !crop || !quant} fullLength>
+            <Button type={'submit'} disabled={!location || !crop || !quant} fullLength>
               {t('common:NEXT')}
             </Button>
           </>
@@ -239,13 +225,13 @@ export default function PureHarvestLog({
         <ReactSelect
           label={t('LOG_HARVEST.FIELD')}
           placeholder={t('LOG_HARVEST.FIELD_PLACEHOLDER')}
-          options={fieldOptions}
+          options={locationOptions}
           onChange={(e) => handleFieldChange(e)}
-          value={field}
+          value={location}
           style={{ marginBottom: '24px' }}
           defaultValue={defaultData.defaultField}
         />
-        {field && (
+        {location && (
           <ReactSelect
             label={t('LOG_HARVEST.CROP')}
             placeholder={t('LOG_HARVEST.CROP_PLACEHOLDER')}

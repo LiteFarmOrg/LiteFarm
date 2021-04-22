@@ -8,11 +8,12 @@ import { Button } from 'react-bootstrap';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { integerOnKeyDown } from '../../../components/Form/Input';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 class Account extends Component {
   constructor() {
     super();
-    this.state = { selectedLanguage: localStorage.getItem('litefarm_lang') };
+    this.state = { selectedLanguage: getLanguageFromLocalStorage() };
   }
 
   componentDidMount() {

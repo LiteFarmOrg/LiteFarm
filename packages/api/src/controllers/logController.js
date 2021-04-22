@@ -183,9 +183,9 @@ const logServices = {
     const logModel = getActivityModelKind(body.activity_kind);
     const user_id = user.user_id;
     const activityLog = await baseController.post(ActivityLogModelModel, body, req, { trx });
-    //insert crops,fields and beds
+    //insert crops,locations and beds
     await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
-    await baseController.relateModels(activityLog, locationModel, body.fields, trx);
+    await baseController.relateModels(activityLog, locationModel, body.locations, trx);
     if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await baseController.postRelated(activityLog, logModel, body, req, { trx });
     } else if (logModel.tableName === 'harvestLog') {
@@ -225,7 +225,7 @@ const logServices = {
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
     for (const log of logs) {
-      // get fields and fieldCrops associated with log
+      // get locations and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');
       await baseController.getRelated(log, locationModel);
 
@@ -252,11 +252,11 @@ const logServices = {
     const user_id = user.user_id;
     const activityLog = await baseController.updateIndividualById(ActivityLogModelModel, logId, body, req, { trx });
 
-    //insert fieldCrops,fields
+    //insert fieldCrops,locations
     // TODO: change body.crops to body.fieldCrops
     await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
-    // TODO: Deprecate fields field in req.body
-    await baseController.relateModels(activityLog, locationModel, body.fields, trx);
+    // TODO: Deprecate locations field in req.body
+    await baseController.relateModels(activityLog, locationModel, body.locations, trx);
 
     const logKind = getActivityModelKind(log[0].activity_kind);
     if (!logKind.isOther) {

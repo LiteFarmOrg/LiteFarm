@@ -174,9 +174,25 @@ export const fieldCropStatusSelector = createSelector(
   },
 );
 
-export const locationWithFieldCropSelector = createSelector(
-  [cropLocationEntitiesSelector, fieldCropsSelector],
-  (locationEntities, fieldCrops) => {
-    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
-  },
+const getFieldCropLocationsFromFieldCrops = (fieldCrops) => {
+  const locationEntitiesWithFieldCrops = {};
+  for (const fieldCrop of fieldCrops) {
+    if (
+      fieldCrop.location_id &&
+      !locationEntitiesWithFieldCrops.hasOwnProperty(fieldCrop.location_id)
+    ) {
+      locationEntitiesWithFieldCrops[fieldCrop.location_id] = fieldCrop.location;
+    }
+  }
+  return Object.values(locationEntitiesWithFieldCrops);
+};
+
+export const locationsWithFieldCropSelector = createSelector(
+  [fieldCropsSelector],
+  getFieldCropLocationsFromFieldCrops,
+);
+
+export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
+  [currentAndPlannedFieldCropsSelector],
+  getFieldCropLocationsFromFieldCrops,
 );

@@ -14,21 +14,30 @@
  */
 
 import {
+  RESET_SHIFT_FILTER,
   SET_SELECTED_SHIFT,
   SET_SELECTED_TASKS,
   SET_SHIFT_DURATION,
+  SET_SHIFT_END_DATE,
+  SET_SHIFT_START_DATE,
+  SET_SHIFT_TYPE,
   SET_SHIFTS_IN_SHIFT,
-  SET_START_END_SHIFT,
   SET_TASK_TYPES_IN_STATE,
 } from './constants';
+
+import moment from 'moment';
 
 const initialState = {
   taskTypes: [],
   selectedTasks: [],
   availableDuration: 0,
-  startEndObj: {},
   shifts: null,
   selectedShift: {},
+  shiftType: undefined,
+  fieldFilter: undefined,
+  cropFilter: undefined,
+  startDate: moment().startOf('year'),
+  endDate: moment().endOf('year'),
 };
 
 function shiftReducer(state = initialState, action) {
@@ -45,9 +54,13 @@ function shiftReducer(state = initialState, action) {
       return Object.assign({}, state, {
         availableDuration: action.duration,
       });
-    case SET_START_END_SHIFT:
+    case SET_SHIFT_START_DATE:
       return Object.assign({}, state, {
-        startEndObj: action.startEndObj,
+        startDate: action.startDate,
+      });
+    case SET_SHIFT_END_DATE:
+      return Object.assign({}, state, {
+        endDate: action.endDate,
       });
     case SET_SHIFTS_IN_SHIFT:
       return Object.assign({}, state, {
@@ -56,6 +69,19 @@ function shiftReducer(state = initialState, action) {
     case SET_SELECTED_SHIFT:
       return Object.assign({}, state, {
         selectedShift: action.selectedShift,
+      });
+
+    case SET_SHIFT_TYPE:
+      return Object.assign({}, state, {
+        shiftType: action.shiftType,
+      });
+    case RESET_SHIFT_FILTER:
+      return Object.assign({}, state, {
+        shiftType: initialState.shiftType,
+        fieldFilter: initialState.fieldFilter,
+        cropFilter: initialState.cropFilter,
+        startDate: moment().startOf('year'),
+        endDate: moment().endOf('year'),
       });
     default:
       return state;

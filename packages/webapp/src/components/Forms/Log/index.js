@@ -4,7 +4,6 @@ import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
 import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
@@ -66,7 +65,7 @@ class DefaultLogForm extends React.Component {
   };
 
   setCropsOnFieldSelect(selectedOptions) {
-    const { fields, parent, model } = this.props;
+    const { locations, parent, model } = this.props;
     const { crops } = this.state;
     let cropOptionsMap = this.state.cropOptionsMap;
     let selectedFields;
@@ -74,16 +73,16 @@ class DefaultLogForm extends React.Component {
 
     // remove associated crop selections for field if field is removed from dropdown
     const activeFields = options.map((o) => o.value);
-    const removedFields = fields.filter((f) => activeFields.indexOf(f.location_id) === -1);
+    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1);
     removedFields &&
       removedFields.map((rm) => {
         return this.props.dispatch(actions.reset(`${parent}${model}.crop.${rm.location_id}`));
       });
 
-    // map field_crops to fields that are selected in dropdown
+    // map field_crops to locations that are selected in dropdown
     if (options.find((o) => o.value === 'all')) {
       selectedFields = this.state.fieldOptionsWithoutAll;
-      fields.map((f) => {
+      locations.map((f) => {
         return (cropOptionsMap[f.location_id] = crops
           .filter((c) => c.location_id === f.location_id)
           .map((c) => {
@@ -140,37 +139,29 @@ class DefaultLogForm extends React.Component {
 
   filterLiveCrops = () => {
     const crops = this.props.crops;
-    const fields = this.props.fields;
+    const locations = this.props.locations;
     const model = this.props.model;
-    let filtered = [];
-
-    for (let crop of crops) {
-      if (moment().isBefore(moment(crop.end_date))) {
-        filtered.push(crop);
-      }
-    }
 
     let displayLiveCropMessage = false;
 
     if (model === '.seedLog' || model === '.irrigationLog') {
-      if (filtered.length < 1) {
+      if (crops.length < 1) {
         displayLiveCropMessage = true;
       }
     }
 
     this.setState({
-      crops: filtered,
+      crops,
       displayLiveCropMessage,
     });
-    this.filterFieldOptions(filtered, fields, model);
+    this.filterFieldOptions(crops, locations, model);
   };
 
-  filterFieldOptions = (crops, fields, model) => {
+  filterFieldOptions = (crops, locations, model) => {
     let included = [];
     let filteredFields = [];
-
     if (model === '.seedLog' && model === '.irrigationLog') {
-      if (fields && crops) {
+      if (locations && crops) {
         for (let c of crops) {
           if (!included.includes(c.location_id)) {
             included.push(c.location_id);
@@ -179,8 +170,8 @@ class DefaultLogForm extends React.Component {
         }
       }
     } else {
-      if (fields) {
-        for (let f of fields) {
+      if (locations) {
+        for (let f of locations) {
           filteredFields.push({ value: f.location_id, label: f.name });
         }
       }
@@ -205,6 +196,7 @@ class DefaultLogForm extends React.Component {
       isCropNotRequired,
       isCropNotNeeded,
     } = this.props;
+
     // 'plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'
     const { fieldOptions, displayLiveCropMessage } = this.state;
     const tillageTypeLabels = {
@@ -339,7 +331,6 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    fields: fieldsSelector(state),
   };
 };
 

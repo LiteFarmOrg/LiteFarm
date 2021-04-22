@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AddLink,
   Error,
   Info,
   Label,
@@ -45,6 +46,7 @@ const AllFontTemplate = (args) => (
     <Info style={args.style} />
     <Error style={args.style} />
     <Underlined style={args.style} />
+    <AddLink style={args.style} />
   </>
 );
 

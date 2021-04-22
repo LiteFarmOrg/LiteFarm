@@ -12,6 +12,7 @@ import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import spanishOwnerConsent from './locales/es/Owner.Consent.md';
 import spanishWorkerConsent from './locales/es/Worker.Consent.md';
+import { getLanguageFromLocalStorage } from '../../util';
 
 const languageConsent = {
   en: { worker: englishWorkerConsent, owner: englishOwnerConsent },
@@ -25,7 +26,7 @@ function ConsentForm({
   history,
 }) {
   const { t, i18n } = useTranslation();
-  const language = i18n.language;
+  const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch, setValue } = useForm();

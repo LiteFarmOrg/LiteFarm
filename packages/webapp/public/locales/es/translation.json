@@ -542,6 +542,7 @@
   "LOG_COMMON": {
     "ACTION": "Acción",
     "ACTIVITY": "Actividad",
+    "ADD_A_LOG": "MISSING",
     "ADD_CUSTOM_PRODUCT": "Agregar un producto personalizado",
     "ADD_NEW_LOG": "Agregar nuevo registro",
     "ALL": "Todo",
@@ -554,6 +555,7 @@
     "DATE": "Fecha",
     "DEFAULT_PRODUCT": "Producto defectuoso",
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
+    "EDIT_A_LOG": "MISSING",
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
     "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
@@ -571,7 +573,6 @@
     "LOG_HELP": "Ayuda de registro",
     "LOG_HELP_EXPLANATION": "Use los filtros para revisar su historia de acceso. Util para mantener registro de sus ingresos y otras actividades de la finca para su equipo de trabajo y certificadores.",
     "LOG_HISTORY": "Historia de acceso",
-    "NEW_LOG": "Nuevo registro",
     "NITRATE": "Nitrata",
     "NOTES": "Notas",
     "OTHER": "Otro",
@@ -589,14 +590,14 @@
     "SELECT_FIELD": "Seleccionar Campo",
     "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
     "SELECT_PRODUCT": "Seleccionar producto",
+    "SELECT_TASK": "MISSING",
     "SELECT_TYPE": "Seleccionar Tipo",
     "SHOW": "Mostrar",
     "SOIL_DATA": "Información del suelo (tierra)",
     "TO": "Para",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo",
-    "WATER": "Agua",
-    "WHAT_LOG": "Qué desea registrar?"
+    "WATER": "Agua"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Acción requerida",
@@ -621,20 +622,19 @@
     "TITLE": "Registro de trabajo de campo"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_USE_TYPE": "Agregar uso habitual",
+    "ADD_A_HARVEST_USE": "MISSING",
+    "ADD_CUSTOM_HARVEST_USE": "MISSING",
     "CROP": "Selecciona un cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
+    "CUSTOM_HARVEST_USE": "MISSING",
     "FIELD": "Selecciona un campo",
     "FIELD_PLACEHOLDER": "Selecciona campo",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
-    "HARVEST_ALLOCATION_TITLE": "Registro de cosecha (paso 3)",
     "HARVEST_QUANTITY": "Cantidad de cosecha",
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
-    "HARVEST_USE_TYPE_TITLE": "Registro de cosecha (step 2)",
     "QUANTITY": "Cantidad",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
-    "TITLE": "Registro de cosecha (paso 1)",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {
@@ -939,8 +939,10 @@
       "CHOOSE_WORKERS": "Elegir trabajador",
       "CROPS_ON_THIS_FARM": "Cultivos en esta finca",
       "CROPS_ON_YOUR_FARM": "Cultivos en esta finca",
+      "CROPS": "Cultivos",
       "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
       "FIELDS_ON_YOUR_FARM": "Campos en su finca",
+      "LOCATIONS": "Ubicaciones",
       "HAPPY": "Feliz",
       "INDIVIDUAL_CROPS": "Cultivos individuales",
       "MOOD": "Cómo se sintió haciendo esta tarea?",
@@ -959,15 +961,15 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
-      "FIELD_CROPS": "Campos/Cultivos",
+      "LOCATION_CROPS": "Ubicaciones/Cultivos",
       "SUBMITTED_FOR": "Enviado para",
       "TASK": "Tarea",
       "TITLE": "Detalle de turno"
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
-      "STEP_ONE": "Nuevo turno (Paso 1)",
-      "STEP_TWO": "Nuevo turno (Paso 2)"
+      "STEP_ONE": "Agregar turno",
+      "STEP_TWO": "Agregar turno"
     },
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",

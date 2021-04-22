@@ -827,11 +827,13 @@ async function supportTicketFactory({
 }
 
 function fakeOrganicCertifierSurvey(farm_id) {
-  const survey = ['COABC', faker.lorem.word()];
+  const certificationIDS = [1, 2]
+  const certifierIDS = [1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18]
   const past = faker.date.past();
   const now = new Date();
   return {
-    certifiers: faker.random.arrayElements(survey),
+    certifier_id: faker.random.arrayElement(certifierIDS),
+    certification_id: faker.random.arrayElement(certificationIDS),
     created_at: past,
     updated_at: faker.date.between(past, now),
     interested: faker.random.boolean(),
@@ -856,12 +858,15 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
     farm_id,
     created_by_user_id: user_id,
     updated_by_user_id: user_id,
-    certifiers: JSON.stringify(organicCertifierSurvey.certifiers),
   }).returning('*');
 }
 
-async function allSupportedCertificationsFactory() {
-  return knex('certifications').returning('*');
+// async function allSupportedCertificationsFactory() {
+//   return knex('certifications').returning('*');
+// }
+
+async function allSupportedCertifiersFactory() {
+  return knex('certifiers').returning('*');
 }
 
 async function barnFactory({
@@ -1094,5 +1099,6 @@ module.exports = {
   residenceFactory,
   buffer_zoneFactory,
   gateFactory,
-  allSupportedCertificationsFactory
+  // allSupportedCertificationsFactory,
+  // allSupportedCertifiersFactory,
 };

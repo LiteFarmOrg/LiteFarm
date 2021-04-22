@@ -17,6 +17,10 @@ import { createSelector } from 'reselect/es';
 
 const shiftReducer = (state) => state.shiftReducer;
 
-const shiftsSelector = createSelector(shiftReducer, (state) => state.shifts);
+export const shiftsSelector = createSelector(shiftReducer, (state) => state.shifts);
+export const shiftStartEndDateSelector = createSelector(shiftReducer, (state) => ({
+  startDate: state.startDate,
+  endDate: state.endDate,
+}));
 
-export { shiftsSelector };
+export const shiftTypeFilterSelector = createSelector(shiftReducer, ({ shiftType }) => shiftType);

@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
-import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
+import { convertToMetric, getUnit } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
 import { currentLogSelector } from '../selectors';
 
@@ -35,7 +35,7 @@ function HarvestAllocation() {
     tempProps.activity_kind = formData.activity_kind;
     tempProps.date = formData.date;
     tempProps.crops = [{ field_crop_id: formData.crops.value }];
-    tempProps.fields = [{ field_id: formData.fields.value }];
+    tempProps.locations = [{ location_id: formData.locations.value }];
     tempProps.notes = defaultData.defaultNotes;
     tempProps.quantity_kg =
       unit === 'lb'
@@ -63,7 +63,7 @@ function HarvestAllocation() {
         onNext={onNext}
         defaultData={defaultData}
         unit={unit}
-        isEdit={isEditStepThree}
+        isEdit={isEdit}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

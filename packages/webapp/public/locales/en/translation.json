@@ -11,6 +11,38 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "CERTIFICATION": {
+    "CERTIFICATION_SELECTION": {
+      "ORGANIC": "Organic",
+      "PGS": "Participatory guarantee system",
+      "REQUEST_CERTIFICATION": "Request another type of certification",
+      "TITLE": "What type of certification?",
+      "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app."
+    },
+    "CERTIFIER_SELECTION": {
+      "INFO": "That probably means LiteFarm doesn't currently work with your certifier - sorry! LiteFarm does produce generic forms that are helpful in most cases though.",
+      "NOT_FOUND": "Don’t see your certifier?",
+      "REQUEST_CERTIFIER": "Request a certifier",
+      "TITLE": "Who is your certifier?"
+    },
+    "INPUT_PLACEHOLDER": "Type to search",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
+      "TITLE": "Interested in certifications?",
+      "WHY": "Why are we asking this?",
+      "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "Requested Certifier",
+      "TITLE": "Request a certifier"
+    },
+    "SUMMARY": {
+      "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
+      "INFORMATION": "We'll indicate this information throughout the app with a",
+      "TITLE": "You are interested in applying for:"
+    },
+    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
     "CHOOSE_TITLE": "Choose your farm",
@@ -255,7 +287,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops.",
+      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -508,6 +540,7 @@
   "LOG_COMMON": {
     "ACTION": "Action",
     "ACTIVITY": "Activity",
+    "ADD_A_LOG": "Add a log",
     "ADD_CUSTOM_PRODUCT": "Add a custom product ",
     "ADD_NEW_LOG": "Add New Log",
     "ALL": "All",
@@ -520,6 +553,7 @@
     "DATE": "Date",
     "DEFAULT_PRODUCT": "Default Product",
     "DELETE_CONFIRMATION": "Are you sure you want to delete this log?",
+    "EDIT_A_LOG": "Edit a log",
     "ERROR_MISSING_CROP_FIELDS": "Error: Missing Crops or fields",
     "ERROR_MISSING_FIELDS": "Error missing fields",
     "FARM_LOG": "Farm Log",
@@ -537,7 +571,6 @@
     "LOG_HELP": "Log Help",
     "LOG_HELP_EXPLANATION": "Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.",
     "LOG_HISTORY": "Log History",
-    "NEW_LOG": "New Log",
     "NITRATE": "Nitrate",
     "NOTES": "Notes",
     "OTHER": "Other",
@@ -555,14 +588,14 @@
     "SELECT_FIELD": "Select Field",
     "SELECT_FIELD_CROP": "Select Field Crop",
     "SELECT_PRODUCT": "select product",
+    "SELECT_TASK": "Select task",
     "SELECT_TYPE": "Select Type",
     "SHOW": "Show",
     "SOIL_DATA": "Soil Data",
     "TO": "To",
     "TYPE": "Type",
     "WARNING": "To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop",
-    "WATER": "Water",
-    "WHAT_LOG": "What do you want to log?"
+    "WATER": "Water"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Action Needed",
@@ -587,20 +620,19 @@
     "TITLE": "Field Work Log"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_USE_TYPE": "Add custom use",
+    "ADD_A_HARVEST_USE": "Add a harvest use",
+    "ADD_CUSTOM_HARVEST_USE": "Add custom harvest use",
     "CROP": "Choose a crop",
     "CROP_PLACEHOLDER": "Select a crop",
+    "CUSTOM_HARVEST_USE": "Custom harvest uses",
     "FIELD": "Choose a field",
     "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
-    "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
     "HARVEST_QUANTITY": "Harvest Quantity",
     "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
-    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
     "QUANTITY": "Quantity",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
-    "TITLE": "Harvest Log (step 1)",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate"
   },
   "LOG_IRRIGATION": {
@@ -647,7 +679,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",
@@ -689,21 +720,14 @@
     "NOTIFICATION_TEASER": "Coming Soon!"
   },
   "ORGANIC": {
-    "INTERESTED_IN_ORGANIC": {
-      "PARAGRAPH": "Do you plan to pursue or renew organic certification this season?",
-      "TITLE": "Interested in Organic?",
-      "WHY": "Why are we asking this?",
-      "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
-    },
     "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "Certificate name is required",
-      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
-      "CERTIFIER_NAME_LABEL": "Certifier’s name",
-      "SELECT_CERTIFIER": "Please select your certifier",
-      "THROUGH_APP": "throughout the app!",
-      "WILL_INDICATE": "We'll indicate data required for organic certification with"
-    },
-    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it's ready."
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
+      "SELECT_CERTIFIER": "MISSING",
+      "THROUGH_APP": "MISSING",
+      "WILL_INDICATE": "MISSING"
+    }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -964,7 +988,6 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "FIELDS": "Fields",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

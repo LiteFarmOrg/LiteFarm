@@ -31,6 +31,12 @@ Secondary.args = {
   children: 'Secondary',
 };
 
+export const Success = Template.bind({});
+Success.args = {
+  color: 'success',
+  children: 'Success',
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   color: 'primary',

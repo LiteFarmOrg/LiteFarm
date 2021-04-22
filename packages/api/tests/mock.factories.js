@@ -1004,7 +1004,7 @@ async function buffer_zoneFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
   promisedLine = lineFactory({ promisedLocation },
-    fakeLine()),
+    fakeLine(), 'buffer_zone'),
 } = {}){
   const [location] = await Promise.all([promisedLocation, promisedLine]);
   const [{ location_id }] = location;
@@ -1014,7 +1014,7 @@ async function buffer_zoneFactory({
 async function gateFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
-  promisedPoint = pointFactory({ promisedLocation }, fakePoint()),
+  promisedPoint = pointFactory({ promisedLocation }, fakePoint(), 'gate'),
 } = {}) {
   const [location] = await Promise.all([promisedLocation, promisedPoint]);
   const [{ location_id }] = location;

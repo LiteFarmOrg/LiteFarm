@@ -39,6 +39,7 @@ const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'
 const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));
 const HarvestLog = React.lazy(() => import('./containers/Log/HarvestLog'));
 const HarvestUseType = React.lazy(() => import('./containers/Log/HarvestUseType'));
+const AddHarvestUse = React.lazy(() => import('./containers/Log/AddHarvestUse'));
 const HarvestAllocation = React.lazy(() => import('./containers/Log/HarvestAllocation'));
 const IrrigationLog = React.lazy(() => import('./containers/Log/IrrigationLog'));
 const ScoutingLog = React.lazy(() => import('./containers/Log/ScoutingLog'));
@@ -264,6 +265,7 @@ const Routes = () => {
             <Route path="/field_work_log" exact component={FieldWorkLog} />
             <Route path="/harvest_log" exact component={HarvestLog} />
             <Route path="/harvest_use_type" exact component={HarvestUseType} />
+            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
             <Route path="/harvest_allocation" exact component={HarvestAllocation} />
             <Route path="/irrigation_log" exact component={IrrigationLog} />
             <Route path="/scouting_log" exact component={ScoutingLog} />
@@ -421,6 +423,7 @@ const Routes = () => {
             <Route path="/field_work_log" exact component={FieldWorkLog} />
             <Route path="/harvest_log" exact component={HarvestLog} />
             <Route path="/harvest_use_type" exact component={HarvestUseType} />
+            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
             <Route path="/harvest_allocation" exact component={HarvestAllocation} />
             <Route path="/help" exact component={HelpRequest} />
             <Route path="/irrigation_log" exact component={IrrigationLog} />

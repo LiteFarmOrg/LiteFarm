@@ -11,7 +11,7 @@ import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
-import { convertFromMetric, roundToTwoDecimal } from '../../../util';
+import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
 
 export default function PureHarvestLog({
   onGoBack,
@@ -135,42 +135,26 @@ export default function PureHarvestLog({
   };
 
   const onSubmit = (data) => {
-    if (isTwoDecimalPlaces(data.quantity)) {
-      defaultData.validQuantity = true;
-      dispatch(harvestLogData(defaultData));
-    } else {
-      defaultData.validQuantity = false;
-      dispatch(harvestLogData(defaultData));
-    }
-    if (defaultData.validQuantity) {
-      if (isEdit.isEditStepOne) {
-        let tempProps = selectedLog.harvestUse;
-        if (unit === 'lb') {
-          tempProps.map((item) => {
-            item.quantity_kg = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg'));
-          });
-        } else if (unit === 'kg') {
-          tempProps.map((item) => {
-            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
-          });
-        }
-        defaultData.selectedUseTypes = tempProps;
-      } else {
-        let tempProps = JSON.parse(JSON.stringify(defaultData.selectedUseTypes));
-        tempProps.map((item) => {
-          if (item.quantity_kg) {
-            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
-          }
-        });
-        defaultData.selectedUseTypes = tempProps;
-      }
+    const validQuantity = !!isTwoDecimalPlaces(data.quantity);
+    dispatch(harvestLogData({ ...defaultData, validQuantity }));
+
+    if (validQuantity) {
+      const selectedUseTypes = defaultData?.selectedUseTypes?.length
+        ? defaultData?.selectedUseTypes
+        : selectedLog?.harvestUse?.map((harvestUse) => ({
+            ...harvestUse,
+            quantity_kg: roundToTwoDecimal(
+              unit === 'lb' ? getMass(harvestUse.quantity_kg) : harvestUse.quantity_kg,
+            ),
+          }));
+
       onNext({
         defaultDate: date,
         defaultField: location,
         defaultCrop: selectedCrop,
         defaultQuantity: data.quantity,
         defaultNotes: data.notes,
-        selectedUseTypes: defaultData.selectedUseTypes ? defaultData.selectedUseTypes : [],
+        selectedUseTypes: selectedUseTypes ?? [],
         validQuantity: true,
         resetCrop: false,
         filteredCropOptions: filteredCropOptions,

@@ -45,6 +45,7 @@
   height: 29.95vw;
   padding: 0 4px;
   overflow: hidden;
+  cursor: pointer;
 
 
   svg {
@@ -59,11 +60,10 @@
   font-family: 'Open Sans', 'SansSerif', serif;
 }
 
-.matrixItem:hover, .matrixItem:active {
+.selectedMatrixItem {
   border-color: var(--teal700);
   background-color: var(--green100);
   color: var(--teal900);
-
 }
 
 .buttonName {

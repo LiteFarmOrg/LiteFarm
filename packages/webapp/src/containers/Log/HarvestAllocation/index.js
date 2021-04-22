@@ -7,6 +7,7 @@ import {
   harvestFormDataSelector,
   harvestLogData,
   harvestLogDataSelector,
+  resetHarvestLog,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
@@ -47,15 +48,13 @@ function HarvestAllocation() {
     dispatch(harvestLogData(defaultData));
     if (isEdit.isEdit) {
       tempProps.activity_id = selectedLog.activity_id;
-      setTimeout(() => {
-        dispatch(editLog(tempProps));
-      }, 300);
+      dispatch(editLog(tempProps));
       dispatch(canEditStepThree(false));
     } else {
       dispatch(addLog(tempProps));
     }
+    dispatch(resetHarvestLog());
   };
-
   return (
     <>
       <PureHarvestAllocation
@@ -63,7 +62,7 @@ function HarvestAllocation() {
         onNext={onNext}
         defaultData={defaultData}
         unit={unit}
-        isEdit={isEdit}
+        isEdit={{ ...isEdit, ...isEditStepThree }}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

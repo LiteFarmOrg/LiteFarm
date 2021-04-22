@@ -254,6 +254,24 @@ describe('Location tests', () => {
         done();
       });
     });
+
+    test('should return 400 when field is referenced in shift', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const shiftData = mocks.fakeShift();
+      const today = new Date();
+      today.setDate(today.getDate() + 1 );
+      shiftData.shift_date = today;
+      const [shift] = await mocks.shiftFactory({promisedUserFarm: [{user_id, farm_id}]}, shiftData);
+      await mocks.shiftTaskFactory({
+        promisedLocation: [ { location_id: field1.location_id }],
+        promisedShift: [shift]
+      });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    })
   })
 
 

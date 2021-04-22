@@ -306,7 +306,7 @@ describe('insights test', () => {
     });
   });
 
-  xdescribe('labour happiness', () => {
+  describe('labour happiness', () => {
     test('Should get labour happiness if Im on my farm as an owner', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(1);
       getInsight(farm_id, user_id, 'labour_happiness', (err, res) => {

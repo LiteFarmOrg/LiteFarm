@@ -14,6 +14,7 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import TimeSlider from "../../Form/Slider/TimeSlider";
+import BackArrow from "../../../assets/images/miscs/arrow.svg";
 
 function PureStepTwo({
                        onGoBack,
@@ -575,7 +576,7 @@ function MoodPopup({
       contentStyle={{
         display: 'flex',
         width: '100%',
-        height: '100vh',
+        height: '80vh',
         overflowY: 'auto',
         padding: '0 5%',
       }}
@@ -583,9 +584,11 @@ function MoodPopup({
     >
       <div className={styles.modal}>
         <div className={styles.popupTitle}>
-          <a className={styles.close} onClick={closeEditModal}>
-            <img src={closeButton} alt=""/>
-          </a>
+          <img
+            src={BackArrow}
+            style={{ marginBottom: '-25px', cursor: 'pointer' }}
+            onClick={closeEditModal}
+          />
         </div>
         <h3>
           {!isCurrentShiftUser && isEO

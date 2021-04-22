@@ -26,6 +26,7 @@ import { logout } from '../../util/jwt';
 import { axios } from '../saga';
 
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
+import { getLanguageFromLocalStorage } from '../../util';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
@@ -50,10 +51,7 @@ export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload: invite_token }) {
   try {
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-')
-      ? selectedLanguage.split('-')[0]
-      : selectedLanguage;
+    const language_preference = getLanguageFromLocalStorage();
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),
@@ -66,6 +64,7 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     );
     const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', userFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(userFarm));
     yield put(startInvitationFlow(userFarm.farm_id));

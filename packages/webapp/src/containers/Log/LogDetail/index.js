@@ -7,7 +7,13 @@ import history from '../../../history';
 
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
 import { currentLogSelector } from './selectors';
-import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
+import {
+  convertFromMetric,
+  getLanguageFromLocalStorage,
+  getUnit,
+  roundToFourDecimal,
+  roundToTwoDecimal,
+} from '../../../util';
 import { getFertilizers } from '../FertilizingLog/actions';
 import { fertSelector } from '../FertilizingLog/selectors';
 import { deleteLog } from '../Utility/actions';
@@ -158,7 +164,7 @@ class LogDetail extends Component {
 
   render() {
     let { selectedLog, farm } = this.props;
-    const language = localStorage.getItem('litefarm_lang');
+    const language = getLanguageFromLocalStorage();
     let { quantity_unit, space_unit, rate_unit, ratePerMin } = this.state;
     const options = [
       {

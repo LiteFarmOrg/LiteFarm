@@ -16,6 +16,8 @@
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
 const certificationModel = require('../models/certificationModel');
+const certifierModel = require('../models/certifierModel');
+const certifierCountryModel = require('../models/certifierCountryModel');
 
 const organicCertifierSurveyController = {
   getCertifiersByFarmId() {
@@ -44,6 +46,26 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const result = await certificationModel.query().select('*');
+        if (!result) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(result);
+        }
+      } catch (error) {
+        //handle more exceptions
+        console.error(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  },
+
+  getAllSupportedCertifiers() {
+    return async (req, res) => {
+      try {
+        const { farm_id, certification_type } = req.params;
+        const result = await certifierModel.query().select('*').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_type', certification_type);
         if (!result) {
           res.sendStatus(404);
         } else {

@@ -13,6 +13,9 @@ export default function PureSetCertificationSummary({
   certifierAbbreviation,
   history,
   onGoBack,
+  name,
+  isRequesting,
+  requestedCertifierData,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
@@ -31,15 +34,21 @@ export default function PureSetCertificationSummary({
     >
       <Text style={{ padding: '8px 0' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        {certificationTranslation} {t('common:FROM')} {certifierAbbreviation}
+        {certificationTranslation} {isRequesting ? requestedCertifierData : name}{' '}
+        {certifierAbbreviation}
       </Semibold>
-      <div>
+      <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />
       </div>
 
-      <Main style={{ padding: '20px 0' }}>{t('CERTIFICATION.SUMMARY.GOOD_NEWS')}</Main>
+      <Main style={{ padding: '20px 0' }}>
+        {isRequesting ? t('CERTIFICATION.SUMMARY.BAD_NEWS') : t('CERTIFICATION.SUMMARY.GOOD_NEWS')}
+      </Main>
       <Main>
-        {t('CERTIFICATION.SUMMARY.INFORMATION')} <Leaf style={{ marginLeft: '4px' }} />
+        {isRequesting
+          ? t('CERTIFICATION.SUMMARY.BAD_NEWS_INFO')
+          : t('CERTIFICATION.SUMMARY.INFORMATION')}{' '}
+        <Leaf style={{ marginLeft: '4px' }} />
       </Main>
     </Layout>
   );

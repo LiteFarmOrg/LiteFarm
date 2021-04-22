@@ -17,11 +17,11 @@ const Model = require('objection').Model;
 
 class Certification extends Model {
   static get tableName() {
-    return 'certifications';
+    return 'countries';
   }
 
   static get idColumn() {
-    return 'certification_id';
+    return 'id';
   }
 
   static get jsonSchema() {
@@ -29,9 +29,12 @@ class Certification extends Model {
       type: 'object',
       required: ['location_id'],
       properties: {
-        certification_id: { type: 'integer' },
-        certification_name: { type: 'string' },
-        certification_translation_key: { type: 'string' }
+        id: { type: 'integer' },
+        country_name: { type: 'string' },
+        currency: { type: 'string' },
+        symbol: { type: 'string' },
+        iso: { type: 'string' },
+        unit: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -40,14 +43,6 @@ class Certification extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-        certifiers: {
-            modelClass: require('./certifierModel'),
-            relation: Model.HasManyRelation,
-            join: {
-                from: 'certificationModel.certification_id',
-                to: 'certifierModel.certification_type',
-              },
-        }
     };
   }
 }

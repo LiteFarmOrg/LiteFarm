@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PureCertificationSelection from '../../../components/CertificationSelection';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSupportedCertifications } from '../saga';
+import { getAllSupportedCertifications, getAllSupportedCertifiers } from '../saga';
 import history from '../../../history';
 import {
   setCertificationSelection,
@@ -9,11 +9,13 @@ import {
   setcertificationTypesSelector,
   setRequestedCertification,
   setRequestedCertificationSelector,
+  selectedCertificationType,
+  setCertificationID,
 } from '../organicCertifierSurveySlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
-  const selectedCertificationType = useSelector(setCertificationSelectionSelector);
+  const certificationType = useSelector(setCertificationSelectionSelector);
   const certificationTypes = useSelector(setcertificationTypesSelector);
   const requestedCertification = useSelector(setRequestedCertificationSelector);
 
@@ -22,15 +24,16 @@ export default function CertificationSelection() {
   }, [dispatch]);
 
   const onSubmit = (data) => {
-    console.log(data);
-    //   const interested = data.interested === 'true';
-    //   const callback = () =>
-    //     interested ? history.push('/organic_partners') : history.push('/outro');
-    //   if (survey.survey_id) {
-    //     dispatch(patchInterested({ interested, callback }));
-    //   } else {
-    //     dispatch(postCertifiers({ survey: { interested }, callback }));
-    //   }
+    let certification_id = null;
+    certificationTypes.map((type) => {
+      if (type.certification_type === certificationType) {
+        certification_id = type.certification_id;
+      }
+    });
+    dispatch(setCertificationID(certification_id));
+    dispatch(selectedCertificationType(true));
+    if (certification_id !== null) dispatch(getAllSupportedCertifiers(certification_id));
+    history.push('/certifier_selection_menu');
   };
 
   const onGoBack = () => {
@@ -44,10 +47,11 @@ export default function CertificationSelection() {
         onGoBack={onGoBack}
         dispatch={dispatch}
         setCertificationSelection={setCertificationSelection}
-        selectedCertificationType={selectedCertificationType}
+        certificationType={certificationType}
         certificationTypes={certificationTypes}
         setRequestedCertification={setRequestedCertification}
         requestedCertification={requestedCertification}
+        setCertificationID={setCertificationID}
       />
     </>
   );

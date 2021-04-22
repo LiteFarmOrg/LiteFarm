@@ -38,7 +38,9 @@
     },
     "SUMMARY": {
       "GOOD_NEWS": "MISSING",
+      "BAD_NEWS": "missing",
       "INFORMATION": "MISSING",
+      "BAD_NEWS_INFO": "MISSING",
       "TITLE": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."

@@ -20,6 +20,11 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
+import {
+  selectedCertificationTypeSelector,
+  isRequestingCertifierSelector,
+  loadSummarySelector,
+} from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -37,6 +42,18 @@ const CertificationSelection = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/CertificationSelection'),
 );
 
+const CertifierSelectionMenu = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+);
+
+const SetCertificationSummary = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/SetCertificationSummary'),
+);
+
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier'),
+);
+
 function OnboardingFlow({
   step_one,
   step_two,
@@ -47,7 +64,11 @@ function OnboardingFlow({
   farm_id,
 }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
+  const selected = useSelector(selectedCertificationTypeSelector);
+  const loadSummary = useSelector(loadSummarySelector);
+  const requestedCertifier = useSelector(isRequestingCertifierSelector);
   const hasUserFarms = useSelector(userFarmLengthSelector);
+
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
@@ -67,6 +88,15 @@ function OnboardingFlow({
         {/* {interested && <Route path="/organic_partners" exact component={OrganicPartners} />} */}
         {interested && (
           <Route path="/certification_selection" exact component={CertificationSelection} />
+        )}
+        {selected && (
+          <Route path="/certifier_selection_menu" exact component={CertifierSelectionMenu} />
+        )}
+        {loadSummary && (
+          <Route path="/certification_summary" exact component={SetCertificationSummary} />
+        )}
+        {requestedCertifier && (
+          <Route path="/requested_certifier" exact component={RequestCertifier} />
         )}
         {step_four && <Route path="/outro" exact component={Outro} />}
         <Route>

@@ -15,10 +15,11 @@ export default function PureCertificationSelection({
   onGoBack,
   dispatch,
   setCertificationSelection,
-  selectedCertificationType,
+  certificationType,
   certificationTypes,
   setRequestedCertification,
   requestedCertification,
+  setCertificationID,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -37,17 +38,17 @@ export default function PureCertificationSelection({
   const SELECTION = 'selection';
   const [selectionType, setSelectionType] = useState(null);
   const [requested, setRequested] = useState(null);
-  const [disabled, setDisabled] = useState(selectedCertificationType === null);
+  const [disabled, setDisabled] = useState(certificationType === null);
 
   useEffect(() => {
     if (selectionType !== null) dispatch(setCertificationSelection(selectionType));
     if (requested !== null || requested !== '') dispatch(setRequestedCertification(requested));
-    setValue(SELECTION, selectedCertificationType);
+    setValue(SELECTION, certificationType);
     setDisabled(
-      selectedCertificationType === null ||
-        (selectedCertificationType === 'other' && requestedCertification === null),
+      certificationType === null ||
+        (certificationType === 'other' && requestedCertification === null),
     );
-  }, [selectionType, selectedCertificationType, requested, requestedCertification]);
+  }, [selectionType, certificationType, requested, requestedCertification]);
 
   const submit = (data) => {
     if (requestedCertification !== null) data.requested = requestedCertification;
@@ -96,7 +97,7 @@ export default function PureCertificationSelection({
           inputRef={register({ required: true })}
           onChange={() => setSelectionType('other')}
         />{' '}
-        {selectedCertificationType === 'other' && (
+        {certificationType === 'other' && (
           <Infoi
             placement={'bottom'}
             content={t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP')}
@@ -104,7 +105,7 @@ export default function PureCertificationSelection({
           />
         )}
       </div>
-      {selectedCertificationType === 'other' && (
+      {certificationType === 'other' && (
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
           onChange={(e) => setRequested(e.target.value)}

@@ -7,7 +7,7 @@ import moment from 'moment';
 import history from '../../../history';
 import { selectedShiftSelector, taskTypeSelector } from './selectors';
 import ConfirmModal from '../../../components/Modals/Confirm';
-import { userFarmSelector } from '../../userFarmSlice';
+import { loginSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { getDuration } from './../../../util/index';
@@ -155,7 +155,9 @@ class MyShift extends Component {
             <div>{`${this.props.selectedShift.first_name} ${this.props.selectedShift.last_name}`}</div>
             {(Number(farm.role_id) === 1 ||
               Number(farm.role_id) === 2 ||
-              Number(farm.role_id) === 5) && (
+              Number(farm.role_id) === 5 ||
+              this.props.selectedShift.created_by === this.props.currentUser.user_id
+          ) && (
               <DropdownButton options={options}>{this.props.t('SHIFT.ACTION')}</DropdownButton>
             )}
           </div>
@@ -238,6 +240,7 @@ const mapStateToProps = (state) => {
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),
+    currentUser: loginSelector(state)
   };
 };
 

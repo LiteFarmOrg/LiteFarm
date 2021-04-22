@@ -10,7 +10,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
-import { getDurationString } from './../../../util/index';
+import { getDuration } from './../../../util/index';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 
@@ -44,24 +44,24 @@ class MyShift extends Component {
         duration: 0,
       };
       let duration = task.duration;
-      if (task.is_field) {
-        let field_name = this.getFieldName(task.field_id);
+      if (task.is_location) {
+        let name = this.getFieldName(task.field_id);
         if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
-          newTask.aoiNames.push({ name: field_name, is_field: true });
+          newTask.aoiNames.push({ name: name, is_location: true });
           newTask.duration += duration;
 
           newTasks[task.task_id] = newTask;
-          addedFields.push(field_name);
+          addedFields.push(name);
         } else {
           newTasks[task.task_id].duration += duration;
 
-          if (!addedFields.includes(field_name)) {
+          if (!addedFields.includes(name)) {
             newTasks[task.task_id].aoiNames.push({
-              name: field_name,
-              is_field: true,
+              name: name,
+              is_location: true,
             });
-            addedFields.push(field_name);
+            addedFields.push(name);
           }
         }
       } else {
@@ -70,7 +70,7 @@ class MyShift extends Component {
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({
             name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
-            is_field: false,
+            is_location: false,
           });
           newTask.duration = duration;
 
@@ -80,7 +80,7 @@ class MyShift extends Component {
           if (!addedCrops.includes(thisCrop.crop_id)) {
             newTasks[task.task_id].aoiNames.push({
               name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
-              is_field: false,
+              is_location: false,
             });
           }
         }
@@ -100,7 +100,7 @@ class MyShift extends Component {
   getFieldName(field_id) {
     for (let field of this.props.fields) {
       if (field.field_id === field_id) {
-        return field.field_name;
+        return field.name;
       }
     }
     return 'no name';
@@ -188,7 +188,7 @@ class MyShift extends Component {
                 </div>
                 <div className={styles.innerTaskList}>
                   {task.aoiNames.map((obj) => {
-                    if (obj.is_field) {
+                    if (obj.is_location) {
                       return (
                         <p className={styles.nameLabelField} key={obj.name}>
                           {obj.name}
@@ -204,7 +204,7 @@ class MyShift extends Component {
                   })}
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{getDurationString(task.duration)}</span>
+                  <span>{getDuration(task.duration).durationString}</span>
                 </div>
               </div>
             );

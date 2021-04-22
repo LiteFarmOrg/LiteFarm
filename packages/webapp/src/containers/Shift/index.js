@@ -29,7 +29,7 @@ import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops, getLocations } from '../saga';
-import { getDurationString } from '../../util';
+import { getDuration } from '../../util';
 import Table from '../../components/Table';
 import { Semibold, Title } from '../../components/Typography';
 
@@ -105,7 +105,7 @@ class Shift extends Component {
           for (let task of d.tasks) {
             mins += task.duration;
           }
-          return getDurationString(mins);
+          return getDuration(mins).durationString;
         },
         minWidth: 40,
       },
@@ -209,6 +209,7 @@ class Shift extends Component {
               return {
                 onClick: (e, handleOriginal) => {
                   if (rowInfo && rowInfo.original) {
+                    console.log(rowInfo.original)
                     this.props.dispatch(setSelectedShift(rowInfo.original));
                     history.push('/my_shift');
                   }

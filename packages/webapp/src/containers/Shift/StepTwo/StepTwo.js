@@ -9,6 +9,7 @@ import { submitShift } from '../actions';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { useTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { cropLocationEntitiesSelector } from "../../locationSlice";
 
 function StepTwo() {
   const { t } = useTranslation(['translation', 'message']);
@@ -19,8 +20,8 @@ function StepTwo() {
   const [mood, setMood] = useState(null);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const users = useSelector(userFarmSelector);
-  const fields = useSelector(fieldsSelector);
-
+  const locationsObject = useSelector(cropLocationEntitiesSelector);
+  const locations = Object.keys(locationsObject).map(k => locationsObject[k]);
   const dispatch = useDispatch();
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
@@ -54,7 +55,7 @@ function StepTwo() {
     // keys.map()
     for (let key of keys) {
       let vals = mutatingFinalForm[key].val;
-      let is_field = mutatingFinalForm[key].is_field;
+      let isLocation = mutatingFinalForm[key].is_location;
       let val_num = vals.length;
       if (val_num === 0) {
         toastr.error(t('message:SHIFT.ERROR.CROP_FIELDS_EACH'));
@@ -62,7 +63,7 @@ function StepTwo() {
       }
       let valIterator = 0;
       for (let val of vals) {
-        if (is_field) {
+        if (isLocation) {
           if (!Number.isInteger(Number(mutatingFinalForm[key].duration))) {
             toastr.error(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
             return;
@@ -91,8 +92,8 @@ function StepTwo() {
             form.tasks.push({
               task_id: Number(key),
               duration: Number(parseFloat(duration).toFixed(3)),
-              is_field: true,
-              field_id: val.id,
+              is_location: true,
+              location_id: val.id,
             });
           } else {
             duration = Number(parseFloat(duration).toFixed(3));
@@ -107,8 +108,8 @@ function StepTwo() {
               form.tasks.push({
                 task_id: Number(key),
                 duration: sub_duration,
-                is_field: true,
-                field_id: val.id,
+                is_location: true,
+                location_id: val.id,
                 field_crop_id: crop.field_crop_id,
               });
               i++;
@@ -150,7 +151,7 @@ function StepTwo() {
             form.tasks.push({
               task_id: Number(key),
               duration: Number(parseFloat(subDuration).toFixed(3)),
-              is_field: false,
+              is_location: false,
               field_crop_id: a_crop.field_crop_id,
               field_id: a_crop.field_id,
             });
@@ -177,7 +178,7 @@ function StepTwo() {
       finalForm={finalForm}
       setFinalForm={setFinalForm}
       crops={crops}
-      fields={fields}
+      locations={locations}
       selectedTasks={selectedTasks}
       onNext={finishShift}
       isEO={users.role_id === EXTENSION_OFFICER_ROLE}

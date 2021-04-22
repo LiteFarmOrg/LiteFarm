@@ -903,10 +903,11 @@
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Add New Shift",
+    "TIME_TOTAL": "Total",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Add Custom Task",
       "ADD_TASK": "Add a Task",
-      "ALL": "All",
+      "ALL": "All Locations",
       "ALL_CROPS": "All Crops",
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "CHOOSE_DATE": "Choose a Date",
@@ -915,6 +916,8 @@
       "CROPS_ON_YOUR_FARM": "Crops on your farm",
       "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
       "FIELDS_ON_YOUR_FARM": "Fields on your farm",
+      "LOCATIONS_LABEL": "Locations",
+      "CROPS_LABEL": "Crops",
       "HAPPY": "Happy",
       "INDIVIDUAL_CROPS": "Individual Crops",
       "MOOD": "How did this shift make you feel?",
@@ -923,7 +926,7 @@
       "RATHER_NOT_SAY": "Rather Not Say",
       "SAD": "Sad",
       "SELECT_CROPS": "Select Crops",
-      "SELECT_FIELDS": "Select Fields",
+      "SELECT_FIELDS": "Select Locations",
       "VERY_HAPPY": "Very Happy",
       "VERY_SAD": "Very Sad",
       "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
@@ -940,8 +943,8 @@
     },
     "NAME": "Name",
     "NEW_SHIFT": {
-      "STEP_ONE": "New Shift (Step 1)",
-      "STEP_TWO": "New Shift (Step 2)"
+      "STEP_ONE": "Add a shift",
+      "STEP_TWO": "Add a shift"
     },
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",

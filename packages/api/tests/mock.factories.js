@@ -700,11 +700,11 @@ function fakeShift() {
 
 async function shiftTaskFactory({
   promisedShift = shiftFactory(),
-  promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory(),
+  promisedFieldCrop = fieldCropFactory(), promisedLocation = locationFactory(),
   promisedTaskType = taskTypeFactory(),
   promisedUser = usersFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
-  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
+  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedLocation, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
   const [{ location_id }] = field;
@@ -720,7 +720,7 @@ async function shiftTaskFactory({
 
 function fakeShiftTask() {
   return {
-    is_field: faker.random.boolean(),
+    is_location: faker.random.boolean(),
     duration: faker.random.number(200),
   };
 }

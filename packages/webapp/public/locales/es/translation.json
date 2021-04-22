@@ -940,8 +940,8 @@
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
-      "STEP_ONE": "Nuevo turno (Paso 1)",
-      "STEP_TWO": "Nuevo turno (Paso 2)"
+      "STEP_ONE": "Agregar turno",
+      "STEP_TWO": "Agregar turno"
     },
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",

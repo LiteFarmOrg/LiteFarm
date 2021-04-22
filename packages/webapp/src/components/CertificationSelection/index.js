@@ -25,12 +25,8 @@ export default function PureCertificationSelection({
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
-    getValues,
-    setError,
-    control,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -47,7 +43,8 @@ export default function PureCertificationSelection({
     setValue(SELECTION, certificationType);
     setDisabled(
       certificationType === null ||
-        (certificationType === 'other' && requestedCertification === null),
+        (certificationType === 'other' &&
+          (requestedCertification === null || requestedCertification === '')),
     );
   }, [selectionType, certificationType, requested, requestedCertification]);
 
@@ -110,6 +107,10 @@ export default function PureCertificationSelection({
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
           onChange={(e) => setRequested(e.target.value)}
+          errors={
+            requestedCertification === null ||
+            (requestedCertification === '' && t('common:REQUIRED'))
+          }
           defaultValue={
             requestedCertification !== null || requestedCertification !== ''
               ? requestedCertification

@@ -45,7 +45,7 @@ export default function PureRequestCertifier({
           <Button onClick={onGoBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength onClick={redirectConsent} disabled={disabled}>
+          <Button type={'submit'} fullLength onClick={redirectConsent} disabled={!isValid}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -59,6 +59,9 @@ export default function PureRequestCertifier({
         onChange={(e) => setRequested(e.target.value)}
         defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
         inputRef={register({ required: true })}
+        errors={
+          requestedCertifierData === null || (requestedCertifierData === '' && t('common:REQUIRED'))
+        }
       />
     </Form>
   );

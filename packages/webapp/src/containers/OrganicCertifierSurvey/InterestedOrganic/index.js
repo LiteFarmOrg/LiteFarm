@@ -29,7 +29,6 @@ export default function InterestedOrganic() {
 
   useEffect(() => {
     console.log(interested);
-    setDisabled(interested === undefined);
     // if (survey) {
     //   if (survey.interested !== undefined) {
     //     console.log(interested)
@@ -50,10 +49,6 @@ export default function InterestedOrganic() {
   };
   const onGoBack = () => {
     history.push('/consent');
-  };
-
-  const radioClick = (interested) => {
-    setDisabled(false);
   };
 
   return (

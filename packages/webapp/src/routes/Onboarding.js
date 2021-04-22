@@ -96,6 +96,7 @@ function OnboardingFlow({
             {step_four && <Route path="/outro" exact component={Outro} />}
           </>
         )}
+        {step_four && <Route path="/outro" exact component={Outro} />}
         <Route>
           <>
             {step_four && !has_consent && <Redirect to={'/consent'} />}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PureSetCertificationSummary from '../../../components/SetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
 import { patchStepFour } from '../saga';
@@ -17,7 +17,6 @@ export default function SetCertificationSummary() {
 
   const onSubmit = () => {
     dispatch(patchStepFour());
-    console.log('submit');
     history.push('/outro');
   };
 

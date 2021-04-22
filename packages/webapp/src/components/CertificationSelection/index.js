@@ -37,10 +37,11 @@ export default function PureCertificationSelection({
   });
   const SELECTION = 'selection';
   const [selectionType, setSelectionType] = useState(null);
-  const [requested, setRequested] = useState(null);
+  const [requested, setRequested] = useState(requestedCertification);
   const [disabled, setDisabled] = useState(certificationType === null);
 
   useEffect(() => {
+    console.log(requestedCertification);
     if (selectionType !== null) dispatch(setCertificationSelection(selectionType));
     if (requested !== null || requested !== '') dispatch(setRequestedCertification(requested));
     setValue(SELECTION, certificationType);

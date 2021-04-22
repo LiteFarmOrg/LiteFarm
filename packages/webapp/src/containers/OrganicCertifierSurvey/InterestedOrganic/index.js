@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getCertifiers, patchInterested, postCertifiers } from '../saga';
+import { patchInterested, postCertifiers } from '../saga';
 import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
 import { useTranslation } from 'react-i18next';
@@ -23,11 +23,13 @@ export default function InterestedOrganic() {
   const [disabled, setDisabled] = useState(interested === undefined);
 
   useEffect(() => {
-    if (survey) {
-      if (survey.interested !== undefined) {
-        setValue(INTERESTED, interested === false ? 'false' : 'true');
-      }
-    }
+    console.log(survey.interested);
+    // if (survey) {
+    //   if (survey.interested !== undefined) {
+    //     console.log(interested)
+    //     setValue(INTERESTED, interested === false ? 'false' : 'true');
+    //   }
+    // }
   }, [survey, dispatch, interested]);
 
   const onSubmit = (data) => {
@@ -44,11 +46,6 @@ export default function InterestedOrganic() {
     history.push('/consent');
   };
 
-  const radioClick = (interested) => {
-    if (disabled) setDisabled(false);
-    setInterested(interested);
-  };
-
   return (
     <>
       <PureInterestedOrganic
@@ -59,19 +56,20 @@ export default function InterestedOrganic() {
         content={content}
         onGoBack={onGoBack}
         disabled={disabled}
-        radioClick={radioClick}
         inputs={[
           {
             label: t('common:YES'),
             inputRef: ref,
             name: INTERESTED,
             value: true,
+            defaultChecked: survey.interested === true,
           },
           {
             label: t('common:NO'),
             inputRef: ref,
             name: INTERESTED,
             value: false,
+            defaultChecked: survey.interested === false,
           },
         ]}
       />

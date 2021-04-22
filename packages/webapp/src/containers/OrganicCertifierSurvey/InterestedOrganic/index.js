@@ -9,7 +9,13 @@ import { useTranslation } from 'react-i18next';
 
 export default function InterestedOrganic() {
   const { t } = useTranslation(['translation', 'common']);
-  const { register, handleSubmit, setValue, watch } = useForm({ mode: 'onChange' });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useForm({ mode: 'onChange' });
   const INTERESTED = 'interested';
   const title = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.TITLE');
   const paragraph = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.PARAGRAPH');
@@ -20,7 +26,6 @@ export default function InterestedOrganic() {
   const dispatch = useDispatch();
 
   const [interested, setInterested] = useState(survey.interested);
-  const [disabled, setDisabled] = useState(interested === undefined);
 
   useEffect(() => {
     console.log(survey.interested);
@@ -55,7 +60,7 @@ export default function InterestedOrganic() {
         underlined={underlined}
         content={content}
         onGoBack={onGoBack}
-        disabled={disabled}
+        disabled={!isValid}
         inputs={[
           {
             label: t('common:YES'),

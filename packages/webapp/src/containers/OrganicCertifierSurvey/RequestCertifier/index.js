@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PureRequestCertifier from '../../../components/RequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSupportedCertifications } from '../saga';
+import { patchRequestedCertifiers, getAllSupportedCertifications } from '../saga';
 import history from '../../../history';
 import { requestedCertifier, requestedCertifierSelector } from '../organicCertifierSurveySlice';
 
@@ -13,12 +13,13 @@ export default function RequestCertifier() {
     dispatch(getAllSupportedCertifications());
   }, [dispatch]);
 
-  const onSubmit = (data) => {
-    history.push('certification_summary');
+  const onSubmit = (info) => {
+    const data = info.requestedCertifier;
+    const callback = () => history.push('certification_summary');
+    dispatch(patchRequestedCertifiers({ data, callback }));
   };
 
   const onGoBack = () => {
-    console.log('go back');
     history.push('/certifier_selection_menu');
   };
 

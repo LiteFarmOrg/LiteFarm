@@ -19,7 +19,7 @@ export default function PureCertificationSelection({
   certificationTypes,
   setRequestedCertification,
   requestedCertification,
-  setCertificationID,
+  role_id,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const {
@@ -105,7 +105,7 @@ export default function PureCertificationSelection({
           />
         )}
       </div>
-      {certificationType === 'other' && (
+      {certificationType === 'other' && role_id !== 3 && (
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
           onChange={(e) => setRequested(e.target.value)}

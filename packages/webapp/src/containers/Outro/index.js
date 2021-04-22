@@ -7,12 +7,20 @@ import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
 import { loginSelector } from '../userFarmSlice';
 import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
+import { isRequestingCertifierSelector } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 function Outro() {
   const userFarm = useSelector(loginSelector);
   const dispatch = useDispatch();
+  const isRequesting = useSelector(isRequestingCertifierSelector);
   const onGoBack = () => {
-    history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
+    history.push(
+      !survey.interested
+        ? '/interested_in_organic'
+        : isRequesting
+        ? '/requested_certifier'
+        : '/certifier_selection_menu',
+    );
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

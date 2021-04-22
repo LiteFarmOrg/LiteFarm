@@ -15,7 +15,6 @@ export default function PureSetCertificationSummary({
   onGoBack,
   name,
   isRequesting,
-  requestedCertifierData,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
@@ -26,7 +25,7 @@ export default function PureSetCertificationSummary({
           <Button onClick={onGoBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} fullLength onClick={onSubmit}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -34,8 +33,7 @@ export default function PureSetCertificationSummary({
     >
       <Text style={{ padding: '8px 0' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        {certificationTranslation} {isRequesting ? requestedCertifierData : name}{' '}
-        {certifierAbbreviation}
+        {certificationTranslation} {name} {certifierAbbreviation}
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />

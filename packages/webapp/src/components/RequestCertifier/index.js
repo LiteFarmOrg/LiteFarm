@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 
 export default function PureRequestCertifier({
   onSubmit,
-
   redirectConsent,
   onGoBack,
   requestedCertifier,
@@ -40,7 +39,7 @@ export default function PureRequestCertifier({
 
   return (
     <Form
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
           <Button onClick={onGoBack} color={'secondary'} fullLength>
@@ -59,6 +58,7 @@ export default function PureRequestCertifier({
         name={REQUESTED_CERTIFIER}
         onChange={(e) => setRequested(e.target.value)}
         defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
+        inputRef={register({ required: true })}
       />
     </Form>
   );

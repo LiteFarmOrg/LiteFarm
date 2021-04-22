@@ -87,9 +87,6 @@ exports.up = async function (knex) {
 
 exports.down = function (knex) {
   return Promise.all([
-    knex.schema.dropTable('certifications'),
-    knex.schema.dropTable('certifiers'),
-    knex.schema.dropTable('certifier_country'),
     knex.schema.renameTable('countries', 'currency_table'),
     knex.schema.alterTable('organicCertifierSurvey', (t) => {
       t.jsonb('certifiers')
@@ -97,6 +94,12 @@ exports.down = function (knex) {
       t.dropColumn('requested_certifier');
       t.dropColumn('certifier_id');
       t.dropColumn('certification_id');
-    })
-  ])
-};
+    }),
+  ]).then(() => {
+    return Promise.all([
+      knex.schema.dropTable('certifier_country'),
+      knex.schema.dropTable('certifiers'),
+      knex.schema.dropTable('certifications'),
+    ])
+  })
+}

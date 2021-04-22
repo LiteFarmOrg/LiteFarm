@@ -85,20 +85,17 @@ function OnboardingFlow({
           />
         )}
         {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
-        {/* {interested && <Route path="/organic_partners" exact component={OrganicPartners} />} */}
         {interested && (
           <Route path="/certification_selection" exact component={CertificationSelection} />
         )}
         {selected && (
-          <Route path="/certifier_selection_menu" exact component={CertifierSelectionMenu} />
+          <>
+            <Route path="/certifier_selection_menu" exact component={CertifierSelectionMenu} />
+            <Route path="/requested_certifier" exact component={RequestCertifier} />
+            <Route path="/certification_summary" exact component={SetCertificationSummary} />
+            {step_four && <Route path="/outro" exact component={Outro} />}
+          </>
         )}
-        {loadSummary && (
-          <Route path="/certification_summary" exact component={SetCertificationSummary} />
-        )}
-        {requestedCertifier && (
-          <Route path="/requested_certifier" exact component={RequestCertifier} />
-        )}
-        {step_four && <Route path="/outro" exact component={Outro} />}
         <Route>
           <>
             {step_four && !has_consent && <Redirect to={'/consent'} />}

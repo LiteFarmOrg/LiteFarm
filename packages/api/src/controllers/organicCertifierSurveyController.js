@@ -111,6 +111,42 @@ const organicCertifierSurveyController = {
     };
   },
 
+  patchRequestedCertifiers() {
+    return async (req, res) => {
+      const survey_id = req.params.survey_id;
+      try {
+        const user_id = req.user.user_id;
+        const requested_certifier = req.body.data || [];
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certifier });
+        res.sendStatus(200);
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  patchRequestedCertification() {
+    return async (req, res) => {
+      const survey_id = req.params.survey_id;
+      try {
+        const user_id = req.user.user_id;
+        const requested_certification = req.body.data || [];
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certification });
+        res.sendStatus(200);
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  
+
   patchInterested() {
     return async (req, res) => {
       const survey_id = req.params.survey_id;

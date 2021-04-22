@@ -11,6 +11,7 @@ import {
   loadSummary,
   isRequestingCertifierSelector,
 } from '../organicCertifierSurveySlice';
+import { userFarmSelector } from '../../userFarmSlice';
 
 export default function CertifierSelectionMenu() {
   const dispatch = useDispatch();
@@ -18,10 +19,11 @@ export default function CertifierSelectionMenu() {
   let emptyCertifiers = [];
   let certifiers = useSelector(setCertifiersSelector);
   const certifierSelected = useSelector(selectedCertifierSelector);
+  const role = useSelector(userFarmSelector);
 
   const onSubmit = (data) => {
     dispatch(loadSummary(true));
-    history.push('certification_summary');
+    history.push('/certification_summary');
   };
 
   const onBack = () => {
@@ -43,6 +45,7 @@ export default function CertifierSelectionMenu() {
         selectedCertifier={selectedCertifier}
         certifierSelected={certifierSelected}
         isRequesting={isRequesting}
+        role_id={role.role_id}
       />
     </>
   );

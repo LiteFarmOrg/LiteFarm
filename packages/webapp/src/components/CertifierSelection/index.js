@@ -18,6 +18,7 @@ export default function PureCertifierSelectionScreen({
   selectedCertifier,
   certifierSelected,
   isRequesting,
+  role_id,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   const [selectedCertifierId, setCertifier] = useState();
@@ -107,18 +108,20 @@ export default function PureCertifierSelectionScreen({
         />
       </div>
 
-      <div
-        style={{
-          width: 'fit-content',
-          fontSize: '16px',
-          color: 'var(--iconActive)',
-          lineHeight: '16px',
-          cursor: 'pointer',
-        }}
-        onClick={onRequestCertifier}
-      >
-        + <Underlined>{t('CERTIFICATION.CERTIFIER_SELECTION.REQUEST_CERTIFIER')}</Underlined>
-      </div>
+      {role_id !== 3 && (
+        <div
+          style={{
+            width: 'fit-content',
+            fontSize: '16px',
+            color: 'var(--iconActive)',
+            lineHeight: '16px',
+            cursor: 'pointer',
+          }}
+          onClick={onRequestCertifier}
+        >
+          + <Underlined>{t('CERTIFICATION.CERTIFIER_SELECTION.REQUEST_CERTIFIER')}</Underlined>
+        </div>
+      )}
     </Layout>
   );
 }

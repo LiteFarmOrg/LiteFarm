@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import PureCertificationSelection from '../../../components/CertificationSelection';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSupportedCertifications, getAllSupportedCertifiers } from '../saga';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+  patchRequestedCertification,
+} from '../saga';
 import history from '../../../history';
 import {
   setCertificationSelection,
@@ -12,18 +16,20 @@ import {
   selectedCertificationType,
   setCertificationID,
 } from '../organicCertifierSurveySlice';
+import { userFarmSelector } from '../../userFarmSlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
   const certificationType = useSelector(setCertificationSelectionSelector);
   const certificationTypes = useSelector(setcertificationTypesSelector);
   const requestedCertification = useSelector(setRequestedCertificationSelector);
+  const role = useSelector(userFarmSelector);
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
   }, [dispatch]);
 
-  const onSubmit = (data) => {
+  const onSubmit = (info) => {
     let certification_id = null;
     certificationTypes.map((type) => {
       if (type.certification_type === certificationType) {
@@ -32,8 +38,16 @@ export default function CertificationSelection() {
     });
     dispatch(setCertificationID(certification_id));
     dispatch(selectedCertificationType(true));
-    if (certification_id !== null) dispatch(getAllSupportedCertifiers(certification_id));
-    history.push('/certifier_selection_menu');
+    const callback = () => history.push('/certifier_selection_menu');
+    if (certification_id !== null) {
+      dispatch(getAllSupportedCertifiers(certification_id));
+      setTimeout(() => {
+        callback();
+      }, 100);
+    } else {
+      const data = info.requested;
+      if (certification_id === null) dispatch(patchRequestedCertification({ data, callback }));
+    }
   };
 
   const onGoBack = () => {
@@ -52,6 +66,7 @@ export default function CertificationSelection() {
         setRequestedCertification={setRequestedCertification}
         requestedCertification={requestedCertification}
         setCertificationID={setCertificationID}
+        role_id={role.role_id}
       />
     </>
   );

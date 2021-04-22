@@ -123,10 +123,16 @@ const insightController = {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key
-          FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc, "location"
-          WHERE location.location_id=f.location_id, location.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.location_id = f.location_id and st.task_id = t.task_id and 
-          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
+          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key, fc.field_crop_id, l.location_id
+          FROM "shiftTask" st
+            JOIN "shift" s ON s.shift_id = st.shift_id
+            JOIN "taskType" t ON st.task_id = t.task_id
+            LEFT JOIN "fieldCrop" fc ON fc.field_crop_id = st.field_crop_id
+            LEFT JOIN "location" l ON l.location_id = st.location_id
+            WHERE s.farm_id = ?
+              and s.mood != 'na'
+              and s.mood != 'no answer'
+              and s.deleted = false`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);

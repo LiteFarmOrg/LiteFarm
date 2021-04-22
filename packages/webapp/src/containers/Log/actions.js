@@ -17,6 +17,7 @@ import {
   ADD_HARVEST_USE_TYPE,
   GET_HARVEST_USE_TYPES,
   GET_LOGS,
+  RESET_LOG_FILTER,
   SAVE_HARVEST_ALLOCATION_WIP,
   SET_ALL_HARVEST_USE_TYPES,
   SET_DEFAULT_DATE,
@@ -24,6 +25,9 @@ import {
   SET_END_DATE,
   SET_FORM_DATA,
   SET_FORM_VALUE,
+  SET_LOG_CROP_FILTER,
+  SET_LOG_FIELD_FILTER,
+  SET_LOG_TYPE,
   SET_LOGS_IN_STATE,
   SET_SELECTED_LOG,
   SET_SELECTED_USE_TYPES,
@@ -122,5 +126,28 @@ export const saveHarvestAllocationWip = (harvestAllocation) => {
   return {
     type: SAVE_HARVEST_ALLOCATION_WIP,
     harvestAllocation,
+  };
+};
+export const setLogCropFilter = (cropFilter) => {
+  return {
+    type: SET_LOG_CROP_FILTER,
+    cropFilter,
+  };
+};
+export const setLogFieldFilter = (fieldFilter) => {
+  return {
+    type: SET_LOG_FIELD_FILTER,
+    fieldFilter,
+  };
+};
+export const setLogType = (logType) => {
+  return {
+    type: SET_LOG_TYPE,
+    logType,
+  };
+};
+export const resetLogFilter = () => {
+  return {
+    type: RESET_LOG_FILTER,
   };
 };

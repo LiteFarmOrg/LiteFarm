@@ -93,7 +93,6 @@ export default function PureNavBar({
   resetSpotlight,
   showSwitchFarm,
   history,
-  setDefaultDateRange,
   showFinances,
   defaultOpenFloater,
 }) {
@@ -272,7 +271,6 @@ export default function PureNavBar({
             closeDrawer={closeDrawer}
             toggleManage={toggleManage}
             setIsDrawerOpen={setIsDrawerOpen}
-            setDefaultDateRange={setDefaultDateRange}
             showFinances={showFinances}
           />
         </SwipeableDrawer>

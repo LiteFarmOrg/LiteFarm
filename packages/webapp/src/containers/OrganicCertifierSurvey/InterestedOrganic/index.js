@@ -23,7 +23,8 @@ export default function InterestedOrganic() {
   const [disabled, setDisabled] = useState(interested === undefined);
 
   useEffect(() => {
-    console.log(survey.interested);
+    console.log(interested);
+    setDisabled(interested === undefined);
     // if (survey) {
     //   if (survey.interested !== undefined) {
     //     console.log(interested)
@@ -46,6 +47,10 @@ export default function InterestedOrganic() {
     history.push('/consent');
   };
 
+  const radioClick = (interested) => {
+    setDisabled(false);
+  };
+
   return (
     <>
       <PureInterestedOrganic
@@ -56,6 +61,7 @@ export default function InterestedOrganic() {
         content={content}
         onGoBack={onGoBack}
         disabled={disabled}
+        radioClick={radioClick}
         inputs={[
           {
             label: t('common:YES'),

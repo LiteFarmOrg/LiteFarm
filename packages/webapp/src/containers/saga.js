@@ -90,8 +90,8 @@ import {
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
 import i18n from '../locales/i18n';
-import { getLogs } from './Log/actions';
-import { getAllShifts } from './Shift/actions';
+import { getLogs, resetLogFilter } from './Log/actions';
+import { getAllShifts, resetShiftFilter } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
 import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 import { logout } from '../util/jwt';
@@ -389,7 +389,14 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
       }),
     );
     yield all(responses.map((response, index) => put(onTaskSuccess[index](response.data))));
-    yield all([put(getLogs()), put(getAllShifts()), put(getSales()), put(getExpense())]);
+    yield all([
+      put(getLogs()),
+      put(getAllShifts()),
+      put(getSales()),
+      put(getExpense()),
+      put(resetLogFilter()),
+      put(resetShiftFilter()),
+    ]);
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }

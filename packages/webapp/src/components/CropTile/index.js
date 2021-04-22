@@ -43,6 +43,10 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
           src={`crop-images/${imageKey}.jpg`}
           alt={imageKey}
           className={styles.img}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+          }}
         />
         <div className={styles.info}>
           <div className={styles.infoMain} style={{ marginBottom: '2px' }}>

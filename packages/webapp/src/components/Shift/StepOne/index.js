@@ -76,9 +76,6 @@ function PureStepOne({
     <TitleLayout
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button
             type={'submit'}
             disabled={!selectedTasks.length || !worker}
@@ -90,6 +87,7 @@ function PureStepOne({
         </>
       }
       onGoBack={onGoBack}
+      onCancel={onGoBack}
       title={t('SHIFT.NEW_SHIFT.STEP_ONE')}
     >
       <DateContainer
@@ -169,7 +167,11 @@ function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
         const taskName = t(`task:${type.task_translation_key}`);
         const buttonImg = imgDict[type.task_name] ? imgDict[type.task_name] : OtherImg;
         return (
-          <div className={styles.matrixItem} onClick={() => selectOrDeselectTask(type.task_id)}>
+          <div
+            className={styles.matrixItem}
+            onClick={() => selectOrDeselectTask(type.task_id)}
+            key={`task${i}`}
+          >
             <div
               className={clsx(
                 styles.circleButton,

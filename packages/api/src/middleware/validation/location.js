@@ -67,10 +67,16 @@ function modelValidation(asset) {
   };
 }
 
+const fieldCropEnabledLocations = [
+  'field', 'garden', 'buffer_zone',
+  'greenhouse',
+];
+
 module.exports = {
   modelMapping,
   figureMapping,
   promiseMapper,
   assets,
   figures,
+  fieldCropEnabledLocations,
 };

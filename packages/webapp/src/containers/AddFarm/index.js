@@ -12,6 +12,7 @@ import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg
 import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_error_pin.svg';
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFromLocalStorage } from '../../util';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -85,7 +86,7 @@ const AddFarm = () => {
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
-      language: localStorage.getItem('litefarm_lang'),
+      language: getLanguageFromLocalStorage(),
     }; // To disable any eslint 'google not defined' errors
 
     // Initialize Google Autocomplete

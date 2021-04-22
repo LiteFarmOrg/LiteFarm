@@ -34,6 +34,11 @@ const startEndDateSelector = createSelector(logPageSelector, (state) => ({
   endDate: state.endDate,
 }));
 
+const logFieldFilterSelector = createSelector(logPageSelector, ({ fieldFilter }) => fieldFilter);
+
+const logCropFilterSelector = createSelector(logPageSelector, ({ cropFilter }) => cropFilter);
+const logTypeFilterSelector = createSelector(logPageSelector, ({ logType }) => logType);
+
 const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
 
 const harvestAllocationSelector = createSelector(
@@ -51,4 +56,7 @@ export {
   startEndDateSelector,
   defaultDateSelector,
   harvestAllocationSelector,
+  logFieldFilterSelector,
+  logCropFilterSelector,
+  logTypeFilterSelector,
 };

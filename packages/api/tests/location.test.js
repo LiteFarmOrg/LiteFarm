@@ -209,13 +209,66 @@ describe('Location tests', () => {
     test('should delete field', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      deleteLocation({user_id, farm_id }, field1.location_id, async (err, res) => {
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(200);
         const location = await knex('location').where({ location_id: field1.location_id }).first();
         const location2 = await knex('location').where({ location_id: field2.location_id }).first();
         console.log(location);
         expect(location.deleted).toBeTruthy();
         expect(location2.deleted).toBeFalsy();
+        done();
+      });
+    })
+
+    test('Delete should return 400 when field is referenced by fieldCrop', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      await mocks.fieldCropFactory({ promisedField: [field1] });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should delete field when field is referenced by expired fieldCrops', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const expiredFieldCrop = mocks.fakeFieldCrop();
+      expiredFieldCrop.end_date = expiredFieldCrop.start_date;
+      await mocks.fieldCropFactory({ promisedField: [field1] }, expiredFieldCrop);
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
+
+    test('Delete should return 400 when field is referenced by log', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      await mocks.activityFieldsFactory({
+        promisedActivityLog: mocks.activityLogFactory({ user_id }),
+        promisedField: [field1],
+      });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 when field is referenced in shift', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const shiftData = mocks.fakeShift();
+      const today = new Date();
+      today.setDate(today.getDate() + 1 );
+      shiftData.shift_date = today;
+      const [shift] = await mocks.shiftFactory({promisedUserFarm: [{user_id, farm_id}]}, shiftData);
+      await mocks.shiftTaskFactory({
+        promisedLocation: [ { location_id: field1.location_id }],
+        promisedShift: [shift]
+      });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
         done();
       });
     })

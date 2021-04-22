@@ -444,13 +444,16 @@ function InputDuration({
             <div className={styles.cropDurationType}>
               <Button
                 sm
+                style={{ flex: '1',padding: '4px'}}
                 onClick={() => {
                   setAllCropsEnabled(true);
                 }}>
                 {t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
               </Button>
+              <div style={{flex: '0 0 2%'}}/>
               <Button
                 sm
+                style={{ flex: '1',padding: '4px'}}
                 onClick={() => {
                   resetCropDuration(task.task_id);
                   setAllCropsEnabled(false);

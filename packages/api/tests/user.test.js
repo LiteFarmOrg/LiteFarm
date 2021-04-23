@@ -22,14 +22,16 @@ chai.use(chaiHttp);
 const server = require('./../src/server');
 const { Model } = require('objection');
 const knex = Model.knex();
-const { tableCleanup } = require('./testEnvironment')
-jest.mock('jsdom')
-jest.mock('../src/middleware/acl/checkJwt')
+const { tableCleanup } = require('./testEnvironment');
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 
 const userModel = require('../src/models/userModel');
 const passwordModel = require('../src/models/passwordModel');
 const userFarmModel = require('../src/models/userFarmModel');
+const showedSpotlightModel = require('../src/models/showedSpotlightModel');
+
 
 describe('User Tests', () => {
   let middleware;
@@ -321,14 +323,14 @@ describe('User Tests', () => {
         }, fakeUserFarm(1));
       })
 
-      test('Should post then get a valid user', async (done) => {
+      test('Should post then get a valid user and user spotlight', async (done) => {
         const fakeUser = mocks.fakeUser();
 
         // don't need user_id or phone number when signing up user
         delete fakeUser.user_id;
         delete fakeUser.phone_number;
 
-        const password = "test password"
+        const password = 'test password';
         fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
           const user_id = res.body.user.user_id;
@@ -339,8 +341,11 @@ describe('User Tests', () => {
           // check that the saved hash corresponds to the pw provided
           const isMatch = await bcrypt.compare(password, userSecret.password_hash);
           expect(isMatch).toBe(true);
+          const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
+          expect(showedSpotlight.user_id).toBe(user_id);
+
           done();
-        })
+        });
       });
 
       xtest('Owner should post a pseudo user', async (done) => {

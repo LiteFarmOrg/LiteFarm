@@ -1,5 +1,4 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loaded: false,
@@ -10,6 +9,7 @@ const initialState = {
   drop_point: false,
   adjust_area: false,
   adjust_line: false,
+  navigation: false,
 };
 
 const showedSpotlightSlice = createSlice({
@@ -22,17 +22,17 @@ const showedSpotlightSlice = createSlice({
     getSpotlightFlagsSuccess: (state, { payload }) => {
       if (state.loading) {
         state.loading = false;
+        state.loaded = true;
         Object.assign(state, payload);
       }
     },
     getSpotlightFlagsFailure: (state, action) => {
       state.loading = false;
+      state.loaded = true;
     },
     patchSpotlightFlagsSuccess: (state, { payload }) => {
-      if (state.loading) {
-        state.loading = false;
-        Object.assign(state, payload);
-      }
+      state.loading = false;
+      Object.assign(state, payload);
     },
     patchSpotlightFlagsFailure: (state, action) => {
       state.loading = false;

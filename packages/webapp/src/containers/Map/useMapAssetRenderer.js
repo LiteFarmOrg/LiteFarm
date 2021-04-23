@@ -51,8 +51,35 @@ const useMapAssetRenderer = () => {
       : drawPoint;
   };
 
+  const [markerCluster, setMarkerCluster] = useState();
+  useEffect(() => {
+    if (markerCluster) {
+      setMarkerCluster((prevMarkerCluster) => {
+        prevMarkerCluster?.clearMarkers();
+        const pointsArray = [];
+        filterSettings?.gate &&
+          assetGeometries.gate.forEach((item) => {
+            pointsArray.push(item);
+          });
+        filterSettings?.water_valve &&
+          assetGeometries.water_valve.forEach((item) => {
+            pointsArray.push(item);
+          });
+        const markers = [];
+        pointsArray.forEach((point) => {
+          point.marker.id = point.location_id;
+          point.marker.name = point.location_name;
+          point.marker.asset = point.asset;
+          point.marker.type = point.type;
+          markers.push(point.marker);
+        });
+        prevMarkerCluster.addMarkers(markers, true);
+        return prevMarkerCluster;
+      });
+    }
+  }, [filterSettings?.gate, filterSettings?.water_valve]);
   const createMarkerClusters = (maps, map, points) => {
-    let markers = [];
+    const markers = [];
 
     points.forEach((point) => {
       point.marker.id = point.location_id;
@@ -62,13 +89,13 @@ const useMapAssetRenderer = () => {
       markers.push(point.marker);
     });
 
-    const markerCluster = new MarkerClusterer(map, markers, {
+    const newMarkerCluster = new MarkerClusterer(map, markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
     });
 
-    markerCluster.addMarkers(markers, true);
-    maps.event.addListener(markerCluster, 'click', (cluster) => {
+    newMarkerCluster.addMarkers(markers, true);
+    maps.event.addListener(newMarkerCluster, 'click', (cluster) => {
       if (map.getZoom() === 20 && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
@@ -91,6 +118,7 @@ const useMapAssetRenderer = () => {
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
       }
     });
+    !markerCluster && setMarkerCluster(newMarkerCluster);
   };
 
   const drawAssets = (map, maps, mapBounds) => {
@@ -136,13 +164,15 @@ const useMapAssetRenderer = () => {
 
     setAssetGeometries(newState);
     // Create marker clusters
-    let pointsArray = [];
-    assetGeometries.gate.forEach((item) => {
-      pointsArray.push(item);
-    });
-    assetGeometries.water_valve.forEach((item) => {
-      pointsArray.push(item);
-    });
+    const pointsArray = [];
+    filterSettings?.gate &&
+      assetGeometries.gate.forEach((item) => {
+        pointsArray.push(item);
+      });
+    filterSettings?.water_valve &&
+      assetGeometries.water_valve.forEach((item) => {
+        pointsArray.push(item);
+      });
 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm
@@ -163,6 +193,8 @@ const useMapAssetRenderer = () => {
       strokeWeight: 2,
       fillColor: colour,
       fillOpacity: 0.5,
+      clickable: false,
+      // crossOnDrag: false,
     });
     polygon.setMap(map);
 

@@ -1,9 +1,8 @@
-import { isArea, isLine, isPoint, locationEnum } from './constants';
-import { useState, useEffect } from 'react';
-import { canShowSelection, locations, canShowSelectionSelector } from '../mapSlice';
+import { containsCrops, isArea, isLine, isPoint, locationEnum } from './constants';
+import { useEffect, useState } from 'react';
+import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { containsCrops } from './constants';
 
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
@@ -13,7 +12,7 @@ const useSelectionHandler = () => {
   };
 
   const dispatch = useDispatch();
-  let [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
+  const [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
 
   const [dismissSelection, setDismissSelection] = useState(false);
   const showSelection = useSelector(canShowSelectionSelector);
@@ -58,6 +57,7 @@ const useSelectionHandler = () => {
             `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
           );
         } else {
+          console.log('click', overlappedLocations);
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
             if (locationArray.length < 4) locationArray.push(point);
@@ -90,6 +90,7 @@ const useSelectionHandler = () => {
                 name: area.location_name,
                 asset: area.asset,
                 type: area.type,
+                isVisible: area.isVisible,
               });
             }
           });
@@ -104,6 +105,7 @@ const useSelectionHandler = () => {
                 name: line.location_name,
                 asset: line.asset,
                 type: line.type,
+                isVisible: line.isVisible,
               });
             }
           });
@@ -115,6 +117,7 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
+                isVisible: point.isVisible,
               });
             });
           } else {

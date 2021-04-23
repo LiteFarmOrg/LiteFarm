@@ -1,6 +1,6 @@
 import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
@@ -51,31 +51,20 @@ const useMapAssetRenderer = () => {
       : drawPoint;
   };
 
-  const [markerCluster, setMarkerCluster] = useState();
+  const markerClusterRef = useRef();
   useEffect(() => {
-    if (markerCluster) {
-      setMarkerCluster((prevMarkerCluster) => {
-        prevMarkerCluster?.clearMarkers();
-        const pointsArray = [];
-        filterSettings?.gate &&
-          assetGeometries.gate.forEach((item) => {
-            pointsArray.push(item);
-          });
-        filterSettings?.water_valve &&
-          assetGeometries.water_valve.forEach((item) => {
-            pointsArray.push(item);
-          });
-        const markers = [];
-        pointsArray.forEach((point) => {
-          point.marker.id = point.location_id;
-          point.marker.name = point.location_name;
-          point.marker.asset = point.asset;
-          point.marker.type = point.type;
-          markers.push(point.marker);
-        });
-        prevMarkerCluster.addMarkers(markers, true);
-        return prevMarkerCluster;
-      });
+    if (markerClusterRef.current) {
+      markerClusterRef.current?.clearMarkers();
+      filterSettings?.gate &&
+        markerClusterRef.current.addMarkers(
+          assetGeometries?.gate?.map((point) => point.marker),
+          true,
+        );
+      filterSettings?.water_valve &&
+        markerClusterRef.current.addMarkers(
+          assetGeometries?.water_valve?.map((point) => point.marker),
+          true,
+        );
     }
   }, [filterSettings?.gate, filterSettings?.water_valve]);
   const createMarkerClusters = (maps, map, points) => {
@@ -89,13 +78,14 @@ const useMapAssetRenderer = () => {
       markers.push(point.marker);
     });
 
-    const newMarkerCluster = new MarkerClusterer(map, markers, {
+    const markerCluster = new MarkerClusterer(map, markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+      ignoreHidden: true,
     });
 
-    newMarkerCluster.addMarkers(markers, true);
-    maps.event.addListener(newMarkerCluster, 'click', (cluster) => {
+    markerCluster.addMarkers(markers, true);
+    maps.event.addListener(markerCluster, 'click', (cluster) => {
       if (map.getZoom() === 20 && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
@@ -118,7 +108,7 @@ const useMapAssetRenderer = () => {
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
       }
     });
-    !markerCluster && setMarkerCluster(newMarkerCluster);
+    markerClusterRef.current = markerCluster;
   };
 
   const drawAssets = (map, maps, mapBounds) => {
@@ -193,7 +183,7 @@ const useMapAssetRenderer = () => {
       strokeWeight: 2,
       fillColor: colour,
       fillOpacity: 0.5,
-      clickable: false,
+      // clickable: false,
       // crossOnDrag: false,
     });
     polygon.setMap(map);
@@ -271,7 +261,6 @@ const useMapAssetRenderer = () => {
       marker,
       location_id: area.location_id,
       location_name: area.name,
-      isVisible,
       asset: 'area',
       type: area.type,
     };
@@ -369,7 +358,6 @@ const useMapAssetRenderer = () => {
       ...asset,
       location_id: line.location_id,
       location_name: line.name,
-      isVisible,
       asset: 'line',
       type: line.type,
     };
@@ -406,7 +394,6 @@ const useMapAssetRenderer = () => {
       marker,
       location_id: point.location_id,
       location_name: point.name,
-      isVisible,
       asset: 'point',
       type: point.type,
     };

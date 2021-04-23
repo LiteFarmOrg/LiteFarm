@@ -57,7 +57,6 @@ const useSelectionHandler = () => {
             `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
           );
         } else {
-          console.log('click', overlappedLocations);
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
             if (locationArray.length < 4) locationArray.push(point);
@@ -84,20 +83,22 @@ const useSelectionHandler = () => {
         );
         if (isArea(locationType) || isAreaLine) {
           locationAssets[locationType].forEach((area) => {
-            if (area.isVisible && maps.geometry.poly.containsLocation(latLng, area.polygon)) {
+            if (
+              area?.polygon?.visible &&
+              maps.geometry.poly.containsLocation(latLng, area.polygon)
+            ) {
               overlappedLocationsCopy.area.push({
                 id: area.location_id,
                 name: area.location_name,
                 asset: area.asset,
                 type: area.type,
-                isVisible: area.isVisible,
               });
             }
           });
         } else if (isLine(locationType)) {
           locationAssets[locationType].forEach((line) => {
             if (
-              line.isVisible &&
+              line.polyline.visible &&
               maps.geometry.poly.isLocationOnEdge(latLng, line.polyline, 10e-7)
             ) {
               overlappedLocationsCopy.line.push({
@@ -105,7 +106,6 @@ const useSelectionHandler = () => {
                 name: line.location_name,
                 asset: line.asset,
                 type: line.type,
-                isVisible: line.isVisible,
               });
             }
           });
@@ -117,12 +117,11 @@ const useSelectionHandler = () => {
                 name: point.location_name,
                 asset: point.asset,
                 type: point.type,
-                isVisible: point.isVisible,
               });
             });
           } else {
             locationAssets[locationType].forEach((point) => {
-              if (point.isVisible && latLng === point.marker.position) {
+              if (point.marker.visible && latLng === point.marker.position) {
                 overlappedLocationsCopy.point.push({
                   id: point.location_id,
                   name: point.location_name,

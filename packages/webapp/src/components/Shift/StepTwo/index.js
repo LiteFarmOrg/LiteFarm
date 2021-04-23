@@ -63,7 +63,6 @@ function PureStepTwo({
 
   useEffect(() => {
     const keys = Object.keys(finalForm);
-    console.log(keys, finalForm)
     const cropsHaveValidDurations = keys.reduce((cond, k) => {
       if (finalForm[k].is_location) {
         return cond;

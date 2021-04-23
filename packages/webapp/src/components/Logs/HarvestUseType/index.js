@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { AddLink, Main } from '../../Typography';
 import Button from '../../Form/Button';
@@ -14,7 +14,7 @@ import { ReactComponent as Gift } from '../../../assets/images/log/v2/Gift.svg';
 import { ReactComponent as Exchange } from '../../../assets/images/log/v2/Exchange.svg';
 import { ReactComponent as Seed } from '../../../assets/images/log/v2/Seed.svg';
 import { ReactComponent as Custom } from '../../../assets/images/log/v2/Custom.svg';
-import { ReactComponent as Apple } from '../../../assets/images/log/v2/Apple.svg';
+import clsx from 'clsx';
 
 export default function PureHarvestUseType({
   onGoBack,
@@ -29,77 +29,69 @@ export default function PureHarvestUseType({
   selectedLog,
 }) {
   const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
-  const [isCustomHarvestUsePage, setCustomHarvestUsePage] = useState(
-    history?.location?.state?.isCustomHarvestUsePage,
-  );
-
-  const filteredHarvestUseTypes = useMemo(() => {
-    return useTypes.filter((type) =>
-      isCustomHarvestUsePage
-        ? !svgDict.hasOwnProperty(type.harvest_use_type_name)
-        : svgDict.hasOwnProperty(type.harvest_use_type_name),
+  const [selectedUseTypes, setSelectedUseTypes] = useState([]);
+  useEffect(() => {
+    const shrinkSelectedUseTypes = defaultData.selectedUseTypes.map(
+      ({ harvest_use_type_id }) => harvest_use_type_id,
     );
-  }, [isCustomHarvestUsePage, useTypes]);
+    setSelectedUseTypes(shrinkSelectedUseTypes);
+  }, []);
 
   const onTileClick = (harvestUseTypeId) => {
-    let extendedSelectedUseTypes = useTypes.filter(
-      ({ harvest_use_type_id }) => harvestUseTypeId === harvest_use_type_id,
+    const useTypes = selectedUseTypes.includes(harvestUseTypeId)
+      ? selectedUseTypes.filter((id) => harvestUseTypeId !== id)
+      : selectedUseTypes.concat(harvestUseTypeId);
+    setSelectedUseTypes(useTypes);
+  };
+
+  const onGoNext = () => {
+    const extendedSelectedUseTypes = useTypes.filter(({ harvest_use_type_id }) =>
+      selectedUseTypes.includes(harvest_use_type_id),
     );
     onNext({ selectedUseTypes: extendedSelectedUseTypes });
   };
-  const onCustomHarvestUseTypeClick = () => {
-    setCustomHarvestUsePage(true);
-  };
+
   const title = useMemo(() => {
-    if (isCustomHarvestUsePage) {
-      return t('LOG_HARVEST.CUSTOM_HARVEST_USE')
-        .split(' ')
-        .map((word) => {
-          return word[0].toUpperCase() + word.substring(1);
-        })
-        .join(' ');
-    } else if (isEdit?.isEdit) {
+    if (isEdit?.isEdit) {
       return t('LOG_COMMON.EDIT_A_LOG');
     } else {
       return t('LOG_COMMON.ADD_A_LOG');
     }
-  }, [isEdit, isCustomHarvestUsePage]);
+  }, [isEdit]);
   return (
     <TitleLayout
-      onGoBack={() =>
-        isCustomHarvestUsePage ? setCustomHarvestUsePage(false) : history.push('/harvest_log')
-      }
+      onGoBack={() => history.push('/harvest_log')}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
-        !isCustomHarvestUsePage && (
-          <>
-            <Button
-              color={'success'}
-              fullLength
-              onClick={onCustomHarvestUseTypeClick}
-              style={{ marginTop: '24px' }}
-            >
-              <>
-                <Apple style={{ marginRight: '8px', transform: 'translateY(-3px)' }} />{' '}
-                {t('LOG_HARVEST.CUSTOM_HARVEST_USE')}
-              </>
-            </Button>
-          </>
-        )
+        <>
+          <Button
+            color={'primary'}
+            fullLength
+            onClick={onGoNext}
+            disabled={!selectedUseTypes.length}
+            style={{ marginTop: '24px' }}
+          >
+            {t('common:CONTINUE')}
+          </Button>
+        </>
       }
     >
-      {isCustomHarvestUsePage && [1, 2, 5].includes(Number(farm.role_id)) ? (
+      <Main style={{ marginBottom: '16px' }}>{t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</Main>
+      <UseTypeMatrix
+        t={t}
+        onClick={onTileClick}
+        useTypes={useTypes}
+        selectedUseTypes={selectedUseTypes}
+      />
+      {[1, 2, 5].includes(Number(farm.role_id)) && (
         <AddLink
           onClick={() => history.push('./add_harvest_use_type')}
-          style={{ paddingBottom: '16px' }}
+          style={{ paddingTop: '16px' }}
         >
           {t('LOG_HARVEST.ADD_CUSTOM_HARVEST_USE')}
         </AddLink>
-      ) : (
-        <Main style={{ marginBottom: '16px' }}>{t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</Main>
       )}
-      <UseTypeMatrix t={t} onClick={onTileClick} useTypes={filteredHarvestUseTypes} />
     </TitleLayout>
   );
 }
@@ -116,7 +108,7 @@ const svgDict = {
   Other: <Custom />,
 };
 
-function UseTypeMatrix({ useTypes, onClick }) {
+function UseTypeMatrix({ useTypes, onClick, selectedUseTypes }) {
   const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
 
   return (
@@ -127,7 +119,13 @@ function UseTypeMatrix({ useTypes, onClick }) {
           ? svgDict[type.harvest_use_type_name]
           : svgDict.Other;
         return (
-          <div className={styles.matrixItem} onClick={() => onClick(type.harvest_use_type_id)}>
+          <div
+            className={clsx(
+              styles.matrixItem,
+              selectedUseTypes.includes(type.harvest_use_type_id) && styles.selectedMatrixItem,
+            )}
+            onClick={() => onClick(type.harvest_use_type_id)}
+          >
             {buttonImg}
             <div className={styles.buttonName}>{useTypeName}</div>
           </div>

@@ -245,6 +245,7 @@ const shiftController = {
           'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
           'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
           'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
+          'shift.created_by_user_id as created_by',
         ]).from('shiftTask', 'taskType')
           .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
           .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')

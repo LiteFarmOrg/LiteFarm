@@ -29,7 +29,7 @@ import {
 } from '../../fieldCropSlice';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import ReactSelect from '../../../components/Form/ReactSelect';
-import Unit from '../../../components/Form/Unit';
+import Unit from '../../../components/Inputs/Unit';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import LogFooter from '../../../components/LogFooter';
 import ConfirmModal from '../../../components/Modals/Confirm';

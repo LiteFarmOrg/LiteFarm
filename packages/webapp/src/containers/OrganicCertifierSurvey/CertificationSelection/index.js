@@ -39,15 +39,19 @@ export default function CertificationSelection() {
     dispatch(setCertificationID(certification_id));
     dispatch(selectedCertificationType(true));
     const callback = () => history.push('/certifier_selection_menu');
-    if (certification_id !== null) {
-      dispatch(getAllSupportedCertifiers(certification_id));
-      setTimeout(() => {
-        callback();
-      }, 100);
+    let data = {
+      requested_certification: null,
+      certification_id: null,
+    };
+    if (certification_id === null) {
+      data.requested_certification = info.requested;
     } else {
-      const data = info.requested;
-      if (certification_id === null) dispatch(patchRequestedCertification({ data, callback }));
+      data.certification_id = certification_id;
     }
+    if (certification_id !== null) dispatch(getAllSupportedCertifiers(certification_id));
+    setTimeout(() => {
+      dispatch(patchRequestedCertification({ data, callback }));
+    }, 100);
   };
 
   const onGoBack = () => {

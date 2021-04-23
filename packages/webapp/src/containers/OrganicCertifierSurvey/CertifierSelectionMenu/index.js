@@ -12,6 +12,7 @@ import {
   isRequestingCertifierSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
+import { patchRequestedCertifiers } from '../saga';
 
 export default function CertifierSelectionMenu() {
   const dispatch = useDispatch();
@@ -21,9 +22,15 @@ export default function CertifierSelectionMenu() {
   const certifierSelected = useSelector(selectedCertifierSelector);
   const role = useSelector(userFarmSelector);
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     dispatch(loadSummary(true));
-    history.push('/certification_summary');
+    const callback = () => history.push('certification_summary');
+    let data = {
+      requested_certifier: null,
+      certifier_id: certifierSelected.certifier_id,
+    };
+
+    dispatch(patchRequestedCertifiers({ data, callback }));
   };
 
   const onBack = () => {

@@ -288,9 +288,9 @@ const insightController = {
         const prevDate = insightHelpers.formatPreviousDate(new Date(), 'year');
         const dataPoints = await knex.raw(
           `SELECT location.location_id, location.name, AVG(n.nitrogen_value) as nitrogen_value
-      FROM "location", "nitrogenBalance" n
-      WHERE location.farm_id = ? and n.field_id = location.location_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
-      GROUP BY location.location_id`, [farmID, prevDate]);
+            FROM "location", "nitrogenBalance" n
+            WHERE location.farm_id = ? and n.location_id = location.location_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+            GROUP BY location.location_id`, [farmID, prevDate]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body);

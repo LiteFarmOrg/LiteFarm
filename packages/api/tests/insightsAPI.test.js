@@ -696,7 +696,7 @@ describe('insights test', () => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
         const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -707,7 +707,7 @@ describe('insights test', () => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
         const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -718,7 +718,7 @@ describe('insights test', () => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
         const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id: location_id };
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();

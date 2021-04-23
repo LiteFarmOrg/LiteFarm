@@ -50,7 +50,7 @@ const userController = {
         // persist user data
         const userResult = await baseController.post(userModel, userData, req, { trx });
 
-        const { user_id } = userResult
+        const { user_id } = userResult;
 
         const pwData = {
           user_id,
@@ -71,7 +71,6 @@ const userController = {
             locale: language_preference,
           };
           const sender = 'system@litefarm.org';
-          console.log('template_path:', template_path);
           if (userResult.email && template_path) {
             sendEmail(template_path, replacements, userResult.email, { sender });
           }
@@ -466,7 +465,9 @@ const userController = {
             user_id,
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
+          await showedSpotlightModel.query(trx).insert({ user_id });
         });
+
         result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
         result = { ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
@@ -519,6 +520,7 @@ const userController = {
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
           await shiftModel.query(trx).context({ user_id: sub }).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await showedSpotlightModel.query(trx).insert({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();
         });

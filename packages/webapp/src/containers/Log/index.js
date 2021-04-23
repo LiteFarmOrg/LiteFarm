@@ -21,9 +21,24 @@ import history from '../../history';
 import { LocalForm } from 'react-redux-form';
 import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import moment from 'moment';
-import { getLogs, setEndDate, setSelectedLog, setStartDate } from './actions';
+import {
+  getLogs,
+  resetLogFilter,
+  setEndDate,
+  setLogCropFilter,
+  setLogFieldFilter,
+  setLogType,
+  setSelectedLog,
+  setStartDate,
+} from './actions';
 import { getFieldCropsByDate, getLocations } from '../saga';
-import { logSelector, startEndDateSelector } from './selectors';
+import {
+  logCropFilterSelector,
+  logFieldFilterSelector,
+  logSelector,
+  logTypeFilterSelector,
+  startEndDateSelector,
+} from './selectors';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import { getDiseases, getPesticides } from './PestControlLog/actions';
@@ -34,16 +49,15 @@ import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../fieldSlice';
 import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
-import { Label, Semibold, Title } from '../../components/Typography';
+import { Label, Semibold, Title, Underlined } from '../../components/Typography';
 import Button from '../../components/Form/Button';
+import { colors } from '../../assets/theme';
 
 class Log extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activityFilter: 'all',
-      cropFilter: 'all',
-      fieldFilter: 'all',
     };
     this.filterLogs = this.filterLogs.bind(this);
     this.getEditURL = this.getEditURL.bind(this);
@@ -62,7 +76,14 @@ class Log extends Component {
   // filter logs in table if an option is chosen from dropdown or date
   filterLogs(logs) {
     const { user } = this.props;
-    const { activityFilter, cropFilter, fieldFilter } = this.state;
+    const {
+      logType: activityFilterOption,
+      cropFilter: cropFilterOption,
+      fieldFilter: fieldFilterOption,
+    } = this.props;
+    const cropFilter = cropFilterOption?.value || 'all';
+    const fieldFilter = fieldFilterOption?.value || 'all';
+    const activityFilter = activityFilterOption?.value || 'all';
     let { startDate, endDate } = this.props.dates;
     startDate = moment(startDate);
     endDate = moment(endDate);
@@ -90,7 +111,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'location_id', fieldFilter) &&
+          checkFilter(l.location[0], 'location_id', fieldFilter) &&
           l.user_id === user.user_id &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
@@ -252,12 +273,14 @@ class Log extends Component {
         <div>
           <Label>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</Label>
           <DropDown
-            defaultValue={{
-              value: 'all',
-              label: this.props.t('LOG_COMMON.ALL'),
-            }}
+            value={
+              this.props.logType ?? {
+                value: 'all',
+                label: this.props.t('LOG_COMMON.ALL'),
+              }
+            }
             options={logTypes}
-            onChange={(option) => this.setState({ activityFilter: option.value })}
+            onChange={(option) => this.props.dispatch(setLogType(option))}
             isSearchable={false}
             style={{ marginBottom: '24px' }}
           />
@@ -265,24 +288,32 @@ class Log extends Component {
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
-              defaultValue={{
-                value: 'all',
-                label: this.props.t('LOG_COMMON.ALL_CROPS'),
-              }}
+              value={
+                this.props.cropFilter ?? {
+                  value: 'all',
+                  label: this.props.t('LOG_COMMON.ALL_CROPS'),
+                }
+              }
               placeholder="Select Crop"
-              onChange={(option) => this.setState({ cropFilter: option.value })}
+              onChange={(option) => {
+                this.props.dispatch(setLogCropFilter(option));
+              }}
               isSearchable={false}
               style={{ flexBasis: '50%', marginRight: '24px' }}
             />
             <DropDown
               className={styles.pullRight}
               options={fieldOptions}
-              defaultValue={{
-                value: 'all',
-                label: this.props.t('LOG_COMMON.ALL_FIELDS'),
-              }}
+              value={
+                this.props.fieldFilter ?? {
+                  value: 'all',
+                  label: this.props.t('LOG_COMMON.ALL_FIELDS'),
+                }
+              }
               placeholder="Select Field"
-              onChange={(option) => this.setState({ fieldFilter: option.value })}
+              onChange={(option) => {
+                this.props.dispatch(setLogFieldFilter(option));
+              }}
               isSearchable={false}
               style={{ flexBasis: '50%' }}
             />
@@ -296,6 +327,12 @@ class Log extends Component {
             />
           </LocalForm>
         </div>
+        <Underlined
+          style={{ color: colors.brown700 }}
+          onClick={() => this.props.dispatch(resetLogFilter())}
+        >
+          {this.props.t('common:CLEAR_ALL_FILTERS')}
+        </Underlined>
         <div className={styles.table}>
           <Table
             columns={columns}
@@ -346,6 +383,9 @@ const mapStateToProps = (state) => {
     user: userFarmSelector(state),
     dates: startEndDateSelector(state),
     isAdmin: isAdminSelector(state),
+    fieldFilter: logFieldFilterSelector(state),
+    cropFilter: logCropFilterSelector(state),
+    logType: logTypeFilterSelector(state),
   };
 };
 

@@ -18,6 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class ExpenseDetail extends Component {
   componentDidMount() {
     const { expense_detail_date, farm } = this.props;
     this.setState({ currencySymbol: grabCurrencySymbol(farm) });
-    const language = localStorage.getItem('litefarm_lang');
+    const language = getLanguageFromLocalStorage();
     const date = moment(expense_detail_date).locale(language).format('MMM DD, YYYY');
     this.setState({
       date,

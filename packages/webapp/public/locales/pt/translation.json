@@ -553,6 +553,7 @@
     "DATE": "Data",
     "DEFAULT_PRODUCT": "Produto Padrão",
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
+    "EDIT_A_LOG": "MISSING",
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
@@ -619,6 +620,7 @@
     "TITLE": "Registro de Trabalho de Campo"
   },
   "LOG_HARVEST": {
+    "ADD_A_HARVEST_USE": "Add a harvest use",
     "ADD_CUSTOM_HARVEST_USE": "MISSING",
     "CROP": "Choose a crop",
     "CROP_PLACEHOLDER": "Select a crop",
@@ -626,13 +628,11 @@
     "FIELD": "Choose a field",
     "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
-    "HARVEST_ALLOCATION_TITLE": "Registro de colheita (passo 3 de 3)",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
-    "TITLE": "Registro de Colheita (passo 1 de 3)",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {
@@ -813,6 +813,7 @@
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente de sítio/Fazenda",
     "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
+    "IS_OWNER_OPERATED": "MISSING",
     "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
   },
   "SALE": {
@@ -935,12 +936,13 @@
       "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
       "CHOOSE_DATE": "Escolha uma data",
       "CHOOSE_WORKERS": "Escolha trabalhador(a)",
-      "CROPS_ON_THIS_FARM": "Culturas nesta fazenda",
-      "CROPS_ON_YOUR_FARM": "Culturas em sua fazenda",
+      "CROPS": "MISSING",
+      "CROPS_LABEL": "MISSING",
       "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
-      "FIELDS_ON_YOUR_FARM": "Campos em sua fazenda",
       "HAPPY": "Contente",
       "INDIVIDUAL_CROPS": "Culturas Individuais",
+      "LOCATIONS": "MISSING",
+      "LOCATIONS_LABEL": "MISSING",
       "MOOD": "Como você se sentiu durante este turno?",
       "NAME_TASK": "Nome da tarefa personalizada",
       "NEUTRAL": "Neutra(o)",
@@ -957,7 +959,7 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
       "DURATION": "Duração",
-      "FIELD_CROPS": "Campos / Culturas",
+      "LOCATION_CROPS": "Locations/Crops",
       "SUBMITTED_FOR": "Insira para",
       "TASK": "Tarefa",
       "TITLE": "Detalhes do turno"
@@ -969,6 +971,7 @@
     },
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
+    "TIME_TOTAL": "MISSING",
     "TITLE": "Turnos"
   },
   "SIGNUP": {

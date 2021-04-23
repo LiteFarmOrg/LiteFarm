@@ -2,7 +2,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Radio from '../Form/Radio';
 import React from 'react';
-import { Title } from '../Typography';
+import { Label, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 export default function PureRoleSelection({
@@ -32,6 +32,9 @@ export default function PureRoleSelection({
       <Radio classes={inputClasses} {...inputs[0]} />
       <Radio classes={inputClasses} {...inputs[1]} />
       <Radio classes={inputClasses} {...inputs[2]} />
+      <Title>{t('ROLE_SELECTION.IS_OWNER_OPERATED')}</Title>
+      <Radio classes={inputClasses} {...inputs[3]} />
+      <Radio classes={inputClasses} {...inputs[4]} />
     </Form>
   );
 }

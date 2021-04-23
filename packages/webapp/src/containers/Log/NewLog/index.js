@@ -17,6 +17,7 @@ import {
   saveHarvestAllocationWip,
   setDefaultDate,
   setFormData,
+  setSelectedLog,
   setSelectedUseTypes,
 } from '../actions';
 import { canEdit, resetHarvestLog } from '../Utility/logSlice';
@@ -30,6 +31,7 @@ class NewLog extends Component {
     this.props.dispatch(setSelectedUseTypes([]));
     this.props.dispatch(saveHarvestAllocationWip({}));
     this.props.dispatch(resetHarvestLog());
+    this.props.dispatch(setSelectedLog({}));
     this.props.dispatch(canEdit(false));
   }
   render() {
@@ -39,7 +41,6 @@ class NewLog extends Component {
         <Main style={{ paddingBottom: '16px' }}>{this.props.t('LOG_COMMON.SELECT_TASK')}</Main>
         <div className={styles.tileContainer}>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/fertilizing_log');
             }}
@@ -50,7 +51,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/pest_control_log');
             }}
@@ -61,7 +61,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/harvest_log');
             }}
@@ -72,7 +71,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/seeding_log');
             }}
@@ -84,7 +82,6 @@ class NewLog extends Component {
           </div>
 
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/field_work_log');
             }}
@@ -95,7 +92,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/soil_data_log');
             }}
@@ -106,7 +102,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/irrigation_log');
             }}
@@ -117,7 +112,6 @@ class NewLog extends Component {
             </div>
           </div>
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/scouting_log');
             }}
@@ -129,7 +123,6 @@ class NewLog extends Component {
           </div>
 
           <div
-            className={styles.col}
             onClick={() => {
               history.push('/other_log');
             }}

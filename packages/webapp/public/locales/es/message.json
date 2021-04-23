@@ -86,9 +86,9 @@
     "FAIL_DELETE": "Fallo al retirar",
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": "Retiro exitosamente",
-    "SUCCESS_PATCH": "Actualizo exitosamente",
-    "SUCCESS_POST": "Creo exitosamente"
+    "SUCCESS_DELETE": " se retiro exitosamente",
+    "SUCCESS_PATCH": " se actualizo exitosamente",
+    "SUCCESS_POST": " se creo exitosamente"
   },
   "NEW_FIELD_CROP": {
     "ERROR": {

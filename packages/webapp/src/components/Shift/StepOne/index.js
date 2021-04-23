@@ -167,7 +167,11 @@ function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
         const taskName = t(`task:${type.task_translation_key}`);
         const buttonImg = imgDict[type.task_name] ? imgDict[type.task_name] : OtherImg;
         return (
-          <div className={styles.matrixItem} onClick={() => selectOrDeselectTask(type.task_id)} key={`task${i}`}>
+          <div
+            className={styles.matrixItem}
+            onClick={() => selectOrDeselectTask(type.task_id)}
+            key={`task${i}`}
+          >
             <div
               className={clsx(
                 styles.circleButton,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { userFarmSelector } from '../../userFarmSlice';
 import { resetStepOne, stepOneSelector } from '../../shiftSlice';
 import PureStepTwo from '../../../components/Shift/StepTwo';
@@ -8,7 +9,6 @@ import history from '../../../history';
 import { submitShift } from '../actions';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { useTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
 import { cropLocationEntitiesSelector } from "../../locationSlice";
 
 function StepTwo() {
@@ -21,7 +21,7 @@ function StepTwo() {
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const users = useSelector(userFarmSelector);
   const locationsObject = useSelector(cropLocationEntitiesSelector);
-  const locations = Object.keys(locationsObject).map(k => locationsObject[k]);
+  const locations = Object.keys(locationsObject).map((k) => locationsObject[k]);
   const dispatch = useDispatch();
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
@@ -42,7 +42,7 @@ function StepTwo() {
   const onCancel = () => {
     dispatch(resetStepOne());
     history.push('/shift');
-  }
+  };
 
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };
@@ -51,7 +51,7 @@ function StepTwo() {
       user_id: usersObj.user_id,
       wage_at_moment: Number(usersObj.wage.amount),
       mood: mood || 'na',
-      shift_date,
+      shift_date: moment(shift_date).format('YYYY-MM-DD'),
       tasks: [],
     };
 

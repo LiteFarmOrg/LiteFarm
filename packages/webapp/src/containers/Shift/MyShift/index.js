@@ -13,7 +13,7 @@ import { fieldsSelector } from '../../fieldSlice';
 import { getDuration } from './../../../util/index';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
-import { cropLocationEntitiesSelector } from "../../locationSlice";
+import { cropLocationEntitiesSelector } from '../../locationSlice';
 
 class MyShift extends Component {
   constructor(props) {
@@ -99,7 +99,7 @@ class MyShift extends Component {
   }
 
   getLocationName(location_id) {
-    const locations = Object.keys(this.props.locations).map(k => this.props.locations[k]);
+    const locations = Object.keys(this.props.locations).map((k) => this.props.locations[k]);
     for (let location of locations) {
       if (location.location_id === location_id) {
         return location.name;
@@ -156,8 +156,7 @@ class MyShift extends Component {
             {(Number(farm.role_id) === 1 ||
               Number(farm.role_id) === 2 ||
               Number(farm.role_id) === 5 ||
-              this.props.selectedShift.created_by === this.props.currentUser.user_id
-          ) && (
+              this.props.selectedShift.created_by === this.props.currentUser.user_id) && (
               <DropdownButton options={options}>{this.props.t('SHIFT.ACTION')}</DropdownButton>
             )}
           </div>
@@ -214,8 +213,7 @@ class MyShift extends Component {
             );
           })}
         </div>
-        {
-          this.state &&
+        {this.state && (
           <ConfirmModal
             open={this.state.showModal}
             onClose={() => this.setState({ showModal: false })}
@@ -226,7 +224,7 @@ class MyShift extends Component {
             }}
             message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
           />
-        }
+        )}
       </div>
     );
   }
@@ -240,7 +238,7 @@ const mapStateToProps = (state) => {
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),
-    currentUser: loginSelector(state)
+    currentUser: loginSelector(state),
   };
 };
 

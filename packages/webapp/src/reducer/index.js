@@ -51,6 +51,7 @@ import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
+import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
@@ -159,6 +160,7 @@ const tempStateReducer = combineReducers({
   logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,
+  organicCertifierSurveyReducer,
 });
 
 // combine all reducers here and pass it to application

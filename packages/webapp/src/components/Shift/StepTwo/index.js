@@ -13,32 +13,32 @@ import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
-import TimeSlider from "../../Form/Slider/TimeSlider";
-import BackArrow from "../../../assets/images/miscs/arrow.svg";
+import TimeSlider from '../../Form/Slider/TimeSlider';
+import BackArrow from '../../../assets/images/miscs/arrow.svg';
 
 function PureStepTwo({
-                       onGoBack,
-                       onNext,
-                       onCancel,
-                       isCurrentShiftUser,
-                       finalForm,
-                       setFinalForm,
-                       cropDurations,
-                       setCropDurations,
-                       mood,
-                       setMood,
-                       crops,
-                       locations,
-                       selectedTasks,
-                       isEO,
-                     }) {
-  const { t } = useTranslation([ 'translation', 'crop', 'common', 'task' ]);
-  let [ cropOptions, setCropOptions ] = useState([]);
-  let [ fieldOptions, setFieldOptions ] = useState([]);
-  const [ defaultCrops, setDefaultCrops ] = useState({});
-  const [ defaultFields, setDefaultFields ] = useState({});
-  const [ showEdit, setShowEdit ] = useState(false);
-  const [ nextEnabled, setNextEnabled ] = useState(false);
+  onGoBack,
+  onNext,
+  onCancel,
+  isCurrentShiftUser,
+  finalForm,
+  setFinalForm,
+  cropDurations,
+  setCropDurations,
+  mood,
+  setMood,
+  crops,
+  locations,
+  selectedTasks,
+  isEO,
+}) {
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
+  let [cropOptions, setCropOptions] = useState([]);
+  let [fieldOptions, setFieldOptions] = useState([]);
+  const [defaultCrops, setDefaultCrops] = useState({});
+  const [defaultFields, setDefaultFields] = useState({});
+  const [showEdit, setShowEdit] = useState(false);
+  const [nextEnabled, setNextEnabled] = useState(false);
 
   useEffect(() => {
     let addedCropID = [];
@@ -85,9 +85,8 @@ function PureStepTwo({
     );
 
     setNextEnabled(fieldsAndTasksAreValid && cropsHaveValidDurations);
-  }, [ cropDurations, finalForm ]);
-  const changeDuration = (event, task_id, is_crop, crop_id = null, setDuration = () => {
-  }) => {
+  }, [cropDurations, finalForm]);
+  const changeDuration = (event, task_id, is_crop, crop_id = null, setDuration = () => {}) => {
     let value = event.target.value;
     let duration = 0;
     const mutatingCropDurations = { ...cropDurations };
@@ -311,28 +310,28 @@ function PureStepTwo({
 }
 
 function InputDuration({
-                         task,
-                         cropDurations,
-                         toggleCropOrField,
-                         addAll,
-                         toggleBack,
-                         handleCropChange,
-                         changeDuration,
-                         handleFieldChange,
-                         state,
-                         cropTotalTimeAssign,
-                         resetCropDuration,
-                         defaultCrops,
-                         defaultFields,
-                       }) {
-  const [ duration, _setDuration ] = useState({ hours: 0, minutes: 0 });
-  const [ selectedCrops, setSelectedCrops ] = useState();
-  const [ selectedFields, setSelectedFields ] = useState();
-  const [ innerCropDurations, setCropDurations ] = useState({
+  task,
+  cropDurations,
+  toggleCropOrField,
+  addAll,
+  toggleBack,
+  handleCropChange,
+  changeDuration,
+  handleFieldChange,
+  state,
+  cropTotalTimeAssign,
+  resetCropDuration,
+  defaultCrops,
+  defaultFields,
+}) {
+  const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
+  const [selectedCrops, setSelectedCrops] = useState();
+  const [selectedFields, setSelectedFields] = useState();
+  const [innerCropDurations, setCropDurations] = useState({
     [task.task_id]: { hours: '', minutes: '' },
   });
-  const [ allCropsEnabled, setAllCropsEnabled ] = useState(true);
-  const { t } = useTranslation([ 'translation', 'crop', 'common', 'task' ]);
+  const [allCropsEnabled, setAllCropsEnabled] = useState(true);
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };
@@ -362,11 +361,11 @@ function InputDuration({
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
     resetCrops();
-  }, [ defaultCrops ]);
+  }, [defaultCrops]);
 
   useEffect(() => {
     setSelectedFields(defaultFields[task.task_id]);
-  }, [ defaultFields ]);
+  }, [defaultFields]);
 
   const onFieldChangeDuration = (durationInMinutes) => {
     changeDuration({ target: { value: durationInMinutes } }, task.task_id, false);
@@ -384,14 +383,14 @@ function InputDuration({
           onClick={() => toggleCropOrField(task.task_id, 'crop')}
         >
           <div className={styles.cropButton}>
-            <img src={cropImg} alt=""/>
+            <img src={cropImg} alt="" />
             <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.CROPS')}</div>
           </div>
           <div
             className={styles.fieldButton}
             onClick={() => toggleCropOrField(task.task_id, 'field')}
           >
-            <img src={fieldImg} alt=""/>
+            <img src={fieldImg} alt="" />
             <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.LOCATIONS')}</div>
           </div>
         </div>
@@ -417,8 +416,7 @@ function InputDuration({
                 toggleBack(task.task_id, 'crop');
               }}
             >
-              ←
-              {t('common:BACK')}
+              ←{t('common:BACK')}
             </div>
           </div>
         </div>
@@ -444,61 +442,64 @@ function InputDuration({
             <div className={styles.cropDurationType}>
               <Button
                 sm
-                style={{ flex: '1',padding: '4px'}}
+                style={{ flex: '1', padding: '4px' }}
                 onClick={() => {
                   setAllCropsEnabled(true);
-                }}>
+                }}
+              >
                 {t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
               </Button>
-              <div style={{flex: '0 0 2%'}}/>
+              <div style={{ flex: '0 0 2%' }} />
               <Button
                 sm
-                style={{ flex: '1',padding: '4px'}}
+                style={{ flex: '1', padding: '4px' }}
                 onClick={() => {
                   resetCropDuration(task.task_id);
                   setAllCropsEnabled(false);
                   setDuration(0);
-                }}>
+                }}
+              >
                 {t('SHIFT.EDIT_SHIFT.INDIVIDUAL_CROPS')}
               </Button>
             </div>
-            {
-              !allCropsEnabled && (
-                <div className={styles.cropDurationContainer}>
-                  {
-                    cropDurations[task.task_id]?.map((cd) => {
-                      return (
-                        <div className={styles.durationContainer} key={cd.crop_id}>
-                          <div className={styles.durationInput}>
-                            <TimeSlider label={cd.crop_name} setValue={(durationInMinutes) => {
-                              changeDuration({ target: { value: durationInMinutes } },
-                                task.task_id,
-                                true,
-                                cd.crop_id,
-                                setDuration,
-                              );
-                            }}/>
-                          </div>
-                        </div>
-                      );
-                    })
-                  }
-                </div>
-              )
-            }
-            {
-              allCropsEnabled && (
-                <div>
-                  <div className={styles.durationContainer}>
-                    <div className={styles.durationInput}>
-                      <TimeSlider label={t('SHIFT.TIME_TOTAL')} setValue={(durationInMinutes) => {
-                        onDurationChange(durationInMinutes, task.task_id);
-                      }}/>
+            {!allCropsEnabled && (
+              <div className={styles.cropDurationContainer}>
+                {cropDurations[task.task_id]?.map((cd) => {
+                  return (
+                    <div className={styles.durationContainer} key={cd.crop_id}>
+                      <div className={styles.durationInput}>
+                        <TimeSlider
+                          label={cd.crop_name}
+                          setValue={(durationInMinutes) => {
+                            changeDuration(
+                              { target: { value: durationInMinutes } },
+                              task.task_id,
+                              true,
+                              cd.crop_id,
+                              setDuration,
+                            );
+                          }}
+                        />
+                      </div>
                     </div>
+                  );
+                })}
+              </div>
+            )}
+            {allCropsEnabled && (
+              <div>
+                <div className={styles.durationContainer}>
+                  <div className={styles.durationInput}>
+                    <TimeSlider
+                      label={t('SHIFT.TIME_TOTAL')}
+                      setValue={(durationInMinutes) => {
+                        onDurationChange(durationInMinutes, task.task_id);
+                      }}
+                    />
                   </div>
                 </div>
-              )
-            }
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -518,52 +519,49 @@ function InputDuration({
                 toggleBack(task.task_id, 'field');
               }}
             >
-              ←
-              {t('common:BACK')}
+              ←{t('common:BACK')}
             </div>
           </div>
         </div>
         <Label>{t('SHIFT.EDIT_SHIFT.LOCATIONS_LABEL')}</Label>
         <div className={styles.selectInner}>
-            <Select
-              isMulti
-              isSearchable={false}
-              name="selectByFields"
-              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
-              options={state.fieldOptions}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              value={selectedFields}
-              onChange={(selectedOption) => {
-                setSelectedFields(selectedOption)
-                handleFieldChange(selectedOption, task.task_id)
-              }}
-            />
+          <Select
+            isMulti
+            isSearchable={false}
+            name="selectByFields"
+            placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
+            options={state.fieldOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            value={selectedFields}
+            onChange={(selectedOption) => {
+              setSelectedFields(selectedOption);
+              handleFieldChange(selectedOption, task.task_id);
+            }}
+          />
         </div>
-        {
-          selectedFields?.length ?  (
-            <div className={styles.durationContainer}>
-              <div className={styles.durationInput}>
-                <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration}/>
-              </div>
+        {selectedFields?.length ? (
+          <div className={styles.durationContainer}>
+            <div className={styles.durationInput}>
+              <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration} />
             </div>
-          ) : null
-        }
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
 
 function MoodPopup({
-                     closeEditModal,
-                     showEditModal,
-                     mood,
-                     setMood,
-                     finish,
-                     isCurrentShiftUser,
-                     isEO,
-                   }) {
-  const { t } = useTranslation([ 'translation', 'crop', 'common', 'task' ]);
+  closeEditModal,
+  showEditModal,
+  mood,
+  setMood,
+  finish,
+  isCurrentShiftUser,
+  isEO,
+}) {
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
   const setNotProvided = (event) => {
     setMood(event.currentTarget.checked ? 'no answer' : null);
   };

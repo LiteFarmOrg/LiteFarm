@@ -91,13 +91,13 @@ export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
   measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
 
 export const getDuration = (timeInMinutes) => {
-  if(timeInMinutes === 0) {
+  if (timeInMinutes === 0) {
     return { durationString: '0m', minutes: 0, hours: 0 };
   }
   const hours = parseInt(timeInMinutes / 60, 10);
   const minutes = timeInMinutes - hours * 60;
   const durationString = `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
-  return {hours, minutes, durationString}
+  return { hours, minutes, durationString };
 };
 
 export const isChrome = () => {

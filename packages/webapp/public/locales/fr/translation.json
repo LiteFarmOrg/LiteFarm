@@ -38,7 +38,9 @@
     },
     "SUMMARY": {
       "GOOD_NEWS": "MISSING",
+      "BAD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
+      "BAD_NEWS_INFO": "MISSING",
       "TITLE": "MISSING"
     },
     "WARNING": "MISSING"

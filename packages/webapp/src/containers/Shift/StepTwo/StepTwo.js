@@ -21,7 +21,7 @@ function StepTwo() {
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const users = useSelector(userFarmSelector);
   const locationsObject = useSelector(cropLocationEntitiesSelector);
-  const locations = Object.keys(locationsObject).map(k => locationsObject[k]);
+  const locations = Object.keys(locationsObject).map((k) => locationsObject[k]);
   const dispatch = useDispatch();
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
@@ -42,7 +42,7 @@ function StepTwo() {
   const onCancel = () => {
     dispatch(resetStepOne());
     history.push('/shift');
-  }
+  };
 
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };

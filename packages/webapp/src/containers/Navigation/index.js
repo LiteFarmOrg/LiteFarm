@@ -17,24 +17,26 @@ import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
-import { chooseFarmFlowSelector, endSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
+import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
 import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { setSpotlightToShown } from '../Map/saga';
 
 const NavBar = (props) => {
-  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin } = props;
-  const { showSpotLight, isInvitationFlow } = farmState;
+  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin, showedSpotlight } = props;
+  const { isInvitationFlow } = farmState;
+  const { navigation } = showedSpotlight;
   const isFarmSelected =
     isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
   const resetSpotlight = () => {
-    dispatch(endSpotLight(farm.farm_id));
+    dispatch(setSpotlightToShown('navigation'));
   };
-
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar
-        showSpotLight={showSpotLight}
+        showSpotLight={!navigation}
         resetSpotlight={resetSpotlight}
         showSwitchFarm={numberOfUserFarm > 1}
         history={history}
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => {
     farmState: chooseFarmFlowSelector(state),
     numberOfUserFarm: userFarmLengthSelector(state),
     isAdmin: isAdminSelector(state),
+    showedSpotlight: showedSpotlightSelector(state),
   };
 };
 

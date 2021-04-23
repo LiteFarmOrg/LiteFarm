@@ -114,10 +114,10 @@ const baseController = {
   },
 
   async updateIndividualById(model, id, updatedLog, req, { trx = null, context = {} } = {}) {
-    updatedLog = removeAdditionalProperties(model, updatedLog);
+    const filteredObject = removeAdditionalProperties(model, updatedLog);
     if (!lodash.isEmpty(updatedLog)) {
       return await model.query(trx).context({ user_id: req?.user?.user_id, ...context })
-        .patchAndFetchById(id, updatedLog);
+        .patchAndFetchById(id, filteredObject);
     }
 
   },

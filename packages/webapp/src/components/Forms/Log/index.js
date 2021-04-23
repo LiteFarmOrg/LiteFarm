@@ -7,9 +7,9 @@ import moment from 'moment';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
 import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
-import TextArea from '../../Form/TextArea';
 import { Label } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
+import Input from '../../Form/Input';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -310,8 +310,8 @@ class DefaultLogForm extends React.Component {
           <div>
             <div className={styles.noteContainer}>
               <Control
-                model=".notes"
-                component={TextArea}
+                model='.notes'
+                component={Input}
                 label={this.props.t('LOG_COMMON.NOTES')}
               />
             </div>

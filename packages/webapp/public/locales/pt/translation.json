@@ -635,6 +635,7 @@
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
+    "TITLE": "Registro de Colheita",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {

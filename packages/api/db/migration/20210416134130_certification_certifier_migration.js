@@ -53,7 +53,10 @@ exports.up = async function (knex) {
     certification_id: null,
   }
   const updatedCertifiers = currentCertifiers.map((certifier) => {
-    const match = allCertifiers.find(({ certifier_name, certifier_acronym }) => certifier.certifiers.includes(certifier_name) || certifier.certifiers.includes(certifier_acronym));
+    const match = allCertifiers.find(({ certifier_name, certifier_acronym }) =>
+      certifier.certifiers && (
+        certifier.certifiers.includes(certifier_name) ||
+      certifier.certifiers.includes(certifier_acronym)));
     if(match) {
       return {
         ...newStructure,
@@ -65,7 +68,7 @@ exports.up = async function (knex) {
       return {
         ...newStructure,
         survey_id: certifier.survey_id,
-        requested_certifier: certifier.certifiers.length ? certifier.certifiers[0] : null,
+        requested_certifier: certifier.certifiers?.length ? certifier.certifiers[0] : null,
       }
     }
   });

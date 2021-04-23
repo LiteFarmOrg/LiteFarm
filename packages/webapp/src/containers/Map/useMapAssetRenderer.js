@@ -86,7 +86,7 @@ const useMapAssetRenderer = () => {
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      if (map.getZoom() === 20 && cluster.markers_.length > 1) {
+      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
@@ -94,7 +94,6 @@ const useMapAssetRenderer = () => {
         cluster.markers_.map((point) => {
           pointAssets[point.type].push({
             asset: point.asset,
-            isVisible: true,
             location_id: point.id,
             location_name: point.name,
             marker: point,
@@ -183,8 +182,6 @@ const useMapAssetRenderer = () => {
       strokeWeight: 2,
       fillColor: colour,
       fillOpacity: 0.5,
-      // clickable: false,
-      // crossOnDrag: false,
     });
     polygon.setMap(map);
 

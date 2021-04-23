@@ -21,6 +21,7 @@ const baseController = require('../controllers/baseController');
 const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
+// TODO: put nitrogen scheduler here for when we want to put it back
 
 const insightController = {
 
@@ -234,7 +235,7 @@ const insightController = {
         const dataPoints = await knex.raw(
           `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
           FROM "fieldCrop" fc, "location", "waterBalance" w, "crop" c
-          WHERE fc.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.field_id = location.location_id and
+          WHERE fc.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.location_id = location.location_id and
            fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);

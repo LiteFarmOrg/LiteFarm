@@ -16,6 +16,7 @@
 const baseController = require('../controllers/baseController');
 const showedSpotlightModel = require('../models/showedSpotlightModel');
 const { transaction, Model } = require('objection');
+const lodash = require('lodash');
 
 const showedSpotlightController = {
   getSpotlightFlags() {
@@ -29,6 +30,7 @@ const showedSpotlightController = {
           'drop_point',
           'adjust_area',
           'adjust_line',
+          'navigation',
         ).findById(user_id);
         res.status(200).send(data);
       } catch (error) {
@@ -37,54 +39,23 @@ const showedSpotlightController = {
           error,
         });
       }
-    }
+    };
   },
   updateSpotlightFlags() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
       const { user_id } = req.user;
-      const {
-        map,
-        map_end,
-        draw_area,
-        draw_area_end,
-        draw_line,
-        draw_line_end,
-        drop_point,
-        drop_point_end,
-        adjust_area,
-        adjust_area_end,
-        adjust_line,
-        adjust_line_end,
-      } = req.body;
       try {
-        const isPatched = await showedSpotlightModel.query(trx).where('user_id', user_id).patch({
-          map,
-          map_end,
-          draw_area,
-          draw_area_end,
-          draw_line,
-          draw_line_end,
-          drop_point,
-          drop_point_end,
-          adjust_area,
-          adjust_area_end,
-          adjust_line,
-          adjust_line_end,
-        });
+        const isPatched = await baseController.updateIndividualById(showedSpotlightModel, user_id, req.body, req);
         if (isPatched) {
-          await trx.commit();
           return res.sendStatus(200);
         } else {
-          await trx.rollback();
           return res.sendStatus(404);
         }
       } catch (error) {
-        await trx.rollback();
         return res.status(400).send(error);
       }
     };
   },
-}
+};
 
 module.exports = showedSpotlightController;

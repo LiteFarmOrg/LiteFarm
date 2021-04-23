@@ -11,10 +11,12 @@ function RoleSelection() {
   const { t } = useTranslation();
   const { register, handleSubmit } = useForm();
   const ROLE = 'role';
+  const OWNER_OPERATED = 'owner_operated_string';
   const dispatch = useDispatch();
-  const onSubmit = ({ role }) => {
+  const onSubmit = ({ role, owner_operated_string}) => {
     const callback = () => history.push('/consent');
-    dispatch(patchRole({ role, role_id: roleToId[role], callback }));
+    const owner_operated = owner_operated_string === "true" ? true : owner_operated_string === "false" ? false : null;
+    dispatch(patchRole({ role, owner_operated, role_id: roleToId[role], callback }));
   };
   const onGoBack = () => {
     history.push('/add_farm');
@@ -43,9 +45,21 @@ function RoleSelection() {
           inputRef: register({ required: true }),
           name: ROLE,
         },
+        {
+          label: t('common:YES'),
+          value: true,
+          inputRef: register(),
+          name: OWNER_OPERATED,
+        },
+        {
+          label: t('common:NO'),
+          value: false,
+          inputRef: register(),
+          name: OWNER_OPERATED,
+        },
       ]}
       title={t('ROLE_SELECTION.TITLE')}
-    ></PureRoleSelection>
+    />
   );
 }
 

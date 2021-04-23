@@ -31,6 +31,7 @@ import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
+const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
 const patchStepUrl = (farm_id, user_id) =>
   `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 export const postFarm = createAction('postFarmSaga');
@@ -103,7 +104,7 @@ export function* patchRoleSaga({ payload }) {
   try {
     const userFarm = yield select(userFarmSelector);
     const { user_id, farm_id, step_two, step_two_end } = userFarm;
-    const { role, role_id, callback } = payload;
+    const { role, owner_operated, role_id, callback } = payload;
     const header = getHeader(user_id, farm_id);
     //TODO set date on server
     let step = {
@@ -115,6 +116,9 @@ export function* patchRoleSaga({ payload }) {
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
     yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
+    if(owner_operated !== null) {
+      yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
+    }
     callback && callback();
   } catch (e) {
     console.log('fail to update role');

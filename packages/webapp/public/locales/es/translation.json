@@ -813,6 +813,7 @@
     "FARM_EO": "Oficial de extensión",
     "FARM_MANAGER": "Gerente o jefe de la finca",
     "FARM_OWNER": "Dueño(a) de la finca",
+    "IS_OWNER_OPERATED": "MISSING",
     "TITLE": "Cúal es su rol en la finca?"
   },
   "SALE": {
@@ -935,14 +936,13 @@
       "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
       "CHOOSE_DATE": "Elección de fecha",
       "CHOOSE_WORKERS": "Elegir trabajador",
-      "CROPS_ON_THIS_FARM": "Cultivos en esta finca",
-      "CROPS_ON_YOUR_FARM": "Cultivos en esta finca",
       "CROPS": "Cultivos",
+      "CROPS_LABEL": "MISSING",
       "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
-      "FIELDS_ON_YOUR_FARM": "Campos en su finca",
-      "LOCATIONS": "Ubicaciones",
       "HAPPY": "Feliz",
       "INDIVIDUAL_CROPS": "Cultivos individuales",
+      "LOCATIONS": "Ubicaciones",
+      "LOCATIONS_LABEL": "MISSING",
       "MOOD": "Cómo se sintió haciendo esta tarea?",
       "NAME_TASK": "Nombre de la tarea habitual",
       "NEUTRAL": "Neutral",
@@ -971,6 +971,7 @@
     },
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
+    "TIME_TOTAL": "MISSING",
     "TITLE": "Turnos"
   },
   "SIGNUP": {

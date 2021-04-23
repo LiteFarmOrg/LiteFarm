@@ -45,6 +45,8 @@ class ShowedSpotlight extends Model {
         adjust_area_end: { type: ['string', 'null'] },
         adjust_line: { type: 'boolean' },
         adjust_line_end: { type: ['string', 'null'] },
+        navigation: { type: 'boolean' },
+        navigation_end: { type: ['string', 'null'] },
       },
     };
   }
@@ -61,11 +63,6 @@ class ShowedSpotlight extends Model {
       },
     };
   }
-
-  // async $beforeInsert(context) {
-  //   await super.$beforeInsert(context);
-  //   this.created_at = new Date().toISOString();
-  // }
 }
 
 module.exports = ShowedSpotlight;

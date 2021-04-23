@@ -111,7 +111,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'location_id', fieldFilter) &&
+          checkFilter(l.location[0], 'location_id', fieldFilter) &&
           l.user_id === user.user_id &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),

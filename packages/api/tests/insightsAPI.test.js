@@ -43,8 +43,6 @@ describe('insights test', () => {
     });
   });
 
-;
-
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();

@@ -151,18 +151,24 @@ const insightController = {
       try {
         const farmID = req.params.farm_id;
         const dataPoints = await knex.raw(
-          `SELECT area.grid_points, SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
-          FROM "field" f
-          JOIN "location" on location.location_id = f.location_id
+          `SELECT area.grid_points
+          FROM "farm_site_boundary" fsb
+          JOIN "location" on location.location_id = fsb.location_id
           JOIN "figure" on figure.location_id = location.location_id
           JOIN "area" on figure.figure_id = area.figure_id
-          LEFT JOIN "fieldCrop" fc
-          ON fc.location_id = f.location_id
           WHERE location.farm_id = ?
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
-        if (dataPoints.rows) {
-          const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
+        const cropCount = await knex.raw(
+          `SELECT SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
+          FROM "location" l
+          LEFT JOIN "fieldCrop" fc
+            on fc.location_id = l.location_id
+          WHERE l.farm_id = ?`, [farmID]);
+        if (dataPoints.rows && cropCount.rows) {
+          let count = cropCount.rows[0].count;
+          if (count === null) count = 0;
+          const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
           res.status(200).send(body);
         } else {
           res.status(200).send({});

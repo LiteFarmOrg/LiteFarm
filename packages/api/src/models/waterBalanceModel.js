@@ -29,11 +29,11 @@ class WaterBalance extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'field_id', 'soil_water', 'plant_available_water'],
+      required: ['crop_id', 'location_id', 'soil_water', 'plant_available_water'],
       properties: {
         water_balance_id: { type: 'integer' },
         crop_id: { type: 'integer' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         created_at: { type: 'date-time' },
         soil_water: { type: 'float' },
         plant_available_water: { type: 'float' },

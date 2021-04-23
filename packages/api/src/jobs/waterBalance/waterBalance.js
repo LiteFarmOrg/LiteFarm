@@ -102,8 +102,8 @@ class waterBalanceScheduler {
   static async checkFarmID(farmID) {
     const dataPoints = await knex.raw(
       `SELECT w.farm_id 
-    FROM "waterBalanceSchedule" w 
-    WHERE w.farm_id = ?`,
+        FROM "waterBalanceSchedule" w 
+        WHERE w.farm_id = ?`,
       [farmID],
     );
     return dataPoints.rows.length === 1;
@@ -208,7 +208,7 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
     case 'wind_speed':
       returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
       break;
-    case 'field_id':
+    case 'location_id':
       returningWeatherData[key] = existingWeatherData[key];
       break;
     case 'data_points':
@@ -244,16 +244,16 @@ const waterBalanceDailyCalc = async (dataPoint) => {
   const farmID = dataPoint.farm_id;
   const dataPoints = await knex.raw(
     `
-    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.field_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, f.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
+    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.location_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, f.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
     FROM "field" f, "crop" c, "users" u,
     "activityLog" al,
     "soilDataLog" sdl, 
     "activityFields" af, 
     "fieldCrop" fc
     LEFT JOIN (
-        SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
-        WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
-      ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
+        SELECT w.location_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
+        WHERE w.location_id = f.location_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
+      ON w.location_id = fc.location_id and w.crop_id = fc.crop_id
     LEFT JOIN (
         SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
         FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
@@ -262,8 +262,8 @@ const waterBalanceDailyCalc = async (dataPoint) => {
         GROUP BY ac.field_crop_id
         ) il 
       ON il.field_crop_id = fc.field_crop_id
-    WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
-    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
+    WHERE fc.location_id = f.location_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.location_id = fc.location_id and af.activity_id = sdl.activity_id
+    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.location_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
     `,
     [farmID, previousDay, currentDay, farmID, farmID],
   );
@@ -314,7 +314,7 @@ const doWaterBalanceCalculations = async (data, weatherDataByField) => {
           })
           .then((calculations) => {
             resolve({
-              field_id: crop.field_id,
+              location_id: crop.location_id,
               crop_id: crop.crop_id,
               soil_water: calculations.soilWaterContent,
               plant_available_water: calculations.plantAvailableWater,

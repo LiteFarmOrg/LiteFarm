@@ -83,10 +83,10 @@ const runNitrogenBalance = async (farmIDJSON) => {
 
 const inputNitrogenForFarm = async (farmID) => {
   const dataPoints = await knex.raw(`
-  SELECT f.fertilizer_id, fl.quantity_kg, f.fertilizer_type, f.moisture_percentage, f.n_percentage, f.nh4_n_ppm, f.p_percentage, f.k_percentage, f.mineralization_rate, af.field_id, SUM(c.nutrient_credits * (fc.area_used/10000)) as field_nutrient_credits
+  SELECT f.fertilizer_id, fl.quantity_kg, f.fertilizer_type, f.moisture_percentage, f.n_percentage, f.nh4_n_ppm, f.p_percentage, f.k_percentage, f.mineralization_rate, af.location_id, SUM(c.nutrient_credits * (fc.area_used/10000)) as field_nutrient_credits
   FROM "fertilizerLog" fl, "fertilizer" f, "activityLog" a, "users" u, "nitrogenSchedule" n, "activityFields" af, "fieldCrop" fc, "crop" c
-  WHERE fl.activity_id = a.activity_id and u.farm_id = ? and u.user_id = a.user_id and f.fertilizer_id = fl.fertilizer_id and n.farm_id = ? and date(n.created_at) < date(a.date) and date(n.scheduled_at) >= date(a.date) and af.activity_id = a.activity_id and fc.field_id = af.field_id and c.crop_id = fc.crop_id
-  GROUP BY f.fertilizer_id, fl.quantity_kg, f.fertilizer_type, f.moisture_percentage, f.n_percentage, f.nh4_n_ppm, f.p_percentage, f.k_percentage, f.mineralization_rate, af.field_id
+  WHERE fl.activity_id = a.activity_id and u.farm_id = ? and u.user_id = a.user_id and f.fertilizer_id = fl.fertilizer_id and n.farm_id = ? and date(n.created_at) < date(a.date) and date(n.scheduled_at) >= date(a.date) and af.activity_id = a.activity_id and fc.location_id = af.location_id and c.crop_id = fc.crop_id
+  GROUP BY f.fertilizer_id, fl.quantity_kg, f.fertilizer_type, f.moisture_percentage, f.n_percentage, f.nh4_n_ppm, f.p_percentage, f.k_percentage, f.mineralization_rate, af.location_id
 `, [farmID, farmID]);
   /* these data points were found here:
   https://pdfs.semanticscholar.org/f300/3faece1e5ed8b3525ad6114d7d654f156076.pdf
@@ -103,10 +103,10 @@ const inputNitrogenForFarm = async (farmID) => {
       const mineralizationRate = data['mineralization_rate'];
       const totalNitrogenForFert =  nitrogenCredits + ((currentTotalNitrogen - currentNH3 - currentNH4) * mineralizationRate) + currentNH4 + currentNH3;
 
-      if (data['field_id'] in totalNitrogenInputByField) {
-        totalNitrogenInputByField[data['field_id']] += totalNitrogenForFert;
+      if (data['location_id'] in totalNitrogenInputByField) {
+        totalNitrogenInputByField[data['location_id']] += totalNitrogenForFert;
       } else {
-        totalNitrogenInputByField[data['field_id']] = totalNitrogenForFert;
+        totalNitrogenInputByField[data['location_id']] = totalNitrogenForFert;
       }
     }))
   }
@@ -116,7 +116,7 @@ const inputNitrogenForFarm = async (farmID) => {
 
 const outputNitrogenForFarm = async (farmID) => {
   const dataPoints = await knex.raw(`
-  SELECT h.quantity_kg, c.crop_id, c.crop_common_name, c.percentrefuse, c.protein, fc.field_id
+  SELECT h.quantity_kg, c.crop_id, c.crop_common_name, c.percentrefuse, c.protein, fc.location_id
   FROM "harvestLog" h, "activityLog" a, "users" u, "activityCrops" ac, "nitrogenSchedule" n, "crop" c, "fieldCrop" fc
   WHERE h.activity_id = a.activity_id and u.farm_id = ? and ac.activity_id = h.activity_id and date(n.created_at) < date(a.date) and date(n.scheduled_at) >= date(a.date) and fc.field_crop_id = ac.field_crop_id and c.crop_id = fc.crop_id
   `, [farmID]);
@@ -131,10 +131,10 @@ const outputNitrogenForFarm = async (farmID) => {
       // Also there should be an X which is the factor to adjust moisture difference, Zia said to just note it here and not put it in the calculation
       console.log(quantityHarvested, refuse, proteinContent, factorToConvertFromProteinToNitrogen, moistureFactor)
       const totalNitrogenInCrop = quantityHarvested * (1 - refuse) * proteinContent * factorToConvertFromProteinToNitrogen * moistureFactor;
-      if (data['field_id'] in totalNitrogenOutputByField) {
-        totalNitrogenOutputByField[data['field_id']] += totalNitrogenInCrop
+      if (data['location_id'] in totalNitrogenOutputByField) {
+        totalNitrogenOutputByField[data['location_id']] += totalNitrogenInCrop
       } else {
-        totalNitrogenOutputByField[data['field_id']] = totalNitrogenInCrop
+        totalNitrogenOutputByField[data['location_id']] = totalNitrogenInCrop
       }
     }))
   }
@@ -157,7 +157,7 @@ const saveToDB = async (nitrogenBalanceByField) => {
   const trx = await transaction.start(Model.knex());
   try {
     for (const key in nitrogenBalanceByField) {
-      await nitrogenBalanceModel.query(trx).insert({ field_id: key, nitrogen_value: nitrogenBalanceByField[key] }).returning('*');
+      await nitrogenBalanceModel.query(trx).insert({ location_id: key, nitrogen_value: nitrogenBalanceByField[key] }).returning('*');
     }
     await trx.commit();
   } catch (e) {

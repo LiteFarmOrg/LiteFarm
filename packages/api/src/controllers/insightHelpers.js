@@ -268,7 +268,7 @@ exports.getLabourHappiness = (data) => {
   return returnValue
 };
 
-exports.getBiodiversityAPI = async (data) => {
+exports.getBiodiversityAPI = async (pointData, countData) => {
   const resultData = {
     preview: 0,
     data: [],
@@ -289,11 +289,11 @@ exports.getBiodiversityAPI = async (data) => {
     Crops: 0,
   };
 
-  const sortLats = new Array(data.length);
-  const sortLngs = new Array(data.length);
-  for (let i = 0; i < data.length; i++) {
-    if (data[i]['grid_points'] != null) {
-      data[i]['grid_points'].map((grid_point) => {
+  const sortLats = new Array(pointData.length);
+  const sortLngs = new Array(pointData.length);
+  for (let i = 0; i < pointData.length; i++) {
+    if (pointData[i]['grid_points'] != null) {
+      pointData[i]['grid_points'].map((grid_point) => {
         if (Array.isArray(sortLats[i])) {
           sortLats[i].push(Math.round(grid_point['lat'] * 10000) / 10000);
           sortLngs[i].push(Math.round(grid_point['lng'] * 10000) / 10000);
@@ -304,17 +304,15 @@ exports.getBiodiversityAPI = async (data) => {
       })
     }
   }
-  const fieldPoints = new Array(data.length);
+  const fieldPoints = new Array(pointData.length);
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < pointData.length; i++) {
     fieldPoints[i] = [
       [Math.min(...sortLats[i]), Math.max(...sortLats[i])],
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  for (let i = 0; i < data.length; i++) {
-    speciesCount['Crops'] += parseInt(data[i]['count']);
-  }
+  speciesCount['Crops'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {

@@ -149,6 +149,28 @@ const farmController = {
     }
   },
 
+  patchOwnerOperated() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { owner_operated } = req.body;
+        const user_id = req.user.user_id;
+        const updated = await farmModel.query(trx).context({ user_id }).where({ farm_id: req.params.farm_id }).patch({ owner_operated }).returning('*');
+        await trx.commit();
+        if (!updated) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(updated);
+        }
+      } catch (e) {
+        await trx.rollback();
+        res.status(400).json({
+          error: e.message ? e.message : e,
+        });
+      }
+    }
+  },
+
   async getUser(req, trx) {
     // check if a user is making this call
     if (req.user) {

@@ -24,7 +24,6 @@ function Outro() {
   };
   const onContinue = () => {
     dispatch(patchOutroStep());
-    dispatch(startSpotLight(userFarm.farm_id));
   };
   const survey = useSelector(certifierSurveySelector);
   useEffect(() => {

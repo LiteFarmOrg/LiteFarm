@@ -42,6 +42,7 @@ class Farm extends baseModel {
         farm_id: { type: 'string' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
+        owner_operated: { type: 'boolean' },
         grid_points: {
           type: 'object',
           properties: {

@@ -32,8 +32,7 @@ const farmController = {
           return res.status(400).send('No country selected');
         }
 
-        const units = await this.getCountry(country);
-        const { country_id } = await this.getCountryID(country);
+        const { id, ...units } = await this.getCountry(country);
         if (!units) {
           await trx.rollback();
           return res.status(400).send('No unit info for given country');
@@ -44,7 +43,7 @@ const farmController = {
           address: req.body.address,
           grid_points: req.body.grid_points,
           units,
-          country_id: country_id,
+          country_id: id,
         }
         const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
@@ -127,7 +126,9 @@ const farmController = {
         if ((!!req.body.address || !!req.body.grid_points) && !mainPatch) {
           throw new Error('Not allowed to modify address or gridPoints');
         } else if (req.body.country) {
-          req.body.units = await this.getCountry(req.body.country);
+          const  { id, ...units } = await this.getCountry(req.body.country)
+          req.body.units = units;
+          req.body.country_id = id;
           delete req.body.country;
         }
         const user_id = req.user.user_id;
@@ -191,14 +192,9 @@ const farmController = {
   },
 
   async getCountry(country) {
-    const { iso, unit } = await knex('countries').select('*').where('country_name', country).first();
-    return { currency: iso, measurement: unit.toLowerCase() };
+    const { iso, unit, id } = await knex('countries').select('*').where('country_name', country).first();
+    return { currency: iso, measurement: unit.toLowerCase(), id };
   },
-
-  async getCountryID(countryName) {
-    const { id } = await knex('countries').select('*').where('country_name', countryName).first();
-    return { country_id: id };
-  }
 }
 
 module.exports = farmController;

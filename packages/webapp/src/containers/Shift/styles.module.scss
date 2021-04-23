@@ -402,6 +402,7 @@ input:disabled {
 }
 
 .allButton {
+  padding-bottom: 1rem;
   button {
     padding-top: 0;
     padding-bottom: 0;
@@ -411,7 +412,6 @@ input:disabled {
 
 .cropDurationContainer {
   width: 100%;
-  display: none;
   flex-direction: column;
 }
 
@@ -425,8 +425,8 @@ input:disabled {
 }
 
 .durationInput {
-  width: 50%;
-  display: flex;
+  width: 100%;
+  //display: flex;
   input {
     width: 100%;
     border: 1px solid var(--grey400);
@@ -528,7 +528,7 @@ input:disabled {
 }
 
 .cropDurationType {
-  margin-top: 6px;
+  margin-top: 16px;
   display: flex;
   flex-direction: row;
   width: 100%;

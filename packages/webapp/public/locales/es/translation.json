@@ -937,8 +937,10 @@
       "CHOOSE_WORKERS": "Elegir trabajador",
       "CROPS_ON_THIS_FARM": "Cultivos en esta finca",
       "CROPS_ON_YOUR_FARM": "Cultivos en esta finca",
+      "CROPS": "Cultivos",
       "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
       "FIELDS_ON_YOUR_FARM": "Campos en su finca",
+      "LOCATIONS": "Ubicaciones",
       "HAPPY": "Feliz",
       "INDIVIDUAL_CROPS": "Cultivos individuales",
       "MOOD": "Cómo se sintió haciendo esta tarea?",
@@ -957,15 +959,15 @@
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
-      "FIELD_CROPS": "Campos/Cultivos",
+      "LOCATION_CROPS": "Ubicaciones/Cultivos",
       "SUBMITTED_FOR": "Enviado para",
       "TASK": "Tarea",
       "TITLE": "Detalle de turno"
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
-      "STEP_ONE": "Nuevo turno (Paso 1)",
-      "STEP_TWO": "Nuevo turno (Paso 2)"
+      "STEP_ONE": "Agregar turno",
+      "STEP_TWO": "Agregar turno"
     },
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",

@@ -42,9 +42,6 @@ function HarvestLog() {
   };
 
   const onNext = (data) => {
-    if (defaultData.selectedUseTypes) {
-      data.selectedUseTypes = defaultData.selectedUseTypes;
-    }
     dispatch(harvestLogData(data));
     let formValue = !isEditStepOne.isEditStepOne
       ? {
@@ -78,7 +75,7 @@ function HarvestLog() {
         crops={crops}
         unit={unit}
         defaultData={defaultData}
-        isEdit={isEdit}
+        isEdit={{ ...isEdit, ...isEditStepOne }}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

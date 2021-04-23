@@ -15,6 +15,7 @@
 
 const fieldCropModel = require('../../models/fieldCropModel');
 const activityLogModel = require('../../models/activityLogModel');
+const shiftTaskModel = require('../../models/shiftTaskModel');
 const { raw } = require('objection');
 
 async function validateLocationDependency(req, res, next) {
@@ -25,14 +26,15 @@ async function validateLocationDependency(req, res, next) {
     return res.status(400).send('Location can be deleted when it has a fieldCrop');
   }
   const activityLogs = await activityLogModel.query().whereNotDeleted().join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id').where('activityFields.location_id', location_id);
-
   if (activityLogs.length) {
     return res.status(400).send('Location can be deleted when it is referenced by log');
-  } else {
-    return next();
+  }
+  const shifts = await shiftTaskModel.query().join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where({ location_id }).andWhere(raw('shift_date >= now()'));
+  if(shifts.length) {
+    return res.status(400).send('Location can not be deleted when it has pending shifts');
   }
 
-
+  return next();
 }
 
 module.exports = validateLocationDependency;

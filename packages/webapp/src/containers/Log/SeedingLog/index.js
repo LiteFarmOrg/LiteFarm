@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -19,7 +19,8 @@ import {
   currentAndPlannedFieldCropsSelector,
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
-import TextArea from '../../../components/Form/TextArea';
+import { Semibold } from '../../../components/Typography';
+import Input from '../../../components/Form/Input';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -65,21 +66,24 @@ class SeedingLog extends Component {
     const { crops, locations } = this.props;
 
     return (
-      <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SEEDING.TITLE')} />
+      <div className='page-container'>
+        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
+                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SEEDING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
+
           classes={{ container: { marginBottom: '24px' } }}
         />
         <Form
-          model="logReducer.forms"
+          model='logReducer.forms'
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.seedLog)}
         >
           <DefaultLogForm
-            model=".seedLog"
+            model='.seedLog'
             locations={locations}
             crops={crops}
             notesField={false}
@@ -106,9 +110,9 @@ class SeedingLog extends Component {
             type={`seeds/${this.state.rate_unit}`}
           />
           <div>
-            <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
+
             <div className={styles.noteContainer}>
-              <Control component={TextArea} model=".seedLog.notes" />
+              <Control optional label={this.props.t('common:NOTES')} component={Input} model='.seedLog.notes' />
             </div>
           </div>
           <LogFooter />

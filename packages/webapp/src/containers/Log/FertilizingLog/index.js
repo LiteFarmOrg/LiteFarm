@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import { fertSelector, fertTypeSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
@@ -24,7 +24,7 @@ import {
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
-import TextArea from '../../../components/Form/TextArea';
+import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -225,16 +225,18 @@ class FertilizingLog extends Component {
     const fertilizerOptions = this.sortFert(fertilizers);
 
     return (
-      <div className="page-container" style={{ styles }}>
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_FERTILIZING.TITLE')} />
+      <div className='page-container' style={{ styles }}>
+        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
+                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_FERTILIZING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
           classes={{}}
         />
         {
-          <div>
+          <>
             <Form
               className={styles.formContainer}
               model="logReducer.forms"
@@ -247,9 +249,9 @@ class FertilizingLog extends Component {
                 locations={this.props.locations}
               />
               <div className={styles.defaultFormDropDown}>
-                <label>{this.props.t('LOG_COMMON.PRODUCT')}</label>
                 <Control
-                  model=".fertLog.fert_id"
+                  label={this.props.t('LOG_COMMON.PRODUCT')}
+                  model='.fertLog.fert_id'
                   component={DropDown}
                   options={fertilizerOptions || []}
                   placeholder={this.props.t('LOG_COMMON.SELECT_PRODUCT')}
@@ -270,12 +272,10 @@ class FertilizingLog extends Component {
                 />
               </div>
               {[1, 2, 5].includes(this.props.farm.role_id) && (
-                <div>
-                  <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
-                    {' '}
-                    + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}
-                  </div>
-                </div>
+
+                <AddLink style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                         onClick={() => this.openEditModal()}>{this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}</AddLink>
+
               )}
               <Unit
                 model=".fertLog.quantity_kg"
@@ -283,16 +283,16 @@ class FertilizingLog extends Component {
                 type={this.state.quantity_unit}
                 validate
               />
-              <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
+
               <div className={styles.noteContainer}>
-                <Control component={TextArea} model=".fertLog.notes" />
+                <Control optional label={this.props.t('common:NOTES')} component={Input} model='.fertLog.notes' />
               </div>
-              <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
+              <Underlined onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
-              </div>
+              </Underlined>
               {this.state.showChem && (
                 <div>
                   <div className={styles.noteTitle}>
@@ -446,7 +446,7 @@ class FertilizingLog extends Component {
                 </div>
               </Form>
             </Popup>
-          </div>
+          </>
         }
         {(!locations || !fertilizers) && <p>{this.props.t('LOG_COMMON.ERROR_MISSING_FIELDS')}</p>}
       </div>

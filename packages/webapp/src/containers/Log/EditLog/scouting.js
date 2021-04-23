@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import { currentLogSelector, logSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
@@ -19,6 +19,7 @@ import {
   currentAndPlannedFieldCropsSelector,
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { Semibold } from '../../../components/Typography';
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -91,13 +92,14 @@ class ScoutingLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          backUrl="/log"
-          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_SCOUTING.TITLE')}`}
+          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SCOUTING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder="Choose a date"
+          placeholder='Choose a date'
         />
         <Form
           model="logReducer.forms"

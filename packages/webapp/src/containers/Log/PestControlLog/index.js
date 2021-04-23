@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import { diseaseSelector, pesticideSelector, pestLogSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { actions, Control, Errors, Form } from 'react-redux-form';
-import {
-  addDiseases,
-  addPestControlLog,
-  addPesticide,
-  getDiseases,
-  getPesticides,
-} from './actions';
+import { addDiseases, addPestControlLog, addPesticide, getDiseases, getPesticides } from './actions';
 import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
@@ -30,8 +24,8 @@ import {
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
-import TextArea from '../../../components/Form/TextArea';
 import ReactSelect from '../../../components/Form/ReactSelect';
+import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -288,15 +282,18 @@ class PestControlLog extends Component {
       this.props.farm.role_id === 2 ||
       this.props.farm.role_id === 5;
     return (
-      <div className="page-container" style={{ styles }}>
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_PESTICIDE.TITLE')} />
+      <div className='page-container' style={{ styles }}>
+        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
+                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_PESTICIDE.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
+
         />
         {
-          <div>
+          <>
             <Form
               className={styles.formContainer}
               model="logReducer.forms"
@@ -377,31 +374,27 @@ class PestControlLog extends Component {
                 validate
               />
               {isAdmin && (
-                <div>
-                  <div className={styles.greenTextButton} onClick={() => this.openDiseaseModal()}>
-                    {' '}
-                    + {this.props.t('LOG_PESTICIDE.ADD_DISEASE')}
-                  </div>
-                </div>
+
+                <AddLink style={{ paddingBottom: '8px', transform: 'translateY(-8px)' }}
+                         onClick={() => this.openDiseaseModal()}>{this.props.t('LOG_PESTICIDE.ADD_DISEASE')}</AddLink>
+
               )}
               {isAdmin && (
-                <div>
-                  <div className={styles.greenTextButton} onClick={() => this.openPesticideModal()}>
-                    {' '}
-                    + {this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}{' '}
-                  </div>
-                </div>
+                <AddLink style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                         onClick={() => this.openPesticideModal()}>{this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}</AddLink>
+
               )}
-              <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
+
               <div className={styles.noteContainer}>
-                <Control component={TextArea} model=".pestControlLog.notes" />
+                <Control optional label={this.props.t('common:NOTES')} component={Input}
+                         model='.pestControlLog.notes' />
               </div>
-              <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
+              <Underlined onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
-              </div>
+              </Underlined>
               {this.state.showChem && (
                 <div>
                   <div className={styles.noteTitle}>
@@ -612,7 +605,7 @@ class PestControlLog extends Component {
                 </div>
               </Form>
             </Popup>
-          </div>
+          </>
         }
         {(!crops || !locations || !diseases || !pesticides) && (
           <p>{this.props.t('LOG_PESTICIDE.MISSING_DATA')}</p>

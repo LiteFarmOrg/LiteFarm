@@ -42,7 +42,6 @@ export function* resetPasswordSaga({
 
     const { id_token } = result.data;
     localStorage.setItem('id_token', id_token);
-    localStorage.setItem('litefarm_lang', result.language_preference);
 
     const decoded = jwt.decode(id_token);
     const { user_id } = decoded;

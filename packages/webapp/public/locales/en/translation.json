@@ -813,6 +813,7 @@
     "FARM_EO": "Extension Officer",
     "FARM_MANAGER": "Farm Manager",
     "FARM_OWNER": "Farm Owner",
+    "IS_OWNER_OPERATED": "Is this farm owner operated?",
     "TITLE": "What is your role on the farm?"
   },
   "SALE": {
@@ -927,7 +928,6 @@
   "SHIFT": {
     "ACTION": "Action",
     "ADD_NEW": "Add New Shift",
-    "TIME_TOTAL": "Total",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Add Custom Task",
       "ADD_TASK": "Add a Task",
@@ -936,16 +936,13 @@
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "CHOOSE_DATE": "Choose a Date",
       "CHOOSE_WORKERS": "Choose worker",
-      "CROPS_ON_THIS_FARM": "Crops on this farm",
-      "CROPS_ON_YOUR_FARM": "Crops on your farm",
       "CROPS": "Crops",
-      "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
-      "FIELDS_ON_YOUR_FARM": "Fields on your farm",
-      "LOCATIONS": "Locations",
-      "LOCATIONS_LABEL": "Locations",
       "CROPS_LABEL": "Crops",
+      "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
       "HAPPY": "Happy",
       "INDIVIDUAL_CROPS": "Individual Crops",
+      "LOCATIONS": "Locations",
+      "LOCATIONS_LABEL": "Locations",
       "MOOD": "How did this shift make you feel?",
       "NAME_TASK": "Name of the custom task",
       "NEUTRAL": "Neutral",
@@ -974,6 +971,7 @@
     },
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
+    "TIME_TOTAL": "Total",
     "TITLE": "Shifts"
   },
   "SIGNUP": {

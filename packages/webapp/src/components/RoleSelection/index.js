@@ -32,7 +32,7 @@ export default function PureRoleSelection({
       <Radio classes={inputClasses} {...inputs[0]} />
       <Radio classes={inputClasses} {...inputs[1]} />
       <Radio classes={inputClasses} {...inputs[2]} />
-      <Title>Is this farm owner operated</Title>
+      <Title>{t('ROLE_SELECTION.IS_OWNER_OPERATED')}</Title>
       <Radio classes={inputClasses} {...inputs[3]} />
       <Radio classes={inputClasses} {...inputs[4]} />
     </Form>

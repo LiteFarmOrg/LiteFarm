@@ -813,6 +813,7 @@
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente de sítio/Fazenda",
     "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
+    "IS_OWNER_OPERATED": "MISSING",
     "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
   },
   "SALE": {
@@ -935,12 +936,13 @@
       "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
       "CHOOSE_DATE": "Escolha uma data",
       "CHOOSE_WORKERS": "Escolha trabalhador(a)",
-      "CROPS_ON_THIS_FARM": "Culturas nesta fazenda",
-      "CROPS_ON_YOUR_FARM": "Culturas em sua fazenda",
+      "CROPS": "MISSING",
+      "CROPS_LABEL": "MISSING",
       "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
-      "FIELDS_ON_YOUR_FARM": "Campos em sua fazenda",
       "HAPPY": "Contente",
       "INDIVIDUAL_CROPS": "Culturas Individuais",
+      "LOCATIONS": "MISSING",
+      "LOCATIONS_LABEL": "MISSING",
       "MOOD": "Como você se sentiu durante este turno?",
       "NAME_TASK": "Nome da tarefa personalizada",
       "NEUTRAL": "Neutra(o)",
@@ -969,6 +971,7 @@
     },
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
+    "TIME_TOTAL": "MISSING",
     "TITLE": "Turnos"
   },
   "SIGNUP": {

@@ -215,15 +215,11 @@ export default function PureHarvestLog({
         }
       >
         <Semibold style={{ marginBottom: '24px' }}>{t('LOG_HARVEST.TITLE')}</Semibold>
-        <DateContainer
-          date={date}
-          onDateChange={setDate}
-          label={t('common:DATE')}
-        />
+        <DateContainer date={date} onDateChange={setDate} label={t('common:DATE')} />
         <div style={{ marginTop: '24px' }} />
         <ReactSelect
-          label={t('LOG_HARVEST.FIELD')}
-          placeholder={t('LOG_HARVEST.FIELD_PLACEHOLDER')}
+          label={t('LOG_COMMON.LOCATION')}
+          placeholder={t('LOG_COMMON.SELECT_LOCATION')}
           options={locationOptions}
           onChange={(e) => handleFieldChange(e)}
           value={location}

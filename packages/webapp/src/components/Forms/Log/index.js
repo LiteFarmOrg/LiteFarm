@@ -225,13 +225,13 @@ class DefaultLogForm extends React.Component {
           </PureWarningBox>
         )}
         <div className={styles.defaultFormDropDown}>
-          <label>{this.props.t('LOG_COMMON.FIELD')}</label>
+          <label>{this.props.t('LOG_COMMON.LOCATION')}</label>
           <Control
             model=".field"
             onChange={this.setCropsOnFieldSelect}
             component={DropDown}
             options={fieldOptions || []}
-            placeholder={this.props.t('LOG_COMMON.SELECT_FIELD')}
+            placeholder={this.props.t('LOG_COMMON.SELECT_LOCATION')}
             isMulti
             isSearchable={false}
             value={this.state.selectedFields}
@@ -309,11 +309,7 @@ class DefaultLogForm extends React.Component {
         {notesField && (
           <div>
             <div className={styles.noteContainer}>
-              <Control
-                model='.notes'
-                component={Input}
-                label={this.props.t('LOG_COMMON.NOTES')}
-              />
+              <Control model=".notes" component={Input} label={this.props.t('LOG_COMMON.NOTES')} />
             </div>
           </div>
         )}

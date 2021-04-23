@@ -6,7 +6,6 @@ import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
 import { loginSelector } from '../userFarmSlice';
-import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 
 function Outro() {
   const userFarm = useSelector(loginSelector);
@@ -16,7 +15,6 @@ function Outro() {
   };
   const onContinue = () => {
     dispatch(patchOutroStep());
-    dispatch(startSpotLight(userFarm.farm_id));
   };
   const survey = useSelector(certifierSurveySelector);
   useEffect(() => {

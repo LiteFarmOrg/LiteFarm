@@ -35,9 +35,21 @@ const slice = createSlice({
         id: farm_id,
       });
     },
+    patchRequestedCertifiersSuccess(state, { payload: { requested_certifier, farm_id } }) {
+      certifierSurveyAdapter.updateOne(state, {
+        changes: { requested_certifier },
+        id: farm_id,
+      });
+    },
     patchInterestedSuccess(state, { payload: { interested, farm_id } }) {
       certifierSurveyAdapter.updateOne(state, {
         changes: { interested },
+        id: farm_id,
+      });
+    },
+    patchRequestedCertificationSuccess(state, { payload: { requested_certification, farm_id } }) {
+      certifierSurveyAdapter.updateOne(state, {
+        changes: { requested_certification },
         id: farm_id,
       });
     },
@@ -47,6 +59,8 @@ export const {
   getCertifiersSuccess,
   postCertifiersSuccess,
   patchCertifiersSuccess,
+  patchRequestedCertifiersSuccess,
+  patchRequestedCertificationSuccess,
   patchInterestedSuccess,
   onLoadingCertifierSurveyStart,
   onLoadingCertifierSurveyFail,

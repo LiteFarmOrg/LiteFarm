@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (waterBalanceModel.js) is part of LiteFarm.
+ *  This file (fieldModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,32 +15,41 @@
 
 const Model = require('objection').Model;
 
-class WaterBalance extends Model {
+class Certification extends Model {
   static get tableName() {
-    return 'waterBalance';
+    return 'certifications';
   }
 
   static get idColumn() {
-    return 'water_balance_id';
+    return 'certification_id';
   }
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'location_id', 'soil_water', 'plant_available_water'],
+      required: ['location_id'],
       properties: {
-        water_balance_id: { type: 'integer' },
-        crop_id: { type: 'integer' },
-        location_id: { type: 'string' },
-        created_at: { type: 'date-time' },
-        soil_water: { type: 'float' },
-        plant_available_water: { type: 'float' },
+        certification_id: { type: 'integer' },
+        certification_name: { type: 'string' },
+        certification_translation_key: { type: 'string' }
       },
       additionalProperties: false,
     };
   }
+
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {
+        certifiers: {
+            modelClass: require('./certifierModel'),
+            relation: Model.HasManyRelation,
+            join: {
+                from: 'certificationModel.certification_id',
+                to: 'certifierModel.certification_type',
+              },
+        }
+    };
+  }
 }
 
-module.exports = WaterBalance;
+module.exports = Certification;

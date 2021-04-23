@@ -116,8 +116,9 @@ const organicCertifierSurveyController = {
       const survey_id = req.params.survey_id;
       try {
         const user_id = req.user.user_id;
-        const requested_certifier = req.body.data || [];
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certifier });
+        const requested_certifier = req.body.data.requested_certifier || null;
+        const certifier_id = req.body.data.certifier_id || null;
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certifier, certifier_id });
         res.sendStatus(200);
       } catch (error) {
         console.log(error)
@@ -133,8 +134,10 @@ const organicCertifierSurveyController = {
       const survey_id = req.params.survey_id;
       try {
         const user_id = req.user.user_id;
-        const requested_certification = req.body.data || [];
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certification });
+        const requested_certification = req.body.data.requested_certification || null;
+        const certification_id = req.body.data.certification_id || null;
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certification_id, requested_certification });
+        
         res.sendStatus(200);
       } catch (error) {
         console.log(error)

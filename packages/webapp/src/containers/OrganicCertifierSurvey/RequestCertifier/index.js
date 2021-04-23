@@ -14,8 +14,11 @@ export default function RequestCertifier() {
   }, [dispatch]);
 
   const onSubmit = (info) => {
-    const data = info.requestedCertifier;
     const callback = () => history.push('certification_summary');
+    let data = {
+      requested_certifier: info.requestedCertifier,
+      certifier_id: null,
+    };
     dispatch(patchRequestedCertifiers({ data, callback }));
   };
 

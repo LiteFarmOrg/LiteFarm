@@ -1,6 +1,6 @@
 
 const certifiers = [
-    { certification_type: 2, certifier_name: 'Rede Ecovida', certifier_acronym: 'Ecovita' },
+    { certification_type: 2, certifier_name: 'Rede Ecovida', certifier_acronym: 'Ecovida' },
   ];
 
 exports.up = async function(knex) {

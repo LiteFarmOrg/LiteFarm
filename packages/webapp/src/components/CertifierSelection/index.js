@@ -2,7 +2,7 @@ import Layout from '../Layout';
 import Button from '../Form/Button';
 import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Title, Underlined } from '../Typography';
+import { Text, Title, Semibold, Underlined } from '../Typography';
 import CertifierSelectionMenuItem from './CertifierSelectionMenu/CertiferSelectionMenuItem';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
@@ -19,11 +19,13 @@ export default function PureCertifierSelectionScreen({
   certifierSelected,
   isRequesting,
   role_id,
+  certificationType,
 }) {
   const { t } = useTranslation(['translation', 'common']);
-  const [selectedCertifierId, setCertifier] = useState();
+  const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
   const disabled = !selectedCertifierId;
+  console.log(selectedCertifierId);
   const isSearchable = certifiers.length >= 2;
   const onFilterChange = (e) => {
     setFilter(e.target.value);
@@ -72,6 +74,13 @@ export default function PureCertifierSelectionScreen({
       }
     >
       <Title style={{ marginBottom: '16px' }}>{t('CERTIFICATION.CERTIFIER_SELECTION.TITLE')}</Title>
+      <Semibold style={{ paddingBottom: '20px' }}>
+        {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
+          ' ' +
+          certificationType +
+          ' ' +
+          t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_TWO')}
+      </Semibold>
 
       {isSearchable && (
         <Input
@@ -86,7 +95,7 @@ export default function PureCertifierSelectionScreen({
         return (
           <CertifierSelectionMenuItem
             style={{ marginBottom: '16px' }}
-            certifierName={certifier.certifier_name}
+            certifierName={certifier.certifier_name + ' ' + '(' + certifier.certifier_acronym + ')'}
             color={
               isRequesting
                 ? 'secondary'

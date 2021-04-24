@@ -32,23 +32,24 @@ export default function PureCertificationSelection({
     mode: 'onChange',
   });
   const SELECTION = 'selection';
+  const REQUESTED = 'requested';
   const [selectionType, setSelectionType] = useState(null);
   const [requested, setRequested] = useState(requestedCertification);
   const [disabled, setDisabled] = useState(certificationType === null);
 
   useEffect(() => {
-    if (selectionType !== null) dispatch(setCertificationSelection(selectionType));
-    if (requested !== null || requested !== '') dispatch(setRequestedCertification(requested));
+    if (selectionType) dispatch(setCertificationSelection(selectionType));
+    if (requested || requested !== '') dispatch(setRequestedCertification(requested));
     setValue(SELECTION, certificationType);
     setDisabled(
-      certificationType === null ||
-        (certificationType === 'other' &&
-          (requestedCertification === null || requestedCertification === '')),
+      !certificationType ||
+        (certificationType === 'Other' &&
+          (!requestedCertification || requestedCertification === '')),
     );
   }, [selectionType, certificationType, requested, requestedCertification]);
 
   const submit = (data) => {
-    if (requestedCertification !== null) data.requested = requestedCertification;
+    if (requestedCertification) data.requested = requestedCertification;
     onSubmit(data);
   };
 
@@ -90,11 +91,11 @@ export default function PureCertificationSelection({
           classes={inputClasses}
           label={t('common:OTHER')}
           name={SELECTION}
-          value={'other'}
+          value={'Other'}
           inputRef={register({ required: true })}
-          onChange={() => setSelectionType('other')}
+          onChange={() => setSelectionType('Other')}
         />{' '}
-        {certificationType === 'other' && (
+        {certificationType === 'Other' && (
           <Infoi
             placement={'bottom'}
             content={t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP')}
@@ -102,19 +103,13 @@ export default function PureCertificationSelection({
           />
         )}
       </div>
-      {certificationType === 'other' && role_id !== 3 && (
+      {certificationType === 'Other' && role_id !== 3 && (
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
           onChange={(e) => setRequested(e.target.value)}
-          errors={
-            requestedCertification === null ||
-            (requestedCertification === '' && t('common:REQUIRED'))
-          }
-          defaultValue={
-            requestedCertification !== null || requestedCertification !== ''
-              ? requestedCertification
-              : null
-          }
+          name={REQUESTED}
+          defaultValue={requestedCertification !== null ? requestedCertification : null}
+          errors={errors[REQUESTED] && t('common:REQUIRED')}
         />
       )}
     </Form>

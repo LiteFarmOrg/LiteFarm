@@ -15,7 +15,9 @@
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "TITLE": "What type of certification?",
-      "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app."
+      "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app.",
+      "SUBTITLE_ONE": "Here's a list of",
+      "SUBTITLE_TWO": "certifiers we work with in your country."
     },
     "CERTIFIER_SELECTION": {
       "INFO": "That probably means LiteFarm doesn't currently work with your certifier - sorry! LiteFarm does produce generic forms that are helpful in most cases though.",
@@ -36,10 +38,11 @@
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
-      "BAD_NEWS_INFO": "However, we can create generic forms that are useful for most certifiers. We'll indicate this information throughout the app with a",
       "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
       "INFORMATION": "We'll indicate this information throughout the app with a",
-      "TITLE": "You are interested in applying for:"
+      "BAD_NEWS_INFO": "However, we can create generic forms that are useful for most certifiers. We'll indicate this information throughout the app with a leaf icon.",
+      "TITLE": "You are interested in applying for:",
+      "CERTIFICATION": "certification"
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },

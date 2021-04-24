@@ -15,7 +15,9 @@
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "MISSING",
       "TITLE": "MISSING",
-      "TOOLTIP": "MISSING"
+      "TOOLTIP": "MISSING",
+      "SUBTITLE_ONE": "MISSING",
+      "SUBTITLE_TWO": "MISSING"
     },
     "CERTIFIER_SELECTION": {
       "INFO": "MISSING",
@@ -40,6 +42,7 @@
       "GOOD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
       "TITLE": "MISSING"
+      "CERTIFICATION": "MISSING"
     },
     "WARNING": "MISSING"
   },

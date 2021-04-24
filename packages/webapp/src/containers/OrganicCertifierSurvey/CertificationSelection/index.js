@@ -43,12 +43,12 @@ export default function CertificationSelection() {
       requested_certification: null,
       certification_id: null,
     };
-    if (certification_id === null) {
+    if (!certification_id) {
       data.requested_certification = info.requested;
     } else {
       data.certification_id = certification_id;
     }
-    if (certification_id !== null) dispatch(getAllSupportedCertifiers(certification_id));
+    if (certification_id) dispatch(getAllSupportedCertifiers(certification_id));
     setTimeout(() => {
       dispatch(patchRequestedCertification({ data, callback }));
     }, 100);

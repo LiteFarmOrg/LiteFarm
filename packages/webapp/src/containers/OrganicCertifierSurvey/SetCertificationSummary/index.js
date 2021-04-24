@@ -7,6 +7,7 @@ import {
   selectedCertifierSelector,
   isRequestingCertifierSelector,
   requestedCertifierSelector,
+  setCertificationSelectionSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function SetCertificationSummary() {
@@ -14,6 +15,7 @@ export default function SetCertificationSummary() {
   const name = useSelector(selectedCertifierSelector);
   const isRequesting = useSelector(isRequestingCertifierSelector);
   const requestedCertifierData = useSelector(requestedCertifierSelector);
+  const certificationType = useSelector(setCertificationSelectionSelector);
 
   const onSubmit = () => {
     dispatch(patchStepFour());
@@ -33,7 +35,7 @@ export default function SetCertificationSummary() {
         onSubmit={onSubmit}
         onGoBack={onGoBack}
         isRequesting={isRequesting}
-        // dispatch={dispatch}
+        certificationType={certificationType}
       />
     </>
   );

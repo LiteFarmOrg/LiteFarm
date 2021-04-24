@@ -17,7 +17,9 @@
       "PGS": "MISSING",
       "REQUEST_CERTIFICATION": "MISSING",
       "TITLE": "MISSING",
-      "TOOLTIP": "MISSING"
+      "TOOLTIP": "MISSING",
+      "SUBTITLE_ONE": "MISSING",
+      "SUBTITLE_TWO": "MISSING"
     },
     "CERTIFIER_SELECTION": {
       "INFO": "MISSING",
@@ -41,7 +43,8 @@
       "BAD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
       "BAD_NEWS_INFO": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "CERTIFICATION": "MISSING"
     },
     "WARNING": "MISSING"
   },

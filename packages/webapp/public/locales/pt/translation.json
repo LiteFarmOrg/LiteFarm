@@ -17,7 +17,9 @@
       "PGS": "MISSING",
       "REQUEST_CERTIFICATION": "MISSING",
       "TITLE": "MISSING",
-      "TOOLTIP": "MISSING"
+      "TOOLTIP": "MISSING",
+      "SUBTITLE_ONE": "MISSING",
+      "SUBTITLE_TWO": "MISSING"
     },
     "CERTIFIER_SELECTION": {
       "INFO": "MISSING",
@@ -41,7 +43,8 @@
       "BAD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
       "BAD_NEWS+INFO": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "CERTIFICATION": "missinga"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },

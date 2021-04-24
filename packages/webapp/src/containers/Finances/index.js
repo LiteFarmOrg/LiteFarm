@@ -496,8 +496,8 @@ class Finances extends Component {
                 {this.props.t('common:TO')}{' '}
                 <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_3')}</code>
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE4')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code> &{' '}
-                <code>{this.props.t('common:FIELD')}2</code>.<br />
+                <code>{this.props.t('common:LOCATION')}1</code> &{' '}
+                <code>{this.props.t('common:LOCATION')}2</code>.<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE5_1')}
                 {this.state.currencySymbol}
@@ -510,7 +510,7 @@ class Finances extends Component {
                 .<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_1')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code>{' '}
+                <code>{this.props.t('common:LOCATION')}1</code>{' '}
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_2')}
                 <code>
                   {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE8')}

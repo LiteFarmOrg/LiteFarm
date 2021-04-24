@@ -13,6 +13,8 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
+      "ORGANIC": "Organic",
+      "PGS": "Participatory guarantee system",
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "TITLE": "What type of certification?",
       "TOOLTIP": "Don't see your certification? LiteFarm is dedicated to supporting sustainable agriculture and certifications are a big part of that. Request another certification here and we'll do our best to incorporate it in the app.",

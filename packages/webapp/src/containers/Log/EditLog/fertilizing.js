@@ -271,15 +271,17 @@ class FertilizingLog extends Component {
     return (
       <div className="page-container" style={{ styles }}>
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
-        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_FERTILIZING.TITLE')}</Semibold>
+        <Semibold style={{ marginBottom: '24px' }}>
+          {this.props.t('LOG_FERTILIZING.TITLE')}
+        </Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         {
           <>
@@ -308,9 +310,12 @@ class FertilizingLog extends Component {
                 />
               </div>
               {[1, 2, 5].includes(this.props.farm.role_id) && (
-                <AddLink style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
-                         onClick={() => this.openEditModal()}>{this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}</AddLink>
-
+                <AddLink
+                  style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                  onClick={() => this.openEditModal()}
+                >
+                  {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}
+                </AddLink>
               )}
               <Unit
                 model=".fertLog.quantity_kg"
@@ -320,9 +325,14 @@ class FertilizingLog extends Component {
               />
 
               <div className={styles.noteContainer}>
-                <Control optional label={this.props.t('common:NOTES')} model='.fertLog.notes' component={Input} />
+                <Control
+                  optional
+                  label={this.props.t('common:NOTES')}
+                  model=".fertLog.notes"
+                  component={Input}
+                />
               </div>
-              <Underlined onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}

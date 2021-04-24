@@ -436,7 +436,7 @@ class PestControlLog extends Component {
                   model=".pestControlLog.notes"
                 />
               </div>
-              <Underlined onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}

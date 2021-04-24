@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
 import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
+import { colors } from '../../../assets/theme';
 
 export const styles = {
   option: (provided, state) => ({
@@ -126,7 +127,10 @@ const ReactSelect = ({
         options={options}
         components={{
           ClearIndicator: ({ innerProps }) => (
-            <Underlined {...innerProps} style={{ position: 'absolute', right: 0, bottom: '-20px' }}>
+            <Underlined
+              {...innerProps}
+              style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+            >
               {t('REACT_SELECT.CLEAR_ALL')}
             </Underlined>
           ),

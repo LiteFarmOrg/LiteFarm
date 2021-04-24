@@ -179,23 +179,26 @@ class soilDataLog extends Component {
     };
 
     return (
-      <div className='page-container'>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container">
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SOIL.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val)}
         >
           <DefaultLogForm
-            model='.soilDataLog'
+            model=".soilDataLog"
             locations={locations}
             crops={crops}
             notesField={true}
@@ -203,7 +206,7 @@ class soilDataLog extends Component {
             isCropNotNeeded={true}
           />
 
-          <Underlined onClick={this.toggleMoreInfo}>
+          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}
@@ -212,7 +215,7 @@ class soilDataLog extends Component {
           {this.state.showMoreInfo && (
             <div>
               <Unit
-                model='.soilDataLog.organic_carbon'
+                model=".soilDataLog.organic_carbon"
                 title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}
                 type="%"
               />

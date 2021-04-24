@@ -13,7 +13,13 @@ import moment from 'moment';
 import styles from '../styles.module.scss';
 import parseFields from '../Utility/parseFields';
 import parseCrops from '../Utility/parseCrops';
-import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
+import {
+  convertFromMetric,
+  convertToMetric,
+  getUnit,
+  roundToFourDecimal,
+  roundToTwoDecimal,
+} from '../../../util';
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -259,7 +265,8 @@ class soilDataLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SOIL.TITLE')}</Semibold>
@@ -267,25 +274,24 @@ class soilDataLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val)}
         >
           <DefaultLogForm
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
-            model='.soilDataLog'
+            model=".soilDataLog"
             locations={locations}
             crops={crops}
             isCropNotNeeded={true}
             notesField={true}
             customFieldset={customFieldset}
           />
-          <Underlined onClick={this.toggleMoreInfo}>
+          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}

@@ -7,7 +7,13 @@ import { diseaseSelector, pesticideSelector, pestLogSelector } from './selectors
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { actions, Control, Errors, Form } from 'react-redux-form';
-import { addDiseases, addPestControlLog, addPesticide, getDiseases, getPesticides } from './actions';
+import {
+  addDiseases,
+  addPestControlLog,
+  addPesticide,
+  getDiseases,
+  getPesticides,
+} from './actions';
 import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
@@ -282,15 +288,18 @@ class PestControlLog extends Component {
       this.props.farm.role_id === 2 ||
       this.props.farm.role_id === 5;
     return (
-      <div className='page-container' style={{ styles }}>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container" style={{ styles }}>
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_PESTICIDE.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         {
           <>
@@ -374,22 +383,31 @@ class PestControlLog extends Component {
                 validate
               />
               {isAdmin && (
-
-                <AddLink style={{ paddingBottom: '8px', transform: 'translateY(-8px)' }}
-                         onClick={() => this.openDiseaseModal()}>{this.props.t('LOG_PESTICIDE.ADD_DISEASE')}</AddLink>
-
+                <AddLink
+                  style={{ paddingBottom: '8px', transform: 'translateY(-8px)' }}
+                  onClick={() => this.openDiseaseModal()}
+                >
+                  {this.props.t('LOG_PESTICIDE.ADD_DISEASE')}
+                </AddLink>
               )}
               {isAdmin && (
-                <AddLink style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
-                         onClick={() => this.openPesticideModal()}>{this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}</AddLink>
-
+                <AddLink
+                  style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                  onClick={() => this.openPesticideModal()}
+                >
+                  {this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}
+                </AddLink>
               )}
 
               <div className={styles.noteContainer}>
-                <Control optional label={this.props.t('common:NOTES')} component={Input}
-                         model='.pestControlLog.notes' />
+                <Control
+                  optional
+                  label={this.props.t('common:NOTES')}
+                  component={Input}
+                  model=".pestControlLog.notes"
+                />
               </div>
-              <Underlined onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}

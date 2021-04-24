@@ -633,7 +633,7 @@
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
     "QUANTITY": "Quantity",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
-    "TITLE": "Harvest Log (step 1)",
+    "TITLE": "Harvest Log",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate"
   },
   "LOG_IRRIGATION": {

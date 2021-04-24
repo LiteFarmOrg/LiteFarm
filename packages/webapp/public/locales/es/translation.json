@@ -633,7 +633,7 @@
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
     "QUANTITY": "Cantidad",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
-    "TITLE": "Registro de cosecha (paso 1)",
+    "TITLE": "Registro de cosecha",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {

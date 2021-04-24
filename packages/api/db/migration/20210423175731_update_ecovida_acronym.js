@@ -5,10 +5,5 @@ exports.up = function(knex) {
   };
   
   exports.down = function(knex) {
-    return Promise.all([
-        knex.schema.table('certifiers', (table) => {
-            table.dropColumn('certifier_acronym');
-          }),
-    ]);
   };
   

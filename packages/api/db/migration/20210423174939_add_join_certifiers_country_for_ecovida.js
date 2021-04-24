@@ -8,9 +8,9 @@ exports.up = async function(knex) {
   
 };
 
-exports.down = function(knex) {
-    return Promise.all([
-        knex.schema.dropTable('certifier_country')
-      ])
-  
+exports.down = async function(knex) {
+    for (const certifier of certifier_country) {
+        await knex('certifier_country').where(certifier).delete();
+    }
+
 };

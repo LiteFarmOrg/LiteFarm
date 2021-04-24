@@ -344,28 +344,48 @@ class FertilizingLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
-                    <Control.text model=".fertLog.n_percentage" disabled={true} />
+                    <Control
+                      label={`NO3 ${this.props.t('LOG_COMMON.NITRATE')}`}
+                      component={Input}
+                      model=".fertLog.n_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
-                    <Control.text model=".fertLog.nh4_n_ppm" disabled={true} />
+                    <Control
+                      label={`NH4 ${this.props.t('LOG_COMMON.AMMONIA')}`}
+                      component={Input}
+                      model=".fertLog.nh4_n_ppm"
+                      disabled={true}
+                    />
                     <span>ppm</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
-                    <Control.text model=".fertLog.k_percentage" disabled={true} />
+                    <Control
+                      label={`K ${this.props.t('LOG_COMMON.POTASSIUM')}`}
+                      component={Input}
+                      model=".fertLog.k_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
-                    <Control.text model=".fertLog.p_percentage" disabled={true} />
+                    <Control
+                      label={`P ${this.props.t('LOG_COMMON.PHOSPHATE')}`}
+                      component={Input}
+                      model=".fertLog.p_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>H2O</label>
-                    <Control.text model=".fertLog.moisture_percentage" disabled={true} />
+                    <Control
+                      label={'H2O'}
+                      component={Input}
+                      model=".fertLog.moisture_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                 </div>
@@ -420,15 +440,19 @@ class FertilizingLog extends Component {
                   />
                 </div>
                 <div className={styles.textContainer}>
-                  <label>{this.props.t('LOG_COMMON.PRODUCT_NAME')}</label>
-                  <Control.text model=".fertLog.product" />
+                  <Control
+                    label={this.props.t('LOG_COMMON.PRODUCT_NAME')}
+                    component={Input}
+                    model=".fertLog.product"
+                  />
                 </div>
                 <div className={styles.noteTitle}>
                   {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
-                  <Control.input
+                  <Control
+                    label={`NO3 ${this.props.t('LOG_COMMON.NITRATE')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -437,8 +461,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
-                  <Control.input
+                  <Control
+                    label={`NH4 ${this.props.t('LOG_COMMON.AMMONIA')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -447,8 +472,9 @@ class FertilizingLog extends Component {
                   <span>ppm</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
-                  <Control.input
+                  <Control
+                    label={`K ${this.props.t('LOG_COMMON.POTASSIUM')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -457,8 +483,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
-                  <Control.input
+                  <Control
+                    label={`P ${this.props.t('LOG_COMMON.PHOSPHATE')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -467,8 +494,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>H2O</label>
-                  <Control.input
+                  <Control
+                    label={'H2O'}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"

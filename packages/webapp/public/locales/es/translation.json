@@ -13,8 +13,6 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
-      "ORGANIC": "MISSING",
-      "PGS": "MISSING",
       "REQUEST_CERTIFICATION": "MISSING",
       "TITLE": "MISSING",
       "TOOLTIP": "MISSING",
@@ -39,10 +37,11 @@
       "TITLE": "MISSING"
     },
     "SUMMARY": {
-      "GOOD_NEWS": "MISSING",
       "BAD_NEWS": "missing",
-      "INFORMATION": "MISSING",
       "BAD_NEWS_INFO": "MISSING",
+      "GOOD_NEWS": "MISSING",
+      "INFORMATION": "MISSING",
+      "TITLE": "MISSING"
       "TITLE": "MISSING",
       "CERTIFICATION": "MISSING"
     },
@@ -551,9 +550,9 @@
     "ALL": "Todo",
     "ALL_CROPS": "Todos los cultivos",
     "ALL_FIELDS": "Todos los campos",
+    "ALL_LOCATIONS": "MISSING",
     "AMMONIA": "Amoniaco",
     "CHEMICAL_COMPOSITION": "Composición química",
-    "CHOOSE_DATE": "Elegir fecha",
     "CROP": "Cultivo",
     "DATE": "Fecha",
     "DEFAULT_PRODUCT": "Producto defectuoso",
@@ -563,7 +562,6 @@
     "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
-    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivo de campos",
     "FIELD_WORK": "Trabajo de campo",
     "FIELDS": "Campos",
@@ -571,6 +569,8 @@
     "HARVEST": "Cosecha",
     "HIDE": "Ocultar",
     "IRRIGATION": "Irrigación",
+    "LOCATION": "MISSING",
+    "LOCATIONS": "MISSING",
     "LOG_ALL_CROPS": "Todos los cultivos",
     "LOG_ALL_FIELDS": "Todos los campos",
     "LOG_HELP": "Ayuda de registro",
@@ -590,8 +590,9 @@
     "SCOUTING": "Exploracion",
     "SEARCH_BY_ACTIVITY": "Búsqueda de registro por actividad",
     "SEEDING": "Siembra",
-    "SELECT_FIELD": "Seleccionar Campo",
-    "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
+    "SELECT_CROP": "MISSING",
+    "SELECT_LOCATION": "MISSING",
+    "SELECT_LOCATIONS": "MISSING",
     "SELECT_PRODUCT": "Seleccionar producto",
     "SELECT_TASK": "MISSING",
     "SELECT_TYPE": "Seleccionar Tipo",
@@ -627,11 +628,9 @@
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "MISSING",
     "ADD_CUSTOM_HARVEST_USE": "MISSING",
-    "CROP": "Selecciona un cultivo",
+    "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
     "CUSTOM_HARVEST_USE": "MISSING",
-    "FIELD": "Selecciona un campo",
-    "FIELD_PLACEHOLDER": "Selecciona campo",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
     "HARVEST_QUANTITY": "Cantidad de cosecha",
     "HARVEST_USE": "Uso de la cosecha",
@@ -651,7 +650,6 @@
   },
   "LOG_PESTICIDE": {
     "ACTIVE_INGREDIENTS": "Ingredientes activos",
-    "ADD_CUSTOM_DISEASE": "Agregar enfermedad habitual",
     "ADD_CUSTOM_PESTICIDE": "Agregar pesticida habitual",
     "ADD_DISEASE": "Agregar enfermedad",
     "ADD_PESTICIDE": "Agregar pesticida",

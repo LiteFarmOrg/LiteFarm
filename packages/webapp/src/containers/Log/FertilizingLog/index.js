@@ -225,10 +225,16 @@ class FertilizingLog extends Component {
     const fertilizerOptions = this.sortFert(fertilizers);
 
     return (
-      <div className='page-container' style={{ styles }}>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
-        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_FERTILIZING.TITLE')}</Semibold>
+      <div className="page-container" style={{ styles }}>
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
+        <Semibold style={{ marginBottom: '24px' }}>
+          {this.props.t('LOG_FERTILIZING.TITLE')}
+        </Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
@@ -251,7 +257,7 @@ class FertilizingLog extends Component {
               <div className={styles.defaultFormDropDown}>
                 <Control
                   label={this.props.t('LOG_COMMON.PRODUCT')}
-                  model='.fertLog.fert_id'
+                  model=".fertLog.fert_id"
                   component={DropDown}
                   options={fertilizerOptions || []}
                   placeholder={this.props.t('LOG_COMMON.SELECT_PRODUCT')}
@@ -272,10 +278,12 @@ class FertilizingLog extends Component {
                 />
               </div>
               {[1, 2, 5].includes(this.props.farm.role_id) && (
-
-                <AddLink style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
-                         onClick={() => this.openEditModal()}>{this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}</AddLink>
-
+                <AddLink
+                  style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                  onClick={() => this.openEditModal()}
+                >
+                  {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}
+                </AddLink>
               )}
               <Unit
                 model=".fertLog.quantity_kg"
@@ -285,9 +293,14 @@ class FertilizingLog extends Component {
               />
 
               <div className={styles.noteContainer}>
-                <Control optional label={this.props.t('common:NOTES')} component={Input} model='.fertLog.notes' />
+                <Control
+                  optional
+                  label={this.props.t('common:NOTES')}
+                  component={Input}
+                  model=".fertLog.notes"
+                />
               </div>
-              <Underlined onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}

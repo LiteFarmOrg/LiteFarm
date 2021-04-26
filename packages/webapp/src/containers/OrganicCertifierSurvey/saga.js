@@ -1,24 +1,22 @@
 import {
-  getCertifiersSuccess,
-  postCertifiersSuccess,
-  patchCertifiersSuccess,
-  patchInterestedSuccess,
   certifierSurveySelector,
+  getCertifiersSuccess,
   onLoadingCertifierSurveyFail,
   onLoadingCertifierSurveyStart,
-  patchRequestedCertifiersSuccess,
+  patchCertifiersSuccess,
+  patchInterestedSuccess,
   patchRequestedCertificationSuccess,
+  patchRequestedCertifiersSuccess,
+  postCertifiersSuccess,
 } from './slice';
 import { setcertificationTypes, setCertifiers } from './organicCertifierSurveySlice';
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
-import { userFarmUrl } from '../../apiConfig';
-import { loginSelector } from '../userFarmSlice';
-import { patchStepFourSuccess } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { url, userFarmUrl } from '../../apiConfig';
+import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
+import { axios, getHeader } from '../saga';
 
-const getUrl = (farm_id) => `${url}/farm/${farm_id}/organic_certifier_survey`;
+const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
 const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
 const patchRequestedCertifierUrl = (survey_id) =>
@@ -35,7 +33,7 @@ export function* getCertifiersSaga() {
     yield put(onLoadingCertifierSurveyStart());
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
-    const result = yield call(axios.get, getUrl(farm_id), header);
+    const result = yield call(axios.get, getSurveyUrl(farm_id), header);
     yield put(getCertifiersSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail(e));

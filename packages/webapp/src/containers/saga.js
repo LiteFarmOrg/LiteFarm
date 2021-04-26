@@ -14,16 +14,14 @@
  */
 
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import apiConfig, { rolesUrl, url, userFarmUrl } from '../apiConfig';
+import apiConfig, { url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import {
-  getUserFarmsSuccess,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
   selectFarmSuccess,
-  userFarmsByFarmSelector,
   userFarmSelector,
 } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
@@ -78,7 +76,6 @@ import {
 } from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
-  cropStatusSelector,
   getAllCropsSuccess,
   getCropsSuccess,
   onLoadingCropFail,
@@ -93,9 +90,11 @@ import i18n from '../locales/i18n';
 import { getLogs, resetLogFilter } from './Log/actions';
 import { getAllShifts, resetShiftFilter } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
-import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
+import { getRoles } from './InviteUser/saga';
+import { getAllUserFarmsByFarmId } from './Profile/People/saga';
+import { getCertifiers } from './OrganicCertifierSurvey/saga';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -349,47 +348,19 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
     const selectedUserFarmIds = yield select(loginSelector);
     const user_id = userFarmIds.user_id || selectedUserFarmIds.user_id;
 
-    const header = getHeader(user_id, farm_id);
     if (!user_id) return;
 
-    const tasks = [];
-    const onTaskSuccess = [];
+    const tasks = [
+      put(getCertifiers()),
+      put(getCrops()),
+      put(getLocations()),
+      put(getFieldCrops()),
+      put(getRoles()),
+      put(getAllUserFarmsByFarmId()),
+    ];
 
-    const cropStatus = yield select(cropStatusSelector);
-    if (!cropStatus.loaded) {
-      tasks.push(call(axios.get, getCropsByFarmIdUrl(farm_id), header));
-      onTaskSuccess.push(getAllCropsSuccess);
-    }
-
-    tasks.push(call(axios.get, getLocationsUrl(farm_id), header));
-    onTaskSuccess.push(getLocationsSuccess);
-
-    tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
-    onTaskSuccess.push(getFieldCropsSuccess);
-
-    const roleStatus = yield select(rolesStatusSelector);
-    if (!roleStatus.loaded) {
-      tasks.push(call(axios.get, rolesUrl, header));
-      onTaskSuccess.push(getRolesSuccess);
-    }
-
-    const userFarms = yield select(userFarmsByFarmSelector);
-    if (userFarms?.length < 2) {
-      tasks.push(call(axios.get, userFarmUrl + '/farm/' + farm_id, header));
-      onTaskSuccess.push(getUserFarmsSuccess);
-    }
-
-    const responses = yield all(
-      tasks.map((task) => {
-        try {
-          return task;
-        } catch (e) {
-          console.log(e);
-        }
-      }),
-    );
-    yield all(responses.map((response, index) => put(onTaskSuccess[index](response.data))));
     yield all([
+      ...tasks,
       put(getLogs()),
       put(getAllShifts()),
       put(getSales()),

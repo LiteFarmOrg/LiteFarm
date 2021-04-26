@@ -31,7 +31,7 @@ export default function LineDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error) {
+    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);

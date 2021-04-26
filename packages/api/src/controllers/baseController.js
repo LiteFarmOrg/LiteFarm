@@ -55,6 +55,7 @@ const baseController = {
     if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
+    //TODO: remove. this will return error when object has multiple properties
     const ids = [];
     data.map((d) => Object.keys(d).map((k) => ids.push(d[k])));
     if (!lodash.isEmpty(data)) {

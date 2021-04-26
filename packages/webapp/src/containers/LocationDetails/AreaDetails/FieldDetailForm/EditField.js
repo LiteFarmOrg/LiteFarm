@@ -30,6 +30,13 @@ function EditFieldDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setAreaDetailFormData(getFormData(field)));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );

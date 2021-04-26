@@ -114,9 +114,9 @@ export function* deleteGardenLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GARDEN')
-          .toLowerCase()}`,
+        error: {
+          retire: true
+        }
       },
     });
     console.log(e);

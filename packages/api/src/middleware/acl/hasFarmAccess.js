@@ -131,14 +131,15 @@ async function fromActivity(req) {
     }
 
     const sameFarm = await userFarmModel.query()
-      .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+      .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'fieldCrop.field_crop_id')
       .join('location', 'userFarm.farm_id', 'location.farm_id')
-      .leftJoin('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
+      .join('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
       .skipUndefined()
       .whereIn('location.location_id', locations)
       .whereIn('fieldCrop.field_crop_id', fieldCrops)
       .where('userFarm.user_id', user_id)
       .where('userFarm.farm_id', farm_id)
+
 
     if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
       return {};

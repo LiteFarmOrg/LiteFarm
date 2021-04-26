@@ -38,7 +38,12 @@ export default function CertificationSelection() {
     });
     dispatch(setCertificationID(certification_id));
     dispatch(selectedCertificationType(true));
-    const callback = () => history.push('/certifier_selection_menu');
+    console.log(certification_id);
+    const callback = () => {
+      !certification_id
+        ? history.push('/requested_certifier')
+        : history.push('/certifier_selection_menu');
+    };
     let data = {
       requested_certification: null,
       certification_id: null,

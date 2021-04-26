@@ -104,7 +104,6 @@ class ExpenseDetail extends Component {
   deleteExpense = () => {
     const { expense } = this.props;
     this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
-    history.push('/other_expense');
   };
   // deleteExpenses = () => {
   //   // eslint-disable-next-line

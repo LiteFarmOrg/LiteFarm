@@ -38,6 +38,11 @@ function HarvestLog() {
 
   const onBack = () => {
     dispatch(resetHarvestLog());
+    history.push('/new_log');
+  };
+
+  const onCancel = () => {
+    dispatch(resetHarvestLog());
     history.push('/log');
   };
 
@@ -45,13 +50,13 @@ function HarvestLog() {
     dispatch(harvestLogData(data));
     let formValue = !isEditStepOne.isEditStepOne
       ? {
-          activity_kind: 'harvest',
-          date: data.defaultDate,
-          crops: data.defaultCrop,
-          locations: data.defaultField,
-          notes: data.defaultNotes,
-          quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
-        }
+        activity_kind: 'harvest',
+        date: data.defaultDate,
+        crops: data.defaultCrop,
+        locations: data.defaultField,
+        notes: data.defaultNotes,
+        quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
+      }
       : {
           activity_id: selectedLog.activity_id,
           activity_kind: 'harvest',
@@ -71,6 +76,7 @@ function HarvestLog() {
       <PureHarvestLog
         onGoBack={onBack}
         onNext={onNext}
+        onCancel={onCancel}
         locations={locations}
         crops={crops}
         unit={unit}

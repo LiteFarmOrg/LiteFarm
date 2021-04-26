@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Errors, Form } from 'react-redux-form';
@@ -18,6 +18,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
+import { Semibold, Underlined } from '../../../components/Typography';
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -179,11 +180,17 @@ class soilDataLog extends Component {
 
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SOIL.TITLE')} />
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SOIL.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
         />
         <Form
           model="logReducer.forms"
@@ -198,12 +205,13 @@ class soilDataLog extends Component {
             customFieldset={customFieldset}
             isCropNotNeeded={true}
           />
-          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
+
+          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}
             {this.props.t('LOG_SOIL.MORE_INFO')}
-          </div>
+          </Underlined>
           {this.state.showMoreInfo && (
             <div>
               <Unit

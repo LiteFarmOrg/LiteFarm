@@ -15,6 +15,9 @@
 
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
+const certificationModel = require('../models/certificationModel');
+const certifierModel = require('../models/certifierModel');
+const certifierCountryModel = require('../models/certifierCountryModel');
 
 const organicCertifierSurveyController = {
   getCertifiersByFarmId() {
@@ -24,6 +27,45 @@ const organicCertifierSurveyController = {
         const result = await organicCertifierSurveyModel.query().whereNotDeleted().where({ farm_id })
           .first().select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested',
             'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
+        if (!result) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(result);
+        }
+      } catch (error) {
+        //handle more exceptions
+        console.error(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  },
+
+  getAllSupportedCertifications() {
+    return async (req, res) => {
+      try {
+        const result = await certificationModel.query().select('*');
+        if (!result) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(result);
+        }
+      } catch (error) {
+        //handle more exceptions
+        console.error(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  },
+
+  getAllSupportedCertifiers() {
+    return async (req, res) => {
+      try {
+        const { farm_id, certification_type } = req.params;
+        const result = await certifierModel.query().select('*').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_type', certification_type);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -68,6 +110,45 @@ const organicCertifierSurveyController = {
       }
     };
   },
+
+  patchRequestedCertifiers() {
+    return async (req, res) => {
+      const survey_id = req.params.survey_id;
+      try {
+        const user_id = req.user.user_id;
+        const requested_certifier = req.body.data.requested_certifier || null;
+        const certifier_id = req.body.data.certifier_id || null;
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ requested_certifier, certifier_id });
+        res.sendStatus(200);
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  patchRequestedCertification() {
+    return async (req, res) => {
+      const survey_id = req.params.survey_id;
+      try {
+        const user_id = req.user.user_id;
+        const requested_certification = req.body.data.requested_certification || null;
+        const certification_id = req.body.data.certification_id || null;
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certification_id, requested_certification });
+        
+        res.sendStatus(200);
+      } catch (error) {
+        console.log(error)
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  
 
   patchInterested() {
     return async (req, res) => {

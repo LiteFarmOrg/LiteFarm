@@ -13,6 +13,5 @@ const Template = (args) => <PureSlider {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   label: 'Duration',
-  setValue: () => {}
+  setValue: () => {},
 };
-

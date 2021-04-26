@@ -7,9 +7,9 @@ import moment from 'moment';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
 import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
-import TextArea from '../../Form/TextArea';
 import { Label } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
+import Input from '../../Form/Input';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -178,7 +178,7 @@ class DefaultLogForm extends React.Component {
     }
 
     let fieldOptionsWithoutAll = JSON.parse(JSON.stringify(filteredFields));
-    filteredFields.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') });
+    filteredFields.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_LOCATIONS') });
 
     this.setState({
       fieldOptions: filteredFields,
@@ -225,13 +225,13 @@ class DefaultLogForm extends React.Component {
           </PureWarningBox>
         )}
         <div className={styles.defaultFormDropDown}>
-          <label>{this.props.t('LOG_COMMON.FIELD')}</label>
+          <label>{this.props.t('LOG_COMMON.LOCATIONS')}</label>
           <Control
             model=".field"
             onChange={this.setCropsOnFieldSelect}
             component={DropDown}
             options={fieldOptions || []}
-            placeholder={this.props.t('LOG_COMMON.SELECT_FIELD')}
+            placeholder={this.props.t('LOG_COMMON.SELECT_LOCATIONS')}
             isMulti
             isSearchable={false}
             value={this.state.selectedFields}
@@ -261,7 +261,7 @@ class DefaultLogForm extends React.Component {
                   model={`.crop.${f.value}`}
                   component={DropDown}
                   options={this.state.cropOptionsMap[f.value]}
-                  placeholder={this.props.t('LOG_COMMON.SELECT_FIELD_CROP')}
+                  placeholder={this.props.t('LOG_COMMON.SELECT_CROP')}
                   isMulti
                   isSearchable={false}
                   validators={
@@ -309,11 +309,7 @@ class DefaultLogForm extends React.Component {
         {notesField && (
           <div>
             <div className={styles.noteContainer}>
-              <Control
-                model=".notes"
-                component={TextArea}
-                label={this.props.t('LOG_COMMON.NOTES')}
-              />
+              <Control model=".notes" component={Input} label={this.props.t('LOG_COMMON.NOTES')} />
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import { currentLogSelector, logSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
@@ -21,7 +21,8 @@ import {
   currentAndPlannedFieldCropsSelector,
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
-import TextArea from '../../../components/Form/TextArea';
+import { Semibold } from '../../../components/Typography';
+import Input from '../../../components/Form/Input';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -119,13 +120,14 @@ class SeedingLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          backUrl="/log"
-          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_SEEDING.TITLE')}`}
+          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SEEDING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder="Choose a date"
+          placeholder='Choose a date'
         />
         <Form
           model="logReducer.forms"
@@ -163,9 +165,9 @@ class SeedingLog extends Component {
             type={`seeds/${this.state.rate_unit}`}
           />
           <div>
-            <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
+
             <div className={styles.noteContainer}>
-              <Control component={TextArea} model=".harvestLog.notes" />
+              <Control optional label={this.props.t('common:NOTES')} component={Input} model='.harvestLog.notes' />
             </div>
           </div>
           <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />

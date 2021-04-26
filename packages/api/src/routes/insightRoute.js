@@ -44,7 +44,7 @@ router.get('/nitrogenbalance/:farm_id', hasFarmAccess({ params: 'farm_id' }), ch
 router.get('/nitrogenbalance/schedule/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getNitrogenSchedule());
 
 // add calls
-router.post('/waterbalance', hasFarmAccess({ body: 'field_id' }), checkScope(['add:insights']), insightController.addWaterBalance());
+router.post('/waterbalance', hasFarmAccess({ body: 'location_id' }), checkScope(['add:insights']), insightController.addWaterBalance());
 router.post('/waterbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addWaterBalanceSchedule());
 router.post('/nitrogenbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addNitrogenSchedule());
 

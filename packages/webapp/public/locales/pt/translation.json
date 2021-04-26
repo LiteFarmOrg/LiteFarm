@@ -13,11 +13,11 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
-      "ORGANIC": "MISSING",
-      "PGS": "MISSING",
       "REQUEST_CERTIFICATION": "MISSING",
       "TITLE": "MISSING",
-      "TOOLTIP": "MISSING"
+      "TOOLTIP": "MISSING",
+      "SUBTITLE_ONE": "MISSING",
+      "SUBTITLE_TWO": "MISSING"
     },
     "CERTIFIER_SELECTION": {
       "INFO": "MISSING",
@@ -37,9 +37,12 @@
       "TITLE": "MISSING"
     },
     "SUMMARY": {
+      "BAD_NEWS": "MISSING",
       "GOOD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
-      "TITLE": "MISSING"
+      "BAD_NEWS_INFO": "MISSING",
+      "TITLE": "MISSING",
+      "CERTIFICATION": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -546,9 +549,9 @@
     "ALL": "Todos",
     "ALL_CROPS": "Todas as culturas",
     "ALL_FIELDS": "Todos os campos",
+    "ALL_LOCATIONS": "MISSING",
     "AMMONIA": "Amônia",
     "CHEMICAL_COMPOSITION": "Composição Química",
-    "CHOOSE_DATE": "Escolha uma data",
     "CROP": "Cultivos",
     "DATE": "Data",
     "DEFAULT_PRODUCT": "Produto Padrão",
@@ -558,7 +561,6 @@
     "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
-    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
@@ -566,6 +568,8 @@
     "HARVEST": "colheitas",
     "HIDE": "Ocultar",
     "IRRIGATION": "Irrigação",
+    "LOCATION": "MISSING",
+    "LOCATIONS": "MISSING",
     "LOG_ALL_CROPS": "Todos os cultivos",
     "LOG_ALL_FIELDS": "Todos os campos",
     "LOG_HELP": "Ajuda com o registro",
@@ -585,8 +589,9 @@
     "SCOUTING": "Observação de pragas e doenças",
     "SEARCH_BY_ACTIVITY": "Pesquisar registro por atividade",
     "SEEDING": "Semeadura",
-    "SELECT_FIELD": "Selecionar Campo",
-    "SELECT_FIELD_CROP": "Selecionar Cultivo",
+    "SELECT_CROP": "MISSING",
+    "SELECT_LOCATION": "MISSING",
+    "SELECT_LOCATIONS": "MISSING",
     "SELECT_PRODUCT": "selecione o produto",
     "SELECT_TASK": "MISSING",
     "SELECT_TYPE": "Selecionar Tipo",
@@ -622,17 +627,16 @@
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Add a harvest use",
     "ADD_CUSTOM_HARVEST_USE": "MISSING",
-    "CROP": "Choose a crop",
+    "CROP": "Crop",
     "CROP_PLACEHOLDER": "Select a crop",
     "CUSTOM_HARVEST_USE": "MISSING",
-    "FIELD": "Choose a field",
-    "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
+    "TITLE": "Registro de Colheita (passo 1 de 3)",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {
@@ -645,7 +649,6 @@
   },
   "LOG_PESTICIDE": {
     "ACTIVE_INGREDIENTS": "Ingredientes ativos",
-    "ADD_CUSTOM_DISEASE": "Adicionar uma doença personalizada",
     "ADD_CUSTOM_PESTICIDE": "Adicione um pesticida personalizado",
     "ADD_DISEASE": "Adicionar uma Doença",
     "ADD_PESTICIDE": "Adicione um Pesticida",

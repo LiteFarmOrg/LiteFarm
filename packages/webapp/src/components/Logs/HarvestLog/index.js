@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import DateContainer from '../../Inputs/DateContainer';
 import ReactSelect from '../../Form/ReactSelect';
-import { Error } from '../../Typography';
-import TextArea from '../../../components/Form/TextArea';
+import { Error, Semibold } from '../../Typography';
 import moment from 'moment';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
@@ -15,6 +14,7 @@ import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
 
 export default function PureHarvestLog({
   onGoBack,
+  onCancel,
   onNext,
   locations,
   crops,
@@ -203,28 +203,23 @@ export default function PureHarvestLog({
     >
       <TitleLayout
         onGoBack={onGoBack}
+        onCancel={onCancel}
         title={isEdit?.isEdit ? t('LOG_COMMON.EDIT_A_LOG') : t('LOG_COMMON.ADD_A_LOG')}
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>
-            <Button onClick={onGoBack} color={'secondary'} fullLength>
-              {t('common:CANCEL')}
-            </Button>
             <Button type={'submit'} disabled={!location || !crop || !quant} fullLength>
               {t('common:NEXT')}
             </Button>
           </>
         }
       >
-        <DateContainer
-          date={date}
-          onDateChange={setDate}
-          placeholder={t('LOG_COMMON.CHOOSE_DATE')}
-        />
+        <Semibold style={{ marginBottom: '24px' }}>{t('LOG_HARVEST.TITLE')}</Semibold>
+        <DateContainer date={date} onDateChange={setDate} label={t('common:DATE')} />
         <div style={{ marginTop: '24px' }} />
         <ReactSelect
-          label={t('LOG_HARVEST.FIELD')}
-          placeholder={t('LOG_HARVEST.FIELD_PLACEHOLDER')}
+          label={t('LOG_COMMON.LOCATION')}
+          placeholder={t('LOG_COMMON.SELECT_LOCATION')}
           options={locationOptions}
           onChange={(e) => handleFieldChange(e)}
           value={location}
@@ -265,8 +260,9 @@ export default function PureHarvestLog({
           ''
         )}
         <div className={styles.noteContainer}>
-          <TextArea
+          <Input
             label={t('common:NOTES')}
+            optional
             name={NOTES}
             inputRef={refInputNotes}
             defaultValue={!isEdit.isEditStepOne ? defaultData.defaultNotes : selectedLog.notes}

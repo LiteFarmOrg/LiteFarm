@@ -102,7 +102,7 @@ class SeedingLog extends Component {
       'rate_seeds/m2': convertToMetric(log['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {
@@ -120,14 +120,15 @@ class SeedingLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SEEDING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder='Choose a date'
+          placeholder="Choose a date"
         />
         <Form
           model="logReducer.forms"
@@ -165,9 +166,13 @@ class SeedingLog extends Component {
             type={`seeds/${this.state.rate_unit}`}
           />
           <div>
-
             <div className={styles.noteContainer}>
-              <Control optional label={this.props.t('common:NOTES')} component={Input} model='.harvestLog.notes' />
+              <Control
+                optional
+                label={this.props.t('common:NOTES')}
+                component={Input}
+                model=".harvestLog.notes"
+              />
             </div>
           </div>
           <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />

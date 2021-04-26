@@ -101,7 +101,7 @@ class IrrigationLog extends Component {
       hours: irrigationLog.hours,
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {
@@ -137,7 +137,8 @@ class IrrigationLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
@@ -145,16 +146,15 @@ class IrrigationLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
         >
           <DefaultLogForm
             selectedCrops={selectedCrops}
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             selectedFields={selectedFields}
             style={styles.labelContainer}
             model=".irrigationLog"

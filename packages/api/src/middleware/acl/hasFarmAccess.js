@@ -22,7 +22,7 @@ const entitiesGetters = {
   //TODO remove
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
-}
+};
 const userFarmModel = require('../../models/userFarmModel');
 
 module.exports = ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
@@ -53,7 +53,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
     return next();
   }
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
-}
+};
 
 async function fromTask(taskId) {
   return knex('taskType').where({ task_id: taskId }).first();
@@ -130,15 +130,23 @@ async function fromActivity(req) {
       }
     }
 
-    const sameFarm = await userFarmModel.query()
-      .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
-      .join('location', 'userFarm.farm_id', 'location.farm_id')
-      .leftJoin('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
-      .skipUndefined()
-      .whereIn('location.location_id', locations)
-      .whereIn('fieldCrop.field_crop_id', fieldCrops)
-      .where('userFarm.user_id', user_id)
-      .where('userFarm.farm_id', farm_id)
+    const sameFarm = fieldCrops?.length ? await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'fieldCrop.field_crop_id')
+        .join('location', 'userFarm.farm_id', 'location.farm_id')
+        .join('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
+        .skipUndefined()
+        .whereIn('location.location_id', locations)
+        .whereIn('fieldCrop.field_crop_id', fieldCrops)
+        .where('userFarm.user_id', user_id)
+        .where('userFarm.farm_id', farm_id) :
+      await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id')
+        .join('location', 'userFarm.farm_id', 'location.farm_id')
+        .skipUndefined()
+        .whereIn('location.location_id', locations)
+        .where('userFarm.user_id', user_id)
+        .where('userFarm.farm_id', farm_id);
+
 
     if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
       return {};

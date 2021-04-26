@@ -34,6 +34,7 @@ import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
+import history from '../../history';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -193,14 +194,11 @@ export function* tempDeleteExpenseSaga(action) {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
       toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
-      const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setExpense(result.data));
-      }
     }
   } catch (e) {
     toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
   }
+  history.push('/other_expense');
 }
 
 export function* deleteExpensesSaga(action) {

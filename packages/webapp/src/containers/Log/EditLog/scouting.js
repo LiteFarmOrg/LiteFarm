@@ -100,7 +100,7 @@ class ScoutingLog extends Component {
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder="Choose a date"
+          placeholder={`${this.props.t('LOG_COMMON.CHOOSE_DATE')}`}
         />
         <Form
           model="logReducer.forms"

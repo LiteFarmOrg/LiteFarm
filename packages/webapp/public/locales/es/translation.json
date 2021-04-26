@@ -542,6 +542,7 @@
   },
   "LOG_COMMON": {
     "ACTION": "Acción",
+    "CHOOSE_DATE": "MISSING",
     "ACTIVITY": "Actividad",
     "ADD_A_LOG": "MISSING",
     "ADD_CUSTOM_PRODUCT": "Agregar un producto personalizado",

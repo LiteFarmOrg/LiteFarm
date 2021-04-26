@@ -34,6 +34,5 @@ router.put('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:
 
 router.delete('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['delete:farms']), farmController.deleteFarm());
 
-router.get('/:farm_id/organic_certifier_survey', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertifiersByFarmId());
 
 module.exports = router;

@@ -29,8 +29,13 @@ async function validateLocationDependency(req, res, next) {
   if (activityLogs.length) {
     return res.status(400).send('Location can be deleted when it is referenced by log');
   }
-  const shifts = await shiftTaskModel.query().join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where({ location_id }).andWhere(raw('shift_date >= CURRENT_DATE'));
-  if(shifts.length) {
+  const locationShifts = await shiftTaskModel.query().join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where({ location_id }).andWhere(raw('shift_date >= CURRENT_DATE'));
+  if (locationShifts.length) {
+    return res.status(400).send('Location can not be deleted when it has pending shifts');
+  }
+
+  const fieldCropShifts = await shiftTaskModel.query().join('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('fieldCrop.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
+  if (fieldCropShifts.length) {
     return res.status(400).send('Location can not be deleted when it has pending shifts');
   }
 

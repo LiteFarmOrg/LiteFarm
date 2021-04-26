@@ -41,7 +41,7 @@
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
       "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
-      "INFORMATION": "We'll indicate this information throughout the app with a",
+      "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "BAD_NEWS_INFO": "However, we can create generic forms that are useful for most certifiers. We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "CERTIFICATION": "certification"

@@ -28,12 +28,13 @@ import {
   UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
+import history from '../../history';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -193,10 +194,7 @@ export function* tempDeleteExpenseSaga(action) {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
       toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
-      const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setExpense(result.data));
-      }
+      history.push('/other_expense');
     }
   } catch (e) {
     toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
@@ -266,16 +264,16 @@ export function* tempEditExpenseSaga(action) {
 }
 
 export default function* financeSaga() {
-  yield takeEvery(GET_SALES, getSales);
-  yield takeEvery(ADD_OR_UPDATE_SALE, addSale);
-  yield takeEvery(GET_SHIFT_FINANCE, getShiftsSaga);
-  yield takeEvery(GET_EXPENSE, getExpenseSaga);
-  yield takeEvery(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
-  yield takeEvery(ADD_EXPENSES, addExpensesSaga);
-  yield takeEvery(DELETE_SALE, deleteSale);
-  yield takeEvery(DELETE_EXPENSES, deleteExpensesSaga);
-  yield takeEvery(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
-  yield takeEvery(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
-  yield takeEvery(UPDATE_SALE, updateSaleSaga);
-  yield takeEvery(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLatest(GET_SALES, getSales);
+  yield takeLatest(ADD_OR_UPDATE_SALE, addSale);
+  yield takeLatest(GET_SHIFT_FINANCE, getShiftsSaga);
+  yield takeLatest(GET_EXPENSE, getExpenseSaga);
+  yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
+  yield takeLatest(ADD_EXPENSES, addExpensesSaga);
+  yield takeLatest(DELETE_SALE, deleteSale);
+  yield takeLatest(DELETE_EXPENSES, deleteExpensesSaga);
+  yield takeLatest(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
+  yield takeLatest(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
+  yield takeLatest(UPDATE_SALE, updateSaleSaga);
+  yield takeLatest(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
 }

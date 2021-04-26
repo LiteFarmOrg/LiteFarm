@@ -38,12 +38,11 @@
     },
     "SUMMARY": {
       "BAD_NEWS": "MISSING",
-      "BAD_NEWS_INFO": "MISSING",
       "GOOD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
-      "BAD_NEWS+INFO": "MISSING",
+      "BAD_NEWS_INFO": "MISSING",
       "TITLE": "MISSING",
-      "CERTIFICATION": "missinga"
+      "CERTIFICATION": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },

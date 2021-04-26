@@ -470,6 +470,7 @@ function InputDuration({
                       <div className={styles.durationInput}>
                         <TimeSlider
                           label={cd.crop_name}
+                          initialTime={120}
                           setValue={(durationInMinutes) => {
                             changeDuration(
                               { target: { value: durationInMinutes } },
@@ -491,6 +492,7 @@ function InputDuration({
                 <div className={styles.durationContainer}>
                   <div className={styles.durationInput}>
                     <TimeSlider
+                      initialTime={120}
                       label={t('SHIFT.TIME_TOTAL')}
                       setValue={(durationInMinutes) => {
                         onDurationChange(durationInMinutes, task.task_id);
@@ -543,7 +545,9 @@ function InputDuration({
         {selectedFields?.length ? (
           <div className={styles.durationContainer}>
             <div className={styles.durationInput}>
-              <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration} />
+              <TimeSlider
+                initialTime={120}
+                label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration} />
             </div>
           </div>
         ) : null}

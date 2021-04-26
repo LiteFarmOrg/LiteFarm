@@ -38,10 +38,10 @@
     },
     "SUMMARY": {
       "BAD_NEWS": "MISSING",
-      "BAD_NEWS_INFO": "MISSING",
       "GOOD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
-      "TITLE": "MISSING"
+      "BAD_NEWS_INFO": "MISSING",
+      "TITLE": "MISSING",
       "CERTIFICATION": "MISSING"
     },
     "WARNING": "MISSING"

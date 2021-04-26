@@ -162,7 +162,7 @@ class Log extends Component {
       locations.map((f) => {
         return { label: f.name, value: f.location_id };
       })) || [{ value: '', label: '' }];
-    fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_FIELDS') });
+    fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_LOCATIONS') });
 
     const logTypes = [
       { value: 'all', label: this.props.t('LOG_COMMON.ALL') },
@@ -220,7 +220,7 @@ class Log extends Component {
       },
       {
         id: 'field',
-        Header: this.props.t('common:FIELD'),
+        Header: this.props.t('common:LOCATION'),
         accessor: (d) => {
           if (!d.location.length) {
             return 'None';
@@ -307,7 +307,7 @@ class Log extends Component {
               value={
                 this.props.fieldFilter ?? {
                   value: 'all',
-                  label: this.props.t('LOG_COMMON.ALL_FIELDS'),
+                  label: this.props.t('LOG_COMMON.ALL_LOCATIONS'),
                 }
               }
               placeholder="Select Field"

@@ -1161,6 +1161,40 @@ describe('Log Tests', () => {
             });
           });
 
+          test('Owner should change fertilizerLog to a different field with 2 fieldCrops', async (done) => {
+            const [fieldCrop2] = await mocks.fieldCropFactory({ promisedField: [field1] });
+            sampleRequestBody.locations = [{ location_id: field1.location_id }];
+            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }];
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('user_id', owner.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog1.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(fertilizerLog.length).toBe(1);
+              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer1.fertilizer_id);
+              const activityFieldLog = await activityFieldsModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(activityFieldLog.length).toBe(1);
+              expect(activityFieldLog[0].location_id).toBe(field1.location_id);
+              const activityCrops = await activityCropsModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              expect(activityCrops.length).toBe(2);
+              expect(activityCrops[0].field_crop_id).toBe(fieldCrop1.field_crop_id);
+              done();
+            });
+          });
+
           test('Owner should put fertilizerLog tests with multiple field_crop and field', async (done) => {
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);

@@ -36,6 +36,13 @@ function EditBufferZoneDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setLineDetailFormData(getFormData(bufferZone)));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error?.retire) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );

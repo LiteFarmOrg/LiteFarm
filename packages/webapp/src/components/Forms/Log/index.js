@@ -66,7 +66,7 @@ class DefaultLogForm extends React.Component {
 
   setCropsOnFieldSelect(selectedOptions) {
     const { locations, parent, model } = this.props;
-    const { crops } = this.state;
+    const { crops } = this.props;
     let cropOptionsMap = this.state.cropOptionsMap;
     let selectedFields;
     const options = selectedOptions || [];

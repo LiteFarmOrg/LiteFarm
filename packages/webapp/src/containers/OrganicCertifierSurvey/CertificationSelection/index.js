@@ -38,7 +38,6 @@ export default function CertificationSelection() {
     });
     dispatch(setCertificationID(certification_id));
     dispatch(selectedCertificationType(true));
-    console.log(certification_id);
     const callback = () => {
       !certification_id
         ? history.push('/requested_certifier')

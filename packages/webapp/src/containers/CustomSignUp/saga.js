@@ -38,10 +38,12 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
       localStorage.setItem('litefarm_lang', result.data.language);
       history.push({
         pathname: '/',
-        component: ENTER_PASSWORD_PAGE,
-        user: {
-          first_name: result.data.first_name,
-          email: result.data.email,
+        state: {
+          component: ENTER_PASSWORD_PAGE,
+          user: {
+            first_name: result.data.first_name,
+            email: result.data.email,
+          },
         },
       });
     } else if (result.data.invited) {
@@ -51,8 +53,10 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
     } else if (!result.data.exists && !result.data.sso) {
       history.push({
         pathname: '/',
-        component: CREATE_USER_ACCOUNT,
-        user: { email },
+        state: {
+          component: CREATE_USER_ACCOUNT,
+          user: { email },
+        },
       });
     } else if (result.data.sso) {
       showSSOError(inlineErrors.sso);

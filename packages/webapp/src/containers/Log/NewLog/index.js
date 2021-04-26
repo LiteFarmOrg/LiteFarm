@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import history from '../../../history';
 import { ReactComponent as Fertilize } from '../../../assets/images/log/v2/Fertilize.svg';
 import { ReactComponent as FieldWork } from '../../../assets/images/log/v2/FieldWork.svg';
@@ -37,7 +37,8 @@ class NewLog extends Component {
   render() {
     return (
       <div className={styles.logContainer}>
-        <PageTitle title={this.props.t('LOG_COMMON.ADD_A_LOG')} backUrl="/log" />
+        <PageTitle title={this.props.t('LOG_COMMON.ADD_A_LOG')} onGoBack={() => this.props.history.push('/log')}
+                   style={{ paddingBottom: '24px' }} />
         <Main style={{ paddingBottom: '16px' }}>{this.props.t('LOG_COMMON.SELECT_TASK')}</Main>
         <div className={styles.tileContainer}>
           <div

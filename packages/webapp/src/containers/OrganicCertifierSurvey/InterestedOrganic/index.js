@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { patchInterested, postCertifiers } from '../saga';
@@ -12,8 +12,6 @@ export default function InterestedOrganic() {
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { isValid },
   } = useForm({ mode: 'onChange' });
   const INTERESTED = 'interested';
@@ -24,10 +22,6 @@ export default function InterestedOrganic() {
   const ref = register({ required: true });
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   const dispatch = useDispatch();
-
-  const [interested, setInterested] = useState(survey.interested);
-
-  useEffect(() => {}, [survey, dispatch, interested]);
 
   const onSubmit = (data) => {
     const interested = data.interested === 'true';

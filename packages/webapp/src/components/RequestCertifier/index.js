@@ -20,10 +20,6 @@ export default function PureRequestCertifier({
     handleSubmit,
     watch,
     errors,
-    setValue,
-    getValues,
-    setError,
-    control,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -59,9 +55,7 @@ export default function PureRequestCertifier({
         onChange={(e) => setRequested(e.target.value)}
         defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
         inputRef={register({ required: true })}
-        errors={
-          requestedCertifierData === null || (requestedCertifierData === '' && t('common:REQUIRED'))
-        }
+        errors={errors[REQUESTED_CERTIFIER] && t('common:REQUIRED')}
       />
     </Form>
   );

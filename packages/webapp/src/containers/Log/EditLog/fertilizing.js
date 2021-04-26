@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import { fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
@@ -27,8 +27,8 @@ import {
   currentAndPlannedFieldCropsSelector,
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
-import { numberOnKeyDown } from '../../../components/Form/Input';
-import TextArea from '../../../components/Form/TextArea';
+import Input, { numberOnKeyDown } from '../../../components/Form/Input';
+import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -271,16 +271,20 @@ class FertilizingLog extends Component {
     return (
       <div className="page-container" style={{ styles }}>
         <PageTitle
-          backUrl="/log"
-          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_FERTILIZING.TITLE')}`}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
+        <Semibold style={{ marginBottom: '24px' }}>
+          {this.props.t('LOG_FERTILIZING.TITLE')}
+        </Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
         />
         {
-          <div>
+          <>
             <Form
               className={styles.formContainer}
               model="logReducer.forms"
@@ -306,12 +310,12 @@ class FertilizingLog extends Component {
                 />
               </div>
               {[1, 2, 5].includes(this.props.farm.role_id) && (
-                <div>
-                  <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
-                    {' '}
-                    + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
-                  </div>
-                </div>
+                <AddLink
+                  style={{ paddingBottom: '20px', transform: 'translateY(-8px)' }}
+                  onClick={() => this.openEditModal()}
+                >
+                  {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}
+                </AddLink>
               )}
               <Unit
                 model=".fertLog.quantity_kg"
@@ -319,44 +323,69 @@ class FertilizingLog extends Component {
                 type={this.state.quantity_unit}
                 validate
               />
-              <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
+
               <div className={styles.noteContainer}>
-                <Control model=".fertLog.notes" component={TextArea} />
+                <Control
+                  optional
+                  label={this.props.t('common:NOTES')}
+                  model=".fertLog.notes"
+                  component={Input}
+                />
               </div>
-              <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
-              </div>
+              </Underlined>
               {this.state.showChem && (
                 <div>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
-                    <Control.text model=".fertLog.n_percentage" disabled={true} />
+                    <Control
+                      label={`NO3 ${this.props.t('LOG_COMMON.NITRATE')}`}
+                      component={Input}
+                      model=".fertLog.n_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
-                    <Control.text model=".fertLog.nh4_n_ppm" disabled={true} />
+                    <Control
+                      label={`NH4 ${this.props.t('LOG_COMMON.AMMONIA')}`}
+                      component={Input}
+                      model=".fertLog.nh4_n_ppm"
+                      disabled={true}
+                    />
                     <span>ppm</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
-                    <Control.text model=".fertLog.k_percentage" disabled={true} />
+                    <Control
+                      label={`K ${this.props.t('LOG_COMMON.POTASSIUM')}`}
+                      component={Input}
+                      model=".fertLog.k_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
-                    <Control.text model=".fertLog.p_percentage" disabled={true} />
+                    <Control
+                      label={`P ${this.props.t('LOG_COMMON.PHOSPHATE')}`}
+                      component={Input}
+                      model=".fertLog.p_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>H2O</label>
-                    <Control.text model=".fertLog.moisture_percentage" disabled={true} />
+                    <Control
+                      label={'H2O'}
+                      component={Input}
+                      model=".fertLog.moisture_percentage"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                 </div>
@@ -411,15 +440,19 @@ class FertilizingLog extends Component {
                   />
                 </div>
                 <div className={styles.textContainer}>
-                  <label>{this.props.t('LOG_COMMON.PRODUCT_NAME')}</label>
-                  <Control.text model=".fertLog.product" />
+                  <Control
+                    label={this.props.t('LOG_COMMON.PRODUCT_NAME')}
+                    component={Input}
+                    model=".fertLog.product"
+                  />
                 </div>
                 <div className={styles.noteTitle}>
                   {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
-                  <Control.input
+                  <Control
+                    label={`NO3 ${this.props.t('LOG_COMMON.NITRATE')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -428,8 +461,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
-                  <Control.input
+                  <Control
+                    label={`NH4 ${this.props.t('LOG_COMMON.AMMONIA')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -438,8 +472,9 @@ class FertilizingLog extends Component {
                   <span>ppm</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
-                  <Control.input
+                  <Control
+                    label={`K ${this.props.t('LOG_COMMON.POTASSIUM')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -448,8 +483,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
-                  <Control.input
+                  <Control
+                    label={`P ${this.props.t('LOG_COMMON.PHOSPHATE')}`}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -458,8 +494,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>H2O</label>
-                  <Control.input
+                  <Control
+                    label={'H2O'}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -474,7 +511,7 @@ class FertilizingLog extends Component {
                 </div>
               </Form>
             </Popup>
-          </div>
+          </>
         }
         {(!crops || !locations || !fertilizers) && (
           <p>{this.props.t('LOG_COMMON.ERROR_MISSING_CROP_FIELDS')}</p>

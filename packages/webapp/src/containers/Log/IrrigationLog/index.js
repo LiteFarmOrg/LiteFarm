@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
@@ -19,6 +19,7 @@ import {
   currentAndPlannedFieldCropsSelector,
   locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { Semibold } from '../../../components/Typography';
 
 class IrrigationLog extends Component {
   constructor(props) {
@@ -81,21 +82,24 @@ class IrrigationLog extends Component {
     };
 
     return (
-      <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_IRRIGATION.TITLE')} />
+      <div className='page-container'>
+        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
+                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+        <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          label={this.props.t('common:DATE')}
+
         />
         <Form
-          model="logReducer.forms"
+          model='logReducer.forms'
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
         >
           <DefaultLogForm
             style={styles.labelContainer}
-            model=".irrigationLog"
+            model='.irrigationLog'
             locations={locations}
             crops={crops}
             isCropNotRequired={true}

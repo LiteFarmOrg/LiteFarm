@@ -123,7 +123,7 @@
   label {
     font-style: normal;
     font-weight: normal;
-    color: var(--labels);
+    color: var(--fontColor);
     font-size: 14px;
     line-height: 16px;
     font-family: 'Open Sans', 'SansSerif', serif;
@@ -195,9 +195,12 @@ input:disabled {
 }
 
 .formContainer {
+  display: flex;
+  flex-direction: column;
   font-size: 18px;
   width: 100%;
-  padding-bottom: 68px;
+  flex-grow: 1;
+
   select {
     width: 100px;
     color: #349289;

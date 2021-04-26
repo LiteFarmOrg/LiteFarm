@@ -52,7 +52,7 @@ export const setOverlappedLocationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].storeOverlappedLocations;
 export const canShowSelectionSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].canShowSelection;
-export const locationsSelector = (state) =>
+export const mapLocationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].locations;
 export const setZoomLevelSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].zoomLevel;

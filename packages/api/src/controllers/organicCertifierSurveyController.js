@@ -25,8 +25,7 @@ const organicCertifierSurveyController = {
       try {
         const farm_id = req.params.farm_id;
         const result = await organicCertifierSurveyModel.query().whereNotDeleted().where({ farm_id })
-          .first().select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested',
-            'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
+          .first();
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -137,7 +136,7 @@ const organicCertifierSurveyController = {
         const requested_certification = req.body.data.requested_certification || null;
         const certification_id = req.body.data.certification_id || null;
         const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certification_id, requested_certification });
-        
+
         res.sendStatus(200);
       } catch (error) {
         console.log(error)
@@ -148,7 +147,6 @@ const organicCertifierSurveyController = {
     };
   },
 
-  
 
   patchInterested() {
     return async (req, res) => {

@@ -11,12 +11,14 @@ import { useForm } from 'react-hook-form';
 export default function PureCertificationSelection({
   onSubmit,
   inputClasses = {},
+  allSupportedCertificationTypes,
+
   redirectConsent,
   onGoBack,
   dispatch,
   setCertificationSelection,
   certificationType,
-  certificationTypes,
+
   setRequestedCertification,
   requestedCertification,
   role_id,
@@ -69,7 +71,7 @@ export default function PureCertificationSelection({
     >
       <Title>{t('CERTIFICATION.CERTIFICATION_SELECTION.TITLE')}</Title>
 
-      {certificationTypes.map((item, idx) => {
+      {allSupportedCertificationTypes.map((item, idx) => {
         return (
           <div key={idx}>
             <Radio

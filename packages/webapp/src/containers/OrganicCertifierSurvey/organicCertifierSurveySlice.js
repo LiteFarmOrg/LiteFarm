@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
+  allCertificationTypes: [],
+
   certifierSelection: null,
-  certificationTypes: [],
+
   requestedCertification: null,
   selectedCertificationType: false,
   certificationID: null,
@@ -17,12 +19,14 @@ const organicCertifierSurveyReducer = createSlice({
   name: 'organicCertifierSurveyReducer',
   initialState,
   reducers: {
+    allCertificationTypes: (state, { payload: types }) => {
+      state.allCertificationTypes = types;
+    },
+
     setCertificationSelection: (state, { payload: selection }) => {
       state.certifierSelection = selection;
     },
-    setcertificationTypes: (state, { payload: types }) => {
-      state.certificationTypes = types;
-    },
+
     setRequestedCertification: (state, { payload: requested }) => {
       state.requestedCertification = requested;
     },
@@ -51,8 +55,10 @@ const organicCertifierSurveyReducer = createSlice({
 });
 
 export const {
+  allCertificationTypes,
+
   setCertificationSelection,
-  setcertificationTypes,
+
   setRequestedCertification,
   selectedCertificationType,
   setCertificationID,
@@ -63,11 +69,15 @@ export const {
   loadSummary,
   setSelectedCertifier,
 } = organicCertifierSurveyReducer.actions;
+
 export default organicCertifierSurveyReducer.reducer;
+
+export const allCertificationTypesSelector = (state) =>
+  state?.tempStateReducer[organicCertifierSurveyReducer.name].allCertificationTypes;
+
 export const setCertificationSelectionSelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].certifierSelection;
-export const setcertificationTypesSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationTypes;
+
 export const setRequestedCertificationSelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertification;
 export const selectedCertificationTypeSelector = (state) =>

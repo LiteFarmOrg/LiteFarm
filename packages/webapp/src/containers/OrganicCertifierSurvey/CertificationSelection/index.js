@@ -8,9 +8,10 @@ import {
 } from '../saga';
 import history from '../../../history';
 import {
+  // All supported certification types
+  allCertificationTypesSelector,
   setCertificationSelection,
   setCertificationSelectionSelector,
-  setcertificationTypesSelector,
   setRequestedCertification,
   setRequestedCertificationSelector,
   selectedCertificationType,
@@ -20,8 +21,10 @@ import { userFarmSelector } from '../../userFarmSlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
+  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+
   const certificationType = useSelector(setCertificationSelectionSelector);
-  const certificationTypes = useSelector(setcertificationTypesSelector);
+
   const requestedCertification = useSelector(setRequestedCertificationSelector);
   const role = useSelector(userFarmSelector);
 
@@ -31,7 +34,7 @@ export default function CertificationSelection() {
 
   const onSubmit = (info) => {
     let certification_id = null;
-    certificationTypes.map((type) => {
+    allSupportedCertificationTypes.map((type) => {
       if (type.certification_type === certificationType) {
         certification_id = type.certification_id;
       }
@@ -70,7 +73,7 @@ export default function CertificationSelection() {
         dispatch={dispatch}
         setCertificationSelection={setCertificationSelection}
         certificationType={certificationType}
-        certificationTypes={certificationTypes}
+        allSupportedCertificationTypes={allSupportedCertificationTypes}
         setRequestedCertification={setRequestedCertification}
         requestedCertification={requestedCertification}
         setCertificationID={setCertificationID}

@@ -202,7 +202,10 @@ class NewFieldCropModal extends React.Component {
     }
 
     for (const key in currentFieldCrop) {
-      if (currentFieldCrop[key] === '') {
+      if (
+        ((key === 'start_date' || key === 'end_date') && !currentFieldCrop[key]._isValid) ||
+        currentFieldCrop[key] === ''
+      ) {
         isValid = false;
         errors += key + ', ';
       }

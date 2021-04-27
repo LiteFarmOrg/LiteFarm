@@ -115,10 +115,10 @@ export function* patchRoleSaga({ payload }) {
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
     if(owner_operated !== null) {
       yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
     }
+    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }));
     callback && callback();
   } catch (e) {
     console.log('fail to update role');

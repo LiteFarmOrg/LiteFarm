@@ -96,11 +96,13 @@ const userFarmSlice = createSlice({
     },
     postFarmSuccess: addUserFarm,
     patchRoleStepTwoSuccess: (state, { payload }) => {
-      const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
+      const { step_two, step_two_end, role_id, farm_id, user_id, owner_operated, role } = payload;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_two,
         step_two_end,
         role_id,
+        role,
+        owner_operated
       });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {

@@ -15,6 +15,7 @@ import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
 import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
+import history from '../../history';
 
 const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
@@ -136,6 +137,7 @@ export function* patchStepFourSaga({ payload }) {
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
     yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
+    history.push('/outro');
 
     // callback && callback();
   } catch (e) {

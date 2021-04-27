@@ -9,7 +9,7 @@ import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './const
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
-const useMapAssetRenderer = () => {
+const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -36,6 +36,15 @@ const useMapAssetRenderer = () => {
     }
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
+  useEffect(() => {
+    for (const key in filterSettings) {
+      for (const assetGeometry of assetGeometries?.[key] || []) {
+        assetGeometry?.polygon?.setOptions({ clickable: isClickable });
+        assetGeometry?.polyline?.setOptions({ clickable: isClickable });
+        assetGeometry?.marker?.setOptions({ clickable: isClickable });
+      }
+    }
+  }, [isClickable]);
 
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
@@ -67,6 +76,9 @@ const useMapAssetRenderer = () => {
         );
     }
   }, [filterSettings?.gate, filterSettings?.water_valve]);
+  useEffect(() => {
+    markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
+  }, [isClickable]);
   const createMarkerClusters = (maps, map, points) => {
     const markers = [];
 

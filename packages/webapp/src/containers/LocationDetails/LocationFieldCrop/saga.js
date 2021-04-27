@@ -14,7 +14,7 @@
  */
 
 import { toastr } from 'react-redux-toastr';
-import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
@@ -158,7 +158,7 @@ const formatDate = (currDate) => {
 
 export default function* fieldCropSaga() {
   yield takeLeading(postFieldCrop.type, postFieldCropSaga);
-  yield takeLeading(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
+  yield takeLatest(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
   yield takeLeading(deleteFieldCrop.type, deleteFieldCropSaga);
   yield takeLeading(createYield.type, createYieldSaga);
   yield takeLeading(createPrice.type, createPriceSaga);

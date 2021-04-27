@@ -74,9 +74,7 @@ export default function PureCertificationSelection({
           <div key={idx}>
             <Radio
               classes={inputClasses}
-              label={t(
-                `CERTIFICATION.CERTIFICATION_SELECTION.${item.certification_translation_key}`,
-              )}
+              label={t(`certifications:${item.certification_translation_key}`)}
               name={SELECTION}
               value={item.certification_type}
               inputRef={register({ required: true })}

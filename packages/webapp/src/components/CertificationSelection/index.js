@@ -21,7 +21,7 @@ export default function PureCertificationSelection({
   requestedCertification,
   role_id,
 }) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const {
     register,
     handleSubmit,

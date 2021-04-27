@@ -8,13 +8,7 @@ import { useTranslation } from 'react-i18next';
 import Floater from 'react-floater';
 import PropTypes from 'prop-types';
 
-export function PureProfileFloaterComponent({
-  onInfo,
-  onSwitchFarm,
-  onHelp,
-  onLogout,
-  showSwitchFarm,
-}) {
+export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLogout }) {
   const { t } = useTranslation();
   return (
     <div
@@ -32,13 +26,13 @@ export function PureProfileFloaterComponent({
         icon={<MyInfoIcon />}
         customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
-      {showSwitchFarm && (
-        <ListOption
-          clickFn={onSwitchFarm}
-          iconText={t('PROFILE_FLOATER.SWITCH')}
-          icon={<SwitchFarmIcon style={{ transform: 'translateX(1px)' }} />}
-        />
-      )}
+
+      <ListOption
+        clickFn={onSwitchFarm}
+        iconText={t('PROFILE_FLOATER.SWITCH')}
+        icon={<SwitchFarmIcon style={{ transform: 'translateX(1px)' }} />}
+      />
+
       <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
       <ListOption
         clickFn={onLogout}
@@ -53,7 +47,6 @@ export function PureProfileFloaterComponent({
 export default function PureProfileFloater({
   children,
   openProfile,
-  showSwitchFarm,
   helpClick,
   myInfoClick,
   logOutClick,
@@ -67,7 +60,6 @@ export default function PureProfileFloater({
           onInfo={myInfoClick}
           onLogout={logOutClick}
           onSwitchFarm={switchFarmClick}
-          showSwitchFarm={showSwitchFarm}
         />
       }
       placement={'bottom-end'}
@@ -86,7 +78,6 @@ PureProfileFloaterComponent.prototype = {
   onSwitchFarm: PropTypes.func,
   onHelp: PropTypes.func,
   onLogout: PropTypes.func,
-  showSwitchFarm: PropTypes.bool,
 };
 
 PureProfileFloater.prototype = {
@@ -94,7 +85,6 @@ PureProfileFloater.prototype = {
   switchFarmClick: PropTypes.func,
   helpClick: PropTypes.func,
   logOutClick: PropTypes.func,
-  showSwitchFarm: PropTypes.bool,
   children: PropTypes.node,
   openProfile: PropTypes.bool,
 };

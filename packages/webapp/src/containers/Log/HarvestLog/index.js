@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
@@ -28,7 +28,7 @@ function HarvestLog() {
   const defaultData = useSelector(harvestLogDataSelector);
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
-  const locations = useSelector(locationsWithCurrentAndPlannedFieldCropSelector);
+  const locations = useSelector(cropLocationsSelector);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const isEdit = useSelector(canEditSelector);
   useEffect(() => {

@@ -21,8 +21,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 
@@ -252,7 +252,7 @@ class FertilizingLog extends Component {
                 model=".fertLog"
                 style={styles.labelContainer}
                 isCropNotRequired={true}
-                locations={this.props.locations}
+                locations={locations}
               />
               <div className={styles.defaultFormDropDown}>
                 <Control
@@ -470,7 +470,7 @@ class FertilizingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),

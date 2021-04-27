@@ -87,12 +87,21 @@ class FertilizingLog extends Component {
         label: this.props.t(`fertilizer:${fert.fertilizer_type}`),
       }),
     );
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage));
     this.props.dispatch(
-      actions.change('logReducer.forms.fertLog.moisture_percentage', fert.moisture_percentage),
+      actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage ?? ''),
+    );
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm ?? ''));
+    this.props.dispatch(
+      actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage ?? ''),
+    );
+    this.props.dispatch(
+      actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage ?? ''),
+    );
+    this.props.dispatch(
+      actions.change(
+        'logReducer.forms.fertLog.moisture_percentage',
+        fert.moisture_percentage ?? '',
+      ),
     );
   }
 

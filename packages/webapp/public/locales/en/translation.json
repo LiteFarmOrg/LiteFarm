@@ -544,6 +544,7 @@
   },
   "LOG_COMMON": {
     "ACTION": "Action",
+    "CHOOSE_DATE": "Choose a date",
     "ACTIVITY": "Activity",
     "ADD_A_LOG": "Add a log",
     "ADD_CUSTOM_PRODUCT": "Add a custom product ",

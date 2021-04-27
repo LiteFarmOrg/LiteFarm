@@ -133,7 +133,8 @@ class PestControlLog extends Component {
         ).toString(),
       ),
     );
-    dispatch(actions.change('logReducer.forms.pestControlLog.disease_id', disease[0].disease_id));
+    if (disease.length)
+      dispatch(actions.change('logReducer.forms.pestControlLog.disease_id', disease[0].disease_id));
     dispatch(
       actions.change('logReducer.forms.pestControlLog.pesticide_id', {
         value: pesticide[0].pesticide_id,
@@ -145,12 +146,14 @@ class PestControlLog extends Component {
       label: pesticide[0].pesticide_name,
     });
     dispatch(actions.change('logReducer.forms.pestControlLog.type', type));
-    this.setState({
-      original_disease: {
-        value: disease[0].disease_id,
-        label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
-      },
-    });
+    if (disease.length) {
+      this.setState({
+        original_disease: {
+          value: disease[0].disease_id,
+          label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
+        },
+      });
+    }
   }
 
   toggleChemInfo() {
@@ -216,7 +219,7 @@ class PestControlLog extends Component {
       pesticide_id: Number(parseInt(pestControlLog.pesticide_id.value, 10)),
       type: pestControlLog.type.value,
     };
-    this.props.dispatch(editPestControlLog(pcConfig));
+    if (!this.state.showModal) this.props.dispatch(editPestControlLog(pcConfig));
   }
 
   saveCustomDisease() {

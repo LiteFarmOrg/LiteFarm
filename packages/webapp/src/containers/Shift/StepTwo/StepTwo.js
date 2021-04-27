@@ -9,7 +9,7 @@ import history from '../../../history';
 import { submitShift } from '../actions';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { useTranslation } from 'react-i18next';
-import { cropLocationEntitiesSelector } from "../../locationSlice";
+import { locationsSelector } from '../../locationSlice';
 
 function StepTwo() {
   const { t } = useTranslation(['translation', 'message']);
@@ -20,8 +20,8 @@ function StepTwo() {
   const [mood, setMood] = useState(null);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const users = useSelector(userFarmSelector);
-  const locationsObject = useSelector(cropLocationEntitiesSelector);
-  const locations = Object.keys(locationsObject).map((k) => locationsObject[k]);
+
+  const locations = useSelector(locationsSelector);
   const dispatch = useDispatch();
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);

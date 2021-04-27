@@ -231,3 +231,14 @@ export const cropLocationsSelector = createSelector(
     return [...fields, ...gardens, ...greenhouses, ...bufferzones];
   },
 );
+
+export const locationsSelector = createSelector(
+  [barnsSelector, areaSelector, lineSelector, pointSelector],
+  (areas, lines, points) => {
+    const locationAssetMaps = { ...areas, ...lines, ...points };
+    return Object.keys(locationAssetMaps).reduce(
+      (allLocations, locationType) => allLocations.concat(locationAssetMaps[locationType]),
+      [],
+    );
+  },
+);

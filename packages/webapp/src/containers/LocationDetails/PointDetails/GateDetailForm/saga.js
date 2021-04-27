@@ -1,9 +1,14 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { editGateSuccess, getLocationObjectFromGate, postGateSuccess, deleteGateSuccess } from '../../../gateSlice';
+import {
+  deleteGateSuccess,
+  editGateSuccess,
+  getLocationObjectFromGate,
+  postGateSuccess,
+} from '../../../gateSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -92,11 +97,7 @@ export function* deleteGateLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteGateSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -117,7 +118,7 @@ export function* deleteGateLocationSaga({ payload: data }) {
 }
 
 export default function* gateLocationSaga() {
-  yield takeLatest(postGateLocation.type, postGateLocationSaga);
-  yield takeLatest(editGateLocation.type, editGateLocationSaga);
-  yield takeLatest(deleteGateLocation.type, deleteGateLocationSaga);
+  yield takeLeading(postGateLocation.type, postGateLocationSaga);
+  yield takeLeading(editGateLocation.type, editGateLocationSaga);
+  yield takeLeading(deleteGateLocation.type, deleteGateLocationSaga);
 }

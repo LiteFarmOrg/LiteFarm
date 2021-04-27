@@ -102,7 +102,7 @@ const userFarmSlice = createSlice({
         step_two_end,
         role_id,
         role,
-        owner_operated
+        owner_operated,
       });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {

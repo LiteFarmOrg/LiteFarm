@@ -1,9 +1,14 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { editBarnSuccess, getLocationObjectFromBarn, postBarnSuccess, deleteBarnSuccess } from '../../../barnSlice';
+import {
+  deleteBarnSuccess,
+  editBarnSuccess,
+  getLocationObjectFromBarn,
+  postBarnSuccess,
+} from '../../../barnSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
@@ -92,11 +97,7 @@ export function* deleteBarnLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteBarnSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -117,7 +118,7 @@ export function* deleteBarnLocationSaga({ payload: data }) {
 }
 
 export default function* barnLocationSaga() {
-  yield takeLatest(postBarnLocation.type, postBarnLocationSaga);
-  yield takeLatest(editBarnLocation.type, editBarnLocationSaga);
-  yield takeLatest(deleteBarnLocation.type, deleteBarnLocationSaga);
+  yield takeLeading(postBarnLocation.type, postBarnLocationSaga);
+  yield takeLeading(editBarnLocation.type, editBarnLocationSaga);
+  yield takeLeading(deleteBarnLocation.type, deleteBarnLocationSaga);
 }

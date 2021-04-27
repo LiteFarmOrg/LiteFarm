@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import history from '../../history';
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
@@ -115,10 +115,12 @@ export function* patchRoleSaga({ payload }) {
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    if(owner_operated !== null) {
+    if (owner_operated !== null) {
       yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
     }
-    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }));
+    yield put(
+      patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }),
+    );
     callback && callback();
   } catch (e) {
     console.log('fail to update role');
@@ -126,7 +128,7 @@ export function* patchRoleSaga({ payload }) {
 }
 
 export default function* addFarmSaga() {
-  yield takeLatest(postFarm.type, postFarmSaga);
-  yield takeLatest(patchFarm.type, patchFarmSaga);
-  yield takeLatest(patchRole.type, patchRoleSaga);
+  yield takeLeading(postFarm.type, postFarmSaga);
+  yield takeLeading(patchFarm.type, patchFarmSaga);
+  yield takeLeading(patchRole.type, patchRoleSaga);
 }

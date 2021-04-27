@@ -440,9 +440,9 @@ const formatDate = (currDate) => {
 
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
-  yield takeLatest(updateUser.type, updateUserSaga);
+  yield takeLeading(updateUser.type, updateUserSaga);
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
-  yield takeLatest(putFarm.type, putFarmSaga);
+  yield takeLeading(putFarm.type, putFarmSaga);
   yield takeLatest(getLocations.type, getLocationsSaga);
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);

@@ -18,6 +18,7 @@ const useSelectionHandler = () => {
   const showSelection = useSelector(canShowSelectionSelector);
 
   useEffect(() => {
+    console.log('effect');
     if (showSelection) {
       dispatch(canShowSelection(false));
     }
@@ -26,16 +27,19 @@ const useSelectionHandler = () => {
       setDismissSelection(false);
       return;
     }
+    console.log(dismissSelection, overlappedLocations);
     if (
       overlappedLocations.area.length > 0 ||
       overlappedLocations.line.length > 0 ||
       overlappedLocations.point.length > 0
     ) {
+      console.log(overlappedLocations);
       if (
         overlappedLocations.area.length === 1 &&
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
+        console.log('area');
         containsCrops(overlappedLocations.area[0].type)
           ? history.push(
               `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
@@ -78,11 +82,15 @@ const useSelectionHandler = () => {
     let overlappedLocationsCopy = clone(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
-        const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(
-          locationType,
-        );
+        const isAreaLine = [
+          locationEnum.watercourse,
+          locationEnum.buffer_zone,
+          locationEnum.farm_site_boundary,
+        ].includes(locationType);
+        console.log(locationType);
         if (isArea(locationType) || isAreaLine) {
           locationAssets[locationType].forEach((area) => {
+            console.log(maps.geometry.poly.containsLocation(latLng, area.polygon));
             if (
               area?.polygon?.visible &&
               maps.geometry.poly.containsLocation(latLng, area.polygon)

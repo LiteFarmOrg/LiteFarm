@@ -173,7 +173,7 @@ export default function useDrawingManager() {
   const getOverlayInfo = () => {
     const { overlay } = drawingToCheck;
     const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
-    if (isArea(drawLocationType)) {
+    if (isArea(drawLocationType) || drawLocationType === locationEnum.farm_site_boundary) {
       const path = overlay.getPath().getArray();
       const perimeter = Math.round(
         computeLength(path) + computeDistanceBetween(path[0], path[path.length - 1]),

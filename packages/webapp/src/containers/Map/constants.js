@@ -12,7 +12,7 @@ export const isArea = (type) => {
   return [
     locationEnum.barn,
     locationEnum.ceremonial_area,
-    locationEnum.farm_site_boundary,
+
     locationEnum.field,
     locationEnum.garden,
     locationEnum.greenhouse,
@@ -36,7 +36,12 @@ export const isNoFillArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
+  return [
+    locationEnum.watercourse,
+    locationEnum.fence,
+    locationEnum.buffer_zone,
+    locationEnum.farm_site_boundary,
+  ].includes(type);
 };
 
 export const isPoint = (type) => {

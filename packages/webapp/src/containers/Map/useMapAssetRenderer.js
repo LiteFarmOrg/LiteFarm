@@ -285,10 +285,13 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
-    const { line_points: points, name, type, width } = line;
+    const { line_points, name, type, width, grid_points } = line;
+    const points = line_points || [...grid_points, grid_points[0]];
     let linePolygon;
     const realWidth =
-      type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
+      type ===
+        (locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width)) ||
+      100;
     const { colour, dashScale, dashLength } = lineStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
@@ -316,7 +319,11 @@ const useMapAssetRenderer = ({ isClickable }) => {
       ],
     });
     polyline.setMap(map);
-    const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(type);
+    const isAreaLine = [
+      locationEnum.watercourse,
+      locationEnum.buffer_zone,
+      locationEnum.farm_site_boundary,
+    ].includes(type);
     if (isAreaLine) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
       linePolygon = new maps.Polygon({
@@ -353,7 +360,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
     // Event listener for line click
     maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
-
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);

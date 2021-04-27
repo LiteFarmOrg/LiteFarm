@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteGreenhouseSuccess,
   editGreenhouseSuccess,
   getLocationObjectFromGreenHouse,
   postGreenhouseSuccess,
-  deleteGreenhouseSuccess,
 } from '../../../greenhouseSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -103,14 +103,13 @@ export function* deleteGreenhouseLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteGreenhouseSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GREENHOUSE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -119,8 +118,8 @@ export function* deleteGreenhouseLocationSaga({ payload: data }) {
       path: history.location.pathname,
       state: {
         error: {
-          retire: true
-        }
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -128,7 +127,7 @@ export function* deleteGreenhouseLocationSaga({ payload: data }) {
 }
 
 export default function* greenhouseLocationSaga() {
-  yield takeLatest(postGreenhouseLocation.type, postGreenhouseLocationSaga);
-  yield takeLatest(editGreenhouseLocation.type, editGreenhouseLocationSaga);
-  yield takeLatest(deleteGreenhouseLocation.type, deleteGreenhouseLocationSaga);
+  yield takeLeading(postGreenhouseLocation.type, postGreenhouseLocationSaga);
+  yield takeLeading(editGreenhouseLocation.type, editGreenhouseLocationSaga);
+  yield takeLeading(deleteGreenhouseLocation.type, deleteGreenhouseLocationSaga);
 }

@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteWatercourseSuccess,
   editWatercourseSuccess,
   getLocationObjectFromWatercourse,
   postWatercourseSuccess,
-  deleteWatercourseSuccess,
 } from '../../../watercourseSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -103,14 +103,13 @@ export function* deleteWatercourseLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteWatercourseSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -128,7 +127,7 @@ export function* deleteWatercourseLocationSaga({ payload: data }) {
 }
 
 export default function* watercourseLocationSaga() {
-  yield takeLatest(postWatercourseLocation.type, postWatercourseLocationSaga);
-  yield takeLatest(editWatercourseLocation.type, editWatercourseLocationSaga);
-  yield takeLatest(deleteWatercourseLocation.type, deleteWatercourseLocationSaga);
+  yield takeLeading(postWatercourseLocation.type, postWatercourseLocationSaga);
+  yield takeLeading(editWatercourseLocation.type, editWatercourseLocationSaga);
+  yield takeLeading(deleteWatercourseLocation.type, deleteWatercourseLocationSaga);
 }

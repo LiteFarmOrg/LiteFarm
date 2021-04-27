@@ -11,7 +11,7 @@ import {
 } from './slice';
 import { setcertificationTypes, setCertifiers } from './organicCertifierSurveySlice';
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
 import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
@@ -203,13 +203,13 @@ export function* patchInterestedSaga({ payload }) {
 }
 
 export default function* certifierSurveySaga() {
-  yield takeLatest(patchInterested.type, patchInterestedSaga);
-  yield takeLatest(patchCertifiers.type, patchCertifiersSaga);
+  yield takeLeading(patchInterested.type, patchInterestedSaga);
+  yield takeLeading(patchCertifiers.type, patchCertifiersSaga);
   yield takeLatest(getCertifiers.type, getCertifiersSaga);
-  yield takeLatest(postCertifiers.type, postCertifiersSaga);
+  yield takeLeading(postCertifiers.type, postCertifiersSaga);
   yield takeLatest(getAllSupportedCertifications.type, getAllSupportedCertificationsSaga);
   yield takeLatest(getAllSupportedCertifiers.type, getAllSupportedCertifiersSaga);
-  yield takeLatest(patchRequestedCertifiers.type, patchRequestedCertifiersSaga);
-  yield takeLatest(patchRequestedCertification.type, patchRequestedCertificationSaga);
-  yield takeLatest(patchStepFour.type, patchStepFourSaga);
+  yield takeLeading(patchRequestedCertifiers.type, patchRequestedCertifiersSaga);
+  yield takeLeading(patchRequestedCertification.type, patchRequestedCertificationSaga);
+  yield takeLeading(patchStepFour.type, patchStepFourSaga);
 }

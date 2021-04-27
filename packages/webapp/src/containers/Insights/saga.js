@@ -14,35 +14,35 @@
  */
 
 import apiConfig from '../../apiConfig';
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import {
-  setCropsSoldNutritionInState,
-  setSoilOMData,
-  setLabourHappinessData,
   setBiodiversityData,
-  setPricesData,
-  setWaterBalanceData,
-  setNitrogenBalanceData,
+  setCropsSoldNutritionInState,
   setFrequencyNitrogenBalance,
+  setLabourHappinessData,
+  setNitrogenBalanceData,
+  setPricesData,
+  setSoilOMData,
+  setWaterBalanceData,
   setWaterBalanceSchedule,
 } from './actions';
 import {
-  GET_CROPS_SOLD_NUTRITION,
-  GET_SOLD_OM_DATA,
-  GET_LABOUR_HAPPINESS_DATA,
-  GET_BIODIVERSITY_DATA,
-  GET_PRICES_DATA,
-  GET_WATER_BALANCE_DATA,
-  GET_NITROGEN_BALANCE_DATA,
   CREATE_FREQUENCY_NITROGEN_BALANCE,
-  GET_FREQUENCY_NITROGEN_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
-  GET_PRICES_WITH_DISTANCE_DATA,
-  GET_FREQUENCY_WATER_BALANCE,
   CREATE_FREQUENCY_WATER_BALANCE,
+  DEL_FREQUENCY_NITROGEN_BALANCE,
+  GET_BIODIVERSITY_DATA,
+  GET_CROPS_SOLD_NUTRITION,
+  GET_FREQUENCY_NITROGEN_BALANCE,
+  GET_FREQUENCY_WATER_BALANCE,
+  GET_LABOUR_HAPPINESS_DATA,
+  GET_NITROGEN_BALANCE_DATA,
+  GET_PRICES_DATA,
+  GET_PRICES_WITH_DISTANCE_DATA,
+  GET_SOLD_OM_DATA,
+  GET_WATER_BALANCE_DATA,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 
 export function* getCropsSoldNutrition() {
   const { insightUrl } = apiConfig;

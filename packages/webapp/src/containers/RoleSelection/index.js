@@ -6,7 +6,7 @@ import { patchRole } from '../AddFarm/saga';
 import history from '../../history';
 import { roleToId } from './roleMap';
 import { useTranslation } from 'react-i18next';
-import { userFarmSelector } from "../userFarmSlice";
+import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
   const { t } = useTranslation();
@@ -18,14 +18,17 @@ function RoleSelection() {
 
   const onSubmit = ({ role, owner_operated }) => {
     const callback = () => history.push('/consent');
-    const boolOwnerOperated = owner_operated === "true" ? true : owner_operated === "false" ? false : null;
-    dispatch(patchRole({ role, owner_operated: boolOwnerOperated, role_id: roleToId[role], callback }));
+    const boolOwnerOperated =
+      owner_operated === 'true' ? true : owner_operated === 'false' ? false : null;
+    dispatch(
+      patchRole({ role, owner_operated: boolOwnerOperated, role_id: roleToId[role], callback }),
+    );
   };
 
   useEffect(() => {
     setValue(ROLE, role);
     setValue(OWNER_OPERATED, owner_operated?.toString());
-  }, [])
+  }, []);
 
   const onGoBack = () => {
     history.push('/add_farm');

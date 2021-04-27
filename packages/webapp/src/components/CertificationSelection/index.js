@@ -14,30 +14,18 @@ export default function PureCertificationSelection({
   allSupportedCertificationTypes,
   certification,
   selectedCertification,
-
   redirectConsent,
   onGoBack,
   dispatch,
-  setCertificationSelection,
-  certificationType,
-
-  setRequestedCertification,
-  requestedCertification,
   role_id,
 }) {
   const { t } = useTranslation(['translation', 'common']);
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    formState: { isValid, isDirty },
-  } = useForm({
+  const { register, handleSubmit, errors, setValue } = useForm({
     mode: 'onChange',
   });
   const SELECTION = 'selection';
   const [selectionName, setSelectionName] = useState(certification.certificationName || null);
-  const [selectionID, setSelectionID] = useState(null);
+  const [selectionID, setSelectionID] = useState(certification.certificationID || null);
   const REQUESTED = 'requested';
   const [requested, setRequested] = useState(certification.requestedCertification || null);
 
@@ -54,21 +42,9 @@ export default function PureCertificationSelection({
       );
     }
 
-    // if (selectionName) {
-    //   dispatch(selectedCertification({
-    //     certificationName: selectionName,
-    //     certificationID: selectionID
-    //   }))
-    // }
-
-    // if (selectionName) dispatch(setCertificationSelection(selectionName));
-    // if (requested || requested !== '') dispatch(setRequestedCertification(requested));
-
     setValue(SELECTION, selectionName);
-    setDisabled(!selectionName || (selectionName === 'Other' && (!requested || requested === '')));
-
-    //selectionName, selectionID, certificationType, requested, requestedCertification, certification
-  }, [selectionName, requested]);
+    setDisabled(!selectionName || (selectionName === 'Other' && !requested));
+  }, [selectionName, selectionID, requested]);
 
   const submit = () => {
     onSubmit();
@@ -123,7 +99,7 @@ export default function PureCertificationSelection({
             setSelectionID(null);
           }}
         />{' '}
-        {certificationType === 'Other' && (
+        {selectionName === 'Other' && (
           <Infoi
             placement={'bottom'}
             content={t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP')}

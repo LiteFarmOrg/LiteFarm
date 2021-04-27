@@ -25,7 +25,6 @@ export default function PureCertifierSelectionScreen({
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
   const disabled = !selectedCertifierId;
-  console.log(selectedCertifierId);
   const isSearchable = certifiers.length >= 2;
   const onFilterChange = (e) => {
     setFilter(e.target.value);

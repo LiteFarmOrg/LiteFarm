@@ -150,7 +150,7 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer();
+  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
   const handleGoogleMapApi = (map, maps) => {
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();

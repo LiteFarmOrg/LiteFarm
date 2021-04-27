@@ -113,10 +113,15 @@ const useMapAssetRenderer = ({ isClickable }) => {
           });
         });
 
+        let pointAssetsArr = [];
+        for (const type in pointAssets) {
+          pointAssetsArr = pointAssetsArr.concat(pointAssets[type]);
+        }
+
         const latlng = map.getCenter().toJSON();
         dispatch(setPosition(latlng));
         dispatch(setZoomLevel(map.getZoom()));
-        handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
+        handleSelection(pointAssetsArr[0].marker.position, pointAssets, maps, true, true);
       }
     });
     markerClusterRef.current = markerCluster;

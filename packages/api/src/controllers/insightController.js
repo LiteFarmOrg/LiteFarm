@@ -97,7 +97,7 @@ const insightController = {
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
           FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl, "location" location, "figure" figure, "area" area
-          WHERE location.farm_id = ? and f.location_id = af.location_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id and location.location_id = f.location_id and figure.location_id = location.location_id and figure.figure_id = area.figure_id
+          WHERE location.farm_id = ? and f.location_id = af.location_id and al.activity_id = sdl.activity_id and al.deleted = false and af.activity_id = sdl.activity_id and location.location_id = f.location_id and figure.location_id = location.location_id and figure.figure_id = area.figure_id
           ) table_2 ON table_2.location_id = f.location_id
           WHERE location.farm_id = ?
           AND location.deleted = false

@@ -95,9 +95,6 @@ function OnboardingFlow({
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
             {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
-            {step_three && (!step_four || !certifiers?.length) && interested && (
-              <Redirect to={'/organic_partners'} />
-            )}
             {step_four && !step_five && !(interested && !certifiers?.length) && (
               <Redirect to={'/outro'} />
             )}

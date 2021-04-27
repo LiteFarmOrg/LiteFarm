@@ -24,7 +24,7 @@ function RoleSelection() {
 
   useEffect(() => {
     setValue(ROLE, role);
-    setValue(OWNER_OPERATED, owner_operated.toString());
+    setValue(OWNER_OPERATED, owner_operated?.toString());
   }, [])
 
   const onGoBack = () => {

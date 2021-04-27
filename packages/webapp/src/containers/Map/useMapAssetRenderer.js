@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
-import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
+import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
@@ -285,13 +285,10 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
   // Draw a line
   const drawLine = (map, maps, mapBounds, line, isVisible) => {
-    const { line_points, name, type, width, grid_points } = line;
-    const points = line_points || [...grid_points, grid_points[0]];
+    const { line_points: points, name, type, width } = line;
     let linePolygon;
     const realWidth =
-      type ===
-        (locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width)) ||
-      100;
+      type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
     const { colour, dashScale, dashLength } = lineStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
@@ -319,12 +316,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       ],
     });
     polyline.setMap(map);
-    const isAreaLine = [
-      locationEnum.watercourse,
-      locationEnum.buffer_zone,
-      locationEnum.farm_site_boundary,
-    ].includes(type);
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
       linePolygon = new maps.Polygon({
         paths: polyPath,
@@ -366,16 +358,20 @@ const useMapAssetRenderer = ({ isClickable }) => {
     });
 
     let asset;
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       linePolygon.setOptions({ visible: isVisible });
       asset = { polygon: linePolygon, polyline };
     } else {
       asset = { polyline };
     }
     polyline.setOptions({ visible: isVisible });
-    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-    });
+    maps.event.addListener(
+      isAreaLine(type) ? linePolygon : polyline,
+      'click',
+      function (mapsMouseEvent) {
+        handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      },
+    );
 
     return {
       ...asset,
@@ -384,6 +380,12 @@ const useMapAssetRenderer = ({ isClickable }) => {
       asset: 'line',
       type: line.type,
     };
+  };
+
+  const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
+    const { grid_points } = area;
+    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 100 };
+    return drawLine(map, maps, mapBounds, line, isVisible);
   };
 
   // Draw a point
@@ -422,37 +424,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
     };
   };
   return { drawAssets, drawArea, drawPoint, drawLine };
-};
-
-const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
-  const { grid_points, name, type } = area;
-  let points = [...grid_points];
-  const { colour, hoverColour } = areaStyles[type];
-  points.forEach((point) => {
-    mapBounds.extend(point);
-  });
-
-  points.push(points[0]);
-
-  const polyline = new maps.Polyline({
-    path: points,
-    strokeColor: colour,
-    strokeWeight: 2,
-  });
-  polyline.setMap(map);
-
-  maps.event.addListener(polyline, 'mouseover', function () {
-    this.setOptions({ strokeColor: hoverColour });
-  });
-  maps.event.addListener(polyline, 'mouseout', function () {
-    this.setOptions({ strokeColor: colour });
-  });
-  maps.event.addListener(polyline, 'click', function () {
-    console.log('clicked no fill area');
-  });
-
-  polyline.setOptions({ visible: isVisible });
-  return { polyline };
 };
 
 export default useMapAssetRenderer;

@@ -14,7 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
@@ -149,8 +149,8 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
 }
 
 export default function* signUpSaga() {
-  yield takeLatest(customSignUp.type, customSignUpSaga);
-  yield takeLatest(customLoginWithPassword.type, customLoginWithPasswordSaga);
-  yield takeLatest(customCreateUser.type, customCreateUserSaga);
-  yield takeLatest(sendResetPasswordEmail.type, sendResetPasswordEmailSaga);
+  yield takeLeading(customSignUp.type, customSignUpSaga);
+  yield takeLeading(customLoginWithPassword.type, customLoginWithPasswordSaga);
+  yield takeLeading(customCreateUser.type, customCreateUserSaga);
+  yield takeLeading(sendResetPasswordEmail.type, sendResetPasswordEmailSaga);
 }

@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 import { userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
@@ -66,5 +66,5 @@ export function* patchConsentSaga({ payload }) {
 }
 
 export default function* consentSaga() {
-  yield takeLatest(patchConsent.type, patchConsentSaga);
+  yield takeLeading(patchConsent.type, patchConsentSaga);
 }

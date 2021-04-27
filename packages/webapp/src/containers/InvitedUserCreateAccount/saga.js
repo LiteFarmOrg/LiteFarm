@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import {
   acceptInvitationSuccess,
@@ -114,6 +114,6 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
 }
 
 export default function* inviteSaga() {
-  yield takeLatest(acceptInvitationWithSSO.type, acceptInvitationWithSSOSaga);
-  yield takeLatest(acceptInvitationWithLiteFarm.type, acceptInvitationWithLiteFarmSaga);
+  yield takeLeading(acceptInvitationWithSSO.type, acceptInvitationWithSSOSaga);
+  yield takeLeading(acceptInvitationWithLiteFarm.type, acceptInvitationWithLiteFarmSaga);
 }

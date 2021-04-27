@@ -4,7 +4,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
+import { axios, getHeader } from '../../saga';
 
 export function* sendRequestSaga() {
   const { farmDataUrl } = apiConfig;

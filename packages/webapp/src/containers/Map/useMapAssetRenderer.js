@@ -113,15 +113,18 @@ const useMapAssetRenderer = ({ isClickable }) => {
           });
         });
 
-        let pointAssetsArr = [];
-        for (const type in pointAssets) {
-          pointAssetsArr = pointAssetsArr.concat(pointAssets[type]);
-        }
+        const getFirstMarkerPosition = (pointAssets) => {
+          for (const type in pointAssets) {
+            for (const marker of pointAssets[type]) {
+              return marker.marker.position;
+            }
+          }
+        };
 
         const latlng = map.getCenter().toJSON();
         dispatch(setPosition(latlng));
         dispatch(setZoomLevel(map.getZoom()));
-        handleSelection(pointAssetsArr[0].marker.position, pointAssets, maps, true, true);
+        handleSelection(getFirstMarkerPosition(pointAssets), pointAssets, maps, true, true);
       }
     });
     markerClusterRef.current = markerCluster;

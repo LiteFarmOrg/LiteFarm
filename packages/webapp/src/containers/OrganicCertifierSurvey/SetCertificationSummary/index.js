@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { patchStepFour } from '../saga';
 import history from '../../../history';
 import {
-  selectedCertifierSelector,
   isRequestingCertifierSelector,
   requestedCertifierSelector,
+  selectedCertifierSelector,
   setCertificationSelectionSelector,
 } from '../organicCertifierSurveySlice';
 
@@ -19,9 +19,6 @@ export default function SetCertificationSummary() {
 
   const onSubmit = () => {
     dispatch(patchStepFour());
-    setTimeout(() => {
-      history.push('/outro');
-    }, 100);
   };
 
   const onGoBack = () => {

@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../apiConfig';
 import { loginSelector, postUserSuccess } from '../userFarmSlice';
@@ -66,7 +66,7 @@ export function* getRolesSaga() {
 }
 
 export default function* inviteUserSaga() {
-  yield takeLatest(inviteUserToFarm.type, inviteUserToFarmSaga);
-  yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
+  yield takeLeading(inviteUserToFarm.type, inviteUserToFarmSaga);
+  yield takeLeading(addPseudoWorker.type, addPseudoWorkerSaga);
   yield takeLatest(getRoles.type, getRolesSaga);
 }

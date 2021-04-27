@@ -25,8 +25,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import Unit from '../../../components/Inputs/Unit';
@@ -666,7 +666,7 @@ class PestControlLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

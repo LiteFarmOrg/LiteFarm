@@ -109,6 +109,7 @@ export default function PureNavBar({
     'role',
     'harvest_uses',
     'soil',
+    'certifications',
   ]);
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

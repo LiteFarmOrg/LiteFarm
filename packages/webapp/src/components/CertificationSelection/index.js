@@ -12,6 +12,8 @@ export default function PureCertificationSelection({
   onSubmit,
   inputClasses = {},
   allSupportedCertificationTypes,
+  certification,
+  selectedCertification,
 
   redirectConsent,
   onGoBack,
@@ -34,25 +36,42 @@ export default function PureCertificationSelection({
     mode: 'onChange',
   });
   const SELECTION = 'selection';
+  const [selectionName, setSelectionName] = useState(certification.certificationName || null);
+  const [selectionID, setSelectionID] = useState(null);
   const REQUESTED = 'requested';
-  const [selectionType, setSelectionType] = useState(null);
-  const [requested, setRequested] = useState(requestedCertification);
-  const [disabled, setDisabled] = useState(certificationType === null);
+  const [requested, setRequested] = useState(certification.requestedCertification || null);
+
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
-    if (selectionType) dispatch(setCertificationSelection(selectionType));
-    if (requested || requested !== '') dispatch(setRequestedCertification(requested));
-    setValue(SELECTION, certificationType);
-    setDisabled(
-      !certificationType ||
-        (certificationType === 'Other' &&
-          (!requestedCertification || requestedCertification === '')),
-    );
-  }, [selectionType, certificationType, requested, requestedCertification]);
+    if (selectionName) {
+      dispatch(
+        selectedCertification({
+          certificationName: selectionName,
+          certificationID: selectionID,
+          requestedCertification: requested,
+        }),
+      );
+    }
 
-  const submit = (data) => {
-    if (requestedCertification) data.requested = requestedCertification;
-    onSubmit(data);
+    // if (selectionName) {
+    //   dispatch(selectedCertification({
+    //     certificationName: selectionName,
+    //     certificationID: selectionID
+    //   }))
+    // }
+
+    // if (selectionName) dispatch(setCertificationSelection(selectionName));
+    // if (requested || requested !== '') dispatch(setRequestedCertification(requested));
+
+    setValue(SELECTION, selectionName);
+    setDisabled(!selectionName || (selectionName === 'Other' && (!requested || requested === '')));
+
+    //selectionName, selectionID, certificationType, requested, requestedCertification, certification
+  }, [selectionName, requested]);
+
+  const submit = () => {
+    onSubmit();
   };
 
   return (
@@ -82,7 +101,11 @@ export default function PureCertificationSelection({
               name={SELECTION}
               value={item.certification_type}
               inputRef={register({ required: true })}
-              onChange={() => setSelectionType(item.certification_type)}
+              onChange={() => {
+                setSelectionName(item.certification_type);
+                setSelectionID(item.certification_id);
+                setRequested(null);
+              }}
             />
           </div>
         );
@@ -95,7 +118,10 @@ export default function PureCertificationSelection({
           name={SELECTION}
           value={'Other'}
           inputRef={register({ required: true })}
-          onChange={() => setSelectionType('Other')}
+          onChange={() => {
+            setSelectionName('Other');
+            setSelectionID(null);
+          }}
         />{' '}
         {certificationType === 'Other' && (
           <Infoi
@@ -105,12 +131,14 @@ export default function PureCertificationSelection({
           />
         )}
       </div>
-      {certificationType === 'Other' && role_id !== 3 && (
+      {selectionName === 'Other' && role_id !== 3 && (
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
-          onChange={(e) => setRequested(e.target.value)}
+          onChange={(e) => {
+            setRequested(e.target.value);
+          }}
           name={REQUESTED}
-          defaultValue={requestedCertification !== null ? requestedCertification : null}
+          defaultValue={requested}
           errors={errors[REQUESTED] && t('common:REQUIRED')}
         />
       )}

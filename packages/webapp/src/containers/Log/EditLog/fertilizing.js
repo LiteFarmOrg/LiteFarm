@@ -163,7 +163,7 @@ class FertilizingLog extends Component {
       crops: selectedCrops,
       fertilizer_type: fertLog.product,
     };
-    this.props.dispatch(editFertilizerLog(fertConfig));
+    if (!this.state.showModal) this.props.dispatch(editFertilizerLog(fertConfig));
   }
 
   saveCustomFert() {

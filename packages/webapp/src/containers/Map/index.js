@@ -3,19 +3,17 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
 import {
+  canShowSelectionSelector,
   canShowSuccessHeader,
+  mapLocationsSelector,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
-  canShowSelectionSelector,
-  locationsSelector,
-  setPositionSelector,
-  setZoomLevelSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -66,7 +64,7 @@ export default function Map({ history }) {
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
   const showSelection = useSelector(canShowSelectionSelector);
-  const locations = useSelector(locationsSelector);
+  const locations = useSelector(mapLocationsSelector);
   const initialLineData = {
     [locationEnum.watercourse]: {
       width: 1,
@@ -152,7 +150,7 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer();
+  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
   const handleGoogleMapApi = (map, maps) => {
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();

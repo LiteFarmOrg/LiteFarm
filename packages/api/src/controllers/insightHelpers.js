@@ -98,13 +98,13 @@ exports.getSoilOM = async (data) => {
 
   const returnData = {};
   data.map((element) => {
-    if (!(element.field_id in returnData)) {
+    if (!(element.location_id in returnData)) {
       // The current field is not added to the returnData yet
-      returnData[element.field_id] = initOMData(element)
+      returnData[element.location_id] = initOMData(element)
     } else {
       // If the current field has multiple soil data logs, put them
       // into a list for calculating the average
-      returnData[element.field_id]['activity_oms'].push(grabOM(element))
+      returnData[element.location_id]['activity_oms'].push(grabOM(element))
     }
   });
 
@@ -152,7 +152,7 @@ exports.getSoilOM = async (data) => {
 const initOMData = (element) => {
   const OMData = {};
   // set the field name
-  OMData['field_name'] = element.field_name;
+  OMData['field_name'] = element.name;
   OMData['soil_om'] = 0;
   OMData['grid_points'] = element.grid_points;
   OMData['percentage'] = 0;

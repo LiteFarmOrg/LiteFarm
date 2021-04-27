@@ -212,7 +212,7 @@ class soilDataLog extends Component {
       cec: convertToMetric(parseFloat(log.cec), cec_unit, 'kg') || 0,
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {

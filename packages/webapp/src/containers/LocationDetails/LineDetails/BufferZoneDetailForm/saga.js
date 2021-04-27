@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteBufferZoneSuccess,
   editBufferZoneSuccess,
   getLocationObjectFromBufferZone,
   postBufferZoneSuccess,
-  deleteBufferZoneSuccess,
 } from '../../../bufferZoneSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -97,11 +97,7 @@ export function* deleteBufferZoneLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteBufferZoneSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -113,7 +109,7 @@ export function* deleteBufferZoneLocationSaga({ payload: data }) {
       path: history.location.pathname,
       state: {
         error: {
-          retire: true
+          retire: true,
         },
       },
     });
@@ -122,7 +118,7 @@ export function* deleteBufferZoneLocationSaga({ payload: data }) {
 }
 
 export default function* bufferZoneLocationSaga() {
-  yield takeLatest(postBufferZoneLocation.type, postBufferZoneLocationSaga);
-  yield takeLatest(editBufferZoneLocation.type, editBufferZoneLocationSaga);
-  yield takeLatest(deleteBufferZoneLocation.type, deleteBufferZoneLocationSaga);
+  yield takeLeading(postBufferZoneLocation.type, postBufferZoneLocationSaga);
+  yield takeLeading(editBufferZoneLocation.type, editBufferZoneLocationSaga);
+  yield takeLeading(deleteBufferZoneLocation.type, deleteBufferZoneLocationSaga);
 }

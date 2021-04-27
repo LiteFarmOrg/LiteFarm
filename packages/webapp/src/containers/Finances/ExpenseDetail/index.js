@@ -38,10 +38,10 @@ class ExpenseDetail extends Component {
   }
 
   componentDidMount() {
-    const { expense_detail_date, farm } = this.props;
+    const { farm, expense } = this.props;
     this.setState({ currencySymbol: grabCurrencySymbol(farm) });
     const language = getLanguageFromLocalStorage();
-    const date = moment(expense_detail_date).locale(language).format('MMM DD, YYYY');
+    const date = moment(expense.expense_date).locale(language).format('MMM DD, YYYY');
     this.setState({
       date,
     });
@@ -49,8 +49,8 @@ class ExpenseDetail extends Component {
   }
 
   getExpensesByDate() {
-    const { expense_detail_date, expenses } = this.props;
-    let targetDate = moment(expense_detail_date).format('YYYY-MM-DD');
+    const { expenses, expense } = this.props;
+    let targetDate = moment(expense.expense_date).format('YYYY-MM-DD');
     let dict = {};
     let total = 0;
     let filteredExpenses = [];
@@ -210,7 +210,7 @@ class ExpenseDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    expense_detail_date: expenseDetailDateSelector(state),
+    // expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     farm: userFarmSelector(state),

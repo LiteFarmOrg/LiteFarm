@@ -86,10 +86,10 @@ function sendEmail(template_path, replacements, email_to, {
       template: template_path,
       locals: replacements,
     };
+    if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
+      mailOptions.message.cc = 'support@litefarm.org';
+    }
     if (attachments.length && attachments[0] && [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)) {
-      if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
-        mailOptions.message.cc = 'support@litefarm.org';
-      }
       mailOptions.message.attachments = attachments.map(file => ({
         filename: file.originalname,
         content: file.buffer,

@@ -252,7 +252,7 @@ class soilDataLog extends Component {
           <Unit model=".p" title="P" type="%" />
           <Unit model=".n" title="N" type="%" />
           <Unit model=".om" title={this.props.t('LOG_SOIL.OM')} type="%" />
-          <Unit model=".ph" title="ph" type="%" />
+          <Unit model=".ph" title="ph" />
           <Unit
             model=".bulk_density_kg/m3"
             title="Bulk Density"

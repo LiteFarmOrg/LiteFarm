@@ -19,8 +19,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
 // const customFieldset = () => {
@@ -182,7 +182,7 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

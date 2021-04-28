@@ -55,7 +55,7 @@ const Input = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
+  const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
   return (
     <div
       className={clsx(styles.container)}

@@ -12,7 +12,7 @@ import {
   selectedCertificationSelector,
   selectedCertification,
   finishedSelectingCertificationType,
-  setCertifiersSelector,
+  allCertifierTypesSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 
@@ -21,7 +21,7 @@ export default function CertificationSelection() {
   const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
   const certification = useSelector(selectedCertificationSelector);
   const role = useSelector(userFarmSelector);
-  const certifiers = useSelector(setCertifiersSelector);
+  const allSupportedCertifiers = useSelector(allCertifierTypesSelector);
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
@@ -49,7 +49,7 @@ export default function CertificationSelection() {
     const callback = () => {
       !certification.certificationID
         ? history.push('/requested_certifier')
-        : certifiers.length === 0
+        : allSupportedCertifiers.length === 0
         ? history.push('/requested_certifier')
         : history.push('/certifier_selection_menu');
     };

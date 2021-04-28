@@ -9,15 +9,13 @@ import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
 
 export default function PureCertifierSelectionScreen({
-  certifiers,
+  allSupportedCertifiers,
   history,
   onBack,
-  isRequestingCertifier,
   dispatch,
   onSubmit,
   selectedCertifier,
-  certifierSelected,
-  isRequesting,
+  certifierType,
   role_id,
   certificationType,
 }) {
@@ -25,37 +23,42 @@ export default function PureCertifierSelectionScreen({
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
   const disabled = !selectedCertifierId;
-  const isSearchable = certifiers.length >= 2;
+  const isSearchable = allSupportedCertifiers.length >= 2;
   const onFilterChange = (e) => {
     setFilter(e.target.value);
   };
   const onRequestCertifier = () => {
-    dispatch(isRequestingCertifier(true));
+    dispatch(
+      selectedCertifier({
+        certifierName: null,
+        isRequestingCertifier: true,
+      }),
+    );
     history.push('/requested_certifier');
   };
   const onSelectCertifier = (certifier_id, certifier_name) => {
     selectedCertifierId !== certifier_id && setCertifier(certifier_id);
-    dispatch(isRequestingCertifier(false));
     dispatch(
       selectedCertifier({
-        certifier_id: certifier_id,
-        certifier_name: certifier_name,
+        certifierName: certifier_name,
+        certifierID: certifier_id,
+        isRequestingCertifier: false,
       }),
     );
   };
 
   useEffect(() => {
-    if (certifierSelected) setCertifier(certifierSelected.certifier_id);
-  }, [certifierSelected]);
+    if (certifierType) setCertifier(certifierType.certifierID);
+  }, [certifierType]);
 
   const filteredCertifiers = useMemo(() => {
     return filter
-      ? certifiers.filter(
+      ? allSupportedCertifiers.filter(
           (certifier) =>
             certifier.certifier_name.toLowerCase().includes(filter?.toLowerCase()) ||
             certifier.certifier_acronym.toLowerCase().includes(filter?.toLowerCase()),
         )
-      : certifiers;
+      : allSupportedCertifiers;
   }, [filter]);
   return (
     <Layout
@@ -76,7 +79,7 @@ export default function PureCertifierSelectionScreen({
       <Semibold style={{ paddingBottom: '20px' }}>
         {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
           ' ' +
-          certificationType +
+          certificationType.certificationName +
           ' ' +
           t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_TWO')}
       </Semibold>
@@ -96,13 +99,13 @@ export default function PureCertifierSelectionScreen({
             style={{ marginBottom: '16px' }}
             certifierName={certifier.certifier_name + ' ' + '(' + certifier.certifier_acronym + ')'}
             color={
-              isRequesting
+              selectedCertifier.isRequestingCertifier
                 ? 'secondary'
                 : selectedCertifierId === certifier.certifier_id
                 ? 'active'
                 : 'secondary'
             }
-            onClick={() => onSelectCertifier(certifier.certifier_id, certifier.certifier_name)}
+            onClick={() => onSelectCertifier(certifier.certifier_id, certifier.certifier_acronym)}
           />
         );
       })}
@@ -135,7 +138,7 @@ export default function PureCertifierSelectionScreen({
 }
 
 PureCertifierSelectionScreen.prototype = {
-  certifiers: PropTypes.arrayOf(
+  allSupportedCertifiers: PropTypes.arrayOf(
     PropTypes.exact({
       certifierTranslation: PropTypes.string,
       certifier_id: PropTypes.string,

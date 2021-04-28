@@ -19,7 +19,7 @@ export default function PureCertifierSelectionScreen({
   role_id,
   certificationType,
 }) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'certification']);
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
   const disabled = !selectedCertifierId;
@@ -79,7 +79,7 @@ export default function PureCertifierSelectionScreen({
       <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
         {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
           ' ' +
-          certificationType.certificationName +
+          t(`certification:${certificationType.certification_translation_key}`) +
           ' ' +
           t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_TWO')}
       </Semibold>

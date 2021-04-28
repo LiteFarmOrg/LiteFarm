@@ -384,7 +384,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
   const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
     const { grid_points } = area;
-    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 100 };
+    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 1 };
     return drawLine(map, maps, mapBounds, line, isVisible);
   };
 

@@ -8,8 +8,9 @@ import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import i18n from '../../../locales/i18n';
-import { getHarvestUseTypes, setAllHarvestUseTypes } from '../actions';
+import { getHarvestUseTypes, setAllHarvestUseTypes, setLogsInState } from '../actions';
 import { harvestLogDataSelector } from '../Utility/logSlice';
+import { logSelector } from '../selectors';
 
 export function* addLog(action) {
   const { logURL } = apiConfig;
@@ -102,6 +103,8 @@ export function* deleteLog(action) {
   try {
     const result = yield call(axios.delete, logURL + `/${action.id}`, header);
     if (result) {
+      const logs = yield select(logSelector);
+      yield put(setLogsInState(logs.filter((log) => log.activity_id !== action.id)));
       history.push('/log');
       toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
     }

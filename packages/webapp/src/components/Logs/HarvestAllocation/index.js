@@ -77,7 +77,7 @@ export default function PureHarvestAllocation({
               {t('common:BACK')}
             </Button>
             <Button type={'submit'} fullLength disabled={!formState.isValid}>
-              {t('common:NEXT')}
+              {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }

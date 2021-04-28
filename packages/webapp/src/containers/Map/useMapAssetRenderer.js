@@ -8,6 +8,7 @@ import { setPosition, setZoomLevel } from '../mapSlice';
 import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
+// import ClusterIcon from '../../assets/images/map/cluster';
 
 const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection } = useSelectionHandler();
@@ -90,10 +91,25 @@ const useMapAssetRenderer = ({ isClickable }) => {
       markers.push(point.marker);
     });
 
+    const clusterStyle = {
+      textColor: 'white',
+      textSize: 20,
+      textLineHeight: 20,
+      height: 28,
+      width: 28,
+      className: styles.clusterIcon,
+    };
+    const clusterStyles = [
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+    ];
+
     const markerCluster = new MarkerClusterer(map, markers, {
-      imagePath:
-        'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       ignoreHidden: true,
+      styles: clusterStyles,
     });
 
     markerCluster.addMarkers(markers, true);
@@ -384,7 +400,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
   const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
     const { grid_points } = area;
-    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 100 };
+    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 1 };
     return drawLine(map, maps, mapBounds, line, isVisible);
   };
 

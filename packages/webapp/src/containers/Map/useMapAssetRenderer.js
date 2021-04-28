@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
-import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
+import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
+// import ClusterIcon from '../../assets/images/map/cluster';
 
-const useMapAssetRenderer = () => {
+const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -36,6 +37,15 @@ const useMapAssetRenderer = () => {
     }
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
+  useEffect(() => {
+    for (const key in filterSettings) {
+      for (const assetGeometry of assetGeometries?.[key] || []) {
+        assetGeometry?.polygon?.setOptions({ clickable: isClickable });
+        assetGeometry?.polyline?.setOptions({ clickable: isClickable });
+        assetGeometry?.marker?.setOptions({ clickable: isClickable });
+      }
+    }
+  }, [isClickable]);
 
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
@@ -67,6 +77,9 @@ const useMapAssetRenderer = () => {
         );
     }
   }, [filterSettings?.gate, filterSettings?.water_valve]);
+  useEffect(() => {
+    markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
+  }, [isClickable]);
   const createMarkerClusters = (maps, map, points) => {
     const markers = [];
 
@@ -78,10 +91,25 @@ const useMapAssetRenderer = () => {
       markers.push(point.marker);
     });
 
+    const clusterStyle = {
+      textColor: 'white',
+      textSize: 20,
+      textLineHeight: 20,
+      height: 28,
+      width: 28,
+      className: styles.clusterIcon,
+    };
+    const clusterStyles = [
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+    ];
+
     const markerCluster = new MarkerClusterer(map, markers, {
-      imagePath:
-        'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       ignoreHidden: true,
+      styles: clusterStyles,
     });
 
     markerCluster.addMarkers(markers, true);
@@ -101,10 +129,18 @@ const useMapAssetRenderer = () => {
           });
         });
 
+        const getFirstMarkerPosition = (pointAssets) => {
+          for (const type in pointAssets) {
+            for (const marker of pointAssets[type]) {
+              return marker.marker.position;
+            }
+          }
+        };
+
         const latlng = map.getCenter().toJSON();
         dispatch(setPosition(latlng));
         dispatch(setZoomLevel(map.getZoom()));
-        handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
+        handleSelection(getFirstMarkerPosition(pointAssets), pointAssets, maps, true, true);
       }
     });
     markerClusterRef.current = markerCluster;
@@ -296,8 +332,7 @@ const useMapAssetRenderer = () => {
       ],
     });
     polyline.setMap(map);
-    const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(type);
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
       linePolygon = new maps.Polygon({
         paths: polyPath,
@@ -333,23 +368,26 @@ const useMapAssetRenderer = () => {
     // Event listener for line click
     maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
-
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     let asset;
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       linePolygon.setOptions({ visible: isVisible });
       asset = { polygon: linePolygon, polyline };
     } else {
       asset = { polyline };
     }
     polyline.setOptions({ visible: isVisible });
-    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-    });
+    maps.event.addListener(
+      isAreaLine(type) ? linePolygon : polyline,
+      'click',
+      function (mapsMouseEvent) {
+        handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      },
+    );
 
     return {
       ...asset,
@@ -358,6 +396,12 @@ const useMapAssetRenderer = () => {
       asset: 'line',
       type: line.type,
     };
+  };
+
+  const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
+    const { grid_points } = area;
+    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 1 };
+    return drawLine(map, maps, mapBounds, line, isVisible);
   };
 
   // Draw a point
@@ -396,37 +440,6 @@ const useMapAssetRenderer = () => {
     };
   };
   return { drawAssets, drawArea, drawPoint, drawLine };
-};
-
-const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
-  const { grid_points, name, type } = area;
-  let points = [...grid_points];
-  const { colour, hoverColour } = areaStyles[type];
-  points.forEach((point) => {
-    mapBounds.extend(point);
-  });
-
-  points.push(points[0]);
-
-  const polyline = new maps.Polyline({
-    path: points,
-    strokeColor: colour,
-    strokeWeight: 2,
-  });
-  polyline.setMap(map);
-
-  maps.event.addListener(polyline, 'mouseover', function () {
-    this.setOptions({ strokeColor: hoverColour });
-  });
-  maps.event.addListener(polyline, 'mouseout', function () {
-    this.setOptions({ strokeColor: colour });
-  });
-  maps.event.addListener(polyline, 'click', function () {
-    console.log('clicked no fill area');
-  });
-
-  polyline.setOptions({ visible: isVisible });
-  return { polyline };
 };
 
 export default useMapAssetRenderer;

@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
-  certifierSelection: null,
-  certificationTypes: [],
-  requestedCertification: null,
-  selectedCertificationType: false,
+  allCertificationTypes: [],
+  certificationName: null,
   certificationID: null,
-  certifiers: [],
-  isRequestingCertifier: false,
+  requestedCertification: null,
+  finishedSelectingCertificationType: false,
+  allCertifierTypes: [],
+  certifierName: null,
+  certifierID: null,
   requestedCertifier: null,
-  selectedCertifier: null,
   loadSummary: false,
 };
 
@@ -17,32 +17,28 @@ const organicCertifierSurveyReducer = createSlice({
   name: 'organicCertifierSurveyReducer',
   initialState,
   reducers: {
-    setCertificationSelection: (state, { payload: selection }) => {
-      state.certifierSelection = selection;
+    allCertificationTypes: (state, { payload: types }) => {
+      state.allCertificationTypes = types;
     },
-    setcertificationTypes: (state, { payload: types }) => {
-      state.certificationTypes = types;
+    selectedCertification: (state, { payload: certification }) => {
+      state.certificationName = certification.certificationName;
+      state.certificationID = certification.certificationID;
+      state.requestedCertification = certification.requestedCertification;
     },
-    setRequestedCertification: (state, { payload: requested }) => {
-      state.requestedCertification = requested;
+    finishedSelectingCertificationType: (state, { payload: selected }) => {
+      state.finishedSelectingCertificationType = selected;
     },
-    selectedCertificationType: (state, { payload: selected }) => {
-      state.selectedCertificationType = selected;
-    },
-    setCertificationID: (state, { payload: id }) => {
-      state.certificationID = id;
-    },
-    setCertifiers: (state, { payload: certifiers }) => {
-      state.certifiers = certifiers;
-    },
-    isRequestingCertifier: (state, { payload: selected }) => {
-      state.isRequestingCertifier = selected;
-    },
-    requestedCertifier: (state, { payload: requested }) => {
-      state.requestedCertifier = requested;
+    allCertifierTypes: (state, { payload: allCertifierTypes }) => {
+      state.allCertifierTypes = allCertifierTypes;
     },
     selectedCertifier: (state, { payload: certifier }) => {
-      state.selectedCertifier = certifier;
+      state.certifierName = certifier.certifierName;
+      state.certifierID = certifier.certifierID;
+      state.isRequestingCertifier = certifier.isRequestingCertifier;
+    },
+
+    requestedCertifier: (state, { payload: requested }) => {
+      state.requestedCertifier = requested;
     },
     loadSummary: (state, { payload: loadSummary }) => {
       state.loadSummary = loadSummary;
@@ -51,36 +47,37 @@ const organicCertifierSurveyReducer = createSlice({
 });
 
 export const {
-  setCertificationSelection,
-  setcertificationTypes,
-  setRequestedCertification,
-  selectedCertificationType,
-  setCertificationID,
-  setCertifiers,
-  isRequestingCertifier,
-  requestedCertifier,
+  allCertificationTypes,
+  selectedCertification,
+  finishedSelectingCertificationType,
+  allCertifierTypes,
   selectedCertifier,
+  requestedCertifier,
   loadSummary,
-  setSelectedCertifier,
 } = organicCertifierSurveyReducer.actions;
+
 export default organicCertifierSurveyReducer.reducer;
-export const setCertificationSelectionSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].certifierSelection;
-export const setcertificationTypesSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationTypes;
-export const setRequestedCertificationSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertification;
-export const selectedCertificationTypeSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].selectedCertificationType;
-export const certificationIDSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationID;
-export const setCertifiersSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].certifiers;
-export const isRequestingCertifierSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].isRequestingCertifier;
+
+export const allCertificationTypesSelector = (state) =>
+  state?.tempStateReducer[organicCertifierSurveyReducer.name].allCertificationTypes;
+export const selectedCertificationSelector = (state) => ({
+  certificationName: state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationName,
+  certificationID: state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationID,
+  requestedCertification:
+    state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertification,
+});
+export const finishedSelectingCertificationTypeSelector = (state) =>
+  state?.tempStateReducer[organicCertifierSurveyReducer.name].finishedSelectingCertificationType;
+export const allCertifierTypesSelector = (state) =>
+  state?.tempStateReducer[organicCertifierSurveyReducer.name].allCertifierTypes;
+export const selectedCertifierSelector = (state) => ({
+  certifierName: state?.tempStateReducer[organicCertifierSurveyReducer.name].certifierName,
+  certifierID: state?.tempStateReducer[organicCertifierSurveyReducer.name].certifierID,
+  isRequestingCertifier:
+    state?.tempStateReducer[organicCertifierSurveyReducer.name].isRequestingCertifier,
+});
+
 export const requestedCertifierSelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertifier;
-export const selectedCertifierSelector = (state) =>
-  state?.tempStateReducer[organicCertifierSurveyReducer.name].selectedCertifier;
 export const loadSummarySelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].loadSummary;

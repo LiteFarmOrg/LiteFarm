@@ -18,18 +18,15 @@ export default function PureRequestCertifier({
   const {
     register,
     handleSubmit,
-    watch,
     errors,
-    formState: { isValid, isDirty },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
   });
   const REQUESTED_CERTIFIER = 'requestedCertifier';
   const [requested, setRequested] = useState(null);
-  const [disabled, setDisabled] = useState(requested === null);
 
   useEffect(() => {
-    setDisabled(requested === null);
     if (requested !== null) dispatch(requestedCertifier(requested));
   }, [requested]);
 

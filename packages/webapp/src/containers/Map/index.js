@@ -78,6 +78,9 @@ export default function Map({ history }) {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
+    return () => {
+      dispatch(canShowSuccessHeader(false));
+    }
   }, []);
 
   const [
@@ -130,7 +133,7 @@ export default function Map({ history }) {
         },
       ],
       gestureHandling: 'greedy',
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: false,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
@@ -150,7 +153,7 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer();
+  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
   const handleGoogleMapApi = (map, maps) => {
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();

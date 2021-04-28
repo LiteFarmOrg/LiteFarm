@@ -18,7 +18,7 @@ import { setLogsInState } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 
 export function* getLogsSaga() {
   const { logURL } = apiConfig;

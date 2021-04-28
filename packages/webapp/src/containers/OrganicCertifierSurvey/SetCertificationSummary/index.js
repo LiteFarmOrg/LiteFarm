@@ -5,36 +5,37 @@ import { patchStepFour } from '../saga';
 import history from '../../../history';
 import {
   selectedCertifierSelector,
-  isRequestingCertifierSelector,
+  selectedCertificationSelector,
   requestedCertifierSelector,
-  setCertificationSelectionSelector,
+  allCertifierTypesSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function SetCertificationSummary() {
   const dispatch = useDispatch();
-  const name = useSelector(selectedCertifierSelector);
-  const isRequesting = useSelector(isRequestingCertifierSelector);
+  const certifierType = useSelector(selectedCertifierSelector);
   const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certificationType = useSelector(setCertificationSelectionSelector);
+  const certificationType = useSelector(selectedCertificationSelector);
+  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
 
   const onSubmit = () => {
     dispatch(patchStepFour());
-    setTimeout(() => {
-      history.push('/outro');
-    }, 100);
   };
 
   const onGoBack = () => {
-    isRequesting ? history.push('/requested_certifier') : history.push('/certifier_selection_menu');
+    certificationType.certificationName === 'Other'
+      ? history.push('/requested_certifier')
+      : allSupportedCertifierTypes.length < 1
+      ? history.push('/requested_certifier')
+      : history.push('/certifier_selection_menu');
   };
 
   return (
     <>
       <PureSetCertificationSummary
-        name={isRequesting ? requestedCertifierData : name.certifier_name}
+        name={requestedCertifierData ? requestedCertifierData : certifierType.certifierName}
+        requestedCertifierData={requestedCertifierData}
         onSubmit={onSubmit}
         onGoBack={onGoBack}
-        isRequesting={isRequesting}
         certificationType={certificationType}
       />
     </>

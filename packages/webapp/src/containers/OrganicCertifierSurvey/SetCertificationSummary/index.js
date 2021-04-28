@@ -28,9 +28,9 @@ export default function SetCertificationSummary() {
 
   const onGoBack = () => {
     certificationType.certificationName === 'Other'
-      ? history.push('/certification_selection')
+      ? history.push('/requested_certifier')
       : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification_selection')
+      ? history.push('/requested_certifier')
       : history.push('/certifier_selection_menu');
   };
 

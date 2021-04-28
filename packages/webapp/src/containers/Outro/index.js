@@ -7,20 +7,18 @@ import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
 import { loginSelector } from '../userFarmSlice';
 import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
-import { selectedCertifierSelector } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
+import {
+  selectedCertifierSelector,
+  requestedCertifierSelector,
+} from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 function Outro() {
   const userFarm = useSelector(loginSelector);
   const dispatch = useDispatch();
   const certifierType = useSelector(selectedCertifierSelector);
+  const requestCertifierData = useSelector(requestedCertifierSelector);
   const onGoBack = () => {
-    history.push(
-      !survey.interested
-        ? '/interested_in_organic'
-        : certifierType.isRequestingCertifier
-        ? '/requested_certifier'
-        : '/certifier_selection_menu',
-    );
+    history.push(requestCertifierData ? '/requested_certifier' : '/certifier_selection_menu');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

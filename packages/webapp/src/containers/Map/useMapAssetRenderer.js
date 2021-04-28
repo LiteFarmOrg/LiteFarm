@@ -8,6 +8,7 @@ import { setPosition, setZoomLevel } from '../mapSlice';
 import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
+// import ClusterIcon from '../../assets/images/map/cluster';
 
 const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection } = useSelectionHandler();
@@ -90,10 +91,31 @@ const useMapAssetRenderer = ({ isClickable }) => {
       markers.push(point.marker);
     });
 
+    const clusterStyle = {
+      textColor: 'white',
+      textSize: 20,
+      textLineHeight: 20,
+      height: 28,
+      width: 28,
+      className: styles.clusterIcon,
+    };
+    const clusterStyles = [
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+      clusterStyle,
+    ];
+
+    // console.log(process.env.NODE_ENV);
+    // console.log(window.location);
+    // console.log(window.location.href);
+    // console.log(window.location.href.replace('map', ''));
     const markerCluster = new MarkerClusterer(map, markers, {
-      imagePath:
-        'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+      // imagePath: `${window.location.origin}/m`,
+        // 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       ignoreHidden: true,
+      styles: clusterStyles,
     });
 
     markerCluster.addMarkers(markers, true);

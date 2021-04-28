@@ -111,7 +111,7 @@ class Unit extends React.Component {
                 label={title}
                 disabled={disabled}
               />
-              <div className={styles.typeUnit}>{type}</div>
+              {!!type && <div className={styles.typeUnit}>{type}</div>}
             </div>
 
             <Errors

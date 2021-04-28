@@ -149,6 +149,7 @@ const insightController = {
           GROUP BY l.location_id, l.name, line.line_points
           ORDER BY l.name`, [farmID, farmID]);
 
+        // buffer zones don't have grid_points, add line_points as grid_points to not break in helper function
         bufferZoneData.rows = bufferZoneData.rows.map(bufferZone => ({
           ...bufferZone,
           grid_points: bufferZone.line_points,

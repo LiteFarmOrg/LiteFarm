@@ -97,6 +97,7 @@ const insightController = {
           LEFT JOIN "surface_water" sw on sw.location_id = l.location_id
           LEFT JOIN "natural_area" na on na.location_id = l.location_id
           LEFT JOIN "residence" r on r.location_id = l.location_id
+          LEFT JOIN "greenhouse" g on g.location_id = l.location_id
           JOIN "figure" on figure.location_id = l.location_id
           JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
@@ -119,6 +120,7 @@ const insightController = {
             AND sw.location_id IS NULL
             AND na.location_id IS NULL
             AND r.location_id IS NULL
+            AND g.location_id IS NULL
           GROUP BY l.location_id, l.name, area.grid_points
           ORDER BY l.name`, [farmID, farmID]);
 

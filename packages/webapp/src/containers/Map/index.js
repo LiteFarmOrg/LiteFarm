@@ -78,6 +78,9 @@ export default function Map({ history }) {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
+    return () => {
+      dispatch(canShowSuccessHeader(false));
+    }
   }, []);
 
   const [

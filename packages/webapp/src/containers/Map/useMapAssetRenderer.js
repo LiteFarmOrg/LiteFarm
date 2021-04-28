@@ -107,13 +107,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       clusterStyle,
     ];
 
-    // console.log(process.env.NODE_ENV);
-    // console.log(window.location);
-    // console.log(window.location.href);
-    // console.log(window.location.href.replace('map', ''));
     const markerCluster = new MarkerClusterer(map, markers, {
-      // imagePath: `${window.location.origin}/m`,
-        // 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
       ignoreHidden: true,
       styles: clusterStyles,
     });

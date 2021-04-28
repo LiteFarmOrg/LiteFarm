@@ -78,6 +78,9 @@ export default function Map({ history }) {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
+    return () => {
+      dispatch(canShowSuccessHeader(false));
+    }
   }, []);
 
   const [
@@ -130,7 +133,7 @@ export default function Map({ history }) {
         },
       ],
       gestureHandling: 'greedy',
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: false,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,

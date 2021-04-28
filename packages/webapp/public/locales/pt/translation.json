@@ -14,10 +14,10 @@
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "MISSING",
-      "TITLE": "MISSING",
-      "TOOLTIP": "MISSING",
       "SUBTITLE_ONE": "MISSING",
-      "SUBTITLE_TWO": "MISSING"
+      "SUBTITLE_TWO": "MISSING",
+      "TITLE": "MISSING",
+      "TOOLTIP": "MISSING"
     },
     "CERTIFIER_SELECTION": {
       "INFO": "MISSING",
@@ -38,11 +38,11 @@
     },
     "SUMMARY": {
       "BAD_NEWS": "MISSING",
+      "BAD_NEWS_INFO": "MISSING",
+      "CERTIFICATION": "MISSING",
       "GOOD_NEWS": "MISSING",
       "INFORMATION": "MISSING",
-      "BAD_NEWS_INFO": "MISSING",
-      "TITLE": "MISSING",
-      "CERTIFICATION": "MISSING"
+      "TITLE": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -333,6 +333,7 @@
         "CROP_GROUP_INFO": "informações do novo cultivo",
         "CROP_GROUP_SUBGROUP": "MISSING",
         "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
+        "DELETE_CROP": "MISSING",
         "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
         "EDIT_ESTIMATED_YIELD": "Editar rendimento estimado para a cultura",
@@ -355,6 +356,7 @@
         "NUMBER_OF_BEDS": "Número de canteiros",
         "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
         "PERCENTAGE": "Percentagem",
+        "REMOVE_CROP": "MISSING",
         "SELECT_CROP_GROUP": "MISSING",
         "SELECT_CROP_SUBGROUP": "MISSING",
         "SELECT_CROP_TEMPLATE": "Selecione um tipo de cultivo",
@@ -542,17 +544,16 @@
   },
   "LOG_COMMON": {
     "ACTION": "Ação",
-    "CHOOSE_DATE": "MISSING",
     "ACTIVITY": "Atividade",
     "ADD_A_LOG": "MISSING",
     "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
     "ADD_NEW_LOG": "Adicionar Novo registro",
     "ALL": "Todos",
     "ALL_CROPS": "Todas as culturas",
-    "ALL_FIELDS": "Todos os campos",
     "ALL_LOCATIONS": "MISSING",
     "AMMONIA": "Amônia",
     "CHEMICAL_COMPOSITION": "Composição Química",
+    "CHOOSE_DATE": "MISSING",
     "CROP": "Cultivos",
     "DATE": "Data",
     "DEFAULT_PRODUCT": "Produto Padrão",
@@ -572,7 +573,6 @@
     "LOCATION": "MISSING",
     "LOCATIONS": "MISSING",
     "LOG_ALL_CROPS": "Todos os cultivos",
-    "LOG_ALL_FIELDS": "Todos os campos",
     "LOG_HELP": "Ajuda com o registro",
     "LOG_HELP_EXPLANATION": "Use os filtros abaixo para pesquisar seu histórico de registro. Útil para manter registros de insumos e outras atividades agrícolas para sua equipe e certificadores.",
     "LOG_HISTORY": "Histórico de registro",
@@ -601,7 +601,8 @@
     "TO": "Para",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro, você deve adicionar cultivos aos campos. Você pode fazer isso navegando em Campos -> Seu campo -> Novo cultivo de campo",
-    "WATER": "Água"
+    "WATER": "Água",
+    "ALL_FIELDS": "Todos os campos"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Ação necessária",
@@ -722,16 +723,6 @@
   },
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Em breve!"
-  },
-  "ORGANIC": {
-    "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "MISSING",
-      "CERTIFIER_NAME_INFO": "MISSING",
-      "CERTIFIER_NAME_LABEL": "MISSING",
-      "SELECT_CERTIFIER": "MISSING",
-      "THROUGH_APP": "MISSING",
-      "WILL_INDICATE": "MISSING"
-    }
   },
   "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {

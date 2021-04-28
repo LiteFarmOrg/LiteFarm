@@ -3,11 +3,18 @@ import PureRequestCertifier from '../../../components/RequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
 import { patchRequestedCertifiers, getAllSupportedCertifications } from '../saga';
 import history from '../../../history';
-import { requestedCertifier, requestedCertifierSelector } from '../organicCertifierSurveySlice';
+import {
+  requestedCertifier,
+  requestedCertifierSelector,
+  selectedCertificationSelector,
+  allCertifierTypesSelector,
+} from '../organicCertifierSurveySlice';
 
 export default function RequestCertifier() {
   const dispatch = useDispatch();
   const requestedCertifierData = useSelector(requestedCertifierSelector);
+  const certificationType = useSelector(selectedCertificationSelector);
+  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
@@ -23,7 +30,11 @@ export default function RequestCertifier() {
   };
 
   const onGoBack = () => {
-    history.push('/certifier_selection_menu');
+    certificationType.certificationName === 'Other'
+      ? history.push('/certification_selection')
+      : allSupportedCertifierTypes.length < 1
+      ? history.push('/certification_selection')
+      : history.push('/certifier_selection_menu');
   };
 
   return (

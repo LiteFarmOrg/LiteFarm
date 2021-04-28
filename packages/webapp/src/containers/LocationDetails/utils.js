@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { barnEnum, fenceEnum, fieldEnum, greenhouseEnum, surfaceWaterEnum } from '../constants';
+import moment from 'moment';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -24,9 +25,9 @@ const boolToString = (bool) => {
 export const getFormData = (location) => {
   const result = { ...location };
   result[fieldEnum.transition_date] &&
-    (result[fieldEnum.transition_date] = new Date(
+    (result[fieldEnum.transition_date] = moment(
       result[fieldEnum.transition_date],
-    ).toLocaleDateString('en-CA'));
+    ).utc().format('YYYY-MM-DD'));
   result.hasOwnProperty(barnEnum.wash_and_pack) &&
     (result[barnEnum.wash_and_pack] = boolToString(result[barnEnum.wash_and_pack]));
   result.hasOwnProperty(barnEnum.cold_storage) &&
@@ -50,3 +51,4 @@ export const getFormData = (location) => {
 
   return result;
 };
+

@@ -591,7 +591,6 @@ class LogDetail extends Component {
             onClose={() => this.setState({ showModal: false })}
             onConfirm={() => {
               this.props.dispatch(deleteLog(selectedLog.activity_id));
-              history.push('/Log');
             }}
             message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
           />

@@ -110,8 +110,6 @@ const insightController = {
             and af.activity_id = sdl.activity_id
             and figure.location_id = location.location_id
           ) table_2 ON table_2.location_id = l.location_id
-          LEFT JOIN "field" f on f.location_id = l.location_id
-          LEFT JOIN "garden" g on g.location_id = l.location_id
           WHERE l.farm_id = ?
             AND l.deleted = false
             AND fsb.location_id IS NULL
@@ -146,14 +144,12 @@ const insightController = {
             and af.activity_id = sdl.activity_id
             and figure.location_id = location.location_id
           ) table_2 ON table_2.location_id = l.location_id
-          LEFT JOIN "field" f on f.location_id = l.location_id
-          LEFT JOIN "garden" g on g.location_id = l.location_id
           WHERE l.farm_id = ?
             AND l.deleted = false
           GROUP BY l.location_id, l.name, line.line_points
           ORDER BY l.name`, [farmID, farmID]);
 
-        const data = areaData.rows.concat(lineData.rows);
+        const data = areaData.rows.concat(bufferZoneData.rows);
         if (data) {
           const body = await insightHelpers.getSoilOM(data);
           res.status(200).send(body);

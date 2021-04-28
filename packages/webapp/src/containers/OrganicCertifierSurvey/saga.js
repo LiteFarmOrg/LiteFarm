@@ -9,7 +9,7 @@ import {
   patchRequestedCertifiersSuccess,
   postCertifiersSuccess,
 } from './slice';
-import { setcertificationTypes, setCertifiers } from './organicCertifierSurveySlice';
+import { allCertificationTypes, allCertifierTypes } from './organicCertifierSurveySlice';
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
@@ -52,7 +52,7 @@ export function* getAllSupportedCertificationsSaga() {
       `${url}/organic_certifier_survey/${farm_id}/supported_certifications`,
       header,
     );
-    yield put(setcertificationTypes(result.data));
+    yield put(allCertificationTypes(result.data));
   } catch (e) {
     console.log('failed to get all certification types');
   }
@@ -68,7 +68,7 @@ export function* getAllSupportedCertifiersSaga({ payload }) {
       `${url}/organic_certifier_survey/${farm_id}/supported_certifiers/${payload}`,
       header,
     );
-    yield put(setCertifiers(result.data));
+    yield put(allCertifierTypes(result.data));
   } catch (e) {
     console.log('failed to get all certifier types');
   }

@@ -10,12 +10,10 @@ import { colors } from '../../assets/theme';
 export default function PureSetCertificationSummary({
   onSubmit,
   certificationTranslation,
-  certifierAbbreviation,
-  history,
   onGoBack,
-  name,
-  isRequesting,
   certificationType,
+  name,
+  requestedCertifierData,
 }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
@@ -35,24 +33,25 @@ export default function PureSetCertificationSummary({
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
         {certificationTranslation}{' '}
-        {certificationType +
+        {certificationType.certificationName +
           ' ' +
           t('CERTIFICATION.SUMMARY.CERTIFICATION') +
           ' ' +
           t('common:FROM') +
           ' ' +
           name}{' '}
-        {certifierAbbreviation}
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />
       </div>
 
       <Main style={{ padding: '20px 0' }}>
-        {isRequesting ? t('CERTIFICATION.SUMMARY.BAD_NEWS') : t('CERTIFICATION.SUMMARY.GOOD_NEWS')}
+        {requestedCertifierData
+          ? t('CERTIFICATION.SUMMARY.BAD_NEWS')
+          : t('CERTIFICATION.SUMMARY.GOOD_NEWS')}
       </Main>
       <Main>
-        {isRequesting
+        {requestedCertifierData
           ? t('CERTIFICATION.SUMMARY.BAD_NEWS_INFO')
           : t('CERTIFICATION.SUMMARY.INFORMATION')}{' '}
         <Leaf style={{ marginLeft: '4px' }} />

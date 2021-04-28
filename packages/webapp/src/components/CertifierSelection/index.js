@@ -7,6 +7,8 @@ import CertifierSelectionMenuItem from './CertifierSelectionMenu/CertiferSelecti
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
+import { useSelector } from "react-redux";
+import { allCertificationTypesSelector } from "../../containers/OrganicCertifierSurvey/organicCertifierSurveySlice";
 
 export default function PureCertifierSelectionScreen({
   allSupportedCertifiers,
@@ -17,13 +19,15 @@ export default function PureCertifierSelectionScreen({
   selectedCertifier,
   certifierType,
   role_id,
+  allSupportedCertificationTypes,
   certificationType,
 }) {
-  const { t } = useTranslation(['translation', 'common', 'certification']);
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
   const disabled = !selectedCertifierId;
   const isSearchable = allSupportedCertifiers.length >= 2;
+  const selectedCertificationTranslation = allSupportedCertificationTypes.find(cert => cert.certification_id === certificationType.certificationID)?.certification_translation_key;
   const onFilterChange = (e) => {
     setFilter(e.target.value);
   };
@@ -79,7 +83,7 @@ export default function PureCertifierSelectionScreen({
       <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
         {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
           ' ' +
-          t(`certification:${certificationType.certification_translation_key}`) +
+          t(`certifications:${selectedCertificationTranslation}`) +
           ' ' +
           t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_TWO')}
       </Semibold>

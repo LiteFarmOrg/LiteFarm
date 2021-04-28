@@ -54,7 +54,7 @@ async function insertCountryIdToFarm(farm, country, countries) {
     await knex('farm').update({ country_id: id }).where({ farm_id: farm })
   }
 }
-mapFarmsToCountryId();
+
 module.exports = {
   mapFarmsToCountryId,
 };

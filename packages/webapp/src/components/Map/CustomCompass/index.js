@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { ReactComponent as NorthLogo } from '../../../assets/images/map/north.svg';
+import { ReactComponent as NorthLogo } from '../../../assets/images/map/North_Icon.svg';
 
 export default function CustomCompass({ className, style, onClick }) {
   return (

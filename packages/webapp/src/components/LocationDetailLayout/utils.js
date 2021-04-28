@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const getPersistPath = (
   locationType,
   match,
@@ -9,3 +11,5 @@ export const getPersistPath = (
     (isViewLocationPage && [`/${locationType}/${match.params.location_id}/edit`])
   );
 };
+
+export const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD')

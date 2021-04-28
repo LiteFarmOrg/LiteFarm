@@ -11,7 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
+import { getDateInputFormat, getPersistPath } from '../../utils';
 
 export default function PureGreenhouse({
   history,
@@ -188,7 +188,7 @@ export default function PureGreenhouse({
                 style={{ marginBottom: '16px' }}
                 type={'date'}
                 name={greenhouseEnum.transition_date}
-                defaultValue={new Date().toLocaleDateString('en-CA')}
+                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GREENHOUSE.DATE')}
                 inputRef={register({ required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}

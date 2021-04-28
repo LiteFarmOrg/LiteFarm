@@ -26,6 +26,7 @@ import { Label, Semibold, Underlined } from '../../Typography';
 import { cropLocationEntitiesSelector } from '../../../containers/locationSlice';
 import ReactSelect from '../../Form/ReactSelect';
 
+
 class NewFieldCropModal extends React.Component {
   // props:
   // field: the current field selected
@@ -44,7 +45,12 @@ class NewFieldCropModal extends React.Component {
     this.validateForm = this.validateForm.bind(this);
     this.getCropOptions = this.getCropOptions.bind(this);
 
-    this.state = {
+    this.state = this.getInitialState();
+    console.log(this.state);
+  }
+
+  getInitialState() {
+    return {
       show: false,
       field: null,
       crops: [],
@@ -89,7 +95,8 @@ class NewFieldCropModal extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({ show: false });
+    this.setState(this.getInitialState());
+    console.log(this.state);
   };
 
   handleShow() {
@@ -152,8 +159,7 @@ class NewFieldCropModal extends React.Component {
           bed_config: bed_config,
         }),
       );
-      this.setState({ show: false });
-      this.setState({ fieldCrop: FIELD_CROPS_INIT });
+      this.setState(this.getInitialState());
     }
   };
 

@@ -85,9 +85,9 @@ export const lineStyles = {
     dashScale: 1,
     dashLength: '1px',
     polyStyles: {
-      strokeColor: farmBoundHoverColour,
-      strokeWeight: 2,
-      fillColor: farmBoundHoverColour,
+      strokeColor: 'transparent',
+      strokeWeight: 1,
+      fillColor: 'transparent',
       fillOpacity: 0.3,
     },
   },

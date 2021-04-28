@@ -9,7 +9,7 @@ import { selectedShiftSelector, taskTypeSelector } from './selectors';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { loginSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
+
 import { getDuration } from './../../../util/index';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';

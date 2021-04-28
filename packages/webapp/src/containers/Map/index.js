@@ -130,7 +130,7 @@ export default function Map({ history }) {
         },
       ],
       gestureHandling: 'greedy',
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: false,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,

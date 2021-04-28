@@ -1,4 +1,4 @@
-import { containsCrops, isArea, isLine, isPoint, locationEnum } from './constants';
+import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
 import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -78,10 +78,7 @@ const useSelectionHandler = () => {
     let overlappedLocationsCopy = clone(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
-        const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(
-          locationType,
-        );
-        if (isArea(locationType) || isAreaLine) {
+        if (isArea(locationType) || isAreaLine(locationType)) {
           locationAssets[locationType].forEach((area) => {
             if (
               area?.polygon?.visible &&

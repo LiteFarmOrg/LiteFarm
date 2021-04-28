@@ -135,6 +135,7 @@ const ReactSelect = ({
             </Underlined>
           ),
         }}
+        isSearchable={options?.length > 8}
         {...props}
       />
     </div>

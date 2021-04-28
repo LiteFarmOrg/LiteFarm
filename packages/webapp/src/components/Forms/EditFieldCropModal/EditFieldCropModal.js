@@ -12,6 +12,7 @@ import { userFarmSelector } from '../../../containers/userFarmSlice';
 import {
   createPrice,
   createYield,
+  deleteFieldCrop,
   putFieldCrop,
 } from '../../../containers/LocationDetails/LocationFieldCrop/saga';
 
@@ -19,8 +20,9 @@ import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';
 import { Dialog } from '@material-ui/core';
 import newFieldStyles from '../NewFieldCropModal/styles.module.scss';
-import { Semibold } from '../../Typography';
+import { Semibold, Underlined } from '../../Typography';
 import styles from '../NewCropModal/styles.module.scss';
+import ModalComponent from '../../Modals/ModalComponent/v2';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -45,6 +47,7 @@ class EditFieldCropModal extends React.Component {
       area_unit_label: getUnit(this.props.farm, 'm', 'ft'),
       estimated_unit: getUnit(this.props.farm, 'kg', 'lb'),
       percentage: 0,
+      showDeleteModal: false,
     };
   }
 
@@ -286,7 +289,7 @@ class EditFieldCropModal extends React.Component {
   };
 
   render() {
-    const { isByArea, bed_config } = this.state;
+    const { isByArea, bed_config, showDeleteModal } = this.state;
     return (
       <>
         {React.cloneElement(this.props.children, { onClick: this.handleShow })}
@@ -434,6 +437,43 @@ class EditFieldCropModal extends React.Component {
             </FormGroup>
           </div>
 
+          <Underlined
+            onClick={() => this.setState({ showDeleteModal: true })}
+            style={{ padding: '20px 0 8px 0' }}
+          >
+            {this.props.t('FIELDS.EDIT_FIELD.CROP.REMOVE_CROP')}
+          </Underlined>
+          {showDeleteModal && (
+            <ModalComponent
+              dismissModal={() => this.setState({ showDeleteModal: false })}
+              title={this.props.t('FIELDS.EDIT_FIELD.CROP.REMOVE_CROP')}
+              contents={[this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')]}
+              buttonGroup={
+                <>
+                  <Button
+                    style={{ marginRight: '8px' }}
+                    sm
+                    color={'secondary'}
+                    onClick={() => this.setState({ showDeleteModal: false })}
+                  >
+                    {this.props.t('common:CANCEL')}
+                  </Button>
+                  <Button
+                    sm
+                    onClick={() => {
+                      this.props.dispatch(
+                        deleteFieldCrop(this.props.cropBeingEdited.field_crop_id),
+                      );
+                      this.setState({ showDeleteModal: false });
+                    }}
+                  >
+                    {' '}
+                    {this.props.t('common:DELETE')}
+                  </Button>
+                </>
+              }
+            />
+          )}
           <div style={{ display: 'inline-flex', gap: ' 8px', marginTop: '16px', width: '100%' }}>
             <Button fullLength color={'secondary'} sm onClick={this.handleClose}>
               {this.props.t('common:CLOSE')}

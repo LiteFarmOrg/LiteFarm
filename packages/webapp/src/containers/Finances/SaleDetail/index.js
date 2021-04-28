@@ -11,10 +11,11 @@ import { selectedSaleSelector } from '../selectors';
 import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
+
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
+import { cropLocationsSelector } from '../../locationSlice';
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -125,7 +126,7 @@ class SaleDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldsSelector(state),
+    fields: cropLocationsSelector(state),
     crops: currentAndPlannedFieldCropsSelector(state),
     sale: selectedSaleSelector(state),
     farm: userFarmSelector(state),

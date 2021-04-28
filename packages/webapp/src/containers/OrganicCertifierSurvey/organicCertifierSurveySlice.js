@@ -10,7 +10,6 @@ export const initialState = {
   certifierName: null,
   certifierID: null,
   requestedCertifier: null,
-
   loadSummary: false,
 };
 
@@ -53,11 +52,8 @@ export const {
   finishedSelectingCertificationType,
   allCertifierTypes,
   selectedCertifier,
-
   requestedCertifier,
-  // selectedCertifier,
   loadSummary,
-  setSelectedCertifier,
 } = organicCertifierSurveyReducer.actions;
 
 export default organicCertifierSurveyReducer.reducer;
@@ -83,7 +79,5 @@ export const selectedCertifierSelector = (state) => ({
 
 export const requestedCertifierSelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertifier;
-// export const selectedCertifierSelector = (state) =>
-//   state?.tempStateReducer[organicCertifierSurveyReducer.name].selectedCertifier;
 export const loadSummarySelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].loadSummary;

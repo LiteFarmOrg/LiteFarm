@@ -5,20 +5,19 @@ import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
-import { loginSelector } from '../userFarmSlice';
-import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
-import {
-  selectedCertifierSelector,
-  requestedCertifierSelector,
-} from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
+import { requestedCertifierSelector } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 function Outro() {
-  const userFarm = useSelector(loginSelector);
   const dispatch = useDispatch();
-  const certifierType = useSelector(selectedCertifierSelector);
   const requestCertifierData = useSelector(requestedCertifierSelector);
   const onGoBack = () => {
-    history.push(requestCertifierData ? '/requested_certifier' : '/certifier_selection_menu');
+    history.push(
+      !survey.interested
+        ? '/interested_in_organic'
+        : requestCertifierData
+        ? '/requested_certifier'
+        : '/certifier_selection_menu',
+    );
   };
   const onContinue = () => {
     dispatch(patchOutroStep());

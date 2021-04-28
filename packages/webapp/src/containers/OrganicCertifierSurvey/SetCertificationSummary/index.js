@@ -17,13 +17,8 @@ export default function SetCertificationSummary() {
   const certificationType = useSelector(selectedCertificationSelector);
   const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
 
-  console.log(requestedCertifierData);
-
   const onSubmit = () => {
     dispatch(patchStepFour());
-    setTimeout(() => {
-      history.push('/outro');
-    }, 100);
   };
 
   const onGoBack = () => {

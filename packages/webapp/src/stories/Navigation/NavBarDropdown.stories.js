@@ -15,6 +15,4 @@ export const NotificationFloater = (() => <PureNotificationFloaterComponent />).
 export const MyFarmFloater = (() => <PureMyFarmFloaterComponent />).bind({});
 
 export const ProfileFloater = ((args) => <PureProfileFloaterComponent {...args} />).bind({});
-ProfileFloater.args = {
-  showSwitchFarm: true,
-};
+ProfileFloater.args = {};

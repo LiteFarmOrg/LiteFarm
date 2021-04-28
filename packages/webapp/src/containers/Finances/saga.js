@@ -28,7 +28,7 @@ import {
   UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
@@ -265,15 +265,15 @@ export function* tempEditExpenseSaga(action) {
 
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
-  yield takeLatest(ADD_OR_UPDATE_SALE, addSale);
+  yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
   yield takeLatest(GET_SHIFT_FINANCE, getShiftsSaga);
   yield takeLatest(GET_EXPENSE, getExpenseSaga);
   yield takeLatest(GET_DEFAULT_EXPENSE_TYPE, getDefaultExpenseTypeSaga);
-  yield takeLatest(ADD_EXPENSES, addExpensesSaga);
-  yield takeLatest(DELETE_SALE, deleteSale);
-  yield takeLatest(DELETE_EXPENSES, deleteExpensesSaga);
-  yield takeLatest(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
-  yield takeLatest(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
-  yield takeLatest(UPDATE_SALE, updateSaleSaga);
-  yield takeLatest(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(ADD_EXPENSES, addExpensesSaga);
+  yield takeLeading(DELETE_SALE, deleteSale);
+  yield takeLeading(DELETE_EXPENSES, deleteExpensesSaga);
+  yield takeLeading(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
+  yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
+  yield takeLeading(UPDATE_SALE, updateSaleSaga);
+  yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
 }

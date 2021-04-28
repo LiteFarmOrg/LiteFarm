@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PureNavBar({
   showSpotLight,
   resetSpotlight,
-  showSwitchFarm,
   history,
   showFinances,
   defaultOpenFloater,
@@ -110,6 +109,7 @@ export default function PureNavBar({
     'role',
     'harvest_uses',
     'soil',
+    'certifications',
   ]);
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -316,7 +316,6 @@ export default function PureNavBar({
             </PureNotificationFloater>
 
             <PureProfileFloater
-              showSwitchFarm={showSwitchFarm}
               openProfile={isProfileFloaterOpen}
               helpClick={helpClick}
               myInfoClick={myInfoClick}
@@ -426,7 +425,6 @@ const Logo = ({ history }) => {
 PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
-  showSwitchFarm: PropTypes.bool,
   history: PropTypes.object,
   setDefaultDateRange: PropTypes.func,
   showFinances: PropTypes.bool,

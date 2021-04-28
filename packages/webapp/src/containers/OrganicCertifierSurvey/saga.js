@@ -11,10 +11,11 @@ import {
 } from './slice';
 import { allCertificationTypes, allCertifierTypes } from './organicCertifierSurveySlice';
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
 import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
+import history from '../../history';
 
 const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
@@ -136,6 +137,7 @@ export function* patchStepFourSaga({ payload }) {
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
     yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
+    history.push('/outro');
 
     // callback && callback();
   } catch (e) {
@@ -203,13 +205,13 @@ export function* patchInterestedSaga({ payload }) {
 }
 
 export default function* certifierSurveySaga() {
-  yield takeLatest(patchInterested.type, patchInterestedSaga);
-  yield takeLatest(patchCertifiers.type, patchCertifiersSaga);
+  yield takeLeading(patchInterested.type, patchInterestedSaga);
+  yield takeLeading(patchCertifiers.type, patchCertifiersSaga);
   yield takeLatest(getCertifiers.type, getCertifiersSaga);
-  yield takeLatest(postCertifiers.type, postCertifiersSaga);
+  yield takeLeading(postCertifiers.type, postCertifiersSaga);
   yield takeLatest(getAllSupportedCertifications.type, getAllSupportedCertificationsSaga);
   yield takeLatest(getAllSupportedCertifiers.type, getAllSupportedCertifiersSaga);
-  yield takeLatest(patchRequestedCertifiers.type, patchRequestedCertifiersSaga);
-  yield takeLatest(patchRequestedCertification.type, patchRequestedCertificationSaga);
-  yield takeLatest(patchStepFour.type, patchStepFourSaga);
+  yield takeLeading(patchRequestedCertifiers.type, patchRequestedCertifiersSaga);
+  yield takeLeading(patchRequestedCertification.type, patchRequestedCertificationSaga);
+  yield takeLeading(patchStepFour.type, patchStepFourSaga);
 }

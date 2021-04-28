@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteFenceSuccess,
   editFenceSuccess,
   getLocationObjectFromFence,
   postFenceSuccess,
-  deleteFenceSuccess,
 } from '../../../fenceSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -97,14 +97,13 @@ export function* deleteFenceLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteFenceSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FENCE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.FENCE'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -122,7 +121,7 @@ export function* deleteFenceLocationSaga({ payload: data }) {
 }
 
 export default function* fenceLocationSaga() {
-  yield takeLatest(postFenceLocation.type, postFenceLocationSaga);
-  yield takeLatest(editFenceLocation.type, editFenceLocationSaga);
-  yield takeLatest(deleteFenceLocation.type, deleteFenceLocationSaga);
+  yield takeLeading(postFenceLocation.type, postFenceLocationSaga);
+  yield takeLeading(editFenceLocation.type, editFenceLocationSaga);
+  yield takeLeading(deleteFenceLocation.type, deleteFenceLocationSaga);
 }

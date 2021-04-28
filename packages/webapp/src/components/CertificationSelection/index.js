@@ -19,7 +19,7 @@ export default function PureCertificationSelection({
   dispatch,
   role_id,
 }) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   const { register, handleSubmit, errors, setValue } = useForm({
     mode: 'onChange',
   });
@@ -71,9 +71,7 @@ export default function PureCertificationSelection({
           <div key={idx}>
             <Radio
               classes={inputClasses}
-              label={t(
-                `CERTIFICATION.CERTIFICATION_SELECTION.${item.certification_translation_key}`,
-              )}
+              label={t(`certifications:${item.certification_translation_key}`)}
               name={SELECTION}
               value={item.certification_type}
               inputRef={register({ required: true })}

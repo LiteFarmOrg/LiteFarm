@@ -14,7 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
@@ -92,6 +92,6 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
 }
 
 export default function* callbackSaga() {
-  yield takeLatest(validateResetToken.type, validateResetTokenSaga);
-  yield takeLatest(patchUserFarmStatus.type, patchUserFarmStatusSaga);
+  yield takeLeading(validateResetToken.type, validateResetTokenSaga);
+  yield takeLeading(patchUserFarmStatus.type, patchUserFarmStatusSaga);
 }

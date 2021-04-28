@@ -195,7 +195,8 @@ class Log extends Component {
       {
         id: 'date',
         Header: this.props.t('LOG_COMMON.DATE'),
-        accessor: (d) => moment(d.date).format('YYYY-MM-DD'),
+        accessor: (d) => moment(d.date).utc().format('L'),
+        sortMethod: (a, b) => moment(a).isBefore(b) ? 1 : -1,
         minWidth: 85,
       },
       {

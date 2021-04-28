@@ -21,7 +21,10 @@ export const isArea = (type) => {
     locationEnum.residence,
   ].includes(type);
 };
-
+export const isAreaLine = (type) =>
+  [locationEnum.watercourse, locationEnum.buffer_zone, locationEnum.farm_site_boundary].includes(
+    type,
+  );
 export const containsCrops = (type) => {
   return [
     locationEnum.field,

@@ -115,9 +115,9 @@ class Account extends Component {
                 <option value="pt" selected={selectedLanguage === 'pt'}>
                   {this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}
                 </option>
-                <option value="fr" selected={selectedLanguage === 'fr'}>
+                {/* <option value="fr" selected={selectedLanguage === 'fr'}>
                   {this.props.t('PROFILE.ACCOUNT.FRENCH')}
-                </option>
+                </option> */}
               </select>
             </div>
             <div className={defaultStyles.bottomContainer}>

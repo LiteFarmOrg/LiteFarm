@@ -14,18 +14,17 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, call, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { getHeader, axios } from '../saga';
-import { userFarmSelector } from '../userFarmSlice';
+import { axios, getHeader } from '../saga';
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import {
-  spotlightLoading,
-  patchSpotlightFlagsSuccess,
   patchSpotlightFlagsFailure,
+  patchSpotlightFlagsSuccess,
+  spotlightLoading,
 } from '../showedSpotlightSlice';
-import { loginSelector } from '../userFarmSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -76,6 +75,6 @@ export function* setSpotlightToShownSaga({ payload: spotlight }) {
 }
 
 export default function* supportSaga() {
-  yield takeLatest(sendMapToEmail.type, sendMapToEmailSaga);
-  yield takeLatest(setSpotlightToShown.type, setSpotlightToShownSaga);
+  yield takeLeading(sendMapToEmail.type, sendMapToEmailSaga);
+  yield takeLeading(setSpotlightToShown.type, setSpotlightToShownSaga);
 }

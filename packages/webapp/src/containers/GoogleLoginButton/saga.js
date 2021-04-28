@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
 import history from '../../history';
@@ -47,5 +47,5 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
 }
 
 export default function* loginSaga() {
-  yield takeLatest(loginWithGoogle.type, loginWithGoogleSaga);
+  yield takeLeading(loginWithGoogle.type, loginWithGoogleSaga);
 }

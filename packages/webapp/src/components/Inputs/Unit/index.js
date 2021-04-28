@@ -7,7 +7,15 @@ import { withTranslation } from 'react-i18next';
 class Unit extends React.Component {
   parseNumber(val) {
     //TODO: Redux form will fail if val is set to -1 and then set to empty string
-    return val || val === 0 ? val : undefined;
+    if (val) {
+      return val;
+    } else if (val === 0) {
+      return 0;
+    } else if (val === '') {
+      return '';
+    } else {
+      return undefined;
+    }
   }
 
   isPositive(val) {
@@ -49,7 +57,7 @@ class Unit extends React.Component {
         {dropdown && (
           <>
             <div className={styles.selectContainer}>
-              <Control.input
+              <Control
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}
@@ -90,7 +98,7 @@ class Unit extends React.Component {
         {!dropdown && !validate && (
           <>
             <div className={styles.inputNunit}>
-              <Control.input
+              <Control
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}
@@ -119,7 +127,7 @@ class Unit extends React.Component {
         {!dropdown && validate && (
           <>
             <div className={styles.inputNunit}>
-              <Control.input
+              <Control
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}

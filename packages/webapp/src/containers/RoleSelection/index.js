@@ -1,23 +1,35 @@
 import { useForm } from 'react-hook-form';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureRoleSelection from '../../components/RoleSelection';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { patchRole } from '../AddFarm/saga';
 import history from '../../history';
 import { roleToId } from './roleMap';
 import { useTranslation } from 'react-i18next';
+import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
   const { t } = useTranslation();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const ROLE = 'role';
-  const OWNER_OPERATED = 'owner_operated_string';
+  const OWNER_OPERATED = 'owner_operated';
+  const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const onSubmit = ({ role, owner_operated_string}) => {
+
+  const onSubmit = ({ role, owner_operated }) => {
     const callback = () => history.push('/consent');
-    const owner_operated = owner_operated_string === "true" ? true : owner_operated_string === "false" ? false : null;
-    dispatch(patchRole({ role, owner_operated, role_id: roleToId[role], callback }));
+    const boolOwnerOperated =
+      owner_operated === 'true' ? true : owner_operated === 'false' ? false : null;
+    dispatch(
+      patchRole({ role, owner_operated: boolOwnerOperated, role_id: roleToId[role], callback }),
+    );
   };
+
+  useEffect(() => {
+    setValue(ROLE, role);
+    setValue(OWNER_OPERATED, owner_operated?.toString());
+  }, []);
+
   const onGoBack = () => {
     history.push('/add_farm');
   };

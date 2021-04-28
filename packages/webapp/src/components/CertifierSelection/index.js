@@ -76,7 +76,7 @@ export default function PureCertifierSelectionScreen({
       }
     >
       <Title style={{ marginBottom: '16px' }}>{t('CERTIFICATION.CERTIFIER_SELECTION.TITLE')}</Title>
-      <Semibold style={{ paddingBottom: '20px' }}>
+      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
         {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
           ' ' +
           certificationType.certificationName +

@@ -11,7 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
+import { getDateInputFormat, getPersistPath } from '../../utils';
 
 export default function PureGarden({
   history,
@@ -177,7 +177,7 @@ export default function PureGarden({
               <Input
                 type={'date'}
                 name={gardenEnum.transition_date}
-                defaultValue={new Date().toLocaleDateString('en-CA')}
+                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GARDEN.DATE')}
                 inputRef={register({ required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}

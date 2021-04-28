@@ -149,6 +149,11 @@ const insightController = {
           GROUP BY l.location_id, l.name, line.line_points
           ORDER BY l.name`, [farmID, farmID]);
 
+        bufferZoneData.rows = bufferZoneData.rows.map(bufferZone => ({
+          ...bufferZone,
+          grid_points: bufferZone.line_points,
+        }));
+
         const data = areaData.rows.concat(bufferZoneData.rows);
         if (data) {
           const body = await insightHelpers.getSoilOM(data);

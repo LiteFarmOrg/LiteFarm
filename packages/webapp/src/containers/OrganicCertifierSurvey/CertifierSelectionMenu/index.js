@@ -8,7 +8,8 @@ import {
   selectedCertifierSelector,
   selectedCertifier,
   loadSummary,
-  requestedCertifier, allCertificationTypesSelector,
+  requestedCertifier,
+  allCertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { patchRequestedCertifiers } from '../saga';

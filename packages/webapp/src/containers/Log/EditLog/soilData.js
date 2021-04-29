@@ -45,11 +45,17 @@ const parsedTextureOptions = (t) => [
 
 const parsedDepthOptions = [
   { label: '0-5cm', value: 5 },
+  { label: '0-2in', value: 5 },
   { label: '0-10cm', value: 10 },
+  { label: '0-4in', value: 10 },
   { label: '0-20cm', value: 20 },
+  { label: '0-8in', value: 20 },
   { label: '21-30cm', value: 30 },
+  { label: '8-12in', value: 30 },
   { label: '30-50cm', value: 50 },
-  { label: '51-100cm', value: 100 },
+  { label: '12-20in', value: 50 },
+  { label: '50-100cm', value: 100 },
+  { label: '20-40in', value: 100 },
 ];
 
 const lookupValueTable = {
@@ -80,11 +86,12 @@ class soilDataLog extends Component {
     parsedTextureOptions(this.props.t).forEach((currTexture) => {
       lookupValueTable['texture'][currTexture.value] = currTexture.label;
     });
-    parsedDepthOptions.forEach((currDepth) => {
+    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
+    filteredDepth.forEach((currDepth) => {
       lookupValueTable['depth'][currDepth.value] = currDepth.label;
     });
-    //
-    // console.log(lookupValueTable);
+    this.setState({depthOptions: filteredDepth})
+
     const { selectedLog, dispatch } = this.props;
     this.setState({
       date: selectedLog && moment.utc(selectedLog.date),
@@ -188,7 +195,7 @@ class soilDataLog extends Component {
       crops: selectedCrops,
       locations: selectedFields,
       notes: log.notes || '',
-      depth_cm: convertToMetric(log.depth_cm.value, this.state.depth_unit, 'cm').toString() || '',
+      depth_cm: log.depth_cm.value.toString(),
       texture: log.texture.value,
       k: parseInt(log.k, 10) || 0,
       p: parseInt(log.p, 10) || 0,
@@ -235,7 +242,7 @@ class soilDataLog extends Component {
             <Control
               model=".depth_cm"
               component={DropDown}
-              options={parsedDepthOptions || []}
+              options={this.state.depthOptions || []}
               placeholder="select depth"
             />
           </div>
@@ -291,14 +298,14 @@ class soilDataLog extends Component {
             notesField={true}
             customFieldset={customFieldset}
           />
-          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
+          <Underlined style={{ paddingTop: '40px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}
             {this.props.t('LOG_SOIL.MORE_INFO')}
           </Underlined>
           {this.state.showMoreInfo && (
-            <div>
+            <div style={{ paddingTop: '24px' }}>
               <Unit
                 model=".soilDataLog.organic_carbon"
                 title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}

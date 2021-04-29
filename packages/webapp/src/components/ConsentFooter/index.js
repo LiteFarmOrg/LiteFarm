@@ -17,6 +17,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import ConfirmModal from '../Modals/Confirm';
 
+//TODO to deprecate
 class ConsentFooter extends React.Component {
   constructor(props) {
     super(props);

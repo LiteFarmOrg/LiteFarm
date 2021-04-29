@@ -18,16 +18,18 @@ export default function ModalComponent({
   return (
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
-        <Semibold
-          style={{
-            color: warning ? colors.red700 : 'var(--teal700)',
-            marginBottom: '16px',
-            display: 'inline-flex',
-            gap: '8px',
-          }}
-        >
-          {icon || (warning && <VscWarning />)} {title}
-        </Semibold>
+        {!!title && (
+          <Semibold
+            style={{
+              color: warning ? colors.red700 : 'var(--teal700)',
+              marginBottom: '16px',
+              display: 'inline-flex',
+              gap: '8px',
+            }}
+          >
+            {icon || (warning && <VscWarning />)} {title}
+          </Semibold>
+        )}
         {contents?.map((line) => (
           <Info>{line}</Info>
         ))}

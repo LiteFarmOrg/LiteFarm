@@ -206,14 +206,14 @@ class soilDataLog extends Component {
             isCropNotNeeded={true}
           />
 
-          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
+          <Underlined style={{ paddingTop: '40px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}
             {this.props.t('LOG_SOIL.MORE_INFO')}
           </Underlined>
           {this.state.showMoreInfo && (
-            <div>
+            <div style={{ paddingTop: '24px' }}>
               <Unit
                 model=".soilDataLog.organic_carbon"
                 title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}

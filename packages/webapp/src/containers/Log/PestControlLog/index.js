@@ -14,7 +14,6 @@ import {
   getDiseases,
   getPesticides,
 } from './actions';
-import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -25,13 +24,12 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -460,7 +458,7 @@ class PestControlLog extends Component {
               <LogFooter />
             </Form>
 
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomPesticide}
               closeOnDocumentClick
               onClose={this.closePesticideModal}
@@ -558,10 +556,10 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
 
             {/*disease popup*/}
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomDisease}
               closeOnDocumentClick
               onClose={this.closeDiseaseModal}
@@ -622,7 +620,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
         {(!crops || !locations || !diseases || !pesticides) && (

@@ -16,6 +16,8 @@ import {
 } from '../../../fieldCropSlice';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
+import { shiftsSelector } from '../../../Shift/selectors';
+import { findShiftLocationMatch } from '../../../Shift/shiftUtil';
 
 function EditSurfaceWaterDetailForm({ history, match }) {
   const dispatch = useDispatch();
@@ -45,8 +47,15 @@ function EditSurfaceWaterDetailForm({ history, match }) {
   const { location_id } = match.params;
   const activeCrops = useSelector(currentFieldCropsByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedFieldCropsByLocationIdSelector(location_id));
+  const [locationHasShifts, setLocationHasShifts] = useState(false);
+  const allShifts = useSelector(shiftsSelector);
+
+  useEffect(() => {
+    setLocationHasShifts(findShiftLocationMatch(allShifts, location_id));
+  }, [locationHasShifts]);
+
   const handleRetire = () => {
-    if (activeCrops.length === 0 && plannedCrops.length === 0) {
+    if (activeCrops.length === 0 && plannedCrops.length === 0 && !locationHasShifts) {
       setShowConfirmRetireModal(true);
     } else {
       setShowCannotRetireModal(true);

@@ -19,7 +19,7 @@ export function calcTotalLabour(shifts, startDate, endDate) {
   let total = 0;
   if (Array.isArray(shifts)) {
     for (let s of shifts) {
-      if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
+      if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))) {
         if (s.wage.type === 'hourly') {
           let rate = parseFloat(s.wage_at_moment).toFixed(2);
           let hoursWorked = Number((s.duration / 60).toFixed(2));
@@ -51,7 +51,7 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   let total = 0;
   if (Array.isArray(expenses)) {
     for (let e of expenses) {
-      if (moment(e.expense_date).isBetween(startDate, endDate, null, '[]')) {
+      if (moment(e.expense_date).isSameOrAfter(moment(startDate)) &&  moment(e.expense_date).isSameOrBefore(moment(endDate))) {
         total += parseFloat(e.value);
       }
     }
@@ -65,7 +65,7 @@ export function calcSales(sales, startDate, endDate) {
 
   if (Array.isArray(sales)) {
     for (let s of sales) {
-      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+      if (moment(s.sale_date).isSameOrAfter(moment(startDate)) &&  moment(s.sale_date).isSameOrBefore(moment(endDate))) {
         for (let c of s.cropSale) {
           total += parseFloat(c.sale_value);
         }
@@ -83,7 +83,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
     for (let s of shifts) {
       let cid = s.crop_id;
       if (cid) {
-        if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
+        if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))) {
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
           } else {
@@ -95,11 +95,11 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
           }
         }
       } else {
-        if (s.field_id && s.is_field) {
-          if (unAllocated.hasOwnProperty(s.field_id)) {
-            unAllocated[s.field_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+        if (s.location_id && s.is_field) {
+          if (unAllocated.hasOwnProperty(s.location_id)) {
+            unAllocated[s.location_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
           } else {
-            unAllocated[s.field_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+            unAllocated[s.location_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
           }
         }
       }
@@ -155,7 +155,7 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 
   if (sales && sales.length) {
     for (let s of sales) {
-      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+      if (moment(s.sale_date).isSameOrAfter(moment(startDate)) &&  moment(s.sale_date).isSameOrBefore(moment(endDate))) {
         for (let cropSale of s.cropSale) {
           let cid = cropSale.fieldCrop.crop_id;
           if (sortObj.hasOwnProperty(cid)) {
@@ -188,7 +188,7 @@ export function getShiftCropOnField(fieldID, shifts) {
   let crops = [];
 
   for (let s of shifts) {
-    if (s.field_id === fieldID && s.crop_id) {
+    if (s.location_id === fieldID && s.crop_id) {
       crops.push(s.crop_id);
     }
   }

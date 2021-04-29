@@ -87,7 +87,7 @@ function StepTwo() {
           let crops_on_field = [];
           let cropsCopy = [...crops];
           for (let crop of cropsCopy) {
-            if (crop.field_id === val.id) {
+            if (crop.location_id === val.id) {
               crop_num++;
               crops_on_field.push(crop);
             }
@@ -158,7 +158,7 @@ function StepTwo() {
               duration: Number(parseFloat(subDuration).toFixed(3)),
               is_location: false,
               field_crop_id: a_crop.field_crop_id,
-              field_id: a_crop.field_id,
+              location_id: a_crop.location_id,
             });
           }
         }

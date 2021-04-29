@@ -180,12 +180,12 @@ class FertilizingLog extends Component {
       return;
     }
     let fertConfig = {
-      moisture_percentage: fertLog.moisture_percentage,
-      n_percentage: fertLog.n_percentage,
-      p_percentage: fertLog.p_percentage,
-      nh4_n_ppm: fertLog.nh4_n_ppm,
-      k_percentage: fertLog.k_percentage,
-      fertilizer_type: fertLog.product,
+      moisture_percentage: fertLog.moisture_percentage || 0,
+      n_percentage: fertLog.n_percentage || 0,
+      p_percentage: fertLog.p_percentage || 0,
+      nh4_n_ppm: fertLog.nh4_n_ppm || 0,
+      k_percentage: fertLog.k_percentage || 0,
+      fertilizer_type: fertLog.product || 0,
     };
     this.props.dispatch(addFertilizer(fertConfig));
     this.closeEditModal();

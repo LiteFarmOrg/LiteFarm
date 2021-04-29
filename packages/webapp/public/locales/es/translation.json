@@ -652,11 +652,11 @@
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {
-    "DRIP": "Drip",
-    "FLOOD": "Flood",
+    "DRIP": "Goteo",
+    "FLOOD": "Inundacion",
     "FLOW_RATE": "Tasa de flujo",
-    "SPRINKLER": "Sprinkler",
-    "SUBSURFACE": "Subsurface",
+    "SPRINKLER": "Aspersor",
+    "SUBSURFACE": "Subsuperficie",
     "TITLE": "Registro de irrigacion",
     "TOTAL_TIME": "Tiempo total"
   },

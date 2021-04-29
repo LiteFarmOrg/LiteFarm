@@ -105,7 +105,7 @@ class MyShift extends Component {
         return location.name;
       }
     }
-    return 'no name';
+    return this.props.t('SHIFT.RETIRED');
   }
 
   getTaskName(task_id) {

@@ -788,10 +788,8 @@
       "CURRENCY": "Currency",
       "FARM_NAME": "Farm Name",
       "IMPERIAL": "Imperial",
-      "MAKE_REQUEST": "Make Request",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",
       "UNITS": "Units"
     },
     "PEOPLE_TAB": "People",
@@ -986,6 +984,7 @@
       "STEP_ONE": "Add a shift",
       "STEP_TWO": "Add a shift"
     },
+    "RETIRED": "Location Retired",
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
     "TIME_TOTAL": "Total",

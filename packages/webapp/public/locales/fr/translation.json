@@ -788,10 +788,8 @@
       "CURRENCY": "MISSING",
       "FARM_NAME": "MISSING",
       "IMPERIAL": "MISSING",
-      "MAKE_REQUEST": "MISSING",
       "METRIC": "MISSING",
       "PHONE_NUMBER": "MISSING",
-      "REQUEST_DATA": "MISSING",
       "UNITS": "MISSING"
     },
     "PEOPLE_TAB": "MISSING",
@@ -986,6 +984,7 @@
       "STEP_ONE": "MISSING",
       "STEP_TWO": "MISSING"
     },
+    "RETIRED": "MISSING",
     "SHIFT_DATE": "MISSING",
     "SHIFT_HISTORY": "MISSING",
     "TIME_TOTAL": "MISSING",

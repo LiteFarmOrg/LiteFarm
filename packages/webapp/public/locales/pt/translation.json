@@ -788,10 +788,8 @@
       "CURRENCY": "Moeda",
       "FARM_NAME": "Nome do sítio/fazenda",
       "IMPERIAL": "Imperial",
-      "MAKE_REQUEST": "Fazer pedido",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de telefone",
-      "REQUEST_DATA": "Você pode solicitar o download de seus dados e nós enviaremos os dados de seu sítio/fazenda para o seu e-mail, na forma de arquivo .csv.",
       "UNITS": "Unidades"
     },
     "PEOPLE_TAB": "Pessoas",
@@ -986,6 +984,7 @@
       "STEP_ONE": "Novo turno de trabalho (passo 1)",
       "STEP_TWO": "Novo turno de trabalho (passo 2)"
     },
+    "RETIRED": "MISSING",
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
     "TIME_TOTAL": "Total",

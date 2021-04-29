@@ -652,11 +652,11 @@
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {
-    "DRIP": "Drip",
-    "FLOOD": "Flood",
+    "DRIP": "Goteo",
+    "FLOOD": "Inundacion",
     "FLOW_RATE": "Tasa de flujo",
-    "SPRINKLER": "Sprinkler",
-    "SUBSURFACE": "Subsurface",
+    "SPRINKLER": "Aspersor",
+    "SUBSURFACE": "Subsuperficie",
     "TITLE": "Registro de irrigacion",
     "TOTAL_TIME": "Tiempo total"
   },
@@ -788,10 +788,8 @@
       "CURRENCY": "Moneda de circulación",
       "FARM_NAME": "Nombre de la finca",
       "IMPERIAL": "Britanico",
-      "MAKE_REQUEST": "Hacer solicitud",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "REQUEST_DATA": "Ud. puede solicitar información para descargar y nosotros enviaremos información de la finca a su email en formato de csv.",
       "UNITS": "Unidades"
     },
     "PEOPLE_TAB": "Personas",
@@ -986,6 +984,7 @@
       "STEP_ONE": "Agregar turno",
       "STEP_TWO": "Agregar turno"
     },
+    "RETIRED": "Retirado",
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "TIME_TOTAL": "Total",

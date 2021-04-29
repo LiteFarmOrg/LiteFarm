@@ -325,7 +325,7 @@ class PestControlLog extends Component {
       pesticides &&
       pesticides.map((p) => ({
         value: p.pesticide_id,
-        label: p.pesticide_name,
+        label: p.farm_id ? p.pesticide_name : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
       }));
     const typeOptions = this.state.controlType.map((type) => {
       let typeName = type.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');

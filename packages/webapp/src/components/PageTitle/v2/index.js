@@ -12,7 +12,7 @@ function PageTitle({ title, onGoBack, onCancel, style }) {
     <div className={styles.container} style={style}>
       <div className={styles.leftContainer}>
         {onGoBack && (
-          <button className={styles.buttonContainer} onClick={onGoBack}>
+          <button type={'button'} className={styles.buttonContainer} onClick={onGoBack}>
             <BsChevronLeft style={{ fontSize: '20px' }} />
           </button>
         )}

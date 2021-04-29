@@ -19,9 +19,7 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
@@ -299,6 +297,7 @@ class FertilizingLog extends Component {
                 title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
+                defaultValue={''}
               />
 
               <div className={styles.noteContainer}>
@@ -470,7 +469,6 @@ class FertilizingLog extends Component {
             </Popup>
           </>
         }
-        {(!locations || !fertilizers) && <p>{this.props.t('LOG_COMMON.ERROR_MISSING_FIELDS')}</p>}
       </div>
     );
   }

@@ -13,36 +13,36 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
-      "REQUEST_CERTIFICATION": "MISSING",
-      "SUBTITLE_ONE": "MISSING",
-      "SUBTITLE_TWO": "MISSING",
-      "TITLE": "MISSING",
-      "TOOLTIP": "MISSING"
+      "REQUEST_CERTIFICATION": "Solicite outro tipo de certificação",
+      "SUBTITLE_ONE": "Aqui está uma lista de certificadores de",
+      "SUBTITLE_TWO": "com quem trabalhamos no seu país.",
+      "TITLE": "Qual tipo de certificação?",
+      "TOOLTIP": "Não vê a sua certificação? O LiteFarm é dedicado a apoiar a agricultura sustentável e certificações são uma grande parte disso. Solicite outro tipo de certificação aqui e faremos nosso melhor para incorporá-la ao aplicativo."
     },
     "CERTIFIER_SELECTION": {
-      "INFO": "MISSING",
-      "NOT_FOUND": "MISSING",
-      "REQUEST_CERTIFIER": "MISSING",
-      "TITLE": "MISSING"
+      "INFO": "Isso provavelmente significa que o LiteFarm atualmente não trabalha com o seu certificador. O LiteFarm, porém, produz formulários genéricos que são úteis na maioria dos casos.",
+      "NOT_FOUND": "Não vê o seu certificador?",
+      "REQUEST_CERTIFIER": "Solicite um certificador",
+      "TITLE": "Quem é seu certificador?"
     },
-    "INPUT_PLACEHOLDER": "MISSING",
+    "INPUT_PLACEHOLDER": "Digite para buscar",
     "INTERESTED_IN_CERTIFICATION": {
-      "PARAGRAPH": "Você planeja buscar ou renovar a certificação orgânica e/o agroecolôgica nesta temporada?",
-      "TITLE": "MISSING",
+      "PARAGRAPH": "Você planeja aplicar para uma ou renovar uma certificação nesta temporada?",
+      "TITLE": "Interessado(a) em certificações?",
       "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
-      "LABEL": "MISSING",
-      "TITLE": "MISSING"
+      "LABEL": "Certificador solicitado",
+      "TITLE": "Solicite um certificador"
     },
     "SUMMARY": {
-      "BAD_NEWS": "MISSING",
-      "BAD_NEWS_INFO": "MISSING",
-      "CERTIFICATION": "MISSING",
-      "GOOD_NEWS": "MISSING",
-      "INFORMATION": "MISSING",
-      "TITLE": "MISSING"
+      "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
+      "BAD_NEWS_INFO": "No entanto, podemos criar formulários genéricos que são úteis para a maioria dos certificadores. Nós vamos indicar estas informações através do aplicativo com um ícone de folha",
+      "CERTIFICATION": "certificação",
+      "GOOD_NEWS": "Boas notícias! O LiteFarm pode agregar as informações que você precisa para gerar seus documentos de certificação!",
+      "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
+      "TITLE": "Você está interessado(a) em aplicar para:"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -82,12 +82,12 @@
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
-    "HINT": "Dica",
+    "HINT": "Dicas",
     "LABEL": "Senha",
-    "ONE_NUMBER": "MISSING",
-    "ONE_SPECIAL_CHARACTER": "MISSING",
-    "ONE_UPPER_CASE": "MISSING",
-    "TOO_SHORT": "MISSING"
+    "ONE_NUMBER": "ao menos um número",
+    "ONE_SPECIAL_CHARACTER": "ao menos um caractere especial",
+    "ONE_UPPER_CASE": "ao menos um caractere em letra maiúscula",
+    "TOO_SHORT": "ao menos 8 caracteres"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -118,200 +118,200 @@
   },
   "FARM_MAP": {
     "AREA_DETAILS": {
-      "NETWORK": "Network connectivity issues.",
-      "PERIMETER": "Perimeter",
-      "TOTAL_AREA": "Total area"
+      "NETWORK": "Problemas de conexão com a rede",
+      "PERIMETER": "Perímetro",
+      "TOTAL_AREA": "Área total"
     },
     "BARN": {
-      "COLD_STORAGE": "Does this barn have cold storage?",
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Barn",
-      "TITLE": "Add barn",
-      "WASH_PACK": "Does this barn have a wash and pack station?"
+      "COLD_STORAGE": "Este celeiro tem câmara fria?",
+      "EDIT_TITLE": "Editar celeiro",
+      "NAME": "Celeiro",
+      "TITLE": "Adicionar celeiro",
+      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Buffer zone",
-      "TITLE": "Add buffer zone",
-      "WIDTH": "Buffer zone width"
+      "EDIT_TITLE": "Editar zona de amortecimento/proteção",
+      "NAME": "Zona de amortecimento/proteção",
+      "TITLE": "Adicionar zona de amortecimento/proteção",
+      "WIDTH": "Largura da zona de amortecimento/proteção"
     },
     "CEREMONIAL_AREA": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Residence",
-      "TITLE": "Add residence"
+      "EDIT_TITLE": "Editar área cerimonial",
+      "NAME": "Área cerimonial",
+      "TITLE": "Adicionar área cerimonial"
     },
     "CONFIRM_RETIRE": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Remover este local fará com que seja retirado do mapa do sítio/fazenda.",
+      "TITLE": "Remover local?"
     },
     "DRAWING_MANAGER": {
-      "REDRAW": "MISSING",
-      "ZERO_AREA_DETECTED": "MISSING"
+      "REDRAW": "Redesenhar",
+      "ZERO_AREA_DETECTED": "Campo sem área detectado. Por favor adicione  mais pontos ao desenho atual ou desenhe novamente."
     },
     "EXPORT_MODAL": {
-      "BODY": "MISSING",
-      "DOWNLOAD": "MISSING",
-      "EMAIL_TO_ME": "MISSING",
-      "EMAILING": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Como você quer exportar o seu mapa?",
+      "DOWNLOAD": "Download",
+      "EMAIL_TO_ME": "Enviar email para mim",
+      "EMAILING": "Enviando...",
+      "TITLE": "Exporte o mapa do seu sítio/fazenda"
     },
     "FARM_SITE_BOUNDARY": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Farm site boundary name",
-      "TITLE": "Add farm site boundary"
+      "EDIT_TITLE": "Editar limites do sítio/fazenda",
+      "NAME": "Limites do sítio/fazenda",
+      "TITLE": "Adicionar limites do sítio/fazenda"
     },
     "FENCE": {
-      "EDIT_TITLE": "MISSING",
-      "LENGTH": "Total length",
-      "NAME": "Fence",
-      "PRESSURE_TREATED": "Is this fence pressure treated?",
-      "TITLE": "Add fence"
+      "EDIT_TITLE": "Editar cerca",
+      "LENGTH": "Comprimento total",
+      "NAME": "Nome da cerca",
+      "PRESSURE_TREATED": "Esta cerca é feita com madeira tratada à pressão?",
+      "TITLE": "Adicionar cerca"
     },
     "FIELD": {
-      "DATE": "Eligible transition date",
-      "EDIT_TITLE": "MISSING",
-      "FIELD_TYPE": "What type of field is this?",
-      "NAME": "Field",
-      "NON_ORGANIC": "Non-organic",
-      "ORGANIC": "Organic",
-      "TITLE": "Add field",
-      "TRANSITIONING": "Transitioning"
+      "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar campo/parcela",
+      "FIELD_TYPE": "Qual tipo de campo é este?",
+      "NAME": "Nome campo/parcela",
+      "NON_ORGANIC": "Não orgânico",
+      "ORGANIC": "Orgânico",
+      "TITLE": "Adicionar campo/parcela",
+      "TRANSITIONING": "Em transição"
     },
     "GARDEN": {
-      "DATE": "MISSING",
-      "EDIT_TITLE": "MISSING",
-      "GARDEN_TYPE": "MISSING",
-      "NAME": "MISSING",
-      "NON_ORGANIC": "MISSING",
-      "ORGANIC": "MISSING",
-      "TITLE": "MISSING",
-      "TRANSITIONING": "MISSING"
+      "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar horta",
+      "GARDEN_TYPE": "Qual tipo de horta é esta?",
+      "NAME": "Nome da horta",
+      "NON_ORGANIC": "Não orgânico",
+      "ORGANIC": "Orgânico",
+      "TITLE": "Adicionar horta",
+      "TRANSITIONING": "Em transição"
     },
     "GATE": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Gate",
-      "TITLE": "Add gate"
+      "EDIT_TITLE": "Editar portão",
+      "NAME": "Nome do portão",
+      "TITLE": "Adicionar portão"
     },
     "GREENHOUSE": {
-      "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
-      "DATE": "Eligible transition date",
-      "EDIT_TITLE": "MISSING",
-      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
-      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "CO2_ENRICHMENT": "Há enriquecimento de CO2?",
+      "DATE": "Data provável de transição",
+      "EDIT_TITLE": "Editar estufa",
+      "GREENHOUSE_HEATED": "A estufa é aquecida?",
+      "GREENHOUSE_TYPE": "Qual tipo de estufa é esta?",
       "NAME": "Greenhouse",
-      "NON_ORGANIC": "Non-organic",
-      "ORGANIC": "Organic",
-      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
-      "TITLE": "Add greenhouse",
-      "TRANSITIONING": "Transitioning"
+      "NON_ORGANIC": "Não orgânico",
+      "ORGANIC": "Orgânico",
+      "SUPPLEMENTAL_LIGHTING": "Há luz suplementar?",
+      "TITLE": "Adicionar estufa",
+      "TRANSITIONING": "Em transição"
     },
     "LINE_DETAILS": {
-      "BUFFER_TITLE": "MISSING",
-      "BUFFER_ZONE_WIDTH": "MISSING",
-      "RIPARIAN_BUFFER": "MISSING",
-      "WATERCOURSE": "MISSING",
-      "WATERCOURSE_TITLE": "MISSING"
+      "BUFFER_TITLE": "Qual é a largura?",
+      "BUFFER_ZONE_WIDTH": "Largura da zona de amortecimento",
+      "RIPARIAN_BUFFER": "Mata ciliar",
+      "WATERCOURSE": "Curso d'água",
+      "WATERCOURSE_TITLE": "Quais são as larguras?"
     },
     "MAP_FILTER": {
-      "ADD_TITLE": "MISSING",
-      "AREAS": "Areas",
-      "BARN": "Barn",
-      "BZ": "Buffer zone",
-      "CA": "Ceremonial area",
-      "FENCE": "Fence",
-      "FIELD": "Field",
-      "FSB": "Farm site boundary",
-      "GARDEN": "MISSING",
-      "GATE": "Gate",
-      "GREENHOUSE": "Greenhouse",
-      "HIDE_ALL": "Hide all",
-      "LINES": "Lines",
-      "NA": "Natural area",
-      "POINTS": "Points",
-      "RESIDENCE": "MISSING",
-      "SATELLITE": "Satellite background",
-      "SHOW_ALL": "Show all",
-      "SURFACE_WATER": "MISSING",
-      "TITLE": "Filter your map",
-      "WATERCOURSE": "Watercourse",
-      "WV": "Water valve"
+      "ADD_TITLE": "Adicionar to your map",
+      "AREAS": "Áreas",
+      "BARN": "Celeiro",
+      "BZ": "Zona de amortecimento/proteção",
+      "CA": "Área cerimonial",
+      "FENCE": "Cerca",
+      "FIELD": "Campo/parcela",
+      "FSB": "Limites do sítio/fazenda",
+      "GARDEN": "Horta",
+      "GATE": "Portão",
+      "GREENHOUSE": "Estufa",
+      "HIDE_ALL": "Esconder todos",
+      "LINES": "Linhas",
+      "NA": "Área natural",
+      "POINTS": "Pontos",
+      "RESIDENCE": "Residência",
+      "SATELLITE": "Imagem de satélite como pano de fundo",
+      "SHOW_ALL": "Mostrar todos",
+      "SURFACE_WATER": "Água superficial",
+      "TITLE": "Filtre o seu mapa",
+      "WATERCOURSE": "Curso d'água",
+      "WV": "Válvula de água"
     },
     "NATURAL_AREA": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Natural area",
-      "TITLE": "Add natural area"
+      "EDIT_TITLE": "Editarar área natural",
+      "NAME": "nome da área natural",
+      "TITLE": "Adicionar área natural"
     },
     "RESIDENCE": {
-      "EDIT_TITLE": "MISSING",
-      "NAME": "Ceremonial area",
-      "TITLE": "Add ceremonial area"
+      "EDIT_TITLE": "Editar residência",
+      "NAME": "nome da residência",
+      "TITLE": "Adicionar residência"
     },
     "SPOTLIGHT": {
-      "ADD": "MISSING",
-      "ADD_TITLE": "MISSING",
-      "EXPORT": "MISSING",
-      "EXPORT_TITLE": "MISSING",
-      "FILTER": "MISSING",
-      "FILTER_TITLE": "MISSING",
-      "HERE_YOU_CAN": "MISSING"
+      "ADD": "Adicionar locais ao seu mapa",
+      "ADD_TITLE": "Adicionar  ao seu mapa",
+      "EXPORT": "Baixe ou compartilhe seu mapa",
+      "EXPORT_TITLE": "Exportar o seu mapa",
+      "FILTER": "Mudar quais locais você vê no seu mapa",
+      "FILTER_TITLE": "Filtrar o seu mapa",
+      "HERE_YOU_CAN": "Aqui você pode:"
     },
     "SURFACE_WATER": {
-      "EDIT_TITLE": "MISSING",
-      "IRRIGATION": "Is this area used for irrigation?",
-      "NAME": "Surface water",
-      "TITLE": "Add surface water"
+      "EDIT_TITLE": "Editar água superficial",
+      "IRRIGATION": "Esta área é usada para irrigação?",
+      "NAME": "nome da água superficial",
+      "TITLE": "Adicionar água superficial"
     },
     "TAB": {
-      "CROPS": "MISSING",
-      "DETAILS": "MISSING"
+      "CROPS": "Cultivo",
+      "DETAILS": "Detalhes"
     },
-    "TITLE": "MISSING",
+    "TITLE": "Mapa do sítio/fazenda",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "MISSING",
-        "TITLE": "MISSING"
+        "TEXT": "Clique-e-arraste pontos para ajustar a área",
+        "TITLE": "Ajustar área"
       },
       "ADJUST_LINE": {
-        "TEXT": "MISSING",
-        "TITLE": "MISSING"
+        "TEXT": "Clique-e-arraste pontos para ajustar a linha",
+        "TITLE": "Ajustar linha"
       },
       "AREA": {
-        "STEP_ONE": "MISSING",
-        "STEP_THREE": "MISSING",
-        "STEP_TWO": "MISSING",
-        "TITLE": "MISSING"
+        "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
+        "STEP_THREE": "Clique-e-arraste pontos para ajustar a área",
+        "STEP_TWO": "Clique no ponto inicial para fechar a área",
+        "TITLE": "Desenha uma área"
       },
       "LINE": {
-        "STEP_FOUR": "MISSING",
-        "STEP_ONE": "MISSING",
-        "STEP_THREE": "MISSING",
-        "STEP_TWO": "MISSING",
-        "TITLE": "MISSING"
+        "STEP_FOUR": "(Para alguns tipos de linha) adicione uma largura",
+        "STEP_ONE": "Clique em qualquer lugar para começar a desenhar",
+        "STEP_THREE": "Opcionalmente, ajuste sua linha",
+        "STEP_TWO": "Duplo-clique para finalizar sua linha",
+        "TITLE": "Desenhe uma linha"
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
+      "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "MISSING",
-      "GROUNDWATER": "Groundwater",
-      "MAX_FLOW_RATE": "Maximum flow rate",
-      "MUNICIPAL_WATER": "Municipal water",
-      "NAME": "Water valve",
-      "RAIN_WATER": "Rain water",
-      "SURFACE_WATER": "Surface water",
-      "TITLE": "Add water valve",
-      "WATER_VALVE_TYPE": "What is the source?"
+      "EDIT_TITLE": "Editar válvula de água",
+      "GROUNDWATER": "Água subterrânea",
+      "MAX_FLOW_RATE": "Taxa máxima de fluxo",
+      "MUNICIPAL_WATER": "Água municipal",
+      "NAME": "Nome da válvula de água",
+      "RAIN_WATER": "Água de chuva",
+      "SURFACE_WATER": "Água superficial",
+      "TITLE": "Adicionar válvula de água",
+      "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {
-      "BUFFER": "Riparian buffer",
-      "EDIT_TITLE": "MISSING",
-      "IRRIGATION": "Is this area used for irrigation?",
-      "LENGTH": "Total length",
-      "NAME": "Watercourse",
-      "TITLE": "Add watercourse",
-      "WIDTH": "Watercourse width"
+      "BUFFER": "Mata ciliar",
+      "EDIT_TITLE": "Editar curso d'água",
+      "IRRIGATION": "Esta área é usada para irrigação?",
+      "LENGTH": "Comprimento total",
+      "NAME": "Nome do curso d'água",
+      "TITLE": "Adicionar curso d'água",
+      "WIDTH": "Largura do curso d'água"
     }
   },
   "FIELDS": {
@@ -356,7 +356,7 @@
         "NUMBER_OF_BEDS": "Número de canteiros",
         "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
         "PERCENTAGE": "Percentagem",
-        "REMOVE_CROP": "MISSING",
+        "REMOVE_CROP": "Remover Cultivo",
         "SELECT_CROP_GROUP": "MISSING",
         "SELECT_CROP_SUBGROUP": "MISSING",
         "SELECT_CROP_TEMPLATE": "Selecione um tipo de cultivo",
@@ -414,7 +414,7 @@
     "WHATSAPP_NUMBER_LABEL": "Número do WhatsApp"
   },
   "HOME": {
-    "GREETING": "Good day, "
+    "GREETING": "Bom dia, "
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -536,29 +536,29 @@
     "SUCCESSFULLY_JOINED": "Você entrou com sucesso"
   },
   "LOCATION_CROPS": {
-    "ACTIVE_CROPS": "MISSING",
-    "ADD_NEW": "MISSING",
-    "INPUT_PLACEHOLDER": "MISSING",
-    "PAST_CROPS": "MISSING",
-    "PLANNED_CROPS": "MISSING"
+    "ACTIVE_CROPS": "Culturas ativas",
+    "ADD_NEW": "Adicionar cultura",
+    "INPUT_PLACEHOLDER": "Digite para buscar",
+    "PAST_CROPS": "Culturas passadas",
+    "PLANNED_CROPS": "Culturas planejadas"
   },
   "LOG_COMMON": {
     "ACTION": "Ação",
     "ACTIVITY": "Atividade",
-    "ADD_A_LOG": "MISSING",
+    "ADD_A_LOG": "Adicione um registro",
     "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
     "ADD_NEW_LOG": "Adicionar Novo registro",
     "ALL": "Todos",
     "ALL_CROPS": "Todas as culturas",
-    "ALL_LOCATIONS": "MISSING",
+    "ALL_LOCATIONS": "Todos os locais",
     "AMMONIA": "Amônia",
     "CHEMICAL_COMPOSITION": "Composição Química",
-    "CHOOSE_DATE": "MISSING",
+    "CHOOSE_DATE": "Escolha uma data",
     "CROP": "Cultivos",
     "DATE": "Data",
     "DEFAULT_PRODUCT": "Produto Padrão",
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
-    "EDIT_A_LOG": "MISSING",
+    "EDIT_A_LOG": "Editar um registro",
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
@@ -570,8 +570,8 @@
     "HARVEST": "colheitas",
     "HIDE": "Ocultar",
     "IRRIGATION": "Irrigação",
-    "LOCATION": "MISSING",
-    "LOCATIONS": "MISSING",
+    "LOCATION": "Local",
+    "LOCATIONS": "Locais",
     "LOG_ALL_CROPS": "Todos os cultivos",
     "LOG_HELP": "Ajuda com o registro",
     "LOG_HELP_EXPLANATION": "Use os filtros abaixo para pesquisar seu histórico de registro. Útil para manter registros de insumos e outras atividades agrícolas para sua equipe e certificadores.",
@@ -590,11 +590,11 @@
     "SCOUTING": "Observação de pragas e doenças",
     "SEARCH_BY_ACTIVITY": "Pesquisar registro por atividade",
     "SEEDING": "Semeadura",
-    "SELECT_CROP": "MISSING",
-    "SELECT_LOCATION": "MISSING",
-    "SELECT_LOCATIONS": "MISSING",
-    "SELECT_PRODUCT": "selecione o produto",
-    "SELECT_TASK": "MISSING",
+    "SELECT_CROP": "selecione cultivo",
+    "SELECT_LOCATION": "Selecione local",
+    "SELECT_LOCATIONS": "Selecione locais",
+    "SELECT_PRODUCT": "Selecione o produto",
+    "SELECT_TASK": "Selecione tarefa",
     "SELECT_TYPE": "Selecionar Tipo",
     "SHOW": "Mostrar",
     "SOIL_DATA": "Dados do Solo",
@@ -627,11 +627,11 @@
     "TITLE": "Registro de Trabalho de Campo"
   },
   "LOG_HARVEST": {
-    "ADD_A_HARVEST_USE": "Add a harvest use",
-    "ADD_CUSTOM_HARVEST_USE": "MISSING",
-    "CROP": "Crop",
-    "CROP_PLACEHOLDER": "Select a crop",
-    "CUSTOM_HARVEST_USE": "MISSING",
+    "ADD_A_HARVEST_USE": "Adicione um uso para a colheita",
+    "ADD_CUSTOM_HARVEST_USE": "Adicione um uso personalizado",
+    "CROP": "Cultivo",
+    "CROP_PLACEHOLDER": "Selecione cultivo",
+    "CUSTOM_HARVEST_USE": "Uso personalizado",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
@@ -808,7 +808,7 @@
     "FARM_EO": "Agente de Extensão/Técnico",
     "FARM_MANAGER": "Gerente de sítio/Fazenda",
     "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
-    "IS_OWNER_OPERATED": "MISSING",
+    "IS_OWNER_OPERATED": "Este sítio/fazenda é operada pelo dono(a)?",
     "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
   },
   "SALE": {
@@ -931,13 +931,13 @@
       "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
       "CHOOSE_DATE": "Escolha uma data",
       "CHOOSE_WORKERS": "Escolha trabalhador(a)",
-      "CROPS": "MISSING",
-      "CROPS_LABEL": "MISSING",
+      "CROPS": "Cultivos",
+      "CROPS_LABEL": "Cultivos",
       "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
       "HAPPY": "Contente",
       "INDIVIDUAL_CROPS": "Culturas Individuais",
-      "LOCATIONS": "MISSING",
-      "LOCATIONS_LABEL": "MISSING",
+      "LOCATIONS": "Locais",
+      "LOCATIONS_LABEL": "Locais",
       "MOOD": "Como você se sentiu durante este turno?",
       "NAME_TASK": "Nome da tarefa personalizada",
       "NEUTRAL": "Neutra(o)",
@@ -966,12 +966,12 @@
     },
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
-    "TIME_TOTAL": "MISSING",
+    "TIME_TOTAL": "Total",
     "TITLE": "Turnos"
   },
   "SIGNUP": {
-    "EMAIL_INVALID": "MISSING",
-    "ENTER_EMAIL": "MISSING",
+    "EMAIL_INVALID": "Email é inválido",
+    "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
@@ -1011,8 +1011,8 @@
     "ROWS_TEXT": "linhas"
   },
   "UNIT": {
-    "INVALID_NUMBER": "MISSING",
-    "MAXIMUM": "MISSING"
+    "INVALID_NUMBER": "Número inválido",
+    "MAXIMUM": "Valor máximo excedido"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

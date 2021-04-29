@@ -7,7 +7,6 @@ import {
   harvestFormDataSelector,
   harvestLogData,
   harvestLogDataSelector,
-  resetHarvestLog,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
@@ -53,7 +52,6 @@ function HarvestAllocation() {
     } else {
       dispatch(addLog(tempProps));
     }
-    dispatch(resetHarvestLog());
   };
   return (
     <>

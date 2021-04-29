@@ -53,7 +53,7 @@ export default function AreaDetails({
         </PureWarningBox>
       )}
       <Input
-        label={name + ' name'}
+        label={`${name}`}
         type="text"
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}

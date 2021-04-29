@@ -43,6 +43,16 @@ class Line extends Model {
         length_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
         width: { type: 'number' },
         width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        grid_points: {
+          type: 'array',
+          minItems: 4,
+          properties: {
+            lat: { type: 'number' },
+            lng: { type: 'number' },
+          },
+        },
+        total_area: { type: 'number' },
+        total_area_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
       },
       additionalProperties: false,
     };

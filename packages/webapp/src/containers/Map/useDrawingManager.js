@@ -52,6 +52,7 @@ export default function useDrawingManager() {
       setWidthPolygon(linePolygon);
     } else if (widthPolygon !== null) {
       widthPolygon.setMap(null);
+      setWidthPolygon(null);
     }
   }, [drawingToCheck, lineWidth]);
 
@@ -189,7 +190,15 @@ export default function useDrawingManager() {
       const path = overlay.getPath();
       const line_points = path.getArray().map(getVertices);
       const length = Math.round(computeLength(path));
-      return { type: drawLocationType, line_points, length };
+      let area;
+      let grid_points;
+      if (widthPolygon) {
+        area = Math.round(computeArea(widthPolygon.getPath()));
+        grid_points = widthPolygon.getPath().getArray().map(getVertices);
+      } else {
+        area = null;
+      }
+      return { type: drawLocationType, line_points, length, total_area: area, grid_points };
     }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();

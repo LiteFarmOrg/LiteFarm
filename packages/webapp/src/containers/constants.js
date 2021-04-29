@@ -14,6 +14,9 @@ export const lineProperties = [
   'length_unit',
   'width_unit',
   'figure_id',
+  'total_area',
+  'total_area_unit',
+  'grid_points',
 ];
 export const pointProperties = ['point', 'figure_id'];
 export const figureProperties = ['figure_id', 'type', 'location_id'];
@@ -61,6 +64,9 @@ export const bufferZoneEnum = {
   line_points: 'line_points',
   length_unit: 'length_unit',
   width_unit: 'width_unit',
+  total_area: 'total_area',
+  total_area_unit: 'total_area_unit',
+  grid_points: 'grid_points',
 };
 export const ceremonialEnum = {
   farm_id: 'farm_id',

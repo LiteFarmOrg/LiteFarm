@@ -10,7 +10,7 @@ const Form = ({
   onSubmit,
 }) => {
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
       <Layout buttonGroup={buttonGroup} children={children} classes={classes} isSVG={false} />
     </form>
   );

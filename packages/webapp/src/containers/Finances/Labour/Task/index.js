@@ -8,7 +8,7 @@ const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
   let sortObj = {};
   const { t } = useTranslation(['translation', 'task']);
   for (let s of shifts) {
-    if (moment(s.start_time).isBetween(moment(startDate), moment(endDate))) {
+    if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))) {
       if (sortObj.hasOwnProperty(s.task_id)) {
         sortObj[s.task_id].time += parseInt(s.duration, 10);
         sortObj[s.task_id].labour_cost += parseFloat(s.wage_at_moment) * (s.duration / 60);

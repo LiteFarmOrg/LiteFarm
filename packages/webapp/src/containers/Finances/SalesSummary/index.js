@@ -142,8 +142,8 @@ class SalesSummary extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.SUMMARY.DATE'),
-        accessor: (e) => moment(e.date).format('L'),
-        sortMethod: (a, b) => moment(a).isBefore(b) ? -1 : 1,
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },

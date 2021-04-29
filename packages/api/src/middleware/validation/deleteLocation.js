@@ -25,7 +25,7 @@ async function validateLocationDependency(req, res, next) {
   if (fieldCrops.length) {
     return res.status(400).send('Location can be deleted when it has a fieldCrop');
   }
-  const activityLogs = await activityLogModel.query().whereNotDeleted().join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id').where('activityFields.location_id', location_id);
+  const activityLogs = await activityLogModel.query().whereNotDeleted().join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id').where('activityFields.location_id', location_id).andWhere('activityLog.date', '>=', 'NOW()');
   if (activityLogs.length) {
     return res.status(400).send('Location can be deleted when it is referenced by log');
   }

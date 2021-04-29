@@ -1,7 +1,7 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
 import { ADD_HARVEST_USE_TYPE, GET_HARVEST_USE_TYPES } from '../constants';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
@@ -117,9 +117,9 @@ export function* deleteLog(action) {
 }
 
 export default function* defaultAddLogSaga() {
-  yield takeEvery(ADD_LOG, addLog);
-  yield takeEvery(EDIT_LOG, editLog);
-  yield takeEvery(DELETE_LOG, deleteLog);
-  yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypesSaga);
-  yield takeEvery(ADD_HARVEST_USE_TYPE, addCustomHarvestUseTypeSaga);
+  yield takeLeading(ADD_LOG, addLog);
+  yield takeLeading(EDIT_LOG, editLog);
+  yield takeLeading(DELETE_LOG, deleteLog);
+  yield takeLatest(GET_HARVEST_USE_TYPES, getHarvestUseTypesSaga);
+  yield takeLeading(ADD_HARVEST_USE_TYPE, addCustomHarvestUseTypeSaga);
 }

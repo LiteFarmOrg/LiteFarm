@@ -195,7 +195,8 @@ class Log extends Component {
       {
         id: 'date',
         Header: this.props.t('LOG_COMMON.DATE'),
-        accessor: (d) => moment(d.date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 85,
       },
       {

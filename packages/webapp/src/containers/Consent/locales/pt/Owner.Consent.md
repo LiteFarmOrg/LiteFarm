@@ -297,3 +297,6 @@ Your participation in LiteFarm is entirely voluntary. As a participant, you have
 By pressing Agree below, it indicates that you have downloaded a copy of this consent form and Privacy Policy for your own records and that you consent to participate in this study.
 
 UBC Study ethics ID: H19-01482
+&nbsp;
+
+&nbsp;

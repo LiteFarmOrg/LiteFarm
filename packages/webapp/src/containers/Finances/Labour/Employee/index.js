@@ -8,7 +8,7 @@ const Employee = ({ currencySymbol, shifts, startDate, endDate }) => {
   let sortObj = {};
   const { t } = useTranslation();
   for (let s of shifts) {
-    if (moment(s.start_time).isBetween(moment(startDate), moment(endDate))) {
+    if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))) {
       if (sortObj.hasOwnProperty(s.user_id)) {
         let referenceObj = sortObj[s.user_id];
         const currentWorkedTime = hourlyTwoDecimals(referenceObj.time);

@@ -40,6 +40,9 @@ class IrrigationLog extends Component {
     });
   }
 
+  componentDidMount() {
+  }
+
   handleSubmit(irrigationLog) {
     const { dispatch, locations } = this.props;
     let selectedCrops = parseCrops(irrigationLog);
@@ -65,7 +68,7 @@ class IrrigationLog extends Component {
   render() {
     const crops = this.props.crops;
     const locations = this.props.locations;
-    const rateOptions = [this.state.ratePerMin, this.state.ratePerHr];
+    const rateOptions = [ this.state.ratePerMin, this.state.ratePerHr ];
 
     const customFieldset = () => {
       return (
@@ -76,7 +79,7 @@ class IrrigationLog extends Component {
             dropdown={true}
             options={rateOptions}
           />
-          <Unit model=".hours" title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type="hrs" />
+          <Unit model=".hours" title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type="hrs"/>
         </div>
       );
     };
@@ -84,7 +87,7 @@ class IrrigationLog extends Component {
     return (
       <div className='page-container'>
         <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')}/>
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
@@ -105,10 +108,10 @@ class IrrigationLog extends Component {
             isCropNotRequired={true}
             notesField={true}
             typeField={true}
-            typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
+            typeOptions={[ 'sprinkler', 'drip', 'subsurface', 'flood' ]}
             customFieldset={customFieldset}
           />
-          <LogFooter />
+          <LogFooter/>
         </Form>
       </div>
     );

@@ -240,10 +240,10 @@ export default function PureHarvestLog({
         <Input
           label={t('LOG_COMMON.QUANTITY')}
           style={{ marginBottom: '24px' }}
-          type="decimal"
+          type="number"
           unit={unit}
           name={QUANTITY}
-          onChange={setQuantity}
+          step={0.01}
           inputRef={register({
             required: true,
           })}

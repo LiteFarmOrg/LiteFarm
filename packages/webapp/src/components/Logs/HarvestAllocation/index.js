@@ -100,9 +100,10 @@ export default function PureHarvestAllocation({
               <Input
                 label={typeName}
                 style={{ marginBottom: '24px' }}
-                type="decimal"
+                type="number"
                 unit={unit}
                 name={typeName}
+                step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
                 inputRef={inputs[index]}
                 defaultValue={quant}

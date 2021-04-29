@@ -125,7 +125,7 @@ class EstimatedRevenue extends Component {
         <Table
           columns={revenueColumns}
           data={this.formatData(fieldCrops)}
-          showPagination={false}
+          showPagination={true}
           pageSizeOptions={[10, 20, 50]}
           defaultPageSize={10}
           minRows={5}

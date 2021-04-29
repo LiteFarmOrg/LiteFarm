@@ -74,7 +74,7 @@ function HarvestLog() {
       <PureHarvestLog
         onGoBack={onBack}
         onNext={onNext}
-        onCancel={onCancel}
+        onCancel={isEdit.isEdit ? undefined : onCancel}
         locations={locations}
         crops={crops}
         unit={unit}

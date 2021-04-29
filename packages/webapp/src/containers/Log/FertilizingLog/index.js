@@ -297,6 +297,7 @@ class FertilizingLog extends Component {
                 title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
+                defaultValue={''}
               />
 
               <div className={styles.noteContainer}>
@@ -449,7 +450,6 @@ class FertilizingLog extends Component {
             </MuiFullPagePopup>
           </>
         }
-        {(!locations || !fertilizers) && <p>{this.props.t('LOG_COMMON.ERROR_MISSING_FIELDS')}</p>}
       </div>
     );
   }

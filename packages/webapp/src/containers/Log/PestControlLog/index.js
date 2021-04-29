@@ -279,7 +279,7 @@ class PestControlLog extends Component {
       pesticides &&
       pesticides.map((p) => ({
         value: p.pesticide_id,
-        label: p.pesticide_name,
+        label: p.farm_id ? p.pesticide_name : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
       }));
 
     const diseaseOptions =
@@ -494,16 +494,6 @@ class PestControlLog extends Component {
                     <h3>{this.props.t('LOG_PESTICIDE.ADD_PESTICIDE')}</h3>
                   </div>
                 </div>
-                {/*<div className={styles.defaultFormDropDown}>*/}
-                {/*<label>Pesticide</label>*/}
-                {/*<Control*/}
-                {/*model=".pestControlLog.pesticide_id"*/}
-                {/*component={DropDown}*/}
-                {/*options={pesticideOptions || []}*/}
-                {/*placeholder="Choose a target"*/}
-                {/*onChange={this.setSelectedPesticide}*/}
-                {/*/>*/}
-                {/*</div>*/}
                 <div className={styles.textContainer}>
                   <Control
                     label={this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}

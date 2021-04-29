@@ -182,6 +182,7 @@ const pcLog = {
   custom_disease_scientific_name: '',
   custom_disease_common_name: '',
   custom_disease_group: 'Other',
+  crop: null,
   pesticide_id: null,
   disease_id: 1,
   type: '',

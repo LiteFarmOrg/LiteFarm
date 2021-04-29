@@ -17,7 +17,7 @@ export default function PureHarvestAllocation({
   dispatch,
   isEdit,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
   });
@@ -43,7 +43,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error('Total does not equal the amount to allocate');
+      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
     }
   };
   const handleChange = (typeName, quant) => {

@@ -333,7 +333,6 @@
         "CROP_GROUP_INFO": "informações do novo cultivo",
         "CROP_GROUP_SUBGROUP": "MISSING",
         "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
-        "DELETE_CROP": "MISSING",
         "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
         "EDIT_ESTIMATED_YIELD": "Editar rendimento estimado para a cultura",
@@ -624,7 +623,13 @@
     "TITLE": "Registro de Adubação"
   },
   "LOG_FIELD_WORK": {
-    "TITLE": "Registro de Trabalho de Campo"
+    "DISCING": "MISSING",
+    "MULCH_TILL": "MISSING",
+    "PLOW": "MISSING",
+    "RIDGE_TILL": "MISSING",
+    "RIPPING": "MISSING",
+    "TITLE": "Registro de Trabalho de Campo",
+    "ZONE_TILL": "MISSING"
   },
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Adicione um uso para a colheita",
@@ -632,17 +637,26 @@
     "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecione cultivo",
     "CUSTOM_HARVEST_USE": "Uso personalizado",
+    "DISEASE": "MISSING",
+    "HARVEST": "MISSING",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
+    "OTHER": "MISSING",
+    "PEST": "MISSING",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Registro de Colheita (passo 1 de 3)",
+    "WEED": "MISSING",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {
+    "DRIP": "MISSING",
+    "FLOOD": "MISSING",
     "FLOW_RATE": "Taxa de Fluxo",
+    "SPRINKLER": "MISSING",
+    "SUBSURFACE": "MISSING",
     "TITLE": "Registro de irrigação",
     "TOTAL_TIME": "Tempo Total"
   },
@@ -655,6 +669,8 @@
     "ADD_DISEASE": "Adicionar uma Doença",
     "ADD_PESTICIDE": "Adicione um Pesticida",
     "ADD_TARGET": "Adicionar um Alvo",
+    "BIOLOGICAL_CONTROL": "MISSING",
+    "BURNING": "MISSING",
     "CHOOSE_GROUP_PLACEHOLDER": "Escolha o Grupo",
     "CHOOSE_TARGET_PLACEHOLDER": "Escolha um Alvo",
     "CHOOSE_TYPE_PLACEHOLDER": "Escolha um Tipo",
@@ -664,7 +680,10 @@
     "DISEASE_GROUP": "Grupo de Doenças",
     "DISEASE_TARGET": "Alvo de doença",
     "ENTRY_INTERVAL": "Intervalo de entrada",
+    "FOLIAR_SPRAY": "MISSING",
+    "HAND_PICK": "MISSING",
     "HARVEST_INTERVAL": "Intervalo de colheita",
+    "HEAT_TREATMENT": "MISSING",
     "MISSING_DATA": "Erro: Dados ausentes",
     "PESTICIDE_CONTROL_TYPE": "Tipo de Controle de Pesticidas",
     "PESTICIDE_DETAILS": "Detalhes da pesticida",
@@ -673,6 +692,8 @@
     "PESTICIDE_NAME_LABEL": "Nome do Pesticida",
     "PESTICIDE_QUANTITY": "Quantidade de Pesticida",
     "SCIENTIFIC_NAME": "Nome científico (se conhecido)",
+    "SOIL_FUMIGATION": "MISSING",
+    "SYSTEMIC_SPRAY": "MISSING",
     "TARGET": "Alvo",
     "TARGET_DISEASE": "Doença Alvejada",
     "TARGET_GROUP": "Grupo alvo",
@@ -715,7 +736,7 @@
     "SPOTLIGHT": {
       "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
       "FARM_TITLE": "O perfil de fazenda",
-      "NOTIFICATION": "Aqui você pode: • Administrar suas tarefas, • Ver atualizações importantes, • Coordenar as atividades da fazenda",
+      "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver atualizações importantes, • Coordenar as atividades da fazenda",
       "NOTIFICATION_TITLE": "Central de Notificações",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"

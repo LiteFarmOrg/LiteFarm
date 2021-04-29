@@ -9,7 +9,7 @@ import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import i18n from '../../../locales/i18n';
 import { getHarvestUseTypes, setAllHarvestUseTypes, setLogsInState } from '../actions';
-import { harvestLogDataSelector } from '../Utility/logSlice';
+import { harvestLogDataSelector, resetHarvestLog } from '../Utility/logSlice';
 import { logSelector } from '../selectors';
 
 export function* addLog(action) {
@@ -24,6 +24,7 @@ export function* addLog(action) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
+      yield put(resetHarvestLog());
       toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
@@ -87,6 +88,7 @@ export function* editLog(action) {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {
       history.push('/log');
+      yield put(resetHarvestLog());
       toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {

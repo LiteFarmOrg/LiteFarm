@@ -11,9 +11,7 @@ import {
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
@@ -38,7 +36,7 @@ function HarvestLog() {
 
   const onBack = () => {
     dispatch(resetHarvestLog());
-    history.push('/new_log');
+    history.push(isEdit.isEdit ? '/log' : '/new_log');
   };
 
   const onCancel = () => {
@@ -50,13 +48,13 @@ function HarvestLog() {
     dispatch(harvestLogData(data));
     let formValue = !isEditStepOne.isEditStepOne
       ? {
-        activity_kind: 'harvest',
-        date: data.defaultDate,
-        crops: data.defaultCrop,
-        locations: data.defaultField,
-        notes: data.defaultNotes,
-        quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
-      }
+          activity_kind: 'harvest',
+          date: data.defaultDate,
+          crops: data.defaultCrop,
+          locations: data.defaultField,
+          notes: data.defaultNotes,
+          quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
+        }
       : {
           activity_id: selectedLog.activity_id,
           activity_kind: 'harvest',

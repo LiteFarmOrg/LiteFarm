@@ -37,12 +37,19 @@ const parsedTextureOptions = (t) => [
 
 const parsedDepthOptions = [
   { label: '0-5cm', value: 5 },
+  { label: '0-2in', value: 5 },
   { label: '0-10cm', value: 10 },
+  { label: '0-4in', value: 10 },
   { label: '0-20cm', value: 20 },
+  { label: '0-8in', value: 20 },
   { label: '21-30cm', value: 30 },
+  { label: '8-12in', value: 30 },
   { label: '30-50cm', value: 50 },
-  { label: '51-100cm', value: 100 },
+  { label: '12-20in', value: 50 },
+  { label: '50-100cm', value: 100 },
+  { label: '20-40in', value: 100 },
 ];
+
 
 class soilDataLog extends Component {
   constructor(props) {
@@ -71,6 +78,11 @@ class soilDataLog extends Component {
     });
   }
 
+  componentDidMount() {
+    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
+    this.setState({depthOptions: filteredDepth})
+  }
+
   handleSubmit(logForm) {
     const log = logForm.soilDataLog;
     let cec_unit = this.state.cec_denominator;
@@ -95,7 +107,7 @@ class soilDataLog extends Component {
       crops: selectedCrops,
       locations: selectedFields,
       notes: log.notes || '',
-      depth_cm: convertToMetric(log.depth_cm.value, this.state.depth_unit, 'cm').toString() || '',
+      depth_cm: log.depth_cm.value.toString(),
       texture: log.texture.value,
       k: log.k || 0,
       p: log.p || 0,
@@ -133,7 +145,7 @@ class soilDataLog extends Component {
             <Control
               model=".depth_cm"
               component={DropDown}
-              options={parsedDepthOptions || []}
+              options={this.state.depthOptions || []}
               placeholder={this.props.t('LOG_SOIL.SELECT_DEPTH')}
               validators={{ required: (val) => val && val.label && val.value }}
             />

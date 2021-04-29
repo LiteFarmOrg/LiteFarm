@@ -58,6 +58,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "MISSING",
+      "AMOUNT_TOTAL": "MISSING",
       "GET_TYPES": "MISSING",
       "REQUIRED_TASK": "MISSING"
     },
@@ -102,10 +103,12 @@
   },
   "SALE": {
     "ERROR": {
+      "ADD": "MISSING",
       "DELETE": "MISSING",
       "UPDATE": "MISSING"
     },
     "SUCCESS": {
+      "ADD": "MISSING",
       "DELETE": "MISSING",
       "UPDATE": "MISSING"
     }

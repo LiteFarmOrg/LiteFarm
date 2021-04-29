@@ -32,7 +32,6 @@ import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
-
 class PestControlLog extends Component {
   constructor(props) {
     super(props);
@@ -85,6 +84,19 @@ class PestControlLog extends Component {
   componentDidMount() {
     this.props.dispatch(getPesticides());
     this.props.dispatch(getDiseases());
+    const typeTranslations = {
+      systemicSpray: this.props.t("LOG_PESTICIDE.SYSTEMIC_SPRAY"),
+        foliarSpray: this.props.t("LOG_PESTICIDE.FOLIAR_SPRAY"),
+        handPick: this.props.t("LOG_PESTICIDE.HAND_PICK"),
+        biologicalControl: this.props.t("LOG_PESTICIDE.BIOLOGICAL_CONTROL"),
+        burning: this.props.t("LOG_PESTICIDE.BURNING"),
+        soilFumigation: this.props.t("LOG_PESTICIDE.SOIL_FUMIGATION"),
+        heatTreatment: this.props.t("LOG_PESTICIDE.HEAT_TREATMENT"),
+    }
+    const typeOptions = this.state.controlType.map((type) => {
+      return { value: type, label: typeTranslations[type] };
+    });
+    this.setState({typeOptions , ...this.state });
   }
 
   toggleChemInfo() {
@@ -270,11 +282,7 @@ class PestControlLog extends Component {
         value: p.pesticide_id,
         label: p.pesticide_name,
       }));
-    const typeOptions = this.state.controlType.map((type) => {
-      let typeName = type.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
-      let regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-      return { value: type, label: regularName };
-    });
+
     const diseaseOptions =
       diseases &&
       diseases.map((d) => ({
@@ -340,7 +348,7 @@ class PestControlLog extends Component {
                 <Control
                   model=".pestControlLog.type"
                   component={DropDown}
-                  options={typeOptions || []}
+                  options={this.state.typeOptions || []}
                   placeholder={this.props.t('LOG_PESTICIDE.CHOOSE_TYPE_PLACEHOLDER')}
                   validators={{
                     required: (val) => val && val.label && val.value,
@@ -595,7 +603,7 @@ class PestControlLog extends Component {
                     component={DropDown}
                     options={this.state.diseaseGroup.map((d) => ({
                       value: d,
-                      label: d,
+                      label: this.props.t(`disease:group.${d.toUpperCase()}`),
                     }))}
                     placeholder={this.props.t('LOG_PESTICIDE.ADD_TARGET')}
                   />

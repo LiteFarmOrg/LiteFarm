@@ -15,7 +15,9 @@
 
 const endPoints = {
   googleMapsAPI: 'https://maps.googleapis.com/maps/api/elevation/json', // for grabbing elevation
+  googleMapsAPIGeocode: 'https://maps.googleapis.com/maps/api/geocode/json', // for grabbing elevation
   openWeatherAPI: 'https://api.openweathermap.org/data/2.5/weather', // for grabbing weather data
+  openMapsAPI: 'https://nominatim.openstreetmap.org/reverse', // to reverse geocode
   soilGridsAPI: 'https://rest.soilgrids.org/soilgrids/v2.0/properties/query', // for grabbing soil organic matter when no soil analysis is present
   gbifAPI: 'http://api.gbif.org/v1/occurrence/search', // for grabbing species in biodiversity
 };

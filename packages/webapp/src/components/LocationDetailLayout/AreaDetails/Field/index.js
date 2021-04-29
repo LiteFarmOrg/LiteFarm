@@ -11,7 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
+import { getPersistPath, getDateInputFormat } from '../../utils';
 
 export default function PureField({
   history,
@@ -173,7 +173,7 @@ export default function PureField({
                 style={{ paddingBottom: '16px' }}
                 type={'date'}
                 name={fieldEnum.transition_date}
-                defaultValue={new Date().toLocaleDateString('en-CA')}
+                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.FIELD.DATE')}
                 inputRef={register({ required: true })}
                 disabled={isViewLocationPage}

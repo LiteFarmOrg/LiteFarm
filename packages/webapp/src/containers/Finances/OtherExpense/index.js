@@ -114,14 +114,13 @@ class OtherExpense extends Component {
     let detailedHistory = [];
 
     let subTotal = 0;
-    const language = getLanguageFromLocalStorage();
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
-          date: moment(e.expense_date).locale(language).format('MMM-DD-YYYY'),
+          date: moment(e.expense_date),
           type: this.getExpenseType(e.expense_type_id),
           amount: this.state.currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,
@@ -131,48 +130,6 @@ class OtherExpense extends Component {
         });
       }
     }
-
-    // const { expenses } = this.props;
-    // const { startDate, endDate } = this.state;
-    // let detailedHistory = [];
-
-    // let dict = {};
-    // let subTotal = 0;
-
-    // console.log(expenses);
-
-    // for (let e of expenses) {
-    //   if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
-    //     let date = moment(e.expense_date).format('MMM-DD-YYYY');
-    //     let type = this.getExpenseType(e.expense_type_id);
-    //     let amount = parseFloat(e.value);
-    //     subTotal += amount;
-    //     if (!dict.hasOwnProperty(date)) {
-    //       dict[date] = {
-    //         type,
-    //         amount,
-    //         expense_date: e.expense_date,
-    //       };
-    //     } else {
-    //       dict[date].amount = dict[date].amount + amount;
-    //       dict[date].type = 'Multiple';
-    //     }
-    //   }
-    // }
-
-    // let keys = Object.keys(dict);
-    // for (let k of keys) {
-    //   detailedHistory.push({
-    //     date: k,
-    //     type: dict[k].type,
-    //     amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
-    //     expense_date: dict[k].expense_date,
-    //   });
-    // }
-
-    // console.log(detailedHistory);
-    // console.log(subTotal.toFixed(2));
-
     return [detailedHistory, subTotal.toFixed(2)];
   }
 
@@ -211,7 +168,8 @@ class OtherExpense extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
-        accessor: (d) => d.date,
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 80,
         Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
       },

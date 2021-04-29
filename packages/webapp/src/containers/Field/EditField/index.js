@@ -24,6 +24,8 @@ import {
 import { withTranslation } from 'react-i18next';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
+//TODO to deprecate
+
 class EditField extends Component {
   static defaultProps = {
     center: CENTER,

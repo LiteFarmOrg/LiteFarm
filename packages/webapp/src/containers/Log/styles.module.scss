@@ -200,6 +200,8 @@ input:disabled {
   font-size: 18px;
   width: 100%;
   flex-grow: 1;
+  margin: auto;
+  max-width: 800px;
 
   select {
     width: 100px;

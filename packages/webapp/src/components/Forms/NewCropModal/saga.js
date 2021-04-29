@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
 import { toastr } from 'react-redux-toastr';
@@ -77,5 +77,5 @@ export function* postCropSaga({ payload: crop }) {
 }
 
 export default function* cropSaga() {
-  yield takeEvery(postCrop.type, postCropSaga);
+  yield takeLeading(postCrop.type, postCropSaga);
 }

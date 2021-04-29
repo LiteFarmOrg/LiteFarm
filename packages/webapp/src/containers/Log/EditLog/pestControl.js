@@ -23,9 +23,7 @@ import { currentLogSelector, logSelector } from '../selectors';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import ReactSelect from '../../../components/Form/ReactSelect';
@@ -34,7 +32,7 @@ import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import LogFooter from '../../../components/LogFooter';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteLog } from '../Utility/actions';
-import Popup from 'reactjs-popup';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -439,14 +437,14 @@ class PestControlLog extends Component {
                   model=".pestControlLog.notes"
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -496,22 +494,9 @@ class PestControlLog extends Component {
               message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
             />
 
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomPesticide}
-              closeOnDocumentClick
               onClose={this.closePesticideModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '100vh',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-              }}
-              overlayStyle={{
-                minHeight: '100vh',
-                top: 'auto',
-                zIndex: 1,
-              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
@@ -589,26 +574,10 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
 
             {/*disease popup*/}
-            <Popup
-              open={this.state.showCustomDisease}
-              closeOnDocumentClick
-              onClose={this.closeDiseaseModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '100vh',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-              }}
-              overlayStyle={{
-                minHeight: '100vh',
-                top: 'auto',
-                zIndex: 1,
-              }}
-            >
+            <MuiFullPagePopup open={this.state.showCustomDisease} onClose={this.closeDiseaseModal}>
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
                   <div className={styles.popupTitle}>
@@ -652,7 +621,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
         {(!crops || !locations || !diseases || !pesticides) && (

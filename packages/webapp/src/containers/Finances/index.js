@@ -155,7 +155,10 @@ class Finances extends Component {
     let total = 0;
     if (expenses && expenses.length) {
       for (let e of expenses) {
-        if (moment(e.expense_date).isSameOrAfter(moment(startDate)) &&  moment(e.exports).isSameOrBefore(moment(endDate))) {
+        if (
+          moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+          moment(e.exports).isSameOrBefore(moment(endDate))
+        ) {
           total += Number(e.value);
         }
       }
@@ -180,7 +183,10 @@ class Finances extends Component {
     if (shifts && shifts.length) {
       for (let s of shifts) {
         let field_crop_id = s.field_crop_id;
-        if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))) {
+        if (
+          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+          moment(s.shift_date).isSameOrBefore(moment(endDate))
+        ) {
           if (field_crop_id !== null) {
             if (final.hasOwnProperty(field_crop_id)) {
               final[field_crop_id].profit =
@@ -310,7 +316,10 @@ class Finances extends Component {
 
     //apply sales
     for (let sale of sales || []) {
-      if (moment(sale.sale_date).isSameOrAfter(moment(startDate)) &&  moment(sale.sale_date).isSameOrBefore(moment(endDate))) {
+      if (
+        moment(sale.sale_date).isSameOrAfter(moment(startDate)) &&
+        moment(sale.sale_date).isSameOrBefore(moment(endDate))
+      ) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);

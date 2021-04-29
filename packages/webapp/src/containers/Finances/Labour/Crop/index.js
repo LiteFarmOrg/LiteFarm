@@ -47,7 +47,7 @@ const getCropsByFieldID = (location_id, fieldCrops) => {
 
 const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   let data = [];
-  const { t } = useTranslation(['translation','crop']);
+  const { t } = useTranslation(['translation', 'crop']);
   let final = Object.assign({}, {}); // crop: crop name, profit: number
   for (let fc of fieldCrops) {
     const range1 = moment.range(startDate, endDate);
@@ -71,7 +71,10 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   if (shifts && shifts.length) {
     for (let s of shifts) {
       let field_crop_id = s.field_crop_id;
-      if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))){
+      if (
+        moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+        moment(s.shift_date).isSameOrBefore(moment(endDate))
+      ) {
         if (field_crop_id !== null) {
           if (final.hasOwnProperty(field_crop_id)) {
             final[field_crop_id].profit =

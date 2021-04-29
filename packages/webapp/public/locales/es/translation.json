@@ -623,13 +623,13 @@
     "TITLE": "Registro de fertilizante"
   },
   "LOG_FIELD_WORK": {
-    "DISCING": "MISSING",
-    "MULCH_TILL": "MISSING",
-    "PLOW": "MISSING",
-    "RIDGE_TILL": "MISSING",
-    "RIPPING": "MISSING",
+    "DISCING": "Rastra doble o de discos",
+    "MULCH_TILL": "Lebranza con cobertura",
+    "PLOW": "Arar",
+    "RIDGE_TILL": "Lebranza de cresta",
+    "RIPPING": "Rastra pesada",
     "TITLE": "Registro de trabajo de campo",
-    "ZONE_TILL": "MISSING"
+    "ZONE_TILL": "Lebranza por zona"
   },
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Agregar uso de cosecha",
@@ -637,18 +637,18 @@
     "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
     "CUSTOM_HARVEST_USE": "Uso personalizado",
-    "DISEASE": "MISSING",
-    "HARVEST": "MISSING",
+    "DISEASE": "Enfermedad",
+    "HARVEST": "Cosecha",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
     "HARVEST_QUANTITY": "Cantidad de cosecha",
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
-    "OTHER": "MISSING",
-    "PEST": "MISSING",
+    "OTHER": "Otro",
+    "PEST": "Peste",
     "QUANTITY": "Cantidad",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
     "TITLE": "Registro de cosecha",
-    "WEED": "MISSING",
+    "WEED": "Melaza",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {

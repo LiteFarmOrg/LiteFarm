@@ -403,7 +403,7 @@ function InputDuration({
                 }}
                 sm={true}
               >
-                {t('SHIFT.EDIT_SHIFT.ALL')}
+                {t('SHIFT.EDIT_SHIFT.SELECT_ALL')}
               </Button>
             </div>
             <div

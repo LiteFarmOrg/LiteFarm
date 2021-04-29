@@ -125,19 +125,19 @@
     "BARN": {
       "COLD_STORAGE": "Does this barn have cold storage?",
       "EDIT_TITLE": "Edit barn",
-      "NAME": "Barn",
+      "NAME": "Barn name",
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Edit buffer zone",
-      "NAME": "Buffer zone",
+      "NAME": "Buffer zone name",
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
-      "NAME": "Ceremonial area",
+      "NAME": "Ceremonial area name",
       "TITLE": "Add ceremonial area"
     },
     "CONFIRM_RETIRE": {
@@ -157,13 +157,13 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Edit farm site boundary",
-      "NAME": "Farm site boundary",
+      "NAME": "Farm site boundary name",
       "TITLE": "Add farm site boundary"
     },
     "FENCE": {
       "EDIT_TITLE": "Edit fence",
       "LENGTH": "Total length",
-      "NAME": "Fence",
+      "NAME": "Fence name",
       "PRESSURE_TREATED": "Is this fence pressure treated?",
       "TITLE": "Add fence"
     },
@@ -171,7 +171,7 @@
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit field",
       "FIELD_TYPE": "What type of field is this?",
-      "NAME": "Field",
+      "NAME": "Field name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "TITLE": "Add field",
@@ -181,7 +181,7 @@
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit garden",
       "GARDEN_TYPE": "What type of garden is this?",
-      "NAME": "Garden",
+      "NAME": "Garden name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "TITLE": "Add garden",
@@ -189,7 +189,7 @@
     },
     "GATE": {
       "EDIT_TITLE": "Edit gate",
-      "NAME": "Gate",
+      "NAME": "Gate name",
       "TITLE": "Add gate"
     },
     "GREENHOUSE": {
@@ -198,7 +198,7 @@
       "EDIT_TITLE": "Edit greenhouse",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
-      "NAME": "Greenhouse",
+      "NAME": "Greenhouse name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
@@ -238,12 +238,12 @@
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",
-      "NAME": "Natural area",
+      "NAME": "Natural area name",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
       "EDIT_TITLE": "Edit residence",
-      "NAME": "Residence",
+      "NAME": "Residence name",
       "TITLE": "Add residence"
     },
     "SPOTLIGHT": {
@@ -258,7 +258,7 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "Edit surface water",
       "IRRIGATION": "Is this area used for irrigation?",
-      "NAME": "Surface water",
+      "NAME": "Surface water name",
       "TITLE": "Add surface water"
     },
     "TAB": {
@@ -298,7 +298,7 @@
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
-      "NAME": "Water valve",
+      "NAME": "Water valve name",
       "RAIN_WATER": "Rain water",
       "SURFACE_WATER": "Surface water",
       "TITLE": "Add water valve",
@@ -309,7 +309,7 @@
       "EDIT_TITLE": "Edit watercourse",
       "IRRIGATION": "Is this area used for irrigation?",
       "LENGTH": "Total length",
-      "NAME": "Watercourse",
+      "NAME": "Watercourse name",
       "TITLE": "Add watercourse",
       "WIDTH": "Watercourse width"
     }
@@ -333,7 +333,6 @@
         "CROP_GROUP_INFO": "Crop Group Info",
         "CROP_GROUP_SUBGROUP": "Crop Group and Subgroup",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
-        "DELETE_CROP": "MISSING",
         "EDIT_CROP_DETAIL": "Edit Crop Detail",
         "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
         "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
@@ -624,7 +623,13 @@
     "TITLE": "Fertilizing Log"
   },
   "LOG_FIELD_WORK": {
-    "TITLE": "Field Work Log"
+    "DISCING": "Discing",
+    "MULCH_TILL": "Mulch Till",
+    "PLOW": "plow",
+    "RIDGE_TILL": "Ridge Till",
+    "RIPPING": "Ripping",
+    "TITLE": "Field Work Log",
+    "ZONE_TILL": "Zone Till"
   },
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Add a harvest use",
@@ -632,17 +637,26 @@
     "CROP": "Crop",
     "CROP_PLACEHOLDER": "Select a crop",
     "CUSTOM_HARVEST_USE": "Custom harvest uses",
+    "DISEASE": "Disease",
+    "HARVEST": "Harvest",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
     "HARVEST_QUANTITY": "Harvest Quantity",
     "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "OTHER": "Other",
+    "PEST": "Pest",
     "QUANTITY": "Quantity",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Harvest Log",
+    "WEED": "Weed",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate"
   },
   "LOG_IRRIGATION": {
+    "DRIP": "Drip",
+    "FLOOD": "Flood",
     "FLOW_RATE": "Flow Rate",
+    "SPRINKLER": "Sprinkler",
+    "SUBSURFACE": "Subsurface",
     "TITLE": "Irrigation Log",
     "TOTAL_TIME": "Total Time"
   },
@@ -655,6 +669,8 @@
     "ADD_DISEASE": "Add a disease",
     "ADD_PESTICIDE": "Add a pesticide",
     "ADD_TARGET": "Add a Target",
+    "BIOLOGICAL_CONTROL": "Biological Control",
+    "BURNING": "Burning",
     "CHOOSE_GROUP_PLACEHOLDER": "Choose Group",
     "CHOOSE_TARGET_PLACEHOLDER": "Choose a target",
     "CHOOSE_TYPE_PLACEHOLDER": "Choose a Type",
@@ -664,7 +680,10 @@
     "DISEASE_GROUP": "Disease Group",
     "DISEASE_TARGET": "Disease Target",
     "ENTRY_INTERVAL": "Entry Interval",
+    "FOLIAR_SPRAY": "Foliar spray",
+    "HAND_PICK": "Hand pick",
     "HARVEST_INTERVAL": "Harvest Interval",
+    "HEAT_TREATMENT": "Heat treatment",
     "MISSING_DATA": "Error: Missing Data",
     "PESTICIDE_CONTROL_TYPE": "Pesticide Control Type",
     "PESTICIDE_DETAILS": "Pesticide Product Details",
@@ -673,6 +692,8 @@
     "PESTICIDE_NAME_LABEL": "Pesticide Name",
     "PESTICIDE_QUANTITY": "Pesticide Quantity",
     "SCIENTIFIC_NAME": "Scientific Name (if known)",
+    "SOIL_FUMIGATION": "Soil fumigation",
+    "SYSTEMIC_SPRAY": "Systemic spray",
     "TARGET": "Target",
     "TARGET_DISEASE": "Targeted Disease",
     "TARGET_GROUP": "Target Group",
@@ -927,6 +948,7 @@
       "ADD_CUSTOM_TASK": "Add Custom Task",
       "ADD_TASK": "Add a Task",
       "ALL": "All locations",
+      "SELECT_ALL": "Select All",
       "ALL_CROPS": "All crops",
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "CHOOSE_DATE": "Choose a Date",

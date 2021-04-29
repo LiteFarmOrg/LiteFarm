@@ -9,6 +9,7 @@ import {
   selectedCertifier,
   loadSummary,
   requestedCertifier,
+  allCertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { patchRequestedCertifiers } from '../saga';
@@ -21,6 +22,7 @@ export default function CertifierSelectionMenu() {
   ).sort((a, b) => (a.certifier_name > b.certifier_name ? 1 : -1));
   const certificationType = useSelector(selectedCertificationSelector);
   const certifierType = useSelector(selectedCertifierSelector);
+  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
   const role = useSelector(userFarmSelector);
 
   const onSubmit = () => {
@@ -46,6 +48,7 @@ export default function CertifierSelectionMenu() {
         onSubmit={onSubmit}
         allSupportedCertifiers={allSupportedCertifiersCopy}
         certificationType={certificationType}
+        allSupportedCertificationTypes={allSupportedCertificationTypes}
         selectedCertifier={selectedCertifier}
         certifierType={certifierType}
         onBack={onBack}

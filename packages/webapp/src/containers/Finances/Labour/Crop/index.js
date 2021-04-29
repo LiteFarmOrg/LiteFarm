@@ -47,16 +47,15 @@ const getCropsByFieldID = (field_id, fieldCrops) => {
 
 const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   let data = [];
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop']);
   let final = Object.assign({}, {}); // crop: crop name, profit: number
-
   for (let fc of fieldCrops) {
     const range1 = moment.range(startDate, endDate);
     const range2 = moment.range(moment(fc.start_date), moment(fc.end_date));
     if (range1.overlaps(range2)) {
       final = Object.assign(final, {
         [fc.field_crop_id]: {
-          crop: fc.crop_common_name,
+          crop: fc.crop_translation_key,
           field_id: fc.field_id,
           crop_id: fc.crop_id,
           profit: 0,
@@ -81,7 +80,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
             final[field_crop_id].duration = final[field_crop_id].duration + Number(s.duration);
           } else {
             final[field_crop_id] = {
-              crop: s.crop_common_name,
+              crop: s.crop_translation_key,
               profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
               duration: Number(s.duration),
               field_crop_id: field_crop_id,
@@ -143,7 +142,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   final = reformatByCropID(final);
 
   let showUnallocated = false;
-  let unAllocatedObj = { crop: 'Unallocated', time: 0, labour_cost: 0 };
+  let unAllocatedObj = { crop: t('SALE.FINANCES.UNALLOCATED_CROP'), time: 0, labour_cost: 0 };
 
   for (let uk of ukeys) {
     let uShift = unAllocatedShifts[uk];
@@ -176,7 +175,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
     {
       id: 'crop',
       Header: t('SALE.LABOUR.TABLE.CROP'),
-      accessor: (d) => d.crop,
+      accessor: (d) => t(`crop:${d.crop}`),
       minWidth: 80,
     },
     {

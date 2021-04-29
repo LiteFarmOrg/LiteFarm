@@ -40,7 +40,7 @@ export default function AreaDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire  ) {
+    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);
@@ -53,7 +53,7 @@ export default function AreaDetails({
         </PureWarningBox>
       )}
       <Input
-        label={name + ' name'}
+        label={`${name}`}
         type="text"
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}

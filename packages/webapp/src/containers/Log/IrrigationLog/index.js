@@ -15,9 +15,7 @@ import parseFields from '../Utility/parseFields';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
@@ -39,6 +37,8 @@ class IrrigationLog extends Component {
       date: date,
     });
   }
+
+  componentDidMount() {}
 
   handleSubmit(irrigationLog) {
     const { dispatch, locations } = this.props;
@@ -82,24 +82,27 @@ class IrrigationLog extends Component {
     };
 
     return (
-      <div className='page-container'>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container">
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
         >
           <DefaultLogForm
             style={styles.labelContainer}
-            model='.irrigationLog'
+            model=".irrigationLog"
             locations={locations}
             crops={crops}
             isCropNotRequired={true}

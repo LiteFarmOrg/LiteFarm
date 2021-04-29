@@ -87,7 +87,7 @@ class SalesSummary extends Component {
     return sales.map((s) => {
       let crop;
       let value = 0;
-      const date = s.sale_date;
+      const date = moment(s.sale_date);
       if (s.cropSale.length > 1) {
         crop = 'multiple';
         s.cropSale.forEach((cs) => {
@@ -111,10 +111,9 @@ class SalesSummary extends Component {
 
   filterByDate(sales) {
     return sales.filter((s) => {
-      const fullDate = new Date(s.sale_date);
-      return (
-        (this.state.startDate && this.state.startDate._d) <= fullDate &&
-        (this.state.endDate && this.state.endDate._d) >= fullDate
+      return moment(s.sale_date).isBetween(
+        moment(this.state.startDate),
+        moment(this.state.endDate),
       );
     });
   }
@@ -146,7 +145,8 @@ class SalesSummary extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.SUMMARY.DATE'),
-        accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
@@ -203,6 +203,12 @@ class SalesSummary extends Component {
           pageSizeOptions={[5, 10, 20, 50]}
           defaultPageSize={5}
           minRows={5}
+          defaultSorted={[
+            {
+              id: 'date',
+              desc: true,
+            },
+          ]}
           className="-striped -highlight"
           getTdProps={(state, rowInfo, column, instance) => {
             return {

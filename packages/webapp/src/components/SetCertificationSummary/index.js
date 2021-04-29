@@ -15,7 +15,8 @@ export default function PureSetCertificationSummary({
   name,
   requestedCertifierData,
 }) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common','certifications']);
+  console.log(certificationTranslation)
   return (
     <Layout
       onSubmit={onSubmit}
@@ -32,9 +33,10 @@ export default function PureSetCertificationSummary({
     >
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        {certificationTranslation}{' '}
-        {certificationType.certificationName +
-          ' ' +
+        {
+          t(`certifications:${certificationTranslation}`)
+        }{' '}
+        {
           t('CERTIFICATION.SUMMARY.CERTIFICATION') +
           ' ' +
           t('common:FROM') +

@@ -163,6 +163,10 @@ class LogDetail extends Component {
     return 'No type';
   };
 
+  onBack = () => {
+    history.push('/log')
+  }
+
   render() {
     let { selectedLog, farm } = this.props;
     const language = getLanguageFromLocalStorage();
@@ -230,7 +234,7 @@ class LogDetail extends Component {
     if (selectedLog)
       return (
         <div className={styles.logContainer}>
-          <PageTitle backUrl="/log" title={this.props.t('LOG_DETAIL.TITLE')} />
+          <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
           <div className={styles.infoBlock}>
             <div className={styles.innerInfo}>
               <div>

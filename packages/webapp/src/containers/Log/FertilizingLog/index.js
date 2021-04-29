@@ -9,7 +9,6 @@ import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
 import { actions, Control, Errors, Form } from 'react-redux-form';
 import { addFertilizer, addFertilizerLog, getFertilizers } from './actions';
-import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -23,6 +22,7 @@ import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -308,14 +308,14 @@ class FertilizingLog extends Component {
                   model=".fertLog.notes"
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -354,26 +354,7 @@ class FertilizingLog extends Component {
               <LogFooter />
             </Form>
 
-            <Popup
-              open={this.state.showCustomProduct}
-              closeOnDocumentClick
-              onClose={this.closeEditModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '826px',
-                height: '100%',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-                position: 'absolute',
-              }}
-              overlayStyle={{
-                minHeight: '100%',
-                top: 'auto',
-                zIndex: 1,
-                position: 'absolute',
-              }}
-            >
+            <MuiFullPagePopup open={this.state.showCustomProduct} onClose={this.closeEditModal}>
               <Form
                 className={styles.formContainer}
                 model="logReducer.forms"
@@ -466,7 +447,7 @@ class FertilizingLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
       </div>

@@ -199,22 +199,27 @@ class DefaultLogForm extends React.Component {
 
     // 'plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'
     const { fieldOptions, displayLiveCropMessage } = this.state;
-    const tillageTypeLabels = {
-      plow: 'Plow',
-      ridgeTill: 'Ridge Till',
-      zoneTill: 'Zone Till',
-      mulchTill: 'Mulch Till',
-      ripping: 'Ripping',
-      discing: 'Discing',
+    const typeLabels = {
+      plow: this.props.t('LOG_FIELD_WORK.PLOW'),
+      ridgeTill:  this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
+      zoneTill:  this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
+      mulchTill:  this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
+      ripping: this.props.t('LOG_FIELD_WORK.RIPPING'),
+      discing: this.props.t('LOG_FIELD_WORK.DISCING'),
+      sprinkler: this.props.t('LOG_IRRIGATION.SPRINKLER'),
+      drip: this.props.t('LOG_IRRIGATION.DRIP'),
+      subsurface: this.props.t('LOG_IRRIGATION.SUBSURFACE'),
+      flood: this.props.t('LOG_IRRIGATION.FLOOD'),
+      Harvest: this.props.t('LOG_HARVEST.HARVEST'),
+      Pest: this.props.t('LOG_HARVEST.PEST'),
+      Disease: this.props.t('LOG_HARVEST.DISEASE'),
+      Weed: this.props.t('LOG_HARVEST.WEED'),
+      Other: this.props.t('LOG_HARVEST.OTHER')
     };
     // format options for react-select dropdown components
     //const fieldOptions = fields && fields.map((f) => ({ value: f.location_id, label: f.name }));
 
-    let parsedTypeOptions;
-    if (typeOptions && typeOptions.includes('ridgeTill')) {
-      parsedTypeOptions =
-        typeOptions && typeOptions.map((t) => ({ value: t, label: tillageTypeLabels[t] }));
-    } else parsedTypeOptions = typeOptions && typeOptions.map((t) => ({ value: t, label: t }));
+    let parsedTypeOptions = typeOptions && typeOptions.map((t) => ({ value: t, label: typeLabels[t] }));
 
     return (
       <Fieldset model={model}>

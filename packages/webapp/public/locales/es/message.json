@@ -58,6 +58,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
+      "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total",
       "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha",
       "REQUIRED_TASK": "Es necesario un nombre para este nuevo uso de cosecha"
     },
@@ -102,10 +103,12 @@
   },
   "SALE": {
     "ERROR": {
+      "ADD": "No se pudo agregar venta",
       "DELETE": "No se pudo borrar nueva venta",
       "UPDATE": "No se pudo actualizar venta"
     },
     "SUCCESS": {
+      "ADD": "Venta agregada exitosamente",
       "DELETE": "Venta borrada exitosamente",
       "UPDATE": "Venta actualizada exitosamente"
     }

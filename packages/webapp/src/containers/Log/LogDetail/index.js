@@ -154,9 +154,10 @@ class LogDetail extends Component {
 
   getFertName = (fert_id) => {
     let { fertilizers } = this.props;
+    console.log(fertilizers);
     for (let f of fertilizers) {
       if (f.fertilizer_id === fert_id) {
-        return f.fertilizer_type;
+        return this.props.t(`fertilizer:${f.fertilizer_translation_key}`);
       }
     }
     return 'No type';

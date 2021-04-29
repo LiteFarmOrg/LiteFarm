@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Radio from '../../../Form/Radio';
 import { Label } from '../../../Typography';
-import { line_length, line_width, watercourse_width } from '../../../../util/unit';
+import { line_length, line_width, watercourse_width, area_total_area } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
 import { bufferZoneEnum, watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';
@@ -51,6 +51,8 @@ export default function PureWatercourse({
       width,
 
       buffer_width,
+      total_area,
+      grid_points,
     },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
@@ -61,6 +63,7 @@ export default function PureWatercourse({
     data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
     const formData = {
       line_points,
+      grid_points,
       length,
       width,
       buffer_width,
@@ -71,6 +74,7 @@ export default function PureWatercourse({
     formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit].value;
     formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit].value;
     formData[watercourseEnum.buffer_width_unit] = formData[watercourseEnum.buffer_width_unit].value;
+    formData[watercourseEnum.total_area_unit] = formData[watercourseEnum.total_area_unit].value;
     submitForm({ formData });
   };
 
@@ -137,6 +141,34 @@ export default function PureWatercourse({
               hookFromWatch={watch}
               control={control}
               required
+              disabled={isViewLocationPage}
+            />
+          </div>
+          <div
+            style={{
+              flexDirection: 'row',
+              display: 'inline-flex',
+              paddingBottom: '40px',
+              width: '100%',
+              gap: '16px',
+            }}
+          >
+            <Unit
+              register={register}
+              classes={{ container: { flexGrow: 1 } }}
+              label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+              name={watercourseEnum.total_area}
+              displayUnitName={watercourseEnum.total_area_unit}
+              errors={errors[watercourseEnum.total_area]}
+              unitType={area_total_area}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              defaultValue={total_area}
               disabled={isViewLocationPage}
             />
           </div>

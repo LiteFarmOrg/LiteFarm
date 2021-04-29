@@ -51,6 +51,9 @@ export const watercourseEnum = {
   used_for_irrigation: 'used_for_irrigation',
   buffer_width: 'buffer_width',
   buffer_width_unit: 'buffer_width_unit',
+  total_area: 'total_area',
+  total_area_unit: 'total_area_unit',
+  grid_points: 'grid_points',
 };
 export const bufferZoneEnum = {
   farm_id: 'farm_id',

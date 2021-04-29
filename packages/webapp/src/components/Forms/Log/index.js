@@ -201,9 +201,9 @@ class DefaultLogForm extends React.Component {
     const { fieldOptions, displayLiveCropMessage } = this.state;
     const typeLabels = {
       plow: this.props.t('LOG_FIELD_WORK.PLOW'),
-      ridgeTill:  this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
-      zoneTill:  this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
-      mulchTill:  this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
+      ridgeTill: this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
+      zoneTill: this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
+      mulchTill: this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
       ripping: this.props.t('LOG_FIELD_WORK.RIPPING'),
       discing: this.props.t('LOG_FIELD_WORK.DISCING'),
       sprinkler: this.props.t('LOG_IRRIGATION.SPRINKLER'),
@@ -214,12 +214,13 @@ class DefaultLogForm extends React.Component {
       Pest: this.props.t('LOG_HARVEST.PEST'),
       Disease: this.props.t('LOG_HARVEST.DISEASE'),
       Weed: this.props.t('LOG_HARVEST.WEED'),
-      Other: this.props.t('LOG_HARVEST.OTHER')
+      Other: this.props.t('LOG_HARVEST.OTHER'),
     };
     // format options for react-select dropdown components
     //const fieldOptions = fields && fields.map((f) => ({ value: f.location_id, label: f.name }));
 
-    let parsedTypeOptions = typeOptions && typeOptions.map((t) => ({ value: t, label: typeLabels[t] }));
+    let parsedTypeOptions =
+      typeOptions && typeOptions.map((t) => ({ value: t, label: typeLabels[t] }));
 
     return (
       <Fieldset model={model}>

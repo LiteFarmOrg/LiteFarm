@@ -213,14 +213,14 @@ const insightController = {
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
         const cropCount = await knex.raw(
-          `SELECT SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
+          `SELECT DISTINCT fc.crop_id
           FROM "location" l
           LEFT JOIN "fieldCrop" fc
             on fc.location_id = l.location_id
-          WHERE l.farm_id = ?`, [farmID]);
+          WHERE l.farm_id = ?
+            and fc.end_date >= NOW() and fc.start_date <= NOW()`, [farmID]);
         if (dataPoints.rows && cropCount.rows) {
-          let count = cropCount.rows[0].count;
-          if (count === null) count = 0;
+          const count = cropCount.rows.length;
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
           res.status(200).send(body);
         } else {

@@ -327,3 +327,6 @@ Su participación en LiteFarm es completamente voluntaria. Como participante Ud.
 Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.
 
 Número de Identificación (ID) de la aprobación ética otorgada al estudio UBC: H19-01482
+&nbsp;
+
+&nbsp;

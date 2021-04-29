@@ -20,7 +20,7 @@ const reformatByCropID = (final) => {
       result = Object.assign(result, {
         [crop_id]: {
           crop: final[fk].crop,
-          field_id: final[fk].field_id,
+          location_id: final[fk].location_id,
           crop_id: final[fk].crop_id,
           profit: final[fk].profit,
           duration: final[fk].duration,
@@ -33,11 +33,11 @@ const reformatByCropID = (final) => {
   return result;
 };
 
-const getCropsByFieldID = (field_id, fieldCrops) => {
+const getCropsByFieldID = (location_id, fieldCrops) => {
   let result = new Set();
 
   for (let fc of fieldCrops) {
-    if (fc.field_id === field_id) {
+    if (fc.location_id === location_id) {
       result.add(fc.field_crop_id);
     }
   }
@@ -47,17 +47,16 @@ const getCropsByFieldID = (field_id, fieldCrops) => {
 
 const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   let data = [];
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation','crop']);
   let final = Object.assign({}, {}); // crop: crop name, profit: number
-
   for (let fc of fieldCrops) {
     const range1 = moment.range(startDate, endDate);
     const range2 = moment.range(moment(fc.start_date), moment(fc.end_date));
     if (range1.overlaps(range2)) {
       final = Object.assign(final, {
         [fc.field_crop_id]: {
-          crop: fc.crop_common_name,
-          field_id: fc.field_id,
+          crop: fc.crop_translation_key,
+          location_id: fc.location_id,
           crop_id: fc.crop_id,
           profit: 0,
           duration: 0,
@@ -72,7 +71,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   if (shifts && shifts.length) {
     for (let s of shifts) {
       let field_crop_id = s.field_crop_id;
-      if (moment(s.start_time).isBetween(startDate, endDate)) {
+      if (moment(s.shift_date).isSameOrAfter(moment(startDate)) &&  moment(s.shift_date).isSameOrBefore(moment(endDate))){
         if (field_crop_id !== null) {
           if (final.hasOwnProperty(field_crop_id)) {
             final[field_crop_id].profit =
@@ -81,26 +80,26 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
             final[field_crop_id].duration = final[field_crop_id].duration + Number(s.duration);
           } else {
             final[field_crop_id] = {
-              crop: s.crop_common_name,
+              crop: s.crop_translation_key,
               profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
               duration: Number(s.duration),
               field_crop_id: field_crop_id,
               crop_id: s.crop_id,
-              field_id: s.field_id,
+              location_id: s.location_id,
             };
           }
         }
         // else it's unallocated
         else {
-          if (unAllocatedShifts.hasOwnProperty(s.field_id)) {
-            unAllocatedShifts[s.field_id].value =
-              unAllocatedShifts[s.field_id].value +
+          if (unAllocatedShifts.hasOwnProperty(s.location_id)) {
+            unAllocatedShifts[s.location_id].value =
+              unAllocatedShifts[s.location_id].value +
               Number(s.wage_at_moment) * (Number(s.duration) / 60);
-            unAllocatedShifts[s.field_id].duration =
-              unAllocatedShifts[s.field_id].duration + Number(s.duration);
+            unAllocatedShifts[s.location_id].duration =
+              unAllocatedShifts[s.location_id].duration + Number(s.duration);
           } else {
             unAllocatedShifts = Object.assign(unAllocatedShifts, {
-              [s.field_id]: {
+              [s.location_id]: {
                 value: Number(s.wage_at_moment) * (Number(s.duration) / 60),
                 duration: Number(s.duration),
                 hasAllocated: false,
@@ -115,7 +114,6 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   let ukeys = Object.keys(unAllocatedShifts);
 
   for (let uk of ukeys) {
-    // uk = field_id
     let uShift = unAllocatedShifts[uk];
 
     let waitForAllocate = getCropsByFieldID(uk, fieldCrops);
@@ -143,7 +141,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   final = reformatByCropID(final);
 
   let showUnallocated = false;
-  let unAllocatedObj = { crop: 'Unallocated', time: 0, labour_cost: 0 };
+  let unAllocatedObj = { crop: t('SALE.FINANCES.UNALLOCATED_CROP'), time: 0, labour_cost: 0 };
 
   for (let uk of ukeys) {
     let uShift = unAllocatedShifts[uk];
@@ -176,7 +174,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
     {
       id: 'crop',
       Header: t('SALE.LABOUR.TABLE.CROP'),
-      accessor: (d) => d.crop,
+      accessor: (d) => t(`crop:${d.crop}`),
       minWidth: 80,
     },
     {

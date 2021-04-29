@@ -405,7 +405,7 @@ function InputDuration({
                 }}
                 sm={true}
               >
-                {t('SHIFT.EDIT_SHIFT.ALL')}
+                {t('SHIFT.EDIT_SHIFT.SELECT_ALL')}
               </Button>
             </div>
             <div
@@ -547,7 +547,9 @@ function InputDuration({
             <div className={styles.durationInput}>
               <TimeSlider
                 initialTime={120}
-                label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration} />
+                label={t('SHIFT.MY_SHIFT.DURATION')}
+                setValue={onFieldChangeDuration}
+              />
             </div>
           </div>
         ) : null}

@@ -125,19 +125,19 @@
     "BARN": {
       "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
       "EDIT_TITLE": "Editar granero",
-      "NAME": "Granero",
+      "NAME": "Nombre de granero",
       "TITLE": "Agregar Granero",
       "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar delimitante",
-      "NAME": "Zona delimitante",
+      "NAME": "Nombre de zona delimitante",
       "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Editar area ceremonial",
-      "NAME": "Area ceremonial",
+      "NAME": "Nombre de area ceremonial",
       "TITLE": "Agregar area ceremonial"
     },
     "CONFIRM_RETIRE": {
@@ -157,13 +157,13 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites de la granja",
-      "NAME": "Limites de la granja",
+      "NAME": "Nombre de limites de la granja",
       "TITLE": "Agregar Limites de la granja"
     },
     "FENCE": {
       "EDIT_TITLE": "Editar cerco",
       "LENGTH": "Longitud del cerco",
-      "NAME": "Cercado",
+      "NAME": "Nombre de cercado",
       "PRESSURE_TREATED": "Esto cerco es tratado a presión?",
       "TITLE": "Agregar Cerco"
     },
@@ -171,7 +171,7 @@
       "DATE": "Fecha de transición",
       "EDIT_TITLE": "Editar campo",
       "FIELD_TYPE": "Que tipo de campo es?",
-      "NAME": "Campo",
+      "NAME": "Nombre de campo",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
       "TITLE": "Agregar campo",
@@ -181,7 +181,7 @@
       "DATE": "Fecha de transición",
       "EDIT_TITLE": "Editar huerto",
       "GARDEN_TYPE": "Tipo de huerto",
-      "NAME": "Huerto",
+      "NAME": "Nombre de huerto",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
       "TITLE": "Agregar huerto",
@@ -189,7 +189,7 @@
     },
     "GATE": {
       "EDIT_TITLE": "Editar puerta",
-      "NAME": "Puerta",
+      "NAME": "Nombre de puerta",
       "TITLE": "Agregar puerta"
     },
     "GREENHOUSE": {
@@ -198,7 +198,7 @@
       "EDIT_TITLE": "Editar invernadero",
       "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
       "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
-      "NAME": "Invernadero",
+      "NAME": "Nombre de invernadero",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
       "SUPPLEMENTAL_LIGHTING": "Tiene luz suplementaria?",
@@ -238,12 +238,12 @@
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar area natural",
-      "NAME": "Area natural",
+      "NAME": "Nombre de area natural",
       "TITLE": "Agregar area natural"
     },
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residencia",
-      "NAME": "Residencia",
+      "NAME": "Nombre de residencia",
       "TITLE": "Agregar residencia"
     },
     "SPOTLIGHT": {
@@ -258,7 +258,7 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "Editar agua de superficie",
       "IRRIGATION": "Es esta area usada para riego?",
-      "NAME": "Agua de superficie",
+      "NAME": "Nombre de agua de superficie",
       "TITLE": "Agregar agua de superficie"
     },
     "TAB": {
@@ -298,7 +298,7 @@
       "GROUNDWATER": "Agua de pozo",
       "MAX_FLOW_RATE": "Flujo maximo",
       "MUNICIPAL_WATER": "Agua municipal",
-      "NAME": "Valvula de agua",
+      "NAME": "Nombre de valvula de agua",
       "RAIN_WATER": "Agua de lluvia",
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Agregar valvula de agua",
@@ -309,7 +309,7 @@
       "EDIT_TITLE": "Editar arroyo",
       "IRRIGATION": "Es usado para riego?",
       "LENGTH": "Longitud total",
-      "NAME": "Arroyo",
+      "NAME": "Nombre de arroyo",
       "TITLE": "Agregar arroyo",
       "WIDTH": "Ancho de arroyo"
     }

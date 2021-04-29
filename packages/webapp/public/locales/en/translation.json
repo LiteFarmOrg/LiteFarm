@@ -125,19 +125,19 @@
     "BARN": {
       "COLD_STORAGE": "Does this barn have cold storage?",
       "EDIT_TITLE": "Edit barn",
-      "NAME": "Barn",
+      "NAME": "Barn name",
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Edit buffer zone",
-      "NAME": "Buffer zone",
+      "NAME": "Buffer zone name",
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
     "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Edit ceremonial area",
-      "NAME": "Ceremonial area",
+      "NAME": "Ceremonial area name",
       "TITLE": "Add ceremonial area"
     },
     "CONFIRM_RETIRE": {
@@ -157,13 +157,13 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Edit farm site boundary",
-      "NAME": "Farm site boundary",
+      "NAME": "Farm site boundary name",
       "TITLE": "Add farm site boundary"
     },
     "FENCE": {
       "EDIT_TITLE": "Edit fence",
       "LENGTH": "Total length",
-      "NAME": "Fence",
+      "NAME": "Fence name",
       "PRESSURE_TREATED": "Is this fence pressure treated?",
       "TITLE": "Add fence"
     },
@@ -171,7 +171,7 @@
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit field",
       "FIELD_TYPE": "What type of field is this?",
-      "NAME": "Field",
+      "NAME": "Field name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "TITLE": "Add field",
@@ -181,7 +181,7 @@
       "DATE": "Eligible transition date",
       "EDIT_TITLE": "Edit garden",
       "GARDEN_TYPE": "What type of garden is this?",
-      "NAME": "Garden",
+      "NAME": "Garden name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "TITLE": "Add garden",
@@ -189,7 +189,7 @@
     },
     "GATE": {
       "EDIT_TITLE": "Edit gate",
-      "NAME": "Gate",
+      "NAME": "Gate name",
       "TITLE": "Add gate"
     },
     "GREENHOUSE": {
@@ -198,7 +198,7 @@
       "EDIT_TITLE": "Edit greenhouse",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
-      "NAME": "Greenhouse",
+      "NAME": "Greenhouse name",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
       "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
@@ -238,12 +238,12 @@
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Edit natural area",
-      "NAME": "Natural area",
+      "NAME": "Natural area name",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
       "EDIT_TITLE": "Edit residence",
-      "NAME": "Residence",
+      "NAME": "Residence name",
       "TITLE": "Add residence"
     },
     "SPOTLIGHT": {
@@ -258,7 +258,7 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "Edit surface water",
       "IRRIGATION": "Is this area used for irrigation?",
-      "NAME": "Surface water",
+      "NAME": "Surface water name",
       "TITLE": "Add surface water"
     },
     "TAB": {
@@ -298,7 +298,7 @@
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
-      "NAME": "Water valve",
+      "NAME": "Water valve name",
       "RAIN_WATER": "Rain water",
       "SURFACE_WATER": "Surface water",
       "TITLE": "Add water valve",
@@ -309,7 +309,7 @@
       "EDIT_TITLE": "Edit watercourse",
       "IRRIGATION": "Is this area used for irrigation?",
       "LENGTH": "Total length",
-      "NAME": "Watercourse",
+      "NAME": "Watercourse name",
       "TITLE": "Add watercourse",
       "WIDTH": "Watercourse width"
     }

@@ -22,7 +22,9 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntrod
       <ListOption
         clickFn={farmInfo}
         iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon />}
+        icon={<FarmInfoIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
       <ListOption
         clickFn={farmMap}
@@ -33,7 +35,9 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntrod
       <ListOption
         clickFn={people}
         iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon />}
+        icon={<PeopleIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
     </div>
   );

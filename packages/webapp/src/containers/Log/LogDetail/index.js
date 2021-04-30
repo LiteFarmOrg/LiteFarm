@@ -276,7 +276,6 @@ class LogDetail extends Component {
             </div>
           </div>
         )}
-        {selectedLog.fieldCrop.length < 1 && (
           <div className={styles.infoBlock}>
             <div className={styles.innerInfo}>
               <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
@@ -287,7 +286,6 @@ class LogDetail extends Component {
               </div>
             </div>
           </div>
-        )}
         {selectedLog.activity_kind === 'pestControl' && (
           <div>
             <div className={styles.infoBlock}>

@@ -102,7 +102,7 @@ export default function Map({ history }) {
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
-  }, []);
+  }, [showHeader]);
 
   useEffect(() => {
     if (isLineWithWidth() && !drawingState.isActive) {

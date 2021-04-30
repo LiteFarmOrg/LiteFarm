@@ -15,7 +15,7 @@ export default function SubmitButton({
   return (
     <>
       {isCreateLocationPage && (
-        <Button type={'button'} disabled={disabled} fullLength>
+        <Button type={'submit'} disabled={disabled} fullLength>
           {t('common:SAVE')}
         </Button>
       )}
@@ -30,7 +30,7 @@ export default function SubmitButton({
         </>
       )}
       {isEditLocationPage && (
-        <Button type={'button'} disabled={disabled} fullLength>
+        <Button type={'submit'} disabled={disabled} fullLength>
           {t('common:UPDATE')}
         </Button>
       )}

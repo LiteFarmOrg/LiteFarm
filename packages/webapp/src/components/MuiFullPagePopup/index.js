@@ -2,7 +2,7 @@ import { Dialog } from '@material-ui/core';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     padding: '96px 24px 24px 24px',
     margin: '0',
@@ -18,7 +18,7 @@ const useStyle = makeStyles((theme) => ({
 
 //TODO: to deprecate
 export default function MuiFullPagePopup({ open, onClose, children }) {
-  const classes = useStyle();
+  const classes = useStyles();
   return (
     <Dialog
       PaperProps={{ className: classes.paper }}

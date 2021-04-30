@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicitar un certificador"
+      "TITLE": "Solicitar un certificador",
+      "SORRY_ONE": "MISSING",
+      "SORRY_TWO": "MISSING",
+      "SORRY_THREE": "MISSING",
+      "REQUEST": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",

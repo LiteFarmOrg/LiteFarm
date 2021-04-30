@@ -53,7 +53,7 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
             {variety}
           </div>
           <div className={styles.infoBody} style={{ marginBottom: '2px' }}>
-            {t(`crop:${crop_translation_key}`)}
+            <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
           </div>
           <div style={{ flexGrow: '1' }} />
           {displayDate && (

@@ -152,17 +152,19 @@ const userFarmController = {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
+        const userFarm = await userFarmModel.query().select('*').where({
+          'userFarm.user_id': user_id,
+          'userFarm.farm_id': farm_id,
+        })
+          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
+        const { step_two_end, step_three_end, step_five_end } = userFarm;
+        const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;
+        if (isWelcomeEmailSent) return;
         try {
-          const userFarm = await userFarmModel.query().select('*').where({
-            'userFarm.user_id': user_id,
-            'userFarm.farm_id': farm_id,
-          })
-            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
-          if (userFarm.has_consent) return;
           let template_path;
           const sender = 'system@litefarm.org';
           const replacements = {
@@ -484,7 +486,7 @@ const userFarmController = {
       }
     };
   },
-}
+};
 
 module.exports = userFarmController;
 

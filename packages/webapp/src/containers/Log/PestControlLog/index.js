@@ -14,7 +14,6 @@ import {
   getDiseases,
   getPesticides,
 } from './actions';
-import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -25,13 +24,13 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
+
 class PestControlLog extends Component {
   constructor(props) {
     super(props);
@@ -85,18 +84,18 @@ class PestControlLog extends Component {
     this.props.dispatch(getPesticides());
     this.props.dispatch(getDiseases());
     const typeTranslations = {
-      systemicSpray: this.props.t("LOG_PESTICIDE.SYSTEMIC_SPRAY"),
-        foliarSpray: this.props.t("LOG_PESTICIDE.FOLIAR_SPRAY"),
-        handPick: this.props.t("LOG_PESTICIDE.HAND_PICK"),
-        biologicalControl: this.props.t("LOG_PESTICIDE.BIOLOGICAL_CONTROL"),
-        burning: this.props.t("LOG_PESTICIDE.BURNING"),
-        soilFumigation: this.props.t("LOG_PESTICIDE.SOIL_FUMIGATION"),
-        heatTreatment: this.props.t("LOG_PESTICIDE.HEAT_TREATMENT"),
-    }
+      systemicSpray: this.props.t('LOG_PESTICIDE.SYSTEMIC_SPRAY'),
+      foliarSpray: this.props.t('LOG_PESTICIDE.FOLIAR_SPRAY'),
+      handPick: this.props.t('LOG_PESTICIDE.HAND_PICK'),
+      biologicalControl: this.props.t('LOG_PESTICIDE.BIOLOGICAL_CONTROL'),
+      burning: this.props.t('LOG_PESTICIDE.BURNING'),
+      soilFumigation: this.props.t('LOG_PESTICIDE.SOIL_FUMIGATION'),
+      heatTreatment: this.props.t('LOG_PESTICIDE.HEAT_TREATMENT'),
+    };
     const typeOptions = this.state.controlType.map((type) => {
       return { value: type, label: typeTranslations[type] };
     });
-    this.setState({typeOptions , ...this.state });
+    this.setState({ typeOptions, ...this.state });
   }
 
   toggleChemInfo() {
@@ -280,7 +279,9 @@ class PestControlLog extends Component {
       pesticides &&
       pesticides.map((p) => ({
         value: p.pesticide_id,
-        label: p.pesticide_name,
+        label: p.farm_id
+          ? p.pesticide_name
+          : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
       }));
 
     const diseaseOptions =
@@ -415,14 +416,14 @@ class PestControlLog extends Component {
                   model=".pestControlLog.notes"
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -468,7 +469,7 @@ class PestControlLog extends Component {
               <LogFooter />
             </Form>
 
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomPesticide}
               closeOnDocumentClick
               onClose={this.closePesticideModal}
@@ -495,16 +496,6 @@ class PestControlLog extends Component {
                     <h3>{this.props.t('LOG_PESTICIDE.ADD_PESTICIDE')}</h3>
                   </div>
                 </div>
-                {/*<div className={styles.defaultFormDropDown}>*/}
-                {/*<label>Pesticide</label>*/}
-                {/*<Control*/}
-                {/*model=".pestControlLog.pesticide_id"*/}
-                {/*component={DropDown}*/}
-                {/*options={pesticideOptions || []}*/}
-                {/*placeholder="Choose a target"*/}
-                {/*onChange={this.setSelectedPesticide}*/}
-                {/*/>*/}
-                {/*</div>*/}
                 <div className={styles.textContainer}>
                   <Control
                     label={this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}
@@ -566,10 +557,10 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
 
             {/*disease popup*/}
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomDisease}
               closeOnDocumentClick
               onClose={this.closeDiseaseModal}
@@ -630,7 +621,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
         {(!crops || !locations || !diseases || !pesticides) && (

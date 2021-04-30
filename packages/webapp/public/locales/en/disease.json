@@ -518,5 +518,12 @@
     "OTHER": "Other",
     "VIRUS": "Virus",
     "WEED": "Weed"
+  },
+  "PESTICIDE": {
+    "ROUNDUP": "Roundup",
+    "DIPEL": "Dipel 2X DF",
+    "NEEM_OIL": "Neem oil",
+    "SULFOCALCIUM_SYRUP": "Sulfocalcium Syrup",
+    "BORDEAUX_MIXTURE": "Bordeaux mixture"
   }
 }

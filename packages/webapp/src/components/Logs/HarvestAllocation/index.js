@@ -21,7 +21,6 @@ export default function PureHarvestAllocation({
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
   });
-  let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
 
   const onSubmit = (val) => {
@@ -102,10 +101,10 @@ export default function PureHarvestAllocation({
                 style={{ marginBottom: '24px' }}
                 type="number"
                 unit={unit}
-                name={typeName}
+                name={type.harvest_use_type_name}
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                inputRef={inputs[index]}
+                inputRef={register({ required: true })}
                 defaultValue={quant}
               />
             </div>

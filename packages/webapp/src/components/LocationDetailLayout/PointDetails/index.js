@@ -48,7 +48,7 @@ export default function PointDetailsLayout({
         </PureWarningBox>
       )}
       <Input
-        label={name + ' name'}
+        label={name}
         type="text"
         style={{ marginBottom: '40px' }}
         name={pointEnum.name}

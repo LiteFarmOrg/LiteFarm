@@ -86,11 +86,11 @@ class soilDataLog extends Component {
     parsedTextureOptions(this.props.t).forEach((currTexture) => {
       lookupValueTable['texture'][currTexture.value] = currTexture.label;
     });
-    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
+    const filteredDepth = parsedDepthOptions.filter((o) => o.label.includes(this.state.depth_unit));
     filteredDepth.forEach((currDepth) => {
       lookupValueTable['depth'][currDepth.value] = currDepth.label;
     });
-    this.setState({depthOptions: filteredDepth})
+    this.setState({ depthOptions: filteredDepth });
 
     const { selectedLog, dispatch } = this.props;
     this.setState({
@@ -197,26 +197,26 @@ class soilDataLog extends Component {
       notes: log.notes || '',
       depth_cm: log.depth_cm.value.toString(),
       texture: log.texture.value,
-      k: parseInt(log.k, 10) || 0,
-      p: parseInt(log.p, 10) || 0,
-      n: parseInt(log.n, 10) || 0,
-      om: parseInt(log.om, 10) || 0,
-      ph: parseInt(log.ph, 10) || 0,
-      'bulk_density_kg/m3': bulkDensity || 0,
-      organic_carbon: parseInt(log.organic_carbon, 10) || 0,
-      inorganic_carbon: parseInt(log.inorganic_carbon, 10) || 0,
-      total_carbon: parseInt(log.total_carbon, 10) || 0,
-      s: parseInt(log.s, 10) || 0,
-      c: parseInt(log.c, 10) || 0,
-      ca: parseInt(log.ca, 10) || 0,
-      mg: parseInt(log.mg, 10) || 0,
-      na: parseInt(log.na, 10) || 0,
-      zn: parseInt(log.zn, 10) || 0,
-      mn: parseInt(log.mn, 10) || 0,
-      fe: parseInt(log.fe, 10) || 0,
-      cu: parseInt(log.cu, 10) || 0,
-      b: parseInt(log.b, 10) || 0,
-      cec: convertToMetric(parseFloat(log.cec), cec_unit, 'kg') || 0,
+      k: log.k || null,
+      p: log.p || null,
+      n: log.n || null,
+      om: log.om || null,
+      ph: log.ph || null,
+      'bulk_density_kg/m3': bulkDensity || null,
+      organic_carbon: log.organic_carbon || null,
+      inorganic_carbon: log.inorganic_carbon || null,
+      total_carbon: log.total_carbon || null,
+      s: log.s || null,
+      c: log.c || null,
+      ca: log.ca || null,
+      mg: log.mg || null,
+      na: log.na || null,
+      zn: log.zn || null,
+      mn: log.mn || null,
+      fe: log.fe || null,
+      cu: log.cu || null,
+      b: log.b || null,
+      cec: convertToMetric(log.cec, cec_unit, 'kg') || null,
       user_id: localStorage.getItem('user_id'),
     };
     if (!this.state.showModal) dispatch(editLog(formValue));
@@ -264,6 +264,7 @@ class soilDataLog extends Component {
             model=".bulk_density_kg/m3"
             title="Bulk Density"
             type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}
+            canBeEmpty={true}
           />
         </div>
       );
@@ -298,14 +299,14 @@ class soilDataLog extends Component {
             notesField={true}
             customFieldset={customFieldset}
           />
-          <Underlined style={{ paddingTop: '8px' }} onClick={this.toggleMoreInfo}>
+          <Underlined style={{ paddingTop: '40px' }} onClick={this.toggleMoreInfo}>
             {this.state.showMoreInfo
               ? this.props.t('LOG_COMMON.HIDE')
               : this.props.t('LOG_COMMON.SHOW')}{' '}
             {this.props.t('LOG_SOIL.MORE_INFO')}
           </Underlined>
           {this.state.showMoreInfo && (
-            <div>
+            <div style={{ paddingTop: '24px' }}>
               <Unit
                 model=".soilDataLog.organic_carbon"
                 title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}

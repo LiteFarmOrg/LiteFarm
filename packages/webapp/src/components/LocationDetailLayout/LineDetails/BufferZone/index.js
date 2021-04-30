@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
-import { line_width } from '../../../../util/unit';
+import { line_width, area_total_area } from '../../../../util/unit';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
@@ -43,7 +43,7 @@ export default function PureBufferZone({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, width, length },
+    persistedData: { line_points, width, length, total_area },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -57,6 +57,7 @@ export default function PureBufferZone({
       type: 'buffer_zone',
     };
     formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit].value;
+    formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit].value;
     submitForm({ formData });
   };
 
@@ -139,6 +140,34 @@ export default function PureBufferZone({
               control={control}
               disabled={!isEditLocationPage}
               defaultValue={width}
+            />
+          </div>
+          <div
+            style={{
+              flexDirection: 'row',
+              display: 'inline-flex',
+              paddingBottom: '40px',
+              width: '100%',
+              gap: '16px',
+            }}
+          >
+            <Unit
+              register={register}
+              classes={{ container: { flexGrow: 1 } }}
+              label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+              name={bufferZoneEnum.total_area}
+              displayUnitName={bufferZoneEnum.total_area_unit}
+              errors={errors[bufferZoneEnum.total_area]}
+              unitType={area_total_area}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              defaultValue={total_area}
+              disabled={isViewLocationPage}
             />
           </div>
         </div>

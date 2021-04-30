@@ -86,6 +86,8 @@ class AddSale extends Component {
       }
     }
 
+    cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+
     return cropOptions;
   };
 

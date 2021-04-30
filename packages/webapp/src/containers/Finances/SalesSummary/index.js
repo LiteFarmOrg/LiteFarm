@@ -135,7 +135,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 75,
         Footer: <div>${this.formatFooter(summaryData)}</div>,
       },
@@ -159,7 +160,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 40,
         Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
       },

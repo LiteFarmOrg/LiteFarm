@@ -18,6 +18,7 @@ import {
 } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { scoutingLogStateSelector } from "../selectors";
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class ScoutingLog extends Component {
               );
             }}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -101,6 +102,7 @@ const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
+    formState: scoutingLogStateSelector(state)
   };
 };
 

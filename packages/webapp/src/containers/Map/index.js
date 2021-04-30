@@ -9,9 +9,7 @@ import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
 import {
-  canShowSelectionSelector,
   canShowSuccessHeader,
-  mapLocationsSelector,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
 } from '../mapSlice';
@@ -30,7 +28,6 @@ import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
-import PureSelectionHandler from '../../components/Map/SelectionHandler';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
@@ -46,6 +43,7 @@ import {
   resetAndUnLockFormData,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import LocationSelectionModal from './LocationSelectionModal';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -63,8 +61,7 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
-  const showSelection = useSelector(canShowSelectionSelector);
-  const locations = useSelector(mapLocationsSelector);
+
   const initialLineData = {
     [locationEnum.watercourse]: {
       width: 1,
@@ -80,7 +77,7 @@ export default function Map({ history }) {
     }
     return () => {
       dispatch(canShowSuccessHeader(false));
-    }
+    };
   }, []);
 
   const [
@@ -395,11 +392,7 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
-        {showSelection && (
-          <div className={styles.selectionContainer}>
-            <PureSelectionHandler locations={locations} history={history} />
-          </div>
-        )}
+        <LocationSelectionModal history={history} />
 
         {!drawingState.type && (
           <PureMapFooter

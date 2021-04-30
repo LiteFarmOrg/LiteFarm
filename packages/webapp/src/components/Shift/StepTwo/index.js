@@ -597,19 +597,19 @@ function MoodPopup({
           <div className={styles2.matrixContainer}>
             <MoodFace
               currentMood={mood}
-              face={'😃'}
-              mood={'happy'}
-              setMood={() => setMood('happy')}
-            >
-              {t('SHIFT.EDIT_SHIFT.HAPPY')}
-            </MoodFace>
-            <MoodFace
-              currentMood={mood}
               face={'😆'}
               mood={'very happy'}
               setMood={() => setMood('very happy')}
             >
               {t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}
+            </MoodFace>
+            <MoodFace
+              currentMood={mood}
+              face={'😃'}
+              mood={'happy'}
+              setMood={() => setMood('happy')}
+            >
+              {t('SHIFT.EDIT_SHIFT.HAPPY')}
             </MoodFace>
             <MoodFace
               currentMood={mood}

@@ -467,7 +467,7 @@ class NewCropModal extends React.Component {
                       return (
                         <div key={nutrient}>
                           <p className={styles.nutrientLabel}>
-                            {this.props.t(NUTRIENT_DICT[nutrient])}{' '}
+                            {this.props.t(`crop_nutrients:${NUTRIENT_DICT[nutrient]}`)}{' '}
                             {this.state[nutrient] === 0 && (
                               <p>{' ' + this.props.t('FIELDS.EDIT_FIELD.CROP.NO_DATA')}</p>
                             )}
@@ -476,7 +476,7 @@ class NewCropModal extends React.Component {
                             className={styles.nutrientInput}
                             type="number"
                             onKeyDown={numberOnKeyDown}
-                            placeholder={this.props.t(NUTRIENT_DICT[nutrient])}
+                            placeholder={`crop_nutrients:${NUTRIENT_DICT[nutrient]}`}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
                               this.setState({
@@ -498,13 +498,13 @@ class NewCropModal extends React.Component {
                       return (
                         <div key={nutrient}>
                           <p className={styles.nutrientLabel}>
-                            {this.props.t(NUTRIENT_DICT[nutrient])}
+                            {this.props.t(`crop_nutrients:${NUTRIENT_DICT[nutrient]}`)}
                           </p>
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
                             onKeyDown={numberOnKeyDown}
-                            placeholder={this.props.t(NUTRIENT_DICT[nutrient])}
+                            placeholder={this.props.t(`crop_nutrients:${NUTRIENT_DICT[nutrient]}`)}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
                               this.setState({

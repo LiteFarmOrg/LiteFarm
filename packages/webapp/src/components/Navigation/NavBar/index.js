@@ -110,6 +110,7 @@ export default function PureNavBar({
     'message',
     'gender',
     'role',
+    'crop_nutrients',
     'harvest_uses',
     'soil',
     'certifications',

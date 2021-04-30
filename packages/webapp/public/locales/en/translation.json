@@ -2,6 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
+    "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
     "FARM_IS_REQUIRED": "Farm name is required",
     "FARM_LOCATION": "Farm location",
     "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
@@ -34,11 +35,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
-      "TITLE": "Request a certifier",
+      "REQUEST": "What certifier would you like to request?",
       "SORRY_ONE": "We're sorry - we don’t currently work with any",
-      "SORRY_TWO": "certifiers. Would you like to request one?",
       "SORRY_THREE": "certifiers in your country. Would you like to request one?",
-      "REQUEST": "What certifier would you like to request?"
+      "SORRY_TWO": "certifiers. Would you like to request one?",
+      "TITLE": "Request a certifier"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
@@ -1017,8 +1018,7 @@
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts",
-    "USERS": "Users"
+    "SHIFTS": "Shifts"
   },
   "STATUS": {
     "ACTIVE": "Active",

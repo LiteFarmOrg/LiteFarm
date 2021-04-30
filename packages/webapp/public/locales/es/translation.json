@@ -2,6 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es requerida",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
+    "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
     "FARM_IS_REQUIRED": "Nombre de finca es requerida",
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Direccion de la calle ó use 'coma' para separar latitud y longitud (e.g. 49.250945, -123.238492)",
@@ -34,11 +35,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicitar un certificador",
-      "SORRY_ONE": "MISSING",
-      "SORRY_TWO": "MISSING",
-      "SORRY_THREE": "MISSING",
-      "REQUEST": "MISSING"
+      "REQUEST": "Que certificador te gustaria solicitar?",
+      "SORRY_ONE": "Lo sentimos - actualmente no trabajamos con ningun certificador",
+      "SORRY_THREE": "en tu pais. Te gustaria solicitar uno?",
+      "SORRY_TWO": ". te gustaria solicitar uno?",
+      "TITLE": "Solicitar un certificador"
     },
     "SUMMARY": {
       "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",
@@ -229,7 +230,7 @@
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
-      "LABEL": "MISSING",
+      "LABEL": "Etiqueta",
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
@@ -1017,8 +1018,7 @@
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos",
-    "USERS": "Usuarios"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Activo",

@@ -15,7 +15,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { getLocationsByFarm, deleteLocation,
+const { getLocationsByFarm, deleteLocation, checkDeleteLocation,
   createLocation, updateLocation } = require('../controllers/locationController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
@@ -27,6 +27,10 @@ router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['
 
 router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
   validateLocationDependency, deleteLocation());
+
+// TODO: to deprecate
+router.get('/check_delete/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
+  validateLocationDependency, checkDeleteLocation())
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],

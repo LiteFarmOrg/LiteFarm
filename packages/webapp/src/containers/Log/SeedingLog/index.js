@@ -21,6 +21,7 @@ import {
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 import Input from '../../../components/Form/Input';
+import { seedLogStateSelector } from "../selectors";
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class SeedingLog extends Component {
 
   render() {
     const { crops, locations } = this.props;
-
+    console.log(this.props.formState)
     return (
       <div className='page-container'>
         <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
@@ -115,7 +116,7 @@ class SeedingLog extends Component {
               <Control optional label={this.props.t('common:NOTES')} component={Input} model='.seedLog.notes' />
             </div>
           </div>
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -127,6 +128,7 @@ const mapStateToProps = (state) => {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
+    formState: seedLogStateSelector(state)
   };
 };
 

@@ -30,6 +30,7 @@ import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
+import { pestControlLogStateSelector } from "../selectors";
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -466,7 +467,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               )}
-              <LogFooter />
+              <LogFooter disabled={!this.props.formState.$form.valid} />
             </Form>
 
             <MuiFullPagePopup
@@ -640,6 +641,7 @@ const mapStateToProps = (state) => {
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),
     pestControlLog: pestLogSelector(state),
+    formState: pestControlLogStateSelector(state)
   };
 };
 

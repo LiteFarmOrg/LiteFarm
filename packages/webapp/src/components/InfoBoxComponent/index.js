@@ -73,31 +73,38 @@ class InfoBoxComponent extends Component {
 
             <Info style={{ color: colors.grey600, marginBottom: '20px' }}>{body}</Info>
             <footer>
-              {showDelete && (
-                <Button
-                  onClick={() => {
-                    this.handleDelete(deleteHandler);
-                  }}
-                  color={'secondary'}
-                  sm
-                >
-                  {this.props.t('common:DELETE')}
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-evenly'}}>
+                {showDelete && (
+                  <Button
+                    onClick={() => {
+                      this.handleDelete(deleteHandler);
+                    }}
+                    color={'secondary'}
+                    sm
+                  >
+                    {this.props.t('common:DELETE')}
+                  </Button>
+                )}
+                {showSave && (
+                  <Button
+                    color={'primary'}
+                    onClick={() => {
+                      this.handleSave(saveHandler);
+                    }}
+                    sm
+                  >
+                    {this.props.t('common:SAVE_CHANGES')}
+                  </Button>
+                )}
+                {
+                  (showDelete || showSave) && (
+                    <div style={{flexBasis:'10%'}} />
+                  )
+                }
+                <Button variant="primary" onClick={this.handleClose} sm>
+                  {this.props.t('common:CLOSE')}
                 </Button>
-              )}
-              {showSave && (
-                <Button
-                  color={'primary'}
-                  onClick={() => {
-                    this.handleSave(saveHandler);
-                  }}
-                  sm
-                >
-                  {this.props.t('common:SAVE_CHANGES')}
-                </Button>
-              )}
-              <Button variant="primary" onClick={this.handleClose} sm>
-                {this.props.t('common:CLOSE')}
-              </Button>
+              </div>
             </footer>
           </Paper>
         </Modal>

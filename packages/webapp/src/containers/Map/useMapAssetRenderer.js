@@ -50,6 +50,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
     }
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
+
   useEffect(() => {
     for (const areaLocationType of getAreaLocationTypes()) {
       for (const assetGeometry of assetGeometries?.[areaLocationType] || []) {
@@ -58,6 +59,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       }
     }
   }, [filterSettings?.label]);
+
   useEffect(() => {
     for (const key in filterSettings) {
       for (const assetGeometry of assetGeometries?.[key] || []) {
@@ -285,7 +287,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
-    marker.setOptions({ visible: isVisible });
+    marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
     return {

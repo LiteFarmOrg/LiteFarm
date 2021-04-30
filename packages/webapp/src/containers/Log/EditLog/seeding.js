@@ -17,9 +17,7 @@ import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from 
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 import Input from '../../../components/Form/Input';
@@ -44,38 +42,47 @@ class SeedingLog extends Component {
     this.setState({
       date: selectedLog && moment.utc(selectedLog.date),
     });
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_depth_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_depth_cm, this.state.space_unit, 'cm'),
+    selectedLog.seedLog.space_depth_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_depth_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_depth_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_length_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_length_cm, this.state.space_unit, 'cm'),
+      );
+    selectedLog.seedLog.space_length_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_length_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_length_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_width_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_width_cm, this.state.space_unit, 'cm'),
+      );
+    selectedLog.seedLog.space_width_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_width_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_width_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.rate_seeds/m2',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
+      );
+    selectedLog.seedLog['rate_seeds/m2'] &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.rate_seeds/m2',
+          roundToFourDecimal(
+            convertFromMetric(
+              selectedLog.seedLog['rate_seeds/m2'],
+              this.state.rate_unit,
+              'm2',
+              true,
+            ),
+          ),
         ),
-      ),
-    );
+      );
     dispatch(actions.change('logReducer.forms.seedLog.notes', selectedLog.notes));
   }
 
@@ -96,9 +103,9 @@ class SeedingLog extends Component {
       crops: selectedCrops,
       locations: selectedFields,
       notes: log.notes || '',
-      space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm'),
-      space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm'),
-      space_width_cm: convertToMetric(log.space_width_cm, this.state.space_unit, 'cm'),
+      space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm') || null,
+      space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm') || null,
+      space_width_cm: convertToMetric(log.space_width_cm, this.state.space_unit, 'cm') || null,
       'rate_seeds/m2': convertToMetric(log['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
       user_id: localStorage.getItem('user_id'),
     };
@@ -175,7 +182,11 @@ class SeedingLog extends Component {
               />
             </div>
           </div>
-          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter
+            disabled={!this.props.formState.$form.valid}
+            edit={true}
+            onClick={() => this.setState({ showModal: true })}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}

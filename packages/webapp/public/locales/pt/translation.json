@@ -490,6 +490,10 @@
       "TITLE": "Balanço hídrico"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
     "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
@@ -559,7 +563,6 @@
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
     "EDIT_A_LOG": "Editar um registro",
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
-    "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
     "FIELD_CROPS": "Cultivos de Campo",
@@ -705,6 +708,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

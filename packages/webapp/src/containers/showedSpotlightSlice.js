@@ -10,6 +10,7 @@ const initialState = {
   adjust_area: false,
   adjust_line: false,
   navigation: false,
+  introduce_map: false,
 };
 
 const showedSpotlightSlice = createSlice({

@@ -490,6 +490,10 @@
       "TITLE": "Water Balance"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "The farm map has new features. It is now found under the My Farm menu.",
+    "TITLE": "We've updated farm maps!"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
@@ -559,7 +563,6 @@
     "DELETE_CONFIRMATION": "Are you sure you want to delete this log?",
     "EDIT_A_LOG": "Edit a log",
     "ERROR_MISSING_CROP_FIELDS": "Error: Missing Crops or fields",
-    "ERROR_MISSING_FIELDS": "Error missing fields",
     "FARM_LOG": "Farm Log",
     "FERTILIZING": "Fertilizing",
     "FIELD_CROPS": "Field Crops",
@@ -705,6 +708,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

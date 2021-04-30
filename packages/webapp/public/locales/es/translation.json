@@ -490,6 +490,10 @@
       "TITLE": "Balance de agua"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Año de nacimiento",
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesitar ser entre 1900 y",
@@ -559,7 +563,6 @@
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
     "EDIT_A_LOG": "Editar registro",
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
-    "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
     "FIELD_CROPS": "Cultivo de campos",
@@ -705,6 +708,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

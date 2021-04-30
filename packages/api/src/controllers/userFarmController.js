@@ -162,6 +162,7 @@ const userFarmController = {
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
+          if (userFarm.has_consent) return;
           let template_path;
           const sender = 'system@litefarm.org';
           const replacements = {

@@ -15,6 +15,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { otherLogStateSelector } from "../selectors";
 
 class OtherLog extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class OtherLog extends Component {
             crops={crops}
             notesField={true}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -85,6 +86,7 @@ const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
+    formState: otherLogStateSelector(state)
   };
 };
 

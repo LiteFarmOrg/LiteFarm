@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle/v2';
 
-import { fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
+import { fertFormSelector, fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -397,7 +397,7 @@ class FertilizingLog extends Component {
                   </div>
                 </div>
               )}
-              <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+              <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
             </Form>
             <ConfirmModal
               open={this.state.showModal}
@@ -519,6 +519,7 @@ const mapStateToProps = (state) => {
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),
+    formState: fertFormSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   };

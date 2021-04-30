@@ -36,6 +36,13 @@ function EditWaterValveDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setAreaDetailFormData(getFormData(waterValve)));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error?.retire) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );

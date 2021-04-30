@@ -70,13 +70,8 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
             <ListItem
               className={classes.subListItem}
               button
-              onClick={() => handleClick('/Profile' , 'people')}
-            >
-              <ListItemText
-                classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.USERS')}
-              />
-            </ListItem>
+              onClick={() => handleClick('/Profile', 'people')}
+            ></ListItem>
           </>
         )}
         {showFinances && (

@@ -83,6 +83,15 @@ class Prices extends Component {
         />
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px' }}
+            >
+              <Text>
+                {t('INSIGHTS.PRICES.NEARBY_FARMS', {
+                  count: this.props.pricesData['amountOfFarms'],
+                })}
+              </Text>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 'bold' }}>
                 {t('INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY', {
@@ -95,11 +104,6 @@ class Prices extends Component {
             <div>
               {this.state.open && (
                 <div>
-                  <Text>
-                    {t('INSIGHTS.PRICES.NEARBY_FARMS', {
-                      count: this.props.pricesData['amountOfFarms'],
-                    })}
-                  </Text>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {
                       return (

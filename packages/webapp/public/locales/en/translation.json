@@ -464,8 +464,8 @@
     },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
-      "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
-      "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",
+      "NEARBY_FARMS_plural": "Network price is based on {{count}} farms in your local area",
       "NETWORK_PRICE": "Network Price",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
       "OWN_PRICE": "Own Price",

@@ -67,16 +67,16 @@ class DefaultLogForm extends React.Component {
   setCropsOnFieldSelect(selectedOptions) {
     const { locations, parent, model } = this.props;
     const { crops } = this.props;
-    let cropOptionsMap = this.state.cropOptionsMap;
+    let cropOptionsMap = JSON.parse(JSON.stringify(this.state.cropOptionsMap));
     let selectedFields;
     const options = selectedOptions || [];
 
     // remove associated crop selections for field if field is removed from dropdown
     const activeFields = options.map((o) => o.value);
-    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1);
+    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1).map(f=> f.location_id);
     removedFields &&
       removedFields.map((rm) => {
-        return this.props.dispatch(actions.reset(`${parent}${model}.crop.${rm.location_id}`));
+        return this.props.dispatch(actions.change(`${parent}${model}.crop.${rm}`, null));
       });
 
     // map field_crops to locations that are selected in dropdown
@@ -201,9 +201,9 @@ class DefaultLogForm extends React.Component {
     const { fieldOptions, displayLiveCropMessage } = this.state;
     const typeLabels = {
       plow: this.props.t('LOG_FIELD_WORK.PLOW'),
-      ridgeTill:  this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
-      zoneTill:  this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
-      mulchTill:  this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
+      ridgeTill: this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
+      zoneTill: this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
+      mulchTill: this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
       ripping: this.props.t('LOG_FIELD_WORK.RIPPING'),
       discing: this.props.t('LOG_FIELD_WORK.DISCING'),
       sprinkler: this.props.t('LOG_IRRIGATION.SPRINKLER'),
@@ -214,12 +214,13 @@ class DefaultLogForm extends React.Component {
       Pest: this.props.t('LOG_HARVEST.PEST'),
       Disease: this.props.t('LOG_HARVEST.DISEASE'),
       Weed: this.props.t('LOG_HARVEST.WEED'),
-      Other: this.props.t('LOG_HARVEST.OTHER')
+      Other: this.props.t('LOG_HARVEST.OTHER'),
     };
     // format options for react-select dropdown components
     //const fieldOptions = fields && fields.map((f) => ({ value: f.location_id, label: f.name }));
 
-    let parsedTypeOptions = typeOptions && typeOptions.map((t) => ({ value: t, label: typeLabels[t] }));
+    let parsedTypeOptions =
+      typeOptions && typeOptions.map((t) => ({ value: t, label: typeLabels[t] }));
 
     return (
       <Fieldset model={model}>

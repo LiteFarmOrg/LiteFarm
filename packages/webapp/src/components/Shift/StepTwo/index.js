@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import { BsReplyFill } from 'react-icons/bs';
 import Button from '../../Form/Button';
 import TitleLayout from '../../Layout/TitleLayout';
 import styles from '../../../containers/Shift/styles.module.scss';
 import styles2 from './styles.module.scss';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
-import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import BackArrow from '../../../assets/images/miscs/arrow.svg';
+import MuiFullPagePopup from '../../MuiFullPagePopup';
 
 function PureStepTwo({
   onGoBack,
@@ -572,19 +570,7 @@ function MoodPopup({
     setMood(event.currentTarget.checked ? 'no answer' : null);
   };
   return (
-    <Popup
-      open={showEditModal}
-      closeOnDocumentClick
-      onClose={closeEditModal}
-      contentStyle={{
-        display: 'flex',
-        width: '100%',
-        height: '80vh',
-        overflowY: 'auto',
-        padding: '0 5%',
-      }}
-      overlayStyle={{ zIndex: '1060', height: '100vh' }}
-    >
+    <MuiFullPagePopup open={showEditModal} onClose={closeEditModal}>
       <div className={styles.modal}>
         <div className={styles.popupTitle}>
           <img
@@ -611,19 +597,19 @@ function MoodPopup({
           <div className={styles2.matrixContainer}>
             <MoodFace
               currentMood={mood}
-              face={'😃'}
-              mood={'happy'}
-              setMood={() => setMood('happy')}
-            >
-              {t('SHIFT.EDIT_SHIFT.HAPPY')}
-            </MoodFace>
-            <MoodFace
-              currentMood={mood}
               face={'😆'}
               mood={'very happy'}
               setMood={() => setMood('very happy')}
             >
               {t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}
+            </MoodFace>
+            <MoodFace
+              currentMood={mood}
+              face={'😃'}
+              mood={'happy'}
+              setMood={() => setMood('happy')}
+            >
+              {t('SHIFT.EDIT_SHIFT.HAPPY')}
             </MoodFace>
             <MoodFace
               currentMood={mood}
@@ -664,7 +650,7 @@ function MoodPopup({
           </Button>
         </div>
       </div>
-    </Popup>
+    </MuiFullPagePopup>
   );
 }
 

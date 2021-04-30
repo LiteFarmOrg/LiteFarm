@@ -1,11 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pointImgDict } from '../LocationMapping';
-import { lineImgDict } from '../LocationMapping';
-import { areaImgDict } from '../LocationMapping';
+import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { containsCrops } from '../../../containers/Map/constants';
+import { makeStyles } from '@material-ui/core/styles';
+import { colors } from '../../../assets/theme';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    '&:hover': {
+      backgroundColor: colors.green100,
+    },
+    backgroundColor: 'white',
+    marginBottom: '5px',
+  },
+}));
 
 export default function PureSelectionHandler({ locations, history }) {
+  const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
     if (assetType === 'area') {
@@ -41,11 +52,7 @@ export default function PureSelectionHandler({ locations, history }) {
     let icon = imgMapping(asset, type);
 
     return (
-      <div
-        key={idx}
-        style={{ backgroundColor: 'white', marginBottom: '5px' }}
-        onClick={() => loadEditView(location)}
-      >
+      <div key={idx} onClick={() => loadEditView(location)} className={classes.container}>
         <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
         <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
       </div>

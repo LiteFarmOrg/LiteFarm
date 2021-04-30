@@ -138,7 +138,9 @@ const useSelectionHandler = () => {
     }
   };
 
-  return { handleSelection };
+  const dismissSelectionModal = () => setDismissSelection(true);
+
+  return { handleSelection, dismissSelectionModal };
 };
 
 function clone(obj) {

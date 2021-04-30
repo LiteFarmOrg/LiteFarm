@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicitar un certificador"
+      "TITLE": "Solicitar un certificador",
+      "SORRY_ONE": "MISSING",
+      "SORRY_TWO": "MISSING",
+      "SORRY_THREE": "MISSING",
+      "REQUEST": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",
@@ -225,6 +229,7 @@
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
+      "LABEL": "MISSING",
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
@@ -559,7 +564,6 @@
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
     "EDIT_A_LOG": "Editar registro",
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
-    "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
     "FIELD_CROPS": "Cultivo de campos",
@@ -652,11 +656,11 @@
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {
-    "DRIP": "Drip",
-    "FLOOD": "Flood",
+    "DRIP": "Goteo",
+    "FLOOD": "Inundacion",
     "FLOW_RATE": "Tasa de flujo",
-    "SPRINKLER": "Sprinkler",
-    "SUBSURFACE": "Subsurface",
+    "SPRINKLER": "Aspersor",
+    "SUBSURFACE": "Subsuperficie",
     "TITLE": "Registro de irrigacion",
     "TOTAL_TIME": "Tiempo total"
   },
@@ -788,10 +792,8 @@
       "CURRENCY": "Moneda de circulación",
       "FARM_NAME": "Nombre de la finca",
       "IMPERIAL": "Britanico",
-      "MAKE_REQUEST": "Hacer solicitud",
       "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "REQUEST_DATA": "Ud. puede solicitar información para descargar y nosotros enviaremos información de la finca a su email en formato de csv.",
       "UNITS": "Unidades"
     },
     "PEOPLE_TAB": "Personas",
@@ -948,7 +950,6 @@
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
       "ADD_TASK": "Agregar tarea",
       "ALL": "Todo",
-      "SELECT_ALL": "MISSING",
       "ALL_CROPS": "Todos los cultivos",
       "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
       "CHOOSE_DATE": "Elección de fecha",
@@ -965,6 +966,7 @@
       "NEUTRAL": "Neutral",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_ALL": "Seleccionar todos",
       "SELECT_CROPS": "Seleccionar cultivos",
       "SELECT_FIELDS": "Seleccionar Campos",
       "VERY_HAPPY": "Muy feliz",
@@ -986,6 +988,7 @@
       "STEP_ONE": "Agregar turno",
       "STEP_TWO": "Agregar turno"
     },
+    "RETIRED": "Retirado",
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "TIME_TOTAL": "Total",

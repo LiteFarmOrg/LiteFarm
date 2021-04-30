@@ -15,7 +15,7 @@
 
 import { GET_LOGS } from './constants';
 import { setLogsInState } from './actions';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
@@ -36,5 +36,5 @@ export function* getLogsSaga() {
 }
 
 export default function* logSaga() {
-  yield takeEvery(GET_LOGS, getLogsSaga);
+  yield takeLatest(GET_LOGS, getLogsSaga);
 }

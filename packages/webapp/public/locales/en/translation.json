@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
-      "TITLE": "Request a certifier"
+      "TITLE": "Request a certifier",
+      "SORRY_ONE": "We're sorry - we don’t currently work with any",
+      "SORRY_TWO": "certifiers. Would you like to request one?",
+      "SORRY_THREE": "certifiers in your country. Would you like to request one?",
+      "REQUEST": "What certifier would you like to request?"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
@@ -225,6 +229,7 @@
       "GATE": "Gate",
       "GREENHOUSE": "Greenhouse",
       "HIDE_ALL": "Hide all",
+      "LABEL": "Label",
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
@@ -463,8 +468,8 @@
     },
     "PRICES": {
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
-      "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
-      "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NEARBY_FARMS": "Network price is based on {{count}} farms in your local area",
+      "NEARBY_FARMS_plural": "Network price is based on {{count}} farms in your local area",
       "NETWORK_PRICE": "Network Price",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
       "OWN_PRICE": "Own Price",
@@ -517,7 +522,7 @@
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
     "CHOOSE_ROLE": "Choose Role",
     "EMAIL": "Email",
-    "EMAIL_INFO": "Users without an email won't be able to login",
+    "EMAIL_INFO": "Users without an email won't be able to log in",
     "FULL_NAME": "Full name",
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
@@ -559,7 +564,6 @@
     "DELETE_CONFIRMATION": "Are you sure you want to delete this log?",
     "EDIT_A_LOG": "Edit a log",
     "ERROR_MISSING_CROP_FIELDS": "Error: Missing Crops or fields",
-    "ERROR_MISSING_FIELDS": "Error missing fields",
     "FARM_LOG": "Farm Log",
     "FERTILIZING": "Fertilizing",
     "FIELD_CROPS": "Field Crops",
@@ -788,10 +792,8 @@
       "CURRENCY": "Currency",
       "FARM_NAME": "Farm Name",
       "IMPERIAL": "Imperial",
-      "MAKE_REQUEST": "Make Request",
       "METRIC": "Metric",
       "PHONE_NUMBER": "Phone Number",
-      "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",
       "UNITS": "Units"
     },
     "PEOPLE_TAB": "People",
@@ -948,7 +950,6 @@
       "ADD_CUSTOM_TASK": "Add Custom Task",
       "ADD_TASK": "Add a Task",
       "ALL": "All locations",
-      "SELECT_ALL": "Select All",
       "ALL_CROPS": "All crops",
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "CHOOSE_DATE": "Choose a Date",
@@ -965,6 +966,7 @@
       "NEUTRAL": "Neutral",
       "RATHER_NOT_SAY": "Rather Not Say",
       "SAD": "Sad",
+      "SELECT_ALL": "Select All",
       "SELECT_CROPS": "Select crops",
       "SELECT_FIELDS": "Select locations",
       "VERY_HAPPY": "Very Happy",
@@ -986,6 +988,7 @@
       "STEP_ONE": "Add a shift",
       "STEP_TWO": "Add a shift"
     },
+    "RETIRED": "Location Retired",
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
     "TIME_TOTAL": "Total",

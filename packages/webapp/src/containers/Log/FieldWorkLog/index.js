@@ -15,6 +15,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { fieldWorkStateSelector } from "../selectors";
 
 class FieldWorkLog extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class FieldWorkLog extends Component {
             isCropNotNeeded={true}
             typeOptions={['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -88,6 +89,7 @@ const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
+    formState: fieldWorkStateSelector(state)
   };
 };
 

@@ -8,6 +8,7 @@ import {
   selectedCertificationSelector,
   requestedCertifierSelector,
   allCertifierTypesSelector,
+  allCertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function SetCertificationSummary() {
@@ -15,6 +16,10 @@ export default function SetCertificationSummary() {
   const certifierType = useSelector(selectedCertifierSelector);
   const requestedCertifierData = useSelector(requestedCertifierSelector);
   const certificationType = useSelector(selectedCertificationSelector);
+  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+  const selectedCertificationTranslation = allSupportedCertificationTypes.find(
+    (cert) => cert.certification_id === certificationType.certificationID,
+  )?.certification_translation_key;
   const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
 
   const onSubmit = () => {
@@ -36,7 +41,9 @@ export default function SetCertificationSummary() {
         requestedCertifierData={requestedCertifierData}
         onSubmit={onSubmit}
         onGoBack={onGoBack}
+        allSupportedCertificationTypes={allSupportedCertificationTypes}
         certificationType={certificationType}
+        certificationTranslation={selectedCertificationTranslation}
       />
     </>
   );

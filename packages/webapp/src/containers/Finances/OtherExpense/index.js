@@ -80,7 +80,10 @@ class OtherExpense extends Component {
     let dict = {};
 
     for (let e of expenses) {
-      if (moment(e.expense_date).isSameOrAfter(moment(startDate)) &&  moment(e.expense_date).isSameOrBefore(moment(endDate))) {
+      if (
+        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).isSameOrBefore(moment(endDate))
+      ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {
           let typeName = this.getExpenseType(id);
@@ -101,7 +104,7 @@ class OtherExpense extends Component {
     for (let k of keys) {
       data.push({
         type: dict[k].type,
-        amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
+        amount: dict[k].amount,
       });
       total += dict[k].amount;
     }
@@ -116,7 +119,10 @@ class OtherExpense extends Component {
     let subTotal = 0;
 
     for (let e of expenses) {
-      if (moment(e.expense_date).isSameOrAfter(moment(startDate)) &&  moment(e.expense_date).isSameOrBefore(moment(endDate))) {
+      if (
+        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).isSameOrBefore(moment(endDate))
+      ) {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
@@ -158,8 +164,9 @@ class OtherExpense extends Component {
       {
         id: 'amount',
         Header: this.props.t('SALE.SUMMARY.AMOUNT'),
-        accessor: (d) => d.amount,
+        accessor: 'amount',
         minWidth: 75,
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         Footer: <div>{this.state.currencySymbol + totalData}</div>,
       },
     ];
@@ -182,7 +189,8 @@ class OtherExpense extends Component {
       {
         id: 'amount',
         Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
-        accessor: (d) => d.amount,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 75,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
       },

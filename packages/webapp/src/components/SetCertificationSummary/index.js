@@ -15,7 +15,7 @@ export default function PureSetCertificationSummary({
   name,
   requestedCertifierData,
 }) {
-  const { t } = useTranslation(['translation', 'common']);
+  const { t } = useTranslation(['translation', 'common', 'certifications']);
   return (
     <Layout
       onSubmit={onSubmit}
@@ -32,14 +32,10 @@ export default function PureSetCertificationSummary({
     >
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        {certificationTranslation}{' '}
-        {certificationType.certificationName +
-          ' ' +
-          t('CERTIFICATION.SUMMARY.CERTIFICATION') +
-          ' ' +
-          t('common:FROM') +
-          ' ' +
-          name}{' '}
+        {certificationTranslation
+          ? t(`certifications:${certificationTranslation}`)
+          : certificationType.requestedCertification}{' '}
+        {t('CERTIFICATION.SUMMARY.CERTIFICATION') + ' ' + t('common:FROM') + ' ' + name}{' '}
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />

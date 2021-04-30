@@ -111,7 +111,10 @@ class SalesSummary extends Component {
 
   filterByDate(sales) {
     return sales.filter((s) => {
-      return moment(s.sale_date).isSameOrAfter(moment(this.state.startDate)) &&  moment(s.sale_date).isSameOrBefore(moment(this.state.endDate));
+      return (
+        moment(s.sale_date).isSameOrAfter(moment(this.state.startDate)) &&
+        moment(s.sale_date).isSameOrBefore(moment(this.state.endDate))
+      );
     });
   }
 
@@ -132,7 +135,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 75,
         Footer: <div>${this.formatFooter(summaryData)}</div>,
       },
@@ -156,7 +160,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 40,
         Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
       },
@@ -200,7 +205,8 @@ class SalesSummary extends Component {
           pageSizeOptions={[5, 10, 20, 50]}
           defaultPageSize={5}
           minRows={5}
-          defaultSorted={[{
+          defaultSorted={[
+            {
               id: 'date',
               desc: true,
             },

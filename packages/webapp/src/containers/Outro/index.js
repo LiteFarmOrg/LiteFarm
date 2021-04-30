@@ -7,6 +7,9 @@ import { patchOutroStep } from './saga';
 import {
   finishedSelectingCertificationTypeSelector,
   requestedCertifierSelector,
+  selectedCertification,
+  selectedCertifier,
+  requestedCertifier,
 } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 function Outro() {
@@ -24,6 +27,21 @@ function Outro() {
     );
   };
   const onContinue = () => {
+    dispatch(
+      selectedCertification({
+        certificationName: null,
+        certificationID: null,
+        requestedCertification: null,
+      }),
+    );
+    dispatch(
+      selectedCertifier({
+        certifierName: null,
+        certifierID: null,
+        isRequestingCertifier: null,
+      }),
+    );
+    dispatch(requestedCertifier(null));
     dispatch(patchOutroStep());
   };
 

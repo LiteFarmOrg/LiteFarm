@@ -156,21 +156,25 @@ class SeedingLog extends Component {
             model=".seedLog.space_depth_cm"
             title={this.props.t('LOG_SEEDING.SEEDING_DEPTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_length_cm"
             title={this.props.t('LOG_SEEDING.SEED_SPACING')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_width_cm"
             title={this.props.t('LOG_SEEDING.SPACE_WIDTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.rate_seeds/m2"
             title={this.props.t('LOG_SEEDING.RATE')}
             type={`seeds/${this.state.rate_unit}`}
+            optional
           />
           <div>
             <div className={styles.noteContainer}>

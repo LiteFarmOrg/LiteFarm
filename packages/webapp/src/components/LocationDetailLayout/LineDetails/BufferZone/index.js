@@ -43,7 +43,7 @@ export default function PureBufferZone({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, width, length, total_area, grid_points },
+    persistedData: { line_points, width, length, total_area },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -52,7 +52,6 @@ export default function PureBufferZone({
     const formData = {
       length,
       line_points,
-      grid_points,
       width,
       ...data,
       type: 'buffer_zone',

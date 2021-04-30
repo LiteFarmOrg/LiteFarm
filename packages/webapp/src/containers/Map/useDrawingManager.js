@@ -191,14 +191,12 @@ export default function useDrawingManager() {
       const line_points = path.getArray().map(getVertices);
       const length = Math.round(computeLength(path));
       let area;
-      let grid_points;
       if (widthPolygon) {
         area = Math.round(computeArea(widthPolygon.getPath()));
-        grid_points = widthPolygon.getPath().getArray().map(getVertices);
       } else {
         area = null;
       }
-      return { type: drawLocationType, line_points, length, total_area: area, grid_points };
+      return { type: drawLocationType, line_points, length, total_area: area };
     }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();

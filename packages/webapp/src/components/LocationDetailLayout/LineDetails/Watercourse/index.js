@@ -52,7 +52,6 @@ export default function PureWatercourse({
 
       buffer_width,
       total_area,
-      grid_points,
     },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
@@ -63,7 +62,6 @@ export default function PureWatercourse({
     data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
     const formData = {
       line_points,
-      grid_points,
       length,
       width,
       buffer_width,

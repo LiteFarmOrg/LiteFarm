@@ -117,7 +117,7 @@ function PureStepOne({
         taskTypes={taskTypes}
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} style={{ paddingBottom: '24px' }}>
           <Button
             style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
             onClick={() => switchShowModal(true)}

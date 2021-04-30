@@ -19,6 +19,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold, Underlined } from '../../../components/Typography';
+import { soilDataLogStateSelector } from "../selectors";
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -258,7 +259,7 @@ class soilDataLog extends Component {
               />
             </div>
           )}
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -270,6 +271,7 @@ const mapStateToProps = (state) => {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
+    formState: soilDataLogStateSelector(state)
   };
 };
 

@@ -14,6 +14,8 @@ export const lineProperties = [
   'length_unit',
   'width_unit',
   'figure_id',
+  'total_area',
+  'total_area_unit',
 ];
 export const pointProperties = ['point', 'figure_id'];
 export const figureProperties = ['figure_id', 'type', 'location_id'];
@@ -48,6 +50,8 @@ export const watercourseEnum = {
   used_for_irrigation: 'used_for_irrigation',
   buffer_width: 'buffer_width',
   buffer_width_unit: 'buffer_width_unit',
+  total_area: 'total_area',
+  total_area_unit: 'total_area_unit',
 };
 export const bufferZoneEnum = {
   farm_id: 'farm_id',
@@ -61,6 +65,8 @@ export const bufferZoneEnum = {
   line_points: 'line_points',
   length_unit: 'length_unit',
   width_unit: 'width_unit',
+  total_area: 'total_area',
+  total_area_unit: 'total_area_unit',
 };
 export const ceremonialEnum = {
   farm_id: 'farm_id',

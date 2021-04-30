@@ -15,13 +15,11 @@ import parseCrops from '../Utility/parseCrops';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 import Input from '../../../components/Form/Input';
-import { seedLogStateSelector } from "../selectors";
+import { seedLogStateSelector } from '../selectors';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -65,26 +63,29 @@ class SeedingLog extends Component {
 
   render() {
     const { crops, locations } = this.props;
-    console.log(this.props.formState)
+    console.log(this.props.formState);
     return (
-      <div className='page-container'>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container">
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SEEDING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
           classes={{ container: { marginBottom: '24px' } }}
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.seedLog)}
         >
           <DefaultLogForm
-            model='.seedLog'
+            model=".seedLog"
             locations={locations}
             crops={crops}
             notesField={false}
@@ -94,26 +95,34 @@ class SeedingLog extends Component {
             model=".seedLog.space_depth_cm"
             title={this.props.t('LOG_SEEDING.SEEDING_DEPTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_length_cm"
             title={this.props.t('LOG_SEEDING.SEED_SPACING')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_width_cm"
             title={this.props.t('LOG_SEEDING.SPACE_WIDTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.rate_seeds/m2"
             title={this.props.t('LOG_SEEDING.RATE')}
             type={`seeds/${this.state.rate_unit}`}
+            optional
           />
           <div>
-
             <div className={styles.noteContainer}>
-              <Control optional label={this.props.t('common:NOTES')} component={Input} model='.seedLog.notes' />
+              <Control
+                optional
+                label={this.props.t('common:NOTES')}
+                component={Input}
+                model=".seedLog.notes"
+              />
             </div>
           </div>
           <LogFooter disabled={!this.props.formState.$form.valid} />
@@ -128,7 +137,7 @@ const mapStateToProps = (state) => {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
-    formState: seedLogStateSelector(state)
+    formState: seedLogStateSelector(state),
   };
 };
 

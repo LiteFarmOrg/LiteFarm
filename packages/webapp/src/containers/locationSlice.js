@@ -233,7 +233,7 @@ export const cropLocationsSelector = createSelector(
 );
 
 export const locationsSelector = createSelector(
-  [barnsSelector, areaSelector, lineSelector, pointSelector],
+  [areaSelector, lineSelector, pointSelector],
   (areas, lines, points) => {
     const locationAssetMaps = { ...areas, ...lines, ...points };
     return Object.keys(locationAssetMaps).reduce(

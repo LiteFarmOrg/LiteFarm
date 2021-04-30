@@ -79,7 +79,7 @@ const persistConfig = {
   storage,
   stateReconciler: autoMergeLevel2,
 };
-const languages = ['en', 'es', 'pt', 'fr'];
+const languages = ['en', 'es', 'pt'];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

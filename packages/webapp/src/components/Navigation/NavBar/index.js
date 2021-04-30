@@ -24,6 +24,9 @@ import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
 import { getLanguageFromLocalStorage } from '../../../util';
+import { useDispatch, useSelector } from 'react-redux';
+import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
+import { setSpotlightToShown } from '../../../containers/Map/saga';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -111,6 +114,8 @@ export default function PureNavBar({
     'soil',
     'certifications',
   ]);
+  const {introduce_map} = useSelector(showedSpotlightSelector);
+  const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -124,7 +129,7 @@ export default function PureNavBar({
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
   const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
-  const isFarmFloaterOpen = openFloater === FARM;
+  const isFarmFloaterOpen = openFloater === FARM || !introduce_map;
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
@@ -137,6 +142,7 @@ export default function PureNavBar({
   };
 
   const farmInfoClick = () => {
+    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'farm',
@@ -144,10 +150,12 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
+    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'))
     history.push('/map');
     closeFloater();
   };
   const peopleClick = () => {
+    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'people',

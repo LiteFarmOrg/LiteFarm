@@ -28,7 +28,6 @@ export default function Home() {
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
-  console.log(useSelector(showedSpotlightSelector));
   const {introduce_map: showNotifyUpdatedFarmModal} = useSelector(showedSpotlightSelector);
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>

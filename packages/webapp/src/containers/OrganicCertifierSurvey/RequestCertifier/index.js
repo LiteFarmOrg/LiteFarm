@@ -45,6 +45,8 @@ export default function RequestCertifier() {
         requestedCertifier={requestedCertifier}
         requestedCertifierData={requestedCertifierData}
         dispatch={dispatch}
+        certificationType={certificationType}
+        allSupportedCertifierTypes={allSupportedCertifierTypes}
       />
     </>
   );

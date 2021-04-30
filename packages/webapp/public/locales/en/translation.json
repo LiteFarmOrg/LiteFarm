@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
-      "TITLE": "Request a certifier"
+      "TITLE": "Request a certifier",
+      "SORRY_ONE": "We're sorry - we don’t currently work with any",
+      "SORRY_TWO": "certifiers. Would you like to request one?",
+      "SORRY_THREE": "certifiers in your country. Would you like to request one?",
+      "REQUEST": "What certifier would you like to request?"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",

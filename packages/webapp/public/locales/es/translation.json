@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicitar un certificador"
+      "TITLE": "Solicitar un certificador",
+      "SORRY_ONE": "MISSING",
+      "SORRY_TWO": "MISSING",
+      "SORRY_THREE": "MISSING",
+      "REQUEST": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",
@@ -225,6 +229,7 @@
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
+      "LABEL": "MISSING",
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
@@ -565,9 +570,9 @@
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
-    "FIELD_CROPS": "Cultivo de campos",
+    "FIELD_CROPS": "Cultivos",
     "FIELD_WORK": "Trabajo de campo",
-    "FIELDS": "Campos",
+    "FIELDS": "Ubicaciones",
     "FROM": "Desde",
     "HARVEST": "Cosecha",
     "HIDE": "Ocultar",

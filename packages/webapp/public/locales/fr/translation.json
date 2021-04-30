@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "SORRY_ONE": "MISSING",
+      "SORRY_TWO": "MISSING",
+      "SORRY_THREE": "MISSING",
+      "REQUEST": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "MISSING",
@@ -225,6 +229,7 @@
       "GATE": "MISSING",
       "GREENHOUSE": "MISSING",
       "HIDE_ALL": "MISSING",
+      "LABEL": "MISSING",
       "LINES": "MISSING",
       "NA": "MISSING",
       "POINTS": "MISSING",

@@ -5,13 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
-import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
+import {
+  getAreaLocationTypes,
+  isArea,
+  isAreaLine,
+  isLine,
+  isNoFillArea,
+  locationEnum,
+  polygonPath,
+} from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
-// import ClusterIcon from '../../assets/images/map/cluster';
 
 const useMapAssetRenderer = ({ isClickable }) => {
-  const { handleSelection } = useSelectionHandler();
+  const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
@@ -27,16 +34,32 @@ const useMapAssetRenderer = ({ isClickable }) => {
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
     for (const key in filterSettings) {
+      const isPointVisible = (locationType) => {
+        if (isArea(locationType) && !filterSettings?.label) {
+          return false;
+        }
+        return filterSettings?.[locationType];
+      };
       if (prevFilterState?.[key] !== filterSettings?.[key]) {
         for (const assetGeometry of assetGeometries?.[key] || []) {
           assetGeometry?.polygon?.setOptions({ visible: filterSettings?.[key] });
           assetGeometry?.polyline?.setOptions({ visible: filterSettings?.[key] });
-          assetGeometry?.marker?.setOptions({ visible: filterSettings?.[key] });
+          assetGeometry?.marker?.setOptions({ visible: isPointVisible(key) });
         }
       }
     }
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
+
+  useEffect(() => {
+    for (const areaLocationType of getAreaLocationTypes()) {
+      for (const assetGeometry of assetGeometries?.[areaLocationType] || []) {
+        filterSettings?.[areaLocationType] &&
+          assetGeometry?.marker?.setOptions({ visible: filterSettings?.label });
+      }
+    }
+  }, [filterSettings?.label]);
+
   useEffect(() => {
     for (const key in filterSettings) {
       for (const assetGeometry of assetGeometries?.[key] || []) {
@@ -63,19 +86,8 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
   const markerClusterRef = useRef();
   useEffect(() => {
-    if (markerClusterRef.current) {
-      markerClusterRef.current?.clearMarkers();
-      filterSettings?.gate &&
-        markerClusterRef.current.addMarkers(
-          assetGeometries?.gate?.map((point) => point.marker),
-          true,
-        );
-      filterSettings?.water_valve &&
-        markerClusterRef.current.addMarkers(
-          assetGeometries?.water_valve?.map((point) => point.marker),
-          true,
-        );
-    }
+    dismissSelectionModal();
+    markerClusterRef?.current?.repaint();
   }, [filterSettings?.gate, filterSettings?.water_valve]);
   useEffect(() => {
     markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
@@ -99,13 +111,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       width: 28,
       className: styles.clusterIcon,
     };
-    const clusterStyles = [
-      clusterStyle,
-      clusterStyle,
-      clusterStyle,
-      clusterStyle,
-      clusterStyle,
-    ];
+    const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 
     const markerCluster = new MarkerClusterer(map, markers, {
       ignoreHidden: true,
@@ -147,6 +153,10 @@ const useMapAssetRenderer = ({ isClickable }) => {
   };
 
   const drawAssets = (map, maps, mapBounds) => {
+    maps.event.addListenerOnce(map, 'idle', function () {
+      markerClusterRef?.current?.repaint();
+    });
+
     // Event listener for general map click
     maps.event.addListener(map, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, false);
@@ -189,15 +199,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
     setAssetGeometries(newState);
     // Create marker clusters
-    const pointsArray = [];
-    filterSettings?.gate &&
-      assetGeometries.gate.forEach((item) => {
-        pointsArray.push(item);
-      });
-    filterSettings?.water_valve &&
-      assetGeometries.water_valve.forEach((item) => {
-        pointsArray.push(item);
-      });
+    const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm
@@ -285,7 +287,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
-    marker.setOptions({ visible: isVisible });
+    marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
     return {

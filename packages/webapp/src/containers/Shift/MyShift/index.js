@@ -13,7 +13,8 @@ import { withTranslation } from 'react-i18next';
 import { getDuration } from './../../../util/index';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
-import { cropLocationEntitiesSelector } from '../../locationSlice';
+import { cropLocationEntitiesSelector, locationsSelector } from '../../locationSlice';
+import ScrollToTop from '../../hooks/ScrollToTop';
 
 class MyShift extends Component {
   constructor(props) {
@@ -149,6 +150,7 @@ class MyShift extends Component {
 
     return (
       <div className={styles.logContainer}>
+        <ScrollToTop />
         <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
@@ -233,7 +235,7 @@ class MyShift extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
-    locations: cropLocationEntitiesSelector(state),
+    locations: locationsSelector(state),
     crops: currentAndPlannedFieldCropsSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),

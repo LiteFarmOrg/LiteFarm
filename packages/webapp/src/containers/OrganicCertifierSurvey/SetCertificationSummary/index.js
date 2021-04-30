@@ -7,7 +7,8 @@ import {
   selectedCertifierSelector,
   selectedCertificationSelector,
   requestedCertifierSelector,
-  allCertifierTypesSelector, allCertificationTypesSelector,
+  allCertifierTypesSelector,
+  allCertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function SetCertificationSummary() {

@@ -34,7 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicite um certificador"
+      "TITLE": "Solicite um certificador",
+      "SORRY_ONE": "MISSING",
+      "SORRY_TWO": "MISSING",
+      "SORRY_THREE": "MISSING",
+      "REQUEST": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
@@ -225,6 +229,7 @@
       "GATE": "Portão",
       "GREENHOUSE": "Estufa",
       "HIDE_ALL": "Esconder todos",
+      "LABEL": "MISSING",
       "LINES": "Linhas",
       "NA": "Área natural",
       "POINTS": "Pontos",

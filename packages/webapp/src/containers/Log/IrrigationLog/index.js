@@ -18,6 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { irrigationStateSelector } from "../selectors";
 
 class IrrigationLog extends Component {
   constructor(props) {
@@ -72,11 +73,11 @@ class IrrigationLog extends Component {
         <div>
           <Unit
             model=".flow_rate_l/min"
-            title={this.props.t('LOG_IRRIGATION.FLOW_RATE')}
+            title={`${this.props.t('LOG_IRRIGATION.FLOW_RATE')} ${this.props.t('common:OPTIONAL')}`}
             dropdown={true}
             options={rateOptions}
           />
-          <Unit model=".hours" title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type="hrs" />
+          <Unit model=".hours" title={`${this.props.t('LOG_IRRIGATION.TOTAL_TIME')} ${this.props.t('common:OPTIONAL')}`} type="hrs" />
         </div>
       );
     };
@@ -111,7 +112,7 @@ class IrrigationLog extends Component {
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
             customFieldset={customFieldset}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -123,6 +124,7 @@ const mapStateToProps = (state) => {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
+    formState: irrigationStateSelector(state)
   };
 };
 

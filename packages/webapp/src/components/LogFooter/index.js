@@ -19,7 +19,7 @@ import Button from '../Form/Button';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit } = this.props;
+    const { onClick, edit, disabled } = this.props;
 
     return (
       <>
@@ -31,7 +31,7 @@ class LogFooter extends React.Component {
             </Button>
           )}
 
-          <Button style={{ margin: 0 }} fullLength>
+          <Button style={{ margin: 0 }} fullLength disabled={disabled}>
             {edit ? this.props.t('common:UPDATE') : this.props.t('common:SAVE')}
           </Button>
         </div>

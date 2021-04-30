@@ -102,7 +102,8 @@ class EstimatedRevenue extends Component {
       {
         id: 'estimatedRevenue',
         Header: this.props.t('SALE.LABOUR.TABLE.EST_REVENUE'),
-        accessor: (d) => `${this.state.currencySymbol}${d.estimated_revenue}` || 'none',
+        accessor: 'estimated_revenue',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value ? d.value.toFixed(2).toString() : ''}`}</span>,
         minWidth: 75,
         Footer: (
           <div>

@@ -28,7 +28,7 @@ export default function ProgressBar({ closeSuccessHeader }) {
         const diff = Math.random() * 28;
         return Math.min(oldProgress + diff, 100);
       });
-    }, 500);
+    }, 250);
 
     return () => {
       clearInterval(timer);

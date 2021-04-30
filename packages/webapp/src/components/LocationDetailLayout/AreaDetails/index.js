@@ -40,7 +40,7 @@ export default function AreaDetails({
   }, []);
 
   useEffect(() => {
-    if (history?.location?.state?.error && !history?.location?.state?.error?.retire  ) {
+    if (history?.location?.state?.error && !history?.location?.state?.error?.retire) {
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);

@@ -25,6 +25,7 @@ import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
+import ScrollToTop from '../../hooks/ScrollToTop';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -179,20 +180,6 @@ class LogDetail extends Component {
       { text: this.props.t('common:DELETE'), onClick: () => this.confirmDelete() },
     ];
 
-    let months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
     let date, regularName;
     if (selectedLog) {
       let logDate = moment(selectedLog.date).locale(language);
@@ -231,376 +218,370 @@ class LogDetail extends Component {
     }
 
     let dropDown = 0;
-    if (selectedLog)
-      return (
-        <div className={styles.logContainer}>
-          <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
-          <div className={styles.infoBlock}>
-            <div className={styles.innerInfo}>
-              <div>
-                <strong> {date}</strong>
-              </div>
-              {(Number(farm.role_id) === 1 ||
-                Number(farm.role_id) === 2 ||
-                Number(farm.role_id) === 5 ||
-                Number(farm.role_id) === 3) && (
-                <DropdownButton options={options}>
-                  {this.props.t('LOG_COMMON.ACTION')}
-                </DropdownButton>
-              )}
+
+    return (
+      <div className={styles.logContainer}>
+        <ScrollToTop />
+        <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
+        <div className={styles.infoBlock}>
+          <div className={styles.innerInfo}>
+            <div>
+              <strong> {date}</strong>
             </div>
+            {(Number(farm.role_id) === 1 ||
+              Number(farm.role_id) === 2 ||
+              Number(farm.role_id) === 5 ||
+              Number(farm.role_id) === 3) && (
+              <DropdownButton options={options}>{this.props.t('LOG_COMMON.ACTION')}</DropdownButton>
+            )}
           </div>
+        </div>
 
-          <div className={styles.infoBlock}>
-            <div className={styles.innerInfo}>
-              <div>{this.props.t('LOG_DETAIL.SUBMITTED_FOR')}</div>
-              <span>{selectedLog.first_name + ' ' + selectedLog.last_name}</span>
-            </div>
+        <div className={styles.infoBlock}>
+          <div className={styles.innerInfo}>
+            <div>{this.props.t('LOG_DETAIL.SUBMITTED_FOR')}</div>
+            <span>{selectedLog.first_name + ' ' + selectedLog.last_name}</span>
           </div>
+        </div>
 
-          <div className={styles.infoBlock}>
-            <div className={styles.innerInfo}>
-              <div>{this.props.t('LOG_DETAIL.ACTIVITY_KIND')}</div>
-              <span>{this.getKindname(selectedLog.activity_kind)}</span>
-            </div>
+        <div className={styles.infoBlock}>
+          <div className={styles.innerInfo}>
+            <div>{this.props.t('LOG_DETAIL.ACTIVITY_KIND')}</div>
+            <span>{this.getKindname(selectedLog.activity_kind)}</span>
           </div>
+        </div>
 
-          {selectedLog.fieldCrop.length > 0 && (
-            <div className={styles.infoBlock}>
-              <div className={styles.fcInfo}>
-                <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_COMMON.FIELD_CROPS')}</div>
-                <div className={styles.fieldCropList}>
-                  {selectedLog.fieldCrop.map((fc) => {
-                    let hasDup = this.hasSameCrop(fc);
-                    if (hasDup) {
-                      return (
-                        <div className={styles.innerList} key={fc.field_crop_id}>
-                          <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
-                          <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
-                        </div>
-                      );
-                    } else
-                      return (
-                        <p key={fc.field_crop_id}>
-                          {this.props.t(`crop:${fc.crop.crop_translation_key}`)}
-                        </p>
-                      );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-          {selectedLog.fieldCrop.length < 1 && (
-            <div className={styles.infoBlock}>
-              <div className={styles.innerInfo}>
-                <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
-                <div className={styles.innerTaskList}>
-                  {selectedLog.location.map((f) => {
-                    return <p>{f.name}</p>;
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-          {selectedLog.activity_kind === 'pestControl' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}</div>
-                  <span>{this.getPesticideName(selectedLog.pestControlLog.pesticide_id)}</span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>
-                    {this.props.t('LOG_PESTICIDE.PESTICIDE_QUANTITY')} ({this.state.quantity_unit})
-                  </div>
-                  {quantity_unit === 'lb' && (
-                    <span>
-                      {roundToTwoDecimal(
-                        convertFromMetric(
-                          selectedLog.pestControlLog.quantity_kg,
-                          quantity_unit,
-                          'kg',
-                          false,
-                        ),
-                      )}
-                    </span>
-                  )}
-                  {quantity_unit === 'kg' && (
-                    <span>{roundToTwoDecimal(selectedLog.pestControlLog.quantity_kg)}</span>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_CONTROL_TYPE')}</div>
-                  <span>{regularName}</span>
-                </div>
-              </div>
-              <div className={styles.infoBlock}>
-                <div className={styles.fcInfo}>
-                  <div style={{ marginBottom: '10px' }}>
-                    {this.props.t('LOG_PESTICIDE.TARGET_DISEASE')}
-                  </div>
-                  <div className={styles.innerList}>
-                    {this.getDiseaseName(selectedLog.pestControlLog.target_disease_id)}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          {selectedLog.activity_kind === 'fertilizing' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.fcInfo}>
-                  <div style={{ marginBottom: '10px' }}>
-                    {this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}
-                  </div>
-                  <div className={styles.innerList}>
-                    {this.getFertName(selectedLog.fertilizerLog.fertilizer_id)}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>
-                    {this.props.t('LOG_FERTILIZING.FERTILIZING_QUANTITY')}({quantity_unit})
-                  </div>
-                  {quantity_unit === 'lb' && (
-                    <span>
-                      {roundToTwoDecimal(
-                        convertFromMetric(
-                          selectedLog.fertilizerLog.quantity_kg,
-                          quantity_unit,
-                          'kg',
-                          false,
-                        ),
-                      )}
-                    </span>
-                  )}
-                  {quantity_unit === 'kg' && (
-                    <span>{roundToTwoDecimal(selectedLog.fertilizerLog.quantity_kg)}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'harvest' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
-                  {quantity_unit === 'lb' && (
-                    <span>
-                      {roundToTwoDecimal(
-                        convertFromMetric(
-                          selectedLog.harvestLog.quantity_kg,
-                          quantity_unit,
-                          'kg',
-                          false,
-                        ),
-                      )}
-                    </span>
-                  )}
-                  {quantity_unit === 'kg' && (
-                    <span>{roundToTwoDecimal(selectedLog.harvestLog.quantity_kg)}</span>
-                  )}
-                </div>
-              </div>
-              <div className={styles.infoBlock}>
-                <div className={styles.harvestUseInfo}>
-                  <div className={styles.harvestUseHeader}>
-                    <div>{this.props.t('LOG_HARVEST.HARVEST_USE')}</div>
-                    <div>{`${this.props.t('LOG_HARVEST.QUANTITY')} (${quantity_unit})`}</div>
-                  </div>
-                  {selectedLog.harvestUse?.map((use) => (
-                    <div className={styles.harvestUseItem}>
-                      <Semibold style={{ color: 'var(--teal900)' }}>
-                        {this.props.t(
-                          `harvest_uses:${use.harvestUseType.harvest_use_type_translation_key}`,
-                        )}
-                      </Semibold>
-                      <div>
-                        <Semibold style={{ color: 'var(--teal900)' }}>
-                          {quantity_unit === 'lb'
-                            ? roundToTwoDecimal(
-                                convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
-                              )
-                            : roundToTwoDecimal(use.quantity_kg)}
-                        </Semibold>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'soilData' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SOIL.SOIL_TEXTURE')}</div>
-                  <span>{regularName}</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'fieldWork' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
-                  <span>{regularName}</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'seeding' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SPACE_DEPTH')}</div>
-                  <span>
-                    {roundToFourDecimal(
-                      convertFromMetric(
-                        selectedLog.seedLog.space_depth_cm,
-                        this.state.space_unit,
-                        'cm',
-                      ),
-                    )}{' '}
-                    {space_unit}
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SPACE_LENGTH')}</div>
-                  <span>
-                    {roundToFourDecimal(
-                      convertFromMetric(
-                        selectedLog.seedLog.space_length_cm,
-                        this.state.space_unit,
-                        'cm',
-                      ),
-                    )}{' '}
-                    {space_unit}
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SPACE_WIDTH')}</div>
-                  <span>
-                    {roundToFourDecimal(
-                      convertFromMetric(
-                        selectedLog.seedLog.space_width_cm,
-                        this.state.space_unit,
-                        'cm',
-                      ),
-                    )}{' '}
-                    {space_unit}
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.RATE')}</div>
-                  <span>
-                    {roundToFourDecimal(
-                      convertFromMetric(
-                        selectedLog.seedLog['rate_seeds/m2'],
-                        rate_unit,
-                        'm2',
-                        true,
-                      ),
-                    )}{' '}
-                    {'seeds/' + rate_unit}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'irrigation' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
-                  <span>{regularName}</span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
-                  <span>
-                    {roundToFourDecimal(
-                      convertFromMetric(
-                        selectedLog.irrigationLog['flow_rate_l/min'],
-                        ratePerMin,
-                        'l/min',
-                      ),
-                    )}
-                    {` ${ratePerMin}`}
-                  </span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.HOURS')}</div>
-                  <span>{selectedLog.irrigationLog.hours}</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {selectedLog.activity_kind === 'scouting' && (
-            <div>
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
-                  <span>{regularName}</span>
-                </div>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_DETAIL.ACTION_NEEDED')}</div>
-                  {selectedLog.action_needed && <span>{this.props.t('LOG_DETAIL.YES')}</span>}
-                  {!selectedLog.action_needed && <span>{this.props.t('LOG_DETAIL.NO')}</span>}
-                </div>
-              </div>
-            </div>
-          )}
-
+        {selectedLog.fieldCrop.length > 0 && (
           <div className={styles.infoBlock}>
             <div className={styles.fcInfo}>
-              <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_DETAIL.NOTE')}</div>
-              <div className={styles.innerList}>{selectedLog.notes}</div>
+              <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_COMMON.FIELD_CROPS')}</div>
+              <div className={styles.fieldCropList}>
+                {selectedLog.fieldCrop.map((fc) => {
+                  let hasDup = this.hasSameCrop(fc);
+                  if (hasDup) {
+                    return (
+                      <div className={styles.innerList} key={fc.field_crop_id}>
+                        <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
+                        <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
+                      </div>
+                    );
+                  } else
+                    return (
+                      <p key={fc.field_crop_id}>
+                        {this.props.t(`crop:${fc.crop.crop_translation_key}`)}
+                      </p>
+                    );
+                })}
+              </div>
             </div>
           </div>
+        )}
+        {selectedLog.fieldCrop.length < 1 && (
+          <div className={styles.infoBlock}>
+            <div className={styles.innerInfo}>
+              <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
+              <div className={styles.innerTaskList}>
+                {selectedLog.location.map((f) => {
+                  return <p>{f.name}</p>;
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedLog.activity_kind === 'pestControl' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}</div>
+                <span>{this.getPesticideName(selectedLog.pestControlLog.pesticide_id)}</span>
+              </div>
+            </div>
 
-          <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({ showModal: false })}
-            onConfirm={() => {
-              this.props.dispatch(deleteLog(selectedLog.activity_id));
-            }}
-            message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
-          />
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>
+                  {this.props.t('LOG_PESTICIDE.PESTICIDE_QUANTITY')} ({this.state.quantity_unit})
+                </div>
+                {quantity_unit === 'lb' && (
+                  <span>
+                    {roundToTwoDecimal(
+                      convertFromMetric(
+                        selectedLog.pestControlLog.quantity_kg,
+                        quantity_unit,
+                        'kg',
+                        false,
+                      ),
+                    )}
+                  </span>
+                )}
+                {quantity_unit === 'kg' && (
+                  <span>{roundToTwoDecimal(selectedLog.pestControlLog.quantity_kg)}</span>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_CONTROL_TYPE')}</div>
+                <span>{regularName}</span>
+              </div>
+            </div>
+            <div className={styles.infoBlock}>
+              <div className={styles.fcInfo}>
+                <div style={{ marginBottom: '10px' }}>
+                  {this.props.t('LOG_PESTICIDE.TARGET_DISEASE')}
+                </div>
+                <div className={styles.innerList}>
+                  {this.getDiseaseName(selectedLog.pestControlLog.target_disease_id)}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedLog.activity_kind === 'fertilizing' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.fcInfo}>
+                <div style={{ marginBottom: '10px' }}>
+                  {this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}
+                </div>
+                <div className={styles.innerList}>
+                  {this.getFertName(selectedLog.fertilizerLog.fertilizer_id)}
+                </div>
+              </div>
+            </div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>
+                  {this.props.t('LOG_FERTILIZING.FERTILIZING_QUANTITY')}({quantity_unit})
+                </div>
+                {quantity_unit === 'lb' && (
+                  <span>
+                    {roundToTwoDecimal(
+                      convertFromMetric(
+                        selectedLog.fertilizerLog.quantity_kg,
+                        quantity_unit,
+                        'kg',
+                        false,
+                      ),
+                    )}
+                  </span>
+                )}
+                {quantity_unit === 'kg' && (
+                  <span>{roundToTwoDecimal(selectedLog.fertilizerLog.quantity_kg)}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'harvest' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
+                {quantity_unit === 'lb' && (
+                  <span>
+                    {roundToTwoDecimal(
+                      convertFromMetric(
+                        selectedLog.harvestLog.quantity_kg,
+                        quantity_unit,
+                        'kg',
+                        false,
+                      ),
+                    )}
+                  </span>
+                )}
+                {quantity_unit === 'kg' && (
+                  <span>{roundToTwoDecimal(selectedLog.harvestLog.quantity_kg)}</span>
+                )}
+              </div>
+            </div>
+            <div className={styles.infoBlock}>
+              <div className={styles.harvestUseInfo}>
+                <div className={styles.harvestUseHeader}>
+                  <div>{this.props.t('LOG_HARVEST.HARVEST_USE')}</div>
+                  <div>{`${this.props.t('LOG_HARVEST.QUANTITY')} (${quantity_unit})`}</div>
+                </div>
+                {selectedLog.harvestUse?.map((use) => (
+                  <div className={styles.harvestUseItem}>
+                    <Semibold style={{ color: 'var(--teal900)' }}>
+                      {this.props.t(
+                        `harvest_uses:${use.harvestUseType.harvest_use_type_translation_key}`,
+                      )}
+                    </Semibold>
+                    <div>
+                      <Semibold style={{ color: 'var(--teal900)' }}>
+                        {quantity_unit === 'lb'
+                          ? roundToTwoDecimal(
+                              convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
+                            )
+                          : roundToTwoDecimal(use.quantity_kg)}
+                      </Semibold>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'soilData' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_SOIL.SOIL_TEXTURE')}</div>
+                <span>{regularName}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'fieldWork' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
+                <span>{regularName}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'seeding' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_SEEDING.SPACE_DEPTH')}</div>
+                <span>
+                  {roundToFourDecimal(
+                    convertFromMetric(
+                      selectedLog.seedLog.space_depth_cm,
+                      this.state.space_unit,
+                      'cm',
+                    ),
+                  )}{' '}
+                  {space_unit}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_SEEDING.SPACE_LENGTH')}</div>
+                <span>
+                  {roundToFourDecimal(
+                    convertFromMetric(
+                      selectedLog.seedLog.space_length_cm,
+                      this.state.space_unit,
+                      'cm',
+                    ),
+                  )}{' '}
+                  {space_unit}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_SEEDING.SPACE_WIDTH')}</div>
+                <span>
+                  {roundToFourDecimal(
+                    convertFromMetric(
+                      selectedLog.seedLog.space_width_cm,
+                      this.state.space_unit,
+                      'cm',
+                    ),
+                  )}{' '}
+                  {space_unit}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_SEEDING.RATE')}</div>
+                <span>
+                  {roundToFourDecimal(
+                    convertFromMetric(selectedLog.seedLog['rate_seeds/m2'], rate_unit, 'm2', true),
+                  )}{' '}
+                  {'seeds/' + rate_unit}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'irrigation' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
+                <span>{regularName}</span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
+                <span>
+                  {roundToFourDecimal(
+                    convertFromMetric(
+                      selectedLog.irrigationLog['flow_rate_l/min'],
+                      ratePerMin,
+                      'l/min',
+                    ),
+                  )}
+                  {` ${ratePerMin}`}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.HOURS')}</div>
+                <span>{selectedLog.irrigationLog.hours}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedLog.activity_kind === 'scouting' && (
+          <div>
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
+                <span>{regularName}</span>
+              </div>
+            </div>
+
+            <div className={styles.infoBlock}>
+              <div className={styles.innerInfo}>
+                <div>{this.props.t('LOG_DETAIL.ACTION_NEEDED')}</div>
+                {selectedLog.action_needed && <span>{this.props.t('LOG_DETAIL.YES')}</span>}
+                {!selectedLog.action_needed && <span>{this.props.t('LOG_DETAIL.NO')}</span>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.infoBlock}>
+          <div className={styles.fcInfo}>
+            <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_DETAIL.NOTE')}</div>
+            <div className={styles.innerList}>{selectedLog.notes}</div>
+          </div>
         </div>
-      );
+
+        <ConfirmModal
+          open={this.state.showModal}
+          onClose={() => this.setState({ showModal: false })}
+          onConfirm={() => {
+            this.props.dispatch(deleteLog(selectedLog.activity_id));
+          }}
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
+        />
+      </div>
+    );
   }
 }
 

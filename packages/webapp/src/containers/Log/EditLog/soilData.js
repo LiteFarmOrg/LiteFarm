@@ -86,11 +86,11 @@ class soilDataLog extends Component {
     parsedTextureOptions(this.props.t).forEach((currTexture) => {
       lookupValueTable['texture'][currTexture.value] = currTexture.label;
     });
-    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
+    const filteredDepth = parsedDepthOptions.filter((o) => o.label.includes(this.state.depth_unit));
     filteredDepth.forEach((currDepth) => {
       lookupValueTable['depth'][currDepth.value] = currDepth.label;
     });
-    this.setState({depthOptions: filteredDepth})
+    this.setState({ depthOptions: filteredDepth });
 
     const { selectedLog, dispatch } = this.props;
     this.setState({

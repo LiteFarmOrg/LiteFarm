@@ -280,7 +280,9 @@ class PestControlLog extends Component {
       pesticides &&
       pesticides.map((p) => ({
         value: p.pesticide_id,
-        label: p.farm_id ? p.pesticide_name : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
+        label: p.farm_id
+          ? p.pesticide_name
+          : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
       }));
 
     const diseaseOptions =

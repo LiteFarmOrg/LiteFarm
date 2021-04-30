@@ -51,7 +51,6 @@ const parsedDepthOptions = [
   { label: '20-40in', value: 100 },
 ];
 
-
 class soilDataLog extends Component {
   constructor(props) {
     super(props);
@@ -80,8 +79,8 @@ class soilDataLog extends Component {
   }
 
   componentDidMount() {
-    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
-    this.setState({depthOptions: filteredDepth})
+    const filteredDepth = parsedDepthOptions.filter((o) => o.label.includes(this.state.depth_unit));
+    this.setState({ depthOptions: filteredDepth });
   }
 
   handleSubmit(logForm) {

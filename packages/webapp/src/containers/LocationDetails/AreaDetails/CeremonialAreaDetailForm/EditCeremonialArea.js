@@ -36,6 +36,13 @@ function EditCeremonialDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setAreaDetailFormData(ceremonial));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error?.retire) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );

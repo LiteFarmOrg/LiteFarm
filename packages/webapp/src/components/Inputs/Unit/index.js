@@ -46,6 +46,7 @@ class Unit extends React.Component {
       isHarvestAllocation,
       defaultValue,
       disabled,
+      canBeEmpty,
     } = this.props;
     let showLabel = !hideLabel;
 
@@ -104,7 +105,7 @@ class Unit extends React.Component {
                 onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
-                validators={{ positive: this.isPositive }}
+                validators={!canBeEmpty ? { positive: this.isPositive } : null}
                 parser={this.parseNumber}
                 component={Input}
                 classes={{ container: { flexGrow: 1 } }}
@@ -114,14 +115,16 @@ class Unit extends React.Component {
               {!!type && <div className={styles.typeUnit}>{type}</div>}
             </div>
 
-            <Errors
-              className="required"
-              model={model}
-              show={{ touched: true, focus: false }}
-              messages={{
-                positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
-              }}
-            />
+            {!canBeEmpty && (
+              <Errors
+                className="required"
+                model={model}
+                show={{ touched: true, focus: false }}
+                messages={{
+                  positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
+                }}
+              />
+            )}
           </>
         )}
         {!dropdown && validate && (

@@ -10,7 +10,6 @@ import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
 import { actions, Control, Form } from 'react-redux-form';
 import { addFertilizer, editFertilizerLog, getFertilizers } from '../FertilizingLog/actions';
-import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -23,12 +22,11 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -182,12 +180,12 @@ class FertilizingLog extends Component {
       return;
     }
     let fertConfig = {
-      moisture_percentage: fertLog.moisture_percentage,
-      n_percentage: fertLog.n_percentage,
-      p_percentage: fertLog.p_percentage,
-      nh4_n_ppm: fertLog.nh4_n_ppm,
-      k_percentage: fertLog.k_percentage,
-      fertilizer_type: fertLog.product,
+      moisture_percentage: fertLog.moisture_percentage || 0,
+      n_percentage: fertLog.n_percentage || 0,
+      p_percentage: fertLog.p_percentage || 0,
+      nh4_n_ppm: fertLog.nh4_n_ppm || 0,
+      k_percentage: fertLog.k_percentage || 0,
+      fertilizer_type: fertLog.product || 0,
     };
     this.props.dispatch(addFertilizer(fertConfig));
     this.closeEditModal();
@@ -341,14 +339,14 @@ class FertilizingLog extends Component {
                   component={Input}
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -408,23 +406,7 @@ class FertilizingLog extends Component {
               message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
             />
 
-            <Popup
-              open={this.state.showCustomProduct}
-              closeOnDocumentClick
-              onClose={this.closeEditModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '100vh',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-              }}
-              overlayStyle={{
-                minHeight: '100vh',
-                top: 'auto',
-                zIndex: 1,
-              }}
-            >
+            <MuiFullPagePopup open={this.state.showCustomProduct} onClose={this.closeEditModal}>
               <Form
                 className={styles.formContainer}
                 model="logReducer.forms"
@@ -519,7 +501,7 @@ class FertilizingLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
         {(!crops || !locations || !fertilizers) && (

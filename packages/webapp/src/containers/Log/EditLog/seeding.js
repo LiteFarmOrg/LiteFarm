@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, logSelector, seedLogStateSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -175,7 +175,7 @@ class SeedingLog extends Component {
               />
             </div>
           </div>
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -194,6 +194,7 @@ const mapStateToProps = (state) => {
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     logs: logSelector(state),
+    formState: seedLogStateSelector(state),
     selectedLog: currentLogSelector(state),
   };
 };

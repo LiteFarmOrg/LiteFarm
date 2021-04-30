@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import { Label, Semibold, Underlined } from '../Typography';
 import { ReactComponent as MapBackground } from '../../assets/images/farmMapFilter/MapBackground.svg';
+import { ReactComponent as LabelIcon } from '../../assets/images/farmMapFilter/Label.svg';
 import { ReactComponent as Barn } from '../../assets/images/farmMapFilter/Barn.svg';
 import { ReactComponent as CeremonialArea } from '../../assets/images/farmMapFilter/CA.svg';
 import { ReactComponent as FarmSiteBoundary } from '../../assets/images/farmMapFilter/FSB.svg';
@@ -253,6 +254,17 @@ export default function MapDrawer({
               isFiltered={!filterSettings['map_background']}
             >
               <MapBackground className={classes.icon} />
+            </MapDrawerMenuItem>
+          )}
+
+          {!!filterSettings && !!areaImgDict.length && (
+            <MapDrawerMenuItem
+              isFilterMenuItem={!!filterSettings}
+              name={t('FARM_MAP.MAP_FILTER.LABEL')}
+              onClick={() => onMenuItemClick('label')}
+              isFiltered={!filterSettings['label']}
+            >
+              <LabelIcon className={classes.icon} />
             </MapDrawerMenuItem>
           )}
 

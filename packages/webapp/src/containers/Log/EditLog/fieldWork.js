@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, fieldWorkStateSelector, logSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
@@ -116,7 +116,7 @@ class FieldWorkLog extends Component {
             typeOptions={['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']}
             isCropNotNeeded={true}
           />
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter edit={true} disabled={!this.props.formState.$form.valid} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -135,6 +135,7 @@ const mapStateToProps = (state) => {
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
+    formState: fieldWorkStateSelector(state)
   };
 };
 

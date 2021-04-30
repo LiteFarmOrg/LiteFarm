@@ -8,4 +8,6 @@ const fertilizerFormSelector = (state) => state.logReducer.forms;
 
 const fertTypeSelector = createSelector(fertilizerFormSelector, (state) => state.fertLog);
 
-export { fertSelector, fertTypeSelector };
+const fertFormSelector  = createSelector(fertilizerFormSelector, (state) => state.forms.fertLog);
+
+export { fertSelector, fertTypeSelector, fertFormSelector };

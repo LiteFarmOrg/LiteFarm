@@ -84,7 +84,6 @@
     }
   },
   "MAP": {
-    "FAIL_DELETE": "Fallo al retirar",
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
     "SUCCESS_DELETE": " se retiro exitosamente",

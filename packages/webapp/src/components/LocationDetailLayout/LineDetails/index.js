@@ -44,7 +44,7 @@ export default function LineDetails({
         </PureWarningBox>
       )}
       <Input
-        label={name + ' name'}
+        label={name}
         type="text"
         style={{ marginBottom: '40px' }}
         name={lineEnum.name}

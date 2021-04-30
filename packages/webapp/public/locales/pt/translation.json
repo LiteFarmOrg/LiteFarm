@@ -34,11 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicite um certificador",
+      "REQUEST": "MISSING",
       "SORRY_ONE": "MISSING",
-      "SORRY_TWO": "MISSING",
       "SORRY_THREE": "MISSING",
-      "REQUEST": "MISSING"
+      "SORRY_TWO": "MISSING",
+      "TITLE": "Solicite um certificador"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
@@ -709,6 +709,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -749,7 +750,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Em breve!"
   },
-  "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
+  "OUTRO": {
+    "ALL_DONE": "MISSING",
+    "IMPORTANT_THINGS": "E, por fim, vamos mostrar algumas coisas importantes!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Ótimo!",
     "DESCRIPTION": "Sua senha foi atualizada. Redirecionando você para suas fazendas em 10 segundos ...",
@@ -1012,8 +1016,7 @@
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
     "MANAGE": "Administrar",
-    "SHIFTS": "Turnos",
-    "USERS": "Usuários"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Ativo",

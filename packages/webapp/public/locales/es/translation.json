@@ -34,11 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicitar un certificador",
+      "REQUEST": "MISSING",
       "SORRY_ONE": "MISSING",
-      "SORRY_TWO": "MISSING",
       "SORRY_THREE": "MISSING",
-      "REQUEST": "MISSING"
+      "SORRY_TWO": "MISSING",
+      "TITLE": "Solicitar un certificador"
     },
     "SUMMARY": {
       "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",
@@ -709,6 +709,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -749,7 +750,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Proximamente!"
   },
-  "OUTRO": "Y finalmente, déjenos mostrarle un par de cosas importantes!",
+  "OUTRO": {
+    "ALL_DONE": "MISSING",
+    "IMPORTANT_THINGS": "Y finalmente, déjenos mostrarle un par de cosas importantes!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Muy bien!",
     "DESCRIPTION": "Su contraseña ha sido actualizada. Redirigiéndolo(a) a su finca en 10 segundos...",
@@ -1012,8 +1016,7 @@
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos",
-    "USERS": "Usuarios"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Activo",

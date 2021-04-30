@@ -34,11 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Requested Certifier",
-      "TITLE": "Request a certifier",
+      "REQUEST": "What certifier would you like to request?",
       "SORRY_ONE": "We're sorry - we don’t currently work with any",
-      "SORRY_TWO": "certifiers. Would you like to request one?",
       "SORRY_THREE": "certifiers in your country. Would you like to request one?",
-      "REQUEST": "What certifier would you like to request?"
+      "SORRY_TWO": "certifiers. Would you like to request one?",
+      "TITLE": "Request a certifier"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm doesn't currently collect the information you need to generate your certification documents - sorry!",
@@ -709,6 +709,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",
@@ -749,7 +750,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Coming Soon!"
   },
-  "OUTRO": "And finally, let us show you a couple of important things!",
+  "OUTRO": {
+    "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
+    "IMPORTANT_THINGS": "And finally, let us show you a couple of important things!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Great!",
     "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",
@@ -1012,8 +1016,7 @@
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts",
-    "USERS": "Users"
+    "SHIFTS": "Shifts"
   },
   "STATUS": {
     "ACTIVE": "Active",

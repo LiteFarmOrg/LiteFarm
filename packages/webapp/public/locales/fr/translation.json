@@ -34,11 +34,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "MISSING",
-      "TITLE": "MISSING",
+      "REQUEST": "MISSING",
       "SORRY_ONE": "MISSING",
-      "SORRY_TWO": "MISSING",
       "SORRY_THREE": "MISSING",
-      "REQUEST": "MISSING"
+      "SORRY_TWO": "MISSING",
+      "TITLE": "MISSING"
     },
     "SUMMARY": {
       "BAD_NEWS": "MISSING",
@@ -709,6 +709,7 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",
@@ -749,7 +750,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "MISSING"
   },
-  "OUTRO": "MISSING",
+  "OUTRO": {
+    "ALL_DONE": "MISSING",
+    "IMPORTANT_THINGS": "MISSING"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "MISSING",
     "DESCRIPTION": "MISSING",
@@ -1012,8 +1016,7 @@
     "INSIGHTS": "MISSING",
     "LOGS": "MISSING",
     "MANAGE": "MISSING",
-    "SHIFTS": "MISSING",
-    "USERS": "MISSING"
+    "SHIFTS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "MISSING",

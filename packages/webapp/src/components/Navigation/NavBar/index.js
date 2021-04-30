@@ -114,7 +114,8 @@ export default function PureNavBar({
     'soil',
     'certifications',
   ]);
-  const {introduce_map} = useSelector(showedSpotlightSelector);
+  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
+  const isIntroducingFarmMap = !introduce_map && navigation;
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -129,7 +130,7 @@ export default function PureNavBar({
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
   const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
-  const isFarmFloaterOpen = openFloater === FARM || !introduce_map;
+  const isFarmFloaterOpen = openFloater === FARM;
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
@@ -290,6 +291,7 @@ export default function PureNavBar({
               farmInfoClick={farmInfoClick}
               farmMapClick={farmMapClick}
               peopleClick={peopleClick}
+              isIntroducingFarmMap={isIntroducingFarmMap}
             >
               <IconButton
                 aria-label="farm-icon"

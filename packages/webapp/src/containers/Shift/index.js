@@ -191,19 +191,20 @@ class Shift extends Component {
                 onChange={(option) => this.props.dispatch(setShiftType(option))}
                 isSearchable={false}
               />
-
-              <LocalForm model="logDates">
-                {' '}
-                <FromToDateContainer
-                  onEndDateChange={this.onEndDateChange}
-                  onStartDateChange={this.onStartDateChange}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </LocalForm>
             </div>
           </div>
         )}
+        <div>
+          <LocalForm model="logDates">
+            {' '}
+            <FromToDateContainer
+              onEndDateChange={this.onEndDateChange}
+              onStartDateChange={this.onStartDateChange}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </LocalForm>
+        </div>
 
         <Underlined
           style={{ color: colors.brown700 }}

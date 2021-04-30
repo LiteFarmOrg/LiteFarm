@@ -19,7 +19,7 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import DropDown from '../../../components/Inputs/DropDown';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, logSelector, pestControlLogStateSelector } from '../selectors';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
@@ -487,7 +487,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               )}
-              <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+              <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
             </Form>
             <ConfirmModal
               open={this.state.showModal}
@@ -644,6 +644,7 @@ const mapStateToProps = (state) => {
     pestControlLog: pestLogSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
+    formState: pestControlLogStateSelector(state)
   };
 };
 

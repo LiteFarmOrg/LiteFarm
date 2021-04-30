@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle/v2';
 
-import { fertSelector, fertTypeSelector } from './selectors';
+import { fertFormSelector, fertSelector, fertTypeSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -57,6 +57,7 @@ class FertilizingLog extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFertilizers());
+    console.log(this.props.formState.$form.valid)
   }
 
   toggleChemInfo() {
@@ -351,7 +352,7 @@ class FertilizingLog extends Component {
                   />
                 </div>
               )}
-              <LogFooter />
+              <LogFooter disabled={!this.props.formState.$form.valid} />
             </Form>
 
             <MuiFullPagePopup open={this.state.showCustomProduct} onClose={this.closeEditModal}>
@@ -462,6 +463,7 @@ const mapStateToProps = (state) => {
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),
+    formState: fertFormSelector(state)
   };
 };
 

@@ -17,6 +17,8 @@ import { createSelector } from 'reselect/es';
 
 const logPageSelector = (state) => state.logReducer.logReducer;
 
+const formStateSelector = (state) => state.logReducer.forms.forms;
+
 const logSelector = createSelector(logPageSelector, (state) => state.logs);
 
 const currentLogSelector = createSelector(logPageSelector, (state) => state.selectedLog);
@@ -46,6 +48,15 @@ const harvestAllocationSelector = createSelector(
   (state) => state.harvestAllocation,
 );
 
+const scoutingLogStateSelector = createSelector(formStateSelector, (state) => state.scoutingLog )
+const pestControlLogStateSelector = createSelector(formStateSelector, (state) => state.pestControlLog )
+const fieldWorkStateSelector = createSelector(formStateSelector, (state) => state.fieldWorkLog )
+const harvestLogStateSelector = createSelector(formStateSelector, (state) => state.harvestLog )
+const irrigationStateSelector = createSelector(formStateSelector, (state) => state.irrigationLog )
+const otherLogStateSelector = createSelector(formStateSelector, (state) => state.otherLog )
+const seedLogStateSelector = createSelector(formStateSelector, (state) => state.seedLog )
+const soilDataLogStateSelector = createSelector(formStateSelector, (state) => state.soilDataLog )
+
 export {
   logSelector,
   currentLogSelector,
@@ -59,4 +70,12 @@ export {
   logFieldFilterSelector,
   logCropFilterSelector,
   logTypeFilterSelector,
+  scoutingLogStateSelector,
+  pestControlLogStateSelector,
+  fieldWorkStateSelector,
+  harvestLogStateSelector,
+  irrigationStateSelector,
+  otherLogStateSelector,
+  seedLogStateSelector,
+  soilDataLogStateSelector
 };

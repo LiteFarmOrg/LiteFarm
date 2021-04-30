@@ -36,6 +36,13 @@ function EditWatercourseDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setLineDetailFormData(getFormData(watercourse)));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error?.retire) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );

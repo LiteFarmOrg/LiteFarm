@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinances }) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const handleClick = (link) => {
-    history.push(link);
+  const handleClick = (link, state = {}) => {
+    history.push(link, state);
     closeDrawer();
   };
   return (
@@ -70,7 +70,7 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
             <ListItem
               className={classes.subListItem}
               button
-              onClick={() => handleClick('/Profile')}
+              onClick={() => handleClick('/Profile' , 'people')}
             >
               <ListItemText
                 classes={{ primary: classes.subListItemText }}

@@ -522,8 +522,8 @@
   "PESTICIDE": {
     "ROUNDUP": "Roundup",
     "DIPEL": "Dipel 2X DF",
-    "NEEM_OIL":"Neem oil",
+    "NEEM_OIL": "Neem oil",
     "SULFOCALCIUM_SYRUP": "Sulfocalcium Syrup",
-    "BORDEAUX_MIXTURE":"Bordeaux mixture"
+    "BORDEAUX_MIXTURE": "Bordeaux mixture"
   }
 }

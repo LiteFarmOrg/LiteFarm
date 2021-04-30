@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, logSelector, soilDataLogStateSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -86,11 +86,11 @@ class soilDataLog extends Component {
     parsedTextureOptions(this.props.t).forEach((currTexture) => {
       lookupValueTable['texture'][currTexture.value] = currTexture.label;
     });
-    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
+    const filteredDepth = parsedDepthOptions.filter((o) => o.label.includes(this.state.depth_unit));
     filteredDepth.forEach((currDepth) => {
       lookupValueTable['depth'][currDepth.value] = currDepth.label;
     });
-    this.setState({depthOptions: filteredDepth})
+    this.setState({ depthOptions: filteredDepth });
 
     const { selectedLog, dispatch } = this.props;
     this.setState({
@@ -339,7 +339,7 @@ class soilDataLog extends Component {
               />
             </div>
           )}
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -359,6 +359,7 @@ const mapStateToProps = (state) => {
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),
+    formState: soilDataLogStateSelector(state)
   };
 };
 

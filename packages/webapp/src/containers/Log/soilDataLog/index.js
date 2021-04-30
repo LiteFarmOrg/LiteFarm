@@ -19,6 +19,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold, Underlined } from '../../../components/Typography';
+import { soilDataLogStateSelector } from "../selectors";
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -50,7 +51,6 @@ const parsedDepthOptions = [
   { label: '20-40in', value: 100 },
 ];
 
-
 class soilDataLog extends Component {
   constructor(props) {
     super(props);
@@ -79,8 +79,8 @@ class soilDataLog extends Component {
   }
 
   componentDidMount() {
-    const filteredDepth = parsedDepthOptions.filter(o => o.label.includes(this.state.depth_unit));
-    this.setState({depthOptions: filteredDepth})
+    const filteredDepth = parsedDepthOptions.filter((o) => o.label.includes(this.state.depth_unit));
+    this.setState({ depthOptions: filteredDepth });
   }
 
   handleSubmit(logForm) {
@@ -259,7 +259,7 @@ class soilDataLog extends Component {
               />
             </div>
           )}
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -271,6 +271,7 @@ const mapStateToProps = (state) => {
     crops: currentAndPlannedFieldCropsSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
+    formState: soilDataLogStateSelector(state)
   };
 };
 

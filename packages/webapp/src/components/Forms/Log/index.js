@@ -67,16 +67,16 @@ class DefaultLogForm extends React.Component {
   setCropsOnFieldSelect(selectedOptions) {
     const { locations, parent, model } = this.props;
     const { crops } = this.props;
-    let cropOptionsMap = this.state.cropOptionsMap;
+    let cropOptionsMap = JSON.parse(JSON.stringify(this.state.cropOptionsMap));
     let selectedFields;
     const options = selectedOptions || [];
 
     // remove associated crop selections for field if field is removed from dropdown
     const activeFields = options.map((o) => o.value);
-    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1);
+    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1).map(f=> f.location_id);
     removedFields &&
       removedFields.map((rm) => {
-        return this.props.dispatch(actions.reset(`${parent}${model}.crop.${rm.location_id}`));
+        return this.props.dispatch(actions.change(`${parent}${model}.crop.${rm}`, null));
       });
 
     // map field_crops to locations that are selected in dropdown

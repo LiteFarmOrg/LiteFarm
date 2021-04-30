@@ -15,6 +15,7 @@ class DropDown extends React.Component {
       value,
       isMulti,
       style,
+      components,
       ...props
     } = this.props;
     const DropdownIndicator = (props) => {
@@ -35,6 +36,7 @@ class DropDown extends React.Component {
         isSearchable={isSearchable ? isSearchable : false}
         placeholder={placeholder}
         onChange={onChange}
+        components={components}
         value={value}
         {...props}
       />

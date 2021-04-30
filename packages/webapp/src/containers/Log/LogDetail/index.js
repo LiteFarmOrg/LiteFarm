@@ -164,8 +164,8 @@ class LogDetail extends Component {
   };
 
   onBack = () => {
-    history.push('/log')
-  }
+    history.push('/log');
+  };
 
   render() {
     let { selectedLog, farm } = this.props;

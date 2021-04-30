@@ -95,7 +95,7 @@ export const getDuration = (timeInMinutes) => {
     return { durationString: '0m', minutes: 0, hours: 0 };
   }
   const hours = parseInt(timeInMinutes / 60, 10);
-  const minutes = timeInMinutes - hours * 60;
+  let minutes = parseInt(timeInMinutes - hours * 60);
   const durationString = `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
   return { hours, minutes, durationString };
 };

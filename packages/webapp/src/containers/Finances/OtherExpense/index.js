@@ -104,7 +104,7 @@ class OtherExpense extends Component {
     for (let k of keys) {
       data.push({
         type: dict[k].type,
-        amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
+        amount: dict[k].amount,
       });
       total += dict[k].amount;
     }
@@ -164,8 +164,9 @@ class OtherExpense extends Component {
       {
         id: 'amount',
         Header: this.props.t('SALE.SUMMARY.AMOUNT'),
-        accessor: (d) => d.amount,
+        accessor: 'amount',
         minWidth: 75,
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         Footer: <div>{this.state.currencySymbol + totalData}</div>,
       },
     ];
@@ -188,7 +189,8 @@ class OtherExpense extends Component {
       {
         id: 'amount',
         Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
-        accessor: (d) => d.amount,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 75,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
       },

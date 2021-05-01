@@ -496,6 +496,10 @@
       "TITLE": "Balanço hídrico"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
     "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
@@ -710,6 +714,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

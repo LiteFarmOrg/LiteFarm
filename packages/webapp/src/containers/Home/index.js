@@ -13,6 +13,9 @@ import {
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
+import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmModal'
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { setSpotlightToShown } from '../Map/saga';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -25,6 +28,8 @@ export default function Home() {
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
+  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
+  const showNotifyUpdatedFarmModal = !introduce_map && navigation;
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
@@ -49,6 +54,12 @@ export default function Home() {
         <RequestConfirmationComponent
           onClick={showRequestConfirmationModalOnClick}
           dismissModal={showRequestConfirmationModalOnClick}
+        />
+      )}
+
+      {showNotifyUpdatedFarmModal && (
+        <NotifyUpdatedFarmModal
+          dismissModal={() => dispatch(setSpotlightToShown('introduce_map'))}
         />
       )}
     </PureHome>

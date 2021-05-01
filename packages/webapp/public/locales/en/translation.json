@@ -496,6 +496,10 @@
       "TITLE": "Water Balance"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "The farm map has new features. It is now found under the My Farm menu.",
+    "TITLE": "We've updated farm maps!"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
@@ -710,6 +714,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

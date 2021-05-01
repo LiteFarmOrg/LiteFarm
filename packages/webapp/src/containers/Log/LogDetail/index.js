@@ -155,7 +155,6 @@ class LogDetail extends Component {
 
   getFertName = (fert_id) => {
     let { fertilizers } = this.props;
-    console.log(fertilizers);
     for (let f of fertilizers) {
       if (f.fertilizer_id === fert_id) {
         return this.props.t(`fertilizer:${f.fertilizer_translation_key}`);
@@ -276,16 +275,16 @@ class LogDetail extends Component {
             </div>
           </div>
         )}
-          <div className={styles.infoBlock}>
-            <div className={styles.innerInfo}>
-              <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
-              <div className={styles.innerTaskList}>
-                {selectedLog.location.map((f) => {
-                  return <p>{f.name}</p>;
-                })}
-              </div>
+        <div className={styles.infoBlock}>
+          <div className={styles.innerInfo}>
+            <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
+            <div className={styles.innerTaskList}>
+              {selectedLog.location.map((f) => {
+                return <p>{f.name}</p>;
+              })}
             </div>
           </div>
+        </div>
         {selectedLog.activity_kind === 'pestControl' && (
           <div>
             <div className={styles.infoBlock}>

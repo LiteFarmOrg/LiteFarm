@@ -87,7 +87,7 @@ export default function PureHarvestAllocation({
         </div>
         {defaultData.selectedUseTypes.map((type, index) => {
           const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-          let quant = type.quantity_kg;
+          const quant = type.quantity_kg;
           return (
             <div
               style={
@@ -105,7 +105,10 @@ export default function PureHarvestAllocation({
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
                 inputRef={register({ required: true })}
-                defaultValue={quant}
+                defaultValue={
+                  (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
+                  quant
+                }
               />
             </div>
           );

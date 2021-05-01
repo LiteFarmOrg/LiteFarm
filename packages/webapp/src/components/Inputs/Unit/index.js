@@ -47,6 +47,7 @@ class Unit extends React.Component {
       defaultValue,
       disabled,
       canBeEmpty,
+      optional,
     } = this.props;
     let showLabel = !hideLabel;
 
@@ -100,6 +101,7 @@ class Unit extends React.Component {
           <>
             <div className={styles.inputNunit}>
               <Control
+                optional={optional}
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}

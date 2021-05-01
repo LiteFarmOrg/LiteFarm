@@ -32,6 +32,8 @@ class PageTitle extends Component {
     const rightIconDeleteHandler = this.props.rightIconDeleteHandler;
     const showDelete = this.props.showDelete;
     const isHarvestLogStep = this.props.isHarvestLogStep;
+    const { leftButtonText, rightButtonText } = this.props;
+
     return (
       <div>
         <div
@@ -53,6 +55,8 @@ class PageTitle extends Component {
                 body={rightIconBody}
                 deleteHandler={rightIconDeleteHandler}
                 showDelete={showDelete}
+                leftButtonText={leftButtonText}
+                rightButtonText={rightButtonText}
               />
             </div>
           )}

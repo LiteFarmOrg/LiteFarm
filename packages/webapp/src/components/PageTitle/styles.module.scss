@@ -91,3 +91,12 @@
   padding: 20px;
   outline: none;
 }
+
+.modalButton {
+}
+
+@media screen and (max-width: 360px) {
+  .modalButton {
+    padding: 0 8px !important;
+  }
+}

@@ -57,7 +57,6 @@ class FertilizingLog extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFertilizers());
-    console.log(this.props.formState.$form.valid)
   }
 
   toggleChemInfo() {
@@ -463,7 +462,7 @@ const mapStateToProps = (state) => {
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),
-    formState: fertFormSelector(state)
+    formState: fertFormSelector(state),
   };
 };
 

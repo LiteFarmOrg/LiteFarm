@@ -7,7 +7,7 @@ import { Main } from '../Typography';
 import { ReactComponent } from '../../assets/images/outro/outro.svg';
 import PageTitle from '../PageTitle/v2';
 
-export default function PureJoinFarmSuccessScreen({ onContinue, onGoBack }) {
+export default function PureOutroSplash({ onContinue, onGoBack, toShowSpotlight }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
     <Layout
@@ -39,14 +39,14 @@ export default function PureJoinFarmSuccessScreen({ onContinue, onGoBack }) {
           <ReactComponent style={{ height: '100%' }} />
         </div>
         <Main style={{ marginBottom: 0, maxWidth: '360px', width: 'calc(100% - 48px)' }}>
-          {t('OUTRO')}
+          {toShowSpotlight ? t('OUTRO.IMPORTANT_THINGS') : t('OUTRO.ALL_DONE')}
         </Main>
       </div>
     </Layout>
   );
 }
 
-PureJoinFarmSuccessScreen.prototype = {
+PureOutroSplash.prototype = {
   onClick: PropTypes.func,
   text: PropTypes.string,
   showSpotLight: PropTypes.bool,

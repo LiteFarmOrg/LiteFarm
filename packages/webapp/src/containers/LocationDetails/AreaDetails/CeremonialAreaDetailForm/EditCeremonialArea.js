@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PureCeremonial from '../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import { deleteCeremonialLocation, editCeremonialLocation } from './saga';
+import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
@@ -53,11 +54,15 @@ function EditCeremonialDetailForm({ history, match }) {
   const activeCrops = useSelector(currentFieldCropsByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedFieldCropsByLocationIdSelector(location_id));
   const handleRetire = () => {
-    if (activeCrops.length === 0 && plannedCrops.length === 0) {
-      setShowConfirmRetireModal(true);
-    } else {
-      setShowCannotRetireModal(true);
-    }
+    // approach 1: redux store check for dependencies
+    // if (activeCrops.length === 0 && plannedCrops.length === 0) {
+    //   setShowConfirmRetireModal(true);
+    // } else {
+    //   setShowCannotRetireModal(true);
+    // }
+
+    // approach 2: call backend for dependency check
+    dispatch(checkLocationDependencies({ location_id, setShowConfirmRetireModal, setShowCannotRetireModal }));
   };
 
   const confirmRetire = () => {

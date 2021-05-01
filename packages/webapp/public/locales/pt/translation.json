@@ -496,6 +496,10 @@
       "TITLE": "Balanço hídrico"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
     "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
@@ -710,6 +714,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -750,7 +755,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Em breve!"
   },
-  "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
+  "OUTRO": {
+    "ALL_DONE": "MISSING",
+    "IMPORTANT_THINGS": "E, por fim, vamos mostrar algumas coisas importantes!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Ótimo!",
     "DESCRIPTION": "Sua senha foi atualizada. Redirecionando você para suas fazendas em 10 segundos ...",

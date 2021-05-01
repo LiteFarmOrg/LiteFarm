@@ -2,6 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
     "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
+    "ENTER_LOCATION_PLACEHOLDER": "MISSING",
     "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
@@ -34,11 +35,11 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "TITLE": "Solicite um certificador",
+      "REQUEST": "MISSING",
       "SORRY_ONE": "MISSING",
-      "SORRY_TWO": "MISSING",
       "SORRY_THREE": "MISSING",
-      "REQUEST": "MISSING"
+      "SORRY_TWO": "MISSING",
+      "TITLE": "Solicite um certificador"
     },
     "SUMMARY": {
       "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
@@ -1012,8 +1013,7 @@
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
     "MANAGE": "Administrar",
-    "SHIFTS": "Turnos",
-    "USERS": "Usuários"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Ativo",

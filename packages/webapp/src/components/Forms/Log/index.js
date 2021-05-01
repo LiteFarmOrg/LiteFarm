@@ -10,6 +10,7 @@ import { withTranslation } from 'react-i18next';
 import { Label } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
 import Input from '../../Form/Input';
+import { components } from 'react-select';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -73,7 +74,9 @@ class DefaultLogForm extends React.Component {
 
     // remove associated crop selections for field if field is removed from dropdown
     const activeFields = options.map((o) => o.value);
-    const removedFields = locations.filter((f) => activeFields.indexOf(f.location_id) === -1).map(f=> f.location_id);
+    const removedFields = locations
+      .filter((f) => activeFields.indexOf(f.location_id) === -1)
+      .map((f) => f.location_id);
     removedFields &&
       removedFields.map((rm) => {
         return this.props.dispatch(actions.change(`${parent}${model}.crop.${rm}`, null));
@@ -255,6 +258,14 @@ class DefaultLogForm extends React.Component {
         {!isCropNotNeeded &&
           this.state.selectedFields &&
           this.state.selectedFields.map((f, index) => {
+            const options = this.state.cropOptionsMap[f.value]?.length
+              ? [
+                  {
+                    label: this.props.t('LOG_COMMON.ALL_CROPS'),
+                    options: this.state.cropOptionsMap[f.value],
+                  },
+                ]
+              : [];
             return (
               <div key={'crop-' + index} className={styles.defaultFormDropDown}>
                 <label>
@@ -265,8 +276,9 @@ class DefaultLogForm extends React.Component {
                 </label>
                 <Control
                   model={`.crop.${f.value}`}
+                  components={{ Group, GroupHeading }}
                   component={DropDown}
-                  options={this.state.cropOptionsMap[f.value]}
+                  options={options}
                   placeholder={this.props.t('LOG_COMMON.SELECT_CROP')}
                   isMulti
                   isSearchable={false}
@@ -323,6 +335,24 @@ class DefaultLogForm extends React.Component {
     );
   }
 }
+
+const Group = (props) => {
+  const hasSelectedOption = props.children.some((opt) => opt.props.isSelected);
+  const onClick = () => {
+    props.selectProps.onChange(props.data.options);
+  };
+  return (
+    <components.Group
+      {...props}
+      headingProps={{ ...props.headingProps, hasSelectedOption, onClick }}
+    />
+  );
+};
+
+const GroupHeading = ({ hasSelectedOption, ...props }) => {
+  const style = { ...hasSelectedOption };
+  return <components.GroupHeading {...props} style={style} />;
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

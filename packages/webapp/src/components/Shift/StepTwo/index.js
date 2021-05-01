@@ -11,8 +11,8 @@ import fieldImg from '../../../assets/images/log/field_white.svg';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
-import BackArrow from '../../../assets/images/miscs/arrow.svg';
 import MuiFullPagePopup from '../../MuiFullPagePopup';
+import PageTitle from '../../PageTitle/v2';
 
 function PureStepTwo({
   onGoBack,
@@ -572,24 +572,22 @@ function MoodPopup({
   return (
     <MuiFullPagePopup open={showEditModal} onClose={closeEditModal}>
       <div className={styles.modal}>
-        <div className={styles.popupTitle}>
-          <img
-            src={BackArrow}
-            style={{ marginBottom: '-25px', cursor: 'pointer' }}
-            onClick={closeEditModal}
+        <div style={{ width: '90%', padding: '0 16px', margin: '0 5%' }}>
+          <PageTitle
+            title={
+              !isCurrentShiftUser && isEO
+                ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD')
+                : t('SHIFT.EDIT_SHIFT.MOOD')
+            }
+            onGoBack={closeEditModal}
           />
         </div>
-        <h3>
-          {!isCurrentShiftUser && isEO
-            ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD')
-            : t('SHIFT.EDIT_SHIFT.MOOD')}
-        </h3>
 
         <div
           style={{
             marginLeft: 0,
             marginRight: 0,
-            padding: '0 3%',
+            padding: '0',
             marginTop: '5%',
             width: '100%',
           }}
@@ -644,7 +642,7 @@ function MoodPopup({
             />
           </div>
         )}
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} style={{ paddingTop: '24px' }}>
           <Button onClick={() => finish()} disabled={mood === null}>
             {t('common:FINISH')}
           </Button>

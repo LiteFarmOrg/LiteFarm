@@ -9,7 +9,10 @@ import { colors } from '../../../assets/theme';
 export const styles = {
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? 'var(--green100)' : 'white',
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'var(--green100)',
+    },
     fontSize: '16px',
     lineHeight: '24px',
     color: 'var(--fontColor)',
@@ -17,6 +20,24 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
     paddingLeft: '10px',
+  }),
+  groupHeading: (provided, state) => ({
+    ...provided,
+    backgroundColor: 'white',
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--fontColor)',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontFamily: '"Open Sans", "SansSerif", serif',
+    paddingLeft: '10px',
+    '&:hover': {
+      backgroundColor: 'var(--green100)',
+    },
+    textTransform: 'capitalize',
+    height: '40px',
+    display: 'flex',
+    alignItems: 'center',
   }),
 
   indicatorSeparator: () => ({}),
@@ -102,6 +123,7 @@ const ReactSelect = ({
   icon,
   style,
   autoOpen,
+  components,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -134,6 +156,7 @@ const ReactSelect = ({
               {t('REACT_SELECT.CLEAR_ALL')}
             </Underlined>
           ),
+          ...components,
         }}
         isSearchable={options?.length > 8}
         {...props}
@@ -153,5 +176,6 @@ ReactSelect.propTypes = {
    To use with react-hook-form see page https://react-hook-form.com/api/#Controller and sandbox https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js:3850-3861
    */
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  components: PropTypes.object,
 };
 export default ReactSelect;

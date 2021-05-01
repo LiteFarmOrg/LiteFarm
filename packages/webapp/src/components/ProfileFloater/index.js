@@ -24,7 +24,6 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLo
         clickFn={onInfo}
         iconText={t('PROFILE_FLOATER.INFO')}
         icon={<MyInfoIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
 
       <ListOption
@@ -38,7 +37,7 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLo
         clickFn={onLogout}
         iconText={t('PROFILE_FLOATER.LOG_OUT')}
         icon={<LogoutIcon style={{ transform: 'translateX(2px)' }} />}
-        customParagraphStyle={{ paddingBottom: '0.5rem' }}
+        customParagraphStyle={{ paddingBottom: '0.5rem', paddingTop: '0.4rem' }}
       />
     </div>
   );

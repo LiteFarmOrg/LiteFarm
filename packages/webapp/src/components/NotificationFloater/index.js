@@ -21,7 +21,6 @@ export function PureNotificationFloaterComponent({ notificationTeaser }) {
         clickFn={notificationTeaser}
         iconText={t('NOTIFICATION.NOTIFICATION_TEASER')}
         icon={<NotificationTeaserIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
     </div>
   );

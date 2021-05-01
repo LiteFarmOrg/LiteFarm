@@ -11,12 +11,15 @@ import {
   selectedCertifier,
   requestedCertifier,
 } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 function Outro() {
   const dispatch = useDispatch();
   const requestCertifierData = useSelector(requestedCertifierSelector);
   const survey = useSelector(certifierSurveySelector);
   const selected = useSelector(finishedSelectingCertificationTypeSelector);
+  const { navigation } = useSelector(showedSpotlightSelector);
+  const toShowSpotlight = !navigation;
   const onGoBack = () => {
     history.push(
       !survey.interested || !selected
@@ -45,7 +48,7 @@ function Outro() {
     dispatch(patchOutroStep());
   };
 
-  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} />;
+  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} toShowSpotlight={toShowSpotlight} />;
 }
 
 export default Outro;

@@ -32,6 +32,13 @@ const LocationController = {
     }
   },
 
+  // TODO: to deprecate
+  checkDeleteLocation() {
+    return async (req, res, next) => {
+      return res.sendStatus(200);
+    }
+  },
+
   createLocation(asset) {
     const nonModifiable = getNonModifiable(asset);
     return async (req, res, next) => {

@@ -496,6 +496,10 @@
       "TITLE": "Water Balance"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "The farm map has new features. It is now found under the My Farm menu.",
+    "TITLE": "We've updated farm maps!"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
@@ -710,6 +714,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",
@@ -750,7 +755,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Coming Soon!"
   },
-  "OUTRO": "And finally, let us show you a couple of important things!",
+  "OUTRO": {
+    "ALL_DONE": "Great! You're all done. Ready to get your hands dirty?",
+    "IMPORTANT_THINGS": "And finally, let us show you a couple of important things!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Great!",
     "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",

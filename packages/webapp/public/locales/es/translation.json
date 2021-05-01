@@ -755,7 +755,10 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Proximamente!"
   },
-  "OUTRO": "Y finalmente, déjenos mostrarle un par de cosas importantes!",
+  "OUTRO": {
+    "ALL_DONE": "MISSING",
+    "IMPORTANT_THINGS": "Y finalmente, déjenos mostrarle un par de cosas importantes!"
+  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Muy bien!",
     "DESCRIPTION": "Su contraseña ha sido actualizada. Redirigiéndolo(a) a su finca en 10 segundos...",

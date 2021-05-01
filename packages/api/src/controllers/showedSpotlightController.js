@@ -31,6 +31,7 @@ const showedSpotlightController = {
           'adjust_area',
           'adjust_line',
           'navigation',
+          'introduce_map',
         ).findById(user_id);
         res.status(200).send(data);
       } catch (error) {

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import Floater from 'react-floater';
 
-export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people }) {
+export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntroducingFarmMap }) {
   const { t } = useTranslation();
   return (
     <div
@@ -22,20 +22,22 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people }) {
       <ListOption
         clickFn={farmInfo}
         iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
+        icon={<FarmInfoIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
       <ListOption
         clickFn={farmMap}
         iconText={t('MY_FARM.FARM_MAP')}
         icon={<FarmMapIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
+        customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
       />
       <ListOption
         clickFn={people}
         iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
+        icon={<PeopleIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
     </div>
   );
@@ -47,21 +49,23 @@ export default function PureMyFarmFloater({
   farmInfoClick,
   farmMapClick,
   peopleClick,
+  isIntroducingFarmMap,
 }) {
   const Wrapper = (
     <PureMyFarmFloaterComponent
       farmInfo={farmInfoClick}
       farmMap={farmMapClick}
       people={peopleClick}
+      isIntroducingFarmMap={isIntroducingFarmMap}
     />
   );
   return (
     <Floater
       component={Wrapper}
       placement={'bottom-end'}
-      open={openProfile}
+      open={openProfile || isIntroducingFarmMap}
       styles={{
-        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
+        floater: { zIndex: 1500, display: openProfile || isIntroducingFarmMap ? 'initial' : 'none' },
       }}
     >
       {children}

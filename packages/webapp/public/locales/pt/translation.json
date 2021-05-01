@@ -2,6 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
     "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
+    "ENTER_LOCATION_PLACEHOLDER": "MISSING",
     "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
@@ -494,6 +495,10 @@
       "REGISTER_FARM": "Registre Fazenda",
       "TITLE": "Balanço hídrico"
     }
+  },
+  "INTRODUCE_MAP": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",

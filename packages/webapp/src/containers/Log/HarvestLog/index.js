@@ -18,6 +18,7 @@ import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
 import { getFieldCrops } from '../../saga';
 import { currentLogSelector } from '../selectors';
+import { deleteLog } from '../Utility/actions';
 
 function HarvestLog() {
   const farm = useSelector(userFarmSelector);
@@ -42,6 +43,10 @@ function HarvestLog() {
   const onCancel = () => {
     dispatch(resetHarvestLog());
     history.push('/log');
+  };
+
+  const onDelete = () => {
+    dispatch(deleteLog(selectedLog.activity_id));
   };
 
   const onNext = (data) => {
@@ -75,6 +80,7 @@ function HarvestLog() {
         onGoBack={onBack}
         onNext={onNext}
         onCancel={isEdit.isEdit ? undefined : onCancel}
+        onDelete={isEdit.isEdit ? onDelete : undefined}
         locations={locations}
         crops={crops}
         unit={unit}

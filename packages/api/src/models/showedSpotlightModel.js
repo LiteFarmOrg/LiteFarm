@@ -47,6 +47,8 @@ class ShowedSpotlight extends Model {
         adjust_line_end: { type: ['string', 'null'] },
         navigation: { type: 'boolean' },
         navigation_end: { type: ['string', 'null'] },
+        introduce_map: { type: 'boolean' },
+        introduce_map_end: { type: ['string', 'null'] },
       },
     };
   }

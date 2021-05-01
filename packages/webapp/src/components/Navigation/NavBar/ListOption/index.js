@@ -11,7 +11,7 @@ export default function ListOption({
   const paragraphStyle = Object.assign(
     {
       paddingBottom: '0.4rem',
-      paddingTop: '0.4rem',
+      paddingTop: '0.5rem',
       fontFamily: '"Open Sans"," SansSerif", serif',
       fontSize: '0.88rem',
       marginBottom: '0px',

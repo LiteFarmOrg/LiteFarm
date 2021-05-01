@@ -14,7 +14,6 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
-import { getLanguageFromLocalStorage } from '../../../util';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -177,21 +176,27 @@ class OtherExpense extends Component {
         Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
         Cell: (d) => <span>{moment(d.value).format('L')}</span>,
         accessor: (d) => moment(d.date),
-        minWidth: 80,
+        minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
       },
       {
         id: 'type',
         Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
         accessor: (d) => d.type,
-        minWidth: 75,
+        minWidth: 55,
+      },
+      {
+        id: 'name',
+        Header: this.props.t('common:NAME'),
+        accessor: (d) => d.note,
+        minWidth: 55,
       },
       {
         id: 'amount',
         Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
         accessor: 'value',
         Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
-        minWidth: 75,
+        minWidth: 55,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
       },
       {

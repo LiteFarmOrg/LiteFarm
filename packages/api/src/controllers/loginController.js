@@ -17,6 +17,7 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 const bcrypt = require('bcryptjs');
 const userController = require('./userController');
 const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
@@ -107,7 +108,10 @@ const loginController = {
         const isUserNew = !user;
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name, language_preference };
-          await userModel.query().insert(newUser);
+          await userModel.transaction(async trx => {
+            await userModel.query(trx).insert(newUser);
+            await showedSpotlightModel.query(trx).insert({ user_id });
+          });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded

@@ -100,6 +100,8 @@ class NitrogenBalance extends Component {
           }
           rightIconDeleteHandler={this.handleRightIconDelete}
           showDelete={this.state.rightIconShowDelete}
+          leftButtonText={t('INSIGHTS.NITROGEN_BALANCE.ABANDON')}
+          rightButtonText={t('INSIGHTS.NITROGEN_BALANCE.GO_BACK')}
         />
         <div>{renderedComponent}</div>
       </div>

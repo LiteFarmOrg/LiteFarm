@@ -54,6 +54,7 @@ class InfoBoxComponent extends Component {
   render() {
     const title = this.props.title;
     const body = this.props.body;
+    const { leftButtonText, rightButtonText } = this.props;
 
     const saveHandler = this.props.saveHandler;
     const showSave = this.props.showSave;
@@ -73,7 +74,7 @@ class InfoBoxComponent extends Component {
 
             <Info style={{ color: colors.grey600, marginBottom: '20px' }}>{body}</Info>
             <footer>
-              <div style={{display: 'flex', flexDirection: 'row', justifyContent:'space-evenly'}}>
+              <div style={{ display: 'inline-flex', flexDirection: 'row', gap: '8px' }}>
                 {showDelete && (
                   <Button
                     onClick={() => {
@@ -81,8 +82,9 @@ class InfoBoxComponent extends Component {
                     }}
                     color={'secondary'}
                     sm
+                    className={styles.modalButton}
                   >
-                    {this.props.t('common:DELETE')}
+                    {leftButtonText ?? this.props.t('common:DELETE')}
                   </Button>
                 )}
                 {showSave && (
@@ -96,13 +98,13 @@ class InfoBoxComponent extends Component {
                     {this.props.t('common:SAVE_CHANGES')}
                   </Button>
                 )}
-                {
-                  (showDelete || showSave) && (
-                    <div style={{flexBasis:'10%'}} />
-                  )
-                }
-                <Button variant="primary" onClick={this.handleClose} sm>
-                  {this.props.t('common:CLOSE')}
+                <Button
+                  variant="primary"
+                  onClick={this.handleClose}
+                  className={styles.modalButton}
+                  sm
+                >
+                  {rightButtonText ?? this.props.t('common:CLOSE')}
                 </Button>
               </div>
             </footer>

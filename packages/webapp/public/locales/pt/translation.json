@@ -2,7 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
     "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
-    "ENTER_LOCATION_PLACEHOLDER": "MISSING",
+    "ENTER_LOCATION_PLACEHOLDER": "Selecione a localização",
     "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
     "FARM_LOCATION": "Localização do sítio/fazenda",
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
@@ -35,10 +35,10 @@
     },
     "REQUEST_CERTIFIER": {
       "LABEL": "Certificador solicitado",
-      "REQUEST": "MISSING",
-      "SORRY_ONE": "MISSING",
-      "SORRY_THREE": "MISSING",
-      "SORRY_TWO": "MISSING",
+      "REQUEST": "Qual certificador gostaria de solicitar?",
+      "SORRY_ONE": "Desculpe - atualmente não trabalhamos com nenhum certificador",
+      "SORRY_THREE": "em seu país. Gostaria de solicitar um?",
+      "SORRY_TWO": "Gostaria de solicitar um?",
       "TITLE": "Solicite um certificador"
     },
     "SUMMARY": {
@@ -162,7 +162,7 @@
     },
     "FARM_SITE_BOUNDARY": {
       "EDIT_TITLE": "Editar limites do sítio/fazenda",
-      "NAME": "Limites do sítio/fazenda",
+      "NAME": "Nome da area desenhada",
       "TITLE": "Adicionar limites do sítio/fazenda"
     },
     "FENCE": {
@@ -230,12 +230,12 @@
       "GATE": "Portão",
       "GREENHOUSE": "Estufa",
       "HIDE_ALL": "Esconder todos",
-      "LABEL": "MISSING",
+      "LABEL": "Rótulos",
       "LINES": "Linhas",
       "NA": "Área natural",
       "POINTS": "Pontos",
       "RESIDENCE": "Residência",
-      "SATELLITE": "Imagem de satélite como pano de fundo",
+      "SATELLITE": "Imagem de satélite",
       "SHOW_ALL": "Mostrar todos",
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
@@ -442,14 +442,14 @@
       "TITLE": "Satisfação laboral"
     },
     "NITROGEN_BALANCE": {
-      "ABANDON": "MISSING",
+      "ABANDON": "Abandonar programação",
       "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
       "CHOOSE_FREQUENCY": "Escolha uma frequência...",
       "COUNT_MONTHS": "{{count}} mês",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
-      "GO_BACK": "MISSING",
+      "GO_BACK": "Volte",
       "HEADER": "cada {{frequency}} mês: {{refreshDate}}",
       "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado",
       "INFO_2": "Clique no botão excluir para redefinir sua programação.",
@@ -499,8 +499,8 @@
     }
   },
   "INTRODUCE_MAP": {
-    "BODY": "MISSING",
-    "TITLE": "MISSING"
+    "BODY": "O mapa da fazenda tem novos recursos. Ele agora se encontra no menu Minha Fazenda.",
+    "TITLE": "Atualizamos mapas de fazenda!"
   },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
@@ -648,26 +648,26 @@
     "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecione cultivo",
     "CUSTOM_HARVEST_USE": "Uso personalizado",
-    "DISEASE": "MISSING",
-    "HARVEST": "MISSING",
+    "DISEASE": "Doença",
+    "HARVEST": "Colheita",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
-    "OTHER": "MISSING",
-    "PEST": "MISSING",
+    "OTHER": "Outro",
+    "PEST": "Praga",
     "QUANTITY": "Quantidade",
     "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Registro de Colheita (passo 1 de 3)",
-    "WEED": "MISSING",
+    "WEED": "Vegetação rasteira",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {
-    "DRIP": "MISSING",
-    "FLOOD": "MISSING",
+    "DRIP": "Gotejo",
+    "FLOOD": "Inundar",
     "FLOW_RATE": "Taxa de Fluxo",
-    "SPRINKLER": "MISSING",
-    "SUBSURFACE": "MISSING",
+    "SPRINKLER": "Aspersor",
+    "SUBSURFACE": "Subsuperfície",
     "TITLE": "Registro de irrigação",
     "TOTAL_TIME": "Tempo Total"
   },
@@ -680,8 +680,8 @@
     "ADD_DISEASE": "Adicionar uma Doença",
     "ADD_PESTICIDE": "Adicione um Pesticida",
     "ADD_TARGET": "Adicionar um Alvo",
-    "BIOLOGICAL_CONTROL": "MISSING",
-    "BURNING": "MISSING",
+    "BIOLOGICAL_CONTROL": "Controle biológico",
+    "BURNING": "Queimar",
     "CHOOSE_GROUP_PLACEHOLDER": "Escolha o Grupo",
     "CHOOSE_TARGET_PLACEHOLDER": "Escolha um Alvo",
     "CHOOSE_TYPE_PLACEHOLDER": "Escolha um Tipo",
@@ -691,10 +691,10 @@
     "DISEASE_GROUP": "Grupo de Doenças",
     "DISEASE_TARGET": "Alvo de doença",
     "ENTRY_INTERVAL": "Intervalo de entrada",
-    "FOLIAR_SPRAY": "MISSING",
-    "HAND_PICK": "MISSING",
+    "FOLIAR_SPRAY": "Spray foliar",
+    "HAND_PICK": "Escolha a dedo",
     "HARVEST_INTERVAL": "Intervalo de colheita",
-    "HEAT_TREATMENT": "MISSING",
+    "HEAT_TREATMENT": "Tratamento térmico",
     "MISSING_DATA": "Erro: Dados ausentes",
     "PESTICIDE_CONTROL_TYPE": "Tipo de Controle de Pesticidas",
     "PESTICIDE_DETAILS": "Detalhes da pesticida",
@@ -703,8 +703,8 @@
     "PESTICIDE_NAME_LABEL": "Nome do Pesticida",
     "PESTICIDE_QUANTITY": "Quantidade de Pesticida",
     "SCIENTIFIC_NAME": "Nome científico (se conhecido)",
-    "SOIL_FUMIGATION": "MISSING",
-    "SYSTEMIC_SPRAY": "MISSING",
+    "SOIL_FUMIGATION": "Fumigação do solo",
+    "SYSTEMIC_SPRAY": "Spray sistêmico",
     "TARGET": "Alvo",
     "TARGET_DISEASE": "Doença Alvejada",
     "TARGET_GROUP": "Grupo alvo",
@@ -757,7 +757,7 @@
     "NOTIFICATION_TEASER": "Em breve!"
   },
   "OUTRO": {
-    "ALL_DONE": "MISSING",
+    "ALL_DONE": "Excelente. Pronto para sujar as mãos?",
     "IMPORTANT_THINGS": "E, por fim, vamos mostrar algumas coisas importantes!"
   },
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -919,8 +919,8 @@
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
       "TITLE": "Finanças",
-      "UNALLOCATED_CROP": "MISSING",
-      "UNALLOCATED_TIP": "MISSING"
+      "UNALLOCATED_CROP": "Não atribuído",
+      "UNALLOCATED_TIP": "O que não está atribuído?"
     },
     "LABOUR": {
       "BY": "Por",
@@ -976,7 +976,7 @@
       "NEUTRAL": "Neutra(o)",
       "RATHER_NOT_SAY": "Prefiro não dizer",
       "SAD": "Descontente",
-      "SELECT_ALL": "MISSING",
+      "SELECT_ALL": "Selecionar tudo",
       "SELECT_CROPS": "Selecionar Cultivo",
       "SELECT_FIELDS": "Selecionar Campo",
       "VERY_HAPPY": "Muito contente",
@@ -998,7 +998,7 @@
       "STEP_ONE": "Novo turno de trabalho (passo 1)",
       "STEP_TWO": "Novo turno de trabalho (passo 2)"
     },
-    "RETIRED": "MISSING",
+    "RETIRED": "Retirada",
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
     "TIME_TOTAL": "Total",

@@ -125,11 +125,6 @@ function PureStepTwo({
     // for individual durations
     mutatingCropDuration[task_id] = [];
 
-    let totalTimeInput = document.getElementById('total_crop_input-' + task_id);
-    if (totalTimeInput) {
-      totalTimeInput.value = 0;
-    }
-
     for (let option of options) {
       mutatingFinalForm[task_id].val.push({ id: option.value });
       mutatingCropDuration[task_id].push({
@@ -431,7 +426,7 @@ function InputDuration({
             value={selectedCrops}
             onChange={(selectedOption) => {
               defaultCrops[task.task_id] && setSelectedCrops(selectedOption);
-              handleCropChange(selectedOption, 0, task.task_id);
+              handleCropChange(selectedOption, duration, task.task_id);
             }}
           />
         </div>

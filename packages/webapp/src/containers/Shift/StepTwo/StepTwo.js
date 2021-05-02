@@ -77,9 +77,10 @@ function StepTwo() {
           let duration = Number(
             parseFloat(Number(mutatingFinalForm[key].duration) / val_num).toFixed(3),
           );
+          const calculationOffset = mutatingFinalForm[key].duration - ( duration * val_num);
           if (valIterator === val_num - 1) {
-            if (duration * val_num !== Number(mutatingFinalForm[key].duration)) {
-              duration = Number(mutatingFinalForm[key].duration) - duration * (val_num - 1);
+            if ((duration * val_num) !== Number(mutatingFinalForm[key].duration)) {
+              duration = duration + calculationOffset;
             }
           }
           // duration / # of crops on field
@@ -101,18 +102,18 @@ function StepTwo() {
               location_id: val.id,
             });
           } else {
-            duration = Number(parseFloat(duration).toFixed(3));
-            let sub_duration = Number(duration / crop_num);
+            let sub_duration = parseFloat(Number(duration / crop_num).toFixed(3));
             let i = 0;
             for (let crop of crops_on_field) {
               if (i === crop_num - 1) {
                 if (sub_duration * crop_num !== duration) {
-                  sub_duration = duration - sub_duration * (crop_num - 1);
+                  const cropOffset = duration - (sub_duration * (crop_num));
+                  sub_duration += Number(cropOffset);
                 }
               }
               form.tasks.push({
                 task_id: Number(key),
-                duration: sub_duration,
+                duration: parseFloat(sub_duration.toFixed(3)),
                 is_location: true,
                 location_id: val.id,
                 field_crop_id: crop.field_crop_id,

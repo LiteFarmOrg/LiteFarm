@@ -517,5 +517,12 @@
     "OTHER": "Otro",
     "VIRUS": "Virus",
     "WEED": "Maleza"
+  },
+  "PESTICIDE": {
+    "ROUNDUP": "Roundup",
+    "DIPEL": "Dipel 2X DF",
+    "NEEM_OIL": "Aceite de neem",
+    "SULFOCALCIUM_SYRUP": "Jarabe de sulfocalcio",
+    "BORDEAUX_MIXTURE": "Mezcla de Bordeux"
   }
 }

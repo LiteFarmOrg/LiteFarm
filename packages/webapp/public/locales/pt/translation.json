@@ -89,10 +89,10 @@
     "FORGOT": "Esqueceu sua senha?",
     "HINT": "Dicas",
     "LABEL": "Senha",
-    "ONE_NUMBER": "ao menos um número",
-    "ONE_SPECIAL_CHARACTER": "ao menos um caractere especial",
-    "ONE_UPPER_CASE": "ao menos um caractere em letra maiúscula",
-    "TOO_SHORT": "ao menos 8 caracteres"
+    "ONE_NUMBER": "pelo menos um número",
+    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial",
+    "ONE_UPPER_CASE": "pelo menos uma letra maiúscula",
+    "TOO_SHORT": "pelo menos 8 caracteres"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -451,9 +451,9 @@
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
       "GO_BACK": "Volte",
       "HEADER": "cada {{frequency}} mês: {{refreshDate}}",
-      "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado",
+      "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado.",
       "INFO_2": "Clique no botão excluir para redefinir sua programação.",
-      "SELECT_FREQUENCY": "Selecione uma frequência",
+      "SELECT_FREQUENCY": "selecione uma  frequência",
       "TITLE": "Balanço de Nitrogênio"
     },
     "PEOPLE_FED": {
@@ -491,7 +491,7 @@
     "UNAVAILABLE": "Unavailable",
     "WATER_BALANCE": {
       "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Para obter mais informações sobre o balanço hídrico, clique no botão de informações",
-      "INFO_1": "O balanço hídrico informa se seus cultivos têm pouca ou muita água. Ele se baseia em dados meteorológicos e é atualizado pelos dados de irrigação e textura do solo de seus registros de análise de solo",
+      "INFO_1": "O balanço hídrico informa se seus cultivos têm pouca ou muita água. Ele se baseia em dados meteorológicos e é atualizado pelos dados de irrigação e textura do solo de seus registros de análise de solo.",
       "INFO_2": "Este recurso não foi amplamente testado em fazendas com baixa densidade de estação meteorológica ao redor, portanto, use com cuidado. Agradecemos os comentários sobre o desempenho dele em sua fazenda.",
       "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
       "REGISTER_FARM": "Registre Fazenda",
@@ -573,6 +573,7 @@
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
+    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
@@ -768,7 +769,7 @@
   "PASSWORD_RESET": {
     "BUTTON": "Reenviar link",
     "BUTTON_SENDING": "Enviando...",
-    "DESCRIPTION_BOTTOM": "or favor verifique seu email.",
+    "DESCRIPTION_BOTTOM": "Por favor verifique seu e-mail.",
     "DESCRIPTION_TOP": "Um link foi enviado.",
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
@@ -995,8 +996,8 @@
     },
     "NAME": "Nome",
     "NEW_SHIFT": {
-      "STEP_ONE": "Novo turno de trabalho (passo 1)",
-      "STEP_TWO": "Novo turno de trabalho (passo 2)"
+      "STEP_ONE": "Novo turno de trabalho",
+      "STEP_TWO": "Novo turno de trabalho"
     },
     "RETIRED": "Retirada",
     "SHIFT_DATE": "Data do turno de trabalho",

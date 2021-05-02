@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
 const userController = require('./userController');
 const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
 
@@ -108,6 +108,7 @@ const loginController = {
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name, language_preference };
           await userModel.query().insert(newUser);
+          await showedSpotlightModel.query().insert({ user_id });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded

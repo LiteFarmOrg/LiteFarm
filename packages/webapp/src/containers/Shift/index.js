@@ -100,7 +100,7 @@ class Shift extends Component {
       {
         id: 'date',
         Header: this.props.t('common:DATE'),
-        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        Cell: (d) => <span>{moment(d.value).format('YYYY-MM-DD')}</span>,
         accessor: (d) => d.shift_date,
         minWidth: 60,
       },

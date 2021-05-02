@@ -1,0 +1,24 @@
+.buttonContainer {
+  background: none;
+  border: 0;
+  color: var(--buttonPrimary);
+  cursor: pointer;
+  max-height: 32px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+
+  h4 {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+  }
+}
+
+.leftContainer {
+  display: inline-flex;
+  gap: 12px;
+}

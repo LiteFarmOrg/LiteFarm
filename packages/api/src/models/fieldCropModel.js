@@ -29,11 +29,11 @@ class FieldCrop extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'field_id', 'area_used', 'estimated_production', 'estimated_revenue'],
+      required: ['crop_id', 'location_id', 'area_used', 'estimated_production', 'estimated_revenue'],
       properties: {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         variety: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
@@ -50,15 +50,15 @@ class FieldCrop extends baseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      farm: {
+      location: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./fieldModel.js'),
+        modelClass: require('./locationModel.js'),
         join: {
-          from: 'fieldCrop.field_id',
-          to: 'field.farm_id',
+          from: 'fieldCrop.location_id',
+          to: 'location.location_id',
         },
 
       },

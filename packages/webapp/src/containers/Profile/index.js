@@ -14,10 +14,10 @@
  */
 
 import React, { Component } from 'react';
-import Account from './Account';
+import Account from './Account/Account';
 import Farm from './Farm';
 import People from './People';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 import { TabContent, TabLink, Tabs } from 'react-tabs-redux';
 import { userFarmSelector } from '../userFarmSlice';

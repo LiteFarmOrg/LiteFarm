@@ -20,16 +20,13 @@ const { mapFieldsToStationId } = require('../jobs/station_sync/mapping')
 const { v4 : uuidv4 } = require('uuid');
 
 
-class fieldController extends baseController {
-  constructor() {
-    super();
-  }
+const fieldController = {
 
-  static addField() {
+  addField() {
     return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await fieldController.postWithResponse(req, trx);
+        const result = await this.postWithResponse(req, trx);
         if (result.field_name.length === 0 || Object.keys(result.grid_points).length < 3) {
           await trx.rollback();
           return res.sendStatus(403);
@@ -47,13 +44,13 @@ class fieldController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delField() {
+  delField() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -66,20 +63,19 @@ class fieldController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static updateField() {
+  updateField() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
-        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
+        const user_id = req.user.user_id;
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else if (updated[0].field_name.length === 0) {
+        } else if (updated[0].field_name.length === 0) {
           res.sendStatus(403);
         }
 
@@ -94,9 +90,9 @@ class fieldController extends baseController {
         });
       }
     }
-  }
+  },
 
-  static getFieldByFarmID() {
+  getFieldByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -112,26 +108,26 @@ class fieldController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static async getByForeignKey(farm_id) {
+  async getByForeignKey(farm_id) {
 
     const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
 
     return fields;
-  }
+  },
 
-  static async postWithResponse(req, trx) {
+  async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    const user_id = req.user.user_id
-    return await super.postWithResponse(fieldModel, req.body, trx, { user_id });
-  }
+    const user_id = req.user.user_id;
+    return await baseController.postWithResponse(fieldModel, req.body, req, { trx });
+  },
 
-  static mapFieldToStation(req, res) {
+  mapFieldToStation(req, res) {
     mapFieldsToStationId([req.field]);
-  }
+  },
 }
 
 module.exports = fieldController;

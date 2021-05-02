@@ -1,0 +1,90 @@
+.varietyCheck {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  input {
+    width: 10%;
+  }
+}
+
+.cropTemplate {
+  display: flex;
+  width: 100%;
+  margin-bottom: 12px;
+  flex-direction: column;
+}
+
+.nutrientInput {
+  margin-bottom: 8px;
+}
+
+.nutrientLabel {
+  font-weight: normal;
+  margin: 0 0 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cropGroupTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.container {
+  input {
+    border: 1px solid var(--grey400);
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 48px;
+    padding-left: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--fontColor);
+    background-color: transparent;
+    // set lastpass fill password icon
+    background-position: calc(100% - 36px) calc(50%) !important;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    flex-grow: 1;
+  }
+
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input ::placeholder {
+    color: var(--grey500);
+  }
+
+  input:disabled {
+    background-color: var(--inputDisabled);
+    color: var(--grey600);
+    border-color: var(--inputDefault);
+  }
+
+  input[type='date'] {
+    min-width: 150px;
+    background-color: transparent;
+    width: 100%;
+  }
+
+  .inputError {
+    border-color: var(--error);
+  }
+
+  input:focus:enabled {
+    outline: none;
+    border-color: var(--inputActive);
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+}

@@ -1,37 +1,25 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { fieldEntitiesSelector, fieldsSelector } from './fieldSlice';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
+import { pick } from '../util';
+import { cropLocationEntitiesSelector } from './locationSlice';
 
 const getFieldCrop = (obj) => {
-  const {
-    field_crop_id,
-    crop_id,
-    field_id,
-    start_date,
-    end_date,
-    area_used,
-    estimated_production,
-    variety,
-    estimated_revenue,
-    is_by_bed,
-    bed_config,
-  } = obj;
-  return {
-    field_crop_id,
-    crop_id,
-    field_id,
-    start_date,
-    end_date,
-    area_used,
-    estimated_production,
-    variety,
-    estimated_revenue,
-    is_by_bed,
-    bed_config,
-  };
+  return pick(obj, [
+    'field_crop_id',
+    'crop_id',
+    'location_id',
+    'start_date',
+    'end_date',
+    'area_used',
+    'estimated_production',
+    'variety',
+    'estimated_revenue',
+    'is_by_bed',
+    'bed_config',
+  ]);
 };
 
 const addOneFieldCrop = (state, { payload }) => {
@@ -98,14 +86,14 @@ const fieldCropSelectors = fieldCropAdapter.getSelectors(
 );
 
 export const fieldCropsSelector = createSelector(
-  [fieldCropSelectors.selectAll, fieldEntitiesSelector, cropEntitiesSelector, loginSelector],
-  (fieldCrops, fieldEntities, cropEntities, { farm_id }) => {
+  [fieldCropSelectors.selectAll, cropLocationEntitiesSelector, cropEntitiesSelector, loginSelector],
+  (fieldCrops, cropLocationEntities, cropEntities, { farm_id }) => {
     const fieldCropsOfCurrentFarm = fieldCrops.filter(
-      (fieldCrop) => fieldEntities[fieldCrop.field_id]?.farm_id === farm_id,
+      (fieldCrop) => cropLocationEntities[fieldCrop.location_id]?.farm_id === farm_id,
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
       ...cropEntities[fieldCrop.crop_id],
-      ...fieldEntities[fieldCrop.field_id],
+      location: cropLocationEntities[fieldCrop.location_id],
       ...fieldCrop,
     }));
   },
@@ -120,7 +108,7 @@ export const expiredFieldCropsSelector = createSelector(
   },
 );
 
-export const currentFieldCropsSelector = createSelector(
+export const currentAndPlannedFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
     return fieldCrops.filter(
@@ -129,6 +117,54 @@ export const currentFieldCropsSelector = createSelector(
   },
 );
 
+export const currentFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() <= lastActiveDatetime,
+    );
+  },
+);
+
+export const plannedFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() >= lastActiveDatetime,
+    );
+  },
+);
+
+export const fieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, fieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const expiredFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, expiredFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+export const currentAndPlannedFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector(
+    [() => location_id, currentAndPlannedFieldCropsSelector],
+    (location_id, fieldCrops) =>
+      fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const currentFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, currentFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const plannedFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, plannedFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
 export const fieldCropSelector = fieldCropSelectors.selectById;
 
 export const fieldCropStatusSelector = createSelector(
@@ -136,4 +172,27 @@ export const fieldCropStatusSelector = createSelector(
   ({ loading, error, loaded }) => {
     return { loading, error, loaded };
   },
+);
+
+const getFieldCropLocationsFromFieldCrops = (fieldCrops) => {
+  const locationEntitiesWithFieldCrops = {};
+  for (const fieldCrop of fieldCrops) {
+    if (
+      fieldCrop.location_id &&
+      !locationEntitiesWithFieldCrops.hasOwnProperty(fieldCrop.location_id)
+    ) {
+      locationEntitiesWithFieldCrops[fieldCrop.location_id] = fieldCrop.location;
+    }
+  }
+  return Object.values(locationEntitiesWithFieldCrops);
+};
+
+export const locationsWithFieldCropSelector = createSelector(
+  [fieldCropsSelector],
+  getFieldCropLocationsFromFieldCrops,
+);
+
+export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
+  [currentAndPlannedFieldCropsSelector],
+  getFieldCropLocationsFromFieldCrops,
 );

@@ -1,15 +1,16 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
-import { GET_HARVEST_USE_TYPES, ADD_HARVEST_USE_TYPE } from '../constants';
-import { call, select, takeEvery, put } from 'redux-saga/effects';
+import { ADD_HARVEST_USE_TYPE, GET_HARVEST_USE_TYPES } from '../constants';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
-import i18n from '../../../lang/i18n';
-import { setAllHarvestUseTypes, getHarvestUseTypes } from '../actions';
-import { harvestLogDataSelector } from '../Utility/logSlice';
+import { axios, getHeader } from '../../saga';
+import i18n from '../../../locales/i18n';
+import { getHarvestUseTypes, setAllHarvestUseTypes, setLogsInState } from '../actions';
+import { harvestLogDataSelector, resetHarvestLog } from '../Utility/logSlice';
+import { logSelector } from '../selectors';
 
 export function* addLog(action) {
   const { logURL } = apiConfig;
@@ -23,6 +24,7 @@ export function* addLog(action) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
+      yield put(resetHarvestLog());
       toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
@@ -49,7 +51,6 @@ export function* getHarvestUseTypesSaga() {
 }
 
 export function* addCustomHarvestUseTypeSaga(action) {
-  console.log('addCustomHarvestUseTypeSaga');
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -66,6 +67,7 @@ export function* addCustomHarvestUseTypeSaga(action) {
     );
     if (result) {
       yield put(getHarvestUseTypes());
+      history.push('/harvest_use_type', { isCustomHarvestUsePage: true });
       toastr.success(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE'));
     }
   } catch (e) {
@@ -86,6 +88,7 @@ export function* editLog(action) {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {
       history.push('/log');
+      yield put(resetHarvestLog());
       toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
@@ -102,6 +105,8 @@ export function* deleteLog(action) {
   try {
     const result = yield call(axios.delete, logURL + `/${action.id}`, header);
     if (result) {
+      const logs = yield select(logSelector);
+      yield put(setLogsInState(logs.filter((log) => log.activity_id !== action.id)));
       history.push('/log');
       toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
     }
@@ -112,9 +117,9 @@ export function* deleteLog(action) {
 }
 
 export default function* defaultAddLogSaga() {
-  yield takeEvery(ADD_LOG, addLog);
-  yield takeEvery(EDIT_LOG, editLog);
-  yield takeEvery(DELETE_LOG, deleteLog);
-  yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypesSaga);
-  yield takeEvery(ADD_HARVEST_USE_TYPE, addCustomHarvestUseTypeSaga);
+  yield takeLeading(ADD_LOG, addLog);
+  yield takeLeading(EDIT_LOG, editLog);
+  yield takeLeading(DELETE_LOG, deleteLog);
+  yield takeLatest(GET_HARVEST_USE_TYPES, getHarvestUseTypesSaga);
+  yield takeLeading(ADD_HARVEST_USE_TYPE, addCustomHarvestUseTypeSaga);
 }

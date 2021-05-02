@@ -21,11 +21,12 @@ const baseController = require('../controllers/baseController');
 const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
+// TODO: put nitrogen scheduler here for when we want to put it back
 
-class insightController extends baseController {
+const insightController = {
 
   // this is for the People Fed module
-  static getPeopleFedData() {
+  getPeopleFedData() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -40,9 +41,9 @@ class insightController extends baseController {
                 JOIN "activityLog" al ON hu.activity_id = al.activity_id
                 JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
                 JOIN "fieldCrop" fc ON fc.field_crop_id = ac.field_crop_id
-                JOIN "field" f ON fc.field_id = f.field_id
+                JOIN "location" ON fc.location_id = location.location_id
                 JOIN "crop" c ON fc.crop_id = c.crop_id
-                WHERE f.farm_id = ? AND al.deleted = FALSE
+                WHERE location.farm_id = ? AND al.deleted = FALSE
                 AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
         const data = saleData.rows.concat(harvestData.rows);
         if (data) {
@@ -70,10 +71,10 @@ class insightController extends baseController {
         });
       }
     };
-  }
+  },
 
   // this is for the soil om submodule
-  static getSoilDataByFarmID() {
+  getSoilDataByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -81,48 +82,110 @@ class insightController extends baseController {
         // not the others - the left join ensures that all fields are returned.
         // However, for fields that don't have soil analysis data, they will
         // have null values for the om values. Hence, we need to return 0 by default.
-        const data = await knex.raw(
+        const areaData = await knex.raw(
           `SELECT DISTINCT
-            f.field_id,
-            f.field_name,
-            f.grid_points,
+            l.location_id,
+            l.name,
+            area.grid_points,
             COALESCE(AVG(table_2.om), 0) as om,
             COALESCE(AVG(organic_carbon), 0) as organic_carbon,
             COALESCE(AVG(total_carbon), 0) as total_carbon
-          FROM "field" f
+          FROM "location" l
+          LEFT JOIN "farm_site_boundary" fsb on fsb.location_id = l.location_id
+          LEFT JOIN "barn" b on b.location_id = l.location_id
+          LEFT JOIN "ceremonial_area" ca on ca.location_id = l.location_id
+          LEFT JOIN "surface_water" sw on sw.location_id = l.location_id
+          LEFT JOIN "natural_area" na on na.location_id = l.location_id
+          LEFT JOIN "residence" r on r.location_id = l.location_id
+--          LEFT JOIN "greenhouse" g on g.location_id = l.location_id
+          JOIN "figure" on figure.location_id = l.location_id
+          JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
-          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.field_id
-          FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl
-          WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
-          ) table_2 ON table_2.field_id = f.field_id
-          WHERE f.farm_id = ?
-          AND f.deleted = false
-          GROUP BY f.field_id
-          ORDER BY f.field_name`, [farmID, farmID]);
+          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
+          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          WHERE location.farm_id = ?
+            and location.location_id = af.location_id
+            and al.activity_id = sdl.activity_id
+            and al.deleted = false
+            and af.activity_id = sdl.activity_id
+            and figure.location_id = location.location_id
+          ) table_2 ON table_2.location_id = l.location_id
+          WHERE l.farm_id = ?
+            AND l.deleted = false
+            AND fsb.location_id IS NULL
+            AND b.location_id IS NULL
+            AND ca.location_id IS NULL
+            AND sw.location_id IS NULL
+            AND na.location_id IS NULL
+            AND r.location_id IS NULL
+--            AND g.location_id IS NULL
+          GROUP BY l.location_id, l.name, area.grid_points
+          ORDER BY l.name`, [farmID, farmID]);
 
-        if (data.rows) {
-          const body = await insightHelpers.getSoilOM(data.rows);
+        const bufferZoneData = await knex.raw(
+          `SELECT DISTINCT
+            l.location_id,
+            l.name,
+            line.line_points,
+            COALESCE(AVG(table_2.om), 0) as om,
+            COALESCE(AVG(organic_carbon), 0) as organic_carbon,
+            COALESCE(AVG(total_carbon), 0) as total_carbon
+          FROM "location" l
+          JOIN "buffer_zone" bf on bf.location_id = l.location_id
+          JOIN "figure" on figure.location_id = l.location_id
+          JOIN "line" on line.figure_id = figure.figure_id
+          LEFT JOIN (
+          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
+          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          WHERE location.farm_id = ?
+            and location.location_id = af.location_id
+            and al.activity_id = sdl.activity_id
+            and al.deleted = false
+            and af.activity_id = sdl.activity_id
+            and figure.location_id = location.location_id
+          ) table_2 ON table_2.location_id = l.location_id
+          WHERE l.farm_id = ?
+            AND l.deleted = false
+          GROUP BY l.location_id, l.name, line.line_points
+          ORDER BY l.name`, [farmID, farmID]);
+
+        // buffer zones don't have grid_points, add line_points as grid_points to not break in helper function
+        bufferZoneData.rows = bufferZoneData.rows.map(bufferZone => ({
+          ...bufferZone,
+          grid_points: bufferZone.line_points,
+        }));
+
+        const data = areaData.rows.concat(bufferZoneData.rows);
+        if (data) {
+          const body = await insightHelpers.getSoilOM(data);
           res.status(200).send(body);
         } else {
           res.status(200).send({});
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({
           error,
         });
       }
     };
-  }
+  },
 
-  static getLabourHappinessByFarmID() {
+  getLabourHappinessByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key
-          FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
-          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
-          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
+          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key, fc.field_crop_id, l.location_id
+          FROM "shiftTask" st
+            JOIN "shift" s ON s.shift_id = st.shift_id
+            JOIN "taskType" t ON st.task_id = t.task_id
+            LEFT JOIN "fieldCrop" fc ON fc.field_crop_id = st.field_crop_id
+            LEFT JOIN "location" l ON l.location_id = st.location_id
+            WHERE s.farm_id = ?
+              and s.mood != 'na'
+              and s.mood != 'no answer'
+              and s.deleted = false`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -134,33 +197,43 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getBiodiversityByFarmID() {
+  getBiodiversityByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
         const dataPoints = await knex.raw(
-          `SELECT f.grid_points, SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
-          FROM "field" f
+          `SELECT area.grid_points
+          FROM "farm_site_boundary" fsb
+          JOIN "location" on location.location_id = fsb.location_id
+          JOIN "figure" on figure.location_id = location.location_id
+          JOIN "area" on figure.figure_id = area.figure_id
+          WHERE location.farm_id = ?
+          AND location.deleted = false
+          GROUP BY area.grid_points`, [farmID]);
+        const cropCount = await knex.raw(
+          `SELECT DISTINCT fc.crop_id
+          FROM "location" l
           LEFT JOIN "fieldCrop" fc
-          ON fc.field_id = f.field_id
-          WHERE f.farm_id = ?
-          AND f.deleted = false
-          GROUP BY f.grid_points`, [farmID]);
-        if (dataPoints.rows) {
-          const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
+            on fc.location_id = l.location_id
+          WHERE l.farm_id = ?
+            and fc.end_date >= NOW() and fc.start_date <= NOW()`, [farmID]);
+        if (dataPoints.rows && cropCount.rows) {
+          const count = cropCount.rows.length;
+          const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
           res.status(200).send(body);
         } else {
           res.status(200).send({});
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getPricesNearbyByFarmID() {
+  getPricesNearbyByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -183,12 +256,13 @@ class insightController extends baseController {
         }
 
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
+  async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
           SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
@@ -199,21 +273,21 @@ class insightController extends baseController {
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT fc.crop_id
           FROM "fieldCrop" fc 
-          join "field" f on fc.field_id = f.field_id 
-          where f.farm_id = ?)
+          join "location" on fc.location_id = location.location_id 
+          where location.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
-  }
+  },
 
-  static getWaterBalance() {
+  getWaterBalance() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
         const prevDate = await insightHelpers.formatPreviousDate(new Date(), 'day');
         const dataPoints = await knex.raw(
-          `SELECT c.crop_common_name, f.field_name, f.field_id, w.plant_available_water
-          FROM "fieldCrop" fc, "field" f, "waterBalance" w, "crop" c
-          WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = w.crop_id and w.field_id = f.field_id and
+          `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
+          FROM "fieldCrop" fc, "location", "waterBalance" w, "crop" c
+          WHERE fc.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.location_id = location.location_id and
            fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
@@ -222,12 +296,13 @@ class insightController extends baseController {
           res.status(200).send({ preview: 0, data: {} });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addWaterBalanceSchedule() {
+  addWaterBalanceSchedule() {
     return async (req, res) => {
       try {
         const body = req.body;
@@ -237,9 +312,9 @@ class insightController extends baseController {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
-  static getWaterSchedule() {
+  getWaterSchedule() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -257,18 +332,18 @@ class insightController extends baseController {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
-  static getNitrogenBalance() {
+  getNitrogenBalance() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
         const prevDate = insightHelpers.formatPreviousDate(new Date(), 'year');
         const dataPoints = await knex.raw(
-          `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
-      FROM "field" f, "nitrogenBalance" n
-      WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
-      GROUP BY f.field_id`, [farmID, prevDate]);
+          `SELECT location.location_id, location.name, AVG(n.nitrogen_value) as nitrogen_value
+            FROM "location", "nitrogenBalance" n
+            WHERE location.farm_id = ? and n.location_id = location.location_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+            GROUP BY location.location_id`, [farmID, prevDate]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body);
@@ -276,12 +351,13 @@ class insightController extends baseController {
           res.status(200).send({ preview: 0, data: 'No data yet' });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getNitrogenSchedule() {
+  getNitrogenSchedule() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -302,15 +378,15 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addWaterBalance() {
+  addWaterBalance() {
     let trx;
     return async (req, res) => {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, trx);
+        const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, req, { trx });
         await trx.commit();
         res.status(201).send(waterBalanceResult);
       } catch (error) {
@@ -318,15 +394,15 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addNitrogenSchedule() {
+  addNitrogenSchedule() {
     let trx;
     return async (req, res) => {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, trx);
+        const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, req, { trx });
         await trx.commit();
         res.status(201).send(nitrogenScheduleResult);
       } catch (error) {
@@ -334,13 +410,13 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static delNitrogenSchedule() {
+  delNitrogenSchedule() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx,{ user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -354,8 +430,8 @@ class insightController extends baseController {
         });
       }
     };
-  }
-}
+  },
+};
 
 
 module.exports = insightController;

@@ -21,7 +21,6 @@ export function PureNotificationFloaterComponent({ notificationTeaser }) {
         clickFn={notificationTeaser}
         iconText={t('NOTIFICATION.NOTIFICATION_TEASER')}
         icon={<NotificationTeaserIcon />}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
     </div>
   );
@@ -37,6 +36,9 @@ export default function PureNotificationFloater({
       component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
       placement={'bottom-end'}
       open={openProfile}
+      styles={{
+        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
+      }}
     >
       {children}
     </Floater>

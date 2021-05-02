@@ -15,35 +15,36 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Button from '../../components/Form/Button';
 import history from '../../history';
 import moment from 'moment';
 import { taskTypeSelector } from './StepOne/selectors';
-import { shiftsSelector } from './selectors';
-import { getAllShifts, getShifts, getTaskTypes, setSelectedShift } from './actions';
-import ReactTable from 'react-table';
+import { shiftsSelector, shiftStartEndDateSelector, shiftTypeFilterSelector } from './selectors';
+import {
+  getAllShifts,
+  getTaskTypes,
+  resetShiftFilter,
+  setSelectedShift,
+  setShiftEndDate,
+  setShiftStartDate,
+  setShiftType,
+} from './actions';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
-import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';
+import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { getFieldCrops, getFields } from '../saga';
-import { getDurationString } from '../../util';
-import clsx from 'clsx';
+import { getFieldCrops, getLocations } from '../saga';
+import { getDuration } from '../../util';
 import Table from '../../components/Table';
-import { Semibold, Title } from '../../components/Typography';
-import { setEndDate, setStartDate } from '../Log/actions';
+import { Semibold, Title, Underlined } from '../../components/Typography';
+import { colors } from '../../assets/theme';
 
 class Shift extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      startDate: moment().startOf('year'),
-      endDate: moment().endOf('year'),
-      nameFilter: 'all',
-    };
     this.filterShifts = this.filterShifts.bind(this);
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
@@ -52,7 +53,7 @@ class Shift extends Component {
   componentDidMount() {
     const { dispatch, users } = this.props;
     dispatch(getFieldCrops());
-    dispatch(getFields());
+    dispatch(getLocations());
     dispatch(getTaskTypes());
     dispatch(getAllShifts());
     //TODO: fix getShiftByUserEndPoint
@@ -70,24 +71,26 @@ class Shift extends Component {
 
   filterShifts() {
     const shifts = this.props.shifts || [];
-    const { startDate, endDate, nameFilter } = this.state;
+    const { startDate, endDate } = this.props.dates;
+    const { shiftType } = this.props;
+    const nameFilter = shiftType?.value ?? 'all';
     return shifts
       ?.filter(
         (shift) =>
-          startDate.isSameOrBefore(shift.shift_date, 'day') &&
-          endDate.isSameOrAfter(shift.shift_date, 'day') &&
+          moment(startDate).isSameOrBefore(shift.shift_date, 'day') &&
+          moment(endDate).isSameOrAfter(shift.shift_date, 'day') &&
           this.checkFilter(shift, 'user_id', nameFilter),
       )
       .map((shift) => ({
         ...shift,
-        shift_date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
+        shift_date: moment(shift.shift_date).utc(),
       }));
   }
   onStartDateChange(date) {
-    this.setState({ startDate: date });
+    this.props.dispatch(setShiftStartDate(date));
   }
   onEndDateChange(date) {
-    this.setState({ endDate: date });
+    this.props.dispatch(setShiftEndDate(date));
   }
 
   render() {
@@ -97,7 +100,8 @@ class Shift extends Component {
       {
         id: 'date',
         Header: this.props.t('common:DATE'),
-        accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => d.shift_date,
         minWidth: 60,
       },
       {
@@ -108,7 +112,7 @@ class Shift extends Component {
           for (let task of d.tasks) {
             mins += task.duration;
           }
-          return getDurationString(mins);
+          return getDuration(parseInt(mins)).durationString;
         },
         minWidth: 40,
       },
@@ -147,6 +151,9 @@ class Shift extends Component {
       nameOptions.unshift({ value: 'all', label: this.props.t('common:ALL') });
     }
 
+    let { startDate, endDate } = this.props.dates;
+    startDate = moment(startDate);
+    endDate = moment(endDate);
     return (
       <div className={styles.logContainer}>
         <Title>{this.props.t('SHIFT.TITLE')}</Title>
@@ -174,24 +181,37 @@ class Shift extends Component {
               <DropDown
                 label={this.props.t('SHIFT.NAME')}
                 style={{ marginBottom: '16px' }}
-                defaultValue={{ value: 'all', label: this.props.t('common:ALL') }}
+                value={
+                  this.props.shiftType ?? {
+                    value: 'all',
+                    label: this.props.t('common:ALL'),
+                  }
+                }
                 options={nameOptions}
-                onChange={(option) => this.setState({ nameFilter: option.value })}
+                onChange={(option) => this.props.dispatch(setShiftType(option))}
                 isSearchable={false}
               />
-
-              <LocalForm model="logDates">
-                {' '}
-                <FromToDateContainer
-                  onEndDateChange={this.onEndDateChange}
-                  onStartDateChange={this.onStartDateChange}
-                  startDate={this.state.startDate}
-                  endDate={this.state.endDate}
-                />
-              </LocalForm>
             </div>
           </div>
         )}
+        <div>
+          <LocalForm model="logDates">
+            {' '}
+            <FromToDateContainer
+              onEndDateChange={this.onEndDateChange}
+              onStartDateChange={this.onStartDateChange}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </LocalForm>
+        </div>
+
+        <Underlined
+          style={{ color: colors.brown700 }}
+          onClick={() => this.props.dispatch(resetShiftFilter())}
+        >
+          {this.props.t('common:CLEAR_ALL_FILTERS')}
+        </Underlined>
 
         <div className={styles.table}>
           <Table
@@ -205,7 +225,7 @@ class Shift extends Component {
             defaultSorted={[
               {
                 id: 'date',
-                desc: true,
+                desc: false,
               },
             ]}
             getTdProps={(state, rowInfo, column, instance) => {
@@ -233,6 +253,9 @@ const mapStateToProps = (state) => {
     taskTypes: taskTypeSelector(state),
     shifts: shiftsSelector(state),
     users: userFarmSelector(state),
+    dates: shiftStartEndDateSelector(state),
+
+    shiftType: shiftTypeFilterSelector(state),
   };
 };
 

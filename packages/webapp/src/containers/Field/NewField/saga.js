@@ -1,9 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, select, takeLeading } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
-import { postFieldSuccess } from '../../fieldSlice';
+import { axios, getHeader } from '../../saga';
 import history from '../../../history';
 
 const postUrl = () => fieldURL;
@@ -17,7 +16,7 @@ export function* postFieldSaga({ payload }) {
     const { field_name, grid_points, area } = payload;
     const fieldReqBody = { field_name, grid_points, area, farm_id };
     const result = yield call(axios.post, postUrl(), fieldReqBody, header);
-    yield put(postFieldSuccess(result.data));
+    // yield put(postFieldSuccess(result.data));
     history.push('/field');
   } catch (e) {
     console.log('failed to add certifiers');
@@ -25,5 +24,5 @@ export function* postFieldSaga({ payload }) {
 }
 
 export default function* newFieldSaga() {
-  yield takeLatest(postField.type, postFieldSaga);
+  yield takeLeading(postField.type, postFieldSaga);
 }

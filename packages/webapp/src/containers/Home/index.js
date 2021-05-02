@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
 import PureHome from '../../components/Home';
-import { userFarmSelector, userFarmStatusSelector } from '../userFarmSlice';
+import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
-import { showHelpRequestModalSelector, dismissHelpRequestModal } from './homeSlice';
+import { dismissHelpRequestModal, showHelpRequestModalSelector } from './homeSlice';
 import {
   chooseFarmFlowSelector,
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
+import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmModal'
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { setSpotlightToShown } from '../Map/saga';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -25,6 +28,8 @@ export default function Home() {
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
+  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
+  const showNotifyUpdatedFarmModal = !introduce_map && navigation;
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
@@ -35,7 +40,7 @@ export default function Home() {
           onClick={dismissPopup}
           style={{
             position: 'fixed',
-            zIndex: 100,
+            zIndex: 1500,
             left: 0,
             right: 0,
             top: 0,
@@ -49,6 +54,12 @@ export default function Home() {
         <RequestConfirmationComponent
           onClick={showRequestConfirmationModalOnClick}
           dismissModal={showRequestConfirmationModalOnClick}
+        />
+      )}
+
+      {showNotifyUpdatedFarmModal && (
+        <NotifyUpdatedFarmModal
+          dismissModal={() => dispatch(setSpotlightToShown('introduce_map'))}
         />
       )}
     </PureHome>

@@ -23,8 +23,12 @@
     --addition: #FFB800;
 }
 
-body{
+body {
     overflow-x: hidden;
+}
+
+html, body {
+    height: 100%
 }
 
 /*button{*/
@@ -36,8 +40,7 @@ body{
     font-style: normal;
     font-weight: normal;
     src: local('Avenir'),
-    url('./fonts/Avenir-Medium.woff') format('woff'), /* Modern Browsers */
-    url('./fonts/Avenir-Medium.ttf') format('ttf') /* Safari, Android, iOS */
+    url('./fonts/Avenir-Medium.woff') format('woff'), /* Modern Browsers */ url('./fonts/Avenir-Medium.ttf') format('ttf') /* Safari, Android, iOS */
 }
 
 @font-face {
@@ -45,8 +48,7 @@ body{
     font-style: normal;
     font-weight: normal;
     src: local('Avenir-Light'),
-    url('./fonts/Avenir-light.woff') format('woff'), /* Modern Browsers */
-    url('./fonts/Avenir-light.otf') format('opentype') /* Safari, Android, iOS */
+    url('./fonts/Avenir-light.woff') format('woff'), /* Modern Browsers */ url('./fonts/Avenir-light.otf') format('opentype') /* Safari, Android, iOS */
 }
 
 @font-face {
@@ -157,7 +159,7 @@ body{
     text-decoration: none;
 }
 
-.btn-save-oval-solid{
+.btn-save-oval-solid {
     -webkit-border-radius: 28px;
     -moz-border-radius: 28px;
     border-radius: 28px;
@@ -172,19 +174,20 @@ body{
     text-decoration: none;
 }
 
-hr{
+hr {
     background: #f7f7f7;
     height: 8px;
     border: none;
     margin: 2% -5% 2% -5%;
 }
 
-.page-container{
+.page-container {
     width: 65%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     padding: 24px 24px 0 24px;
+    flex-grow: 1;
 }
 
 /* Position and sizing of burger button */
@@ -212,7 +215,7 @@ hr{
 .bm-cross-button {
     height: 0px;
     width: 0px;
-    top:0px;
+    top: 0px;
 }
 
 /* General sidebar styles */
@@ -260,7 +263,7 @@ hr{
 /*}*/
 
 @media only screen and (max-width: 800px) {
-    .page-container{
+    .page-container {
         width: 100vw;
         margin: 0 auto;
         display: flex;
@@ -269,28 +272,45 @@ hr{
 }
 
 .required {
-    color:orangered;
+    color: orangered;
     font-size: 14px;
     margin: 3px;
 }
 
-.duration-btn-selected{
+.duration-btn-selected {
     width: 40%;
-    border:none;
+    border: none;
     border-radius: 5px;
     background: var(--typeAction);
 }
 
-.duration-btn-unselected{
+.duration-btn-unselected {
     width: 40%;
-    border:none;
+    border: none;
     border-radius: 5px;
     background: #009485;
 }
 
-.card{
+.card {
     margin-bottom: 20px;
 }
-h4, h5, .h4{
+
+h4, h5, .h4 {
     font-size: 1.2rem;
+}
+
+a[href^="http://maps.google.com/maps"] {
+    display: none !important
+}
+
+a[href^="https://maps.google.com/maps"] {
+    display: none !important
+}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display: none;
+}
+
+.gmnoprint div {
+    background: none !important;
 }

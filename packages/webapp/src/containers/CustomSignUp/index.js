@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
 import {
+  customCreateUser,
   customLoginWithPassword,
   customSignUp,
-  customCreateUser,
   sendResetPasswordEmail,
 } from './saga';
 import history from '../../history';
@@ -13,12 +13,13 @@ import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 import {
+  CREATE_USER_ACCOUNT,
   CUSTOM_SIGN_UP,
   ENTER_PASSWORD_PAGE,
-  CREATE_USER_ACCOUNT,
   inlineErrors,
 } from './constants';
-import { isChrome } from '../../util';
+import { getLanguageFromLocalStorage, isChrome } from '../../util';
+
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
@@ -42,7 +43,7 @@ function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = history.location;
+  const { user, component: componentToShow } = history.location?.state || {};
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: validEmailRegex });
@@ -53,7 +54,7 @@ function CustomSignUp() {
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
-  const { t, i18n } = useTranslation();
+  const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -65,14 +66,14 @@ function CustomSignUp() {
   useEffect(() => {
     const params = new URLSearchParams(history.location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
-  }, [user, setValue]);
+  }, [user, setValue, ready]);
 
   useEffect(() => {
     if (
       componentToShow === ENTER_PASSWORD_PAGE &&
-      i18n.language !== localStorage.getItem('litefarm_lang')
+      i18n.language !== getLanguageFromLocalStorage()
     ) {
-      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+      i18n.changeLanguage(getLanguageFromLocalStorage());
     }
   }, [componentToShow]);
 
@@ -125,7 +126,7 @@ function CustomSignUp() {
   const errorMessage = history.location.state?.error;
   return (
     <>
-      <Suspense fallback={Spinner}>
+      <Suspense fallback={<Spinner />}>
         <Hidden isVisible={showPureEnterPasswordPage}>
           <PureEnterPasswordPage
             onLogin={onLogin}

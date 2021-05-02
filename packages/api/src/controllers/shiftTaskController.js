@@ -17,12 +17,12 @@ const baseController = require('../controllers/baseController');
 const shiftTaskModel = require('../models/shiftTaskModel');
 const { transaction, Model } = require('objection');
 
-class shiftTaskController extends baseController {
-  static addShiftTask() {
+const shiftTaskController = {
+  addShiftTask() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(shiftTaskModel, req.body, trx);
+        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -33,29 +33,27 @@ class shiftTaskController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delShiftTask(){
-    return async(req, res) => {
+  delShiftTask() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
-        const isDeleted = await baseController.delete(shiftTaskModel, req, trx, { user_id: req.user.user_id });
+      try {
+        const isDeleted = await baseController.delete(shiftTaskModel, req, req, { trx });
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
 }
 

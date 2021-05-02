@@ -30,13 +30,13 @@ class ShiftTask extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['shift_id', 'is_field', 'duration', 'task_id'],
+      required: ['shift_id', 'is_location', 'duration', 'task_id'],
       properties: {
         shift_id: { type: 'string' },
         task_id: { type: 'number' },
         field_crop_id: { type: 'integer' },
-        is_field: { type: 'boolean' },
-        field_id: { type: 'string' },
+        is_location: { type: 'boolean' },
+        location_id: { type: 'string' },
         duration: { type: 'number' },
         ...this.baseProperties,
       },

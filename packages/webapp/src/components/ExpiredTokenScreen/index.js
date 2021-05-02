@@ -1,5 +1,4 @@
 import Layout from '../Layout';
-import Button from '../Form/Button';
 import { ReactComponent } from '../../assets/images/expiredToken/expiredToken.svg';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Semibold, Underlined } from '../Typography';
 
 export default function PureExpiredTokenScreen({ onClick, text, linkText, forgotPassword }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Layout
       // buttonGroup={

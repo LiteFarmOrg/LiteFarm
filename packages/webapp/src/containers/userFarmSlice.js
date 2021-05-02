@@ -11,6 +11,12 @@ export function onLoadingFail(state, { payload: error }) {
   state.loaded = true;
 }
 
+export function onLoadingSuccess(state) {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+}
+
 const adminRoles = [1, 2, 5];
 
 export const initialState = {
@@ -90,11 +96,13 @@ const userFarmSlice = createSlice({
     },
     postFarmSuccess: addUserFarm,
     patchRoleStepTwoSuccess: (state, { payload }) => {
-      const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
+      const { step_two, step_two_end, role_id, farm_id, user_id, owner_operated, role } = payload;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_two,
         step_two_end,
         role_id,
+        role,
+        owner_operated,
       });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {
@@ -243,6 +251,11 @@ export const userFarmLengthSelector = createSelector(
 export const userFarmEntitiesSelector = createSelector(
   userFarmReducerSelector,
   ({ byFarmIdUserId }) => byFarmIdUserId,
+);
+
+export const measurementSelector = createSelector(
+  userFarmSelector,
+  (userFarm) => userFarm.units.measurement,
 );
 
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {

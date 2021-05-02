@@ -19,11 +19,12 @@ export default function PureChooseFarmScreen({
   disabled,
   title = 'Choose your farm',
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <Layout
       hasWhiteBackground
+      classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
           {!isOnBoarding && (

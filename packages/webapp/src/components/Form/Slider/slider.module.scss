@@ -1,0 +1,28 @@
+/*:global(.MuiSlider-mark[data-index="92"]) {*/
+/*    height: 30px;*/
+/*}*/
+.time {
+    color: var(--teal700);
+    font-size: 16px;
+}
+
+.noTime {
+    font-size: 16px;
+    color: var(--red700);
+}
+.unit {
+    color: var(--teal700);
+    font-size: 12px;
+    font-family: "Open Sans", " SansSerif", serif;
+}
+
+.rectangle {
+    border: 1px solid var(--grey400);
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0.8rem 0.8rem 0 0.8rem;
+}
+
+.durationText {
+    padding-bottom: 0.5rem;
+}

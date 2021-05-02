@@ -1,18 +1,19 @@
-import { call, put, takeLatest, select, all } from 'redux-saga/effects';
-import apiConfig, { url, userFarmUrl } from '../../../apiConfig';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import apiConfig, { userFarmUrl } from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { getUserFarmSelector, loginSelector, userFarmsByUserSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
 import {
+  getUserFarmSelector,
   getUserFarmsSuccess,
-  putUserSuccess,
-  patchUserStatusSuccess,
+  invitePseudoUserSuccess,
+  loginSelector,
   onLoadingUserFarmsFail,
   onLoadingUserFarmsStart,
-  invitePseudoUserSuccess,
+  patchUserStatusSuccess,
+  putUserSuccess,
 } from '../../userFarmSlice';
+import { axios, getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
-import i18n from '../../../lang/i18n';
+import i18n from '../../../locales/i18n';
 import { roleIdRoleNameMapSelector } from './slice';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
@@ -64,11 +65,11 @@ export const reactivateUser = createAction('reactivateUserSaga');
 export function* reactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
-  const user = yield select(getUserFarmSelector(farm_id, target_user_id))
+  const user = yield select(getUserFarmSelector(farm_id, target_user_id));
   const header = getHeader(user_id, farm_id);
 
   const body = {
-    status: user.has_consent ? 'Active' :'Invited',
+    status: user.has_consent ? 'Active' : 'Invited',
   };
 
   try {
@@ -140,8 +141,8 @@ export function* invitePseudoUserSaga({ payload: user }) {
 
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
-  yield takeLatest(deactivateUser.type, deactivateUserSaga);
-  yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
-  yield takeLatest(reactivateUser.type, reactivateUserSaga);
-  yield takeLatest(invitePseudoUser.type, invitePseudoUserSaga);
+  yield takeLeading(deactivateUser.type, deactivateUserSaga);
+  yield takeLeading(updateUserFarm.type, updateUserFarmSaga);
+  yield takeLeading(reactivateUser.type, reactivateUserSaga);
+  yield takeLeading(invitePseudoUser.type, invitePseudoUserSaga);
 }

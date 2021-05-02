@@ -30,6 +30,8 @@ const checkGoogleJwt = require('../src/middleware/acl/checkGoogleJwt.js');
 const sendEmailTemplate = require('../src/templates/sendEmailTemplate');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
+const showedSpotlightModel = require('../src/models/showedSpotlightModel');
+
 const emailMiddleware = require('../src/templates/sendEmailTemplate');
 jest.mock('jsdom');
 jest.mock('../src/util/jwt');
@@ -106,11 +108,7 @@ describe('JWT Tests', () => {
     }
   }
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
 
   beforeEach(async () => {
@@ -390,10 +388,10 @@ describe('JWT Tests', () => {
       });
       googleUser = fakeGoogleTokenContent();
       checkGoogleJwt.mockImplementation(async (req, res, next) => {
-        req.user = {...googleUser};
+        req.user = { ...googleUser };
         return next();
       });
-      emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+      emailMiddleware.sendEmail.mockClear();
       invitationToken = undefined;
       reqBody = fakeReqBody();
       done();
@@ -405,13 +403,13 @@ describe('JWT Tests', () => {
       done();
     });
 
-    test('Should create password when user status is invited', async (done) => {
+    test('Should create password and spotlight when user status is invited', async (done) => {
       const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
       const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
         ...mocks.fakeUserFarm(),
         status: 'Invited',
       });
-      const {user_id, farm_id} = userFarm;
+      const { user_id, farm_id } = userFarm;
       getRequest(user, async (err, res) => {
         const verified = jsonwebtoken.verify(invitationToken, tokenType.invite);
         expect(verified.user_id).toBe(user.user_id);
@@ -423,8 +421,10 @@ describe('JWT Tests', () => {
           } = await knex('password').where({ user_id: user.user_id }).first();
           const isMatch = await bcrypt.compare(reqBody.password, password_hash);
           expect(isMatch).toBeTruthy();
-          const [resUserFarm] = await knex('userFarm').where({user_id, farm_id});
+          const [resUserFarm] = await knex('userFarm').where({ user_id, farm_id });
           expect(resUserFarm.status).toBe('Active');
+          const showedSpotlight = await showedSpotlightModel.query().findById(user_id);
+          expect(showedSpotlight.user_id).toBe(user_id);
           postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
             expect(res.status).toBe(401);
             done();
@@ -483,8 +483,8 @@ describe('JWT Tests', () => {
       });
     });
 
-    test('Should modify user_id when login with google and user status is invited', async (done) => {
-      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2, email: googleUser.email});
+    test('Should modify user_id and insert spotlight when login with google and user status is invited', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2, email: googleUser.email });
       const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
         ...mocks.fakeUserFarm(),
         status: 'Invited',
@@ -493,7 +493,7 @@ describe('JWT Tests', () => {
         ...mocks.fakeUserFarm(),
         status: 'Invited',
       });
-      const {user_id, farm_id} = userFarm;
+      const { user_id, farm_id } = userFarm;
       getRequest(user, async (err, res) => {
         const verified = await jsonwebtoken.verify(invitationToken, tokenType.invite);
         expect(verified.user_id).toBe(user.user_id);
@@ -514,6 +514,7 @@ describe('JWT Tests', () => {
           const oldEmailTokens = await knex('emailToken').where({user_id});
           expect(oldEmailTokens.length).toBe(0);
           expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+
           putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
             expect(res.status).toBe(401);
             done();

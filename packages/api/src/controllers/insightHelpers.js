@@ -56,7 +56,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now normalize the data values
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY))
+      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY));
     }
   }
 
@@ -98,13 +98,13 @@ exports.getSoilOM = async (data) => {
 
   const returnData = {};
   data.map((element) => {
-    if (!(element.field_id in returnData)) {
+    if (!(element.location_id in returnData)) {
       // The current field is not added to the returnData yet
-      returnData[element.field_id] = initOMData(element)
+      returnData[element.location_id] = initOMData(element)
     } else {
       // If the current field has multiple soil data logs, put them
       // into a list for calculating the average
-      returnData[element.field_id]['activity_oms'].push(grabOM(element))
+      returnData[element.location_id]['activity_oms'].push(grabOM(element))
     }
   });
 
@@ -152,7 +152,7 @@ exports.getSoilOM = async (data) => {
 const initOMData = (element) => {
   const OMData = {};
   // set the field name
-  OMData['field_name'] = element.field_name;
+  OMData['field_name'] = element.name;
   OMData['soil_om'] = 0;
   OMData['grid_points'] = element.grid_points;
   OMData['percentage'] = 0;
@@ -268,7 +268,7 @@ exports.getLabourHappiness = (data) => {
   return returnValue
 };
 
-exports.getBiodiversityAPI = async (data) => {
+exports.getBiodiversityAPI = async (pointData, countData) => {
   const resultData = {
     preview: 0,
     data: [],
@@ -289,11 +289,11 @@ exports.getBiodiversityAPI = async (data) => {
     Crops: 0,
   };
 
-  const sortLats = new Array(data.length);
-  const sortLngs = new Array(data.length);
-  for (let i = 0; i < data.length; i++) {
-    if (data[i]['grid_points'] != null) {
-      data[i]['grid_points'].map((grid_point) => {
+  const sortLats = new Array(pointData.length);
+  const sortLngs = new Array(pointData.length);
+  for (let i = 0; i < pointData.length; i++) {
+    if (pointData[i]['grid_points'] != null) {
+      pointData[i]['grid_points'].map((grid_point) => {
         if (Array.isArray(sortLats[i])) {
           sortLats[i].push(Math.round(grid_point['lat'] * 10000) / 10000);
           sortLngs[i].push(Math.round(grid_point['lng'] * 10000) / 10000);
@@ -304,17 +304,15 @@ exports.getBiodiversityAPI = async (data) => {
       })
     }
   }
-  const fieldPoints = new Array(data.length);
+  const fieldPoints = new Array(pointData.length);
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < pointData.length; i++) {
     fieldPoints[i] = [
       [Math.min(...sortLats[i]), Math.max(...sortLats[i])],
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  for (let i = 0; i < data.length; i++) {
-    speciesCount['Crops'] += parseInt(data[i]['count']);
-  }
+  speciesCount['Crops'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {

@@ -17,7 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import history from './history';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
@@ -29,13 +29,27 @@ import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
+import locationSaga from './containers/LocationDetails/saga';
+import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
+import fieldCropSaga from './containers/LocationDetails/LocationFieldCrop/saga';
+import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
+import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
+import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';
+import naturalAreaSaga from './containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/saga';
+import barnSaga from './containers/LocationDetails/AreaDetails/BarnDetailForm/saga';
+import surfaceWaterSaga from './containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/saga';
+import greenhouseSaga from './containers/LocationDetails/AreaDetails/GreenhouseDetailForm/saga';
+import ceremonialSaga from './containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/saga';
+import residenceSaga from './containers/LocationDetails/AreaDetails/ResidenceDetailForm/saga';
+import farmSiteBoundarySaga from './containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/saga';
+import fenceSaga from './containers/LocationDetails/LineDetails/FenceDetailForm/saga';
+import bufferZoneSaga from './containers/LocationDetails/LineDetails/BufferZoneDetailForm/saga';
+import watercourseSaga from './containers/LocationDetails/LineDetails/WatercourseDetailForm/saga';
 import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
-import fieldSaga from './containers/Field/saga';
 import financeSaga from './containers/Finances/saga';
 import cropSaga from './components/Forms/NewCropModal/saga';
 import insightSaga from './containers/Insights/saga';
-import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
 import supportSaga from './containers/Help/saga';
@@ -44,7 +58,7 @@ import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import { Provider } from 'react-redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
@@ -55,6 +69,9 @@ import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
+import mapSaga from './containers/Map/saga';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import theme from './assets/theme';
 
 // config for redux-persist
 const persistConfig = {
@@ -62,7 +79,7 @@ const persistConfig = {
   storage,
   stateReconciler: autoMergeLevel2,
 };
-const languages = ['en', 'es', 'pt', 'fr'];
+const languages = ['en', 'es', 'pt'];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -99,13 +116,27 @@ sagaMiddleware.run(logSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(fertSaga);
 sagaMiddleware.run(defaultAddLogSaga);
+sagaMiddleware.run(locationSaga);
+sagaMiddleware.run(fieldLocationSaga);
+sagaMiddleware.run(fieldCropSaga);
+sagaMiddleware.run(gardenSaga);
+sagaMiddleware.run(gateSaga);
+sagaMiddleware.run(barnSaga);
+sagaMiddleware.run(surfaceWaterSaga);
+sagaMiddleware.run(bufferZoneSaga);
+sagaMiddleware.run(naturalAreaSaga);
+sagaMiddleware.run(greenhouseSaga);
+sagaMiddleware.run(residenceSaga);
+sagaMiddleware.run(ceremonialSaga);
+sagaMiddleware.run(waterValveSaga);
+sagaMiddleware.run(farmSiteBoundarySaga);
+sagaMiddleware.run(fenceSaga);
+sagaMiddleware.run(watercourseSaga);
 sagaMiddleware.run(pestControlSaga);
 sagaMiddleware.run(shiftSaga);
-sagaMiddleware.run(fieldSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(cropSaga);
 sagaMiddleware.run(insightSaga);
-sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
@@ -118,6 +149,7 @@ sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
+sagaMiddleware.run(mapSaga);
 
 const persistor = persistStore(store);
 
@@ -134,21 +166,26 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router history={history}>
-          <div>
-            <ReduxToastr
-              timeOut={4000}
-              newestOnTop={false}
-              preventDuplicates
-              position="top-left"
-              transitionIn="fadeIn"
-              transitionOut="fadeOut"
-              progressBar
-              closeOnToastrClick
-            />
-            <App />
-          </div>
-        </Router>
+        <ThemeProvider theme={theme}>
+          <>
+            <CssBaseline />
+            <Router history={history}>
+              <>
+                <ReduxToastr
+                  timeOut={4000}
+                  newestOnTop={false}
+                  preventDuplicates
+                  position="top-left"
+                  transitionIn="fadeIn"
+                  transitionOut="fadeOut"
+                  progressBar
+                  closeOnToastrClick
+                />
+                <App />
+              </>
+            </Router>
+          </>
+        </ThemeProvider>
       </PersistGate>
     </Provider>,
     document.getElementById('root'),

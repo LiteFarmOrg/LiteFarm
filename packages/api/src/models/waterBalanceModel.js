@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (waterBalanceModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -29,11 +29,11 @@ class WaterBalance extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'field_id', 'soil_water', 'plant_available_water'],
+      required: ['crop_id', 'location_id', 'soil_water', 'plant_available_water'],
       properties: {
         water_balance_id: { type: 'integer' },
         crop_id: { type: 'integer' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         created_at: { type: 'date-time' },
         soil_water: { type: 'float' },
         plant_available_water: { type: 'float' },

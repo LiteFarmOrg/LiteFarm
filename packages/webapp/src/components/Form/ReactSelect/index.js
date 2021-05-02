@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
 import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
+import { colors } from '../../../assets/theme';
 
 export const styles = {
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isFocused ? 'var(--green100)' : 'white',
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'var(--green100)',
+    },
     fontSize: '16px',
     lineHeight: '24px',
     color: 'var(--fontColor)',
@@ -16,6 +20,24 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
     paddingLeft: '10px',
+  }),
+  groupHeading: (provided, state) => ({
+    ...provided,
+    backgroundColor: 'white',
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--fontColor)',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontFamily: '"Open Sans", "SansSerif", serif',
+    paddingLeft: '10px',
+    '&:hover': {
+      backgroundColor: 'var(--green100)',
+    },
+    textTransform: 'capitalize',
+    height: '40px',
+    display: 'flex',
+    alignItems: 'center',
   }),
 
   indicatorSeparator: () => ({}),
@@ -101,11 +123,12 @@ const ReactSelect = ({
   icon,
   style,
   autoOpen,
+  components,
   ...props
 }) => {
   const { t } = useTranslation();
   return (
-    <>
+    <div style={style}>
       {(label || toolTipContent || icon) && (
         <div
           style={{
@@ -121,19 +144,24 @@ const ReactSelect = ({
       )}{' '}
       <Select
         customStyles
-        styles={{ ...styles, container: (provided, state) => ({ ...provided, ...style }) }}
+        styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
         placeholder={placeholder}
         options={options}
         components={{
           ClearIndicator: ({ innerProps }) => (
-            <Underlined {...innerProps} style={{ position: 'absolute', right: 0, bottom: '-20px' }}>
+            <Underlined
+              {...innerProps}
+              style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+            >
               {t('REACT_SELECT.CLEAR_ALL')}
             </Underlined>
           ),
+          ...components,
         }}
+        isSearchable={options?.length > 8}
         {...props}
       />
-    </>
+    </div>
   );
 };
 
@@ -148,5 +176,6 @@ ReactSelect.propTypes = {
    To use with react-hook-form see page https://react-hook-form.com/api/#Controller and sandbox https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js:3850-3861
    */
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  components: PropTypes.object,
 };
 export default ReactSelect;

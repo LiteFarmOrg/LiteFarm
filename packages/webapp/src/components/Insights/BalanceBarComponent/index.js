@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ProgressBar } from 'react-bootstrap';
-import styles from './styles.scss';
-import sharedStyles from '../shared.scss';
+import styles from './styles.module.scss';
 import { BsCaretDownFill } from 'react-icons/bs';
+import { LinearProgress } from '@material-ui/core';
+
 class BalanceBarComponent extends Component {
   render() {
     const { value, unit } = this.props;
@@ -21,7 +21,7 @@ class BalanceBarComponent extends Component {
             </div>
             <BsCaretDownFill style={dotStyle} />
           </div>
-          <ProgressBar className={styles.progress} />
+          <LinearProgress value={value} variant="determinate" />
         </div>
         <div>
           <div className={styles.leftText}>Deficit</div>

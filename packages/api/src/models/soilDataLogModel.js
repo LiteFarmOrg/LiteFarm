@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (soilDataLogModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -38,25 +38,25 @@ class SoilDataLog extends Model {
         texture: { type: 'string', enum:['sand', 'loamySand', 'sandyLoam', 'loam',
           'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam',
           'sandyClay', 'siltyClay', 'clay'] },
-        k: { type: 'integer' },
-        p: { type: 'integer' },
-        n: { type: 'integer' },
-        na: { type: 'integer' },
-        om: { type: 'integer' },
-        ph: { type: 'integer' },
+        k: { type: 'float' },
+        p: { type: 'float' },
+        n: { type: 'float' },
+        na: { type: 'float' },
+        om: { type: 'float' },
+        ph: { type: 'float' },
         'bulk_density_kg/m3': { type: 'float' },
-        organic_carbon: { type: 'integer' },
-        inorganic_carbon: { type: 'integer' },
-        total_carbon: { type: 'integer' },
-        s: { type: 'integer' },
-        ca: { type: 'integer' },
-        mg: { type: 'integer' },
-        zn: { type: 'integer' },
-        mn: { type: 'integer' },
-        fe: { type: 'integer' },
-        cu: { type: 'integer' },
-        b: { type: 'integer' },
-        c: { type: 'integer' },
+        organic_carbon: { type: 'float' },
+        inorganic_carbon: { type: 'float' },
+        total_carbon: { type: 'float' },
+        s: { type: 'float' },
+        ca: { type: 'float' },
+        mg: { type: 'float' },
+        zn: { type: 'float' },
+        mn: { type: 'float' },
+        fe: { type: 'float' },
+        cu: { type: 'float' },
+        b: { type: 'float' },
+        c: { type: 'float' },
         cec: { type: 'float' },
       },
       additionalProperties: false,

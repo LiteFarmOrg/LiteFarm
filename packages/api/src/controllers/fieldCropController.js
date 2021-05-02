@@ -18,13 +18,12 @@ const fieldCropModel = require('../models/fieldCropModel');
 const { transaction, Model, raw } = require('objection');
 const knex = Model.knex();
 
-class FieldCropController extends baseController {
-  static addFieldCrop() {
+const FieldCropController = {
+  addFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(fieldCropModel, req.body, trx, { user_id });
+        const result = await baseController.postWithResponse(fieldCropModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -35,13 +34,13 @@ class FieldCropController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delFieldCrop() {
+  delFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -54,15 +53,14 @@ class FieldCropController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static updateFieldCrop() {
+  updateFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
-        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, trx, { user_id });
+        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -71,116 +69,98 @@ class FieldCropController extends baseController {
         }
 
       } catch (error) {
+        console.log(error);
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static getFieldCropByID() {
+  getFieldCropByID() {
     return async (req, res) => {
       try {
         const field_crop_id = req.params.field_crop_id;
-        const rows = await baseController.getIndividual(fieldCropModel, field_crop_id);
-        if (!rows.length) {
-          res.status(404).send('Field crop not found');
-        } else {
-          res.status(200).send(rows);
-        }
+        const fieldCrop = await fieldCropModel.query().whereNotDeleted().findById(field_crop_id)
+          .withGraphFetched(`[location.[
+          figure.[area, line], 
+           field, garden, buffer_zone,
+          greenhouse
+        ], crop]`);
+        return fieldCrop ? res.status(200).send(fieldCrop) : res.status(404).send('Field crop not found');
       } catch (error) {
-        //handle more exceptions
+        console.log(error);
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static getFieldCropByFarmID() {
+  getFieldCropByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await FieldCropController.getByForeignKey(farm_id);
-        if (!rows.length) {
-          res.status(200).send(rows);
-        } else {
-          res.status(200).send(rows);
-        }
+        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+          .withGraphJoined(`[location.[
+          figure.[area, line], 
+           field, garden, buffer_zone,
+          greenhouse
+        ], crop]`)
+          .where('location.farm_id', farm_id);
+        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
       } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
+        console.log(error);
+        return res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static async getByForeignKey(farm_id) {
-
-    const fieldCrops = await fieldCropModel.query().whereNotDeleted().select('*').from('fieldCrop').join('field', function () {
-      this.on('fieldCrop.field_id', '=', 'field.field_id');
-    }).where('field.farm_id', farm_id)
-      .join('crop', function () {
-        this.on('fieldCrop.crop_id', '=', 'crop.crop_id');
-      });
-
-    for (const fieldCrop of fieldCrops) {
-      //TODO investigate what this loop does and replace $loadRelated with $fetchGraph
-      await fieldCrop.$loadRelated('crop.[price(getFarm), yield(getFarm)]', {
-        getFarm: (builder) => {
-          builder.where('farm_id', farm_id);
-        },
-      })
-    }
-
-    return fieldCrops;
-  }
-
-  static getFieldCropsByDate() {
+  getFieldCropsByDate() {
     return async (req, res) => {
       try {
-        const farmID = req.params.farm_id;
+        const farm_id = req.params.farm_id;
         const date = req.params.date;
-        const dataPoints = await fieldCropModel.query().whereNotDeleted()
-          .join('field', 'field.field_id', 'fieldCrop.field_id')
-          .join('farm', 'farm.farm_id', 'field.farm_id')
-          .where('farm.farm_id', farmID)
-          .where('fieldCrop.end_date', '>=', date);
+        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+          .withGraphJoined(`[location.[
+          figure.[area, line], 
+           field, garden, buffer_zone,
+          greenhouse
+        ], crop]`)
+          .where('location.farm_id', farm_id)
+          .andWhere('fieldCrop.end_date', '>=', date);
 
 
-        if (dataPoints) {
-          res.status(200).send(dataPoints);
-        } else {
-          res.status(200).send([]);
-        }
+        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getExpiredFieldCrops() {
+  getExpiredFieldCrops() {
     return async (req, res) => {
       try {
-        const farmID = req.params.farm_id;
-        const dataPoints = await fieldCropModel.query().whereNotDeleted()
-          .join('field', 'field.field_id', 'fieldCrop.field_id')
-          .join('farm', 'farm.farm_id', 'field.farm_id')
-          .where('farm.farm_id', farmID)
-          .where(raw('"fieldCrop".end_date < now()'));
+        const farm_id = req.params.farm_id;
+        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+          .withGraphJoined(`[location.[
+          figure.[area, line], 
+           field, garden, buffer_zone,
+          greenhouse
+        ], crop]`)
+          .where('location.farm_id', farm_id)
+          .andWhere(raw('"fieldCrop".end_date < now()'));
 
-        if (dataPoints) {
-          res.status(200).send(dataPoints);
-        } else {
-          res.status(200).send([]);
-        }
+
+        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
     }
-  }
+  },
 }
 
 module.exports = FieldCropController;

@@ -13,25 +13,25 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import history from '../../history';
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
-  postFarmSuccess,
-  patchRoleStepTwoSuccess,
-  userFarmSelector,
-  patchFarmSuccess,
   loginSelector,
+  patchFarmSuccess,
+  patchRoleStepTwoSuccess,
+  postFarmSuccess,
   selectFarmSuccess,
-  onLoadingStart,
-  setLoadingStart,
   setLoadingEnd,
+  setLoadingStart,
+  userFarmSelector,
 } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import i18n from './../../lang/i18n';
+import i18n from '../../locales/i18n';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
+const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
 const patchStepUrl = (farm_id, user_id) =>
   `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 export const postFarm = createAction('postFarmSaga');
@@ -104,7 +104,7 @@ export function* patchRoleSaga({ payload }) {
   try {
     const userFarm = yield select(userFarmSelector);
     const { user_id, farm_id, step_two, step_two_end } = userFarm;
-    const { role, role_id, callback } = payload;
+    const { role, owner_operated, role_id, callback } = payload;
     const header = getHeader(user_id, farm_id);
     //TODO set date on server
     let step = {
@@ -115,7 +115,12 @@ export function* patchRoleSaga({ payload }) {
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
+    if (owner_operated !== null) {
+      yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
+    }
+    yield put(
+      patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }),
+    );
     callback && callback();
   } catch (e) {
     console.log('fail to update role');
@@ -123,7 +128,7 @@ export function* patchRoleSaga({ payload }) {
 }
 
 export default function* addFarmSaga() {
-  yield takeLatest(postFarm.type, postFarmSaga);
-  yield takeLatest(patchFarm.type, patchFarmSaga);
-  yield takeLatest(patchRole.type, patchRoleSaga);
+  yield takeLeading(postFarm.type, postFarmSaga);
+  yield takeLeading(patchFarm.type, patchFarmSaga);
+  yield takeLeading(patchRole.type, patchRoleSaga);
 }

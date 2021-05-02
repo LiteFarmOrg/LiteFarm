@@ -15,17 +15,17 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const moment = require('moment')
+const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
-const { tableCleanup } = require('./testEnvironment')
-jest.mock('jsdom')
-jest.mock('../src/middleware/acl/checkJwt')
+const { tableCleanup } = require('./testEnvironment');
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 
 const fieldCropModel = require('../src/models/fieldCropModel');
-
+const locationModel = require('../src/models/locationModel');
 describe('FieldCrop Tests', () => {
   let middleware;
   let owner;
@@ -37,11 +37,6 @@ describe('FieldCrop Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postFieldCropRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post('/field_crop')
@@ -81,8 +76,8 @@ describe('FieldCrop Tests', () => {
 
   function fakeFieldCrop(crop) {
     const fieldCrop = mocks.fakeFieldCrop();
-    const area_used = fieldCrop.area_used < field.area ? fieldCrop.area_used : field.area;
-    return ({ ...fieldCrop, crop_id: crop.crop_id, field_id: field.field_id, area_used });
+    const area_used = fieldCrop.area_used < field.figure.area.total_area ? fieldCrop.area_used : field.figure.area.total_area;
+    return ({ ...fieldCrop, crop_id: crop.crop_id, location_id: field.location_id, area_used });
   }
 
   beforeEach(async () => {
@@ -90,15 +85,21 @@ describe('FieldCrop Tests', () => {
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({
       promisedUser: [owner],
-      promisedFarm: [farm]
+      promisedFarm: [farm],
     }, fakeUserFarm(1));
-    [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
+    const [location] = await mocks.locationFactory({ promisedFarm: [farm] });
+    await mocks.fieldFactory({
+      promisedLocation: [location],
+    });
+    field = await locationModel.query().context({ showHidden: true }).whereNotDeleted().findById(location.location_id)
+      .withGraphFetched(`[
+          figure.[area], field]`);
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
       req.user.user_id = req.get('user_id');
-      next()
+      next();
     });
   })
 
@@ -117,8 +118,8 @@ describe('FieldCrop Tests', () => {
     beforeEach(async () => {
       [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, {
         ...mocks.fakeCrop(),
-        crop_common_name: "crop",
-        user_added: true
+        crop_common_name: 'crop',
+        user_added: true,
       });
       [fieldCrop] = await mocks.fieldCropFactory({ promisedField: [field], promisedCrop: [crop] });
       [worker] = await mocks.usersFactory();
@@ -154,7 +155,7 @@ describe('FieldCrop Tests', () => {
       test('Workers should get fieldCrop by id', async (done) => {
         getRequest(`/field_crop/${fieldCrop.field_crop_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+          expect(res.body.field_crop_id).toBe(fieldCrop.field_crop_id);
           done();
         });
       })
@@ -299,37 +300,71 @@ describe('FieldCrop Tests', () => {
 
     describe('Put fieldCrop', () => {
       test('should be able to edit the area_used field', async (done) => {
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
           expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
           done();
-        })
+        });
       });
 
       test('should return status 400 and if area_used is bigger than the field', async (done) => {
-        fieldCrop.area_used = field.area + 1;
+        fieldCrop.area_used = field.figure.area.total_area + 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(400);
           expect(res.error.text).toBe('Area needed is greater than the field\'s area');
           done();
-        })
+        });
+      });
+
+      test('should be able to change location_id asset type is greenhouse', async (done) => {
+        const [greenhouse] = await mocks.greenhouseFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = greenhouse.location_id;
+        fieldCrop.area_used = 0;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
+          expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
+          done();
+        });
+      });
+
+      test('should be able to change location_id asset type is bufferzone', async (done) => {
+        const [bufferZone] = await mocks.buffer_zoneFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = bufferZone.location_id;
+        fieldCrop.area_used = 999999;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
+          expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
+          done();
+        });
+      });
+
+      test('should return 400 if asset type is residential area', async (done) => {
+        const [residence] = await mocks.residenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = residence.location_id;
+        fieldCrop.area_used = 999999;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
       });
 
       test('should edit and the estimated_production field', async (done) => {
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.estimated_production = 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.estimated_production).toBe(1);
           done();
-        })
+        });
       });
 
       test('should edit and the estimated_revenue field', async (done) => {
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.estimated_revenue = 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -341,18 +376,17 @@ describe('FieldCrop Tests', () => {
 
       test('Expired route should filter out non-expired fieldCrop', async (done) => {
         let fieldCrop = mocks.fakeFieldCrop();
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.end_date = moment().add(10, 'd').toDate();
         await mocks.fieldCropFactory({}, fieldCrop);
         getRequest(`/field_crop/expired/farm/${farm.farm_id}`, {}, (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.length).toBe(0);
-          done()
+          expect(res.status).toBe(404);
+          done();
         });
       });
 
       test('should change the end_date to a future date', async (done) => {
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.end_date = moment().add(10, 'd').toDate();
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -363,7 +397,7 @@ describe('FieldCrop Tests', () => {
       });
 
       test('should change the end_date to a historical date', async (done) => {
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.end_date = moment().subtract(10, 'd').toDate();
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
@@ -375,13 +409,13 @@ describe('FieldCrop Tests', () => {
 
       test('Expired route should not filter out non-expired fieldCrop', async (done) => {
         let fieldCrop = mocks.fakeFieldCrop();
-        fieldCrop.area_used = field.area * 0.1;
+        fieldCrop.area_used = field.figure.area.total_area * 0.1;
         fieldCrop.end_date = moment().subtract(10, 'd').toDate();
         await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] }, fieldCrop);
         getRequest(`/field_crop/expired/farm/${farm.farm_id}`, {}, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(1);
-          done()
+          done();
         });
       });
 
@@ -413,13 +447,13 @@ describe('FieldCrop Tests', () => {
         })
         //TODO: Owner test
         test('should edit and the area_used field by manager', async (done) => {
-          fieldCrop.area_used = field.area * 0.1;
+          fieldCrop.area_used = field.figure.area.total_area * 0.1;
           putFieldCropRequest(fieldCrop, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
+            const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
             expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
             done();
-          })
+          });
         });
 
         test('should return 403 when unauthorized user tries to edit fieldCrop', async (done) => {
@@ -506,16 +540,16 @@ describe('FieldCrop Tests', () => {
       })
     });
 
-    test('should return 400 status if fieldCrop is posted w/ area > field.area', async (done) => {
+    test('should return 400 status if fieldCrop is posted w/ area > field.figure.area.total_area', async (done) => {
       let fieldCrop = fakeFieldCrop(crop);
-      fieldCrop.area_used = field.area + 1;
+      fieldCrop.area_used = field.figure.area.total_area + 1;
       fieldCrop.estimated_production = 1;
       fieldCrop.estimated_revenue = 1;
       postFieldCropRequest(fieldCrop, {}, (err, res) => {
         expect(res.status).toBe(400);
         expect(res.error.text).toBe('Area needed is greater than the field\'s area');
-        done()
-      })
+        done();
+      });
     });
 
     test('should return 400 status if fieldCrop is posted w/ area < 0', async (done) => {
@@ -525,19 +559,32 @@ describe('FieldCrop Tests', () => {
       fieldCrop.estimated_revenue = 1;
       postFieldCropRequest(fieldCrop, {}, (err, res) => {
         expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.area_used[0].message).toBe("should be >= 0");
-        done()
-      })
+        expect(JSON.parse(res.error.text).error.data.area_used[0].message).toBe('should be >= 0');
+        done();
+      });
+    });
+
+    test('should return 400 status if asset type is fence', async (done) => {
+      let fieldCrop = fakeFieldCrop(crop);
+      fieldCrop.estimated_revenue = 1;
+      fieldCrop.area_used = field.figure.area.total_area * 0.25;
+      fieldCrop.estimated_production = 1;
+      const [fence] = await mocks.fenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+      fieldCrop.location_id = fence.location_id;
+      postFieldCropRequest(fieldCrop, {}, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
     });
 
     test('Should post then get a valid fieldcrop (bed size and percentage)', async (done) => {
       let fieldCrop = fakeFieldCrop(crop);
       fieldCrop.estimated_revenue = 1;
-      fieldCrop.area_used = field.area * 0.25;
+      fieldCrop.area_used = field.figure.area.total_area * 0.25;
       fieldCrop.estimated_production = 1;
       postFieldCropRequest(fieldCrop, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
+        const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
         expect(newFieldCrop.field_id).toBe(field.field_id);
         done();
       })
@@ -546,7 +593,7 @@ describe('FieldCrop Tests', () => {
     test('should return 400 status if fieldCrop is posted w/ estimated_revenue < 0', async (done) => {
       let fieldCrop = fakeFieldCrop(crop);
       fieldCrop.estimated_revenue = -1;
-      fieldCrop.area_used = field.area * 0.25;
+      fieldCrop.area_used = field.figure.area.total_area * 0.25;
       fieldCrop.estimated_production = 1;
       postFieldCropRequest(fieldCrop, {}, (err, res) => {
         expect(res.status).toBe(400);
@@ -558,7 +605,7 @@ describe('FieldCrop Tests', () => {
     test('Should post then get an expired crop', async (done) => {
       let fieldCrop = fakeFieldCrop(crop);
       fieldCrop.estimated_revenue = 1;
-      fieldCrop.area_used = field.area * 0.25;
+      fieldCrop.area_used = field.figure.area.total_area * 0.25;
       fieldCrop.estimated_production = 1;
       fieldCrop.start_date = moment().subtract(50, 'd').toDate();
       fieldCrop.end_date = moment().subtract(20, 'd').toDate();
@@ -600,7 +647,7 @@ describe('FieldCrop Tests', () => {
       test('Should post then get a valid fieldcrop by a manager', async (done) => {
         let fieldCrop = fakeFieldCrop(crop);
         fieldCrop.estimated_revenue = 1;
-        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.area_used = field.figure.area.total_area * 0.25;
         fieldCrop.estimated_production = 1;
         postFieldCropRequest(fieldCrop, { user_id: manager.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
@@ -613,7 +660,7 @@ describe('FieldCrop Tests', () => {
       test('Should return status 403 when a worker tries to post a valid fieldcrop', async (done) => {
         let fieldCrop = fakeFieldCrop(crop);
         fieldCrop.estimated_revenue = 1;
-        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.area_used = field.figure.area.total_area * 0.25;
         fieldCrop.estimated_production = 1;
         postFieldCropRequest(fieldCrop, { user_id: worker.user_id }, (err, res) => {
             expect(res.status).toBe(403);
@@ -625,7 +672,7 @@ describe('FieldCrop Tests', () => {
       test('Should return status 403 when an unauthorized user tries to post a valid fieldcrop', async (done) => {
         let fieldCrop = fakeFieldCrop(crop);
         fieldCrop.estimated_revenue = 1;
-        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.area_used = field.figure.area.total_area * 0.25;
         fieldCrop.estimated_production = 1;
         postFieldCropRequest(fieldCrop, { user_id: unAuthorizedUser.user_id }, (err, res) => {
             expect(res.status).toBe(403);
@@ -637,7 +684,7 @@ describe('FieldCrop Tests', () => {
       test('Circumvent authorization by modify farm_id', async (done) => {
         let fieldCrop = fakeFieldCrop(crop);
         fieldCrop.estimated_revenue = 1;
-        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.area_used = field.figure.area.total_area * 0.25;
         fieldCrop.estimated_production = 1;
         postFieldCropRequest(fieldCrop, {
             user_id: unAuthorizedUser.user_id,

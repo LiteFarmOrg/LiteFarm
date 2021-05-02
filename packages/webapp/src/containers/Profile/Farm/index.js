@@ -1,13 +1,12 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
-import defaultStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import defaultStyles from '../styles.module.scss';
 import { actions, Control, Form } from 'react-redux-form';
-import { Alert, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { getFarmSchedule, sendFarmDataRequst } from './actions';
 import { farmDataSelector } from './selector';
-import Popup from 'reactjs-popup';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { putFarm } from '../../saga';
@@ -141,9 +140,7 @@ class Farm extends Component {
                 <label>{this.props.t('PROFILE.FARM.CURRENCY')}</label>
                 <p style={{ marginLeft: '8px' }}>{farm.units.currency}</p>
               </div>
-              {/* <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
-                {request_text}
-              </div> */}
+
               {!disabled && (
                 <div className={defaultStyles.bottomContainer}>
                   <div className={defaultStyles.buttonContainer}>
@@ -156,51 +153,6 @@ class Farm extends Component {
             </Form>
           )}
         </div>
-
-        <Popup
-          open={this.state.showData}
-          closeOnDocumentClick
-          onClose={this.closeDataModal}
-          contentStyle={{
-            display: 'flex',
-            width: '100%',
-            minHeight: '30vh',
-            padding: '0 5%',
-            flexDirection: 'column',
-          }}
-          overlayStyle={{ zIndex: '1060', minHeight: '100vh', top: 'auto' }}
-        >
-          <div>
-            <h3>Data Request</h3>
-          </div>
-          <hr
-            style={{
-              border: '0.5px solid black',
-              height: '0px',
-              marginLeft: '-6%',
-            }}
-          />
-          <p>{this.props.t('PROFILE.FARM.REQUEST_DATA')}</p>
-
-          {enableRequest &&
-            schedule &&
-            schedule.farm_data_schedule &&
-            schedule.farm_data_schedule.length === 0 && (
-              <div className={styles.requestContainer}>
-                <Button onClick={() => this.sendRequest()}>
-                  {this.props.t('PROFILE.FARM.MAKE_REQUEST')}
-                </Button>
-              </div>
-            )}
-          {(enableRequest === false ||
-            (schedule &&
-              schedule.farm_data_schedule &&
-              schedule.farm_data_schedule.length > 0)) && (
-            <div>
-              <Alert variant="warning">{request_pending_text}</Alert>
-            </div>
-          )}
-        </Popup>
       </div>
     );
   }

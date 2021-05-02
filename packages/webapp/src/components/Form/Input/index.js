@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './input.scss';
+import styles from './input.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
@@ -26,10 +26,11 @@ const Input = ({
   unit,
   name,
   hookFormSetValue,
+  showCross,
   ...props
 }) => {
   warnings(hookFormSetValue, optional);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
   const onClear =
     optional || hookFormSetValue
@@ -54,7 +55,7 @@ const Input = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
+  const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
   return (
     <div
       className={clsx(styles.container)}
@@ -65,8 +66,8 @@ const Input = ({
           <Label>
             {label}{' '}
             {optional && (
-              <Label sm className={styles.sm}>
-                ({t('common:OPTIONAL')})
+              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+                {t('common:OPTIONAL')}
               </Label>
             )}
           </Label>
@@ -74,7 +75,17 @@ const Input = ({
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
-      {showError && !unit && <Cross onClick={onClear} className={styles.cross} />}
+      {showError && !unit && showCross && (
+        <Cross
+          onClick={onClear}
+          style={{
+            position: 'absolute',
+            right: 0,
+            transform: 'translate(-17px, 13px)',
+            cursor: 'pointer',
+          }}
+        />
+      )}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
       {isPassword &&
         !showError &&

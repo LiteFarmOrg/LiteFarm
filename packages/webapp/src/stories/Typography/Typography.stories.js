@@ -1,19 +1,21 @@
 import React from 'react';
 import {
-  Underlined,
-  Info,
+  AddLink,
   Error,
+  Info,
   Label,
   Main,
   Semibold,
   Text,
   Title,
+  Underlined,
 } from '../../components/Typography';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Typography',
   component: Underlined,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => (
@@ -32,6 +34,9 @@ const AllFontTemplate = (args) => (
   <>
     <Title style={args.style} />
     <Semibold style={args.style} />
+    <Semibold sm style={args.style}>
+      sm Semibold
+    </Semibold>
     <Label style={args.style} />
     <Label sm style={args.style}>
       Label with sm as prop
@@ -41,6 +46,7 @@ const AllFontTemplate = (args) => (
     <Info style={args.style} />
     <Error style={args.style} />
     <Underlined style={args.style} />
+    <AddLink style={args.style} />
   </>
 );
 

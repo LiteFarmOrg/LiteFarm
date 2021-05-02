@@ -25,7 +25,7 @@ const { tableCleanup } = require('./testEnvironment');
 const cropModel = require('../src/models/cropModel');
 const pesiticideModel = require('../src/models/pesiticideModel');
 
-describe('Authorization Tests', () => {
+xdescribe('Authorization Tests', () => {
   let middleware;
   let newOwner;
   let farm;
@@ -34,11 +34,7 @@ describe('Authorization Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
   function postRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/pesticide`)

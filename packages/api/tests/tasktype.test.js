@@ -35,11 +35,6 @@ describe('taskType Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/task_type`)
@@ -110,7 +105,7 @@ describe('taskType Tests', () => {
       });
     })
 
-    test('Get by task_id should filter out deleted task types', async (done)=>{
+    test('Get by task_id should filter out deleted task types', async (done)=> {
       await taskTypeModel.query().context({
         showHidden: true,
         user_id: owner.user_id,

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../../styles.module.scss';
+import styles from './styles.module.scss';
 import { expenseTypeSelector } from '../../selectors';
-import { Container, Row, Col } from 'react-bootstrap';
 import EquipImg from '../../../../assets/images/log/equipment.svg';
 import FertImg from '../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../assets/images/log/bug.svg';
@@ -16,6 +15,7 @@ import LandImg from '../../../../assets/images/log/land.svg';
 import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
+import { Grid } from '@material-ui/core';
 
 class ExpenseCategories extends Component {
   constructor(props) {
@@ -68,64 +68,70 @@ class ExpenseCategories extends Component {
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
-        <Container
-          fluid={true}
+        <Grid
+          container
+          spacing={3}
           style={{
             marginLeft: 0,
             marginRight: 0,
-            padding: '0 3%',
-            marginTop: '5%',
+            marginTop: '24px',
             width: '100%',
           }}
         >
-          <Row className="show-grid">
-            {expenseTypes.length > 0 &&
-              expenseTypes.map((type) => {
-                return (
-                  <Col xs={4} md={4} key={type.expense_type_id} style={{ marginBottom: '12px' }}>
-                    <div>
-                      <div
-                        style={
-                          selectedTypes.includes(type.expense_type_id)
-                            ? selectedStyle
-                            : unSelectedStyle
-                        }
-                        onClick={() => this.addRemoveType(type.expense_type_id)}
-                      >
-                        {type.expense_name === 'Equipment' && (
-                          <img src={EquipImg} alt="" className={styles.circleImg} id="t-1" />
-                        )}
-                        {type.expense_name === 'Fertilizer' && (
-                          <img src={FertImg} alt="" className={styles.circleImg} id="t-2" />
-                        )}
-                        {type.expense_name === 'Machinery' && (
-                          <img src={MachineImg} alt="" className={styles.circleImg} id="t-3" />
-                        )}
-                        {type.expense_name === 'Pesticide' && (
-                          <img src={PestImg} alt="" className={styles.circleImg} id="t-4" />
-                        )}
-                        {type.expense_name === 'Fuel' && (
-                          <img src={FueldImg} alt="" className={styles.circleImg} id="t-5" />
-                        )}
-                        {type.expense_name === 'Land' && (
-                          <img src={LandImg} alt="" className={styles.circleImg} id="t-6" />
-                        )}
-                        {type.expense_name === 'Seeds' && (
-                          <img src={SeedImg} alt="" className={styles.circleImg} id="t-7" />
-                        )}
-                        {type.expense_name === 'Other' && (
-                          <img src={OtherImg} alt="" className={styles.circleImg} id="t-8" />
-                        )}
-                      </div>
-                      <div className={styles.typeName}>
-                        {this.props.t(`expense:${type.expense_translation_key}`)}
-                      </div>
+          {expenseTypes.length > 0 &&
+            expenseTypes.map((type) => {
+              return (
+                <Grid
+                  item
+                  xs={4}
+                  md={3}
+                  lg={2}
+                  key={type.expense_type_id}
+                  style={{ marginBottom: '12px' }}
+                >
+                  <div>
+                    <div
+                      style={
+                        selectedTypes.includes(type.expense_type_id)
+                          ? selectedStyle
+                          : unSelectedStyle
+                      }
+                      onClick={() => this.addRemoveType(type.expense_type_id)}
+                      className={styles.greenCircle}
+                    >
+                      {type.expense_name === 'Equipment' && (
+                        <img src={EquipImg} alt="" className={styles.circleImg} id="t-1" />
+                      )}
+                      {type.expense_name === 'Fertilizer' && (
+                        <img src={FertImg} alt="" className={styles.circleImg} id="t-2" />
+                      )}
+                      {type.expense_name === 'Machinery' && (
+                        <img src={MachineImg} alt="" className={styles.circleImg} id="t-3" />
+                      )}
+                      {type.expense_name === 'Pesticide' && (
+                        <img src={PestImg} alt="" className={styles.circleImg} id="t-4" />
+                      )}
+                      {type.expense_name === 'Fuel' && (
+                        <img src={FueldImg} alt="" className={styles.circleImg} id="t-5" />
+                      )}
+                      {type.expense_name === 'Land' && (
+                        <img src={LandImg} alt="" className={styles.circleImg} id="t-6" />
+                      )}
+                      {type.expense_name === 'Seeds' && (
+                        <img src={SeedImg} alt="" className={styles.circleImg} id="t-7" />
+                      )}
+                      {type.expense_name === 'Other' && (
+                        <img src={OtherImg} alt="" className={styles.circleImg} id="t-8" />
+                      )}
                     </div>
-                  </Col>
-                );
-              })}
-          </Row>
-        </Container>
+                    <div className={styles.typeName}>
+                      {this.props.t(`expense:${type.expense_translation_key}`)}
+                    </div>
+                  </div>
+                </Grid>
+              );
+            })}
+        </Grid>
         <div className={styles.bottomContainer}>
           <button className="btn btn-primary" onClick={() => this.nextPage()}>
             {this.props.t('common:NEXT')}

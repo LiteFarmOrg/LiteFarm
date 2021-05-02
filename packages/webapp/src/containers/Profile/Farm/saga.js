@@ -1,10 +1,10 @@
 import { GET_FARM_DATA_SCHEDULE, SEND_FARM_DATA_REQUEST } from './constants';
 import { setFarmSchedule } from './actions';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
+import { axios, getHeader } from '../../saga';
 
 export function* sendRequestSaga() {
   const { farmDataUrl } = apiConfig;
@@ -42,6 +42,6 @@ export function* getFarmDataScheduleSaga() {
 }
 
 export default function* farmDataSaga() {
-  yield takeEvery(SEND_FARM_DATA_REQUEST, sendRequestSaga);
-  yield takeEvery(GET_FARM_DATA_SCHEDULE, getFarmDataScheduleSaga);
+  yield takeLeading(SEND_FARM_DATA_REQUEST, sendRequestSaga);
+  yield takeLatest(GET_FARM_DATA_SCHEDULE, getFarmDataScheduleSaga);
 }

@@ -14,17 +14,21 @@
  */
 
 import {
+  RESET_LOG_FILTER,
+  SAVE_HARVEST_ALLOCATION_WIP,
+  SET_ALL_HARVEST_USE_TYPES,
+  SET_DEFAULT_DATE,
+  SET_DEFAULT_DATE_RANGE,
+  SET_END_DATE,
+  SET_FORM_DATA,
+  SET_FORM_VALUE,
+  SET_LOG_CROP_FILTER,
+  SET_LOG_FIELD_FILTER,
+  SET_LOG_TYPE,
   SET_LOGS_IN_STATE,
   SET_SELECTED_LOG,
-  SET_FORM_DATA,
   SET_SELECTED_USE_TYPES,
-  SET_ALL_HARVEST_USE_TYPES,
-  SET_FORM_VALUE,
   SET_START_DATE,
-  SET_END_DATE,
-  SET_DEFAULT_DATE_RANGE,
-  SET_DEFAULT_DATE,
-  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 import { combineReducers } from 'redux';
 import { combineForms } from 'react-redux-form';
@@ -36,6 +40,9 @@ const initialState = {
   logs: null,
   startDate: moment().startOf('year'),
   endDate: moment().endOf('year'),
+  cropFilter: undefined,
+  fieldFilter: undefined,
+  logType: undefined,
   allUseType: [],
 };
 
@@ -85,6 +92,26 @@ function logReducer(state = initialState, action) {
     case SAVE_HARVEST_ALLOCATION_WIP:
       return Object.assign({}, state, {
         harvestAllocation: action.harvestAllocation,
+      });
+    case SET_LOG_CROP_FILTER:
+      return Object.assign({}, state, {
+        cropFilter: action.cropFilter,
+      });
+    case SET_LOG_FIELD_FILTER:
+      return Object.assign({}, state, {
+        fieldFilter: action.fieldFilter,
+      });
+    case SET_LOG_TYPE:
+      return Object.assign({}, state, {
+        logType: action.logType,
+      });
+    case RESET_LOG_FILTER:
+      return Object.assign({}, state, {
+        logType: initialState.logType,
+        fieldFilter: initialState.fieldFilter,
+        cropFilter: initialState.cropFilter,
+        startDate: moment().startOf('year'),
+        endDate: moment().endOf('year'),
       });
     default:
       return state;
@@ -155,6 +182,7 @@ const pcLog = {
   custom_disease_scientific_name: '',
   custom_disease_common_name: '',
   custom_disease_group: 'Other',
+  crop: null,
   pesticide_id: null,
   disease_id: 1,
   type: '',

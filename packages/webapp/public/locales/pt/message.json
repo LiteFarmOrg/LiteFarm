@@ -1,0 +1,152 @@
+{
+  "ATTACHMENTS": {
+    "ERROR": {
+      "FAILED_UPLOAD": "Anexos não carregados"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "Falha na exclusão do cultivo de campo",
+      "EDIT": "Falha na edição do cultivo de campo"
+    },
+    "SUCCESS": {
+      "DELETE": "Cultivo excluído com sucesso",
+      "EDIT": "Cultivo editado com sucesso"
+    }
+  },
+  "EDIT_FIELD_CROP": {
+    "ERROR": {
+      "END_DATE_BEFORE": "A Data de Término não pode ser igual ou anterior à Data de Início"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Falha de adicionar novas despesas",
+      "DELETE": "Falha de excluir despesas",
+      "UPDATE": "Falha de atualizar despesas!"
+    },
+    "SUCCESS": {
+      "ADD": "Novas despesas adicionadas com sucesso!",
+      "DELETE": "Despesas excluídas com sucesso!",
+      "UPDATE": "Despesas atualizadas com sucesso!"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Falha ao adicionar sito novo, favor entre em contato com o Litefarm para obter assistência",
+      "FETCH": "Falha de trazer o sitio do banco de dados",
+      "UPDATE": "Falha de atualizar informações do sitio"
+    },
+    "SUCCESS": {
+      "UPDATE": "Informação da fazenda atualizada com sucesso!"
+    }
+  },
+  "FERTILIZER": {
+    "ERROR": {
+      "ADD": "falhou em adicionar fertilizante"
+    }
+  },
+  "FIELD": {
+    "ERROR": {
+      "EMPTY_NAME": "O nome do campo não pode estar vazio",
+      "UPDATE_NAME": "Falha ao atualizar o nome do campo"
+    },
+    "SUCCESS": {
+      "UPDATE_NAME": "Nome de campo alterado com sucesso"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
+      "AMOUNT_TOTAL": "MISSING",
+      "GET_TYPES": "Falha ao buscar uso/destino de colheita",
+      "REQUIRED_TASK": "É necessário nomear o tipo de uso da colheita"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
+    }
+  },
+  "LOG": {
+    "ERROR": {
+      "ADD": "Falha na adição do Registro",
+      "DELETE": "Falha na exclusão do Registro",
+      "EDIT": "Falha na edição do Registro"
+    },
+    "SUCCESS": {
+      "ADD": "Registro adicionado com sucesso!",
+      "DELETE": "Registro excluído com sucesso!",
+      "EDIT": "Registro editado com sucesso!"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Falha no login das informações do usuário"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "MISSING",
+    "FAIL_POST": "MISSING",
+    "SUCCESS_DELETE": "MISSING",
+    "SUCCESS_PATCH": " successfully updated",
+    "SUCCESS_POST": " successfully saved"
+  },
+  "NEW_FIELD_CROP": {
+    "ERROR": {
+      "GENERAL": "Falha ao adicionar cultivo de campo ao banco de dados",
+      "NOT_FILLED": "não está preenchido",
+      "VARIETY_EXISTS": "Já existe uma cultura desse variedade, tente outra."
+    },
+    "SUCCESS": {
+      "SAVE": "Cultivo salvo com sucesso!"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "Falha de excluir venda nova",
+      "UPDATE": "Falha de atualizar venda"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "Venda excluída com sucesso",
+      "UPDATE": "Venda atualizada com sucesso"
+    }
+  },
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "Falha de adicionar novo turno",
+      "CROP_FIELDS_EACH": "Favor de atribuar culturas ou campos para cada tarefa",
+      "DELETE": "Falha na exclusão do turno :(",
+      "DURATION_FOR_CROPS": "Favor de atribuir uma duração para cada cultivo de campo.",
+      "ONLY_INTEGERS_DURATIONS": "Favor de atribuir apenas números às durações",
+      "REQUIRED_TASK": "Um nome de tarefa é obrigatório",
+      "SUBMIT_SHIFT": "Falha no envio de turno. Favor de enviar um pedido de ajuda a Litefarm para obter assistência.",
+      "UPDATE": "Falha na actualização do turno"
+    },
+    "SUCCESS": {
+      "ADD": "Novo turno adicionado com sucesso!",
+      "DELETE": "Turno excluído!",
+      "UPDATE": "Turno atualizado com sucesso!"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Falha de adicionar usuário",
+      "AGREEMENT": "Falha de atualizar o contrato do usuário",
+      "EXISTS": "O usuário já existe na rede de LiteFarm",
+      "INVITE": "Erro ao criar conta de usuário, entre em contato com LiteFarm para assistência.",
+      "NOTHING_CHANGED": "Nada mudou",
+      "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
+      "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
+      "REVOKE": "Ocorreu um erro, o acesso não foi revogado",
+      "SIGNUP_UNKNOWN": "Problema desconhecido! Tente mais tarde.",
+      "UPDATE": "Falha na atualização das informações do usuário"
+    },
+    "SUCCESS": {
+      "ADD": "Usuário adicionado ao sitio com sucesso!",
+      "RESTORE": "Acesso do usuário restaurado!",
+      "REVOKE": "Acesso do usuário revogado!",
+      "UPDATE": "Informações do usuário atualizadas com sucesso!"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+extends ../template
+block content
+    p
+        span=`${t('WITHHOLD_CONSENT.RECENT')} `
+        strong #{farm_name}
+        span=` ${t('WITHHOLD_CONSENT.WITHHOLD')}`
+    p
+        span=`${t('WITHHOLD_CONSENT.DEACTIVATE')} `
+        strong #{farm_name}
+        span=`. ${t('WITHHOLD_CONSENT.HOWEVER')}`
+    p=`${t('WITHHOLD_CONSENT.RIGHT')}`
+    ul
+        li=`${t('WITHHOLD_CONSENT.COPY')}`
+        li=`${t('WITHHOLD_CONSENT.UPDATE')}`
+        li=`${t('WITHHOLD_CONSENT.STOP')}`
+        li=`${t('WITHHOLD_CONSENT.TRANSFER')}`
+        li=`${t('WITHHOLD_CONSENT.DELETE')}`
+    p
+        span=`${t('WITHHOLD_CONSENT.TO_REQUEST')} `
+        a(href='mailto:data@litefarm.org') data@litefarm.org
+        span=` ${t('WITHHOLD_CONSENT.SUPPORT')}`
+    p
+        span=`${t('WITHHOLD_CONSENT.OTHERWISE')}:`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button=`${t('COMMON.LOG_IN')}`
+    p=`${t('WITHHOLD_CONSENT.RESTORE')}`

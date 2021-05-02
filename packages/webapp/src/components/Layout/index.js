@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './layout.scss';
+import styles from './layout.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Footer from '../Footer';
@@ -9,12 +9,16 @@ const Layout = ({ classes = {}, children, buttonGroup, hasWhiteBackground, isSVG
     <>
       <div
         className={clsx(styles.container, isSVG && styles.svgContainer)}
-        style={classes.container}
+        style={{ paddingBottom: hasWhiteBackground ? '104px' : undefined, ...classes.container }}
       >
         {children}
       </div>
       <Footer
-        style={{ bottom: 0, position: 'sticky', ...classes.footer }}
+        style={{
+          bottom: 0,
+          position: hasWhiteBackground ? 'sticky' : 'relative',
+          ...classes.footer,
+        }}
         hasWhiteBackground={hasWhiteBackground}
       >
         {buttonGroup}

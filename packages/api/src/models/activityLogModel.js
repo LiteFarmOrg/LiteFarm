@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (activityLogModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -162,19 +162,18 @@ class activityLogModel extends BaseModel {
         },
 
       },
-      field:{
-        modelClass:require('./fieldModel'),
+      location: {
+        modelClass:require('./locationModel'),
         relation:Model.ManyToManyRelation,
         join:{
           from: 'activityLog.activity_id',
           through: {
             modelClass: require('./activityFieldsModel'),
             from: 'activityFields.activity_id',
-            to: 'activityFields.field_id',
+            to: 'activityFields.location_id',
           },
-          to: 'field.field_id',
+          to: 'location.location_id',
         },
-
       },
       ...this.baseRelationMappings('activityLog'),
     };

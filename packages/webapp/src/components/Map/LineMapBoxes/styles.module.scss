@@ -1,0 +1,19 @@
+.box {
+  background: #ffffff;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  max-height: 250px;
+  max-width: 312px;
+  flex-direction: column;
+  pointer-events: auto;
+  margin: auto;
+  flex-grow: 1;
+}
+
+//@media only screen and (max-width: 450px) {
+//  .box {
+//    flex: 0 0 100%;
+//  }
+//}

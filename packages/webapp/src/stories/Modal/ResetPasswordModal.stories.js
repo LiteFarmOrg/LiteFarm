@@ -1,9 +1,10 @@
 import React from 'react';
 import ResetPasswordModal from '../../components/Modals/ResetPassword';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Modals/ResetPasswordModal',
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
   component: ResetPasswordModal,
 };
 

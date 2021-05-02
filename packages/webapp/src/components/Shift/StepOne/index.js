@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import TitleLayout from '../../Layout/TitleLayout';
 import DateContainer from '../../Inputs/DateContainer';
 import ReactSelect from '../../Form/ReactSelect';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import BedImg from '../../../assets/images/log/bed.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -34,7 +34,7 @@ function PureStepOne({
   addTaskType,
   showTaskRequiredError,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'task']);
   let workerOptions = workers.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
     value: user_id,
@@ -76,9 +76,6 @@ function PureStepOne({
     <TitleLayout
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button
             type={'submit'}
             disabled={!selectedTasks.length || !worker}
@@ -90,6 +87,7 @@ function PureStepOne({
         </>
       }
       onGoBack={onGoBack}
+      onCancel={onGoBack}
       title={t('SHIFT.NEW_SHIFT.STEP_ONE')}
     >
       <DateContainer
@@ -119,7 +117,7 @@ function PureStepOne({
         taskTypes={taskTypes}
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} style={{ paddingBottom: '24px' }}>
           <Button
             style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
             onClick={() => switchShowModal(true)}
@@ -139,7 +137,7 @@ function PureStepOne({
 }
 
 function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'task']);
   const imgDict = {
     'Bed Preparation': BedImg,
     Delivery: DeliveryImg,
@@ -169,7 +167,11 @@ function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
         const taskName = t(`task:${type.task_translation_key}`);
         const buttonImg = imgDict[type.task_name] ? imgDict[type.task_name] : OtherImg;
         return (
-          <div className={styles.matrixItem} onClick={() => selectOrDeselectTask(type.task_id)}>
+          <div
+            className={styles.matrixItem}
+            onClick={() => selectOrDeselectTask(type.task_id)}
+            key={`task${i}`}
+          >
             <div
               className={clsx(
                 styles.circleButton,

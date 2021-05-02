@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { connect } from 'react-redux';
 import { waterBalanceScheduleSelector, waterBalanceSelector } from '../selectors';
 import WaterBalanceInfo from '../../../components/Insights/WaterBalanceInfo';
-import { Button } from 'react-bootstrap';
 import { createWaterBalanceSchedule } from '../actions';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import Button from '../../../components/Form/Button';
 
 class WaterBalance extends Component {
   constructor(props) {
@@ -45,15 +45,17 @@ class WaterBalance extends Component {
     } else if (this.state.waterBalanceSchedule.farm_id) {
       renderedComponent = (
         <div>
-          <Semibold>{t("INSIGHTS.WATER_BALANCE.NO_SCHEDULE_RUN")}</Semibold>
+          <Semibold>{t('INSIGHTS.WATER_BALANCE.NO_SCHEDULE_RUN')}</Semibold>
         </div>
       );
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <Semibold>{t("INSIGHTS.WATER_BALANCE.FIRST_TIME")}</Semibold>
-          <Button onClick={this.createWaterBalanceSchedule} variant="primary">
-            {t("INSIGHTS.WATER_BALANCE.REGISTER_FARM")}
+          <Semibold style={{ paddingBottom: '20px' }}>
+            {t('INSIGHTS.WATER_BALANCE.FIRST_TIME')}
+          </Semibold>
+          <Button onClick={this.createWaterBalanceSchedule} sm color="primary">
+            {t('INSIGHTS.WATER_BALANCE.REGISTER_FARM')}
           </Button>
         </div>
       );
@@ -63,14 +65,16 @@ class WaterBalance extends Component {
       <div>
         <div className={insightStyles.insightContainer}>
           <PageTitle
-            title={t("INSIGHTS.WATER_BALANCE.TITLE")}
+            title={t('INSIGHTS.WATER_BALANCE.TITLE')}
             backUrl="/Insights"
             rightIcon={true}
-            rightIconTitle={t("INSIGHTS.WATER_BALANCE.TITLE")}
-            rightIconBody={(<div>
-              <p>{t("INSIGHTS.WATER_BALANCE.INFO_1")}</p>
-              <p>{t("INSIGHTS.WATER_BALANCE.INFO_2")}</p>
-            </div>)}
+            rightIconTitle={t('INSIGHTS.WATER_BALANCE.TITLE')}
+            rightIconBody={
+              <div>
+                <p>{t('INSIGHTS.WATER_BALANCE.INFO_1')}</p>
+                <p>{t('INSIGHTS.WATER_BALANCE.INFO_2')}</p>
+              </div>
+            }
           />
           <div>{renderedComponent}</div>
         </div>

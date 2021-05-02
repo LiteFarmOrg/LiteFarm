@@ -39,13 +39,7 @@ describe('insights test', () => {
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
       req.user.user_id = req.get('user_id');
-      next()
-    });
-  });
-
-  afterAll((done) => {
-    server.close(() => {
-      done();
+      next();
     });
   });
 
@@ -57,14 +51,23 @@ describe('insights test', () => {
 
   describe('People Fed', () => {
 
-    async function generateSaleData(crop, quantity, user){
-      const [{ user_id, farm_id }] = user ? user :  await createUserFarm(1);
-      const [{ field_id, created_by_user_id }] = await mocks.fieldFactory({promisedFarm: [ { farm_id }]});
-      const [{ crop_id }] = await mocks.cropFactory({promisedFarm: [{farm_id}]}, crop);
-      const [{ field_crop_id }] = await mocks.fieldCropFactory({promisedField: [{ field_id, created_by_user_id }], promisedCrop: [{ crop_id }]});
-      const [{ sale_id }] = await mocks.saleFactory({promisedUserFarm: [{ user_id, farm_id }]});
-      const [{ crop_sale_id }] = await mocks.cropSaleFactory({ promisedCrop: [{ crop_id }], promisedSale: [{ sale_id }]},
-        { quantity_kg: quantity, sale_value: 3});
+    async function generateSaleData(crop, quantity, user) {
+      const [{ user_id, farm_id }] = user ? user : await createUserFarm(1);
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const { location_id, created_by_user_id } = location;
+      const [field] = await mocks.fieldFactory({ promisedLocation: [location] });
+      const [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }] }, crop);
+      const [{ field_crop_id }] = await mocks.fieldCropFactory({
+        promisedLocation: [location],
+        promisedField: [field],
+        promisedCrop: [{ crop_id }],
+      });
+      const [{ sale_id }] = await mocks.saleFactory({ promisedUserFarm: [{ user_id, farm_id }] });
+      const [{ crop_sale_id }] = await mocks.cropSaleFactory({
+          promisedCrop: [{ crop_id }],
+          promisedSale: [{ sale_id }],
+        },
+        { quantity_kg: quantity, sale_value: 3 });
       return { user_id, farm_id, field_crop_id };
     }
 
@@ -94,112 +97,184 @@ describe('insights test', () => {
     describe('Meals calculation', () => {
       afterEach(async () => {
         await knex.raw('DELETE FROM "harvestUseType"');
-      })
-      test('Should get 9 meals in calories from a crop with 250 calories and 3kg sale' , async (done) => {
-        const { user_id, farm_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, energy: 250 }, 3);
+      });
+      test('Should get 9 meals in calories from a crop with 250 calories and 3kg sale', async (done) => {
+        const { user_id, farm_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          energy: 250,
+        }, 3);
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Calories');
+          const cals = res.body.data.find(({ label }) => label === 'Calories');
           expect(cals.val).toBe(9);
           done();
-        })
+        });
       });
 
-      test('Should get 9 meals in calories from a crop with 250 calories and 1kg sale and 2 kg harvest log' , async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, energy: 250 }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({} , {harvest_use_type_id: 2, harvest_use_type_name: 'test'});
-        await mocks.harvestUseFactory({ promisedFieldCrop: [{ field_crop_id }], promisedHarvestUseType: harvestUseType},
-          { quantity_kg: 2});
-        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
-          expect(res.status).toBe(200);
-          expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Calories');
-          expect(cals.val).toBe(9);
-          done();
-        })
-      });
-
-      test('Should get 9 meals in protein from a crop with 5.2g protein 1kg sale and 2 kg harvest log' , async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, protein: 5.2 }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({} , {harvest_use_type_id: 2, harvest_use_type_name: 'test'});
-        await mocks.harvestUseFactory({ promisedFieldCrop: [{ field_crop_id }], promisedHarvestUseType: harvestUseType},
+      test('Should get 9 meals in calories from a crop with 250 calories and 1kg sale and 2 kg harvest log', async (done) => {
+        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          energy: 250,
+        }, 1);
+        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+          harvest_use_type_id: 2,
+          harvest_use_type_name: 'test',
+        });
+        await mocks.harvestUseFactory({
+            promisedFieldCrop: [{ field_crop_id }],
+            promisedHarvestUseType: harvestUseType,
+          },
           { quantity_kg: 2 });
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Protein');
+          const cals = res.body.data.find(({ label }) => label === 'Calories');
           expect(cals.val).toBe(9);
           done();
-        })
+        });
       });
 
-      test('Should get 9 meals in fat from a crop with 75g fat 1kg sale and 2 kg harvest log' , async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({} , {harvest_use_type_id: 2, harvest_use_type_name: 'test'});
-        await mocks.harvestUseFactory({ promisedFieldCrop: [{ field_crop_id }], promisedHarvestUseType: harvestUseType},
+      test('Should get 9 meals in protein from a crop with 5.2g protein 1kg sale and 2 kg harvest log', async (done) => {
+        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          protein: 5.2,
+        }, 1);
+        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+          harvest_use_type_id: 2,
+          harvest_use_type_name: 'test',
+        });
+        await mocks.harvestUseFactory({
+            promisedFieldCrop: [{ field_crop_id }],
+            promisedHarvestUseType: harvestUseType,
+          },
           { quantity_kg: 2 });
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Fat');
+          const cals = res.body.data.find(({ label }) => label === 'Protein');
           expect(cals.val).toBe(9);
           done();
-        })
+        });
       });
 
-      test('Should get 9 meals in vitamin c from a crop with 9g vitamin c 1kg sale and 2 kg harvest log' , async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({} , {harvest_use_type_id: 2, harvest_use_type_name: 'test'});
-        await mocks.harvestUseFactory({ promisedFieldCrop: [{ field_crop_id }], promisedHarvestUseType: harvestUseType},
+      test('Should get 9 meals in fat from a crop with 75g fat 1kg sale and 2 kg harvest log', async (done) => {
+        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          lipid: 75,
+        }, 1);
+        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+          harvest_use_type_id: 2,
+          harvest_use_type_name: 'test',
+        });
+        await mocks.harvestUseFactory({
+            promisedFieldCrop: [{ field_crop_id }],
+            promisedHarvestUseType: harvestUseType,
+          },
           { quantity_kg: 2 });
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Vitamin C');
+          const cals = res.body.data.find(({ label }) => label === 'Fat');
           expect(cals.val).toBe(9);
           done();
-        })
+        });
       });
 
-      test('Should get 9 meals in vitamin A from a crop with 90g vitamin a 1kg sale and 2 kg harvest log' , async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vita_rae: 90 }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({} , {harvest_use_type_id: 2, harvest_use_type_name: 'test'});
-        await mocks.harvestUseFactory({ promisedFieldCrop: [{ field_crop_id }], promisedHarvestUseType: harvestUseType},
+      test('Should get 9 meals in vitamin c from a crop with 9g vitamin c 1kg sale and 2 kg harvest log', async (done) => {
+        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          vitc: 9,
+        }, 1);
+        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+          harvest_use_type_id: 2,
+          harvest_use_type_name: 'test',
+        });
+        await mocks.harvestUseFactory({
+            promisedFieldCrop: [{ field_crop_id }],
+            promisedHarvestUseType: harvestUseType,
+          },
           { quantity_kg: 2 });
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBeGreaterThan(0);
-          const cals = res.body.data.find(({label}) => label === 'Vitamin A');
+          const cals = res.body.data.find(({ label }) => label === 'Vitamin C');
           expect(cals.val).toBe(9);
           done();
-        })
+        });
       });
 
-      test('Should get average of 9 meals with 3 kg sales of crops that generate 9 meals themselves' , async (done) => {
-        const { user_id, farm_id } = await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, energy: 250 }, 3);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, protein: 5.2 }, 3, [{ user_id, farm_id}]);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 }, 3, [{ user_id, farm_id}]);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 }, 3, [{ user_id, farm_id}]);
-        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vita_rae: 90 }, 3, [{ user_id, farm_id}]);
+      test('Should get 9 meals in vitamin A from a crop with 90g vitamin a 1kg sale and 2 kg harvest log', async (done) => {
+        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          vita_rae: 90,
+        }, 1);
+        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+          harvest_use_type_id: 2,
+          harvest_use_type_name: 'test',
+        });
+        await mocks.harvestUseFactory({
+            promisedFieldCrop: [{ field_crop_id }],
+            promisedHarvestUseType: harvestUseType,
+          },
+          { quantity_kg: 2 });
+        getInsight(farm_id, user_id, 'people_fed', (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.preview).toBeGreaterThan(0);
+          const cals = res.body.data.find(({ label }) => label === 'Vitamin A');
+          expect(cals.val).toBe(9);
+          done();
+        });
+      });
+
+      test('Should get average of 9 meals with 3 kg sales of crops that generate 9 meals themselves', async (done) => {
+        const { user_id, farm_id } = await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          energy: 250,
+        }, 3);
+        await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          protein: 5.2,
+        }, 3, [{ user_id, farm_id }]);
+        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, lipid: 75 }, 3, [{
+          user_id,
+          farm_id,
+        }]);
+        await generateSaleData({ ...mocks.fakeCrop(), percentrefuse: 0, ...emptyNutrients, vitc: 9 }, 3, [{
+          user_id,
+          farm_id,
+        }]);
+        await generateSaleData({
+          ...mocks.fakeCrop(),
+          percentrefuse: 0, ...emptyNutrients,
+          vita_rae: 90,
+        }, 3, [{ user_id, farm_id }]);
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBe(9);
           done();
-        })
+        });
       });
 
 
-      test('Should get no meals in preview from a crop with no sales and no harvests' , async (done) => {
+      test('Should get no meals in preview from a crop with no sales and no harvests', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         getInsight(farm_id, user_id, 'people_fed', (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.preview).toBe(0);
           done();
-        })
+        });
       });
 
-    })
+    });
 
 
   });
@@ -620,8 +695,8 @@ describe('insights test', () => {
       test('should create a water balance if Im on my farm as an owner', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -631,8 +706,8 @@ describe('insights test', () => {
       test('should create a water balance if Im on my farm as a manager', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -642,8 +717,8 @@ describe('insights test', () => {
       test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();

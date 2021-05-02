@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './assets/weatherBoard.scss';
+import styles from './assets/weatherBoard.module.scss';
 import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import utils from './utils';
 import WeatherIcon from './WeatherIcon';
 import PropTypes from 'prop-types';
-import styles from './assets/styles.scss';
+import styles from './assets/styles.module.scss';
 
 const propTypes = {
   forecast: PropTypes.string.isRequired,

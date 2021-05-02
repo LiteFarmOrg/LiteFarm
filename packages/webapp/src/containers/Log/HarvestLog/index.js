@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PureHarvestLog from '../../../components/Logs/HarvestLog';
 import {
+  canEditSelector,
+  canEditStepOne,
+  canEditStepOneSelector,
+  harvestFormData,
+  harvestLogData,
   harvestLogDataSelector,
   resetHarvestLog,
-  harvestLogData,
-  harvestFormData,
-  canEditStepOneSelector,
-  canEditStepOne,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
 import { getFieldCrops } from '../../saga';
 import { currentLogSelector } from '../selectors';
+import { deleteLog } from '../Utility/actions';
 
 function HarvestLog() {
   const farm = useSelector(userFarmSelector);
@@ -25,10 +27,9 @@ function HarvestLog() {
   const defaultData = useSelector(harvestLogDataSelector);
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
-  const fields = useSelector(fieldsSelector);
-  const crops = useSelector(currentFieldCropsSelector);
-  let [resetCrop, setResetCrop] = useState(false);
-
+  const locations = useSelector(cropLocationsSelector);
+  const crops = useSelector(currentAndPlannedFieldCropsSelector);
+  const isEdit = useSelector(canEditSelector);
   useEffect(() => {
     dispatch(getFieldCrops());
     dispatch(getHarvestUseTypes());
@@ -36,20 +37,26 @@ function HarvestLog() {
 
   const onBack = () => {
     dispatch(resetHarvestLog());
+    history.push(isEdit.isEdit ? '/log' : '/new_log');
+  };
+
+  const onCancel = () => {
+    dispatch(resetHarvestLog());
     history.push('/log');
   };
 
+  const onDelete = () => {
+    dispatch(deleteLog(selectedLog.activity_id));
+  };
+
   const onNext = (data) => {
-    if (defaultData.selectedUseTypes) {
-      data.selectedUseTypes = defaultData.selectedUseTypes;
-    }
     dispatch(harvestLogData(data));
     let formValue = !isEditStepOne.isEditStepOne
       ? {
           activity_kind: 'harvest',
           date: data.defaultDate,
           crops: data.defaultCrop,
-          fields: data.defaultField,
+          locations: data.defaultField,
           notes: data.defaultNotes,
           quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
         }
@@ -58,7 +65,7 @@ function HarvestLog() {
           activity_kind: 'harvest',
           date: data.defaultDate,
           crops: data.defaultCrop,
-          fields: data.defaultField,
+          locations: data.defaultField,
           notes: data.defaultNotes,
           quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
         };
@@ -72,11 +79,13 @@ function HarvestLog() {
       <PureHarvestLog
         onGoBack={onBack}
         onNext={onNext}
-        fields={fields}
+        onCancel={isEdit.isEdit ? undefined : onCancel}
+        onDelete={isEdit.isEdit ? onDelete : undefined}
+        locations={locations}
         crops={crops}
         unit={unit}
         defaultData={defaultData}
-        isEdit={isEditStepOne}
+        isEdit={{ ...isEdit, ...isEditStepOne }}
         selectedLog={selectedLog}
         dispatch={dispatch}
       />

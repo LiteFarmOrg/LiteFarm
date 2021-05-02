@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
-import styles from './form.scss';
+import styles from './form.module.scss';
 
 const Form = ({
   classes = { footer: { padding: '24px 16px 24px 16px', position: 'relative' } },
@@ -10,7 +10,7 @@ const Form = ({
   onSubmit,
 }) => {
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form} noValidate={true}>
       <Layout buttonGroup={buttonGroup} children={children} classes={classes} isSVG={false} />
     </form>
   );

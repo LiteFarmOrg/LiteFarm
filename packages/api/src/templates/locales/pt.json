@@ -1,0 +1,88 @@
+{
+  "TEMPLATE": {
+    "DEAR": "Prezado(a)",
+    "CHEERS": "Atenciosamente",
+    "LITEFARM_TEAM": "Equipe LiteFarm",
+    "NO_RESPONSE": "Por favor não responda a este email.",
+    "GET_IN_TOUCH": "Para entrar em contato conosco, clique",
+    "HELP": "Help",
+    "OR": "ou",
+    "CONTACT": "contate-nos"
+  },
+  "HELP_REQUEST": {
+    "RESPONSE": "Obrigado por nos contatar. Alguém do nosso time de suporte entrará em contato dentro de 48 horas. Um resumo do seu pedido está mostrado abaixo.",
+    "TYPE_HEADER": "Type of support",
+    "MESSAGE_HEADER": "Message",
+    "CONTACT_METHOD_HEADER": "Preferred contact method",
+    "SUBJECT": "Your LiteFarm request for help"
+  },
+  "INVITE": {
+    "GREAT_FOLK": "The great folks at",
+    "INVITED_YOU": "have invited you to join their team on LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
+    "YOU_CAN_ACCEPT": "You can accept this invitation (on any device) using the button below",
+    "SUBJECT0": "You’ve been invited to join",
+    "SUBJECT1": "on LiteFarm!"
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": " Você esqueceu sua senha de acesso ao LiteFarm? Não tem problema! Clique no botão \"Recuperar senha\" abaixo e o seu acesso será restaurado em breve.",
+    "RESET": "Recuperar senha",
+    "IGNORE": "Se você não pediu para recuperar o seu acesso, você pode ignorar este email. Nenhuma mudança foi feita em sua conta.",
+    "SUBJECT": "Password Reset Request"
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "Nós atualizamos sua senha de acesso ao LiteFarm. Clique \"Entrar\" abaixo para acessar a sua conta.",
+    "SUBJECT": "Your LiteFarm password has been changed"
+  },
+  "RESTORE_ACCESS": {
+    "ADMIN": "Parece que um dos administradores em",
+    "RESTORED": "renovou seu acesso ao seu sítio no LiteFarm. Bem-vindo de volta!",
+    "CLICK_BELOW": "Você pode entrar novamente clicando abaixo",
+    "SUBJECT0": "Your access to",
+    "SUBJECT1": "has been restored!"
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "Parece que um dos administradores em",
+    "REVOKE": "revogou seu acesso ao sítio no LiteFarm. Se isto vem como uma surpresa, você deveria contatar seu conhecido lá para resolver o problema.",
+    "SUBJECT0": "You've lost access to",
+    "SUBJECT1": "on LiteFarm!"
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "CONGRATS": "Parabéns por ser o mais novo",
+    "AT": "em",
+    "CLICK_BELOW": "Você pode fazer login (em qualquer dispositivo) usando o botão abaixo",
+    "SUBJECT": "You've successfully joined"
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "WELCOME": "Bem-vindo(a) ao LiteFarm! LiteFarm LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultoras a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
+    "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo",
+    "SUBJECT": "Welcome to LiteFarm!"
+  },
+  "WITHHOLD_CONSENT": {
+    "RECENT": "Recentemente, ao iniciar o processo de cadastro junto a(ao)",
+    "WITHHOLD": "no aplicativo LiteFarm, você decidiu não conceder seu consentimento em relação à política de privacidade do LiteFarm. Este é absolutamento seu direito, porém isto significa que você não poderá acessar o aplicativo. Sentimos muito por isso.",
+    "DEACTIVATE": "Nós desativamos sua associação com",
+    "HOWEVER": "Entratanto, nós ainda temos as informações básicas que você compartilhou conosco enquanto configurava sua conta de usuário. Se você é associado a outros, sítios, nós também temos qualquer informação que você inseriu enquanto trabalhavo com eles.",
+    "RIGHT": "Você tem os seguintes direitos em relação aos seus dados",
+    "COPY": "Saber quais dados nós temos sobre você e requisitar uma cópia",
+    "UPDATE": "Atualizar ou corrigir quaisquer dados que temos sobre você",
+    "STOP": "Requisitar que paremos de coletar quaisquer dados seus (você acabou de fazê-lo)",
+    "TRANSFER": "Requisitar uma transferência dos seus dados",
+    "DELETE": "Requisitar que deletemos os seus dados",
+    "TO_REQUEST": "Para requisitar qualquer uma destas ações, envie um email para",
+    "SUPPORT": "com sua solicitação e cuidaremos disto para você.",
+    "OTHERWISE": "No entanto, se você mudar de ideia, pode fazer login (em qualquer dispositivo) a qualquer momento e aceitar nossa política de privacidade usando o botão abaio",
+    "RESTORE": "Se você o fizer, mais uma vez será capaz de acessar o sistema do LiteFarm.",
+    "SUBJECT": "You didnt agree with the LiteFarm privacy policy – here are your options"
+  },
+  "COMMON": {
+    "JOIN": "Join",
+    "LOG_IN": "Entrar"
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "Here’s the farm map export for",
+    "REQUESTED": "that you requested on LiteFarm.",
+    "GREETING": "Have a great day!",
+    "SUBJECT0": "Here’s your farm map for",
+    "SUBJECT1": "on LiteFarm"
+  }
+}

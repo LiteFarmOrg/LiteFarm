@@ -65,19 +65,19 @@ class userFarm extends Model {
         has_consent: { type: ['boolean', 'null'] },
         status: {
           type: 'enum',
-          enum: ['Active', 'Inactive', 'Invited',],
+          enum: ['Active', 'Inactive', 'Invited'],
         },
         created_at: { type: 'string' },
         consent_version: { type: 'string' },
         wage: {
-          type : 'object',
+          type: ['object', null],
           required: ['type', 'amount'],
           properties: {
             type: {
               type: 'string',
               enum: ['hourly', 'annually'],
             },
-            amount:{ type: 'number' },
+            amount: { type: ['number', null] },
           },
         },
         step_one: { type: ['boolean', 'null'] },

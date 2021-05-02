@@ -13,21 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
-  userFarmSelector,
   patchConsentStepThreeSuccess,
   patchStatusConsentSuccess,
+  userFarmSelector,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import history from '../../history';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 
 export const patchConsent = createAction('patchConsentSaga');
+
 export function* patchConsentSaga({ payload }) {
   const userFarm = yield select(userFarmSelector);
   const { user_id, farm_id, step_three, step_three_end, status, farm_name } = userFarm;
@@ -43,15 +44,16 @@ export function* patchConsentSaga({ payload }) {
       step_three: true,
       step_three_end: step_three_end || new Date(),
     };
-    yield all([
-      call(
-        axios.patch,
-        userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id,
-        data,
-        header,
-      ),
-      !step_three && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
-    ]);
+
+    yield call(
+      axios.patch,
+      userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id,
+      data,
+      header,
+    );
+
+    if (!step_three) yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+
     const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
@@ -66,5 +68,5 @@ export function* patchConsentSaga({ payload }) {
 }
 
 export default function* consentSaga() {
-  yield takeLatest(patchConsent.type, patchConsentSaga);
+  yield takeLeading(patchConsent.type, patchConsentSaga);
 }

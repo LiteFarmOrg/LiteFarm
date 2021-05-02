@@ -24,7 +24,7 @@ import {
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
-import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
+import { getUserFarms, patchUserFarmStatusWithIDToken, getSpotlightFlags } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 import { startSwitchFarmModal } from './chooseFarmFlowSlice';
@@ -40,6 +40,7 @@ function ChooseFarm() {
 
   useEffect(() => {
     dispatch(getUserFarms());
+    dispatch(getSpotlightFlags());
   }, []);
 
   const farms = useSelector(userFarmsByUserSelector);

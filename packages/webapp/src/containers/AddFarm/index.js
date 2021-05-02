@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
@@ -12,6 +12,7 @@ import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg
 import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_error_pin.svg';
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFromLocalStorage } from '../../util';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -62,7 +63,7 @@ const AddFarm = () => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
     setGridPoints(farm?.grid_points ? farm.grid_points : {});
-    setCountry( farm?.country ? farm.country : '');
+    setCountry(farm?.country ? farm.country : '');
   }, []);
 
   useEffect(() => {
@@ -85,7 +86,7 @@ const AddFarm = () => {
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
-      language: localStorage.getItem('litefarm_lang'),
+      language: getLanguageFromLocalStorage(),
     }; // To disable any eslint 'google not defined' errors
 
     // Initialize Google Autocomplete
@@ -240,6 +241,7 @@ const AddFarm = () => {
           },
           {
             label: t('ADD_FARM.FARM_LOCATION'),
+            placeholder: t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER'),
             info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
               <span>{t('ADD_FARM.LOCATING')}</span>
@@ -319,7 +321,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
 }
 
 function MapPinWrapper() {
-  return <MapPin style={{display: 'absolute', transform: 'translate(-50%, -100%)'}} />;
+  return <MapPin style={{ display: 'absolute', transform: 'translate(-50%, -100%)' }} />;
 }
 
 export default AddFarm;

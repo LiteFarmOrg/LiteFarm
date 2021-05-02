@@ -1,13 +1,21 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import Input, { numberOnKeyDown } from '../../Form/Input';
-import { withTranslation } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class Unit extends React.Component {
   parseNumber(val) {
     //TODO: Redux form will fail if val is set to -1 and then set to empty string
-    return val || val === 0 ? val : undefined;
+    if (val) {
+      return val;
+    } else if (val === 0) {
+      return 0;
+    } else if (val === '') {
+      return '';
+    } else {
+      return undefined;
+    }
   }
 
   isPositive(val) {
@@ -38,6 +46,8 @@ class Unit extends React.Component {
       isHarvestAllocation,
       defaultValue,
       disabled,
+      canBeEmpty,
+      optional,
     } = this.props;
     let showLabel = !hideLabel;
 
@@ -49,7 +59,7 @@ class Unit extends React.Component {
         {dropdown && (
           <>
             <div className={styles.selectContainer}>
-              <Control.input
+              <Control
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}
@@ -90,36 +100,39 @@ class Unit extends React.Component {
         {!dropdown && !validate && (
           <>
             <div className={styles.inputNunit}>
-              <Control.input
+              <Control
+                optional={optional}
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
-                validators={{ positive: this.isPositive }}
+                validators={!canBeEmpty ? { positive: this.isPositive } : null}
                 parser={this.parseNumber}
                 component={Input}
                 classes={{ container: { flexGrow: 1 } }}
                 label={title}
                 disabled={disabled}
               />
-              <div className={styles.typeUnit}>{type}</div>
+              {!!type && <div className={styles.typeUnit}>{type}</div>}
             </div>
 
-            <Errors
-              className="required"
-              model={model}
-              show={{ touched: true, focus: false }}
-              messages={{
-                positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
-              }}
-            />
+            {!canBeEmpty && (
+              <Errors
+                className="required"
+                model={model}
+                show={{ touched: true, focus: false }}
+                messages={{
+                  positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
+                }}
+              />
+            )}
           </>
         )}
         {!dropdown && validate && (
           <>
             <div className={styles.inputNunit}>
-              <Control.input
+              <Control
                 data-test="unit-input"
                 type="number"
                 onKeyDown={numberOnKeyDown}
@@ -138,11 +151,7 @@ class Unit extends React.Component {
                 disabled={disabled}
               />
               <div
-                style={
-                  isHarvestAllocation
-                    ? { color: '#9FAABE' }
-                    : {}
-                }
+                style={isHarvestAllocation ? { color: '#9FAABE' } : {}}
                 className={styles.typeUnit}
               >
                 {type}

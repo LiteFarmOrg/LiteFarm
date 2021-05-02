@@ -14,8 +14,7 @@
  */
 
 import convert from 'convert-units';
-import commonCurrency from '../containers/AddFarm/currency/commonCurrency.json';
-import { getMeasurementFromStore, getCurrencyFromStore } from './getFromReduxStore';
+import { getMeasurementFromStore } from './getFromReduxStore';
 
 const METRIC = 'metric';
 // const IMPERIAL = 'IMPERIAL';
@@ -56,14 +55,6 @@ export const roundToTwoDecimal = (value) => {
   return Math.floor(value * 100) / 100;
 };
 
-export function grabCurrencySymbol(currency = getCurrencyFromStore()) {
-  if (currency && currency in commonCurrency) {
-    return commonCurrency[currency]['symbol_native'];
-  } else {
-    return '$';
-  }
-}
-
 const getConvertedString = (
   value,
   measurement,
@@ -99,10 +90,14 @@ export const getMassUnit = (measurement = getMeasurementFromStore()) => {
 export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
   measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
 
-export const getDurationString = (timeInMinutes) => {
+export const getDuration = (timeInMinutes) => {
+  if (timeInMinutes === 0) {
+    return { durationString: '0m', minutes: 0, hours: 0 };
+  }
   const hours = parseInt(timeInMinutes / 60, 10);
   const minutes = timeInMinutes - hours * 60;
-  return `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
+  const durationString = `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
+  return { hours, minutes, durationString };
 };
 
 export const isChrome = () => {
@@ -120,4 +115,19 @@ export const isChrome = () => {
       isIEedge === false) ||
     isIOSChrome;
   return isChrome;
+};
+
+export const pick = (object = {}, properties = []) => {
+  const result = {};
+  for (const key of properties) {
+    if (object.hasOwnProperty(key)) {
+      result[key] = object[key];
+    }
+  }
+  return result;
+};
+
+export const getLanguageFromLocalStorage = () => {
+  const selectedLanguage = localStorage.getItem('litefarm_lang');
+  return selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
 };

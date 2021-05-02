@@ -1,4 +1,4 @@
-import Select, { components } from 'react-select';
+import { components } from 'react-select';
 import React from 'react';
 import vector from '../../../assets/images/vector-down.svg';
 import ReactSelect from '../../Form/ReactSelect';
@@ -14,7 +14,8 @@ class DropDown extends React.Component {
       onChange,
       value,
       isMulti,
-      styles,
+      style,
+      components,
       ...props
     } = this.props;
     const DropdownIndicator = (props) => {
@@ -30,10 +31,12 @@ class DropDown extends React.Component {
         data-test="dropdown"
         isMulti={isMulti}
         options={options}
+        style={style}
         defaultValue={defaultValue}
         isSearchable={isSearchable ? isSearchable : false}
         placeholder={placeholder}
         onChange={onChange}
+        components={components}
         value={value}
         {...props}
       />

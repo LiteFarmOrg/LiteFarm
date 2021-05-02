@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
@@ -14,18 +14,14 @@ export default function PureHarvestAllocation({
   onNext,
   defaultData,
   unit,
-  isEdit,
-  selectedLog,
   dispatch,
+  isEdit,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
   });
-  let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
-
-  useEffect(() => {}, []);
 
   const onSubmit = (val) => {
     let tempProps = JSON.parse(JSON.stringify(defaultData));
@@ -46,7 +42,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error('Total does not equal the amount to allocate');
+      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
     }
   };
   const handleChange = (typeName, quant) => {
@@ -61,15 +57,6 @@ export default function PureHarvestAllocation({
   const onError = () => {};
 
   const onBack = () => {
-    if (isEdit.isEditStepThree) {
-      tempProps.selectedUseTypes.map((item, idx) => {
-        selectedLog.harvestUse.map((item1) => {
-          if (item.harvest_use_type_name === item1.harvestUseType.harvest_use_type_name) {
-            item.quantity_kg = item.quantity_kg ? item.quantity_kg : item1.quantity_kg;
-          }
-        });
-      });
-    }
     dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
   };
@@ -81,7 +68,7 @@ export default function PureHarvestAllocation({
     >
       <TitleLayout
         onGoBack={onBack}
-        title={t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
+        title={isEdit?.isEdit ? t('LOG_COMMON.EDIT_A_LOG') : t('LOG_COMMON.ADD_A_LOG')}
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>
@@ -89,7 +76,7 @@ export default function PureHarvestAllocation({
               {t('common:BACK')}
             </Button>
             <Button type={'submit'} fullLength disabled={!formState.isValid}>
-              {t('common:NEXT')}
+              {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }
@@ -100,7 +87,7 @@ export default function PureHarvestAllocation({
         </div>
         {defaultData.selectedUseTypes.map((type, index) => {
           const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-          let quant = type.quantity_kg;
+          const quant = type.quantity_kg;
           return (
             <div
               style={
@@ -112,12 +99,16 @@ export default function PureHarvestAllocation({
               <Input
                 label={typeName}
                 style={{ marginBottom: '24px' }}
-                type="decimal"
+                type="number"
                 unit={unit}
-                name={typeName}
+                name={type.harvest_use_type_name}
+                step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                inputRef={inputs[index]}
-                defaultValue={quant}
+                inputRef={register({ required: true })}
+                defaultValue={
+                  (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
+                  quant
+                }
               />
             </div>
           );

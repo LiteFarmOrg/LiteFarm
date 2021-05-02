@@ -17,16 +17,17 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 const bcrypt = require('bcryptjs');
 const userController = require('./userController');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
-class loginController extends baseController {
-  static authenticateUser() {
+const loginController = {
+  authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body.user;
@@ -93,20 +94,24 @@ class loginController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static loginWithGoogle() {
+  loginWithGoogle() {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
+        const { language_preference } = req.body;
         // TODO optimize this query
         const ssoUser = await userModel.query().findById(user_id);
         const passwordUser = await userModel.query().where({ email }).first();
         const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
-          const newUser = { user_id, email, first_name, last_name };
-          await userModel.query().insert(newUser);
+          const newUser = { user_id, email, first_name, last_name, language_preference };
+          await userModel.transaction(async trx => {
+            await userModel.query(trx).insert(newUser);
+            await showedSpotlightModel.query(trx).insert({ user_id });
+          });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded
@@ -117,7 +122,8 @@ class loginController extends baseController {
           user: {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
-            first_name: isPasswordNeeded ? passwordUser.first_name: first_name,
+            first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
+            language_preference: ssoUser?.language_preference ?? passwordUser?.language_preference ?? language_preference,
           },
         });
       } catch (err) {
@@ -126,9 +132,9 @@ class loginController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static getUserNameByUserEmail() {
+  getUserNameByUserEmail() {
     return async (req, res) => {
       const { email } = req.params;
       try {
@@ -200,8 +206,8 @@ class loginController extends baseController {
         });
       }
     };
-  }
-}
+  },
+};
 
 async function sendMissingInvitations(user) {
   const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
@@ -235,10 +241,13 @@ async function sendPasswordReset(data) {
   const template_path = emails.PASSWORD_RESET;
   const replacements = {
     first_name: data.first_name,
+    locale: data.language_preference,
   };
   const sender = 'system@litefarm.org';
-  await sendEmailTemplate.sendEmail(template_path, replacements, data.email, sender,
-    `/callback/?reset_token=${token}`, data.language_preference);
+  sendEmail(template_path, replacements, data.email, {
+    sender,
+    buttonLink: `/callback/?reset_token=${token}`,
+  });
 }
 
 module.exports = loginController;

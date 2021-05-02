@@ -1,19 +1,18 @@
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import React, { Component } from 'react';
 import history from '../../../history';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { getSales } from '../actions';
+import { getSales, setSelectedSale } from '../actions';
 import { connect } from 'react-redux';
-import { setSelectedSale } from '../actions';
 import moment from 'moment';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -88,7 +87,7 @@ class SalesSummary extends Component {
     return sales.map((s) => {
       let crop;
       let value = 0;
-      const date = s.sale_date;
+      const date = moment(s.sale_date);
       if (s.cropSale.length > 1) {
         crop = 'multiple';
         s.cropSale.forEach((cs) => {
@@ -112,10 +111,9 @@ class SalesSummary extends Component {
 
   filterByDate(sales) {
     return sales.filter((s) => {
-      const fullDate = new Date(s.sale_date);
       return (
-        (this.state.startDate && this.state.startDate._d) <= fullDate &&
-        (this.state.endDate && this.state.endDate._d) >= fullDate
+        moment(s.sale_date).isSameOrAfter(moment(this.state.startDate)) &&
+        moment(s.sale_date).isSameOrBefore(moment(this.state.endDate))
       );
     });
   }
@@ -137,7 +135,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 75,
         Footer: <div>${this.formatFooter(summaryData)}</div>,
       },
@@ -147,7 +146,8 @@ class SalesSummary extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.SUMMARY.DATE'),
-        accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
@@ -160,7 +160,8 @@ class SalesSummary extends Component {
       {
         id: 'value',
         Header: this.props.t('SALE.SUMMARY.VALUE'),
-        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         minWidth: 40,
         Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
       },
@@ -204,6 +205,12 @@ class SalesSummary extends Component {
           pageSizeOptions={[5, 10, 20, 50]}
           defaultPageSize={5}
           minRows={5}
+          defaultSorted={[
+            {
+              id: 'date',
+              desc: true,
+            },
+          ]}
           className="-striped -highlight"
           getTdProps={(state, rowInfo, column, instance) => {
             return {

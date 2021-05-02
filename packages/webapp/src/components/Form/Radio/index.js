@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './radio.scss';
+import styles from './radio.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Main } from '../../Typography';
 
 const Radio = ({
   label = 'label',
@@ -18,10 +17,10 @@ const Radio = ({
       className={clsx(styles.container, disabled && styles.disabled)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      <Main className={clsx(styles.label)} style={classes.label}>
-        {label}
-      </Main>
       <input ref={inputRef} type={'radio'} {...props} disabled={disabled} />
+      <p className={clsx(styles.label)} style={classes.label}>
+        {label}
+      </p>
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />
       {children}
     </label>

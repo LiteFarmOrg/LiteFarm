@@ -28,7 +28,7 @@ function fakeUser() {
     status_id: 1,
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
-    birth_year: faker.random.number({min: 1900, max: new Date().getFullYear()})
+    birth_year: faker.random.number({ min: 1900, max: new Date().getFullYear() }),
   };
 }
 
@@ -38,7 +38,7 @@ function fakeSSOUser() {
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email:  email.toLowerCase(),
+    email: email.toLowerCase(),
     user_id: faker.random.number(10),
     phone_number: faker.phone.phoneNumber(),
   };
@@ -78,7 +78,7 @@ function fakeUserFarm() {
     status: 'Active',
     has_consent: true,
     step_one: false,
-    wage: {type: 'hourly', amount: faker.random.number(300)}
+    wage: { type: 'hourly', amount: faker.random.number(300) },
   };
 }
 
@@ -98,27 +98,87 @@ function fakeFarmDataSchedule() {
   };
 }
 
-async function fieldFactory({
-  promisedStation = weather_stationFactory(),
-  promisedFarm = farmFactory(),
-} = {}, field = fakeField()) {
-  const [station, farm, user] = await Promise.all([promisedStation, promisedFarm, usersFactory()]);
-  const [{ station_id }] = station;
+async function locationFactory({ promisedFarm = farmFactory() } = {}, location = fakeLocation()) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('field').insert({ station_id, farm_id, ...field, ...base }).returning('*');
+  return knex('location').insert({ farm_id, ...base, ...location }).returning('*');
 }
 
+function fakeLocation() {
+  return {
+    name: faker.random.arrayElement(['Location1', 'Nice Location', 'Fence', 'AreaLocation']),
+    notes: faker.lorem.word(3),
+  };
+}
+
+async function areaFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, area = fakeArea(), areaType) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  const { type, ...realArea } = area;
+  const [{ figure_id }] = await figureFactory(location_id, areaType ? areaType : type);
+  return knex('area').insert({ figure_id, ...realArea }).returning('*');
+}
+
+function figureFactory(location_id, type) {
+  return knex('figure').insert({ location_id, type }).returning('*');
+}
+
+function fakeArea(stringify = true) {
+  return {
+    total_area: faker.random.number(2000),
+    grid_points: stringify ? JSON.stringify([...Array(3).map(() => ({
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }))]) : [...Array(3).map(() => ({
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }))],
+    perimeter: faker.random.number(),
+    total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
+    perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
+  };
+}
+
+async function fieldFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
+} = {}, field = fakeField()) {
+  const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
+  const [{ station_id }] = station;
+  const [{ location_id }] = location;
+  return knex('field').insert({ location_id: location_id, station_id, ...field }).returning('*');
+}
 
 function fakeField() {
   return {
-    field_name: faker.random.arrayElement(['Test Field', 'Awesome Field', 'Nice Field']),
-    area: faker.random.number(2000),
-    grid_points: JSON.stringify([{
-      lat: faker.address.latitude(),
-      lng: faker.address.longitude(),
-    }]),
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    transition_date: faker.date.future(),
+  };
+}
+
+async function gardenFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'garden'),
+} = {}, garden = fakeGarden()) {
+  const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
+  const [{ station_id }] = station;
+  const [{ location_id }] = location;
+  return knex('garden').insert({ location_id: location_id, station_id, ...garden }).returning('*');
+}
+
+function fakeGarden() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    transition_date: faker.date.future(),
   };
 }
 
@@ -137,6 +197,47 @@ function fakePriceInsightForTests() {
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
     startdate: '2021-10-10',
+  };
+}
+
+async function lineFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, line = fakeLine(), lineType) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  const { type, ...realLine } = line;
+  const [{ figure_id }] = await figureFactory(location_id, lineType ? lineType : type);
+  return knex('line').insert({ figure_id, ...realLine }).returning('*');
+}
+
+function fakeLine(stringify = true) {
+  return {
+    length: faker.random.number(),
+    width: faker.random.number(),
+    line_points: stringify ? JSON.stringify([...Array(2).map(() => ({
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }))]) : [...Array(2).map(() => ({
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }))],
+  };
+}
+
+async function fenceFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, fence = fakeFence()) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  await lineFactory({ promisedLocation: location }, fakeLine(), 'fence');
+  return knex('fence').insert({ location_id, ...fence }).returning('*');
+}
+
+function fakeFence() {
+  return {
+    pressure_treated: faker.random.boolean(),
   };
 }
 
@@ -170,7 +271,10 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
-async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {}, expense = fakeExpense()) {
+async function farmExpenseFactory({
+  promisedExpenseType = farmExpenseTypeFactory(),
+  promisedUserFarm = userFarmFactory(),
+} = {}, expense = fakeExpense()) {
   const [expense_type, user] = await Promise.all([promisedExpenseType, promisedUserFarm]);
   const [{ expense_type_id }] = expense_type;
   const [{ user_id }] = user;
@@ -259,14 +363,17 @@ function fakeExpense() {
 }
 
 async function fieldCropFactory({
-  promisedField = fieldFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory(),
 } = {}, fieldCrop = fakeFieldCrop()) {
-  const [field, crop] = await Promise.all([promisedField, promisedCrop]);
-  const [{ field_id, created_by_user_id }] = field;
+  const [location, field, crop] = await Promise.all([promisedLocation, promisedField, promisedCrop]);
+  const [{ created_by_user_id }] = location;
+  const [{ location_id }] = field;
   const [{ crop_id }] = crop;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ field_id, crop_id, ...fieldCrop, ...base }).returning('*');
+  return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 
 }
 
@@ -350,8 +457,8 @@ async function activityFieldsFactory({
 } = {}) {
   const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
   const [{ activity_id }] = activityLog;
-  const [{ field_id }] = field;
-  return knex('activityFields').insert({ activity_id, field_id }).returning('*');
+  const [{ location_id }] = field;
+  return knex('activityFields').insert({ activity_id, location_id }).returning('*');
 }
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
@@ -386,7 +493,7 @@ async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType =
   return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
-async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
+async function harvestUseTypeFactory({ promisedFarm = farmFactory() } = {}, harvestUseType = fakeHarvestUseType()) {
   const [farm] = await Promise.all([promisedFarm, usersFactory()]);
   let farm_id;
   if (farm.farm_id) {
@@ -398,26 +505,26 @@ async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harves
 }
 
 function fakeHarvestUseType() {
-    return {
-      harvest_use_type_name: faker.lorem.words(),
-    }
+  return {
+    harvest_use_type_name: faker.lorem.words(),
+  };
 }
 
 function fakeHarvestUse() {
-    return {
-      quantity_kg: faker.random.number(200),
-    }
+  return {
+    quantity_kg: faker.random.number(200),
+  };
 }
 
 async function createDefaultState() {
   const useTypes = [
-    'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
-  ]
+    'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other',
+  ];
   const uses = await Promise.all(useTypes.map(async (type) => {
     let data = {
-      harvest_use_type_name: type
-    }
-    const [use] = await knex('harvestUseType').insert( data ).returning('*');
+      harvest_use_type_name: type,
+    };
+    const [use] = await knex('harvestUseType').insert(data).returning('*');
     return use;
   }));
   return uses;
@@ -475,16 +582,18 @@ function fakeHarvestLog() {
   };
 }
 
-async function harvestUseFactory({ promisedHarvestLog = harvestLogFactory(),
-                                   promisedHarvestUseType= harvestUseTypeFactory(),
-                                   promisedFieldCrop = fieldCropFactory()} = {},
-                                 harvestUse = fakeHarvestUse()) {
+async function harvestUseFactory({
+    promisedHarvestLog = harvestLogFactory(),
+    promisedHarvestUseType = harvestUseTypeFactory(),
+    promisedFieldCrop = fieldCropFactory(),
+  } = {},
+  harvestUse = fakeHarvestUse()) {
   const [harvestLog, harvestUseType, fieldCrop] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedFieldCrop]);
   const [{ harvest_use_type_id }] = harvestUseType;
   const [{ activity_id }] = harvestLog;
   const [{ field_crop_id }] = fieldCrop;
   await knex('activityCrops').insert({ activity_id, field_crop_id });
-  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse}).returning('*');
+  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 
 async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, seedLog = fakeSeedLog()) {
@@ -591,22 +700,27 @@ function fakeShift() {
 
 async function shiftTaskFactory({
   promisedShift = shiftFactory(),
-  promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory(),
+  promisedFieldCrop = fieldCropFactory(), promisedLocation = locationFactory(),
   promisedTaskType = taskTypeFactory(),
-  promisedUser = usersFactory()
+  promisedUser = usersFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
-  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
+  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedLocation, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
-  const [{ field_id }] = field;
+  const [{ location_id }] = field;
   const [{ task_id }] = task;
   const [{ user_id }] = user;
-  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask, ...baseProperties(user_id) }).returning('*');
+  return knex('shiftTask').insert({
+    shift_id,
+    location_id,
+    field_crop_id,
+    task_id, ...shiftTask, ...baseProperties(user_id),
+  }).returning('*');
 }
 
 function fakeShiftTask() {
   return {
-    is_field: faker.random.boolean(),
+    is_location: faker.random.boolean(),
     duration: faker.random.number(200),
   };
 }
@@ -639,11 +753,11 @@ function fakeWaterBalance() {
   };
 }
 
-async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
-  const [fieldCrop] = await Promise.all([promisedFieldCrop]);
-  const [{ field_id, crop_id }] = fieldCrop;
-  return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
-}
+// async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
+//   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
+//   const [{ field_id, crop_id }] = fieldCrop;
+//   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
+// }
 
 function fakeNitrogenSchedule() {
   return {
@@ -694,7 +808,7 @@ function fakeSupportTicket(farm_id) {
     attachments,
     email: faker.internet.email(),
     whatsapp: faker.phone.phoneNumber(),
-    farm_id
+    farm_id,
   };
 }
 
@@ -706,19 +820,24 @@ async function supportTicketFactory({
   const { user_id } = user;
   const { farm_id } = farm;
   const base = baseProperties(user_id);
-  return knex('supportTicket').insert({ farm_id, ...supportTicket, ...base, attachments: JSON.stringify(supportTicket.attachments) }).returning('*');
+  return knex('supportTicket').insert({
+    farm_id, ...supportTicket, ...base,
+    attachments: JSON.stringify(supportTicket.attachments),
+  }).returning('*');
 }
 
 function fakeOrganicCertifierSurvey(farm_id) {
-  const survey = ['COABC', faker.lorem.word()];
+  const certificationIDS = [1, 2]
+  const certifierIDS = [1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18]
   const past = faker.date.past();
   const now = new Date();
   return {
-    certifiers: faker.random.arrayElements(survey),
+    certifier_id: faker.random.arrayElement(certifierIDS),
+    certification_id: faker.random.arrayElement(certificationIDS),
     created_at: past,
     updated_at: faker.date.between(past, now),
     interested: faker.random.boolean(),
-    farm_id
+    farm_id,
   };
 }
 
@@ -739,8 +858,186 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
     farm_id,
     created_by_user_id: user_id,
     updated_by_user_id: user_id,
-    certifiers: JSON.stringify(organicCertifierSurvey.certifiers),
   }).returning('*');
+}
+
+// async function allSupportedCertificationsFactory() {
+//   return knex('certifications').returning('*');
+// }
+
+async function allSupportedCertifiersFactory() {
+  return knex('certifiers').returning('*');
+}
+
+async function barnFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation },
+    fakeArea(), 'barn'),
+} = {}, barn = fakeBarn()) {
+  const [location] = await Promise.all([promisedLocation, promisedArea]);
+  const [{ location_id }] = location;
+  return knex('barn').insert({ location_id, ...barn }).returning('*');
+}
+
+function fakeBarn() {
+  return {
+    wash_and_pack: faker.random.boolean(),
+    cold_storage: faker.random.boolean(),
+  };
+}
+
+async function greenhouseFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation },
+    fakeArea(), 'greenhouse'),
+} = {}, greenhouse = fakeGreenhouse()) {
+  const [location] = await Promise.all([promisedLocation, promisedArea]);
+  const [{ location_id }] = location;
+  return knex('greenhouse').insert({ location_id, ...greenhouse }).returning('*');
+}
+
+
+function fakeGreenhouse() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+  };
+}
+
+async function watercourseFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, watercourse = fakeWatercourse()) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  await lineFactory({ promisedLocation: location }, fakeLine(), 'watercourse');
+  return knex('watercourse').insert({ location_id, ...watercourse }).returning('*');
+}
+
+function fakeWatercourse() {
+  return {
+    used_for_irrigation: faker.random.boolean(),
+    buffer_width: faker.random.number(),
+  };
+}
+
+async function water_valveFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedPoint = pointFactory({ promisedLocation },
+    fakePoint(), 'water_valve'),
+} = {}, water_valve = fakeWaterValve()) {
+  const [location] = await Promise.all([promisedLocation, promisedPoint]);
+  const [{ location_id }] = location;
+  return knex('water_valve').insert({ location_id, ...water_valve }).returning('*');
+}
+
+function fakeWaterValve() {
+  return {
+    source: faker.random.arrayElement(['Municipal water', 'Surface water', 'Groundwater', 'Rain water']),
+    flow_rate_unit: faker.random.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
+    flow_rate: faker.random.number(1000),
+
+  };
+}
+
+async function surface_waterFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation },
+    fakeArea(), 'surface_water'),
+} = {}, surface_water = fakeSurfaceWater()) {
+  const [location] = await Promise.all([promisedLocation, promisedArea]);
+  const [{ location_id }] = location;
+  return knex('surface_water').insert({ location_id, ...surface_water }).returning('*');
+}
+
+function fakeSurfaceWater() {
+  return {
+    used_for_irrigation: faker.random.boolean(),
+  };
+}
+
+async function pointFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, point = fakePoint(), pointType) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  const { type, ...realPoint } = point;
+  const [{ figure_id }] = await figureFactory(location_id, pointType ? pointType : type);
+  return knex('point').insert({ figure_id, ...realPoint }).returning('*');
+}
+
+async function baseArea({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation },
+    fakeArea()),
+} = {}, asset) {
+  const [location, area] = await Promise.all([promisedLocation, promisedArea]);
+  const [{ location_id }] = location;
+  return knex(asset).insert({ location_id }).returning('*');
+}
+
+async function natural_areaFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
+  return await baseArea({ promisedLocation }, 'natural_area');
+}
+
+async function ceremonial_areaFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
+  return await baseArea({ promisedLocation }, 'ceremonial_area');
+}
+
+async function residenceFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
+  return await baseArea({ promisedLocation }, 'residence');
+}
+
+async function farm_site_boundaryFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
+  return await baseArea({ promisedLocation }, 'farm_site_boundary');
+}
+
+async function buffer_zoneFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedLine = lineFactory({ promisedLocation },
+    fakeLine(), 'buffer_zone'),
+} = {}){
+  const [location] = await Promise.all([promisedLocation, promisedLine]);
+  const [{ location_id }] = location;
+  return knex('buffer_zone').insert({ location_id }).returning('*');
+}
+
+async function gateFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedPoint = pointFactory({ promisedLocation }, fakePoint(), 'gate'),
+} = {}) {
+  const [location] = await Promise.all([promisedLocation, promisedPoint]);
+  const [{ location_id }] = location;
+  return knex('gate').insert({ location_id }).returning('*');
+}
+
+
+function fakePoint() {
+  return {
+    point: {
+      lat: Number(faker.address.latitude()),
+      lng: Number(faker.address.longitude()),
+    },
+  };
 }
 
 
@@ -751,6 +1048,7 @@ module.exports = {
   farmFactory, fakeFarm,
   userFarmFactory, fakeUserFarm,
   fieldFactory, fakeField,
+  gardenFactory, fakeGarden,
   cropFactory, fakeCrop,
   fieldCropFactory, fakeFieldCrop,
   fertilizerFactory, fakeFertilizer,
@@ -771,18 +1069,36 @@ module.exports = {
   shiftFactory, fakeShift,
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
+  locationFactory, fakeLocation,
   fakeTaskType, taskTypeFactory,
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
-  fakeWaterBalance, waterBalanceFactory,
+  fakeWaterBalance,
   fakeCropSale, cropSaleFactory,
   farmExpenseTypeFactory, fakeExpenseType,
   farmExpenseFactory, fakeExpense,
   fakeFieldForTests,
+  fakeFence, fenceFactory,
+  fakeArea, areaFactory,
+  fakeLine, lineFactory,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,
   fakePriceInsightForTests,
   fakeOrganicCertifierSurvey, organicCertifierSurveyFactory,
   fakeSupportTicket, supportTicketFactory,
+  fakePoint, pointFactory,
+  fakeSurfaceWater, surface_waterFactory,
+  fakeBarn, barnFactory,
+  fakeWaterValve, water_valveFactory,
+  fakeWatercourse, watercourseFactory,
+  fakeGreenhouse, greenhouseFactory,
+  natural_areaFactory,
+  ceremonial_areaFactory,
+  farm_site_boundaryFactory,
+  residenceFactory,
+  buffer_zoneFactory,
+  gateFactory,
+  // allSupportedCertificationsFactory,
+  // allSupportedCertifiersFactory,
 };

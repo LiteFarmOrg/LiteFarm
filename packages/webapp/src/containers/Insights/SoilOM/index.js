@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import { roundToTwoDecimal } from '../../../util';
 
 class SoilOM extends Component {
   constructor(props) {
@@ -18,14 +19,14 @@ class SoilOM extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.SOIL_OM.ALTERNATE_TITLE")}
+          title={t('INSIGHTS.SOIL_OM.ALTERNATE_TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.SOIL_OM.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.SOIL_OM.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.SOIL_OM.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.SOIL_OM.INFO')}</div>}
         />
         <div>
-          <Semibold>{t("INSIGHTS.SOIL_OM.HEADER")}</Semibold>
+          <Semibold>{t('INSIGHTS.SOIL_OM.HEADER')}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>
@@ -35,7 +36,7 @@ class SoilOM extends Component {
                 <InsightsInfoComponent
                   title={element.field_name}
                   valueLabel={'%'}
-                  value={element.soil_om}
+                  value={roundToTwoDecimal(element.soil_om)}
                   percent={element.percentage}
                 />
                 <hr />

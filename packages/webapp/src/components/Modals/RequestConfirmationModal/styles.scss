@@ -13,49 +13,49 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- .container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    max-width: 312px;
-    width: 90vw;
-    height: 320px;
-    background: #fafafd;
-    border-radius: 7.05466px;
-    position: relative;
-  }
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 312px;
+  width: 90vw;
+  height: 320px;
+  background: #fafafd;
+  border-radius: 7.05466px;
+  position: relative;
+}
 
-  .imgContainer {
-    padding-top: 20px;
-  }
+.imgContainer {
+  padding-top: 20px;
+}
 
-  .title {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-    text-align: center;
-    color: #028577;
-  }
+.title {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  color: #028577;
+}
 
-  .descriptionTop {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-    text-align: center;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    padding-top: 20px;
-  }
+.descriptionTop {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+}
 
-  .descriptionBottom {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-  }
+.descriptionBottom {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+}

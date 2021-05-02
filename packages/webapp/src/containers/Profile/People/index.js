@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
-import defaultStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import defaultStyles from '../styles.module.scss';
 import { rolesSelector } from './slice';
 
-import { deactivateUser, reactivateUser, invitePseudoUser } from './saga';
-import { updateUserFarm } from './saga';
+import {
+  deactivateUser,
+  getAllUserFarmsByFarmId,
+  invitePseudoUser,
+  reactivateUser,
+  updateUserFarm,
+} from './saga';
 import Table from '../../../components/Table';
-import DropDown from '../../../components/Inputs/DropDown';
-import Popup from 'reactjs-popup';
-import { actions, Control, Errors, Form } from 'react-redux-form';
+import { actions, Control, Form } from 'react-redux-form';
 import { Alert, Button } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png';
-import { grabCurrencySymbol } from '../../../util';
 import Cleave from 'cleave.js/react.js';
 import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
-import { getAllUserFarmsByFarmId } from './saga';
 import { withTranslation } from 'react-i18next';
 import history from '../../../history';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
+
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
 
@@ -199,7 +203,7 @@ class People extends Component {
       ...user,
       role: ROLE_TRANSLATIONS[user.role],
       status: STATUS_TRANSLATIONS[user.status],
-      originalStatus: user.status
+      originalStatus: user.status,
     }));
   };
 
@@ -376,23 +380,7 @@ class People extends Component {
             </button>
           ) : null}
         </div>
-        <Popup
-          open={this.state.showEdit}
-          closeOnDocumentClick
-          onClose={this.closeEditModal}
-          contentStyle={{
-            display: 'flex',
-            width: '100%',
-            minHeight: '100vh',
-            padding: '92px 24px 0 24px',
-            justifyContent: 'center',
-          }}
-          overlayStyle={{
-            minHeight: '100vh',
-            top: 'auto',
-            zIndex: 1,
-          }}
-        >
+        <MuiFullPagePopup open={this.state.showEdit} onClose={this.closeEditModal}>
           <div className={styles.modal}>
             <div className={styles.popupTitle}>
               <a className={styles.close} onClick={this.closeEditModal}>
@@ -509,7 +497,8 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.originalStatus === 'Inactive' && this.state.editUser.role_id !== 4 ? (
+                {this.state.editUser.originalStatus === 'Inactive' &&
+                this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button
@@ -535,7 +524,7 @@ class People extends Component {
               </div>
             )}
           </div>
-        </Popup>
+        </MuiFullPagePopup>
       </div>
     );
   }

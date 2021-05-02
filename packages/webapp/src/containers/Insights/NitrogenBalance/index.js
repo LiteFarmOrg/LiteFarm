@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { connect } from 'react-redux';
 import { nitrogenBalanceSelector, nitrogenFrequencySelector } from '../selectors';
 import NitrogenBalanceInfo from '../../../components/Insights/NitrogenBalanceInfo';
 import FrequencySelectorComponent from '../../../components/Insights/FrequencySelectorComponent';
 import { delFrequencyNitrogenBalance } from '../actions';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 import { Semibold, Text } from '../../../components/Typography';
 
@@ -71,13 +71,15 @@ class NitrogenBalance extends Component {
         });
       } else {
         renderedComponent = (
-          <Text>{t("INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR", { frequency, refreshDate })}</Text>
+          <Text>{t('INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR', { frequency, refreshDate })}</Text>
         );
       }
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <Semibold>{t("INSIGHTS.NITROGEN_BALANCE.FIRST_TIME")}</Semibold>
+          <Semibold style={{ paddingBottom: '20px' }}>
+            {t('INSIGHTS.NITROGEN_BALANCE.FIRST_TIME')}
+          </Semibold>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
       );
@@ -86,17 +88,21 @@ class NitrogenBalance extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-            title={t("INSIGHTS.NITROGEN_BALANCE.TITLE")}
-            backUrl="/Insights"
-            rightIcon={true}
-            rightIconTitle={t("INSIGHTS.NITROGEN_BALANCE.HEADER", { frequency, refreshDate })}
-            rightIconBody={(<div>
-              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_1")}</p>
-              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_2")}</p>
-            </div>)}
-            rightIconDeleteHandler={this.handleRightIconDelete}
-            showDelete={this.state.rightIconShowDelete}
-          />
+          title={t('INSIGHTS.NITROGEN_BALANCE.TITLE')}
+          backUrl="/Insights"
+          rightIcon={true}
+          rightIconTitle={t('INSIGHTS.NITROGEN_BALANCE.HEADER', { frequency, refreshDate })}
+          rightIconBody={
+            <div>
+              <p>{t('INSIGHTS.NITROGEN_BALANCE.INFO_1')}</p>
+              <p>{t('INSIGHTS.NITROGEN_BALANCE.INFO_2')}</p>
+            </div>
+          }
+          rightIconDeleteHandler={this.handleRightIconDelete}
+          showDelete={this.state.rightIconShowDelete}
+          leftButtonText={t('INSIGHTS.NITROGEN_BALANCE.ABANDON')}
+          rightButtonText={t('INSIGHTS.NITROGEN_BALANCE.GO_BACK')}
+        />
         <div>{renderedComponent}</div>
       </div>
     );

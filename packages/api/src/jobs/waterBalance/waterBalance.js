@@ -102,8 +102,8 @@ class waterBalanceScheduler {
   static async checkFarmID(farmID) {
     const dataPoints = await knex.raw(
       `SELECT w.farm_id 
-    FROM "waterBalanceSchedule" w 
-    WHERE w.farm_id = ?`,
+        FROM "waterBalanceSchedule" w 
+        WHERE w.farm_id = ?`,
       [farmID],
     );
     return dataPoints.rows.length === 1;
@@ -119,8 +119,9 @@ const saveWeatherData = async (dataPoint) => {
   const farmID = dataPoint.farm_id;
   const dataPoints = await knex.raw(
     `SELECT DISTINCT f.station_id
-    FROM "field" f
-    WHERE f.farm_id = ?`,
+      FROM "field" f, "location" l
+      WHERE l.farm_id = ?
+        and f.location_id = l.location_id`,
     [farmID],
   );
   from(dataPoints.rows)
@@ -184,37 +185,37 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
 
   for (const key in existingWeatherData) {
     switch (key) {
-      case 'min_degrees':
-        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'max_degrees':
-        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'precipitation':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'min_humidity':
-        returningWeatherData[key] = Math.min(
-          existingWeatherData[key],
-          newWeatherData['min_humidity'],
-        );
-        break;
-      case 'max_humidity':
-        returningWeatherData[key] = Math.max(
-          existingWeatherData[key],
-          newWeatherData['max_humidity'],
-        );
-        break;
-      case 'wind_speed':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'field_id':
-        returningWeatherData[key] = existingWeatherData[key];
-        break;
-      case 'data_points':
-        returningWeatherData[key] = existingWeatherData[key] + 1;
-        break;
-      default:
+    case 'min_degrees':
+      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'max_degrees':
+      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'precipitation':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'min_humidity':
+      returningWeatherData[key] = Math.min(
+        existingWeatherData[key],
+        newWeatherData['min_humidity'],
+      );
+      break;
+    case 'max_humidity':
+      returningWeatherData[key] = Math.max(
+        existingWeatherData[key],
+        newWeatherData['max_humidity'],
+      );
+      break;
+    case 'wind_speed':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'location_id':
+      returningWeatherData[key] = existingWeatherData[key];
+      break;
+    case 'data_points':
+      returningWeatherData[key] = existingWeatherData[key] + 1;
+      break;
+    default:
       // should be no default case
     }
   }
@@ -225,10 +226,12 @@ const removeWeather = async (farmID) => {
   try {
     await knex.raw(
       `DELETE FROM "weatherHourly"
-  WHERE weather_hourly_id IN
-  (SELECT w.weather_hourly_id
-  FROM "field" f, "weatherHourly" w
-  WHERE f.farm_id = ? and w.station_id = f.station_id)`,
+        WHERE weather_hourly_id IN
+        (SELECT w.weather_hourly_id
+        FROM "field" f, "weatherHourly" w, "location" l
+        WHERE l.farm_id = ?
+          and f.location_id = l.location_id
+          and w.station_id = f.station_id)`,
       [farmID],
     );
     console.log('Deleted Weather For FarmID: ', farmID);
@@ -242,18 +245,23 @@ const waterBalanceDailyCalc = async (dataPoint) => {
   const previousDay = await formatDate(new Date(), true);
   const currentDay = await formatDate(new Date());
   const farmID = dataPoint.farm_id;
+  // TODO: potential approach is to remove references to field (might require putting weather_id to location instead?)
   const dataPoints = await knex.raw(
     `
-    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.field_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, f.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
-    FROM "field" f, "crop" c, "users" u,
+    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.location_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, a.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
+    FROM "field" f, "crop" c, "location" l, "figure" fig, "area" a,
     "activityLog" al,
     "soilDataLog" sdl, 
     "activityFields" af, 
     "fieldCrop" fc
     LEFT JOIN (
-        SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
-        WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
-      ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
+        SELECT w.location_id, w.crop_id, w.soil_water, w.created_at
+        FROM "waterBalance" w, "field" f, "location" l
+        WHERE w.location_id = f.location_id
+          and l.farm_id = ?
+          and f.location_id = l.location_id
+          and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
+      ON w.location_id = fc.location_id and w.crop_id = fc.crop_id
     LEFT JOIN (
         SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
         FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
@@ -262,10 +270,18 @@ const waterBalanceDailyCalc = async (dataPoint) => {
         GROUP BY ac.field_crop_id
         ) il 
       ON il.field_crop_id = fc.field_crop_id
-    WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
-    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
+    WHERE fc.location_id = f.location_id
+      and l.farm_id = ?
+      and f.location_id = l.location_id
+      and fig.location_id = l.location_id
+      and a.figure_id = fig.figure_id
+      and c.crop_id = fc.crop_id
+      and al.activity_id = sdl.activity_id
+      and af.location_id = fc.location_id
+      and af.activity_id = sdl.activity_id
+    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, a.grid_points, f.location_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
     `,
-    [farmID, previousDay, currentDay, farmID, farmID],
+    [farmID, previousDay, currentDay, farmID],
   );
   if (dataPoints.rows) {
     const weatherDataByField = await grabWeatherData(farmID);
@@ -314,7 +330,7 @@ const doWaterBalanceCalculations = async (data, weatherDataByField) => {
           })
           .then((calculations) => {
             resolve({
-              field_id: crop.field_id,
+              location_id: crop.location_id,
               crop_id: crop.crop_id,
               soil_water: calculations.soilWaterContent,
               plant_available_water: calculations.plantAvailableWater,
@@ -372,10 +388,12 @@ const grabWeatherData = async (farmID) => {
   const weatherData = {};
   const dataPoints = await knex.raw(
     `
-  SELECT f.station_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
-  w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
-  FROM "weatherHourly" w, "field" f
-  WHERE w.station_id = f.station_id and f.farm_id = ?
+    SELECT f.station_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
+    w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
+    FROM "weatherHourly" w, "field" f, "location" l
+    WHERE w.station_id = f.station_id
+      and l.farm_id = ?
+      and f.location_id = l.location_id
   `,
     [farmID],
   );

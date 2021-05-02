@@ -1,12 +1,12 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Radio from '../Form/Radio';
-import OverlayTooltip from '../Tooltip';
-import { Title, Underlined, Main, Label } from '../Typography';
+import { Label, Main, Title } from '../Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PureWarningBox from '../WarningBox';
+import Infoi from '../Tooltip/Infoi';
 
 export default function PureInterestedOrganic({
   title,
@@ -14,10 +14,10 @@ export default function PureInterestedOrganic({
   inputs = [{}, {}],
   onSubmit,
   onGoBack,
-  underlined,
   content,
+  disabled,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}
@@ -26,7 +26,7 @@ export default function PureInterestedOrganic({
           <Button onClick={onGoBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} fullLength disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -34,16 +34,15 @@ export default function PureInterestedOrganic({
     >
       <Title>{title}</Title>
       <PureWarningBox style={{ marginBottom: '24px' }}>
-        <Label>{t('ORGANIC.WARNING')}</Label>
+        <Label>{t('CERTIFICATION.WARNING')}</Label>
       </PureWarningBox>
-      <Main style={{ marginBottom: '24px' }}>{paragraph}</Main>
-      <Radio {...inputs[0]} defaultChecked={true} />
+      <Main style={{ marginBottom: '24px' }}>
+        {paragraph}{' '}
+        <Infoi placement={'bottom'} content={content} style={{ transform: 'translateY(2px)' }} />{' '}
+      </Main>
+
+      <Radio {...inputs[0]} />
       <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />
-      <OverlayTooltip content={content} offset={8} eventDelay={0} placement={'bottom-start'}>
-        <Underlined style={{ marginLeft: '-100px', transform: 'translateX(100px)' }}>
-          {underlined}
-        </Underlined>
-      </OverlayTooltip>
     </Form>
   );
 }

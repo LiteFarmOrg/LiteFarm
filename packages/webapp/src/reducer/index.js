@@ -30,12 +30,31 @@ import userLogReducer from '../containers/userLogSlice';
 import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 
+import barnReducer from '../containers/barnSlice';
+import ceremonialReducer from '../containers/ceremonialSlice';
+import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
 import fieldReducer from '../containers/fieldSlice';
+import gardenReducer from '../containers/gardenSlice';
+import greenhouseReducer from '../containers/greenhouseSlice';
+import surfaceWaterReducer from '../containers/surfaceWaterSlice';
+import naturalAreaReducer from '../containers/naturalAreaSlice';
+import residenceReducer from '../containers/residenceSlice';
+import bufferZoneReducer from '../containers/bufferZoneSlice';
+import watercourseReducer from '../containers/watercourseSlice';
+import fenceReducer from '../containers/fenceSlice';
+import gateReducer from '../containers/gateSlice';
+import waterValveReducer from '../containers/waterValveSlice';
+
 import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
+import mapLocationReducer from '../containers/mapSlice';
+import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
+import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import showedSpotlightReducer from '../containers/showedSpotlightSlice';
+import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -109,21 +128,39 @@ const entitiesReducer = combineReducers({
   // userReducer,
   certifierSurveyReducer,
   rolesReducer,
-  fieldReducer,
   cropReducer,
   fieldCropReducer,
   weatherReducer,
+  barnReducer,
+  ceremonialReducer,
+  farmSiteBoundaryReducer,
+  fieldReducer,
+  gardenReducer,
+  greenhouseReducer,
+  surfaceWaterReducer,
+  naturalAreaReducer,
+  residenceReducer,
+  bufferZoneReducer,
+  watercourseReducer,
+  fenceReducer,
+  gateReducer,
+  waterValveReducer,
+  showedSpotlightReducer,
 });
 
 const persistedStateReducer = combineReducers({
   userLogReducer,
   chooseFarmFlowReducer,
+  mapFilterSettingReducer,
 });
 
 const tempStateReducer = combineReducers({
   homeReducer,
   shiftStepReducer,
   logSliceReducer,
+  mapLocationReducer,
+  hookFormPersistReducer,
+  organicCertifierSurveyReducer,
 });
 
 // combine all reducers here and pass it to application

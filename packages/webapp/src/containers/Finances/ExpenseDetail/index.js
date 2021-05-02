@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../styles.module.scss';
+import styles from './styles.module.scss';
 import {
   expenseDetailDateSelector,
   expenseSelector,
@@ -12,12 +12,13 @@ import {
 } from '../selectors';
 import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
-import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import DropdownButton from '../../../components/Form/DropDownButton';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -37,10 +38,10 @@ class ExpenseDetail extends Component {
   }
 
   componentDidMount() {
-    const { expense_detail_date, farm } = this.props;
+    const { farm, expense } = this.props;
     this.setState({ currencySymbol: grabCurrencySymbol(farm) });
-    const language = localStorage.getItem('litefarm_lang');
-    const date = moment(expense_detail_date).locale(language).format('MMM DD, YYYY');
+    const language = getLanguageFromLocalStorage();
+    const date = moment(expense.expense_date).locale(language).format('MMM DD, YYYY');
     this.setState({
       date,
     });
@@ -48,8 +49,8 @@ class ExpenseDetail extends Component {
   }
 
   getExpensesByDate() {
-    const { expense_detail_date, expenses } = this.props;
-    let targetDate = moment(expense_detail_date).format('YYYY-MM-DD');
+    const { expenses, expense } = this.props;
+    let targetDate = moment(expense.expense_date).format('YYYY-MM-DD');
     let dict = {};
     let total = 0;
     let filteredExpenses = [];
@@ -103,7 +104,6 @@ class ExpenseDetail extends Component {
   deleteExpense = () => {
     const { expense } = this.props;
     this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
-    history.push('/other_expense');
   };
   // deleteExpenses = () => {
   //   // eslint-disable-next-line
@@ -136,24 +136,21 @@ class ExpenseDetail extends Component {
     const { date, expenseItems, total } = this.state;
     const { expense } = this.props;
     const dropDown = 0;
+    const options = [
+      {
+        text: this.props.t('common:EDIT'),
+        onClick: () => this.editExpense(),
+      },
+      { text: this.props.t('common:DELETE'), onClick: () => this.handleDeleteExpenses() },
+    ];
+
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/other_expense" title={this.props.t('SALE.EXPENSE_DETAIL.TITLE')} />
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
-          <DropdownButton
-            style={{ background: '#EFEFEF', color: '#4D4D4D', border: 'none' }}
-            title={this.props.t('SALE.EXPENSE_DETAIL.ACTION')}
-            key={dropDown}
-            id={`dropdown-basic-${dropDown}`}
-          >
-            {/* <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item> */}
-            <Dropdown.Item eventKey="0" onClick={() => this.editExpense()}>
-              {this.props.t('common:EDIT')}
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="1" onClick={() => this.handleDeleteExpenses()}>
-              {this.props.t('common:DELETE')}
-            </Dropdown.Item>
+          <DropdownButton options={options}>
+            {this.props.t('SALE.EXPENSE_DETAIL.ACTION')}
           </DropdownButton>
         </div>
 
@@ -213,7 +210,7 @@ class ExpenseDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    expense_detail_date: expenseDetailDateSelector(state),
+    // expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     farm: userFarmSelector(state),

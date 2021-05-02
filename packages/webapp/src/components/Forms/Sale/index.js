@@ -1,10 +1,10 @@
 import Text from '../../Inputs/Text';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Control, Errors, Form } from 'react-redux-form';
 import DropDown from '../../Inputs/DropDown';
 import CropSale from '../../Inputs/CropSale';
 import React from 'react';
-import footerStyles from '../../../components/LogFooter/styles.scss';
+import footerStyles from '../../LogFooter/styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
 const SaleForm = ({
@@ -17,11 +17,17 @@ const SaleForm = ({
   quantityUnit,
   footerText,
   footerOnClick,
+  quantityAmount,
+  saleAmount,
 }) => {
   const { t } = useTranslation();
   return (
     <Form model={model} onSubmit={(val) => onSubmit(val)}>
-      <Text title={t('SALE.ADD_SALE.CUSTOMER_NAME')} model=".name" validators={{ required: (val) => val }} />
+      <Text
+        title={t('SALE.ADD_SALE.CUSTOMER_NAME')}
+        model=".name"
+        validators={{ required: (val) => val }}
+      />
       <Errors
         className="required"
         model=".name"
@@ -67,6 +73,8 @@ const SaleForm = ({
             quantityModel=".quantity_kg"
             valueModel=".value"
             unit={quantityUnit}
+            quantityAmount={quantityAmount}
+            saleAmount={saleAmount}
           />
         );
       })}

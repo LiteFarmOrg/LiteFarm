@@ -1,59 +1,70 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from '../Typography';
-import Floater from 'react-floater';
+import { makeStyles, Tooltip } from '@material-ui/core';
+import { colors } from '../../assets/theme';
 
-const OverlayTooltip = ({
+const useStyles = ({ arrowOffset = 0, isChildrenIcon } = {}) =>
+  makeStyles((theme) => ({
+    arrow: {
+      zIndex: -1,
+      color: 'var(--grey400)',
+      // width: '15px',
+      overflow: 'initial',
+      '&::before': {
+        // width: '15px',
+        // height: '15px',
+        transform: `translate(${arrowOffset}px, 0px) rotate(45deg)`,
+      },
+    },
+    tooltip: {
+      zIndex: 1000,
+      backgroundColor: 'var(--grey400)',
+      padding: '12px 16px',
+      boxShadow: '2px 6px 12px rgba(102, 115, 138, 0.2)',
+      borderRadius: '4px',
+      textAlign: 'left',
+      maxWidth: '264px',
+      userSelect: 'none',
+      margin: isChildrenIcon ? '8px 0' : '16px 0',
+      fontSize: '14px',
+      lineHeight: '24px',
+      color: colors.grey900,
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontFamily: 'Open Sans, SansSerif, serif',
+    },
+    childrenContainer: {
+      userSelect: 'none',
+      '& svg': {
+        color: colors.teal700,
+        fontSize: '16px',
+      },
+    },
+  }));
+export default function OverlayTooltip({
   children = 'LiteFarm',
   content = 'LiteFarm',
   placement,
-  offset,
+  arrowOffset,
   eventDelay,
-  style,
   autoOpen,
+  isChildrenIcon,
+  icon,
   ...props
-}) => {
+}) {
+  const classes = useStyles({ arrowOffset, isChildrenIcon: !!icon || isChildrenIcon })();
   return (
-    <>
-      <Floater
-        placement={placement}
-        component={
-          <TooltipComponent style={style}>
-            {' '}
-            <Text>{content}</Text>
-          </TooltipComponent>
-        }
-        styles={{
-          floater: { filter: 'none' },
-          arrow: { color: 'var(--grey400)', spread: 20, length: 10 },
-        }}
-        event="hover"
-        offset={offset}
-        eventDelay={eventDelay}
-        autoOpen={autoOpen}
-        {...props}
-      >
-        {children}
-      </Floater>
-    </>
-  );
-};
-
-export function TooltipComponent({ children, style }) {
-  return (
-    <div
-      style={{
-        backgroundColor: 'var(--grey400)',
-        padding: '12px 16px',
-        boxShadow: '2px 6px 12px rgba(102, 115, 138, 0.2)',
-        borderRadius: '4px',
-        textAlign: 'left',
-        maxWidth: '264px',
-        ...style,
-      }}
+    <Tooltip
+      title={content}
+      placement={placement}
+      arrow={true}
+      classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
+      enterTouchDelay={10}
+      leaveTouchDelay={900000}
+      eventDelay={eventDelay}
     >
-      {children}
-    </div>
+      <span className={classes.childrenContainer}>{icon || children}</span>
+    </Tooltip>
   );
 }
 
@@ -61,14 +72,8 @@ OverlayTooltip.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   placement: PropTypes.string,
-  offset: PropTypes.number,
+  arrowOffset: PropTypes.number,
   eventDelay: PropTypes.number,
   style: PropTypes.objectOf(PropTypes.string),
   autoOpen: PropTypes.bool,
 };
-TooltipComponent.prototype = {
-  style: PropTypes.objectOf(PropTypes.string),
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-};
-
-export default OverlayTooltip;

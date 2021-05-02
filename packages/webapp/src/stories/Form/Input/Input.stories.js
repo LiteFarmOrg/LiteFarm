@@ -1,11 +1,12 @@
 import React from 'react';
 import Input from '../../../components/Form/Input';
 import { Underlined } from '../../../components/Typography';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Input',
   component: Input,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Input {...args} />;

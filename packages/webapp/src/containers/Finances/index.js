@@ -15,24 +15,25 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
-import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';
-import { getExpense, getSales, getShifts, getDefaultExpenseType, setDateRange } from './actions';
-import { calcTotalLabour, calcOtherExpense, filterSalesByCurrentYear } from './util';
+import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
+import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
+import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
 import { Alert } from 'react-bootstrap';
-import { roundToTwoDecimal, grabCurrencySymbol } from '../../util';
+import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
 import { getFieldCrops } from '../saga';
 import Button from '../../components/Form/Button';
-import { Title, Main, Semibold } from '../../components/Typography';
+import { Semibold, Title } from '../../components/Typography';
+import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 
 const moment = extendMoment(Moment);
 
@@ -154,7 +155,10 @@ class Finances extends Component {
     let total = 0;
     if (expenses && expenses.length) {
       for (let e of expenses) {
-        if (moment(e.expense_date).isBetween(startDate, endDate)) {
+        if (
+          moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+          moment(e.exports).isSameOrBefore(moment(endDate))
+        ) {
           total += Number(e.value);
         }
       }
@@ -179,7 +183,10 @@ class Finances extends Component {
     if (shifts && shifts.length) {
       for (let s of shifts) {
         let field_crop_id = s.field_crop_id;
-        if (moment(s.start_time).isBetween(startDate, endDate)) {
+        if (
+          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+          moment(s.shift_date).isSameOrBefore(moment(endDate))
+        ) {
           if (field_crop_id !== null) {
             if (final.hasOwnProperty(field_crop_id)) {
               final[field_crop_id].profit =
@@ -189,7 +196,7 @@ class Finances extends Component {
               final[field_crop_id] = {
                 profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
                 crop_translation_key: s.crop_translation_key,
-                field_id: s.field_id,
+                location_id: s.location_id,
                 crop_id: s.crop_id,
                 field_crop_id: s.field_crop_id,
               };
@@ -197,13 +204,13 @@ class Finances extends Component {
           }
           // else it's unallocated
           else {
-            if (unAllocatedShifts.hasOwnProperty(s.field_id)) {
-              unAllocatedShifts[s.field_id].value =
-                unAllocatedShifts[s.field_id].value +
+            if (unAllocatedShifts.hasOwnProperty(s.location_id)) {
+              unAllocatedShifts[s.location_id].value =
+                unAllocatedShifts[s.location_id].value +
                 Number(s.wage_at_moment) * (Number(s.duration) / 60);
             } else {
               unAllocatedShifts = Object.assign(unAllocatedShifts, {
-                [s.field_id]: {
+                [s.location_id]: {
                   value: Number(s.wage_at_moment) * (Number(s.duration) / 60),
                   hasAllocated: false,
                 },
@@ -221,7 +228,7 @@ class Finances extends Component {
     // allocate unallocated to used-to-be fields
     let ukeys = Object.keys(unAllocatedShifts);
     for (let uk of ukeys) {
-      // uk = field_id
+      // uk = location_id
       let uShift = unAllocatedShifts[uk];
 
       // a list of crop ids
@@ -272,13 +279,13 @@ class Finances extends Component {
     });
   }
 
-  getCropsByFieldID = (field_id) => {
+  getCropsByFieldID = (location_id) => {
     const { fieldCrops } = this.props;
 
     let result = new Set();
 
     for (let fc of fieldCrops) {
-      if (fc.field_id === field_id) {
+      if (fc.location_id === location_id) {
         result.add(fc.crop_id);
       }
     }
@@ -300,7 +307,7 @@ class Finances extends Component {
       } else {
         result[value.crop_id] = {
           crop: this.props.t(`crop:${value.crop_translation_key}`),
-          field_id: value.field_id,
+          location_id: value.location_id,
           crop_id: value.crop_id,
           profit: value.profit,
         };
@@ -309,14 +316,17 @@ class Finances extends Component {
 
     //apply sales
     for (let sale of sales || []) {
-      if (moment(sale.sale_date).isBetween(startDate, endDate)) {
+      if (
+        moment(sale.sale_date).isSameOrAfter(moment(startDate)) &&
+        moment(sale.sale_date).isSameOrBefore(moment(endDate))
+      ) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);
           } else {
             result[cp.crop.crop_id] = {
               crop: this.props.t(`crop:${cp.crop.crop_translation_key}`),
-              field_id: 'not available',
+              location_id: 'not available',
               crop_id: cp.crop.crop_id,
               profit: Number(cp.sale_value),
             };
@@ -328,13 +338,13 @@ class Finances extends Component {
     return result;
   };
 
-  getShiftCropOnField(field_id) {
+  getShiftCropOnField(location_id) {
     const { shifts } = this.props;
 
     let crops = [];
 
     for (let s of shifts) {
-      if (s.field_id === field_id && s.crop_id) {
+      if (s.location_id === location_id && s.crop_id) {
         crops.push(s.crop_id);
       }
     }
@@ -495,8 +505,8 @@ class Finances extends Component {
                 {this.props.t('common:TO')}{' '}
                 <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_3')}</code>
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE4')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code> &{' '}
-                <code>{this.props.t('common:FIELD')}2</code>.<br />
+                <code>{this.props.t('common:LOCATION')}1</code> &{' '}
+                <code>{this.props.t('common:LOCATION')}2</code>.<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE5_1')}
                 {this.state.currencySymbol}
@@ -509,7 +519,7 @@ class Finances extends Component {
                 .<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_1')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code>{' '}
+                <code>{this.props.t('common:LOCATION')}1</code>{' '}
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_2')}
                 <code>
                   {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE8')}
@@ -540,7 +550,7 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
     expenses: expenseSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
   };

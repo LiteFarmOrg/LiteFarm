@@ -17,6 +17,8 @@ import { createSelector } from 'reselect/es';
 
 const logPageSelector = (state) => state.logReducer.logReducer;
 
+const formStateSelector = (state) => state.logReducer.forms.forms;
+
 const logSelector = createSelector(logPageSelector, (state) => state.logs);
 
 const currentLogSelector = createSelector(logPageSelector, (state) => state.selectedLog);
@@ -34,12 +36,26 @@ const startEndDateSelector = createSelector(logPageSelector, (state) => ({
   endDate: state.endDate,
 }));
 
+const logFieldFilterSelector = createSelector(logPageSelector, ({ fieldFilter }) => fieldFilter);
+
+const logCropFilterSelector = createSelector(logPageSelector, ({ cropFilter }) => cropFilter);
+const logTypeFilterSelector = createSelector(logPageSelector, ({ logType }) => logType);
+
 const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
 
 const harvestAllocationSelector = createSelector(
   logPageSelector,
   (state) => state.harvestAllocation,
 );
+
+const scoutingLogStateSelector = createSelector(formStateSelector, (state) => state.scoutingLog )
+const pestControlLogStateSelector = createSelector(formStateSelector, (state) => state.pestControlLog )
+const fieldWorkStateSelector = createSelector(formStateSelector, (state) => state.fieldWorkLog )
+const harvestLogStateSelector = createSelector(formStateSelector, (state) => state.harvestLog )
+const irrigationStateSelector = createSelector(formStateSelector, (state) => state.irrigationLog )
+const otherLogStateSelector = createSelector(formStateSelector, (state) => state.otherLog )
+const seedLogStateSelector = createSelector(formStateSelector, (state) => state.seedLog )
+const soilDataLogStateSelector = createSelector(formStateSelector, (state) => state.soilDataLog )
 
 export {
   logSelector,
@@ -51,4 +67,15 @@ export {
   startEndDateSelector,
   defaultDateSelector,
   harvestAllocationSelector,
+  logFieldFilterSelector,
+  logCropFilterSelector,
+  logTypeFilterSelector,
+  scoutingLogStateSelector,
+  pestControlLogStateSelector,
+  fieldWorkStateSelector,
+  harvestLogStateSelector,
+  irrigationStateSelector,
+  otherLogStateSelector,
+  seedLogStateSelector,
+  soilDataLogStateSelector
 };

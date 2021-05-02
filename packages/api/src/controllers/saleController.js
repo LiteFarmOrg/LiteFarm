@@ -18,15 +18,15 @@ const saleModel = require('../models/saleModel');
 const cropSaleModel = require('../models/cropSaleModel');
 const { transaction, Model } = require('objection');
 
-class SaleController extends baseController {
+const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
-  static addOrUpdateSale() {
+  addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { user_id } = req.user
+      const { user_id } = req.user;
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });
+        const result = await baseController.upsertGraph(saleModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -39,13 +39,13 @@ class SaleController extends baseController {
         console.log(error);
       }
     };
-  }
+  },
 
-  static patchSales() {
+  patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
       const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
-      let saleData = {};
+      const saleData = {};
 
       if (customer_name) saleData.customer_name = customer_name;
       if (sale_date) saleData.sale_date = sale_date;
@@ -55,13 +55,13 @@ class SaleController extends baseController {
         const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
         if (!saleResult) {
           await trx.rollback();
-          return res.status(400).send("failed to patch data");
+          return res.status(400).send('failed to patch data');
         }
 
         const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
         if (!deletedExistingCropSale) {
           await trx.rollback();
-          return res.status(400).send("failed to delete existing crop sales");
+          return res.status(400).send('failed to delete existing crop sales');
         }
 
         const { cropSale } = req.body;
@@ -80,10 +80,10 @@ class SaleController extends baseController {
         });
       }
     };
-  }
+  },
 
   // get sales and related crop sales
-  static getSaleByFarmId() {
+  getSaleByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -113,14 +113,14 @@ class SaleController extends baseController {
         console.log(error);
       }
     };
-  }
+  },
 
-  static delSale() {
+  delSale() {
     return async (req, res) => {
-      const { user_id } =  req.user;
+      const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx, { user_id });
+        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -134,18 +134,18 @@ class SaleController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static async getSalesOfFarm(farm_id) {
+  async getSalesOfFarm(farm_id) {
     return await saleModel
-      .query().context({showHidden: true}).whereNotDeleted()
+      .query().context({ showHidden: true }).whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
       //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
       .where('sale.farm_id', farm_id);
-  }
+  },
 }
 
 module.exports = SaleController;

@@ -1,0 +1,152 @@
+{
+  "ATTACHMENTS": {
+    "ERROR": {
+      "FAILED_UPLOAD": "Failed to upload attachments"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "Failed To Delete Field Crop",
+      "EDIT": "Failed To Edit Field Crop"
+    },
+    "SUCCESS": {
+      "DELETE": "Successfully Deleted Crop",
+      "EDIT": "Successfully Edited Crop"
+    }
+  },
+  "EDIT_FIELD_CROP": {
+    "ERROR": {
+      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "Failed to add new expenses",
+      "DELETE": "Failed to delete expenses",
+      "UPDATE": "Failed to update expenses!"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added new expenses!",
+      "DELETE": "Successfully deleted expenses!",
+      "UPDATE": "Successfully updated expenses!"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "Failed to add farm, please contact litefarm for assistance",
+      "FETCH": "failed to fetch farm from database",
+      "UPDATE": "Failed to update farm info"
+    },
+    "SUCCESS": {
+      "UPDATE": "Successfully updated farm info!"
+    }
+  },
+  "FERTILIZER": {
+    "ERROR": {
+      "ADD": "failed to add fertilizer"
+    }
+  },
+  "FIELD": {
+    "ERROR": {
+      "EMPTY_NAME": "Field name cannot be empty",
+      "UPDATE_NAME": "Failed To update Field name"
+    },
+    "SUCCESS": {
+      "UPDATE_NAME": "Successfully changed field name"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
+      "GET_TYPES": "Failed to fetch harvest use types",
+      "REQUIRED_TASK": "A harvest use type name is required"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+    }
+  },
+  "LOG": {
+    "ERROR": {
+      "ADD": "Failed to add Log",
+      "DELETE": "Failed to delete Log",
+      "EDIT": "Failed to edit Log"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added Log!",
+      "DELETE": "Successfully deleted Log!",
+      "EDIT": "Successfully edited Log!"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "Failed to login user info"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "Failed to update",
+    "FAIL_POST": "Failed to add new",
+    "SUCCESS_DELETE": " successfully retired",
+    "SUCCESS_PATCH": " successfully updated",
+    "SUCCESS_POST": " successfully saved"
+  },
+  "NEW_FIELD_CROP": {
+    "ERROR": {
+      "GENERAL": "failed to add fieldCrop to database",
+      "NOT_FILLED": "is not filled out",
+      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
+    },
+    "SUCCESS": {
+      "SAVE": "Successfully saved Crop!"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "Failed to add sale",
+      "DELETE": "Failed to delete new sale",
+      "UPDATE": "Failed to update sale"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added sale",
+      "DELETE": "Successfully deleted sale",
+      "UPDATE": "Successfully updated sale"
+    }
+  },
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "Failed to add new shift",
+      "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
+      "DELETE": "Failed to delete the shift :(",
+      "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
+      "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
+      "REQUIRED_TASK": "A task name is required",
+      "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
+      "UPDATE": "Failed to update shift"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added new shift!",
+      "DELETE": "Deleted shift!",
+      "UPDATE": "Successfully updated shift!"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "Failed to add user",
+      "AGREEMENT": "Failed to update user agreement",
+      "EXISTS": "User already exists in LiteFarm Network",
+      "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
+      "NOTHING_CHANGED": "No data has changed",
+      "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
+      "RESTORE": "There was an error restoring access",
+      "REVOKE": "There was an error revoking access",
+      "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
+      "UPDATE": "Failed to update user info"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully added user to farm!",
+      "RESTORE": "User access restored",
+      "REVOKE": "User access revoked!",
+      "UPDATE": "Successfully updated user info!"
+    }
+  }
+}

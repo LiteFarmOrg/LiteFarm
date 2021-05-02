@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import {
   ADD_TASK_TYPE,
@@ -30,7 +30,7 @@ import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
 
 export function* getTaskTypesSaga() {
@@ -148,8 +148,8 @@ export function* getAllShiftSaga() {
                 task_id: shift.task_id,
                 duration: shift.duration,
                 field_crop_id: shift.field_crop_id,
-                field_id: shift.field_id,
-                is_field: shift.is_field,
+                location_id: shift.location_id,
+                is_location: shift.is_location,
                 shift_id: shift.shift_id,
               },
             ],
@@ -159,8 +159,8 @@ export function* getAllShiftSaga() {
             task_id: shift.task_id,
             duration: shift.duration,
             field_crop_id: shift.field_crop_id,
-            field_id: shift.field_id,
-            is_field: shift.is_field,
+            location_id: shift.location_id,
+            is_location: shift.is_location,
             shift_id: shift.shift_id,
           });
         }
@@ -219,12 +219,12 @@ export function* updateShiftSaga(action) {
 }
 
 export default function* shiftSaga() {
-  yield takeEvery(GET_TASK_TYPES, getTaskTypesSaga);
-  yield takeEvery(ADD_TASK_TYPE, addTaskTypeSaga);
-  yield takeEvery(SUBMIT_SHIFT, addShift);
-  yield takeEvery(GET_SHIFTS, getShiftsSaga);
-  yield takeEvery(DELETE_SHIFT, deleteShiftSaga);
-  yield takeEvery(UPDATE_SHIFT, updateShiftSaga);
-  yield takeEvery(GET_ALL_SHIFT, getAllShiftSaga);
-  yield takeEvery(SUBMIT_MULTI_SHIFT, addMultiShiftSaga);
+  yield takeLatest(GET_TASK_TYPES, getTaskTypesSaga);
+  yield takeLeading(ADD_TASK_TYPE, addTaskTypeSaga);
+  yield takeLeading(SUBMIT_SHIFT, addShift);
+  yield takeLatest(GET_SHIFTS, getShiftsSaga);
+  yield takeLeading(DELETE_SHIFT, deleteShiftSaga);
+  yield takeLeading(UPDATE_SHIFT, updateShiftSaga);
+  yield takeLatest(GET_ALL_SHIFT, getAllShiftSaga);
+  yield takeLeading(SUBMIT_MULTI_SHIFT, addMultiShiftSaga);
 }

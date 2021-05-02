@@ -37,10 +37,10 @@ class TestEnvironment extends NodeEnvironment {
 
 async function tableCleanup(knex) {
   return knex.raw(`
-    update public.users set farm_id = null;
     DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";
+    DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
     DELETE FROM "activityFields";
     DELETE FROM "fieldWorkLog";
@@ -67,6 +67,24 @@ async function tableCleanup(knex) {
     DELETE FROM "shiftTask";
     DELETE FROM "shift";
     DELETE FROM "field";
+    DELETE FROM "garden";
+    DELETE FROM "area";
+    DELETE FROM "line";
+    DELETE FROM "point";
+    DELETE FROM "figure";
+    DELETE FROM "barn";
+    DELETE FROM "greenhouse";
+    DELETE FROM "gate";
+    DELETE FROM "water_valve";
+    DELETE FROM "buffer_zone";
+    DELETE FROM "watercourse";
+    DELETE FROM "fence";
+    DELETE FROM "ceremonial_area";
+    DELETE FROM "residence";
+    DELETE FROM "farm_site_boundary";
+    DELETE FROM "surface_water";
+    DELETE FROM "natural_area";
+    DELETE FROM "location";
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";
     DELETE FROM "farmExpenseType";
@@ -82,8 +100,6 @@ async function tableCleanup(knex) {
     DELETE FROM "weatherHourly";
     DELETE FROM "weather";
     DELETE FROM "weather_station";
-    
-    
   `);
 }
 

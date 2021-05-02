@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { labourHappinessSelector } from '../selectors';
 import LabourHappinessTask from '../../../components/Insights/LabourHappinessTask';
@@ -14,14 +14,14 @@ class LabourHappiness extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.LABOUR_HAPPINESS.TITLE")}
+          title={t('INSIGHTS.LABOUR_HAPPINESS.TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.LABOUR_HAPPINESS.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.LABOUR_HAPPINESS.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.LABOUR_HAPPINESS.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.LABOUR_HAPPINESS.INFO')}</div>}
         />
         <div>
-          <Semibold>{t("INSIGHTS.LABOUR_HAPPINESS.HEADER")}</Semibold>
+          <Semibold>{t('INSIGHTS.LABOUR_HAPPINESS.HEADER')}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         {dataSet.map((element, index) => {

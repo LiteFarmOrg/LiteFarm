@@ -18,15 +18,15 @@ const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
 
 
-class taskTypeController extends baseController {
-  static addType() {
+const taskTypeController = {
+  addType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.task_translation_key = data.task_name;
-        const result = await baseController.postWithResponse(TaskTypeModel, data, trx, { user_id });
+        const result = await baseController.postWithResponse(TaskTypeModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -37,71 +37,68 @@ class taskTypeController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static getAllTypes() {
+  getAllTypes() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({farm_id, deleted: false});
+        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         if (!rows.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(rows);
         }
-        else {
-          res.status(200).send(rows)
-        }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
-  static getTypeByID() {
+  getTypeByID() {
     return async (req, res) => {
       try {
         const id = req.params.task_type_id;
         const row = await baseController.getIndividual(TaskTypeModel, id);
         if (!row.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(row);
         }
-        else {
-          res.status(200).send(row)
-        }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static delType(){
-    return async(req, res) => {
+  delType() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
-        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, trx, { user_id: req.user.user_id });
+      try {
+        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, req, { trx });
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 }
 
 module.exports = taskTypeController;

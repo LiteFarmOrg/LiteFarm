@@ -634,7 +634,7 @@ function MoodPopup({
           </div>
         </div>
         {!isCurrentShiftUser && isEO && (
-          <div className={styles.buttonContainer}>
+          <div className={styles.buttonContainer} style={{ paddingTop: '40px' }}>
             <Checkbox
               checked={mood === 'no answer'}
               onChange={setNotProvided}

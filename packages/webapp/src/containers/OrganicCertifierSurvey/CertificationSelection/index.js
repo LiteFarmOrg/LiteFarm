@@ -8,50 +8,53 @@ import {
 } from '../saga';
 import history from '../../../history';
 import {
-  setCertificationSelection,
-  setCertificationSelectionSelector,
-  setcertificationTypesSelector,
-  setRequestedCertification,
-  setRequestedCertificationSelector,
-  selectedCertificationType,
-  setCertificationID,
+  allCertificationTypesSelector,
+  selectedCertificationSelector,
+  selectedCertification,
+  finishedSelectingCertificationType,
+  allCertifierTypesSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
-  const certificationType = useSelector(setCertificationSelectionSelector);
-  const certificationTypes = useSelector(setcertificationTypesSelector);
-  const requestedCertification = useSelector(setRequestedCertificationSelector);
+  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+  const certification = useSelector(selectedCertificationSelector);
   const role = useSelector(userFarmSelector);
+  const allSupportedCertifiers = useSelector(allCertifierTypesSelector);
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
   }, [dispatch]);
 
-  const onSubmit = (info) => {
-    let certification_id = null;
-    certificationTypes.map((type) => {
-      if (type.certification_type === certificationType) {
-        certification_id = type.certification_id;
-      }
-    });
-    dispatch(setCertificationID(certification_id));
-    dispatch(selectedCertificationType(true));
-    const callback = () => history.push('/certifier_selection_menu');
+  useEffect(() => {
+    if (certification.certificationID) {
+      dispatch(getAllSupportedCertifiers(certification.certificationID));
+    }
+  }, [certification.certificationID]);
+
+  const onSubmit = () => {
+    dispatch(finishedSelectingCertificationType(true));
+
     let data = {
       requested_certification: null,
       certification_id: null,
     };
-    if (!certification_id) {
-      data.requested_certification = info.requested;
+    if (!certification.certificationID) {
+      data.requested_certification = certification.requestedCertification;
     } else {
-      data.certification_id = certification_id;
+      data.certification_id = certification.certificationID;
     }
-    if (certification_id) dispatch(getAllSupportedCertifiers(certification_id));
-    setTimeout(() => {
-      dispatch(patchRequestedCertification({ data, callback }));
-    }, 100);
+
+    const callback = () => {
+      !certification.certificationID
+        ? history.push('/requested_certifier')
+        : allSupportedCertifiers.length === 0
+        ? history.push('/requested_certifier')
+        : history.push('/certifier_selection_menu');
+    };
+
+    dispatch(patchRequestedCertification({ data, callback }));
   };
 
   const onGoBack = () => {
@@ -64,12 +67,9 @@ export default function CertificationSelection() {
         onSubmit={onSubmit}
         onGoBack={onGoBack}
         dispatch={dispatch}
-        setCertificationSelection={setCertificationSelection}
-        certificationType={certificationType}
-        certificationTypes={certificationTypes}
-        setRequestedCertification={setRequestedCertification}
-        requestedCertification={requestedCertification}
-        setCertificationID={setCertificationID}
+        allSupportedCertificationTypes={allSupportedCertificationTypes}
+        certification={certification}
+        selectedCertification={selectedCertification}
         role_id={role.role_id}
       />
     </>

@@ -3,34 +3,36 @@ import PureCertifierSelectionScreen from '../../../components/CertifierSelection
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import {
-  certificationIDSelector,
-  setCertifiersSelector,
-  isRequestingCertifier,
-  selectedCertifier,
+  allCertifierTypesSelector,
+  selectedCertificationSelector,
   selectedCertifierSelector,
+  selectedCertifier,
   loadSummary,
-  isRequestingCertifierSelector,
-  setCertificationSelectionSelector,
+  requestedCertifier,
+  allCertificationTypesSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { patchRequestedCertifiers } from '../saga';
 
 export default function CertifierSelectionMenu() {
   const dispatch = useDispatch();
-  let certifiers = useSelector(setCertifiersSelector);
-  const certifierSelected = useSelector(selectedCertifierSelector);
+  const allSupportedCertifiers = useSelector(allCertifierTypesSelector);
+  const allSupportedCertifiersCopy = JSON.parse(
+    JSON.stringify(allSupportedCertifiers),
+  ).sort((a, b) => (a.certifier_name > b.certifier_name ? 1 : -1));
+  const certificationType = useSelector(selectedCertificationSelector);
+  const certifierType = useSelector(selectedCertifierSelector);
+  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
   const role = useSelector(userFarmSelector);
-  const certifiersCopy = JSON.parse(JSON.stringify(certifiers)).sort((a, b) =>
-    a.certifier_name > b.certifier_name ? 1 : -1,
-  );
-  const certificationType = useSelector(setCertificationSelectionSelector);
 
   const onSubmit = () => {
+    console.log(certifierType);
+    dispatch(requestedCertifier(null));
     dispatch(loadSummary(true));
     const callback = () => history.push('certification_summary');
     let data = {
       requested_certifier: null,
-      certifier_id: certifierSelected.certifier_id,
+      certifier_id: certifierType.certifierID,
     };
 
     dispatch(patchRequestedCertifiers({ data, callback }));
@@ -40,23 +42,20 @@ export default function CertifierSelectionMenu() {
     history.push('/certification_selection');
   };
 
-  const isRequesting = useSelector(isRequestingCertifierSelector);
-
   return (
     <>
       <PureCertifierSelectionScreen
         onSubmit={onSubmit}
-        certificationIDSelector={certificationIDSelector}
-        certifiers={certifiersCopy}
+        allSupportedCertifiers={allSupportedCertifiersCopy}
+        certificationType={certificationType}
+        allSupportedCertificationTypes={allSupportedCertificationTypes}
+        selectedCertifier={selectedCertifier}
+        certifierType={certifierType}
         onBack={onBack}
-        isRequestingCertifier={isRequestingCertifier}
         dispatch={dispatch}
         history={history}
-        selectedCertifier={selectedCertifier}
-        certifierSelected={certifierSelected}
-        isRequesting={isRequesting}
         role_id={role.role_id}
-        certificationType={certificationType}
+        requestedCertifier={requestedCertifier}
       />
     </>
   );

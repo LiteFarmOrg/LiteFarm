@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteResidenceSuccess,
   editResidenceSuccess,
   getLocationObjectFromResidence,
   postResidenceSuccess,
-  deleteResidenceSuccess,
 } from '../../../residenceSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -103,14 +103,13 @@ export function* deleteResidenceLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteResidenceSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -118,9 +117,9 @@ export function* deleteResidenceLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.RESIDENCE')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -128,7 +127,7 @@ export function* deleteResidenceLocationSaga({ payload: data }) {
 }
 
 export default function* residenceLocationSaga() {
-  yield takeLatest(postResidenceLocation.type, postResidenceLocationSaga);
-  yield takeLatest(editResidenceLocation.type, editResidenceLocationSaga);
-  yield takeLatest(deleteResidenceLocation.type, deleteResidenceLocationSaga);
+  yield takeLeading(postResidenceLocation.type, postResidenceLocationSaga);
+  yield takeLeading(editResidenceLocation.type, editResidenceLocationSaga);
+  yield takeLeading(deleteResidenceLocation.type, deleteResidenceLocationSaga);
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, fieldWorkStateSelector, logSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
@@ -71,7 +71,7 @@ class FieldWorkLog extends Component {
       notes: log.notes || '',
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {
@@ -89,7 +89,8 @@ class FieldWorkLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_FIELD_WORK.TITLE')}</Semibold>
@@ -97,10 +98,9 @@ class FieldWorkLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.fieldWorkLog)}
         >
@@ -116,7 +116,7 @@ class FieldWorkLog extends Component {
             typeOptions={['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']}
             isCropNotNeeded={true}
           />
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter edit={true} disabled={!this.props.formState.$form.valid} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -135,6 +135,7 @@ const mapStateToProps = (state) => {
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
+    formState: fieldWorkStateSelector(state)
   };
 };
 

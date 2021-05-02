@@ -16,7 +16,6 @@
 .logContainer {
   width: 100%;
   max-width: 1024px;
-  min-height: 100vh;
   padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
@@ -444,7 +443,7 @@ input:disabled {
 
 .moodContainer {
   // width: 80%;
-  margin-bottom: 2em;
+  margin-bottom: 12px;
   white-space: nowrap;
   text-align: center;
 
@@ -452,6 +451,7 @@ input:disabled {
     margin: 0;
     padding-top: 25%;
   }
+
   img {
     width: auto;
     height: 3em;

@@ -20,7 +20,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
-import { selectedCertificationTypeSelector } from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
+import { finishedSelectingCertificationTypeSelector } from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -57,7 +57,7 @@ function OnboardingFlow({
   farm_id,
 }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
-  const selected = useSelector(selectedCertificationTypeSelector);
+  const selected = useSelector(finishedSelectingCertificationTypeSelector);
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Suspense fallback={<Spinner />}>
@@ -95,9 +95,6 @@ function OnboardingFlow({
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
             {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
-            {step_three && (!step_four || !certifiers?.length) && interested && (
-              <Redirect to={'/organic_partners'} />
-            )}
             {step_four && !step_five && !(interested && !certifiers?.length) && (
               <Redirect to={'/outro'} />
             )}

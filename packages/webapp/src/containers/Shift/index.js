@@ -83,7 +83,7 @@ class Shift extends Component {
       )
       .map((shift) => ({
         ...shift,
-        shift_date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
+        shift_date: moment(shift.shift_date).utc(),
       }));
   }
   onStartDateChange(date) {
@@ -100,7 +100,8 @@ class Shift extends Component {
       {
         id: 'date',
         Header: this.props.t('common:DATE'),
-        accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => d.shift_date,
         minWidth: 60,
       },
       {
@@ -190,19 +191,20 @@ class Shift extends Component {
                 onChange={(option) => this.props.dispatch(setShiftType(option))}
                 isSearchable={false}
               />
-
-              <LocalForm model="logDates">
-                {' '}
-                <FromToDateContainer
-                  onEndDateChange={this.onEndDateChange}
-                  onStartDateChange={this.onStartDateChange}
-                  startDate={startDate}
-                  endDate={endDate}
-                />
-              </LocalForm>
             </div>
           </div>
         )}
+        <div>
+          <LocalForm model="logDates">
+            {' '}
+            <FromToDateContainer
+              onEndDateChange={this.onEndDateChange}
+              onStartDateChange={this.onStartDateChange}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </LocalForm>
+        </div>
 
         <Underlined
           style={{ color: colors.brown700 }}
@@ -223,7 +225,7 @@ class Shift extends Component {
             defaultSorted={[
               {
                 id: 'date',
-                desc: true,
+                desc: false,
               },
             ]}
             getTdProps={(state, rowInfo, column, instance) => {

@@ -58,6 +58,7 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
       "GET_TYPES": "Failed to fetch harvest use types",
       "REQUIRED_TASK": "A harvest use type name is required"
     },
@@ -83,7 +84,6 @@
     }
   },
   "MAP": {
-    "FAIL_DELETE": "Failed to retire",
     "FAIL_PATCH": "Failed to update",
     "FAIL_POST": "Failed to add new",
     "SUCCESS_DELETE": " successfully retired",
@@ -102,10 +102,12 @@
   },
   "SALE": {
     "ERROR": {
+      "ADD": "Failed to add sale",
       "DELETE": "Failed to delete new sale",
       "UPDATE": "Failed to update sale"
     },
     "SUCCESS": {
+      "ADD": "Successfully added sale",
       "DELETE": "Successfully deleted sale",
       "UPDATE": "Successfully updated sale"
     }

@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteFarmSiteBoundarySuccess,
   editFarmSiteBoundarySuccess,
   getLocationObjectFromFarmSiteBoundary,
   postFarmSiteBoundarySuccess,
-  deleteFarmSiteBoundarySuccess,
 } from '../../../farmSiteBoundarySlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -101,11 +101,7 @@ export function* deleteFarmSiteBoundaryLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteFarmSiteBoundarySuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FSB'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -116,9 +112,9 @@ export function* deleteFarmSiteBoundaryLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.FSB')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -126,7 +122,7 @@ export function* deleteFarmSiteBoundaryLocationSaga({ payload: data }) {
 }
 
 export default function* farmSiteBoundaryLocationSaga() {
-  yield takeLatest(postFarmSiteBoundaryLocation.type, postFarmSiteBoundaryLocationSaga);
-  yield takeLatest(editFarmSiteBoundaryLocation.type, editFarmSiteBoundaryLocationSaga);
-  yield takeLatest(deleteFarmSiteBoundaryLocation.type, deleteFarmSiteBoundaryLocationSaga);
+  yield takeLeading(postFarmSiteBoundaryLocation.type, postFarmSiteBoundaryLocationSaga);
+  yield takeLeading(editFarmSiteBoundaryLocation.type, editFarmSiteBoundaryLocationSaga);
+  yield takeLeading(deleteFarmSiteBoundaryLocation.type, deleteFarmSiteBoundaryLocationSaga);
 }

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
@@ -12,10 +12,6 @@ import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
-  canShowSelectionSelector,
-  locationsSelector,
-  setPositionSelector,
-  setZoomLevelSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -32,7 +28,6 @@ import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
-import PureSelectionHandler from '../../components/Map/SelectionHandler';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
@@ -48,6 +43,7 @@ import {
   resetAndUnLockFormData,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import LocationSelectionModal from './LocationSelectionModal';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -65,8 +61,7 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
-  const showSelection = useSelector(canShowSelectionSelector);
-  const locations = useSelector(locationsSelector);
+
   const initialLineData = {
     [locationEnum.watercourse]: {
       width: 1,
@@ -80,6 +75,9 @@ export default function Map({ history }) {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
     }
+    return () => {
+      dispatch(canShowSuccessHeader(false));
+    };
   }, []);
 
   const [
@@ -104,7 +102,7 @@ export default function Map({ history }) {
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
-  }, []);
+  }, [showHeader]);
 
   useEffect(() => {
     if (isLineWithWidth() && !drawingState.isActive) {
@@ -132,7 +130,7 @@ export default function Map({ history }) {
         },
       ],
       gestureHandling: 'greedy',
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: false,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
@@ -152,7 +150,7 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-  const { drawAssets } = useMapAssetRenderer();
+  const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
   const handleGoogleMapApi = (map, maps) => {
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
@@ -394,11 +392,7 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
-        {showSelection && (
-          <div className={styles.selectionContainer}>
-            <PureSelectionHandler locations={locations} history={history} />
-          </div>
-        )}
+        <LocationSelectionModal history={history} />
 
         {!drawingState.type && (
           <PureMapFooter

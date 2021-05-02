@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import { BsReplyFill } from 'react-icons/bs';
 import Button from '../../Form/Button';
 import TitleLayout from '../../Layout/TitleLayout';
 import styles from '../../../containers/Shift/styles.module.scss';
 import styles2 from './styles.module.scss';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
-import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
-import BackArrow from '../../../assets/images/miscs/arrow.svg';
+import MuiFullPagePopup from '../../MuiFullPagePopup';
+import PageTitle from '../../PageTitle/v2';
 
 function PureStepTwo({
   onGoBack,
@@ -405,7 +403,7 @@ function InputDuration({
                 }}
                 sm={true}
               >
-                {t('SHIFT.EDIT_SHIFT.ALL')}
+                {t('SHIFT.EDIT_SHIFT.SELECT_ALL')}
               </Button>
             </div>
             <div
@@ -470,6 +468,7 @@ function InputDuration({
                       <div className={styles.durationInput}>
                         <TimeSlider
                           label={cd.crop_name}
+                          initialTime={120}
                           setValue={(durationInMinutes) => {
                             changeDuration(
                               { target: { value: durationInMinutes } },
@@ -491,6 +490,7 @@ function InputDuration({
                 <div className={styles.durationContainer}>
                   <div className={styles.durationInput}>
                     <TimeSlider
+                      initialTime={120}
                       label={t('SHIFT.TIME_TOTAL')}
                       setValue={(durationInMinutes) => {
                         onDurationChange(durationInMinutes, task.task_id);
@@ -543,7 +543,11 @@ function InputDuration({
         {selectedFields?.length ? (
           <div className={styles.durationContainer}>
             <div className={styles.durationInput}>
-              <TimeSlider label={t('SHIFT.MY_SHIFT.DURATION')} setValue={onFieldChangeDuration} />
+              <TimeSlider
+                initialTime={120}
+                label={t('SHIFT.MY_SHIFT.DURATION')}
+                setValue={onFieldChangeDuration}
+              />
             </div>
           </div>
         ) : null}
@@ -566,38 +570,24 @@ function MoodPopup({
     setMood(event.currentTarget.checked ? 'no answer' : null);
   };
   return (
-    <Popup
-      open={showEditModal}
-      closeOnDocumentClick
-      onClose={closeEditModal}
-      contentStyle={{
-        display: 'flex',
-        width: '100%',
-        height: '80vh',
-        overflowY: 'auto',
-        padding: '0 5%',
-      }}
-      overlayStyle={{ zIndex: '1060', height: '100vh' }}
-    >
+    <MuiFullPagePopup open={showEditModal} onClose={closeEditModal}>
       <div className={styles.modal}>
-        <div className={styles.popupTitle}>
-          <img
-            src={BackArrow}
-            style={{ marginBottom: '-25px', cursor: 'pointer' }}
-            onClick={closeEditModal}
+        <div style={{ width: '90%', padding: '0 16px', margin: '0 5%' }}>
+          <PageTitle
+            title={
+              !isCurrentShiftUser && isEO
+                ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD')
+                : t('SHIFT.EDIT_SHIFT.MOOD')
+            }
+            onGoBack={closeEditModal}
           />
         </div>
-        <h3>
-          {!isCurrentShiftUser && isEO
-            ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD')
-            : t('SHIFT.EDIT_SHIFT.MOOD')}
-        </h3>
 
         <div
           style={{
             marginLeft: 0,
             marginRight: 0,
-            padding: '0 3%',
+            padding: '0',
             marginTop: '5%',
             width: '100%',
           }}
@@ -605,19 +595,19 @@ function MoodPopup({
           <div className={styles2.matrixContainer}>
             <MoodFace
               currentMood={mood}
-              face={'😃'}
-              mood={'happy'}
-              setMood={() => setMood('happy')}
-            >
-              {t('SHIFT.EDIT_SHIFT.HAPPY')}
-            </MoodFace>
-            <MoodFace
-              currentMood={mood}
               face={'😆'}
               mood={'very happy'}
               setMood={() => setMood('very happy')}
             >
               {t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}
+            </MoodFace>
+            <MoodFace
+              currentMood={mood}
+              face={'😃'}
+              mood={'happy'}
+              setMood={() => setMood('happy')}
+            >
+              {t('SHIFT.EDIT_SHIFT.HAPPY')}
             </MoodFace>
             <MoodFace
               currentMood={mood}
@@ -644,7 +634,7 @@ function MoodPopup({
           </div>
         </div>
         {!isCurrentShiftUser && isEO && (
-          <div className={styles.buttonContainer}>
+          <div className={styles.buttonContainer} style={{ paddingTop: '40px' }}>
             <Checkbox
               checked={mood === 'no answer'}
               onChange={setNotProvided}
@@ -652,13 +642,13 @@ function MoodPopup({
             />
           </div>
         )}
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} style={{ paddingTop: '24px' }}>
           <Button onClick={() => finish()} disabled={mood === null}>
             {t('common:FINISH')}
           </Button>
         </div>
       </div>
-    </Popup>
+    </MuiFullPagePopup>
   );
 }
 

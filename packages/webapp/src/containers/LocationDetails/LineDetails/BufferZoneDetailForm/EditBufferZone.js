@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PureBufferZone from '../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import { deleteBufferZoneLocation, editBufferZoneLocation } from './saga';
+import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
@@ -36,6 +37,13 @@ function EditBufferZoneDetailForm({ history, match }) {
   useEffect(() => {
     dispatch(setLineDetailFormData(getFormData(bufferZone)));
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error?.retire) {
+      setShowCannotRetireModal(true);
+    }
+  }, [history?.location?.state?.error]);
+
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );
@@ -46,11 +54,15 @@ function EditBufferZoneDetailForm({ history, match }) {
   const activeCrops = useSelector(currentFieldCropsByLocationIdSelector(location_id));
   const plannedCrops = useSelector(plannedFieldCropsByLocationIdSelector(location_id));
   const handleRetire = () => {
-    if (activeCrops.length === 0 && plannedCrops.length === 0) {
-      setShowConfirmRetireModal(true);
-    } else {
-      setShowCannotRetireModal(true);
-    }
+    // approach 1: redux store check for dependencies
+    // if (activeCrops.length === 0 && plannedCrops.length === 0) {
+    //   setShowConfirmRetireModal(true);
+    // } else {
+    //   setShowCannotRetireModal(true);
+    // }
+
+    // approach 2: call backend for dependency check
+    dispatch(checkLocationDependencies({ location_id, setShowConfirmRetireModal, setShowCannotRetireModal }));
   };
 
   const confirmRetire = () => {

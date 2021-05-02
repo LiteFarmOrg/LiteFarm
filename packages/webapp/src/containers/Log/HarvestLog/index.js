@@ -11,15 +11,14 @@ import {
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import {
-  currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
 import { getFieldCrops } from '../../saga';
 import { currentLogSelector } from '../selectors';
+import { deleteLog } from '../Utility/actions';
 
 function HarvestLog() {
   const farm = useSelector(userFarmSelector);
@@ -28,7 +27,7 @@ function HarvestLog() {
   const defaultData = useSelector(harvestLogDataSelector);
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
-  const locations = useSelector(locationsWithCurrentAndPlannedFieldCropSelector);
+  const locations = useSelector(cropLocationsSelector);
   const crops = useSelector(currentAndPlannedFieldCropsSelector);
   const isEdit = useSelector(canEditSelector);
   useEffect(() => {
@@ -38,7 +37,7 @@ function HarvestLog() {
 
   const onBack = () => {
     dispatch(resetHarvestLog());
-    history.push('/new_log');
+    history.push(isEdit.isEdit ? '/log' : '/new_log');
   };
 
   const onCancel = () => {
@@ -46,17 +45,21 @@ function HarvestLog() {
     history.push('/log');
   };
 
+  const onDelete = () => {
+    dispatch(deleteLog(selectedLog.activity_id));
+  };
+
   const onNext = (data) => {
     dispatch(harvestLogData(data));
     let formValue = !isEditStepOne.isEditStepOne
       ? {
-        activity_kind: 'harvest',
-        date: data.defaultDate,
-        crops: data.defaultCrop,
-        locations: data.defaultField,
-        notes: data.defaultNotes,
-        quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
-      }
+          activity_kind: 'harvest',
+          date: data.defaultDate,
+          crops: data.defaultCrop,
+          locations: data.defaultField,
+          notes: data.defaultNotes,
+          quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
+        }
       : {
           activity_id: selectedLog.activity_id,
           activity_kind: 'harvest',
@@ -76,7 +79,8 @@ function HarvestLog() {
       <PureHarvestLog
         onGoBack={onBack}
         onNext={onNext}
-        onCancel={onCancel}
+        onCancel={isEdit.isEdit ? undefined : onCancel}
+        onDelete={isEdit.isEdit ? onDelete : undefined}
         locations={locations}
         crops={crops}
         unit={unit}

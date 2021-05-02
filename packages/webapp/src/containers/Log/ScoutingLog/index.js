@@ -15,9 +15,10 @@ import { addLog } from '../Utility/actions';
 import { withTranslation } from 'react-i18next';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { scoutingLogStateSelector } from "../selectors";
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -90,7 +91,7 @@ class ScoutingLog extends Component {
               );
             }}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -100,7 +101,8 @@ class ScoutingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
+    formState: scoutingLogStateSelector(state)
   };
 };
 

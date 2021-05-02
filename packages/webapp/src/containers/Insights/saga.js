@@ -14,35 +14,35 @@
  */
 
 import apiConfig from '../../apiConfig';
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import {
-  setCropsSoldNutritionInState,
-  setSoilOMData,
-  setLabourHappinessData,
   setBiodiversityData,
-  setPricesData,
-  setWaterBalanceData,
-  setNitrogenBalanceData,
+  setCropsSoldNutritionInState,
   setFrequencyNitrogenBalance,
+  setLabourHappinessData,
+  setNitrogenBalanceData,
+  setPricesData,
+  setSoilOMData,
+  setWaterBalanceData,
   setWaterBalanceSchedule,
 } from './actions';
 import {
-  GET_CROPS_SOLD_NUTRITION,
-  GET_SOLD_OM_DATA,
-  GET_LABOUR_HAPPINESS_DATA,
-  GET_BIODIVERSITY_DATA,
-  GET_PRICES_DATA,
-  GET_WATER_BALANCE_DATA,
-  GET_NITROGEN_BALANCE_DATA,
   CREATE_FREQUENCY_NITROGEN_BALANCE,
-  GET_FREQUENCY_NITROGEN_BALANCE,
-  DEL_FREQUENCY_NITROGEN_BALANCE,
-  GET_PRICES_WITH_DISTANCE_DATA,
-  GET_FREQUENCY_WATER_BALANCE,
   CREATE_FREQUENCY_WATER_BALANCE,
+  DEL_FREQUENCY_NITROGEN_BALANCE,
+  GET_BIODIVERSITY_DATA,
+  GET_CROPS_SOLD_NUTRITION,
+  GET_FREQUENCY_NITROGEN_BALANCE,
+  GET_FREQUENCY_WATER_BALANCE,
+  GET_LABOUR_HAPPINESS_DATA,
+  GET_NITROGEN_BALANCE_DATA,
+  GET_PRICES_DATA,
+  GET_PRICES_WITH_DISTANCE_DATA,
+  GET_SOLD_OM_DATA,
+  GET_WATER_BALANCE_DATA,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 
 export function* getCropsSoldNutrition() {
   const { insightUrl } = apiConfig;
@@ -298,17 +298,17 @@ const formatDate = (date) => {
 };
 
 export default function* insightSaga() {
-  yield takeEvery(GET_CROPS_SOLD_NUTRITION, getCropsSoldNutrition);
-  yield takeEvery(GET_SOLD_OM_DATA, getSoldOMData);
-  yield takeEvery(GET_LABOUR_HAPPINESS_DATA, getLabourHappinessData);
-  yield takeEvery(GET_BIODIVERSITY_DATA, getBiodiversityData);
-  yield takeEvery(GET_PRICES_DATA, getPricesData);
-  yield takeEvery(GET_PRICES_WITH_DISTANCE_DATA, getPricesWithDistanceData);
-  yield takeEvery(GET_WATER_BALANCE_DATA, getWaterBalanceData);
-  yield takeEvery(GET_FREQUENCY_WATER_BALANCE, getWaterBalanceSchedule);
-  yield takeEvery(GET_NITROGEN_BALANCE_DATA, getNitrogenBalanceData);
-  yield takeEvery(CREATE_FREQUENCY_WATER_BALANCE, createWaterBalanceSchedule);
-  yield takeEvery(GET_FREQUENCY_NITROGEN_BALANCE, getNitrogenBalanceFrequency);
-  yield takeEvery(CREATE_FREQUENCY_NITROGEN_BALANCE, postNitrogenBalanceFrequency);
-  yield takeEvery(DEL_FREQUENCY_NITROGEN_BALANCE, deleteNitrogenBalanceFrequency);
+  yield takeLatest(GET_CROPS_SOLD_NUTRITION, getCropsSoldNutrition);
+  yield takeLatest(GET_SOLD_OM_DATA, getSoldOMData);
+  yield takeLatest(GET_LABOUR_HAPPINESS_DATA, getLabourHappinessData);
+  yield takeLatest(GET_BIODIVERSITY_DATA, getBiodiversityData);
+  yield takeLatest(GET_PRICES_DATA, getPricesData);
+  yield takeLatest(GET_PRICES_WITH_DISTANCE_DATA, getPricesWithDistanceData);
+  yield takeLatest(GET_WATER_BALANCE_DATA, getWaterBalanceData);
+  yield takeLatest(GET_FREQUENCY_WATER_BALANCE, getWaterBalanceSchedule);
+  yield takeLatest(GET_NITROGEN_BALANCE_DATA, getNitrogenBalanceData);
+  yield takeLeading(CREATE_FREQUENCY_WATER_BALANCE, createWaterBalanceSchedule);
+  yield takeLatest(GET_FREQUENCY_NITROGEN_BALANCE, getNitrogenBalanceFrequency);
+  yield takeLeading(CREATE_FREQUENCY_NITROGEN_BALANCE, postNitrogenBalanceFrequency);
+  yield takeLeading(DEL_FREQUENCY_NITROGEN_BALANCE, deleteNitrogenBalanceFrequency);
 }

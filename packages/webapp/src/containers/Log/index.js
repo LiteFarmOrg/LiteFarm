@@ -47,11 +47,12 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../fieldSlice';
+
 import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
 import { Label, Semibold, Title, Underlined } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 import { colors } from '../../assets/theme';
+import { cropLocationsSelector } from '../locationSlice';
 
 class Log extends Component {
   constructor(props) {
@@ -194,7 +195,8 @@ class Log extends Component {
       {
         id: 'date',
         Header: this.props.t('LOG_COMMON.DATE'),
-        accessor: (d) => moment(d.date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 85,
       },
       {
@@ -378,7 +380,7 @@ class Log extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: fieldsSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
     dates: startEndDateSelector(state),

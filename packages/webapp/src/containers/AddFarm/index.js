@@ -241,6 +241,7 @@ const AddFarm = () => {
           },
           {
             label: t('ADD_FARM.FARM_LOCATION'),
+            placeholder: t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER'),
             info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
               <span>{t('ADD_FARM.LOCATING')}</span>

@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteCeremonialSuccess,
   editCeremonialSuccess,
   getLocationObjectFromCeremonial,
   postCeremonialSuccess,
-  deleteCeremonialSuccess,
 } from '../../../ceremonialSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -97,11 +97,7 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteCeremonialSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -112,9 +108,9 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.CA')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -122,7 +118,7 @@ export function* deleteCeremonialLocationSaga({ payload: data }) {
 }
 
 export default function* ceremonialLocationSaga() {
-  yield takeLatest(postCeremonialLocation.type, postCeremonialLocationSaga);
-  yield takeLatest(editCeremonialLocation.type, editCeremonialLocationSaga);
-  yield takeLatest(deleteCeremonialLocation.type, deleteCeremonialLocationSaga);
+  yield takeLeading(postCeremonialLocation.type, postCeremonialLocationSaga);
+  yield takeLeading(editCeremonialLocation.type, editCeremonialLocationSaga);
+  yield takeLeading(deleteCeremonialLocation.type, deleteCeremonialLocationSaga);
 }

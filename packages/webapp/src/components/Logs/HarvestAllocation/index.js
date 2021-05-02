@@ -17,11 +17,10 @@ export default function PureHarvestAllocation({
   dispatch,
   isEdit,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
   });
-  let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
 
   const onSubmit = (val) => {
@@ -43,7 +42,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error('Total does not equal the amount to allocate');
+      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
     }
   };
   const handleChange = (typeName, quant) => {
@@ -77,7 +76,7 @@ export default function PureHarvestAllocation({
               {t('common:BACK')}
             </Button>
             <Button type={'submit'} fullLength disabled={!formState.isValid}>
-              {t('common:NEXT')}
+              {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }
@@ -88,7 +87,7 @@ export default function PureHarvestAllocation({
         </div>
         {defaultData.selectedUseTypes.map((type, index) => {
           const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-          let quant = type.quantity_kg;
+          const quant = type.quantity_kg;
           return (
             <div
               style={
@@ -100,12 +99,16 @@ export default function PureHarvestAllocation({
               <Input
                 label={typeName}
                 style={{ marginBottom: '24px' }}
-                type="decimal"
+                type="number"
                 unit={unit}
-                name={typeName}
+                name={type.harvest_use_type_name}
+                step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                inputRef={inputs[index]}
-                defaultValue={quant}
+                inputRef={register({ required: true })}
+                defaultValue={
+                  (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
+                  quant
+                }
               />
             </div>
           );

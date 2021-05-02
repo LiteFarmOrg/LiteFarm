@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle/v2';
 
-import { fertSelector, fertTypeSelector } from './selectors';
+import { fertFormSelector, fertSelector, fertTypeSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
 import { actions, Control, Errors, Form } from 'react-redux-form';
 import { addFertilizer, addFertilizerLog, getFertilizers } from './actions';
-import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -19,12 +18,11 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -87,12 +85,21 @@ class FertilizingLog extends Component {
         label: this.props.t(`fertilizer:${fert.fertilizer_type}`),
       }),
     );
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage));
-    this.props.dispatch(actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage));
     this.props.dispatch(
-      actions.change('logReducer.forms.fertLog.moisture_percentage', fert.moisture_percentage),
+      actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage ?? ''),
+    );
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm ?? ''));
+    this.props.dispatch(
+      actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage ?? ''),
+    );
+    this.props.dispatch(
+      actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage ?? ''),
+    );
+    this.props.dispatch(
+      actions.change(
+        'logReducer.forms.fertLog.moisture_percentage',
+        fert.moisture_percentage ?? '',
+      ),
     );
   }
 
@@ -252,7 +259,7 @@ class FertilizingLog extends Component {
                 model=".fertLog"
                 style={styles.labelContainer}
                 isCropNotRequired={true}
-                locations={this.props.locations}
+                locations={locations}
               />
               <div className={styles.defaultFormDropDown}>
                 <Control
@@ -290,6 +297,7 @@ class FertilizingLog extends Component {
                 title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
+                defaultValue={''}
               />
 
               <div className={styles.noteContainer}>
@@ -300,14 +308,14 @@ class FertilizingLog extends Component {
                   model=".fertLog.notes"
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -343,29 +351,10 @@ class FertilizingLog extends Component {
                   />
                 </div>
               )}
-              <LogFooter />
+              <LogFooter disabled={!this.props.formState.$form.valid} />
             </Form>
 
-            <Popup
-              open={this.state.showCustomProduct}
-              closeOnDocumentClick
-              onClose={this.closeEditModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '826px',
-                height: '100%',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-                position: 'absolute',
-              }}
-              overlayStyle={{
-                minHeight: '100%',
-                top: 'auto',
-                zIndex: 1,
-                position: 'absolute',
-              }}
-            >
+            <MuiFullPagePopup open={this.state.showCustomProduct} onClose={this.closeEditModal}>
               <Form
                 className={styles.formContainer}
                 model="logReducer.forms"
@@ -458,10 +447,9 @@ class FertilizingLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
-        {(!locations || !fertilizers) && <p>{this.props.t('LOG_COMMON.ERROR_MISSING_FIELDS')}</p>}
       </div>
     );
   }
@@ -470,10 +458,11 @@ class FertilizingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),
+    formState: fertFormSelector(state),
   };
 };
 

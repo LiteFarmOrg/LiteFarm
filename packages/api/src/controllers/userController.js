@@ -96,7 +96,6 @@ const userController = {
   addInvitedUser() {
     return async (req, res) => {
       const {
-        first_name,
         last_name,
         email: reqEmail,
         farm_id,
@@ -106,6 +105,7 @@ const userController = {
         birth_year,
         phone_number,
       } = req.body;
+      let { first_name } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
       wage.amount = wageAmount ? wageAmount : 0;
       const email = reqEmail && reqEmail.toLowerCase();
@@ -170,6 +170,7 @@ const userController = {
           }, req, { trx });
         } else {
           user = isUserAlreadyCreated;
+          first_name = user.first_name;
         }
         const { user_id } = user;
         await userFarmModel.query(trx).insert({

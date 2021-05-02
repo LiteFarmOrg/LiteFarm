@@ -77,7 +77,7 @@ class userFarm extends Model {
               type: 'string',
               enum: ['hourly', 'annually'],
             },
-            amount: { type: 'number' },
+            amount: { type: ['number', null] },
           },
         },
         step_one: { type: ['boolean', 'null'] },

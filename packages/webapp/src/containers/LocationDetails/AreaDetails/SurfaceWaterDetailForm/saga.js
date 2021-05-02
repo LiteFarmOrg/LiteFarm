@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteSurfaceWaterSuccess,
   editSurfaceWaterSuccess,
   getLocationObjectFromSurfaceWater,
   postSurfaceWaterSuccess,
-  deleteSurfaceWaterSuccess,
 } from '../../../surfaceWaterSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -103,14 +103,13 @@ export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteSurfaceWaterSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.SURFACE_WATER'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.SURFACE_WATER'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -118,9 +117,9 @@ export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -128,7 +127,7 @@ export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
 }
 
 export default function* surfaceWaterLocationSaga() {
-  yield takeLatest(postSurfaceWaterLocation.type, postSurfaceWaterLocationSaga);
-  yield takeLatest(editSurfaceWaterLocation.type, editSurfaceWaterLocationSaga);
-  yield takeLatest(deleteSurfaceWaterLocation.type, deleteSurfaceWaterLocationSaga);
+  yield takeLeading(postSurfaceWaterLocation.type, postSurfaceWaterLocationSaga);
+  yield takeLeading(editSurfaceWaterLocation.type, editSurfaceWaterLocationSaga);
+  yield takeLeading(deleteSurfaceWaterLocation.type, deleteSurfaceWaterLocationSaga);
 }

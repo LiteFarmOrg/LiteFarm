@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
 import history from '../../history';
@@ -7,6 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { getLanguageFromLocalStorage } from '../../util';
+import { ENTER_PASSWORD_PAGE } from '../CustomSignUp/constants';
 
 const loginUrl = () => `${url}/google`;
 
@@ -33,7 +34,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     if (id_token === '') {
       history.push({
         pathname: '/',
-        state: { component: 'PureEnterPasswordPage', user },
+        state: { component: ENTER_PASSWORD_PAGE, user },
       });
     } else {
       yield put(loginSuccess(user));
@@ -46,5 +47,5 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
 }
 
 export default function* loginSaga() {
-  yield takeLatest(loginWithGoogle.type, loginWithGoogleSaga);
+  yield takeLeading(loginWithGoogle.type, loginWithGoogleSaga);
 }

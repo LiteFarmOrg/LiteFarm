@@ -82,30 +82,82 @@ const insightController = {
         // not the others - the left join ensures that all fields are returned.
         // However, for fields that don't have soil analysis data, they will
         // have null values for the om values. Hence, we need to return 0 by default.
-        const data = await knex.raw(
+        const areaData = await knex.raw(
           `SELECT DISTINCT
-            f.location_id,
-            location.name,
+            l.location_id,
+            l.name,
             area.grid_points,
             COALESCE(AVG(table_2.om), 0) as om,
             COALESCE(AVG(organic_carbon), 0) as organic_carbon,
             COALESCE(AVG(total_carbon), 0) as total_carbon
-          FROM "field" f
-          JOIN "location" on location.location_id = f.location_id
-          JOIN "figure" on figure.location_id = location.location_id
+          FROM "location" l
+          LEFT JOIN "farm_site_boundary" fsb on fsb.location_id = l.location_id
+          LEFT JOIN "barn" b on b.location_id = l.location_id
+          LEFT JOIN "ceremonial_area" ca on ca.location_id = l.location_id
+          LEFT JOIN "surface_water" sw on sw.location_id = l.location_id
+          LEFT JOIN "natural_area" na on na.location_id = l.location_id
+          LEFT JOIN "residence" r on r.location_id = l.location_id
+--          LEFT JOIN "greenhouse" g on g.location_id = l.location_id
+          JOIN "figure" on figure.location_id = l.location_id
           JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl, "location" location, "figure" figure, "area" area
-          WHERE location.farm_id = ? and f.location_id = af.location_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id and location.location_id = f.location_id and figure.location_id = location.location_id and figure.figure_id = area.figure_id
-          ) table_2 ON table_2.location_id = f.location_id
+          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
-          AND location.deleted = false
-          GROUP BY f.location_id, location.name, area.grid_points
-          ORDER BY location.name`, [farmID, farmID]);
+            and location.location_id = af.location_id
+            and al.activity_id = sdl.activity_id
+            and al.deleted = false
+            and af.activity_id = sdl.activity_id
+            and figure.location_id = location.location_id
+          ) table_2 ON table_2.location_id = l.location_id
+          WHERE l.farm_id = ?
+            AND l.deleted = false
+            AND fsb.location_id IS NULL
+            AND b.location_id IS NULL
+            AND ca.location_id IS NULL
+            AND sw.location_id IS NULL
+            AND na.location_id IS NULL
+            AND r.location_id IS NULL
+--            AND g.location_id IS NULL
+          GROUP BY l.location_id, l.name, area.grid_points
+          ORDER BY l.name`, [farmID, farmID]);
 
-        if (data.rows) {
-          const body = await insightHelpers.getSoilOM(data.rows);
+        const bufferZoneData = await knex.raw(
+          `SELECT DISTINCT
+            l.location_id,
+            l.name,
+            line.line_points,
+            COALESCE(AVG(table_2.om), 0) as om,
+            COALESCE(AVG(organic_carbon), 0) as organic_carbon,
+            COALESCE(AVG(total_carbon), 0) as total_carbon
+          FROM "location" l
+          JOIN "buffer_zone" bf on bf.location_id = l.location_id
+          JOIN "figure" on figure.location_id = l.location_id
+          JOIN "line" on line.figure_id = figure.figure_id
+          LEFT JOIN (
+          SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
+          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          WHERE location.farm_id = ?
+            and location.location_id = af.location_id
+            and al.activity_id = sdl.activity_id
+            and al.deleted = false
+            and af.activity_id = sdl.activity_id
+            and figure.location_id = location.location_id
+          ) table_2 ON table_2.location_id = l.location_id
+          WHERE l.farm_id = ?
+            AND l.deleted = false
+          GROUP BY l.location_id, l.name, line.line_points
+          ORDER BY l.name`, [farmID, farmID]);
+
+        // buffer zones don't have grid_points, add line_points as grid_points to not break in helper function
+        bufferZoneData.rows = bufferZoneData.rows.map(bufferZone => ({
+          ...bufferZone,
+          grid_points: bufferZone.line_points,
+        }));
+
+        const data = areaData.rows.concat(bufferZoneData.rows);
+        if (data) {
+          const body = await insightHelpers.getSoilOM(data);
           res.status(200).send(body);
         } else {
           res.status(200).send({});
@@ -161,14 +213,14 @@ const insightController = {
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
         const cropCount = await knex.raw(
-          `SELECT SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
+          `SELECT DISTINCT fc.crop_id
           FROM "location" l
           LEFT JOIN "fieldCrop" fc
             on fc.location_id = l.location_id
-          WHERE l.farm_id = ?`, [farmID]);
+          WHERE l.farm_id = ?
+            and fc.end_date >= NOW() and fc.start_date <= NOW()`, [farmID]);
         if (dataPoints.rows && cropCount.rows) {
-          let count = cropCount.rows[0].count;
-          if (count === null) count = 0;
+          const count = cropCount.rows.length;
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
           res.status(200).send(body);
         } else {

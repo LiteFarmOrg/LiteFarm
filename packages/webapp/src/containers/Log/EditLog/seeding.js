@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, logSelector, seedLogStateSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -17,10 +17,8 @@ import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from 
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 import Input from '../../../components/Form/Input';
 
@@ -44,38 +42,47 @@ class SeedingLog extends Component {
     this.setState({
       date: selectedLog && moment.utc(selectedLog.date),
     });
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_depth_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_depth_cm, this.state.space_unit, 'cm'),
+    selectedLog.seedLog.space_depth_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_depth_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_depth_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_length_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_length_cm, this.state.space_unit, 'cm'),
+      );
+    selectedLog.seedLog.space_length_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_length_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_length_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.space_width_cm',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog.space_width_cm, this.state.space_unit, 'cm'),
+      );
+    selectedLog.seedLog.space_width_cm &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.space_width_cm',
+          roundToFourDecimal(
+            convertFromMetric(selectedLog.seedLog.space_width_cm, this.state.space_unit, 'cm'),
+          ),
         ),
-      ),
-    );
-    dispatch(
-      actions.change(
-        'logReducer.forms.seedLog.rate_seeds/m2',
-        roundToFourDecimal(
-          convertFromMetric(selectedLog.seedLog['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
+      );
+    selectedLog.seedLog['rate_seeds/m2'] &&
+      dispatch(
+        actions.change(
+          'logReducer.forms.seedLog.rate_seeds/m2',
+          roundToFourDecimal(
+            convertFromMetric(
+              selectedLog.seedLog['rate_seeds/m2'],
+              this.state.rate_unit,
+              'm2',
+              true,
+            ),
+          ),
         ),
-      ),
-    );
+      );
     dispatch(actions.change('logReducer.forms.seedLog.notes', selectedLog.notes));
   }
 
@@ -96,13 +103,13 @@ class SeedingLog extends Component {
       crops: selectedCrops,
       locations: selectedFields,
       notes: log.notes || '',
-      space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm'),
-      space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm'),
-      space_width_cm: convertToMetric(log.space_width_cm, this.state.space_unit, 'cm'),
+      space_depth_cm: convertToMetric(log.space_depth_cm, this.state.space_unit, 'cm') || null,
+      space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm') || null,
+      space_width_cm: convertToMetric(log.space_width_cm, this.state.space_unit, 'cm') || null,
       'rate_seeds/m2': convertToMetric(log['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {
@@ -120,14 +127,15 @@ class SeedingLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_SEEDING.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder='Choose a date'
+          placeholder={`${this.props.t('LOG_COMMON.CHOOSE_DATE')}`}
         />
         <Form
           model="logReducer.forms"
@@ -148,29 +156,41 @@ class SeedingLog extends Component {
             model=".seedLog.space_depth_cm"
             title={this.props.t('LOG_SEEDING.SEEDING_DEPTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_length_cm"
             title={this.props.t('LOG_SEEDING.SEED_SPACING')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.space_width_cm"
             title={this.props.t('LOG_SEEDING.SPACE_WIDTH')}
             type={this.state.space_unit}
+            optional
           />
           <Unit
             model=".seedLog.rate_seeds/m2"
             title={this.props.t('LOG_SEEDING.RATE')}
             type={`seeds/${this.state.rate_unit}`}
+            optional
           />
           <div>
-
             <div className={styles.noteContainer}>
-              <Control optional label={this.props.t('common:NOTES')} component={Input} model='.harvestLog.notes' />
+              <Control
+                optional
+                label={this.props.t('common:NOTES')}
+                component={Input}
+                model=".harvestLog.notes"
+              />
             </div>
           </div>
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter
+            disabled={!this.props.formState.$form.valid}
+            edit={true}
+            onClick={() => this.setState({ showModal: true })}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -186,9 +206,10 @@ class SeedingLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     logs: logSelector(state),
+    formState: seedLogStateSelector(state),
     selectedLog: currentLogSelector(state),
   };
 };

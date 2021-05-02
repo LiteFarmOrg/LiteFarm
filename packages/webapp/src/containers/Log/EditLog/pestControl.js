@@ -19,14 +19,12 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import DropDown from '../../../components/Inputs/DropDown';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, logSelector, pestControlLogStateSelector } from '../selectors';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import Unit from '../../../components/Inputs/Unit';
@@ -34,7 +32,7 @@ import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import LogFooter from '../../../components/LogFooter';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { deleteLog } from '../Utility/actions';
-import Popup from 'reactjs-popup';
+import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -133,7 +131,8 @@ class PestControlLog extends Component {
         ).toString(),
       ),
     );
-    dispatch(actions.change('logReducer.forms.pestControlLog.disease_id', disease[0].disease_id));
+    if (disease.length)
+      dispatch(actions.change('logReducer.forms.pestControlLog.disease_id', disease[0].disease_id));
     dispatch(
       actions.change('logReducer.forms.pestControlLog.pesticide_id', {
         value: pesticide[0].pesticide_id,
@@ -145,12 +144,14 @@ class PestControlLog extends Component {
       label: pesticide[0].pesticide_name,
     });
     dispatch(actions.change('logReducer.forms.pestControlLog.type', type));
-    this.setState({
-      original_disease: {
-        value: disease[0].disease_id,
-        label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
-      },
-    });
+    if (disease.length) {
+      this.setState({
+        original_disease: {
+          value: disease[0].disease_id,
+          label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
+        },
+      });
+    }
   }
 
   toggleChemInfo() {
@@ -216,7 +217,7 @@ class PestControlLog extends Component {
       pesticide_id: Number(parseInt(pestControlLog.pesticide_id.value, 10)),
       type: pestControlLog.type.value,
     };
-    this.props.dispatch(editPestControlLog(pcConfig));
+    if (!this.state.showModal) this.props.dispatch(editPestControlLog(pcConfig));
   }
 
   saveCustomDisease() {
@@ -322,7 +323,9 @@ class PestControlLog extends Component {
       pesticides &&
       pesticides.map((p) => ({
         value: p.pesticide_id,
-        label: p.pesticide_name,
+        label: p.farm_id
+          ? p.pesticide_name
+          : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`),
       }));
     const typeOptions = this.state.controlType.map((type) => {
       let typeName = type.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
@@ -436,14 +439,14 @@ class PestControlLog extends Component {
                   model=".pestControlLog.notes"
                 />
               </div>
-              <Underlined style={{ paddingTop: '8px' }} onClick={() => this.toggleChemInfo()}>
+              <Underlined style={{ paddingTop: '40px' }} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem
                   ? this.props.t('LOG_COMMON.HIDE')
                   : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
               </Underlined>
               {this.state.showChem && (
-                <div>
+                <div style={{ paddingTop: '24px' }}>
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
@@ -484,7 +487,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               )}
-              <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+              <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
             </Form>
             <ConfirmModal
               open={this.state.showModal}
@@ -493,22 +496,9 @@ class PestControlLog extends Component {
               message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
             />
 
-            <Popup
+            <MuiFullPagePopup
               open={this.state.showCustomPesticide}
-              closeOnDocumentClick
               onClose={this.closePesticideModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '100vh',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-              }}
-              overlayStyle={{
-                minHeight: '100vh',
-                top: 'auto',
-                zIndex: 1,
-              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
@@ -586,26 +576,10 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
 
             {/*disease popup*/}
-            <Popup
-              open={this.state.showCustomDisease}
-              closeOnDocumentClick
-              onClose={this.closeDiseaseModal}
-              contentStyle={{
-                display: 'flex',
-                width: '100%',
-                minHeight: '100vh',
-                padding: '92px 24px 0 24px',
-                justifyContent: 'center',
-              }}
-              overlayStyle={{
-                minHeight: '100vh',
-                top: 'auto',
-                zIndex: 1,
-              }}
-            >
+            <MuiFullPagePopup open={this.state.showCustomDisease} onClose={this.closeDiseaseModal}>
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
                   <div className={styles.popupTitle}>
@@ -649,7 +623,7 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               </Form>
-            </Popup>
+            </MuiFullPagePopup>
           </>
         }
         {(!crops || !locations || !diseases || !pesticides) && (
@@ -663,13 +637,14 @@ class PestControlLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),
     pestControlLog: pestLogSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
+    formState: pestControlLogStateSelector(state)
   };
 };
 

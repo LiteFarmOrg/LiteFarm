@@ -19,8 +19,7 @@ import Button from '../Form/Button';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit, isHarvestLog } = this.props;
-    let url = isHarvestLog ? '/harvest_use_types' : '/new_log';
+    const { onClick, edit, disabled } = this.props;
 
     return (
       <>
@@ -32,8 +31,8 @@ class LogFooter extends React.Component {
             </Button>
           )}
 
-          <Button style={{ margin: 0 }} fullLength>
-            {isHarvestLog ? this.props.t('common:NEXT') : this.props.t('common:SAVE')}
+          <Button style={{ margin: 0 }} fullLength disabled={disabled}>
+            {edit ? this.props.t('common:UPDATE') : this.props.t('common:SAVE')}
           </Button>
         </div>
       </>

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import styles from './styles.module.scss';
 
-export default function UnableToRetireModal({ dismissModal, handleRetire }) {
+export default function ConfirmRetireModal({ dismissModal, handleRetire }) {
   const { t } = useTranslation();
   return (
     <ModalComponent 

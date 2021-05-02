@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteNaturalAreaSuccess,
   editNaturalAreaSuccess,
   getLocationObjectFromNaturalArea,
   postNaturalAreaSuccess,
-  deleteNaturalAreaSuccess,
 } from '../../../naturalAreaSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -97,11 +97,7 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteNaturalAreaSuccess(location_id));
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
@@ -112,9 +108,9 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.NA')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -122,7 +118,7 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
 }
 
 export default function* naturalAreaLocationSaga() {
-  yield takeLatest(postNaturalAreaLocation.type, postNaturalAreaLocationSaga);
-  yield takeLatest(editNaturalAreaLocation.type, editNaturalAreaLocationSaga);
-  yield takeLatest(deleteNaturalAreaLocation.type, deleteNaturalAreaLocationSaga);
+  yield takeLeading(postNaturalAreaLocation.type, postNaturalAreaLocationSaga);
+  yield takeLeading(editNaturalAreaLocation.type, editNaturalAreaLocationSaga);
+  yield takeLeading(deleteNaturalAreaLocation.type, deleteNaturalAreaLocationSaga);
 }

@@ -15,11 +15,10 @@ import parseFields from '../Utility/parseFields';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
+import { irrigationStateSelector } from "../selectors";
 
 class IrrigationLog extends Component {
   constructor(props) {
@@ -39,6 +38,8 @@ class IrrigationLog extends Component {
       date: date,
     });
   }
+
+  componentDidMount() {}
 
   handleSubmit(irrigationLog) {
     const { dispatch, locations } = this.props;
@@ -72,34 +73,37 @@ class IrrigationLog extends Component {
         <div>
           <Unit
             model=".flow_rate_l/min"
-            title={this.props.t('LOG_IRRIGATION.FLOW_RATE')}
+            title={`${this.props.t('LOG_IRRIGATION.FLOW_RATE')} ${this.props.t('common:OPTIONAL')}`}
             dropdown={true}
             options={rateOptions}
           />
-          <Unit model=".hours" title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type="hrs" />
+          <Unit model=".hours" title={`${this.props.t('LOG_IRRIGATION.TOTAL_TIME')} ${this.props.t('common:OPTIONAL')}`} type="hrs" />
         </div>
       );
     };
 
     return (
-      <div className='page-container'>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container">
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
         >
           <DefaultLogForm
             style={styles.labelContainer}
-            model='.irrigationLog'
+            model=".irrigationLog"
             locations={locations}
             crops={crops}
             isCropNotRequired={true}
@@ -108,7 +112,7 @@ class IrrigationLog extends Component {
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
             customFieldset={customFieldset}
           />
-          <LogFooter />
+          <LogFooter disabled={!this.props.formState.$form.valid} />
         </Form>
       </div>
     );
@@ -118,8 +122,9 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
+    formState: irrigationStateSelector(state)
   };
 };
 

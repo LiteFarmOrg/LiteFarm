@@ -29,6 +29,7 @@ import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
+import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
 import fieldCropSaga from './containers/LocationDetails/LocationFieldCrop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
@@ -78,7 +79,7 @@ const persistConfig = {
   storage,
   stateReconciler: autoMergeLevel2,
 };
-const languages = ['en', 'es', 'pt', 'fr'];
+const languages = ['en', 'es', 'pt'];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -115,6 +116,7 @@ sagaMiddleware.run(logSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(fertSaga);
 sagaMiddleware.run(defaultAddLogSaga);
+sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
 sagaMiddleware.run(fieldCropSaga);
 sagaMiddleware.run(gardenSaga);

@@ -1,9 +1,8 @@
-import { isArea, isLine, isPoint, locationEnum } from './constants';
-import { useState, useEffect } from 'react';
-import { canShowSelection, locations, canShowSelectionSelector } from '../mapSlice';
+import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
+import { useEffect, useState } from 'react';
+import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { containsCrops } from './constants';
 
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
@@ -13,7 +12,7 @@ const useSelectionHandler = () => {
   };
 
   const dispatch = useDispatch();
-  let [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
+  const [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
 
   const [dismissSelection, setDismissSelection] = useState(false);
   const showSelection = useSelector(canShowSelectionSelector);
@@ -79,12 +78,12 @@ const useSelectionHandler = () => {
     let overlappedLocationsCopy = clone(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
-        const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(
-          locationType,
-        );
-        if (isArea(locationType) || isAreaLine) {
+        if (isArea(locationType) || isAreaLine(locationType)) {
           locationAssets[locationType].forEach((area) => {
-            if (area.isVisible && maps.geometry.poly.containsLocation(latLng, area.polygon)) {
+            if (
+              area?.polygon?.visible &&
+              maps.geometry.poly.containsLocation(latLng, area.polygon)
+            ) {
               overlappedLocationsCopy.area.push({
                 id: area.location_id,
                 name: area.location_name,
@@ -96,7 +95,7 @@ const useSelectionHandler = () => {
         } else if (isLine(locationType)) {
           locationAssets[locationType].forEach((line) => {
             if (
-              line.isVisible &&
+              line.polyline.visible &&
               maps.geometry.poly.isLocationOnEdge(latLng, line.polyline, 10e-7)
             ) {
               overlappedLocationsCopy.line.push({
@@ -119,7 +118,7 @@ const useSelectionHandler = () => {
             });
           } else {
             locationAssets[locationType].forEach((point) => {
-              if (point.isVisible && latLng === point.marker.position) {
+              if (point.marker.visible && latLng === point.marker.position) {
                 overlappedLocationsCopy.point.push({
                   id: point.location_id,
                   name: point.location_name,
@@ -139,7 +138,9 @@ const useSelectionHandler = () => {
     }
   };
 
-  return { handleSelection };
+  const dismissSelectionModal = () => setDismissSelection(true);
+
+  return { handleSelection, dismissSelectionModal };
 };
 
 function clone(obj) {

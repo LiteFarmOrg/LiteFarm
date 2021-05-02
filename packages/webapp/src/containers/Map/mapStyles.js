@@ -79,6 +79,18 @@ export const lineStyles = {
       fillOpacity: 0.3,
     },
   },
+  farm_site_boundary: {
+    colour: farmBoundColour,
+    hoverColour: farmBoundHoverColour,
+    dashScale: 1,
+    dashLength: '1px',
+    polyStyles: {
+      strokeColor: 'transparent',
+      strokeWeight: 1,
+      fillColor: 'transparent',
+      fillOpacity: 0.3,
+    },
+  },
   fence: {
     colour: fenceColour,
     dashScale: 0.7,

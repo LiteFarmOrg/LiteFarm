@@ -19,6 +19,7 @@ const initialState = {
   water_valve: true,
   farm_site_boundary: true,
   map_background: true,
+  label: true,
 };
 
 const mapFilterSettingAdapter = createEntityAdapter({

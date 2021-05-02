@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle/v2';
-import { currentLogSelector, logSelector } from '../selectors';
+import { currentLogSelector, irrigationStateSelector, logSelector } from '../selectors';
 
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
@@ -19,8 +19,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import {
   currentAndPlannedFieldCropsSelector,
-  locationsWithCurrentAndPlannedFieldCropSelector,
 } from '../../fieldCropSlice';
+import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
 // const customFieldset = () => {
@@ -101,7 +101,7 @@ class IrrigationLog extends Component {
       hours: irrigationLog.hours,
       user_id: localStorage.getItem('user_id'),
     };
-    dispatch(editLog(formValue));
+    if (!this.state.showModal) dispatch(editLog(formValue));
   }
 
   render() {
@@ -137,7 +137,8 @@ class IrrigationLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_IRRIGATION.TITLE')}</Semibold>
@@ -145,16 +146,15 @@ class IrrigationLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
         >
           <DefaultLogForm
             selectedCrops={selectedCrops}
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             selectedFields={selectedFields}
             style={styles.labelContainer}
             model=".irrigationLog"
@@ -166,7 +166,7 @@ class IrrigationLog extends Component {
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
             customFieldset={customFieldset}
           />
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -182,10 +182,11 @@ class IrrigationLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: currentAndPlannedFieldCropsSelector(state),
-    locations: locationsWithCurrentAndPlannedFieldCropSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),
+    formState: irrigationStateSelector(state)
   };
 };
 

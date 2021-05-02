@@ -1,13 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteGardenSuccess,
   editGardenSuccess,
   getLocationObjectFromGarden,
   postGardenSuccess,
-  deleteGardenSuccess,
 } from '../../../gardenSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import history from '../../../../history';
@@ -99,14 +99,13 @@ export function* deleteGardenLocationSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(
-      axios.delete,
-      `${locationURL}/${location_id}`,
-      header,
-    );
+    const result = yield call(axios.delete, `${locationURL}/${location_id}`, header);
     yield put(deleteGardenSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GARDEN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([
+        i18n.t('FARM_MAP.MAP_FILTER.GARDEN'),
+        i18n.t('message:MAP.SUCCESS_DELETE'),
+      ]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -114,9 +113,9 @@ export function* deleteGardenLocationSaga({ payload: data }) {
     history.push({
       path: history.location.pathname,
       state: {
-        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.GARDEN')
-          .toLowerCase()}`,
+        error: {
+          retire: true,
+        },
       },
     });
     console.log(e);
@@ -124,7 +123,7 @@ export function* deleteGardenLocationSaga({ payload: data }) {
 }
 
 export default function* gardenLocationSaga() {
-  yield takeLatest(postGardenLocation.type, postGardenLocationSaga);
-  yield takeLatest(editGardenLocation.type, editGardenLocationSaga);
-  yield takeLatest(deleteGardenLocation.type, deleteGardenLocationSaga);
+  yield takeLeading(postGardenLocation.type, postGardenLocationSaga);
+  yield takeLeading(editGardenLocation.type, editGardenLocationSaga);
+  yield takeLeading(deleteGardenLocation.type, deleteGardenLocationSaga);
 }

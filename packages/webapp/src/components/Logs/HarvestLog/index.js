@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
+import ConfirmModal from '../../Modals/Confirm';
 
 export default function PureHarvestLog({
   onGoBack,
@@ -23,8 +24,10 @@ export default function PureHarvestLog({
   isEdit,
   selectedLog,
   dispatch,
+  onDelete,
 }) {
   const { t } = useTranslation(['translation', 'crop', 'common']);
+  const [showModal, setShowModal] = useState();
   let [date, setDate] = useState(moment());
   let [location, setLocation] = useState(null);
   let [crop, setCrop] = useState(null);
@@ -208,12 +211,31 @@ export default function PureHarvestLog({
         style={{ flexGrow: 9, order: 2 }}
         buttonGroup={
           <>
+            {!!onDelete && (
+              <Button
+                onClick={() => setShowModal(true)}
+                type={'button'}
+                color={'secondary'}
+                fullLength
+              >
+                {t('common:DELETE')}
+              </Button>
+            )}
             <Button type={'submit'} disabled={!location || !crop || !quant} fullLength>
-              {t('common:NEXT')}
+              {isEdit.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }
       >
+        {!!onDelete && (
+          <ConfirmModal
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            onConfirm={onDelete}
+            message={t('LOG_COMMON.DELETE_CONFIRMATION')}
+          />
+        )}
+
         <Semibold style={{ marginBottom: '24px' }}>{t('LOG_HARVEST.TITLE')}</Semibold>
         <DateContainer date={date} onDateChange={setDate} label={t('common:DATE')} />
         <div style={{ marginTop: '24px' }} />
@@ -240,10 +262,10 @@ export default function PureHarvestLog({
         <Input
           label={t('LOG_COMMON.QUANTITY')}
           style={{ marginBottom: '24px' }}
-          type="decimal"
+          type="number"
           unit={unit}
           name={QUANTITY}
-          onChange={setQuantity}
+          step={0.01}
           inputRef={register({
             required: true,
           })}

@@ -14,7 +14,6 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
-import { getLanguageFromLocalStorage } from '../../../util';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -80,7 +79,10 @@ class OtherExpense extends Component {
     let dict = {};
 
     for (let e of expenses) {
-      if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate), null, '[]')) {
+      if (
+        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).isSameOrBefore(moment(endDate))
+      ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {
           let typeName = this.getExpenseType(id);
@@ -101,7 +103,7 @@ class OtherExpense extends Component {
     for (let k of keys) {
       data.push({
         type: dict[k].type,
-        amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
+        amount: dict[k].amount,
       });
       total += dict[k].amount;
     }
@@ -114,14 +116,16 @@ class OtherExpense extends Component {
     let detailedHistory = [];
 
     let subTotal = 0;
-    const language = getLanguageFromLocalStorage();
 
     for (let e of expenses) {
-      if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
+      if (
+        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).isSameOrBefore(moment(endDate))
+      ) {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
-          date: moment(e.expense_date).locale(language).format('MMM-DD-YYYY'),
+          date: moment(e.expense_date),
           type: this.getExpenseType(e.expense_type_id),
           amount: this.state.currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,
@@ -131,48 +135,6 @@ class OtherExpense extends Component {
         });
       }
     }
-
-    // const { expenses } = this.props;
-    // const { startDate, endDate } = this.state;
-    // let detailedHistory = [];
-
-    // let dict = {};
-    // let subTotal = 0;
-
-    // console.log(expenses);
-
-    // for (let e of expenses) {
-    //   if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
-    //     let date = moment(e.expense_date).format('MMM-DD-YYYY');
-    //     let type = this.getExpenseType(e.expense_type_id);
-    //     let amount = parseFloat(e.value);
-    //     subTotal += amount;
-    //     if (!dict.hasOwnProperty(date)) {
-    //       dict[date] = {
-    //         type,
-    //         amount,
-    //         expense_date: e.expense_date,
-    //       };
-    //     } else {
-    //       dict[date].amount = dict[date].amount + amount;
-    //       dict[date].type = 'Multiple';
-    //     }
-    //   }
-    // }
-
-    // let keys = Object.keys(dict);
-    // for (let k of keys) {
-    //   detailedHistory.push({
-    //     date: k,
-    //     type: dict[k].type,
-    //     amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
-    //     expense_date: dict[k].expense_date,
-    //   });
-    // }
-
-    // console.log(detailedHistory);
-    // console.log(subTotal.toFixed(2));
-
     return [detailedHistory, subTotal.toFixed(2)];
   }
 
@@ -201,8 +163,9 @@ class OtherExpense extends Component {
       {
         id: 'amount',
         Header: this.props.t('SALE.SUMMARY.AMOUNT'),
-        accessor: (d) => d.amount,
+        accessor: 'amount',
         minWidth: 75,
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
         Footer: <div>{this.state.currencySymbol + totalData}</div>,
       },
     ];
@@ -211,21 +174,29 @@ class OtherExpense extends Component {
       {
         id: 'date',
         Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
-        accessor: (d) => d.date,
-        minWidth: 80,
+        Cell: (d) => <span>{moment(d.value).format('L')}</span>,
+        accessor: (d) => moment(d.date),
+        minWidth: 70,
         Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
       },
       {
         id: 'type',
         Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
         accessor: (d) => d.type,
-        minWidth: 75,
+        minWidth: 55,
+      },
+      {
+        id: 'name',
+        Header: this.props.t('common:NAME'),
+        accessor: (d) => d.note,
+        minWidth: 55,
       },
       {
         id: 'amount',
         Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
-        accessor: (d) => d.amount,
-        minWidth: 75,
+        accessor: 'value',
+        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value.toFixed(2).toString()}`}</span>,
+        minWidth: 55,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
       },
       {

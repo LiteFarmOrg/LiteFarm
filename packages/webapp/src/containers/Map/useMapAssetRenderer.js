@@ -1,16 +1,24 @@
 import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
-import { isArea, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
+import {
+  getAreaLocationTypes,
+  isArea,
+  isAreaLine,
+  isLine,
+  isNoFillArea,
+  locationEnum,
+  polygonPath,
+} from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
-const useMapAssetRenderer = () => {
-  const { handleSelection } = useSelectionHandler();
+const useMapAssetRenderer = ({ isClickable }) => {
+  const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
   const filterSettings = useSelector(mapFilterSettingSelector);
   const initAssetGeometriesState = () => {
@@ -26,16 +34,41 @@ const useMapAssetRenderer = () => {
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
     for (const key in filterSettings) {
+      const isPointVisible = (locationType) => {
+        if (isArea(locationType) && !filterSettings?.label) {
+          return false;
+        }
+        return filterSettings?.[locationType];
+      };
       if (prevFilterState?.[key] !== filterSettings?.[key]) {
         for (const assetGeometry of assetGeometries?.[key] || []) {
           assetGeometry?.polygon?.setOptions({ visible: filterSettings?.[key] });
           assetGeometry?.polyline?.setOptions({ visible: filterSettings?.[key] });
-          assetGeometry?.marker?.setOptions({ visible: filterSettings?.[key] });
+          assetGeometry?.marker?.setOptions({ visible: isPointVisible(key) });
         }
       }
     }
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
+
+  useEffect(() => {
+    for (const areaLocationType of getAreaLocationTypes()) {
+      for (const assetGeometry of assetGeometries?.[areaLocationType] || []) {
+        filterSettings?.[areaLocationType] &&
+          assetGeometry?.marker?.setOptions({ visible: filterSettings?.label });
+      }
+    }
+  }, [filterSettings?.label]);
+
+  useEffect(() => {
+    for (const key in filterSettings) {
+      for (const assetGeometry of assetGeometries?.[key] || []) {
+        assetGeometry?.polygon?.setOptions({ clickable: isClickable });
+        assetGeometry?.polyline?.setOptions({ clickable: isClickable });
+        assetGeometry?.marker?.setOptions({ clickable: isClickable });
+      }
+    }
+  }, [isClickable]);
 
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
@@ -51,8 +84,16 @@ const useMapAssetRenderer = () => {
       : drawPoint;
   };
 
+  const markerClusterRef = useRef();
+  useEffect(() => {
+    dismissSelectionModal();
+    markerClusterRef?.current?.repaint();
+  }, [filterSettings?.gate, filterSettings?.water_valve]);
+  useEffect(() => {
+    markerClusterRef?.current?.setOptions({ zoomOnClick: isClickable });
+  }, [isClickable]);
   const createMarkerClusters = (maps, map, points) => {
-    let markers = [];
+    const markers = [];
 
     points.forEach((point) => {
       point.marker.id = point.location_id;
@@ -62,14 +103,24 @@ const useMapAssetRenderer = () => {
       markers.push(point.marker);
     });
 
+    const clusterStyle = {
+      textColor: 'white',
+      textSize: 20,
+      textLineHeight: 20,
+      height: 28,
+      width: 28,
+      className: styles.clusterIcon,
+    };
+    const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
+
     const markerCluster = new MarkerClusterer(map, markers, {
-      imagePath:
-        'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+      ignoreHidden: true,
+      styles: clusterStyles,
     });
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      if (map.getZoom() === 20 && cluster.markers_.length > 1) {
+      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],
@@ -77,7 +128,6 @@ const useMapAssetRenderer = () => {
         cluster.markers_.map((point) => {
           pointAssets[point.type].push({
             asset: point.asset,
-            isVisible: true,
             location_id: point.id,
             location_name: point.name,
             marker: point,
@@ -85,15 +135,28 @@ const useMapAssetRenderer = () => {
           });
         });
 
+        const getFirstMarkerPosition = (pointAssets) => {
+          for (const type in pointAssets) {
+            for (const marker of pointAssets[type]) {
+              return marker.marker.position;
+            }
+          }
+        };
+
         const latlng = map.getCenter().toJSON();
         dispatch(setPosition(latlng));
         dispatch(setZoomLevel(map.getZoom()));
-        handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
+        handleSelection(getFirstMarkerPosition(pointAssets), pointAssets, maps, true, true);
       }
     });
+    markerClusterRef.current = markerCluster;
   };
 
   const drawAssets = (map, maps, mapBounds) => {
+    maps.event.addListenerOnce(map, 'idle', function () {
+      markerClusterRef?.current?.repaint();
+    });
+
     // Event listener for general map click
     maps.event.addListener(map, 'click', function (mapsMouseEvent) {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, false);
@@ -136,13 +199,7 @@ const useMapAssetRenderer = () => {
 
     setAssetGeometries(newState);
     // Create marker clusters
-    let pointsArray = [];
-    assetGeometries.gate.forEach((item) => {
-      pointsArray.push(item);
-    });
-    assetGeometries.water_valve.forEach((item) => {
-      pointsArray.push(item);
-    });
+    const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
 
     createMarkerClusters(maps, map, pointsArray);
     // TODO: only fitBounds if there is at least one location in the farm
@@ -230,7 +287,7 @@ const useMapAssetRenderer = () => {
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
-    marker.setOptions({ visible: isVisible });
+    marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
     return {
@@ -239,7 +296,6 @@ const useMapAssetRenderer = () => {
       marker,
       location_id: area.location_id,
       location_name: area.name,
-      isVisible,
       asset: 'area',
       type: area.type,
     };
@@ -278,8 +334,7 @@ const useMapAssetRenderer = () => {
       ],
     });
     polyline.setMap(map);
-    const isAreaLine = [locationEnum.watercourse, locationEnum.buffer_zone].includes(type);
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
       linePolygon = new maps.Polygon({
         paths: polyPath,
@@ -315,32 +370,40 @@ const useMapAssetRenderer = () => {
     // Event listener for line click
     maps.event.addListener(polyline, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
-
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     let asset;
-    if (isAreaLine) {
+    if (isAreaLine(type)) {
       linePolygon.setOptions({ visible: isVisible });
       asset = { polygon: linePolygon, polyline };
     } else {
       asset = { polyline };
     }
     polyline.setOptions({ visible: isVisible });
-    maps.event.addListener(isAreaLine ? linePolygon : polyline, 'click', function (mapsMouseEvent) {
-      handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-    });
+    maps.event.addListener(
+      isAreaLine(type) ? linePolygon : polyline,
+      'click',
+      function (mapsMouseEvent) {
+        handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      },
+    );
 
     return {
       ...asset,
       location_id: line.location_id,
       location_name: line.name,
-      isVisible,
       asset: 'line',
       type: line.type,
     };
+  };
+
+  const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
+    const { grid_points } = area;
+    const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 1 };
+    return drawLine(map, maps, mapBounds, line, isVisible);
   };
 
   // Draw a point
@@ -374,43 +437,11 @@ const useMapAssetRenderer = () => {
       marker,
       location_id: point.location_id,
       location_name: point.name,
-      isVisible,
       asset: 'point',
       type: point.type,
     };
   };
   return { drawAssets, drawArea, drawPoint, drawLine };
-};
-
-const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
-  const { grid_points, name, type } = area;
-  let points = [...grid_points];
-  const { colour, hoverColour } = areaStyles[type];
-  points.forEach((point) => {
-    mapBounds.extend(point);
-  });
-
-  points.push(points[0]);
-
-  const polyline = new maps.Polyline({
-    path: points,
-    strokeColor: colour,
-    strokeWeight: 2,
-  });
-  polyline.setMap(map);
-
-  maps.event.addListener(polyline, 'mouseover', function () {
-    this.setOptions({ strokeColor: hoverColour });
-  });
-  maps.event.addListener(polyline, 'mouseout', function () {
-    this.setOptions({ strokeColor: colour });
-  });
-  maps.event.addListener(polyline, 'click', function () {
-    console.log('clicked no fill area');
-  });
-
-  polyline.setOptions({ visible: isVisible });
-  return { polyline };
 };
 
 export default useMapAssetRenderer;

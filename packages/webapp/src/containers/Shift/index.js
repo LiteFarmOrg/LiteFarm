@@ -112,7 +112,7 @@ class Shift extends Component {
           for (let task of d.tasks) {
             mins += task.duration;
           }
-          return getDuration(mins).durationString;
+          return getDuration(parseInt(mins)).durationString;
         },
         minWidth: 40,
       },

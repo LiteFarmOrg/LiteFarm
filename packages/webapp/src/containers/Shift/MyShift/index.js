@@ -209,7 +209,7 @@ class MyShift extends Component {
                   })}
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{getDuration(task.duration).durationString}</span>
+                  <span>{getDuration(parseInt(task.duration)).durationString}</span>
                 </div>
               </div>
             );

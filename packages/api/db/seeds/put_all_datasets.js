@@ -130,7 +130,7 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   var BASEURL = __dirname + '/seedData/';
   const dependencies = ['fertilizerLog', 'fieldCrop', 'waterBalance',
-    'cropDisease', 'cropCommonName', 'yield',
+    'cropDisease', 'yield',
     'pestControlLog', 'shiftTask', 'pestControlLog', 'farmExpense'];
   await Promise.all(dependencies.map((dependentTable) => knex(dependentTable).del()));
   console.log('dropped dependencies');

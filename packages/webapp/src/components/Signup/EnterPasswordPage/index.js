@@ -2,7 +2,7 @@ import Form from '../../Form';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, Title, Underlined } from '../../Typography';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -15,6 +15,7 @@ export default function PureEnterPasswordPage({
   onLogin,
   onGoBack,
   forgotPassword,
+  isVisible,
   isChrome = true,
 }) {
   const { register, handleSubmit, errors, setError, watch } = useForm();
@@ -45,6 +46,13 @@ export default function PureEnterPasswordPage({
   };
   const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
   const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
+
+  useEffect(() => {
+    if (isVisible) {
+      document.getElementById('password_input_to_focus')?.focus();
+    }
+  }, [isVisible]);
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -74,7 +82,7 @@ export default function PureEnterPasswordPage({
         icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
         inputRef={inputRegister}
         errors={errors[PASSWORD]?.message}
-        autofocus={true}
+        id={'password_input_to_focus'}
       />
       {showErrors && (
         <div>

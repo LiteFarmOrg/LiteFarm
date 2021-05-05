@@ -400,6 +400,9 @@
     },
     "TITLE": "Campos"
   },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",

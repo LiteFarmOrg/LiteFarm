@@ -400,6 +400,9 @@
     },
     "TITLE": "Fields"
   },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "Clear all filters"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",

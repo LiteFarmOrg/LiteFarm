@@ -400,6 +400,9 @@
     },
     "TITLE": "CAMPOS"
   },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "Email",

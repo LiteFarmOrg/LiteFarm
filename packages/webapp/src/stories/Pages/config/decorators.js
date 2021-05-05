@@ -42,12 +42,16 @@ export const useI18next = () => {
   return ready;
 };
 
+const setIdToken = () => {
+  if (!localStorage.getItem('id_token')) {
+    localStorage.setItem('id_token', 'id_token');
+  }
+};
+
 export default [
   (story) => {
     const ready = useI18next();
-    if (!localStorage.getItem('id_token')) {
-      localStorage.setItem('id_token', 'id_token');
-    }
+    setIdToken();
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
@@ -87,6 +91,7 @@ export default [
 export const authenticatedDecorators = [
   (story) => {
     const ready = useI18next();
+    setIdToken();
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>

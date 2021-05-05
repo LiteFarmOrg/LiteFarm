@@ -45,6 +45,9 @@ export const useI18next = () => {
 export default [
   (story) => {
     const ready = useI18next();
+    if (!localStorage.getItem('id_token')) {
+      localStorage.setItem('id_token', 'id_token');
+    }
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>

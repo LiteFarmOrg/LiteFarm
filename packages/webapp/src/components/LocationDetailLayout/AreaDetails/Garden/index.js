@@ -179,7 +179,7 @@ export default function PureGarden({
                 name={gardenEnum.transition_date}
                 defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GARDEN.DATE')}
-                hookFormRegister={register({ required: true })}
+                ref={register({ required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}
                 disabled={isViewLocationPage}
               />

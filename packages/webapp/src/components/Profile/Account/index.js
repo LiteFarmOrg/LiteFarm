@@ -46,34 +46,34 @@ export default function PureAccount({ userFarm, onSubmit }) {
         defaultValue={userFarm.first_name}
         name={userFarmEnum.first_name}
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
-        hookFormRegister={register({ required: true })}
+        ref={register({ required: true })}
       />
       <Input
         defaultValue={userFarm.last_name}
         name={userFarmEnum.last_name}
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
-        hookFormRegister={register({ required: false })}
+        ref={register({ required: false })}
       />
       <Input
         defaultValue={userFarm.email}
         name={userFarmEnum.email}
         label={t('PROFILE.ACCOUNT.EMAIL')}
         disabled
-        hookFormRegister={register({ required: true })}
+        ref={register({ required: true })}
       />
       <Input
         type={'number'}
         defaultValue={userFarm.phone_number}
         name={userFarmEnum.phone_number}
         label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        hookFormRegister={register({ required: false })}
+        ref={register({ required: false })}
         onKeyDown={integerOnKeyDown}
       />
       <Input
         defaultValue={userFarm.user_address}
         name={userFarmEnum.user_address}
         label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        hookFormRegister={register({ required: false })}
+        ref={register({ required: false })}
       />
 
       <Controller

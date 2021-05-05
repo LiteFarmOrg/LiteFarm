@@ -52,7 +52,7 @@ export default function PointDetailsLayout({
         type="text"
         style={{ marginBottom: '40px' }}
         name={pointEnum.name}
-        hookFormRegister={register({ required: true })}
+        ref={register({ required: true })}
         errors={errors[pointEnum.name] && t('common:REQUIRED')}
         disabled={isViewLocationPage}
       />
@@ -64,7 +64,7 @@ export default function PointDetailsLayout({
         optional
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        hookFormRegister={register}
+        ref={register}
         name={pointEnum.notes}
         disabled={isViewLocationPage}
       />

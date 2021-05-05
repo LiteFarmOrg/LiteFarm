@@ -272,7 +272,7 @@ export default function PureHarvestLog({
           unit={unit}
           name={QUANTITY}
           step={0.01}
-          hookFormRegister={register({
+          ref={register({
             required: true,
           })}
           defaultValue={setDefaultQuantity()}
@@ -292,7 +292,7 @@ export default function PureHarvestLog({
             label={t('common:NOTES')}
             optional
             name={NOTES}
-            hookFormRegister={refInputNotes}
+            ref={refInputNotes}
             defaultValue={!isEdit.isEditStepOne ? defaultData.defaultNotes : selectedLog.notes}
           />
         </div>

@@ -137,7 +137,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
         label={
           contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
         }
-        hookFormRegister={register({
+        ref={register({
           required: true,
           pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
         })}

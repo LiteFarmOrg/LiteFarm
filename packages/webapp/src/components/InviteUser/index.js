@@ -75,7 +75,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
         name={NAME}
-        hookFormRegister={register({ required: true })}
+        ref={register({ required: true })}
       />
       <Controller
         control={control}
@@ -90,7 +90,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
-        hookFormRegister={register({
+        ref={register({
           required: selectedRoleId !== 3,
           pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         })}
@@ -113,7 +113,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
-        hookFormRegister={register({
+        ref={register({
           min: 1900,
           max: new Date().getFullYear(),
           valueAsNumber: true,
@@ -134,7 +134,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        hookFormRegister={register({ min: 0, valueAsNumber: true })}
+        ref={register({ min: 0, valueAsNumber: true })}
         name={WAGE}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
@@ -145,7 +145,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}
-        hookFormRegister={register({ pattern: /\d*/ })}
+        ref={register({ pattern: /\d*/ })}
         name={PHONE}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional

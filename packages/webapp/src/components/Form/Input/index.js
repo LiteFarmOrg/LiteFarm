@@ -18,7 +18,7 @@ const Input = ({
   info,
   errors,
   icon,
-  hookFormRegister,
+  ref,
   isSearchBar,
   type = 'text',
   toolTipContent,
@@ -33,7 +33,7 @@ const Input = ({
   warnings(hookFormSetValue, optional);
   const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
-  const name = hookFormRegister?.name ?? props?.name;
+  const name = ref?.name ?? props?.name;
   const onClear =
     optional || hookFormSetValue
       ? () => {
@@ -106,17 +106,17 @@ const Input = ({
         )}
         style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}
-        ref={mergeRefs(hookFormRegister?.ref, input)}
+        ref={mergeRefs(ref?.ref, input)}
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
         onClick={(e) => {
           onClick(e);
-          hookFormRegister?.onClick(e);
+          ref?.onClick(e);
         }}
         onBlur={(e) => {
           onBlur(e);
-          hookFormRegister?.onBlur(e);
+          ref?.onBlur(e);
         }}
         {...props}
       />
@@ -141,7 +141,7 @@ Input.propTypes = {
     errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  hookFormRegister: PropTypes.oneOfType([
+  ref: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),

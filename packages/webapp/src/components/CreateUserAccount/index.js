@@ -76,7 +76,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.FULL_NAME')}
         placeholder={'e.g. Juan Perez'}
-        hookFormRegister={register(NAME, { required: true })}
+        ref={register(NAME, { required: true })}
       />
       <Controller
         control={control}
@@ -96,7 +96,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       <Input
         label={t('CREATE_USER.BIRTH_YEAR')}
         type="number"
-        hookFormRegister={register(BIRTHYEAR, {
+        ref={register(BIRTHYEAR, {
           min: 1900,
           max: new Date().getFullYear(),
           valueAsNumber: true,
@@ -115,7 +115,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.PASSWORD')}
         type={PASSWORD}
-        hookFormRegister={register(PASSWORD)}
+        ref={register(PASSWORD)}
       />
       <PasswordError
         hasNoDigit={hasNoDigit}

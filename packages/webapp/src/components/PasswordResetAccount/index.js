@@ -51,7 +51,7 @@ export default function PureResetPasswordAccount({ email, update }) {
         label={'New password'}
         type={PASSWORD}
         name={PASSWORD}
-        hookFormRegister={inputRegister}
+        ref={inputRegister}
       />
 
       <PasswordError

@@ -68,7 +68,7 @@ export default function PureRequestCertifier({
         name={REQUESTED_CERTIFIER}
         onChange={(e) => setRequested(e.target.value)}
         defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
-        hookFormRegister={register({ required: true })}
+        ref={register({ required: true })}
         errors={errors[REQUESTED_CERTIFIER] && t('common:REQUIRED')}
       />
     </Form>

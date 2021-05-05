@@ -175,7 +175,7 @@ export default function PureField({
                 name={fieldEnum.transition_date}
                 defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.FIELD.DATE')}
-                hookFormRegister={register({ required: true })}
+                ref={register({ required: true })}
                 disabled={isViewLocationPage}
               />
             )}

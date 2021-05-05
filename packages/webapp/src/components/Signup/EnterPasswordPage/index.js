@@ -78,7 +78,7 @@ export default function PureEnterPasswordPage({
         label={t('ENTER_PASSWORD.LABEL')}
         type={PASSWORD}
         icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
-        hookFormRegister={inputRegister}
+        ref={inputRegister}
         errors={errors[PASSWORD]?.message}
         autofocus={true}
       />

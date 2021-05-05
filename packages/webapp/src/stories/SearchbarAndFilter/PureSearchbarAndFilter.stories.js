@@ -9,8 +9,10 @@ export default {
 };
 
 const Template = (args) => <PureSearchbarAndFilter {...args} />;
-export const Primary = Template.bind({});
-Primary.args = {
-  color: 'primary',
-  children: 'Primary',
+export const InActive = Template.bind({});
+InActive.args = {};
+
+export const Active = Template.bind({});
+Active.args = {
+  filterOptions: ['Active', 'Planned', 'Complete', 'Abandoned', 'Needs Plan'],
 };

@@ -108,6 +108,8 @@ const Input = ({
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
+        placeholder={isSearchBar && t('common:SEARCH')}
+        size={'1'}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

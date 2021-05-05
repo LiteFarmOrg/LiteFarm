@@ -47,8 +47,7 @@ export default function LineDetails({
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={lineEnum.name}
-        ref={register({ required: true })}
+        hookFormRegister={register(lineEnum.name, { required: true })}
         errors={errors[lineEnum.name] && t('common:REQUIRED')}
         showCross={false}
         disabled={isViewLocationPage}
@@ -58,10 +57,8 @@ export default function LineDetails({
         label={t('common:NOTES')}
         type="text"
         optional
-        ref={register}
-        name={lineEnum.notes}
+        hookFormRegister={register(lineEnum.notes)}
         style={{ marginBottom: '40px' }}
-        hookFormSetValue={setValue}
         disabled={isViewLocationPage}
       />
     </>

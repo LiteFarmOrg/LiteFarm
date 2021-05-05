@@ -45,7 +45,7 @@ export default function PureField({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -53,8 +53,8 @@ export default function PureField({
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit].value;
-    showPerimeter && (data[fieldEnum.perimeter_unit] = data[fieldEnum.perimeter_unit].value);
+    data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit]?.value;
+    data[fieldEnum.perimeter_unit] = data[fieldEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -69,7 +69,7 @@ export default function PureField({
   const title =
     (isCreateLocationPage && t('FARM_MAP.FIELD.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FIELD.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(fieldEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -141,9 +141,8 @@ export default function PureField({
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.FIELD.NON_ORGANIC')}
               defaultChecked={true}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
               value={'Non-Organic'}
-              name={fieldEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -151,9 +150,8 @@ export default function PureField({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.FIELD.ORGANIC')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
               value={'Organic'}
-              name={fieldEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -161,9 +159,8 @@ export default function PureField({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.FIELD.TRANSITIONING')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
               value={'Transitional'}
-              name={fieldEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -172,10 +169,9 @@ export default function PureField({
               <Input
                 style={{ paddingBottom: '16px' }}
                 type={'date'}
-                name={fieldEnum.transition_date}
                 defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.FIELD.DATE')}
-                ref={register({ required: true })}
+                hookFormRegister={register(fieldEnum.transition_date, { required: true })}
                 disabled={isViewLocationPage}
               />
             )}

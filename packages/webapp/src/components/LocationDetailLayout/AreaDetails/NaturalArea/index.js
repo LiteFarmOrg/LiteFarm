@@ -40,16 +40,15 @@ export default function PureNaturalArea({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[naturalAreaEnum.total_area_unit] = data[naturalAreaEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[naturalAreaEnum.perimeter_unit] = data[naturalAreaEnum.perimeter_unit].value);
+    data[naturalAreaEnum.total_area_unit] = data[naturalAreaEnum.total_area_unit]?.value;
+    data[naturalAreaEnum.perimeter_unit] = data[naturalAreaEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -64,7 +63,7 @@ export default function PureNaturalArea({
   const title =
     (isCreateLocationPage && t('FARM_MAP.NATURAL_AREA.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.NATURAL_AREA.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(naturalAreaEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

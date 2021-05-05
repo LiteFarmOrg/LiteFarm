@@ -41,7 +41,7 @@ function ConsentForm({
   const [consent, setConsentText] = useState('');
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);
-  const checkBoxRef = register({
+  const checkBoxRegister = register(checkboxName, {
     required: {
       value: true,
       message: 'You must accept terms and conditions to use the app',
@@ -69,9 +69,8 @@ function ConsentForm({
   return (
     <PureConsent
       checkboxArgs={{
-        inputRef: checkBoxRef,
+        hookFormRegister: checkBoxRegister,
         label: t('CONSENT.LABEL'),
-        name: checkboxName,
         errors: errors[checkboxName] && errors[checkboxName].message,
       }}
       onSubmit={handleSubmit(updateConsent)}

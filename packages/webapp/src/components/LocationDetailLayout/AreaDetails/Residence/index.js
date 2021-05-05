@@ -40,16 +40,16 @@ export default function PureResidence({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const showPerimeter = false;
   const onSubmit = (data) => {
-    data[residenceEnum.total_area_unit] = data[residenceEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[residenceEnum.perimeter_unit] = data[residenceEnum.perimeter_unit].value);
+    data[residenceEnum.total_area_unit] = data[residenceEnum.total_area_unit]?.value;
+
+    data[residenceEnum.perimeter_unit] = data[residenceEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -64,7 +64,7 @@ export default function PureResidence({
   const title =
     (isCreateLocationPage && t('FARM_MAP.RESIDENCE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.RESIDENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(residenceEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

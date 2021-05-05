@@ -18,34 +18,25 @@ const Input = ({
   info,
   errors,
   icon,
-  ref,
+  hookFormRegister,
   isSearchBar,
   type = 'text',
   toolTipContent,
   reset,
   unit,
-  hookFormSetValue,
-  showCross,
-  onClick,
+  showCross = true,
+  onChange,
   onBlur,
   ...props
 }) => {
-  warnings(hookFormSetValue, optional);
   const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
-  const name = ref?.name ?? props?.name;
-  const onClear =
-    optional || hookFormSetValue
-      ? () => {
-          hookFormSetValue(name, undefined, { shouldValidate: true });
-          setShowError(false);
-        }
-      : () => {
-          if (input.current && input.current?.value) {
-            input.current.value = '';
-            setShowError(false);
-          }
-        };
+  const name = hookFormRegister?.name ?? props?.name;
+  const onClear = () => {
+    input.current.value = '';
+    onChange?.({ target: input.current });
+    hookFormRegister?.onChange({ target: input.current });
+  };
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
@@ -83,7 +74,7 @@ const Input = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: 'translate(-17px, 13px)',
+            transform: 'translate(-17px, 15px)',
             cursor: 'pointer',
           }}
         />
@@ -106,17 +97,17 @@ const Input = ({
         )}
         style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}
-        ref={mergeRefs(ref?.ref, input)}
+        ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
-        onClick={(e) => {
-          onClick(e);
-          ref?.onClick(e);
+        onChange={(e) => {
+          onChange?.(e);
+          hookFormRegister?.onChange?.(e);
         }}
         onBlur={(e) => {
-          onBlur(e);
-          ref?.onBlur(e);
+          onBlur?.(e);
+          hookFormRegister?.onBlur?.(e);
         }}
         {...props}
       />
@@ -131,7 +122,7 @@ Input.propTypes = {
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,
-  errors: PropTypes.string,
+  errors: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   clearErrors: PropTypes.func,
   classes: PropTypes.exact({
     input: PropTypes.object,
@@ -141,10 +132,6 @@ Input.propTypes = {
     errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  ref: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
@@ -152,9 +139,14 @@ Input.propTypes = {
   unit: PropTypes.string,
   // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
   reset: PropTypes.func,
-  hookFormSetValue: PropTypes.func,
   name: PropTypes.string,
-  onClick: PropTypes.func,
+  hookFormRegister: PropTypes.exact({
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    name: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
   onBlur: PropTypes.func,
 };
 
@@ -163,7 +155,3 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
-const warnings = (hookFormSetValue, optional) =>
-  !hookFormSetValue &&
-  optional &&
-  console.error('hookFormSetValue prop is required when input field is optional');

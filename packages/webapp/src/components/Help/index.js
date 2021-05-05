@@ -74,7 +74,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
         control={control}
         name={SUPPORT_TYPE}
         rules={{ required: true }}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             label={t('HELP.TYPE_SUPPORT_LABEL')}
             placeholder={t('HELP.TYPE_SUPPORT_PLACEHOLDER')}
@@ -87,8 +87,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
       {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       <TextArea
         label={t('HELP.MESSAGE_LABEL')}
-        inputRef={register({ required: true })}
-        name={MESSAGE}
+        hookFormRegister={register(MESSAGE, { required: true })}
         style={{ marginTop: '30px', marginBottom: '36px' }}
       />
       {errors[MESSAGE] ? (
@@ -123,25 +122,22 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
       <Radio
         label={t('HELP.EMAIL')}
         value={'email'}
-        inputRef={register({ required: true })}
-        name={CONTACT_METHOD}
+        hookFormRegister={register(CONTACT_METHOD, { required: true })}
         defaultChecked={true}
       />
       <Radio
         label={t('HELP.WHATSAPP')}
         value={'whatsapp'}
-        inputRef={register({ required: true })}
-        name={CONTACT_METHOD}
+        hookFormRegister={register(CONTACT_METHOD, { required: true })}
       />
       <Input
         label={
           contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
         }
-        ref={register({
+        hookFormRegister={register(CONTACT_INFO, {
           required: true,
           pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
         })}
-        name={CONTACT_INFO}
       />
       {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
         <Error>{t('HELP.REQUIRED_LABEL')}</Error>

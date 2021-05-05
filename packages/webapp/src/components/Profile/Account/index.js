@@ -44,36 +44,31 @@ export default function PureAccount({ userFarm, onSubmit }) {
     >
       <Input
         defaultValue={userFarm.first_name}
-        name={userFarmEnum.first_name}
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
-        ref={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.first_name, { required: true })}
       />
       <Input
         defaultValue={userFarm.last_name}
-        name={userFarmEnum.last_name}
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
-        ref={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.last_name, { required: false })}
       />
       <Input
         defaultValue={userFarm.email}
-        name={userFarmEnum.email}
         label={t('PROFILE.ACCOUNT.EMAIL')}
         disabled
-        ref={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.email, { required: true })}
       />
       <Input
         type={'number'}
         defaultValue={userFarm.phone_number}
-        name={userFarmEnum.phone_number}
         label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        ref={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.phone_number, { required: false })}
         onKeyDown={integerOnKeyDown}
       />
       <Input
         defaultValue={userFarm.user_address}
-        name={userFarmEnum.user_address}
         label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        ref={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
       />
 
       <Controller
@@ -82,7 +77,7 @@ export default function PureAccount({ userFarm, onSubmit }) {
         label={t('PROFILE.ACCOUNT.LANGUAGE')}
         options={options}
         defaultValue={defaultLanguageOption}
-        as={<ReactSelect />}
+        render={({ field }) => <ReactSelect {...field} />}
       />
     </ProfileLayout>
   );

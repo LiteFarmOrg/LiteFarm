@@ -6,7 +6,7 @@ import Radio from '../../../Form/Radio';
 import { Label } from '../../../Typography';
 import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
-import { bufferZoneEnum, watercourseEnum } from '../../../../containers/constants';
+import { watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
@@ -46,6 +46,7 @@ export default function PureWatercourse({
   });
   const {
     persistedData: {
+      name,
       line_points,
       length,
       width,
@@ -59,7 +60,6 @@ export default function PureWatercourse({
   const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
-    data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
     const formData = {
       line_points,
       length,
@@ -69,17 +69,18 @@ export default function PureWatercourse({
       type: 'watercourse',
       used_for_irrigation: usedForIrrigation !== null ? usedForIrrigation === 'true' : null,
     };
-    formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit].value;
-    formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit].value;
-    formData[watercourseEnum.buffer_width_unit] = formData[watercourseEnum.buffer_width_unit].value;
-    formData[watercourseEnum.total_area_unit] = formData[watercourseEnum.total_area_unit].value;
+    formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit]?.value;
+    formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit]?.value;
+    formData[watercourseEnum.buffer_width_unit] =
+      formData[watercourseEnum.buffer_width_unit]?.value;
+    formData[watercourseEnum.total_area_unit] = formData[watercourseEnum.total_area_unit]?.value;
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.WATERCOURSE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.WATERCOURSE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -220,17 +221,19 @@ export default function PureWatercourse({
             <div style={{ marginBottom: '16px' }}>
               <Radio
                 label={t('common:YES')}
-                inputRef={register({ required: false })}
+                hookFormRegister={register(watercourseEnum.used_for_irrigation, {
+                  required: false,
+                })}
                 value={true}
-                name={watercourseEnum.used_for_irrigation}
                 disabled={isViewLocationPage}
               />
               <Radio
                 style={{ marginLeft: '40px' }}
                 label={t('common:NO')}
-                inputRef={register({ required: false })}
+                hookFormRegister={register(watercourseEnum.used_for_irrigation, {
+                  required: false,
+                })}
                 value={false}
-                name={watercourseEnum.used_for_irrigation}
                 disabled={isViewLocationPage}
               />
             </div>

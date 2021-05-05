@@ -45,7 +45,7 @@ export default function PureGarden({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -53,8 +53,8 @@ export default function PureGarden({
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[gardenEnum.total_area_unit] = data[gardenEnum.total_area_unit].value;
-    showPerimeter && (data[gardenEnum.perimeter_unit] = data[gardenEnum.perimeter_unit].value);
+    data[gardenEnum.total_area_unit] = data[gardenEnum.total_area_unit]?.value;
+    data[gardenEnum.perimeter_unit] = data[gardenEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -69,7 +69,7 @@ export default function PureGarden({
   const title =
     (isCreateLocationPage && t('FARM_MAP.GARDEN.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GARDEN.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(gardenEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -146,9 +146,8 @@ export default function PureGarden({
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
               defaultChecked={true}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
               value={'Non-Organic'}
-              name={gardenEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -156,9 +155,8 @@ export default function PureGarden({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GARDEN.ORGANIC')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
               value={'Organic'}
-              name={gardenEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -166,9 +164,8 @@ export default function PureGarden({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GARDEN.TRANSITIONING')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
               value={'Transitional'}
-              name={gardenEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -176,10 +173,9 @@ export default function PureGarden({
             {gardenTypeSelection === 'Transitional' && (
               <Input
                 type={'date'}
-                name={gardenEnum.transition_date}
                 defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GARDEN.DATE')}
-                ref={register({ required: true })}
+                hookFormRegister={register(gardenEnum.transition_date, { required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}
                 disabled={isViewLocationPage}
               />

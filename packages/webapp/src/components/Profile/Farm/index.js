@@ -39,23 +39,20 @@ export default function PureFarm({ userFarm, onSubmit }) {
     >
       <Input
         defaultValue={userFarm.farm_name}
-        name={userFarmEnum.farm_name}
         label={t('PROFILE.FARM.FARM_NAME')}
-        ref={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.farm_name, { required: true })}
       />
       <Input
         defaultValue={userFarm.farm_phone_number}
-        name={userFarmEnum.farm_phone_number}
         label={t('PROFILE.FARM.PHONE_NUMBER')}
-        ref={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.farm_phone_number, { required: false })}
         type={'number'}
         onKeyDown={integerOnKeyDown}
       />
       <Input
         defaultValue={userFarm.address}
-        name={userFarmEnum.address}
         label={t('PROFILE.FARM.ADDRESS')}
-        ref={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.address, { required: false })}
         disabled
       />
       <Controller
@@ -64,13 +61,12 @@ export default function PureFarm({ userFarm, onSubmit }) {
         label={t('PROFILE.FARM.UNITS')}
         options={options}
         defaultValue={defaultMeasurementOption}
-        as={<ReactSelect />}
+        render={({ field }) => <ReactSelect {...field} />}
       />
       <Input
         defaultValue={userFarm.units.currency}
-        name={CURRENCY}
         label={t('PROFILE.FARM.CURRENCY')}
-        ref={register({ required: false })}
+        hookFormRegister={register(CURRENCY, { required: false })}
         disabled
       />
     </ProfileLayout>

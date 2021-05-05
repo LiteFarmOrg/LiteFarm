@@ -40,16 +40,15 @@ export default function PureFarmSiteBoundary({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[farmSiteBoundaryEnum.total_area_unit] = data[farmSiteBoundaryEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[farmSiteBoundaryEnum.perimeter_unit] = data[farmSiteBoundaryEnum.perimeter_unit].value);
+    data[farmSiteBoundaryEnum.total_area_unit] = data[farmSiteBoundaryEnum.total_area_unit]?.value;
+    data[farmSiteBoundaryEnum.perimeter_unit] = data[farmSiteBoundaryEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -64,7 +63,7 @@ export default function PureFarmSiteBoundary({
   const title =
     (isCreateLocationPage && t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FARM_SITE_BOUNDARY.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(farmSiteBoundaryEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

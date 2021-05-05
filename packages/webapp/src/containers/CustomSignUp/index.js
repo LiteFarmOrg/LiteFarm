@@ -165,7 +165,7 @@ function CustomSignUp() {
           inputs={[
             {
               label: t('SIGNUP.ENTER_EMAIL'),
-              register: emailRegister,
+              hookFormRegister: emailRegister,
               errors: errors[EMAIL] && (errors[EMAIL].message || t('SIGNUP.EMAIL_INVALID')),
             },
           ]}

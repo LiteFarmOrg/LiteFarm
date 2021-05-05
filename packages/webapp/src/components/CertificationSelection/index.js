@@ -78,9 +78,8 @@ export default function PureCertificationSelection({
             <Radio
               classes={inputClasses}
               label={t(`certifications:${item.certification_translation_key}`)}
-              name={SELECTION}
               value={item.certification_type}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(SELECTION, { required: true })}
               onChange={() => {
                 setSelectionName(item.certification_type);
                 setSelectionID(item.certification_id);
@@ -95,9 +94,8 @@ export default function PureCertificationSelection({
         <Radio
           classes={inputClasses}
           label={t('common:OTHER')}
-          name={SELECTION}
           value={'Other'}
-          inputRef={register({ required: true })}
+          hookFormRegister={register(SELECTION, { required: true })}
           onChange={() => {
             setSelectionName('Other');
             setSelectionID(null);

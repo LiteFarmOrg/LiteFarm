@@ -4,7 +4,6 @@ import PointDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
-import { gateEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 
@@ -36,7 +35,7 @@ export default function PureGate({
     isEditLocationPage,
   });
   const {
-    persistedData: { point, type },
+    persistedData: { name, point, type },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const disabled = !isValid || !isDirty;
@@ -54,7 +53,7 @@ export default function PureGate({
   const title =
     (isCreateLocationPage && t('FARM_MAP.GATE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GATE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(gateEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

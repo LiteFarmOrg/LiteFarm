@@ -93,6 +93,7 @@ export default function PureHarvestAllocation({
           const quant = type.quantity_kg;
           return (
             <div
+              key={index}
               style={
                 index === defaultData.selectedUseTypes.length - 1
                   ? { marginBottom: '100px', paddingTop: '20px' }
@@ -104,10 +105,9 @@ export default function PureHarvestAllocation({
                 style={{ marginBottom: '24px' }}
                 type="number"
                 unit={unit}
-                name={type.harvest_use_type_name}
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                ref={register({ required: true })}
+                hookFormRegister={register(type.harvest_use_type_name, { required: true })}
                 defaultValue={
                   (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
                   quant

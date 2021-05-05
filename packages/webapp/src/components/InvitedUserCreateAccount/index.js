@@ -36,7 +36,6 @@ export default function PureInvitedUserCreateAccountPage({
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
-  const EMAIL = 'email';
   const { t } = useTranslation(['translation', 'gender']);
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
@@ -57,12 +56,13 @@ export default function PureInvitedUserCreateAccountPage({
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register();
   const onHandleSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
+    data.email = email;
     onSubmit(data);
   };
   const disabled = !isValid || (isNotSSO && !isPasswordValid);
+  console.log(isValid);
   return (
     <Form
       onSubmit={handleSubmit(onHandleSubmit, onError)}
@@ -78,24 +78,21 @@ export default function PureInvitedUserCreateAccountPage({
       {isNotSSO && (
         <Input
           label={t('INVITATION.EMAIL')}
-          ref={register({ required: true, pattern: validEmailRegex })}
-          name={EMAIL}
-          defaultValue={email}
+          value={email}
           disabled
           style={{ marginBottom: '24px' }}
         />
       )}
       <Input
         label={t('INVITATION.FULL_NAME')}
-        ref={register({ required: true })}
-        name={NAME}
+        hookFormRegister={register(NAME, { required: true })}
         defaultValue={name}
         style={{ marginBottom: '24px' }}
       />
       <Controller
         control={control}
         name={GENDER}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             label={t('INVITATION.GENDER')}
             options={genderOptions}
@@ -113,12 +110,11 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
-        ref={register({
+        hookFormRegister={register(BIRTHYEAR, {
           min: 1900,
           max: new Date().getFullYear(),
           valueAsNumber: true,
         })}
-        name={BIRTHYEAR}
         toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
         errors={
@@ -136,8 +132,7 @@ export default function PureInvitedUserCreateAccountPage({
             style={{ marginBottom: '28px' }}
             label={t('INVITATION.PASSWORD')}
             type={PASSWORD}
-            name={PASSWORD}
-            ref={inputRegister}
+            hookFormRegister={register(PASSWORD)}
           />
 
           <PasswordError

@@ -43,7 +43,7 @@ export default function PureBufferZone({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, width, length, total_area },
+    persistedData: { name, line_points, width, length, total_area },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -56,15 +56,16 @@ export default function PureBufferZone({
       ...data,
       type: 'buffer_zone',
     };
-    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit].value;
-    formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit].value;
+    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit]?.value;
+    formData[bufferZoneEnum.length_unit] = formData[bufferZoneEnum.length_unit]?.value;
+    formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit]?.value;
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.BUFFER_ZONE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.BUFFER_ZONE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

@@ -33,6 +33,7 @@ export default function PureCeremonialArea({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('ceremonial_area', match, {
     isCreateLocationPage,

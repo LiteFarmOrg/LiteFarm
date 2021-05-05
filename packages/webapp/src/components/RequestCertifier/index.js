@@ -16,6 +16,13 @@ export default function PureRequestCertifier({
   certificationType,
   allSupportedCertifierTypes,
 }) {
+  const REQUESTED_CERTIFIER = 'requestedCertifier';
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[REQUESTED_CERTIFIER] =
+      requestedCertifierData !== null ? requestedCertifierData : null;
+    return defaultValues;
+  };
   const { t } = useTranslation(['translation', 'common']);
   const {
     register,
@@ -24,8 +31,9 @@ export default function PureRequestCertifier({
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
+    defaultValues: getDefaultValues(),
   });
-  const REQUESTED_CERTIFIER = 'requestedCertifier';
+
   const [requested, setRequested] = useState(null);
 
   useEffect(() => {
@@ -66,7 +74,6 @@ export default function PureRequestCertifier({
       <Input
         label={t('CERTIFICATION.REQUEST_CERTIFIER.LABEL')}
         onChange={(e) => setRequested(e.target.value)}
-        defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
         hookFormRegister={register(REQUESTED_CERTIFIER, { required: true })}
         errors={errors[REQUESTED_CERTIFIER] && t('common:REQUIRED')}
       />

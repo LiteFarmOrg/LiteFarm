@@ -35,6 +35,7 @@ export default function PureSurfaceWater({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('surface_water', match, {
     isCreateLocationPage,

@@ -18,8 +18,21 @@ export default function PureHarvestAllocation({
   isEdit,
 }) {
   const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    for (const type of defaultData.selectedUseTypes) {
+      const key = type.harvest_use_type_name;
+      const value =
+        (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
+        type.quantity_kg ||
+        '';
+      defaultValues[key] = value;
+    }
+    return defaultValues;
+  };
   const { register, handleSubmit, watch, formState } = useForm({
     mode: 'onChange',
+    defaultValues: getDefaultValues(),
   });
 
   const { errors } = formState;
@@ -108,10 +121,6 @@ export default function PureHarvestAllocation({
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
                 hookFormRegister={register(type.harvest_use_type_name, { required: true })}
-                defaultValue={
-                  (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
-                  quant
-                }
               />
             </div>
           );

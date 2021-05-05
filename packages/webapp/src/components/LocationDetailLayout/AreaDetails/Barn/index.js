@@ -35,6 +35,7 @@ export default function PureBarn({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('barn', match, {
     isCreateLocationPage,

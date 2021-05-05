@@ -56,7 +56,7 @@ export default function PureDrawingManager({
               </Button>
             </PureWarningBox>
           )}
-          {showLineModal && lineData?.[watercourseEnum.width] && (
+          {showLineModal && lineData?.hasOwnProperty(watercourseEnum.width) && (
             <>
               <PureLineBox
                 system={system}

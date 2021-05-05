@@ -21,6 +21,15 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
+  const NAME = 'name';
+  const GENDER = 'gender';
+  const BIRTHYEAR = 'birth_year';
+  const PASSWORD = 'password';
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[NAME] = name;
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
@@ -31,11 +40,9 @@ export default function PureInvitedUserCreateAccountPage({
     formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
+    defaultValues: getDefaultValues(),
   });
-  const NAME = 'name';
-  const GENDER = 'gender';
-  const BIRTHYEAR = 'birth_year';
-  const PASSWORD = 'password';
+
   const { t } = useTranslation(['translation', 'gender']);
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
@@ -62,7 +69,6 @@ export default function PureInvitedUserCreateAccountPage({
     onSubmit(data);
   };
   const disabled = !isValid || (isNotSSO && !isPasswordValid);
-  console.log(isValid);
   return (
     <Form
       onSubmit={handleSubmit(onHandleSubmit, onError)}
@@ -86,7 +92,6 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.FULL_NAME')}
         hookFormRegister={register(NAME, { required: true })}
-        defaultValue={name}
         style={{ marginBottom: '24px' }}
       />
       <Controller

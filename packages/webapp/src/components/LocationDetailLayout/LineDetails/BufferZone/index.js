@@ -36,6 +36,7 @@ export default function PureBufferZone({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('buffer_zone', match, {
     isCreateLocationPage,

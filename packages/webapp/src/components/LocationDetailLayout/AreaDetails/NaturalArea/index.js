@@ -33,6 +33,7 @@ export default function PureNaturalArea({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('natural_area', match, {
     isCreateLocationPage,

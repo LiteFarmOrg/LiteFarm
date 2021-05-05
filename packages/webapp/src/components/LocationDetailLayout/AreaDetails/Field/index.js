@@ -26,6 +26,11 @@ export default function PureField({
   isAdmin,
 }) {
   const { t } = useTranslation();
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[fieldEnum.transition_date] = getDateInputFormat(new Date());
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
@@ -38,6 +43,8 @@ export default function PureField({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: getDefaultValues(),
   });
   const persistedPath = getPersistPath('field', match, {
     isCreateLocationPage,
@@ -169,7 +176,6 @@ export default function PureField({
               <Input
                 style={{ paddingBottom: '16px' }}
                 type={'date'}
-                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.FIELD.DATE')}
                 hookFormRegister={register(fieldEnum.transition_date, { required: true })}
                 disabled={isViewLocationPage}

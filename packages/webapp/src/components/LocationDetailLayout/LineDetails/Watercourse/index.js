@@ -38,6 +38,7 @@ export default function PureWatercourse({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('watercourse', match, {
     isCreateLocationPage,

@@ -26,6 +26,11 @@ export default function PureGreenhouse({
   isAdmin,
 }) {
   const { t } = useTranslation();
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[greenhouseEnum.transition_date] = getDateInputFormat(new Date());
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
@@ -38,6 +43,8 @@ export default function PureGreenhouse({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: getDefaultValues(),
   });
   const persistedPath = getPersistPath('greenhouse', match, {
     isCreateLocationPage,
@@ -183,7 +190,6 @@ export default function PureGreenhouse({
             {greenhouseTypeSelection === 'Transitional' && (
               <Input
                 type={'date'}
-                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GREENHOUSE.DATE')}
                 hookFormRegister={register(greenhouseEnum.transition_date, { required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}

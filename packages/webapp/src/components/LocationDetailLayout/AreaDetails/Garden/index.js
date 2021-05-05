@@ -26,6 +26,11 @@ export default function PureGarden({
   isAdmin,
 }) {
   const { t } = useTranslation();
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[gardenEnum.transition_date] = getDateInputFormat(new Date());
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
@@ -38,6 +43,8 @@ export default function PureGarden({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: getDefaultValues(),
   });
   const persistedPath = getPersistPath('garden', match, {
     isCreateLocationPage,
@@ -173,7 +180,6 @@ export default function PureGarden({
             {gardenTypeSelection === 'Transitional' && (
               <Input
                 type={'date'}
-                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GARDEN.DATE')}
                 hookFormRegister={register(gardenEnum.transition_date, { required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}

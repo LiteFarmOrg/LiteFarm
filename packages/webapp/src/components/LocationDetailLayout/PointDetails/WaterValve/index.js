@@ -38,6 +38,7 @@ export default function PureWaterValve({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('water_valve', match, {
     isCreateLocationPage,

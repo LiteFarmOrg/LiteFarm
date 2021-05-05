@@ -33,6 +33,7 @@ export default function PureFarmSiteBoundary({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('farm_site_boundary', match, {
     isCreateLocationPage,

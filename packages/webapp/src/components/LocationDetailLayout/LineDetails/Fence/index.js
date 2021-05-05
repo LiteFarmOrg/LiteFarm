@@ -38,6 +38,7 @@ export default function PureFence({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('fence', match, {
     isCreateLocationPage,

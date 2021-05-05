@@ -33,6 +33,7 @@ export default function PureResidence({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('residence', match, {
     isCreateLocationPage,

@@ -28,6 +28,7 @@ export default function PureGate({
     formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('gate', match, {
     isCreateLocationPage,

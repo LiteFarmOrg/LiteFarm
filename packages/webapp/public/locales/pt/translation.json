@@ -573,7 +573,6 @@
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
-    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
@@ -1019,6 +1018,7 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
+    "CROP_CATALOGUE": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

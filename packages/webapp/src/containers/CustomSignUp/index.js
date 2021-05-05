@@ -40,7 +40,15 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
-  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setError,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onTouched',
   });
   const { user, component: componentToShow } = history.location?.state || {};

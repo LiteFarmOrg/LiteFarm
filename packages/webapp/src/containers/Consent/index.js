@@ -29,7 +29,14 @@ function ConsentForm({
   const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors, watch, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+
+    formState: { errors },
+  } = useForm();
   const [consentVersion] = useState('3.0');
   const [consent, setConsentText] = useState('');
   const checkboxName = 'consentCheckbox';

@@ -24,9 +24,9 @@ export default function PureGate({
     handleSubmit,
     setValue,
     register,
-    errors,
     getValues,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

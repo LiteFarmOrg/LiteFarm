@@ -34,8 +34,8 @@ export default function PureWaterValve({
     getValues,
     setError,
     control,
-    errors,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

@@ -15,9 +15,12 @@ import { Label } from '../Typography/index';
 export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number, isLoading }) {
   const [file, setFile] = useState(null);
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  const { register, handleSubmit, watch, control, errors, setValue, formState } = useForm({
+  const { register, handleSubmit, watch, control, setValue, formState } = useForm({
     mode: 'onTouched',
   });
+
+  const { errors } = formState;
+
   const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD, 'email');
   const MESSAGE = 'message';

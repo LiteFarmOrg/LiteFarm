@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Radio from '../../../Form/Radio';
 import { Label } from '../../../Typography';
-import { line_length, line_width, watercourse_width, area_total_area } from '../../../../util/unit';
+import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
 import { bufferZoneEnum, watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';
@@ -30,12 +30,12 @@ export default function PureWatercourse({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

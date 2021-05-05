@@ -15,10 +15,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     handleSubmit,
     watch,
     control,
-    errors,
     setValue,
     trigger,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onTouched',
   });

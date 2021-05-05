@@ -16,9 +16,9 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     handleSubmit,
     watch,
     control,
-    errors,
     setValue,
-    formState: { isDirty, isValid },
+
+    formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
   });

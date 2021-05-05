@@ -20,7 +20,13 @@ export default function PureCertificationSelection({
   role_id,
 }) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
-  const { register, handleSubmit, errors, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onChange',
   });
   const SELECTION = 'selection';

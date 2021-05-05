@@ -57,7 +57,13 @@ export default function PureHarvestLog({
     }),
   );
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onTouched',
   });
 

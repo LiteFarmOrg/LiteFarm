@@ -26,10 +26,11 @@ const AddFarm = () => {
     handleSubmit,
     getValues,
     setValue,
-    errors,
     setError,
     clearErrors,
     watch,
+
+    formState: { errors },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';

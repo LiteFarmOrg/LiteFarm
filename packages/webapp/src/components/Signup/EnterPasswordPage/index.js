@@ -17,7 +17,14 @@ export default function PureEnterPasswordPage({
   forgotPassword,
   isChrome = true,
 }) {
-  const { register, handleSubmit, errors, setError, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+
+    formState: { errors },
+  } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
   const {

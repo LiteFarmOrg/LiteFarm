@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
-import { line_width, area_total_area } from '../../../../util/unit';
+import { area_total_area, line_width } from '../../../../util/unit';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
@@ -27,13 +27,13 @@ export default function PureBufferZone({
   const {
     register,
     handleSubmit,
-    errors,
     setValue,
     getValues,
     setError,
     control,
     watch,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

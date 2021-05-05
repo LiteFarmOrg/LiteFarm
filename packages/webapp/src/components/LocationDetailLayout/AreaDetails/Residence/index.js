@@ -25,12 +25,12 @@ export default function PureResidence({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

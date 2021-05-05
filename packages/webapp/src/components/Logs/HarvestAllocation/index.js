@@ -18,9 +18,12 @@ export default function PureHarvestAllocation({
   isEdit,
 }) {
   const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
-  const { register, handleSubmit, watch, errors, formState } = useForm({
+  const { register, handleSubmit, watch, formState } = useForm({
     mode: 'onChange',
   });
+
+  const { errors } = formState;
+
   const tempProps = JSON.parse(JSON.stringify(defaultData));
 
   const onSubmit = (val) => {

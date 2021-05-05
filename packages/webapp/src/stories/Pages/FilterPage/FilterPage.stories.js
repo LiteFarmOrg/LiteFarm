@@ -1,5 +1,4 @@
 import React from 'react';
-import Filter from '../../../components/Filter';
 import PureFilterPage from '../../../components/FilterPage';
 import decorator from '../config/decorators';
 

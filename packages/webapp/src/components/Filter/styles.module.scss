@@ -1,7 +1,6 @@
 .container {
   border: 1px solid var(--grey400);
   border-radius: 4px;
-  margin: 24px;
 }
 .openContainer {
   border: 1px solid var(--teal500);
@@ -14,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 16px;
 }
 .openHead {
   border-radius: 4px 4px 0 0;

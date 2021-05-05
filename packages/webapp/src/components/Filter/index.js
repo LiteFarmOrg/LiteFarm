@@ -5,11 +5,11 @@ import Pill from './Pill';
 import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 
-const Filter = ({ subject, items }) => {
+const Filter = ({ subject, items, style }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={clsx(styles.container, open && styles.openContainer)}>
+    <div className={clsx(styles.container, open && styles.openContainer)} style={style}>
       <div className={clsx(styles.head, open && styles.openHead)} onClick={() => setOpen(!open)}>
         <div>{subject}</div>
         <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />

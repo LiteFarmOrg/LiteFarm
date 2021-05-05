@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import { Underlined } from '../Typography';

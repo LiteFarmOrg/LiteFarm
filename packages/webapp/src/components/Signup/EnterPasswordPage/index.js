@@ -27,7 +27,7 @@ export default function PureEnterPasswordPage({
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ required: true });
+  const inputRegister = register(PASSWORD, { required: true });
   const [showErrors, setShowErrors] = useState(false);
   const { t } = useTranslation(['translation', 'common']);
   const showPasswordIncorrectError = () => {
@@ -70,9 +70,8 @@ export default function PureEnterPasswordPage({
         style={{ marginBottom: '28px' }}
         label={t('ENTER_PASSWORD.LABEL')}
         type={PASSWORD}
-        name={PASSWORD}
         icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
-        inputRef={inputRegister}
+        hookFormRegister={inputRegister}
         errors={errors[PASSWORD]?.message}
         autofocus={true}
       />

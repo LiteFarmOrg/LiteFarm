@@ -18,20 +18,22 @@ const Input = ({
   info,
   errors,
   icon,
-  inputRef,
+  hookFormRegister,
   isSearchBar,
   type = 'text',
   toolTipContent,
   reset,
   unit,
-  name,
   hookFormSetValue,
   showCross,
+  onClick,
+  onBlur,
   ...props
 }) => {
   warnings(hookFormSetValue, optional);
   const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
+  const name = hookFormRegister?.name ?? props?.name;
   const onClear =
     optional || hookFormSetValue
       ? () => {
@@ -104,10 +106,18 @@ const Input = ({
         )}
         style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}
-        ref={mergeRefs(inputRef, input)}
+        ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
+        onClick={(e) => {
+          onClick(e);
+          hookFormRegister?.onClick(e);
+        }}
+        onBlur={(e) => {
+          onBlur(e);
+          hookFormRegister?.onBlur(e);
+        }}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
@@ -131,7 +141,7 @@ Input.propTypes = {
     errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  inputRef: PropTypes.oneOfType([
+  hookFormRegister: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
@@ -144,6 +154,8 @@ Input.propTypes = {
   reset: PropTypes.func,
   hookFormSetValue: PropTypes.func,
   name: PropTypes.string,
+  onClick: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default Input;

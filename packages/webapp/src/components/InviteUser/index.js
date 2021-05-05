@@ -75,7 +75,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
         name={NAME}
-        inputRef={register({ required: true })}
+        hookFormRegister={register({ required: true })}
       />
       <Controller
         control={control}
@@ -90,7 +90,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
-        inputRef={register({
+        hookFormRegister={register({
           required: selectedRoleId !== 3,
           pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         })}
@@ -113,7 +113,11 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
+        hookFormRegister={register({
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
         name={BIRTHYEAR}
         toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
@@ -130,7 +134,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        inputRef={register({ min: 0, valueAsNumber: true })}
+        hookFormRegister={register({ min: 0, valueAsNumber: true })}
         name={WAGE}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
@@ -141,7 +145,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}
-        inputRef={register({ pattern: /\d*/ })}
+        hookFormRegister={register({ pattern: /\d*/ })}
         name={PHONE}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional

@@ -57,7 +57,7 @@ export default function AreaDetails({
         type="text"
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}
-        inputRef={register({ required: true })}
+        hookFormRegister={register({ required: true })}
         errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
         disabled={isViewLocationPage}
@@ -115,7 +115,7 @@ export default function AreaDetails({
         label={t('common:NOTES')}
         type="text"
         optional
-        inputRef={register}
+        hookFormRegister={register}
         name={areaEnum.notes}
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}

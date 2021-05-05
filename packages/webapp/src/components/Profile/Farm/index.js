@@ -41,13 +41,13 @@ export default function PureFarm({ userFarm, onSubmit }) {
         defaultValue={userFarm.farm_name}
         name={userFarmEnum.farm_name}
         label={t('PROFILE.FARM.FARM_NAME')}
-        inputRef={register({ required: true })}
+        hookFormRegister={register({ required: true })}
       />
       <Input
         defaultValue={userFarm.farm_phone_number}
         name={userFarmEnum.farm_phone_number}
         label={t('PROFILE.FARM.PHONE_NUMBER')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register({ required: false })}
         type={'number'}
         onKeyDown={integerOnKeyDown}
       />
@@ -55,7 +55,7 @@ export default function PureFarm({ userFarm, onSubmit }) {
         defaultValue={userFarm.address}
         name={userFarmEnum.address}
         label={t('PROFILE.FARM.ADDRESS')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register({ required: false })}
         disabled
       />
       <Controller
@@ -70,7 +70,7 @@ export default function PureFarm({ userFarm, onSubmit }) {
         defaultValue={userFarm.units.currency}
         name={CURRENCY}
         label={t('PROFILE.FARM.CURRENCY')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register({ required: false })}
         disabled
       />
     </ProfileLayout>

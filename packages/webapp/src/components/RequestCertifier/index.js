@@ -1,7 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import React, { useState, useEffect } from 'react';
-import { Title, Semibold } from '../Typography';
+import React, { useEffect, useState } from 'react';
+import { Semibold, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
@@ -68,7 +68,7 @@ export default function PureRequestCertifier({
         name={REQUESTED_CERTIFIER}
         onChange={(e) => setRequested(e.target.value)}
         defaultValue={requestedCertifierData !== null ? requestedCertifierData : null}
-        inputRef={register({ required: true })}
+        hookFormRegister={register({ required: true })}
         errors={errors[REQUESTED_CERTIFIER] && t('common:REQUIRED')}
       />
     </Form>

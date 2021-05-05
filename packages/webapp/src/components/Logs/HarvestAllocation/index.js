@@ -104,7 +104,7 @@ export default function PureHarvestAllocation({
                 name={type.harvest_use_type_name}
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                inputRef={register({ required: true })}
+                hookFormRegister={register({ required: true })}
                 defaultValue={
                   (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
                   quant

@@ -190,7 +190,7 @@ export default function PureGreenhouse({
                 name={greenhouseEnum.transition_date}
                 defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GREENHOUSE.DATE')}
-                inputRef={register({ required: true })}
+                hookFormRegister={register({ required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}
                 disabled={isViewLocationPage}
               />

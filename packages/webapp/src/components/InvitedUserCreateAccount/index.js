@@ -78,7 +78,7 @@ export default function PureInvitedUserCreateAccountPage({
       {isNotSSO && (
         <Input
           label={t('INVITATION.EMAIL')}
-          inputRef={register({ required: true, pattern: validEmailRegex })}
+          hookFormRegister={register({ required: true, pattern: validEmailRegex })}
           name={EMAIL}
           defaultValue={email}
           disabled
@@ -87,7 +87,7 @@ export default function PureInvitedUserCreateAccountPage({
       )}
       <Input
         label={t('INVITATION.FULL_NAME')}
-        inputRef={register({ required: true })}
+        hookFormRegister={register({ required: true })}
         name={NAME}
         defaultValue={name}
         style={{ marginBottom: '24px' }}
@@ -113,7 +113,11 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
+        hookFormRegister={register({
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
         name={BIRTHYEAR}
         toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
@@ -133,7 +137,7 @@ export default function PureInvitedUserCreateAccountPage({
             label={t('INVITATION.PASSWORD')}
             type={PASSWORD}
             name={PASSWORD}
-            inputRef={inputRegister}
+            hookFormRegister={inputRegister}
           />
 
           <PasswordError

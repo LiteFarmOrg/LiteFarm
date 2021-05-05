@@ -7,19 +7,26 @@ import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
 import Filter from '../Filter';
+import Button from '../Form/Button';
 
 const PureFilterPage = ({ title, filters }) => {
   const { t } = useTranslation();
   return (
-    <Layout>
+    <Layout
+      buttonGroup={
+        <Button type={'submit'} disabled={false} fullLength>
+          {t('common:APPLY')}
+        </Button>
+      }
+    >
       <PageTitle title={title} onGoBack={() => console.log('close that filter page though')} />
 
-      <div style={{ marginTop: '24px' }} onClick={() => console.log('clear filter')}>
+      <div style={{ margin: '24px 0' }} onClick={() => console.log('clear filter')}>
         <Underlined style={{ color: '#AA5F04' }}>{t('FILTER.CLEAR_ALL_FILTERS')}</Underlined>
       </div>
 
       {filters.map((filter) => (
-        <Filter subject={filter.subject} items={filter.options} style={{ marginTop: '24px' }} />
+        <Filter subject={filter.subject} items={filter.options} style={{ marginBottom: '24px' }} />
       ))}
     </Layout>
   );

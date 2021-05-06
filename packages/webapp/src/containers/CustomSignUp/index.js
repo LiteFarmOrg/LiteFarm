@@ -142,6 +142,7 @@ function CustomSignUp() {
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
+            isVisible={showPureEnterPasswordPage}
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>

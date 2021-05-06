@@ -1,8 +1,7 @@
-import { Meta } from '@storybook/addon-docs/blocks'; import {
-  Error,
-  Text,
-  Underlined
-} from '../components/Typography'; import { colors } from '../assets/theme'; import Card from '../components/Card';
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Error, Text } from '../../components/Typography';
+import Card from '../../components/Card';
+import TechStackNavigation from './teckStackNavigation';
 
 <Meta title="Docs/backendUnitTest" />
 
@@ -16,7 +15,13 @@ import { Meta } from '@storybook/addon-docs/blocks'; import {
     Tech Debt story on Jira</Text>
 </Card>
 
-
+| Resources |
+| --------- |
+| [UpsertGraph - objection js](https://vincit.github.io/objection.js/api/query-builder/mutate-methods.html#upsertgraph) |
+| [faker](https://github.com/Marak/Faker.js) |
+| [knex.js](http://knexjs.org/) |
+| [setup and tear down - jest](https://jestjs.io/docs/setup-teardown) |
+| [expect - jest](https://jestjs.io/docs/expect) |
 
 ### 1. Copy paste an existing test file as template under `packages/api/tests` directory
 **Here is a list of tests that can be used as templates**
@@ -281,24 +286,7 @@ describe('Crop Tests', () => {
 
 
 
-### Steps for a backend - frontend story from a data flow perspective
-<ul>
-  <li><Underlined>Backend jest unit testing</Underlined></li>
-  <li><Underlined style={{ color: colors.brown700 }}>Create knex migration to create/modify tables in
-    database</Underlined></li>
-  <li><Underlined style={{ color: colors.brown700 }}>Create objection models</Underlined></li>
-  <li><Underlined style={{ color: colors.brown700 }}>Endpoint and controller</Underlined></li>
-  <li><Underlined>Create authorization/validation middlewares</Underlined></li>
-  <li><Underlined>Run tests and make sure everything passes</Underlined></li>
-  <li><Underlined>Create pure frontend components in storybook</Underlined></li>
-  <li><Underlined style={{ color: colors.brown700 }}>res.data normalizer, redux slice, redux selectors to hold and
-    access the data</Underlined></li>
-  <li><Underlined style={{ color: colors.brown700 }}>Redux saga for get/post/put/patch request</Underlined></li>
-  <li><Underlined>Container component to connect saga actions/selector with pure components</Underlined></li>
-  <li><Underlined>Connect Route component with container components with react router</Underlined></li>
-  <li><Underlined>Menu testing</Underlined></li>
-</ul>
-
+<TechStackNavigation />
 
 
 

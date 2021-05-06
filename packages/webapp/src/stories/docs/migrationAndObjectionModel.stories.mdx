@@ -1,0 +1,174 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Text } from '../../components/Typography';
+import TechStackNavigation from './teckStackNavigation';
+import DocCard from './DocCard';
+import DocLink from './DocLink';
+
+<Meta title="Docs/migrationAndObjectionModel" />
+
+# Knex migration and Objection model
+
+<DocCard>
+  <Text>To complete a ticket involving a new table or adding new columns in a table, we need to create knex migrations
+    and create/update objection js model</Text>
+</DocCard>
+
+| Resources |
+| --------- |
+| [Knex migration](http://knexjs.org/#Migrations) |
+| [Objection model](https://vincit.github.io/objection.js/guide/models.html) |
+| [Json schema for objection model](https://json-schema.org/draft/2020-12/json-schema-validation.html) |
+| [Objection relation mapping](https://vincit.github.io/objection.js/guide/relations.html#examples) |
+| [Objection js hook](https://vincit.github.io/objection.js/guide/hooks.html) |
+
+### 1. Create migration
+
+<DocCard>
+  <Text>Follow <DocLink href={'http://knexjs.org/#Migrations'}>knex documentation</DocLink> to set up knex migration cli
+    if you haven't done so.</Text>
+</DocCard>
+
+**Create migration**
+
+Go to directory /packages/api and run the following command
+
+```
+knex migrate:make new_migration_name
+```
+
+Then you will find the new migration file under dir `api/db/migration/date_new_migration_name`.
+
+There are two ways to write migrations
+
+- Use promises when update is simple
+
+```js
+exports.up = function(knex) {
+    return Promise.all([
+      knex.updateOrCreateTable0(),
+      knex.updateOrCreateTable1()
+  ])
+};
+exports.down = function(knex) {
+    return Promise.all([
+      knex.revertChangesDownByUpFunction0(),
+      knex.revertChangesDownByUpFunction1()
+  ])
+};
+```
+
+- Use async and await when update is complex
+
+```js
+exports.up = async function(knex) {
+  await knex.updateOrCreateTable0();
+  await knex.updateOrCreateTable1();
+};
+exports.down = async function(knex) {
+  await knex.revertChangesDownByUpFunction0();
+  await knex.revertChangesDownByUpFunction1();
+};
+```
+
+<DocCard>
+  <Text>Utilize global search under <strong>api/db/migration</strong> directory to find knex methods you need.</Text>
+  <Text>You can also consult <DocLink href={'http://knexjs.org/#Migrations'}>knex doc</DocLink></Text>
+  <Text>If up function creates tables or add columns, down function should remove the same tables and columns</Text>
+  <Text>If up function update data in a table and there is no way to know what were stored in the table (ex setting
+    userFarm.status to 'Inactive'), down function can be empty</Text>
+</DocCard>
+
+### 2. Create objection model.
+
+<DocCard>
+  <Text>Objection js is used for data validation, query preprocessing, and convenient query methods</Text>
+</DocCard>
+
+- Copy paste an existing [objection model](https://vincit.github.io/objection.js/guide/models.html) under `/api/src/models` directory as template.
+
+There are three kind of Models we use.
+```js
+const Model = require('objection').Model;
+const baseModel = require('./baseModel');
+
+// 1. Entities that have update_by_user_id/created_by_user_id/created_at/updated_at fields and can be soft deleted
+class Location extends baseModel {
+//  properties
+}
+
+const softDelete = require('objection-soft-delete');
+
+// 2. Entities that do not have base properties but can be soft deleted
+class Price extends softDelete({ columnName: 'deleted' })(Model) {
+  //  properties
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      properties: {
+        new_entity_id: { type: 'string' },
+        //Deleted prop is required if model extends softDelete model
+        deleted: {type: 'boolean'}
+      },
+    };
+  }
+}
+
+// 3. Entities that do not have base properties and can only be hard deleted
+class Residence extends Model {}
+```
+- Replace classname, tableName, idColumn, and jsonSchema.
+
+```js
+class newEntityModel extends baseModel {
+  static get tableName() {
+    return 'new_entity';
+  }
+
+  static get idColumn() {
+    return 'new_entity_id';
+  }
+
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['required_fields_for_post_and_put_req'],
+      properties: {
+        new_entity_id: { type: 'string' },
+        required_fields_for_post_and_put_req: { type: 'string', minLength: 1, maxLength: 255 },
+        optional: { type: 'string', maxLength: 255},
+        // This spread operation will add deleted/update_by_user_id/created_by_user_id/created_at/updated_at properties
+        ...this.baseProperties,
+      },
+      additionalProperties: false,
+    };
+  }
+  // relationMappings are used for upsertGraph/fetchGraph. If you do not need to use those methods in controller,
+  // relational mapping should be left empty
+  // https://vincit.github.io/objection.js/guide/relations.html#examples
+  static get relationMappings() {
+  }
+}
+```
+
+<DocCard>
+  <Text>Check <DocLink href={'https://json-schema.org/draft/2020-12/json-schema-validation.html'}>jsonSchema
+    documentation</DocLink> to find all the validation options you can use</Text>
+</DocCard>
+
+### 3. Set up hooks for query pre/post processing.
+
+If we added a field sandbox_farm in farm table and we don't want to show that field to users. We can use `$afterFind` hook to remove the sandbox_farm from query result
+
+```js
+class newEntityModel extends baseModel {
+  async $afterFind(queryContext) {
+    await super.$afterFind(queryContext);
+    delete this['sandbox_farm'];
+  }
+}
+```
+
+<TechStackNavigation />
+
+
+

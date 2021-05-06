@@ -173,7 +173,6 @@ class Location extends baseModel {
           to: 'water_valve.location_id',
         },
       },
-      ...this.baseRelationMappings('location'),
     };
   }
 }

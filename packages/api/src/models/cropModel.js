@@ -127,7 +127,6 @@ class Crop extends BaseModel {
           to: 'price.crop_id',
         },
       },
-      ...this.baseRelationMappings('crop'),
     }
   }
 }

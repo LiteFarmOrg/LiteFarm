@@ -85,9 +85,7 @@ class FieldCrop extends baseModel {
           },
           from:'fieldCrop.field_crop_id',
         },
-
       },
-      ...this.baseRelationMappings('fieldCrop'),
     };
   }
 }

@@ -51,8 +51,8 @@ exports.up = function(knex) {
 };
 exports.down = function(knex) {
     return Promise.all([
-      knex.revertChangesDownByUpFunction0(),
-      knex.revertChangesDownByUpFunction1()
+      knex.revertChangesDoneByUpFunction0(),
+      knex.revertChangesDoneByUpFunction1()
   ])
 };
 ```
@@ -65,8 +65,8 @@ exports.up = async function(knex) {
   await knex.updateOrCreateTable1();
 };
 exports.down = async function(knex) {
-  await knex.revertChangesDownByUpFunction0();
-  await knex.revertChangesDownByUpFunction1();
+  await knex.revertChangesDoneByUpFunction0();
+  await knex.revertChangesDoneByUpFunction1();
 };
 ```
 

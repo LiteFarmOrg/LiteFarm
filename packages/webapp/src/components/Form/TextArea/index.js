@@ -6,15 +6,30 @@ import { Label } from '../../Typography';
 
 import { mergeRefs } from '../utils';
 
-const TextArea = ({ classes = {}, style, label, inputRef, ...props }) => {
+const TextArea = ({ classes = {}, style, label, hookFormRegister, onBlur, onChange, ...props }) => {
   const input = useRef();
+  const name = hookFormRegister?.name ?? props?.name;
+
   return (
     <div
       className={clsx(styles.container)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
       {label && <Label>{label}</Label>}
-      <textarea className={clsx(styles.textArea)} ref={mergeRefs(inputRef, input)} {...props} />
+      <textarea
+        name={name}
+        className={clsx(styles.textArea)}
+        ref={mergeRefs(hookFormRegister?.ref, input)}
+        onChange={(e) => {
+          onChange?.(e);
+          hookFormRegister?.onChange(e);
+        }}
+        onBlur={(e) => {
+          onBlur?.(e);
+          hookFormRegister?.onBlur(e);
+        }}
+        {...props}
+      />
     </div>
   );
 };
@@ -27,10 +42,14 @@ TextArea.propTypes = {
     container: PropTypes.object,
     info: PropTypes.object,
   }),
-  inputRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
+  hookFormRegister: PropTypes.exact({
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    name: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   style: PropTypes.object,
 };
 

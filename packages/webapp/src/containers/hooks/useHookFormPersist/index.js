@@ -26,12 +26,14 @@ export default function useHookFormPersist(
   }, []);
   useEffect(() => {
     for (const key in formData) {
-      setValue(key, formData[key], { shouldValidate: true, shouldDirty });
+      isValueValid(formData[key]) &&
+        setValue(key, formData[key], { shouldValidate: true, shouldDirty });
     }
     const initiatedField = Object.keys(getValues());
     const setHiddenValues = setTimeout(() => {
       for (const key in formData) {
         !initiatedField.includes(key) &&
+          isValueValid(formData[key]) &&
           setValue(key, formData[key], { shouldValidate: true, shouldDirty });
       }
     }, 100);
@@ -40,3 +42,5 @@ export default function useHookFormPersist(
 
   return { persistedData: formData };
 }
+
+const isValueValid = (value) => value !== null && value !== '' && value !== undefined;

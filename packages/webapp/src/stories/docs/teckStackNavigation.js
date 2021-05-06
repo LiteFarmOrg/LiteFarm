@@ -55,7 +55,7 @@ export default function TechStackNavigation() {
           </Underlined>
         </li>
         <li>
-          <Underlined>Menu testing</Underlined>
+          <Underlined>Manual testing</Underlined>
         </li>
       </ul>
     </>

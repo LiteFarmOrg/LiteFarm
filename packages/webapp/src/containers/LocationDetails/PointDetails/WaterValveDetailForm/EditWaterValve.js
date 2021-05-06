@@ -8,7 +8,7 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { waterValveSelector } from '../../../waterValveSlice';
 import {
   hookFormPersistSelector,
-  setAreaDetailFormData,
+  setPointDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
 import {
@@ -35,7 +35,7 @@ function EditWaterValveDetailForm({ history, match }) {
   const waterValve = useSelector(waterValveSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    dispatch(setAreaDetailFormData(getFormData(waterValve)));
+    dispatch(setPointDetailFormData(getFormData(waterValve)));
   }, []);
 
   useEffect(() => {
@@ -62,7 +62,13 @@ function EditWaterValveDetailForm({ history, match }) {
     // }
 
     // approach 2: call backend for dependency check
-    dispatch(checkLocationDependencies({ location_id, setShowConfirmRetireModal, setShowCannotRetireModal }));
+    dispatch(
+      checkLocationDependencies({
+        location_id,
+        setShowConfirmRetireModal,
+        setShowCannotRetireModal,
+      }),
+    );
   };
 
   const confirmRetire = () => {

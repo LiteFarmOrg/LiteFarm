@@ -10,6 +10,15 @@ import ProfileLayout from '../ProfileLayout';
 import { getLanguageFromLocalStorage } from '../../../util';
 
 export default function PureAccount({ userFarm, onSubmit }) {
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[userFarmEnum.first_name] = userFarm.first_name;
+    defaultValues[userFarmEnum.last_name] = userFarm.last_name;
+    defaultValues[userFarmEnum.email] = userFarm.email;
+    defaultValues[userFarmEnum.phone_number] = userFarm.phone_number;
+    defaultValues[userFarmEnum.user_address] = userFarm.user_address;
+    return defaultValues;
+  };
   const { t } = useTranslation();
   const {
     register,
@@ -18,6 +27,7 @@ export default function PureAccount({ userFarm, onSubmit }) {
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
+    defaultValues: getDefaultValues(),
   });
   const disabled = !isDirty || !isValid;
 
@@ -43,46 +53,36 @@ export default function PureAccount({ userFarm, onSubmit }) {
       }
     >
       <Input
-        defaultValue={userFarm.first_name}
-        name={userFarmEnum.first_name}
         label={t('PROFILE.ACCOUNT.FIRST_NAME')}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.first_name, { required: true })}
       />
       <Input
-        defaultValue={userFarm.last_name}
-        name={userFarmEnum.last_name}
         label={t('PROFILE.ACCOUNT.LAST_NAME')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.last_name, { required: false })}
       />
       <Input
-        defaultValue={userFarm.email}
-        name={userFarmEnum.email}
         label={t('PROFILE.ACCOUNT.EMAIL')}
         disabled
-        inputRef={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.email)}
       />
       <Input
         type={'number'}
-        defaultValue={userFarm.phone_number}
-        name={userFarmEnum.phone_number}
         label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.phone_number, { required: false })}
         onKeyDown={integerOnKeyDown}
       />
       <Input
-        defaultValue={userFarm.user_address}
-        name={userFarmEnum.user_address}
         label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.user_address, { required: false })}
       />
 
       <Controller
         control={control}
         name={userFarmEnum.language_preference}
-        label={t('PROFILE.ACCOUNT.LANGUAGE')}
-        options={options}
         defaultValue={defaultLanguageOption}
-        as={<ReactSelect />}
+        render={({ field }) => (
+          <ReactSelect label={t('PROFILE.ACCOUNT.LANGUAGE')} options={options} {...field} />
+        )}
       />
     </ProfileLayout>
   );

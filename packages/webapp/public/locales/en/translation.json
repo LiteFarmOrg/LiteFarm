@@ -80,6 +80,21 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
+  "CROP_CATALOG": {
+    "FILTER": {
+      "LOCATION": "Location",
+      "STATUS": {
+        "ABANDONED": "Abandoned",
+        "ACTIVE": "Active",
+        "COMPLETE": "Complete",
+        "NEEDS_PLAN": "Needs plan",
+        "PLANNED": "Planned",
+        "SUBJECT": "Status"
+      },
+      "SUPPLIERS": "Suppliers",
+      "TITLE": "Crop Catalog Filter"
+    }
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",

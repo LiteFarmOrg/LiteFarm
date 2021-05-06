@@ -17,7 +17,7 @@ const Filter = ({ subject, items, style }) => {
       {open && (
         <div className={styles.dropdown}>
           {items.map((item) => {
-            return <Pill item={item} />;
+            return <Pill label={item.label} />;
           })}
         </div>
       )}

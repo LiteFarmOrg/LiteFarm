@@ -80,6 +80,21 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOG": {
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": {
+        "ABANDONED": "MISSING",
+        "ACTIVE": "MISSING",
+        "COMPLETE": "MISSING",
+        "NEEDS_PLAN": "MISSING",
+        "PLANNED": "MISSING",
+        "SUBJECT": "MISSING"
+      },
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",

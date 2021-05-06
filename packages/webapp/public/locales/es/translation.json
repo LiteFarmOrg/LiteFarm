@@ -80,6 +80,21 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "CROP_CATALOG": {
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": {
+        "ABANDONED": "MISSING",
+        "ACTIVE": "MISSING",
+        "COMPLETE": "MISSING",
+        "NEEDS_PLAN": "MISSING",
+        "PLANNED": "MISSING",
+        "SUBJECT": "MISSING"
+      },
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",

@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { ReactComponent as CalendarIcon } from '../../assets/images/fieldCrops/calendar.svg';
 import { useTranslation } from 'react-i18next';
-import EditFieldCropModal from '../Forms/EditFieldCropModal/EditFieldCropModal';
+import Square from '../Square';
 
 const cropStatus = {
   active: 'Active',
@@ -15,7 +15,15 @@ const isActive = (status) => status === cropStatus.active;
 const isPast = (status) => status === cropStatus.past;
 const isPlanned = (status) => status === cropStatus.planned;
 
-export default function PureCropTile({ fieldCrop, className, status, history, onClick, style }) {
+export default function PureCropTile({
+  fieldCrop,
+  className,
+  status,
+  history,
+  onClick,
+  style,
+  cropCount,
+}) {
   const { t } = useTranslation();
   const { variety, crop_translation_key, start_date, end_date } = fieldCrop;
   let displayDate;
@@ -29,47 +37,59 @@ export default function PureCropTile({ fieldCrop, className, status, history, on
 
   const imageKey = crop_translation_key.toLowerCase();
   return (
-    <EditFieldCropModal
-      cropBeingEdited={fieldCrop}
-      handler={() => {}}
-      field={fieldCrop?.location}
-      fieldArea={fieldCrop?.location?.total_area}
+    // <EditFieldCropModal
+    //   cropBeingEdited={fieldCrop}
+    //   handler={() => {}}
+    //   field={fieldCrop?.location}
+    //   fieldArea={fieldCrop?.location?.total_area}
+    // >
+    <div
+      className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}
+      style={style}
     >
-      <div
-        className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}
-        style={style}
-      >
-        <img
-          src={`crop-images/${imageKey}.jpg`}
-          alt={imageKey}
-          className={styles.img}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
-          }}
-        />
-        <div className={styles.info}>
-          <div className={styles.infoMain} style={{ marginBottom: '2px' }}>
-            {variety}
-          </div>
-          <div className={styles.infoBody} style={{ marginBottom: '2px' }}>
-            <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
-          </div>
-          <div style={{ flexGrow: '1' }} />
-          {displayDate && (
-            <div className={styles.dateContainer}>
-              <CalendarIcon
-                className={clsx(
-                  styles.icon,
-                  isPast(status) && styles.pastIcon,
-                  isPlanned(status) && styles.plannedIcon,
-                )}
-              />
-              <div className={styles.infoBody}>{displayDate}</div>
-            </div>
-          )}
+      <img
+        src={`crop-images/${imageKey}.jpg`}
+        alt={imageKey}
+        className={styles.img}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'crop-images/default.jpg';
+        }}
+      />
+      {cropCount && (
+        <div className={styles.cropCountContainer}>
+          <Square isCropTile>{cropCount.active}</Square>
+          <Square color={'planned'} isCropTile>
+            {cropCount.active}
+          </Square>
+          <Square color={'past'} isCropTile>
+            {cropCount.active}
+          </Square>
         </div>
+      )}
+
+      <div className={styles.info}>
+        <div className={styles.infoMain} style={{ marginBottom: '2px' }}>
+          {variety}
+        </div>
+        <div className={styles.infoBody} style={{ marginBottom: '2px' }}>
+          <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
+        </div>
+        <div style={{ flexGrow: '1' }} />
+        {displayDate && (
+          <div className={styles.dateContainer}>
+            <CalendarIcon
+              className={clsx(
+                styles.icon,
+                isPast(status) && styles.pastIcon,
+                isPlanned(status) && styles.plannedIcon,
+              )}
+            />
+            <div className={styles.infoBody}>{displayDate}</div>
+          </div>
+        )}
       </div>
-    </EditFieldCropModal>
+    </div>
+    // </EditFieldCropModal>
   );
 }

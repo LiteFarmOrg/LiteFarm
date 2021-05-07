@@ -3,7 +3,7 @@ import { colors } from '../../assets/theme';
 
 import PropTypes from 'prop-types';
 
-import { Label } from '../Typography';
+import { Semibold } from '../Typography';
 
 const useStyles = makeStyles({
   container: {
@@ -32,14 +32,17 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PageBreak({ label, icon, children }) {
+export default function PageBreak({ label, children }) {
   const classes = useStyles();
   return (
     <div className={classes.container}>
       {label && (
         <div className={classes.labelContainer}>
-          {label && <Label className={classes.label}>{label}</Label>}
-          {icon}
+          {label && (
+            <Semibold sm className={classes.label}>
+              {label}
+            </Semibold>
+          )}
           {children}
         </div>
       )}

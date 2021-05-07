@@ -7,6 +7,11 @@ import clsx from 'clsx';
 import Card from '../../Card';
 import { useTranslation } from 'react-i18next';
 import Square from '../../Square';
+import NativeDatePickerWrapper from '../../NativeDatePicker/NativeDatePickerWrapper';
+import { useState } from 'react';
+import moment from 'moment';
+import { getDateInputFormat } from '../../LocationDetailLayout/utils';
+import { getLanguageFromLocalStorage } from '../../../util';
 
 const useStyles = makeStyles({
   container: {
@@ -31,22 +36,36 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CropStatusInfoBox({ date, active = 0, planned = 0, past = 0, ...props }) {
+export default function CropStatusInfoBox({
+  defaultDate = getDateInputFormat(new Date()),
+  active = 0,
+  planned = 0,
+  past = 0,
+  ...props
+}) {
   const classes = useStyles();
   const { t } = useTranslation();
+  const [date, setDate] = useState(defaultDate);
+  const onDateChange = (e) => setDate(e.target.value);
+
   return (
     <Card color={'info'} className={clsx(classes.container)} {...props}>
-      <Underlined
+      <NativeDatePickerWrapper
         style={{
           position: 'absolute',
           right: '0',
-          transform: 'translate(-12px, 2px)',
+          transform: 'translateX(-12px)',
         }}
+        value={date}
+        onChange={onDateChange}
       >
-        {t('common:EDIT_DATE')}
-      </Underlined>
+        <Underlined>{t('common:EDIT_DATE')}</Underlined>
+      </NativeDatePickerWrapper>
       <Text>
-        {t('CROP_CATALOG.CROP_STATUS')} <span className={classes.semibold}>{date}</span>{' '}
+        {t('CROP_CATALOG.CROP_STATUS')}{' '}
+        <span className={classes.semibold}>
+          {moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY')}
+        </span>{' '}
       </Text>
       <div className={classes.secondRowContainer}>
         <div className={classes.cropCountContainer}>
@@ -67,7 +86,7 @@ export default function CropStatusInfoBox({ date, active = 0, planned = 0, past 
 }
 
 CropStatusInfoBox.propTypes = {
-  date: PropTypes.string,
+  defaultDate: PropTypes.string,
   active: PropTypes.number,
   planned: PropTypes.number,
   past: PropTypes.number,

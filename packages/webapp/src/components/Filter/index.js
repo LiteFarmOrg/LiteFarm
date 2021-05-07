@@ -14,13 +14,11 @@ const Filter = ({ subject, items, style }) => {
         <div>{subject}</div>
         <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
       </div>
-      {open && (
-        <div className={styles.dropdown}>
-          {items.map((item) => {
-            return <CheckBoxPill label={item.label} />;
-          })}
-        </div>
-      )}
+      <div className={styles.dropdown} style={{ display: open ? 'flex' : 'none' }}>
+        {items.map((item) => {
+          return <CheckBoxPill label={item.label} />;
+        })}
+      </div>
     </div>
   );
 };

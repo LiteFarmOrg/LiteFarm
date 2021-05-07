@@ -25,9 +25,16 @@ const PureFilterPage = ({ title, filters }) => {
         <Underlined style={{ color: '#AA5F04' }}>{t('FILTER.CLEAR_ALL_FILTERS')}</Underlined>
       </div>
 
-      {filters.map((filter) => (
-        <Filter subject={filter.subject} items={filter.options} style={{ marginBottom: '24px' }} />
-      ))}
+      {filters.map((filter) => {
+        if (filter.options.length !== 0)
+          return (
+            <Filter
+              subject={filter.subject}
+              items={filter.options}
+              style={{ marginBottom: '24px' }}
+            />
+          );
+      })}
     </Layout>
   );
 };

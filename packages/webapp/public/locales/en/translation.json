@@ -81,6 +81,9 @@
     "TITLE": "Create new user account"
   },
   "CROP_CATALOG": {
+    "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
+    "CREATE_MANAGEMENT_PLANS": "Create management plans",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "HERE_YOU_CAN": "Here you can:"
   },
   "DATE_RANGE": {

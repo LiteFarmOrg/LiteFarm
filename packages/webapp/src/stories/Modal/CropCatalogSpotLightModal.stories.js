@@ -1,14 +1,14 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import SpotlightComponentModal from '../../components/Modals/SpotlightComponentModal';
+import CropCatalogSpotLightModal from '../../components/Modals/CropCatalogSpotLightModal';
 
 export default {
-    title: 'Components/Modals/SpotlightComponentModal',
+    title: 'Components/Modals/CropCatalogSpotLightModal',
     decorators: componentDecorators,
-    component: SpotlightComponentModal,
+    component: CropCatalogSpotLightModal,
 };
 
-const Template = (args) => <SpotlightComponentModal {...args} />;
+const Template = (args) => <CropCatalogSpotLightModal{...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

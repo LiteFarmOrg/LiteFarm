@@ -5,7 +5,7 @@ import {Label} from "../../Typography";
 import {useTranslation} from "react-i18next";
 
 
-export default function SpotlightComponentModal () {
+export default function CropCatalogSpotLightModal () {
 
     const {t} = useTranslation();
 
@@ -16,14 +16,14 @@ export default function SpotlightComponentModal () {
 
                 <ul style={{marginLeft: '20px', display:'flex', flexDirection:'column', rowGap:'16px'}}>
                     <li>
-                        <Label>Add crops to your farm</Label>
+                        <Label>{t('CROP_CATALOG.ADD_CROPS_T0_YOUR_FARM')}</Label>
 
                     </li>
                     <li>
-                        <Label>Document necessary info for organic production</Label>
+                        <Label>{t('CROP_CATALOG.DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION')}</Label>
                     </li>
                     <li>
-                        <Label>Create management plans</Label>
+                        <Label>{t('CROP_CATALOG.CREATE_MANAGEMENT_PLANS')}</Label>
                     </li>
                 </ul>
             </>

@@ -15,7 +15,7 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
   return (
     <Layout
     buttonGroup={
-        <Button onClick={onContinue} fullLength>
+        <Button disabled={true} onClick={onContinue} fullLength>
           {t('common:CONTINUE')}
         </Button>
       }
@@ -26,10 +26,25 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
     onCancel = {onCancel}
     title={"Add a crop"}
     />
-    <ProgressBar />
+    <div style={{marginBottom: '8px',}}>
+      <ProgressBar />
+    </div>
+    <div className={styles.cropLabel}>{"Carrot"}</div>
+    <img
+          src={`crop-images/${'carrot'}.jpg`}
+          alt={'carrot'}
+          className={styles.circleImg}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'crop-images/default.jpg';
+          }}
+        />
+    
     <div
           style={{
             marginBottom: '20px',
+            marginLeft: '120px',
+            display: 'flex',
             width: 'fit-content',
             fontSize: '16px',
             color: 'var(--iconActive)',
@@ -42,13 +57,17 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
     </div>
 
     <div className={styles.label}>{t("translation:FIELDS.EDIT_FIELD.VARIETY")}</div>
-    <Input />
+    <Input  style={{ marginBottom: '24px' }}/>
     <div className={styles.label}>{"Supplier"}</div>
-    <Input />
-    <div className={styles.label}>{"Will you plant as a seed or sedding?"}</div>
+    <Input  style={{ marginBottom: '24px' }}/>
+    <div className={styles.labelContainer}>
+              <div className={styles.label}>{"Will you plant as a seed or sedding?"}</div>
+    </div>
     <Radio label='Seed'/>
     <Radio label='Seedling or planting stock'/>
-    <div className={styles.label}>{"Is the crop an annual or perennial?"}</div>
+    <div className={styles.labelContainer}>
+              <div className={styles.label}>{"Is the crop an annual or perennial?"}</div>
+    </div>
     <Radio label='Annual'/>
     <Radio label='Perennial'/>
     

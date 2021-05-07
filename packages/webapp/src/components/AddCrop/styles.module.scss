@@ -1,31 +1,59 @@
-.home .lander {
-    text-align: center;
-    color: var(--primary);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .description {
-    padding-top: 10px;
-    color: #282b36;
-    font-family: 'Open Sans', 'SansSerif', serif;
-  }
-  
-  .home .lander h1 {
-    font-weight: 600;
-    //mix-blend-mode: difference;
-  }
-  
-  .home {
-    padding: 20vh 0 0 0;
-    flex: 1;
-  }
-  
-  .greetContainer {
-    margin: auto;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    overflow: visible;
-  }
-  
+.labelContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+  justify-content: stretch;
+}
+.cropLabel {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 18px;
+  color: var(--grey700);
+}
+
+.label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--grey600);
+}
+
+.cropCount {
+  border-radius: 4px;
+  min-width: 16px;
+  height: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  margin: 0 10px;
+}
+
+.labelDivider {
+  display: inline-block;
+  border-top: 1px solid;
+  color: var(--grey400);
+  flex-grow: 2;
+}
+
+.tileContainer {
+  margin-bottom: 30px;
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.circleImg {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 120px;
+  width: 120px;
+  border-radius: 70%;
+}

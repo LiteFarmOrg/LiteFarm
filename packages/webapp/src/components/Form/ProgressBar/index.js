@@ -5,7 +5,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const CustomProgress = withStyles((theme) => ({
     root: {
       height: 5,
-      borderRadius: 2,
+      borderRadius: 3,
     },
     colorPrimary: {
       backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],

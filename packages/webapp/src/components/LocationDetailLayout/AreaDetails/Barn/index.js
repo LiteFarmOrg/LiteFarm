@@ -27,14 +27,15 @@ export default function PureBarn({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('barn', match, {
     isCreateLocationPage,
@@ -42,7 +43,7 @@ export default function PureBarn({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -51,8 +52,8 @@ export default function PureBarn({
   const onSubmit = (data) => {
     const washPackSelection = data[barnEnum.wash_and_pack];
     const coldStorage = data[barnEnum.cold_storage];
-    data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit].value;
-    showPerimeter && (data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit].value);
+    data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit]?.value;
+    data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -68,7 +69,7 @@ export default function PureBarn({
   const title =
     (isCreateLocationPage && t('FARM_MAP.BARN.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.BARN.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(barnEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -130,16 +131,14 @@ export default function PureBarn({
           <div>
             <Radio
               label={t('common:YES')}
-              inputRef={register({ required: false })}
-              name={barnEnum.wash_and_pack}
+              hookFormRegister={register(barnEnum.wash_and_pack, { required: false })}
               value={true}
               disabled={isViewLocationPage}
             />
             <Radio
               style={{ marginLeft: '40px' }}
               label={t('common:NO')}
-              inputRef={register({ required: false })}
-              name={barnEnum.wash_and_pack}
+              hookFormRegister={register(barnEnum.wash_and_pack, { required: false })}
               value={false}
               disabled={isViewLocationPage}
             />
@@ -164,16 +163,14 @@ export default function PureBarn({
           <div style={{ marginBottom: '16px' }}>
             <Radio
               label={t('common:YES')}
-              inputRef={register({ required: false })}
-              name={barnEnum.cold_storage}
+              hookFormRegister={register(barnEnum.cold_storage, { required: false })}
               value={true}
               disabled={isViewLocationPage}
             />
             <Radio
               style={{ marginLeft: '40px' }}
               label={t('common:NO')}
-              inputRef={register({ required: false })}
-              name={barnEnum.cold_storage}
+              hookFormRegister={register(barnEnum.cold_storage, { required: false })}
               value={false}
               disabled={isViewLocationPage}
             />

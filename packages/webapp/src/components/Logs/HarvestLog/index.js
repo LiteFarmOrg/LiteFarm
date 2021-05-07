@@ -57,7 +57,13 @@ export default function PureHarvestLog({
     }),
   );
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onTouched',
   });
 
@@ -122,7 +128,6 @@ export default function PureHarvestLog({
   const NOTES = 'notes';
   const notes = watch(NOTES, undefined);
   const optional = watch(NOTES, false) || watch(NOTES, true);
-  const refInputNotes = register({ required: optional });
 
   const isTwoDecimalPlaces = (val) => {
     let decimals;
@@ -264,9 +269,8 @@ export default function PureHarvestLog({
           style={{ marginBottom: '24px' }}
           type="number"
           unit={unit}
-          name={QUANTITY}
           step={0.01}
-          inputRef={register({
+          hookFormRegister={register(QUANTITY, {
             required: true,
           })}
           defaultValue={setDefaultQuantity()}
@@ -285,8 +289,7 @@ export default function PureHarvestLog({
           <Input
             label={t('common:NOTES')}
             optional
-            name={NOTES}
-            inputRef={refInputNotes}
+            hookFormRegister={register(NOTES, { required: optional })}
             defaultValue={!isEdit.isEditStepOne ? defaultData.defaultNotes : selectedLog.notes}
           />
         </div>

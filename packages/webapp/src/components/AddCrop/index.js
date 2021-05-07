@@ -27,6 +27,7 @@ export default function PureAddCrop({
     life_cycle: 'life_cycle',
   }
   const progress = 33;
+  
   return (
     <Layout
     buttonGroup={
@@ -42,7 +43,7 @@ export default function PureAddCrop({
     title={"Add a crop"}
     />
     <div style={{
-      marginBottom: '16px',
+      marginBottom: '24px',
       marginTop: '8px',
       }}>
       <ProgressBar value={progress}/>
@@ -62,6 +63,7 @@ export default function PureAddCrop({
           style={{
             marginLeft: 'auto',
             marginRight: 'auto',
+            marginBottom: '24px',
             display: 'flex',
             width: 'fit-content',
             fontSize: '16px',
@@ -74,13 +76,13 @@ export default function PureAddCrop({
           + <Underlined>{"Add Custom Image"}</Underlined>
     </div>
 
-    <div className={styles.label}>{t("translation:FIELDS.EDIT_FIELD.VARIETY")}</div>
-    <Input  style={{ marginBottom: '24px' }}/>
-    <div className={styles.label}>{"Supplier"}</div>
-    <Input  style={{ marginBottom: '24px' }}/>
+    
+    <Input  style={{ marginBottom: '40px' }} label={t("translation:FIELDS.EDIT_FIELD.VARIETY")} hasLeaf={true}/>
+    
+    <Input  style={{ marginBottom: '40px' }} label={'Supplier'} hasLeaf={true} />
     
     <div>
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: '24px' }}>
             <Label
               style={{
                 paddingRight: '10px',
@@ -89,7 +91,7 @@ export default function PureAddCrop({
                 display: 'inline-block',
               }}
             >
-              {"Will you plant as a seed or sedding?"}
+              {"Will you plant as a seed or seedling?"}
             </Label>
         </div>
         <div>

@@ -80,6 +80,9 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOG": {
+    "HERE_YOU_CAN": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",

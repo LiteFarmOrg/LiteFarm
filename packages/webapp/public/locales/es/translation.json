@@ -80,6 +80,9 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "CROP_CATALOG": {
+    "HERE_YOU_CAN": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import Pill from './Pill';
+import CheckBoxPill from './CheckBoxPill';
 import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 
@@ -17,7 +17,7 @@ const Filter = ({ subject, items, style }) => {
       {open && (
         <div className={styles.dropdown}>
           {items.map((item) => {
-            return <Pill label={item.label} />;
+            return <CheckBoxPill label={item.label} />;
           })}
         </div>
       )}

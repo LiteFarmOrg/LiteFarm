@@ -3,15 +3,30 @@ import Button from '../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Main, Title, Underlined } from '../Typography';
+import { Underlined, Label } from '../Typography';
+import { Controller, useForm } from 'react-hook-form';
 import Input from '../Form/Input';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
 import ProgressBar from '../Form/ProgressBar';
 import Radio from '../Form/Radio';
 
-export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toShowSpotlight, style, history }) {
+export default function PureAddCrop({ 
+  onCancel, 
+  onContinue, 
+  onGoBack, 
+  history }) {
+  
   const { t } = useTranslation(['translation', 'common']);
+  const { register, handleSubmit, watch, control, errors, setValue, formState } = useForm({
+    mode: 'onTouched',
+  });
+
+  const cropEnum = {
+    seed_type: 'seed_type',
+    life_cycle: 'life_cycle',
+  }
+  const progress = 33;
   return (
     <Layout
     buttonGroup={
@@ -26,8 +41,11 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
     onCancel = {onCancel}
     title={"Add a crop"}
     />
-    <div style={{marginBottom: '8px',}}>
-      <ProgressBar />
+    <div style={{
+      marginBottom: '16px',
+      marginTop: '8px',
+      }}>
+      <ProgressBar value={progress}/>
     </div>
     <div className={styles.cropLabel}>{"Carrot"}</div>
     <img
@@ -42,8 +60,8 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
     
     <div
           style={{
-            marginBottom: '20px',
-            marginLeft: '120px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             display: 'flex',
             width: 'fit-content',
             fontSize: '16px',
@@ -60,16 +78,48 @@ export default function PureAddCrop({ title, onCancel, onContinue, onGoBack, toS
     <Input  style={{ marginBottom: '24px' }}/>
     <div className={styles.label}>{"Supplier"}</div>
     <Input  style={{ marginBottom: '24px' }}/>
-    <div className={styles.labelContainer}>
-              <div className={styles.label}>{"Will you plant as a seed or sedding?"}</div>
+    
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+            <Label
+              style={{
+                paddingRight: '10px',
+                fontSize: '16px',
+                lineHeight: '20px',
+                display: 'inline-block',
+              }}
+            >
+              {"Will you plant as a seed or sedding?"}
+            </Label>
+        </div>
+        <div>
+          <Radio label='Seed' value='seed' inputRef={register({ required: true })} name={cropEnum.seed_type}/>
+        </div>
+        <div>
+          <Radio label='Seedling or planting stock' value='seedling'  inputRef={register({ required: true })} name={cropEnum.seed_type} />
+        </div> 
     </div>
-    <Radio label='Seed'/>
-    <Radio label='Seedling or planting stock'/>
-    <div className={styles.labelContainer}>
-              <div className={styles.label}>{"Is the crop an annual or perennial?"}</div>
+
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+            <Label
+              style={{
+                paddingRight: '10px',
+                fontSize: '16px',
+                lineHeight: '20px',
+                display: 'inline-block',
+              }}
+            >
+              {"Is the crop an annual or perennial?"}
+            </Label>
+        </div>
+        <div>
+          <Radio label='Annual' value='annual' inputRef={register({ required: true })} name={cropEnum.life_cycle}/>
+        </div>
+        <div>
+          <Radio label='Perennial' value='perennial' inputRef={register({ required: true })} name={cropEnum.life_cycle}/>
+        </div> 
     </div>
-    <Radio label='Annual'/>
-    <Radio label='Perennial'/>
     
     </Layout>
   );

@@ -18,15 +18,19 @@ const CustomProgress = withStyles((theme) => ({
 
 const ProgressBar = ({
     classes = {},
+    v,
+    ...props
 }) => {
     return (
         <div className = {classes.root}>
-            <CustomProgress variant = "determinate" value={33} />
+            <CustomProgress variant = "determinate" value={v} {...props} />
         </div>
     );
 };
 
 
-ProgressBar.propTypes = {};
+ProgressBar.propTypes = {
+
+};
 
 export default ProgressBar;

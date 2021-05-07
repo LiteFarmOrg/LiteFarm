@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../assets/theme';
-
+import { FaExclamation } from 'react-icons/all';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -26,6 +26,9 @@ const useStyles = makeStyles({
   past: {
     backgroundColor: colors.teal900,
   },
+  needsPlan: {
+    backgroundColor: colors.red700,
+  },
   cropTile: {
     minWidth: '24px',
     height: '24px',
@@ -40,13 +43,13 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
       className={clsx(classes.container, classes[color], isCropTile && classes.cropTile)}
       {...props}
     >
-      {children}
+      {color === 'needsPlan' ? <FaExclamation style={{ fontSize: '12px' }} /> : children}
     </div>
   );
 }
 
 Square.propTypes = {
-  color: PropTypes.oneOf(['active', 'planned', 'past']),
+  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan']),
   isCropTile: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };

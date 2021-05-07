@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
-import PureCropTile from '../CropTile';
 import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
 import NewFieldCropModal from '../Forms/NewFieldCropModal';
 import { useComponentWidth } from '../../containers/hooks/useComponentWidthHeight';
+import PureFieldCropTile from '../CropTile/FieldCropTile';
 
 export default function PureCropList({
   onFilterChange,
@@ -124,7 +124,7 @@ export default function PureCropList({
               style={{ columnGap: gap, padding: `0 ${padding}px` }}
             >
               {activeCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}
@@ -149,7 +149,7 @@ export default function PureCropList({
               style={{ columnGap: gap, padding: `0 ${padding}px` }}
             >
               {plannedCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}
@@ -174,7 +174,7 @@ export default function PureCropList({
               style={{ columnGap: gap, padding: `0 ${padding}px` }}
             >
               {pastCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}

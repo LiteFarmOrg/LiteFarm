@@ -8,7 +8,7 @@
   position: relative;
 }
 
-.pastContainer {
+.pastVarietyContainer {
   border: 1px solid var(--teal700);
 
   .info {
@@ -16,6 +16,18 @@
 
     .infoMain {
       color: var(--teal900);
+    }
+  }
+}
+
+.cropTemplateContainer {
+  border: 1px solid var(--teal600);
+
+  .info {
+    background-color: white;
+
+    .infoMain {
+      color: var(--teal700);
     }
   }
 }
@@ -29,7 +41,6 @@
 
 .info {
   background-color: var(--grey100);
-  min-height: 68px;
   padding: 8px;
   border-radius: 0 0 4px 4px;
   flex-grow: 1;

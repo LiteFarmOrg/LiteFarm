@@ -27,6 +27,11 @@ Past.args = {
   children: 888,
 };
 
+export const NeedsPlan = Template.bind({});
+NeedsPlan.args = {
+  color: 'needsPlan',
+};
+
 export const CropTileActive = Template.bind({});
 CropTileActive.args = {
   color: 'active',
@@ -45,5 +50,11 @@ export const CropTilePast = Template.bind({});
 CropTilePast.args = {
   color: 'past',
   children: 888,
+  isCropTile: true,
+};
+
+export const CropTileNeedsPlan = Template.bind({});
+CropTileNeedsPlan.args = {
+  color: 'needsPlan',
   isCropTile: true,
 };

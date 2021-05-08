@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
 import { Underlined } from '../Typography';
-import clsx from 'clsx';
-import { BsChevronDown } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
 import Filter from '../Filter';
 import Button from '../Form/Button';
 
-const PureFilterPage = ({ title, filters }) => {
+const PureFilterPage = ({ title, filters, onApply, filterRef }) => {
   const { t } = useTranslation();
+
   return (
     <Layout
       buttonGroup={
-        <Button type={'submit'} disabled={false} fullLength>
+        <Button disabled={false} onClick={onApply} fullLength>
           {t('common:APPLY')}
         </Button>
       }
     >
       <PageTitle title={title} onGoBack={() => console.log('close that filter page though')} />
 
-      <div style={{ margin: '24px 0' }} onClick={() => console.log('clear filter')}>
-        <Underlined style={{ color: '#AA5F04' }}>{t('FILTER.CLEAR_ALL_FILTERS')}</Underlined>
+      <div style={{ margin: '24px 0' }}>
+        <Underlined style={{ color: '#AA5F04' }} onClick={() => console.log('clear filter')}>
+          {t('FILTER.CLEAR_ALL_FILTERS')}
+        </Underlined>
       </div>
 
       {filters.map((filter) => {
@@ -31,7 +32,9 @@ const PureFilterPage = ({ title, filters }) => {
             <Filter
               subject={filter.subject}
               items={filter.options}
+              filterKey={filter.filterKey}
               style={{ marginBottom: '24px' }}
+              filterRef={filterRef}
             />
           );
       })}

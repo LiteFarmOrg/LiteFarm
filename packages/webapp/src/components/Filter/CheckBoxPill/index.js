@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 
-const CheckBoxPill = ({ label, defaultChecked }) => {
-  const [checked, setChecked] = useState(defaultChecked);
+const CheckBoxPill = ({ label, value, checked, updateFilterState }) => {
   const handleChange = (e) => {
-    setChecked(e.target.checked);
+    updateFilterState(value);
   };
 
   return (
     <label className={clsx(styles.pill, checked ? styles.selected : styles.deselected)}>
-      <input type={'checkbox'} defaultChecked={defaultChecked} onChange={handleChange} />
+      <input type={'checkbox'} checked={checked} onChange={handleChange} />
       <span>{label}</span>
     </label>
   );
@@ -19,7 +18,9 @@ const CheckBoxPill = ({ label, defaultChecked }) => {
 
 CheckBoxPill.prototype = {
   label: PropTypes.string,
-  defaultChecked: PropTypes.bool,
+  value: PropTypes.string,
+  checked: PropTypes.bool,
+  updateFilterState: PropTypes.func,
 };
 
 export default CheckBoxPill;

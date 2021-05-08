@@ -26,10 +26,11 @@ const AddFarm = () => {
     handleSubmit,
     getValues,
     setValue,
-    errors,
     setError,
     clearErrors,
     watch,
+
+    formState: { errors },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
@@ -40,10 +41,10 @@ const AddFarm = () => {
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
   const [country, setCountry] = useState(farm?.country ? farm.country : '');
-  const farmNameRef = register({
+  const farmNameRegister = register(FARMNAME, {
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
   });
-  const addressRef = register({
+  const addressRegister = register(ADDRESS, {
     required: { value: true, message: t('ADD_FARM.ADDRESS_IS_REQUIRED') },
     validate: {
       placeSelected: (data) => address && gridPoints && data[address],
@@ -235,7 +236,7 @@ const AddFarm = () => {
         inputs={[
           {
             label: t('ADD_FARM.FARM_NAME'),
-            inputRef: farmNameRef,
+            hookFormRegister: farmNameRegister,
             name: FARMNAME,
             errors: errors[FARMNAME] && errors[FARMNAME].message,
           },
@@ -248,7 +249,7 @@ const AddFarm = () => {
             ) : (
               <VscLocation size={27} onClick={getGeoLocation} />
             ),
-            inputRef: addressRef,
+            hookFormRegister: addressRegister,
             id: 'autocomplete',
             name: ADDRESS,
             reset: () => {

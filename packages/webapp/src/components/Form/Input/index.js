@@ -8,6 +8,7 @@ import { BiSearchAlt2, MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { mergeRefs } from '../utils';
 import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 
 const Input = ({
   disabled = false,
@@ -27,6 +28,7 @@ const Input = ({
   showCross = true,
   onChange,
   onBlur,
+  hasLeaf,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -57,7 +59,7 @@ const Input = ({
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
           <Label>
-            {label}{' '}
+            {label} {hasLeaf && <Leaf className={styles.leaf} />}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                 {t('common:OPTIONAL')}
@@ -148,6 +150,7 @@ Input.propTypes = {
   }),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  hasLeaf: PropTypes.bool,
 };
 
 export default Input;

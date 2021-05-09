@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { Error, Text } from '../../components/Typography';
-import Card from '../../components/Card';
-import TechStackNavigation from './teckStackNavigation';
+import { Error, Text } from '../../../components/Typography';
+import Card from '../../../components/Card';
+import TechStackNavigation from '../teckStackNavigation';
 
-<Meta title="Docs/backendUnitTest" />
+<Meta title="Docs/tutorial/3.Backend unit test" />
 
 # Unit testing with jest and chai (May 2021)
 
@@ -264,7 +264,12 @@ const maliciousPatchUserFarmRequestBody = {
   }
 }
 ```
-### 5. If test always fails, we might need to add mock implementations for functions that cause tests to fail
+
+### 5. Run tests to make sure tests fail as expected
+
+### 6. Middleware mock implementation
+
+After controllers are implemented, if test always fails, we might need to add mock implementations to functions that cause tests to fail
 
 Most endpoints are guarded by `checkJwt()` (jwt authentication middleware) . Authorization middleware `checkScope()` will then use the result (res.user) returned by jwt authentication middleware to check user permissions.
 In this case, we need to mock `checkJwt()` (jwt authentication middleware) so that `checkJwt()` will never return 401 and driver function can pass user_id into req.user for authorization.

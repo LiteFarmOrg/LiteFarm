@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import { Text } from '../../components/Typography';
-import TechStackNavigation from './teckStackNavigation';
-import DocCard from './DocCard';
-import DocLink from './DocLink';
+import { Text } from '../../../components/Typography';
+import TechStackNavigation from '../teckStackNavigation';
+import DocCard from '../DocCard';
+import DocLink from '../DocLink';
 
-<Meta title="Docs/migrationAndObjectionModel" />
+<Meta title="Docs/tutorial/1.DB migration and Objection model" />
 
-# Knex migration and Objection model
+# DB migration and Objection model
 
 <DocCard>
   <Text>To complete a ticket involving a new table or adding new columns in a table, we need to create knex migrations
@@ -76,6 +76,7 @@ exports.down = async function(knex) {
   <Text>If up function creates tables or add columns, down function should remove the same tables and columns</Text>
   <Text>If up function update data in a table and there is no way to know what were stored in the table (ex setting
     userFarm.status to 'Inactive'), down function can be empty</Text>
+  <Text>User snake_case for table name and column name</Text>
 </DocCard>
 
 ### 2. Create objection model.

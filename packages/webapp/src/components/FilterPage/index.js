@@ -35,6 +35,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef }) => {
               filterKey={filter.filterKey}
               style={{ marginBottom: '24px' }}
               filterRef={filterRef}
+              key={filter.filterKey}
             />
           );
       })}

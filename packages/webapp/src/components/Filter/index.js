@@ -40,6 +40,7 @@ const Filter = ({ subject, items, filterKey, style, filterRef }) => {
               value={item.value}
               checked={filterState[item.value]}
               updateFilterState={updateFilterState}
+              key={item.value}
             />
           );
         })}

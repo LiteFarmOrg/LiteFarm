@@ -9,16 +9,30 @@ export default {
 };
 
 const Template = (args) => <InputAutoSize {...args} />;
+
+
 export const Primary = Template.bind({});
 Primary.args = {
-  label: 'label',
-  defaultValue:
-    'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long ',
+  label: 'Notes',
+  defaultValue: 'default value',
   rowsMax: 4,
+  optional: true,
 };
 
 export const Empty = Template.bind({});
 Empty.args = {
-  label: 'label',
+  label: 'Notes',
   rowsMax: 4,
+  optional: true,
 };
+
+export const withError = Template.bind({});
+withError.args = {
+  label: 'Notes',
+  defaultValue: 'default value',
+  rowsMax: 4,
+  optional: true,
+  errors: 'error',
+  disabled: false,
+
+}

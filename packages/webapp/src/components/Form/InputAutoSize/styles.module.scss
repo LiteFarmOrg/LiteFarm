@@ -2,12 +2,16 @@
   border: 1px solid var(--grey400);
   box-sizing: border-box;
   border-radius: 4px;
-  height: 139px;
   padding-left: 8px;
   font-size: 16px;
   line-height: 24px;
   resize: none;
+  padding-top: 11px;
+  padding-bottom: 11px;
+
   color: var(--fontColor);
+  background-color: transparent;
+  font-family: 'Open Sans', 'SansSerif', serif;
 }
 
 .container {
@@ -15,4 +19,12 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
+}
+
+.sm {
+  margin-left: 8px;
+}
+
+.inputError {
+  border-color: var(--error);
 }

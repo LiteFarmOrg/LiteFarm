@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
@@ -29,14 +29,14 @@ export default function PureLineBox({
   const {
     register,
     handleSubmit,
-    errors,
     setValue,
     getValues,
     setError,
     control,
     watch,
     trigger,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

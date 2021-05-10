@@ -27,14 +27,15 @@ export default function PureSurfaceWater({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('surface_water', match, {
     isCreateLocationPage,
@@ -42,7 +43,7 @@ export default function PureSurfaceWater({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -50,9 +51,8 @@ export default function PureSurfaceWater({
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit].value);
+    data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit]?.value;
+    data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -68,7 +68,7 @@ export default function PureSurfaceWater({
   const title =
     (isCreateLocationPage && t('FARM_MAP.SURFACE_WATER.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.SURFACE_WATER.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(surfaceWaterEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -124,18 +124,16 @@ export default function PureSurfaceWater({
             <Radio
               style={{ marginBottom: '25px' }}
               label={t('common:YES')}
-              inputRef={register({ required: false })}
+              hookFormRegister={register(surfaceWaterEnum.used_for_irrigation, { required: false })}
               optional
               value={true}
-              name={surfaceWaterEnum.used_for_irrigation}
               disabled={isViewLocationPage}
             />
             <Radio
               style={{ marginBottom: '25px', marginLeft: '40px' }}
               label={t('common:NO')}
-              inputRef={register({ required: false })}
+              hookFormRegister={register(surfaceWaterEnum.used_for_irrigation, { required: false })}
               value={false}
-              name={surfaceWaterEnum.used_for_irrigation}
               disabled={isViewLocationPage}
             />
           </div>

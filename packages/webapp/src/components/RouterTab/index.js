@@ -7,8 +7,9 @@ export default function RouterTab({ tabs, history, classes }) {
   const isSelected = (path) => history.location.pathname.includes(path);
   return (
     <div className={styles.container} style={classes?.container}>
-      {tabs.map((tab) => (
+      {tabs.map((tab, index) => (
         <Semibold
+          key={index}
           className={clsx(styles.pill, isSelected(tab.path) && styles.selected)}
           onClick={() => !isSelected(tab.path) && history.push(tab.path)}
         >

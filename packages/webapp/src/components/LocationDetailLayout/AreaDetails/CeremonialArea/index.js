@@ -25,14 +25,15 @@ export default function PureCeremonialArea({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('ceremonial_area', match, {
     isCreateLocationPage,
@@ -40,16 +41,15 @@ export default function PureCeremonialArea({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[ceremonialEnum.total_area_unit] = data[ceremonialEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[ceremonialEnum.perimeter_unit] = data[ceremonialEnum.perimeter_unit].value);
+    data[ceremonialEnum.total_area_unit] = data[ceremonialEnum.total_area_unit]?.value;
+    data[ceremonialEnum.perimeter_unit] = data[ceremonialEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -62,7 +62,7 @@ export default function PureCeremonialArea({
   const title =
     (isCreateLocationPage && t('FARM_MAP.CEREMONIAL_AREA.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.CEREMONIAL_AREA.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(ceremonialEnum.name));
+    (isViewLocationPage && name);
   return (
     <Form
       buttonGroup={

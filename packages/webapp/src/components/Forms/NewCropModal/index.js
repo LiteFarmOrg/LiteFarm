@@ -110,15 +110,15 @@ class NewCropModal extends React.Component {
     let validated = true;
     let errors = '';
     if (currentState.crop_common_name === '') {
-      errors += this.props.t('translation:FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME') + ', ';
+      errors += `${this.props.t('translation:FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME')}, `;
       validated = false;
     }
     if (currentState.crop_genus === '') {
-      errors += this.props.t('translation:FIELDS.EDIT_FIELD.CROP.GENUS') + ', ';
+      errors += `${this.props.t('translation:FIELDS.EDIT_FIELD.CROP.GENUS')}, `;
       validated = false;
     }
     if (currentState.crop_specie === '') {
-      errors += this.props.t('translation:FIELDS.EDIT_FIELD.CROP.SPECIES') + ', ';
+      errors += `${this.props.t('translation:FIELDS.EDIT_FIELD.CROP.SPECIES')}, `;
       validated = false;
     }
     // if (currentState.crop_group === '') {
@@ -130,7 +130,7 @@ class NewCropModal extends React.Component {
     //   validated = false;
     // }
     if (currentState.variety === '') {
-      errors += this.props.t('translation:FIELDS.EDIT_FIELD.CROP.VARIETY_NAME') + ', ';
+      errors += `${this.props.t('translation:FIELDS.EDIT_FIELD.CROP.VARIETY_NAME')}, `;
       validated = false;
     }
 

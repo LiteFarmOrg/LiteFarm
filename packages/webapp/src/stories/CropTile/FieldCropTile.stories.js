@@ -16,7 +16,7 @@ const Template = (args) => (
 export const Active = Template.bind({});
 Active.args = {
   fieldCrop: {
-    variety: 'Bolero',
+    crop_variety: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
   },
@@ -26,7 +26,7 @@ Active.args = {
 export const Planned = Template.bind({});
 Planned.args = {
   fieldCrop: {
-    variety: 'Bolero',
+    crop_variety: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
   },
@@ -36,7 +36,7 @@ Planned.args = {
 export const Past = Template.bind({});
 Past.args = {
   fieldCrop: {
-    variety: 'Bolero',
+    crop_variety: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
   },

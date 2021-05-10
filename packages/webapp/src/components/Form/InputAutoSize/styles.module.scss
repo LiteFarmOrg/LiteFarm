@@ -28,3 +28,8 @@
 .inputError {
   border-color: var(--error);
 }
+
+.textArea:focus:enabled {
+  outline: none;
+  border-color: var(--inputActive);
+}

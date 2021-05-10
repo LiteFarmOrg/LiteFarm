@@ -7,6 +7,7 @@ const getCrop = (obj) => {
   return pick(obj, [
     'crop_id',
     'crop_common_name',
+    'crop_variety',
     'crop_genus',
     'crop_specie',
     'crop_group',

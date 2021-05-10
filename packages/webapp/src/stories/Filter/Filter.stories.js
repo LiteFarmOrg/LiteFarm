@@ -33,10 +33,12 @@ Primary.args = {
       label: 'Needs plan',
     },
   ],
+  filterRef: { current: {} },
 };
 
 export const Empty = Template.bind({});
 Empty.args = {
   subject: 'Status',
   items: [],
+  filterRef: { current: {} },
 };

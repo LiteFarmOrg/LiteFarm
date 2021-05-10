@@ -101,6 +101,7 @@ Primary.args = {
       ],
     },
   ],
+  filterRef: { current: {} },
 };
 
 export const NoSuppliers = Template.bind({});
@@ -182,4 +183,5 @@ NoSuppliers.args = {
       options: [],
     },
   ],
+  filterRef: { current: {} },
 };

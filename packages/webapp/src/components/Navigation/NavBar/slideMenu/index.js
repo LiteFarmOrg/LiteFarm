@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { resetCropCatalogFilter } from '../../../../containers/filterSlice';
+import { resetCropCatalogueFilter } from '../../../../containers/filterSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,7 +56,7 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
               className={classes.subListItem}
               button
               onClick={() => {
-                dispatch(resetCropCatalogFilter());
+                dispatch(resetCropCatalogueFilter());
                 handleClick('/crop_catalogue');
               }}
             >

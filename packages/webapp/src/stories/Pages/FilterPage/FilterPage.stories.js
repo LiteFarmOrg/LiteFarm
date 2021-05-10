@@ -11,7 +11,7 @@ export default {
 const Template = (args) => <PureFilterPage {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
-  title: 'Crop Catalog Filter',
+  title: 'Crop Catalogue Filter',
   filters: [
     {
       subject: 'Status',
@@ -106,7 +106,7 @@ Primary.args = {
 
 export const NoSuppliers = Template.bind({});
 NoSuppliers.args = {
-  title: 'Crop Catalog Filter',
+  title: 'Crop Catalogue Filter',
   filters: [
     {
       subject: 'Status',

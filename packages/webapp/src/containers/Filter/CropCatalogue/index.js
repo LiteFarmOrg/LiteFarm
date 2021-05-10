@@ -14,42 +14,42 @@ import {
   LOCATION,
   SUPPLIERS,
 } from './constants';
-import { cropCatalogFilterSelector, setCropCatalogFilter } from '../../filterSlice';
+import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
-const CropCatalogFilterPage = () => {
+const CropCatalogueFilterPage = () => {
   const { t } = useTranslation();
   const cropEnabledLocations = useSelector(cropLocationsSelector);
-  const cropCatalogFilter = useSelector(cropCatalogFilterSelector);
+  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const dispatch = useDispatch();
 
   const handleApply = () => {
-    dispatch(setCropCatalogFilter(filterRef.current));
+    dispatch(setCropCatalogueFilter(filterRef.current));
   };
   const filterRef = useRef({});
 
   const filters = [
     {
-      subject: t('CROP_CATALOG.FILTER.STATUS.SUBJECT'),
+      subject: t('CROP_CATALOGUE.FILTER.STATUS.SUBJECT'),
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
-        default: cropCatalogFilter[STATUS][status] ?? false,
-        label: t(`CROP_CATALOG.FILTER.STATUS.${status}`),
+        default: cropCatalogueFilter[STATUS][status] ?? false,
+        label: t(`CROP_CATALOGUE.FILTER.STATUS.${status}`),
       })),
     },
     {
-      subject: t('CROP_CATALOG.FILTER.LOCATION'),
+      subject: t('CROP_CATALOGUE.FILTER.LOCATION'),
       filterKey: LOCATION,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
-        default: cropCatalogFilter[LOCATION][location.location_id] ?? false,
+        default: cropCatalogueFilter[LOCATION][location.location_id] ?? false,
         label: location.name,
       })),
     },
     {
-      subject: t('CROP_CATALOG.FILTER.SUPPLIERS'),
+      subject: t('CROP_CATALOGUE.FILTER.SUPPLIERS'),
       filterKey: SUPPLIERS,
       options: [],
     },
@@ -57,7 +57,7 @@ const CropCatalogFilterPage = () => {
 
   return (
     <PureFilterPage
-      title={t('CROP_CATALOG.FILTER.TITLE')}
+      title={t('CROP_CATALOGUE.FILTER.TITLE')}
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}
@@ -65,9 +65,9 @@ const CropCatalogFilterPage = () => {
   );
 };
 
-CropCatalogFilterPage.prototype = {
+CropCatalogueFilterPage.prototype = {
   subject: PropTypes.string,
   items: PropTypes.array,
 };
 
-export default CropCatalogFilterPage;
+export default CropCatalogueFilterPage;

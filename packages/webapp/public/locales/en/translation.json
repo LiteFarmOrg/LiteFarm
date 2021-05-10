@@ -80,7 +80,7 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
-  "CROP_CATALOG": {
+  "CROP_CATALOGUE": {
     "FILTER": {
       "LOCATION": "Location",
       "STATUS": {
@@ -92,7 +92,7 @@
         "SUBJECT": "Status"
       },
       "SUPPLIERS": "Suppliers",
-      "TITLE": "Crop Catalog Filter"
+      "TITLE": "Crop Catalogue Filter"
     }
   },
   "DATE_RANGE": {
@@ -1036,7 +1036,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop Catalog",
+    "CROP_CATALOGUE": "Crop Catalogue",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialCropCatalogFilter = {
+const initialCropCatalogueFilter = {
   STATUS: {},
   LOCATION: {},
   SUPPLIERS: {},
 };
 
 export const initialState = {
-  cropCatalog: initialCropCatalogFilter,
+  cropCatalogue: initialCropCatalogueFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -15,20 +15,20 @@ const filterSliceReducer = createSlice({
   initialState,
   reducers: {
     resetFilters: (state) => initialState,
-    resetCropCatalogFilter: (state) => {
-      state.cropCatalog = initialCropCatalogFilter;
+    resetCropCatalogueFilter: (state) => {
+      state.cropCatalogue = initialCropCatalogueFilter;
     },
-    setCropCatalogFilter: (state, { payload: cropCatalogFilter }) => {
-      Object.assign(state.cropCatalog, cropCatalogFilter);
+    setCropCatalogueFilter: (state, { payload: cropCatalogueFilter }) => {
+      Object.assign(state.cropCatalogue, cropCatalogueFilter);
     },
   },
 });
 
 export const {
   resetFilter,
-  resetCropCatalogFilter,
-  setCropCatalogFilter,
+  resetCropCatalogueFilter,
+  setCropCatalogueFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
-export const cropCatalogFilterSelector = (state) =>
-  state?.tempStateReducer[filterSliceReducer.name].cropCatalog;
+export const cropCatalogueFilterSelector = (state) =>
+  state?.tempStateReducer[filterSliceReducer.name].cropCatalogue;

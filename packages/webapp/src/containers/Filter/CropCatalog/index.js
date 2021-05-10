@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
 import { cropLocationsSelector } from '../../locationSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   STATUS,
   ACTIVE,
@@ -14,31 +14,20 @@ import {
   LOCATION,
   SUPPLIERS,
 } from './constants';
+import { cropCatalogFilterSelector, setCropCatalogFilter } from '../../filterSlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
 const CropCatalogFilterPage = () => {
   const { t } = useTranslation();
   const cropEnabledLocations = useSelector(cropLocationsSelector);
+  const cropCatalogFilter = useSelector(cropCatalogFilterSelector);
+  const dispatch = useDispatch();
 
   const handleApply = () => {
-    console.log('purefilterpage: ', filterRef.current);
+    dispatch(setCropCatalogFilter(filterRef.current));
   };
   const filterRef = useRef({});
-
-  // TODO: read filter reducer saved values
-  const cropCatalogFilter = {
-    STATUS: {
-      ACTIVE: true,
-      ABANDONED: false,
-      PLANNED: true,
-      COMPLETE: false,
-      NEEDS_PLAN: false,
-    },
-    LOCATION: {
-      '4a3a3eb2-acf0-11eb-82a2-acde48001122': true,
-    },
-  };
 
   const filters = [
     {
@@ -46,7 +35,7 @@ const CropCatalogFilterPage = () => {
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
-        default: cropCatalogFilter[STATUS][status],
+        default: cropCatalogFilter[STATUS][status] ?? false,
         label: t(`CROP_CATALOG.FILTER.STATUS.${status}`),
       })),
     },
@@ -55,7 +44,7 @@ const CropCatalogFilterPage = () => {
       filterKey: LOCATION,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
-        default: cropCatalogFilter[LOCATION][location.location_id],
+        default: cropCatalogFilter[LOCATION][location.location_id] ?? false,
         label: location.name,
       })),
     },

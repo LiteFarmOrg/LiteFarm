@@ -198,6 +198,8 @@ const EditWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/EditWatercourse'),
 );
 
+const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
+
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -361,6 +363,8 @@ const Routes = () => {
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
             <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
 
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
+
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -505,11 +509,8 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
-            <Route
-              path="/watercourse/:location_id/edit"
-              exact
-              component={EditWatercourseForm}
-            />{' '}
+            <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />

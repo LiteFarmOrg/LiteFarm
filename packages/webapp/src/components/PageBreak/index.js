@@ -8,7 +8,6 @@ import { Semibold } from '../Typography';
 const useStyles = makeStyles({
   container: {
     display: 'flex',
-    flexGrow: 1,
     gap: '8px',
   },
   labelContainer: {

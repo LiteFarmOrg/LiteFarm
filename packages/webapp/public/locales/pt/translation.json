@@ -80,6 +80,13 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "ON_YOUR_FARM": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",

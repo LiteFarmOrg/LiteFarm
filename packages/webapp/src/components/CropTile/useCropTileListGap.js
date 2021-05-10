@@ -1,7 +1,7 @@
 import { useComponentWidth } from '../../containers/hooks/useComponentWidthHeight';
 import { useEffect, useState } from 'react';
 
-export default function useCropTileListGap(numberOfCropTilesInEachContainer) {
+export default function useCropTileListGap(numberOfCropTilesInEachContainer = []) {
   const { ref, width } = useComponentWidth();
   const [{ gap, padding }, setGap] = useState({});
   const cardWidth = 88;
@@ -35,6 +35,6 @@ export default function useCropTileListGap(numberOfCropTilesInEachContainer) {
         { padding: 0, gap: 24 },
       ),
     );
-  }, [numberOfCropTilesInEachContainer]);
+  }, [width]);
   return { ref, gap, padding, cardWidth };
 }

@@ -207,33 +207,33 @@ export const cropCataloguesSelector = createSelector(
     };
     const fieldCropsByCommonName = {};
     for (const status in fieldCropsByStatus) {
-      for (const fieldCrop in fieldCropsByStatus[status]) {
+      for (const fieldCrop of fieldCropsByStatus[status]) {
         if (!fieldCropsByCommonName.hasOwnProperty(fieldCrop.crop_common_name)) {
           fieldCropsByCommonName[fieldCrop.crop_common_name] = {
             active: [],
             planned: [],
             past: [],
+            crop_common_name: fieldCrop.crop_common_name,
+            crop_translation_key: fieldCrop.crop_translation_key,
+            imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
           };
         }
         fieldCropsByCommonName[fieldCrop.crop_common_name][status].push(fieldCrop);
       }
     }
-    return Object.values(fieldCropsByStatus);
+    return Object.values(fieldCropsByCommonName);
   },
 );
 
-export const cropCataloguesStatusSelector = createSelector(
-  [cropCataloguesSelector],
-  (fieldCropsByCommonName) => {
-    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
-    for (const crop_common_name in fieldCropsByCommonName) {
-      for (const status in fieldCropsByCommonName[crop_common_name]) {
-        cropCataloguesStatus[status] += fieldCropsByCommonName[crop_common_name][status].length;
-      }
+export const cropCataloguesStatusSelector = createSelector([cropCataloguesSelector], (crops) => {
+  const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
+  for (const fieldCropsByStatus of crops) {
+    for (const status in fieldCropsByStatus) {
+      cropCataloguesStatus[status] += fieldCropsByStatus[status].length;
     }
-    return {
-      ...cropCataloguesStatus,
-      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
-    };
-  },
-);
+  }
+  return {
+    ...cropCataloguesStatus,
+    sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
+  };
+});

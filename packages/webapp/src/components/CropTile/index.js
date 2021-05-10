@@ -42,10 +42,10 @@ export default function PureCropTile({
         <div className={styles.cropCountContainer}>
           <Square isCropTile>{cropCount.active}</Square>
           <Square color={'planned'} isCropTile>
-            {cropCount.active}
+            {cropCount.planned}
           </Square>
           <Square color={'past'} isCropTile>
-            {cropCount.active}
+            {cropCount.past}
           </Square>
         </div>
       )}

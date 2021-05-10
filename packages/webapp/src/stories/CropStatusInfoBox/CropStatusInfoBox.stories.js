@@ -1,6 +1,6 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import CropStatusInfoBox from '../../components/CropCatalog/CropStatusInfoBox';
+import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 
 export default {
   title: 'Components/CropStatusInfoBox',

@@ -196,3 +196,44 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
   [currentAndPlannedFieldCropsSelector],
   getFieldCropLocationsFromFieldCrops,
 );
+
+export const cropCataloguesSelector = createSelector(
+  [currentFieldCropsSelector, plannedFieldCropsSelector, expiredFieldCropsSelector],
+  (currentFieldCrops, plannedFieldCrops, expiredFieldCrops) => {
+    const fieldCropsByStatus = {
+      active: currentFieldCrops,
+      planned: plannedFieldCrops,
+      past: expiredFieldCrops,
+    };
+    const fieldCropsByCommonName = {};
+    for (const status in fieldCropsByStatus) {
+      for (const fieldCrop in fieldCropsByStatus[status]) {
+        if (!fieldCropsByCommonName.hasOwnProperty(fieldCrop.crop_common_name)) {
+          fieldCropsByCommonName[fieldCrop.crop_common_name] = {
+            active: [],
+            planned: [],
+            past: [],
+          };
+        }
+        fieldCropsByCommonName[fieldCrop.crop_common_name][status].push(fieldCrop);
+      }
+    }
+    return Object.values(fieldCropsByStatus);
+  },
+);
+
+export const cropCataloguesStatusSelector = createSelector(
+  [cropCataloguesSelector],
+  (fieldCropsByCommonName) => {
+    const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
+    for (const crop_common_name in fieldCropsByCommonName) {
+      for (const status in fieldCropsByCommonName[crop_common_name]) {
+        cropCataloguesStatus[status] += fieldCropsByCommonName[crop_common_name][status].length;
+      }
+    }
+    return {
+      ...cropCataloguesStatus,
+      sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
+    };
+  },
+);

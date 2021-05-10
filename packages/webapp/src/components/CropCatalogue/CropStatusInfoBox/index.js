@@ -62,7 +62,7 @@ export default function CropStatusInfoBox({
         <Underlined>{t('common:EDIT_DATE')}</Underlined>
       </NativeDatePickerWrapper>
       <Text>
-        {t('CROP_CATALOG.CROP_STATUS')}{' '}
+        {t('CROP_CATALOGUE.CROP_STATUS')}{' '}
         <span className={classes.semibold}>
           {moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY')}
         </span>{' '}

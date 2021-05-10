@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   labelContainer: {
     display: 'flex',
     alignItems: 'center',
-    gap: '4px',
+    gap: '8px',
   },
   breakContainer: {
     flexGrow: 1,
@@ -32,10 +32,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PageBreak({ label, children }) {
+export default function PageBreak({ label, children, style }) {
   const classes = useStyles();
   return (
-    <div className={classes.container}>
+    <div className={classes.container} style={style}>
       {label && (
         <div className={classes.labelContainer}>
           {label && (
@@ -43,6 +43,7 @@ export default function PageBreak({ label, children }) {
               {label}
             </Semibold>
           )}
+
           {children}
         </div>
       )}
@@ -55,6 +56,6 @@ export default function PageBreak({ label, children }) {
 
 PageBreak.propTypes = {
   label: PropTypes.string,
-  icon: PropTypes.node,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  style: PropTypes.object,
 };

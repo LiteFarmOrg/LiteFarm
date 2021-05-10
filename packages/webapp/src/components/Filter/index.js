@@ -6,20 +6,11 @@ import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import { cloneObject } from '../../util';
 
-const Filter = ({ subject, items, filterKey, style, filterRef }) => {
+const Filter = ({ subject, items, filterKey, style, filterRef, filterState, updateFilter }) => {
   const [open, setOpen] = useState(false);
-  const initFilterState = {};
-  for (const item of items) {
-    initFilterState[item.value] = item.default;
-  }
-  const [filterState, setFilterState] = useState(initFilterState);
 
   const updateFilterState = (value) => {
-    setFilterState((prev) => {
-      const change = cloneObject(prev);
-      change[value] = !prev[value];
-      return change;
-    });
+    updateFilter(filterKey, value);
   };
 
   useEffect(() => {

@@ -29,12 +29,13 @@ class FieldCrop extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'location_id', 'area_used', 'estimated_production', 'estimated_revenue'],
+      required: ['crop_id', 'location_id', 'area_used', 'estimated_production', 'estimated_revenue', 'crop_variety_id'],
       properties: {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         location_id: { type: 'string' },
         variety: { type: 'string' },
+        crop_variety_id: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
         area_used: { type: 'float', minimum: 0 },

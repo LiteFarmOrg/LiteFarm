@@ -28,6 +28,7 @@ const FieldCropController = {
         res.status(201).send(result);
       } catch (error) {
         //handle more exceptions
+        console.log(error);
         await trx.rollback();
         res.status(400).json({
           error,
@@ -87,7 +88,7 @@ const FieldCropController = {
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
-        ], crop]`);
+        ], crop_variety.[crop]]`);
         return fieldCrop ? res.status(200).send(fieldCrop) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
@@ -107,7 +108,7 @@ const FieldCropController = {
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
-        ], crop]`)
+        ], crop_variety.[crop]]`)
           .where('location.farm_id', farm_id);
         return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
       } catch (error) {
@@ -129,7 +130,7 @@ const FieldCropController = {
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
-        ], crop]`)
+        ], crop_variety.[crop]]`)
           .where('location.farm_id', farm_id)
           .andWhere('fieldCrop.end_date', '>=', date);
 
@@ -150,7 +151,7 @@ const FieldCropController = {
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
-        ], crop]`)
+        ], crop_variety.[crop]]`)
           .where('location.farm_id', farm_id)
           .andWhere(raw('"fieldCrop".end_date < now()'));
 

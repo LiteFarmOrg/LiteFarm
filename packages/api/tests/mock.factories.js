@@ -369,7 +369,7 @@ async function fieldCropFactory({
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop }),
 } = {}, fieldCrop = fakeFieldCrop()) {
-  const [location, field, crop, cropVariety] = await Promise.all([promisedLocation, promisedField, promisedCrop, promisedCropVariety]);
+  const [location, field, cropVariety] = await Promise.all([promisedLocation, promisedField, promisedCropVariety]);
   const [{ created_by_user_id }] = location;
   const [{ location_id }] = field;
   const [{ crop_variety_id }] = cropVariety;

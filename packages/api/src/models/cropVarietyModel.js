@@ -28,7 +28,7 @@ class CropVariety extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'farm_id'],
+      required: ['crop_id', 'farm_id', 'crop_variety_name'],
 
       properties: {
         crop_variety_id: { type: 'string' },
@@ -43,8 +43,8 @@ class CropVariety extends BaseModel {
 
   static get relationMappings() {
     return {
-      yield: {
-        relation: Model.HasOneRelation,
+      crop: {
+        relation: Model.BelongsToOneRelation,
         modelClass: require('./cropModel'),
         join: {
           from: 'crop_variety.crop_id',

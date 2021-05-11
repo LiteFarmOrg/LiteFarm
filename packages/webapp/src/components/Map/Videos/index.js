@@ -7,14 +7,15 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import styles from './styles.module.scss';
 import './styles.module.scss';
 import TitleLayout from "../../Layout/TitleLayout";
+import ReactPlayer from "react-player";
 
 function PureVideoView({ history }) {
-  const height = window.innerHeight - 150;
+  const height = window.innerHeight - 200;
   return (
     <TitleLayout title={'Map Tutorials'} onGoBack={() => history.push('/map')}>
-      <div className={styles.revertPadding}>
         <Carousel
-          initialSlideHeight={height}
+          height={height}
+          initialSlideHeight={'first'}
           renderCenterLeftControls={({previousSlide}) => (
             <a onClick={previousSlide}>
               <BsChevronLeft style={{color: 'white'}} />
@@ -25,28 +26,18 @@ function PureVideoView({ history }) {
             <a onClick={nextSlide}>
               <BsChevronRight style={{color: 'white'}} />
             </a>
-        )}
+          )}
         >
           <div className={styles.slideContainer}>
-            <video autoPlay controls loop  className={styles.videoStyle} >
-              <source type="video/mp4" src={AreaVideo}/>
-              Sorry your browser doesn't support embedded videos
-            </video>
+            <ReactPlayer loop playing url={AreaVideo} />
           </div>
           <div className={styles.slideContainer}>
-            <video autoPlay controls loop  className={styles.videoStyle}>
-              <source type="video/mp4" src={LineVideo}/>
-              Sorry your browser doesn't support embedded videos
-            </video>
+            <ReactPlayer loop playing url={LineVideo} />
           </div>
           <div className={styles.slideContainer}>
-            <video autoPlay controls  loop  className={styles.videoStyle}>
-              <source type="video/mp4" src={PointVideo}/>
-              Sorry your browser doesn't support embedded videos
-            </video>
+            <ReactPlayer loop playing url={PointVideo} />
           </div>
         </Carousel>
-      </div>
     </TitleLayout>
   )
 }

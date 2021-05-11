@@ -8,12 +8,6 @@
   text-align: center;
 }
 
-.videoStyle {
-  height: 100%;
-  width: 100%;
-  object-fit: fill;
-}
-
 .revertPadding {
   margin: -24px;
 }
@@ -24,5 +18,5 @@
 
 }
 :global([aria-label$="bullet"]) {
-  fill: white !important;
+  fill: black !important;
 }

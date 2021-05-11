@@ -20,6 +20,8 @@ const languageConsent = {
   pt: { worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
 };
 
+const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;
+
 function ConsentForm({
   goBackTo = '/role_selection',
   goForwardTo = '/interested_in_organic',
@@ -58,7 +60,7 @@ function ConsentForm({
   useEffect(() => {
     setValue(checkboxName, role.has_consent ?? false);
     const consent =
-      role.role_id === 3 ? languageConsent[language].worker : languageConsent[language].owner;
+      role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
     fetch(consent)
       .then((r) => r.text())
       .then((text) => {

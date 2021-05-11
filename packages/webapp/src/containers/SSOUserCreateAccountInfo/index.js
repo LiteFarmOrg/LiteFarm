@@ -4,6 +4,7 @@ import PureInvitedUserCreateAccountPage from '../../components/InvitedUserCreate
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { patchSSOUserInfo } from './saga';
 
 export default function SSOUserCreateAccountInfo({ history }) {
   const { t } = useTranslation();
@@ -11,8 +12,7 @@ export default function SSOUserCreateAccountInfo({ history }) {
   const { email, full_name: name } = user;
   const dispatch = useDispatch();
   const onSubmit = (data) => {
-    console.log(data);
-    // dispatch();
+    dispatch(patchSSOUserInfo({ user: { ...data, email } }));
   };
   return (
     <PureInvitedUserCreateAccountPage

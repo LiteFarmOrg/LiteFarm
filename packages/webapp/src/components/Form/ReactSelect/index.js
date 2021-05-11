@@ -102,7 +102,7 @@ export const styles = {
     overflowY: 'scroll',
     '::-webkit-scrollbar': { display: 'none' },
     scrollbarWidth: 'none',
-    '-ms-overflow-style': 'none',
+    msOverflowStyle: 'none',
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
@@ -115,55 +115,51 @@ export const styles = {
   clearIndicator: () => ({}),
 };
 
-const ReactSelect = ({
-  label,
-  placeholder,
-  options,
-  toolTipContent,
-  icon,
-  style,
-  autoOpen,
-  components,
-  ...props
-}) => {
-  const { t } = useTranslation();
-  return (
-    <div style={style}>
-      {(label || toolTipContent || icon) && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            height: '20px',
+const ReactSelect = React.forwardRef(
+  (
+    { label, placeholder, options, toolTipContent, icon, style, autoOpen, components, ...props },
+    ref,
+  ) => {
+    const { t } = useTranslation();
+    return (
+      <div style={style}>
+        {(label || toolTipContent || icon) && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              height: '20px',
+            }}
+          >
+            <Label>{label}</Label>
+            {toolTipContent && <MoreInfo content={toolTipContent} autoOpen={autoOpen} />}
+            {icon && <span className={styles.icon}>{icon}</span>}
+          </div>
+        )}{' '}
+        <Select
+          customStyles
+          styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+          placeholder={placeholder}
+          options={options}
+          components={{
+            ClearIndicator: ({ innerProps }) => (
+              <Underlined
+                {...innerProps}
+                style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+              >
+                {t('REACT_SELECT.CLEAR_ALL')}
+              </Underlined>
+            ),
+            ...components,
           }}
-        >
-          <Label>{label}</Label>
-          {toolTipContent && <MoreInfo content={toolTipContent} autoOpen={autoOpen} />}
-          {icon && <span className={styles.icon}>{icon}</span>}
-        </div>
-      )}{' '}
-      <Select
-        customStyles
-        styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
-        placeholder={placeholder}
-        options={options}
-        components={{
-          ClearIndicator: ({ innerProps }) => (
-            <Underlined
-              {...innerProps}
-              style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
-            >
-              {t('REACT_SELECT.CLEAR_ALL')}
-            </Underlined>
-          ),
-          ...components,
-        }}
-        isSearchable={options?.length > 8}
-        {...props}
-      />
-    </div>
-  );
-};
+          isSearchable={options?.length > 8}
+          inputRef={ref}
+          {...props}
+        />
+      </div>
+    );
+  },
+);
 
 ReactSelect.propTypes = {
   label: PropTypes.string,
@@ -175,7 +171,7 @@ ReactSelect.propTypes = {
   /**
    To use with react-hook-form see page https://react-hook-form.com/api/#Controller and sandbox https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js:3850-3861
    */
-  options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+  options: PropTypes.arrayOf(PropTypes.shape({ label: PropTypes.string, value: PropTypes.any })),
   components: PropTypes.object,
 };
 export default ReactSelect;

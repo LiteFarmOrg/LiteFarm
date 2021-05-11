@@ -26,18 +26,25 @@ export default function PureGreenhouse({
   isAdmin,
 }) {
   const { t } = useTranslation();
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[greenhouseEnum.transition_date] = getDateInputFormat(new Date());
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: getDefaultValues(),
   });
   const persistedPath = getPersistPath('greenhouse', match, {
     isCreateLocationPage,
@@ -45,7 +52,7 @@ export default function PureGreenhouse({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
+    persistedData: { name, grid_points, total_area, perimeter },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -56,11 +63,11 @@ export default function PureGreenhouse({
   const greenhouseHeated = watch(greenhouseEnum.greenhouse_heated);
 
   const disabled = !isValid || !isDirty;
+  console.log(isValid, isDirty, errors);
   const showPerimeter = false;
   const onSubmit = (data) => {
-    data[greenhouseEnum.total_area_unit] = data[greenhouseEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[greenhouseEnum.perimeter_unit] = data[greenhouseEnum.perimeter_unit].value);
+    data[greenhouseEnum.total_area_unit] = data[greenhouseEnum.total_area_unit]?.value;
+    data[greenhouseEnum.perimeter_unit] = data[greenhouseEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
@@ -84,7 +91,7 @@ export default function PureGreenhouse({
   const title =
     (isCreateLocationPage && t('FARM_MAP.GREENHOUSE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GREENHOUSE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(greenhouseEnum.name));
+    (isViewLocationPage && name);
   return (
     <Form
       buttonGroup={
@@ -156,9 +163,8 @@ export default function PureGreenhouse({
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GREENHOUSE.NON_ORGANIC')}
               defaultChecked={true}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
               value={'Non-Organic'}
-              name={greenhouseEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -166,9 +172,8 @@ export default function PureGreenhouse({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GREENHOUSE.ORGANIC')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
               value={'Organic'}
-              name={greenhouseEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
@@ -176,21 +181,17 @@ export default function PureGreenhouse({
             <Radio
               style={{ marginBottom: '16px' }}
               label={t('FARM_MAP.GREENHOUSE.TRANSITIONING')}
-              inputRef={register({ required: true })}
+              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
               value={'Transitional'}
-              name={greenhouseEnum.organic_status}
               disabled={isViewLocationPage}
             />
           </div>
           <div style={{ paddingBottom: greenhouseTypeSelection === 'Organic' ? '9px' : '20px' }}>
             {greenhouseTypeSelection === 'Transitional' && (
               <Input
-                style={{ marginBottom: '16px' }}
                 type={'date'}
-                name={greenhouseEnum.transition_date}
-                defaultValue={getDateInputFormat(new Date())}
                 label={t('FARM_MAP.GREENHOUSE.DATE')}
-                inputRef={register({ required: true })}
+                hookFormRegister={register(greenhouseEnum.transition_date, { required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}
                 disabled={isViewLocationPage}
               />
@@ -211,17 +212,19 @@ export default function PureGreenhouse({
                 <div>
                   <Radio
                     label={t('common:YES')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.supplemental_lighting, {
+                      required: false,
+                    })}
                     value={true}
-                    name={greenhouseEnum.supplemental_lighting}
                     disabled={isViewLocationPage}
                   />
                   <Radio
                     style={{ marginLeft: '40px' }}
                     label={t('common:NO')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.supplemental_lighting, {
+                      required: false,
+                    })}
                     value={false}
-                    name={greenhouseEnum.supplemental_lighting}
                     disabled={isViewLocationPage}
                   />
                 </div>
@@ -237,17 +240,15 @@ export default function PureGreenhouse({
                 <div>
                   <Radio
                     label={t('common:YES')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.co2_enrichment, { required: false })}
                     value={true}
-                    name={greenhouseEnum.co2_enrichment}
                     disabled={isViewLocationPage}
                   />
                   <Radio
                     style={{ marginLeft: '40px' }}
                     label={t('common:NO')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.co2_enrichment, { required: false })}
                     value={false}
-                    name={greenhouseEnum.co2_enrichment}
                     disabled={isViewLocationPage}
                   />
                 </div>
@@ -263,17 +264,19 @@ export default function PureGreenhouse({
                 <div style={{ marginBottom: '16px' }}>
                   <Radio
                     label={t('common:YES')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.greenhouse_heated, {
+                      required: false,
+                    })}
                     value={true}
-                    name={greenhouseEnum.greenhouse_heated}
                     disabled={isViewLocationPage}
                   />
                   <Radio
                     style={{ marginLeft: '40px' }}
                     label={t('common:NO')}
-                    inputRef={register({ required: false })}
+                    hookFormRegister={register(greenhouseEnum.greenhouse_heated, {
+                      required: false,
+                    })}
                     value={false}
-                    name={greenhouseEnum.greenhouse_heated}
                     disabled={isViewLocationPage}
                   />
                 </div>

@@ -46,6 +46,8 @@ const hookFormPersistSlice = createSlice({
       const formData = { ...payload };
       formData[bufferZoneEnum.length_unit] = unitOptionMap[payload[bufferZoneEnum.length_unit]];
       formData[bufferZoneEnum.width_unit] = unitOptionMap[payload[bufferZoneEnum.width_unit]];
+      formData[bufferZoneEnum.total_area_unit] =
+        unitOptionMap[payload[bufferZoneEnum.total_area_unit]];
       formData[watercourseEnum.buffer_width_unit] =
         unitOptionMap[payload[watercourseEnum.buffer_width_unit]];
       state.formData = formData;

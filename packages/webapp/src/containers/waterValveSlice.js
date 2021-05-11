@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const waterValveProperties = ['source', 'flow_rate', 'location_id'];
+const waterValveProperties = ['source', 'flow_rate', 'flow_rate_unit', 'location_id'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {

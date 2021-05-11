@@ -1,0 +1,22 @@
+.slideContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1024px;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.revertPadding {
+  margin: -24px;
+}
+
+:global(.paging-item) {
+  margin-right: 4px !important;
+  margin-left: 4px !important;
+
+}
+:global([aria-label$="bullet"]) {
+  fill: black !important;
+}

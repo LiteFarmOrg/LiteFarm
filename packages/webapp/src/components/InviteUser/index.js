@@ -15,10 +15,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     handleSubmit,
     watch,
     control,
-    errors,
     setValue,
     trigger,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onTouched',
   });
@@ -74,23 +74,25 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Input
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
-        name={NAME}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(NAME, { required: true })}
       />
       <Controller
         control={control}
         name={ROLE}
-        label={t('INVITE_USER.ROLE')}
-        options={roleOptions}
-        style={{ marginBottom: '24px' }}
-        placeholder={t('INVITE_USER.CHOOSE_ROLE')}
-        as={ReactSelect}
+        render={({ field }) => (
+          <ReactSelect
+            {...field}
+            label={t('INVITE_USER.ROLE')}
+            options={roleOptions}
+            style={{ marginBottom: '24px' }}
+            placeholder={t('INVITE_USER.CHOOSE_ROLE')}
+          />
+        )}
         rules={{ required: true }}
       />
       <Input
         label={t('INVITE_USER.EMAIL')}
-        name={EMAIL}
-        inputRef={register({
+        hookFormRegister={register(EMAIL, {
           required: selectedRoleId !== 3,
           pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         })}
@@ -98,23 +100,29 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         optional={selectedRoleId === 3}
         info={t('INVITE_USER.EMAIL_INFO')}
         style={{ marginBottom: '16px' }}
-        hookFormSetValue={setValue}
       />
       <Controller
         control={control}
         name={GENDER}
-        label={t('INVITE_USER.GENDER')}
-        options={genderOptions}
-        toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
-        style={{ marginBottom: '24px' }}
-        defaultValue={genderOptions[3]}
-        as={<ReactSelect />}
+        render={({ field }) => (
+          <ReactSelect
+            label={t('INVITE_USER.GENDER')}
+            options={genderOptions}
+            toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
+            style={{ marginBottom: '24px' }}
+            defaultValue={genderOptions[3]}
+            {...field}
+          />
+        )}
       />
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
-        name={BIRTHYEAR}
+        hookFormRegister={register(BIRTHYEAR, {
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
         toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
         placeholder={'xxxx'}
@@ -124,28 +132,23 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
             `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
-        hookFormSetValue={setValue}
       />
       <Input
         label={t('INVITE_USER.WAGE')}
         step="0.01"
         type="number"
-        inputRef={register({ min: 0, valueAsNumber: true })}
-        name={WAGE}
+        hookFormRegister={register(WAGE, { min: 0, valueAsNumber: true })}
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
-        hookFormSetValue={setValue}
       />
       <Input
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}
-        inputRef={register({ pattern: /\d*/ })}
-        name={PHONE}
+        hookFormRegister={register(PHONE, { pattern: /\d*/ })}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
-        hookFormSetValue={setValue}
       />
     </Form>
   );

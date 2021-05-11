@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from "nuka-carousel";
+import Carousel from 'nuka-carousel';
 import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
 import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
@@ -34,3 +34,4 @@ function PureVideoView({ history }) {
 }
 
 export default PureVideoView;
+

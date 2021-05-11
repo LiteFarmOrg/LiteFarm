@@ -4,17 +4,14 @@ import AreaVideo from '../../../assets/videos/AreaDrawing.mp4';
 import LineVideo from '../../../assets/videos/LineDrawing.mp4';
 import PointVideo from '../../../assets/videos/AddingPoints.mp4';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import styles from './styles.module.scss';
 import './styles.module.scss';
 import TitleLayout from "../../Layout/TitleLayout";
-import ReactPlayer from "react-player";
 
 function PureVideoView({ history }) {
-  const height = window.innerHeight - 200;
   return (
     <TitleLayout title={'Map Tutorials'} onGoBack={() => history.push('/map')}>
         <Carousel
-          height={height}
+          width={'100%'}
           initialSlideHeight={'first'}
           renderCenterLeftControls={({previousSlide}) => (
             <a onClick={previousSlide}>
@@ -28,15 +25,9 @@ function PureVideoView({ history }) {
             </a>
           )}
         >
-          <div className={styles.slideContainer}>
-            <ReactPlayer loop playing url={AreaVideo} />
-          </div>
-          <div className={styles.slideContainer}>
-            <ReactPlayer loop playing url={LineVideo} />
-          </div>
-          <div className={styles.slideContainer}>
-            <ReactPlayer loop playing url={PointVideo} />
-          </div>
+          <video controls style={{width: '100%', height: 'auto'}} loop  muted src={AreaVideo} />
+          <video controls style={{width: '100%', height: 'auto'}} loop muted src={LineVideo} />
+          <video controls style={{width: '100%', height: 'auto'}} loop  muted src={PointVideo} />
         </Carousel>
     </TitleLayout>
   )

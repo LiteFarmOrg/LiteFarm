@@ -25,7 +25,7 @@ export function* patchSSOUserInfoSaga({ payload: { user: userForm } }) {
     };
     delete user.name;
     const result = yield call(axios.put, patchUserUrl(user_id), { ...user }, header);
-    history.push('/welcome');
+    history.push('/farm_selection');
   } catch (e) {
     console.log(e);
   }

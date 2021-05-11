@@ -300,14 +300,14 @@
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "Editar válvula de água",
+      "EDIT_TITLE": "Editar ponto de bombeamento",
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome da válvula de água",
+      "NAME": "Nome da ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
-      "TITLE": "Adicionar válvula de água",
+      "TITLE": "Adicionar ponto de bombeamento",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {

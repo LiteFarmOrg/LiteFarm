@@ -94,6 +94,7 @@ const LogDetail = React.lazy(() => import('./containers/Log/LogDetail'));
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
+const MapVideo = React.lazy(() => import('./components/Map/Videos'));
 const PostFarmSiteBoundaryForm = React.lazy(() =>
   import(
     './containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'
@@ -293,6 +294,7 @@ const Routes = () => {
             <Route path="/garden/:location_id" component={GardenDetails} />
 
             <Route path="/map" exact component={Map} />
+            <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
               exact

@@ -18,12 +18,12 @@ const CustomProgress = withStyles((theme) => ({
 
 const ProgressBar = ({
     classes = {},
-    v,
+    progress,
     ...props
 }) => {
     return (
         <div className = {classes.root}>
-            <CustomProgress variant = "determinate" value={v} {...props} />
+            <CustomProgress variant = "determinate" value={progress} {...props} />
         </div>
     );
 };

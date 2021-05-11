@@ -4,126 +4,164 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Underlined, Label } from '../Typography';
-import { Controller, useForm } from 'react-hook-form';
 import Input from '../Form/Input';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
 import ProgressBar from '../Form/ProgressBar';
 import Radio from '../Form/Radio';
+import Form from '../Form';
+import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
 export default function PureAddCrop({ 
-  onCancel, 
-  onContinue, 
-  onGoBack, 
-  history }) {
+  history,
+  imageKey,
+  cropEnum,
+  disabled,
+  onSubmit,
+  varietyRegister,
+  supplierRegister,
+  seedTypeRegister,
+  lifeCycleRegister,
+  locationID,
+  cropTranslationKey,
+}) {
   
-  const { t } = useTranslation(['translation', 'common']);
-  const { register, handleSubmit, watch, control, errors, setValue, formState } = useForm({
-    mode: 'onTouched',
-  });
+  const { t } = useTranslation(['translation', 'common', 'crop']);
+  
 
-  const cropEnum = {
-    seed_type: 'seed_type',
-    life_cycle: 'life_cycle',
-  }
   const progress = 33;
-  
+
   return (
-    <Layout
-    buttonGroup={
-        <Button disabled={true} onClick={onContinue} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
+    <Form
+      buttonGroup={
+          <Button 
+            disabled={disabled} 
+            onClick={() => {}} fullLength>
+            {t('common:CONTINUE')} 
+          </Button>
       }
+      onSubmit = {onSubmit}
     >
-    
-    <PageTitle 
-    onGoBack = {() => history.push('/croplist')}
-    onCancel = {onCancel}
-    title={"Add a crop"}
-    />
-    <div style={{
-      marginBottom: '24px',
-      marginTop: '8px',
-      }}>
-      <ProgressBar value={progress}/>
-    </div>
-    <div className={styles.cropLabel}>{"Carrot"}</div>
-    <img
-          src={`crop-images/${'carrot'}.jpg`}
-          alt={'carrot'}
-          className={styles.circleImg}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
-          }}
-        />
-    
-    <div
-          style={{
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginBottom: '24px',
-            display: 'flex',
-            width: 'fit-content',
-            fontSize: '16px',
-            color: 'var(--iconActive)',
-            lineHeight: '16px',
-            cursor: 'pointer',
-          }}
-          onClick={()=>{}}
-    >
-          + <Underlined>{"Add Custom Image"}</Underlined>
-    </div>
+      
+      <PageTitle 
+        onGoBack = {() => history.push(`/field/${locationID}/crops`)}
+        onCancel = {() => history.push(`/field/${locationID}/crops`)}
+        title={"Add a crop"}
+      />
+      <div style={{
+        marginBottom: '24px',
+        marginTop: '8px',
+        }}>
+        <ProgressBar value={progress}/>
+      </div>
+      <div className={styles.cropLabel}>{t(`crop:${cropTranslationKey}`)}</div>
+      <img
+            src={`crop-images/${imageKey}.jpg`}
+            alt={imageKey}
+            className={styles.circleImg}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'crop-images/default.jpg';
+            }}
+          />
+      
+      <div
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginBottom: '24px',
+              display: 'flex',
+              width: 'fit-content',
+              fontSize: '16px',
+              color: 'var(--iconActive)',
+              lineHeight: '16px',
+              cursor: 'pointer',
+            }}
+            onClick={()=>{}}
+      >
+            + <Underlined>{"Add Custom Image"}</Underlined>
+      </div>
 
-    
-    <Input  style={{ marginBottom: '40px' }} label={t("translation:FIELDS.EDIT_FIELD.VARIETY")} hasLeaf={true}/>
-    
-    <Input  style={{ marginBottom: '40px' }} label={'Supplier'} hasLeaf={true} />
-    
-    <div>
-      <div style={{ marginBottom: '24px' }}>
-            <Label
-              style={{
-                paddingRight: '10px',
-                fontSize: '16px',
-                lineHeight: '20px',
-                display: 'inline-block',
-              }}
-            >
-              {"Will you plant as a seed or seedling?"}
-            </Label>
-        </div>
-        <div>
-          <Radio label='Seed' value='seed' inputRef={register({ required: true })} name={cropEnum.seed_type}/>
-        </div>
-        <div>
-          <Radio label='Seedling or planting stock' value='seedling'  inputRef={register({ required: true })} name={cropEnum.seed_type} />
-        </div> 
-    </div>
+      
+      <Input  
+        style={{ marginBottom: '40px' }} 
+        label={t("translation:FIELDS.EDIT_FIELD.VARIETY")}
+        type="text"
+        hookFormRegister={varietyRegister} 
+        hasLeaf={true}
+      />
+      
+      <Input  
+        style={{ marginBottom: '40px' }} 
+        label={'Supplier'}
+        type="text"
+        hookFormRegister={supplierRegister} 
+        hasLeaf={true} 
+      />
+      
+      <div>
+        <div style={{ marginBottom: '24px' }}>
+              <Label
+                style={{
+                  paddingRight: '10px',
+                  fontSize: '16px',
+                  lineHeight: '20px',
+                  display: 'inline-block',
+                }}
+              >
+                {"Will you plant as a seed or seedling?"}
+              </Label>
+          </div>
+          <div>
+            <Radio 
+              label='Seed' 
+              value={'seed'} 
+              hookFormRegister={seedTypeRegister} 
+              name={cropEnum.seed_type}
+            />
+          </div>
+          <div>
+            <Radio 
+              label='Seedling or planting stock' 
+              value={'seedling'}  
+              hookFormRegister={seedTypeRegister}
+              name={cropEnum.seed_type} 
+            />
+          </div> 
+      </div>
 
-    <div>
-      <div style={{ marginBottom: '20px' }}>
-            <Label
-              style={{
-                paddingRight: '10px',
-                fontSize: '16px',
-                lineHeight: '20px',
-                display: 'inline-block',
-              }}
-            >
-              {"Is the crop an annual or perennial?"}
-            </Label>
-        </div>
-        <div>
-          <Radio label='Annual' value='annual' inputRef={register({ required: true })} name={cropEnum.life_cycle}/>
-        </div>
-        <div>
-          <Radio label='Perennial' value='perennial' inputRef={register({ required: true })} name={cropEnum.life_cycle}/>
-        </div> 
-    </div>
+      <div>
+        <div style={{ marginBottom: '20px' }}>
+              <Label
+                style={{
+                  paddingRight: '10px',
+                  fontSize: '16px',
+                  lineHeight: '20px',
+                  display: 'inline-block',
+                }}
+              >
+                {"Is the crop an annual or perennial?"}
+              </Label>
+          </div>
+          <div>
+            <Radio 
+              label='Annual' 
+              value={'annual'}
+              hookFormRegister={lifeCycleRegister}  
+              name={cropEnum.life_cycle}
+            />
+          </div>
+          <div>
+            <Radio 
+              label='Perennial' 
+              value={'perennial'}
+              hookFormRegister={lifeCycleRegister} 
+              name={cropEnum.life_cycle}
+            />
+          </div> 
+      </div>
     
-    </Layout>
+    </Form>
   );
 }
 

@@ -57,6 +57,10 @@
     "INPUT_PLACEHOLDER": "Search",
     "SWITCH_TITLE": "Switch to another farm"
   },
+  "CROP_DETAIL": {
+    "MANAGEMENT_TAB": "Management",
+    "DETAIL_TAB": "Details"
+  },
   "COMMON_ERRORS": {
     "UNIT": {
       "NON_NEGATIVE": "Must be a non negative number",

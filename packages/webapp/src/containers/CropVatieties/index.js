@@ -21,6 +21,7 @@ import { getCropVarieties } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
+import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -28,12 +29,26 @@ export default function CropVarieties({ history, match }) {
   const dispatch = useDispatch();
   const { crop_id } = match.params;
   const crop = useSelector(cropSelector(crop_id));
-  const cropVarietiesWithoutManagementPlan = useSelector(
-    cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id),
+
+  const [filterString, setFilterString] = useState('');
+  const filterStringOnChange = (e) => setFilterString(e.target.value);
+
+  const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
+    useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id)),
+    filterString,
   );
-  const currentCropVarieties = useSelector(currentFieldCropByCropIdSelector(crop_id));
-  const plannedCropVarieties = useSelector(plannedFieldCropByCropIdSelector(crop_id));
-  const expiredCropVarieties = useSelector(expiredFieldCropByCropIdSelector(crop_id));
+  const currentCropVarieties = useStringFilteredCrops(
+    useSelector(currentFieldCropByCropIdSelector(crop_id)),
+    filterString,
+  );
+  const plannedCropVarieties = useStringFilteredCrops(
+    useSelector(plannedFieldCropByCropIdSelector(crop_id)),
+    filterString,
+  );
+  const expiredCropVarieties = useStringFilteredCrops(
+    useSelector(expiredFieldCropByCropIdSelector(crop_id)),
+    filterString,
+  );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
     currentCropVarieties.length,
     plannedCropVarieties.length,
@@ -64,7 +79,11 @@ export default function CropVarieties({ history, match }) {
         style={{ paddingBottom: '20px' }}
         onGoBack={onGoBack}
       />
-      <PureSearchbarAndFilter onFilterOpen={onFilterOpen} />
+      <PureSearchbarAndFilter
+        onFilterOpen={onFilterOpen}
+        value={filterString}
+        onChange={filterStringOnChange}
+      />
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}></MuiFullPagePopup>
 
       <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} />

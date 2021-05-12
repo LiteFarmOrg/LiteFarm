@@ -118,7 +118,7 @@ export const expiredFieldCropsSelector = createSelector(
   },
 );
 
-const getExpiredFieldCrops = (fieldCrops, time) =>
+export const getExpiredFieldCrops = (fieldCrops, time) =>
   fieldCrops.filter((fieldCrop) => new Date(fieldCrop.end_date).getTime() < time);
 
 export const currentAndPlannedFieldCropsSelector = createSelector(
@@ -137,7 +137,7 @@ export const currentFieldCropsSelector = createSelector(
   },
 );
 
-const getCurrentFieldCrops = (fieldCrops, time) => {
+export const getCurrentFieldCrops = (fieldCrops, time) => {
   return fieldCrops.filter(
     (fieldCrop) =>
       new Date(fieldCrop.end_date).getTime() >= time &&
@@ -152,7 +152,7 @@ export const plannedFieldCropsSelector = createSelector(
   },
 );
 
-const getPlannedFieldCrops = (fieldCrops, time) =>
+export const getPlannedFieldCrops = (fieldCrops, time) =>
   fieldCrops.filter((fieldCrop) => new Date(fieldCrop.start_date).getTime() > time);
 
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
@@ -234,50 +234,6 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
   [currentAndPlannedFieldCropsSelector],
   getFieldCropLocationsFromFieldCrops,
 );
-
-export const cropCataloguesSelector = createSelector(
-  [fieldCropsSelector, cropCatalogueFilterDateSelector],
-  (fieldCrops, cropCatalogFilterDate) => {
-    const time = new Date(cropCatalogFilterDate).getTime();
-    const fieldCropsByStatus = {
-      active: getCurrentFieldCrops(fieldCrops, time),
-      planned: getPlannedFieldCrops(fieldCrops, time),
-      past: getExpiredFieldCrops(fieldCrops, time),
-    };
-    const fieldCropsByCropId = {};
-    for (const status in fieldCropsByStatus) {
-      for (const fieldCrop of fieldCropsByStatus[status]) {
-        if (!fieldCropsByCropId.hasOwnProperty(fieldCrop.crop_id)) {
-          fieldCropsByCropId[fieldCrop.crop_id] = {
-            active: [],
-            planned: [],
-            past: [],
-            crop_common_name: fieldCrop.crop_common_name,
-            crop_translation_key: fieldCrop.crop_translation_key,
-            imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
-            crop_id: fieldCrop.crop_id,
-          };
-        }
-
-        fieldCropsByCropId[fieldCrop.crop_id][status].push(fieldCrop);
-      }
-    }
-    return Object.values(fieldCropsByCropId);
-  },
-);
-
-export const cropCataloguesStatusSelector = createSelector([cropCataloguesSelector], (crops) => {
-  const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
-  for (const fieldCropsByStatus of crops) {
-    for (const status in fieldCropsByStatus) {
-      cropCataloguesStatus[status] += fieldCropsByStatus[status].length;
-    }
-  }
-  return {
-    ...cropCataloguesStatus,
-    sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
-  };
-});
 
 export const fieldCropByCropIdSelector = (crop_id) =>
   createSelector([fieldCropsSelector], (fieldCrops) => {

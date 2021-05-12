@@ -7,11 +7,7 @@ import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox'
 import { AddLink, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
-import {
-  cropCataloguesSelector,
-  cropCataloguesStatusSelector,
-  cropsWithVarietyWithoutManagementPlanSelector,
-} from '../fieldCropSlice';
+import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
@@ -21,17 +17,21 @@ import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
+import useCropCatalogue from './useCropCatalogue';
+import useStringFilteredCrops from './useStringFilteredCrops';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const crops = useSelector(cropsSelector);
-  const cropCatalogues = useSelector(cropCataloguesSelector);
+
   const cropVarietiesWithoutManagementPlan = useSelector(
     cropsWithVarietyWithoutManagementPlanSelector,
   );
-  const { active, planned, past, sum } = useSelector(cropCataloguesStatusSelector);
+  const [filterString, setFilterString] = useState('');
+  const filterStringOnChange = (e) => setFilterString(e.target.value);
+  const { active, planned, past, sum, cropCatalogue } = useCropCatalogue(filterString);
+  const crops = useStringFilteredCrops(useSelector(cropsSelector), filterString);
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
@@ -52,7 +52,11 @@ export default function CropCatalogue({ history }) {
   return (
     <Layout>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
-      <PureSearchbarAndFilter onFilterOpen={onFilterOpen} />
+      <PureSearchbarAndFilter
+        onFilterOpen={onFilterOpen}
+        value={filterString}
+        onChange={filterStringOnChange}
+      />
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <CropCatalogueFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
@@ -68,7 +72,7 @@ export default function CropCatalogue({ history }) {
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
-              {cropCatalogues.map((cropCatalog) => {
+              {cropCatalogue.map((cropCatalog) => {
                 const {
                   crop_translation_key,
                   active,

@@ -15,6 +15,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore } from '@reduxjs/toolkit';
@@ -80,6 +82,16 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const languages = ['en', 'es', 'pt'];
+
+Sentry.init({
+  dsn: "https://4696ec355f9d41dfb62984bed20e90b3@o653439.ingest.sentry.io/5761919",
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -160,6 +172,7 @@ export const purgeState = () => {
 export default () => {
   return { store, persistor };
 };
+
 
 const render = () => {
   const App = require('./App').default;

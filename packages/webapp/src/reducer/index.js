@@ -56,6 +56,7 @@ import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import filterReducer from '../containers/filterSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -163,6 +164,7 @@ const tempStateReducer = combineReducers({
   mapLocationReducer,
   hookFormPersistReducer,
   organicCertifierSurveyReducer,
+  filterReducer,
 });
 
 // combine all reducers here and pass it to application

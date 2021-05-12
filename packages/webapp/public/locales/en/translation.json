@@ -81,6 +81,19 @@
     "TITLE": "Create new user account"
   },
   "CROP_CATALOGUE": {
+    "FILTER": {
+      "LOCATION": "Location",
+      "STATUS": {
+        "ABANDONED": "Abandoned",
+        "ACTIVE": "Active",
+        "COMPLETE": "Complete",
+        "NEEDS_PLAN": "Needs plan",
+        "PLANNED": "Planned",
+        "SUBJECT": "Status"
+      },
+      "SUPPLIERS": "Suppliers",
+      "TITLE": "Crop Catalogue Filter"
+    },
     "ADD_CROP": "Add a new crop",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CROP_CATALOGUE": "Crop Catalogue",
@@ -406,6 +419,9 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "Clear all filters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",

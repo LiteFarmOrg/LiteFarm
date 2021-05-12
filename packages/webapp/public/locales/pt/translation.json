@@ -81,6 +81,19 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "CROP_CATALOGUE": {
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": {
+        "ABANDONED": "MISSING",
+        "ACTIVE": "MISSING",
+        "COMPLETE": "MISSING",
+        "NEEDS_PLAN": "MISSING",
+        "PLANNED": "MISSING",
+        "SUBJECT": "MISSING"
+      },
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
     "ADD_CROP": "MISSING",
     "ADD_TO_YOUR_FARM": "MISSING",
     "CROP_CATALOGUE": "MISSING",
@@ -406,6 +419,9 @@
       "FIELD_NAME": "Nome do Campo"
     },
     "TITLE": "CAMPOS"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",

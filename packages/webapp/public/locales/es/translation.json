@@ -81,6 +81,19 @@
     "TITLE": "Crear nueva cuenta de usuario"
   },
   "CROP_CATALOGUE": {
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": {
+        "ABANDONED": "MISSING",
+        "ACTIVE": "MISSING",
+        "COMPLETE": "MISSING",
+        "NEEDS_PLAN": "MISSING",
+        "PLANNED": "MISSING",
+        "SUBJECT": "MISSING"
+      },
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
     "ADD_CROP": "MISSING",
     "ADD_TO_YOUR_FARM": "MISSING",
     "CROP_CATALOGUE": "MISSING",

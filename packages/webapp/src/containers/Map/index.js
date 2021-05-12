@@ -288,7 +288,7 @@ export default function Map({ history }) {
   const mapWrapperRef = useRef();
 
   const handleShowVideo = () => {
-    console.log('show video clicked');
+    history.push('/map/videos');
   };
 
   const handleCloseSuccessHeader = () => {

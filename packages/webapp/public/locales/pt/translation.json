@@ -80,6 +80,21 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOGUE": {
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": {
+        "ABANDONED": "MISSING",
+        "ACTIVE": "MISSING",
+        "COMPLETE": "MISSING",
+        "NEEDS_PLAN": "MISSING",
+        "PLANNED": "MISSING",
+        "SUBJECT": "MISSING"
+      },
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
@@ -240,7 +255,7 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Válvula de água"
+      "WV": "Ponto de Bombeamento"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editarar área natural",
@@ -300,14 +315,14 @@
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "Editar válvula de água",
+      "EDIT_TITLE": "Editar ponto de bombeamento",
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome da válvula de água",
+      "NAME": "Nome da ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
-      "TITLE": "Adicionar válvula de água",
+      "TITLE": "Adicionar ponto de bombeamento",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {
@@ -399,6 +414,9 @@
       "FIELD_NAME": "Nome do Campo"
     },
     "TITLE": "CAMPOS"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
@@ -573,7 +591,6 @@
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
-    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
@@ -1019,6 +1036,7 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
+    "CROP_CATALOGUE": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

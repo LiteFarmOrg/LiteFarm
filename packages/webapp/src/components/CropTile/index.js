@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ReactComponent as CalendarIcon } from '../../assets/images/fieldCrops/calendar.svg';
 import { useTranslation } from 'react-i18next';
 import EditFieldCropModal from '../Forms/EditFieldCropModal/EditFieldCropModal';
+import PureAddCrop from '../AddCrop';
 
 const cropStatus = {
   active: 'Active',

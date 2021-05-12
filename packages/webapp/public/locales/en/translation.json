@@ -84,6 +84,21 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
+  "CROP_CATALOGUE": {
+    "FILTER": {
+      "LOCATION": "Location",
+      "STATUS": {
+        "ABANDONED": "Abandoned",
+        "ACTIVE": "Active",
+        "COMPLETE": "Complete",
+        "NEEDS_PLAN": "Needs plan",
+        "PLANNED": "Planned",
+        "SUBJECT": "Status"
+      },
+      "SUPPLIERS": "Suppliers",
+      "TITLE": "Crop Catalogue Filter"
+    }
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",
@@ -403,6 +418,9 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "Clear all filters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
@@ -1022,7 +1040,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop Catalog",
+    "CROP_CATALOGUE": "Crop Catalogue",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

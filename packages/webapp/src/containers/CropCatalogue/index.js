@@ -5,19 +5,26 @@ import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import { AddLink, Text } from '../../components/Typography';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
 import { cropCataloguesSelector, cropCataloguesStatusSelector } from '../fieldCropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
+import { useEffect } from 'react';
+import { getCrops, getCropVarieties } from '../saga';
 
 export default function CropCatalogue() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const crops = useSelector(cropsSelector);
   const cropCatalogues = useSelector(cropCataloguesSelector);
   const { active, planned, past, sum } = useSelector(cropCataloguesStatusSelector);
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
+  useEffect(() => {
+    dispatch(getCropVarieties());
+    dispatch(getCrops());
+  }, []);
 
   return (
     <Layout>
@@ -68,6 +75,7 @@ export default function CropCatalogue() {
                 src={`crop-images/${imageKey}.jpg`}
                 alt={imageKey}
                 style={{ width: cardWidth }}
+                isCropTemplate
               />
             );
           })}

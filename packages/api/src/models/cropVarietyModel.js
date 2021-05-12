@@ -29,7 +29,6 @@ class CropVariety extends BaseModel {
     return {
       type: 'object',
       required: ['crop_id', 'farm_id', 'crop_variety_name'],
-
       properties: {
         crop_variety_id: { type: 'string' },
         crop_id: { type: 'integer' },

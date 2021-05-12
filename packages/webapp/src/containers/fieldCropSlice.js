@@ -5,11 +5,12 @@ import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
 import { pick } from '../util';
 import { cropLocationEntitiesSelector } from './locationSlice';
+import { cropVarietyEntitiesSelector } from './cropVarietySlice';
 
 const getFieldCrop = (obj) => {
   return pick(obj, [
     'field_crop_id',
-    'crop_id',
+    'crop_variety_id',
     'location_id',
     'start_date',
     'end_date',
@@ -86,16 +87,26 @@ const fieldCropSelectors = fieldCropAdapter.getSelectors(
 );
 
 export const fieldCropsSelector = createSelector(
-  [fieldCropSelectors.selectAll, cropLocationEntitiesSelector, cropEntitiesSelector, loginSelector],
-  (fieldCrops, cropLocationEntities, cropEntities, { farm_id }) => {
+  [
+    fieldCropSelectors.selectAll,
+    cropLocationEntitiesSelector,
+    cropEntitiesSelector,
+    cropVarietyEntitiesSelector,
+    loginSelector,
+  ],
+  (fieldCrops, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
     const fieldCropsOfCurrentFarm = fieldCrops.filter(
       (fieldCrop) => cropLocationEntities[fieldCrop.location_id]?.farm_id === farm_id,
     );
-    return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
-      ...cropEntities[fieldCrop.crop_id],
-      location: cropLocationEntities[fieldCrop.location_id],
-      ...fieldCrop,
-    }));
+    return fieldCropsOfCurrentFarm.map((fieldCrop) => {
+      const cropVariety = cropVarietyEntities[fieldCrop.crop_variety_id];
+      return {
+        ...cropEntities[cropVariety.crop_id],
+        ...cropVariety,
+        location: cropLocationEntities[fieldCrop.location_id],
+        ...fieldCrop,
+      };
+    });
   },
 );
 

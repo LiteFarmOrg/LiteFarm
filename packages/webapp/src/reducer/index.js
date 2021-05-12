@@ -48,6 +48,7 @@ import waterValveReducer from '../containers/waterValveSlice';
 import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
+import cropVarietyReducer from '../containers/cropVarietySlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
@@ -129,6 +130,7 @@ const entitiesReducer = combineReducers({
   certifierSurveyReducer,
   rolesReducer,
   cropReducer,
+  cropVarietyReducer,
   fieldCropReducer,
   weatherReducer,
   barnReducer,

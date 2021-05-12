@@ -93,9 +93,6 @@ const cropSlice = createSlice({
       state.loaded = true;
     },
     postCropSuccess: addOneCrop,
-    putCropSuccess(state, { payload: { crop, farm_id } }) {
-      cropAdapter.updateOne(state, { changes: { crop }, id: farm_id });
-    },
     selectCropSuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
@@ -104,7 +101,6 @@ const cropSlice = createSlice({
 export const {
   getCropsSuccess,
   postCropSuccess,
-  putCropSuccess,
   onLoadingCropStart,
   onLoadingCropFail,
   getAllCropsSuccess,

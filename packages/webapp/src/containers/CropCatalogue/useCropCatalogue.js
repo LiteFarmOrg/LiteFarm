@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import { STATUS, LOCATION, ACTIVE, PLANNED, COMPLETE } from '../Filter/CropCatalogue/constants';
+import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS } from '../Filter/CropCatalogue/constants';
 
 export default function useCropCatalogue(filterString) {
   const fieldCrops = useSelector(fieldCropsSelector);
@@ -65,12 +65,15 @@ export default function useCropCatalogue(filterString) {
       if (statusFilter[status]) included.add(status);
     }
     if (included.size === 0) return cropCatalogue;
-    return cropCatalogue.map((catalogue) => ({
+    const newCropCatalogue = cropCatalogue.map((catalogue) => ({
       ...catalogue,
       active: statusFilter[ACTIVE] ? catalogue.active : [],
       planned: statusFilter[PLANNED] ? catalogue.planned : [],
       past: statusFilter[COMPLETE] ? catalogue.past : [],
     }));
+    return newCropCatalogue.filter(
+      (catalog) => catalog.active.length || catalog.past.length || catalog.planned.length,
+    );
   }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
   const cropCataloguesStatus = useMemo(() => {

@@ -5,16 +5,28 @@ import {
   getPlannedFieldCrops,
 } from '../fieldCropSlice';
 import { useSelector } from 'react-redux';
-import { cropCatalogueFilterDateSelector } from '../filterSlice';
+import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
+import { STATUS, LOCATION, ACTIVE, PLANNED, COMPLETE } from '../Filter/CropCatalogue/constants';
 
 export default function useCropCatalogue(filterString) {
   const fieldCrops = useSelector(fieldCropsSelector);
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
+  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const fieldCropsFilteredByFilterString = useStringFilteredCrops(fieldCrops, filterString);
-  //TODO: location useMemo
-  const fieldCropsFilteredByLocations = fieldCropsFilteredByFilterString;
+
+  const fieldCropsFilteredByLocations = useMemo(() => {
+    const locationFilter = cropCatalogueFilter[LOCATION];
+    const included = new Set();
+    for (const location_id in locationFilter) {
+      if (locationFilter[location_id]) included.add(location_id);
+    }
+    if (included.size === 0) return fieldCropsFilteredByFilterString;
+    return fieldCropsFilteredByFilterString.filter((fieldCrop) =>
+      included.has(fieldCrop.location_id),
+    );
+  }, [cropCatalogueFilter[LOCATION], fieldCropsFilteredByFilterString]);
   //TODO: supplier useMemo
   const fieldCropsFilteredBySuppliers = fieldCropsFilteredByLocations;
 
@@ -46,8 +58,20 @@ export default function useCropCatalogue(filterString) {
     return Object.values(fieldCropsByCropId);
   }, [fieldCropsFilteredBySuppliers, cropCatalogFilterDate]);
 
-  //TODO: status useMemo
-  const cropCatalogueFilteredByStatus = cropCatalogue;
+  const cropCatalogueFilteredByStatus = useMemo(() => {
+    const statusFilter = cropCatalogueFilter[STATUS];
+    const included = new Set();
+    for (const status in statusFilter) {
+      if (statusFilter[status]) included.add(status);
+    }
+    if (included.size === 0) return cropCatalogue;
+    return cropCatalogue.map((catalogue) => ({
+      ...catalogue,
+      active: statusFilter[ACTIVE] ? catalogue.active : [],
+      planned: statusFilter[PLANNED] ? catalogue.planned : [],
+      past: statusFilter[COMPLETE] ? catalogue.past : [],
+    }));
+  }, [cropCatalogueFilter[STATUS], cropCatalogue]);
 
   const cropCataloguesStatus = useMemo(() => {
     const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };

@@ -17,7 +17,6 @@ const useStyles = makeStyles({
     display: 'flex',
     padding: '12px',
     position: 'relative',
-    minHeight: '75px',
     flexDirection: 'column',
     rowGap: '16px',
   },
@@ -36,9 +35,7 @@ const useStyles = makeStyles({
 });
 
 export default function CropStatusInfoBox({
-  active = 0,
-  planned = 0,
-  past = 0,
+  status,
   date = getDateInputFormat(new Date()),
   setDate,
   ...props
@@ -66,28 +63,33 @@ export default function CropStatusInfoBox({
           {moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY')}
         </span>{' '}
       </Text>
-      <div className={classes.secondRowContainer}>
-        <div className={classes.cropCountContainer}>
-          <Square>{active}</Square>
-          {t('common:ACTIVE')}
+      {status && (
+        <div className={classes.secondRowContainer}>
+          <div className={classes.cropCountContainer}>
+            <Square>{status.active}</Square>
+            {t('common:ACTIVE')}
+          </div>
+          <div className={classes.cropCountContainer}>
+            <Square color={'planned'}>{status.planned}</Square>
+            {t('common:PLANNED')}
+          </div>
+          <div className={classes.cropCountContainer}>
+            <Square color={'past'}>{status.past}</Square>
+            {t('common:PAST')}
+          </div>
         </div>
-        <div className={classes.cropCountContainer}>
-          <Square color={'planned'}>{planned}</Square>
-          {t('common:PLANNED')}
-        </div>
-        <div className={classes.cropCountContainer}>
-          <Square color={'past'}>{past}</Square>
-          {t('common:PAST')}
-        </div>
-      </div>
+      )}
     </Card>
   );
 }
 
 CropStatusInfoBox.propTypes = {
-  active: PropTypes.number,
   setDate: PropTypes.func,
   date: PropTypes.string,
-  planned: PropTypes.number,
-  past: PropTypes.number,
+
+  status: PropTypes.exact({
+    active: PropTypes.number,
+    planned: PropTypes.number,
+    past: PropTypes.number,
+  }),
 };

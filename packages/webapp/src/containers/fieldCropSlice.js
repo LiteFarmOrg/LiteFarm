@@ -5,7 +5,7 @@ import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
 import { pick } from '../util';
 import { cropLocationEntitiesSelector } from './locationSlice';
-import { cropVarietyEntitiesSelector } from './cropVarietySlice';
+import { cropVarietiesSelector, cropVarietyEntitiesSelector } from './cropVarietySlice';
 import { cropCatalogueFilterDateSelector } from './filterSlice';
 
 const getFieldCrop = (obj) => {
@@ -137,12 +137,13 @@ export const currentFieldCropsSelector = createSelector(
   },
 );
 
-const getCurrentFieldCrops = (fieldCrops, time) =>
-  fieldCrops.filter(
+const getCurrentFieldCrops = (fieldCrops, time) => {
+  return fieldCrops.filter(
     (fieldCrop) =>
       new Date(fieldCrop.end_date).getTime() >= time &&
       new Date(fieldCrop.start_date).getTime() <= time,
   );
+};
 
 export const plannedFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
@@ -153,6 +154,17 @@ export const plannedFieldCropsSelector = createSelector(
 
 const getPlannedFieldCrops = (fieldCrops, time) =>
   fieldCrops.filter((fieldCrop) => new Date(fieldCrop.start_date).getTime() > time);
+
+export const cropVarietiesWithoutManagementPlanSelector = createSelector(
+  [fieldCropsSelector, cropVarietiesSelector],
+  (fieldCrops, cropVarieties) => {
+    const cropVarietyIds = new Set();
+    for (const fieldCrop of fieldCrops) {
+      cropVarietyIds.add(fieldCrop.crop_variety_id);
+    }
+    return cropVarieties.filter((cropVariety) => !cropVarietyIds.has(cropVariety.crop_variety_id));
+  },
+);
 
 export const fieldCropsByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, fieldCropsSelector], (location_id, fieldCrops) =>
@@ -221,23 +233,25 @@ export const cropCataloguesSelector = createSelector(
       planned: getPlannedFieldCrops(fieldCrops, time),
       past: getExpiredFieldCrops(fieldCrops, time),
     };
-    const fieldCropsByCommonName = {};
+    const fieldCropsByCropId = {};
     for (const status in fieldCropsByStatus) {
       for (const fieldCrop of fieldCropsByStatus[status]) {
-        if (!fieldCropsByCommonName.hasOwnProperty(fieldCrop.crop_common_name)) {
-          fieldCropsByCommonName[fieldCrop.crop_common_name] = {
+        if (!fieldCropsByCropId.hasOwnProperty(fieldCrop.crop_id)) {
+          fieldCropsByCropId[fieldCrop.crop_id] = {
             active: [],
             planned: [],
             past: [],
             crop_common_name: fieldCrop.crop_common_name,
             crop_translation_key: fieldCrop.crop_translation_key,
             imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
+            crop_id: fieldCrop.crop_id,
           };
         }
-        fieldCropsByCommonName[fieldCrop.crop_common_name][status].push(fieldCrop);
+
+        fieldCropsByCropId[fieldCrop.crop_id][status].push(fieldCrop);
       }
     }
-    return Object.values(fieldCropsByCommonName);
+    return Object.values(fieldCropsByCropId);
   },
 );
 
@@ -253,3 +267,31 @@ export const cropCataloguesStatusSelector = createSelector([cropCataloguesSelect
     sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
   };
 });
+
+export const fieldCropByCropIdSelector = (crop_id) =>
+  createSelector([fieldCropsSelector], (fieldCrops) => {
+    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id.toString() === crop_id);
+  });
+
+export const currentFieldCropByCropIdSelector = (crop_id) =>
+  createSelector(
+    [fieldCropByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
+    (fieldCrops, cropCatalogFilterDate) =>
+      getCurrentFieldCrops(fieldCrops, new Date(cropCatalogFilterDate).getTime()),
+  );
+export const plannedFieldCropByCropIdSelector = (crop_id) =>
+  createSelector(
+    [fieldCropByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
+    (fieldCrops, cropCatalogFilterDate) =>
+      getPlannedFieldCrops(fieldCrops, new Date(cropCatalogFilterDate).getTime()),
+  );
+export const expiredFieldCropByCropIdSelector = (crop_id) =>
+  createSelector(
+    [fieldCropByCropIdSelector(crop_id), cropCatalogueFilterDateSelector],
+    (fieldCrops, cropCatalogFilterDate) =>
+      getExpiredFieldCrops(fieldCrops, new Date(cropCatalogFilterDate).getTime()),
+  );
+export const cropVarietiesWithoutManagementPlanByCropIdSelector = (crop_id) =>
+  createSelector([cropVarietiesWithoutManagementPlanSelector], (cropVarieties) =>
+    cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id),
+  );

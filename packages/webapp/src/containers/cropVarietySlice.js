@@ -78,7 +78,7 @@ const cropVarietySelectors = cropVarietyAdapter.getSelectors(
 export const cropVarietyEntitiesSelector = cropVarietySelectors.selectEntities;
 
 export const cropVarietiesSelector = createSelector(
-  [cropVarietySelectors.selectAll, cropVarietyEntitiesSelector, loginSelector],
+  [cropVarietySelectors.selectAll, cropEntitiesSelector, loginSelector],
   (cropVarieties, cropEntities, { farm_id }) => {
     const cropVarietiesOfCurrentFarm = cropVarieties.filter(
       (cropVariety) => cropVariety.farm_id === farm_id,

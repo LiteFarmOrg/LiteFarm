@@ -81,24 +81,24 @@
     "TITLE": "Create new user account"
   },
   "CROP_CATALOGUE": {
+    "ADD_CROP": "Add a new crop",
+    "ADD_TO_YOUR_FARM": "Add to your farm",
+    "CROP_CATALOGUE": "Crop Catalogue",
+    "CROP_STATUS": "Crop status on:",
     "FILTER": {
       "LOCATION": "Location",
       "STATUS": {
-        "ABANDONED": "Abandoned",
-        "ACTIVE": "Active",
-        "COMPLETE": "Complete",
-        "NEEDS_PLAN": "Needs plan",
-        "PLANNED": "Planned",
         "SUBJECT": "Status"
       },
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
-    "ADD_CROP": "Add a new crop",
-    "ADD_TO_YOUR_FARM": "Add to your farm",
-    "CROP_CATALOGUE": "Crop Catalogue",
-    "CROP_STATUS": "Crop status on:",
     "ON_YOUR_FARM": "On your farm"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "Add a new variety",
+    "CROP_VARIETIES": "variety",
+    "NEEDS_PLAN": "Needs Plan"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",

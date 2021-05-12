@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { getDateInputFormat } from '../components/LocationDetailLayout/utils';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -47,5 +48,5 @@ export const cropCatalogueFilterSelector = createSelector(
 );
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
-  (cropCatalogueFilter) => cropCatalogueFilter.date,
+  (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),
 );

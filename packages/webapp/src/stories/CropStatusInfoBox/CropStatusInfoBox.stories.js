@@ -11,8 +11,15 @@ export default {
 const Template = (args) => <CropStatusInfoBox {...args} />;
 export const Default = Template.bind({});
 Default.args = {
-  active: 8,
-  planned: 8,
-  past: 8,
+  status: {
+    active: 8,
+    planned: 8,
+    past: 8,
+  },
+  // defaultDate: 'Sept 12, 2021',
+};
+
+export const WithoutStatus = Template.bind({});
+WithoutStatus.args = {
   // defaultDate: 'Sept 12, 2021',
 };

@@ -15,7 +15,7 @@ exports.up = async function(knex) {
   const fieldCrops = await knex('fieldCrop').distinct('fieldCrop.crop_id', 'location.farm_id', 'crop.crop_common_name')
     .join('crop', 'crop.crop_id', 'fieldCrop.crop_id')
     .join('location', 'location.location_id', 'fieldCrop.location_id')
-    .where({});
+    .where('fieldCrop.deleted', false);
   const defaultDate = new Date('2000/1/1').toISOString();
   const varieties = fieldCrops.map(fieldCrop => {
     const [crop_common_name, crop_variety_name] = fieldCrop.crop_common_name.split(/ - (.*)/);

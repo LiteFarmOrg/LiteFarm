@@ -118,7 +118,7 @@ export const cropsSelector = createSelector(
   },
 );
 
-export const cropSelector = cropSelectors.selectById;
+export const cropSelector = (crop_id) => (state) => cropSelectors.selectById(state, crop_id);
 
 export const cropStatusSelector = createSelector([cropReducerSelector], ({ loading, error }) => {
   return { loading, error };

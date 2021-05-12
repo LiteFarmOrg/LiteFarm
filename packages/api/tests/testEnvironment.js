@@ -63,6 +63,7 @@ async function tableCleanup(knex) {
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
     DELETE FROM "fieldCrop";
+    DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "shiftTask";
     DELETE FROM "shift";

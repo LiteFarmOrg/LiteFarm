@@ -1,75 +1,82 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import { ReactComponent as CalendarIcon } from '../../assets/images/fieldCrops/calendar.svg';
-import { useTranslation } from 'react-i18next';
-import EditFieldCropModal from '../Forms/EditFieldCropModal/EditFieldCropModal';
+import Square from '../Square';
+import PropTypes from 'prop-types';
 
-const cropStatus = {
-  active: 'Active',
-  past: 'Past',
-  planned: 'Planned',
-};
-
-const isActive = (status) => status === cropStatus.active;
-const isPast = (status) => status === cropStatus.past;
-const isPlanned = (status) => status === cropStatus.planned;
-
-export default function PureCropTile({ fieldCrop, className, status, history, onClick, style }) {
-  const { t } = useTranslation();
-  const { variety, crop_translation_key, start_date, end_date } = fieldCrop;
-  let displayDate;
-  const date = new Date(start_date);
-  if (isPast(status)) {
-    displayDate = date.getFullYear();
-  } else if (isPlanned(status)) {
-    const parts = date.toDateString().split(' ');
-    displayDate = `${parts[1]} ${parts[2]} '${parts[3].slice(-2)}`;
-  }
-
-  const imageKey = crop_translation_key.toLowerCase();
+export default function PureCropTile({
+  className,
+  title,
+  onClick,
+  style,
+  cropCount,
+  needsPlan,
+  src,
+  alt,
+  isPastVariety,
+  isCropTemplate,
+  children,
+}) {
   return (
-    <EditFieldCropModal
-      cropBeingEdited={fieldCrop}
-      handler={() => {}}
-      field={fieldCrop?.location}
-      fieldArea={fieldCrop?.location?.total_area}
+    <div
+      className={clsx(
+        styles.container,
+        isPastVariety && styles.pastVarietyContainer,
+        isCropTemplate && styles.cropTemplateContainer,
+        className,
+      )}
+      style={style}
+      onClick={onClick}
     >
-      <div
-        className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}
-        style={style}
-      >
-        <img
-          src={`crop-images/${imageKey}.jpg`}
-          alt={imageKey}
-          className={styles.img}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = 'crop-images/default.jpg';
-          }}
-        />
-        <div className={styles.info}>
-          <div className={styles.infoMain} style={{ marginBottom: '2px' }}>
-            {variety}
-          </div>
-          <div className={styles.infoBody} style={{ marginBottom: '2px' }}>
-            <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
-          </div>
-          <div style={{ flexGrow: '1' }} />
-          {displayDate && (
-            <div className={styles.dateContainer}>
-              <CalendarIcon
-                className={clsx(
-                  styles.icon,
-                  isPast(status) && styles.pastIcon,
-                  isPlanned(status) && styles.plannedIcon,
-                )}
-              />
-              <div className={styles.infoBody}>{displayDate}</div>
-            </div>
-          )}
+      <img
+        src={src}
+        alt={alt}
+        className={styles.img}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'crop-images/default.jpg';
+        }}
+      />
+
+      {cropCount && (
+        <div className={styles.cropCountContainer}>
+          <Square isCropTile>{cropCount.active}</Square>
+          <Square color={'planned'} isCropTile>
+            {cropCount.planned}
+          </Square>
+          <Square color={'past'} isCropTile>
+            {cropCount.past}
+          </Square>
         </div>
+      )}
+
+      {needsPlan && (
+        <div className={styles.cropCountContainer}>
+          <Square color={'needsPlan'} isCropTile />
+        </div>
+      )}
+
+      <div className={styles.info}>
+        <div className={styles.infoMain}>{title}</div>
+        {children}
       </div>
-    </EditFieldCropModal>
+    </div>
   );
 }
+
+PureCropTile.prototype = {
+  className: PropTypes.string,
+  onClick: PropTypes.func,
+  style: PropTypes.object,
+  cropCount: PropTypes.exact({
+    active: PropTypes.number,
+    planned: PropTypes.number,
+    past: PropTypes.number,
+  }),
+  needsPlan: PropTypes.bool,
+  title: PropTypes.string,
+  src: PropTypes.string,
+  alt: PropTypes.string,
+  isPastVariety: PropTypes.bool,
+  isCropTemplate: PropTypes.bool,
+};

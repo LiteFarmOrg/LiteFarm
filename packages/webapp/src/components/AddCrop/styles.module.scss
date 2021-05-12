@@ -4,6 +4,14 @@
   margin-bottom: 22px;
   justify-content: stretch;
 }
+.cropLabel {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 18px;
+  color: var(--grey700);
+}
 
 .label {
   font-weight: 600;
@@ -40,4 +48,12 @@
   flex-flow: row wrap;
   justify-content: flex-start;
   gap: 24px;
+}
+
+.circleImg {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  height: 120px;
+  width: 120px;
+  border-radius: 70%;
 }

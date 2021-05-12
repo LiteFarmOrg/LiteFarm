@@ -35,6 +35,7 @@ const apiConfig = {
   fieldURL: `${URI}/field`,
   locationURL: `${URI}/location`,
   cropURL: `${URI}/crop`,
+  cropVarietyURL: `${URI}/crop_variety`,
   logURL: `${URI}/log`,
   fertUrl: `${URI}/fertilizer`,
   fieldCropURL: `${URI}/field_crop`,

@@ -10,7 +10,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
 
-export default function PureAddCrop({ 
+export default function PureAddCrop({
   history,
   imageKey,
   cropEnum,
@@ -23,142 +23,137 @@ export default function PureAddCrop({
   locationID,
   cropTranslationKey,
 }) {
-  
   const { t } = useTranslation(['translation', 'common', 'crop']);
-  
 
   const progress = 33;
 
   return (
     <Form
       buttonGroup={
-          <Button 
-            disabled={disabled} 
-            fullLength>
-            {t('common:CONTINUE')} 
-          </Button>
+        <Button disabled={disabled} fullLength>
+          {t('common:CONTINUE')}
+        </Button>
       }
-      onSubmit = {onContinue}
+      onSubmit={onContinue}
     >
-      
-      <PageTitle 
-        onGoBack = {() => history.push(`/field/${locationID}/crops`)}
-        onCancel = {() => history.push(`/field/${locationID}/crops`)}
-        title={"Add a crop"}
+      <PageTitle
+        onGoBack={() => history.push(`/field/${locationID}/crops`)}
+        onCancel={() => history.push(`/field/${locationID}/crops`)}
+        title={'Add a crop'}
       />
-      <div style={{
-        marginBottom: '24px',
-        marginTop: '8px',
-        }}>
-        <ProgressBar value={progress}/>
+      <div
+        style={{
+          marginBottom: '24px',
+          marginTop: '8px',
+        }}
+      >
+        <ProgressBar value={progress} />
       </div>
       <div className={styles.cropLabel}>{t(`crop:${cropTranslationKey}`)}</div>
       <img
-            src={`crop-images/${imageKey}.jpg`}
-            alt={imageKey}
-            className={styles.circleImg}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = 'crop-images/default.jpg';
-            }}
-          />
-      
+        src={`crop-images/${imageKey}.jpg`}
+        alt={imageKey}
+        className={styles.circleImg}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = 'crop-images/default.jpg';
+        }}
+      />
+
       <div
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              marginBottom: '24px',
-              display: 'flex',
-              width: 'fit-content',
-              fontSize: '16px',
-              color: 'var(--iconActive)',
-              lineHeight: '16px',
-              cursor: 'pointer',
-            }}
-            onClick={()=>{}}
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginBottom: '24px',
+          display: 'flex',
+          width: 'fit-content',
+          fontSize: '16px',
+          color: 'var(--iconActive)',
+          lineHeight: '16px',
+          cursor: 'pointer',
+        }}
+        onClick={() => {}}
       >
-            + <Underlined>{"Add Custom Image"}</Underlined>
+        + <Underlined>{'Add Custom Image'}</Underlined>
       </div>
 
-      
-      <Input  
-        style={{ marginBottom: '40px' }} 
-        label={t("translation:FIELDS.EDIT_FIELD.VARIETY")}
+      <Input
+        style={{ marginBottom: '40px' }}
+        label={t('translation:FIELDS.EDIT_FIELD.VARIETY')}
         type="text"
-        hookFormRegister={varietyRegister} 
+        hookFormRegister={varietyRegister}
         hasLeaf={true}
       />
-      
-      <Input  
-        style={{ marginBottom: '40px' }} 
+
+      <Input
+        style={{ marginBottom: '40px' }}
         label={'Supplier'}
         type="text"
-        hookFormRegister={supplierRegister} 
-        hasLeaf={true} 
+        hookFormRegister={supplierRegister}
+        hasLeaf={true}
       />
-      
+
       <div>
         <div style={{ marginBottom: '24px' }}>
-              <Label
-                style={{
-                  paddingRight: '10px',
-                  fontSize: '16px',
-                  lineHeight: '20px',
-                  display: 'inline-block',
-                }}
-              >
-                {"Will you plant as a seed or seedling?"}
-              </Label>
-          </div>
-          <div>
-            <Radio 
-              label='Seed' 
-              value={'seed'} 
-              hookFormRegister={seedTypeRegister} 
-              name={cropEnum.seed_type}
-            />
-          </div>
-          <div>
-            <Radio 
-              label='Seedling or planting stock' 
-              value={'seedling'}  
-              hookFormRegister={seedTypeRegister}
-              name={cropEnum.seed_type} 
-            />
-          </div> 
+          <Label
+            style={{
+              paddingRight: '10px',
+              fontSize: '16px',
+              lineHeight: '20px',
+              display: 'inline-block',
+            }}
+          >
+            {'Will you plant as a seed or seedling?'}
+          </Label>
+        </div>
+        <div>
+          <Radio
+            label="Seed"
+            value={'seed'}
+            hookFormRegister={seedTypeRegister}
+            name={cropEnum.seed_type}
+          />
+        </div>
+        <div>
+          <Radio
+            label="Seedling or planting stock"
+            value={'seedling'}
+            hookFormRegister={seedTypeRegister}
+            name={cropEnum.seed_type}
+          />
+        </div>
       </div>
 
       <div>
         <div style={{ marginBottom: '20px' }}>
-              <Label
-                style={{
-                  paddingRight: '10px',
-                  fontSize: '16px',
-                  lineHeight: '20px',
-                  display: 'inline-block',
-                }}
-              >
-                {"Is the crop an annual or perennial?"}
-              </Label>
-          </div>
-          <div>
-            <Radio 
-              label='Annual' 
-              value={'annual'}
-              hookFormRegister={lifeCycleRegister}  
-              name={cropEnum.life_cycle}
-            />
-          </div>
-          <div>
-            <Radio 
-              label='Perennial' 
-              value={'perennial'}
-              hookFormRegister={lifeCycleRegister} 
-              name={cropEnum.life_cycle}
-            />
-          </div> 
+          <Label
+            style={{
+              paddingRight: '10px',
+              fontSize: '16px',
+              lineHeight: '20px',
+              display: 'inline-block',
+            }}
+          >
+            {'Is the crop an annual or perennial?'}
+          </Label>
+        </div>
+        <div>
+          <Radio
+            label="Annual"
+            value={'annual'}
+            hookFormRegister={lifeCycleRegister}
+            name={cropEnum.life_cycle}
+          />
+        </div>
+        <div>
+          <Radio
+            label="Perennial"
+            value={'perennial'}
+            hookFormRegister={lifeCycleRegister}
+            name={cropEnum.life_cycle}
+          />
+        </div>
       </div>
-    
     </Form>
   );
 }

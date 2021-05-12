@@ -43,7 +43,7 @@ const diseaseModel = require('../src/models/diseaseModel');
 const harvestUseModel = require('../src/models/harvestUseModel');
 
 
-describe('Log Tests', () => {
+xdescribe('Log Tests', () => {
   let middleware;
   let owner;
   let farm;
@@ -152,13 +152,15 @@ describe('Log Tests', () => {
       let crop;
       let field;
       let fieldCrop;
+      let cropVariety;
       let fertilizer;
       beforeEach(async () => {
         [fertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
+        [fieldCrop] = await mocks.fieldCropFactory({ promisedCropVariety: [cropVariety], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'fertilizing',

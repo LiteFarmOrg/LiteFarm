@@ -1,5 +1,5 @@
-import WithCurrency from './assets/codeSplitting/mainBundleCurrency.png';
-import WithoutCurrency from './assets/codeSplitting/mainBundleWithoutCurrency.png';
+import WithCurrency from '../assets/codeSplitting/mainBundleCurrency.png';
+import WithoutCurrency from '../assets/codeSplitting/mainBundleWithoutCurrency.png';
 
 import { Meta } from '@storybook/addon-docs/blocks';
 
@@ -25,7 +25,7 @@ For example, `util/grabCurrency` can be exported in `util/index.js`. However, if
 
 ```js
 //Named export
-import { aUtilFunction } from '../util/index';
+import { aUtilFunction } from './index';
 //default export
 export default function ComponentWeNeed() {
   return <p>Hello world</p>;

@@ -14,7 +14,7 @@
  */
 
 const NodeEnvironment = require('jest-environment-node');
-const getAuthToken = require('./setup');
+
 
 class TestEnvironment extends NodeEnvironment {
   constructor(config) {
@@ -23,9 +23,7 @@ class TestEnvironment extends NodeEnvironment {
 
   async setup() {
     await super.setup();
-    this.global.token = await getAuthToken();
   }
-
   async teardown() {
     await super.teardown();
   }

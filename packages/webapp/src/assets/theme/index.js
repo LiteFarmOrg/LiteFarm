@@ -27,7 +27,7 @@ export const colors = {
   orange400: '#ffc888',
   purple700: '#8f26f0',
   purple400: '#ffe55b',
-  brightGreen700: '#06ab16',
+  brightGreen700: '#037A0F',
   brightGreen400: '#a6f7ae',
   cyan700: '#03a6ca',
   cayn400: '#4fdbfa',

@@ -175,6 +175,8 @@ const EditCeremonialForm = React.lazy(() =>
 const PostGreenhouseForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
+const PureCropManagement = React.lazy(() => import('./components/Crop/management'))
+const PureCropDetail = React.lazy(() => import('./components/Crop/detail'))
 
 const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
 const PostFenceForm = React.lazy(() =>
@@ -288,7 +290,9 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/crop_add" exact component={AddCrop} />
+            <Route path="/crop/:crop_id/detail" component={PureCropDetail}/>
+            <Route path="/crop/:crop_id/management" component={PureCropManagement}/>
+            <Route path="/crop_add" exact component={AddCrop}/>
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 

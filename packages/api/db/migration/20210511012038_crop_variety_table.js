@@ -12,7 +12,7 @@ exports.up = async function(knex) {
     t.dateTime('created_at').notNullable();
     t.dateTime('updated_at').notNullable();
   });
-  const fieldCrops = await knex('fieldCrop').distinct('fieldCrop.crop_id', 'fieldCrop.deleted', 'location.farm_id', 'crop.crop_common_name')
+  const fieldCrops = await knex('fieldCrop').distinct('fieldCrop.crop_id', 'location.farm_id', 'crop.crop_common_name')
     .join('crop', 'crop.crop_id', 'fieldCrop.crop_id')
     .join('location', 'location.location_id', 'fieldCrop.location_id')
     .where({});
@@ -27,7 +27,7 @@ exports.up = async function(knex) {
       updated_by_user_id: 1,
       created_at: defaultDate,
       updated_at: defaultDate,
-      deleted: fieldCrop.deleted,
+      deleted: false,
     };
   });
   await knex.batchInsert('crop_variety', varieties);

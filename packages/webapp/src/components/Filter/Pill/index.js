@@ -4,10 +4,10 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { BsX } from 'react-icons/bs';
 
-const Pill = ({ item, selected, removable }) => {
+const Pill = ({ label, selected, removable }) => {
   return (
     <div className={clsx(styles.pill, selected ? styles.selected : styles.deselected)}>
-      {item}
+      {label}
       {removable && (
         <BsX
           style={{
@@ -21,7 +21,7 @@ const Pill = ({ item, selected, removable }) => {
 };
 
 Pill.prototype = {
-  item: PropTypes.string,
+  label: PropTypes.string,
   selected: PropTypes.bool,
   removable: PropTypes.bool,
 };

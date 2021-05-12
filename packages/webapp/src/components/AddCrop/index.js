@@ -6,7 +6,7 @@ import { Underlined, Label } from '../Typography';
 import Input from '../Form/Input';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
-import ProgressBar from '../Form/ProgressBar';
+import ProgressBar from '../../components/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
 

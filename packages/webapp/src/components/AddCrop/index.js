@@ -1,4 +1,3 @@
-import Layout from '../Layout';
 import Button from '../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -10,14 +9,13 @@ import styles from './styles.module.scss';
 import ProgressBar from '../Form/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
-import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
 export default function PureAddCrop({ 
   history,
   imageKey,
   cropEnum,
   disabled,
-  onSubmit,
+  onContinue,
   varietyRegister,
   supplierRegister,
   seedTypeRegister,
@@ -36,11 +34,11 @@ export default function PureAddCrop({
       buttonGroup={
           <Button 
             disabled={disabled} 
-            onClick={() => {}} fullLength>
+            fullLength>
             {t('common:CONTINUE')} 
           </Button>
       }
-      onSubmit = {onSubmit}
+      onSubmit = {onContinue}
     >
       
       <PageTitle 

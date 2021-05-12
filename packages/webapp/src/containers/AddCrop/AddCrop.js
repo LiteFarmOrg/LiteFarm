@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PureAddCrop from '../../components/AddCrop';
 import { useDispatch, useSelector } from 'react-redux';
-import { cropsSelector } from '../../containers/cropSlice';
 import { userFarmSelector } from '../../containers/userFarmSlice';
-import useHookFormPersist from '../hooks/useHookFormPersist';
 import { useForm } from 'react-hook-form';
 
 function AddCropForm({ history, match }) {
   const dispatch = useDispatch();
-  
-
-  const {location_id} = match.params;
 
   const { 
     register, 
-    handleSubmit, 
+    handleSubmit,
     setValue,
-    watch,
-    formState: { isValid, isDirty, errors}, 
+    formState: { errors, isValid}, 
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
@@ -36,12 +30,7 @@ function AddCropForm({ history, match }) {
     life_cycle: LIFE_CYCLE,
   }
 
-  const variety = watch(VARIETY, undefined);
-  const supplier = watch(SUPPLIER, undefined);
-  const seedType = watch(SEED_TYPE, undefined);
-  const lifeCycle = watch(LIFE_CYCLE, undefined);
-
-  const disabled = !variety || !supplier || !seedType || !lifeCycle;
+  const disabled = !isValid;
 
   const varietyRegister = register(VARIETY, {required: true });
   const supplierRegister = register(SUPPLIER, {required: true });
@@ -50,13 +39,15 @@ function AddCropForm({ history, match }) {
   
 
   useEffect(() => {
-    // TODO
-  });
+    // TODO - Crop Variety
+  }, []);
 
   const onError = (data) => {};
   
-  const onSubmit = (data) => {
-    // TODO
+  const onContinue = (data) => {
+    // TODO - Crop Variety
+    console.log(data);
+    history.push('/crop_add/compliance');
   };
 
 
@@ -65,11 +56,9 @@ function AddCropForm({ history, match }) {
     <>
      <PureAddCrop
         history={history}
-        locationID = {location_id}
         disabled = {disabled}
-        onSubmit = {handleSubmit(onSubmit)}
+        onContinue={handleSubmit(onContinue)}
         cropEnum = {cropEnum}
-        useHookFormPersist = {useHookFormPersist}
         varietyRegister = {varietyRegister}
         supplierRegister = {supplierRegister}
         seedTypeRegister = {seedTypeRegister}

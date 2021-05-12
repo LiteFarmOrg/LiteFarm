@@ -10,7 +10,7 @@ exports.down = async function(knex) {
       .references('crop_id')
       .inTable('crop');
   });
-  const fieldCrops = await knex('fieldCrop').distinct('fieldCrop.field_crop_id', 'crop_variety.crop_variety_id', 'crop_variety.crop_id')
+  const fieldCrops = await knex('fieldCrop').select('fieldCrop.field_crop_id', 'crop_variety.crop_variety_id', 'crop_variety.crop_id')
     .join('crop_variety', 'crop_variety.crop_variety_id', 'fieldCrop.crop_variety_id')
     .where({});
   for (const fieldCrop of fieldCrops) {

@@ -8,7 +8,6 @@ import Card from '../../Card';
 import { useTranslation } from 'react-i18next';
 import Square from '../../Square';
 import NativeDatePickerWrapper from '../../NativeDatePicker/NativeDatePickerWrapper';
-import { useState } from 'react';
 import moment from 'moment';
 import { getDateInputFormat } from '../../LocationDetailLayout/utils';
 import { getLanguageFromLocalStorage } from '../../../util';
@@ -37,16 +36,16 @@ const useStyles = makeStyles({
 });
 
 export default function CropStatusInfoBox({
-  defaultDate = getDateInputFormat(new Date()),
   active = 0,
   planned = 0,
   past = 0,
+  date = getDateInputFormat(new Date()),
+  setDate,
   ...props
 }) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [date, setDate] = useState(defaultDate);
-  const onDateChange = (e) => setDate(e.target.value);
+  const onDateChange = (e) => setDate?.(e.target.value);
 
   return (
     <Card color={'info'} className={clsx(classes.container)} {...props}>
@@ -86,8 +85,9 @@ export default function CropStatusInfoBox({
 }
 
 CropStatusInfoBox.propTypes = {
-  defaultDate: PropTypes.string,
   active: PropTypes.number,
+  setDate: PropTypes.func,
+  date: PropTypes.string,
   planned: PropTypes.number,
   past: PropTypes.number,
 };

@@ -6,6 +6,7 @@ import { lastActiveDatetimeSelector } from './userLogSlice';
 import { pick } from '../util';
 import { cropLocationEntitiesSelector } from './locationSlice';
 import { cropVarietyEntitiesSelector } from './cropVarietySlice';
+import { cropCatalogueFilterDateSelector } from './filterSlice';
 
 const getFieldCrop = (obj) => {
   return pick(obj, [
@@ -113,11 +114,12 @@ export const fieldCropsSelector = createSelector(
 export const expiredFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
-    return fieldCrops.filter(
-      (fieldCrop) => new Date(fieldCrop.end_date).getTime() < lastActiveDatetime,
-    );
+    return getExpiredFieldCrops(fieldCrops, lastActiveDatetime);
   },
 );
+
+const getExpiredFieldCrops = (fieldCrops, time) =>
+  fieldCrops.filter((fieldCrop) => new Date(fieldCrop.end_date).getTime() < time);
 
 export const currentAndPlannedFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
@@ -131,24 +133,26 @@ export const currentAndPlannedFieldCropsSelector = createSelector(
 export const currentFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
-    return fieldCrops.filter(
-      (fieldCrop) =>
-        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
-        new Date(fieldCrop.start_date).getTime() <= lastActiveDatetime,
-    );
+    return getCurrentFieldCrops(fieldCrops, lastActiveDatetime);
   },
 );
+
+const getCurrentFieldCrops = (fieldCrops, time) =>
+  fieldCrops.filter(
+    (fieldCrop) =>
+      new Date(fieldCrop.end_date).getTime() >= time &&
+      new Date(fieldCrop.start_date).getTime() <= time,
+  );
 
 export const plannedFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
-    return fieldCrops.filter(
-      (fieldCrop) =>
-        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
-        new Date(fieldCrop.start_date).getTime() >= lastActiveDatetime,
-    );
+    return getPlannedFieldCrops(fieldCrops, lastActiveDatetime);
   },
 );
+
+const getPlannedFieldCrops = (fieldCrops, time) =>
+  fieldCrops.filter((fieldCrop) => new Date(fieldCrop.start_date).getTime() > time);
 
 export const fieldCropsByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, fieldCropsSelector], (location_id, fieldCrops) =>
@@ -209,12 +213,13 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
 );
 
 export const cropCataloguesSelector = createSelector(
-  [currentFieldCropsSelector, plannedFieldCropsSelector, expiredFieldCropsSelector],
-  (currentFieldCrops, plannedFieldCrops, expiredFieldCrops) => {
+  [fieldCropsSelector, cropCatalogueFilterDateSelector],
+  (fieldCrops, cropCatalogFilterDate) => {
+    const time = new Date(cropCatalogFilterDate).getTime();
     const fieldCropsByStatus = {
-      active: currentFieldCrops,
-      planned: plannedFieldCrops,
-      past: expiredFieldCrops,
+      active: getCurrentFieldCrops(fieldCrops, time),
+      planned: getPlannedFieldCrops(fieldCrops, time),
+      past: getExpiredFieldCrops(fieldCrops, time),
     };
     const fieldCropsByCommonName = {};
     for (const status in fieldCropsByStatus) {

@@ -25,6 +25,7 @@ const useStyles = makeStyles({
   filter: {
     fontSize: '24px',
     color: colors.grey600,
+    cursor: 'pointer',
   },
   pillContainer: {
     paddingBottom: '16px',
@@ -34,14 +35,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PureSearchbarAndFilter({ filterOptions }) {
+export default function PureSearchbarAndFilter({ filterOptions, onFilterOpen }) {
   const classes = useStyles();
   return (
     <>
       <div className={classes.container}>
         <Input isSearchBar classes={{ container: { flexGrow: 1 } }} />
         {filterOptions?.length && <div className={classes.circle} />}
-        <FiFilter className={classes.filter} />
+        <FiFilter className={classes.filter} onClick={onFilterOpen} />
       </div>
 
       <div className={classes.pillContainer}>
@@ -55,4 +56,5 @@ export default function PureSearchbarAndFilter({ filterOptions }) {
 
 PureSearchbarAndFilter.propTypes = {
   filterOptions: PropTypes.arrayOf(PropTypes.string),
+  onFilterOpen: PropTypes.func,
 };

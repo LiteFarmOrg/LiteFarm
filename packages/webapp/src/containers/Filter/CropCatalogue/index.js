@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
 import { cropLocationsSelector } from '../../locationSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  STATUS,
-  ACTIVE,
   ABANDONED,
-  PLANNED,
+  ACTIVE,
   COMPLETE,
-  NEEDS_PLAN,
   LOCATION,
+  NEEDS_PLAN,
+  PLANNED,
+  STATUS,
   SUPPLIERS,
 } from './constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
-const CropCatalogueFilterPage = () => {
+const CropCatalogueFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation();
   const cropEnabledLocations = useSelector(cropLocationsSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
@@ -26,6 +26,7 @@ const CropCatalogueFilterPage = () => {
 
   const handleApply = () => {
     dispatch(setCropCatalogueFilter(filterRef.current));
+    onGoBack?.();
   };
   const filterRef = useRef({});
 
@@ -61,6 +62,7 @@ const CropCatalogueFilterPage = () => {
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}
+      onGoBack={onGoBack}
     />
   );
 };

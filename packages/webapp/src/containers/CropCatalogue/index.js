@@ -11,8 +11,11 @@ import { cropCataloguesSelector, cropCataloguesStatusSelector } from '../fieldCr
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCrops, getCropVarieties } from '../saga';
+import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
+import CropCatalogueFilterPage from '../Filter/CropCatalogue';
+import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 
 export default function CropCatalogue() {
   const { t } = useTranslation();
@@ -26,10 +29,24 @@ export default function CropCatalogue() {
     dispatch(getCrops());
   }, []);
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const onFilterClose = () => {
+    setIsFilterOpen(false);
+  };
+  const onFilterOpen = () => {
+    setIsFilterOpen(true);
+  };
+
+  const date = useSelector(cropCatalogueFilterDateSelector);
+  const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
+
   return (
     <Layout>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
-      <PureSearchbarAndFilter />
+      <PureSearchbarAndFilter onFilterOpen={onFilterOpen} />
+      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+        <CropCatalogueFilterPage onGoBack={onFilterClose} />
+      </MuiFullPagePopup>
 
       <div ref={containerRef}>
         {!!sum && (
@@ -40,6 +57,8 @@ export default function CropCatalogue() {
               past={past}
               planned={planned}
               style={{ marginBottom: '16px' }}
+              date={date}
+              setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropCatalogues.map((cropCatalog) => {

@@ -8,7 +8,7 @@ import Filter from '../Filter';
 import Button from '../Form/Button';
 import { cloneObject } from '../../util';
 
-const PureFilterPage = ({ title, filters, onApply, filterRef }) => {
+const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
   const { t } = useTranslation();
 
   const initFilterPageState = {};
@@ -44,7 +44,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef }) => {
         </Button>
       }
     >
-      <PageTitle title={title} onGoBack={() => console.log('close that filter page though')} />
+      <PageTitle title={title} onGoBack={onGoBack} />
 
       <div style={{ margin: '24px 0' }}>
         <Underlined style={{ color: '#AA5F04' }} onClick={() => resetFilter()}>
@@ -74,6 +74,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef }) => {
 PureFilterPage.prototype = {
   subject: PropTypes.string,
   items: PropTypes.array,
+  onGoBack: PropTypes.func,
 };
 
 export default PureFilterPage;

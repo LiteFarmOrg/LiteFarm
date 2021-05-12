@@ -155,6 +155,17 @@ export const plannedFieldCropsSelector = createSelector(
 const getPlannedFieldCrops = (fieldCrops, time) =>
   fieldCrops.filter((fieldCrop) => new Date(fieldCrop.start_date).getTime() > time);
 
+export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
+  [fieldCropsSelector, cropVarietiesSelector],
+  (fieldCrops, cropVarieties) => {
+    const cropIds = new Set();
+    for (const fieldCrop of fieldCrops) {
+      cropIds.add(fieldCrop.crop_id);
+    }
+    return cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id));
+  },
+);
+
 export const cropVarietiesWithoutManagementPlanSelector = createSelector(
   [fieldCropsSelector, cropVarietiesSelector],
   (fieldCrops, cropVarieties) => {

@@ -10,7 +10,7 @@ import { cropsSelector } from '../cropSlice';
 import {
   cropCataloguesSelector,
   cropCataloguesStatusSelector,
-  cropVarietiesWithoutManagementPlanSelector,
+  cropsWithVarietyWithoutManagementPlanSelector,
 } from '../fieldCropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
@@ -29,7 +29,7 @@ export default function CropCatalogue({ history }) {
   const crops = useSelector(cropsSelector);
   const cropCatalogues = useSelector(cropCataloguesSelector);
   const cropVarietiesWithoutManagementPlan = useSelector(
-    cropVarietiesWithoutManagementPlanSelector,
+    cropsWithVarietyWithoutManagementPlanSelector,
   );
   const { active, planned, past, sum } = useSelector(cropCataloguesStatusSelector);
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);

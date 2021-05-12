@@ -10,19 +10,19 @@ const Template = (args) => <Pill {...args} />;
 
 export const Selected = Template.bind({});
 Selected.args = {
-  item: 'Active',
+  label: 'Active',
   selected: true,
 };
 
 export const Deselected = Template.bind({});
 Deselected.args = {
-  item: 'Active',
+  label: 'Active',
   selected: false,
 };
 
 export const Removable = Template.bind({});
 Removable.args = {
-  item: 'Active',
+  label: 'Active',
   selected: true,
   removable: true,
 };

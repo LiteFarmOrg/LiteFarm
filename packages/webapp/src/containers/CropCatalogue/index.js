@@ -112,31 +112,33 @@ export default function CropCatalogue({ history }) {
             </PureCropTileContainer>
           </>
         )}
-
-        <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')} />
-        <PureCropTileContainer gap={gap} padding={padding}>
-          {crops.map((crop) => {
-            const { crop_translation_key } = crop;
-            const imageKey = crop_translation_key.toLowerCase();
-            return (
-              <PureCropTile
-                key={crop_translation_key}
-                title={t(`crop:${crop_translation_key}`)}
-                src={`crop-images/${imageKey}.jpg`}
-                alt={imageKey}
-                style={{ width: cardWidth }}
-                isCropTemplate
-              />
-            );
-          })}
-        </PureCropTileContainer>
+        {isAdmin && (
+          <>
+            <PageBreak
+              style={{ paddingBottom: '22px' }}
+              label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
+            />
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {crops.map((crop) => {
+                const { crop_translation_key } = crop;
+                const imageKey = crop_translation_key.toLowerCase();
+                return (
+                  <PureCropTile
+                    key={crop_translation_key}
+                    title={t(`crop:${crop_translation_key}`)}
+                    src={`crop-images/${imageKey}.jpg`}
+                    alt={imageKey}
+                    style={{ width: cardWidth }}
+                    isCropTemplate
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+            <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}</Text>
+            <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
+          </>
+        )}
       </div>
-      {isAdmin && (
-        <>
-          <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}</Text>
-          <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
-        </>
-      )}
     </Layout>
   );
 }

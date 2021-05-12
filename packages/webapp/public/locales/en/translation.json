@@ -87,13 +87,12 @@
     "CROP_STATUS": "Crop status on:",
     "FILTER": {
       "LOCATION": "Location",
-      "STATUS": {
-        "SUBJECT": "Status"
-      },
+      "STATUS": "Status",
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
-    "ON_YOUR_FARM": "On your farm"
+    "ON_YOUR_FARM": "On your farm",
+    "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

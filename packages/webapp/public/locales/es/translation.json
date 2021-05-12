@@ -87,13 +87,12 @@
     "CROP_STATUS": "MISSING",
     "FILTER": {
       "LOCATION": "MISSING",
-      "STATUS": {
-        "SUBJECT": "MISSING"
-      },
+      "STATUS": "MISSING",
       "SUPPLIERS": "MISSING",
       "TITLE": "MISSING"
     },
-    "ON_YOUR_FARM": "MISSING"
+    "ON_YOUR_FARM": "MISSING",
+    "FILTER_TITLE": "MISSING"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "MISSING",

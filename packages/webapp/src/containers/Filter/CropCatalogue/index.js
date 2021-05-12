@@ -19,7 +19,7 @@ import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filte
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
 const CropCatalogueFilterPage = ({ onGoBack }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'filter']);
   const cropEnabledLocations = useSelector(cropLocationsSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const dispatch = useDispatch();
@@ -32,12 +32,12 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
 
   const filters = [
     {
-      subject: t('CROP_CATALOGUE.FILTER.STATUS.SUBJECT'),
+      subject: t('CROP_CATALOGUE.FILTER.STATUS'),
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
         default: cropCatalogueFilter[STATUS][status] ?? false,
-        label: t(`CROP_CATALOGUE.FILTER.STATUS.${status}`),
+        label: t(`filter:CROP_CATALOGUE.${status}`),
       })),
     },
     {

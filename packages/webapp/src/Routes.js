@@ -204,6 +204,7 @@ const EditWatercourseForm = React.lazy(() =>
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVatieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
+const ComplianceInfo = React.lazy(()=> import('./containers/AddCrop/ComplianceInfo'));
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -293,6 +294,7 @@ const Routes = () => {
             <Route path="/crop/:crop_id/detail" component={PureCropDetail}/>
             <Route path="/crop/:crop_id/management" component={PureCropManagement}/>
             <Route path="/crop_add" exact component={AddCrop}/>
+            <Route path="/crop_add/compliance" exact component={ComplianceInfo}/>
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 

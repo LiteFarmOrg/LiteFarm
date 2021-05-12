@@ -3,27 +3,26 @@ import CropHeader from "./cropHeader";
 import RouterTab from "../RouterTab";
 import React from "react";
 import { Semibold, Underlined } from "../Typography";
+import { useTranslation } from "react-i18next";
 
 
 function PureCropManagement({ history, match={params: {crop_id: 2}}, crop}) {
-  // const t = useTranslation();
+  const { t } = useTranslation();
   return (
     <Layout>
       <CropHeader {...crop} />
       <RouterTab
-        classes={{ container: { margin: '6px 0 26px 0' } }}
+        classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}
         match={match}
         tabs={[
           {
-            label: 'Management',
-            // label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-            path: `/crop/${match.params.crop_id}/plan`,
+            label: t('CROP_DETAIL.MANAGEMENT_TAB'),
+            path: `/crop/${match.params.crop_id}/management`,
           },
           {
-            label: 'Details',
-            // label: t('CROP_DETAIL.DETAIL_TAB'),
-            path: `/crop/${match.params.crop_id}/details`,
+            label: t('CROP_DETAIL.DETAIL_TAB'),
+            path: `/crop/${match.params.crop_id}/detail`,
           },
         ]}
       />

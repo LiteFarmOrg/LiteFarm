@@ -13,7 +13,7 @@ const Template = (args) => <PureCropManagement {...args} />
 export const Management = Template.bind({});
 Management.args = {
   history: {
-    location: { pathname: '/crop/2/plan' },
+    location: { pathname: '/crop/2/management' },
   },
   crop: {
     cropName: 'Carrot',
@@ -22,4 +22,3 @@ Management.args = {
   }
 
 };
-

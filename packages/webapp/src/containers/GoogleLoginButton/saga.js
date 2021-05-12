@@ -28,7 +28,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       { language_preference: getLanguageFromLocalStorage() },
       header,
     );
-    const { id_token, user } = result.data;
+    const { id_token, user, isSignUp } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
     if (id_token === '') {
@@ -38,7 +38,14 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       });
     } else {
       yield put(loginSuccess(user));
-      history.push('/farm_selection');
+      if (isSignUp) {
+        history.push({
+          pathname: '/sso_signup_information',
+          state: { user },
+        });
+      } else {
+        history.push('/farm_selection');
+      }
     }
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));

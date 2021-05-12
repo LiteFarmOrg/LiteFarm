@@ -128,7 +128,7 @@ export default function CropCatalogue({ history }) {
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={crop.crop_id}
                     title={t(`crop:${crop_translation_key}`)}
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}

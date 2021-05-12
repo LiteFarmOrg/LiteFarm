@@ -27,7 +27,7 @@ exports.up = async function(knex) {
       updated_by_user_id: 1,
       created_at: defaultDate,
       updated_at: defaultDate,
-      deleted: fieldCrop.deleted,
+      deleted: false,
     };
   });
   await knex.batchInsert('crop_variety', varieties);

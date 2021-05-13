@@ -34,13 +34,14 @@ class Crop extends BaseModel {
 
       properties: {
         crop_id: { type: 'integer' },
-        farm_id: { type : 'string' },
+        farm_id: { type: 'string' },
         crop_common_name: { type: 'string', minLength: 1, maxLength: 255 },
+        crop_variety: { type: 'string', minLength: 1, maxLength: 255 },
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
         crop_group: {
           type: 'string, null',
-          enum:  ['Other crops', 'Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams'
+          enum: ['Other crops', 'Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams'
             , 'Vegetables and melons', 'Cereals', 'Leguminous crops', 'Sugar crops', 'Oilseed crops'],
         },
         crop_subgroup: {
@@ -127,7 +128,6 @@ class Crop extends BaseModel {
           to: 'price.crop_id',
         },
       },
-      ...this.baseRelationMappings('crop'),
     }
   }
 }

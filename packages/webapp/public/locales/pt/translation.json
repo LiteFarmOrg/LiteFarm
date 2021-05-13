@@ -80,6 +80,25 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "ON_YOUR_FARM": "MISSING",
+    "FILTER_TITLE": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
@@ -240,7 +259,7 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Válvula de água"
+      "WV": "Ponto de Bombeamento"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editarar área natural",
@@ -300,14 +319,14 @@
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
-      "EDIT_TITLE": "Editar válvula de água",
+      "EDIT_TITLE": "Editar ponto de bombeamento",
       "GROUNDWATER": "Água subterrânea",
       "MAX_FLOW_RATE": "Taxa máxima de fluxo",
       "MUNICIPAL_WATER": "Água municipal",
-      "NAME": "Nome da válvula de água",
+      "NAME": "Nome da ponto de bombeamento",
       "RAIN_WATER": "Água de chuva",
       "SURFACE_WATER": "Água superficial",
-      "TITLE": "Adicionar válvula de água",
+      "TITLE": "Adicionar ponto de bombeamento",
       "WATER_VALVE_TYPE": "Qual é a fonte?"
     },
     "WATERCOURSE": {
@@ -399,6 +418,9 @@
       "FIELD_NAME": "Nome do Campo"
     },
     "TITLE": "CAMPOS"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",

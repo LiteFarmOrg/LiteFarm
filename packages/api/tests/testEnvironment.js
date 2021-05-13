@@ -14,7 +14,7 @@
  */
 
 const NodeEnvironment = require('jest-environment-node');
-const getAuthToken = require('./setup');
+
 
 class TestEnvironment extends NodeEnvironment {
   constructor(config) {
@@ -23,9 +23,7 @@ class TestEnvironment extends NodeEnvironment {
 
   async setup() {
     await super.setup();
-    this.global.token = await getAuthToken();
   }
-
   async teardown() {
     await super.teardown();
   }
@@ -63,6 +61,7 @@ async function tableCleanup(knex) {
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
     DELETE FROM "fieldCrop";
+    DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "shiftTask";
     DELETE FROM "shift";

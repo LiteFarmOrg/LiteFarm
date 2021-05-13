@@ -33,3 +33,9 @@
   outline: none;
   border-color: var(--inputActive);
 }
+
+.textArea:disabled {
+  background-color: var(--inputDisabled) !important;
+  color: var(--grey600);
+  border-color: var(--inputDefault);
+}

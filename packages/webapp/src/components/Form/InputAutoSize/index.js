@@ -8,7 +8,6 @@ import { TextareaAutosize } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
 export default function InputAutoSize({
-  disabled = true,
   classes = {},
   rowsMax = 4,
   rowsMin = 1,

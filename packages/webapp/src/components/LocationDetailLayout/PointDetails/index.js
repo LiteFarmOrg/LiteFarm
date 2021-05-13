@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import { gateEnum as pointEnum } from '../../../containers/constants';
+import {fieldEnum as areaEnum, gateEnum as pointEnum} from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
+import InputAutoSize from "../../Form/InputAutoSize";
 
 export default function PointDetailsLayout({
   name,
@@ -57,14 +58,15 @@ export default function PointDetailsLayout({
       />
 
       {children}
-      <Input
-        label={t('common:NOTES')}
-        type="text"
-        optional
-        style={{ marginBottom: '40px' }}
-        hookFormRegister={register(pointEnum.notes)}
-        disabled={isViewLocationPage}
-      />
+      <InputAutoSize optional={true} label={t('common:NOTES')} style={{ marginBottom: '40px'}} hookFormRegister={register(pointEnum.notes)} disabled={isViewLocationPage}/>
+      {/*<Input*/}
+      {/*  label={t('common:NOTES')}*/}
+      {/*  type="text"*/}
+      {/*  optional*/}
+      {/*  style={{ marginBottom: '40px' }}*/}
+      {/*  hookFormRegister={register(pointEnum.notes)}*/}
+      {/*  disabled={isViewLocationPage}*/}
+      {/*/>*/}
     </>
   );
 }

@@ -47,7 +47,7 @@ const filteredFieldCrops = (filter, fieldCrops) => {
   const filtered = filter
     ? fieldCrops.filter(
         (fieldCrop) =>
-          fieldCrop?.variety?.toLowerCase()?.includes(filter) ||
+          fieldCrop?.crop_variety?.toLowerCase()?.includes(filter) ||
           fieldCrop?.crop_common_name?.toLowerCase()?.includes(filter),
       )
     : fieldCrops;

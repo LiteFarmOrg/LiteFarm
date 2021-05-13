@@ -7,16 +7,15 @@ import { useForm } from 'react-hook-form';
 function AddCropForm({ history, match }) {
   const dispatch = useDispatch();
 
-  const { 
-    register, 
+  const {
+    register,
     handleSubmit,
     setValue,
-    formState: { errors, isValid}, 
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
   });
-
 
   const VARIETY = 'variety';
   const SUPPLIER = 'supplier';
@@ -28,42 +27,38 @@ function AddCropForm({ history, match }) {
     supplier: SUPPLIER,
     seed_type: SEED_TYPE,
     life_cycle: LIFE_CYCLE,
-  }
+  };
 
   const disabled = !isValid;
 
-  const varietyRegister = register(VARIETY, {required: true });
-  const supplierRegister = register(SUPPLIER, {required: true });
-  const seedTypeRegister = register(SEED_TYPE, {required: true });
-  const lifeCycleRegister = register(LIFE_CYCLE, {required: true });
-  
+  const varietyRegister = register(VARIETY, { required: true });
+  const supplierRegister = register(SUPPLIER, { required: true });
+  const seedTypeRegister = register(SEED_TYPE, { required: true });
+  const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
 
   useEffect(() => {
     // TODO - Crop Variety
   }, []);
 
   const onError = (data) => {};
-  
   const onContinue = (data) => {
     // TODO - Crop Variety
     console.log(data);
     history.push('/crop_add/compliance');
   };
 
-
-
   return (
     <>
-     <PureAddCrop
+      <PureAddCrop
         history={history}
-        disabled = {disabled}
+        disabled={disabled}
         onContinue={handleSubmit(onContinue)}
-        cropEnum = {cropEnum}
-        varietyRegister = {varietyRegister}
-        supplierRegister = {supplierRegister}
-        seedTypeRegister = {seedTypeRegister}
-        lifeCycleRegister = {lifeCycleRegister}
-     />
+        cropEnum={cropEnum}
+        varietyRegister={varietyRegister}
+        supplierRegister={supplierRegister}
+        seedTypeRegister={seedTypeRegister}
+        lifeCycleRegister={lifeCycleRegister}
+      />
     </>
   );
 }

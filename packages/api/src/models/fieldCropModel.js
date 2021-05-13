@@ -29,12 +29,13 @@ class FieldCrop extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'location_id', 'area_used', 'estimated_production', 'estimated_revenue'],
+      required: ['location_id', 'area_used', 'estimated_production', 'estimated_revenue', 'crop_variety_id'],
       properties: {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         location_id: { type: 'string' },
         variety: { type: 'string' },
+        crop_variety_id: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
         area_used: { type: 'float', minimum: 0 },
@@ -62,17 +63,16 @@ class FieldCrop extends baseModel {
         },
 
       },
-      crop:{
+      crop_variety: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./cropModel.js'),
+        modelClass: require('./cropVarietyModel'),
         join: {
-          from: 'fieldCrop.crop_id',
-          to: 'crop.crop_id',
+          from: 'fieldCrop.crop_variety_id',
+          to: 'crop_variety.crop_variety_id',
         },
-
       },
       activityLog:{
         relation:Model.ManyToManyRelation,
@@ -85,9 +85,7 @@ class FieldCrop extends baseModel {
           },
           from:'fieldCrop.field_crop_id',
         },
-
       },
-      ...this.baseRelationMappings('fieldCrop'),
     };
   }
 }

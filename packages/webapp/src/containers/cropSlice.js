@@ -7,6 +7,7 @@ const getCrop = (obj) => {
   return pick(obj, [
     'crop_id',
     'crop_common_name',
+    'crop_variety',
     'crop_genus',
     'crop_specie',
     'crop_group',
@@ -92,9 +93,6 @@ const cropSlice = createSlice({
       state.loaded = true;
     },
     postCropSuccess: addOneCrop,
-    putCropSuccess(state, { payload: { crop, farm_id } }) {
-      cropAdapter.updateOne(state, { changes: { crop }, id: farm_id });
-    },
     selectCropSuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
@@ -103,7 +101,6 @@ const cropSlice = createSlice({
 export const {
   getCropsSuccess,
   postCropSuccess,
-  putCropSuccess,
   onLoadingCropStart,
   onLoadingCropFail,
   getAllCropsSuccess,
@@ -121,7 +118,7 @@ export const cropsSelector = createSelector(
   },
 );
 
-export const cropSelector = cropSelectors.selectById;
+export const cropSelector = (crop_id) => (state) => cropSelectors.selectById(state, crop_id);
 
 export const cropStatusSelector = createSelector([cropReducerSelector], ({ loading, error }) => {
   return { loading, error };

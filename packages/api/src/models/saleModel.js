@@ -71,7 +71,6 @@ class Sale extends baseModel {
           to: 'cropSale.sale_id',
         },
       },
-      ...this.baseRelationMappings('sale'),
     }
   }
 }

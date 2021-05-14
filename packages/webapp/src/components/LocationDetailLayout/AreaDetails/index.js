@@ -114,7 +114,7 @@ export default function AreaDetails({
       <InputAutoSize
         optional={true}
         label={t('common:NOTES')}
-        type={{ marginBottom: '40px' }}
+        style={{ marginBottom: '40px' }}
         hookFormRegister={register(areaEnum.notes)}
         disabled={isViewLocationPage}
       />

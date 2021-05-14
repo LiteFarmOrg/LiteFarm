@@ -10,34 +10,44 @@ export default {
 
 const Template = (args) => <InputAutoSize {...args} />;
 
+export const WithDefaultValue = Template.bind({});
+WithDefaultValue.args = {
+  label: 'default value',
+  defaultValue: 'default value',
+  rowsMax: 4,
+};
+
 export const Optional = Template.bind({});
 Optional.args = {
-  label: 'Optional',
-  defaultValue: 'default value',
+  label: 'optional',
   rowsMax: 4,
   optional: true,
 };
 
-export const Empty = Template.bind({});
-Empty.args = {
-  label: 'Notes',
+export const Primary = Template.bind({});
+Primary.args = {
+  label: 'primary',
   rowsMax: 4,
-  optional: true,
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
   label: 'disabled',
   rowsMax: 4,
-  optional: true,
   disabled: true,
+  defaultValue: 'disabled',
 };
 
 export const WithError = Template.bind({});
 WithError.args = {
-  label: 'Notes',
-  defaultValue: 'default value',
+  label: 'error',
   rowsMax: 4,
   errors: 'error',
-  disabled: false,
+};
+
+export const MultiRow = Template.bind({});
+MultiRow.args = {
+  label: 'multi row',
+  rowsMax: 4,
+  defaultValue: 'multi row, '.repeat(100),
 };

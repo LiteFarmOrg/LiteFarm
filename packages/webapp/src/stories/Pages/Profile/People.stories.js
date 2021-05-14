@@ -1,7 +1,6 @@
 import React from 'react';
 import PurePeople from '../../../components/Profile/People';
 import decorator from '../config/decorators';
-import '../../../../public/css/react-table.css';
 
 export default {
   title: 'Form/Profile/People',

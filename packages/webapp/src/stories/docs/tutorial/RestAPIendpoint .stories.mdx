@@ -1,0 +1,170 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Error, Text } from '../../../components/Typography';
+import TechStackNavigation from '../teckStackNavigation';
+import DocCard from '../DocCard';
+import DocLink from '../DocLink';
+
+<Meta title="Docs/tutorial/2.REST API endpoint" />
+
+# REST API endpoint
+
+<DocCard>
+  <Error>Many endpoints are not following LiteFarm API naming conventions. Please reach out to Kike if you have
+    doubt.</Error>
+</DocCard>
+
+| Resources |
+| --------- |
+| [Express routing](https://expressjs.com/en/guide/routing.html) |
+| [LiteFarm REST API styleguide](https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/272269313/Styleguide+for+creating+modifying+endpoints) |
+
+### 1. Create new endpoints
+
+**Create endpoints to access/modify data in a new table**
+
+Go to directory /packages/api/routes and create a new file `newTalbeNameRoute.js`.
+
+Copy the following template into the new file.
+
+<DocCard>
+  <Text><code>hasFarmAccess</code> and <code>checkScope</code> are used for authorization, which will be covered
+    by <DocLink href={""}>MiddleWare</DocLink>. Leave them as-is for now.</Text>
+</DocCard>
+
+```js
+const express = require('express');
+const router = express.Router();
+const { getNewEntitiesByFarmId, getNewEntityByNewEntityId, deleteNewEntity, createNewEntity,
+  updateNewEntity } = require('../controllers/newEntityController');
+const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:new_entity']),
+  getNewEntitiesByFarmId());
+
+router.get('/:new_entity_id', hasFarmAccess({ params: 'new_entity_id' }), checkScope(['get:new_entity']),
+  getNewEntityByNewEntityId());
+
+router.delete('/:new_entity_id', hasFarmAccess({ params: 'new_entity_id' }), checkScope(['delete:new_entity']),
+  deleteNewEntity());
+
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:new_entity']),
+  createNewEntity());
+
+router.put('/:new_entity_id', hasFarmAccess({ params: 'new_entity_id' }), checkScope(['edit:new_entity']),
+  updateNewEntity());
+
+module.exports = router;
+```
+
+Open `api/src/server.js`, import created file `newTalbeNameRoute.js`, and attach new endpoints to express server.
+
+```js
+const newEntityRoutes = require('./routes/newTalbeNameRoute');
+const app = express();
+app.use('/new_entity', newEntityRoutes);
+```
+
+Users will then be able to get new entities by accessing `domain.org/new_entity/farm/farm_id`;
+
+<DocCard>
+  <Text>Please refer to <DocLink
+    href={"https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/272269313/Styleguide+for+creating+modifying+endpoints"}>LiteFarm
+    REST API styleguide</DocLink> for naming convention</Text>
+  <Text>In short, endpoints should follow <code>/new_entity_table_name/new_entity_id</code> for single pk
+    and <code>/composite_table_name/parent_table_name/parent_id/child_table_name/child_id</code> for composite pk</Text>
+  <Text>A composite key example would be <code>/user_farm/farm/farm_id/user/user_id</code> where a farm has many
+    owners/managers/extension officers/workers</Text>
+</DocCard>
+
+### 2. Create empty controllers
+
+Create a new file `api/src/controller/newEntityController.js` and copy the following template
+
+```js
+const NewEntityModel = require('../models/newEntityModel');
+const baseController = require('./baseController');
+
+const newEntityController = {
+  getNewEntitiesByFarmId() {
+    return async (req, res, next) => {
+      const { farm_id } = req.params;
+      try{
+        const result = await NewEntityModel.query().where();
+        return result?.length ? res.status(200).send(result): res.status(404).send('New entities not found');
+      }catch(error){
+        return res.status(400).json({ error });
+      }
+    }
+  },
+
+  getNewEntityByNewEntityId() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try{
+        const result = await NewEntityModel.query().where();
+        return result ? res.status(200).send(result): res.status(404).send('New entity not found');
+      }catch(error){
+        return res.status(400).json({ error });
+      }
+    }
+  },
+
+  deleteNewEntity() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try {
+        const result = await NewEntityModel.query().where();
+        return result ? res.sendStatus(200):  res.status(404).send('New entity not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    }
+  },
+
+  createNewEntity(asset) {
+    return async (req, res, next) => {
+      try {
+        const result = await NewEntityModel.query().where();
+        return res.status(201).send(result);
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    }
+  },
+
+  updateNewEntity(asset) {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try {
+        const result = await NewEntityModel.query().where();
+        return result ? res.status(200).send(result): res.status(404).send('New entity not found');
+      } catch (error) {
+        return res.status(400).send({ error });
+      }
+    }
+  },
+
+}
+
+module.exports = newEntityController;
+
+```
+
+<DocCard>
+  <Text>Please refer to <DocLink
+    href={"https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/272269313/Styleguide+for+creating+modifying+endpoints"}>LiteFarm
+    REST API styleguide</DocLink> for status status code convention</Text>
+  <Text>In short, <code>post</code> success should return status code <code>201</code>.</Text>
+  <Text> <code>get</code> <code>delete</code> <code>patch</code> <code>put</code> success should return status
+    code <code>200</code>.</Text>
+  <Text> If no entity is found, return status code <code>404</code>.</Text>
+  <Text> Validation errors should return status code <code>400</code>.</Text>
+  <Text> Authorization (role permission) errors should return status code <code>403</code>.</Text>
+  <Text> Authentication (invalid jwt) error should return error code <code>401</code> </Text>
+</DocCard>
+
+<TechStackNavigation />
+
+
+

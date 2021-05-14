@@ -366,14 +366,15 @@ async function fieldCropFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
-  promisedCrop = cropFactory(),
+  promisedCrop = cropFactory({ promisedFarm }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
 } = {}, fieldCrop = fakeFieldCrop()) {
-  const [location, field, crop] = await Promise.all([promisedLocation, promisedField, promisedCrop]);
+  const [location, field, cropVariety] = await Promise.all([promisedLocation, promisedField, promisedCropVariety]);
   const [{ created_by_user_id }] = location;
   const [{ location_id }] = field;
-  const [{ crop_id }] = crop;
+  const [{ crop_variety_id }] = cropVariety;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
+  return knex('fieldCrop').insert({ crop_variety_id, location_id: location_id, ...fieldCrop, ...base }).returning('*');
 
 }
 
@@ -386,6 +387,24 @@ function fakeFieldCrop() {
     variety: faker.lorem.word(),
     estimated_revenue: faker.random.number(3000),
     is_by_bed: faker.random.boolean(),
+  };
+}
+
+async function crop_varietyFactory({
+  promisedFarm = farmFactory(),
+  promisedCrop = cropFactory({ promisedFarm }),
+} = {}, cropVariety = fakeCropVariety()) {
+  const [farm, crop] = await Promise.all([promisedFarm, promisedCrop]);
+  const [{ crop_id, created_by_user_id }] = crop;
+  const [{ farm_id }] = farm;
+  const base = baseProperties(created_by_user_id);
+  return knex('crop_variety').insert({ farm_id, crop_id, ...cropVariety, ...base }).returning('*');
+
+}
+
+function fakeCropVariety() {
+  return {
+    crop_variety_name: faker.lorem.word(),
   };
 }
 
@@ -827,8 +846,8 @@ async function supportTicketFactory({
 }
 
 function fakeOrganicCertifierSurvey(farm_id) {
-  const certificationIDS = [1, 2]
-  const certifierIDS = [1,2,3,4,5,6,7,10,11,12,13,14,15,16,17,18]
+  const certificationIDS = [1, 2];
+  const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18];
   const past = faker.date.past();
   const now = new Date();
   return {
@@ -1014,7 +1033,7 @@ async function buffer_zoneFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedLine = lineFactory({ promisedLocation },
     fakeLine(), 'buffer_zone'),
-} = {}){
+} = {}) {
   const [location] = await Promise.all([promisedLocation, promisedLine]);
   const [{ location_id }] = location;
   return knex('buffer_zone').insert({ location_id }).returning('*');
@@ -1099,6 +1118,8 @@ module.exports = {
   residenceFactory,
   buffer_zoneFactory,
   gateFactory,
+  crop_varietyFactory,
+  fakeCropVariety,
   // allSupportedCertificationsFactory,
   // allSupportedCertifiersFactory,
 };

@@ -1,0 +1,32 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Text } from '../../../components/Typography';
+import TechStackNavigation from '../teckStackNavigation';
+import DocCard from '../DocCard';
+
+<Meta title="Docs/tutorial/6.Pure components and storybook" />
+
+# Pure components and storybook
+
+<DocCard>
+  <Text>Pure components (all components under <code>webapp/src/component</code> directory) can't use or modify global
+    variables (<code>import history from '../history'</code> <code>useDispatch</code> <code>useSelector</code>), can't
+    make network request (The use of <code>GoogleLoginButton</code> or <code>GoogleMap</code> components), and can't use
+    any components under <code>webapp/src/container</code> directory.</Text>
+</DocCard>
+
+| Resources |
+| --------- |
+| [Official storybook tutorial](https://storybook.js.org/tutorials/intro-to-storybook/react/en/simple-component/) |
+| [Traversy React tutorial](https://youtu.be/w7ejDZ8SWv8?t=1429) |
+| [Official React tutorial](https://reactjs.org/docs/hooks-intro.html) |
+| [CSS cheat sheet](https://htmlcheatsheet.com/css/) |
+| [flexbox cheat sheet](https://yoksel.github.io/flex-cheatsheet/) |
+| [CSS grid generator](https://grid.layoutit.com/) |
+| [material-ui styling solution](https://material-ui.com/styles/basics/#adapting-based-on-props) |
+
+
+
+<TechStackNavigation />
+
+
+

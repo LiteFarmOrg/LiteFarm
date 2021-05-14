@@ -1,0 +1,16 @@
+.dropdownHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropdownBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.paFieldContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
+}

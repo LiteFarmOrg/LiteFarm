@@ -25,19 +25,21 @@ export default function useHookFormPersist(
     };
   }, []);
   useEffect(() => {
-    for (const key in formData) {
-      isValueValid(formData[key]) &&
-        setValue(key, formData[key], { shouldValidate: true, shouldDirty });
-    }
-    const initiatedField = Object.keys(getValues());
-    const setHiddenValues = setTimeout(() => {
+    if (!!setValue) {
       for (const key in formData) {
-        !initiatedField.includes(key) &&
-          isValueValid(formData[key]) &&
+        isValueValid(formData[key]) &&
           setValue(key, formData[key], { shouldValidate: true, shouldDirty });
       }
-    }, 100);
-    return () => clearTimeout(setHiddenValues);
+      const initiatedField = Object.keys(getValues());
+      const setHiddenValues = setTimeout(() => {
+        for (const key in formData) {
+          !initiatedField.includes(key) &&
+            isValueValid(formData[key]) &&
+            setValue(key, formData[key], { shouldValidate: true, shouldDirty });
+        }
+      }, 100);
+      return () => clearTimeout(setHiddenValues);
+    }
   }, [history.location.pathname, formData]);
 
   return { persistedData: formData };

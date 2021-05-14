@@ -226,7 +226,7 @@ const logServices = {
       .where('userFarm.farm_id', farm_id);
     for (const log of logs) {
       // get locations and fieldCrops associated with log
-      await log.$fetchGraph('fieldCrop.crop');
+      await log.$fetchGraph('fieldCrop.crop_variety.crop');
       await baseController.getRelated(log, locationModel);
 
       // get related models for specialized logs

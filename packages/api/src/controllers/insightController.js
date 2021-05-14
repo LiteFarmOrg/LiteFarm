@@ -42,6 +42,7 @@ const insightController = {
                 JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
                 JOIN "fieldCrop" fc ON fc.field_crop_id = ac.field_crop_id
                 JOIN "location" ON fc.location_id = location.location_id
+                JOIN "crop_variety" ON fc.crop_variety_id = crop_variety.crop_variety_id
                 JOIN "crop" c ON fc.crop_id = c.crop_id
                 WHERE location.farm_id = ? AND al.deleted = FALSE
                 AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
@@ -213,10 +214,12 @@ const insightController = {
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
         const cropCount = await knex.raw(
-          `SELECT DISTINCT fc.crop_id
+          `SELECT DISTINCT crop_variety.crop_id
           FROM "location" l
           LEFT JOIN "fieldCrop" fc
             on fc.location_id = l.location_id
+          LEFT JOIN "crop_variety"
+            on fc.crop_variety_id = crop_variety.crop_variety_id
           WHERE l.farm_id = ?
             and fc.end_date >= NOW() and fc.start_date <= NOW()`, [farmID]);
         if (dataPoints.rows && cropCount.rows) {
@@ -271,9 +274,10 @@ const insightController = {
           JOIN "crop" c on c.crop_id = cs.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
-          SELECT fc.crop_id
+          SELECT crop_variety.crop_id
           FROM "fieldCrop" fc 
-          join "location" on fc.location_id = location.location_id 
+          join "location" on fc.location_id = location.location_id
+          join "crop_variety" on crop_variety.crop_variety_id = fc.crop_variety_id
           where location.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
@@ -286,9 +290,9 @@ const insightController = {
         const prevDate = await insightHelpers.formatPreviousDate(new Date(), 'day');
         const dataPoints = await knex.raw(
           `SELECT c.crop_common_name, location.name, location.location_id, w.plant_available_water
-          FROM "fieldCrop" fc, "location", "waterBalance" w, "crop" c
+          FROM "fieldCrop" fc, "location", "waterBalance" w, "crop" c, "crop_variety"
           WHERE fc.location_id = location.location_id and location.farm_id = ? and c.crop_id = w.crop_id and w.location_id = location.location_id and
-           fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
+           fc.crop_variety_id = crop_variety.crop_variety_id and crop_variety.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
           res.status(200).send(body);

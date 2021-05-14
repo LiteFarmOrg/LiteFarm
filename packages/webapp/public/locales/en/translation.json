@@ -57,6 +57,10 @@
     "INPUT_PLACEHOLDER": "Search",
     "SWITCH_TITLE": "Switch to another farm"
   },
+  "CROP_DETAIL": {
+    "MANAGEMENT_TAB": "Management",
+    "DETAIL_TAB": "Details"
+  },
   "COMMON_ERRORS": {
     "UNIT": {
       "NON_NEGATIVE": "Must be a non negative number",
@@ -79,6 +83,25 @@
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
+  },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "Add a new crop",
+    "ADD_TO_YOUR_FARM": "Add to your farm",
+    "CROP_CATALOGUE": "Crop Catalogue",
+    "CROP_STATUS": "Crop status on:",
+    "FILTER": {
+      "LOCATION": "Location",
+      "STATUS": "Status",
+      "SUPPLIERS": "Suppliers",
+      "TITLE": "Crop Catalogue Filter"
+    },
+    "ON_YOUR_FARM": "On your farm",
+    "FILTER_TITLE": "Crop Catalogue Filter"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "Add a new variety",
+    "CROP_VARIETIES": "variety",
+    "NEEDS_PLAN": "Needs Plan"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
@@ -399,6 +422,9 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "Clear all filters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
@@ -1018,7 +1044,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop Catalog",
+    "CROP_CATALOGUE": "Crop Catalogue",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

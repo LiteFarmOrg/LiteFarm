@@ -3,7 +3,6 @@ import {
   getCertifiersSuccess,
   onLoadingCertifierSurveyFail,
   onLoadingCertifierSurveyStart,
-  patchCertifiersSuccess,
   patchInterestedSuccess,
   patchRequestedCertificationSuccess,
   patchRequestedCertifiersSuccess,
@@ -99,31 +98,6 @@ export function* postCertifiersSaga({ payload }) {
   }
 }
 
-export const patchCertifiers = createAction(`patchCertifiersSaga`);
-
-export function* patchCertifiersSaga({ payload }) {
-  const survey = yield select(certifierSurveySelector);
-  try {
-    const { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id, farm_id);
-    const { certifiers, callback } = payload;
-    const body = { ...survey, certifiers };
-    yield call(axios.patch, patchCertifierUrl(survey.survey_id), body, header);
-    yield put(patchCertifiersSuccess({ certifiers, farm_id }));
-    if (!payload.survey?.interested || payload.certifiers) {
-      let step = {
-        step_four: true,
-        step_four_end: new Date(),
-      };
-      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-      yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
-    }
-    callback && callback();
-  } catch (e) {
-    console.log('failed to add certifiers');
-  }
-}
-
 export const patchStepFour = createAction(`patchStepFourSaga`);
 
 export function* patchStepFourSaga({ payload }) {
@@ -206,7 +180,6 @@ export function* patchInterestedSaga({ payload }) {
 
 export default function* certifierSurveySaga() {
   yield takeLeading(patchInterested.type, patchInterestedSaga);
-  yield takeLeading(patchCertifiers.type, patchCertifiersSaga);
   yield takeLatest(getCertifiers.type, getCertifiersSaga);
   yield takeLeading(postCertifiers.type, postCertifiersSaga);
   yield takeLatest(getAllSupportedCertifications.type, getAllSupportedCertificationsSaga);

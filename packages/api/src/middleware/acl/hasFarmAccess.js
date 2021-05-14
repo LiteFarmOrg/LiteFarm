@@ -22,6 +22,7 @@ const entitiesGetters = {
   //TODO remove
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
+  crop_variety_id: fromCropVariety,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -170,6 +171,11 @@ async function fromActivity(req) {
 async function fromFieldCrop(fieldCropId) {
   const { location_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
   return fromLocation(location_id);
+}
+
+async function fromCropVariety(crop_variety_id) {
+  const cropVariety = await knex('crop_variety').where({ crop_variety_id }).first();
+  return cropVariety;
 }
 
 async function fromYield(yieldId) {

@@ -54,15 +54,11 @@ export default function LineDetails({
         disabled={isViewLocationPage}
       />
       {children}
-      <InputAutoSize optional={true} label={t('common:NOTES')} style={{ marginBottom: '40px'}} hookFormRegister={register(lineEnum.notes)} disabled={isViewLocationPage}/>
-      {/*<Input*/}
-      {/*  label={t('common:NOTES')}*/}
-      {/*  type="text"*/}
-      {/*  optional*/}
-      {/*  hookFormRegister={register(lineEnum.notes)}*/}
-      {/*  style={{ marginBottom: '40px' }}*/}
-      {/*  disabled={isViewLocationPage}*/}
-      {/*/>*/}
+      <InputAutoSize optional={true}
+                     label={t('common:NOTES')}
+                     style={{ marginBottom: '40px'}}
+                     hookFormRegister={register(lineEnum.notes)}
+                     disabled={isViewLocationPage}/>
     </>
   );
 }

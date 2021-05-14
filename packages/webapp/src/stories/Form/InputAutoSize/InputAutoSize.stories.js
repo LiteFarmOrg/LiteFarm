@@ -17,6 +17,7 @@ Primary.args = {
   defaultValue: 'default value',
   rowsMax: 4,
   optional: true,
+
 };
 
 export const Empty = Template.bind({});
@@ -24,6 +25,7 @@ Empty.args = {
   label: 'Notes',
   rowsMax: 4,
   optional: true,
+
 };
 
 export const withError = Template.bind({});

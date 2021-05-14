@@ -58,15 +58,10 @@ export default function PointDetailsLayout({
       />
 
       {children}
-      <InputAutoSize optional={true} label={t('common:NOTES')} style={{ marginBottom: '40px'}} hookFormRegister={register(pointEnum.notes)} disabled={isViewLocationPage}/>
-      {/*<Input*/}
-      {/*  label={t('common:NOTES')}*/}
-      {/*  type="text"*/}
-      {/*  optional*/}
-      {/*  style={{ marginBottom: '40px' }}*/}
-      {/*  hookFormRegister={register(pointEnum.notes)}*/}
-      {/*  disabled={isViewLocationPage}*/}
-      {/*/>*/}
+      <InputAutoSize optional={true} label={t('common:NOTES')}
+                     style={{ marginBottom: '40px'}}
+                     hookFormRegister={register(pointEnum.notes)}
+                     disabled={isViewLocationPage}/>
     </>
   );
 }

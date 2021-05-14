@@ -111,15 +111,11 @@ export default function AreaDetails({
         )}
       </div>
       {children}
-      <InputAutoSize optional={true} label={t('common:NOTES')} style={{ marginBottom: '40px'}} hookFormRegister={register(areaEnum.notes)} disabled={isViewLocationPage}/>
-      {/*<Input*/}
-      {/*  label={t('common:NOTES')}*/}
-      {/*  type="text"*/}
-      {/*  optional*/}
-      {/*  hookFormRegister={register(areaEnum.notes)}*/}
-      {/*  style={{ marginBottom: '40px' }}*/}
-      {/*  disabled={isViewLocationPage}*/}
-      {/*/>*/}
+      <InputAutoSize optional={true}
+                     label={t('common:NOTES')}
+                     tyle={{ marginBottom: '40px'}}
+                     hookFormRegister={register(areaEnum.notes)}
+                     disabled={isViewLocationPage}/>
     </>
   );
 }

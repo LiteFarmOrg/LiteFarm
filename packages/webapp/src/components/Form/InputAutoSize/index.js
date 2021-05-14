@@ -24,9 +24,6 @@ export default function InputAutoSize({
   const name = hookFormRegister?.name ?? props?.name;
   const { t } = useTranslation(['translation', 'common']);
 
-
-  console.log(clsx(styles.textArea, errors && styles.inputError));
-
   return (
     <div
       className={clsx(styles.container)}

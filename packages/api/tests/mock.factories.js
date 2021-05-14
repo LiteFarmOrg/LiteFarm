@@ -405,6 +405,14 @@ async function crop_varietyFactory({
 function fakeCropVariety() {
   return {
     crop_variety_name: faker.lorem.word(),
+    supplier: faker.lorem.word(),
+    seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
+    lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
+    compliance_file_url: faker.internet.url(),
+    organic: faker.random.boolean(),
+    treated: faker.random.boolean(),
+    genetically_engineered: faker.random.boolean(),
+    searched: faker.random.boolean(),
   };
 }
 

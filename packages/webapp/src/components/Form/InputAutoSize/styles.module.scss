@@ -11,7 +11,6 @@
   color: var(--fontColor);
   background-color: transparent;
   font-family: 'Open Sans', 'SansSerif', serif;
-
 }
 
 .container {
@@ -19,28 +18,24 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
-
 }
 
 .sm {
   margin-left: 8px;
-
 }
 
 .inputError {
   border-color: var(--error);
-
 }
 
 .textArea:focus:enabled {
   outline: none;
   border-color: var(--inputActive);
-
 }
 
 .textArea:disabled {
   background-color: var(--inputDisabled) !important;
   color: var(--grey600);
   border-color: var(--inputDefault);
-
 }
+

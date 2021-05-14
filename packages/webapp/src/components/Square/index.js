@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     borderRadius: '4px',
   },
   active: {
-    backgroundColor: colors.teal700,
+    backgroundColor: colors.brightGreen700,
   },
   planned: {
     backgroundColor: colors.brown700,

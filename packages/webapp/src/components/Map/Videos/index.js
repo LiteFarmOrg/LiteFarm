@@ -27,3 +27,4 @@ function PureVideoView({ history }) {
 }
 
 export default PureVideoView;
+

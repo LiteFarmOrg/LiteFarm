@@ -95,6 +95,11 @@ import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './
 import { getRoles } from './InviteUser/saga';
 import { getAllUserFarmsByFarmId } from './Profile/People/saga';
 import { getCertifiers } from './OrganicCertifierSurvey/saga';
+import {
+  getAllCropVarietiesSuccess,
+  onLoadingCropVarietyFail,
+  onLoadingCropVarietyStart,
+} from './cropVarietySlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -166,6 +171,25 @@ export function* getCropsSaga() {
     console.error('failed to fetch all crops from database');
   }
 }
+
+export const getCropVarieties = createAction(`getCropVarietiesSaga`);
+
+export function* getCropVarietiesSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingCropVarietyStart());
+    const result = yield call(axios.get, `${url}/crop_variety/farm/${farm_id}`, header);
+    const crops = result.data.map((cropVariety) => cropVariety.crop);
+    yield put(getAllCropsSuccess(crops));
+    yield put(getAllCropVarietiesSuccess(result.data));
+  } catch (e) {
+    yield put(onLoadingCropVarietyFail(e));
+    console.error('failed to fetch all crop varieties from database');
+  }
+}
+
 export const getFarmInfo = createAction(`getFarmInfoSaga`);
 
 export function* getFarmInfoSaga() {
@@ -288,7 +312,9 @@ export function* getFieldCropsSaga() {
     yield put(onLoadingFieldCropStart());
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
     yield put(getFieldCropsSuccess(result.data));
-    yield put(getCropsSuccess(result.data.map((fieldCrop) => fieldCrop.crop)));
+    const cropVarieties = result.data.map((fieldCrop) => fieldCrop.crop_variety);
+    yield put(getAllCropVarietiesSuccess(cropVarieties));
+    yield put(getCropsSuccess(cropVarieties.map((cropVariety) => cropVariety.crop)));
   } catch (e) {
     yield put(onLoadingFieldCropFail(e));
     console.log('failed to fetch field crops from db');
@@ -353,6 +379,7 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
     const tasks = [
       put(getCertifiers()),
       put(getCrops()),
+      put(getCropVarieties()),
       put(getLocations()),
       put(getFieldCrops()),
       put(getRoles()),
@@ -447,6 +474,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
+  yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
   yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);

@@ -266,7 +266,7 @@ const Unit = ({
         <Controller
           control={control}
           name={displayUnitName}
-          render={({ onChange, onBlur, value, name, ref }) => (
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
               onBlur={onBlur}
               onChange={(e) => {
@@ -299,10 +299,9 @@ const Unit = ({
         </div>
       </div>
       <input
-        ref={register({ required, valueAsNumber: true })}
-        name={name}
         className={styles.hiddenInput}
         defaultValue={defaultValue || hookFormValue}
+        {...register(name, { required, valueAsNumber: true })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (

@@ -26,7 +26,6 @@ import { Label, Semibold, Underlined } from '../../Typography';
 import { cropLocationEntitiesSelector } from '../../../containers/locationSlice';
 import ReactSelect from '../../Form/ReactSelect';
 
-
 class NewFieldCropModal extends React.Component {
   // props:
   // field: the current field selected
@@ -46,7 +45,6 @@ class NewFieldCropModal extends React.Component {
     this.getCropOptions = this.getCropOptions.bind(this);
 
     this.state = this.getInitialState();
-    console.log(this.state);
   }
 
   getInitialState() {

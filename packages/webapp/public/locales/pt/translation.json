@@ -80,6 +80,25 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "ON_YOUR_FARM": "MISSING",
+    "FILTER_TITLE": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
@@ -400,6 +419,9 @@
     },
     "TITLE": "CAMPOS"
   },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
     "EMAIL": "Email",
@@ -573,7 +595,6 @@
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
-    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
@@ -1019,6 +1040,7 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
+    "CROP_CATALOGUE": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

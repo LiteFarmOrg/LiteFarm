@@ -8,7 +8,7 @@ import { useEffect, useLayoutEffect } from 'react';
 import history from '../../../history';
 
 export default function useHookFormPersist(
-  prevPathname = [],
+  persistedPathNames = [],
   getValues,
   setValue,
   shouldDirty = true,
@@ -17,7 +17,7 @@ export default function useHookFormPersist(
   const formData = useSelector(hookFormPersistSelector);
   useLayoutEffect(() => {
     return () => {
-      if (prevPathname.includes(history.location.pathname)) {
+      if (persistedPathNames.includes(history.location.pathname)) {
         dispatch(hookFormPersistUnMount(getValues()));
       } else {
         dispatch(resetAndUnLockFormData());

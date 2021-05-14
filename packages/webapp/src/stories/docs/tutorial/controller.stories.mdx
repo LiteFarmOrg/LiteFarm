@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Error, Text } from '../../../components/Typography';
+import TechStackNavigation from '../teckStackNavigation';
+import DocCard from '../DocCard';
+import DocLink from '../DocLink';
+
+<Meta title="Docs/tutorial/4.Controller" />
+
+# Controller
+
+| Resources |
+| --------- |
+| [Express routing](https://expressjs.com/en/guide/routing.html) |
+| [Objection query builder](https://vincit.github.io/objection.js/guide/query-examples.html#basic-queries) |
+| [Knex query builder](http://knexjs.org/) |
+| [Objection withGraphFetched](https://vincit.github.io/objection.js/guide/query-examples.html#eager-loading) |
+| [Objection transactions](https://vincit.github.io/objection.js/guide/transactions.html#creating-a-transaction) |
+| [Objection hooks](https://vincit.github.io/objection.js/guide/hooks.html#instance-query-hooks) |
+
+<DocCard>
+  <Text>Please refer to <DocLink
+    href={"https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/272269313/Styleguide+for+creating+modifying+endpoints"}>LiteFarm
+    REST API styleguide</DocLink> for status status code convention</Text>
+  <Text>In short, <code>post</code> success should return status code <code>201</code>.</Text>
+  <Text> <code>get</code> <code>delete</code> <code>patch</code> <code>put</code> success should return status
+    code <code>200</code>.</Text>
+  <Text> If no entity is found, return status code <code>404</code>.</Text>
+  <Text> Validation errors should return status code <code>400</code>.</Text>
+</DocCard>
+
+<DocCard>
+  <Error>Always use <DocLink
+    href={'https://vincit.github.io/objection.js/guide/transactions.html#creating-a-transaction'}>transactions</DocLink> when
+    an endpoint performs more than 1 insert/update/delete</Error>
+</DocCard>
+
+<TechStackNavigation />
+
+
+

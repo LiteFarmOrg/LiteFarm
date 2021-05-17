@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import { fenceEnum as lineEnum } from '../../../containers/constants';
+import { fenceEnum as lineEnum, fieldEnum as areaEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function LineDetails({
   name,
@@ -53,12 +54,11 @@ export default function LineDetails({
         disabled={isViewLocationPage}
       />
       {children}
-      <Input
+      <InputAutoSize
+        optional={true}
         label={t('common:NOTES')}
-        type="text"
-        optional
-        hookFormRegister={register(lineEnum.notes)}
         style={{ marginBottom: '40px' }}
+        hookFormRegister={register(lineEnum.notes)}
         disabled={isViewLocationPage}
       />
     </>

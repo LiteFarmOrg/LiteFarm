@@ -60,9 +60,10 @@ export default function PureSurfaceWater({
       ...data,
 
       type: 'surface_water',
-      used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
+      // used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
     };
-    submitForm({ formData });
+    console.log(formData);
+    // submitForm({ formData });
   };
 
   const title =

@@ -7,7 +7,8 @@ function CropDetail ({ history, match }) {
   const selectedCrop = useSelector(cropVarietySelector(match.params.variety_id));
   const [isEditing, setIsEditing] = useState(false);
 
-  const submitForm = () => {
+  const submitForm = (data) => {
+    console.log(data);
     setIsEditing(false);
   }
 

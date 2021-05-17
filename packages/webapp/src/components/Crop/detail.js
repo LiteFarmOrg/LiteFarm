@@ -1,7 +1,7 @@
 import Layout from "../Layout";
 import CropHeader from "./cropHeader";
 import RouterTab from "../RouterTab";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../Form/Button";
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -10,30 +10,38 @@ import { ReactComponent as Document } from '../../assets/images/fieldCrops/Docum
 import { Main } from "../Typography";
 import Radio from "../Form/Radio";
 import { useForm } from "react-hook-form";
+import RadioGroup from "../Form/RadioGroup";
+import Form from "../Form";
 
 function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitForm, onBack}) {
   const { t } = useTranslation();
   const { register,
       handleSubmit,
       watch,
+      control,
       formState: { errors, isValid },
-  } = useForm({ mode: 'onTouched', defaultValues: crop});
+  } = useForm({ mode: 'onTouched'});
   const SEEDING_TYPE = 'seeding_type';
   const SUPPLIER = 'supplier';
   const LIFECYCLE = 'lifecycle';
   const ORGANIC = 'organic';
   const TREATED = 'treated';
-  const SEARCHED = 'treated';
+  const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
-  const isOrganic = watch(ORGANIC, true);
+  const isOrganic = watch(ORGANIC);
+  const annual = watch(TREATED);
   const supplierName = watch(SUPPLIER, '');
 
+  useEffect( () => {
+    console.log(isOrganic);
+  }, [isOrganic])
+
   return (
-    <Layout buttonGroup={(
+    <Form onSubmit={handleSubmit(submitForm)} buttonGroup={(
       <>
         {
           isEditing ?
-          <Button disabled={!isValid} onClick={() => handleSubmit(submitForm)} fullLength>{t('common:UPDATE')}</Button>: (
+          <Button disabled={!isValid} fullLength>{t('common:UPDATE')}</Button>: (
             <>
               <Button color={'secondary'} fullLength>{t('common:RETIRE')}</Button>
               <Button  onClick={() => setIsEditing(true)} fullLength>{t('common:EDIT')}</Button>
@@ -80,28 +88,24 @@ function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitF
       <Radio disabled={!isEditing} value={'PERENNIAL'} hookFormRegister={register( LIFECYCLE, { required: true})} style={{marginBottom: '34px'}} label={t('CROP_DETAIL.PERENNIAL')} />
 
       <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.ORGANIC')}<Leaf style={{ marginLeft: '14px'}}  /></Main>
-      <Radio disabled={!isEditing} value={true} hookFormRegister={register(ORGANIC, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />
-      <Radio disabled={!isEditing} value={false} hookFormRegister={register(ORGANIC, { required: true})} style={{marginBottom: '34px'}} label={t('common:NO')} />
+      {/*<Radio disabled={!isEditing} value={true} hookFormRegister={register( ORGANIC, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />*/}
+      {/*<Radio disabled={!isEditing} value={false} hookFormRegister={register( ORGANIC, { required: true})} style={{marginBottom: '34px'}} label={t('common:NO')} />*/}
 
+      <RadioGroup disabled={!isEditing}  onChange={(v) => console.log(v) } required={true} hookFormControl={control} name={ORGANIC} />
       {
         isOrganic && (
           <>
             <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}</Main>
-            <Radio disabled={!isEditing} value={true} hookFormRegister={register(SEARCHED, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />
-            <Radio disabled={!isEditing} value={false} hookFormRegister={register(SEARCHED, { required: true})} style={{marginBottom: '34px'}} label={t('common:NO')} />
-
+            <RadioGroup disabled={!isEditing}  hookFormControl={control} name={SEARCHED} />
             <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.GENETICALLY_ENGINEERED')}<Leaf style={{ marginLeft: '14px'}}  /></Main>
-            <Radio disabled={!isEditing} value={true} hookFormRegister={register(GENETICALLY_ENGINEERED, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />
-            <Radio disabled={!isEditing} value={false} hookFormRegister={register(GENETICALLY_ENGINEERED, { required: true})} style={{marginBottom: '34px'}} label={t('common:NO')} />
+            <RadioGroup disabled={!isEditing}  hookFormControl={control} name={GENETICALLY_ENGINEERED} />
           </>
         )
       }
 
       <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.TREATED')}<Leaf style={{ marginLeft: '14px'}}  /></Main>
-      <Radio disabled={!isEditing} value={true} hookFormRegister={register(TREATED, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />
-      <Radio disabled={!isEditing} value={false} hookFormRegister={register(TREATED, { required: true})} style={{marginBottom: '16px'}} label={t('common:NO')} />
-      <Radio disabled={!isEditing} value={null} hookFormRegister={register(TREATED, { required: true})} style={{marginBottom: '34px'}} label={t('CROP_DETAIL.NOT_SURE')} />
-    </Layout>
+      <RadioGroup disabled={!isEditing} required={true} hookFormControl={control} name={TREATED} showNotSure />
+    </Form>
   )
 }
 

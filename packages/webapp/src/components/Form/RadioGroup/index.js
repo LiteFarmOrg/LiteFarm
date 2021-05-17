@@ -45,9 +45,9 @@ export default function RadioGroup({
                 }}
                 inputRef={field.ref}
                 value={true}
+                {...props}
               />
             )}
-            {...props}
           />
           <Controller
             control={hookFormControl}

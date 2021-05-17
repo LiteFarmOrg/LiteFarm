@@ -1,5 +1,5 @@
 import React from 'react';
-import NativeDatePickerWrapper from '../../components/NativeDatePicker/NativeDatePickerWrapper';
+import NativeDatePickerWrapper from '../../components/Form/NativeDatePicker/NativeDatePickerWrapper';
 import { componentDecorators } from '../Pages/config/decorators';
 import { Underlined } from '../../components/Typography';
 

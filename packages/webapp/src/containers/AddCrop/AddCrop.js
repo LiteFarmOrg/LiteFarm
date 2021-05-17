@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PureAddCrop from '../../components/AddCrop';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
+import { cropSelector } from '../cropSlice';
 import { useForm } from 'react-hook-form';
 
 function AddCropForm({ history, match }) {
@@ -36,8 +36,12 @@ function AddCropForm({ history, match }) {
   const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
 
+  const crop_id = match.params.crop_id;
+  const crop = useSelector(cropSelector(crop_id));
+  const imageKey = crop.crop_translation_key.toLowerCase();
+  
+
   useEffect(() => {
-    // TODO - Crop Variety
   }, []);
 
   const onError = (data) => {};
@@ -45,8 +49,10 @@ function AddCropForm({ history, match }) {
   const onContinue = (data) => {
     // TODO - Crop Variety
     console.log(data);
-    history.push('/crop_add/compliance');
+    history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
   };
+
+
 
   return (
     <>
@@ -55,6 +61,8 @@ function AddCropForm({ history, match }) {
         disabled={disabled}
         onContinue={handleSubmit(onContinue)}
         cropEnum={cropEnum}
+        imageKey={imageKey}
+        cropName={crop.crop_common_name}
         varietyRegister={varietyRegister}
         supplierRegister={supplierRegister}
         seedTypeRegister={seedTypeRegister}

@@ -293,8 +293,8 @@ const Routes = () => {
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/:crop_id/detail" component={PureCropDetail}/>
             <Route path="/crop/:crop_id/management" component={PureCropManagement}/>
-            <Route path="/crop_add" exact component={AddCrop}/>
-            <Route path="/crop_add/compliance" exact component={ComplianceInfo}/>
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop}/>
+            <Route path="/crop/:crop_id/add_crop_variety/compliance" exact component={ComplianceInfo}/>
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 
@@ -532,6 +532,8 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop}/>
+            <Route path="/crop/:crop_id/add_crop_variety/compliance" exact component={ComplianceInfo}/>
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

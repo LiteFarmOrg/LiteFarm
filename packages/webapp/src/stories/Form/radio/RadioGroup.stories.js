@@ -4,12 +4,22 @@ import { componentDecorators } from '../../Pages/config/decorators';
 import { useForm } from 'react-hook-form';
 
 const RadioGroupWithHookForm = (props) => {
-  const { control, handleSubmit, getValues } = useForm({
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { isValid },
+  } = useForm({
     mode: 'onChange',
   });
+  console.log({ isValid });
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
-      <RadioGroup hookFormControl={control} onChange={() => console.log(getValues())} {...props} />
+      <RadioGroup
+        hookFormControl={control}
+        onChange={() => console.log(getValues(), { isValid })}
+        {...props}
+      />
     </form>
   );
 };
@@ -37,6 +47,19 @@ export const WithNotSure = Template.bind({});
 WithNotSure.args = {
   name: 'bool',
   showNotSure: true,
+};
+
+export const RequiredWithNotSureError = Template.bind({});
+RequiredWithNotSureError.args = {
+  name: 'bool',
+  showNotSure: true,
+  required: true,
+};
+
+export const Required = Template.bind({});
+Required.args = {
+  name: 'bool',
+  required: true,
 };
 
 export const DefaultYes = Template.bind({});

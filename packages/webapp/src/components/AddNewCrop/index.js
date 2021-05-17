@@ -141,11 +141,11 @@ function PhysiologyAnatomyDropDown() {
           {FIRST_NUTRIENT_ARRAY.map((nutrient) => {
             return (
               <Input
+                key={nutrient}
                 style={{ flex: '1 0 41%', margin: '40px 8px 0 8px' }}
                 label={t(`crop_nutrients:${NUTRIENT_DICT[nutrient]}`)}
                 type={'number'}
-                // hookFormRegister={register}
-                {...register(nutrient)}
+                hookFormRegister={register(nutrient)}
               />
             );
           })}
@@ -157,11 +157,11 @@ function PhysiologyAnatomyDropDown() {
           {SECOND_NUTRIENT_ARRAY.map((nutrient) => {
             return (
               <Input
+                key={nutrient}
                 style={{ flex: '1 0 41%', margin: '40px 8px 0 8px' }}
                 label={t(`crop_nutrients:${NUTRIENT_DICT[nutrient]}`)}
                 type={'number'}
-                // hookFormRegister={register}
-                {...register(nutrient)}
+                hookFormRegister={register(nutrient)}
               />
             );
           })}

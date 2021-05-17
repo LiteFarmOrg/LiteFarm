@@ -8,7 +8,14 @@ import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
 import ProgressBar from '../../components/ProgressBar';
 import Form from '../Form';
-import { Controller, FormProvider, useForm, useFormContext, useFormState } from 'react-hook-form';
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { BsChevronDown } from 'react-icons/bs';
 import { FIRST_NUTRIENT_ARRAY, SECOND_NUTRIENT_ARRAY, NUTRIENT_DICT } from './constants';
@@ -47,6 +54,7 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
 
   const updatePAValues = (selected) => {
     console.log('updatePAValues');
+    setValue('protein', 123);
   };
 
   return (
@@ -77,12 +85,12 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
           style={{ marginBottom: '40px' }}
           label={'New Crop Name'} //TODO: i18n
           // hookFormRegister={register}
-          {...register('newCropName', { required: true })}
+          {...register('crop_common_name', { required: true })}
         />
 
         <Controller
           control={control}
-          name={'cropGroup'}
+          name={'crop_group'}
           rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
             <ReactSelect
@@ -113,7 +121,13 @@ PureAddNewCrop.prototype = {
 
 function PhysiologyAnatomyDropDown() {
   const { t } = useTranslation();
-  const { register } = useFormContext();
+  const { register, control } = useFormContext();
+  const nutrients = useWatch({
+    control,
+    name: FIRST_NUTRIENT_ARRAY.concat(SECOND_NUTRIENT_ARRAY),
+    // defaultValue: 'default' // default value before the render
+  });
+  console.log(nutrients);
   const [open, setOpen] = useState(false);
 
   return (

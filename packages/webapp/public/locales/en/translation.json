@@ -104,6 +104,7 @@
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
     "ADD_TO_YOUR_FARM": "Add to your farm",
+    "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CROP_CATALOGUE": "Crop Catalogue",
     "CROP_STATUS": "Crop status on:",
     "FILTER": {
@@ -114,6 +115,10 @@
     },
     "ON_YOUR_FARM": "On your farm",
     "FILTER_TITLE": "Crop Catalogue Filter"
+  },
+  "CROP_DETAIL": {
+    "DETAIL_TAB": "Details",
+    "MANAGEMENT_TAB": "Management"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

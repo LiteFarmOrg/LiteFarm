@@ -25,13 +25,14 @@ export default function CropCatalogue({ history }) {
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
 
-  const cropVarietiesWithoutManagementPlan = useSelector(
-    cropsWithVarietyWithoutManagementPlanSelector,
-  );
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const { active, planned, past, sum, cropCatalogue } = useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(useSelector(cropsSelector), filterString);
+  const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
+    useSelector(cropsWithVarietyWithoutManagementPlanSelector),
+    filterString,
+  );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
@@ -64,7 +65,7 @@ export default function CropCatalogue({ history }) {
       <div ref={containerRef}>
         {!!sum && (
           <>
-            <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
+            <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
               status={{ active, past, planned }}
               style={{ marginBottom: '16px' }}
@@ -118,6 +119,7 @@ export default function CropCatalogue({ history }) {
         )}
         {isAdmin && (
           <>
+<<<<<<< HEAD
             <PageBreak
               style={{ paddingBottom: '22px' }}
               label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
@@ -140,6 +142,33 @@ export default function CropCatalogue({ history }) {
               })}
             </PureCropTileContainer>
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}</Text>
+=======
+            {!!crops?.length && (
+              <>
+                <PageBreak
+                  style={{ paddingBottom: '22px' }}
+                  label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
+                />
+                <PureCropTileContainer gap={gap} padding={padding}>
+                  {crops.map((crop) => {
+                    const { crop_translation_key } = crop;
+                    const imageKey = crop_translation_key.toLowerCase();
+                    return (
+                      <PureCropTile
+                        key={crop.crop_id}
+                        title={t(`crop:${crop_translation_key}`)}
+                        src={`crop-images/${imageKey}.jpg`}
+                        alt={imageKey}
+                        style={{ width: cardWidth }}
+                        isCropTemplate
+                      />
+                    );
+                  })}
+                </PureCropTileContainer>
+              </>
+            )}
+            <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
+>>>>>>> origin/develop
             <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
           </>
         )}

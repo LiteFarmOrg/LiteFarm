@@ -115,3 +115,9 @@ export const cropVarietyStatusSelector = createSelector(
     return { loading, error };
   },
 );
+
+export const suppliersSelector = createSelector([cropVarietiesSelector], (cropVarieties) => {
+  const suppliers = new Set(cropVarieties.map(({ supplier }) => supplier));
+  suppliers.delete(null);
+  return Array.from(suppliers);
+});

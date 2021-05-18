@@ -8,7 +8,14 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS } from '../Filter/CropCatalogue/constants';
+import {
+  ACTIVE,
+  COMPLETE,
+  LOCATION,
+  PLANNED,
+  STATUS,
+  SUPPLIERS,
+} from '../Filter/CropCatalogue/constants';
 
 export default function useCropCatalogue(filterString) {
   const fieldCrops = useSelector(fieldCropsSelector);
@@ -27,8 +34,16 @@ export default function useCropCatalogue(filterString) {
       included.has(fieldCrop.location_id),
     );
   }, [cropCatalogueFilter[LOCATION], fieldCropsFilteredByFilterString]);
-  //TODO: supplier useMemo
-  const fieldCropsFilteredBySuppliers = fieldCropsFilteredByLocations;
+
+  const fieldCropsFilteredBySuppliers = useMemo(() => {
+    const supplierFilter = cropCatalogueFilter[SUPPLIERS];
+    const included = new Set();
+    for (const supplier in supplierFilter) {
+      if (supplierFilter[supplier]) included.add(supplier);
+    }
+    if (included.size === 0) return fieldCropsFilteredByLocations;
+    return fieldCropsFilteredByLocations.filter((fieldCrop) => included.has(fieldCrop.supplier));
+  }, [cropCatalogueFilter[SUPPLIERS], fieldCropsFilteredByLocations]);
 
   const cropCatalogue = useMemo(() => {
     const time = new Date(cropCatalogFilterDate).getTime();

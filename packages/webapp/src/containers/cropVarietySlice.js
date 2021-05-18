@@ -18,6 +18,7 @@ const getCropVariety = (obj) => {
     'treated',
     'genetically_engineered',
     'searched',
+    'crop_variety_photo_url',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {

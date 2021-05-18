@@ -88,13 +88,13 @@ export default function CropCatalogue({ history }) {
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key } = cropVariety;
+                const { crop_translation_key, crop_variety_photo_url } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (
                   <PureCropTile
                     key={crop_translation_key}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
@@ -110,6 +110,7 @@ export default function CropCatalogue({ history }) {
                   past,
                   needsPlan,
                   imageKey,
+                  crop_photo_url,
                 } = cropCatalog;
                 return (
                   <PureCropTile
@@ -121,7 +122,7 @@ export default function CropCatalogue({ history }) {
                     }}
                     needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
@@ -147,7 +148,7 @@ export default function CropCatalogue({ history }) {
                       <PureCropTile
                         key={crop.crop_id}
                         title={t(`crop:${crop_translation_key}`)}
-                        src={`crop-images/${imageKey}.jpg`}
+                        src={crop.crop_photo_url}
                         alt={imageKey}
                         style={{ width: cardWidth }}
                         isCropTemplate

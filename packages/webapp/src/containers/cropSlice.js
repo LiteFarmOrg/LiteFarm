@@ -2,6 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
+
 const averagesList = [
   'max_rooting_depth',
   'depletion_fraction',
@@ -92,6 +93,7 @@ const getCrop = (obj) => {
     'deleted',
     'nutrient_credits',
     'crop_translation_key',
+    'crop_photo_url',
   ]);
 };
 const addOneCrop = (state, { payload }) => {

@@ -1,4 +1,7 @@
 const CropVarietyModel = require('../models/cropVarietyModel');
+const CropModel = require('../models/cropModel');
+const nutrients = [ 'protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
+  'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits']
 const baseController = require('./baseController');
 const cropVarietyController = {
   getCropVarietiesByFarmId() {
@@ -38,7 +41,10 @@ const cropVarietyController = {
   createCropVariety() {
     return async (req, res, next) => {
       try {
-        const result = await CropVarietyModel.query().context(req.user).insert(req.body);
+        const { crop_id } = req.body;
+        const relatedCrop = await CropModel.query().where({ crop_id });
+        const cropData = nutrients.reduce((obj, k) => ({ ...obj, [k]: relatedCrop[k] }), {});
+        const result = await CropVarietyModel.query().context(req.user).insert({ ...req.body, ...cropData });
         return res.status(201).json(result);
       } catch (error) {
         return res.status(400).json({ error });

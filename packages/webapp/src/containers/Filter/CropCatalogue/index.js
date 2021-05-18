@@ -3,40 +3,41 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
 import { cropLocationsSelector } from '../../locationSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  STATUS,
-  ACTIVE,
   ABANDONED,
-  PLANNED,
+  ACTIVE,
   COMPLETE,
-  NEEDS_PLAN,
   LOCATION,
+  NEEDS_PLAN,
+  PLANNED,
+  STATUS,
   SUPPLIERS,
 } from './constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
-const CropCatalogueFilterPage = () => {
-  const { t } = useTranslation();
+const CropCatalogueFilterPage = ({ onGoBack }) => {
+  const { t } = useTranslation(['translation', 'filter']);
   const cropEnabledLocations = useSelector(cropLocationsSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const dispatch = useDispatch();
 
   const handleApply = () => {
     dispatch(setCropCatalogueFilter(filterRef.current));
+    onGoBack?.();
   };
   const filterRef = useRef({});
 
   const filters = [
     {
-      subject: t('CROP_CATALOGUE.FILTER.STATUS.SUBJECT'),
+      subject: t('CROP_CATALOGUE.FILTER.STATUS'),
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
         default: cropCatalogueFilter[STATUS][status] ?? false,
-        label: t(`CROP_CATALOGUE.FILTER.STATUS.${status}`),
+        label: t(`filter:CROP_CATALOGUE.${status}`),
       })),
     },
     {
@@ -61,6 +62,7 @@ const CropCatalogueFilterPage = () => {
       filters={filters}
       onApply={handleApply}
       filterRef={filterRef}
+      onGoBack={onGoBack}
     />
   );
 };

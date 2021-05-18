@@ -1,0 +1,54 @@
+import WithCurrency from '../assets/codeSplitting/mainBundleCurrency.png';
+import WithoutCurrency from '../assets/codeSplitting/mainBundleWithoutCurrency.png';
+
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/codeSplitting" />
+
+### Code splitting
+
+#### Util functions
+
+Code splitting for named export is not implemented
+
+```js
+//Named export:
+export function functionName() {}
+export const constName = () => {};
+//Default export:
+export default function functionName() {}
+```
+
+Until we implement code splitting on named export, all large components or util functions should be in separate files.
+
+For example, `util/grabCurrency` can be exported in `util/index.js`. However, if we need to import a component that uses a named export in `util/index`,
+
+```js
+//Named export
+import { aUtilFunction } from './index';
+//default export
+export default function ComponentWeNeed() {
+  return <p>Hello world</p>;
+}
+```
+
+grabCurrencySymbol will be imported along with `containers/AddFarm/currency/commonCurrency.json` table even if `<ComponentWeNeed/>` is not using grabCurrencySymbol function.
+As a result, commonCurrency will be included in the main.bundle
+
+main.chunk on first load when grabCurrencySymbol is exported in `util/index`
+
+<img src={WithCurrency} />
+
+main.chunk when grabCurrencySymbol is exported in `util/grabCurrencySymbol`
+
+<img src={WithoutCurrency} />
+
+#### Route based code splitting
+
+https://reactjs.org/docs/code-splitting.html
+
+example: Routes.js
+
+#### Lazy load component when component is not visible after first paint:
+
+example: customSignUp

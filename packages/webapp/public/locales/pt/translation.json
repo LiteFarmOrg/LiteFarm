@@ -81,19 +81,28 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CAN_NOT_FIND": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
     "FILTER": {
       "LOCATION": "MISSING",
-      "STATUS": {
-        "ABANDONED": "MISSING",
-        "ACTIVE": "MISSING",
-        "COMPLETE": "MISSING",
-        "NEEDS_PLAN": "MISSING",
-        "PLANNED": "MISSING",
-        "SUBJECT": "MISSING"
-      },
+      "STATUS": "MISSING",
       "SUPPLIERS": "MISSING",
       "TITLE": "MISSING"
-    }
+    },
+    "ON_YOUR_FARM": "MISSING",
+    "FILTER_TITLE": "MISSING"
+  },
+  "CROP_DETAIL": {
+    "DETAIL_TAB": "MISSING",
+    "MANAGEMENT_TAB": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",

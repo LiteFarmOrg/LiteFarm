@@ -31,6 +31,7 @@ export default function PureCropTile({
       <img
         src={src}
         alt={alt}
+        loading="lazy"
         className={styles.img}
         onError={(e) => {
           e.target.onerror = null;

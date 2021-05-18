@@ -18,16 +18,16 @@ function PureCropManagement({ history, match={params: {crop_id: 2}}, crop}) {
         tabs={[
           {
             label: t('CROP_DETAIL.MANAGEMENT_TAB'),
-            path: `/crop/${match.params.crop_id}/management`,
+            path: `/crop/${match.params.variety_id}/management`,
           },
           {
             label: t('CROP_DETAIL.DETAIL_TAB'),
-            path: `/crop/${match.params.crop_id}/detail`,
+            path: `/crop/${match.params.variety_id}/detail`,
           },
         ]}
       />
-      <Semibold style={{marginBottom: '16px'}}>Management Plans</Semibold>
-      <Underlined>+ Add a plan</Underlined>
+      <Semibold style={{marginBottom: '16px'}}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
+      <Underlined>+ {t('CROP_DETAIL.ADD_PLAN')}</Underlined>
     </Layout>
   )
 }

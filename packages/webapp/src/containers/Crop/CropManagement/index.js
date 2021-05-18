@@ -1,12 +1,10 @@
 import { useSelector } from "react-redux";
-import PureCropDetail from "../../../components/Crop/detail";
+import PureCropManagement from "../../../components/Crop/management";
 import { cropVarietyByID, cropVarietySelector } from "../../cropVarietySlice";
 import { useEffect, useState } from "react";
-import { certifierSurveySelector } from "../../OrganicCertifierSurvey/slice";
 
-function CropDetail ({ history, match }) {
+function CropManagement ({ history, match }) {
   const selectedCrop = useSelector(cropVarietySelector(match.params.variety_id));
-  const {interested} = useSelector(certifierSurveySelector);
   const [isEditing, setIsEditing] = useState(false);
 
   const submitForm = (data) => {
@@ -20,16 +18,14 @@ function CropDetail ({ history, match }) {
 
   useEffect(() => {
     console.log(selectedCrop);
-    console.log(interested)
   } , []);
   return (
     <>
-      <PureCropDetail
+      <PureCropManagement
         history={history}
         match={match}
         crop={selectedCrop}
         isEditing={isEditing}
-        isInterestedInOrganic={interested}
         setIsEditing={setIsEditing}
         submitForm={submitForm}
         onBack={goBack}
@@ -38,4 +34,4 @@ function CropDetail ({ history, match }) {
   )
 }
 
-export default CropDetail
+export default CropManagement

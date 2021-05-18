@@ -114,7 +114,9 @@
     "ANNUAL_PERENNIAL": "Is the crop an annual or perennial?",
     "PERENNIAL": "Perennial",
     "ANNUAL": "Annual",
-    "NOT_SURE": "Not sure"
+    "NOT_SURE": "Not sure",
+    "MANAGEMENT_PLANS": "Management Plans",
+    "ADD_PLAN": "Add a plan"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

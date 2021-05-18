@@ -1,4 +1,3 @@
-import Layout from "../Layout";
 import CropHeader from "./cropHeader";
 import RouterTab from "../RouterTab";
 import React, { useEffect } from "react";
@@ -13,14 +12,14 @@ import { useForm } from "react-hook-form";
 import RadioGroup from "../Form/RadioGroup";
 import Form from "../Form";
 
-function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitForm, onBack}) {
+function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitForm, onBack, isInterestedInOrganic}) {
   const { t } = useTranslation();
   const { register,
       handleSubmit,
       watch,
       control,
       formState: { errors, isValid },
-  } = useForm({ mode: 'onTouched'});
+  } = useForm({ mode: 'onChange'});
   const SEEDING_TYPE = 'seeding_type';
   const SUPPLIER = 'supplier';
   const LIFECYCLE = 'lifecycle';
@@ -88,12 +87,9 @@ function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitF
       <Radio disabled={!isEditing} value={'PERENNIAL'} hookFormRegister={register( LIFECYCLE, { required: true})} style={{marginBottom: '34px'}} label={t('CROP_DETAIL.PERENNIAL')} />
 
       <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.ORGANIC')}<Leaf style={{ marginLeft: '14px'}}  /></Main>
-      {/*<Radio disabled={!isEditing} value={true} hookFormRegister={register( ORGANIC, { required: true})} style={{marginBottom: '16px'}} label={t('common:YES')} />*/}
-      {/*<Radio disabled={!isEditing} value={false} hookFormRegister={register( ORGANIC, { required: true})} style={{marginBottom: '34px'}} label={t('common:NO')} />*/}
-
-      <RadioGroup disabled={!isEditing}  onChange={(v) => console.log(v) } required={true} hookFormControl={control} name={ORGANIC} />
+      <RadioGroup disabled={!isEditing}  required={true} hookFormControl={control} name={ORGANIC} />
       {
-        isOrganic && (
+        !isOrganic && isInterestedInOrganic && (
           <>
             <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}</Main>
             <RadioGroup disabled={!isEditing}  hookFormControl={control} name={SEARCHED} />
@@ -104,7 +100,7 @@ function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitF
       }
 
       <Main style={{marginBottom: '18px'}}>{t('CROP_DETAIL.TREATED')}<Leaf style={{ marginLeft: '14px'}}  /></Main>
-      <RadioGroup disabled={!isEditing} required={true} hookFormControl={control} name={TREATED} showNotSure />
+      <RadioGroup disabled={!isEditing}  hookFormControl={control} name={TREATED} showNotSure />
     </Form>
   )
 }

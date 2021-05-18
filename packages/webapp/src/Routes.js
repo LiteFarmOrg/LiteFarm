@@ -175,7 +175,7 @@ const EditCeremonialForm = React.lazy(() =>
 const PostGreenhouseForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
-const PureCropManagement = React.lazy(() => import('./components/Crop/management'))
+const CropManagement = React.lazy(() => import('./containers/Crop/CropManagement'))
 const CropDetail = React.lazy(() => import('./containers/Crop/CropDetail/index'))
 
 const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
@@ -291,7 +291,7 @@ const Routes = () => {
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/:variety_id/detail" component={CropDetail}/>
-            <Route path="/crop/:variety_id/management" component={PureCropManagement}/>
+            <Route path="/crop/:variety_id/management" component={CropManagement}/>
             <Route path="/crop_add" exact component={AddCrop}/>
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
@@ -478,7 +478,7 @@ const Routes = () => {
             <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
             <Route path="/crop/:variety_id/detail" component={CropDetail}/>
-            <Route path="/crop/:variety_id/management" component={PureCropManagement}/>
+            <Route path="/crop/:variety_id/management" component={CropManagement}/>
             <Route
               path="/natural_area/:location_id/details"
               exact

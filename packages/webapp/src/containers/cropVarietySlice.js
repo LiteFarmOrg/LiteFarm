@@ -18,6 +18,7 @@ const getCropVariety = (obj) => {
     'treated',
     'genetically_engineered',
     'searched',
+    'crop_variety_photo_url',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {
@@ -103,11 +104,16 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const cropVarietySelector = (crop_variety_id) => (state) =>
-  createSelector([cropEntitiesSelector], (cropEntities) => {
-    const cropVariety = cropVarietySelectors.selectById(state, crop_variety_id);
-    return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
-  });
+export const cropVarietyByID = (variety_id) => (state) =>
+  cropVarietySelectors.selectById(state, variety_id);
+
+export const cropVarietySelector = (crop_variety_id) =>
+  createSelector(
+    [cropEntitiesSelector, cropVarietyByID(crop_variety_id)],
+    (cropEntities, cropVariety) => {
+      return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
+    },
+  );
 
 export const cropVarietyStatusSelector = createSelector(
   [cropVarietyReducerSelector],
@@ -115,3 +121,9 @@ export const cropVarietyStatusSelector = createSelector(
     return { loading, error };
   },
 );
+
+export const suppliersSelector = createSelector([cropVarietiesSelector], (cropVarieties) => {
+  const suppliers = new Set(cropVarieties.map(({ supplier }) => supplier));
+  suppliers.delete(null);
+  return Array.from(suppliers);
+});

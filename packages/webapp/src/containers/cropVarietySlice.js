@@ -47,6 +47,10 @@ const newVarietal = (state, { payload: varietal }) => {
   state.varietal = varietal;
 };
 
+const resetVarietal = (state, {}) => {
+  state.varietal = null;
+};
+
 const cropVarietyAdapter = createEntityAdapter({
   selectId: (cropVariety) => cropVariety.crop_variety_id,
 });
@@ -64,6 +68,7 @@ const cropVarietySlice = createSlice({
     onLoadingCropVarietyFail: onLoadingFail,
     getCropVarietiesSuccess: addManyCropVariety,
     saveNewVarietal: newVarietal,
+    deleteVarietal: resetVarietal,
     getAllCropVarietiesSuccess: (state, { payload: cropVarieties }) => {
       addManyCropVariety(state, { payload: cropVarieties });
       state.loaded = true;
@@ -85,6 +90,7 @@ export const {
   postCropVarietySuccess,
   putCropVarietySuccess,
   saveNewVarietal,
+  deleteVarietal,
   onLoadingCropVarietyStart,
   onLoadingCropVarietyFail,
   getAllCropVarietiesSuccess,
@@ -112,8 +118,8 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const newVarietalSelector = createSelector([cropVarietiesSelector], ({ varietal }) => {
-  return { varietal };
+export const newVarietalSelector = createSelector([cropVarietyReducerSelector], ({ varietal }) => {
+  return varietal;
 });
 
 export const cropVarietySelector = (crop_variety_id) => (state) =>

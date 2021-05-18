@@ -23,11 +23,13 @@ export function* postVarietalSaga({ payload: varietal }) {
     organic: varietal.organic,
     treated: varietal.treated,
     genetically_engineered: varietal.genetically_engineered,
+    searched: varietal.searched,
   };
 
   try {
     const result = yield call(axios.post, cropVarietyURL + '/', data, header);
     yield put(postCropVarietySuccess(result.data));
+    toastr.success('Successfully saved varietal!');
   } catch (e) {
     if (e.response.data.violationError) {
       toastr.error('Error: Varietal exists');

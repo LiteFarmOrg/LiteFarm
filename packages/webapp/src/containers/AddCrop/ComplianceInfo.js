@@ -2,7 +2,9 @@ import React from 'react';
 import ComplianceInfo from '../../components/AddCrop/ComplianceInfo';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { newVarietalSelector } from '../cropVarietySlice';
+import { newVarietalSelector, deleteVarietal } from '../cropVarietySlice';
+import { postVarietal } from './saga';
+import { bool } from 'prop-types';
 
 function ComplianceInfoForm({ history, match }) {
   const dispatch = useDispatch();
@@ -11,15 +13,16 @@ function ComplianceInfoForm({ history, match }) {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
   });
 
-  const CERTIFIED_ORGANIC = 'certifiedOrganic';
-  const COMMERCIAL_AVAILABILITY = 'commercialAvailability';
-  const GENETIC_EGINEERED = 'geneticEngineered';
+  const CERTIFIED_ORGANIC = 'organic';
+  const COMMERCIAL_AVAILABILITY = 'searched';
+  const GENETIC_EGINEERED = 'genetically_engineered';
   const TREATED = 'treated';
 
   const organicRegister = register(CERTIFIED_ORGANIC, { required: true });
@@ -37,19 +40,37 @@ function ComplianceInfoForm({ history, match }) {
     (organicSelection === 'true' && treated)
   );
 
-  //const gmoRegister = register(NON_GMO, {required: true});
-  //const treatedRegister = register(NON_TREATED, {required: true});
+  const prevPage = useSelector(newVarietalSelector);
+
+  const crop_id = match.params.crop_id;
+
+  const onError = (err) => {
+    console.log(err);
+  };
 
   const onSubmit = (data) => {
-    console.log(data);
+    let newVarietal = {};
+    newVarietal.crop_id = Number(crop_id);
+    newVarietal.crop_variety_name = prevPage.crop_variety_name;
+    newVarietal.supplier = prevPage.supplier;
+    newVarietal.seed_type = prevPage.seed_type;
+    newVarietal.lifecycle = prevPage.lifecycle;
+    newVarietal.compliance_file_url = '';
+    newVarietal.organic = data.organic === 'true';
+    newVarietal.treated = data.treated === 'true';
+    newVarietal.genetically_engineered =
+      data.genetically_engineered !== undefined ? data.genetically_engineered === 'true' : null;
+    newVarietal.searched = data.searched !== undefined ? data.searched === 'true' : null;
+    dispatch(postVarietal(newVarietal));
   };
 
   const onGoBack = () => {
-    history.push(`/crop/${match.params.crop_id}/add_crop_variety`);
+    history.push(`/crop/${crop_id}/add_crop_variety`);
   };
 
   const onCancel = () => {
-    history.push(`/crop/${match.params.crop_id}/add_crop_variety`);
+    history.push(`/crop/${crop_id}/add_crop_variety`);
+    dispatch(deleteVarietal());
   };
 
   return (
@@ -57,9 +78,9 @@ function ComplianceInfoForm({ history, match }) {
       <ComplianceInfo
         history={history}
         disabled={disabled}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onError)}
         onGoBack={onGoBack}
-        onCancel={oncancel}
+        onCancel={onCancel}
         organicRegister={organicRegister}
         organic={organicSelection}
         commAvailRegister={commAvailRegister}

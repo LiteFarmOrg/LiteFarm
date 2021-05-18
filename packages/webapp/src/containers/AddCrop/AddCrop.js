@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PureAddCrop from '../../components/AddCrop';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { useForm } from 'react-hook-form';
-//import { saveNewVarietal } from '../cropVarietySlice';
+import { saveNewVarietal } from '../cropVarietySlice';
 import { postVarietal } from './saga';
 import useHookFormPersist from '../hooks/useHookFormPersist';
+import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 
 function AddCropForm({ history, match }) {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function AddCropForm({ history, match }) {
 
   const VARIETY = 'crop_variety_name';
   const SUPPLIER = 'supplier';
-  const SEED_TYPE = 'seeding_type';
+  const SEED_TYPE = 'seed_type';
   const LIFE_CYCLE = 'lifecycle';
 
   const cropEnum = {
@@ -46,29 +47,24 @@ function AddCropForm({ history, match }) {
 
   const persistedPath = [`/crop/${crop_id}/add_crop_variety/compliance`];
 
+  const { interested } = useSelector(certifierSurveySelector, shallowEqual);
+
   const {
     persistedData: { variety, supplier, seed_type, lifecycle },
   } = useHookFormPersist(persistedPath, getValues, setValue, false);
-
-  useEffect(() => {
-    //TODO
-  }, []);
 
   const onError = (error) => {
     console.log(error);
   };
 
-  /*const onContinue = (data) => {
-    // TODO - Crop Variety
-    console.log(data);
+  const onContinue = (data) => {
     history.push(`/crop/${crop_id}/add_crop_variety/compliance`);
     dispatch(saveNewVarietal(data));
-  };*/
+  };
 
   const onSubmit = (data) => {
-    console.log(data);
     let newVarietal = {};
-    newVarietal.crop_id = crop_id;
+    newVarietal.crop_id = Number(crop_id);
     newVarietal.crop_variety_name = data.crop_variety_name;
     newVarietal.supplier = data.supplier;
     newVarietal.seed_type = data.seed_type;
@@ -77,8 +73,9 @@ function AddCropForm({ history, match }) {
     newVarietal.organic = null;
     newVarietal.treated = null;
     newVarietal.genetically_engineered = null;
-    console.log(newVarietal);
+    newVarietal.searched = null;
     dispatch(postVarietal(newVarietal));
+    history.push(`/crop_catalogue`);
   };
 
   return (
@@ -86,7 +83,9 @@ function AddCropForm({ history, match }) {
       <PureAddCrop
         history={history}
         disabled={disabled}
-        onContinue={handleSubmit(onSubmit, onError)}
+        onContinue={
+          interested ? handleSubmit(onContinue, onError) : handleSubmit(onSubmit, onError)
+        }
         cropEnum={cropEnum}
         imageKey={imageKey}
         cropName={crop.crop_common_name}

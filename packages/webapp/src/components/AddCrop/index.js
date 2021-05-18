@@ -141,7 +141,7 @@ export default function PureAddCrop({
         <div>
           <Radio
             label="Annual"
-            value={'annual'}
+            value={'ANNUAL'}
             hookFormRegister={lifeCycleRegister}
             name={cropEnum.life_cycle}
           />
@@ -149,7 +149,7 @@ export default function PureAddCrop({
         <div>
           <Radio
             label="Perennial"
-            value={'perennial'}
+            value={'PERENNIAL'}
             hookFormRegister={lifeCycleRegister}
             name={cropEnum.life_cycle}
           />

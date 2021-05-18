@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import {Error, Label} from '../../Typography';
-import React, {useEffect, useRef, useState} from 'react';
+import { Error, Label } from '../../Typography';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.scss';
 import { mergeRefs } from '../utils';
@@ -29,19 +29,22 @@ export default function InputAutoSize({
       className={clsx(styles.container)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      {label && <Label>{label}
-      {optional && (
-        <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
-          {t('common:OPTIONAL')}
+      {label && (
+        <Label>
+          {label}
+          {optional && (
+            <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+              {t('common:OPTIONAL')}
+            </Label>
+          )}
         </Label>
-      )}</Label>}
+      )}
 
       <TextareaAutosize
         rowsMax={rowsMax}
         rowsMin={rowsMin}
         name={name}
         className={clsx(styles.textArea, errors && styles.inputError)}
-
         ref={mergeRefs(hookFormRegister?.ref, input)}
         onChange={(e) => {
           onChange?.(e);

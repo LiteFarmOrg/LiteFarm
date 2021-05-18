@@ -17,6 +17,13 @@ import DocLink from '../DocLink';
 | [Objection transactions](https://vincit.github.io/objection.js/guide/transactions.html#creating-a-transaction) |
 | [Objection hooks](https://vincit.github.io/objection.js/guide/hooks.html#instance-query-hooks) |
 
+# 1.Get endpoints
+
+Get endpoints return
+- objects from a single table `{...crop}`
+- nested objects `{...location, figure: {...figure, area }, field}`
+- objects from joined tables `{...userFarm, ...user, ...farm}` (mostly legacy code)
+
 <DocCard>
   <Text>Please refer to <DocLink
     href={"https://lite-farm.atlassian.net/wiki/spaces/LITEFARM/pages/272269313/Styleguide+for+creating+modifying+endpoints"}>LiteFarm
@@ -27,6 +34,224 @@ import DocLink from '../DocLink';
   <Text> If no entity is found, return status code <code>404</code>.</Text>
   <Text> Validation errors should return status code <code>400</code>.</Text>
 </DocCard>
+
+**getNewEntityByEntityId controller**
+
+```js
+
+const NewEntityModel = require('../models/newEntityModel');
+
+const newEntityController = {
+  getNewEntityByNewEntityId() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try{
+        const result = await NewEntityModel.query().whereNotDeleted().findById(new_entity_id);
+        return result ? res.status(200).send(result): res.status(404).send('New entity not found');
+      }catch(error){
+        return res.status(400).json({ error });
+      }
+    }
+  },
+}
+
+module.exports = newEntityController;
+```
+<DocCard>
+  <Text>If newEntityModel supports soft delete, or NewEntityModel extends baseModel/softDelete,
+    method <code>whereNotDeleted()</code> is required to filter out deleted entities</Text>
+  <Text><code>baseModel.created_at</code><code>baseModel.updated_at</code><code>baseModel.created_by_user_id</code><code>baseModel.updated_by_user_id</code><code>baseModel.deleted</code> are
+    hidden by default from baseModel queries. If you need to access hidden fields, pass in
+    context <code>showHidden</code> as
+    such <code>{'await NewEntityModel.query().context({showHidden: true}).whereNotDeleted().findById(new_entity_id)'}</code></Text>
+</DocCard>
+
+**getNewEntityByFarmId controller**
+
+```js
+const NewEntityModel = require('../models/newEntityModel');
+
+const newEntityController = {
+  getNewEntitiesByFarmId() {
+    return async (req, res, next) => {
+      const { farm_id } = req.params;
+      try{
+        const result = await NewEntityModel.query().whereNotDeleted().where({farm_id});
+        return result?.length ? res.status(200).send(result): res.status(404).send('New entities not found');
+      }catch(error){
+        return res.status(400).json({ error });
+      }
+    }
+  },
+}
+
+module.exports = newEntityController;
+```
+
+**Nested object example: getLocationsById**
+
+```js
+const LocationModel = require('../models/locationModel');
+
+const LocationController = {
+  getLocationsById() {
+    return async (req, res, next) => {
+      const { location_id } = req.params;
+      const location = await LocationModel.query()
+        .findById(location_id).andWhere({ deleted: false })
+        .withGraphJoined(`[
+          figure.[area, line, point],
+          gate, water_valve, field, garden, buffer_zone, watercourse, fence,
+          ceremonial_area, residence, surface_water, natural_area,
+          greenhouse, barn, farm_site_boundary
+        ]`)
+      return location?res.status(200).send(location):res.sendStatus(404);
+    }
+  },
+}
+module.exports = LocationController;
+```
+If location_id refers to a barn, response would look like
+```json
+{
+    "location_id": "b03b3932-aabb-11eb-92dc-0242ac120002",
+    "farm_id": "d5edd27c-61bc-11eb-b50d-22000ab3e50b",
+    "figure": {
+      "figure_id": "b03d3a3e-aabb-11eb-92dc-0242ac120002",
+      "type": "barn",
+      "location_id": "b03b3932-aabb-11eb-92dc-0242ac120002",
+      "area": {
+        "figure_id": "b03d3a3e-aabb-11eb-92dc-0242ac120002"
+      },
+      "line": null,
+      "point": null
+    },
+    "gate": null,
+    "water_valve": null,
+    "field": null,
+    "garden": null,
+    "buffer_zone": null,
+    "watercourse": null,
+    "fence": null,
+    "ceremonial_area": null,
+    "residence": null,
+    "surface_water": null,
+    "natural_area": null,
+    "greenhouse": null,
+    "barn": {
+      "location_id": "b03b3932-aabb-11eb-92dc-0242ac120002"
+    },
+    "farm_site_boundary": null
+  }
+```
+
+<DocCard>
+  <Text><DocLink
+    href={'https://vincit.github.io/objection.js/guide/query-examples.html#eager-loading'}>withGraphJoined</DocLink> checks <code>LocationModel.relationMappings()</code> to
+    find how tables should be joined</Text>
+  <Text>`[
+    figure.[area, line, point],
+    gate, water_valve, field, garden, buffer_zone, watercourse, fence,
+    ceremonial_area, residence, surface_water, natural_area,
+    greenhouse, barn, farm_site_boundary
+    ]` means that <code>figure</code> table joins <code>area/line/point</code> tables, <code>location</code> table
+    joins <code>figure</code>, <code>gate</code>, <code>water_valve</code>, <code>field</code>, <code>garden</code>, <code>buffer_zone</code>, <code>watercourse</code>, <code>fence</code>,
+    <code>ceremonial_area</code>, <code>residence</code>, <code>surface_water</code>, <code>natural_area</code>,
+    <code>greenhouse</code>, <code>barn</code>, <code>farm_site_boundary</code> tables</Text>
+  <Text>The relationship
+    between<code>area</code> and <code>figure</code>, <code>barn</code> and <code>location</code> need to be defined
+    in <code>relationMappings</code> for <code>withGraphJoined</code> to get
+    a <code>barn</code> by <code>location_id</code></Text>
+</DocCard>
+
+```js
+const Model = require('objection').Model;
+const baseModel = require('./baseModel');
+
+class Location extends baseModel {
+  static get relationMappings() {
+    return {
+      figure: {
+        modelClass: require('./figureModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'figure.location_id',
+        },
+      },
+      barn: {
+        modelClass: require('./barnModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'barn.location_id',
+        },
+      },
+    };
+  }
+}
+module.exports = Location;
+```
+```js
+const Model = require('objection').Model;
+
+class Figure extends Model {
+  static get relationMappings() {
+    return {
+      area: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./areaModel'),
+        join: {
+          from: 'figure.figure_id',
+          to: 'area.figure_id',
+        },
+      },
+    };
+  }
+}
+
+module.exports = Figure;
+```
+
+**Joined table example (should avoid)**
+
+<DocCard>
+  <Error>Sending joined table directly as response should be avoided since objection model hooks (such
+    as <code>beforeFind</code>) do not run when tables are joined</Error>
+  <Text>For example, user has a hashed password column which should be hidden from user. We
+    add <code>user.password</code> to <code>user.hidden</code> prop and use <code>user.beforeFind</code> to remove
+    password field on every <code>userModel.query()</code>. If
+    we <code>userFarm.query().join('user').join('farm')</code>. <code>userFarm.beforeFind</code> would run
+    but <code>user.beforeFind</code> and <code>farm.beforeFind</code> would not. As a
+    result, <code>user.password</code> would be returned by the getUserFarm endpoints</Text>
+</DocCard>
+
+```js
+//should avoid
+const userFarmModel = require('../models/userFarmModel');
+const userFarmController = {
+
+  getFarmInfo() {
+    return async (req, res) => {
+      try {
+        const user_id = req.params.user_id;
+        const farm_id = req.params.farm_id;
+        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*')
+        .where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
+          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        return res.status(200).send(rows[0]);
+      } catch (error) {
+        return res.status(400).send(error);
+      }
+    };
+  },
+};
+```
+
+
+
 
 <DocCard>
   <Error>Always use <DocLink

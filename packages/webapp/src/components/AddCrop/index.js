@@ -12,7 +12,6 @@ import Form from '../Form';
 
 export default function PureAddCrop({
   history,
-  imageKey,
   cropEnum,
   disabled,
   onContinue,
@@ -20,13 +19,14 @@ export default function PureAddCrop({
   supplierRegister,
   seedTypeRegister,
   lifeCycleRegister,
-  locationID,
-  cropTranslationKey,
+  imageKey,
+  isSeekingCert,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
   const progress = 33;
 
+  const cropTraslationKey = imageKey.toUpperCase();
   return (
     <Form
       buttonGroup={
@@ -37,8 +37,8 @@ export default function PureAddCrop({
       onSubmit={onContinue}
     >
       <PageTitle
-        onGoBack={() => history.push(`/field/${locationID}/crops`)}
-        onCancel={() => history.push(`/field/${locationID}/crops`)}
+        onGoBack={() => history.push(`/crop_catalogue`)}
+        onCancel={() => history.push(`/crop_catalogue`)}
         title={'Add a crop'}
       />
       <div
@@ -49,7 +49,7 @@ export default function PureAddCrop({
       >
         <ProgressBar value={progress} />
       </div>
-      <div className={styles.cropLabel}>{t(`crop:${cropTranslationKey}`)}</div>
+      <div className={styles.cropLabel}>{t(`crop:${cropTraslationKey}`)}</div>
       <img
         src={`crop-images/${imageKey}.jpg`}
         alt={imageKey}
@@ -91,6 +91,7 @@ export default function PureAddCrop({
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}
+        optional={!isSeekingCert}
       />
 
       <div>
@@ -140,7 +141,7 @@ export default function PureAddCrop({
         <div>
           <Radio
             label="Annual"
-            value={'annual'}
+            value={'ANNUAL'}
             hookFormRegister={lifeCycleRegister}
             name={cropEnum.life_cycle}
           />
@@ -148,7 +149,7 @@ export default function PureAddCrop({
         <div>
           <Radio
             label="Perennial"
-            value={'perennial'}
+            value={'PERENNIAL'}
             hookFormRegister={lifeCycleRegister}
             name={cropEnum.life_cycle}
           />

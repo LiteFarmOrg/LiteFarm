@@ -1,0 +1,39 @@
+.headerContainer {
+  margin: -24px -24px 0 -24px;
+  background-color: var(--grey200);
+  width: auto;
+  height: 120px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.headerTitle {
+  color: var(--teal900);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  display: inline-block;
+  margin-bottom: 14px
+}
+.headerTitleContainer {
+  margin-top: 15px;
+  padding-left: 25px;
+}
+
+.headerAttributesContainer {
+  margin-top: -6px;
+  padding-left: 25px;
+}
+
+.attributeText {
+  display: inline;
+  color: var(--teal900);
+  font-weight: 600;
+}
+
+.imgContainer {
+  position: relative;
+  right: -50px;
+  top: -140px;
+  float: right;
+}

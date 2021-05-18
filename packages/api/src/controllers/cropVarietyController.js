@@ -38,8 +38,6 @@ const cropVarietyController = {
   createCropVariety() {
     return async (req, res, next) => {
       try {
-        console.log(req.user);
-        console.log(req.body);
         const result = await CropVarietyModel.query().context(req.user).insert(req.body);
         return res.status(201).json(result);
       } catch (error) {

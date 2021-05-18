@@ -119,7 +119,6 @@ export default function CropCatalogue({ history }) {
         )}
         {isAdmin && (
           <>
-<<<<<<< HEAD
             <PageBreak
               style={{ paddingBottom: '22px' }}
               label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
@@ -136,39 +135,14 @@ export default function CropCatalogue({ history }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     isCropTemplate
-                    onClick={() => {history.push(`/crop/${crop.crop_id}/add_crop_variety`)}}
+                    onClick={() => {
+                      history.push(`/crop/${crop.crop_id}/add_crop_variety`);
+                    }}
                   />
                 );
               })}
             </PureCropTileContainer>
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}</Text>
-=======
-            {!!crops?.length && (
-              <>
-                <PageBreak
-                  style={{ paddingBottom: '22px' }}
-                  label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
-                />
-                <PureCropTileContainer gap={gap} padding={padding}>
-                  {crops.map((crop) => {
-                    const { crop_translation_key } = crop;
-                    const imageKey = crop_translation_key.toLowerCase();
-                    return (
-                      <PureCropTile
-                        key={crop.crop_id}
-                        title={t(`crop:${crop_translation_key}`)}
-                        src={`crop-images/${imageKey}.jpg`}
-                        alt={imageKey}
-                        style={{ width: cardWidth }}
-                        isCropTemplate
-                      />
-                    );
-                  })}
-                </PureCropTileContainer>
-              </>
-            )}
-            <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
->>>>>>> origin/develop
             <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
           </>
         )}

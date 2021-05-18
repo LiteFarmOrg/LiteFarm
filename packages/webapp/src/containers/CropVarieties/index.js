@@ -99,13 +99,18 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_VARIETIES.NEEDS_PLAN')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
+                const {
+                  crop_translation_key,
+                  crop_variety_name,
+                  crop_variety_id,
+                  crop_variety_photo_url,
+                } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
                     key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyDetails(crop_variety_id)}
@@ -121,13 +126,18 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:ACTIVE')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {currentCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
+                const {
+                  crop_translation_key,
+                  crop_variety_name,
+                  crop_variety_id,
+                  crop_variety_photo_url,
+                } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
                     key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyDetails(crop_variety_id)}
@@ -143,13 +153,18 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PLANNED')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
+                const {
+                  crop_translation_key,
+                  crop_variety_name,
+                  crop_variety_id,
+                  crop_variety_photo_url,
+                } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
                     key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyDetails(crop_variety_id)}
@@ -165,13 +180,18 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PAST')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {expiredCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
+                const {
+                  crop_translation_key,
+                  crop_variety_name,
+                  crop_variety_id,
+                  crop_variety_photo_url,
+                } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
                     key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => goToVarietyDetails(crop_variety_id)}

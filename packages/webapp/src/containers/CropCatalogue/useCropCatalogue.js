@@ -50,6 +50,7 @@ export default function useCropCatalogue(filterString) {
             crop_translation_key: fieldCrop.crop_translation_key,
             imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
             crop_id: fieldCrop.crop_id,
+            crop_photo_url: fieldCrop.crop_photo_url,
           };
         }
 

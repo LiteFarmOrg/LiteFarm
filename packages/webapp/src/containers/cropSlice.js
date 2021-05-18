@@ -2,12 +2,46 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
-const averagesList = ['max_rooting_depth', 'depletion_fraction', 'is_avg_depth',
-  'initial_kc', 'mid_kc', 'end_kc', 'max_height', 'is_avg_kc', 'nutrient_notes',
-  'percentrefuse', 'refuse', 'protein', 'lipid', 'energy', 'ca', 'fe', 'mg', 'ph',
-  'k', 'na', 'zn', 'cu', 'fl', 'mn', 'se', 'vita_rae', 'vite', 'vitc', 'thiamin',
-  'riboflavin', 'niacin', 'pantothenic', 'vitb6', 'folate', 'vitb12',
-  'vitk', 'nutrient_credits']
+
+const averagesList = [
+  'max_rooting_depth',
+  'depletion_fraction',
+  'is_avg_depth',
+  'initial_kc',
+  'mid_kc',
+  'end_kc',
+  'max_height',
+  'is_avg_kc',
+  'nutrient_notes',
+  'percentrefuse',
+  'refuse',
+  'protein',
+  'lipid',
+  'energy',
+  'ca',
+  'fe',
+  'mg',
+  'ph',
+  'k',
+  'na',
+  'zn',
+  'cu',
+  'fl',
+  'mn',
+  'se',
+  'vita_rae',
+  'vite',
+  'vitc',
+  'thiamin',
+  'riboflavin',
+  'niacin',
+  'pantothenic',
+  'vitb6',
+  'folate',
+  'vitb12',
+  'vitk',
+  'nutrient_credits',
+];
 const getCrop = (obj) => {
   return pick(obj, [
     'crop_id',
@@ -59,6 +93,7 @@ const getCrop = (obj) => {
     'deleted',
     'nutrient_credits',
     'crop_translation_key',
+    'crop_photo_url',
   ]);
 };
 const addOneCrop = (state, { payload }) => {
@@ -131,30 +166,34 @@ export const cropStatusSelector = createSelector([cropReducerSelector], ({ loadi
 
 export const cropEntitiesSelector = cropSelectors.selectEntities;
 
-
-export const cropGroupAverages = createSelector( [cropReducerSelector], ({entities}) => {
-  return Object.keys(entities).map(k => entities[k]).reduce((averagesObject, crop) => {
-    const { crop_group } = crop;
-    if(!!averagesObject[crop_group]) {
-      return {...averagesObject, [crop_group]: cropsAverage(crop, averagesObject[crop_group]) }
-    } else {
-      return {...averagesObject, [crop_group]: { ...getAverageProperties(crop), numberInGroup: 1}}
-    }
-  }, {})
-})
+export const cropGroupAverages = createSelector([cropReducerSelector], ({ entities }) => {
+  return Object.keys(entities)
+    .map((k) => entities[k])
+    .reduce((averagesObject, crop) => {
+      const { crop_group } = crop;
+      if (!!averagesObject[crop_group]) {
+        return { ...averagesObject, [crop_group]: cropsAverage(crop, averagesObject[crop_group]) };
+      } else {
+        return {
+          ...averagesObject,
+          [crop_group]: { ...getAverageProperties(crop), numberInGroup: 1 },
+        };
+      }
+    }, {});
+});
 
 function cropsAverage(crop, cropAverage) {
   const { numberInGroup } = cropAverage;
   const newAverage = averagesList.reduce((obj, k) => {
-    return {...obj, [k] : calculateRunningAverage(numberInGroup, cropAverage[k], crop[k])  }
-  } , {});
-  return {...newAverage, numberInGroup : numberInGroup + 1};
+    return { ...obj, [k]: calculateRunningAverage(numberInGroup, cropAverage[k], crop[k]) };
+  }, {});
+  return { ...newAverage, numberInGroup: numberInGroup + 1 };
 }
 
 function calculateRunningAverage(n, average, newNumber) {
-  return ((average * n ) + newNumber ) / (n + 1);
+  return (average * n + newNumber) / (n + 1);
 }
 
 function getAverageProperties(crop) {
-  return averagesList.reduce((obj, k) => ({...obj, [k]: crop[k]}), {})
+  return averagesList.reduce((obj, k) => ({ ...obj, [k]: crop[k] }), {});
 }

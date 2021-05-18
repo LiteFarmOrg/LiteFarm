@@ -42,6 +42,7 @@ class CropVariety extends BaseModel {
         treated: { type: ['boolean', null] },
         genetically_engineered: { type: ['boolean', null] },
         searched: { type: ['boolean', null] },
+        crop_variety_photo_url: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

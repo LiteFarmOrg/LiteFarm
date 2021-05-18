@@ -15,6 +15,7 @@ import {
   SUPPLIERS,
 } from './constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
+import { suppliersSelector } from '../../cropVarietySlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
@@ -22,6 +23,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const cropEnabledLocations = useSelector(cropLocationsSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  const suppliers = useSelector(suppliersSelector);
   const dispatch = useDispatch();
 
   const handleApply = () => {
@@ -52,7 +54,11 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
     {
       subject: t('CROP_CATALOGUE.FILTER.SUPPLIERS'),
       filterKey: SUPPLIERS,
-      options: [],
+      options: suppliers.map((supplier) => ({
+        value: supplier,
+        default: cropCatalogueFilter[SUPPLIERS][supplier] ?? false,
+        label: supplier,
+      })),
     },
   ];
 

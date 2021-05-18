@@ -21,6 +21,10 @@ export default function RadioGroup({
   ...props
 }) {
   const { t } = useTranslation();
+  const validate = (value) => (required ? value !== undefined && value !== null : true);
+  if (showNotSure && required) {
+    console.error('showNotSure and required cannot be true at the same time');
+  }
   return (
     <div className={clsx(styles.container, row && styles.row)} style={style}>
       {!radios && (
@@ -28,89 +32,75 @@ export default function RadioGroup({
           <Controller
             control={hookFormControl}
             name={name}
-            rules={{ required: required }}
+            rules={{ validate }}
             shouldUnregister={shouldUnregister}
             render={({ field }) => (
-              <Radio
-                label={t('common:YES')}
-                name={name}
-                defaultChecked={defaultValue === true}
-                onChange={(e) => {
-                  field?.onChange?.(true);
-                  onChange?.({ target: { value: true } });
-                }}
-                onBlur={(e) => {
-                  field?.onBlur?.(true);
-                  onBlur?.({ target: { value: true } });
-                }}
-                inputRef={field.ref}
-                value={true}
-              />
-            )}
-            {...props}
-          />
-          <Controller
-            control={hookFormControl}
-            name={name}
-            rules={{ required: required }}
-            shouldUnregister={shouldUnregister}
-            render={({ field }) => (
-              <Radio
-                label={t('common:NO')}
-                name={name}
-                defaultChecked={defaultValue === false}
-                onChange={(e) => {
-                  field?.onChange?.(false);
-                  onChange?.({ target: { value: false } });
-                }}
-                onBlur={(e) => {
-                  field?.onBlur?.(false);
-                  onBlur?.({ target: { value: false } });
-                }}
-                inputRef={field.ref}
-                value={false}
-                {...props}
-              />
-            )}
-          />
-          {showNotSure && (
-            <Controller
-              control={hookFormControl}
-              name={name}
-              rules={{ required: required }}
-              shouldUnregister={shouldUnregister}
-              render={({ field }) => (
+              <>
                 <Radio
-                  label={t('common:NOT_SURE')}
+                  label={t('common:YES')}
                   name={name}
+                  defaultChecked={defaultValue === true}
                   onChange={(e) => {
-                    field?.onChange?.(null);
-                    onChange?.({ target: { value: null } });
+                    field?.onChange?.(true);
+                    onChange?.({ target: { value: true } });
                   }}
                   onBlur={(e) => {
-                    field?.onBlur?.(null);
-                    onBlur?.({ target: { value: null } });
+                    field?.onBlur?.(true);
+                    onBlur?.({ target: { value: true } });
                   }}
                   inputRef={field.ref}
-                  value={undefined}
+                  value={true}
                   {...props}
                 />
-              )}
-            />
-          )}
+                <Radio
+                  label={t('common:NO')}
+                  name={name}
+                  defaultChecked={defaultValue === false}
+                  onChange={(e) => {
+                    field?.onChange?.(false);
+                    onChange?.({ target: { value: false } });
+                  }}
+                  onBlur={(e) => {
+                    field?.onBlur?.(false);
+                    onBlur?.({ target: { value: false } });
+                  }}
+                  inputRef={field.ref}
+                  value={false}
+                  {...props}
+                />
+                {showNotSure && (
+                  <Radio
+                    label={t('common:NOT_SURE')}
+                    name={name}
+                    onChange={(e) => {
+                      field?.onChange?.(null);
+                      onChange?.({ target: { value: null } });
+                    }}
+                    onBlur={(e) => {
+                      field?.onBlur?.(null);
+                      onBlur?.({ target: { value: null } });
+                    }}
+                    inputRef={field.ref}
+                    value={undefined}
+                    {...props}
+                  />
+                )}
+              </>
+            )}
+          />
         </>
       )}
-      {!!radios &&
-        radios.map((radioOptions) => (
-          <Controller
-            control={hookFormControl}
-            key={radioOptions.value}
-            name={name}
-            rules={{ required: required }}
-            shouldUnregister={shouldUnregister}
-            render={({ field }) => (
+      {!!radios && (
+        <Controller
+          control={hookFormControl}
+          name={name}
+          rules={{ validate }}
+          shouldUnregister={shouldUnregister}
+          render={({ field }) =>
+            radios.map((radioOptions) => (
               <Radio
                 name={name}
+                key={radioOptions.value}
                 onChange={(e) => {
                   field?.onChange?.(e);
                   onChange?.(e);
@@ -124,9 +114,10 @@ export default function RadioGroup({
                 {...props}
                 {...radioOptions}
               />
-            )}
-          />
-        ))}
+            ))
+          }
+        />
+      )}
     </div>
   );
 }

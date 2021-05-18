@@ -16,6 +16,7 @@
     "chart.js": "^2.9.3",
     "cleave.js": "^1.6.0",
     "clsx": "^1.1.1",
+    "compressorjs": "^1.0.7",
     "convert-units": "^2.3.4",
     "dotenv": "^8.2.0",
     "framer-motion": "^3.10.0",

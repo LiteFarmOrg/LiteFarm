@@ -30,3 +30,12 @@ export default function uploadFile(blob, filename, callback, { isPublic = false,
       }
     });
 }
+
+export async function digestMessage(message) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
+  const hash = hashArray.map((b) => b.toString(36)).join('');
+  return hash;
+}

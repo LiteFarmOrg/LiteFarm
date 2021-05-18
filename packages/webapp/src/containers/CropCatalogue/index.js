@@ -19,6 +19,7 @@ import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
+import useSortByCropTranslation from './useSortByCropTranslation';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -28,9 +29,12 @@ export default function CropCatalogue({ history }) {
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const { active, planned, past, sum, cropCatalogue } = useCropCatalogue(filterString);
-  const crops = useStringFilteredCrops(useSelector(cropsSelector), filterString);
+  const crops = useStringFilteredCrops(
+    useSortByCropTranslation(useSelector(cropsSelector)),
+    filterString,
+  );
   const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
-    useSelector(cropsWithVarietyWithoutManagementPlanSelector),
+    useSortByCropTranslation(useSelector(cropsWithVarietyWithoutManagementPlanSelector)),
     filterString,
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
@@ -73,6 +77,21 @@ export default function CropCatalogue({ history }) {
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
+              {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
+                const { crop_translation_key } = cropVariety;
+                const imageKey = cropVariety.crop_translation_key?.toLowerCase();
+                return (
+                  <PureCropTile
+                    key={crop_translation_key}
+                    title={t(`crop:${crop_translation_key}`)}
+                    src={`crop-images/${imageKey}.jpg`}
+                    alt={imageKey}
+                    style={{ width: cardWidth }}
+                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
+                    needsPlan
+                  />
+                );
+              })}
               {cropCatalogue.map((cropCatalog) => {
                 const {
                   crop_translation_key,
@@ -96,21 +115,6 @@ export default function CropCatalogue({ history }) {
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
-                  />
-                );
-              })}
-              {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key } = cropVariety;
-                const imageKey = cropVariety.crop_translation_key?.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={crop_translation_key}
-                    title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
-                    needsPlan
                   />
                 );
               })}

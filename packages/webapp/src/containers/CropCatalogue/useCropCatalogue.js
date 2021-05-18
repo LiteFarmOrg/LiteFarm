@@ -16,6 +16,7 @@ import {
   STATUS,
   SUPPLIERS,
 } from '../Filter/CropCatalogue/constants';
+import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {
   const fieldCrops = useSelector(fieldCropsSelector);
@@ -103,7 +104,25 @@ export default function useCropCatalogue(filterString) {
       sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
     };
   }, [cropCatalogueFilteredByStatus]);
-
-  const sortedCropCatalogue = cropCatalogueFilteredByStatus;
-  return { cropCatalogue: cropCatalogueFilteredByStatus, ...cropCataloguesStatus };
+  const { t } = useTranslation();
+  const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
+  const sortedCropCatalogue = useMemo(() => {
+    return cropCatalogueFilteredByStatus.sort((catalog_i, catalog_j) => {
+      if (onlyOneOfTwoNumberIsZero(catalog_i.active.length, catalog_j.active.length)) {
+        return catalog_j.active.length - catalog_i.active.length;
+      } else if (
+        onlyOneOfTwoNumberIsZero(catalog_i.planned.length, catalog_j.planned.length) &&
+        catalog_j.active.length === 0 &&
+        catalog_i.active.length === 0
+      ) {
+        return catalog_j.planned.length - catalog_i.planned.length;
+      } else {
+        return t(`crop:${catalog_i.crop_translation_key}`) >
+          t(`crop:${catalog_j.crop_translation_key}`)
+          ? 1
+          : -1;
+      }
+    });
+  }, [cropCatalogueFilteredByStatus]);
+  return { cropCatalogue: sortedCropCatalogue, ...cropCataloguesStatus };
 }

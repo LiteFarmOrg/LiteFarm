@@ -103,11 +103,16 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const cropVarietySelector = (crop_variety_id) => (state) =>
-  createSelector([cropEntitiesSelector], (cropEntities) => {
-    const cropVariety = cropVarietySelectors.selectById(state, crop_variety_id);
-    return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
-  });
+export const cropVarietyByID = (variety_id) => (state) =>
+  cropVarietySelectors.selectById(state, variety_id);
+
+export const cropVarietySelector = (crop_variety_id) =>
+  createSelector(
+    [cropEntitiesSelector, cropVarietyByID(crop_variety_id)],
+    (cropEntities, cropVariety) => {
+      return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
+    },
+  );
 
 export const cropVarietyStatusSelector = createSelector(
   [cropVarietyReducerSelector],

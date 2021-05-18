@@ -23,7 +23,6 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
-  reset,
   unit,
   showCross = true,
   onChange,
@@ -127,7 +126,6 @@ Input.propTypes = {
   optional: PropTypes.bool,
   info: PropTypes.string,
   errors: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  clearErrors: PropTypes.func,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -141,8 +139,6 @@ Input.propTypes = {
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
   unit: PropTypes.string,
-  // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
-  reset: PropTypes.func,
   name: PropTypes.string,
   hookFormRegister: PropTypes.exact({
     ref: PropTypes.func,

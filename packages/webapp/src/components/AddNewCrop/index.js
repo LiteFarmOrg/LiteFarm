@@ -18,7 +18,23 @@ import {
 } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { BsChevronDown } from 'react-icons/bs';
-import { FIRST_NUTRIENT_ARRAY, SECOND_NUTRIENT_ARRAY, NUTRIENT_DICT } from './constants';
+import {
+  FIRST_NUTRIENT_ARRAY,
+  SECOND_NUTRIENT_ARRAY,
+  NUTRIENT_DICT,
+  NUTRIENT_ARRAY,
+  BEVERAGE_AND_SPICE_CROPS,
+  CEREALS,
+  FRUITS_AND_NUTS,
+  LEGUMINOUS_CROPS,
+  OILSEED_CROPS,
+  OTHER_CROPS,
+  POTATOES_AND_YAMS,
+  SUGAR_CROPS,
+  VEGETABLE_AND_MELONS,
+} from './constants';
+import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
+import { useSelector } from 'react-redux';
 
 export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
   const { t } = useTranslation();
@@ -36,25 +52,28 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
   const onSubmit = (data) => {
     console.log(data);
   };
+  const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [
-    { value: 'BEVERAGE_AND_SPICE_CROPS', label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
-    { value: 'CEREALS', label: t('crop_group:CEREALS') },
-    { value: 'FRUITS_AND_NUTS', label: t('crop_group:FRUITS_AND_NUTS') },
-    { value: 'LEGUMINOUS_CROPS', label: t('crop_group:LEGUMINOUS_CROPS') },
-    { value: 'OILSEED_CROPS', label: t('crop_group:OILSEED_CROPS') },
-    { value: 'OTHER_CROPS', label: t('crop_group:OTHER_CROPS') },
-    { value: 'POTATOES_AND_YAMS', label: t('crop_group:POTATOES_AND_YAMS') },
-    { value: 'SUGAR_CROPS', label: t('crop_group:SUGAR_CROPS') },
-    { value: 'VEGETABLE_AND_MELONS', label: t('crop_group:VEGETABLE_AND_MELONS') },
+    { value: BEVERAGE_AND_SPICE_CROPS, label: t('crop_group:BEVERAGE_AND_SPICE_CROPS') },
+    { value: CEREALS, label: t('crop_group:CEREALS') },
+    { value: FRUITS_AND_NUTS, label: t('crop_group:FRUITS_AND_NUTS') },
+    { value: LEGUMINOUS_CROPS, label: t('crop_group:LEGUMINOUS_CROPS') },
+    { value: OILSEED_CROPS, label: t('crop_group:OILSEED_CROPS') },
+    { value: OTHER_CROPS, label: t('crop_group:OTHER_CROPS') },
+    { value: POTATOES_AND_YAMS, label: t('crop_group:POTATOES_AND_YAMS') },
+    { value: SUGAR_CROPS, label: t('crop_group:SUGAR_CROPS') },
+    { value: VEGETABLE_AND_MELONS, label: t('crop_group:VEGETABLE_AND_MELONS') },
   ];
 
   const progress = 33;
   const disabled = !isValid;
 
   const updatePAValues = (selected) => {
-    console.log('updatePAValues');
-    setValue('protein', 123);
+    const cropGroupAverages = allCropGroupAverages[selected.value];
+    for (const nutrient of NUTRIENT_ARRAY) {
+      setValue(nutrient, cropGroupAverages[nutrient]);
+    }
   };
 
   return (
@@ -122,12 +141,6 @@ PureAddNewCrop.prototype = {
 function PhysiologyAnatomyDropDown() {
   const { t } = useTranslation();
   const { register, control } = useFormContext();
-  const nutrients = useWatch({
-    control,
-    name: FIRST_NUTRIENT_ARRAY.concat(SECOND_NUTRIENT_ARRAY),
-    // defaultValue: 'default' // default value before the render
-  });
-  console.log(nutrients);
   const [open, setOpen] = useState(false);
 
   return (

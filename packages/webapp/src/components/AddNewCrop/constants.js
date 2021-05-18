@@ -77,6 +77,16 @@ export const CROP_DICT = {
   ],
 };
 
+const BEVERAGE_AND_SPICE_CROPS = 'Beverage and spice crops';
+const CEREALS = 'Cereals';
+const FRUITS_AND_NUTS = 'Fruit and nuts';
+const LEGUMINOUS_CROPS = 'Leguminous crops';
+const OILSEED_CROPS = 'Oilseed crops';
+const OTHER_CROPS = 'Other crops';
+const POTATOES_AND_YAMS = 'Potatoes and yams';
+const SUGAR_CROPS = 'Sugar crops';
+const VEGETABLE_AND_MELONS = 'Vegetables and melons';
+
 const NUTRIENT_DICT = {
   initial_kc: 'INIT_KC',
   mid_kc: 'MID_KC',
@@ -141,4 +151,13 @@ export {
   FIRST_NUTRIENT_ARRAY,
   SECOND_NUTRIENT_ARRAY,
   NUTRIENT_ARRAY,
+  BEVERAGE_AND_SPICE_CROPS,
+  CEREALS,
+  FRUITS_AND_NUTS,
+  LEGUMINOUS_CROPS,
+  OILSEED_CROPS,
+  OTHER_CROPS,
+  POTATOES_AND_YAMS,
+  SUGAR_CROPS,
+  VEGETABLE_AND_MELONS,
 };

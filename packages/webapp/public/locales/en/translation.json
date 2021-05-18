@@ -83,6 +83,7 @@
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
     "ADD_TO_YOUR_FARM": "Add to your farm",
+    "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CROP_CATALOGUE": "Crop Catalogue",
     "CROP_STATUS": "Crop status on:",
     "FILTER": {
@@ -95,8 +96,27 @@
     "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_DETAIL": {
+    "MANAGEMENT_TAB": "Management",
     "DETAIL_TAB": "Details",
-    "MANAGEMENT_TAB": "Management"
+    "EXPENSE_RECORD": "Expense Record",
+    "COMPLIANCE_DOC": "Compliance Documents",
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
+    "SEED_SEEDLING": "Will you plant as a seed or seedling?",
+    "ORGANIC": "Is the crop certified Organic?",
+    "COMMERCIAL_AVAILABILITY": "Did you perform a commercial availability search?",
+    "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
+    "TREATED": "Have the seeds for this crop been treated?",
+    "SEED": "Seed",
+    "SEEDLING": "Seedling",
+    "CERTIFIED_ORGANIC": "Certified Organic",
+    "NON_GMO": "Non-GMO",
+    "NON_TREATED": "Non-treated",
+    "ANNUAL_PERENNIAL": "Is the crop an annual or perennial?",
+    "PERENNIAL": "Perennial",
+    "ANNUAL": "Annual",
+    "NOT_SURE": "Not sure",
+    "MANAGEMENT_PLANS": "Management Plans",
+    "ADD_PLAN": "Add a plan"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

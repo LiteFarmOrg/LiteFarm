@@ -6,6 +6,7 @@ import { Label } from '../../Typography';
 import Unit from '../../Form/Unit';
 import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { area_perimeter, area_total_area } from '../../../util/unit';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function AreaDetails({
   name,
@@ -110,12 +111,11 @@ export default function AreaDetails({
         )}
       </div>
       {children}
-      <Input
+      <InputAutoSize
+        optional={true}
         label={t('common:NOTES')}
-        type="text"
-        optional
-        hookFormRegister={register(areaEnum.notes)}
         style={{ marginBottom: '40px' }}
+        hookFormRegister={register(areaEnum.notes)}
         disabled={isViewLocationPage}
       />
     </>

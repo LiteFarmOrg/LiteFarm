@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import {
   cropVarietiesWithoutManagementPlanByCropIdSelector,
-  currentFieldCropByCropIdSelector,
-  expiredFieldCropByCropIdSelector,
-  plannedFieldCropByCropIdSelector,
+  currentCropVarietiesByCropIdSelector,
+  expiredCropVarietiesByCropIdSelector,
+  plannedCropVarietiesByCropIdSelector,
 } from '../fieldCropSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
@@ -22,6 +22,7 @@ import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
+import useSortByVarietyName from './useSortByVarietyName';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -34,19 +35,19 @@ export default function CropVarieties({ history, match }) {
   const filterStringOnChange = (e) => setFilterString(e.target.value);
 
   const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
-    useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id))),
     filterString,
   );
   const currentCropVarieties = useStringFilteredCrops(
-    useSelector(currentFieldCropByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(currentCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const plannedCropVarieties = useStringFilteredCrops(
-    useSelector(plannedFieldCropByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(plannedCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const expiredCropVarieties = useStringFilteredCrops(
-    useSelector(expiredFieldCropByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(expiredCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
@@ -72,6 +73,10 @@ export default function CropVarieties({ history, match }) {
 
   const onGoBack = () => history.push('/crop_catalogue');
 
+  const goToVarietyDetails = (varietyId) => {
+    history.push(`/crop/${varietyId}/detail`);
+  };
+
   return (
     <Layout>
       <PageTitle
@@ -94,15 +99,16 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_VARIETIES.NEEDS_PLAN')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -115,15 +121,16 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:ACTIVE')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {currentCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -136,15 +143,16 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PLANNED')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -157,15 +165,16 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PAST')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {expiredCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={cropVariety.crop_variety_id}
                     title={crop_variety_name || t(`crop:${crop_translation_key}`)}
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                     isPastVariety
                   />
                 );

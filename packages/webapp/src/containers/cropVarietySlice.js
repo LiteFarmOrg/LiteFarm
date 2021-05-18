@@ -5,7 +5,20 @@ import { pick } from '../util';
 import { cropEntitiesSelector } from './cropSlice';
 
 const getCropVariety = (obj) => {
-  return pick(obj, ['crop_variety_id', 'crop_id', 'crop_variety_name', 'farm_id']);
+  return pick(obj, [
+    'crop_variety_id',
+    'crop_id',
+    'crop_variety_name',
+    'farm_id',
+    'supplier',
+    'seeding_type',
+    'lifecycle',
+    'compliance_file_url',
+    'organic',
+    'treated',
+    'genetically_engineered',
+    'searched',
+  ]);
 };
 const addOneCropVariety = (state, { payload }) => {
   state.loading = false;
@@ -90,11 +103,16 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const cropVarietySelector = (crop_variety_id) => (state) =>
-  createSelector([cropEntitiesSelector], (cropEntities) => {
-    const cropVariety = cropVarietySelectors.selectById(state, crop_variety_id);
-    return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
-  });
+export const cropVarietyByID = (variety_id) => (state) =>
+  cropVarietySelectors.selectById(state, variety_id);
+
+export const cropVarietySelector = (crop_variety_id) =>
+  createSelector(
+    [cropEntitiesSelector, cropVarietyByID(crop_variety_id)],
+    (cropEntities, cropVariety) => {
+      return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
+    },
+  );
 
 export const cropVarietyStatusSelector = createSelector(
   [cropVarietyReducerSelector],

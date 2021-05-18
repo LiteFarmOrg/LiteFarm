@@ -22,6 +22,7 @@ import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
+import useSortByVarietyName from './useSortByVarietyName';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -34,19 +35,19 @@ export default function CropVarieties({ history, match }) {
   const filterStringOnChange = (e) => setFilterString(e.target.value);
 
   const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
-    useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id))),
     filterString,
   );
   const currentCropVarieties = useStringFilteredCrops(
-    useSelector(currentCropVarietiesByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(currentCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const plannedCropVarieties = useStringFilteredCrops(
-    useSelector(plannedCropVarietiesByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(plannedCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const expiredCropVarieties = useStringFilteredCrops(
-    useSelector(expiredCropVarietiesByCropIdSelector(crop_id)),
+    useSortByVarietyName(useSelector(expiredCropVarietiesByCropIdSelector(crop_id))),
     filterString,
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([

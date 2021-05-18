@@ -103,12 +103,16 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const cropVarietyByID = (variety_id) => (state) => cropVarietySelectors.selectById(state,variety_id);
+export const cropVarietyByID = (variety_id) => (state) =>
+  cropVarietySelectors.selectById(state, variety_id);
 
 export const cropVarietySelector = (crop_variety_id) =>
-  createSelector([cropEntitiesSelector, cropVarietyByID(crop_variety_id)], (cropEntities, cropVariety) => {
-    return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
-  });
+  createSelector(
+    [cropEntitiesSelector, cropVarietyByID(crop_variety_id)],
+    (cropEntities, cropVariety) => {
+      return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
+    },
+  );
 
 export const cropVarietyStatusSelector = createSelector(
   [cropVarietyReducerSelector],
@@ -116,3 +120,9 @@ export const cropVarietyStatusSelector = createSelector(
     return { loading, error };
   },
 );
+
+export const suppliersSelector = createSelector([cropVarietiesSelector], (cropVarieties) => {
+  const suppliers = new Set(cropVarieties.map(({ supplier }) => supplier));
+  suppliers.delete(null);
+  return Array.from(suppliers);
+});

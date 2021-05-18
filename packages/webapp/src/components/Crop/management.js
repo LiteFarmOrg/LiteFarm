@@ -1,12 +1,11 @@
-import Layout from "../Layout";
-import CropHeader from "./cropHeader";
-import RouterTab from "../RouterTab";
-import React from "react";
-import { Semibold, Underlined } from "../Typography";
-import { useTranslation } from "react-i18next";
+import Layout from '../Layout';
+import CropHeader from './cropHeader';
+import RouterTab from '../RouterTab';
+import React from 'react';
+import { Semibold, Underlined } from '../Typography';
+import { useTranslation } from 'react-i18next';
 
-
-function PureCropManagement({ history, match, crop, onBack}) {
+function PureCropManagement({ history, match, crop, onBack }) {
   const { t } = useTranslation();
   return (
     <Layout>
@@ -26,10 +25,10 @@ function PureCropManagement({ history, match, crop, onBack}) {
           },
         ]}
       />
-      <Semibold style={{marginBottom: '16px'}}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
+      <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
       <Underlined>+ {t('CROP_DETAIL.ADD_PLAN')}</Underlined>
     </Layout>
-  )
+  );
 }
 
 export default PureCropManagement;

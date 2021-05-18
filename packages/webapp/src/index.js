@@ -82,16 +82,17 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const languages = ['en', 'es', 'pt'];
+if( process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
 
-Sentry.init({
-  dsn: "https://4696ec355f9d41dfb62984bed20e90b3@o653439.ingest.sentry.io/5761919",
-  integrations: [new Integrations.BrowserTracing()],
-
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

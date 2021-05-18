@@ -10,7 +10,6 @@ function CropDetail ({ history, match }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const submitForm = (data) => {
-    console.log(data);
     setIsEditing(false);
   }
 
@@ -18,10 +17,6 @@ function CropDetail ({ history, match }) {
     history.push(`/crop_varieties/crop/${selectedCrop.crop_id}`)
   }
 
-  useEffect(() => {
-    console.log(selectedCrop);
-    console.log(interested)
-  } , []);
   return (
     <>
       <PureCropDetail

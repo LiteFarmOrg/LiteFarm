@@ -6,11 +6,11 @@ import { Semibold, Underlined } from "../Typography";
 import { useTranslation } from "react-i18next";
 
 
-function PureCropManagement({ history, match={params: {crop_id: 2}}, crop}) {
+function PureCropManagement({ history, match, crop, onBack}) {
   const { t } = useTranslation();
   return (
     <Layout>
-      <CropHeader {...crop} />
+      <CropHeader {...crop} onBackClick={onBack} />
       <RouterTab
         classes={{ container: { margin: '24px 0 26px 0' } }}
         history={history}

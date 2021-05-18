@@ -28,12 +28,7 @@ function PureCropDetail({ history, match, crop, isEditing, setIsEditing, submitF
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const isOrganic = watch(ORGANIC);
-  const annual = watch(TREATED);
   const supplierName = watch(SUPPLIER, '');
-
-  useEffect( () => {
-    console.log(isOrganic);
-  }, [isOrganic])
 
   return (
     <Form onSubmit={handleSubmit(submitForm)} buttonGroup={(

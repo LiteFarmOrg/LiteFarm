@@ -72,6 +72,11 @@ export default function CropVarieties({ history, match }) {
 
   const onGoBack = () => history.push('/crop_catalogue');
 
+  const goToVarietyDetails = (varietyId) => {
+    console.log(varietyId);
+    history.push(`/crop/${varietyId}/detail`)
+  }
+
   return (
     <Layout>
       <PageTitle
@@ -94,7 +99,7 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('CROP_VARIETIES.NEEDS_PLAN')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
@@ -103,6 +108,7 @@ export default function CropVarieties({ history, match }) {
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -115,7 +121,7 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:ACTIVE')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {currentCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
@@ -124,6 +130,7 @@ export default function CropVarieties({ history, match }) {
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -136,7 +143,7 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PLANNED')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id } = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
@@ -145,6 +152,7 @@ export default function CropVarieties({ history, match }) {
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                   />
                 );
               })}
@@ -157,7 +165,7 @@ export default function CropVarieties({ history, match }) {
             <PageBreak style={{ paddingBottom: '22px' }} label={t('common:PAST')} />
             <PureCropTileContainer gap={gap} padding={padding}>
               {expiredCropVarieties.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_name } = cropVariety;
+                const { crop_translation_key, crop_variety_name, crop_variety_id} = cropVariety;
                 const imageKey = crop_translation_key.toLowerCase();
                 return (
                   <PureCropTile
@@ -166,6 +174,7 @@ export default function CropVarieties({ history, match }) {
                     src={`crop-images/${imageKey}.jpg`}
                     alt={imageKey}
                     style={{ width: cardWidth }}
+                    onClick={() => goToVarietyDetails(crop_variety_id)}
                     isPastVariety
                   />
                 );

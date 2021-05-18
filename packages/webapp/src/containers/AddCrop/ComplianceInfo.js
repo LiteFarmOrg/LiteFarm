@@ -36,8 +36,12 @@ function ComplianceInfoForm({ history, match }) {
   const treated = watch(TREATED);
 
   const disabled = !(
-    (organicSelection === 'false' && commAvail && geneticEngineered && treated) ||
-    (organicSelection === 'true' && treated)
+    (organicSelection === 'false' &&
+      commAvail &&
+      geneticEngineered &&
+      (treated === 'true' || treated === 'false' || treated === 'null')) ||
+    (organicSelection === 'true' &&
+      (treated === 'true' || treated === 'false' || treated === 'null'))
   );
 
   const prevPage = useSelector(newVarietalSelector);
@@ -57,11 +61,13 @@ function ComplianceInfoForm({ history, match }) {
     newVarietal.lifecycle = prevPage.lifecycle;
     newVarietal.compliance_file_url = '';
     newVarietal.organic = data.organic === 'true';
-    newVarietal.treated = data.treated === 'true';
+    newVarietal.treated = data.treated === 'null' ? null : data.treated === 'true';
     newVarietal.genetically_engineered =
       data.genetically_engineered !== undefined ? data.genetically_engineered === 'true' : null;
     newVarietal.searched = data.searched !== undefined ? data.searched === 'true' : null;
+    console.log(newVarietal);
     dispatch(postVarietal(newVarietal));
+    history.push(`/crop_catalogue`);
   };
 
   const onGoBack = () => {
@@ -69,7 +75,7 @@ function ComplianceInfoForm({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push(`/crop/${crop_id}/add_crop_variety`);
+    history.push(`/crop_catalogue`);
     dispatch(deleteVarietal());
   };
 

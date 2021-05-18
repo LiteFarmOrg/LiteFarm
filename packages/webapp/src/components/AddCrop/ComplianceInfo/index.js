@@ -121,6 +121,9 @@ export default function ComplianceInfo({
             <div>
               <Radio label={'No'} hookFormRegister={treatedRegister} value={false} />
             </div>
+            <div>
+              <Radio label={'Not sure'} hookFormRegister={treatedRegister} value={'null'} />
+            </div>
           </div>
         )}
       </div>
@@ -141,6 +144,9 @@ export default function ComplianceInfo({
             </div>
             <div>
               <Radio label={'No'} hookFormRegister={treatedRegister} value={false} />
+            </div>
+            <div>
+              <Radio label={'Not sure'} hookFormRegister={treatedRegister} value={'null'} />
             </div>
           </div>
         )}

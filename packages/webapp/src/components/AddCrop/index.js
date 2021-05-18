@@ -20,8 +20,7 @@ export default function PureAddCrop({
   seedTypeRegister,
   lifeCycleRegister,
   imageKey,
-  cropName,
-  match,
+  isSeekingCert,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -92,6 +91,7 @@ export default function PureAddCrop({
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}
+        optional={!isSeekingCert}
       />
 
       <div>

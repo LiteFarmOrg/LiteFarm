@@ -88,6 +88,7 @@ function AddCropForm({ history, match }) {
         }
         cropEnum={cropEnum}
         imageKey={imageKey}
+        isSeekingCert={interested}
         cropName={crop.crop_common_name}
         varietyRegister={varietyRegister}
         supplierRegister={supplierRegister}

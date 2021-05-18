@@ -1,7 +1,8 @@
 import React from 'react';
 import ComplianceInfo from '../../components/AddCrop/ComplianceInfo';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { newVarietalSelector } from '../cropVarietySlice';
 
 function ComplianceInfoForm({ history, match }) {
   const dispatch = useDispatch();

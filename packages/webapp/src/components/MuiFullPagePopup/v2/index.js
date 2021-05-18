@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 'calc(100vh - 72px)',
     },
     margin: 'auto',
+    flexDirection: 'column',
   },
 }));
 

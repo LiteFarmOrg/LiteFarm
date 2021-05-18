@@ -11,5 +11,34 @@ const Template = (args) => <Filter {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   subject: 'Status',
-  items: ['Active', 'Planned', 'Complete', 'Abandoned', 'Needs Plan'],
+  items: [
+    {
+      value: 'active',
+      label: 'Active',
+    },
+    {
+      value: 'planned',
+      label: 'Planned',
+    },
+    {
+      value: 'complete',
+      label: 'Complete',
+    },
+    {
+      value: 'abandoned',
+      label: 'Abandoned',
+    },
+    {
+      value: 'needs_plan',
+      label: 'Needs plan',
+    },
+  ],
+  filterRef: { current: {} },
+};
+
+export const Empty = Template.bind({});
+Empty.args = {
+  subject: 'Status',
+  items: [],
+  filterRef: { current: {} },
 };

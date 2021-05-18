@@ -103,6 +103,8 @@ const Input = ({
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
+        placeholder={isSearchBar && t('common:SEARCH')}
+        size={'1'}
         onChange={(e) => {
           onChange?.(e);
           hookFormRegister?.onChange?.(e);

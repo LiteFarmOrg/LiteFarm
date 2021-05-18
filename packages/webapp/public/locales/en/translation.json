@@ -80,11 +80,53 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
-  "CROP_CATALOG": {
+
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "Add a new crop",
+    "ADD_TO_YOUR_FARM": "Add to your farm",
+    "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CROP_CATALOGUE": "Crop Catalogue",
+    "CROP_STATUS": "Crop status on:",
+    "FILTER": {
+      "LOCATION": "Location",
+      "STATUS": "Status",
+      "SUPPLIERS": "Suppliers",
+      "TITLE": "Crop Catalogue Filter"
+    },
+    "ON_YOUR_FARM": "On your farm",
+    "FILTER_TITLE": "Crop Catalogue Filter",
     "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "HERE_YOU_CAN": "Here you can:"
+  },
+  "CROP_DETAIL": {
+    "MANAGEMENT_TAB": "Management",
+    "DETAIL_TAB": "Details",
+    "EXPENSE_RECORD": "Expense Record",
+    "COMPLIANCE_DOC": "Compliance Documents",
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
+    "SEED_SEEDLING": "Will you plant as a seed or seedling?",
+    "ORGANIC": "Is the crop certified Organic?",
+    "COMMERCIAL_AVAILABILITY": "Did you perform a commercial availability search?",
+    "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
+    "TREATED": "Have the seeds for this crop been treated?",
+    "SEED": "Seed",
+    "SEEDLING": "Seedling",
+    "CERTIFIED_ORGANIC": "Certified Organic",
+    "NON_GMO": "Non-GMO",
+    "NON_TREATED": "Non-treated",
+    "ANNUAL_PERENNIAL": "Is the crop an annual or perennial?",
+    "PERENNIAL": "Perennial",
+    "ANNUAL": "Annual",
+    "NOT_SURE": "Not sure",
+    "MANAGEMENT_PLANS": "Management Plans",
+    "ADD_PLAN": "Add a plan"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "Add a new variety",
+    "CROP_VARIETIES": "variety",
+    "NEEDS_PLAN": "Needs Plan"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
@@ -405,6 +447,9 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "Clear all filters"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
@@ -1024,7 +1069,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop Catalog",
+    "CROP_CATALOGUE": "Crop Catalogue",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

@@ -15,6 +15,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore } from '@reduxjs/toolkit';
@@ -68,6 +70,7 @@ import loginSaga from './containers/GoogleLoginButton/saga';
 import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
+import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import mapSaga from './containers/Map/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
@@ -80,6 +83,17 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const languages = ['en', 'es', 'pt'];
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -147,6 +161,7 @@ sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
+sagaMiddleware.run(SSOInfoSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);

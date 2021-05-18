@@ -80,11 +80,34 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
-  "CROP_CATALOG": {
+
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CAN_NOT_FIND": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "ON_YOUR_FARM": "MISSING",
+    "FILTER_TITLE": "MISSING",
     "ADD_CROPS_T0_YOUR_FARM": "MISSING",
     "CREATE_MANAGEMENT_PLANS": "MISSING",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
     "HERE_YOU_CAN": "MISSING"
+  },
+  "CROP_DETAIL": {
+    "DETAIL_TAB": "MISSING",
+    "MANAGEMENT_TAB": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -405,6 +428,9 @@
       "FIELD_NAME": "Nombre del campo"
     },
     "TITLE": "Campos"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",

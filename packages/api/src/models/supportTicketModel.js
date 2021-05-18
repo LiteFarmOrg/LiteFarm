@@ -60,7 +60,6 @@ class supportTicketModel extends BaseModel {
 
   static get relationMappings() {
     return {
-      ...this.baseRelationMappings('organicCertifierSurvey'),
     }
   }
 }

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
+import React from 'react';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
-import PureCropTile from '../CropTile';
 import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
 import NewFieldCropModal from '../Forms/NewFieldCropModal';
-import { useComponentWidth } from '../../containers/hooks/useComponentWidthHeight';
+import PureFieldCropTile from '../CropTile/FieldCropTile';
+import useCropTileListGap from '../CropTile/useCropTileListGap';
+import PureCropTileContainer from '../CropTile/CropTileContainer';
+import PageBreak from '../PageBreak';
+import Square from '../Square';
 
 export default function PureCropList({
   onFilterChange,
@@ -23,41 +25,11 @@ export default function PureCropList({
   const isSearchable = true;
   const { t } = useTranslation();
 
-  const { ref: containerRef, width: containerWidth } = useComponentWidth();
-
-  const [{ gap, padding }, setGap] = useState({});
-  const cardWidth = 88;
-  useEffect(() => {
-    const minGap = 24;
-    const getMinGap = (cropCount) => {
-      const numberOfGap = Math.floor((containerWidth - cardWidth) / (cardWidth + minGap));
-      const numberOfCard = numberOfGap + 1;
-      if (cropCount < numberOfCard || numberOfCard <= 1) {
-        return { gap: minGap, padding: 0 };
-      } else if (numberOfCard === 2) {
-        const gap = (containerWidth - numberOfCard * cardWidth) / numberOfGap;
-        if (gap >= 48) {
-          return { gap: gap / 2, padding: gap / 4 };
-        } else {
-          return { gap: gap, padding: 0 };
-        }
-      } else {
-        return { gap: (containerWidth - numberOfCard * cardWidth) / numberOfGap, padding: 0 };
-      }
-    };
-
-    setGap(
-      [pastCrops?.length, plannedCrops?.length, activeCrops?.length].reduce(
-        ({ padding: maxPadding, gap: maxGap }, cropCount) => {
-          const { gap, padding } = getMinGap(cropCount);
-          return gap >= maxGap && padding >= maxPadding
-            ? { gap, padding }
-            : { padding: maxPadding, gap: maxGap };
-        },
-        { padding: 0, gap: 24 },
-      ),
-    );
-  }, [containerWidth, pastCrops, plannedCrops, activeCrops]);
+  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
+    activeCrops?.length,
+    plannedCrops?.length,
+    pastCrops?.length,
+  ]);
 
   return (
     <Layout>
@@ -112,19 +84,12 @@ export default function PureCropList({
       <div ref={containerRef}>
         {activeCrops.length > 0 && (
           <>
-            <div className={styles.labelContainer}>
-              <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
-              <div className={styles.cropCount} style={{ backgroundColor: '#037A0F' }}>
-                {activeCrops.length}
-              </div>
-              <div className={styles.labelDivider} />
-            </div>
-            <div
-              className={styles.tileContainer}
-              style={{ columnGap: gap, padding: `0 ${padding}px` }}
-            >
+            <PageBreak style={{ paddingBottom: '22px' }} label={t('LOCATION_CROPS.ACTIVE_CROPS')}>
+              <Square color={'active'}>{activeCrops.length}</Square>
+            </PageBreak>
+            <PureCropTileContainer gap={gap} padding={padding}>
               {activeCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}
@@ -132,24 +97,18 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                 />
               ))}
-            </div>
+            </PureCropTileContainer>
           </>
         )}
         {plannedCrops.length > 0 && (
           <>
-            <div className={styles.labelContainer}>
-              <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
-              <div className={styles.cropCount} style={{ backgroundColor: '#7E4C0E' }}>
-                {plannedCrops.length}
-              </div>
-              <div className={styles.labelDivider} />
-            </div>
-            <div
-              className={styles.tileContainer}
-              style={{ columnGap: gap, padding: `0 ${padding}px` }}
-            >
+            <PageBreak style={{ paddingBottom: '22px' }} label={t('LOCATION_CROPS.PLANNED_CROPS')}>
+              <Square color={'planned'}>{plannedCrops.length}</Square>
+            </PageBreak>
+
+            <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}
@@ -157,24 +116,18 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                 />
               ))}
-            </div>
+            </PureCropTileContainer>
           </>
         )}
         {pastCrops.length > 0 && (
           <>
-            <div className={styles.labelContainer}>
-              <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
-              <div className={styles.cropCount} style={{ backgroundColor: '#085D50' }}>
-                {pastCrops.length}
-              </div>
-              <div className={styles.labelDivider} />
-            </div>
-            <div
-              className={styles.tileContainer}
-              style={{ columnGap: gap, padding: `0 ${padding}px` }}
-            >
+            <PageBreak style={{ paddingBottom: '22px' }} label={t('LOCATION_CROPS.PAST_CROPS')}>
+              <Square color={'past'}>{pastCrops.length}</Square>
+            </PageBreak>
+
+            <PureCropTileContainer gap={gap} padding={padding}>
               {pastCrops.map((fc) => (
-                <PureCropTile
+                <PureFieldCropTile
                   history={history}
                   key={fc.field_crop_id}
                   fieldCrop={fc}
@@ -182,7 +135,7 @@ export default function PureCropList({
                   style={{ width: `${cardWidth}px` }}
                 />
               ))}
-            </div>
+            </PureCropTileContainer>
           </>
         )}
       </div>

@@ -10,7 +10,7 @@ export default function CropCatalogSpotlightModal({ dismissModal }) {
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={t('CROP_CATALOGUE.CROP_CATALOG')}
+      title={t('CROP_CATALOGUE.CROP_CATALOGUE')}
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>
@@ -22,9 +22,7 @@ export default function CropCatalogSpotlightModal({ dismissModal }) {
       <>
         <Label style={{ paddingBottom: '16px' }}>{t('CROP_CATALOGUE.HERE_YOU_CAN')}</Label>
 
-        <ul
-          style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column', rowGap: '16px' }}
-        >
+        <ul style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column', rowGap: '8px' }}>
           <li>
             <Label>{t('CROP_CATALOGUE.ADD_CROPS_T0_YOUR_FARM')}</Label>
           </li>

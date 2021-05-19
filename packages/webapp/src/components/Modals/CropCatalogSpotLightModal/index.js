@@ -13,7 +13,9 @@ export default function CropCatalogSpotLightModal({ dismissModal }) {
       title={'Crop Catalog'}
       buttonGroup={
         <>
-          <Button onClick={dismissModal} sm>{t('common:NEXT')}</Button>
+          <Button onClick={dismissModal} sm>
+            {t('common:NEXT')}
+          </Button>
         </>
       }
     >

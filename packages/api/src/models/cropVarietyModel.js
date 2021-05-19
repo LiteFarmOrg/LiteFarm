@@ -63,6 +63,7 @@ class CropVariety extends BaseModel {
         folate: { type: ['number', null] },
         vitb12: { type: ['number', null] },
         nutrient_credits: { type: ['number', null] },
+        crop_variety_photo_url: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

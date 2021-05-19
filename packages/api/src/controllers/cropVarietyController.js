@@ -42,7 +42,7 @@ const cropVarietyController = {
     return async (req, res, next) => {
       try {
         const { crop_id } = req.body;
-        const relatedCrop = await CropModel.query().where({ crop_id });
+        const [relatedCrop] = await CropModel.query().where({ crop_id });
         const cropData = nutrients.reduce((obj, k) => ({ ...obj, [k]: relatedCrop[k] }), {});
         const result = await CropVarietyModel.query().context(req.user).insert({ ...req.body, ...cropData });
         return res.status(201).json(result);

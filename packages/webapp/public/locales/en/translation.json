@@ -82,16 +82,20 @@
   },
   "CROP_CATALOGUE": {
     "ADD_CROP": "Add a new crop",
+    "ADD_CROPS_T0_YOUR_FARM": "Add crops to your farm",
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
+    "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop Catalogue",
     "CROP_STATUS": "Crop status on:",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
       "LOCATION": "Location",
       "STATUS": "Status",
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
+    "HERE_YOU_CAN": "Here you can:",
     "ON_YOUR_FARM": "On your farm",
     "FILTER_TITLE": "Crop Catalogue Filter"
   },

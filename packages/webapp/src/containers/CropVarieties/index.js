@@ -78,6 +78,10 @@ export default function CropVarieties({ history, match }) {
     history.push(`/crop/${varietyId}/detail`);
   };
 
+  const goToVarietyCreation = () => {
+    history.push(`/crop/${crop_id}/add_crop_variety`);
+  };
+
   useEffect(() => {
     dispatch(resetAndUnLockFormData());
   }, []);
@@ -209,7 +213,9 @@ export default function CropVarieties({ history, match }) {
         )}
       </div>
 
-      {isAdmin && <AddLink>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>}
+      {isAdmin && (
+        <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
+      )}
     </Layout>
   );
 }

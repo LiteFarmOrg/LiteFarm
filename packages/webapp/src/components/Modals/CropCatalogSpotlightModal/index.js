@@ -10,11 +10,11 @@ export default function CropCatalogSpotlightModal({ dismissModal }) {
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={'Crop Catalog'}
+      title={t('CROP_CATALOGUE.CROP_CATALOG')}
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>
-            Next
+            {t('CROP_CATALOGUE.NEXT')}
           </Button>
         </>
       }

@@ -10,11 +10,11 @@ export default function CropCatalogSearchAndFilterModal({ dismissModal }) {
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={"Let's Begin"}
+      title={t('CROP_CATALOGUE.LETS_BEGIN')}
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>
-            Got it!
+            {t('CROP_CATALOGUE.GOT_IT')}
           </Button>
         </>
       }

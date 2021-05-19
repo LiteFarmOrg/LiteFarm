@@ -97,6 +97,7 @@
     },
     "HERE_YOU_CAN": "Here you can:",
     "ON_YOUR_FARM": "On your farm",
+    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_DETAIL": {

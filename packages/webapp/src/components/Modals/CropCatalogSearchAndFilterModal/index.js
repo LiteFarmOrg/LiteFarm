@@ -14,7 +14,7 @@ export default function CropCatalogSearchAndFilterModal({ dismissModal }) {
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>
-            {t('CROP_CATALOGUE.GOT_IT')}
+            {t('common:GOT_IT')}
           </Button>
         </>
       }

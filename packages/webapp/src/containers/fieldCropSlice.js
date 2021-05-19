@@ -237,7 +237,7 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
 
 export const fieldCropByCropIdSelector = (crop_id) =>
   createSelector([fieldCropsSelector], (fieldCrops) => {
-    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id.toString() === crop_id);
+    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id === crop_id);
   });
 
 export const currentFieldCropByCropIdSelector = (crop_id) =>

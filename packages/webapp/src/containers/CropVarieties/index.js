@@ -28,7 +28,7 @@ export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const { crop_id } = match.params;
+  const crop_id = Number(match.params.crop_id);
   const crop = useSelector(cropSelector(crop_id));
 
   const [filterString, setFilterString] = useState('');

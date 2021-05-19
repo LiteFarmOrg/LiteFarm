@@ -5,6 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import { axios, getHeader } from '../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropVarietySuccess } from '../../containers/cropVarietySlice';
+import history from '../../history';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -12,25 +13,13 @@ export function* postVarietalSaga({ payload: varietal }) {
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const data = {
-    crop_id: varietal.crop_id,
-    crop_variety_name: varietal.crop_variety_name,
-    farm_id: farm_id,
-    supplier: varietal.supplier,
-    seeding_type: varietal.seeding_type,
-    lifecycle: varietal.lifecycle,
-    compliance_file_url: varietal.compliance_file_url,
-    organic: varietal.organic,
-    treated: varietal.treated,
-    genetically_engineered: varietal.genetically_engineered,
-    searched: varietal.searched,
-  };
 
   try {
-    const result = yield call(axios.post, cropVarietyURL + '/', data, header);
+    const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
-    toastr.success('Successfully saved varietal!');
+    history.push(`/crop_catalogue`);
   } catch (e) {
+    //TODO remove toastr messages
     if (e.response.data.violationError) {
       toastr.error('Error: Varietal exists');
       console.log('failed to add varietal to database');

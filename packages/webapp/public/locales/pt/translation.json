@@ -96,13 +96,37 @@
     "FILTER_TITLE": "MISSING"
   },
   "CROP_DETAIL": {
+    "ADD_PLAN": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_PERENNIAL": "MISSING",
+    "COMMERCIAL_AVAILABILITY": "MISSING",
+    "COMPLIANCE_DOC": "MISSING",
     "DETAIL_TAB": "MISSING",
-    "MANAGEMENT_TAB": "MISSING"
+    "EXPENSE_RECORD": "MISSING",
+    "GENETICALLY_ENGINEERED": "MISSING",
+    "MANAGEMENT_PLANS": "MISSING",
+    "MANAGEMENT_TAB": "MISSING",
+    "ORGANIC": "MISSING",
+    "PERENNIAL": "MISSING",
+    "SEED": "MISSING",
+    "SEED_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "TREATED": "MISSING"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "MISSING",
     "CROP_VARIETIES": "MISSING",
     "NEEDS_PLAN": "MISSING"
+  },
+  "CROP": {
+    "ADD_CROP": "MISSING",
+    "ADD_IMAGE": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_OR_PERENNIAL": "MISSING",
+    "PERENNIAL": "MISSING",
+    "SEED": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING_OR_PLANTING_STOCK": "MISSING"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",

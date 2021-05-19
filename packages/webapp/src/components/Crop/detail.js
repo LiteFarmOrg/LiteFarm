@@ -107,6 +107,7 @@ function PureCropDetail({
         hookFormControl={control}
         name={SEEDING_TYPE}
         disabled={!isEditing}
+        style={{ paddingBottom: '16px' }}
         radios={[
           { value: 'SEED', label: t('CROP_DETAIL.SEED') },
           {
@@ -121,6 +122,7 @@ function PureCropDetail({
         hookFormControl={control}
         name={LIFECYCLE}
         disabled={!isEditing}
+        style={{ paddingBottom: '16px' }}
         radios={[
           { value: 'ANNUAL', label: t('CROP_DETAIL.ANNUAL') },
           {
@@ -138,6 +140,7 @@ function PureCropDetail({
           </Main>
           <RadioGroup
             disabled={!isEditing}
+            style={{ paddingBottom: '16px' }}
             required={true}
             hookFormControl={control}
             name={ORGANIC}
@@ -147,13 +150,19 @@ function PureCropDetail({
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}
               </Main>
-              <RadioGroup disabled={!isEditing} hookFormControl={control} name={SEARCHED} />
+              <RadioGroup
+                disabled={!isEditing}
+                style={{ paddingBottom: '16px' }}
+                hookFormControl={control}
+                name={SEARCHED}
+              />
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.GENETICALLY_ENGINEERED')}
                 <Leaf style={{ marginLeft: '14px' }} />
               </Main>
               <RadioGroup
                 disabled={!isEditing}
+                style={{ paddingBottom: '16px' }}
                 hookFormControl={control}
                 name={GENETICALLY_ENGINEERED}
               />

@@ -96,7 +96,6 @@
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
-    "GOT_IT": "Got it!",
     "HERE_YOU_CAN": "Here you can:",
     "LETS_BEGIN": "Let's begin",
     "ON_YOUR_FARM": "On your farm",
@@ -110,6 +109,7 @@
     "COMMERCIAL_AVAILABILITY": "Did you perform a commercial availability search?",
     "COMPLIANCE_DOC": "Compliance Documents",
     "DETAIL_TAB": "Details",
+    "EDIT_CROP_DETAIL": "Edit crop details",
     "EXPENSE_RECORD": "Expense Record",
     "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
     "MANAGEMENT_PLANS": "Management Plans",
@@ -120,8 +120,7 @@
     "SEED_SEEDLING": "Will you plant as a seed or seedling?",
     "SEEDLING": "Seedling",
     "TREATED": "Have the seeds for this crop been treated?",
-    "ORGANIC_COMPLIANCE": "Organic Compliance",
-    "EDIT_CROP_DETAIL": "Edit crop details"
+    "ORGANIC_COMPLIANCE": "Organic Compliance"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
@@ -1088,7 +1087,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop catalogue",
+    "CROPS": "Crops",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

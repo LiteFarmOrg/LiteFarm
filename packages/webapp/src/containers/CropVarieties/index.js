@@ -23,12 +23,13 @@ import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../
 import { isAdminSelector } from '../userFarmSlice';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 import useSortByVarietyName from './useSortByVarietyName';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
-  const { crop_id } = match.params;
+  const crop_id = Number(match.params.crop_id);
   const crop = useSelector(cropSelector(crop_id));
 
   const [filterString, setFilterString] = useState('');
@@ -78,8 +79,12 @@ export default function CropVarieties({ history, match }) {
   };
 
   const goToVarietyCreation = () => {
-    history.push(`/crop/${crop_id}/add_crop_variety`)
-  }
+    history.push(`/crop/${crop_id}/add_crop_variety`);
+  };
+
+  useEffect(() => {
+    dispatch(resetAndUnLockFormData());
+  }, []);
 
   return (
     <Layout>
@@ -208,7 +213,9 @@ export default function CropVarieties({ history, match }) {
         )}
       </div>
 
-      {isAdmin && <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>}
+      {isAdmin && (
+        <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
+      )}
     </Layout>
   );
 }

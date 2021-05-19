@@ -1,20 +1,29 @@
 import AWS from 'aws-sdk';
 
-const DO_URI = 'nyc3.digitaloceanspaces.com';
-const spacesEndpoint = new AWS.Endpoint(DO_URI);
-const s3 = new AWS.S3({
-  endpoint: spacesEndpoint,
-  accessKeyId: process.env.DO_ACCESS_KEY_ID,
-  secretAccessKey: process.env.DO_ACCESS_SECRET_KEY,
-});
-
-export default function uploadFile(blob, filename, callback, { isPublic = false, onError }) {
+export default function uploadFile(
+  blob,
+  filename,
+  callback,
+  {
+    isPublic = false,
+    onError = (err) => {
+      console.log(err);
+    },
+  },
+) {
+  const DO_URI = 'nyc3.digitaloceanspaces.com';
+  const spacesEndpoint = new AWS.Endpoint(DO_URI);
+  const s3 = new AWS.S3({
+    endpoint: spacesEndpoint,
+    accessKeyId: process.env.REACT_APP_DO_ACCESS_KEY_ID,
+    secretAccessKey: process.env.REACT_APP_DO_ACCESS_SECRET_KEY,
+  });
   const params = {
     Body: blob,
-    Bucket: `${process.env.DO_BUCKET_NAME}`,
+    Bucket: `${process.env.REACT_APP_DO_BUCKET_NAME}`,
     Key: filename,
   };
-  const host = `https://${process.env.DO_BUCKET_NAME}.${DO_URI}`;
+  const host = `https://${process.env.REACT_APP_DO_BUCKET_NAME}.${DO_URI}`;
   s3.putObject(params)
     .on('build', (request) => {
       request.httpRequest.headers.Host = host;
@@ -23,7 +32,7 @@ export default function uploadFile(blob, filename, callback, { isPublic = false,
       isPublic && (request.httpRequest.headers['x-amz-acl'] = 'public-read');
     })
     .send((err) => {
-      if (err) onError?.();
+      if (err) onError?.(err);
       else {
         const imageUrl = `${host}/${filename}`;
         callback(imageUrl);

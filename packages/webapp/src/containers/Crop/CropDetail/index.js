@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/detail';
-import { cropVarietyByID, cropVarietySelector } from '../../cropVarietySlice';
-import { useEffect, useState } from 'react';
+import { cropVarietySelector } from '../../cropVarietySlice';
+import { useState } from 'react';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
 function CropDetail({ history, match }) {

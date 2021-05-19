@@ -2,28 +2,48 @@ import Button from '../../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Underlined, Label, Info } from '../../Typography';
+import { AddLink, Info, Label } from '../../Typography';
 import PageTitle from '../../PageTitle/v2';
-import styles from './styles.module.scss';
 import ProgressBar from '../../ProgressBar';
 import Form from '../../Form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../Form/Radio';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
+import { useForm } from 'react-hook-form';
 
 export default function ComplianceInfo({
-  disabled,
   onSubmit,
+  onError,
   onGoBack,
   onCancel,
-  organicRegister,
-  organic,
-  commAvailRegister,
-  geneticEngRegister,
-  treatedRegister,
+  persistedFormData,
+  useHookFormPersist,
+  match,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    control,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: persistedFormData,
+  });
+  const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety`];
+  useHookFormPersist(persistedPath, getValues);
+
+  const CERTIFIED_ORGANIC = 'organic';
+  const COMMERCIAL_AVAILABILITY = 'searched';
+  const GENETIC_EGINEERED = 'genetically_engineered';
+  const TREATED = 'treated';
+
+  const organic = watch(CERTIFIED_ORGANIC);
+
+  const disabled = !isValid;
 
   const labelStyle = {
     paddingRight: '10px',
@@ -34,11 +54,6 @@ export default function ComplianceInfo({
 
   const progress = 66;
 
-  const setReqTrue = (reg) => {
-    reg.required = true;
-    return reg;
-  };
-
   return (
     <Form
       buttonGroup={
@@ -46,9 +61,9 @@ export default function ComplianceInfo({
           {t('common:SAVE')}
         </Button>
       }
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle onGoBack={onGoBack} onCancel={onCancel} title={'Add a crop'} />
+      <PageTitle onGoBack={onGoBack} onCancel={onCancel} title={t('CROP.ADD_CROP')} />
       <div
         style={{
           marginBottom: '23px',
@@ -59,95 +74,53 @@ export default function ComplianceInfo({
       </div>
       <div>
         <div style={{ marginBottom: '16px' }}>
-          <Label style={labelStyle}>{'Is the crop certified organic?'}</Label>
+          <Label style={labelStyle}>{t('CROP.IS_ORGANIC')}</Label>
           <img src={Leaf} style={{ display: 'inline-block' }} />
         </div>
       </div>
+      <RadioGroup hookFormControl={control} name={CERTIFIED_ORGANIC} required />
       <div>
-        <Radio label={'Yes'} hookFormRegister={organicRegister} value={'true'} />
-      </div>
-      <div>
-        <Radio label={'No'} hookFormRegister={organicRegister} value={'false'} />
-      </div>
-      <div>
-        {organic === 'false' && (
+        {organic === false && (
           <div>
             <div>
               <div style={{ marginBottom: '16px' }}>
-                <Label style={labelStyle}>
-                  {'Did you perform a commercial availability search?'}
-                </Label>
+                <Label style={labelStyle}>{t('CROP.PERFORM_SEARCH')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi
-                  content={'Your certifier may ask for documentation supporting your search.'}
-                />
+                <Infoi content={t('CROP.NEED_DOCUMENT_PERFORM_SEARCH')} />
               </div>
             </div>
-            <div>
-              <Radio label={'Yes'} hookFormRegister={commAvailRegister} value={true} />
-            </div>
-            <div>
-              <Radio label={'No'} hookFormRegister={commAvailRegister} value={false} />
-            </div>
+            <RadioGroup hookFormControl={control} name={COMMERCIAL_AVAILABILITY} required />
             <div>
               <div style={{ marginBottom: '16px' }}>
-                <Label style={labelStyle}>{'Is the crop genetically engineered?'}</Label>
+                <Label style={labelStyle}>{t('CROP.IS_GENETICALLY_ENGINEERED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi
-                  content={
-                    "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered."
-                  }
-                />
+                <Infoi content={t('CROP.NEED_DOCUMENT_GENETICALLY_ENGINEERED')} />
               </div>
             </div>
-            <div>
-              <Radio label={'Yes'} hookFormRegister={geneticEngRegister} value={true} />
-            </div>
-            <div>
-              <Radio label={'No'} hookFormRegister={geneticEngRegister} value={false} />
-            </div>
+            <RadioGroup hookFormControl={control} name={GENETIC_EGINEERED} required />
+
             <div>
               <div style={{ marginBottom: '16px' }}>
-                <Label style={labelStyle}>{'Have the seeds for this crop been treated?'}</Label>
+                <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi
-                  content={'Your certifier may ask for documentation describing any treatments. '}
-                />
+                <Infoi content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <div>
-              <Radio label={'Yes'} hookFormRegister={treatedRegister} value={true} />
-            </div>
-            <div>
-              <Radio label={'No'} hookFormRegister={treatedRegister} value={false} />
-            </div>
-            <div>
-              <Radio label={'Not sure'} hookFormRegister={treatedRegister} value={'null'} />
-            </div>
+            <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />
           </div>
         )}
       </div>
       <div>
-        {organic === 'true' && (
+        {organic === true && (
           <div>
             <div>
               <div style={{ marginBottom: '16px' }}>
-                <Label style={labelStyle}>{'Have the seeds for this crop been treated?'}</Label>
+                <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi
-                  content={'Your certifier may ask for documentation describing any treatments. '}
-                />
+                <Infoi content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <div>
-              <Radio label={'Yes'} hookFormRegister={treatedRegister} value={true} />
-            </div>
-            <div>
-              <Radio label={'No'} hookFormRegister={treatedRegister} value={false} />
-            </div>
-            <div>
-              <Radio label={'Not sure'} hookFormRegister={treatedRegister} value={'null'} />
-            </div>
+            <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />
           </div>
         )}
       </div>
@@ -165,7 +138,7 @@ export default function ComplianceInfo({
         }}
         onClick={() => {}}
       >
-        + <Underlined>{'Link to a compliance file'}</Underlined>
+        <AddLink>{t('CROP.ADD_COMPLIANCE_FILE')}</AddLink>
       </div>
       <div>
         <Info
@@ -174,7 +147,7 @@ export default function ComplianceInfo({
             lineHeight: '16px',
           }}
         >
-          {'You can upload files at a later time as well'}
+          {t('CROP.UPLOAD_LATER')}
         </Info>
       </div>
     </Form>
@@ -182,7 +155,11 @@ export default function ComplianceInfo({
 }
 
 ComplianceInfo.prototype = {
-  onClick: PropTypes.func,
-  text: PropTypes.string,
-  showSpotLight: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  onError: PropTypes.func,
+  onGoBack: PropTypes.func,
+  onCancel: PropTypes.func,
+  persistedFormData: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  match: PropTypes.object,
 };

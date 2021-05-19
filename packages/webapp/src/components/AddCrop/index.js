@@ -2,31 +2,59 @@ import Button from '../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Underlined, Label } from '../Typography';
+import { Label } from '../Typography';
 import Input from '../Form/Input';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
 import ProgressBar from '../../components/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
+import { useForm } from 'react-hook-form';
 
 export default function PureAddCrop({
   history,
-  cropEnum,
-  disabled,
-  onContinue,
-  varietyRegister,
-  supplierRegister,
-  seedTypeRegister,
-  lifeCycleRegister,
-  imageKey,
+  match,
+  onSubmit,
+  onError,
+  useHookFormPersist,
   isSeekingCert,
+  persistedFormData,
+  crop,
+  imageUploader,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    shouldUnregister: true,
+    defaultValues: { crop_variety_photo_url: crop.crop_photo_url, ...persistedFormData },
+  });
+  const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`];
+
+  useHookFormPersist(persistedPath, getValues);
+
+  const VARIETY = 'crop_variety_name';
+  const SUPPLIER = 'supplier';
+  const SEED_TYPE = 'seeding_type';
+  const LIFE_CYCLE = 'lifecycle';
+  const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
+
+  const disabled = !isValid;
+
+  const varietyRegister = register(VARIETY, { required: true });
+  const supplierRegister = register(SUPPLIER, { required: true });
+  const seedTypeRegister = register(SEED_TYPE, { required: true });
+  const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
+  const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
+
+  const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
 
   const progress = 33;
-
-  const cropTraslationKey = imageKey.toUpperCase();
   return (
     <Form
       buttonGroup={
@@ -34,12 +62,12 @@ export default function PureAddCrop({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={onContinue}
+      onSubmit={handleSubmit(onSubmit, onError)}
     >
       <PageTitle
         onGoBack={() => history.push(`/crop_catalogue`)}
         onCancel={() => history.push(`/crop_catalogue`)}
-        title={'Add a crop'}
+        title={t('CROP.ADD_CROP')}
       />
       <div
         style={{
@@ -49,10 +77,10 @@ export default function PureAddCrop({
       >
         <ProgressBar value={progress} />
       </div>
-      <div className={styles.cropLabel}>{t(`crop:${cropTraslationKey}`)}</div>
+      <div className={styles.cropLabel}>{t(`crop:${crop.crop_translation_key}`)}</div>
       <img
-        src={`crop-images/${imageKey}.jpg`}
-        alt={imageKey}
+        src={crop_variety_photo_url}
+        alt={crop.crop_common_name}
         className={styles.circleImg}
         onError={(e) => {
           e.target.onerror = null;
@@ -72,9 +100,11 @@ export default function PureAddCrop({
           lineHeight: '16px',
           cursor: 'pointer',
         }}
-        onClick={() => {}}
       >
-        + <Underlined>{'Add Custom Image'}</Underlined>
+        {React.cloneElement(imageUploader, {
+          hookFormRegister: imageUrlRegister,
+          uploadDirectory: 'crop_variety/',
+        })}
       </div>
 
       <Input
@@ -104,23 +134,17 @@ export default function PureAddCrop({
               display: 'inline-block',
             }}
           >
-            {'Will you plant as a seed or seedling?'}
+            {t('CROP.SEED_OR_SEEDLING')}
           </Label>
         </div>
         <div>
-          <Radio
-            label="Seed"
-            value={'seed'}
-            hookFormRegister={seedTypeRegister}
-            name={cropEnum.seed_type}
-          />
+          <Radio label={t('CROP.SEED')} value={'SEED'} hookFormRegister={seedTypeRegister} />
         </div>
         <div>
           <Radio
-            label="Seedling or planting stock"
-            value={'seedling'}
+            label={t('CROP.SEEDLING_OR_PLANTING_STOCK')}
+            value={'SEEDLING_OR_PLANTING_STOCK'}
             hookFormRegister={seedTypeRegister}
-            name={cropEnum.seed_type}
           />
         </div>
       </div>
@@ -135,23 +159,17 @@ export default function PureAddCrop({
               display: 'inline-block',
             }}
           >
-            {'Is the crop an annual or perennial?'}
+            {t('CROP.ANNUAL_OR_PERENNIAL')}
           </Label>
         </div>
         <div>
-          <Radio
-            label="Annual"
-            value={'ANNUAL'}
-            hookFormRegister={lifeCycleRegister}
-            name={cropEnum.life_cycle}
-          />
+          <Radio label={t('CROP.ANNUAL')} value={'ANNUAL'} hookFormRegister={lifeCycleRegister} />
         </div>
         <div>
           <Radio
-            label="Perennial"
+            label={t('CROP.PERENNIAL')}
             value={'PERENNIAL'}
             hookFormRegister={lifeCycleRegister}
-            name={cropEnum.life_cycle}
           />
         </div>
       </div>
@@ -160,7 +178,13 @@ export default function PureAddCrop({
 }
 
 PureAddCrop.prototype = {
-  onClick: PropTypes.func,
-  text: PropTypes.string,
-  showSpotLight: PropTypes.bool,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  onSubmit: PropTypes.func,
+  onError: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  isSeekingCert: PropTypes.bool,
+  persistedFormData: PropTypes.object,
+  crop: PropTypes.object,
+  imageUploader: PropTypes.node,
 };

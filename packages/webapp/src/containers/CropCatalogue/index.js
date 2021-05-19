@@ -20,6 +20,7 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import CropCatalogSpotLightModal from '../../components/Modals/CropCatalogSpotLightModal';
@@ -63,6 +64,10 @@ export default function CropCatalogue({ history }) {
 
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
+
+  useEffect(() => {
+    dispatch(resetAndUnLockFormData());
+  }, []);
 
   return (
     <Layout>

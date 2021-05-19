@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   container: {
-    marginBottom: '30px',
+    marginBottom: '32px',
     display: 'inline-flex',
     flexFlow: 'row wrap',
     justifyContent: 'flex-start',

@@ -87,7 +87,7 @@
     "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOG": "Crop Catalog",
-    "CROP_CATALOGUE": "Crop Catalogue",
+    "CROP_CATALOGUE": "Crop catalogue",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
@@ -1088,7 +1088,7 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "Crop Catalogue",
+    "CROP_CATALOGUE": "Crop catalogue",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",

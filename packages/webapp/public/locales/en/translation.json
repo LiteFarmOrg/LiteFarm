@@ -116,7 +116,8 @@
     "SEED_SEEDLING": "Will you plant as a seed or seedling?",
     "SEEDLING": "Seedling",
     "TREATED": "Have the seeds for this crop been treated?",
-    "ORGANIC_COMPLIANCE": "Organic Compliance"
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
+    "EDIT_CROP_DETAIL": "Edit crop details"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

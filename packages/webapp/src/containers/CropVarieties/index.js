@@ -23,6 +23,7 @@ import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../
 import { isAdminSelector } from '../userFarmSlice';
 import useStringFilteredCrops from '../CropCatalogue/useStringFilteredCrops';
 import useSortByVarietyName from './useSortByVarietyName';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -76,6 +77,10 @@ export default function CropVarieties({ history, match }) {
   const goToVarietyDetails = (varietyId) => {
     history.push(`/crop/${varietyId}/detail`);
   };
+
+  useEffect(() => {
+    dispatch(resetAndUnLockFormData());
+  }, []);
 
   return (
     <Layout>

@@ -1,10 +1,10 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import { loginSelector } from '../../containers/userFarmSlice';
+import { loginSelector } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
-import { axios, getHeader } from '../../containers/saga';
+import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { postCropVarietySuccess } from '../../containers/cropVarietySlice';
+import { postCropVarietySuccess } from '../cropVarietySlice';
 import history from '../../history';
 
 export const postVarietal = createAction(`postVarietalSaga`);
@@ -18,6 +18,7 @@ export function* postVarietalSaga({ payload: varietal }) {
     const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
     history.push(`/crop_catalogue`);
+    toastr.success('Successfully saved varietal!');
   } catch (e) {
     //TODO remove toastr messages
     if (e.response.data.violationError) {

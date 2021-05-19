@@ -120,14 +120,23 @@
     "NEEDS_PLAN": "Needs Plan"
   },
   "CROP": {
+    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
+    "IS_ORGANIC": "Is the crop certified organic?",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "Your certifier may ask for documentation supporting your search.",
+    "NEED_DOCUMENT_TREATED": "Your certifier may ask for documentation describing any treatments.",
     "PERENNIAL": "Perennial",
+    "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "SEED": "Seed",
     "SEED_OR_SEEDLING": "Will you plant as a seed or seedling?",
-    "SEEDLING_OR_PLANTING_STOCK": "Seedling or planting stock"
+    "SEEDLING_OR_PLANTING_STOCK": "Seedling or planting stock",
+    "TREATED": "Have the seeds for this crop been treated?",
+    "UPLOAD_LATER": "You can upload files at a later time as well"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",

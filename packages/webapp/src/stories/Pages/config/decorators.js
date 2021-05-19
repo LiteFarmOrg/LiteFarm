@@ -136,7 +136,9 @@ export const decoratorsWithStore = [
         <ThemeProvider theme={theme}>
           <>
             <CssBaseline />
-            <Router history={history}>{story()}</Router>
+            <Router history={history}>
+              <div style={{ padding: '3rem' }}>{story()}</div>
+            </Router>
           </>
         </ThemeProvider>
       </Provider>

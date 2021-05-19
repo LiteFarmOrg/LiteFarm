@@ -27,7 +27,13 @@ export default function PureFieldCropTile({
   children,
 }) {
   const { t } = useTranslation();
-  const { crop_variety_name, crop_translation_key, start_date, end_date } = fieldCrop;
+  const {
+    crop_variety_name,
+    crop_translation_key,
+    start_date,
+    end_date,
+    crop_variety_photo_url,
+  } = fieldCrop;
   let displayDate;
   const date = new Date(start_date);
   if (isPast(status)) {
@@ -49,7 +55,7 @@ export default function PureFieldCropTile({
       className={className}
       onClick={onClick}
       style={style}
-      src={`crop-images/${imageKey}.jpg`}
+      src={crop_variety_photo_url}
       alt={imageKey}
       title={crop_variety_name}
       isPastVariety={isPast(status)}

@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input from '../Form/Input';
+import Input, { integerOnKeyDown } from '../Form/Input';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -146,7 +146,8 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         type={'number'}
-        hookFormRegister={register(PHONE, { pattern: /\d*/ })}
+        onKeyDown={integerOnKeyDown}
+        hookFormRegister={register(PHONE)}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
       />

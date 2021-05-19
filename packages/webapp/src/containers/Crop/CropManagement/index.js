@@ -17,7 +17,8 @@ function CropManagement({ history, match }) {
         variety={selectedVariety}
         match={match}
         crop={selectedCrop}
-        onBack={goBack} />
+        onBack={goBack}
+      />
     </>
   );
 }

@@ -204,6 +204,7 @@ const EditWatercourseForm = React.lazy(() =>
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
+const ComplianceInfo = React.lazy(() => import('./containers/AddCrop/ComplianceInfo'));
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -290,9 +291,14 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
             <Route path="/crop/:variety_id/detail" component={CropDetail} />
             <Route path="/crop/:variety_id/management" component={CropManagement} />
-            <Route path="/crop_add" exact component={AddCrop} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 
@@ -532,6 +538,12 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

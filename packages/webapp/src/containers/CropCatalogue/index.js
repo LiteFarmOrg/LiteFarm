@@ -152,6 +152,9 @@ export default function CropCatalogue({ history }) {
                         alt={imageKey}
                         style={{ width: cardWidth }}
                         isCropTemplate
+                        onClick={() => {
+                          history.push(`/crop/${crop.crop_id}/add_crop_variety`);
+                        }}
                       />
                     );
                   })}

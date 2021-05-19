@@ -205,6 +205,8 @@ const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
 const ComplianceInfo = React.lazy(() => import('./containers/AddCrop/ComplianceInfo'));
+const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
+
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -291,6 +293,7 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"

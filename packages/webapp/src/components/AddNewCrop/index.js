@@ -36,22 +36,21 @@ import {
 import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';
 
-export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
+export default function PureAddNewCrop({
+  handleContinue,
+  handleGoBack,
+  handleCancel,
+  hookFormMethods,
+}) {
   const { t } = useTranslation();
-  const methods = useForm({
-    mode: 'onChange',
-  });
+
   const {
     register,
     handleSubmit,
     setValue,
     control,
-    formState: { errors },
-  } = methods;
-  const { isValid } = useFormState({ control });
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+    formState: { isValid, errors },
+  } = hookFormMethods;
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [
@@ -77,14 +76,14 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
   };
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...hookFormMethods}>
       <Form
         buttonGroup={
           <Button type={'submit'} disabled={disabled} fullLength>
             {t('common:CONTINUE')}
           </Button>
         }
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleContinue)}
       >
         <PageTitle
           onGoBack={handleGoBack}
@@ -103,8 +102,7 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
         <Input
           style={{ marginBottom: '40px' }}
           label={'New Crop Name'} //TODO: i18n
-          // hookFormRegister={register}
-          {...register('crop_common_name', { required: true })}
+          hookFormRegister={register('crop_common_name', { required: true })}
         />
 
         <Controller
@@ -121,7 +119,6 @@ export default function PureAddNewCrop({ handleGoBack, handleCancel }) {
               }}
               value={value}
               style={{ marginBottom: '40px' }}
-              // {...register("cropGroup", { required: true })}
             />
           )}
         />

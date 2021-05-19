@@ -7,6 +7,7 @@ import { saveNewVarietal } from '../cropVarietySlice';
 import { postVarietal } from './saga';
 import useHookFormPersist from '../hooks/useHookFormPersist';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function AddCropForm({ history, match }) {
   const dispatch = useDispatch();
@@ -42,8 +43,20 @@ function AddCropForm({ history, match }) {
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
 
   const crop_id = match.params.crop_id;
-  const crop = useSelector(cropSelector(crop_id));
-  const imageKey = crop.crop_translation_key.toLowerCase();
+  const isNewCrop = crop_id === 'new';
+  const newCropInfo = useSelector(hookFormPersistSelector);
+  const existingCropInfo = useSelector(cropSelector(crop_id));
+
+  // useEffect(() => {
+  //   if (isNewCrop) {
+
+  //   }
+  // }, [isNewCrop, newCropInfo]);
+
+  console.log('newCropInfo', newCropInfo);
+  console.log('existingCropInfo', existingCropInfo);
+  const crop = isNewCrop ? newCropInfo : existingCropInfo;
+  // console.log(crop);
 
   const persistedPath = [`/crop/${crop_id}/add_crop_variety/compliance`];
 
@@ -63,6 +76,7 @@ function AddCropForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
+    // ***** if new crop, then call second endpoint
     let newVarietal = {};
     newVarietal.crop_id = Number(crop_id);
     newVarietal.crop_variety_name = data.crop_variety_name;
@@ -81,19 +95,20 @@ function AddCropForm({ history, match }) {
   return (
     <>
       <PureAddCrop
-        history={history}
         disabled={disabled}
         onContinue={
           interested ? handleSubmit(onContinue, onError) : handleSubmit(onSubmit, onError)
         }
         cropEnum={cropEnum}
-        imageKey={imageKey}
+        cropTranslationKey={crop?.crop_translation_key}
         isSeekingCert={interested}
-        cropName={crop.crop_common_name}
+        cropName={crop?.crop_common_name} // *******
         varietyRegister={varietyRegister}
         supplierRegister={supplierRegister}
         seedTypeRegister={seedTypeRegister}
         lifeCycleRegister={lifeCycleRegister}
+        handleGoBack={() => history.push(isNewCrop ? `/crop/new` : `/crop_catalogue`)}
+        handleCancel={() => history.push(`/crop_catalogue`)}
       />
     </>
   );

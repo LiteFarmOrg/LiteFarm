@@ -11,7 +11,6 @@ import Radio from '../Form/Radio';
 import Form from '../Form';
 
 export default function PureAddCrop({
-  history,
   cropEnum,
   disabled,
   onContinue,
@@ -19,14 +18,18 @@ export default function PureAddCrop({
   supplierRegister,
   seedTypeRegister,
   lifeCycleRegister,
-  imageKey,
+  cropTranslationKey,
   isSeekingCert,
+  cropName,
+  handleGoBack,
+  handleCancel,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
   const progress = 33;
 
-  const cropTraslationKey = imageKey.toUpperCase();
+  const imageKey = cropTranslationKey?.toLowerCase();
+  const cropNameLabel = cropTranslationKey ? t(`crop:${cropTranslationKey}`) : cropName;
   return (
     <Form
       buttonGroup={
@@ -36,11 +39,7 @@ export default function PureAddCrop({
       }
       onSubmit={onContinue}
     >
-      <PageTitle
-        onGoBack={() => history.push(`/crop_catalogue`)}
-        onCancel={() => history.push(`/crop_catalogue`)}
-        title={'Add a crop'}
-      />
+      <PageTitle onGoBack={handleGoBack} onCancel={handleCancel} title={'Add a crop'} />
       <div
         style={{
           marginBottom: '24px',
@@ -49,7 +48,7 @@ export default function PureAddCrop({
       >
         <ProgressBar value={progress} />
       </div>
-      <div className={styles.cropLabel}>{t(`crop:${cropTraslationKey}`)}</div>
+      <div className={styles.cropLabel}>{cropNameLabel}</div>
       <img
         src={`crop-images/${imageKey}.jpg`}
         alt={imageKey}

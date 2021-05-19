@@ -162,7 +162,9 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
+            <AddLink onClick={() => history.push('/crop/new')}>
+              {t('CROP_CATALOGUE.ADD_CROP')}
+            </AddLink>
           </>
         )}
 

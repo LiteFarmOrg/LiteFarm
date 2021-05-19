@@ -99,7 +99,7 @@ function PureCropDetail({
           </Button>
         </>
       )}
-      { isEditing && <Title style={{marginTop: '24px'}}>Edit crop details</Title>}
+      { isEditing && <Title style={{marginTop: '24px'}}>{ t('CROP_DETAIL.EDIT_CROP_DETAIL') }</Title>}
       <Main className={styles.labelToRadioDistance} >
         {t('CROP_DETAIL.SEED_SEEDLING')}
       </Main>

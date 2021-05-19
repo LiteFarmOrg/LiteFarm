@@ -63,7 +63,7 @@ const cropController = {
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
         const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
-        const newVariety = await baseController.postWithResponse(cropVarietyModel, { crop_id: crop.crop_id, ...variety }, req, { trx });
+        const newVariety = await baseController.postWithResponse(cropVarietyModel, { crop_id: newCrop.crop_id, ...variety }, req, { trx });
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {

@@ -3,8 +3,9 @@ import ComplianceInfo from '../../components/AddCrop/ComplianceInfo';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { newVarietalSelector, deleteVarietal } from '../cropVarietySlice';
-import { postVarietal } from './saga';
+import { postVarietal, postCropAndVarietal } from './saga';
 import { bool } from 'prop-types';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function ComplianceInfoForm({ history, match }) {
   const dispatch = useDispatch();
@@ -47,6 +48,8 @@ function ComplianceInfoForm({ history, match }) {
   const prevPage = useSelector(newVarietalSelector);
 
   const crop_id = match.params.crop_id;
+  const isNewCrop = crop_id === 'new';
+  const newCropInfo = useSelector(hookFormPersistSelector);
 
   const onError = (err) => {
     console.log(err);
@@ -54,7 +57,6 @@ function ComplianceInfoForm({ history, match }) {
 
   const onSubmit = (data) => {
     let newVarietal = {};
-    newVarietal.crop_id = Number(crop_id);
     newVarietal.crop_variety_name = prevPage.crop_variety_name;
     newVarietal.supplier = prevPage.supplier;
     newVarietal.seed_type = prevPage.seed_type;
@@ -65,9 +67,13 @@ function ComplianceInfoForm({ history, match }) {
     newVarietal.genetically_engineered =
       data.genetically_engineered !== undefined ? data.genetically_engineered === 'true' : null;
     newVarietal.searched = data.searched !== undefined ? data.searched === 'true' : null;
-    console.log(newVarietal);
-    dispatch(postVarietal(newVarietal));
-    history.push(`/crop_catalogue`);
+    if (isNewCrop) {
+      dispatch(postCropAndVarietal({ crop: newCropInfo, variety: newVarietal }));
+    } else {
+      newVarietal.crop_id = Number(crop_id);
+      dispatch(postVarietal(newVarietal));
+    }
+    // history.push(`/crop_catalogue`);
   };
 
   const onGoBack = () => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { useForm } from 'react-hook-form';
 import { saveNewVarietal } from '../cropVarietySlice';
-import { postVarietal } from './saga';
+import { postCropAndVarietal, postVarietal } from './saga';
 import useHookFormPersist from '../hooks/useHookFormPersist';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -47,16 +47,7 @@ function AddCropForm({ history, match }) {
   const newCropInfo = useSelector(hookFormPersistSelector);
   const existingCropInfo = useSelector(cropSelector(crop_id));
 
-  // useEffect(() => {
-  //   if (isNewCrop) {
-
-  //   }
-  // }, [isNewCrop, newCropInfo]);
-
-  console.log('newCropInfo', newCropInfo);
-  console.log('existingCropInfo', existingCropInfo);
   const crop = isNewCrop ? newCropInfo : existingCropInfo;
-  // console.log(crop);
 
   const persistedPath = [`/crop/${crop_id}/add_crop_variety/compliance`];
 
@@ -76,9 +67,7 @@ function AddCropForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    // ***** if new crop, then call second endpoint
     let newVarietal = {};
-    newVarietal.crop_id = Number(crop_id);
     newVarietal.crop_variety_name = data.crop_variety_name;
     newVarietal.supplier = data.supplier;
     newVarietal.seed_type = data.seed_type;
@@ -88,7 +77,12 @@ function AddCropForm({ history, match }) {
     newVarietal.treated = null;
     newVarietal.genetically_engineered = null;
     newVarietal.searched = null;
-    dispatch(postVarietal(newVarietal));
+    if (isNewCrop) {
+      dispatch(postCropAndVarietal({ crop, variety: newVarietal }));
+    } else {
+      newVarietal.crop_id = Number(crop_id);
+      dispatch(postVarietal(newVarietal));
+    }
     history.push(`/crop_catalogue`);
   };
 

@@ -66,7 +66,6 @@ export function* postCropAndVarietalSaga({ payload: { crop, variety } }) {
     },
     farm_id,
   };
-  console.log('postCropAndVarietalSaga data', data);
   try {
     const result = yield call(axios.post, `${cropURL}/crop_variety`, data, header);
     // yield put(postCropVarietySuccess(result.data));

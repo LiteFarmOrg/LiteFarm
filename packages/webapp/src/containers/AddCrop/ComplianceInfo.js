@@ -73,7 +73,7 @@ function ComplianceInfoForm({ history, match }) {
       newVarietal.crop_id = Number(crop_id);
       dispatch(postVarietal(newVarietal));
     }
-    // history.push(`/crop_catalogue`);
+    history.push(`/crop_catalogue`);
   };
 
   const onGoBack = () => {

@@ -32,7 +32,7 @@ export default function PureAddCrop({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { ...persistedFormData, crop_variety_photo_url: crop.crop_photo_url },
+    defaultValues: { crop_variety_photo_url: crop.crop_photo_url, ...persistedFormData },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`];
 

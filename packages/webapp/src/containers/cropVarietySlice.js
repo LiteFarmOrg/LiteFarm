@@ -104,7 +104,7 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-const cropVarietyByID = (variety_id) => (state) =>
+export const cropVarietyByID = (variety_id) => (state) =>
   cropVarietySelectors.selectById(state, variety_id);
 
 export const cropVarietySelector = (crop_variety_id) =>

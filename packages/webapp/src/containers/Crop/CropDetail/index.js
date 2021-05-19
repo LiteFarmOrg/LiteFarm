@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux';
 import PureCropDetail from '../../../components/Crop/detail';
-import { cropVarietySelector } from '../../cropVarietySlice';
+import { cropVarietyByID, cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
 function CropDetail({ history, match }) {
   const selectedCrop = useSelector(cropVarietySelector(match.params.variety_id));
+  const selectedVariety = useSelector(cropVarietyByID(match.params.variety_id));
+
   const { interested } = useSelector(certifierSurveySelector);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -23,6 +25,7 @@ function CropDetail({ history, match }) {
         history={history}
         match={match}
         crop={selectedCrop}
+        variety={selectedVariety}
         isEditing={isEditing}
         isInterestedInOrganic={interested}
         setIsEditing={setIsEditing}

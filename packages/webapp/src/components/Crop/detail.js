@@ -6,16 +6,18 @@ import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
 import { ReactComponent as Expense } from '../../assets/images/fieldCrops/expense.svg';
 import { ReactComponent as Document } from '../../assets/images/fieldCrops/Document.svg';
-import { Main } from '../Typography';
+import { Main, Title } from '../Typography';
 import Radio from '../Form/Radio';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../Form/RadioGroup';
 import Form from '../Form';
+import styles from './styles.module.scss';
 
 function PureCropDetail({
   history,
   match,
   crop,
+  variety,
   isEditing,
   setIsEditing,
   submitForm,
@@ -29,7 +31,7 @@ function PureCropDetail({
     watch,
     control,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' });
+  } = useForm({ mode: 'onChange', defaultValues: variety });
   const SEEDING_TYPE = 'seeding_type';
   const SUPPLIER = 'supplier';
   const LIFECYCLE = 'lifecycle';
@@ -96,67 +98,65 @@ function PureCropDetail({
           </Button>
         </>
       )}
-
-      <Main style={{ marginBottom: '18px', marginTop: '14px' }}>
+      { isEditing && <Title style={{marginTop: '24px'}}>Edit crop details</Title>}
+      <Main className={styles.labelToRadioDistance} >
         {t('CROP_DETAIL.SEED_SEEDLING')}
       </Main>
       <Radio
         disabled={!isEditing}
         value={'SEED'}
         hookFormRegister={register(SEEDING_TYPE, { required: true })}
-        style={{ marginBottom: '24px' }}
+        className={styles.innerRadioDistance}
         label={t('CROP_DETAIL.SEED')}
       />
       <Radio
         disabled={!isEditing}
         value={'SEEDLING_OR_PLANTING_STOCK'}
         hookFormRegister={register(SEEDING_TYPE, { required: true })}
-        style={{ marginBottom: '24px' }}
+        className={styles.radioToLabelDistance}
         label={t('CROP_DETAIL.SEEDLING')}
       />
 
-      <Main style={{ marginBottom: '18px' }}>{t('CROP_DETAIL.ANNUAL_PERENNIAL')}</Main>
+      <Main className={styles.labelToRadioDistance}>{t('CROP_DETAIL.ANNUAL_PERENNIAL')}</Main>
       <Radio
         disabled={!isEditing}
         value={'ANNUAL'}
         hookFormRegister={register(LIFECYCLE, { required: true })}
-        style={{ marginBottom: '16px' }}
+        className={styles.innerRadioDistance}
         label={t('CROP_DETAIL.ANNUAL')}
       />
       <Radio
         disabled={!isEditing}
         value={'PERENNIAL'}
         hookFormRegister={register(LIFECYCLE, { required: true })}
-        style={{ marginBottom: '34px' }}
+        className={styles.radioToLabelDistance}
         label={t('CROP_DETAIL.PERENNIAL')}
       />
 
-      <Main style={{ marginBottom: '18px' }}>
-        {t('CROP_DETAIL.ORGANIC')}
-        <Leaf style={{ marginLeft: '14px' }} />
-      </Main>
-      <RadioGroup disabled={!isEditing} required={true} hookFormControl={control} name={ORGANIC} />
-      {!isOrganic && isInterestedInOrganic && (
+      { isInterestedInOrganic && (
         <>
-          <Main style={{ marginBottom: '18px' }}>{t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}</Main>
-          <RadioGroup disabled={!isEditing} hookFormControl={control} name={SEARCHED} />
-          <Main style={{ marginBottom: '18px' }}>
-            {t('CROP_DETAIL.GENETICALLY_ENGINEERED')}
+        <Main className={styles.labelToRadioDistance}>
+          {t('CROP_DETAIL.ORGANIC')}
+          <Leaf style={{ marginLeft: '14px' }} />
+        </Main>
+        <RadioGroup disabled={!isEditing} required={true} hookFormControl={control} name={ORGANIC} />
+        {!isOrganic && (
+          <>
+            <Main className={styles.labelToRadioDistance}>{t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}</Main>
+            <RadioGroup disabled={!isEditing} hookFormControl={control} name={SEARCHED} />
+            <Main className={styles.labelToRadioDistance}>{t('CROP_DETAIL.GENETICALLY_ENGINEERED')}
+              <Leaf style={{ marginLeft: '14px' }} />
+            </Main>
+            <RadioGroup disabled={!isEditing} hookFormControl={control} name={GENETICALLY_ENGINEERED}/>
+          </>
+      )}
+          <Main className={styles.labelToRadioDistance}>
+            {t('CROP_DETAIL.TREATED')}
             <Leaf style={{ marginLeft: '14px' }} />
           </Main>
-          <RadioGroup
-            disabled={!isEditing}
-            hookFormControl={control}
-            name={GENETICALLY_ENGINEERED}
-          />
+          <RadioGroup disabled={!isEditing} hookFormControl={control} name={TREATED} showNotSure />
         </>
       )}
-
-      <Main style={{ marginBottom: '18px' }}>
-        {t('CROP_DETAIL.TREATED')}
-        <Leaf style={{ marginLeft: '14px' }} />
-      </Main>
-      <RadioGroup disabled={!isEditing} hookFormControl={control} name={TREATED} showNotSure />
     </Form>
   );
 }

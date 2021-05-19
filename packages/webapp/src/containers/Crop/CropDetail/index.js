@@ -1,21 +1,21 @@
-import { useSelector } from "react-redux";
-import PureCropDetail from "../../../components/Crop/detail";
-import { cropVarietyByID, cropVarietySelector } from "../../cropVarietySlice";
-import { useEffect, useState } from "react";
-import { certifierSurveySelector } from "../../OrganicCertifierSurvey/slice";
+import { useSelector } from 'react-redux';
+import PureCropDetail from '../../../components/Crop/detail';
+import { cropVarietyByID, cropVarietySelector } from '../../cropVarietySlice';
+import { useEffect, useState } from 'react';
+import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
-function CropDetail ({ history, match }) {
+function CropDetail({ history, match }) {
   const selectedCrop = useSelector(cropVarietySelector(match.params.variety_id));
-  const {interested} = useSelector(certifierSurveySelector);
+  const { interested } = useSelector(certifierSurveySelector);
   const [isEditing, setIsEditing] = useState(false);
 
   const submitForm = (data) => {
     setIsEditing(false);
-  }
+  };
 
   const goBack = () => {
-    history.push(`/crop_varieties/crop/${selectedCrop.crop_id}`)
-  }
+    history.push(`/crop_varieties/crop/${selectedCrop.crop_id}`);
+  };
 
   return (
     <>
@@ -30,7 +30,7 @@ function CropDetail ({ history, match }) {
         onBack={goBack}
       />
     </>
-  )
+  );
 }
 
-export default CropDetail
+export default CropDetail;

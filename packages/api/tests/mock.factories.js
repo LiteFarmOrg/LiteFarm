@@ -335,6 +335,7 @@ function fakeCrop() {
     user_added: faker.random.boolean(),
     deleted: false,
     nutrient_credits: faker.random.number(10),
+    crop_photo_url: faker.internet.url(),
   };
 }
 

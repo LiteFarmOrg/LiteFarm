@@ -18,6 +18,7 @@ const getCropVariety = (obj) => {
     'treated',
     'genetically_engineered',
     'searched',
+    'crop_variety_photo_url',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {
@@ -103,7 +104,7 @@ export const cropVarietiesSelector = createSelector(
   },
 );
 
-export const cropVarietyByID = (variety_id) => (state) =>
+const cropVarietyByID = (variety_id) => (state) =>
   cropVarietySelectors.selectById(state, variety_id);
 
 export const cropVarietySelector = (crop_variety_id) =>

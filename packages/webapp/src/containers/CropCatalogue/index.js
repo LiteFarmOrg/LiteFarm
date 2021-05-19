@@ -20,8 +20,16 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import CropCatalogSpotLightModal from '../../components/Modals/CropCatalogSpotLightModal';
+import { setSpotlightToShown } from '../Map/saga';
 
 export default function CropCatalogue({ history }) {
+  const { crop_catalog } = useSelector(showedSpotlightSelector);
+  const [showCropCatalogSpotlightModal, setShowCropCatalogSpotlightModal] = useState(false);
+
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -41,6 +49,9 @@ export default function CropCatalogue({ history }) {
   useEffect(() => {
     dispatch(getCropVarieties());
     dispatch(getCrops());
+    if (!crop_catalog) {
+      setShowCropCatalogSpotlightModal(true);
+    }
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -53,6 +64,10 @@ export default function CropCatalogue({ history }) {
 
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
+
+  useEffect(() => {
+    dispatch(resetAndUnLockFormData());
+  }, []);
 
   return (
     <Layout>
@@ -78,13 +93,13 @@ export default function CropCatalogue({ history }) {
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key } = cropVariety;
+                const { crop_translation_key, crop_variety_photo_url } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (
                   <PureCropTile
                     key={crop_translation_key}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
@@ -100,6 +115,7 @@ export default function CropCatalogue({ history }) {
                   past,
                   needsPlan,
                   imageKey,
+                  crop_photo_url,
                 } = cropCatalog;
                 return (
                   <PureCropTile
@@ -111,7 +127,7 @@ export default function CropCatalogue({ history }) {
                     }}
                     needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
@@ -137,10 +153,13 @@ export default function CropCatalogue({ history }) {
                       <PureCropTile
                         key={crop.crop_id}
                         title={t(`crop:${crop_translation_key}`)}
-                        src={`crop-images/${imageKey}.jpg`}
+                        src={crop.crop_photo_url}
                         alt={imageKey}
                         style={{ width: cardWidth }}
                         isCropTemplate
+                        onClick={() => {
+                          history.push(`/crop/${crop.crop_id}/add_crop_variety`);
+                        }}
                       />
                     );
                   })}
@@ -150,6 +169,15 @@ export default function CropCatalogue({ history }) {
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
             <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
           </>
+        )}
+
+        {showCropCatalogSpotlightModal && (
+          <CropCatalogSpotLightModal
+            dismissModal={() => {
+              setShowCropCatalogSpotlightModal(false);
+              dispatch(setSpotlightToShown('crop_catalog'));
+            }}
+          />
         )}
       </div>
     </Layout>

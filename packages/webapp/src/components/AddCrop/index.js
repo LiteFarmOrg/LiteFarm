@@ -59,7 +59,7 @@ export default function PureAddCrop({
     <Form
       buttonGroup={
         <Button disabled={disabled} fullLength>
-          {t('common:CONTINUE')}
+          {isSeekingCert ? t('common:CONTINUE') : t('common:SAVE')}
         </Button>
       }
       onSubmit={handleSubmit(onSubmit, onError)}

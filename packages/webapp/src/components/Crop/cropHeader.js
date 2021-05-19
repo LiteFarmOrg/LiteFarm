@@ -1,11 +1,17 @@
 import React from 'react';
-import { Label, Title, Text } from '../Typography';
+import { Label, Text, Title } from '../Typography';
 import { ReactComponent as Back } from '../../assets/images/fieldCrops/back.svg';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-function CropHeader({ crop_translation_key, crop_variety_name, supplierName, onBackClick }) {
+
+function CropHeader({
+  crop_translation_key,
+  crop_variety_name,
+  supplierName,
+  crop_variety_photo_url,
+  onBackClick,
+}) {
   const { t } = useTranslation(['translation', 'crop']);
-  const imageKey = crop_translation_key.toLowerCase();
 
   return (
     <div className={styles.headerContainer}>
@@ -28,7 +34,7 @@ function CropHeader({ crop_translation_key, crop_variety_name, supplierName, onB
         </Label>
       </div>
       <div className={styles.imgContainer}>
-        <img src={`crop-images/${imageKey}.jpg`} style={{ borderRadius: '100px' }} />
+        <img src={crop_variety_photo_url} style={{ borderRadius: '100px' }} />
       </div>
     </div>
   );

@@ -50,7 +50,6 @@ function AddCropForm({ history, match }) {
         crop={crop}
         imageUploader={
           <ImagePickerWrapper>
-            {' '}
             <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }

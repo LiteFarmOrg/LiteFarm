@@ -1,7 +1,7 @@
 import React from 'react';
 import ComplianceInfo from '../../components/AddCrop/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
-import { postVarietal } from './saga';
+import { postVarietal, postCropAndVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../hooks/useHookFormPersist';
 
@@ -10,19 +10,24 @@ function ComplianceInfoForm({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const crop_id = match.params.crop_id;
+  const isNewCrop = crop_id === 'new';
+  const newCropInfo = useSelector(hookFormPersistSelector);
 
   const onError = (err) => {
     console.log(err);
   };
 
   const onSubmit = (data) => {
-    const newVarietal = {
+    const cropData = {
       ...persistedFormData,
       ...data,
-      crop_id: Number(crop_id),
       compliance_file_url: '',
     };
-    dispatch(postVarietal(newVarietal));
+    if (isNewCrop) {
+      dispatch(postCropAndVarietal(cropData));
+    } else {
+      dispatch(postVarietal({ ...cropData, crop_id: Number(crop_id) }));
+    }
   };
 
   const onGoBack = () => {

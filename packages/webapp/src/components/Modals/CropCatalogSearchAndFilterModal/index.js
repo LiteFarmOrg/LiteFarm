@@ -4,15 +4,18 @@ import React from 'react';
 import { Label } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 
-export default function CropCatalogSearchAndFilterModal() {
+export default function CropCatalogSearchAndFilterModal({ dismissModal }) {
   const { t } = useTranslation();
 
   return (
     <ModalComponent
+      dismissModal={dismissModal}
       title={"Let's Begin"}
       buttonGroup={
         <>
-          <Button sm>Let's Begin</Button>
+          <Button onClick={dismissModal} sm>
+            Got it!
+          </Button>
         </>
       }
     >

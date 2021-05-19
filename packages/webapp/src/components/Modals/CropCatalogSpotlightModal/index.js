@@ -4,7 +4,7 @@ import React from 'react';
 import { Label } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 
-export default function CropCatalogSpotLightModal({ dismissModal }) {
+export default function CropCatalogSpotlightModal({ dismissModal }) {
   const { t } = useTranslation();
 
   return (
@@ -13,7 +13,9 @@ export default function CropCatalogSpotLightModal({ dismissModal }) {
       title={'Crop Catalog'}
       buttonGroup={
         <>
-          <Button sm>Next</Button>
+          <Button onClick={dismissModal} sm>
+            Next
+          </Button>
         </>
       }
     >

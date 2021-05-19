@@ -22,12 +22,16 @@ import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
 
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
-import CropCatalogSpotLightModal from '../../components/Modals/CropCatalogSpotLightModal';
+import CropCatalogSpotlightModal from '../../components/Modals/CropCatalogSpotlightModal';
 import { setSpotlightToShown } from '../Map/saga';
+import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
 
 export default function CropCatalogue({ history }) {
   const { crop_catalog } = useSelector(showedSpotlightSelector);
   const [showCropCatalogSpotlightModal, setShowCropCatalogSpotlightModal] = useState(false);
+  const [showCropCatalogSearchAndFilterModal, setShowCropCatalogSearchAndFilterModal] = useState(
+    false,
+  );
 
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
@@ -163,9 +167,18 @@ export default function CropCatalogue({ history }) {
         )}
 
         {showCropCatalogSpotlightModal && (
-          <CropCatalogSpotLightModal
+          <CropCatalogSpotlightModal
             dismissModal={() => {
               setShowCropCatalogSpotlightModal(false);
+              setShowCropCatalogSearchAndFilterModal(true);
+            }}
+          />
+        )}
+
+        {showCropCatalogSearchAndFilterModal && (
+          <CropCatalogSearchAndFilterModal
+            dismissModal={() => {
+              setShowCropCatalogSearchAndFilterModal(false);
               dispatch(setSpotlightToShown('crop_catalog'));
             }}
           />

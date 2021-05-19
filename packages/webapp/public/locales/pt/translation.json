@@ -122,6 +122,25 @@
     "CROP_VARIETIES": "MISSING",
     "NEEDS_PLAN": "MISSING"
   },
+  "CROP": {
+    "ADD_COMPLIANCE_FILE": "MISSING",
+    "ADD_CROP": "MISSING",
+    "ADD_IMAGE": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_OR_PERENNIAL": "MISSING",
+    "IS_GENETICALLY_ENGINEERED": "MISSING",
+    "IS_ORGANIC": "MISSING",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "MISSING",
+    "NEED_DOCUMENT_TREATED": "MISSING",
+    "PERENNIAL": "MISSING",
+    "PERFORM_SEARCH": "MISSING",
+    "SEED": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
+    "TREATED": "MISSING",
+    "UPLOAD_LATER": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",

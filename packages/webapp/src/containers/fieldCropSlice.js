@@ -162,7 +162,10 @@ export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
     for (const fieldCrop of fieldCrops) {
       cropIds.add(fieldCrop.crop_id);
     }
-    return cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id));
+    return getUniqueEntities(
+      cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id)),
+      'crop_id',
+    );
   },
 );
 
@@ -237,7 +240,7 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
 
 export const fieldCropByCropIdSelector = (crop_id) =>
   createSelector([fieldCropsSelector], (fieldCrops) => {
-    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id.toString() === crop_id);
+    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id === crop_id);
   });
 
 export const currentFieldCropByCropIdSelector = (crop_id) =>

@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/management';
-import { cropVarietyByID, cropVarietySelector } from '../../cropVarietySlice';
-import { useEffect, useState } from 'react';
+import { cropVarietySelector } from '../../cropVarietySlice';
 
 function CropManagement({ history, match }) {
   const selectedCrop = useSelector(cropVarietySelector(match.params.variety_id));

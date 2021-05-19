@@ -46,7 +46,6 @@ function AddCropForm({ history, match }) {
   return (
     <>
       <PureAddCrop
-        history={history}
         match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}

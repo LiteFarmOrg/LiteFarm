@@ -12,7 +12,6 @@ import Form from '../Form';
 import { useForm } from 'react-hook-form';
 
 export default function PureAddCrop({
-  history,
   match,
   onSubmit,
   onError,
@@ -34,7 +33,12 @@ export default function PureAddCrop({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { crop_variety_photo_url: crop.crop_photo_url, ...persistedFormData },
+    defaultValues: {
+      crop_variety_photo_url:
+        crop.crop_photo_url ||
+        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
+      ...persistedFormData,
+    },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`];
 

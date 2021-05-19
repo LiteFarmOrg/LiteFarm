@@ -32,22 +32,40 @@ export function* postVarietalSaga({ payload: varietal }) {
 }
 
 export const postCropAndVarietal = createAction(`postCropAndVarietalSaga`);
-export function* postCropAndVarietalSaga({ payload: { crop, variety } }) {
+export function* postCropAndVarietalSaga({ payload: cropData }) {
   const { cropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const varietyKeys = Object.keys(variety);
-  let newCrop = Object.keys(crop).reduce((acc, curr) => {
+  const varietyKeys = [
+    'compliance_file_url',
+    'crop_variety_name',
+    'crop_variety_photo_url',
+    'genetically_engineered',
+    'lifecycle',
+    'organic',
+    'searched',
+    'seeding_type',
+    'supplier',
+    'treated',
+  ];
+  const variety = Object.keys(cropData).reduce((acc, curr) => {
+    if (varietyKeys.includes(curr)) {
+      acc[curr] = cropData[curr];
+      return acc;
+    }
+    return acc;
+  }, {});
+  const crop = Object.keys(cropData).reduce((acc, curr) => {
     if (varietyKeys.includes(curr)) {
       return acc;
     }
-    acc[curr] = crop[curr];
+    acc[curr] = cropData[curr];
     return acc;
   }, {});
-  newCrop.crop_group = newCrop.crop_group.value;
+  crop.crop_group = crop.crop_group.value;
   const data = {
     crop: {
-      ...newCrop,
+      ...crop,
       farm_id,
     },
     variety: {
@@ -59,6 +77,7 @@ export function* postCropAndVarietalSaga({ payload: { crop, variety } }) {
   try {
     const result = yield call(axios.post, `${cropURL}/crop_variety`, data, header);
     // yield put(postCropVarietySuccess(result.data));
+    history.push(`/crop_catalogue`);
     toastr.success('Successfully saved varietal!');
   } catch (e) {
     if (e.response.data.violationError) {

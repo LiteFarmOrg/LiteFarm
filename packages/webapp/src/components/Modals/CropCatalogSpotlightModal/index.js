@@ -14,7 +14,7 @@ export default function CropCatalogSpotlightModal({ dismissModal }) {
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>
-            {t('CROP_CATALOGUE.NEXT')}
+            {t('common:NEXT')}
           </Button>
         </>
       }

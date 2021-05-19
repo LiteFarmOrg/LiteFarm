@@ -1,14 +1,14 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import CropCatalogSearchAndFilterModalModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
+import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
 
 export default {
   title: 'Components/Modals/CropCatalogSearchAndFilterModal',
   decorators: componentDecorators,
-  component: CropCatalogSearchAndFilterModalModal,
+  component: CropCatalogSearchAndFilterModal,
 };
 
-const Template = (args) => <CropCatalogSearchAndFilterModalModal {...args} />;
+const Template = (args) => <CropCatalogSearchAndFilterModal {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {

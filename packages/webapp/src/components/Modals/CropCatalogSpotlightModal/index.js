@@ -4,13 +4,13 @@ import React from 'react';
 import { Label } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 
-export default function CropCatalogSpotLightModal({ dismissModal }) {
+export default function CropCatalogSpotlightModal({ dismissModal }) {
   const { t } = useTranslation();
 
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={'Crop Catalog'}
+      title={t('CROP_CATALOGUE.CROP_CATALOG')}
       buttonGroup={
         <>
           <Button onClick={dismissModal} sm>

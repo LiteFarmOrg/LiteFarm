@@ -1,15 +1,14 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import CropCatalogSpotLightModal from '../../components/Modals/CropCatalogSpotLightModal';
+import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
 
 export default {
-  title: 'Components/Modals/CropCatalogSpotLightModal',
+  title: 'Components/Modals/CropCatalogSearchAndFilterModal',
   decorators: componentDecorators,
-  component: CropCatalogSpotLightModal,
+  component: CropCatalogSearchAndFilterModal,
 };
 
-const Template = (args) => <CropCatalogSpotLightModal {...args} />;
-
+const Template = (args) => <CropCatalogSearchAndFilterModal {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {

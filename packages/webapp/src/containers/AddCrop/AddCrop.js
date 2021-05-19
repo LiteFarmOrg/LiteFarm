@@ -27,15 +27,17 @@ function AddCropForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
+    console.log(data);
     const cropData = {
       ...data,
-      crop_id: Number(crop_id),
+      ...persistedFormData,
       compliance_file_url: '',
       organic: null,
       treated: null,
       genetically_engineered: null,
       searched: null,
     };
+    console.log(cropData);
     if (isNewCrop) {
       dispatch(postCropAndVarietal(cropData));
     } else {

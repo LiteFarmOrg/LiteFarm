@@ -62,7 +62,7 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
             >
               <ListItemText
                 classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.CROP_CATALOGUE')}
+                primary={t('SLIDE_MENU.CROPS')}
               />
             </ListItem>
             <ListItem

@@ -53,7 +53,7 @@ export default function PureCropTile({
 
       {needsPlan && (
         <div className={styles.cropCountContainer}>
-          <Square color={'needsPlan'} isCropTile />
+          <Square color={'needsPlan'} isCropTile style={{ borderBottomLeftRadius: '4px' }} />
         </div>
       )}
 

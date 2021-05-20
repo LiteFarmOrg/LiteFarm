@@ -86,7 +86,7 @@ export default function CropCatalogue({ history }) {
       </MuiFullPagePopup>
 
       <div ref={containerRef}>
-        {!!sum && (
+        {!!(sum + cropVarietiesWithoutManagementPlan.length) && (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
@@ -146,7 +146,7 @@ export default function CropCatalogue({ history }) {
             {!!crops?.length && (
               <>
                 <PageBreak
-                  style={{ paddingBottom: '22px' }}
+                  style={{ paddingBottom: '16px' }}
                   label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
                 />
                 <PureCropTileContainer gap={gap} padding={padding}>

@@ -96,10 +96,8 @@
       "SUPPLIERS": "MISSING",
       "TITLE": "MISSING"
     },
-    "GOT_IT": "MISSING",
     "HERE_YOU_CAN": "MISSING",
     "LETS_BEGIN": "MISSING",
-    "NEXT": "MISSING",
     "ON_YOUR_FARM": "MISSING",
     "SELECT_A_CROP": "MISSING",
     "FILTER_TITLE": "MISSING"
@@ -111,6 +109,7 @@
     "COMMERCIAL_AVAILABILITY": "MISSING",
     "COMPLIANCE_DOC": "MISSING",
     "DETAIL_TAB": "MISSING",
+    "EDIT_CROP_DETAIL": "MISSING",
     "EXPENSE_RECORD": "MISSING",
     "GENETICALLY_ENGINEERED": "MISSING",
     "MANAGEMENT_PLANS": "MISSING",
@@ -1087,7 +1086,7 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
-    "CROP_CATALOGUE": "MISSING",
+    "CROPS": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

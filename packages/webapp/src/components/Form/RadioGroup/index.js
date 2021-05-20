@@ -16,7 +16,6 @@ export default function RadioGroup({
   shouldUnregister = true,
   showNotSure = false,
   radios,
-  defaultValue,
   row = false,
   ...props
 }) {
@@ -133,7 +132,6 @@ RadioGroup.propTypes = {
   shouldUnregister: PropTypes.bool,
   required: PropTypes.bool,
   showNotSure: PropTypes.bool,
-  defaultValue: PropTypes.bool,
   radios: PropTypes.arrayOf(
     PropTypes.shape({
       style: PropTypes.object,

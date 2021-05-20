@@ -23,7 +23,6 @@ function PureCropDetail({
   onBack,
   isInterestedInOrganic,
 }) {
-  variety.searched = false;
   const { t } = useTranslation();
   const {
     register,

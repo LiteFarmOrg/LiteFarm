@@ -3,11 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   container: {
-    marginBottom: '30px',
+    marginBottom: '32px',
     display: 'inline-flex',
     flexFlow: 'row wrap',
     justifyContent: 'flex-start',
-    gap: '24px',
+    columnGap: '24px',
+    rowGap: '16px',
   },
 });
 //TODO storybook

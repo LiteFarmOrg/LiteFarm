@@ -59,7 +59,7 @@ const cropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { crop , variety } = req.body;
+        const { crop, variety } = req.body;
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
         const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
@@ -177,7 +177,7 @@ const cropController = {
 
   async get(farm_id) {
     //TODO fix user added flag
-    return await cropModel.query().whereNotDeleted().where('user_added', false).orWhere({ farm_id, deleted: false });
+    return await cropModel.query().whereNotDeleted().where('reviewed', true).orWhere({ farm_id, deleted: false });
   },
 
   async del(req, trx) {

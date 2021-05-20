@@ -1,0 +1,19 @@
+name: 'Chromatic'
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/webapp
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: npm install
+      - name: Publish to Chromatic
+        run: npm run chromatic-local
+

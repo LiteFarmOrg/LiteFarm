@@ -72,7 +72,7 @@
     "lint": "eslint src",
     "i18n": "npx i18next 'src/**/*.js'",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
-    "chromatic-local": "./node_modules/.bin/chromatic --project-token gb9nrdyzl8b",
+    "chromatic-local": "./node_modules/.bin/chromatic --project-token 594bdec1c518",
     "format": "npx prettier --write ./src",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",

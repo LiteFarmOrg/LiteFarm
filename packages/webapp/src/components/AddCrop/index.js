@@ -53,7 +53,7 @@ export default function PureAddCrop({
   const disabled = !isValid;
 
   const varietyRegister = register(VARIETY, { required: true });
-  const supplierRegister = register(SUPPLIER, { required: true });
+  const supplierRegister = register(SUPPLIER, { required: isSeekingCert? true : false });
   const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
@@ -156,7 +156,7 @@ export default function PureAddCrop({
       </div>
 
       <div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginTop: '16px', marginBottom: '20px' }}>
           <Label
             style={{
               paddingRight: '10px',

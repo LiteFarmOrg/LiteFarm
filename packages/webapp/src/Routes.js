@@ -175,8 +175,8 @@ const EditCeremonialForm = React.lazy(() =>
 const PostGreenhouseForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
-const PureCropManagement = React.lazy(() => import('./components/Crop/management'))
-const PureCropDetail = React.lazy(() => import('./components/Crop/detail'))
+const CropManagement = React.lazy(() => import('./containers/Crop/CropManagement'));
+const CropDetail = React.lazy(() => import('./containers/Crop/CropDetail/index'));
 
 const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
 const PostFenceForm = React.lazy(() =>
@@ -202,8 +202,11 @@ const EditWatercourseForm = React.lazy(() =>
 );
 
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
-const CropVarieties = React.lazy(() => import('./containers/CropVatieties'));
+const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
+const ComplianceInfo = React.lazy(() => import('./containers/AddCrop/ComplianceInfo'));
+const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
+
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -290,9 +293,15 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/crop/:crop_id/detail" component={PureCropDetail}/>
-            <Route path="/crop/:crop_id/management" component={PureCropManagement}/>
-            <Route path="/crop_add" exact component={AddCrop}/>
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
+            <Route path="/crop/:variety_id/detail" component={CropDetail} />
+            <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 
@@ -477,6 +486,8 @@ const Routes = () => {
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
+            <Route path="/crop/:variety_id/detail" component={CropDetail} />
+            <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route
               path="/natural_area/:location_id/details"
               exact
@@ -530,6 +541,13 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

@@ -29,7 +29,6 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
-
     formState: { errors },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';

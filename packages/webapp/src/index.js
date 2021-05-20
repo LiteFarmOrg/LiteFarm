@@ -15,6 +15,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore } from '@reduxjs/toolkit';
@@ -49,6 +51,7 @@ import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
 import financeSaga from './containers/Finances/saga';
 import cropSaga from './components/Forms/NewCropModal/saga';
+import varietalSaga from './containers/AddCrop/saga';
 import insightSaga from './containers/Insights/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
@@ -81,6 +84,17 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const languages = ['en', 'es', 'pt'];
+if (process.env.REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -137,6 +151,7 @@ sagaMiddleware.run(pestControlSaga);
 sagaMiddleware.run(shiftSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(cropSaga);
+sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);

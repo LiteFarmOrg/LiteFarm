@@ -8,7 +8,7 @@ export default {
   decorators: componentDecorators,
 };
 
-const Template = (args) => <PureCropDetail {...args} />
+const Template = (args) => <PureCropDetail {...args} />;
 
 export const Detail = Template.bind({});
 Detail.args = {
@@ -18,6 +18,6 @@ Detail.args = {
   crop: {
     cropName: 'Carrot',
     varietyName: 'Nantes',
-    supplierName: 'Buckerfields'
-  }
+    supplierName: 'Buckerfields',
+  },
 };

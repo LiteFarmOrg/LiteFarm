@@ -8,7 +8,7 @@ export default {
   decorators: componentDecorators,
 };
 
-const Template = (args) => <PureCropManagement {...args} />
+const Template = (args) => <PureCropManagement {...args} />;
 
 export const Management = Template.bind({});
 Management.args = {
@@ -18,7 +18,6 @@ Management.args = {
   crop: {
     cropName: 'Carrot',
     varietyName: 'Nantes',
-    supplierName: 'Buckerfields'
-  }
-
+    supplierName: 'Buckerfields',
+  },
 };

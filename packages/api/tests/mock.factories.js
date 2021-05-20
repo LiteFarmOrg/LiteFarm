@@ -335,6 +335,7 @@ function fakeCrop() {
     user_added: faker.random.boolean(),
     deleted: false,
     nutrient_credits: faker.random.number(10),
+    crop_photo_url: faker.internet.url(),
   };
 }
 
@@ -405,6 +406,36 @@ async function crop_varietyFactory({
 function fakeCropVariety() {
   return {
     crop_variety_name: faker.lorem.word(),
+    supplier: faker.lorem.word(),
+    seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
+    lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
+    compliance_file_url: faker.internet.url(),
+    organic: faker.random.boolean(),
+    treated: faker.random.boolean(),
+    genetically_engineered: faker.random.boolean(),
+    searched: faker.random.boolean(),
+    protein: faker.random.number(10),
+    lipid: faker.random.number(10),
+    energy: faker.random.number(10),
+    ca: faker.random.number(10),
+    fe: faker.random.number(10),
+    mg: faker.random.number(10),
+    ph: faker.random.number(10),
+    k: faker.random.number(10),
+    na: faker.random.number(10),
+    zn: faker.random.number(10),
+    cu: faker.random.number(10),
+    mn: faker.random.number(10),
+    vita_rae: faker.random.number(10),
+    vitc: faker.random.number(10),
+    thiamin: faker.random.number(10),
+    riboflavin: faker.random.number(10),
+    niacin: faker.random.number(10),
+    vitb6: faker.random.number(10),
+    folate: faker.random.number(10),
+    vitb12: faker.random.number(10),
+    nutrient_credits: faker.random.number(10),
+    crop_variety_photo_url: faker.internet.url(),
   };
 }
 

@@ -162,7 +162,10 @@ export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
     for (const fieldCrop of fieldCrops) {
       cropIds.add(fieldCrop.crop_id);
     }
-    return cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id));
+    return getUniqueEntities(
+      cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id)),
+      'crop_id',
+    );
   },
 );
 
@@ -237,7 +240,7 @@ export const locationsWithCurrentAndPlannedFieldCropSelector = createSelector(
 
 export const fieldCropByCropIdSelector = (crop_id) =>
   createSelector([fieldCropsSelector], (fieldCrops) => {
-    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id.toString() === crop_id);
+    return fieldCrops.filter((fieldCrop) => fieldCrop.crop_id === crop_id);
   });
 
 export const currentFieldCropByCropIdSelector = (crop_id) =>
@@ -261,4 +264,25 @@ export const expiredFieldCropByCropIdSelector = (crop_id) =>
 export const cropVarietiesWithoutManagementPlanByCropIdSelector = (crop_id) =>
   createSelector([cropVarietiesWithoutManagementPlanSelector], (cropVarieties) =>
     cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id),
+  );
+
+const getUniqueEntities = (entities, key) => {
+  const entitiesByKey = {};
+  for (const entity of entities) {
+    entitiesByKey[entity[key]] = entity;
+  }
+  return Object.values(entitiesByKey);
+};
+
+export const currentCropVarietiesByCropIdSelector = (crop_id) =>
+  createSelector([currentFieldCropByCropIdSelector(crop_id)], (fieldCrops) =>
+    getUniqueEntities(fieldCrops, 'crop_variety_id'),
+  );
+export const plannedCropVarietiesByCropIdSelector = (crop_id) =>
+  createSelector([plannedFieldCropByCropIdSelector(crop_id)], (fieldCrops) =>
+    getUniqueEntities(fieldCrops, 'crop_variety_id'),
+  );
+export const expiredCropVarietiesByCropIdSelector = (crop_id) =>
+  createSelector([expiredFieldCropByCropIdSelector(crop_id)], (fieldCrops) =>
+    getUniqueEntities(fieldCrops, 'crop_variety_id'),
   );

@@ -8,7 +8,15 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS } from '../Filter/CropCatalogue/constants';
+import {
+  ACTIVE,
+  COMPLETE,
+  LOCATION,
+  PLANNED,
+  STATUS,
+  SUPPLIERS,
+} from '../Filter/CropCatalogue/constants';
+import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {
   const fieldCrops = useSelector(fieldCropsSelector);
@@ -27,8 +35,16 @@ export default function useCropCatalogue(filterString) {
       included.has(fieldCrop.location_id),
     );
   }, [cropCatalogueFilter[LOCATION], fieldCropsFilteredByFilterString]);
-  //TODO: supplier useMemo
-  const fieldCropsFilteredBySuppliers = fieldCropsFilteredByLocations;
+
+  const fieldCropsFilteredBySuppliers = useMemo(() => {
+    const supplierFilter = cropCatalogueFilter[SUPPLIERS];
+    const included = new Set();
+    for (const supplier in supplierFilter) {
+      if (supplierFilter[supplier]) included.add(supplier);
+    }
+    if (included.size === 0) return fieldCropsFilteredByLocations;
+    return fieldCropsFilteredByLocations.filter((fieldCrop) => included.has(fieldCrop.supplier));
+  }, [cropCatalogueFilter[SUPPLIERS], fieldCropsFilteredByLocations]);
 
   const cropCatalogue = useMemo(() => {
     const time = new Date(cropCatalogFilterDate).getTime();
@@ -49,6 +65,7 @@ export default function useCropCatalogue(filterString) {
             crop_translation_key: fieldCrop.crop_translation_key,
             imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
             crop_id: fieldCrop.crop_id,
+            crop_photo_url: fieldCrop.crop_photo_url,
           };
         }
 
@@ -88,7 +105,25 @@ export default function useCropCatalogue(filterString) {
       sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
     };
   }, [cropCatalogueFilteredByStatus]);
-
-  const sortedCropCatalogue = cropCatalogueFilteredByStatus;
-  return { cropCatalogue: cropCatalogueFilteredByStatus, ...cropCataloguesStatus };
+  const { t } = useTranslation();
+  const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
+  const sortedCropCatalogue = useMemo(() => {
+    return cropCatalogueFilteredByStatus.sort((catalog_i, catalog_j) => {
+      if (onlyOneOfTwoNumberIsZero(catalog_i.active.length, catalog_j.active.length)) {
+        return catalog_j.active.length - catalog_i.active.length;
+      } else if (
+        onlyOneOfTwoNumberIsZero(catalog_i.planned.length, catalog_j.planned.length) &&
+        catalog_j.active.length === 0 &&
+        catalog_i.active.length === 0
+      ) {
+        return catalog_j.planned.length - catalog_i.planned.length;
+      } else {
+        return t(`crop:${catalog_i.crop_translation_key}`) >
+          t(`crop:${catalog_j.crop_translation_key}`)
+          ? 1
+          : -1;
+      }
+    });
+  }, [cropCatalogueFilteredByStatus]);
+  return { cropCatalogue: sortedCropCatalogue, ...cropCataloguesStatus };
 }

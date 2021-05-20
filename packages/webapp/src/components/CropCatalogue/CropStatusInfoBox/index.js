@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Card from '../../Card';
 import { useTranslation } from 'react-i18next';
 import Square from '../../Square';
-import NativeDatePickerWrapper from '../../NativeDatePicker/NativeDatePickerWrapper';
+import NativeDatePickerWrapper from '../../Form/NativeDatePicker/NativeDatePickerWrapper';
 import moment from 'moment';
 import { getDateInputFormat } from '../../LocationDetailLayout/utils';
 import { getLanguageFromLocalStorage } from '../../../util';

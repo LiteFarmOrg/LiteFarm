@@ -1,4 +1,5 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/addon-docs/blocks'; import DocCard
+  from './DocCard'; import { Text } from '../../components/Typography';
 
 <Meta title="Docs/bugs" />
 
@@ -60,3 +61,11 @@ export default [
 
 - Add field garden greenhouse page -> transition date
 - accept invitation and create account page -> name
+
+### When input field is type number and is optional, hookform convert empty string to NaN
+
+[github issue](https://github.com/react-hook-form/react-hook-form/issues/3963)
+
+<DocCard>
+  <Text>This is intended behavior. NaN will be converted to null when it's a number or 0 when it is in jsonb, </Text>
+</DocCard>

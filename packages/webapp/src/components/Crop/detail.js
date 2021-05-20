@@ -1,6 +1,6 @@
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -142,7 +142,7 @@ function PureCropDetail({
             hookFormControl={control}
             name={ORGANIC}
           />
-          {!isOrganic && (
+          {!variety?.organic && (
             <>
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}

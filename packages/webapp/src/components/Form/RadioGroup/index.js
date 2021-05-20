@@ -39,7 +39,7 @@ export default function RadioGroup({
                 <Radio
                   label={t('common:YES')}
                   name={name}
-                  checked={defaultValue === true || field.value === true}
+                  checked={field.value === true}
                   onChange={(e) => {
                     field?.onChange?.(true);
                     onChange?.({ target: { value: true } });
@@ -55,7 +55,7 @@ export default function RadioGroup({
                 <Radio
                   label={t('common:NO')}
                   name={name}
-                  checked={defaultValue === false || field.value === false}
+                  checked={field.value === false}
                   onChange={(e) => {
                     field?.onChange?.(false);
                     onChange?.({ target: { value: false } });
@@ -72,7 +72,7 @@ export default function RadioGroup({
                   <Radio
                     label={t('common:NOT_SURE')}
                     name={name}
-                    checked={defaultValue === null || field.value === null}
+                    checked={field.value === null}
                     onChange={(e) => {
                       field?.onChange?.(null);
                       onChange?.({ target: { value: null } });

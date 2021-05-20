@@ -71,7 +71,7 @@ export default function PureAddNewCrop({
   const updatePAValues = (selected) => {
     const cropGroupAverages = allCropGroupAverages[selected.value];
     for (const nutrient of NUTRIENT_ARRAY) {
-      setValue(nutrient, cropGroupAverages[nutrient]);
+      setValue(nutrient, cropGroupAverages[nutrient].toFixed(2));
     }
   };
 

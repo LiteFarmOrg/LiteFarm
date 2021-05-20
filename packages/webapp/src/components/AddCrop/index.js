@@ -12,7 +12,6 @@ import Form from '../Form';
 import { useForm } from 'react-hook-form';
 
 export default function PureAddCrop({
-  history,
   match,
   onSubmit,
   onError,
@@ -21,6 +20,8 @@ export default function PureAddCrop({
   persistedFormData,
   crop,
   imageUploader,
+  handleGoBack,
+  handleCancel,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const {
@@ -32,7 +33,12 @@ export default function PureAddCrop({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { crop_variety_photo_url: crop.crop_photo_url, ...persistedFormData },
+    defaultValues: {
+      crop_variety_photo_url:
+        crop.crop_photo_url ||
+        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
+      ...persistedFormData,
+    },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`];
 
@@ -47,28 +53,28 @@ export default function PureAddCrop({
   const disabled = !isValid;
 
   const varietyRegister = register(VARIETY, { required: true });
-  const supplierRegister = register(SUPPLIER, { required: true });
+  const supplierRegister = register(SUPPLIER, { required: isSeekingCert? true : false });
   const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
 
   const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
+  const cropTranslationKey = crop.crop_translation_key;
+  const cropNameLabel = cropTranslationKey
+    ? t(`crop:${cropTranslationKey}`)
+    : crop.crop_common_name;
 
   const progress = 33;
   return (
     <Form
       buttonGroup={
         <Button disabled={disabled} fullLength>
-          {t('common:CONTINUE')}
+          {isSeekingCert ? t('common:CONTINUE') : t('common:SAVE')}
         </Button>
       }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle
-        onGoBack={() => history.push(`/crop_catalogue`)}
-        onCancel={() => history.push(`/crop_catalogue`)}
-        title={t('CROP.ADD_CROP')}
-      />
+      <PageTitle onGoBack={handleGoBack} onCancel={handleCancel} title={t('CROP.ADD_CROP')} />
       <div
         style={{
           marginBottom: '24px',
@@ -77,7 +83,7 @@ export default function PureAddCrop({
       >
         <ProgressBar value={progress} />
       </div>
-      <div className={styles.cropLabel}>{t(`crop:${crop.crop_translation_key}`)}</div>
+      <div className={styles.cropLabel}>{cropNameLabel}</div>
       <img
         src={crop_variety_photo_url}
         alt={crop.crop_common_name}
@@ -150,7 +156,7 @@ export default function PureAddCrop({
       </div>
 
       <div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginTop: '16px', marginBottom: '20px' }}>
           <Label
             style={{
               paddingRight: '10px',

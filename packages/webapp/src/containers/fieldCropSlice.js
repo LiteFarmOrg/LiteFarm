@@ -162,7 +162,10 @@ export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
     for (const fieldCrop of fieldCrops) {
       cropIds.add(fieldCrop.crop_id);
     }
-    return cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id));
+    return getUniqueEntities(
+      cropVarieties.filter((cropVariety) => !cropIds.has(cropVariety.crop_id)),
+      'crop_id',
+    );
   },
 );
 

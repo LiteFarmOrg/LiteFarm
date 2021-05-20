@@ -86,6 +86,7 @@
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
+    "CROP_CATALOG": "Crop Catalog",
     "CROP_CATALOGUE": "Crop Catalogue",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
@@ -95,8 +96,11 @@
       "SUPPLIERS": "Suppliers",
       "TITLE": "Crop Catalogue Filter"
     },
+    "GOT_IT": "Got it!",
     "HERE_YOU_CAN": "Here you can:",
+    "LETS_BEGIN": "Let's begin",
     "ON_YOUR_FARM": "On your farm",
+    "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_DETAIL": {
@@ -116,7 +120,8 @@
     "SEED_SEEDLING": "Will you plant as a seed or seedling?",
     "SEEDLING": "Seedling",
     "TREATED": "Have the seeds for this crop been treated?",
-    "ORGANIC_COMPLIANCE": "Organic Compliance"
+    "ORGANIC_COMPLIANCE": "Organic Compliance",
+    "EDIT_CROP_DETAIL": "Edit crop details"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",

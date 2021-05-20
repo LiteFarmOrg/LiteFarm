@@ -24,6 +24,7 @@ router.get('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['get:c
 // get all crop INCLUDING crops farm added
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:crops']), cropController.getAllCrop());
 router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:crops']), cropController.addCropWithFarmID());
+router.post('/crop_variety', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:crops']), cropController.addCropAndVarietyWithFarmId())
 router.put('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['edit:crops']), cropController.updateCrop());
 // only user added crop can be deleted
 router.delete('/:crop_id', hasFarmAccess({ params: 'crop_id' }), checkScope(['delete:crops']), cropController.delCrop());

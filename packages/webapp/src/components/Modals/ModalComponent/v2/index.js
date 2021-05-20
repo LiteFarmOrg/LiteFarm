@@ -14,9 +14,10 @@ export default function ModalComponent({
   buttonGroup,
   children,
   warning,
+  backgroundDiv,
 }) {
   return (
-    <Modal dismissModal={dismissModal}>
+    <Modal dismissModal={dismissModal} backgroundDiv={backgroundDiv}>
       <div className={styles.container}>
         {!!title && (
           <Semibold

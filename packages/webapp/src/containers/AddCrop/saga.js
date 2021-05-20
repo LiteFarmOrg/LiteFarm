@@ -80,7 +80,6 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
     history.push(`/crop_catalogue`);
     toastr.success('Successfully saved varietal!');
   } catch (e) {
-    //TODO remove toastr messages
     if (e.response.data.violationError) {
       toastr.error('Error: Varietal exists');
       console.log('failed to add varietal to database');

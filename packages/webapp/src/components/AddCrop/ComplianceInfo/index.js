@@ -78,7 +78,12 @@ export default function ComplianceInfo({
           <img src={Leaf} style={{ display: 'inline-block' }} />
         </div>
       </div>
-      <RadioGroup hookFormControl={control} name={CERTIFIED_ORGANIC} required />
+      <RadioGroup
+        style={{ marginBottom: '16px' }}
+        hookFormControl={control}
+        name={CERTIFIED_ORGANIC}
+        required
+      />
       <div>
         {organic === false && (
           <div>
@@ -87,25 +92,43 @@ export default function ComplianceInfo({
                 <Label style={labelStyle}>
                   {t('CROP.PERFORM_SEARCH')}
                   {<img src={Leaf} style={{ marginLeft: '10px', display: 'inline-block' }} />}
-                  {<Infoi style={{ marginLeft:'8px'}} content={t('CROP.NEED_DOCUMENT_PERFORM_SEARCH')} />}
+                  {
+                    <Infoi
+                      style={{ marginLeft: '8px' }}
+                      content={t('CROP.NEED_DOCUMENT_PERFORM_SEARCH')}
+                    />
+                  }
                 </Label>
               </div>
             </div>
-            <RadioGroup hookFormControl={control} name={COMMERCIAL_AVAILABILITY} required />
+            <RadioGroup
+              style={{ marginBottom: '16px' }}
+              hookFormControl={control}
+              name={COMMERCIAL_AVAILABILITY}
+              required
+            />
             <div>
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.IS_GENETICALLY_ENGINEERED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi style={{ marginLeft:'8px'}} content={t('CROP.NEED_DOCUMENT_GENETICALLY_ENGINEERED')} />
+                <Infoi
+                  style={{ marginLeft: '8px' }}
+                  content={t('CROP.NEED_DOCUMENT_GENETICALLY_ENGINEERED')}
+                />
               </div>
             </div>
-            <RadioGroup hookFormControl={control} name={GENETIC_EGINEERED} required />
+            <RadioGroup
+              style={{ marginBottom: '16px' }}
+              hookFormControl={control}
+              name={GENETIC_EGINEERED}
+              required
+            />
 
             <div>
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi style={{ marginLeft:'8px'}} content={t('CROP.NEED_DOCUMENT_TREATED')} />
+                <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
             <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />
@@ -119,7 +142,7 @@ export default function ComplianceInfo({
               <div style={{ marginBottom: '16px' }}>
                 <Label style={labelStyle}>{t('CROP.TREATED')}</Label>
                 <img src={Leaf} style={{ display: 'inline-block' }} />
-                <Infoi style={{ marginLeft:'8px'}} content={t('CROP.NEED_DOCUMENT_TREATED')} />
+                <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
             <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />

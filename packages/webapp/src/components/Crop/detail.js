@@ -150,6 +150,7 @@ function PureCropDetail({
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}
               </Main>
+              <Leaf style={{ marginLeft: '14px' }} />
               <RadioGroup
                 disabled={!isEditing}
                 style={{ paddingBottom: '16px' }}

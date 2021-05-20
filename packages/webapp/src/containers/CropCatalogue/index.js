@@ -11,11 +11,15 @@ import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getCrops, getCropVarieties } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
-import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
+import {
+  cropCatalogueFilterDateSelector,
+  cropCatalogueFilterSelector,
+  setCropCatalogueFilterDate,
+} from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
@@ -26,6 +30,7 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import CropCatalogSpotlightModal from '../../components/Modals/CropCatalogSpotlightModal';
 import { setSpotlightToShown } from '../Map/saga';
 import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
+import { NEEDS_PLAN, STATUS } from '../Filter/CropCatalogue/constants';
 
 export default function CropCatalogue({ history }) {
   const { crop_catalog } = useSelector(showedSpotlightSelector);
@@ -49,6 +54,18 @@ export default function CropCatalogue({ history }) {
     useSortByCropTranslation(useSelector(cropsWithVarietyWithoutManagementPlanSelector)),
     filterString,
   );
+
+  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  const filteredCropVarietiesWithoutManagementPlan = useMemo(() => {
+    const statusFilter = cropCatalogueFilter[STATUS];
+    const included = new Set();
+    for (const status in statusFilter) {
+      if (statusFilter[status]) included.add(status);
+    }
+    if (included.size === 0 || statusFilter[NEEDS_PLAN]) return cropVarietiesWithoutManagementPlan;
+    return [];
+  }, [cropCatalogueFilter[STATUS], cropVarietiesWithoutManagementPlan]);
+
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
@@ -86,7 +103,7 @@ export default function CropCatalogue({ history }) {
       </MuiFullPagePopup>
 
       <div ref={containerRef}>
-        {!!(sum + cropVarietiesWithoutManagementPlan.length) && (
+        {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) && (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
@@ -96,7 +113,7 @@ export default function CropCatalogue({ history }) {
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
-              {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
+              {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
                 const { crop_translation_key, crop_variety_photo_url } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (

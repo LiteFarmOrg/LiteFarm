@@ -16,7 +16,6 @@ export default function RadioGroup({
   shouldUnregister = true,
   showNotSure = false,
   radios,
-  defaultValue,
   row = false,
   ...props
 }) {
@@ -39,7 +38,7 @@ export default function RadioGroup({
                 <Radio
                   label={t('common:YES')}
                   name={name}
-                  defaultChecked={defaultValue === true || field.value === true}
+                  checked={field.value === true}
                   onChange={(e) => {
                     field?.onChange?.(true);
                     onChange?.({ target: { value: true } });
@@ -55,7 +54,7 @@ export default function RadioGroup({
                 <Radio
                   label={t('common:NO')}
                   name={name}
-                  defaultChecked={defaultValue === false || field.value === false}
+                  checked={field.value === false}
                   onChange={(e) => {
                     field?.onChange?.(false);
                     onChange?.({ target: { value: false } });
@@ -72,6 +71,7 @@ export default function RadioGroup({
                   <Radio
                     label={t('common:NOT_SURE')}
                     name={name}
+                    checked={field.value === null}
                     onChange={(e) => {
                       field?.onChange?.(null);
                       onChange?.({ target: { value: null } });
@@ -132,7 +132,6 @@ RadioGroup.propTypes = {
   shouldUnregister: PropTypes.bool,
   required: PropTypes.bool,
   showNotSure: PropTypes.bool,
-  defaultValue: PropTypes.bool,
   radios: PropTypes.arrayOf(
     PropTypes.shape({
       style: PropTypes.object,

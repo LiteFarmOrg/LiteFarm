@@ -35,10 +35,16 @@ Primary.args = {
   ],
   filterRef: { current: {} },
 };
+Primary.parameters = {
+  chromatic: { disable: true },
+};
 
 export const Empty = Template.bind({});
 Empty.args = {
   subject: 'Status',
   items: [],
   filterRef: { current: {} },
+};
+Empty.parameters = {
+  chromatic: { disable: true },
 };

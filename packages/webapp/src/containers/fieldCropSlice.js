@@ -10,17 +10,16 @@ import { cropCatalogueFilterDateSelector } from './filterSlice';
 
 const getFieldCrop = (obj) => {
   return pick(obj, [
-    'field_crop_id',
+    'area_used',
+    'bed_config',
     'crop_variety_id',
+    'end_date',
+    'estimated_production',
+    'estimated_revenue',
+    'field_crop_id',
+    'is_by_bed',
     'location_id',
     'start_date',
-    'end_date',
-    'area_used',
-    'estimated_production',
-    'variety',
-    'estimated_revenue',
-    'is_by_bed',
-    'bed_config',
   ]);
 };
 
@@ -100,12 +99,15 @@ export const fieldCropsSelector = createSelector(
       (fieldCrop) => cropLocationEntities[fieldCrop.location_id]?.farm_id === farm_id,
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => {
-      const cropVariety = cropVarietyEntities[fieldCrop.crop_variety_id];
+      const crop_variety = cropVarietyEntities[fieldCrop.crop_variety_id];
+      const crop = cropEntities[crop_variety.crop_id];
       return {
-        ...cropEntities[cropVariety.crop_id],
-        ...cropVariety,
+        ...crop,
+        ...crop_variety,
         location: cropLocationEntities[fieldCrop.location_id],
         ...fieldCrop,
+        crop,
+        crop_variety,
       };
     });
   },

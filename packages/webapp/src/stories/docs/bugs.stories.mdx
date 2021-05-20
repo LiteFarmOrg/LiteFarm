@@ -69,3 +69,21 @@ export default [
 <DocCard>
   <Text>This is intended behavior. NaN will be converted to null when it's a number or 0 when it is in jsonb, </Text>
 </DocCard>
+
+### When hookform radio value is boolean, defaultChecked does not work on true radio button.
+
+### Hookform defaultValues need to be a copy of original object.
+
+```js
+  const {
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors, isValid },
+  } = useForm({ mode: 'onChange', defaultValues: {...defaultValuesPassedThroughProp} });
+```
+
+<DocCard>
+  <Text>If defaultValuesPassedThroughProp is passed to defaultValues directly, hookForm will try to delete
+    defaultValuesPassedThroughProp and through errors when defaultValuesPassedThroughProp is inmutable</Text>
+</DocCard>

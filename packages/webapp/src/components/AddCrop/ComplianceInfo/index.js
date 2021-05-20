@@ -31,7 +31,7 @@ export default function ComplianceInfo({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: persistedFormData,
+    defaultValues: { ...persistedFormData },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety`];
   useHookFormPersist(persistedPath, getValues);

@@ -11,7 +11,7 @@ import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getCrops, getCropVarieties } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
@@ -114,13 +114,13 @@ export default function CropCatalogue({ history }) {
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_variety_photo_url } = cropVariety;
+                const { crop_translation_key, crop_photo_url } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (
                   <PureCropTile
                     key={crop_translation_key}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={crop_variety_photo_url}
+                    src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}

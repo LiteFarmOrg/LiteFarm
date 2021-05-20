@@ -25,21 +25,18 @@ function PureCropDetail({
 }) {
   const { t } = useTranslation();
   const {
-    register,
     handleSubmit,
     watch,
     control,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange', defaultValues: variety });
+  } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
   const SEEDING_TYPE = 'seeding_type';
-  const SUPPLIER = 'supplier';
   const LIFECYCLE = 'lifecycle';
   const ORGANIC = 'organic';
   const TREATED = 'treated';
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const isOrganic = watch(ORGANIC);
-  const supplierName = watch(SUPPLIER, '');
 
   return (
     <Form
@@ -68,7 +65,7 @@ function PureCropDetail({
         crop_translation_key={crop.crop_translation_key}
         crop_variety_name={crop.crop_variety_name}
         crop_variety_photo_url={crop.crop_variety_photo_url}
-        supplierName={supplierName}
+        supplierName={variety.supplier}
       />
       {!isEditing && (
         <>

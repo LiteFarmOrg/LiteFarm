@@ -11,15 +11,11 @@ import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCrops, getCropVarieties } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
-import {
-  cropCatalogueFilterDateSelector,
-  cropCatalogueFilterSelector,
-  setCropCatalogueFilterDate,
-} from '../filterSlice';
+import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
@@ -30,7 +26,7 @@ import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import CropCatalogSpotlightModal from '../../components/Modals/CropCatalogSpotlightModal';
 import { setSpotlightToShown } from '../Map/saga';
 import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
-import { NEEDS_PLAN, STATUS } from '../Filter/CropCatalogue/constants';
+import useFilterNoPlan from './useFilterNoPlan';
 
 export default function CropCatalogue({ history }) {
   const { crop_catalog } = useSelector(showedSpotlightSelector);
@@ -55,16 +51,9 @@ export default function CropCatalogue({ history }) {
     filterString,
   );
 
-  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
-  const filteredCropVarietiesWithoutManagementPlan = useMemo(() => {
-    const statusFilter = cropCatalogueFilter[STATUS];
-    const included = new Set();
-    for (const status in statusFilter) {
-      if (statusFilter[status]) included.add(status);
-    }
-    if (included.size === 0 || statusFilter[NEEDS_PLAN]) return cropVarietiesWithoutManagementPlan;
-    return [];
-  }, [cropCatalogueFilter[STATUS], cropVarietiesWithoutManagementPlan]);
+  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(
+    cropVarietiesWithoutManagementPlan,
+  );
 
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {

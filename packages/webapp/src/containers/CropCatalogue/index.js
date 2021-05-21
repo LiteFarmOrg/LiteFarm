@@ -11,8 +11,8 @@ import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect, useState } from 'react';
-import { getCrops, getCropVarieties } from '../saga';
+import React, { useEffect, useState } from 'react';
+import { getCrops, getCropVarieties, getFieldCrops } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
@@ -21,20 +21,10 @@ import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-
-import { showedSpotlightSelector } from '../showedSpotlightSlice';
-import CropCatalogSpotlightModal from '../../components/Modals/CropCatalogSpotlightModal';
-import { setSpotlightToShown } from '../Map/saga';
-import CropCatalogSearchAndFilterModal from '../../components/Modals/CropCatalogSearchAndFilterModal';
 import useFilterNoPlan from './useFilterNoPlan';
+import CatalogSpotlight from './CatalogSpotlight';
 
 export default function CropCatalogue({ history }) {
-  const { crop_catalog } = useSelector(showedSpotlightSelector);
-  const [showCropCatalogSpotlightModal, setShowCropCatalogSpotlightModal] = useState(false);
-  const [showCropCatalogSearchAndFilterModal, setShowCropCatalogSearchAndFilterModal] = useState(
-    false,
-  );
-
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();
@@ -59,9 +49,7 @@ export default function CropCatalogue({ history }) {
   useEffect(() => {
     dispatch(getCropVarieties());
     dispatch(getCrops());
-    if (!crop_catalog) {
-      setShowCropCatalogSpotlightModal(true);
-    }
+    dispatch(getFieldCrops());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -80,13 +68,26 @@ export default function CropCatalogue({ history }) {
   }, []);
 
   return (
-    <Layout>
+    <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
-      <PureSearchbarAndFilter
-        onFilterOpen={onFilterOpen}
-        value={filterString}
-        onChange={filterStringOnChange}
-      />
+      <div style={{ position: 'relative' }}>
+        <PureSearchbarAndFilter
+          onFilterOpen={onFilterOpen}
+          value={filterString}
+          onChange={filterStringOnChange}
+        />
+        <div
+          id={'filter'}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: 0,
+            height: '48px',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <CropCatalogueFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
@@ -183,23 +184,7 @@ export default function CropCatalogue({ history }) {
           </>
         )}
 
-        {showCropCatalogSpotlightModal && (
-          <CropCatalogSpotlightModal
-            dismissModal={() => {
-              setShowCropCatalogSpotlightModal(false);
-              setShowCropCatalogSearchAndFilterModal(true);
-            }}
-          />
-        )}
-
-        {showCropCatalogSearchAndFilterModal && (
-          <CropCatalogSearchAndFilterModal
-            dismissModal={() => {
-              setShowCropCatalogSearchAndFilterModal(false);
-              dispatch(setSpotlightToShown('crop_catalog'));
-            }}
-          />
-        )}
+        <CatalogSpotlight />
       </div>
     </Layout>
   );

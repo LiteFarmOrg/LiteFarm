@@ -20,6 +20,7 @@ import Routes from './Routes.js';
 import './locales/i18n';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import ScrollToTop from './containers/hooks/ScrollToTop';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,6 +43,7 @@ function App() {
     <>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
         <NavBar history={history} />
+        <ScrollToTop />
         <div
           className="app"
           style={{

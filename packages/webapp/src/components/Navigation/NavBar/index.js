@@ -349,6 +349,7 @@ export default function PureNavBar({
           </div>
         </ClickAwayListener>
         {showSpotLight && (
+          //Deprecated
           <ReactJoyride
             steps={steps}
             continuous

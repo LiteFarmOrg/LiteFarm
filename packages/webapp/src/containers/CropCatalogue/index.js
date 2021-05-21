@@ -78,7 +78,13 @@ export default function CropCatalogue({ history }) {
         />
         <div
           id={'filter'}
-          style={{ position: 'absolute', width: '100%', top: 0, height: '48px' }}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: 0,
+            height: '48px',
+            pointerEvents: 'none',
+          }}
         />
       </div>
 

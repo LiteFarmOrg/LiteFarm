@@ -17,6 +17,8 @@ const SaleForm = ({
   quantityUnit,
   footerText,
   footerOnClick,
+  quantityAmount,
+  saleAmount,
 }) => {
   const { t } = useTranslation();
   return (
@@ -71,6 +73,8 @@ const SaleForm = ({
             quantityModel=".quantity_kg"
             valueModel=".value"
             unit={quantityUnit}
+            quantityAmount={quantityAmount}
+            saleAmount={saleAmount}
           />
         );
       })}

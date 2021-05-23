@@ -39,12 +39,6 @@ describe('Sale Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() =>{
-      done();
-    });
-  })
-
   function postSaleRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/sale`)
       .set('Content-Type', 'application/json')

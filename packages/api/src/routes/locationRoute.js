@@ -15,17 +15,22 @@
 
 const express = require('express');
 const router = express.Router();
-const { getLocationsByFarm, deleteLocation,
+const { getLocationsByFarm, deleteLocation, checkDeleteLocation,
   createLocation, updateLocation } = require('../controllers/locationController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const { modelMapping } = require('../middleware/validation/location');
+const validateLocationDependency = require('../middleware/validation/deleteLocation');
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']),
   getLocationsByFarm());
 
 router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
-  deleteLocation());
+  validateLocationDependency, deleteLocation());
+
+// TODO: to deprecate
+router.get('/check_delete/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
+  validateLocationDependency, checkDeleteLocation())
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],
@@ -37,8 +42,8 @@ router.post('/water_valve', hasFarmAccess({ body: 'farm_id' }), checkScope(['add
 router.post('/buffer_zone', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:buffer_zone']),
   modelMapping['buffer_zone'], createLocation('buffer_zone'));
 
-router.post('/creek', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:creek']),
-  modelMapping['creek'], createLocation('creek'));
+router.post('/watercourse', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:watercourse']),
+  modelMapping['watercourse'], createLocation('watercourse'));
 
 router.post('/fence', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fence']),
   modelMapping['fence'], createLocation('fence'));
@@ -89,8 +94,8 @@ router.put('/water_valve/:location_id', hasFarmAccess({ params: 'location_id' })
 router.put('/buffer_zone/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:buffer_zone']),
   modelMapping['buffer_zone'], updateLocation('buffer_zone'));
 
-router.put('/creek/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:creek']),
-  modelMapping['creek'], updateLocation('creek'));
+router.put('/watercourse/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:watercourse']),
+  modelMapping['watercourse'], updateLocation('watercourse'));
 
 router.put('/fence/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fence']),
   modelMapping['fence'], updateLocation('fence'));

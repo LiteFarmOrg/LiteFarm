@@ -36,11 +36,6 @@ describe('userFarm Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postUserFarmDataRequest( data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/farmdata`)

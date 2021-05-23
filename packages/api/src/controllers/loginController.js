@@ -17,6 +17,7 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 const bcrypt = require('bcryptjs');
 const userController = require('./userController');
 const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
@@ -99,14 +100,18 @@ const loginController = {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
+        const { language_preference } = req.body;
         // TODO optimize this query
         const ssoUser = await userModel.query().findById(user_id);
         const passwordUser = await userModel.query().where({ email }).first();
         const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
-          const newUser = { user_id, email, first_name, last_name };
-          await userModel.query().insert(newUser);
+          const newUser = { user_id, email, first_name, last_name, language_preference };
+          await userModel.transaction(async trx => {
+            await userModel.query(trx).insert(newUser);
+            await showedSpotlightModel.query(trx).insert({ user_id });
+          });
         }
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded
@@ -118,7 +123,10 @@ const loginController = {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
             first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
+            language_preference: ssoUser?.language_preference ?? passwordUser?.language_preference ?? language_preference,
+            full_name: isPasswordNeeded ? `${passwordUser.first_name} ${passwordUser.last_name}` : `${first_name} ${last_name}`
           },
+          isSignUp: isUserNew,
         });
       } catch (err) {
         return res.status(400).json({

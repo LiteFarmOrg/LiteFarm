@@ -14,20 +14,24 @@
  */
 
 import {
+  ADD_HARVEST_USE_TYPE,
+  GET_HARVEST_USE_TYPES,
   GET_LOGS,
+  RESET_LOG_FILTER,
+  SAVE_HARVEST_ALLOCATION_WIP,
+  SET_ALL_HARVEST_USE_TYPES,
+  SET_DEFAULT_DATE,
+  SET_DEFAULT_DATE_RANGE,
+  SET_END_DATE,
+  SET_FORM_DATA,
+  SET_FORM_VALUE,
+  SET_LOG_CROP_FILTER,
+  SET_LOG_FIELD_FILTER,
+  SET_LOG_TYPE,
   SET_LOGS_IN_STATE,
   SET_SELECTED_LOG,
-  GET_HARVEST_USE_TYPES,
-  SET_FORM_DATA,
-  SET_ALL_HARVEST_USE_TYPES,
   SET_SELECTED_USE_TYPES,
-  ADD_HARVEST_USE_TYPE,
-  SET_FORM_VALUE,
   SET_START_DATE,
-  SET_END_DATE,
-  SET_DEFAULT_DATE_RANGE,
-  SET_DEFAULT_DATE,
-  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 
 export const getLogs = () => {
@@ -107,8 +111,8 @@ export const setEndDate = (endDate) => {
 
 export const setDefaultDateRange = () => {
   return {
-    type: SET_DEFAULT_DATE_RANGE
-  }
+    type: SET_DEFAULT_DATE_RANGE,
+  };
 };
 
 export const setDefaultDate = (defaultDate) => {
@@ -122,5 +126,28 @@ export const saveHarvestAllocationWip = (harvestAllocation) => {
   return {
     type: SAVE_HARVEST_ALLOCATION_WIP,
     harvestAllocation,
+  };
+};
+export const setLogCropFilter = (cropFilter) => {
+  return {
+    type: SET_LOG_CROP_FILTER,
+    cropFilter,
+  };
+};
+export const setLogFieldFilter = (fieldFilter) => {
+  return {
+    type: SET_LOG_FIELD_FILTER,
+    fieldFilter,
+  };
+};
+export const setLogType = (logType) => {
+  return {
+    type: SET_LOG_TYPE,
+    logType,
+  };
+};
+export const resetLogFilter = () => {
+  return {
+    type: RESET_LOG_FILTER,
   };
 };

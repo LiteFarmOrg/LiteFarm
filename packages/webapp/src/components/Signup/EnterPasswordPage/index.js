@@ -2,7 +2,7 @@ import Form from '../../Form';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, Title, Underlined } from '../../Typography';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -15,9 +15,17 @@ export default function PureEnterPasswordPage({
   onLogin,
   onGoBack,
   forgotPassword,
+  isVisible,
   isChrome = true,
 }) {
-  const { register, handleSubmit, errors, setError, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+
+    formState: { errors },
+  } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
   const {
@@ -27,7 +35,7 @@ export default function PureEnterPasswordPage({
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ required: true });
+  const inputRegister = register(PASSWORD, { required: true });
   const [showErrors, setShowErrors] = useState(false);
   const { t } = useTranslation(['translation', 'common']);
   const showPasswordIncorrectError = () => {
@@ -45,6 +53,13 @@ export default function PureEnterPasswordPage({
   };
   const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
   const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
+
+  useEffect(() => {
+    if (isVisible) {
+      document.getElementById('password_input_to_focus')?.focus();
+    }
+  }, [isVisible]);
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -70,11 +85,10 @@ export default function PureEnterPasswordPage({
         style={{ marginBottom: '28px' }}
         label={t('ENTER_PASSWORD.LABEL')}
         type={PASSWORD}
-        name={PASSWORD}
         icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
-        inputRef={inputRegister}
+        hookFormRegister={inputRegister}
         errors={errors[PASSWORD]?.message}
-        autofocus={true}
+        id={'password_input_to_focus'}
       />
       {showErrors && (
         <div>

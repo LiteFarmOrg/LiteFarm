@@ -77,7 +77,9 @@ class NitrogenBalance extends Component {
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <Semibold>{t('INSIGHTS.NITROGEN_BALANCE.FIRST_TIME')}</Semibold>
+          <Semibold style={{ paddingBottom: '20px' }}>
+            {t('INSIGHTS.NITROGEN_BALANCE.FIRST_TIME')}
+          </Semibold>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
       );
@@ -98,6 +100,8 @@ class NitrogenBalance extends Component {
           }
           rightIconDeleteHandler={this.handleRightIconDelete}
           showDelete={this.state.rightIconShowDelete}
+          leftButtonText={t('INSIGHTS.NITROGEN_BALANCE.ABANDON')}
+          rightButtonText={t('INSIGHTS.NITROGEN_BALANCE.GO_BACK')}
         />
         <div>{renderedComponent}</div>
       </div>

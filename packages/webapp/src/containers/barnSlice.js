@@ -4,22 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-export const barnEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  total_area: 'total_area',
-  total_area_unit: 'total_area_unit',
-  grid_points: 'grid_points',
-  perimeter: 'perimeter',
-  perimeter_unit: 'perimeter_unit',
-  wash_and_pack: 'wash_and_pack',
-  cold_storage: 'cold_storage',
-};
-const barnProperties = ['wash_and_pack', 'cold_storage'];
+const barnProperties = ['wash_and_pack', 'cold_storage', 'location_id'];
 export const getLocationObjectFromBarn = (data) => {
   return {
     figure: {
@@ -32,8 +17,7 @@ export const getLocationObjectFromBarn = (data) => {
 };
 const getBarnFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.barn, barnProperties),
@@ -68,12 +52,14 @@ const barnSlice = createSlice({
     onLoadingBarnFail: onLoadingFail,
     getBarnsSuccess: upsertManyBarnWithLocation,
     postBarnSuccess: upsertOneBarnWithLocation,
+    editBarnSuccess: upsertOneBarnWithLocation,
     deleteBarnSuccess: barnAdapter.removeOne,
   },
 });
 export const {
   getBarnsSuccess,
   postBarnSuccess,
+  editBarnSuccess,
   onLoadingBarnStart,
   onLoadingBarnFail,
   deleteBarnSuccess,
@@ -92,10 +78,8 @@ export const barnsSelector = createSelector(
   },
 );
 
-export const barnSelector = createSelector(
-  barnReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const barnSelector = (location_id) =>
+  createSelector(barnEntitiesSelector, (entities) => entities[location_id]);
 
 export const barnStatusSelector = createSelector(
   [barnReducerSelector],

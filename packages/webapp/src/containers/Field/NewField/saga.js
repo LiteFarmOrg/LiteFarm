@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, select, takeLatest } from 'redux-saga/effects';
+import { call, select, takeLeading } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
@@ -24,5 +24,5 @@ export function* postFieldSaga({ payload }) {
 }
 
 export default function* newFieldSaga() {
-  yield takeLatest(postField.type, postFieldSaga);
+  yield takeLeading(postField.type, postFieldSaga);
 }

@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
 
@@ -28,21 +28,11 @@ const chooseFarmFlowSlice = createSlice({
         showMapSpotlight: state.entities[farm_id]?.showMapSpotlight,
       });
     },
-    startSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, showSpotLight: true, showMapSpotlight: true });
-    },
-    endSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, showSpotLight: false });
-    },
-    endMapSpotlight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, showMapSpotlight: false });
-    },
+
     startInvitationFlowWithSpotLight: (state, { payload: farm_id }) => {
       updateFarmState(state, {
         farm_id,
         isInvitationFlow: true,
-        showSpotLight: true,
-        showMapSpotlight: true,
       });
     },
     startSwitchFarmModal: (state, { payload: farm_id }) => {
@@ -57,9 +47,6 @@ export const {
   startInvitationFlow,
   startInvitationFlowWithSpotLight,
   endInvitationFlow,
-  startSpotLight,
-  endSpotLight,
-  endMapSpotlight,
   startInvitationFlowOnChooseFarmScreen,
   startSwitchFarmModal,
   endSwitchFarmModal,
@@ -77,14 +64,7 @@ export const chooseFarmFlowSelector = createSelector(
     return chooseFarmFlowEntities[farm_id] || {};
   },
 );
-export const spotLightSelector = createSelector(
-  chooseFarmFlowSelector,
-  (farmState) => farmState.showSpotLight,
-);
-export const mapSpotlightSelector = createSelector(
-  chooseFarmFlowSelector,
-  (farmState) => farmState.showMapSpotlight,
-);
+
 export const switchFarmSelector = createSelector(
   chooseFarmFlowSelector,
   (farmState) => farmState.showSwitchFarmModal,

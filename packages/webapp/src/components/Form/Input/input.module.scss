@@ -26,15 +26,15 @@
 }
 
 .input:disabled {
-  background-color: var(--inputDisabled);
+  background-color: var(--inputDisabled) !important;
   color: var(--grey600);
   border-color: var(--inputDefault);
 }
 
-.input[type=date] {
+.input[type='date'] {
   min-width: 150px;
   background-color: transparent;
-  width: 100%
+  width: 100%;
 }
 
 .fullLength {
@@ -90,7 +90,7 @@
 .labelContainer {
   display: flex;
   justify-content: space-between;
-  height: 20px;
+  min-height: 20px;
 }
 
 .unit {
@@ -103,4 +103,9 @@
   position: absolute;
   right: 0;
   transform: translate(-8px, 33px);
+}
+
+.leaf {
+  transform: translate(4px, 3px);
+  margin-right: 4px;
 }

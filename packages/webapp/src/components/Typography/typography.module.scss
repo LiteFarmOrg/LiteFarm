@@ -9,6 +9,15 @@
   margin: 0;
 }
 
+.addLinkContainer {
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--iconActive);
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
+  display: inline-block;
+}
+
 .title {
   font-style: normal;
   font-weight: normal;
@@ -28,6 +37,11 @@
   color: var(--fontColor);
   font-family: 'Open Sans', 'SansSerif', serif;
   margin-top: 0;
+}
+
+.sm {
+  font-size: 14px;
+  line-height: 16px;
 }
 
 .label {
@@ -67,7 +81,7 @@
   margin-bottom: 0;
   font-size: 14px;
   line-height: 20px;
-  color: var(--iconDefault);
+  color: var(--grey600);
   font-style: normal;
   font-weight: normal;
   font-family: 'Open Sans', 'SansSerif', serif;

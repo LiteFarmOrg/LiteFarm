@@ -8,6 +8,7 @@ import { BiSearchAlt2, MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { mergeRefs } from '../utils';
 import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 
 const Input = ({
   disabled = false,
@@ -18,32 +19,25 @@ const Input = ({
   info,
   errors,
   icon,
-  inputRef,
+  hookFormRegister,
   isSearchBar,
   type = 'text',
   toolTipContent,
-  reset,
   unit,
-  name,
-  hookFormSetValue,
-  showCross,
+  showCross = true,
+  onChange,
+  onBlur,
+  hasLeaf,
   ...props
 }) => {
-  warnings(hookFormSetValue, optional);
   const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
-  const onClear =
-    optional || hookFormSetValue
-      ? () => {
-          hookFormSetValue(name, undefined, { shouldValidate: true });
-          setShowError(false);
-        }
-      : () => {
-          if (input.current && input.current?.value) {
-            input.current.value = '';
-            setShowError(false);
-          }
-        };
+  const name = hookFormRegister?.name ?? props?.name;
+  const onClear = () => {
+    input.current.value = '';
+    onChange?.({ target: input.current });
+    hookFormRegister?.onChange({ target: input.current });
+  };
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
@@ -55,7 +49,7 @@ const Input = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
+  const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
   return (
     <div
       className={clsx(styles.container)}
@@ -64,10 +58,10 @@ const Input = ({
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
           <Label>
-            {label}{' '}
+            {label} {hasLeaf && <Leaf className={styles.leaf} />}
             {optional && (
-              <Label sm className={styles.sm}>
-                ({t('common:OPTIONAL')})
+              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+                {t('common:OPTIONAL')}
               </Label>
             )}
           </Label>
@@ -81,7 +75,7 @@ const Input = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: 'translate(-17px, 13px)',
+            transform: 'translate(-17px, 15px)',
             cursor: 'pointer',
           }}
         />
@@ -104,10 +98,20 @@ const Input = ({
         )}
         style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}
-        ref={mergeRefs(inputRef, input)}
+        ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         onKeyDown={onKeyDown}
         name={name}
+        placeholder={isSearchBar && t('common:SEARCH')}
+        size={'1'}
+        onChange={(e) => {
+          onChange?.(e);
+          hookFormRegister?.onChange?.(e);
+        }}
+        onBlur={(e) => {
+          onBlur?.(e);
+          hookFormRegister?.onBlur?.(e);
+        }}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
@@ -121,8 +125,7 @@ Input.propTypes = {
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,
-  errors: PropTypes.string,
-  clearErrors: PropTypes.func,
+  errors: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -131,19 +134,21 @@ Input.propTypes = {
     errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  inputRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
   unit: PropTypes.string,
-  // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
-  reset: PropTypes.func,
-  hookFormSetValue: PropTypes.func,
   name: PropTypes.string,
+  hookFormRegister: PropTypes.exact({
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    name: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  hasLeaf: PropTypes.bool,
 };
 
 export default Input;
@@ -151,7 +156,3 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
-const warnings = (hookFormSetValue, optional) =>
-  !hookFormSetValue &&
-  optional &&
-  console.error('hookFormSetValue prop is required when input field is optional');

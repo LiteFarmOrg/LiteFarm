@@ -16,9 +16,9 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     handleSubmit,
     watch,
     control,
-    errors,
     setValue,
-    formState: { isDirty, isValid },
+
+    formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
   });
@@ -36,8 +36,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register();
-  const refInput = register({ required: true });
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -77,14 +75,13 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       <Input
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.FULL_NAME')}
-        name={NAME}
         placeholder={'e.g. Juan Perez'}
-        inputRef={refInput}
+        hookFormRegister={register(NAME, { required: true })}
       />
       <Controller
         control={control}
         name={GENDER}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             label={t('CREATE_USER.GENDER')}
             options={genderOptions}
@@ -99,8 +96,11 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       <Input
         label={t('CREATE_USER.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
-        name={BIRTHYEAR}
+        hookFormRegister={register(BIRTHYEAR, {
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
         toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '28px' }}
         errors={
@@ -115,8 +115,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.PASSWORD')}
         type={PASSWORD}
-        name={PASSWORD}
-        inputRef={inputRegister}
+        hookFormRegister={register(PASSWORD)}
       />
       <PasswordError
         hasNoDigit={hasNoDigit}

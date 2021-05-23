@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PureHelpRequestPage from '../../components/Help';
 import { useDispatch, useSelector } from 'react-redux';
 import { supportFileUpload } from './saga';
 import history from '../../history';
-import { startSendHelp, isHelpLoadingSelector } from '../Home/homeSlice'
+import { isHelpLoadingSelector, startSendHelp } from '../Home/homeSlice';
 import { userFarmSelector } from '../userFarmSlice';
 
 export default function HelpRequest() {

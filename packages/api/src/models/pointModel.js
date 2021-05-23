@@ -33,6 +33,7 @@ class Point extends Model {
         figure_id: { type: 'string' },
         point: {
           type: 'object',
+          required: true,
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },

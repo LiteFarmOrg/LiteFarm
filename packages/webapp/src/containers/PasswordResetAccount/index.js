@@ -5,6 +5,7 @@ import { resetPassword } from './saga';
 import jwt from 'jsonwebtoken';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFromLocalStorage } from '../../util';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
@@ -27,9 +28,9 @@ function PasswordResetAccount({ history }) {
 
   const getEmailFromToken = (reset_token) => {
     const decoded = jwt.decode(reset_token);
-    if (localStorage.getItem('litefarm_lang') !== decoded.language_preference) {
+    if (getLanguageFromLocalStorage() !== decoded.language_preference) {
       localStorage.setItem('litefarm_lang', decoded.language_preference);
-      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+      i18n.changeLanguage(getLanguageFromLocalStorage());
     }
     return decoded.email;
   };

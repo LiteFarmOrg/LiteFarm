@@ -14,7 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { toastr } from 'react-redux-toastr';
@@ -52,5 +52,5 @@ export function* supportFileUploadSaga({ payload: { file, form } }) {
 }
 
 export default function* supportSaga() {
-  yield takeLatest(supportFileUpload.type, supportFileUploadSaga);
+  yield takeLeading(supportFileUpload.type, supportFileUploadSaga);
 }

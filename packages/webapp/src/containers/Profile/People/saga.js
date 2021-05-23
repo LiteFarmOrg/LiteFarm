@@ -1,4 +1,4 @@
-import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
@@ -141,8 +141,8 @@ export function* invitePseudoUserSaga({ payload: user }) {
 
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
-  yield takeLatest(deactivateUser.type, deactivateUserSaga);
-  yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
-  yield takeLatest(reactivateUser.type, reactivateUserSaga);
-  yield takeLatest(invitePseudoUser.type, invitePseudoUserSaga);
+  yield takeLeading(deactivateUser.type, deactivateUserSaga);
+  yield takeLeading(updateUserFarm.type, updateUserFarmSaga);
+  yield takeLeading(reactivateUser.type, reactivateUserSaga);
+  yield takeLeading(invitePseudoUser.type, invitePseudoUserSaga);
 }

@@ -20,13 +20,17 @@ const homeSlice = createSlice({
     },
     finishSendHelp: (state) => {
       state.loading = false;
-    }
+    },
   },
 });
 
-export const { postHelpRequestSuccess, dismissHelpRequestModal, startSendHelp, finishSendHelp } = homeSlice.actions;
+export const {
+  postHelpRequestSuccess,
+  dismissHelpRequestModal,
+  startSendHelp,
+  finishSendHelp,
+} = homeSlice.actions;
 export default homeSlice.reducer;
 export const showHelpRequestModalSelector = (state) =>
   state?.tempStateReducer[homeSlice.name].showHelpRequestModal;
-export const isHelpLoadingSelector = (state) =>
-  state?.tempStateReducer[homeSlice.name].loading;
+export const isHelpLoadingSelector = (state) => state?.tempStateReducer[homeSlice.name].loading;

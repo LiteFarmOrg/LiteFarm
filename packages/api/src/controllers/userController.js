@@ -24,6 +24,7 @@ const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 
 
 const userController = {
@@ -49,11 +50,14 @@ const userController = {
         // persist user data
         const userResult = await baseController.post(userModel, userData, req, { trx });
 
+        const { user_id } = userResult;
+
         const pwData = {
-          user_id: userResult.user_id,
+          user_id,
           password_hash,
         };
         const pwResult = await baseController.post(passwordModel, pwData, req, { trx });
+        const ssResult = await baseController.post(showedSpotlightModel, { user_id }, req, { trx });
         await trx.commit();
 
         // generate token, set to last a week
@@ -67,7 +71,6 @@ const userController = {
             locale: language_preference,
           };
           const sender = 'system@litefarm.org';
-          console.log('template_path:', template_path);
           if (userResult.email && template_path) {
             sendEmail(template_path, replacements, userResult.email, { sender });
           }
@@ -93,7 +96,6 @@ const userController = {
   addInvitedUser() {
     return async (req, res) => {
       const {
-        first_name,
         last_name,
         email: reqEmail,
         farm_id,
@@ -103,6 +105,7 @@ const userController = {
         birth_year,
         phone_number,
       } = req.body;
+      let { first_name } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
       wage.amount = wageAmount ? wageAmount : 0;
       const email = reqEmail && reqEmail.toLowerCase();
@@ -167,6 +170,7 @@ const userController = {
           }, req, { trx });
         } else {
           user = isUserAlreadyCreated;
+          first_name = user.first_name;
         }
         const { user_id } = user;
         await userFarmModel.query(trx).insert({
@@ -462,7 +466,9 @@ const userController = {
             user_id,
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
+          await showedSpotlightModel.query(trx).insert({ user_id });
         });
+
         result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
         result = { ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
@@ -515,6 +521,7 @@ const userController = {
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
           await shiftModel.query(trx).context({ user_id: sub }).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await showedSpotlightModel.query(trx).insert({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();
         });

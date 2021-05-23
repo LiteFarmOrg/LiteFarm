@@ -14,7 +14,7 @@
  */
 
 const NodeEnvironment = require('jest-environment-node');
-const getAuthToken = require('./setup');
+
 
 class TestEnvironment extends NodeEnvironment {
   constructor(config) {
@@ -23,9 +23,7 @@ class TestEnvironment extends NodeEnvironment {
 
   async setup() {
     await super.setup();
-    this.global.token = await getAuthToken();
   }
-
   async teardown() {
     await super.teardown();
   }
@@ -40,6 +38,7 @@ async function tableCleanup(knex) {
     DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";
+    DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
     DELETE FROM "activityFields";
     DELETE FROM "fieldWorkLog";
@@ -62,6 +61,7 @@ async function tableCleanup(knex) {
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
     DELETE FROM "fieldCrop";
+    DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "shiftTask";
     DELETE FROM "shift";
@@ -76,7 +76,7 @@ async function tableCleanup(knex) {
     DELETE FROM "gate";
     DELETE FROM "water_valve";
     DELETE FROM "buffer_zone";
-    DELETE FROM "creek";
+    DELETE FROM "watercourse";
     DELETE FROM "fence";
     DELETE FROM "ceremonial_area";
     DELETE FROM "residence";

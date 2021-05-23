@@ -33,11 +33,6 @@ describe('Fertilizer Tests', () => {
   let owner;
   let farm;
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postFertilizerRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/fertilizer/farm/${farm_id}`)

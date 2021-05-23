@@ -16,7 +16,6 @@
 .logContainer {
   width: 100%;
   max-width: 1024px;
-  min-height: 100vh;
   padding: 24px 24px 24px 24px;
   display: flex;
   flex-direction: column;
@@ -36,14 +35,13 @@
   }
 }
 
-
 .dateContainer {
   padding-top: 1rem;
   margin-bottom: 1rem;
   max-width: 100%;
 }
-@media screen and (min-width: 500px)  {
-  .dateContainer{
+@media screen and (min-width: 500px) {
+  .dateContainer {
     width: 45%;
   }
   .pullRight {
@@ -53,8 +51,6 @@
     float: left;
   }
 }
-
-
 
 .table {
   padding-top: 20px;
@@ -270,7 +266,8 @@ input:disabled {
 .popupTitle {
   display: flex;
   flex-direction: row;
-  h3{
+
+  h3 {
     flex-grow: 1;
     font-style: normal;
     font-weight: normal;
@@ -404,6 +401,7 @@ input:disabled {
 }
 
 .allButton {
+  padding-bottom: 1rem;
   button {
     padding-top: 0;
     padding-bottom: 0;
@@ -413,7 +411,6 @@ input:disabled {
 
 .cropDurationContainer {
   width: 100%;
-  display: none;
   flex-direction: column;
 }
 
@@ -427,8 +424,8 @@ input:disabled {
 }
 
 .durationInput {
-  width: 50%;
-  display: flex;
+  width: 100%;
+  //display: flex;
   input {
     width: 100%;
     border: 1px solid var(--grey400);
@@ -446,7 +443,7 @@ input:disabled {
 
 .moodContainer {
   // width: 80%;
-  margin-bottom: 2em;
+  margin-bottom: 12px;
   white-space: nowrap;
   text-align: center;
 
@@ -454,6 +451,7 @@ input:disabled {
     margin: 0;
     padding-top: 25%;
   }
+
   img {
     width: auto;
     height: 3em;
@@ -530,7 +528,7 @@ input:disabled {
 }
 
 .cropDurationType {
-  margin-top: 6px;
+  margin-top: 16px;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -553,8 +551,6 @@ input:disabled {
     color: #00756a;
   }
 }
-
-
 
 .filterContainer {
   display: flex;

@@ -55,6 +55,7 @@ const baseController = {
     if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
+    //TODO: remove. this will return error when object has multiple properties
     const ids = [];
     data.map((d) => Object.keys(d).map((k) => ids.push(d[k])));
     if (!lodash.isEmpty(data)) {
@@ -114,10 +115,10 @@ const baseController = {
   },
 
   async updateIndividualById(model, id, updatedLog, req, { trx = null, context = {} } = {}) {
-    updatedLog = removeAdditionalProperties(model, updatedLog);
+    const filteredObject = removeAdditionalProperties(model, updatedLog);
     if (!lodash.isEmpty(updatedLog)) {
       return await model.query(trx).context({ user_id: req?.user?.user_id, ...context })
-        .patchAndFetchById(id, updatedLog);
+        .patchAndFetchById(id, filteredObject);
     }
 
   },

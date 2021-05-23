@@ -27,11 +27,12 @@ router.post('/', farmController.addFarm());
 
 router.patch('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm(true))
 
+router.patch('/owner_operated/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.patchOwnerOperated())
+
 /*To change farm name or units*/
 router.put('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm());
 
 router.delete('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['delete:farms']), farmController.deleteFarm());
 
-router.get('/:farm_id/organic_certifier_survey', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertifiersByFarmId());
 
 module.exports = router;

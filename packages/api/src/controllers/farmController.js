@@ -32,7 +32,7 @@ const farmController = {
           return res.status(400).send('No country selected');
         }
 
-        const units = await this.getCountry(country);
+        const { id, ...units } = await this.getCountry(country);
         if (!units) {
           await trx.rollback();
           return res.status(400).send('No unit info for given country');
@@ -43,6 +43,7 @@ const farmController = {
           address: req.body.address,
           grid_points: req.body.grid_points,
           units,
+          country_id: id,
         }
         const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
@@ -125,7 +126,9 @@ const farmController = {
         if ((!!req.body.address || !!req.body.grid_points) && !mainPatch) {
           throw new Error('Not allowed to modify address or gridPoints');
         } else if (req.body.country) {
-          req.body.units = await this.getCountry(req.body.country);
+          const  { id, ...units } = await this.getCountry(req.body.country)
+          req.body.units = units;
+          req.body.country_id = id;
           delete req.body.country;
         }
         const user_id = req.user.user_id;
@@ -142,6 +145,28 @@ const farmController = {
         await trx.rollback();
         res.status(400).json({
           error: error.message ? error.message : error,
+        });
+      }
+    }
+  },
+
+  patchOwnerOperated() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { owner_operated } = req.body;
+        const user_id = req.user.user_id;
+        const updated = await farmModel.query(trx).context({ user_id }).where({ farm_id: req.params.farm_id }).patch({ owner_operated }).returning('*');
+        await trx.commit();
+        if (!updated) {
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(updated);
+        }
+      } catch (e) {
+        await trx.rollback();
+        res.status(400).json({
+          error: e.message ? e.message : e,
         });
       }
     }
@@ -167,8 +192,8 @@ const farmController = {
   },
 
   async getCountry(country) {
-    const { iso, unit } = await knex('currency_table').select('*').where('country_name', country).first();
-    return { currency: iso, measurement: unit.toLowerCase() };
+    const { iso, unit, id } = await knex('countries').select('*').where('country_name', country).first();
+    return { currency: iso, measurement: unit.toLowerCase(), id };
   },
 }
 

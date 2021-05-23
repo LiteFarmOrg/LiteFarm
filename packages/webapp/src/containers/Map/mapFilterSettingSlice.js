@@ -13,12 +13,13 @@ const initialState = {
   natural_area: true,
   residence: true,
   buffer_zone: true,
-  creek: true,
+  watercourse: true,
   fence: true,
   gate: true,
   water_valve: true,
   farm_site_boundary: true,
   map_background: true,
+  label: true,
 };
 
 const mapFilterSettingAdapter = createEntityAdapter({

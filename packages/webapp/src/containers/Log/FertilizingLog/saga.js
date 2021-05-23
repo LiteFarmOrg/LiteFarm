@@ -5,7 +5,7 @@ import {
   GET_FERTILIZERS,
 } from './constants';
 import { getFertilizers, setFertilizersInState } from './actions';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
@@ -67,7 +67,7 @@ export function* addLog(payload) {
     user_id: user_id,
     quantity_kg: fertConfig.quantity_kg,
     crops: fertConfig.crops,
-    fields: fertConfig.fields,
+    locations: fertConfig.locations,
     fertilizer_id: parseInt(fertConfig.fertilizer_id, 10),
     notes: fertConfig.notes,
   };
@@ -97,7 +97,7 @@ export function* editLog(payload) {
     user_id: user_id,
     quantity_kg: fertConfig.quantity_kg,
     crops: fertConfig.crops,
-    fields: fertConfig.fields,
+    locations: fertConfig.locations,
     fertilizer_id: parseInt(fertConfig.fertilizer_id, 10),
     notes: fertConfig.notes,
   };
@@ -115,8 +115,8 @@ export function* editLog(payload) {
 }
 
 export default function* fertSaga() {
-  yield takeEvery(GET_FERTILIZERS, getFertilizerSaga);
-  yield takeEvery(ADD_FERTILIZER, addFertilizerToDB);
-  yield takeEvery(ADD_FERTILIZER_LOG, addLog);
-  yield takeEvery(EDIT_FERTILIZER_LOG, editLog);
+  yield takeLatest(GET_FERTILIZERS, getFertilizerSaga);
+  yield takeLeading(ADD_FERTILIZER, addFertilizerToDB);
+  yield takeLeading(ADD_FERTILIZER_LOG, addLog);
+  yield takeLeading(EDIT_FERTILIZER_LOG, editLog);
 }

@@ -4,19 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const waterValveEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  point: 'point',
-  source: 'source',
-  flow_rate: 'flow_rate',
-};
-
-const waterValveProperties = ['source', 'flow_rate'];
+const waterValveProperties = ['source', 'flow_rate', 'flow_rate_unit', 'location_id'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {
@@ -29,8 +17,7 @@ export const getLocationObjectFromWaterValve = (data) => {
 };
 const getWaterValveFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.point, pointProperties),
     ...pick(location.water_valve, waterValveProperties),
@@ -65,12 +52,14 @@ const waterValveSlice = createSlice({
     onLoadingWaterValveFail: onLoadingFail,
     getWaterValvesSuccess: upsertManyWaterValveWithLocation,
     postWaterValveSuccess: upsertOneWaterValveWithLocation,
+    editWaterValveSuccess: upsertOneWaterValveWithLocation,
     deleteWaterValveSuccess: waterValveAdapter.removeOne,
   },
 });
 export const {
   getWaterValvesSuccess,
   postWaterValveSuccess,
+  editWaterValveSuccess,
   onLoadingWaterValveStart,
   onLoadingWaterValveFail,
   deleteWaterValveSuccess,
@@ -91,10 +80,8 @@ export const waterValvesSelector = createSelector(
   },
 );
 
-export const waterValveSelector = createSelector(
-  waterValveReducerSelector,
-  ({ WaterValve, entities }) => entities[WaterValve],
-);
+export const waterValveSelector = (location_id) =>
+  createSelector(waterValveEntitiesSelector, (entities) => entities[location_id]);
 
 export const waterValveStatusSelector = createSelector(
   [waterValveReducerSelector],

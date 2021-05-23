@@ -187,6 +187,7 @@ hr {
     display: flex;
     flex-direction: column;
     padding: 24px 24px 0 24px;
+    flex-grow: 1;
 }
 
 /* Position and sizing of burger button */

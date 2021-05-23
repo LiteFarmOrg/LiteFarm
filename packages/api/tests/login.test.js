@@ -40,11 +40,7 @@ describe('Sign Up Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
   beforeEach(() => {
     emailMiddleware.sendEmail.mockClear();
@@ -195,7 +191,7 @@ describe('Sign Up Tests', () => {
       const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
       const {user_id, farm_id} = userFarm;
       getRequest({email: user.email}, async() => {
-        const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+        const [emailTokenRow] = await knex('emailToken').where({ user_id, farm_id });
         expect(emailTokenRow.times_sent).toBe(1);
         getRequest({email: user.email}, async() => {
           const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});

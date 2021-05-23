@@ -22,7 +22,7 @@ export default function PureResetPasswordAccount({ email, update }) {
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ validate: () => isValid });
+  const inputRegister = register(PASSWORD, { validate: () => isValid });
 
   const disabled = !isValid;
 
@@ -50,8 +50,7 @@ export default function PureResetPasswordAccount({ email, update }) {
         style={{ marginBottom: '28px' }}
         label={'New password'}
         type={PASSWORD}
-        name={PASSWORD}
-        inputRef={inputRegister}
+        hookFormRegister={inputRegister}
       />
 
       <PasswordError

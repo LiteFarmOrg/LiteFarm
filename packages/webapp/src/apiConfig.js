@@ -21,9 +21,9 @@ if (NODE_ENV === 'development') {
   URI = window.location.href.replace(/3000.*/, '5000');
 } else if (NODE_ENV === 'production') {
   if (REACT_APP_ENV === 'production') {
-    URI = 'https://litefarm-api-production.herokuapp.com';
+    URI = 'https://api.app.litefarm.org';
   } else if (REACT_APP_ENV === 'integration') {
-    URI = 'https://litefarm-api-integration.herokuapp.com';
+    URI = 'https://api.beta.litefarm.org';
   }
 }
 
@@ -35,6 +35,7 @@ const apiConfig = {
   fieldURL: `${URI}/field`,
   locationURL: `${URI}/location`,
   cropURL: `${URI}/crop`,
+  cropVarietyURL: `${URI}/crop_variety`,
   logURL: `${URI}/log`,
   fertUrl: `${URI}/fertilizer`,
   fieldCropURL: `${URI}/field_crop`,
@@ -59,6 +60,7 @@ const apiConfig = {
   signUpUrl: `${URI}/sign_up`,
   loginUrl: `${URI}/login`,
   resetPasswordUrl: `${URI}/password_reset`,
+  spotlightUrl: `${URI}/showed_spotlight`,
   url: URI,
 };
 

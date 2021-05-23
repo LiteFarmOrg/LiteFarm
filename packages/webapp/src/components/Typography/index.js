@@ -17,6 +17,23 @@ Underlined.propTypes = {
   style: PropTypes.object,
 };
 
+export const AddLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+  return (
+    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
+      +{' '}
+      <span className={clsx(styles.underlined)} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+AddLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
 export const Title = ({ children = 'Title', className = '', style, ...props }) => {
   return (
     <h3 className={clsx(styles.title, className)} style={style} {...props}>
@@ -31,9 +48,9 @@ Title.propTypes = {
   style: PropTypes.object,
 };
 
-export const Semibold = ({ children = 'Semibold', className = '', style, ...props }) => {
+export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }) => {
   return (
-    <h4 className={clsx(styles.semibold, className)} style={style} {...props}>
+    <h4 className={clsx(styles.semibold, sm && styles.sm, className)} style={style} {...props}>
       {children}
     </h4>
   );
@@ -43,6 +60,7 @@ Semibold.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
+  sm: PropTypes.bool,
 };
 
 export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }) => {

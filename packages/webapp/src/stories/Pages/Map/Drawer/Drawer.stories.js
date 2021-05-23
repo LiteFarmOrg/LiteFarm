@@ -1,13 +1,28 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import PureMapFooter from '../../../../components/Map/Footer/';
+import { locationEnum } from '../../../../containers/Map/constants';
 
 export default {
   title: 'Components/Map/Drawer',
   component: PureMapFooter,
   decorators: decorators,
 };
-
+const availableFilterSettings = {
+  area: [
+    locationEnum.barn,
+    locationEnum.ceremonial_area,
+    locationEnum.farm_site_boundary,
+    locationEnum.field,
+    locationEnum.garden,
+    locationEnum.greenhouse,
+    locationEnum.surface_water,
+    locationEnum.natural_area,
+    locationEnum.residence,
+  ],
+  line: [locationEnum.buffer_zone, locationEnum.creek, locationEnum.fence],
+  point: [locationEnum.gate, locationEnum.water_valve],
+};
 const Template = (args) => (
   <div
     style={{
@@ -22,7 +37,7 @@ const Template = (args) => (
     }}
   >
     <div style={{ flexGrow: 1 }} />
-    <PureMapFooter {...args} />
+    <PureMapFooter {...args} availableFilterSettings={availableFilterSettings} />
   </div>
 );
 

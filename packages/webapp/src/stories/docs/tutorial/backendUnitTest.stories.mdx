@@ -1,0 +1,297 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Error, Text } from '../../../components/Typography';
+import Card from '../../../components/Card';
+import TechStackNavigation from '../teckStackNavigation';
+
+<Meta title="Docs/tutorial/3.Backend unit test" />
+
+# Unit testing with jest and chai (May 2021)
+
+<Card color={'secondary'} style={{ padding: '16px', marginBottom: '40px' }}>
+  <Error style={{ paddingBottom: '16px' }}>The current endpoint test set up is far from perfect. First tests can't run
+    in parallel. Second, even if tests run in sequence, clean up script might interfere with set up of the next test.
+    Third, put location tests fail randomly for unknown reason</Error>
+  <Text>If you have better idea on how tests should be set up, feel free to pitch to Kike and Kevin. Or you can create a
+    Tech Debt story on Jira</Text>
+</Card>
+
+| Resources |
+| --------- |
+| [UpsertGraph - objection js](https://vincit.github.io/objection.js/api/query-builder/mutate-methods.html#upsertgraph) |
+| [faker](https://github.com/Marak/Faker.js) |
+| [knex.js](http://knexjs.org/) |
+| [setup and tear down - jest](https://jestjs.io/docs/setup-teardown) |
+| [expect - jest](https://jestjs.io/docs/expect) |
+
+### 1. Copy paste an existing test file as template under `packages/api/tests` directory
+**Here is a list of tests that can be used as templates**
+
+- fieldCrop.test.js
+
+- crop.test.js
+
+- shift.test.js
+
+- disease.test.js
+
+- expense.test.js
+
+- expense_type.test.js
+
+- fertilizer.test.js
+
+- pesticides.test.js
+
+- price.test.js
+
+- sale.test.js
+
+**You can follow `location.test.js` or `mock.factories.test.js` if you think api will be stable**
+
+These tests are more abstracted. They are difficult to read/debug/modify. You should use previous templates if tests need to cover edge cases.
+
+**A list of test that will be deprecated**
+
+- authorization.test.js
+
+- insightAPI.test.js
+
+- yield.test.js
+
+- price.test.js
+
+- logs.test.js
+
+- shift.test.js
+
+### 2. Set up database before each test cases
+
+** 1. Create new mock factory in file `mock.factories.js` **
+
+- First copy paste a pair of `fakeEntity()` and `entityFactory()` functions as template
+
+```js
+async function fieldFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
+} = {}, field = fakeField()) {
+  const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
+  const [{ station_id }] = station;
+  const [{ location_id }] = location;
+  return knex('field').insert({ location_id: location_id, station_id, ...field }).returning('*');
+}
+
+function fakeField() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    transition_date: faker.date.future(),
+  };
+}
+
+module.exports = {
+  fieldFactory, fakeField
+}
+```
+
+- Then use the template to complete `fakeEntity()` and `entityFactory()` for your new objection model.
+- You can also use IDE search function to find necessary [faker](https://github.com/Marak/Faker.js) / [knex](http://knexjs.org/) methods
+- Run `mock.factories.test.js` to make sure everything passes
+
+**2. Update clean up script `/api/tests/testEnvironment`**
+
+If tests involve new tables, we need to update clean up script so that all rows in database will be deleted after one test file finishes.
+- If we just added location table, which depends on farm, we need to delete location before userFarm/users/farm, otherwise clean up script will return foreign key violation error
+```js
+async function tableCleanup(knex) {
+  return knex.raw(`
+    DELETE FROM "location"; // new table
+    DELETE FROM "userFarm";
+    DELETE FROM "farm";
+    DELETE FROM "users";
+  `);
+}
+```
+
+**3. Set up database before each test**
+
+There are two ways to set up
+
+- Create set up functions and use them in each test (example: `location.test.js` or `shift.test.js`).
+
+```js
+  function appendFieldToFarm(farm_id, n = 1) {
+    return Promise.all(
+      [...Array(n)].map(() => mocks.fieldFactory({
+        promisedLocation: mocks.locationFactory({ promisedFarm: [{ farm_id }] })
+      }))
+    );
+  }
+  describe('GET /location by farm', () => {
+        test('should GET 2 fields linked to that farm', async (done) => {
+        await appendFieldToFarm(farm, 2);
+        getLocationsInFarm({user_id: user, farm_id: farm}, farm, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+      });
+    });
+  })
+```
+
+- [Set up in beforeEach set up block](https://jestjs.io/docs/setup-teardown)
+
+```js
+  describe('Crop Tests', () => {
+  let newOwner;
+  let farm;
+  beforeEach(async () => {
+      [newOwner] = await mocks.usersFactory();
+      [farm] = await mocks.farmFactory();
+      const [ownerFarm] = await mocks.userFarmFactory({
+        promisedUser: [newOwner],
+        promisedFarm: [farm],
+      }, fakeUserFarm(1));
+    })
+  });
+```
+
+<Card color={'secondary'} style={{ padding: '16px' }}>
+  <Text>To test patch field endpoint, we need to set up all field dependencies such as
+    user/userFarm/location/area/figure tables.</Text>
+  <br />
+  <Text>We also need to set up farm owner/manager/extension officer/worker for authorization tests</Text>
+  <br />
+  <Text>In the test scope, we need to have access to user_id, farm_id, and location_id to make the request and check
+    result</Text>
+</Card>
+
+### 3. Test driver functions
+
+Here are four example driver functions:
+
+```js
+  function postRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).post('/crop')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id) //set req header
+      .set('farm_id', farm_id) //set req header
+      .send(data) //set req.body
+      .end(callback)
+  }
+  // mock implementation of ./src/middleware/acl/checkJwt will further put header.user_id in req.user.user_id
+  // to mock jwt authentication result
+
+  function getRequest(url, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).get(url)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback)
+  }
+
+  function putCropRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    const { crop_id } = data;
+    chai.request(server).put(`/crop/${crop_id}`)
+      .set('farm_id', farm_id)
+      .set('user_id', user_id)
+      .send(data)
+      .end(callback)
+  }
+
+  function deleteRequest(url, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).delete(url)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback)
+  }
+```
+
+### 4. Writing tests
+```js
+      test('Workers should get crop by farm id', async (done) => {
+        //Driver function for get crop request
+        getRequest(`/crop/farm/${farm.farm_id}`, { user_id: worker.user_id }, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+        });
+      })
+```
+
+[Jest documentation](https://jestjs.io/docs/expect)
+
+There are four cases we need to test
+
+- Success with 200/201
+- req.body validation fails
+<Card color={'secondary'} style={{ padding: '16px' }}>
+  <Text>When user posts a field, req.body.location.figure.type === "area". If type is any other string such as "line" or
+    "point", endpoint should return 400</Text>
+</Card>
+- Authorization tests
+<Card color={'secondary'} style={{ padding: '16px' }}>
+  <Text>For this test, we need to make sure new user permissions are inserted into permission and rolePermission
+    tables</Text>
+  <br />
+  <Text>If we want to test post field endpoint, we need to make sure <strong>owner/manager/extension officer of current
+    farm</strong> can post successfully but <strong>owner/manager/extension officer of another farm and worker of
+    current farm</strong> can't post field </Text>
+  <br />
+  <Text>Requests should fail with 403</Text>
+</Card>
+- Patch protected column fails
+<Card color={'secondary'} style={{ padding: '16px' }}>
+  <Text>If we allow a farm owner to patch user info of a worker but farm owner should not be able to patch worker's
+    email address to gain access to the account. In this case, we need to write tests trying to patch email from
+    different perspective and make sure all attempts fail</Text>
+  <br />
+  <Text>Objection provide <a
+    href={'https://vincit.github.io/objection.js/api/query-builder/mutate-methods.html#upsertgraph'}>upsertGraph</a> method,
+    which allows us to update multiple tables with single query. However, if the query is not written properly, one can
+    update user table through user_id by sending following request. If upsertGraph is used, we need to write test to
+    make sure the endpoint can't modify unintended tables</Text>
+</Card>
+
+```js
+const maliciousPatchUserFarmRequestBody = {
+  user_id: 'user_id',
+  farm_id: 'farm_id',
+  user:{
+      user_id: 'user_id',
+      email: 'new email'
+  },
+  farm:{
+      farm_id: 'farm_id'
+  }
+}
+```
+
+### 5. Run tests to make sure tests fail as expected
+
+### 6. Middleware mock implementation
+
+After controllers are implemented, if test always fails, we might need to add mock implementations to functions that cause tests to fail
+
+Most endpoints are guarded by `checkJwt()` (jwt authentication middleware) . Authorization middleware `checkScope()` will then use the result (res.user) returned by jwt authentication middleware to check user permissions.
+In this case, we need to mock `checkJwt()` (jwt authentication middleware) so that `checkJwt()` will never return 401 and driver function can pass user_id into req.user for authorization.
+```js
+jest.mock('jsdom')
+jest.mock('../src/middleware/acl/checkJwt')
+const mocks = require('./mock.factories');
+describe('Crop Tests', () => {
+    beforeEach(async () => {
+      middleware = require('../src/middleware/acl/checkJwt');
+      middleware.mockImplementation((req, res, next) => {
+        req.user = {};
+        req.user.user_id = req.get('user_id');
+        next()
+      });
+  })
+})
+```
+
+
+
+<TechStackNavigation />
+
+
+

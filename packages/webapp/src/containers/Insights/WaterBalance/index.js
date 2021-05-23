@@ -4,11 +4,11 @@ import PageTitle from '../../../components/PageTitle';
 import { connect } from 'react-redux';
 import { waterBalanceScheduleSelector, waterBalanceSelector } from '../selectors';
 import WaterBalanceInfo from '../../../components/Insights/WaterBalanceInfo';
-import { Button } from 'react-bootstrap';
 import { createWaterBalanceSchedule } from '../actions';
 import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import Button from '../../../components/Form/Button';
 
 class WaterBalance extends Component {
   constructor(props) {
@@ -51,8 +51,10 @@ class WaterBalance extends Component {
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <Semibold>{t('INSIGHTS.WATER_BALANCE.FIRST_TIME')}</Semibold>
-          <Button onClick={this.createWaterBalanceSchedule} variant="primary">
+          <Semibold style={{ paddingBottom: '20px' }}>
+            {t('INSIGHTS.WATER_BALANCE.FIRST_TIME')}
+          </Semibold>
+          <Button onClick={this.createWaterBalanceSchedule} sm color="primary">
             {t('INSIGHTS.WATER_BALANCE.REGISTER_FARM')}
           </Button>
         </div>

@@ -1,21 +1,35 @@
 import { useForm } from 'react-hook-form';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureRoleSelection from '../../components/RoleSelection';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { patchRole } from '../AddFarm/saga';
 import history from '../../history';
 import { roleToId } from './roleMap';
 import { useTranslation } from 'react-i18next';
+import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
   const { t } = useTranslation();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const ROLE = 'role';
+  const OWNER_OPERATED = 'owner_operated';
+  const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const onSubmit = ({ role }) => {
+
+  const onSubmit = ({ role, owner_operated }) => {
     const callback = () => history.push('/consent');
-    dispatch(patchRole({ role, role_id: roleToId[role], callback }));
+    const boolOwnerOperated =
+      owner_operated === 'true' ? true : owner_operated === 'false' ? false : null;
+    dispatch(
+      patchRole({ role, owner_operated: boolOwnerOperated, role_id: roleToId[role], callback }),
+    );
   };
+
+  useEffect(() => {
+    setValue(ROLE, role);
+    setValue(OWNER_OPERATED, owner_operated?.toString());
+  }, []);
+
   const onGoBack = () => {
     history.push('/add_farm');
   };
@@ -27,25 +41,33 @@ function RoleSelection() {
         {
           label: t('ROLE_SELECTION.FARM_OWNER'),
           value: 'Owner',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
+
           defaultChecked: true,
         },
         {
           label: t('ROLE_SELECTION.FARM_MANAGER'),
           value: 'Manager',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
         },
         {
           label: t('ROLE_SELECTION.FARM_EO'),
           value: 'Extension Officer',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
+        },
+        {
+          label: t('common:YES'),
+          value: true,
+          hookFormRegister: register(OWNER_OPERATED),
+        },
+        {
+          label: t('common:NO'),
+          value: false,
+          hookFormRegister: register(OWNER_OPERATED),
         },
       ]}
       title={t('ROLE_SELECTION.TITLE')}
-    ></PureRoleSelection>
+    />
   );
 }
 

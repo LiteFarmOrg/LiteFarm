@@ -18,7 +18,7 @@ const locations = {
   CEREMONIAL_AREA: 'ceremonial_area',
   RESIDENCE: 'residence',
   SURFACEWATER: 'surface_water',
-  CREEK: 'creek',
+  WATERCOURSE: 'watercourse',
   FENCE: 'fence',
   BUFFER_ZONE: 'buffer_zone',
   GATE: 'gate',
@@ -41,7 +41,7 @@ const assetMock = {
   ceremonial_area: mocks.fakeArea,
   residence: mocks.fakeArea,
   surface_water: mocks.fakeArea,
-  creek: mocks.fakeLine,
+  watercourse: mocks.fakeLine,
   fence: mocks.fakeLine,
   buffer_zone: mocks.fakeLine,
   gate: mocks.fakePoint,
@@ -58,7 +58,7 @@ const assetSpecificMock = {
   ceremonial_area: () => ({}),
   residence: () => ({}),
   surface_water: mocks.fakeSurfaceWater,
-  creek: mocks.fakeCreek,
+  watercourse: mocks.fakeWatercourse,
   fence: mocks.fakeFence,
   buffer_zone: () => ({}),
   gate: () => ({}),
@@ -193,13 +193,23 @@ describe('Location tests', () => {
         done();
       });
     })
+
+    test('should not get deleted locations' , async (done) => {
+      const [locations] = await appendFieldToFarm(farm, 2);
+      await knex('location').where( { location_id: locations[0].location_id }).update({ deleted: true });
+      getLocationsInFarm({ user_id: user, farm_id: farm}, farm, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        done();
+      })
+    })
   });
 
-  xdescribe('DELETE /location ', () => {
+  describe('DELETE /location ', () => {
     test('should delete field', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      deleteLocation({user_id, farm_id }, field1.location_id, async (err, res) => {
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(200);
         const location = await knex('location').where({ location_id: field1.location_id }).first();
         const location2 = await knex('location').where({ location_id: field2.location_id }).first();
@@ -209,6 +219,82 @@ describe('Location tests', () => {
         done();
       });
     })
+
+    test('Delete should return 400 when field is referenced by fieldCrop', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      await mocks.fieldCropFactory({ promisedField: [field1] });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should delete field when field is referenced by expired fieldCrops', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const expiredFieldCrop = mocks.fakeFieldCrop();
+      expiredFieldCrop.end_date = expiredFieldCrop.start_date;
+      await mocks.fieldCropFactory({ promisedField: [field1] }, expiredFieldCrop);
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
+
+    test('Delete should return 400 when field is referenced by log', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      await mocks.activityFieldsFactory({
+        promisedActivityLog: mocks.activityLogFactory({ user_id }),
+        promisedField: [field1],
+      });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('should return 400 when field is referenced in shift', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const shiftData = mocks.fakeShift();
+      const today = new Date();
+      today.setDate(today.getDate() + 1 );
+      shiftData.shift_date = today;
+      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
+      await mocks.shiftTaskFactory({
+        promisedLocation: [{ location_id: field1.location_id }],
+        promisedShift: [shift],
+      });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    })
+    test('should return 400 when expired fieldCrop is referenced in shift', async (done) => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
+      const fakeFieldCrop = mocks.fakeFieldCrop();
+      const [fieldCrop1] = await mocks.fieldCropFactory({ promisedField: [field1] }, {
+        ...fakeFieldCrop,
+        end_date: fakeFieldCrop.start_date,
+      });
+      const shiftData = mocks.fakeShift();
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
+      shiftData.shift_date = today;
+      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
+      await mocks.shiftTaskFactory({
+        promisedFieldCrop: [fieldCrop1],
+        promisedLocation: [{}],
+        promisedShift: [shift],
+      }, { ...mocks.fakeShiftTask(), is_location: false });
+      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
   })
 
 
@@ -326,6 +412,36 @@ describe('Location tests', () => {
         });
     });
 
+    test('should fail to create a field without a name', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.name = '';
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field without grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points = [{}];
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field with only 2 grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points.pop();
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
     test('should fail to create a location without asset', (done) => {
       const validData = locationData(locations.BARN);
       delete validData.barn;
@@ -358,6 +474,7 @@ describe('Location tests', () => {
         });
     })
 
+
     test('should fail to modify  a user through the location graph', (done) => {
       const validData = locationData(locations.BARN);
       const data = { ...validData, updatedByUser: { user_id: user, first_name: 'Hacker', last_name: '1', email: 'maso@alas.com' }};
@@ -383,7 +500,7 @@ describe('Location tests', () => {
     });
   });
 
-  describe('PUT /location' , () => {
+  xdescribe('PUT /location' , () => {
     let user, farm;
 
     beforeEach(async () => {
@@ -428,6 +545,7 @@ describe('Location tests', () => {
         }
 
         putLocation(data, {user_id: user, farm_id: farm}, asset, location[0].location_id, (err, res) => {
+          console.log(res.body);
           expect(res.status).toBe(200);
           expect(res.body.name).toBe('Test Name323');
           done();
@@ -493,6 +611,7 @@ describe('Location tests', () => {
         },
       };
       putLocation(data, { user_id: user, farm_id: farm }, locations.GARDEN, location[0].location_id, (err, res) => {
+        console.log(data);
         expect(res.status).toBe(200);
         expect(res.body.name).toBe('Test Name323');
         expect(res.body.figure.type).toBe(locations.GARDEN);

@@ -1907,12 +1907,12 @@ paths:
                 $ref: '#/components/schemas/Location'
         403:
           description: No permission to create assets on the map
-  /location/creek:
+  /location/water_course:
     post:
       tags:
         - location
-      summary: Create a creek
-      operationId: postCreek
+      summary: Create a water course
+      operationId: postWaterCourse
       requestBody:
         content:
           application/json:
@@ -1920,7 +1920,7 @@ paths:
               $ref: '#/components/schemas/Location'
       responses:
         200:
-          description: Created the creek
+          description: Created the water course
           content:
             application/json:
               schema:
@@ -3217,7 +3217,7 @@ components:
             - $ref: '#/components/schemas/CeremonialArea'
             - $ref: '#/components/schemas/NaturalArea'
             - $ref: '#/components/schemas/GroundWater'
-            - $ref: '#/components/schemas/Creek'
+            - $ref: '#/components/schemas/WaterCourse'
             - $ref: '#/components/schemas/Fence'
             - $ref: '#/components/schemas/BufferZone'
             - $ref: '#/components/schemas/Gate'
@@ -3253,7 +3253,7 @@ components:
             - $ref: '#/components/schemas/CeremonialArea'
             - $ref: '#/components/schemas/NaturalArea'
             - $ref: '#/components/schemas/GroundWater'
-            - $ref: '#/components/schemas/Creek'
+            - $ref: '#/components/schemas/WaterCourse'
             - $ref: '#/components/schemas/Fence'
             - $ref: '#/components/schemas/BufferZone'
             - $ref: '#/components/schemas/Gate'
@@ -3293,7 +3293,7 @@ components:
       properties:
         used_for_irrigation:
           type: boolean
-    Creek:
+    WaterCourse:
       type: object
       properties:
         used_for_irrigation:

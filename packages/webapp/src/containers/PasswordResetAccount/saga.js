@@ -14,7 +14,7 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
@@ -54,5 +54,5 @@ export function* resetPasswordSaga({
 }
 
 export default function* resetUserPasswordSaga() {
-  yield takeLatest(resetPassword.type, resetPasswordSaga);
+  yield takeLeading(resetPassword.type, resetPasswordSaga);
 }

@@ -24,6 +24,7 @@ export default function PureChooseFarmScreen({
   return (
     <Layout
       hasWhiteBackground
+      classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
           {!isOnBoarding && (

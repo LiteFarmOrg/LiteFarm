@@ -17,9 +17,14 @@ import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { putField } from './saga';
-import { currentFieldCropsSelector, expiredFieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentAndPlannedFieldCropsSelector,
+  expiredFieldCropsSelector,
+} from '../../fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+
+//TODO to deprecate
 
 class EditField extends Component {
   static defaultProps = {
@@ -455,7 +460,7 @@ class EditField extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     farm: userFarmSelector(state),
     expiredFieldCrops: expiredFieldCropsSelector(state),
   };

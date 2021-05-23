@@ -34,6 +34,7 @@ Model.knex(knex);
 // import routes
 const loginRoutes = require('./routes/loginRoute');
 const cropRoutes = require('./routes/cropRoute');
+const cropVarietyRoutes = require('./routes/cropVarietyRoute');
 const fieldRoutes = require('./routes/fieldRoute');
 // const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
@@ -62,6 +63,7 @@ const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 const passwordResetRoutes = require('./routes/passwordResetRoute.js');
+const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -106,6 +108,7 @@ app.use(bodyParser.json())
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
+  .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
@@ -133,6 +136,7 @@ app.use(bodyParser.json())
   .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
+  .use('/showed_spotlight', showedSpotlightRoutes)
 
   // handle errors
   .use((req, res, next) => {

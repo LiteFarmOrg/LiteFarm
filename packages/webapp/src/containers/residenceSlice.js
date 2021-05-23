@@ -4,20 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-export const residenceEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  total_area: 'total_area',
-  total_area_unit: 'total_area_unit',
-  grid_points: 'grid_points',
-  perimeter: 'perimeter',
-  perimeter_unit: 'perimeter_unit',
-};
-const residenceProperties = [];
+const residenceProperties = ['location_id'];
 export const getLocationObjectFromResidence = (data) => {
   return {
     figure: {
@@ -30,8 +17,7 @@ export const getLocationObjectFromResidence = (data) => {
 };
 const getResidenceFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.residence, residenceProperties),
@@ -66,12 +52,14 @@ const residenceSlice = createSlice({
     onLoadingResidenceFail: onLoadingFail,
     getResidencesSuccess: upsertManyResidenceWithLocation,
     postResidenceSuccess: upsertOneResidenceWithLocation,
+    editResidenceSuccess: upsertOneResidenceWithLocation,
     deleteResidenceSuccess: residenceAdapter.removeOne,
   },
 });
 export const {
   getResidencesSuccess,
   postResidenceSuccess,
+  editResidenceSuccess,
   onLoadingResidenceStart,
   onLoadingResidenceFail,
   deleteResidenceSuccess,
@@ -92,10 +80,8 @@ export const residencesSelector = createSelector(
   },
 );
 
-export const residenceSelector = createSelector(
-  residenceReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const residenceSelector = (location_id) =>
+  createSelector(residenceEntitiesSelector, (entities) => entities[location_id]);
 
 export const residenceStatusSelector = createSelector(
   [residenceReducerSelector],

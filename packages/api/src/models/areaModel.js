@@ -33,6 +33,7 @@ class Area extends Model {
         figure_id: { type: 'string' },
         grid_points: {
           type: 'array',
+          minItems: 3,
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },
@@ -41,7 +42,7 @@ class Area extends Model {
         total_area: { type: 'number' },
         total_area_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
         perimeter: { type: 'number' },
-        perimeter_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        perimeter_unit: { type: 'string', enum: ['m', 'km', 'ft', 'mi'] },
       },
       additionalProperties: false,
     };

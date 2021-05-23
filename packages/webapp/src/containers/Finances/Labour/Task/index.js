@@ -6,9 +6,12 @@ import { useTranslation } from 'react-i18next';
 const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
   let data = [];
   let sortObj = {};
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'task']);
   for (let s of shifts) {
-    if (moment(s.start_time).isBetween(moment(startDate), moment(endDate))) {
+    if (
+      moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+      moment(s.shift_date).isSameOrBefore(moment(endDate))
+    ) {
       if (sortObj.hasOwnProperty(s.task_id)) {
         sortObj[s.task_id].time += parseInt(s.duration, 10);
         sortObj[s.task_id].labour_cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
@@ -16,7 +19,7 @@ const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
         sortObj[s.task_id] = {
           time: parseInt(s.duration, 10),
           labour_cost: parseFloat(s.wage_at_moment) * (s.duration / 60),
-          task: s.task_name,
+          task: t(`task:${s.task_translation_key}`),
         };
       }
     }

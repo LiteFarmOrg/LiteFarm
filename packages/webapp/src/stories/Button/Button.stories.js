@@ -31,6 +31,12 @@ Secondary.args = {
   children: 'Secondary',
 };
 
+export const Success = Template.bind({});
+Success.args = {
+  color: 'success',
+  children: 'Success',
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   color: 'primary',
@@ -69,11 +75,4 @@ InjectStyle.args = {
   color: 'primary',
   label: 'Button',
   style: style,
-};
-
-export const InjectBootstrapClassName = TemplateWithText.bind({});
-InjectBootstrapClassName.args = {
-  label: 'Button',
-  color: 'none',
-  className: 'btn btn-dark',
 };

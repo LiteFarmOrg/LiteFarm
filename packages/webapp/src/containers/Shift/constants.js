@@ -27,6 +27,10 @@ export const DELETE_SHIFT = 'DELETE_SHIFT';
 export const UPDATE_SHIFT = 'UPDATE_SHIFT';
 export const GET_ALL_SHIFT = 'GET_ALL_SHIFT';
 export const SUBMIT_MULTI_SHIFT = 'SUBMIT_MULTI_SHIFT';
+export const SET_SHIFT_TYPE = 'SET_SHIFT_TYPE';
+export const RESET_SHIFT_FILTER = 'RESET_SHIFT_FILTER';
+export const SET_SHIFT_START_DATE = 'SET_SHIFT_START_DATE';
+export const SET_SHIFT_END_DATE = 'SET_SHIFT_END_DATE';
 
 export const shiftRatings = [
   { key: 'happy', label: 'Happy', icon: '😃' },

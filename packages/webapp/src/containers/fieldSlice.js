@@ -4,24 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const fieldEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  total_area: 'total_area',
-  total_area_unit: 'total_area_unit',
-  grid_points: 'grid_points',
-  perimeter: 'perimeter',
-  perimeter_unit: 'perimeter_unit',
-  station_id: 'station_id',
-  organic_status: 'organic_status',
-  transition_date: 'transition_date',
-};
-
-const fieldProperties = ['station_id', 'organic_status', 'transition_date'];
+const fieldProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
 export const getLocationObjectFromField = (data) => {
   return {
     figure: {
@@ -34,8 +17,7 @@ export const getLocationObjectFromField = (data) => {
 };
 const getFieldFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.field, fieldProperties),
@@ -70,12 +52,14 @@ const fieldSlice = createSlice({
     onLoadingFieldFail: onLoadingFail,
     getFieldsSuccess: upsertManyFieldWithLocation,
     postFieldSuccess: upsertOneFieldWithLocation,
+    editFieldSuccess: upsertOneFieldWithLocation,
     deleteFieldSuccess: fieldAdapter.removeOne,
   },
 });
 export const {
   getFieldsSuccess,
   postFieldSuccess,
+  editFieldSuccess,
   onLoadingFieldStart,
   onLoadingFieldFail,
   deleteFieldSuccess,
@@ -94,10 +78,8 @@ export const fieldsSelector = createSelector(
   },
 );
 
-export const fieldSelector = createSelector(
-  fieldReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const fieldSelector = (location_id) =>
+  createSelector(fieldEntitiesSelector, (entities) => entities[location_id]);
 
 export const fieldStatusSelector = createSelector(
   [fieldReducerSelector],

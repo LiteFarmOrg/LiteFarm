@@ -15,10 +15,23 @@ Default.args = {
   label: 'checkbox',
 };
 
+export const Checked = Template.bind({});
+Checked.args = {
+  label: 'checkbox',
+  checked: true,
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   label: 'disabled',
   disabled: true,
+};
+
+export const CheckedAndDisabled = Template.bind({});
+CheckedAndDisabled.args = {
+  label: 'disabled',
+  disabled: true,
+  checked: true,
 };
 
 export const WithError = Template.bind({});

@@ -36,17 +36,20 @@
 
 .headerTitle {
   margin-top: 24px;
- margin-bottom: 24px;
-  }
+  margin-bottom: 24px;
+}
 
 @media only screen and (max-width: 421px) {
   .formContainer {
- margin-bottom: 24px;
-  height: 30px;    label {
+    margin-bottom: 24px;
+    height: 30px;
+
+    label {
       min-width: 88px;
       font-family: 'Avenir', sans-serif;
       font-weight: normal;
     }
+
     input {
       height: 30px;
       flex-grow: 1;

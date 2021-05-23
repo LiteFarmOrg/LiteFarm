@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Text } from '../../../components/Typography';
+import TechStackNavigation from '../teckStackNavigation';
+import DocLink from '../DocLink';
+
+<Meta title="Docs/tutorial/8.Redux and redux saga" />
+
+# Redux and redux saga
+
+| Resources |
+| --------- |
+| [Redux official tutorial](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) |
+| [Redux saga doc](https://redux-saga.js.org/docs/basics/DeclarativeEffects) |
+| [Redux saga takeLeading](https://redux-saga.js.org/docs/api#takeleadingpattern-saga-args) |
+| [Redux saga takeLatest](https://redux-saga.js.org/docs/api#takelatestpattern-saga-args) |
+| [Redux toolkit createEntityAdapter and state normalization](https://redux-toolkit.js.org/api/createEntityAdapter) |
+| [Redux reselect](https://github.com/reduxjs/reselect) |
+
+### 1. Redux toolkit
+
+### 2. Async calls with redux saga and axios
+
+<DocLink>
+  <Text>All saga functions involve <code>post</code> <code>put</code> <code>patch</code> <code>delete</code> should
+    use <DocLink
+      href={'https://redux-saga.js.org/docs/api#takeleadingpattern-saga-args'}>takeLeading</DocLink> listener.</Text>
+  <Text>All saga functions that only involve <code>get</code> should use <DocLink
+    href={'https://redux-saga.js.org/docs/api#takelatestpattern-saga-args'}>takeLatest</DocLink> listener. (example use
+    case: get all crops from server to fill cropReducer as cache)</Text>
+  <Text>All saga functions that do not involve any async calls should use <DocLink
+    href={'https://redux-saga.js.org/docs/api#takeeverypattern-saga-args'}>takeEvery</DocLink> listener. (example use
+    case: increase counter on button click)</Text>
+</DocLink>
+
+### 3. state normalization
+
+### 4. selector
+
+<TechStackNavigation />
+
+
+

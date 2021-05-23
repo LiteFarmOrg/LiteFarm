@@ -48,6 +48,12 @@ Optional.args = {
   optional: true,
 };
 
+export const HasLeaf = Template.bind({});
+HasLeaf.args = {
+  label: 'Leaf',
+  hasLeaf: true,
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   disabled: true,

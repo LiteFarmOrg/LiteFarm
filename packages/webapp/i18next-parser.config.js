@@ -2,7 +2,7 @@ module.exports = {
   contextSeparator: '_',
   // Key separator used in your translation keys
 
-  createOldCatalogs: true,
+  createOldCatalogues: true,
   // Save the \_old files
 
   defaultNamespace: 'translation',
@@ -38,10 +38,10 @@ module.exports = {
     default: ['JavascriptLexer'],
   },
 
-  lineEnding: 'auto',
+  lineEnding: 'lf',
   // Control the line ending. See options at https://github.com/ryanve/eol
 
-  locales: ['en', 'es', 'pt', 'fr'],
+  locales: ['en', 'es', 'pt'],
   // An array of the locales in your applications
 
   namespaceSeparator: ':',

@@ -43,12 +43,6 @@ xdescribe('insights test', () => {
     });
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
-
   afterAll(async (done) => {
     await tableCleanup(knex);
     await knex.destroy();
@@ -59,11 +53,15 @@ xdescribe('insights test', () => {
 
     async function generateSaleData(crop, quantity, user) {
       const [{ user_id, farm_id }] = user ? user : await createUserFarm(1);
-      const [{ field_id, created_by_user_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const { location_id, created_by_user_id } = location;
+      const [field] = await mocks.fieldFactory({ promisedLocation: [location] });
       const [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }] }, crop);
+      const [{ crop_variety_id }] = await mocks.crop_varietyFactory({ promisedFarm, promisedCrop });
       const [{ field_crop_id }] = await mocks.fieldCropFactory({
-        promisedField: [{ field_id, created_by_user_id }],
-        promisedCrop: [{ crop_id }],
+        promisedLocation: [location],
+        promisedField: [field],
+        promisedCropVariety: [{ crop_variety_id }],
       });
       const [{ sale_id }] = await mocks.saleFactory({ promisedUserFarm: [{ user_id, farm_id }] });
       const [{ crop_sale_id }] = await mocks.cropSaleFactory({
@@ -604,18 +602,18 @@ xdescribe('insights test', () => {
           const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
           const crop12020TotalQuantity = crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
           const data = res.body.data;
-          for(const cropSaleRes of data){
-            if(cropSaleRes[crop0CommonName]){
+          for (const cropSaleRes of data) {
+            if (cropSaleRes[crop0CommonName]) {
               expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-              expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value/crop0Sales[0].quantity_kg).toBeLessThan(0.01);
-              expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice/crop0TotalQuantity).toBeLessThan(0.01);
-            }else if(cropSaleRes[crop1CommonName]){
+              expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value / crop0Sales[0].quantity_kg).toBeLessThan(0.01);
+              expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice / crop0TotalQuantity).toBeLessThan(0.01);
+            } else if (cropSaleRes[crop1CommonName]) {
               expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-              expect(cropSaleRes[crop1CommonName][0].crop_price - crop12020Sales[0].sale_value/crop12020Sales[0].quantity_kg ).toBeLessThan(0.01);
-              expect(cropSaleRes[crop1CommonName][0].network_price - crop12020TotalPrice/crop12020TotalQuantity).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][0].crop_price - crop12020Sales[0].sale_value / crop12020Sales[0].quantity_kg).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][0].network_price - crop12020TotalPrice / crop12020TotalQuantity).toBeLessThan(0.01);
               expect(cropSaleRes[crop1CommonName][1].crop_date).toBe(moment().format('YYYY-MM'));
-              expect(cropSaleRes[crop1CommonName][1].crop_price - (crop1Sales[0].sale_value + crop1Sales[1].sale_value)/(crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg) ).toBeLessThan(0.01);
-              expect(cropSaleRes[crop1CommonName][1].network_price - crop1TotalPrice/crop1TotalQuantity).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][1].crop_price - (crop1Sales[0].sale_value + crop1Sales[1].sale_value) / (crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg)).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][1].network_price - crop1TotalPrice / crop1TotalQuantity).toBeLessThan(0.01);
             }
 
           }
@@ -626,11 +624,11 @@ xdescribe('insights test', () => {
             const crop0TotalPrice = crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[2].sale_value + crop0Sales[7].sale_value;
             const crop0TotalQuantity = crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[2].quantity_kg + crop0Sales[7].quantity_kg;
             const data = res.body.data;
-            for(const cropSaleRes of data){
-              if(cropSaleRes[crop0CommonName]){
+            for (const cropSaleRes of data) {
+              if (cropSaleRes[crop0CommonName]) {
                 expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
-                expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value/crop0Sales[0].quantity_kg ).toBeLessThan(0.01);
-                expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice/crop0TotalQuantity).toBeLessThan(0.01);
+                expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value / crop0Sales[0].quantity_kg).toBeLessThan(0.01);
+                expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice / crop0TotalQuantity).toBeLessThan(0.01);
               }
             }
             done();
@@ -698,8 +696,8 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as an owner', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -709,8 +707,8 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as a manager', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -720,8 +718,8 @@ xdescribe('insights test', () => {
       test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, field_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
-        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, field_id };
+        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();

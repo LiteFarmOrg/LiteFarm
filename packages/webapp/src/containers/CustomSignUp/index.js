@@ -18,7 +18,7 @@ import {
   ENTER_PASSWORD_PAGE,
   inlineErrors,
 } from './constants';
-import { isChrome } from '../../util';
+import { getLanguageFromLocalStorage, isChrome } from '../../util';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
@@ -40,13 +40,21 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
-  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    setError,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onTouched',
   });
-  const { user, component: componentToShow } = history.location;
+  const { user, component: componentToShow } = history.location?.state || {};
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
-  const refInput = register({ pattern: validEmailRegex });
+  const emailRegister = register(EMAIL, { pattern: validEmailRegex });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);
@@ -71,9 +79,9 @@ function CustomSignUp() {
   useEffect(() => {
     if (
       componentToShow === ENTER_PASSWORD_PAGE &&
-      i18n.language !== localStorage.getItem('litefarm_lang')
+      i18n.language !== getLanguageFromLocalStorage()
     ) {
-      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+      i18n.changeLanguage(getLanguageFromLocalStorage());
     }
   }, [componentToShow]);
 
@@ -134,6 +142,7 @@ function CustomSignUp() {
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
+            isVisible={showPureEnterPasswordPage}
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
@@ -157,8 +166,7 @@ function CustomSignUp() {
           inputs={[
             {
               label: t('SIGNUP.ENTER_EMAIL'),
-              inputRef: refInput,
-              name: EMAIL,
+              hookFormRegister: emailRegister,
               errors: errors[EMAIL] && (errors[EMAIL].message || t('SIGNUP.EMAIL_INVALID')),
             },
           ]}

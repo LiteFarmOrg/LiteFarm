@@ -20,6 +20,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
+import { finishedSelectingCertificationTypeSelector } from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -30,9 +31,23 @@ const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const InterestedOrganic = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
 );
-const OrganicPartners = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/OrganicPartners'),
+const CertificationSelection = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/CertificationSelection'),
 );
+
+const CertifierSelectionMenu = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+);
+
+const SetCertificationSummary = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/SetCertificationSummary'),
+);
+
+const RequestCertifier = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/RequestCertifier'),
+);
+
+const SSOUserCreateAccountInfo = React.lazy(() => import('../containers/SSOUserCreateAccountInfo'));
 
 function OnboardingFlow({
   step_one,
@@ -44,10 +59,12 @@ function OnboardingFlow({
   farm_id,
 }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
+  const selected = useSelector(finishedSelectingCertificationTypeSelector);
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
+        <Route path="/sso_signup_information" component={SSOUserCreateAccountInfo} />
         <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
         <Route path="/welcome" exact component={WelcomeScreen} />
         <Route path="/add_farm" exact component={AddFarm} />
@@ -61,8 +78,18 @@ function OnboardingFlow({
           />
         )}
         {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
-        {interested && <Route path="/organic_partners" exact component={OrganicPartners} />}
-        {step_four && <Route path="/outro" exact component={Outro} />}
+        {interested && (
+          <Route path="/certification_selection" exact component={CertificationSelection} />
+        )}
+        {selected && (
+          <>
+            <Route path="/certifier_selection_menu" exact component={CertifierSelectionMenu} />
+            <Route path="/requested_certifier" exact component={RequestCertifier} />
+            <Route path="/certification_summary" exact component={SetCertificationSummary} />
+            {step_four && <Route path="/outro" exact component={Outro} />}
+          </>
+        )}
+        {!selected && step_four && <Route path="/outro" exact component={Outro} />}
         <Route>
           <>
             {step_four && !has_consent && <Redirect to={'/consent'} />}
@@ -71,9 +98,6 @@ function OnboardingFlow({
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
             {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
-            {step_three && (!step_four || !certifiers?.length) && interested && (
-              <Redirect to={'/organic_partners'} />
-            )}
             {step_four && !step_five && !(interested && !certifiers?.length) && (
               <Redirect to={'/outro'} />
             )}

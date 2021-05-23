@@ -31,13 +31,13 @@
   height: 18px;
   width: 18px;
   background-color: white;
-  border: solid 2px var(--iconDefault);
+  border: solid 2px var(--grey600);
   border-radius: 2px;
 }
 // Change the color of the Checkbox
 /* When the Checkbox is checked, add a green background */
 .container input:checked ~ .checkmark {
-  background-color: var(--checkbox);
+  background-color: var(--teal700);
   border: none;
 }
 
@@ -70,10 +70,18 @@
 }
 
 .disabled .checkmark {
-  background-color: var(--btnDisabled);
-  border: none;
+  background-color: var(--grey200);
+  border: solid 2px var(--grey400);
 }
 
 .error {
   margin-top: 0;
+}
+
+.container input[disabled] ~ .label {
+  color: var(--grey600);
+}
+
+.container input[disabled]:checked ~ .checkmark:after {
+  border-color: var(--teal500);
 }

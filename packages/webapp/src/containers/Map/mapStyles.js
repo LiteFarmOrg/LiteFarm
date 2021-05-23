@@ -1,8 +1,9 @@
 import {
   barnColour,
+  bufferZoneColour,
   ceremonialSiteColour,
-  creekColour,
   farmBoundColour,
+  farmBoundHoverColour,
   fenceColour,
   fieldColour,
   gardenColour,
@@ -10,6 +11,7 @@ import {
   naturalAreaColour,
   residenceColour,
   surfaceWaterColour,
+  watercourseColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -29,6 +31,7 @@ export const areaStyles = {
   },
   farm_site_boundary: {
     colour: farmBoundColour,
+    hoverColour: farmBoundHoverColour,
     dashScale: 1,
     dashLength: '1px',
   },
@@ -65,15 +68,44 @@ export const areaStyles = {
 };
 
 export const lineStyles = {
-  creek: {
-    colour: creekColour,
+  watercourse: {
+    colour: watercourseColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: watercourseColour,
+      strokeWeight: 2,
+      fillColor: watercourseColour,
+      fillOpacity: 0.3,
+    },
+  },
+  farm_site_boundary: {
+    colour: farmBoundColour,
+    hoverColour: farmBoundHoverColour,
+    dashScale: 1,
+    dashLength: '1px',
+    polyStyles: {
+      strokeColor: 'transparent',
+      strokeWeight: 1,
+      fillColor: 'transparent',
+      fillOpacity: 0.3,
+    },
   },
   fence: {
     colour: fenceColour,
-    dashScale: 1,
+    dashScale: 0.7,
     dashLength: '6px',
+  },
+  buffer_zone: {
+    colour: bufferZoneColour,
+    dashScale: 0.7,
+    dashLength: '6px',
+    polyStyles: {
+      strokeColor: bufferZoneColour,
+      strokeWeight: 2,
+      fillColor: bufferZoneColour,
+      fillOpacity: 0.3,
+    },
   },
 };
 

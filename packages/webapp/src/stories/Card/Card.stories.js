@@ -33,6 +33,12 @@ Disabled.args = {
   children: 'Disabled',
 };
 
+export const Info = Template.bind({});
+Info.args = {
+  color: 'info',
+  children: 'info',
+};
+
 export const Blue = Template.bind({});
 Blue.args = {
   color: 'blue',

@@ -30,7 +30,7 @@ class Fence extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        pressure_treated: { type: 'boolean' },
+        pressure_treated: { type: ['boolean', null] },
       },
       additionalProperties: false,
     };

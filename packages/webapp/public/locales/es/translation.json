@@ -2,6 +2,7 @@
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es requerida",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
+    "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
     "FARM_IS_REQUIRED": "Nombre de finca es requerida",
     "FARM_LOCATION": "Ubicación de la finca",
     "FARM_LOCATION_INPUT_INFO": "Direccion de la calle ó use 'coma' para separar latitud y longitud (e.g. 49.250945, -123.238492)",
@@ -10,6 +11,45 @@
     "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
+  },
+  "CERTIFICATION": {
+    "CERTIFICATION_SELECTION": {
+      "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
+      "SUBTITLE_ONE": "Esta es una lista de certificadores de",
+      "SUBTITLE_TWO": "con los que trabajamos en tu pais",
+      "TITLE": "Que tipo de certificación?",
+      "TOOLTIP": "No ves tu certificación? Litefarm esta dedicado en apoyar la agricultura sostenible y las certificaciones son una gran parte de esto. Solicita otra certificacion aqui y haremos nuestro mejor esfuerzo en incorporarla en la aplicacion."
+    },
+    "CERTIFIER_SELECTION": {
+      "INFO": "Esto probablemente significa que Litefarm no trabaja actualmente con tu certificador - Lo sentimos! Litefarm si produce formularios genericos que te pueden ayudar en la mayoria de los casos.",
+      "NOT_FOUND": "No ves tu certificador?",
+      "REQUEST_CERTIFIER": "Solicita un certificador",
+      "TITLE": "Quien es tu certificador?"
+    },
+    "INPUT_PLACEHOLDER": "Tipo de busqueda",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "Planea conseguir o renovar certificación orgánica esta temporada?",
+      "TITLE": "Estas interesado en certificaciones?",
+      "WHY": "Por qué nosotros preguntamos ésto?",
+      "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
+    },
+    "REQUEST_CERTIFIER": {
+      "LABEL": "Certificador solicitado",
+      "REQUEST": "Que certificador te gustaria solicitar?",
+      "SORRY_ONE": "Lo sentimos - actualmente no trabajamos con ningun certificador",
+      "SORRY_THREE": "en tu pais. Te gustaria solicitar uno?",
+      "SORRY_TWO": ". te gustaria solicitar uno?",
+      "TITLE": "Solicitar un certificador"
+    },
+    "SUMMARY": {
+      "BAD_NEWS": "Litefarm actualmente no recolecta la informacion que necesitas para generar tus documentos de certificacion - Lo sentimos!",
+      "BAD_NEWS_INFO": "Sin embargo, podemos generar formularios genericos que pueden ayudarte con la mayoria de los certificadores. Indicaremos la informacion necesaria en la aplicacion con el icono de la hoja.",
+      "CERTIFICATION": "Certificacion",
+      "GOOD_NEWS": "Buenas noticias! Litefarm puede recolectar la informacion que necesitas para generar tus documentos de certificacion!",
+      "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
+      "TITLE": "Estas interesado en aplicar para:"
+    },
+    "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agrega otra finca",
@@ -39,6 +79,71 @@
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
+  },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_CROPS_T0_YOUR_FARM": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CAN_NOT_FIND": "MISSING",
+    "CREATE_MANAGEMENT_PLANS": "MISSING",
+    "CROP_CATALOG": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "HERE_YOU_CAN": "MISSING",
+    "LETS_BEGIN": "MISSING",
+    "ON_YOUR_FARM": "MISSING",
+    "SELECT_A_CROP": "MISSING",
+    "FILTER_TITLE": "MISSING"
+  },
+  "CROP_DETAIL": {
+    "ADD_PLAN": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_PERENNIAL": "MISSING",
+    "COMMERCIAL_AVAILABILITY": "MISSING",
+    "COMPLIANCE_DOC": "MISSING",
+    "DETAIL_TAB": "MISSING",
+    "EDIT_CROP_DETAIL": "MISSING",
+    "EXPENSE_RECORD": "MISSING",
+    "GENETICALLY_ENGINEERED": "MISSING",
+    "MANAGEMENT_PLANS": "MISSING",
+    "MANAGEMENT_TAB": "MISSING",
+    "ORGANIC": "MISSING",
+    "PERENNIAL": "MISSING",
+    "SEED": "MISSING",
+    "SEED_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "TREATED": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
+  },
+  "CROP": {
+    "ADD_COMPLIANCE_FILE": "MISSING",
+    "ADD_CROP": "MISSING",
+    "ADD_IMAGE": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_OR_PERENNIAL": "MISSING",
+    "IS_GENETICALLY_ENGINEERED": "MISSING",
+    "IS_ORGANIC": "MISSING",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "MISSING",
+    "NEED_DOCUMENT_TREATED": "MISSING",
+    "PERENNIAL": "MISSING",
+    "PERFORM_SEARCH": "MISSING",
+    "SEED": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
+    "TREATED": "MISSING",
+    "UPLOAD_LATER": "MISSING"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -87,9 +192,30 @@
       "PERIMETER": "Perimetro",
       "TOTAL_AREA": "Area total"
     },
+    "BARN": {
+      "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
+      "EDIT_TITLE": "Editar granero",
+      "NAME": "Nombre de granero",
+      "TITLE": "Agregar Granero",
+      "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
+    },
+    "BUFFER_ZONE": {
+      "EDIT_TITLE": "Editar delimitante",
+      "NAME": "Nombre de zona delimitante",
+      "TITLE": "Agregar zona delimitante",
+      "WIDTH": "Ancho de la zona delimitante"
+    },
+    "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Editar area ceremonial",
+      "NAME": "Nombre de area ceremonial",
+      "TITLE": "Agregar area ceremonial"
+    },
+    "CONFIRM_RETIRE": {
+      "BODY": "Retirar esta ubicación la eliminará del mapa de la granja.",
+      "TITLE": "Retirar ubicación?"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
-      "TRY_AGAIN": "Intenta de nuevo",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo."
     },
     "EXPORT_MODAL": {
@@ -100,13 +226,22 @@
       "TITLE": "Exporta tu mapa"
     },
     "FARM_SITE_BOUNDARY": {
-      "NAME": "Limites de la granja",
+      "EDIT_TITLE": "Editar limites de la granja",
+      "NAME": "Nombre de limites de la granja",
       "TITLE": "Agregar Limites de la granja"
+    },
+    "FENCE": {
+      "EDIT_TITLE": "Editar cerco",
+      "LENGTH": "Longitud del cerco",
+      "NAME": "Nombre de cercado",
+      "PRESSURE_TREATED": "Esto cerco es tratado a presión?",
+      "TITLE": "Agregar Cerco"
     },
     "FIELD": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "Editar campo",
       "FIELD_TYPE": "Que tipo de campo es?",
-      "NAME": "Campo",
+      "NAME": "Nombre de campo",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
       "TITLE": "Agregar campo",
@@ -114,16 +249,38 @@
     },
     "GARDEN": {
       "DATE": "Fecha de transición",
-      "GARDEN_TYPE": "MISSING",
-      "NAME": "MISSING",
+      "EDIT_TITLE": "Editar huerto",
+      "GARDEN_TYPE": "Tipo de huerto",
+      "NAME": "Nombre de huerto",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
-      "TITLE": "MISSING",
+      "TITLE": "Agregar huerto",
       "TRANSITIONING": "En transición"
     },
     "GATE": {
-      "NAME": "Puerta",
+      "EDIT_TITLE": "Editar puerta",
+      "NAME": "Nombre de puerta",
       "TITLE": "Agregar puerta"
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "Hay enriquecimiento de CO₂?",
+      "DATE": "Fecha de transicion",
+      "EDIT_TITLE": "Editar invernadero",
+      "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
+      "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
+      "NAME": "Nombre de invernadero",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "SUPPLEMENTAL_LIGHTING": "Tiene luz suplementaria?",
+      "TITLE": "Agregar invernadero",
+      "TRANSITIONING": "En transicion"
+    },
+    "LINE_DETAILS": {
+      "BUFFER_TITLE": "Cual es el ancho?",
+      "BUFFER_ZONE_WIDTH": "Ancho de la zona delimitante",
+      "RIPARIAN_BUFFER": "Zona de proteccion",
+      "WATERCOURSE": "Arroyo",
+      "WATERCOURSE_TITLE": "Cuales son los siguientes anchos?"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
@@ -131,23 +288,34 @@
       "BARN": "Granero",
       "BZ": "Zona delimitada",
       "CA": "Area ceremonial",
-      "CREEK": "Arroyo",
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
-      "GARDEN": "MISSING",
+      "GARDEN": "Huerto",
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
+      "LABEL": "Etiqueta",
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
-      "SURFACE_WATER": "MISSING",
+      "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra tu mapa",
+      "WATERCOURSE": "Arroyo",
       "WV": "Valvula de agua"
+    },
+    "NATURAL_AREA": {
+      "EDIT_TITLE": "Editar area natural",
+      "NAME": "Nombre de area natural",
+      "TITLE": "Agregar area natural"
+    },
+    "RESIDENCE": {
+      "EDIT_TITLE": "Editar residencia",
+      "NAME": "Nombre de residencia",
+      "TITLE": "Agregar residencia"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
@@ -158,16 +326,63 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
+    "SURFACE_WATER": {
+      "EDIT_TITLE": "Editar agua de superficie",
+      "IRRIGATION": "Es esta area usada para riego?",
+      "NAME": "Nombre de agua de superficie",
+      "TITLE": "Agregar agua de superficie"
+    },
+    "TAB": {
+      "CROPS": "Cultivo",
+      "DETAILS": "Detalles"
+    },
     "TITLE": "Mapa de granja",
+    "TUTORIAL": {
+      "ADJUST_AREA": {
+        "TEXT": "Clickea y arrastra los puntos para ajustar el area",
+        "TITLE": "Ajustar area"
+      },
+      "ADJUST_LINE": {
+        "TEXT": "Clickea y arrastra los puntos para ajustar la linea",
+        "TITLE": "Ajustar linea"
+      },
+      "AREA": {
+        "STEP_ONE": "Clickea donde quieras para empezar a dibujar",
+        "STEP_THREE": "Clickea y arrastra los puntos para ajustar la figura",
+        "STEP_TWO": "Clickea el punto inicial para cerrar el area",
+        "TITLE": "Dibuja un area"
+      },
+      "LINE": {
+        "STEP_FOUR": "(Para algunas lineas) agrega un ancho",
+        "STEP_ONE": "Clickea donde quieras para empezar a dibujar",
+        "STEP_THREE": "Opcionalmente, ajusta tu linea",
+        "STEP_TWO": "Haz doble click en el ultimo punto para finalizar",
+        "TITLE": "Dibuja una linea"
+      }
+    },
+    "UNABLE_TO_RETIRE": {
+      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos activos o planificados.",
+      "TITLE": "No se pudo retirar"
+    },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Editar valvula de agua",
       "GROUNDWATER": "Agua de pozo",
       "MAX_FLOW_RATE": "Flujo maximo",
       "MUNICIPAL_WATER": "Agua municipal",
-      "NAME": "Valvula de agua",
+      "NAME": "Nombre de valvula de agua",
       "RAIN_WATER": "Agua de lluvia",
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Agregar valvula de agua",
       "WATER_VALVE_TYPE": "Cual es la fuente?"
+    },
+    "WATERCOURSE": {
+      "BUFFER": "Zona de proteccion",
+      "EDIT_TITLE": "Editar arroyo",
+      "IRRIGATION": "Es usado para riego?",
+      "LENGTH": "Longitud total",
+      "NAME": "Nombre de arroyo",
+      "TITLE": "Agregar arroyo",
+      "WIDTH": "Ancho de arroyo"
     }
   },
   "FIELDS": {
@@ -211,6 +426,7 @@
         "NUMBER_OF_BEDS": "Número de camas",
         "NUTRIENT_LABEL": "Nutrientes en porcion comestible (100g)",
         "PERCENTAGE": "Porcentaje",
+        "REMOVE_CROP": "Remover cultivo",
         "SELECT_CROP_GROUP": "Selecciona grupo de cultivo",
         "SELECT_CROP_SUBGROUP": "Selecciona subgrupo de cultivo",
         "SELECT_CROP_TEMPLATE": "Selecciona plantilla de cultivo",
@@ -248,6 +464,9 @@
       "FIELD_NAME": "Nombre del campo"
     },
     "TITLE": "Campos"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
@@ -291,12 +510,14 @@
       "TITLE": "Satisfaccion del Trabajo"
     },
     "NITROGEN_BALANCE": {
+      "ABANDON": "Retirar programacion",
       "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
       "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
       "COUNT_MONTHS": "{{count}} mese",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
       "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
+      "GO_BACK": "Atras",
       "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
       "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
       "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
@@ -345,6 +566,10 @@
       "TITLE": "Balance de agua"
     }
   },
+  "INTRODUCE_MAP": {
+    "BODY": "El mapa tiene funcionalidades nuevas. Ahora puedes conseguirlo debajo del menu de Mi granja.",
+    "TITLE": "Actualizamos los mapas!"
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Año de nacimiento",
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesitar ser entre 1900 y",
@@ -389,39 +614,46 @@
     "IMPORTANT_THINGS": "Déjenos mostrarle un par de cosas importantes!",
     "SUCCESSFULLY_JOINED": "Se ha unido de manera exitosa"
   },
+  "LOCATION_CROPS": {
+    "ACTIVE_CROPS": "Cultivos activos",
+    "ADD_NEW": "Agregar un cultivo",
+    "INPUT_PLACEHOLDER": "Teclear para buscar",
+    "PAST_CROPS": "Cultivos pasados",
+    "PLANNED_CROPS": "Cultivos planificados"
+  },
   "LOG_COMMON": {
     "ACTION": "Acción",
     "ACTIVITY": "Actividad",
+    "ADD_A_LOG": "Agregar registro",
     "ADD_CUSTOM_PRODUCT": "Agregar un producto personalizado",
     "ADD_NEW_LOG": "Agregar nuevo registro",
     "ALL": "Todo",
     "ALL_CROPS": "Todos los cultivos",
-    "ALL_FIELDS": "Todos los campos",
+    "ALL_LOCATIONS": "Todas las ubicaciones ",
     "AMMONIA": "Amoniaco",
     "CHEMICAL_COMPOSITION": "Composición química",
-    "CHOOSE_DATE": "Elegir fecha",
+    "CHOOSE_DATE": "Seleccionar una fecha",
     "CROP": "Cultivo",
     "DATE": "Fecha",
-    "DEFAULT_PRODUCT": "Producto defectuoso",
+    "DEFAULT_PRODUCT": "Producto predeterminado",
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
+    "EDIT_A_LOG": "Editar registro",
     "ERROR_MISSING_CROP_FIELDS": "Error: Cultivos y campos perdidos",
-    "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
-    "FIELD": "Campo",
-    "FIELD_CROPS": "Cultivo de campos",
+    "FIELD_CROPS": "Cultivos",
     "FIELD_WORK": "Trabajo de campo",
-    "FIELDS": "Campos",
+    "FIELDS": "Ubicaciones",
     "FROM": "Desde",
     "HARVEST": "Cosecha",
     "HIDE": "Ocultar",
     "IRRIGATION": "Irrigación",
+    "LOCATION": "Ubicacion",
+    "LOCATIONS": "Ubicaciones",
     "LOG_ALL_CROPS": "Todos los cultivos",
-    "LOG_ALL_FIELDS": "Todos los campos",
     "LOG_HELP": "Ayuda de registro",
     "LOG_HELP_EXPLANATION": "Use los filtros para revisar su historia de acceso. Util para mantener registro de sus ingresos y otras actividades de la finca para su equipo de trabajo y certificadores.",
     "LOG_HISTORY": "Historia de acceso",
-    "NEW_LOG": "Nuevo registro",
     "NITRATE": "Nitrata",
     "NOTES": "Notas",
     "OTHER": "Otro",
@@ -430,23 +662,25 @@
     "POTASSIUM": "Potasio",
     "PRODUCT": "Producto",
     "PRODUCT_CHEMICAL_COMPOSITION": "Composición química del producto",
-    "PRODUCT_NAME": "Nombre del product",
+    "PRODUCT_NAME": "Nombre del producto",
     "PRODUCT_TEMPLATE_PLACEHOLDER": "Seleccione plantilla del producto",
     "QUANTITY": "Cantidad",
     "SCOUTING": "Exploracion",
     "SEARCH_BY_ACTIVITY": "Búsqueda de registro por actividad",
     "SEEDING": "Siembra",
-    "SELECT_FIELD": "Seleccionar Campo",
-    "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
+    "SELECT_CROP": "Seleccionar cultivo",
+    "SELECT_LOCATION": "Seleccionar ubicacion",
+    "SELECT_LOCATIONS": "Selecionar ubicaciones",
     "SELECT_PRODUCT": "Seleccionar producto",
+    "SELECT_TASK": "Seleccione tarea",
     "SELECT_TYPE": "Seleccionar Tipo",
     "SHOW": "Mostrar",
     "SOIL_DATA": "Información del suelo (tierra)",
-    "TO": "Para",
+    "TO": "Hasta",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo",
     "WATER": "Agua",
-    "WHAT_LOG": "Qué desea registrar?"
+    "ALL_FIELDS": "Todos los campos"
   },
   "LOG_DETAIL": {
     "ACTION_NEEDED": "Acción requerida",
@@ -462,32 +696,46 @@
   },
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Agregar fertilizante",
+    "FERTILIZER_TYPE": "Tipo de fertilizante",
     "FERTILIZING_QUANTITY": "Cantidad de fertilizante",
     "SELECT_TEMPLATE": "Seleccionar Plantilla",
     "TITLE": "Registro de fertilizante"
   },
   "LOG_FIELD_WORK": {
-    "TITLE": "Registro de trabajo de campo"
+    "DISCING": "Rastra doble o de discos",
+    "MULCH_TILL": "Lebranza con cobertura",
+    "PLOW": "Arar",
+    "RIDGE_TILL": "Lebranza de cresta",
+    "RIPPING": "Rastra pesada",
+    "TITLE": "Registro de trabajo de campo",
+    "ZONE_TILL": "Lebranza por zona"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_USE_TYPE": "Agregar uso habitual",
-    "CROP": "Selecciona un cultivo",
+    "ADD_A_HARVEST_USE": "Agregar uso de cosecha",
+    "ADD_CUSTOM_HARVEST_USE": "Agregar uso de cosecha personalizado",
+    "CROP": "Cultivo",
     "CROP_PLACEHOLDER": "Selecciona cultivo",
-    "FIELD": "Selecciona un campo",
-    "FIELD_PLACEHOLDER": "Selecciona campo",
+    "CUSTOM_HARVEST_USE": "Uso personalizado",
+    "DISEASE": "Enfermedad",
+    "HARVEST": "Cosecha",
     "HARVEST_ALLOCATION_SUBTITLE": "Aproximadamente cuanto de la cosecha se utilizará para cada propósito?",
-    "HARVEST_ALLOCATION_TITLE": "Registro de cosecha (paso 3)",
     "HARVEST_QUANTITY": "Cantidad de cosecha",
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
-    "HARVEST_USE_TYPE_TITLE": "Registro de cosecha (step 2)",
+    "OTHER": "Otro",
+    "PEST": "Peste",
     "QUANTITY": "Cantidad",
     "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales",
-    "TITLE": "Registro de cosecha (paso 1)",
+    "TITLE": "Registro de cosecha",
+    "WEED": "Melaza",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Cantidad para asignar"
   },
   "LOG_IRRIGATION": {
+    "DRIP": "Goteo",
+    "FLOOD": "Inundacion",
     "FLOW_RATE": "Tasa de flujo",
+    "SPRINKLER": "Aspersor",
+    "SUBSURFACE": "Subsuperficie",
     "TITLE": "Registro de irrigacion",
     "TOTAL_TIME": "Tiempo total"
   },
@@ -496,11 +744,12 @@
   },
   "LOG_PESTICIDE": {
     "ACTIVE_INGREDIENTS": "Ingredientes activos",
-    "ADD_CUSTOM_DISEASE": "Agregar enfermedad habitual",
     "ADD_CUSTOM_PESTICIDE": "Agregar pesticida habitual",
     "ADD_DISEASE": "Agregar enfermedad",
     "ADD_PESTICIDE": "Agregar pesticida",
     "ADD_TARGET": "Agregar objetivo",
+    "BIOLOGICAL_CONTROL": "Control Biologico",
+    "BURNING": "Quema",
     "CHOOSE_GROUP_PLACEHOLDER": "Elegir grupo",
     "CHOOSE_TARGET_PLACEHOLDER": "Elegir objetivo",
     "CHOOSE_TYPE_PLACEHOLDER": "Elegir un tipo",
@@ -510,7 +759,10 @@
     "DISEASE_GROUP": "Grupo de enfermedad",
     "DISEASE_TARGET": "Efecto de la enfermedad",
     "ENTRY_INTERVAL": "Tiempo de espera entre el uso de pesticida y el ingreso seguro de una persona al área",
+    "FOLIAR_SPRAY": "Pulverización foliar",
+    "HAND_PICK": "Remocion manual",
     "HARVEST_INTERVAL": "Tiempo de espera entre el uso de pesticida y el momento seguro para cosechar",
+    "HEAT_TREATMENT": "Tratamiendo de calor",
     "MISSING_DATA": "Error: información faltante",
     "PESTICIDE_CONTROL_TYPE": "Tipo de control del pesticida",
     "PESTICIDE_DETAILS": "Detalles del producto del pesticida",
@@ -519,6 +771,8 @@
     "PESTICIDE_NAME_LABEL": "Nombre del pesticida",
     "PESTICIDE_QUANTITY": "Cantidad de pesticida",
     "SCIENTIFIC_NAME": "Nombre científico (si lo conoce)",
+    "SOIL_FUMIGATION": "Fumgacion del Suelo",
+    "SYSTEMIC_SPRAY": "Espray sistemico",
     "TARGET": "Destinado a",
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
@@ -561,7 +815,7 @@
     "SPOTLIGHT": {
       "FARM": "Aquí tu puedes:, • Editar las características de su finca, • Recorre el mapa su finca, • Manejar sus trabajadores",
       "FARM_TITLE": "Este es el perfil de su finca",
-      "NOTIFICATION": "Here you can:, • Manejar sus tareas, • Ver actualizaciones importantes, • Coordinar actividades de la finca",
+      "NOTIFICATION": "Aqui puedes:, • Manejar sus tareas, • Ver actualizaciones importantes, • Coordinar actividades de la finca",
       "NOTIFICATION_TITLE": "Este es su Centro de Notificaciones",
       "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil"
@@ -570,31 +824,17 @@
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Proximamente!"
   },
-  "ORGANIC": {
-    "INTERESTED_IN_ORGANIC": {
-      "PARAGRAPH": "Planea conseguir o renovar certificación orgánica esta temporada?",
-      "TITLE": "Interesado(a) en orgánico?",
-      "WHY": "Por qué nosotros preguntamos ésto?",
-      "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
-    },
-    "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "El nombre del certificador es requerido",
-      "CERTIFIER_NAME_INFO": "Nuestros formularios son aceptados por la mayoria de los certificadores",
-      "CERTIFIER_NAME_LABEL": "Nombre del certificador",
-      "SELECT_CERTIFIER": "Por favor seleccione su certificador",
-      "THROUGH_APP": "A través de una aplicación!",
-      "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"
-    },
-    "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
+  "OUTRO": {
+    "ALL_DONE": "Excelente. Listo para ensuciarte las manos?",
+    "IMPORTANT_THINGS": "Y finalmente, déjenos mostrarle un par de cosas importantes!"
   },
-  "OUTRO": "Y finalmente, déjenos mostrarle un par de cosas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Muy bien!",
     "DESCRIPTION": "Su contraseña ha sido actualizada. Redirigiéndolo(a) a su finca en 10 segundos...",
     "TITLE": "Exito!"
   },
   "PASSWORD_RESET": {
-    "BUTTON": "Resend Link",
+    "BUTTON": "Reenviar link",
     "BUTTON_SENDING": "Enviando...",
     "DESCRIPTION_BOTTOM": "Por favor revise su correo electrónico.",
     "DESCRIPTION_TOP": "Un enlace ha sido enviado.",
@@ -629,9 +869,9 @@
       "ADDRESS": "Dirección",
       "CURRENCY": "Moneda de circulación",
       "FARM_NAME": "Nombre de la finca",
-      "MAKE_REQUEST": "Hacer solicitud",
+      "IMPERIAL": "Britanico",
+      "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de teléfono",
-      "REQUEST_DATA": "Ud. puede solicitar información para descargar y nosotros enviaremos información de la finca a su email en formato de csv.",
       "UNITS": "Unidades"
     },
     "PEOPLE_TAB": "Personas",
@@ -669,6 +909,7 @@
     "FARM_EO": "Oficial de extensión",
     "FARM_MANAGER": "Gerente o jefe de la finca",
     "FARM_OWNER": "Dueño(a) de la finca",
+    "IS_OWNER_OPERATED": "Es esta una finca operada por su dueño?",
     "TITLE": "Cúal es su rol en la finca?"
   },
   "SALE": {
@@ -786,64 +1027,49 @@
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
       "ADD_TASK": "Agregar tarea",
-      "ADJUST_HOURLY_WAGE": "Adjustar salario por hora",
       "ALL": "Todo",
       "ALL_CROPS": "Todos los cultivos",
-      "ALLOCATE_ACTIVITY": "Si necesita asignar mano de obra para una actividad en toda su finca, puede asignarla a todos sus campos y nosotros haremos el resto.",
       "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
-      "BREAK_DURATION": "Duración del descanso",
       "CHOOSE_DATE": "Elección de fecha",
       "CHOOSE_WORKERS": "Elegir trabajador",
-      "CROPS_ON_THIS_FARM": "Cultivos en esta finca",
-      "CROPS_ON_YOUR_FARM": "Cultivos en esta finca",
+      "CROPS": "Cultivos",
+      "CROPS_LABEL": "Cultivos",
       "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
-      "DURATION": "Duración",
-      "FIELDS_ON_YOUR_FARM": "Campos en su finca",
       "HAPPY": "Feliz",
       "INDIVIDUAL_CROPS": "Cultivos individuales",
-      "MINUTES": "Minutos",
+      "LOCATIONS": "Ubicaciones",
+      "LOCATIONS_LABEL": "Ubicaciones",
       "MOOD": "Cómo se sintió haciendo esta tarea?",
       "NAME_TASK": "Nombre de la tarea habitual",
       "NEUTRAL": "Neutral",
-      "NEW_SHIFT_TITLE_1": "Nuevo turno (Paso 1)",
-      "NEW_SHIFT_TITLE_2": "Nuevo turno (Paso 2)",
-      "NO_WAGE_SET": "No tiene un salario establecido, su costo de mano de obra para este turno está preestablecido en 0, puede cambiarlo en ",
-      "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_ALL": "Seleccionar todos",
       "SELECT_CROPS": "Seleccionar cultivos",
       "SELECT_FIELDS": "Seleccionar Campos",
-      "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
-      "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
-      "TIME_ALLOCATION": "Asignación de tiempo",
-      "TITLE_1": "Editar turno (Paso 1)",
-      "TITLE_2": "Editar turno (Paso 2)",
-      "TO_ASSIGN": "Para asignar",
       "VERY_HAPPY": "Muy feliz",
       "VERY_SAD": "Muy triste",
-      "WAGE_FOR_SHIFT": "Salario para este turno",
       "WHAT_TASKS_YOU_DID": "Qué tareas hizo hoy?",
       "WORKER": "Trabajador",
-      "WORKER_MOOD": "Como se sintio el trabajador en este turno?",
-      "YOU_HAVE": "Usted tiene"
+      "WORKER_MOOD": "Como se sintio el trabajador en este turno?"
     },
-    "END_TIME": "Tiempo final",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
-      "FIELD_CROPS": "Campos/Cultivos",
+      "LOCATION_CROPS": "Ubicaciones/Cultivos",
       "SUBMITTED_FOR": "Enviado para",
       "TASK": "Tarea",
       "TITLE": "Detalle de turno"
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
-      "STEP_ONE": "Nuevo turno (Paso 1)",
-      "STEP_TWO": "Nuevo turno (Paso 2)"
+      "STEP_ONE": "Agregar turno",
+      "STEP_TWO": "Agregar turno"
     },
+    "RETIRED": "Retirado",
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
-    "START_TIME": "Faltante",
+    "TIME_TOTAL": "Total",
     "TITLE": "Turnos"
   },
   "SIGNUP": {
@@ -860,13 +1086,12 @@
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
   "SLIDE_MENU": {
-    "FIELDS": "Campos",
+    "CROPS": "MISSING",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos",
-    "USERS": "Usuarios"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Activo",
@@ -889,8 +1114,8 @@
     "ROWS_TEXT": "filas"
   },
   "UNIT": {
-    "INVALID_NUMBER": "MISSING",
-    "MAXIMUM": "MISSING"
+    "INVALID_NUMBER": "Numero invalido",
+    "MAXIMUM": "Valor maximo excedido"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

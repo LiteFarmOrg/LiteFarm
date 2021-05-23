@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
+const cropVarietyModel = require('../models/cropVarietyModel');
 const { transaction, Model, UniqueViolationError } = require('objection');
 
 const cropController = {
@@ -29,6 +30,42 @@ const cropController = {
         const result = await baseController.postWithResponse(cropModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
+      } catch (error) {
+        let violationError = false;
+        if (error instanceof UniqueViolationError) {
+          violationError = true;
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+
+        }
+
+        //handle more exceptions
+        else {
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+        }
+
+      }
+    };
+  },
+
+  addCropAndVarietyWithFarmId() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const { crop, variety } = req.body;
+        crop.user_added = true;
+        crop.crop_translation_key = crop.crop_common_name;
+        const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
+        const newVariety = await baseController.postWithResponse(cropVarietyModel, { crop_id: newCrop.crop_id, ...variety }, req, { trx });
+        await trx.commit();
+        res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {
         let violationError = false;
         if (error instanceof UniqueViolationError) {
@@ -140,7 +177,7 @@ const cropController = {
 
   async get(farm_id) {
     //TODO fix user added flag
-    return await cropModel.query().whereNotDeleted().where('user_added', false).orWhere({ farm_id, deleted: false });
+    return await cropModel.query().whereNotDeleted().where('reviewed', true).orWhere({ farm_id, deleted: false });
   },
 
   async del(req, trx) {

@@ -12,7 +12,7 @@ export const initialState = {
   activity_id: null,
   selectedUseTypes: [],
   crops: null,
-  fields: null,
+  locations: null,
   notes: null,
   quantity_kg: null,
   validQuantity: true,
@@ -47,7 +47,7 @@ const logSliceReducer = createSlice({
       state.activity_kind = formData.activity_kind;
       state.date = formData.date;
       state.crops = formData.crops;
-      state.fields = formData.fields;
+      state.locations = formData.locations;
       state.notes = formData.notes;
       state.quantity_kg = formData.quantity_kg;
     },
@@ -96,7 +96,7 @@ export const harvestFormDataSelector = (state) => ({
   activity_kind: state?.tempStateReducer[logSliceReducer.name].activity_kind,
   date: state?.tempStateReducer[logSliceReducer.name].date,
   crops: state?.tempStateReducer[logSliceReducer.name].crops,
-  fields: state?.tempStateReducer[logSliceReducer.name].fields,
+  locations: state?.tempStateReducer[logSliceReducer.name].locations,
   quantity_kg: state?.tempStateReducer[logSliceReducer.name].quantity_kg,
 });
 export const canEditStepOneSelector = (state) => ({

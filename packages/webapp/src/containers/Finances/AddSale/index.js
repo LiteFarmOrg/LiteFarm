@@ -11,7 +11,7 @@ import { convertToMetric, getUnit } from '../../../util';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -86,6 +86,8 @@ class AddSale extends Component {
       }
     }
 
+    cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+
     return cropOptions;
   };
 
@@ -122,7 +124,7 @@ class AddSale extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

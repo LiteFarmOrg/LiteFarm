@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100vw',
-    overflowX: 'hidden',
     flexGrow: 1,
   },
   defaultHeight: {

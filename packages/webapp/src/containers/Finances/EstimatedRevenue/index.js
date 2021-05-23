@@ -7,7 +7,7 @@ import moment from 'moment';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -102,7 +102,12 @@ class EstimatedRevenue extends Component {
       {
         id: 'estimatedRevenue',
         Header: this.props.t('SALE.LABOUR.TABLE.EST_REVENUE'),
-        accessor: (d) => `${this.state.currencySymbol}${d.estimated_revenue}` || 'none',
+        accessor: 'estimated_revenue',
+        Cell: (d) => (
+          <span>{`${this.state.currencySymbol}${
+            d.value ? d.value.toFixed(2).toString() : ''
+          }`}</span>
+        ),
         minWidth: 75,
         Footer: (
           <div>
@@ -125,7 +130,6 @@ class EstimatedRevenue extends Component {
         <Table
           columns={revenueColumns}
           data={this.formatData(fieldCrops)}
-          showPagination={false}
           showPagination={true}
           pageSizeOptions={[10, 20, 50]}
           defaultPageSize={10}
@@ -139,7 +143,7 @@ class EstimatedRevenue extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentFieldCropsSelector(state),
+    fieldCrops: currentAndPlannedFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

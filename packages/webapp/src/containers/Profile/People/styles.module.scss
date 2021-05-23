@@ -57,6 +57,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
+  margin: auto;
 }
 
 .addUserContainer {
@@ -69,9 +70,10 @@
   justify-content: space-between;
   margin-bottom: 3%;
   align-items: center;
-  label{
+  label {
     min-width: 92px;
   }
+
   input {
     flex-grow: 1;
     min-width: 0;
@@ -240,7 +242,7 @@
 }
 
 .errorContainer {
-  color: #ec4c47;
+  color: #d02620;
   display: flex;
   align-items: center;
   margin: -0.75em auto 0.5em auto;

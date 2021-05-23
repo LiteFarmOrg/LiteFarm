@@ -14,16 +14,14 @@
  */
 
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import apiConfig, { rolesUrl, url, userFarmUrl } from '../apiConfig';
+import apiConfig, { url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import {
-  getUserFarmsSuccess,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
   selectFarmSuccess,
-  userFarmsByFarmSelector,
   userFarmSelector,
 } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
@@ -65,7 +63,11 @@ import {
   onLoadingBufferZoneFail,
   onLoadingBufferZoneStart,
 } from './bufferZoneSlice';
-import { getCreeksSuccess, onLoadingCreekFail, onLoadingCreekStart } from './creekSlice';
+import {
+  getWatercoursesSuccess,
+  onLoadingWatercourseFail,
+  onLoadingWatercourseStart,
+} from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import {
   getWaterValvesSuccess,
@@ -74,7 +76,6 @@ import {
 } from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
-  cropStatusSelector,
   getAllCropsSuccess,
   getCropsSuccess,
   onLoadingCropFail,
@@ -86,12 +87,19 @@ import {
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
 import i18n from '../locales/i18n';
-import { getLogs } from './Log/actions';
-import { getAllShifts } from './Shift/actions';
+import { getLogs, resetLogFilter } from './Log/actions';
+import { getAllShifts, resetShiftFilter } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
-import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
+import { getRoles } from './InviteUser/saga';
+import { getAllUserFarmsByFarmId } from './Profile/People/saga';
+import { getCertifiers } from './OrganicCertifierSurvey/saga';
+import {
+  getAllCropVarietiesSuccess,
+  onLoadingCropVarietyFail,
+  onLoadingCropVarietyStart,
+} from './cropVarietySlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -163,6 +171,25 @@ export function* getCropsSaga() {
     console.error('failed to fetch all crops from database');
   }
 }
+
+export const getCropVarieties = createAction(`getCropVarietiesSaga`);
+
+export function* getCropVarietiesSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingCropVarietyStart());
+    const result = yield call(axios.get, `${url}/crop_variety/farm/${farm_id}`, header);
+    const crops = result.data.map((cropVariety) => cropVariety.crop);
+    yield put(getAllCropsSuccess(crops));
+    yield put(getAllCropVarietiesSuccess(result.data));
+  } catch (e) {
+    yield put(onLoadingCropVarietyFail(e));
+    console.error('failed to fetch all crop varieties from database');
+  }
+}
+
 export const getFarmInfo = createAction(`getFarmInfoSaga`);
 
 export function* getFarmInfoSaga() {
@@ -216,7 +243,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingNaturalAreaStart());
   yield put(onLoadingResidenceStart());
   yield put(onLoadingBufferZoneStart());
-  yield put(onLoadingCreekStart());
+  yield put(onLoadingWatercourseStart());
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
@@ -268,7 +295,7 @@ const figureTypeActionMap = {
   natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
   residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
   buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
-  creek: { success: getCreeksSuccess, fail: onLoadingCreekFail },
+  watercourse: { success: getWatercoursesSuccess, fail: onLoadingWatercourseFail },
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
@@ -285,7 +312,9 @@ export function* getFieldCropsSaga() {
     yield put(onLoadingFieldCropStart());
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
     yield put(getFieldCropsSuccess(result.data));
-    yield put(getCropsSuccess(result.data.map((fieldCrop) => fieldCrop.crop)));
+    const cropVarieties = result.data.map((fieldCrop) => fieldCrop.crop_variety);
+    yield put(getAllCropVarietiesSuccess(cropVarieties));
+    yield put(getCropsSuccess(cropVarieties.map((cropVariety) => cropVariety.crop)));
   } catch (e) {
     yield put(onLoadingFieldCropFail(e));
     console.log('failed to fetch field crops from db');
@@ -339,45 +368,33 @@ export function* logUserInfoSaga() {
   }
 }
 
-export function* fetchAllSaga({ payload: userFarmIds }) {
+export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
+
+export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
   try {
-    const farm_id = userFarmIds.farm_id;
-    const selectedUserFarmIds = yield select(loginSelector);
-    const user_id = userFarmIds.user_id || selectedUserFarmIds.user_id;
+    yield put(selectFarmSuccess(userFarmIds));
+    const { has_consent } = yield select(userFarmSelector);
+    if (!has_consent) return;
 
-    const header = getHeader(user_id, farm_id);
-    if (!user_id) return;
+    const tasks = [
+      put(getCertifiers()),
+      put(getCrops()),
+      put(getCropVarieties()),
+      put(getLocations()),
+      put(getFieldCrops()),
+      put(getRoles()),
+      put(getAllUserFarmsByFarmId()),
+    ];
 
-    const tasks = [];
-    const onTaskSuccess = [];
-
-    const cropStatus = yield select(cropStatusSelector);
-    if (!cropStatus.loaded) {
-      tasks.push(call(axios.get, getCropsByFarmIdUrl(farm_id), header));
-      onTaskSuccess.push(getAllCropsSuccess);
-    }
-
-    tasks.push(call(axios.get, getLocationsUrl(farm_id), header));
-    onTaskSuccess.push(getLocationsSuccess);
-
-    // tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
-    // onTaskSuccess.push(getFieldCropsSuccess);
-
-    const roleStatus = yield select(rolesStatusSelector);
-    if (!roleStatus.loaded) {
-      tasks.push(call(axios.get, rolesUrl, header));
-      onTaskSuccess.push(getRolesSuccess);
-    }
-
-    const userFarms = yield select(userFarmsByFarmSelector);
-    if (userFarms?.length < 2) {
-      tasks.push(call(axios.get, userFarmUrl + '/farm/' + farm_id, header));
-      onTaskSuccess.push(getUserFarmsSuccess);
-    }
-
-    const responses = yield all(tasks);
-    yield all(responses.map((response, index) => put(onTaskSuccess[index](response.data))));
-    yield all([put(getLogs()), put(getAllShifts()), put(getSales()), put(getExpense())]);
+    yield all([
+      ...tasks,
+      put(getLogs()),
+      put(getAllShifts()),
+      put(getSales()),
+      put(getExpense()),
+      put(resetLogFilter()),
+      put(resetShiftFilter()),
+    ]);
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
@@ -450,14 +467,15 @@ const formatDate = (currDate) => {
 
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
-  yield takeLatest(updateUser.type, updateUserSaga);
+  yield takeLeading(updateUser.type, updateUserSaga);
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
-  yield takeLatest(putFarm.type, putFarmSaga);
+  yield takeLeading(putFarm.type, putFarmSaga);
   yield takeLatest(getLocations.type, getLocationsSaga);
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
-  yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
+  yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
+  yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);

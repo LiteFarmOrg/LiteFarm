@@ -1,0 +1,15 @@
+.paper {
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  width: calc(100% - 48px);
+  max-width: 480px;
+  padding: 20px;
+  outline: none;
+}
+
+.footer {
+  display: inline-flex;
+  gap: 12px;
+}

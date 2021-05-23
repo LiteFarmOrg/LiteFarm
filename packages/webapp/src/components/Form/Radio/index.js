@@ -9,15 +9,33 @@ const Radio = ({
   classes = {},
   children,
   style,
+  hookFormRegister,
+  onChange,
+  onBlur,
   inputRef,
   ...props
 }) => {
+  const name = hookFormRegister?.name ?? props?.name;
   return (
     <label
       className={clsx(styles.container, disabled && styles.disabled)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      <input ref={inputRef} type={'radio'} {...props} disabled={disabled} />
+      <input
+        name={name}
+        ref={hookFormRegister?.ref || inputRef}
+        onChange={(e) => {
+          onChange?.(e);
+          hookFormRegister?.onChange(e);
+        }}
+        onBlur={(e) => {
+          onBlur?.(e);
+          hookFormRegister?.onBlur(e);
+        }}
+        type={'radio'}
+        {...props}
+        disabled={disabled}
+      />
       <p className={clsx(styles.label)} style={classes.label}>
         {label}
       </p>
@@ -36,6 +54,14 @@ Radio.propTypes = {
     container: PropTypes.object,
   }),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  hookFormRegister: PropTypes.exact({
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    name: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default Radio;

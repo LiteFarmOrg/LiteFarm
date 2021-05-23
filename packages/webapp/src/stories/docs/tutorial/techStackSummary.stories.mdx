@@ -1,0 +1,71 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import locationSchema from '../../assets/techStackSummary/locationSchema.png'; import TechStackNavigation
+  from '../teckStackNavigation';
+
+<Meta title="Docs/tutorial/0.Tech stack summary" />
+
+# Data flow
+
+### How data is stored on the backend
+
+** Postgres:**
+
+<img src={locationSchema} />
+
+### How data is stored on the frontend
+
+** Redux store fieldReducer:**
+
+```js
+const fieldReducer = {
+  fieldReducer: {
+    ids: [
+      'b33c566e-ad15-11eb-945a-0242ac120002'
+    ],
+    entities: {
+      'b33c566e-ad15-11eb-945a-0242ac120002': {
+        farm_id: '9fd12c8a-ad15-11eb-80bb-0242ac120002',
+        name: 'Field',
+        notes: '',
+        location_id: 'b33c566e-ad15-11eb-945a-0242ac120002',
+        figure_id: 'b33d349e-ad15-11eb-945a-0242ac120002',
+        type: 'field',
+        total_area: 66601,
+        total_area_unit: 'ha',
+        grid_points: [
+          {
+            lat: 49.26654453351959,
+            lng: -123.17612132540896
+          },
+          {
+            lat: 49.26500428835197,
+            lng: -123.17689380160525
+          },
+          {
+            lat: 49.26500428835197,
+            lng: -123.17187270632937
+          },
+          {
+            lat: 49.26665654947446,
+            lng: -123.17075690737917
+          }
+        ],
+        perimeter: 1136,
+        perimeter_unit: 'km',
+        organic_status: 'Non-Organic',
+        station_id: null,
+        transition_date: null
+      }
+    },
+    loading: false,
+    loaded: true,
+    error: null
+  }
+}
+```
+
+<TechStackNavigation />
+
+
+
+

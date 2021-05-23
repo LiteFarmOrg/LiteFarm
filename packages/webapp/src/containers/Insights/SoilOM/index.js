@@ -6,6 +6,7 @@ import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import { roundToTwoDecimal } from '../../../util';
 
 class SoilOM extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class SoilOM extends Component {
                 <InsightsInfoComponent
                   title={element.field_name}
                   valueLabel={'%'}
-                  value={element.soil_om}
+                  value={roundToTwoDecimal(element.soil_om)}
                   percent={element.percentage}
                 />
                 <hr />

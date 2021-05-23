@@ -23,6 +23,10 @@ import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
+import { getLanguageFromLocalStorage } from '../../../util';
+import { useDispatch, useSelector } from 'react-redux';
+import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
+import { setSpotlightToShown } from '../../../containers/Map/saga';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -90,9 +94,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PureNavBar({
   showSpotLight,
   resetSpotlight,
-  showSwitchFarm,
   history,
-  setDefaultDateRange,
   showFinances,
   defaultOpenFloater,
 }) {
@@ -108,9 +110,15 @@ export default function PureNavBar({
     'message',
     'gender',
     'role',
+    'crop_nutrients',
     'harvest_uses',
     'soil',
+    'certifications',
+    'crop_group',
   ]);
+  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
+  const isIntroducingFarmMap = !introduce_map && navigation;
+  const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -119,7 +127,7 @@ export default function PureNavBar({
   const toggleManage = () => {
     setManageOpen(!manageOpen);
   };
-  const selectedLanguage = localStorage.getItem('litefarm_lang');
+  const selectedLanguage = getLanguageFromLocalStorage();
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
@@ -137,6 +145,7 @@ export default function PureNavBar({
   };
 
   const farmInfoClick = () => {
+    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'farm',
@@ -144,10 +153,12 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
+    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'));
     history.push('/map');
     closeFloater();
   };
   const peopleClick = () => {
+    if (!introduce_map) return;
     history.push({
       pathname: '/Profile',
       state: 'people',
@@ -271,7 +282,6 @@ export default function PureNavBar({
             closeDrawer={closeDrawer}
             toggleManage={toggleManage}
             setIsDrawerOpen={setIsDrawerOpen}
-            setDefaultDateRange={setDefaultDateRange}
             showFinances={showFinances}
           />
         </SwipeableDrawer>
@@ -283,6 +293,7 @@ export default function PureNavBar({
               farmInfoClick={farmInfoClick}
               farmMapClick={farmMapClick}
               peopleClick={peopleClick}
+              isIntroducingFarmMap={isIntroducingFarmMap}
             >
               <IconButton
                 aria-label="farm-icon"
@@ -317,7 +328,6 @@ export default function PureNavBar({
             </PureNotificationFloater>
 
             <PureProfileFloater
-              showSwitchFarm={showSwitchFarm}
               openProfile={isProfileFloaterOpen}
               helpClick={helpClick}
               myInfoClick={myInfoClick}
@@ -339,6 +349,7 @@ export default function PureNavBar({
           </div>
         </ClickAwayListener>
         {showSpotLight && (
+          //Deprecated
           <ReactJoyride
             steps={steps}
             continuous
@@ -427,7 +438,6 @@ const Logo = ({ history }) => {
 PureNavBar.propTypes = {
   showSpotLight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
-  showSwitchFarm: PropTypes.bool,
   history: PropTypes.object,
   setDefaultDateRange: PropTypes.func,
   showFinances: PropTypes.bool,

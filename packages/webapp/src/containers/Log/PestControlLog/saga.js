@@ -7,7 +7,7 @@ import {
   GET_PESTICIDES,
 } from './constants';
 import { getDiseases, getPesticides, setDiseaseInState, setPesticideInState } from './actions';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
@@ -121,10 +121,10 @@ export function* addDiseaseSaga(payload) {
 }
 
 export default function* pestControlSaga() {
-  yield takeEvery(GET_PESTICIDES, getPesticideSaga);
-  yield takeEvery(GET_DISEASES, getDiseaseSaga);
-  yield takeEvery(ADD_PESTICIDES, addPesticideSaga);
-  yield takeEvery(ADD_DISEASES, addDiseaseSaga);
-  yield takeEvery(ADD_PEST_CONTROL_LOG, addPestControlLog);
-  yield takeEvery(EDIT_PEST_CONTROL_LOG, editPestControlLog);
+  yield takeLatest(GET_PESTICIDES, getPesticideSaga);
+  yield takeLatest(GET_DISEASES, getDiseaseSaga);
+  yield takeLeading(ADD_PESTICIDES, addPesticideSaga);
+  yield takeLeading(ADD_DISEASES, addDiseaseSaga);
+  yield takeLeading(ADD_PEST_CONTROL_LOG, addPestControlLog);
+  yield takeLeading(EDIT_PEST_CONTROL_LOG, editPestControlLog);
 }

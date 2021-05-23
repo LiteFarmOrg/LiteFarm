@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -49,6 +49,7 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
       <PureMapHeader className={styles.mapHeader} farmName={farmName} />
       <div className={styles.mapContainer}>
         <div className={styles.workaround}>
+          {/*TODO: move to container*/}
           <GoogleMap
             style={{ flexGrow: 1 }}
             bootstrapURLKeys={{

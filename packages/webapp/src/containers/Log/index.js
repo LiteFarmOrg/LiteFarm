@@ -21,9 +21,24 @@ import history from '../../history';
 import { LocalForm } from 'react-redux-form';
 import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import moment from 'moment';
-import { getLogs, setEndDate, setSelectedLog, setStartDate } from './actions';
+import {
+  getLogs,
+  resetLogFilter,
+  setEndDate,
+  setLogCropFilter,
+  setLogFieldFilter,
+  setLogType,
+  setSelectedLog,
+  setStartDate,
+} from './actions';
 import { getFieldCropsByDate, getLocations } from '../saga';
-import { logSelector, startEndDateSelector } from './selectors';
+import {
+  logCropFilterSelector,
+  logFieldFilterSelector,
+  logSelector,
+  logTypeFilterSelector,
+  startEndDateSelector,
+} from './selectors';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import { getDiseases, getPesticides } from './PestControlLog/actions';
@@ -32,18 +47,18 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { fieldsSelector } from '../fieldSlice';
-import { currentFieldCropsSelector } from '../fieldCropSlice';
-import { Label, Semibold, Title } from '../../components/Typography';
+
+import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
+import { Label, Semibold, Title, Underlined } from '../../components/Typography';
 import Button from '../../components/Form/Button';
+import { colors } from '../../assets/theme';
+import { cropLocationsSelector } from '../locationSlice';
 
 class Log extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activityFilter: 'all',
-      cropFilter: 'all',
-      fieldFilter: 'all',
     };
     this.filterLogs = this.filterLogs.bind(this);
     this.getEditURL = this.getEditURL.bind(this);
@@ -62,7 +77,14 @@ class Log extends Component {
   // filter logs in table if an option is chosen from dropdown or date
   filterLogs(logs) {
     const { user } = this.props;
-    const { activityFilter, cropFilter, fieldFilter } = this.state;
+    const {
+      logType: activityFilterOption,
+      cropFilter: cropFilterOption,
+      fieldFilter: fieldFilterOption,
+    } = this.props;
+    const cropFilter = cropFilterOption?.value || 'all';
+    const fieldFilter = fieldFilterOption?.value || 'all';
+    const activityFilter = activityFilterOption?.value || 'all';
     let { startDate, endDate } = this.props.dates;
     startDate = moment(startDate);
     endDate = moment(endDate);
@@ -73,7 +95,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          checkFilter(l.location[0], 'location_id', fieldFilter) &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
       );
@@ -90,7 +112,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          checkFilter(l.location[0], 'location_id', fieldFilter) &&
           l.user_id === user.user_id &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
@@ -129,7 +151,7 @@ class Log extends Component {
   }
 
   render() {
-    let { crops, fields, logs } = this.props;
+    let { crops, locations, logs } = this.props;
 
     // data needed to populate dropdowns and tables
     let cropOptions = (crops &&
@@ -137,11 +159,11 @@ class Log extends Component {
         return { label: this.props.t(`crop:${c.crop_translation_key}`), value: c.crop_id };
       })) || [{ value: '', label: '' }];
     cropOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_CROPS') });
-    let fieldOptions = (fields &&
-      fields.map((f) => {
-        return { label: f.field_name, value: f.field_id };
+    let fieldOptions = (locations &&
+      locations.map((f) => {
+        return { label: f.name, value: f.location_id };
       })) || [{ value: '', label: '' }];
-    fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_FIELDS') });
+    fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_LOCATIONS') });
 
     const logTypes = [
       { value: 'all', label: this.props.t('LOG_COMMON.ALL') },
@@ -173,7 +195,8 @@ class Log extends Component {
       {
         id: 'date',
         Header: this.props.t('LOG_COMMON.DATE'),
-        accessor: (d) => moment(d.date).format('YYYY-MM-DD'),
+        Cell: (d) => <span>{moment(d.value).format('YYYY-MM-DD')}</span>,
+        accessor: (d) => moment(d.date),
         minWidth: 85,
       },
       {
@@ -192,22 +215,24 @@ class Log extends Component {
           if (d.fieldCrop.length > 1) {
             return 'Multiple';
           } else {
-            return d.fieldCrop.map((fc) => this.props.t(`crop:${fc.crop.crop_translation_key}`));
+            return d.fieldCrop.map((fc) =>
+              this.props.t(`crop:${fc.crop_variety.crop.crop_translation_key}`),
+            );
           }
         },
         minWidth: 70,
       },
       {
         id: 'field',
-        Header: this.props.t('common:FIELD'),
+        Header: this.props.t('common:LOCATION'),
         accessor: (d) => {
-          if (!d.field.length) {
+          if (!d.location.length) {
             return 'None';
           }
-          if (d.field.length > 1) {
+          if (d.location.length > 1) {
             return 'Multiple';
           } else {
-            return d.field.map((f) => f.field_name);
+            return d.location.map((f) => f.name);
           }
         },
         minWidth: 70,
@@ -252,12 +277,14 @@ class Log extends Component {
         <div>
           <Label>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</Label>
           <DropDown
-            defaultValue={{
-              value: 'all',
-              label: this.props.t('LOG_COMMON.ALL'),
-            }}
+            value={
+              this.props.logType ?? {
+                value: 'all',
+                label: this.props.t('LOG_COMMON.ALL'),
+              }
+            }
             options={logTypes}
-            onChange={(option) => this.setState({ activityFilter: option.value })}
+            onChange={(option) => this.props.dispatch(setLogType(option))}
             isSearchable={false}
             style={{ marginBottom: '24px' }}
           />
@@ -265,24 +292,32 @@ class Log extends Component {
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
-              defaultValue={{
-                value: 'all',
-                label: this.props.t('LOG_COMMON.ALL_CROPS'),
-              }}
+              value={
+                this.props.cropFilter ?? {
+                  value: 'all',
+                  label: this.props.t('LOG_COMMON.ALL_CROPS'),
+                }
+              }
               placeholder="Select Crop"
-              onChange={(option) => this.setState({ cropFilter: option.value })}
+              onChange={(option) => {
+                this.props.dispatch(setLogCropFilter(option));
+              }}
               isSearchable={false}
               style={{ flexBasis: '50%', marginRight: '24px' }}
             />
             <DropDown
               className={styles.pullRight}
               options={fieldOptions}
-              defaultValue={{
-                value: 'all',
-                label: this.props.t('LOG_COMMON.ALL_FIELDS'),
-              }}
+              value={
+                this.props.fieldFilter ?? {
+                  value: 'all',
+                  label: this.props.t('LOG_COMMON.ALL_LOCATIONS'),
+                }
+              }
               placeholder="Select Field"
-              onChange={(option) => this.setState({ fieldFilter: option.value })}
+              onChange={(option) => {
+                this.props.dispatch(setLogFieldFilter(option));
+              }}
               isSearchable={false}
               style={{ flexBasis: '50%' }}
             />
@@ -296,6 +331,12 @@ class Log extends Component {
             />
           </LocalForm>
         </div>
+        <Underlined
+          style={{ color: colors.brown700 }}
+          onClick={() => this.props.dispatch(resetLogFilter())}
+        >
+          {this.props.t('common:CLEAR_ALL_FILTERS')}
+        </Underlined>
         <div className={styles.table}>
           <Table
             columns={columns}
@@ -340,12 +381,15 @@ class Log extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentFieldCropsSelector(state),
-    fields: fieldsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
+    locations: cropLocationsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
     dates: startEndDateSelector(state),
     isAdmin: isAdminSelector(state),
+    fieldFilter: logFieldFilterSelector(state),
+    cropFilter: logCropFilterSelector(state),
+    logType: logTypeFilterSelector(state),
   };
 };
 

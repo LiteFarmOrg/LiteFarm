@@ -1,4 +1,4 @@
-.matrixItem{
+.matrixItem {
   flex: 0 0 33.3333%;
   @media only screen and (max-width: 400px) {
     flex: 0 0 50%;
@@ -14,7 +14,7 @@
   //min-block-size:100px;
 }
 .moodSelected {
-  background: #00756A !important;
+  background: #00756a !important;
 }
 
 .moodUnSelected {
@@ -22,7 +22,7 @@
   height: 80px;
   border-radius: 80px;
   margin: 0 auto;
-  background: #7BCFA2;
+  background: #7bcfa2;
 }
 .matrixContainer {
   display: flex;

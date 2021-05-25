@@ -43,7 +43,7 @@ export default function ComplianceInfo({
   const TREATED = 'treated';
 
   const organic = watch(CERTIFIED_ORGANIC);
-  const treatedReg = register(TREATED, {required: true});
+  const treatedReg = register(TREATED, { required: true });
   const treated = watch(TREATED);
   const disabled = !isValid;
 
@@ -134,13 +134,17 @@ export default function ComplianceInfo({
               </div>
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'Yes'} value={'YES'}/>
+              <Radio hookFormRegister={treatedReg} label={t('common:YES')} value={'YES'} />
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'No'} value={'NO'}/>
+              <Radio hookFormRegister={treatedReg} label={t('common:NO')} value={'NO'} />
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'Not sure'} value={'NOT_SURE'}/>
+              <Radio
+                hookFormRegister={treatedReg}
+                label={t('common:NOT_SURE')}
+                value={'NOT_SURE'}
+              />
             </div>
           </div>
         )}
@@ -156,13 +160,17 @@ export default function ComplianceInfo({
               </div>
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'Yes'} value={'YES'}/>
+              <Radio hookFormRegister={treatedReg} label={t('common:YES')} value={'YES'} />
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'No'} value={'NO'}/>
+              <Radio hookFormRegister={treatedReg} label={t('common:NO')} value={'NO'} />
             </div>
             <div>
-              <Radio hookFormRegister={treatedReg} label={'Not sure'} value={'NOT_SURE'}/>
+              <Radio
+                hookFormRegister={treatedReg}
+                label={t('common:NOT_SURE')}
+                value={'NOT_SURE'}
+              />
             </div>
           </div>
         )}

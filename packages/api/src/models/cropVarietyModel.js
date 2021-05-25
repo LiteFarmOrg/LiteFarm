@@ -39,7 +39,7 @@ class CropVariety extends BaseModel {
         lifecycle: { type: 'string', enum: ['ANNUAL', 'PERENNIAL'] },
         compliance_file_url: { type: ['string', null] },
         organic: { type: ['boolean', null] },
-        treated:  { type: 'string', enum: ['YES', 'NO', 'NOT_SURE'] },
+        treated:  { type: ['string', null], enum: ['YES', 'NO', 'NOT_SURE', null] },
         genetically_engineered: { type: ['boolean', null] },
         searched: { type: ['boolean', null] },
         protein: { type: ['number', null] },

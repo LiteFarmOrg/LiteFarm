@@ -10,7 +10,6 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
 import { useForm } from 'react-hook-form';
-import Radio from '../../Form/Radio';
 
 export default function ComplianceInfo({
   onSubmit,
@@ -43,8 +42,6 @@ export default function ComplianceInfo({
   const TREATED = 'treated';
 
   const organic = watch(CERTIFIED_ORGANIC);
-  const treatedReg = register(TREATED, { required: true });
-  const treated = watch(TREATED);
   const disabled = !isValid;
 
   const labelStyle = {
@@ -133,19 +130,8 @@ export default function ComplianceInfo({
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <div>
-              <Radio hookFormRegister={treatedReg} label={t('common:YES')} value={'YES'} />
-            </div>
-            <div>
-              <Radio hookFormRegister={treatedReg} label={t('common:NO')} value={'NO'} />
-            </div>
-            <div>
-              <Radio
-                hookFormRegister={treatedReg}
-                label={t('common:NOT_SURE')}
-                value={'NOT_SURE'}
-              />
-            </div>
+
+            <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
           </div>
         )}
       </div>
@@ -159,19 +145,7 @@ export default function ComplianceInfo({
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <div>
-              <Radio hookFormRegister={treatedReg} label={t('common:YES')} value={'YES'} />
-            </div>
-            <div>
-              <Radio hookFormRegister={treatedReg} label={t('common:NO')} value={'NO'} />
-            </div>
-            <div>
-              <Radio
-                hookFormRegister={treatedReg}
-                label={t('common:NOT_SURE')}
-                value={'NOT_SURE'}
-              />
-            </div>
+            <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
           </div>
         )}
       </div>

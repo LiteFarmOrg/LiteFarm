@@ -20,7 +20,6 @@ export default function PureCertifierSelectionScreen({
   allSupportedCertificationTypes,
   certificationType,
 }) {
-  console.log(selectedCertifier, certifierType, certificationType);
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();

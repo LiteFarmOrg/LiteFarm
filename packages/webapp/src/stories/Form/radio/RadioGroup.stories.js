@@ -13,7 +13,6 @@ const RadioGroupWithHookForm = ({ defaultValues, ...props }) => {
     mode: 'onChange',
     defaultValues: defaultValues,
   });
-  console.log({ isValid });
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <RadioGroup

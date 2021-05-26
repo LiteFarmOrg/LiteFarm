@@ -1,5 +1,5 @@
 import React from 'react';
-import PureAddCrop from '../../../components/AddCrop/';
+import PureAddCrop from '../../../components/AddCropVariety/';
 import decorators from '../config/decorators';
 import ImagePickerWrapper from '../../../containers/ImagePickerWrapper';
 import { AddLink } from '../../../components/Typography';

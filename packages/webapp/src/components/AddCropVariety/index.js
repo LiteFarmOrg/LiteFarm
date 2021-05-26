@@ -23,7 +23,6 @@ export default function PureAddCropVariety({
   handleGoBack,
   handleCancel,
 }) {
-  console.log(match);
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const {
     register,

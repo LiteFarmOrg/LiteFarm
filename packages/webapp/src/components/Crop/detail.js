@@ -35,8 +35,7 @@ function PureCropDetail({
   const TREATED = 'treated';
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
-  const isOrganic = watch(ORGANIC);
-
+  const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
   return (
     <Form
       onSubmit={handleSubmit(submitForm)}
@@ -141,7 +140,7 @@ function PureCropDetail({
             hookFormControl={control}
             name={ORGANIC}
           />
-          {!variety?.organic && (
+          {!isOrganic && (
             <>
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}

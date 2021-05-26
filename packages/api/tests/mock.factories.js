@@ -411,7 +411,7 @@ function fakeCropVariety() {
     lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
     compliance_file_url: faker.internet.url(),
     organic: faker.random.boolean(),
-    treated: faker.random.boolean(),
+    treated: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
     genetically_engineered: faker.random.boolean(),
     searched: faker.random.boolean(),
     protein: faker.random.number(10),

@@ -1,17 +1,17 @@
 import React from 'react';
-import PureAddCrop from '../../../components/AddCropVariety/';
+import AddCropVariety from '../../../components/AddCropVariety/';
 import decorators from '../config/decorators';
 import ImagePickerWrapper from '../../../containers/ImagePickerWrapper';
 import { AddLink } from '../../../components/Typography';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
-  title: 'Form/AddCrop',
+  title: 'Form/AddCropVariety',
   decorators: decorators,
-  component: PureAddCrop,
+  component: AddCropVariety,
 };
 
-const Template = (args) => <PureAddCrop {...args} />;
+const Template = (args) => <AddCropVariety {...args} />;
 
 const cropEnum = {
   variety: 'VARIETY',

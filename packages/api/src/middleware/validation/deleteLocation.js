@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const fieldCropModel = require('../../models/fieldCropModel');
+const managementPlanModel = require('../../models/managementPlanModel');
 const activityLogModel = require('../../models/activityLogModel');
 const shiftTaskModel = require('../../models/shiftTaskModel');
 const { raw } = require('objection');
@@ -21,7 +21,7 @@ const { raw } = require('objection');
 async function validateLocationDependency(req, res, next) {
 
   const location_id = req?.params?.location_id;
-  const fieldCrops = await fieldCropModel.query().whereNotDeleted().where({ location_id }).andWhere(raw('end_date >= now()'));
+  const fieldCrops = await managementPlanModel.query().whereNotDeleted().where({ location_id }).andWhere(raw('harvest_date >= now()'));
   if (fieldCrops.length) {
     return res.status(400).send('Location cannot be deleted when it has a fieldCrop');
   }
@@ -34,7 +34,7 @@ async function validateLocationDependency(req, res, next) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }
 
-  const fieldCropShifts = await shiftTaskModel.query().join('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('fieldCrop.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
+  const fieldCropShifts = await shiftTaskModel.query().join('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('management_plan.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
   if (fieldCropShifts.length) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }

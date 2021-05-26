@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const fieldCropModel = require('../models/fieldCropModel');
+const managementPlanModel = require('../models/managementPlanModel');
 const { transaction, Model, raw } = require('objection');
 const knex = Model.knex();
 
@@ -23,7 +23,7 @@ const FieldCropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(fieldCropModel, req.body, req, { trx });
+        const result = await baseController.postWithResponse(managementPlanModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -41,7 +41,7 @@ const FieldCropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, req, { trx });
+        const isDeleted = await baseController.delete(managementPlanModel, req.params.field_crop_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -61,7 +61,7 @@ const FieldCropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, req, { trx });
+        const updated = await baseController.put(managementPlanModel, req.params.field_crop_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -83,7 +83,7 @@ const FieldCropController = {
     return async (req, res) => {
       try {
         const field_crop_id = req.params.field_crop_id;
-        const fieldCrop = await fieldCropModel.query().whereNotDeleted().findById(field_crop_id)
+        const fieldCrop = await managementPlanModel.query().whereNotDeleted().findById(field_crop_id)
           .withGraphFetched(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
@@ -103,7 +103,7 @@ const FieldCropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
@@ -125,7 +125,7 @@ const FieldCropController = {
       try {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
-        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
@@ -146,7 +146,7 @@ const FieldCropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,

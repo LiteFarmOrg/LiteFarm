@@ -223,7 +223,7 @@ describe('Location tests', () => {
     test('Delete should return 400 when field is referenced by fieldCrop', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.fieldCropFactory({ promisedField: [field1] });
+      await mocks.management_planFactory({ promisedField: [field1] });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -234,8 +234,8 @@ describe('Location tests', () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const expiredFieldCrop = mocks.fakeFieldCrop();
-      expiredFieldCrop.end_date = expiredFieldCrop.start_date;
-      await mocks.fieldCropFactory({ promisedField: [field1] }, expiredFieldCrop);
+      expiredFieldCrop.harvest_date = expiredFieldCrop.seed_date;
+      await mocks.management_planFactory({ promisedField: [field1] }, expiredFieldCrop);
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(200);
         done();
@@ -276,9 +276,9 @@ describe('Location tests', () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const fakeFieldCrop = mocks.fakeFieldCrop();
-      const [fieldCrop1] = await mocks.fieldCropFactory({ promisedField: [field1] }, {
+      const [fieldCrop1] = await mocks.management_planFactory({ promisedField: [field1] }, {
         ...fakeFieldCrop,
-        end_date: fakeFieldCrop.start_date,
+        harvest_date: fakeFieldCrop.seed_date,
       });
       const shiftData = mocks.fakeShift();
       const today = new Date();
@@ -286,7 +286,7 @@ describe('Location tests', () => {
       shiftData.shift_date = today;
       const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
       await mocks.shiftTaskFactory({
-        promisedFieldCrop: [fieldCrop1],
+        promisedManagementPlan: [fieldCrop1],
         promisedLocation: [{}],
         promisedShift: [shift],
       }, { ...mocks.fakeShiftTask(), is_location: false });

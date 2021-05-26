@@ -14,7 +14,6 @@
  */
 
 const locationModel = require('../../models/locationModel');
-const fieldCropModel = require('../../models/fieldCropModel');
 const { fieldCropEnabledLocations } = require('./location');
 
 async function validateLogLocationId(req, res, next) {

@@ -75,9 +75,9 @@ exports.up = async function(knex) {
 };
 
 exports.down = async function(knex) {
-  await knex.dropTable('container');
-  await knex.dropTable('broadcast');
-  await knex.dropTable('crop_management_plan');
+  await knex.schema.dropTable('container');
+  await knex.schema.dropTable('broadcast');
+  await knex.schema.dropTable('crop_management_plan');
   await knex.schema.renameTable('management_plan', 'fieldCrop');
   await knex.schema.alterTable('fieldCrop', (t) => {
     t.decimal('area_used');
@@ -95,8 +95,14 @@ exports.down = async function(knex) {
     t.dropColumn('termination_date');
     t.dropColumn('termination_days');
     t.dropColumn('harvest_days');
-    t.renameColumn('seed_date', 'start_date')
-    t.renameColumn('harvest_date', 'end_date')
+    t.renameColumn('seed_date', 'start_date');
+    t.renameColumn('harvest_date', 'end_date');
+    t.renameColumn('management_plan_id', 'field_crop_id');
+  });
+  await knex.schema.alterTable('activityCrops', (t) => {
+    t.renameColumn('management_plan_id', 'field_crop_id');
+  });
+  await knex.schema.alterTable('shiftTask', (t) => {
     t.renameColumn('management_plan_id', 'field_crop_id');
   });
 };

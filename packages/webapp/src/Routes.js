@@ -206,7 +206,7 @@ const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
 const ComplianceInfo = React.lazy(() => import('./containers/AddCrop/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
-const PureAddManagementPlan = React.lazy(() => import('./components/Crop/addManagementPlan'));
+const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -303,6 +303,7 @@ const Routes = () => {
             />
             <Route path="/crop/:variety_id/detail" component={CropDetail} />
             <Route path="/crop/:variety_id/management" component={CropManagement} />
+            <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
 
@@ -489,7 +490,6 @@ const Routes = () => {
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
             <Route path="/crop/:variety_id/detail" component={CropDetail} />
             <Route path="/crop/:variety_id/management" component={CropManagement} />
-            <Route path="/crop/management/add_plan" component={PureAddManagementPlan}/>
             <Route
               path="/natural_area/:location_id/details"
               exact
@@ -550,6 +550,7 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
+            <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
@@ -620,7 +621,6 @@ const Routes = () => {
 
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-            <Route path="/crop/management/add_plan" exact component={PureAddManagementPlan} />
             <Route path="/map" exact component={Map} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />

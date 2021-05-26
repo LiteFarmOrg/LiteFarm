@@ -3,6 +3,7 @@ import PureAddCrop from '../../../components/AddCrop/';
 import decorators from '../config/decorators';
 import ImagePickerWrapper from '../../../containers/ImagePickerWrapper';
 import { AddLink } from '../../../components/Typography';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/AddCrop',
@@ -45,5 +46,5 @@ Primary.args = {
   ),
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

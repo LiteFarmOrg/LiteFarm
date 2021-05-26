@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import JoinFarmSuccessScreen from '../../../../components/JoinFarmSuccessScreen';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Page/JoinFarmSuccessScreen',
@@ -15,7 +16,7 @@ Primary.args = {
   farm_name: 'Data Farm',
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Show_spot_light = Template.bind({});
@@ -24,5 +25,5 @@ Show_spot_light.args = {
   showSpotLight: true,
 };
 Show_spot_light.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import PureSetCertificationSummary from '../../../../components/SetCertificationSummary';
 import decorators from '../../config/decorators';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/SetCertificationSummary',
@@ -20,5 +21,5 @@ Primary.args = {
   name: 'Certifier',
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

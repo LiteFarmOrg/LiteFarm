@@ -1,6 +1,7 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureMapSuccessHeader from '../../../../components/Map/SuccessHeader/';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/SuccessHeader',
@@ -16,5 +17,5 @@ Primary.args = {
   title: 'Farm site boundary successfully saved',
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

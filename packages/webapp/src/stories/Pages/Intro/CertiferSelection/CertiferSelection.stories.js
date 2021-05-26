@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import PureCertifierSelectionScreen from '../../../../components/CertifierSelection';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/PureCertifierSelectionScreen',
@@ -97,7 +98,7 @@ NotSearchable.args = {
   certificationType,
 };
 NotSearchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Searchable = Template.bind({});
@@ -108,5 +109,5 @@ Searchable.args = {
   certificationType,
 };
 Searchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

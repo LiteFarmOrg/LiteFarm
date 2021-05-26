@@ -2,6 +2,7 @@ import React from 'react';
 import decorators from '../config/decorators';
 // import PureMap from '../../../components/Map/';
 import Map from '../../../containers/Map/';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Page/Map',
@@ -16,5 +17,5 @@ AdminMap.args = {
   history: { location: {} },
 };
 AdminMap.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

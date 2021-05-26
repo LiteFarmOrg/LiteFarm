@@ -1,6 +1,7 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import ProgressBar from '../../../../components/Map/ProgressBar';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/ProgressBar',
@@ -15,5 +16,5 @@ Primary.args = {
   closeSuccessHeader: () => {},
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

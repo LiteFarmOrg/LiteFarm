@@ -1,6 +1,7 @@
 import React from 'react';
 import { componentDecoratorsGreyBackground } from '../Pages/config/decorators';
 import FarmSwitchPureOutroSplash from '../../components/FarmSwitchOutro';
+import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
 export default {
   title: 'Components/Modals/FarmSwitchModal',
@@ -13,5 +14,5 @@ const Template = (args) => <FarmSwitchPureOutroSplash {...args} />;
 export const Primary = Template.bind({});
 Primary.args = { farm_name: 'liteFarm' };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
-import decorators, { componentDecoratorsWithoutPadding } from '../../config/decorators';
+import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import DrawingManager from '../../../../components/Map/DrawingManager/';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/DrawingManager',
@@ -16,7 +17,7 @@ DrawingArea.args = {
   isDrawing: true,
 };
 DrawingArea.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const DrewArea = Template.bind({});
@@ -25,7 +26,7 @@ DrewArea.args = {
   isDrawing: false,
 };
 DrewArea.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const DrawingPoint = Template.bind({});
@@ -34,7 +35,7 @@ DrawingPoint.args = {
   isDrawing: true,
 };
 DrawingPoint.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const DrewPoint = Template.bind({});
@@ -43,5 +44,5 @@ DrewPoint.args = {
   isDrawing: false,
 };
 DrewPoint.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

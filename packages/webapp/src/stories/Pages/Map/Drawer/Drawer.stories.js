@@ -2,6 +2,7 @@ import React from 'react';
 import decorators from '../../config/decorators';
 import PureMapFooter from '../../../../components/Map/Footer/';
 import { locationEnum } from '../../../../containers/Map/constants';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/Drawer',
@@ -53,7 +54,7 @@ Filter.args = {
   filterSettings: { barn: true },
 };
 Filter.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Add = Template.bind({});
@@ -64,5 +65,5 @@ Add.args = {
   drawerDefaultHeight: window.innerHeight - 156,
 };
 Filter.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

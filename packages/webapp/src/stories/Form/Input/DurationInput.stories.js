@@ -1,6 +1,7 @@
 import React from 'react';
 import InputDuration from '../../../components/Form/InputDuration';
 import { componentDecorators } from '../../Pages/config/decorators';
+import { useForm } from 'react-hook-form';
 
 export default {
   title: 'Components/InputDuration',
@@ -8,10 +9,13 @@ export default {
   decorators: componentDecorators,
 };
 
-const Template = (args) => <InputDuration {...args} />;
+const Template = (args) => {
+  const { register, watch } = useForm({ mode: 'onChange' });
+  return <InputDuration {...args} hookformWatch={watch} hookFormRegister={register('duration')} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {
   label: 'default',
-  date: 'May 2, 2021',
+  startDate: '5-26-2021',
 };

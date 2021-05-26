@@ -86,7 +86,6 @@
     "ADD_TO_YOUR_FARM": "Add to your farm",
     "CAN_NOT_FIND": "Can't find what you're looking for?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
-    "CROP_CATALOG": "Crop Catalog",
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
@@ -806,6 +805,16 @@
     "TEXTURE": "Texture",
     "TITLE": "Soil Data Log",
     "TOTAL_CARBON": "Total Carbon"
+  },
+  "MANAGEMENT_PLAN": {
+    "ADD_MANAGEMENT_PLAN": "Add a management plan",
+    "DAYS_FROM_SEEDING": "What is your planting date?",
+    "DURATION_TOOLTIP": "These are suggested values.  Please check your varietal and adjust as needed.",
+    "GERMINATION": "Germination",
+    "HARVEST": "Harvest",
+    "PLANTING_DATE": "Days from seed to:",
+    "TERMINATION": "Termination",
+    "TRANSPLANT": "Transplant"
   },
   "MY_FARM": {
     "FARM_INFO": "Farm info",

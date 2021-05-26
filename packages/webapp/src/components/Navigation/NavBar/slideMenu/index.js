@@ -6,8 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { resetCropCatalogueFilter } from '../../../../containers/filterSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinances }) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const classes = useStyles();
   const handleClick = (link) => {
     history.push(link);
@@ -56,7 +53,6 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
               className={classes.subListItem}
               button
               onClick={() => {
-                dispatch(resetCropCatalogueFilter());
                 handleClick('/crop_catalogue');
               }}
             >

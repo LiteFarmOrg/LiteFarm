@@ -1,6 +1,6 @@
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -15,7 +15,6 @@ import styles from './styles.module.scss';
 function PureCropDetail({
   history,
   match,
-  crop,
   variety,
   isEditing,
   setIsEditing,
@@ -36,8 +35,7 @@ function PureCropDetail({
   const TREATED = 'treated';
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
-  const isOrganic = watch(ORGANIC);
-
+  const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
   return (
     <Form
       onSubmit={handleSubmit(submitForm)}
@@ -62,9 +60,9 @@ function PureCropDetail({
     >
       <CropHeader
         onBackClick={onBack}
-        crop_translation_key={crop.crop_translation_key}
-        crop_variety_name={crop.crop_variety_name}
-        crop_variety_photo_url={crop.crop_variety_photo_url}
+        crop_translation_key={variety.crop_translation_key}
+        crop_variety_name={variety.crop_variety_name}
+        crop_variety_photo_url={variety.crop_variety_photo_url}
         supplierName={variety.supplier}
       />
       {!isEditing && (
@@ -142,7 +140,7 @@ function PureCropDetail({
             hookFormControl={control}
             name={ORGANIC}
           />
-          {!variety?.organic && (
+          {!isOrganic && (
             <>
               <Main className={styles.labelToRadioDistance}>
                 {t('CROP_DETAIL.COMMERCIAL_AVAILABILITY')}

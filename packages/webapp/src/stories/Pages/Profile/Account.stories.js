@@ -1,6 +1,7 @@
 import React from 'react';
 import PureAccount from '../../../components/Profile/Account';
 import decorator from '../config/decorators';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/Profile/Account',
@@ -21,5 +22,5 @@ Primary.args = {
   },
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

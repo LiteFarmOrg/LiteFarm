@@ -6,6 +6,7 @@ import {
   Secondary,
   SecondaryWithoutOwnerName,
 } from '../../MenuItem/ChooseFarmMenuItem.stories';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Page/PureChooseFarmScreen',
@@ -23,7 +24,7 @@ NotSearchable.args = {
   farms: [Active.args, ...farms],
 };
 NotSearchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Searchable = Template.bind({});
@@ -33,5 +34,5 @@ Searchable.args = {
   farms: [...farms, ...farms, ...farms, Active.args],
 };
 Searchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

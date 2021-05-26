@@ -1,6 +1,7 @@
 import React from 'react';
 import PureAddNewCrop from '../../../components/AddNewCrop';
 import decorators from '../config/decorators';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/AddNewCrop',
@@ -11,7 +12,18 @@ export default {
 const Template = (args) => <PureAddNewCrop {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  useHookFormPersist: () => ({}),
+};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
+};
+
+export const WithDropdownOpen = Template.bind({});
+WithDropdownOpen.args = {
+  useHookFormPersist: () => ({}),
+  isPhysiologyAnatomyDropDownOpen: true,
+};
+WithDropdownOpen.parameters = {
+  ...chromaticSmallScreen,
 };

@@ -3,7 +3,7 @@ import PureCropDetail from '../../components/Crop/detail';
 import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Crop/Detail',
+  title: 'Form/Crop/Detail',
   component: PureCropDetail,
   decorators: componentDecorators,
 };
@@ -15,9 +15,15 @@ Detail.args = {
   history: {
     location: { pathname: '/crop/2/detail' },
   },
-  crop: {
+  match: {
+    params: {
+      variety_id: 'variety_id',
+    },
+  },
+  variety: {
     cropName: 'Carrot',
     varietyName: 'Nantes',
     supplierName: 'Buckerfields',
+    supplier: 'Supplier 1',
   },
 };

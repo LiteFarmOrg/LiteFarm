@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
 import Input from '../Form/Input';
-import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
-import ProgressBar from '../../components/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
+import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 
 export default function PureAddCropVariety({
   match,
@@ -74,15 +73,14 @@ export default function PureAddCropVariety({
       }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle onGoBack={handleGoBack} onCancel={handleCancel} title={t('CROP.ADD_CROP')} />
-      <div
-        style={{
-          marginBottom: '24px',
-          marginTop: '8px',
-        }}
-      >
-        <ProgressBar value={progress} />
-      </div>
+      <MultiStepPageTitle
+        style={{ marginBottom: '24px' }}
+        onGoBack={handleGoBack}
+        onCancel={handleCancel}
+        title={t('CROP.ADD_CROP')}
+        value={progress}
+      />
+
       <div className={styles.cropLabel}>{cropNameLabel}</div>
       <img
         src={crop_variety_photo_url}

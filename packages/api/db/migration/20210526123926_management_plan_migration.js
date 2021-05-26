@@ -64,6 +64,13 @@ exports.up = async function(knex) {
       area_used: fc.area_used,
       crop_management_plan_id: cropManagementPlan.crop_management_plan_id
     });
+  });
+
+  await knex.schema.alterTable('activityCrops', (t) => {
+    t.renameColumn('field_crop_id', 'management_plan_id')
+  });
+  await knex.schema.alterTable('shiftTask', (t) => {
+    t.renameColumn('field_crop_id', 'management_plan_id')
   })
 };
 

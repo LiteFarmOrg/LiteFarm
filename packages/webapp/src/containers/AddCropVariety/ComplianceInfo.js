@@ -1,5 +1,5 @@
 import React from 'react';
-import ComplianceInfo from '../../components/AddCrop/ComplianceInfo';
+import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';

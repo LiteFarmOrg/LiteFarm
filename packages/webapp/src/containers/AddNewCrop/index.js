@@ -1,21 +1,11 @@
 import React from 'react';
 import PureAddNewCrop from '../../components/AddNewCrop';
 import useHookFormPersist from '../hooks/useHookFormPersist';
-
-import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function AddNewCrop({ history }) {
-  const methods = useForm({
-    mode: 'onChange',
-  });
-  const {
-    setValue,
-    getValues,
-    formState: { errors },
-  } = methods;
-
-  const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
-  const { persistedData } = useHookFormPersist(persistedPath, getValues, setValue);
+  const defaultValues = useSelector(hookFormPersistSelector);
 
   const onError = (error) => {
     console.log(error);
@@ -27,7 +17,8 @@ function AddNewCrop({ history }) {
       handleGoBack={() => history.push(`/crop_catalogue`)}
       handleCancel={() => history.push(`/crop_catalogue`)}
       handleError={onError}
-      hookFormMethods={methods}
+      useHookFormPersist={useHookFormPersist}
+      defaultValues={defaultValues}
     />
   );
 }

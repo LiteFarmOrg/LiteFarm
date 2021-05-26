@@ -15,7 +15,6 @@ import styles from './styles.module.scss';
 function PureCropDetail({
   history,
   match,
-  crop,
   variety,
   isEditing,
   setIsEditing,
@@ -61,9 +60,9 @@ function PureCropDetail({
     >
       <CropHeader
         onBackClick={onBack}
-        crop_translation_key={crop.crop_translation_key}
-        crop_variety_name={crop.crop_variety_name}
-        crop_variety_photo_url={crop.crop_variety_photo_url}
+        crop_translation_key={variety.crop_translation_key}
+        crop_variety_name={variety.crop_variety_name}
+        crop_variety_photo_url={variety.crop_variety_photo_url}
         supplierName={variety.supplier}
       />
       {!isEditing && (

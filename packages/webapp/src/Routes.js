@@ -203,8 +203,8 @@ const EditWatercourseForm = React.lazy(() =>
 
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
-const AddCrop = React.lazy(() => import('./containers/AddCrop/AddCrop'));
-const ComplianceInfo = React.lazy(() => import('./containers/AddCrop/ComplianceInfo'));
+const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
+const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
 
 const Routes = () => {

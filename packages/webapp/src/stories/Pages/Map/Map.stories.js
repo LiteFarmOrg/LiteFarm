@@ -9,10 +9,12 @@ export default {
   component: Map,
 };
 
-const Template = (args) => <Map />;
+const Template = (args) => <Map {...args} />;
 
 export const AdminMap = Template.bind({});
-AdminMap.args = {};
+AdminMap.args = {
+  history: { location: {} },
+};
 AdminMap.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

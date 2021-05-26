@@ -17,3 +17,12 @@ Primary.args = {
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };
+
+export const WithDropdownOpen = Template.bind({});
+WithDropdownOpen.args = {
+  useHookFormPersist: () => ({}),
+  isPhysiologyAnatomyDropDownOpen: true,
+};
+WithDropdownOpen.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

@@ -35,6 +35,7 @@ export default function PureAddNewCrop({
   handleCancel,
   defaultValues,
   useHookFormPersist,
+  isPhysiologyAnatomyDropDownOpen,
 }) {
   const { t } = useTranslation();
   const {
@@ -121,7 +122,10 @@ export default function PureAddNewCrop({
         )}
       />
 
-      <PhysiologyAnatomyDropDown register={register} />
+      <PhysiologyAnatomyDropDown
+        register={register}
+        isPhysiologyAnatomyDropDownOpen={isPhysiologyAnatomyDropDownOpen}
+      />
     </Form>
   );
 }
@@ -132,9 +136,9 @@ PureAddNewCrop.prototype = {
   showSpotLight: PropTypes.bool,
 };
 
-function PhysiologyAnatomyDropDown({ register }) {
+function PhysiologyAnatomyDropDown({ register, isPhysiologyAnatomyDropDownOpen }) {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isPhysiologyAnatomyDropDownOpen);
 
   return (
     <div className={styles.dropdownContainer}>

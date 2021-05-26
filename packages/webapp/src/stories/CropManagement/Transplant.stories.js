@@ -10,7 +10,7 @@ export default {
 
 const Template = (args) => <Transplant {...args} />;
 
-export const Transplant = Template.bind({});
+export const TransplantForm = Template.bind({});
 Transplant.args = {
     disabled: true,
 };

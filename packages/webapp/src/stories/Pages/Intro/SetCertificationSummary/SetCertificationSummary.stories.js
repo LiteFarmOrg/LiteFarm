@@ -11,7 +11,14 @@ export default {
 const Template = (args) => <PureSetCertificationSummary {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  certificationType: {
+    certificationName: 'Participatory Guarantee System',
+    certificationID: 2,
+    requestedCertification: null,
+  },
+  name: 'Certifier',
+};
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

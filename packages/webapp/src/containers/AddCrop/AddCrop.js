@@ -1,5 +1,5 @@
 import React from 'react';
-import PureAddCrop from '../../components/AddCrop';
+import PureAddCropVariety from '../../components/AddCrop';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { postCropAndVarietal, postVarietal } from './saga';
@@ -27,7 +27,6 @@ function AddCropForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     const cropData = {
       ...data,
       ...persistedFormData,
@@ -47,7 +46,7 @@ function AddCropForm({ history, match }) {
 
   return (
     <>
-      <PureAddCrop
+      <PureAddCropVariety
         match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}

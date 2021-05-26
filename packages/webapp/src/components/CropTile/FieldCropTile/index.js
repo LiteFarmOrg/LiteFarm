@@ -45,12 +45,6 @@ export default function PureFieldCropTile({
 
   const imageKey = crop_translation_key.toLowerCase();
   return (
-    // <EditFieldCropModal
-    //   cropBeingEdited={fieldCrop}
-    //   handler={() => {}}
-    //   field={fieldCrop?.location}
-    //   fieldArea={fieldCrop?.location?.total_area}
-    // >
     <PureCropTile
       className={className}
       onClick={onClick}
@@ -79,8 +73,6 @@ export default function PureFieldCropTile({
         )}
       </>
     </PureCropTile>
-
-    // </EditFieldCropModal>
   );
 }
 

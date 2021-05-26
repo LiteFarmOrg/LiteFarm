@@ -2,34 +2,27 @@ import Button from '../Form/Button';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Underlined, Label, Semibold } from '../Typography';
+import { Semibold } from '../Typography';
 import Input from '../Form/Input';
 import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
 import ProgressBar from '../../components/ProgressBar';
 import Form from '../Form';
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  useFormContext,
-  useFormState,
-  useWatch,
-} from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { BsChevronDown } from 'react-icons/bs';
 import {
-  FIRST_NUTRIENT_ARRAY,
-  SECOND_NUTRIENT_ARRAY,
-  NUTRIENT_DICT,
-  NUTRIENT_ARRAY,
   BEVERAGE_AND_SPICE_CROPS,
   CEREALS,
+  FIRST_NUTRIENT_ARRAY,
   FRUITS_AND_NUTS,
   LEGUMINOUS_CROPS,
+  NUTRIENT_ARRAY,
+  NUTRIENT_DICT,
   OILSEED_CROPS,
   OTHER_CROPS,
   POTATOES_AND_YAMS,
+  SECOND_NUTRIENT_ARRAY,
   SUGAR_CROPS,
   VEGETABLE_AND_MELONS,
 } from './constants';
@@ -40,17 +33,23 @@ export default function PureAddNewCrop({
   handleContinue,
   handleGoBack,
   handleCancel,
-  hookFormMethods,
+  defaultValues,
+  useHookFormPersist,
 }) {
   const { t } = useTranslation();
-
   const {
     register,
     handleSubmit,
     setValue,
     control,
+    getValues,
     formState: { isValid, errors },
-  } = hookFormMethods;
+  } = useForm({
+    mode: 'onChange',
+    defaultValues,
+  });
+  const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
+  useHookFormPersist(persistedPath, getValues);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [
@@ -76,56 +75,54 @@ export default function PureAddNewCrop({
   };
 
   return (
-    <FormProvider {...hookFormMethods}>
-      <Form
-        buttonGroup={
-          <Button type={'submit'} disabled={disabled} fullLength>
-            {t('common:CONTINUE')}
-          </Button>
-        }
-        onSubmit={handleSubmit(handleContinue)}
+    <Form
+      buttonGroup={
+        <Button type={'submit'} disabled={disabled} fullLength>
+          {t('common:CONTINUE')}
+        </Button>
+      }
+      onSubmit={handleSubmit(handleContinue)}
+    >
+      <PageTitle
+        onGoBack={handleGoBack}
+        onCancel={handleCancel}
+        title={'Add a new crop'} //TODO: i18n
+      />
+      <div
+        style={{
+          marginBottom: '24px',
+          marginTop: '8px',
+        }}
       >
-        <PageTitle
-          onGoBack={handleGoBack}
-          onCancel={handleCancel}
-          title={'Add a new crop'} //TODO: i18n
-        />
-        <div
-          style={{
-            marginBottom: '24px',
-            marginTop: '8px',
-          }}
-        >
-          <ProgressBar value={progress} />
-        </div>
+        <ProgressBar value={progress} />
+      </div>
 
-        <Input
-          style={{ marginBottom: '40px' }}
-          label={'New Crop Name'} //TODO: i18n
-          hookFormRegister={register('crop_common_name', { required: true })}
-        />
+      <Input
+        style={{ marginBottom: '40px' }}
+        label={'New Crop Name'} //TODO: i18n
+        hookFormRegister={register('crop_common_name', { required: true })}
+      />
 
-        <Controller
-          control={control}
-          name={'crop_group'}
-          rules={{ required: true }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <ReactSelect
-              label={'Crop group'}
-              options={cropGroupOptions}
-              onChange={(e) => {
-                onChange(e);
-                updatePAValues(e);
-              }}
-              value={value}
-              style={{ marginBottom: '40px' }}
-            />
-          )}
-        />
+      <Controller
+        control={control}
+        name={'crop_group'}
+        rules={{ required: true }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <ReactSelect
+            label={'Crop group'}
+            options={cropGroupOptions}
+            onChange={(e) => {
+              onChange(e);
+              updatePAValues(e);
+            }}
+            value={value}
+            style={{ marginBottom: '40px' }}
+          />
+        )}
+      />
 
-        <PhysiologyAnatomyDropDown />
-      </Form>
-    </FormProvider>
+      <PhysiologyAnatomyDropDown register={register} />
+    </Form>
   );
 }
 
@@ -135,9 +132,8 @@ PureAddNewCrop.prototype = {
   showSpotLight: PropTypes.bool,
 };
 
-function PhysiologyAnatomyDropDown() {
+function PhysiologyAnatomyDropDown({ register }) {
   const { t } = useTranslation();
-  const { register, control } = useFormContext();
   const [open, setOpen] = useState(false);
 
   return (

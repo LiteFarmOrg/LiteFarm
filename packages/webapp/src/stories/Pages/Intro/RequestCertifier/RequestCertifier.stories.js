@@ -11,7 +11,13 @@ export default {
 const Template = (args) => <PureRequestCertifier {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  certificationType: {
+    certificationName: 'Other',
+    certificationID: null,
+    requestedCertification: 'Certification',
+  },
+};
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

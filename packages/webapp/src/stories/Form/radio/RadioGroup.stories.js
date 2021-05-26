@@ -3,7 +3,7 @@ import RadioGroup from '../../../components/Form/RadioGroup';
 import { componentDecorators } from '../../Pages/config/decorators';
 import { useForm } from 'react-hook-form';
 
-const RadioGroupWithHookForm = (props) => {
+const RadioGroupWithHookForm = ({ defaultValues, ...props }) => {
   const {
     control,
     handleSubmit,
@@ -11,6 +11,7 @@ const RadioGroupWithHookForm = (props) => {
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
+    defaultValues: defaultValues,
   });
   console.log({ isValid });
   return (
@@ -25,7 +26,7 @@ const RadioGroupWithHookForm = (props) => {
 };
 
 export default {
-  title: 'Components/Input/RadioGroup',
+  title: 'Components/Radio/RadioGroup',
   component: RadioGroupWithHookForm,
   decorators: componentDecorators,
 };
@@ -49,13 +50,6 @@ WithNotSure.args = {
   showNotSure: true,
 };
 
-export const RequiredWithNotSureError = Template.bind({});
-RequiredWithNotSureError.args = {
-  name: 'bool',
-  showNotSure: true,
-  required: true,
-};
-
 export const Required = Template.bind({});
 Required.args = {
   name: 'bool',
@@ -66,14 +60,14 @@ export const DefaultYes = Template.bind({});
 DefaultYes.args = {
   name: 'bool',
   row: true,
-  defaultValue: true,
+  defaultValues: { bool: true },
 };
 
 export const DefaultNo = Template.bind({});
 DefaultNo.args = {
   name: 'bool',
   row: true,
-  defaultValue: false,
+  defaultValues: { bool: false },
 };
 
 export const RadioOptions = Template.bind({});

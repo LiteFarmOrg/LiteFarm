@@ -17,14 +17,14 @@ const Template = (args) => (
 export const Variety = Template.bind({});
 Variety.args = {
   title: 'Blueberry',
-  src: `crop-images/blueberry.jpg`,
+  src: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`,
   alt: 'blueberry',
 };
 
 export const CropTemplate = Template.bind({});
 CropTemplate.args = {
   title: 'Blueberry',
-  src: `crop-images/blueberry.jpg`,
+  src: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`,
   alt: 'blueberry',
   isCropTemplate: true,
 };
@@ -37,7 +37,7 @@ WithManagementPlan.args = {
     planned: 8,
     past: 8,
   },
-  src: `crop-images/blueberry.jpg`,
+  src: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`,
   alt: 'blueberry',
 };
 
@@ -45,6 +45,6 @@ export const NeedsManagementPlan = Template.bind({});
 NeedsManagementPlan.args = {
   title: 'Blueberry',
   needsPlan: true,
-  src: `crop-images/blueberry.jpg`,
+  src: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`,
   alt: 'blueberry',
 };

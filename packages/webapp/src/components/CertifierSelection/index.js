@@ -1,14 +1,12 @@
 import Layout from '../Layout';
 import Button from '../Form/Button';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Text, Title, Semibold, Underlined } from '../Typography';
+import { Semibold, Text, Title, Underlined } from '../Typography';
 import CertifierSelectionMenuItem from './CertifierSelectionMenu/CertiferSelectionMenuItem';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
-import { useSelector } from 'react-redux';
-import { allCertificationTypesSelector } from '../../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 
 export default function PureCertifierSelectionScreen({
   allSupportedCertifiers,
@@ -22,6 +20,7 @@ export default function PureCertifierSelectionScreen({
   allSupportedCertificationTypes,
   certificationType,
 }) {
+  console.log(selectedCertifier, certifierType, certificationType);
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   const [selectedCertifierId, setCertifier] = useState(null);
   const [filter, setFilter] = useState();
@@ -104,13 +103,7 @@ export default function PureCertifierSelectionScreen({
           <CertifierSelectionMenuItem
             style={{ marginBottom: '16px' }}
             certifierName={certifier.certifier_name + ' ' + '(' + certifier.certifier_acronym + ')'}
-            color={
-              selectedCertifier.isRequestingCertifier
-                ? 'secondary'
-                : selectedCertifierId === certifier.certifier_id
-                ? 'active'
-                : 'secondary'
-            }
+            color={selectedCertifierId === certifier.certifier_id ? 'active' : 'secondary'}
             onClick={() => onSelectCertifier(certifier.certifier_id, certifier.certifier_acronym)}
           />
         );

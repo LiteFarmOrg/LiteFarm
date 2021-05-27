@@ -1,0 +1,15 @@
+.radioGroupContainer {
+  position: relative;
+}
+
+.radioIconsContainer {
+  top: 0;
+  position: absolute;
+  flex-direction: column;
+  row-gap: 16px;
+  display: grid;
+  justify-items: end;
+  width: 100%;
+  transform: translateY(-5px);
+  pointer-events: none;
+}

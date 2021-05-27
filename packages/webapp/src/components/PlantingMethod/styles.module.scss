@@ -1,5 +1,6 @@
 .radioGroupContainer {
   position: relative;
+  padding-bottom: 36px;
 }
 
 .radioIconsContainer {
@@ -13,3 +14,18 @@
   transform: translateY(-5px);
   pointer-events: none;
 }
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  justify-items: center;
+
+  img {
+    width: 100%;
+    border-radius: 4px;
+    max-width: 150px;
+    cursor: pointer;
+  }
+}
+

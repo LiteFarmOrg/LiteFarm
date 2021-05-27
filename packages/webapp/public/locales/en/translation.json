@@ -808,6 +808,8 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
+    "BEDS": "Beds",
+    "BROADCAST": "Broadcast",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a containter of in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -820,9 +822,11 @@
     "PLANT_SPACING": "Plant spacing",
     "PLANTING_DATE": "Days from seed to:",
     "PLANTING_DEPTH": "Planting depth",
+    "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used ",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "ROWS": "Rows",
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant"

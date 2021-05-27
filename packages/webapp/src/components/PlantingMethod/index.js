@@ -1,5 +1,5 @@
 import Button from '../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../Typography';
@@ -13,6 +13,35 @@ import { ReactComponent as Rows } from '../../assets/images/plantingMethod/Rows.
 
 import { ReactComponent as Beds } from '../../assets/images/plantingMethod/Beds.svg';
 import { ReactComponent as Monocrop } from '../../assets/images/plantingMethod/Monocrop.svg';
+import { DO_CDN_URL } from '../../util/constants';
+import ImageModal from '../Modals/ImageModal';
+
+const BROADCAST = 'BROADCAST';
+const CONTAINER = 'CONTAINER';
+const BEDS = 'BEDS';
+const ROWS = 'ROWS';
+const images = {
+  [BROADCAST]: [
+    `${DO_CDN_URL}/planting_method/Broadcast_1.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_2.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_3.jpg`,
+  ],
+  [CONTAINER]: [
+    `${DO_CDN_URL}/planting_method/Individual_1.jpg`,
+    `${DO_CDN_URL}/planting_method/Individual_2.jpg`,
+    `${DO_CDN_URL}/planting_method/Individual_3.jpg`,
+  ],
+  [BEDS]: [
+    `${DO_CDN_URL}/planting_method/Bed_1.jpg`,
+    `${DO_CDN_URL}/planting_method/Bed_2.jpg`,
+    `${DO_CDN_URL}/planting_method/Bed_3.jpg`,
+  ],
+  [ROWS]: [
+    `${DO_CDN_URL}/planting_method/Rows_1.jpg`,
+    `${DO_CDN_URL}/planting_method/Rows_2.jpg`,
+    `${DO_CDN_URL}/planting_method/Rows_3.jpg`,
+  ],
+};
 
 export default function PurePlantingMethod({
   onSubmit,
@@ -21,14 +50,8 @@ export default function PurePlantingMethod({
   onCancel,
   useHookFormPersist,
   persistedFormData,
-  system,
 }) {
   const { t } = useTranslation();
-  const PLANTING_TYPE = 'planting_type';
-  const BROADCAST = 'BROADCAST';
-  const CONTAINER = 'CONTAINER';
-  const BEDS = 'BEDS';
-  const ROWS = 'ROWS';
   const {
     register,
     handleSubmit,
@@ -43,10 +66,13 @@ export default function PurePlantingMethod({
     shouldUnregister: true,
     defaultValues: persistedFormData,
   });
-
-  const in_ground = watch(PLANTING_TYPE);
+  const PLANTING_TYPE = 'planting_type';
+  const planting_type = watch(PLANTING_TYPE);
 
   const disabled = !isValid;
+  const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});
+  const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });
+  const dismissModal = () => setSelectedImage({});
 
   return (
     <Form
@@ -82,7 +108,6 @@ export default function PurePlantingMethod({
             { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
           ]}
           required
-          style={{ paddingBottom: '16px' }}
         />
         <div className={styles.radioIconsContainer}>
           <Rows />
@@ -91,6 +116,20 @@ export default function PurePlantingMethod({
           <Monocrop />
         </div>
       </div>
+      {planting_type && (
+        <div className={styles.imageGrid}>
+          {images[planting_type].map((url, index) => (
+            <img
+              src={url}
+              alt={`${planting_type}${index}`}
+              onClick={() => onImageSelect(url, planting_type)}
+            />
+          ))}
+        </div>
+      )}
+      {imageModalSrc && (
+        <ImageModal src={imageModalSrc} alt={imageModalAlt} dismissModal={dismissModal} />
+      )}
     </Form>
   );
 }

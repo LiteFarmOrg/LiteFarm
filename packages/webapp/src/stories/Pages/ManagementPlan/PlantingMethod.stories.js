@@ -27,19 +27,41 @@ Container.args = {
   useHookFormPersist: () => ({}),
   onGoBack: () => {},
   onCancel: () => {},
-  persistedFormData: { in_ground: false, planting_depth: 0.99 },
+  persistedFormData: { planting_type: 'CONTAINER' },
 };
 Container.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const InGround = Template.bind({});
-InGround.args = {
+export const Beds = Template.bind({});
+Beds.args = {
   useHookFormPersist: () => ({}),
   onGoBack: () => {},
   onCancel: () => {},
-  persistedFormData: { in_ground: true, plant_spacing: 1 },
+  persistedFormData: { planting_type: 'BEDS' },
 };
-InGround.parameters = {
+Beds.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const Rows = Template.bind({});
+Rows.args = {
+  useHookFormPersist: () => ({}),
+  onGoBack: () => {},
+  onCancel: () => {},
+  persistedFormData: { planting_type: 'ROWS' },
+};
+Rows.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const Broadcast = Template.bind({});
+Broadcast.args = {
+  useHookFormPersist: () => ({}),
+  onGoBack: () => {},
+  onCancel: () => {},
+  persistedFormData: { planting_type: 'BROADCAST' },
+};
+Broadcast.parameters = {
   ...chromaticSmallScreen,
 };

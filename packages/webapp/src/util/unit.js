@@ -108,6 +108,20 @@ export const container_planting_depth = {
   databaseUnit: databaseUnit.length,
 };
 
+export const container_plant_spacing = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [1],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [20],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 const seedAmounts = {
   metric: {
     units: ['g', 'kg'],

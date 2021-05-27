@@ -105,12 +105,12 @@ export default function RadioGroup({
                 name={name}
                 key={radioOptions.value}
                 onChange={(e) => {
-                  field?.onChange?.(e);
-                  onChange?.(e);
+                  field?.onChange?.(radioOptions.value);
+                  onChange?.({ target: { value: radioOptions.value } });
                 }}
                 onBlur={(e) => {
-                  field?.onBlur?.(e);
-                  onBlur?.(e);
+                  field?.onBlur?.(radioOptions.value);
+                  onBlur?.({ target: { value: radioOptions.value } });
                 }}
                 inputRef={field.ref}
                 value={field.value}

@@ -17,7 +17,32 @@ Primary.args = {
   onGoBack: () => {},
   onCancel: () => {},
   system: 'metric',
+  persistedFormData: {},
 };
 Primary.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const Container = Template.bind({});
+Container.args = {
+  useHookFormPersist: () => ({}),
+  onGoBack: () => {},
+  onCancel: () => {},
+  system: 'metric',
+  persistedFormData: { in_ground: false, planting_depth: 0.99 },
+};
+Container.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const InGround = Template.bind({});
+InGround.args = {
+  useHookFormPersist: () => ({}),
+  onGoBack: () => {},
+  onCancel: () => {},
+  system: 'metric',
+  persistedFormData: { in_ground: true, plant_spacing: 1 },
+};
+InGround.parameters = {
   ...chromaticSmallScreen,
 };

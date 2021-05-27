@@ -18,10 +18,11 @@ export default function PurePlantInContainer({
   onGoBack,
   onCancel,
   useHookFormPersist,
+  persistedFormData,
   system,
 }) {
   const { t } = useTranslation();
-  const IN_GROUND = 'seed_date';
+  const IN_GROUND = 'in_ground';
   const NUMBER_OF_CONTAINER = 'number_of_container';
   const PLANTS_PER_CONTAINER = 'plants_per_container';
   const PLANT_SPACING = 'plant_spacing';
@@ -44,12 +45,14 @@ export default function PurePlantInContainer({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
 
   const in_ground = watch(IN_GROUND);
 
   const disabled = !isValid;
 
+  const { plant_spacing, planting_depth } = persistedFormData;
   return (
     <Form
       buttonGroup={

@@ -18,8 +18,13 @@ describe('Factories tests', () => {
   })
 
   afterAll(async (done) => {
-    await tableCleanup(knex);
-    await knex.destroy();
-    done();
+    try {
+      await tableCleanup(knex);
+      await knex.destroy();
+      done();
+    } catch(e) {
+      console.log(e);
+      console.log('Failed cleanup');
+    }
   });
 })

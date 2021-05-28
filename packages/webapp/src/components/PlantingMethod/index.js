@@ -90,7 +90,12 @@ export default function PurePlantingMethod({
         value={15}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.PLANTING_METHOD')}</Main>
+      <Main
+        style={{ marginBottom: '24px' }}
+        tooltipContent={t('MANAGEMENT_PLAN.PLANTING_METHOD_TOOLTIP')}
+      >
+        {t('MANAGEMENT_PLAN.PLANTING_METHOD')}
+      </Main>
       <div className={styles.radioGroupContainer}>
         <RadioGroup
           hookFormControl={control}

@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import InputDuration from '../Form/InputDuration';
 import { getDateInputFormat } from '../LocationDetailLayout/utils';
-import Infoi from '../Tooltip/Infoi';
 
 export default function PurePlantingDate({
   onSubmit,
@@ -66,9 +65,8 @@ export default function PurePlantingDate({
         label={t('common:DATE')}
         hookFormRegister={register(SEED_DATE)}
       />
-      <Main style={{ marginBottom: '24px' }}>
-        {t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING')}{' '}
-        <Infoi style={{ marginLeft: '4px' }} content={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')} />
+      <Main style={{ marginBottom: '24px' }} tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}>
+        {t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING')}
       </Main>
       <InputDuration
         style={{ marginBottom: '40px' }}

@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './typography.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Infoi from '../Tooltip/Infoi';
+import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
 
 export const Underlined = ({ children = 'Link', className = '', style, ...props }) => {
   return (
@@ -110,10 +112,27 @@ Info.propTypes = {
   style: PropTypes.object,
 };
 
-export const Main = ({ children = 'Main', className = '', style, ...props }) => {
+export const Main = ({
+  children = 'Main',
+  tooltipContent,
+  hasLeaf,
+  className = '',
+  style,
+  ...props
+}) => {
   return (
     <p className={clsx(styles.main, className)} style={style} {...props}>
       {children}
+      {hasLeaf && <Leaf style={{ marginLeft: '8px', transform: 'translateY(3px)' }} />}
+      {tooltipContent && (
+        <>
+          &nbsp;&nbsp;
+          <Infoi
+            style={{ fontSize: '18px', transform: 'translateY(3px)' }}
+            content={tooltipContent}
+          />
+        </>
+      )}
     </p>
   );
 };
@@ -122,6 +141,8 @@ Main.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
+  tooltipContent: PropTypes.string,
+  hasLeaf: PropTypes.bool,
 };
 
 export const Text = ({ children = 'Text', className = '', style, ...props }) => {

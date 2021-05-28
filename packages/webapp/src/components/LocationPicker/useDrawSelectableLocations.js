@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   cropLocationEntitiesSelector,
@@ -15,16 +17,75 @@ const useDrawSelectableLocations = () => {
     return !!isArea(assetType) ? drawArea : drawLine;
   };
 
+  const [selectedLocation, _setSelectedLocation] = useState(null);
+  const selectedLocationRef = useRef(selectedLocation);
+  const setSelectedLocation = (data) => {
+    selectedLocationRef.current = data;
+    _setSelectedLocation(data);
+  };
+
   const drawLocations = (map, maps, mapBounds) => {
     cropLocations.forEach((location) => {
       assetFunctionMap(location.type)(map, maps, mapBounds, location);
     });
   };
 
+  const resetStyles = (maps, location) => {
+    if (location.asset === 'area') {
+      const { area, polygon, polyline, marker } = location;
+      const { colour, selectedColour } = areaStyles[area.type];
+      polygon.setOptions({
+        fillColor: colour,
+        fillOpacity: 0.5,
+      });
+      marker.setOptions({
+        label: {
+          text: area.name,
+          color: 'white',
+          fontSize: '16px',
+          className: styles.mapLabel,
+        },
+      });
+      maps.event.addListener(polygon, 'mouseover', function () {
+        this.setOptions({ fillOpacity: 0.8 });
+      });
+      maps.event.addListener(polygon, 'mouseout', function () {
+        this.setOptions({ fillOpacity: 0.5 });
+      });
+      maps.event.addListener(polygon, 'click', function () {
+        if (selectedLocationRef.current) {
+          resetStyles(maps, selectedLocationRef.current);
+        }
+
+        setSelectedLocation({
+          area,
+          polygon,
+          polyline,
+          marker,
+          asset: 'area',
+        });
+
+        this.setOptions({
+          fillColor: selectedColour,
+          fillOpacity: 1.0,
+        });
+        marker.setOptions({
+          label: {
+            text: area.name,
+            color: '#282B36',
+            fontSize: '16px',
+            className: styles.mapLabel,
+          },
+        });
+        maps.event.clearInstanceListeners(polygon);
+      });
+    }
+  };
+
   // Draw an area
   const drawArea = (map, maps, mapBounds, area) => {
     const { grid_points: points, name, type } = area;
-    const { colour, dashScale, dashLength } = areaStyles[type];
+    const { colour, selectedColour, dashScale, dashLength } = areaStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -93,15 +154,36 @@ const useDrawSelectableLocations = () => {
     marker.setMap(map);
 
     // Event listener for area click
-    maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
-      // const latlng = map.getCenter().toJSON();
+    maps.event.addListener(polygon, 'click', function () {
+      if (selectedLocationRef.current) {
+        resetStyles(maps, selectedLocationRef.current);
+      }
 
-      console.log(`${name} got clicked`);
+      setSelectedLocation({
+        area,
+        polygon,
+        polyline,
+        marker,
+        asset: 'area',
+      });
 
-      // dispatch(setPosition(latlng));
-      // dispatch(setZoomLevel(map.getZoom()));
+      this.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      marker.setOptions({
+        label: {
+          text: name,
+          color: '#282B36',
+          fontSize: '16px',
+          className: styles.mapLabel,
+        },
+      });
+      maps.event.clearInstanceListeners(polygon);
 
-      // handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
+      // create record of all items added to map
+      // maybe a map
+      // use current selected item to identify map item that needs to change
     });
 
     // marker.setOptions({ visible: filterSettings?.label && isVisible });
@@ -192,6 +274,11 @@ const useDrawSelectableLocations = () => {
       // dispatch(setZoomLevel(map.getZoom()));
       // handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       console.log(`${name} got clicked`);
+      setSelectedLocation({
+        location: line,
+        polygon: linePolygon,
+        asset: 'line',
+      });
     });
 
     // let asset;
@@ -220,7 +307,7 @@ const useDrawSelectableLocations = () => {
     // };
   };
 
-  return { drawLocations };
+  return { drawLocations, selectedLocation };
 };
 
 export default useDrawSelectableLocations;

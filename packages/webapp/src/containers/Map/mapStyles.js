@@ -12,6 +12,16 @@ import {
   residenceColour,
   surfaceWaterColour,
   watercourseColour,
+  barnSelectedColour,
+  // bufferZoneSelectedColour,
+  ceremonialSiteSelectedColour,
+  // farmBoundSelectedColour,
+  fieldSelectedColour,
+  gardenSelectedColour,
+  greenhouseSelectedColour,
+  naturalAreaSelectedColour,
+  residenceSelectedColour,
+  surfaceWaterSelectedColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -21,47 +31,56 @@ import gateHover from '../../assets/images/map/gate-hover.png';
 export const areaStyles = {
   barn: {
     colour: barnColour,
+    selectedColour: barnSelectedColour,
     dashScale: 2,
     dashLength: '14px',
   },
   ceremonial_area: {
     colour: ceremonialSiteColour,
+    selectedColour: ceremonialSiteSelectedColour,
     dashScale: 1.5,
     dashLength: '8px',
   },
   farm_site_boundary: {
     colour: farmBoundColour,
     hoverColour: farmBoundHoverColour,
+    // selectedColour: farmBoundSelectedColour,
     dashScale: 1,
     dashLength: '1px',
   },
   field: {
     colour: fieldColour,
+    selectedColour: fieldSelectedColour,
     dashScale: 1,
     dashLength: '6px',
   },
   garden: {
     colour: gardenColour,
+    selectedColour: gardenSelectedColour,
     dashScale: 1,
     dashLength: '6px',
   },
   greenhouse: {
     colour: greenhouseColour,
+    selectedColour: greenhouseSelectedColour,
     dashScale: 1,
     dashLength: '8px',
   },
   surface_water: {
     colour: surfaceWaterColour,
+    selectedColour: naturalAreaSelectedColour,
     dashScale: 0.7,
     dashLength: '6px',
   },
   natural_area: {
     colour: naturalAreaColour,
+    selectedColour: residenceSelectedColour,
     dashScale: 0.7,
     dashLength: '12px',
   },
   residence: {
     colour: residenceColour,
+    selectedColour: surfaceWaterSelectedColour,
     dashScale: 0,
     dashLength: '12px',
   },

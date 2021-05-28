@@ -3,7 +3,7 @@ import PureCropManagement from '../../components/Crop/management';
 import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Crop/Management',
+  title: 'Form/Crop/Management',
   component: PureCropManagement,
   decorators: componentDecorators,
 };
@@ -15,9 +15,15 @@ Management.args = {
   history: {
     location: { pathname: '/crop/2/management' },
   },
-  crop: {
+  match: {
+    params: {
+      variety_id: 'variety_id',
+    },
+  },
+  variety: {
     cropName: 'Carrot',
     varietyName: 'Nantes',
     supplierName: 'Buckerfields',
+    supplier: 'Supplier 1',
   },
 };

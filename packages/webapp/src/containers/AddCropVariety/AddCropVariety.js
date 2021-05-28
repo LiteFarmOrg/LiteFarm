@@ -1,5 +1,5 @@
 import React from 'react';
-import PureAddCrop from '../../components/AddCrop';
+import PureAddCropVariety from '../../components/AddCropVariety';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { postCropAndVarietal, postVarietal } from './saga';
@@ -10,7 +10,7 @@ import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 
-function AddCropForm({ history, match }) {
+function AddCropVarietyForm({ history, match }) {
   const { t } = useTranslation(['translation']);
   const dispatch = useDispatch();
   const crop_id = match.params.crop_id;
@@ -27,7 +27,6 @@ function AddCropForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     const cropData = {
       ...data,
       ...persistedFormData,
@@ -37,7 +36,6 @@ function AddCropForm({ history, match }) {
       genetically_engineered: null,
       searched: null,
     };
-    console.log(cropData);
     if (isNewCrop) {
       dispatch(postCropAndVarietal(cropData));
     } else {
@@ -47,7 +45,7 @@ function AddCropForm({ history, match }) {
 
   return (
     <>
-      <PureAddCrop
+      <PureAddCropVariety
         match={match}
         onSubmit={interested ? onContinue : onSubmit}
         onError={onError}
@@ -67,4 +65,4 @@ function AddCropForm({ history, match }) {
   );
 }
 
-export default AddCropForm;
+export default AddCropVarietyForm;

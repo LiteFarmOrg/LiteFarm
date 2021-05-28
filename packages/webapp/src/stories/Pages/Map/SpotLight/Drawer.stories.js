@@ -2,6 +2,7 @@ import React from 'react';
 import decorators from '../../config/decorators';
 import PureMapFooter from '../../../../components/Map/Footer/';
 import { locationEnum } from '../../../../containers/Map/constants';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/SpotLight',
@@ -48,5 +49,5 @@ SpotLight.args = {
   availableFilterSettings,
 };
 SpotLight.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

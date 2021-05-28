@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel')
-class FieldCrop extends baseModel {
+class ManagementPlan extends baseModel {
   static get tableName() {
-    return 'fieldCrop';
+    return 'management_plan';
   }
 
   static get idColumn() {
-    return 'field_crop_id';
+    return 'management_plan_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,20 +29,22 @@ class FieldCrop extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'area_used', 'estimated_production', 'estimated_revenue', 'crop_variety_id'],
+      required: ['location_id', 'crop_variety_id', 'seed_date'],
       properties: {
-        field_crop_id: { type: 'integer' },
-        crop_id: { type: 'integer' },
+        management_plan_id: { type: 'integer' },
         location_id: { type: 'string' },
-        variety: { type: 'string' },
         crop_variety_id: { type: 'string' },
-        start_date: { type: 'date-time' },
-        end_date: { type: 'date-time' },
-        area_used: { type: 'float', minimum: 0 },
-        estimated_production: { type: 'float', minimum: 0 },
-        estimated_revenue: { type: 'float', minimum: 0 },
-        is_by_bed: { type: 'boolean' },
-        bed_config: { type: 'object, null' },
+        seed_date: { type: 'date' },
+        needs_transplant: { type: 'boolean' },
+        for_cover: { type: 'boolean' },
+        transplant_date: { type: 'date' },
+        transplant_days: { type: 'integer' },
+        germination_date: { type: 'date' },
+        germination_days: { type: 'integer' },
+        termination_date: { type: 'date' },
+        termination_days: { type: 'integer' },
+        harvest_date: { type: 'date' },
+        harvest_days: { type: 'integer' },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -58,7 +60,7 @@ class FieldCrop extends baseModel {
         // to a module that exports one.
         modelClass: require('./locationModel.js'),
         join: {
-          from: 'fieldCrop.location_id',
+          from: 'management_plan.location_id',
           to: 'location.location_id',
         },
 
@@ -70,7 +72,7 @@ class FieldCrop extends baseModel {
         // to a module that exports one.
         modelClass: require('./cropVarietyModel'),
         join: {
-          from: 'fieldCrop.crop_variety_id',
+          from: 'management_plan.crop_variety_id',
           to: 'crop_variety.crop_variety_id',
         },
       },
@@ -81,13 +83,13 @@ class FieldCrop extends baseModel {
           to: 'activityLog.activity_id',
           through:{
             from:'activityCrops.activity_id',
-            to:'activityCrops.field_crop_id',
+            to:'activityCrops.management_plan_id',
           },
-          from:'fieldCrop.field_crop_id',
+          from:'management_plan.management_plan_id',
         },
       },
     };
   }
 }
 
-module.exports = FieldCrop;
+module.exports = ManagementPlan;

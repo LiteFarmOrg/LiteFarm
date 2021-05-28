@@ -13,5 +13,5 @@ const Template = (args) => <AdjustAreaModal {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  chromatic: { disable: true },
 };

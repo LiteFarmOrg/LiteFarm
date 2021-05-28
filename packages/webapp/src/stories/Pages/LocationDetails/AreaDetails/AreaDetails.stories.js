@@ -2,6 +2,7 @@ import React from 'react';
 import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails';
 import decorator from '../../config/decorators';
 import { useForm } from 'react-hook-form';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Location/Area/AreaDetails',
@@ -60,5 +61,5 @@ Post.args = {
   system: 'metric',
 };
 Post.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

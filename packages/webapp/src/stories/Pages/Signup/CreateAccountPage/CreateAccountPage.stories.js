@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import PureCreateUserAccount from '../../../../components/CreateUserAccount';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Signup/CreateUserAccount',
@@ -16,5 +17,5 @@ Primary.args = {
   onSignUp: (data) => console.log(data),
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

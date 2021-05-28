@@ -3,6 +3,7 @@ import ModalComponent from '../../components/Modals/ModalComponent/v2';
 import { componentDecorators } from '../Pages/config/decorators';
 import { Label } from '../../components/Typography';
 import Button from '../../components/Form/Button';
+import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
 export default {
   title: 'Components/Modals/ModalComponentV2',
@@ -21,7 +22,7 @@ Warning.args = {
   warning: true,
 };
 Warning.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Primary = Template.bind({});
@@ -32,7 +33,7 @@ Primary.args = {
   ],
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Children = Template.bind({});
@@ -47,5 +48,5 @@ Children.args = {
   buttonGroup: <Button sm>Click</Button>,
 };
 Children.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

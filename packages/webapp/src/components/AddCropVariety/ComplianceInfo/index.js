@@ -42,7 +42,6 @@ export default function ComplianceInfo({
   const TREATED = 'treated';
 
   const organic = watch(CERTIFIED_ORGANIC);
-
   const disabled = !isValid;
 
   const labelStyle = {
@@ -131,7 +130,8 @@ export default function ComplianceInfo({
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />
+
+            <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
           </div>
         )}
       </div>
@@ -145,7 +145,7 @@ export default function ComplianceInfo({
                 <Infoi style={{ marginLeft: '8px' }} content={t('CROP.NEED_DOCUMENT_TREATED')} />
               </div>
             </div>
-            <RadioGroup hookFormControl={control} name={TREATED} showNotSure required />
+            <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
           </div>
         )}
       </div>

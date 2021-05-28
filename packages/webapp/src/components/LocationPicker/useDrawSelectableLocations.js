@@ -11,7 +11,6 @@ import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 
 const useDrawSelectableLocations = () => {
   const cropLocations = useSelector(cropLocationsSelector);
-  console.log(cropLocations);
 
   const assetFunctionMap = (assetType) => {
     return !!isArea(assetType) ? drawArea : drawLine;

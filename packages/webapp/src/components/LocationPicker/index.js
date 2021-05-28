@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 // import styles from './styles.module.scss';
@@ -11,12 +11,13 @@ import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
 
-const LocationPicker = ({ className }) => {
+const LocationPicker = ({ className, setSelectedLocation }) => {
   const { grid_points } = useSelector(userFarmSelector);
 
   const { drawLocations, selectedLocation } = useDrawSelectableLocations();
-
-  console.log({ selectedLocation });
+  useEffect(() => {
+    setSelectedLocation(selectedLocation);
+  }, [setSelectedLocation, selectedLocation]);
 
   // TODO: use effect for selected location
 

@@ -18,99 +18,8 @@ import ProgressBar from '../../components/ProgressBar';
 import LocationPicker from '../../components/LocationPicker';
 
 export default function PlantingLocation({ history }) {
-  const mapWrapperRef = useRef();
-  const { grid_points } = useSelector(userFarmSelector);
-  const [drawingState, { reconstructOverlay }] = useDrawingManager();
-
-  const filterSettings = useSelector(mapFilterSettingSelector);
-  const roadview = !filterSettings.map_background;
-
-  const { drawAssets } = useMapAssetRenderer({ isClickable: false });
-
-  // const getMapOptions = (maps) => {
-  //   return {
-  //     styles: [
-  //       {
-  //         featureType: 'poi.business',
-  //         elementType: 'labels',
-  //         stylers: [
-  //           {
-  //             visibility: 'off',
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //     gestureHandling: 'greedy',
-  //     disableDoubleClickZoom: false,
-  //     minZoom: 1,
-  //     maxZoom: 80,
-  //     tilt: 0,
-  //     mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
-  //     mapTypeControlOptions: {
-  //       style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
-  //       position: maps.ControlPosition.BOTTOM_CENTER,
-  //       mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
-  //     },
-  //     clickableIcons: false,
-  //     streetViewControl: false,
-  //     scaleControl: false,
-  //     mapTypeControl: false,
-  //     panControl: false,
-  //     zoomControl: false,
-  //     rotateControl: false,
-  //     fullscreenControl: false,
-  //   };
-  // };
-
-  // const handleGoogleMapApi = (map, maps) => {
-  //   maps.Polygon.prototype.getPolygonBounds = function () {
-  //     var bounds = new maps.LatLngBounds();
-  //     this.getPath().forEach(function (element, index) {
-  //       bounds.extend(element);
-  //     });
-  //     return bounds;
-  //   };
-  //   maps.Polygon.prototype.getAveragePoint = function () {
-  //     const latLngArray = this.getPath().getArray();
-  //     let latSum = 0;
-  //     let lngSum = 0;
-  //     for (const latLng of latLngArray) {
-  //       latSum += latLng.lat();
-  //       lngSum += latLng.lng();
-  //     }
-  //     return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
-  //   };
-  //   const zoomControlDiv = document.createElement('div');
-  //   ReactDOM.render(
-  //     <CustomZoom
-  //       style={{ margin: '12px' }}
-  //       onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
-  //       onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
-  //     />,
-  //     zoomControlDiv,
-  //   );
-  //   map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
-
-  //   const compassControlDiv = document.createElement('div');
-  //   ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
-  //   map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
-
-  //   // Drawing locations on map
-  //   let mapBounds = new maps.LatLngBounds();
-  //   drawAssets(map, maps, mapBounds);
-
-  //   if (history.location.isStepBack) {
-  //     reconstructOverlay();
-  //   }
-
-  //   if (history.location.cameraInfo) {
-  //     const { zoom, location } = history.location.cameraInfo;
-  //     if (zoom && location) {
-  //       map.setZoom(zoom);
-  //       map.setCenter(location);
-  //     }
-  //   }
-  // };
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  console.log(selectedLocation);
 
   return (
     <>
@@ -146,7 +55,7 @@ export default function PlantingLocation({ history }) {
             options={getMapOptions}
           />
         </div> */}
-        <LocationPicker className={styles.mapContainer} />
+        <LocationPicker className={styles.mapContainer} setSelectedLocation={setSelectedLocation} />
         <div>
           <div className={styles.shown_label}>
             {' '}

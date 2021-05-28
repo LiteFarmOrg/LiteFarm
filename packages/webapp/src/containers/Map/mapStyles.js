@@ -13,7 +13,7 @@ import {
   surfaceWaterColour,
   watercourseColour,
   barnSelectedColour,
-  // bufferZoneSelectedColour,
+  bufferZoneSelectedColour,
   ceremonialSiteSelectedColour,
   // farmBoundSelectedColour,
   fieldSelectedColour,
@@ -117,6 +117,7 @@ export const lineStyles = {
   },
   buffer_zone: {
     colour: bufferZoneColour,
+    selectedColour: bufferZoneSelectedColour,
     dashScale: 0.7,
     dashLength: '6px',
     polyStyles: {

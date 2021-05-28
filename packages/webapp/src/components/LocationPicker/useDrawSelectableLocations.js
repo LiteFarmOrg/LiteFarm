@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  cropLocationEntitiesSelector,
+  // cropLocationEntitiesSelector,
   cropLocationsSelector,
 } from '../../containers/locationSlice';
-import { isArea, isLine, isNoFillArea, polygonPath } from '../../containers/Map/constants';
+import { isArea, polygonPath } from '../../containers/Map/constants';
 import { areaStyles, lineStyles } from '../../containers/Map/mapStyles';
 import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 
@@ -33,52 +33,10 @@ const useDrawSelectableLocations = () => {
   const resetStyles = (maps, location) => {
     if (location.asset === 'area') {
       const { area, polygon, polyline, marker } = location;
-      const { colour, selectedColour } = areaStyles[area.type];
-      polygon.setOptions({
-        fillColor: colour,
-        fillOpacity: 0.5,
-      });
-      marker.setOptions({
-        label: {
-          text: area.name,
-          color: 'white',
-          fontSize: '16px',
-          className: styles.mapLabel,
-        },
-      });
-      maps.event.addListener(polygon, 'mouseover', function () {
-        this.setOptions({ fillOpacity: 0.8 });
-      });
-      maps.event.addListener(polygon, 'mouseout', function () {
-        this.setOptions({ fillOpacity: 0.5 });
-      });
-      maps.event.addListener(polygon, 'click', function () {
-        if (selectedLocationRef.current) {
-          resetStyles(maps, selectedLocationRef.current);
-        }
-
-        setSelectedLocation({
-          area,
-          polygon,
-          polyline,
-          marker,
-          asset: 'area',
-        });
-
-        this.setOptions({
-          fillColor: selectedColour,
-          fillOpacity: 1.0,
-        });
-        marker.setOptions({
-          label: {
-            text: area.name,
-            color: '#282B36',
-            fontSize: '16px',
-            className: styles.mapLabel,
-          },
-        });
-        maps.event.clearInstanceListeners(polygon);
-      });
+      setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
+    } else if (location.asset === 'line') {
+      const { line, polygon } = location;
+      setLineListenersAndOptions(maps, line, polygon);
     }
   };
 
@@ -98,13 +56,6 @@ const useDrawSelectableLocations = () => {
       fillOpacity: 0.5,
     });
     polygon.setMap(map);
-
-    maps.event.addListener(polygon, 'mouseover', function () {
-      this.setOptions({ fillOpacity: 0.8 });
-    });
-    maps.event.addListener(polygon, 'mouseout', function () {
-      this.setOptions({ fillOpacity: 0.5 });
-    });
 
     // draw dotted outline
     let borderPoints = points.map((point) => ({
@@ -153,51 +104,7 @@ const useDrawSelectableLocations = () => {
     });
     marker.setMap(map);
 
-    // Event listener for area click
-    maps.event.addListener(polygon, 'click', function () {
-      if (selectedLocationRef.current) {
-        resetStyles(maps, selectedLocationRef.current);
-      }
-
-      setSelectedLocation({
-        area,
-        polygon,
-        polyline,
-        marker,
-        asset: 'area',
-      });
-
-      this.setOptions({
-        fillColor: selectedColour,
-        fillOpacity: 1.0,
-      });
-      marker.setOptions({
-        label: {
-          text: name,
-          color: '#282B36',
-          fontSize: '16px',
-          className: styles.mapLabel,
-        },
-      });
-      maps.event.clearInstanceListeners(polygon);
-
-      // create record of all items added to map
-      // maybe a map
-      // use current selected item to identify map item that needs to change
-    });
-
-    // marker.setOptions({ visible: filterSettings?.label && isVisible });
-    // polygon.setOptions({ visible: isVisible });
-    // polyline.setOptions({ visible: isVisible });
-    // return {
-    //   polygon,
-    //   polyline,
-    //   marker,
-    //   location_id: area.location_id,
-    //   location_name: area.name,
-    //   asset: 'area',
-    //   type: area.type,
-    // };
+    setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
   };
 
   // Draw a line
@@ -241,45 +148,7 @@ const useDrawSelectableLocations = () => {
     linePolygon.setMap(map);
     // }
 
-    // hover styles
-    maps.event.addListener(polyline, 'mouseover', function () {
-      this.setOptions({
-        strokeColor: colour,
-        icons: [
-          {
-            icon: lineSymbol(defaultColour),
-            offset: '0',
-            repeat: dashLength,
-          },
-        ],
-      });
-    });
-    maps.event.addListener(polyline, 'mouseout', function () {
-      this.setOptions({
-        strokeColor: defaultColour,
-        icons: [
-          {
-            icon: lineSymbol(colour),
-            offset: '0',
-            repeat: dashLength,
-          },
-        ],
-      });
-    });
-
-    // Event listener for line click
-    maps.event.addListener(linePolygon, 'click', function (mapsMouseEvent) {
-      // const latlng = map.getCenter().toJSON();
-      // dispatch(setPosition(latlng));
-      // dispatch(setZoomLevel(map.getZoom()));
-      // handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-      console.log(`${name} got clicked`);
-      setSelectedLocation({
-        location: line,
-        polygon: linePolygon,
-        asset: 'line',
-      });
-    });
+    setLineListenersAndOptions(maps, line, linePolygon);
 
     // let asset;
     // if (isAreaLine(type)) {
@@ -305,6 +174,86 @@ const useDrawSelectableLocations = () => {
     //   asset: 'line',
     //   type: line.type,
     // };
+  };
+
+  const setAreaListenersAndOptions = (maps, area, polygon, polyline, marker) => {
+    const { colour, selectedColour } = areaStyles[area.type];
+    polygon.setOptions({
+      fillColor: colour,
+      fillOpacity: 0.5,
+    });
+    marker.setOptions({
+      label: {
+        text: area.name,
+        color: 'white',
+        fontSize: '16px',
+        className: styles.mapLabel,
+      },
+    });
+    maps.event.addListener(polygon, 'mouseover', function () {
+      this.setOptions({ fillOpacity: 0.8 });
+    });
+    maps.event.addListener(polygon, 'mouseout', function () {
+      this.setOptions({ fillOpacity: 0.5 });
+    });
+    maps.event.addListener(polygon, 'click', function () {
+      if (selectedLocationRef.current) {
+        resetStyles(maps, selectedLocationRef.current);
+      }
+
+      setSelectedLocation({
+        area,
+        polygon,
+        polyline,
+        marker,
+        asset: 'area',
+      });
+
+      this.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      marker.setOptions({
+        label: {
+          text: area.name,
+          color: '#282B36',
+          fontSize: '16px',
+          className: styles.mapLabel,
+        },
+      });
+      maps.event.clearInstanceListeners(polygon);
+    });
+  };
+
+  const setLineListenersAndOptions = (maps, line, polygon) => {
+    const { colour, selectedColour } = lineStyles[line.type];
+    polygon.setOptions({
+      fillColor: colour,
+      fillOpacity: 0.5,
+    });
+    maps.event.addListener(polygon, 'mouseover', function () {
+      this.setOptions({ fillOpacity: 0.8 });
+    });
+    maps.event.addListener(polygon, 'mouseout', function () {
+      this.setOptions({ fillOpacity: 0.5 });
+    });
+    maps.event.addListener(polygon, 'click', function () {
+      if (selectedLocationRef.current) {
+        resetStyles(maps, selectedLocationRef.current);
+      }
+
+      setSelectedLocation({
+        line,
+        polygon,
+        asset: 'line',
+      });
+
+      this.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      maps.event.clearInstanceListeners(polygon);
+    });
   };
 
   return { drawLocations, selectedLocation };

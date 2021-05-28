@@ -33,7 +33,6 @@ export default function Transplant({
     } = useForm({
         mode: 'onChange',
         shouldUnregister: true,
-        // TODO - test with new page
         defaultValues: { ...persistedFormData },
     });
 
@@ -63,13 +62,13 @@ export default function Transplant({
             <div
                 style={{
                     marginBottom: '24px',
-                    marginTop: '8px',
+                    marginTop: '16px',
                 }}
             >
                 <ProgressBar value={progress} />
             </div>
             <div>
-                <div style={{ marginBottom: '24px' }}>
+                <div style={{ marginBottom: '18px' }}>
                     <Label
                         style={{
                             paddingRight: '10px',
@@ -91,7 +90,7 @@ export default function Transplant({
             <div>
                 {isCoverCrop && (
                     <div>
-                        <div style={{ marginBottom: '24px' }}>
+                        <div style={{ marginTop: '16px', marginBottom: '18px' }}>
                             <Label
                                 style={{
                                     paddingRight: '10px',

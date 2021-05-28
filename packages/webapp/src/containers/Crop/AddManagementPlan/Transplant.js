@@ -17,15 +17,14 @@ function TransplantForm({ history, match }) {
     const persistedFormData = useSelector(hookFormPersistSelector);
 
     const onContinue = (data) => {
-        //TODO - put in new page
-        //history.push(`/nextpage`)
+        // TODO - put in path
+        //history.push(`/map`);
     };
 
     return (
         <>
-            <Transplant
-                // TODO - make conditional    
-                isCoverCrop={true}
+            <Transplant  
+                isCoverCrop={isCoverCrop}
                 useHookFormPersist={useHookFormPersist}
                 onGoBack={() => {history.push(`/crop/${variety_id}/management`)}}
                 onCancel={() => {history.push(`/crop/${variety_id}/management`)}}

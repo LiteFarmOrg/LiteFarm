@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldCropModel.js) is part of LiteFarm.
+ *  This file (managementPlanModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel')
+
 class ManagementPlan extends baseModel {
   static get tableName() {
     return 'management_plan';
@@ -23,9 +24,17 @@ class ManagementPlan extends baseModel {
   static get idColumn() {
     return 'management_plan_id';
   }
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    // TODO set dates
+    this.transplant_date = this.seed_date;
+    this.germination_date = this.seed_date;
+    this.termination_date = this.seed_date;
+    this.harvest_date = this.seed_date;
+    throw new Error('Need to properly set dates');
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',

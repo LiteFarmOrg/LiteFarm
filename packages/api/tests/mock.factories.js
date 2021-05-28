@@ -369,16 +369,19 @@ async function management_planFactory({
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop }),
-} = {}, fieldCrop = fakeFieldCrop()) {
+} = {}, managementPlan = fakeManagementPlan()) {
   const [location, field, cropVariety] = await Promise.all([promisedLocation, promisedField, promisedCropVariety]);
   const [{ created_by_user_id }] = location;
   const [{ location_id }] = field;
   const [{ crop_variety_id }] = cropVariety;
   const base = baseProperties(created_by_user_id);
-  return knex('management_plan').insert({ crop_variety_id, location_id: location_id, ...fieldCrop, ...base }).returning('*');
+  return knex('management_plan').insert({
+    crop_variety_id,
+    location_id: location_id, ...managementPlan, ...base,
+  }).returning('*');
 }
 
-function fakeFieldCrop() {
+function fakeManagementPlan() {
   return {
     seed_date: faker.date.past(),
     needs_transplant: faker.random.boolean(),
@@ -800,11 +803,11 @@ function fakeWaterBalance() {
   };
 }
 
-// async function waterBalanceFactory({ promisedFieldCrop = management_planFactory() } = {}, waterBalance = fakeWaterBalance()) {
-//   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
-//   const [{ field_id, crop_id }] = fieldCrop;
-//   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
-// }
+async function waterBalanceFactory({ promisedManagementPlan = management_planFactory() } = {}, waterBalance = fakeWaterBalance()) {
+  const [managementPlan] = await Promise.all([promisedManagementPlan]);
+  const [{ field_id, crop_id }] = managementPlan;
+  return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
+}
 
 function fakeNitrogenSchedule() {
   return {
@@ -1097,7 +1100,7 @@ module.exports = {
   fieldFactory, fakeField,
   gardenFactory, fakeGarden,
   cropFactory, fakeCrop,
-  management_planFactory, fakeFieldCrop,
+  management_planFactory, fakeManagementPlan,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,

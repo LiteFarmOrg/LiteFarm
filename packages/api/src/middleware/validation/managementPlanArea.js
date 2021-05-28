@@ -16,17 +16,17 @@
 const locationModel = require('../../models/locationModel');
 const managementPlanModel = require('../../models/managementPlanModel');
 
-async function validateFieldCropArea(req, res, next) {
+async function validateManagementPlanArea(req, res, next) {
   let location;
   if (req.body.location_id) {
     location = await locationModel.query()
       .whereNotDeleted().findById(req.body.location_id)
       .withGraphJoined('figure.[area, line]');
   } else {
-    const fieldCrop = await managementPlanModel.query().whereNotDeleted().findById(req.params.field_crop_id)
+    const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(req.params.field_crop_id)
       .withGraphFetched(`[location.[
           figure.[area, line]]]`);
-    location = fieldCrop?.location;
+    location = managementPlan?.location;
   }
 
   if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < req.body.area_used) {
@@ -36,4 +36,4 @@ async function validateFieldCropArea(req, res, next) {
   }
 }
 
-module.exports = validateFieldCropArea;
+module.exports = validateManagementPlanArea;

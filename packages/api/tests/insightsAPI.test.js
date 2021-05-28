@@ -528,9 +528,12 @@ xdescribe('insights test', () => {
         for (const grid_points of gridPoints) {
           const [farm] = await mocks.farmFactory({ ...mocks.fakeFarm(), grid_points });
           const [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
-          const [fieldCrop] = await mocks.management_planFactory({ promisedCrop: [crops[0]], promisedField: [field] });
+          const [managementPlan] = await mocks.management_planFactory({
+            promisedCrop: [crops[0]],
+            promisedField: [field],
+          });
           const [cropSale] = await mocks.cropSaleFactory({
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
             promisedSale: mocks.saleFactory({ promisedFarm: [farm] }, {
               ...mocks.fakeSale(),
               sale_date: moment('2020-12-01').format(),
@@ -542,17 +545,20 @@ xdescribe('insights test', () => {
         }
         const crop12020Sales = [];
         for (let i = 0; i < 2; i++) {
-          const [fieldCrop1] = await mocks.management_planFactory({ promisedField: [fields[i]], promisedCrop: [crops[1]] });
+          const [managementPlan1] = await mocks.management_planFactory({
+            promisedField: [fields[i]],
+            promisedCrop: [crops[1]],
+          });
           const [crop1Sale] = await mocks.cropSaleFactory({
-            promisedFieldCrop: [fieldCrop1],
+            promisedManagementPlan: [managementPlan1],
             promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }),
           });
           const [crop11Sale] = await mocks.cropSaleFactory({
-            promisedFieldCrop: [fieldCrop1],
+            promisedManagementPlan: [managementPlan1],
             promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }),
           });
           const [crop12Sale] = await mocks.cropSaleFactory({
-            promisedFieldCrop: [fieldCrop1],
+            promisedManagementPlan: [managementPlan1],
             promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }, {
               ...mocks.fakeSale(),
               sale_date: moment('2020-12-01').format(),
@@ -562,12 +568,12 @@ xdescribe('insights test', () => {
 
           crop1Sales.push(crop1Sale);
           crop1Sales.push(crop11Sale);
-          const [fieldCrop2] = await mocks.management_planFactory({
+          const [managementPlan2] = await mocks.management_planFactory({
             promisedField: [fields[i + 1]],
             promisedCrop: [crops[2]],
           });
           const [crop2Sale] = await mocks.cropSaleFactory({
-            promisedFieldCrop: [fieldCrop2],
+            promisedManagementPlan: [managementPlan2],
             promisedSale: mocks.saleFactory({ promisedFarm: [farms[i + 1]] }),
           });
           crop2Sales.push(crop2Sale);

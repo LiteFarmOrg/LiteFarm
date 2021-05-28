@@ -67,7 +67,7 @@ function modelValidation(asset) {
   };
 }
 
-const fieldCropEnabledLocations = [
+const managementPlanEnabledLocations = [
   'field', 'garden', 'buffer_zone',
   'greenhouse',
 ];
@@ -78,5 +78,5 @@ module.exports = {
   promiseMapper,
   assets,
   figures,
-  fieldCropEnabledLocations,
+  managementPlanEnabledLocations,
 };

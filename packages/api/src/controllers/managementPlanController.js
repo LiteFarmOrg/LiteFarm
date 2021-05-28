@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldCropController.js) is part of LiteFarm.
+ *  This file (ManagementPlanController.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@ const managementPlanModel = require('../models/managementPlanModel');
 const { transaction, Model, raw } = require('objection');
 const knex = Model.knex();
 
-const FieldCropController = {
-  addFieldCrop() {
+const managementPlanController = {
+  addManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -37,7 +37,7 @@ const FieldCropController = {
     };
   },
 
-  delFieldCrop() {
+  delManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -57,7 +57,7 @@ const FieldCropController = {
     };
   },
 
-  updateFieldCrop() {
+  updateManagementPlan() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -79,17 +79,17 @@ const FieldCropController = {
     };
   },
 
-  getFieldCropByID() {
+  getManagementPlanByID() {
     return async (req, res) => {
       try {
         const field_crop_id = req.params.field_crop_id;
-        const fieldCrop = await managementPlanModel.query().whereNotDeleted().findById(field_crop_id)
+        const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(field_crop_id)
           .withGraphFetched(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
         ], crop_variety.[crop]]`);
-        return fieldCrop ? res.status(200).send(fieldCrop) : res.status(404).send('Field crop not found');
+        return managementPlan ? res.status(200).send(managementPlan) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({
@@ -99,18 +99,18 @@ const FieldCropController = {
     };
   },
 
-  getFieldCropByFarmID() {
+  getManagementPlanByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
+        const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
-        ], crop_variety.[crop]]`)
+        ], crop_variety.[crop], crop_management_plan.[]]`)
           .where('location.farm_id', farm_id);
-        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({
@@ -120,43 +120,43 @@ const FieldCropController = {
     };
   },
 
-  getFieldCropsByDate() {
+  getManagementPlansByDate() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
-        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
+        const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
         ], crop_variety.[crop]]`)
           .where('location.farm_id', farm_id)
-          .andWhere('fieldCrop.end_date', '>=', date);
+          .andWhere('management_plan.end_date', '>=', date);
 
 
-        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
         res.status(400).json({ error });
       }
     };
   },
 
-  getExpiredFieldCrops() {
+  getExpiredManagementPlans() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const fieldCrops = await managementPlanModel.query().whereNotDeleted()
+        const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(`[location.[
           figure.[area, line], 
            field, garden, buffer_zone,
           greenhouse
         ], crop_variety.[crop]]`)
           .where('location.farm_id', farm_id)
-          .andWhere(raw('"fieldCrop".end_date < now()'));
+          .andWhere(raw('"management_plan".end_date < now()'));
 
 
-        return fieldCrops?.length ? res.status(200).send(fieldCrops) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
         res.status(400).json({ error });
       }
@@ -164,4 +164,4 @@ const FieldCropController = {
   },
 }
 
-module.exports = FieldCropController;
+module.exports = managementPlanController;

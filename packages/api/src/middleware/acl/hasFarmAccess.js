@@ -3,7 +3,7 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_crop_id: fromFieldCrop,
+  field_crop_id: fromManagementPlan,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
@@ -110,7 +110,7 @@ async function fromActivity(req) {
 
   if (req.body.locations) {
     const locations = [];
-    let fieldCrops;
+    let managementPlans;
     for (const location of req.body.locations) {
       if (!location.location_id) {
         return {};
@@ -122,22 +122,22 @@ async function fromActivity(req) {
     }
 
     if (req.body.crops && req.body.crops.length) {
-      fieldCrops = [];
-      for (const fieldCrop of req.body.crops) {
-        if (!fieldCrop.field_crop_id) {
+      managementPlans = [];
+      for (const managementPlan of req.body.crops) {
+        if (!managementPlan.field_crop_id) {
           return {};
         }
-        fieldCrops.push(fieldCrop.field_crop_id);
+        managementPlans.push(managementPlan.field_crop_id);
       }
     }
 
-    const sameFarm = fieldCrops?.length ? await userFarmModel.query()
-        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'fieldCrop.field_crop_id')
+    const sameFarm = managementPlans?.length ? await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'managementPlan.field_crop_id')
         .join('location', 'userFarm.farm_id', 'location.farm_id')
-        .join('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
+        .join('managementPlan', 'managementPlan.location_id', 'location.location_id')
         .skipUndefined()
         .whereIn('location.location_id', locations)
-        .whereIn('fieldCrop.field_crop_id', fieldCrops)
+        .whereIn('managementPlan.field_crop_id', managementPlans)
         .where('userFarm.user_id', user_id)
         .where('userFarm.farm_id', farm_id) :
       await userFarmModel.query()
@@ -149,7 +149,7 @@ async function fromActivity(req) {
         .where('userFarm.farm_id', farm_id);
 
 
-    if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
+    if (!sameFarm.length || sameFarm.length < (managementPlans ? managementPlans.length : 0)) {
       return {};
     }
   }
@@ -168,8 +168,8 @@ async function fromActivity(req) {
   return userFarm;
 }
 
-async function fromFieldCrop(fieldCropId) {
-  const { location_id } = await knex('management_plan').where({ management_plan_id: fieldCropId }).first();
+async function fromManagementPlan(managementPlanId) {
+  const { location_id } = await knex('management_plan').where({ management_plan_id: managementPlanId }).first();
   return fromLocation(location_id);
 }
 

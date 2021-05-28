@@ -253,7 +253,7 @@ const waterBalanceDailyCalc = async (dataPoint) => {
     "activityLog" al,
     "soilDataLog" sdl, 
     "activityFields" af, 
-    "fieldCrop" fc
+    "managementPlan" fc
     LEFT JOIN (
         SELECT w.location_id, w.crop_id, w.soil_water, w.created_at
         FROM "waterBalance" w, "field" f, "location" l

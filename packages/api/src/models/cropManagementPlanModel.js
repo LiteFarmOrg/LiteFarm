@@ -14,48 +14,21 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel')
+const baseModel = require('./baseModel');
 
 class ManagementPlan extends baseModel {
   static get tableName() {
-    return 'management_plan';
+    return 'crop_management_plan';
   }
 
   static get idColumn() {
-    return 'management_plan_id';
-  }
-
-  getDate(seed_date, duration) {
-    // TODO set dates
-    if (duration !== null && duration !== undefined && seed_date) {
-      return seed_date;
-    }
-    return undefined;
-  }
-
-  async $beforeInsert(context) {
-    await super.$beforeInsert(context);
-    this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-    this.germination_date = this.getDate(this.seed_date, this.germination_days);
-    this.termination_date = this.getDate(this.seed_date, this.termination_days);
-    this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    throw new Error('Need to properly set dates');
-  }
-
-  async $beforeUpdate(context) {
-    await super.$beforeUpdate(context);
-    // TODO: if seed_date/transplant_days/germination_days/termination_days/harvest_days exist reset dates
-    this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-    this.germination_date = this.getDate(this.seed_date, this.germination_days);
-    this.termination_date = this.getDate(this.seed_date, this.termination_days);
-    this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    throw new Error('Need to properly set dates');
+    return 'crop_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'crop_variety_id', 'seed_date'],
+      required: ['location_id', 'management_plan_id', 'planting_type'],
       properties: {
         management_plan_id: { type: 'integer' },
         location_id: { type: 'string' },
@@ -76,6 +49,7 @@ class ManagementPlan extends baseModel {
       additionalProperties: false,
     };
   }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
@@ -102,16 +76,16 @@ class ManagementPlan extends baseModel {
           to: 'crop_variety.crop_variety_id',
         },
       },
-      activityLog:{
-        relation:Model.ManyToManyRelation,
-        modelClass:require('./activityLogModel.js'),
-        join:{
+      activityLog: {
+        relation: Model.ManyToManyRelation,
+        modelClass: require('./activityLogModel.js'),
+        join: {
           to: 'activityLog.activity_id',
-          through:{
-            from:'activityCrops.activity_id',
-            to:'activityCrops.management_plan_id',
+          through: {
+            from: 'activityCrops.activity_id',
+            to: 'activityCrops.management_plan_id',
           },
-          from:'management_plan.management_plan_id',
+          from: 'management_plan.management_plan_id',
         },
       },
     };

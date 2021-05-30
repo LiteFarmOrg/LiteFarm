@@ -127,6 +127,13 @@
     "CROP_VARIETIES": "variety",
     "NEEDS_PLAN": "Needs Plan"
   },
+  "CROP_MANAGEMENT": {
+    "HARVEST": "Harvest",
+    "TRANSPLANT": "Transplant",
+    "TERMINATE": "Terminate",
+    "GERMINATE": "Germinate",
+    "SEED": "Seed"
+  },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",

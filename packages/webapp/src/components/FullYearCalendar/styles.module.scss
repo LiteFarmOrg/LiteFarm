@@ -1,0 +1,38 @@
+.stagesBox {
+  background: #FAFAFD;
+  border: 1px solid #D4DAE3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 100%;
+  min-height: 48px;
+  max-height: 80px;
+  margin-bottom: 24px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.flexStage{
+  flex: 1;
+  margin: auto;
+}
+
+.colorBox {
+  margin-left: 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: text-bottom;
+}
+
+.colorBoxFont {
+  font-family: Open Sans;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: left;
+
+}

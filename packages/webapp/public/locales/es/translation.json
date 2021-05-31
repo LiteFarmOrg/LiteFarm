@@ -52,8 +52,8 @@
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "Agrega otra finca",
-    "CHOOSE_TITLE": "Elige otra finca",
+    "ADD_NEW": "Agregar otra finca",
+    "CHOOSE_TITLE": "Eliger otra finca",
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
@@ -81,69 +81,69 @@
     "TITLE": "Crear nueva cuenta de usuario"
   },
   "CROP_CATALOGUE": {
-    "ADD_CROP": "MISSING",
-    "ADD_CROPS_T0_YOUR_FARM": "MISSING",
-    "ADD_TO_YOUR_FARM": "MISSING",
-    "CAN_NOT_FIND": "MISSING",
-    "CREATE_MANAGEMENT_PLANS": "MISSING",
-    "CROP_CATALOG": "MISSING",
-    "CROP_CATALOGUE": "MISSING",
-    "CROP_STATUS": "MISSING",
-    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
+    "ADD_CROP": "Agregar cultivo",
+    "ADD_CROPS_T0_YOUR_FARM": "Agregar un cultivo a tu granja",
+    "ADD_TO_YOUR_FARM": "Agregar a tu granja",
+    "CAN_NOT_FIND": "No puede encontrar",
+    "CREATE_MANAGEMENT_PLANS": "Crear plan de manejo",
+    "CROP_CATALOG": "Catálogo de cultivos",
+    "CROP_CATALOGUE": "Catálogo de cultivos",
+    "CROP_STATUS": "Estatus del cultivo activo",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documentar la información necesaria para la producción orgánica",
     "FILTER": {
-      "LOCATION": "MISSING",
-      "STATUS": "MISSING",
-      "SUPPLIERS": "MISSING",
-      "TITLE": "MISSING"
+      "LOCATION": "Ubicación",
+      "STATUS": "Estatus",
+      "SUPPLIERS": "Proveedores",
+      "TITLE": "Título"
     },
-    "HERE_YOU_CAN": "MISSING",
-    "LETS_BEGIN": "MISSING",
-    "ON_YOUR_FARM": "MISSING",
-    "SELECT_A_CROP": "MISSING",
-    "FILTER_TITLE": "MISSING"
+    "HERE_YOU_CAN": "Aca uno puede",
+    "LETS_BEGIN": "Vamos a comenzar",
+    "ON_YOUR_FARM": "En tu granja",
+    "SELECT_A_CROP": "Seleccione un cultivo para agregarlo a su granja. Utilice la búsqueda y los filtros para encontrar cultivos más rápidamente.",
+    "FILTER_TITLE": "Filtro de catálogo de cultivos "
   },
   "CROP_DETAIL": {
-    "ADD_PLAN": "MISSING",
-    "ANNUAL": "MISSING",
-    "ANNUAL_PERENNIAL": "MISSING",
-    "COMMERCIAL_AVAILABILITY": "MISSING",
-    "COMPLIANCE_DOC": "MISSING",
-    "DETAIL_TAB": "MISSING",
-    "EDIT_CROP_DETAIL": "MISSING",
-    "EXPENSE_RECORD": "MISSING",
-    "GENETICALLY_ENGINEERED": "MISSING",
-    "MANAGEMENT_PLANS": "MISSING",
-    "MANAGEMENT_TAB": "MISSING",
-    "ORGANIC": "MISSING",
-    "PERENNIAL": "MISSING",
-    "SEED": "MISSING",
-    "SEED_SEEDLING": "MISSING",
-    "SEEDLING": "MISSING",
-    "TREATED": "MISSING"
+    "ADD_PLAN": "Agregar un plan",
+    "ANNUAL": "Anual",
+    "ANNUAL_PERENNIAL": "¿El cultivo es anual o perenne?",
+    "COMMERCIAL_AVAILABILITY": "¿Realizó una búsqueda de disponibilidad comercial?",
+    "COMPLIANCE_DOC": "Documentos de cumplimiento",
+    "DETAIL_TAB": "Detalles",
+    "EDIT_CROP_DETAIL": "Editar los detalles del cultivo",
+    "EXPENSE_RECORD": "Registro de gastos",
+    "GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
+    "MANAGEMENT_PLANS": "Planes de manejo",
+    "MANAGEMENT_TAB": "Manejo",
+    "ORGANIC": "Orgánico",
+    "PERENNIAL": "Perenne",
+    "SEED": "Semilla",
+    "SEED_SEEDLING": "¿Plantarás como semilla o plántula?",
+    "SEEDLING": "Plántula",
+    "TREATED": "¿Se han tratado las semillas de este cultivo?"
   },
   "CROP_VARIETIES": {
-    "ADD_VARIETY": "MISSING",
-    "CROP_VARIETIES": "MISSING",
-    "NEEDS_PLAN": "MISSING"
+    "ADD_VARIETY": "Agregar una nueva variedad",
+    "CROP_VARIETIES": "variedad",
+    "NEEDS_PLAN": "Necesita un plan"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "MISSING",
-    "ADD_CROP": "MISSING",
-    "ADD_IMAGE": "MISSING",
-    "ANNUAL": "MISSING",
-    "ANNUAL_OR_PERENNIAL": "MISSING",
-    "IS_GENETICALLY_ENGINEERED": "MISSING",
-    "IS_ORGANIC": "MISSING",
-    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
-    "NEED_DOCUMENT_PERFORM_SEARCH": "MISSING",
-    "NEED_DOCUMENT_TREATED": "MISSING",
-    "PERENNIAL": "MISSING",
-    "PERFORM_SEARCH": "MISSING",
-    "SEED": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
-    "TREATED": "MISSING",
-    "UPLOAD_LATER": "MISSING"
+    "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
+    "ADD_CROP": "Agregar un cultivo",
+    "ADD_IMAGE": "Agregar imagen personalizada",
+    "ANNUAL": "Anual",
+    "ANNUAL_OR_PERENNIAL": "¿El cultivo es anual o perenne?",
+    "IS_GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
+    "IS_ORGANIC": "¿El cultivo está certificado como orgánico?",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Su certificador puede solicitar documentación que respalde su afirmación de que este cultivo no está modificado genéticamente.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "Su certificador puede solicitar documentación que respalde su búsqueda.",
+    "NEED_DOCUMENT_TREATED": "Su certificador puede solicitar documentación que describa cualquier tratamiento.",
+    "PERENNIAL": "Perenne",
+    "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
+    "SEED": "Semilla",
+    "SEED_OR_SEEDLING": "¿Plantarás como semilla o plántula?",
+    "SEEDLING_OR_PLANTING_STOCK": "Plántula o plantón",
+    "TREATED": "¿Se han tratado las semillas de este cultivo?",
+    "UPLOAD_LATER": "También puede cargar archivos en otro momento."
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -466,7 +466,7 @@
     "TITLE": "Campos"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "MISSING"
+    "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
@@ -1086,7 +1086,7 @@
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
   "SLIDE_MENU": {
-    "CROPS": "MISSING",
+    "CROPS": "Cultivos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",

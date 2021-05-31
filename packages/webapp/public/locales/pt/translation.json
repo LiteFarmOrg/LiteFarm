@@ -81,69 +81,69 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "CROP_CATALOGUE": {
-    "ADD_CROP": "MISSING",
-    "ADD_CROPS_T0_YOUR_FARM": "MISSING",
-    "ADD_TO_YOUR_FARM": "MISSING",
-    "CAN_NOT_FIND": "MISSING",
-    "CREATE_MANAGEMENT_PLANS": "MISSING",
-    "CROP_CATALOG": "MISSING",
-    "CROP_CATALOGUE": "MISSING",
-    "CROP_STATUS": "MISSING",
-    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
+    "ADD_CROP": "Adicionar um novo corte cultivo",
+    "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
+    "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
+    "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
+    "CREATE_MANAGEMENT_PLANS": "Crie planos de manejo",
+    "CROP_CATALOG": "Catálogo de cultivo",
+    "CROP_CATALOGUE": "Catálogo de cultivo",
+    "CROP_STATUS": "Status de cultivo ativo ",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
     "FILTER": {
-      "LOCATION": "MISSING",
-      "STATUS": "MISSING",
-      "SUPPLIERS": "MISSING",
-      "TITLE": "MISSING"
+      "LOCATION": "Localização",
+      "STATUS": "Status",
+      "SUPPLIERS": "Fornecedores",
+      "TITLE": "Título"
     },
-    "HERE_YOU_CAN": "MISSING",
-    "LETS_BEGIN": "MISSING",
-    "ON_YOUR_FARM": "MISSING",
-    "SELECT_A_CROP": "MISSING",
-    "FILTER_TITLE": "MISSING"
+    "HERE_YOU_CAN": "Aqui você pode:",
+    "LETS_BEGIN": "Vamos começar!",
+    "ON_YOUR_FARM": "Em sua fazenda",
+    "SELECT_A_CROP": "Selecione um cultivo para adicioná-la à sua fazenda. Use a busca e os filtros para encontrar as colheitas mais rapidamente.",
+    "FILTER_TITLE": "Filtro de catálogo de cultivo"
   },
   "CROP_DETAIL": {
-    "ADD_PLAN": "MISSING",
-    "ANNUAL": "MISSING",
-    "ANNUAL_PERENNIAL": "MISSING",
-    "COMMERCIAL_AVAILABILITY": "MISSING",
-    "COMPLIANCE_DOC": "MISSING",
-    "DETAIL_TAB": "MISSING",
-    "EDIT_CROP_DETAIL": "MISSING",
-    "EXPENSE_RECORD": "MISSING",
-    "GENETICALLY_ENGINEERED": "MISSING",
-    "MANAGEMENT_PLANS": "MISSING",
-    "MANAGEMENT_TAB": "MISSING",
-    "ORGANIC": "MISSING",
-    "PERENNIAL": "MISSING",
-    "SEED": "MISSING",
-    "SEED_SEEDLING": "MISSING",
-    "SEEDLING": "MISSING",
-    "TREATED": "MISSING"
+    "ADD_PLAN": "Adicionar um plano",
+    "ANNUAL": "Anual",
+    "ANNUAL_PERENNIAL": "O cultivo é anual ou perene?",
+    "COMMERCIAL_AVAILABILITY": "Você fez uma busca de disponibilidade comercial?",
+    "COMPLIANCE_DOC": "Documentos de conformidade",
+    "DETAIL_TAB": "Detalhes",
+    "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
+    "EXPENSE_RECORD": "Registro de despesas",
+    "GENETICALLY_ENGINEERED": "Esta cultura é geneticamente modificada?",
+    "MANAGEMENT_PLANS": "Planos de Manejo",
+    "MANAGEMENT_TAB": "Manejo",
+    "ORGANIC": "O cultivo é certificada como orgânica?",
+    "PERENNIAL": "Perene",
+    "SEED": "Semente",
+    "SEED_SEEDLING": "Você vai plantar como uma semente ou plântula?",
+    "SEEDLING": "Plântula",
+    "TREATED": "As sementes desta cultivo foram tratadas?"
   },
   "CROP_VARIETIES": {
-    "ADD_VARIETY": "MISSING",
-    "CROP_VARIETIES": "MISSING",
-    "NEEDS_PLAN": "MISSING"
+    "ADD_VARIETY": "Adicione uma nova variedade",
+    "CROP_VARIETIES": "variedade",
+    "NEEDS_PLAN": "Precisa de um plano"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "MISSING",
-    "ADD_CROP": "MISSING",
-    "ADD_IMAGE": "MISSING",
-    "ANNUAL": "MISSING",
-    "ANNUAL_OR_PERENNIAL": "MISSING",
-    "IS_GENETICALLY_ENGINEERED": "MISSING",
-    "IS_ORGANIC": "MISSING",
-    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
-    "NEED_DOCUMENT_PERFORM_SEARCH": "MISSING",
-    "NEED_DOCUMENT_TREATED": "MISSING",
-    "PERENNIAL": "MISSING",
-    "PERFORM_SEARCH": "MISSING",
-    "SEED": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
-    "TREATED": "MISSING",
-    "UPLOAD_LATER": "MISSING"
+    "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
+    "ADD_CROP": "Adicionar um cultivo",
+    "ADD_IMAGE": "Adicionar imagem personalizada",
+    "ANNUAL": "Anual",
+    "ANNUAL_OR_PERENNIAL": "O cultivo é anual ou perene?",
+    "IS_GENETICALLY_ENGINEERED": "Esta cultura é geneticamente modificada?",
+    "IS_ORGANIC": "O cultivo é certificada como orgânica?",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que esto cultivo não foi geneticamente modificada.",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
+    "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
+    "PERENNIAL": "Perene",
+    "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
+    "SEED": "Semente",
+    "SEED_OR_SEEDLING": "Você vai plantar como uma semente ou plântula?",
+    "SEEDLING_OR_PLANTING_STOCK": "Plântula ou plantinha",
+    "TREATED": "As sementes desta cultivo foram tratadas?",
+    "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
@@ -389,7 +389,7 @@
     "ADD_NEW_FIELD": "Agregar Campo Novo",
     "EDIT_FIELD": {
       "CROP": {
-        "ADD_NEW_CROP_OR_VARIETY": "Adicionar nova colheita ou variedade",
+        "ADD_NEW_CROP_OR_VARIETY": "Adicionar nova cultivo ou variedade",
         "AREA_USED": "Área Utilizada",
         "AREA_USED_HECTARE": "Área usada em hectareas",
         "AREA_USED_IN": "Área usada em",
@@ -402,7 +402,7 @@
         "CHOOSE_START_DATE": "Escolha a data de início",
         "CROP_COMMON_NAME": "Nome Comum",
         "CROP_GROUP_INFO": "informações do novo cultivo",
-        "CROP_GROUP_SUBGROUP": "MISSING",
+        "CROP_GROUP_SUBGROUP": "Grupo de cultivo e subgrupo",
         "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
         "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
@@ -427,8 +427,8 @@
         "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
         "PERCENTAGE": "Percentagem",
         "REMOVE_CROP": "Remover Cultivo",
-        "SELECT_CROP_GROUP": "MISSING",
-        "SELECT_CROP_SUBGROUP": "MISSING",
+        "SELECT_CROP_GROUP": "Selecione o grupo de cultivo",
+        "SELECT_CROP_SUBGROUP": "Selecione o subgrupo de cultivo",
         "SELECT_CROP_TEMPLATE": "Selecione um tipo de cultivo",
         "SPECIES": "Espécie",
         "START_DATE": "Data de início",
@@ -466,7 +466,7 @@
     "TITLE": "CAMPOS"
   },
   "FILTER": {
-    "CLEAR_ALL_FILTERS": "MISSING"
+    "CLEAR_ALL_FILTERS": "Remover todos os filtros"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
@@ -645,7 +645,7 @@
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
     "FROM": "De",
-    "HARVEST": "colheitas",
+    "HARVEST": "Colheitas",
     "HIDE": "Ocultar",
     "IRRIGATION": "Irrigação",
     "LOCATION": "Local",
@@ -702,13 +702,13 @@
     "TITLE": "Registro de Adubação"
   },
   "LOG_FIELD_WORK": {
-    "DISCING": "MISSING",
-    "MULCH_TILL": "MISSING",
-    "PLOW": "MISSING",
-    "RIDGE_TILL": "MISSING",
-    "RIPPING": "MISSING",
+    "DISCING": "Grade dupla ou de disco",
+    "MULCH_TILL": "Lavoura coberta",
+    "PLOW": "Arado",
+    "RIDGE_TILL": "Lavoura de cume",
+    "RIPPING": "Arrasto pesado",
     "TITLE": "Registro de Trabalho de Campo",
-    "ZONE_TILL": "MISSING"
+    "ZONE_TILL": "Lavoura por zona"
   },
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Adicione um uso para a colheita",
@@ -761,7 +761,7 @@
     "ENTRY_INTERVAL": "Intervalo de entrada",
     "FOLIAR_SPRAY": "Spray foliar",
     "HAND_PICK": "Escolha a dedo",
-    "HARVEST_INTERVAL": "Intervalo de colheita",
+    "HARVEST_INTERVAL": "Intervalo de cultivo",
     "HEAT_TREATMENT": "Tratamento térmico",
     "MISSING_DATA": "Erro: Dados ausentes",
     "PESTICIDE_CONTROL_TYPE": "Tipo de Controle de Pesticidas",
@@ -943,7 +943,7 @@
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Cálculo",
-      "CALCULATION_DESCRIPTION": "Calculamos a receita estimada usando a data de término das safras estimadas no módulo de campos. Para incluir uma colheita em seu cálculo de receita estimada, certifique-se de capturar a data final do cultivo dentro da data final de seu relatório financeiro.",
+      "CALCULATION_DESCRIPTION": "Calculamos a receita estimada usando a data de término das safras estimadas no módulo de campos. Para incluir um cultivo em seu cálculo de receita estimada, certifique-se de capturar a data final do cultivo dentro da data final de seu relatório financeiro.",
       "TITLE": "Receita Estimada"
     },
     "EXPENSE_DETAIL": {
@@ -1086,7 +1086,7 @@
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
-    "CROPS": "MISSING",
+    "CROPS": "Cultivos",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",

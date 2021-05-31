@@ -34,7 +34,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('broadcast', (t) => {
-    t.uuid('management_plan_id').primary()
+    t.integer('management_plan_id').primary()
       .references('management_plan_id').inTable('crop_management_plan');
     t.decimal('percentage_planted', 14, 12);
     t.decimal('area_used', 36, 12);
@@ -44,7 +44,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('container', (t) => {
-    t.uuid('management_plan_id').primary()
+    t.integer('management_plan_id').primary()
       .references('management_plan_id').inTable('crop_management_plan');
     t.boolean('in_ground');
     t.decimal('plant_spacing', 36, 12);
@@ -59,7 +59,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('transplant_container', (t) => {
-    t.uuid('management_plan_id').primary()
+    t.integer('management_plan_id').primary()
       .references('management_plan_id').inTable('management_plan');
     t.uuid('location_id').references('location_id').inTable('location');
     t.boolean('in_ground');
@@ -76,7 +76,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('beds', (t) => {
-    t.uuid('management_plan_id').primary().references('management_plan_id')
+    t.integer('management_plan_id').primary().references('management_plan_id')
       .inTable('management_plan');
     t.jsonb('bed_config')
   })
@@ -122,10 +122,10 @@ exports.down = async function(knex) {
   await knex.schema.dropTable('crop_management_plan');
   await knex.schema.renameTable('management_plan', 'fieldCrop');
   await knex.schema.alterTable('fieldCrop', (t) => {
-    t.decimal('area_used');
-    t.decimal('estimated_production');
+    t.decimal('area_used', 36, 12);
+    t.decimal('estimated_production', 36, 12);
     t.string('variety');
-    t.decimal('estimated_revenue');
+    t.decimal('estimated_revenue', 36, 12);
     t.boolean('is_by_bed');
     t.jsonb('bed_config');
     t.dropColumn('needs_transplant');
@@ -154,6 +154,6 @@ exports.down = async function(knex) {
       is_by_bed: !!fc.bed_config,
       bed_config: fc.bed_config,
       area_used: fc.area_used,
-    })
+    }).where({ field_crop_id : fc.management_plan_id })
   }))
 };

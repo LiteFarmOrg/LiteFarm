@@ -24,46 +24,82 @@ exports.up = async function(knex) {
     t.renameColumn('field_crop_id', 'management_plan_id');
   });
   await knex.schema.createTable('crop_management_plan', (t) => {
-    t.uuid('crop_management_plan_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
+    t.integer('management_plan_id').primary().references('management_plan_id').inTable('management_plan');
     t.enum('planting_type', ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']);
-    t.integer('management_plan_id').references('management_plan_id').inTable('management_plan');
     t.uuid('location_id').references('location_id').inTable('location');
+    t.decimal('estimated_revenue', 36, 12);
+    t.decimal('estimated_yield', 36, 12);
+    t.enu('estimated_yield_unit', ['g', 'lb', 'kg', 'oz', 'l', 'gal']).defaultTo('kg');
     t.text('notes');
   });
 
   await knex.schema.createTable('broadcast', (t) => {
-    t.uuid('crop_management_plan_id').primary()
-      .references('crop_management_plan_id').inTable('crop_management_plan');
+    t.uuid('management_plan_id').primary()
+      .references('management_plan_id').inTable('crop_management_plan');
     t.decimal('percentage_planted', 14, 12);
     t.decimal('area_used', 36, 12);
+    t.enu('area_used_unit', ['m2', 'ha', 'ft2', 'ac']).defaultTo('m2');
     t.decimal('seeding_rate', 36, 12);
     t.decimal('required_seeds', 36, 12);
-    t.decimal('estimated_yield', 36, 12);
   });
 
   await knex.schema.createTable('container', (t) => {
-    t.uuid('crop_management_plan_id').primary()
-      .references('crop_management_plan_id').inTable('crop_management_plan');
+    t.uuid('management_plan_id').primary()
+      .references('management_plan_id').inTable('crop_management_plan');
     t.boolean('in_ground');
     t.decimal('plant_spacing', 36, 12);
+    t.enu('plant_spacing_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
     t.integer('total_plants');
     t.integer('number_of_containers');
     t.integer('plants_per_container');
     t.decimal('planting_depth', 36, 12);
+    t.enu('planting_depth_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
     t.string('planting_soil');
     t.string('container_type');
   });
+
+  await knex.schema.createTable('transplant_container', (t) => {
+    t.uuid('management_plan_id').primary()
+      .references('management_plan_id').inTable('management_plan');
+    t.uuid('location_id').references('location_id').inTable('location');
+    t.boolean('in_ground');
+    t.decimal('plant_spacing', 36, 12);
+    t.enu('plant_spacing_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
+    t.integer('total_plants');
+    t.integer('number_of_containers');
+    t.integer('plants_per_container');
+    t.decimal('planting_depth', 36, 12);
+    t.enu('planting_depth_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
+    t.string('planting_soil');
+    t.string('container_type');
+    t
+  });
+
+  await knex.schema.createTable('beds', (t) => {
+    t.uuid('management_plan_id').primary().references('management_plan_id')
+      .inTable('management_plan');
+    t.jsonb('bed_config')
+  })
 
   fieldCrops.map(async (fc) => {
     const [cropManagementPlan] = await knex('crop_management_plan').insert({
       planting_type: 'BROADCAST',
       management_plan_id: fc.field_crop_id,
       location_id: fc.location_id,
+      estimated_revenue: fc.estimated_revenue,
+      estimated_yield: fc.estimated_production,
     }).returning('*');
-    return await knex('broadcast').insert({
-      area_used: fc.area_used,
-      crop_management_plan_id: cropManagementPlan.crop_management_plan_id
-    });
+    if(fc.is_by_bed) {
+      return await knex('beds').insert({
+        management_plan_id: cropManagementPlan.management_plan_id,
+        bed_config: fc.bed_config,
+      })
+    } else {
+      return await knex('broadcast').insert({
+        area_used: fc.area_used,
+        management_plan_id: cropManagementPlan.management_plan_id,
+      });
+    }
   });
 
   await knex.schema.alterTable('activityCrops', (t) => {
@@ -75,8 +111,14 @@ exports.up = async function(knex) {
 };
 
 exports.down = async function(knex) {
+  const fieldCrops = await knex('management_plan')
+    .join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id')
+    .leftJoin('broadcast', 'broadcast.management_plan_id', 'management_plan.management_plan_id')
+    .leftJoin('beds', 'beds.management_plan_id', 'management_plan.management_plan_id');
   await knex.schema.dropTable('container');
+  await knex.schema.dropTable('transplant_container');
   await knex.schema.dropTable('broadcast');
+  await knex.schema.dropTable('beds');
   await knex.schema.dropTable('crop_management_plan');
   await knex.schema.renameTable('management_plan', 'fieldCrop');
   await knex.schema.alterTable('fieldCrop', (t) => {
@@ -105,4 +147,13 @@ exports.down = async function(knex) {
   await knex.schema.alterTable('shiftTask', (t) => {
     t.renameColumn('management_plan_id', 'field_crop_id');
   });
+  return Promise.all(fieldCrops.map((fc) => {
+    return knex('fieldCrop').update({
+      estimated_production: fc.estimated_yield,
+      estimated_revenue: fc.estimated_revenue,
+      is_by_bed: !!fc.bed_config,
+      bed_config: fc.bed_config,
+      area_used: fc.area_used,
+    })
+  }))
 };

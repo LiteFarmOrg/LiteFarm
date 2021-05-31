@@ -1,8 +1,8 @@
 exports.up = async function(knex) {
   const fieldCrops = await knex('fieldCrop');
   await knex.schema.renameTable('fieldCrop', 'management_plan');
-  await knex.raw('ALTER TABLE management_plan ALTER COLUMN start_date TYPE date')
-  await knex.raw('ALTER TABLE management_plan ALTER COLUMN end_date TYPE date')
+  await knex.raw('ALTER TABLE management_plan ALTER COLUMN start_date TYPE date');
+  await knex.raw('ALTER TABLE management_plan ALTER COLUMN end_date TYPE date');
   await knex.schema.alterTable('management_plan', (t) => {
     t.dropColumn('area_used');
     t.dropColumn('estimated_production');
@@ -72,54 +72,52 @@ exports.up = async function(knex) {
     t.enu('planting_depth_unit', ['cm', 'm', 'km', 'in', 'ft', 'mi']).defaultTo('cm');
     t.string('planting_soil');
     t.string('container_type');
-    t
   });
 
   await knex.schema.createTable('beds', (t) => {
     t.integer('management_plan_id').primary().references('management_plan_id')
       .inTable('management_plan');
-    t.jsonb('bed_config')
+    t.jsonb('bed_config');
     t.decimal('area_used', 36, 12);
     t.enu('area_used_unit', ['m2', 'ha', 'ft2', 'ac']).defaultTo('m2');
-
-  })
+  });
 
   fieldCrops.map(async (fc) => {
     const [cropManagementPlan] = await knex('crop_management_plan').insert({
-      planting_type: 'BROADCAST',
+      planting_type: fc.is_by_bed ? 'BEDS' : 'BROADCAST',
       management_plan_id: fc.field_crop_id,
       location_id: fc.location_id,
       estimated_revenue: fc.estimated_revenue,
       estimated_yield: fc.estimated_production,
     }).returning('*');
-    if(fc.is_by_bed) {
+    if (fc.is_by_bed) {
       return await knex('beds').insert({
         management_plan_id: cropManagementPlan.management_plan_id,
-        area_used: fc.area_used,
+        area_used: fc.area_used || null,
         bed_config: fc.bed_config,
-      })
+      });
     } else {
       return await knex('broadcast').insert({
-        area_used: fc.area_used,
+        area_used: fc.area_used || null,
         management_plan_id: cropManagementPlan.management_plan_id,
       });
     }
   });
 
   await knex.schema.alterTable('activityCrops', (t) => {
-    t.renameColumn('field_crop_id', 'management_plan_id')
+    t.renameColumn('field_crop_id', 'management_plan_id');
   });
   await knex.schema.alterTable('shiftTask', (t) => {
-    t.renameColumn('field_crop_id', 'management_plan_id')
-  })
+    t.renameColumn('field_crop_id', 'management_plan_id');
+  });
 };
 
 exports.down = async function(knex) {
   const broadcast = await knex('management_plan')
     .join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id')
-    .join('broadcast', 'broadcast.management_plan_id', 'management_plan.management_plan_id')
+    .join('broadcast', 'broadcast.management_plan_id', 'management_plan.management_plan_id');
 
-  const beds  = await knex('management_plan')
+  const beds = await knex('management_plan')
     .join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id')
     .join('beds', 'beds.management_plan_id', 'management_plan.management_plan_id');
   await knex.schema.dropTable('container');
@@ -156,21 +154,22 @@ exports.down = async function(knex) {
   });
   return await Promise.all(broadcast.map((fc) => {
     return knex('fieldCrop')
-      .where({ field_crop_id : fc.management_plan_id })
+      .where({ field_crop_id: fc.management_plan_id })
       .update({
         estimated_production: fc.estimated_yield,
         estimated_revenue: fc.estimated_revenue,
         area_used: fc.area_used,
-      })
+        is_by_bed: false,
+      });
   }).concat(beds.map((fc) => {
     return knex('fieldCrop')
-      .where({ field_crop_id : fc.management_plan_id })
+      .where({ field_crop_id: fc.management_plan_id })
       .update({
         estimated_production: fc.estimated_yield,
         estimated_revenue: fc.estimated_revenue,
         is_by_bed: true,
         bed_config: fc.bed_config,
-        area_used: fc.area_used
-      })
-  })))
+        area_used: fc.area_used,
+      });
+  })));
 };

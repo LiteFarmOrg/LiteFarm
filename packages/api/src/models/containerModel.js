@@ -16,9 +16,9 @@
 const Model = require('objection').Model;
 
 
-class CropManagementPlanModel {
+class ContainerModel {
   static get tableName() {
-    return 'crop_management_plan';
+    return 'container';
   }
 
   static get idColumn() {
@@ -28,33 +28,30 @@ class CropManagementPlanModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'management_plan_id', 'planting_type'],
+      required: ['crop_management_plan_id', 'in_ground', 'planting_depth'],
       properties: {
         crop_management_plan_id: { type: 'string' },
-        management_plan_id: { type: 'integer' },
-        location_id: { type: 'string' },
-        planting_type: {
-          type: 'string',
-          enum: ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS'],
-        },
-        notes: { type: 'string' },
+        in_ground: { type: 'boolean' },
+
+        plant_spacing: { type: ['number', null] },
+        total_plants: { type: ['integer', null] },
+        number_of_containers: { type: ['integer', null] },
+        plants_per_container: { type: ['integer', null] },
+        planting_depth: { type: 'number' },
+
+        planting_soil: { type: ['string', null] },
+
+        container_type: { type: ['string', null] },
+
+
       },
       additionalProperties: false,
     };
   }
 
   static get relationMappings() {
-    return {
-      broadcast: {
-        modelClass: require('./broadcastModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'crop_management_plan.crop_management_plan_id',
-          to: 'broadcast.crop_management_plan_id',
-        },
-      },
-    };
+    return {};
   }
 }
 
-module.exports = CropManagementPlanModel;
+module.exports = ContainerModel;

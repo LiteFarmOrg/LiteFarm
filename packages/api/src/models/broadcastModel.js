@@ -16,9 +16,9 @@
 const Model = require('objection').Model;
 
 
-class CropManagementPlanModel {
+class BroadcastModel {
   static get tableName() {
-    return 'crop_management_plan';
+    return 'broadcast';
   }
 
   static get idColumn() {
@@ -28,33 +28,24 @@ class CropManagementPlanModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'management_plan_id', 'planting_type'],
+      required: ['crop_management_plan_id'],
       properties: {
         crop_management_plan_id: { type: 'string' },
-        management_plan_id: { type: 'integer' },
-        location_id: { type: 'string' },
-        planting_type: {
-          type: 'string',
-          enum: ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS'],
+        percentage_planted: { type: 'number' },
+        area_used: { type: 'number' },
+        seeding_rate: {
+          type: 'number',
         },
-        notes: { type: 'string' },
+        required_seeds: { type: 'number' },
+        estimated_yield: { type: ['number', null] },
       },
       additionalProperties: false,
     };
   }
 
   static get relationMappings() {
-    return {
-      broadcast: {
-        modelClass: require('./broadcastModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'crop_management_plan.crop_management_plan_id',
-          to: 'broadcast.crop_management_plan_id',
-        },
-      },
-    };
+    return {};
   }
 }
 
-module.exports = CropManagementPlanModel;
+module.exports = BroadcastModel;

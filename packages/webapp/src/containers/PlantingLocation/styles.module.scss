@@ -1,26 +1,22 @@
 .mapContainer {
-    position: relative;
-    margin-left: '24px';
-    margin-bottom: '16px';
-    margin-right: '24px';
-    order: 2;
-    flex-grow: 1;
-    display: flex;
-    // z-index: -1;
+  position: relative;
+  margin-bottom: 16px;
+  flex-grow: 1;
+  display: flex;
 }
 
 .planting_label {
-    margin-bottom: 24px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20px;
-    color: var(--grey900);
+  margin-bottom: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--grey900);
 }
 
 .shown_label {
-    margin-bottom: 32px;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 16px;
-    color: var(--grey600);
+  margin-bottom: 32px;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--grey600);
 }

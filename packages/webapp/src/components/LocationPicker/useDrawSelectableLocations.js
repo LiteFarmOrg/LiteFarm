@@ -27,6 +27,7 @@ const useDrawSelectableLocations = () => {
     cropLocations.forEach((location) => {
       assetFunctionMap(location.type)(map, maps, mapBounds, location);
     });
+    cropLocations.length > 0 && map.fitBounds(mapBounds);
   };
 
   const resetStyles = (maps, location) => {

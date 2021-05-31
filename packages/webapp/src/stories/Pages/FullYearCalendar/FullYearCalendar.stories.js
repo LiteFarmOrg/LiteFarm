@@ -14,6 +14,6 @@ Primary.args = {
   stages: {
     seed: new Date(),
     germinate: 5,
-    harvest: 55
+    harvest: 290
   }
 };

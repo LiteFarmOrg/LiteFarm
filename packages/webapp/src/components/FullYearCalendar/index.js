@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'rc-year-calendar';
 import styles from './styles.module.scss';
 import { useTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+import { Semibold } from "../Typography";
 
 function FullYearCalendarView({ stages }) {
   const { t } = useTranslation();
+  const [customYearSelected, setCustomYear] = useState(false)
   const { seed, ...durations } = stages;
   const initDate = seed;
   const endDate = calculateFinishDate(initDate, Object.values(durations));
+  const initYear = initDate.getFullYear();
+  const endYear = endDate.getFullYear();
   const { accumDays, ...stagesDates } = Object.keys(durations).reduce((obj, k) => {
     return {
       ...obj,
@@ -15,6 +20,7 @@ function FullYearCalendarView({ stages }) {
       [k]: calculateFinishDate(initDate, [ obj.accumDays + durations[k] ],)
     }
   }, { accumDays: 0 })
+
   const stageToColor = {
     seed: '#037A0F',
     germinate: '#AA5F04',
@@ -23,12 +29,9 @@ function FullYearCalendarView({ stages }) {
     terminate: 'D02620'
   }
   const stageToTranslation = {
-    // seed: t('CROP_MANAGEMENT.SEED'),
-    seed: 'Seed',
-    germinate: 'Germinate',
-    // germinate: t('CROP_MANAGEMENT.GERMINATE'),
-    harvest: 'Harvest',
-    // harvest: t('CROP_MANAGEMENT.HARVEST'),
+    seed: t('CROP_MANAGEMENT.SEED'),
+    germinate: t('CROP_MANAGEMENT.GERMINATE'),
+    harvest: t('CROP_MANAGEMENT.HARVEST'),
     transplant: t('CROP_MANAGEMENT.TRANSPLANT'),
     terminate: t('CROP_MANAGEMENT.TERMINATE')
   }
@@ -54,7 +57,7 @@ function FullYearCalendarView({ stages }) {
       color: stageToColor[k]
     })))
   return (
-    <div style={{ pointerEvents: 'none' }}>
+    <>
       <div className={styles.stagesBox}>
         {Object.keys(stages).map((stageKey) => (
           <div className={styles.flexStage}>
@@ -64,8 +67,17 @@ function FullYearCalendarView({ stages }) {
           </div>
         ))}
       </div>
-      <Calendar dataSource={dataSource}/>
-    </div>
+      <div className={styles.calendarBox}>
+        <div className={styles.yearBox}><Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{initYear} </Semibold></div>
+        <Calendar dataSource={dataSource} year={initYear} displayHeader={false}/>
+        { initYear !== endYear && (
+          <>
+            <div className={styles.yearBox}><Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{endYear} </Semibold></div>
+            <Calendar dataSource={dataSource} year={endYear} displayHeader={false} />
+          </>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -76,5 +88,14 @@ function calculateFinishDate(initialDay, arrayOfDurations) {
   return date;
 }
 
+FullYearCalendarView.prototype = {
+  stages: PropTypes.shape({
+    seed: PropTypes.instanceOf(Date).isRequired,
+    germinate: PropTypes.number,
+    harvest: PropTypes.number,
+    transplant: PropTypes.number,
+    terminate: PropTypes.number
+  })
+};
 
 export default FullYearCalendarView;

@@ -34,5 +34,26 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+}
 
+.calendarBox {
+  border: 1px solid #D4DAE3;
+  border-radius: 4px;
+  @media screen and (min-device-width: 667px) {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  overflow: hidden;
+}
+
+.yearBox {
+  border: 1px solid #028577;
+  border-radius: 4px;
+  width: 60px;
+  min-height: 24px;
+  margin: 16px auto 16px auto;
+}
+
+:global .calendar {
+  pointer-events: none;
 }

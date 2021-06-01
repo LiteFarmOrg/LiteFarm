@@ -11,7 +11,7 @@ import Radio from '../Form/Radio';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
 
-export default function PureAddCrop({
+export default function PureAddCropVariety({
   match,
   onSubmit,
   onError,
@@ -53,7 +53,7 @@ export default function PureAddCrop({
   const disabled = !isValid;
 
   const varietyRegister = register(VARIETY, { required: true });
-  const supplierRegister = register(SUPPLIER, { required: isSeekingCert? true : false });
+  const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
   const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
@@ -183,7 +183,7 @@ export default function PureAddCrop({
   );
 }
 
-PureAddCrop.prototype = {
+PureAddCropVariety.prototype = {
   history: PropTypes.object,
   match: PropTypes.object,
   onSubmit: PropTypes.func,

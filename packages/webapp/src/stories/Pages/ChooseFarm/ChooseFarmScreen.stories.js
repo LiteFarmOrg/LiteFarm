@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../config/decorators';
 import ChooseFarm from '../../../containers/ChooseFarm/';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Page/ChooseFarm',
@@ -13,5 +14,5 @@ const Template = (args) => <ChooseFarm {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

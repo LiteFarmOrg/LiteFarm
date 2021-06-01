@@ -363,7 +363,7 @@ function fakeExpense() {
   };
 }
 
-async function fieldCropFactory({
+async function management_planFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
@@ -375,19 +375,15 @@ async function fieldCropFactory({
   const [{ location_id }] = field;
   const [{ crop_variety_id }] = cropVariety;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ crop_variety_id, location_id: location_id, ...fieldCrop, ...base }).returning('*');
-
+  return knex('management_plan').insert({ crop_variety_id, location_id: location_id, ...fieldCrop, ...base }).returning('*');
 }
 
 function fakeFieldCrop() {
   return {
-    start_date: faker.date.past(),
-    end_date: faker.date.future(),
-    area_used: faker.random.number(20000),
-    estimated_production: faker.random.number(30000),
-    variety: faker.lorem.word(),
-    estimated_revenue: faker.random.number(3000),
-    is_by_bed: faker.random.boolean(),
+    seed_date: faker.date.past(),
+    needs_transplant: faker.random.boolean(),
+    for_cover: false,
+    harvest_date: faker.date.future(),
   };
 }
 
@@ -411,7 +407,7 @@ function fakeCropVariety() {
     lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
     compliance_file_url: faker.internet.url(),
     organic: faker.random.boolean(),
-    treated: faker.random.boolean(),
+    treated: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
     genetically_engineered: faker.random.boolean(),
     searched: faker.random.boolean(),
     protein: faker.random.number(10),
@@ -493,12 +489,12 @@ function fakeFertilizerLog() {
 
 async function activityCropsFactory({
   promisedActivityLog = activityLogFactory(),
-  promisedFieldCrop = fieldCropFactory(),
+  promisedManagementPlan = management_planFactory(),
 } = {}) {
-  const [activityLog, fieldCrop] = await Promise.all([promisedActivityLog, promisedFieldCrop]);
+  const [activityLog, managementPlan] = await Promise.all([promisedActivityLog, promisedManagementPlan]);
   const [{ activity_id }] = activityLog;
-  const [{ field_crop_id }] = fieldCrop;
-  return knex('activityCrops').insert({ activity_id, field_crop_id }).returning('*');
+  const [{ management_plan_id }] = managementPlan;
+  return knex('activityCrops').insert({ activity_id, management_plan_id }).returning('*');
 }
 
 async function activityFieldsFactory({
@@ -635,14 +631,14 @@ function fakeHarvestLog() {
 async function harvestUseFactory({
     promisedHarvestLog = harvestLogFactory(),
     promisedHarvestUseType = harvestUseTypeFactory(),
-    promisedFieldCrop = fieldCropFactory(),
+    promisedManagementPlan = management_planFactory(),
   } = {},
   harvestUse = fakeHarvestUse()) {
-  const [harvestLog, harvestUseType, fieldCrop] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedFieldCrop]);
+  const [harvestLog, harvestUseType, managementPlan] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
   const [{ activity_id }] = harvestLog;
-  const [{ field_crop_id }] = fieldCrop;
-  await knex('activityCrops').insert({ activity_id, field_crop_id });
+  const [{ management_plan_id }] = managementPlan;
+  await knex('activityCrops').insert({ activity_id, management_plan_id });
   return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 
@@ -750,20 +746,21 @@ function fakeShift() {
 
 async function shiftTaskFactory({
   promisedShift = shiftFactory(),
-  promisedFieldCrop = fieldCropFactory(), promisedLocation = locationFactory(),
+  promisedManagementPlan = management_planFactory(),
+  promisedLocation = locationFactory(),
   promisedTaskType = taskTypeFactory(),
   promisedUser = usersFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
-  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedLocation, promisedTaskType, promisedUser]);
+  const [shift, managementPlan, field, task, user] = await Promise.all([promisedShift, promisedManagementPlan, promisedLocation, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
-  const [{ field_crop_id }] = fieldCrop;
+  const [{ management_plan_id }] = managementPlan;
   const [{ location_id }] = field;
   const [{ task_id }] = task;
   const [{ user_id }] = user;
   return knex('shiftTask').insert({
     shift_id,
     location_id,
-    field_crop_id,
+    management_plan_id,
     task_id, ...shiftTask, ...baseProperties(user_id),
   }).returning('*');
 }
@@ -803,7 +800,7 @@ function fakeWaterBalance() {
   };
 }
 
-// async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
+// async function waterBalanceFactory({ promisedFieldCrop = management_planFactory() } = {}, waterBalance = fakeWaterBalance()) {
 //   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
 //   const [{ field_id, crop_id }] = fieldCrop;
 //   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
@@ -1100,7 +1097,7 @@ module.exports = {
   fieldFactory, fakeField,
   gardenFactory, fakeGarden,
   cropFactory, fakeCrop,
-  fieldCropFactory, fakeFieldCrop,
+  management_planFactory, fakeFieldCrop,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,

@@ -24,6 +24,9 @@ export default function RadioGroup({
   if (showNotSure && required) {
     console.error('showNotSure and required cannot be true at the same time');
   }
+  const YES = showNotSure ? 'YES' : true;
+  const NO = showNotSure ? 'NO' : false;
+  const NOT_SURE = 'NOT_SURE';
   return (
     <div className={clsx(styles.container, row && styles.row)} style={style}>
       {!radios && (
@@ -38,50 +41,50 @@ export default function RadioGroup({
                 <Radio
                   label={t('common:YES')}
                   name={name}
-                  checked={field.value === true}
+                  checked={field.value === YES}
                   onChange={(e) => {
-                    field?.onChange?.(true);
-                    onChange?.({ target: { value: true } });
+                    field?.onChange?.(YES);
+                    onChange?.({ target: { value: YES } });
                   }}
                   onBlur={(e) => {
-                    field?.onBlur?.(true);
-                    onBlur?.({ target: { value: true } });
+                    field?.onBlur?.(YES);
+                    onBlur?.({ target: { value: YES } });
                   }}
                   inputRef={field.ref}
-                  value={true}
+                  value={YES}
                   {...props}
                 />
                 <Radio
                   label={t('common:NO')}
                   name={name}
-                  checked={field.value === false}
+                  checked={field.value === NO}
                   onChange={(e) => {
-                    field?.onChange?.(false);
-                    onChange?.({ target: { value: false } });
+                    field?.onChange?.(NO);
+                    onChange?.({ target: { value: NO } });
                   }}
                   onBlur={(e) => {
-                    field?.onBlur?.(false);
-                    onBlur?.({ target: { value: false } });
+                    field?.onBlur?.(NO);
+                    onBlur?.({ target: { value: NO } });
                   }}
                   inputRef={field.ref}
-                  value={false}
+                  value={NO}
                   {...props}
                 />
                 {showNotSure && (
                   <Radio
                     label={t('common:NOT_SURE')}
                     name={name}
-                    checked={field.value === null}
+                    checked={field.value === NOT_SURE}
                     onChange={(e) => {
-                      field?.onChange?.(null);
-                      onChange?.({ target: { value: null } });
+                      field?.onChange?.(NOT_SURE);
+                      onChange?.({ target: { value: NOT_SURE } });
                     }}
                     onBlur={(e) => {
-                      field?.onBlur?.(null);
-                      onBlur?.({ target: { value: null } });
+                      field?.onBlur?.(NOT_SURE);
+                      onBlur?.({ target: { value: NOT_SURE } });
                     }}
                     inputRef={field.ref}
-                    value={undefined}
+                    value={NOT_SURE}
                     {...props}
                   />
                 )}

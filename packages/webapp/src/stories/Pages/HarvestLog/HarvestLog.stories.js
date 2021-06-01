@@ -11,3 +11,8 @@ export default {
 const Template = (args) => <PureHarvestLog {...args} />;
 
 export const HelpMain = Template.bind({});
+HelpMain.args = {
+  isEdit: {},
+  dispatch: () => {},
+  defaultData: {},
+};

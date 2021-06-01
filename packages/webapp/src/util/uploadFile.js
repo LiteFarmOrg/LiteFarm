@@ -1,4 +1,5 @@
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
+import Endpoint from 'aws-sdk/lib/http.js';
 
 export default function uploadFile(
   blob,
@@ -12,8 +13,8 @@ export default function uploadFile(
   },
 ) {
   const DO_URI = 'nyc3.digitaloceanspaces.com';
-  const spacesEndpoint = new AWS.Endpoint(DO_URI);
-  const s3 = new AWS.S3({
+  const spacesEndpoint = new Endpoint(DO_URI);
+  const s3 = new S3({
     endpoint: spacesEndpoint,
     accessKeyId: process.env.REACT_APP_DO_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_DO_ACCESS_SECRET_KEY,

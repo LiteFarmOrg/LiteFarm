@@ -1,6 +1,6 @@
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -27,6 +27,7 @@ function PureCropDetail({
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
   const SEEDING_TYPE = 'seeding_type';

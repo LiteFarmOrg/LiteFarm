@@ -206,6 +206,7 @@ const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
 const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
+const PlantingLocation = React.lazy(() => import('./containers/PlantingLocation'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -402,7 +403,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-
+            <Route path="/planting_location" exact component={PlantingLocation}/>
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
@@ -548,6 +549,7 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
+            <Route path="/planting_location" exact component={PlantingLocation}/>
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

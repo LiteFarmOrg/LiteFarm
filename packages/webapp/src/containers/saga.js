@@ -304,13 +304,13 @@ const figureTypeActionMap = {
 export const getFieldCrops = createAction('getFieldCropsSaga');
 
 export function* getFieldCropsSaga() {
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     yield put(onLoadingFieldCropStart());
-    const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
+    const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
     yield put(getFieldCropsSuccess(result.data));
     const cropVarieties = result.data.map((fieldCrop) => fieldCrop.crop_variety);
     yield put(getAllCropVarietiesSuccess(cropVarieties));
@@ -325,7 +325,7 @@ export const getFieldCropsByDate = createAction('getFieldCropsByDateSaga');
 
 export function* getFieldCropsByDateSaga() {
   let currentDate = formatDate(new Date());
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -333,7 +333,7 @@ export function* getFieldCropsByDateSaga() {
     yield put(onLoadingFieldCropStart());
     const result = yield call(
       axios.get,
-      fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate,
+      managementPlanURL + '/farm/date/' + farm_id + '/' + currentDate,
       header,
     );
     yield put(getFieldCropsSuccess(result.data));

@@ -16,9 +16,9 @@
 const Model = require('objection').Model;
 
 
-class BroadcastModel extends Model {
+class TransplantContainerModel extends Model {
   static get tableName() {
-    return 'broadcast';
+    return 'transplant_container';
   }
 
   static get idColumn() {
@@ -28,16 +28,20 @@ class BroadcastModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id'],
+      required: ['management_plan_id', 'in_ground', 'planting_depth', 'location_id'],
       properties: {
         management_plan_id: { type: 'number' },
-        percentage_planted: { type: 'number' },
-        area_used: { type: 'number' },
-        area_used_unit: { type: 'number', enum: ['m2', 'ha', 'ft2', 'ac'] },
-        seeding_rate: {
-          type: 'number',
-        },
-        required_seeds: { type: 'number' },
+        in_ground: { type: 'boolean' },
+        location_id: { type: 'string' },
+        plant_spacing: { type: ['number', null] },
+        plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        total_plants: { type: ['integer', null] },
+        number_of_containers: { type: ['integer', null] },
+        plants_per_container: { type: ['integer', null] },
+        planting_depth: { type: 'number' },
+        planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        planting_soil: { type: ['string', null] },
+        container_type: { type: ['string', null] },
       },
       additionalProperties: false,
     };
@@ -48,4 +52,4 @@ class BroadcastModel extends Model {
   }
 }
 
-module.exports = BroadcastModel;
+module.exports = TransplantContainerModel;

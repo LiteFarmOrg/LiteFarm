@@ -4,8 +4,6 @@ exports.up = function(knex) {
     knex.raw('ALTER TABLE management_plan RENAME CONSTRAINT "fieldcrop_created_by_user_id_foreign" TO management_plan_created_by_user_id_foreign'),
     knex.raw('ALTER TABLE management_plan RENAME CONSTRAINT "fieldcrop_updated_by_user_id_foreign" TO management_plan_updated_by_user_id_foreign'),
     knex.raw('ALTER TABLE management_plan RENAME CONSTRAINT "fieldcrop_crop_variety_id_foreign" TO management_plan_crop_variety_id_foreign'),
-
-
   ]);
 };
 

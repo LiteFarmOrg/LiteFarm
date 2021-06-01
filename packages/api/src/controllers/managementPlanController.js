@@ -104,12 +104,11 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(`[location.[
-          figure.[area, line], 
-           field, garden, buffer_zone,
-          greenhouse
-        ], crop_variety.[crop], crop_management_plan.[]]`)
-          .where('location.farm_id', farm_id);
+          .withGraphJoined(`[crop_variety.[crop], 
+          crop_management_plan.[beds, container, broadcast, 
+          location.[figure.[area, line], field, garden, buffer_zone,greenhouse]
+          ], transplant_container]`)
+          .where('crop_management_plan:location.farm_id', farm_id);
         return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
@@ -160,8 +159,8 @@ const managementPlanController = {
       } catch (error) {
         res.status(400).json({ error });
       }
-    }
+    };
   },
-}
+};
 
 module.exports = managementPlanController;

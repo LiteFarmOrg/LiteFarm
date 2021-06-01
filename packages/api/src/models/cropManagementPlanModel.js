@@ -16,13 +16,13 @@
 const Model = require('objection').Model;
 
 
-class CropManagementPlanModel {
+class CropManagementPlanModel extends Model {
   static get tableName() {
     return 'crop_management_plan';
   }
 
   static get idColumn() {
-    return 'crop_management_plan_id';
+    return 'management_plan_id';
   }
 
   static get jsonSchema() {
@@ -30,7 +30,6 @@ class CropManagementPlanModel {
       type: 'object',
       required: ['location_id', 'management_plan_id', 'planting_type'],
       properties: {
-        crop_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
         location_id: { type: 'string' },
         planting_type: {
@@ -38,6 +37,9 @@ class CropManagementPlanModel {
           enum: ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS'],
         },
         notes: { type: 'string' },
+        estimated_revenue: { type: 'number' },
+        estimated_yield: { type: 'number' },
+        estimated_yield_unit: { type: 'string', enum: ['g', 'lb', 'kg', 'oz', 'l', 'gal'] },
       },
       additionalProperties: false,
     };
@@ -45,12 +47,36 @@ class CropManagementPlanModel {
 
   static get relationMappings() {
     return {
+      location: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./locationModel.js'),
+        join: {
+          from: 'crop_management_plan.location_id',
+          to: 'location.location_id',
+        },
+      },
       broadcast: {
         modelClass: require('./broadcastModel'),
         relation: Model.HasOneRelation,
         join: {
-          from: 'crop_management_plan.crop_management_plan_id',
-          to: 'broadcast.crop_management_plan_id',
+          from: 'crop_management_plan.management_plan_id',
+          to: 'broadcast.management_plan_id',
+        },
+      },
+      container: {
+        modelClass: require('./containerModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'crop_management_plan.management_plan_id',
+          to: 'container.management_plan_id',
+        },
+      },
+      beds: {
+        modelClass: require('./bedsModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'crop_management_plan.management_plan_id',
+          to: 'beds.management_plan_id',
         },
       },
     };

@@ -14,7 +14,7 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel')
+const baseModel = require('./baseModel');
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -55,10 +55,9 @@ class ManagementPlan extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'crop_variety_id', 'seed_date'],
+      required: ['crop_variety_id', 'seed_date'],
       properties: {
         management_plan_id: { type: 'integer' },
-        location_id: { type: 'string' },
         crop_variety_id: { type: 'string' },
         seed_date: { type: 'date' },
         needs_transplant: { type: 'boolean' },
@@ -76,42 +75,44 @@ class ManagementPlan extends baseModel {
       additionalProperties: false,
     };
   }
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-      location: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./locationModel.js'),
-        join: {
-          from: 'management_plan.location_id',
-          to: 'location.location_id',
-        },
 
-      },
+  static get relationMappings() {
+    return {
       crop_variety: {
         relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./cropVarietyModel'),
         join: {
           from: 'management_plan.crop_variety_id',
           to: 'crop_variety.crop_variety_id',
         },
       },
-      activityLog:{
-        relation:Model.ManyToManyRelation,
-        modelClass:require('./activityLogModel.js'),
-        join:{
+      crop_management_plan: {
+        modelClass: require('./cropManagementPlanModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'management_plan.management_plan_id',
+          to: 'crop_management_plan.management_plan_id',
+        },
+      },
+      transplant_container: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./transplantContainerModel'),
+        join: {
+          from: 'management_plan.management_plan_id',
+          to: 'transplant_container.management_plan_id',
+        },
+      },
+
+      activityLog: {
+        relation: Model.ManyToManyRelation,
+        modelClass: require('./activityLogModel.js'),
+        join: {
           to: 'activityLog.activity_id',
-          through:{
-            from:'activityCrops.activity_id',
-            to:'activityCrops.management_plan_id',
+          through: {
+            from: 'activityCrops.activity_id',
+            to: 'activityCrops.management_plan_id',
           },
-          from:'management_plan.management_plan_id',
+          from: 'management_plan.management_plan_id',
         },
       },
     };

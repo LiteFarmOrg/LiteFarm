@@ -16,28 +16,30 @@
 const Model = require('objection').Model;
 
 
-class ContainerModel {
+class ContainerModel extends Model {
   static get tableName() {
     return 'container';
   }
 
   static get idColumn() {
-    return 'crop_management_plan_id';
+    return 'management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_management_plan_id', 'in_ground', 'planting_depth'],
+      required: ['management_plan_id', 'in_ground', 'planting_depth'],
       properties: {
-        crop_management_plan_id: { type: 'string' },
+        management_plan_id: { type: 'number' },
         in_ground: { type: 'boolean' },
 
         plant_spacing: { type: ['number', null] },
+        plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
         total_plants: { type: ['integer', null] },
         number_of_containers: { type: ['integer', null] },
         plants_per_container: { type: ['integer', null] },
         planting_depth: { type: 'number' },
+        planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
 
         planting_soil: { type: ['string', null] },
 

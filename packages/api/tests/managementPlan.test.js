@@ -26,7 +26,7 @@ const mocks = require('./mock.factories');
 
 const managementPlanModel = require('../src/models/managementPlanModel');
 const locationModel = require('../src/models/locationModel');
-xdescribe('ManagementPlan Tests', () => {
+describe('ManagementPlan Tests', () => {
   let middleware;
   let owner;
   let field;
@@ -115,7 +115,8 @@ xdescribe('ManagementPlan Tests', () => {
   });
 
   describe('Get && delete && put managementPlan', () => {
-    let managementPlan;
+    let transplantManagementPlan;
+    let seedManagementPlan;
     let worker;
     let workerFarm;
     let crop;
@@ -128,10 +129,16 @@ xdescribe('ManagementPlan Tests', () => {
         user_added: true,
       });
       [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
-      [managementPlan] = await mocks.management_planFactory({
+      [transplantManagementPlan] = await mocks.management_planFactory({
         promisedField: [field],
         promisedCropVariety: [cropVariety],
-      });
+      }, { ...mocks.fakeManagementPlan(), needs_transplant: true });
+      [seedManagementPlan] = await mocks.management_planFactory({
+        promisedField: [field],
+        promisedCropVariety: [cropVariety],
+      }, { ...mocks.fakeManagementPlan(), needs_transplant: false });
+      await mocks.broadcastFactory({ promisedField: [field], promisedManagementPlan: [seedManagementPlan] });
+      await mocks.containerFactory({ promisedField: [field], promisedManagementPlan: [transplantManagementPlan] });
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
 
@@ -149,7 +156,10 @@ xdescribe('ManagementPlan Tests', () => {
       test('Workers should get managementPlan by farm id', async (done) => {
         getRequest(`/management_plan/farm/${farm.farm_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body[0].management_plan_id).toBe(managementPlan.management_plan_id);
+          expect(res.body[0].crop_management_plan.broadcast.management_plan_id).toBe(seedManagementPlan.management_plan_id);
+          expect(res.body[0].transplant_container).toBeNull();
+          expect(res.body[1].crop_management_plan.container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
+          expect(res.body[1].transplant_container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
           done();
         });
       });
@@ -157,15 +167,15 @@ xdescribe('ManagementPlan Tests', () => {
       test('Workers should get managementPlan by date', async (done) => {
         getRequest(`/management_plan/farm/date/${farm.farm_id}/${moment().format('YYYY-MM-DD')}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body[0].management_plan_id).toBe(managementPlan.management_plan_id);
+          expect(res.body[0].management_plan_id).toBe(transplantManagementPlan.management_plan_id);
           done();
         });
       });
 
       test('Workers should get managementPlan by id', async (done) => {
-        getRequest(`/management_plan/${managementPlan.management_plan_id}`, { user_id: worker.user_id }, (err, res) => {
+        getRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body.management_plan_id).toBe(managementPlan.management_plan_id);
+          expect(res.body.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
           done();
         });
       });
@@ -200,7 +210,7 @@ xdescribe('ManagementPlan Tests', () => {
         test('Owner should get managementPlan by farm id', async (done) => {
           getRequest(`/management_plan/farm/${farm.farm_id}`, { user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
-            expect(res.body[0].management_plan_id).toBe(managementPlan.management_plan_id);
+            expect(res.body[0].management_plan_id).toBe(transplantManagementPlan.management_plan_id);
             done();
           });
         });
@@ -208,7 +218,7 @@ xdescribe('ManagementPlan Tests', () => {
         test('Manager should get managementPlan by farm id', async (done) => {
           getRequest(`/management_plan/farm/${farm.farm_id}`, { user_id: manager.user_id }, (err, res) => {
             expect(res.status).toBe(200);
-            expect(res.body[0].management_plan_id).toBe(managementPlan.management_plan_id);
+            expect(res.body[0].management_plan_id).toBe(transplantManagementPlan.management_plan_id);
             done();
           });
         });
@@ -264,9 +274,9 @@ xdescribe('ManagementPlan Tests', () => {
       })
 
       test('should delete a managementPlan by owner', async (done) => {
-        deleteRequest(`/management_plan/${managementPlan.management_plan_id}`, {}, async (err, res) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', managementPlan.management_plan_id);
+          const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id);
           expect(managementPlanRes.length).toBe(1);
           expect(managementPlanRes[0].deleted).toBe(true);
           done();
@@ -274,9 +284,9 @@ xdescribe('ManagementPlan Tests', () => {
       });
 
       test('should delete a managementPlan by manager', async (done) => {
-        deleteRequest(`/management_plan/${managementPlan.management_plan_id}`, {}, async (err, res) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', managementPlan.management_plan_id);
+          const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id);
           expect(managementPlanRes.length).toBe(1);
           expect(managementPlanRes[0].deleted).toBe(true);
           done();
@@ -284,21 +294,21 @@ xdescribe('ManagementPlan Tests', () => {
       });
 
       test('should return 403 if an unauthorized user tries to delete a managementPlan', async (done) => {
-        deleteRequest(`/management_plan/${managementPlan.management_plan_id}`, { user_id: unAuthorizedUser.user_id }, (err, res) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: unAuthorizedUser.user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
 
       test('should return 403 if a worker tries to delete a managementPlan', async (done) => {
-        deleteRequest(`/management_plan/${managementPlan.management_plan_id}`, { user_id: worker.user_id }, (err, res) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
 
       test('Circumvent authorization by modifying farm_id', async (done) => {
-        deleteRequest(`/management_plan/${managementPlan.management_plan_id}`, {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, {
           user_id: unAuthorizedUser.user_id,
           farm_id: farmunAuthorizedUser.farm_id,
         }, (err, res) => {
@@ -310,18 +320,18 @@ xdescribe('ManagementPlan Tests', () => {
 
     describe('Put managementPlan', () => {
       test('should be able to edit the area_used field', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area * 0.1;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(managementPlan.area_used));
+          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(transplantManagementPlan.area_used));
           done();
         });
       });
 
       test('should return status 400 and if area_used is bigger than the field', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area + 1;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area + 1;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(400);
           expect(res.error.text).toBe('Area needed is greater than the field\'s area');
           done();
@@ -330,42 +340,42 @@ xdescribe('ManagementPlan Tests', () => {
 
       test('should be able to change location_id asset type is greenhouse', async (done) => {
         const [greenhouse] = await mocks.greenhouseFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
-        managementPlan.location_id = greenhouse.location_id;
-        managementPlan.area_used = 0;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.location_id = greenhouse.location_id;
+        transplantManagementPlan.area_used = 0;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(managementPlan.area_used));
+          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(transplantManagementPlan.area_used));
           done();
         });
       });
 
       test('should be able to change location_id asset type is bufferzone', async (done) => {
         const [bufferZone] = await mocks.buffer_zoneFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
-        managementPlan.location_id = bufferZone.location_id;
-        managementPlan.area_used = 999999;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.location_id = bufferZone.location_id;
+        transplantManagementPlan.area_used = 999999;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(managementPlan.area_used));
+          expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(transplantManagementPlan.area_used));
           done();
         });
       });
 
       test('should return 400 if asset type is residential area', async (done) => {
         const [residence] = await mocks.residenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
-        managementPlan.location_id = residence.location_id;
-        managementPlan.area_used = 999999;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.location_id = residence.location_id;
+        transplantManagementPlan.area_used = 999999;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(400);
           done();
         });
       });
 
       test('should edit and the estimated_production field', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area * 0.1;
-        managementPlan.estimated_production = 1;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+        transplantManagementPlan.estimated_production = 1;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
           expect(newManagementPlan.estimated_production).toBe(1);
@@ -374,9 +384,9 @@ xdescribe('ManagementPlan Tests', () => {
       });
 
       test('should edit and the estimated_revenue field', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area * 0.1;
-        managementPlan.estimated_revenue = 1;
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+        transplantManagementPlan.estimated_revenue = 1;
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
           expect(newManagementPlan.estimated_revenue).toBe(1);
@@ -396,23 +406,23 @@ xdescribe('ManagementPlan Tests', () => {
       });
 
       test('should change the harvest_date to a future date', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area * 0.1;
-        managementPlan.harvest_date = moment().add(10, 'd').toDate();
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+        transplantManagementPlan.harvest_date = moment().add(10, 'd').toDate();
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(newManagementPlan.harvest_date.toDateString()).toBe(managementPlan.harvest_date.toDateString());
+          expect(newManagementPlan.harvest_date.toDateString()).toBe(transplantManagementPlan.harvest_date.toDateString());
           done();
         });
       });
 
       test('should change the harvest_date to a historical date', async (done) => {
-        managementPlan.area_used = field.figure.area.total_area * 0.1;
-        managementPlan.harvest_date = moment().subtract(10, 'd').toDate();
-        putManagementPlanRequest(managementPlan, {}, async (err, res) => {
+        transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+        transplantManagementPlan.harvest_date = moment().subtract(10, 'd').toDate();
+        putManagementPlanRequest(transplantManagementPlan, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(newManagementPlan.harvest_date.toDateString()).toBe(managementPlan.harvest_date.toDateString());
+          expect(newManagementPlan.harvest_date.toDateString()).toBe(transplantManagementPlan.harvest_date.toDateString());
           done();
         });
       });
@@ -457,34 +467,34 @@ xdescribe('ManagementPlan Tests', () => {
         })
         //TODO: Owner test
         test('should edit and the area_used field by manager', async (done) => {
-          managementPlan.area_used = field.figure.area.total_area * 0.1;
-          putManagementPlanRequest(managementPlan, { user_id: manager.user_id }, async (err, res) => {
+          transplantManagementPlan.area_used = field.figure.area.total_area * 0.1;
+          putManagementPlanRequest(transplantManagementPlan, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
             const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-            expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(managementPlan.area_used));
+            expect(Math.floor(newManagementPlan.area_used)).toBe(Math.floor(transplantManagementPlan.area_used));
             done();
           });
         });
 
         test('should return 403 when unauthorized user tries to edit managementPlan', async (done) => {
-          managementPlan.estimated_revenue = 1;
-          putManagementPlanRequest(managementPlan, { user_id: unAuthorizedUser.user_id }, (err, res) => {
+          transplantManagementPlan.estimated_revenue = 1;
+          putManagementPlanRequest(transplantManagementPlan, { user_id: unAuthorizedUser.user_id }, (err, res) => {
             expect(res.status).toBe(403);
             done();
           });
         });
 
         test('should return 403 when a worker tries to edit managementPlan', async (done) => {
-          managementPlan.estimated_revenue = 1;
-          putManagementPlanRequest(managementPlan, { user_id: worker.user_id }, (err, res) => {
+          transplantManagementPlan.estimated_revenue = 1;
+          putManagementPlanRequest(transplantManagementPlan, { user_id: worker.user_id }, (err, res) => {
             expect(res.status).toBe(403);
             done();
           });
         });
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
-          managementPlan.estimated_revenue = 1;
-          putManagementPlanRequest(managementPlan, {
+          transplantManagementPlan.estimated_revenue = 1;
+          putManagementPlanRequest(transplantManagementPlan, {
             user_id: unAuthorizedUser.user_id,
             farm_id: farmunAuthorizedUser.farm_id,
           }, (err, res) => {

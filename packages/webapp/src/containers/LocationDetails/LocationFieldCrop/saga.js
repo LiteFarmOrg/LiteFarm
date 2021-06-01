@@ -34,13 +34,13 @@ const DEC = 10;
 export const getExpiredFieldCrops = createAction(`getExpiredFieldCropsSaga`);
 
 export function* getExpiredFieldCropsSaga() {
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     yield put(onLoadingFieldCropStart());
-    const result = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
+    const result = yield call(axios.get, managementPlanURL + '/expired/farm/' + farm_id, header);
     yield put(getFieldCropsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingFieldCropFail());
@@ -51,11 +51,11 @@ export function* getExpiredFieldCropsSaga() {
 export const postFieldCrop = createAction(`postFieldCropSaga`);
 
 export function* postFieldCropSaga({ payload: fieldCrop }) {
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
+    const result = yield call(axios.post, managementPlanURL, fieldCrop, header);
     console.log(result);
     yield put(postFieldCropSuccess(result.data));
   } catch (e) {
@@ -66,14 +66,14 @@ export function* postFieldCropSaga({ payload: fieldCrop }) {
 export const putFieldCrop = createAction(`putFieldCropSaga`);
 
 export function* putFieldCropSaga({ payload: fieldCrop }) {
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(
       axios.put,
-      fieldCropURL + `/${fieldCrop.field_crop_id}`,
+      managementPlanURL + `/${fieldCrop.field_crop_id}`,
       fieldCrop,
       header,
     );
@@ -89,12 +89,12 @@ export const deleteFieldCrop = createAction(`deleteFieldCropSaga`);
 
 export function* deleteFieldCropSaga({ payload: field_crop_id }) {
   const currentDate = formatDate(new Date());
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, fieldCropURL + `/${field_crop_id}`, header);
+    const result = yield call(axios.delete, managementPlanURL + `/${field_crop_id}`, header);
     yield put(deleteFieldCropSuccess(field_crop_id));
     toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
   } catch (e) {

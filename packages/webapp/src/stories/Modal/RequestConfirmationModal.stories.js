@@ -1,6 +1,7 @@
 import React from 'react';
 import RequestConfirmationModal from '../../components/Modals/RequestConfirmationModal';
 import { componentDecorators } from '../Pages/config/decorators';
+import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
 export default {
   title: 'Components/Modals/RequestConfirmationModal',
@@ -13,5 +14,5 @@ const Template = (args) => <RequestConfirmationModal {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

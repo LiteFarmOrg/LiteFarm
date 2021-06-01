@@ -1,6 +1,7 @@
 import React from 'react';
 import Gate from '../../../../../components/LocationDetailLayout/PointDetails/Gate';
 import decorator from '../../../config/decorators';
+import { chromaticSmallScreen } from '../../../config/chromatic';
 
 export default {
   title: 'Form/Location/Point/Gate',
@@ -18,7 +19,7 @@ Post.args = {
   }),
 };
 Post.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 export const View = Template.bind({});
 View.args = {
@@ -33,7 +34,7 @@ View.args = {
   }),
 };
 View.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Edit = Template.bind({});
@@ -47,5 +48,5 @@ Edit.args = {
   }),
 };
 Edit.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

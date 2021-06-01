@@ -42,14 +42,14 @@ class Location extends baseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fieldCrop:{
-        modelClass: require('./fieldCropModel.js'),
+      managementPlan:{
+        modelClass: require('./managementPlanModel.js'),
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
         join: {
-          from: 'fieldCrop.location_id',
+          from: 'management_plan.location_id',
           to:'location.location_id',
         },
       },

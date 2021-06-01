@@ -58,7 +58,7 @@ xdescribe('insights test', () => {
       const [field] = await mocks.fieldFactory({ promisedLocation: [location] });
       const [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }] }, crop);
       const [{ crop_variety_id }] = await mocks.crop_varietyFactory({ promisedFarm, promisedCrop });
-      const [{ field_crop_id }] = await mocks.fieldCropFactory({
+      const [{ management_plan_id }] = await mocks.management_planFactory({
         promisedLocation: [location],
         promisedField: [field],
         promisedCropVariety: [{ crop_variety_id }],
@@ -69,7 +69,7 @@ xdescribe('insights test', () => {
           promisedSale: [{ sale_id }],
         },
         { quantity_kg: quantity, sale_value: 3 });
-      return { user_id, farm_id, field_crop_id };
+      return { user_id, farm_id, management_plan_id };
     }
 
     test('Should get people fed if Im on my farm as an owner', async (done) => {
@@ -115,7 +115,7 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in calories from a crop with 250 calories and 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData({
           ...mocks.fakeCrop(),
           percentrefuse: 0, ...emptyNutrients,
           energy: 250,
@@ -125,7 +125,7 @@ xdescribe('insights test', () => {
           harvest_use_type_name: 'test',
         });
         await mocks.harvestUseFactory({
-            promisedFieldCrop: [{ field_crop_id }],
+            promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
           { quantity_kg: 2 });
@@ -139,7 +139,7 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in protein from a crop with 5.2g protein 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData({
           ...mocks.fakeCrop(),
           percentrefuse: 0, ...emptyNutrients,
           protein: 5.2,
@@ -149,7 +149,7 @@ xdescribe('insights test', () => {
           harvest_use_type_name: 'test',
         });
         await mocks.harvestUseFactory({
-            promisedFieldCrop: [{ field_crop_id }],
+            promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
           { quantity_kg: 2 });
@@ -163,7 +163,7 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in fat from a crop with 75g fat 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData({
           ...mocks.fakeCrop(),
           percentrefuse: 0, ...emptyNutrients,
           lipid: 75,
@@ -173,7 +173,7 @@ xdescribe('insights test', () => {
           harvest_use_type_name: 'test',
         });
         await mocks.harvestUseFactory({
-            promisedFieldCrop: [{ field_crop_id }],
+            promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
           { quantity_kg: 2 });
@@ -187,7 +187,7 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in vitamin c from a crop with 9g vitamin c 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData({
           ...mocks.fakeCrop(),
           percentrefuse: 0, ...emptyNutrients,
           vitc: 9,
@@ -197,7 +197,7 @@ xdescribe('insights test', () => {
           harvest_use_type_name: 'test',
         });
         await mocks.harvestUseFactory({
-            promisedFieldCrop: [{ field_crop_id }],
+            promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
           { quantity_kg: 2 });
@@ -211,7 +211,7 @@ xdescribe('insights test', () => {
       });
 
       test('Should get 9 meals in vitamin A from a crop with 90g vitamin a 1kg sale and 2 kg harvest log', async (done) => {
-        const { user_id, farm_id, field_crop_id } = await generateSaleData({
+        const { user_id, farm_id, management_plan_id } = await generateSaleData({
           ...mocks.fakeCrop(),
           percentrefuse: 0, ...emptyNutrients,
           vita_rae: 90,
@@ -221,7 +221,7 @@ xdescribe('insights test', () => {
           harvest_use_type_name: 'test',
         });
         await mocks.harvestUseFactory({
-            promisedFieldCrop: [{ field_crop_id }],
+            promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
           { quantity_kg: 2 });
@@ -528,7 +528,7 @@ xdescribe('insights test', () => {
         for (const grid_points of gridPoints) {
           const [farm] = await mocks.farmFactory({ ...mocks.fakeFarm(), grid_points });
           const [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
-          const [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crops[0]], promisedField: [field] });
+          const [fieldCrop] = await mocks.management_planFactory({ promisedCrop: [crops[0]], promisedField: [field] });
           const [cropSale] = await mocks.cropSaleFactory({
             promisedFieldCrop: [fieldCrop],
             promisedSale: mocks.saleFactory({ promisedFarm: [farm] }, {
@@ -542,7 +542,7 @@ xdescribe('insights test', () => {
         }
         const crop12020Sales = [];
         for (let i = 0; i < 2; i++) {
-          const [fieldCrop1] = await mocks.fieldCropFactory({ promisedField: [fields[i]], promisedCrop: [crops[1]] });
+          const [fieldCrop1] = await mocks.management_planFactory({ promisedField: [fields[i]], promisedCrop: [crops[1]] });
           const [crop1Sale] = await mocks.cropSaleFactory({
             promisedFieldCrop: [fieldCrop1],
             promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }),
@@ -562,7 +562,7 @@ xdescribe('insights test', () => {
 
           crop1Sales.push(crop1Sale);
           crop1Sales.push(crop11Sale);
-          const [fieldCrop2] = await mocks.fieldCropFactory({
+          const [fieldCrop2] = await mocks.management_planFactory({
             promisedField: [fields[i + 1]],
             promisedCrop: [crops[2]],
           });
@@ -696,7 +696,7 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as an owner', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(1);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
@@ -707,7 +707,7 @@ xdescribe('insights test', () => {
       test('should create a water balance if Im on my farm as a manager', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(2);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(201);
@@ -718,7 +718,7 @@ xdescribe('insights test', () => {
       test('should fail to create  a water balance if Im on my farm as a Worker', async (done) => {
         const [{ user_id, farm_id }] = await createUserFarm(3);
         const [field] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-        const [{ crop_id, location_id }] = await mocks.fieldCropFactory({ promisedField: [field] });
+        const [{ crop_id, location_id }] = await mocks.management_planFactory({ promisedField: [field] });
         const waterBalance = { ...mocks.fakeWaterBalance(), crop_id, location_id };
         postWaterBalance(waterBalance, { farm_id, user_id }, (err, res) => {
           expect(res.status).toBe(403);

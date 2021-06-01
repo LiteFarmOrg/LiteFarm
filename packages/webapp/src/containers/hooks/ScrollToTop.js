@@ -4,7 +4,7 @@ import history from '../../history';
 export default function ScrollToTop() {
   const pathname = history.location.pathname;
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollY && window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }

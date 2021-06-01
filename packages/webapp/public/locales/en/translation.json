@@ -1131,5 +1131,8 @@
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Let's get started"
+  },
+  "YEAR_SELECTOR" : {
+    "TITLE": "Select Year"
   }
 }

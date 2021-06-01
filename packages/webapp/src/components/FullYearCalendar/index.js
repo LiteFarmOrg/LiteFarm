@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'rc-year-calendar';
 import styles from './styles.module.scss';
-import { useTranslation } from "react-i18next";
-import PropTypes from "prop-types";
-import { Semibold } from "../Typography";
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import { Semibold } from '../Typography';
+import YearSelectorModal from '../Modals/YearSelectorModal';
 
 function FullYearCalendarView({ stages }) {
   const { t } = useTranslation();
-  const [customYearSelected, setCustomYear] = useState(false)
+  const [ customYearSelected, setCustomYear ] = useState(null)
+  const [ isYearSelectorActive, setYearSelectorOpened ] = useState(false)
   const { seed, ...durations } = stages;
   const initDate = seed;
   const endDate = calculateFinishDate(initDate, Object.values(durations));
@@ -56,6 +58,20 @@ function FullYearCalendarView({ stages }) {
       endDate: stagesDates[k],
       color: stageToColor[k]
     })))
+
+  const yearSelectorToggle = (toggle) => {
+    setYearSelectorOpened(toggle);
+  }
+
+  const customYearSelector = (year) => {
+    if(initYear === year) {
+      setCustomYear(null);
+    } else {
+      setCustomYear(year);
+    }
+    setYearSelectorOpened(false);
+  }
+
   return (
     <>
       <div className={styles.stagesBox}>
@@ -68,14 +84,38 @@ function FullYearCalendarView({ stages }) {
         ))}
       </div>
       <div className={styles.calendarBox}>
-        <div className={styles.yearBox}><Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{initYear} </Semibold></div>
-        <Calendar dataSource={dataSource} year={initYear} displayHeader={false}/>
-        { initYear !== endYear && (
-          <>
-            <div className={styles.yearBox}><Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{endYear} </Semibold></div>
-            <Calendar dataSource={dataSource} year={endYear} displayHeader={false} />
-          </>
-        )}
+        {
+          !!customYearSelected && (
+            <>
+              <div className={styles.yearBox} onClick={() => yearSelectorToggle(true)}>
+                <Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{customYearSelected} </Semibold>
+              </div>
+              <Calendar dataSource={dataSource} year={customYearSelected} displayHeader={false}/>
+            </>
+          )
+        }
+        {
+          !customYearSelected && (
+            <>
+              <div className={styles.yearBox} onClick={() => yearSelectorToggle(true)}>
+                <Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>{initYear} </Semibold>
+              </div>
+              <Calendar dataSource={dataSource} year={initYear} displayHeader={false}/>
+              {
+                initYear !== endYear && (
+                  <>
+                    <div className={styles.yearBox}><Semibold
+                      style={{ color: 'var(--teal700)', textAlign: 'center' }}>{endYear} </Semibold></div>
+                    <Calendar dataSource={dataSource} year={endYear} displayHeader={false}/>
+                  </>
+                )
+              }
+            </>
+          )
+
+        }
+        <YearSelectorModal isOpen={isYearSelectorActive} dismissModal={() => yearSelectorToggle(false)}
+                           initYear={initYear} selectYear={customYearSelector}/>
       </div>
     </>
   )

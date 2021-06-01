@@ -15,8 +15,6 @@ export default function PlantingLocation({ history }) {
     //history.push(``)
   }
 
-  const 
-
   return (
     <>
       <Layout

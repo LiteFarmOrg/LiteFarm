@@ -2,301 +2,297 @@
 
 &nbsp;
 
-#### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager Version)
+#### Formulário de Consentimento Livre e Esclarecido e Política de Privacidade (Versão para Produtores Rurais e Gerentes Rurais)
 
 &nbsp;
 
-Welcome to LiteFarm! We understand that your privacy and the protection of your data are important to you. We created this Informed Consent Form and Privacy Policy to help you understand how and when we collect, use and share your information, and to ensure we have your consent for doing so. Please keep in mind that you will need to consent to our collection and use of your data as described in this Informed Consent Form and Privacy Policy for every farm that you are associated with via your account on the LiteFarm platform. If you do not agree with our practices as outlined in this Informed Consent Form and Privacy Policy, you will not be able to use the LiteFarm platform.
+Bem-vindo à LiteFarm! Entendemos que sua privacidade e a proteção de seus dados são importantes para você. Criamos este Formulário de Consentimento Informado e Política de Privacidade para ajudar você a entender como e quando coletaremos, usaremos e compartilharemos suas informações, e para garantir que teremos seu consentimento para fazer isso. Tenha em mente que você precisará consentir com nossa coleta e uso de seus dados, conforme descrito neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, para cada propriedade rural à qual você está associado através de sua conta na plataforma LiteFarm. Caso não concorde com nossas práticas descritas neste Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, você não poderá usar a plataforma LiteFarm.
 
 &nbsp;
 
-#### What is Litefarm ?
+#### O que é LiteFarm?
 
 &nbsp;
 
-LiteFarm is a participatory science project developed to help improve access to digital agricultural technology for farming communities. LiteFarm aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity. We are driven to serve the farming community through improving agricultural decision-support and research.
+LiteFarm é um projeto de ciência participativo, desenvolvido para ajudar a melhorar o acesso de comunidades de produtores rurais à tecnologia agrícola digital. A LiteFarm tem a intenção de ajudar os produtores rurais a gerenciar suas fazendas/sítios de maneiras mais lucrativas e sustentáveis, em termos ambientais e sociais. O código subjacente do LiteFarm é gratuito e de fonte aberta (GPLv3) para que pesquisadores, especialistas e desenvolvedores de todo o mundo possam ajudar a melhorar os serviços oferecidos à comunidade agrícola. A LiteFarm não é uma entidade comercial. Nosso direcionamento é servir a comunidade agrícola através da melhoria do suporte às decisões e da pesquisa no âmbito da agricultura.
 
 &nbsp;
 
-#### Who is the Litefarm team?
+#### Quem faz parte da equipe LiteFarm?
 
 &nbsp;
 
-The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory network of individuals and organizations.The Principle Investigators are Dr. Zia Mehrabi and Dr. Hannah Wittman (hannah.wittman@ubc.ca).
+A equipe LiteFarm é um grupo interdisciplinar de cientistas, pesquisadores, produtores rurais, designers e profissionais de software. Inicialmente, a equipe foi formada na Universidade da Colúmbia Britânica (UBC) e cresceu para incluir uma rede participativa de indivíduos e organizações. Os Principais Investigadores são o Dr. Zia Mehrabi e a Dra. Hannah Wittman (hannah.wittman@ubc.ca).
 
 &nbsp;
 
-#### Who funds Litefarm?
+#### Quem financia a LiteFarm?
 
 &nbsp;
 
-LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://ubcfarm.ubc.ca/litefarm/. Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
+A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://ubcfarm.ubc.ca/litefarm/. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
 
 &nbsp;
 
-#### Why are we conducting this project ?
+#### Por que estamos conduzindo este projeto?
 
 &nbsp;
 
-We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of advisory services in a single, free to use, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
+Reconhecemos que existem falhas no acesso dos produtores rurais a serviços de tecnologia digital, baixas taxas de adoção e uma necessidade expressada por produtores rurais de combinar uma variedade de serviços de aconselhamento em uma plataforma única, de uso gratuito e de orientação não comercial. Queremos desenvolver uma solução que ajude os produtores rurais a operar seus negócios de maneira mais sustentável, em termos financeiros e ecológicos, e também ajude a fazer progredir a ciência da sustentabilidade.
 
 &nbsp;
 
-#### What data do we collect?
+#### Que dados iremos coletar?
 
 &nbsp;
 
-Depending on which parts of the LiteFarm platform you use, we may collect different kinds of information:
+Dependendo de quais partes da plataforma LiteFarm você usar, poderemos coletar diferentes tipos de informação:
 &nbsp;
 
 &nbsp;
 
-**Personal Information**
+**Informações pessoais**
 &nbsp;
 
 &nbsp;
 
-"Personal Information" describes any information that can be used to identify you or your workers. LiteFarm will never disclose personal information to third parties. This includes:
+“Informações pessoais” descrevem qualquer informação que possa ser usada para identificar você ou seus funcionários. A LiteFarm nunca divulgará informações pessoais a terceiros. Isso inclui:
 
-- Contact information (name, address, phone number, email address)
+- Informações de contato (nome, endereço, número de telefone, endereço de e-mail)
 
-- Business information (farm name, farm address)
+- Informações comerciais (nome e endereço da fazenda/sítio)
 
-- Photos
+- Fotos
 
-- Internet Protocol (IP) address
+- Endereço de Protocolo da Internet (IP)
 
-- Worker information (name, role on farm, email address)
+- Informações de funcionários (nome, função na fazenda/sítio, endereço de e-mail)
 
-- Geolocation (e.g., GPS coordinates of fields, field boundaries, etc.)
+- Geolocalização (ex.: coordenadas GPS de campos/parcelas, fronteiras de campos/parcelas, etc.)
 
 &nbsp;
 
 &nbsp;
 
-**Farm Management Information:**
+**Informações de gestão agrícola:**
 &nbsp;
 
 &nbsp;
 
-LiteFarm uses the management information that you enter into the app to generate insights about the financial, environmental, and social benefits or impacts of your management decisions. We anonymize this data to conduct non-commercial academic research on sustainable food systems. Because this data is anonymized when used in our research, it cannot be traced to you or your farm. This data includes:
+A LiteFarm usa as informações de gestão que você insere no aplicativo para gerar ideias sobre os benefícios financeiros, ambientais e sociais, ou sobre os impactos de suas decisões de gestão. Anonimizamos esses dados para realizar pesquisas acadêmicas não comerciais sobre sistemas alimentares sustentáveis. Como esses dados são anonimizados quando usados em nossas pesquisas, eles não podem ser rastreados até você ou sua fazenda/sítio. Esses dados incluem:
 
-- Field information: field size; field names; crops planted in fields; percentage area of field sown with crops
+- Informações de campos/parcelas: tamanho do campo/parcela, nomes de campos/parcelas, culturas plantadas nos campos/parcelas, área percentual do campo/parcela semeada com culturas
 
-- Crop information: common names, species, genus, crop group, crop subgroup, common name variety; start and end dates of growing crops; estimated price of crops; estimated yield of crops
+- Informações de culturas: nomes comuns, espécies, gêneros, grupo de culturas, subgrupo de culturas, variedade de nomes comuns; datas de início e término de culturas em andamento; preço estimado de culturas; rendimento estimado de culturas
 
-- Activity log information: activity times and dates; photos; notes
+- Informações de registro de atividades: horários e datas de atividades; fotos; notas
 
-- Pest control log information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control (systemic spray, foliar spray, fumigation, burning, biological control, hand pick, or heat treatment); field and crop applied to
+- Informações de registro de controle de pragas: nome do produto; quantidade aplicada do produto; alvo da aplicação (ou seja, o nome da praga ou doença), nome comum, nome científico, grupo; nome do ingrediente ativo; concentração do ingrediente ativo; intervalo de colheita; intervalo de entrada; tipo de controle (aspersão sistêmica, aspersão foliar, fumigação, queima, controle biológico, coleta manual ou tratamento térmico); campo/parcela e cultura de aplicação
 
-- Harvest log information: field harvested; crop harvested; quantity harvested
+- Informações de registro de colheitas: campo colhido; cultura colhida; quantidade colhida
 
-- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
+- Informações de registro de semeaduras: campo semeado; cultura semeada; profundidade, comprimento, largura e proporção do espaçamento
 
-- Field work log information: field; type of work (plow, ridge till, zone till, mulch till, rip)
+- Informações de registro de trabalho nos campos/parcelas: campo; tipo de trabalho (aragem, plantio em camalhões, plantio em zonas, plantio em cobertura morta, plantio escarificado)
 
-- Soil analysis log information: field; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density
+- Informações de registro de análise de solo: campo/parcela; profundidade; textura; porcentagens de potássio, fósforo, nitrogênio, matéria orgânica, carbono orgânico, carbono inorgânico, carbono total, enxofre, cálcio, magnésio, sódio, zinco, manganês, ferro, cobre, boro; capacidade de troca catiônica (CTC); pH; densidade aparente
 
-- Irrigation log information: field; irrigation type (drip, sprinkler, subsurface, flood); flow rate; total time flowing
+- Informações de registro de irrigação: campo/parcelo; tipo de irrigação (gotejamento, aspersão, subsuperficial, alagamento); taxa de vazão; tempo total de fluxo
 
-- Scouting log information: field; crop; type (harvest, pest, disease, weed, other); action needed (yes/no)
+- Informações de registro de prospecções: campo/parcela; cultura; tipo (colheita, praga, doença, ervas daninhas, outros); ação necessária (sim/não)
 
-- Other log information: field; crops
+- Outras informações de registro: campo/parcela; culturas
 
-- Shift information: date; shift length; start and end times; break duration; shift activity (bed preparation, delivery, sales, seeding, harvesting, fertilizing, sales, scouting, pest control, wash and pack, weeding, other, custom task); time allocation to each activity (per field or per crop); mood (happy, very happy, sad, very sad, neutral)
+- Informações de deslocamentos: data; distância do deslocamento; horários de início e término; duração do intervalo; atividade de deslocamento (preparação de leitos, entrega, venda, semeadura, colheita, fertilização, prospecção, controle de pragas, lavagem e embalagem, erradicação de ervas daninhas, outros, tarefa customizada); alocação de tempo para cada atividade (por campo/parcela ou por cultura); humor (contente, muito contente, triste, muito triste, neutro)
 
-- Expenses information: date; type (equipment, fertilizer, fuel, machinery, seeds, pesticides, land); name; expense amount; association with crops
+- Informações de despesas: data, tipo (equipamentos, fertilizantes, combustível, maquinário, sementes, pesticidas, terras); nome; valor da despesa/ associação com culturas
 
-- Sales information: date; name of buyer/market; crop; amount sold (kg); revenue ($)
+- Informações de registro de vendas: nome do comprador/mercado; cultura; quantidade vendida (kg); renda ($)
 
-- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
+- Informações de registro de semeaduras: campo/parcela semeado; cultura semeada; profundidade, comprimento, largura e proporção do espaçamento
 
-- Worker details: number of registered workers; salary/pay
+- Informações de trabalhadores: número de trabalhadores registrados; salário/pagamento
 
-- Unit details: metric or imperial &nbsp;
+- Informações de unidades: sistema métrico ou imperial&nbsp;
 
 &nbsp;
 
-**Usage Data**
+**Dados de uso**
 &nbsp;
 
 &nbsp;
 
-We collect usage data (i.e., general statistics about users, traffic patterns, and how users respond to various site features) to improve the quality of services we provide to you. This type of data includes: when you log in to LiteFarm, pages you request, how long you visit the site for, how you interact with the app, and technical details about your device (e.g., browser, screen type, and processor). This data will either be associated with your LiteFarm username (if you are logged into the app) or your IP address (if you are not logged in). We may use software such as Google Analytics to collect this data, but in these cases, all personal information will be anonymized.
+Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões de tráfego e como os usuários respondem a diversas características do site) para melhorar a qualidade dos serviços que prestamos a você. Estes tipos de dados incluem: quando você faz login na LiteFarm, páginas que você solicita, por quanto tempo você visita o site, como você interage com o aplicativo e detalhes técnicos sobre seu dispositivo (ex.; navegador, tipo de tela e processador). Esses dados serão associados a seu nome de usuário da LiteFarm (se você tiver feito login no aplicativo) ou a seu endereço IP (se não tiver feito login). Poderemos usar softwares como o Google Analytics para coletar esses dados; porém, nesses casos, todas as informações pessoais serão anonimizadas.
 &nbsp;
 
 &nbsp;
 
-**How do we use data?**
+**Como usamos os dados?**
 &nbsp;
 
 &nbsp;
 
-There are three primary ways that we use your data:
+Existem três formas principais de usarmos seus dados:
 
-- To improve the services we provide you with: As described above, we use your usage data (i.e., general information about how you interact with the LiteFarm platform) to improve the LiteFarm platform and the services it provides.
+- Para melhorar os serviços que prestamos a você: Como descrito acima, usamos seus dados de uso (ex.: informações gerais sobre como você interage com a plataforma LiteFarm) para melhorar a plataforma LiteFarm e os serviços que ela oferece.
+  
+- Para gerar ideias sobre os benefícios financeiros, ambientais e sociais, ou sobre os impactos de suas decisões de gestão: A plataforma LiteFarm usa os dados de gestão que você insere no aplicativo (consulte a seção “Informações de gestão agrícola” acima para ver uma lista completa), juntamente com algoritmos integrados e alguns dados públicos (ex.: informações da estação meteorológica local, coeficientes de culturas, conteúdo de nutrientes de culturas e fertilizantes, dados de ocorrência de espécies e dados topográficos) para gerar informações sobre benefícios/impactos financeiros, ambientais e sociais de suas decisões de gestão.
 
-- To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions.
-
-- To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by PhD students as part of their graduate degrees. We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out),
-  and you can always reach out to us to learn more about the research that your data is helping to make possible. &nbsp;
-
+- Para realizar pesquisas acadêmicas não comerciais sobre sistemas alimentares sustentáveis: Juntamente com nossos colaboradores acadêmicos, usaremos seus dados de gestão agrícola anonimizados (consulte a seção “Informações de gestão agrícola” acima para ver uma lista completa) para conduzir pesquisas acadêmicas agronômicas, ecológicas e sobre sistemas alimentares. Algumas dessas pesquisas serão conduzidas por alunos de doutorado como parte de seus estudos de pós-graduação. Avaliaremos rigorosamente cada proposta de projeto para garantir que seus dados sejam usados efetivamente para fazer avançar o conhecimento sobre sistemas alimentares sustentáveis, ajudar agricultores a tomar decisões sustentáveis de gestão e impactar políticas públicas que beneficiem agricultores. Manteremos você informado sobre os projetos de pesquisa por meio de e-mails (a menos que você prefira não recebê-los) e você também poderá sempre nos contatar para saber mais sobre as pesquisas que seus dados estão tornando possíveis.
 &nbsp;
 
-**What do we share?**
+**O que compartilhamos?**
 &nbsp;
 
 &nbsp;
 
-We will only share your data with third parties if it is both anonymized (i.e., contains no personal information) and necessary to accomplish our research goals or validate scientific findings. Specifically, we may share anonymized data at some point in the future with other researchers for non-commercial academic research purposes. Any third-party academic researchers who request use of LiteFarm data will undergo internal review, and will be assessed under our existing ethics and security standards. Due to publishing standards for scientific reproducibility, anonymized data that is used for academic research may be served on public repositories. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time-limited and confidential single-use licenses. If an academic research use includes the use of photos uploaded to LiteFarm, any identifiable features that disclose personal information (e.g., faces of people) will be blurred out of the photos before they are shared. We do not share any personal information to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties. LiteFarm will not rent or sell your personal information or any data collected through LiteFarm website to anyone.
+Compartilharemos seus dados com terceiros somente se eles forem anonimizados (isto é, se não contiverem informações pessoais) e se forem necessários para atingir as metas de nossas pesquisas ou validar descobertas científicas. Especificamente, poderemos compartilhar dados anonimizados, em algum momento futuro, com outros pesquisadores com fins de pesquisa acadêmica não comercial. Todas as solicitações de uso dos dados da LiteFarm por pesquisadores acadêmicos terceiros  serão submetidas a uma análise interna e serão avaliados sob nossos padrões éticos e de segurança. Por causa dos padrões de publicação para reprodutibilidade científica, os dados anonimizados que forem usados para pesquisas acadêmicas poderão ser direcionados para repositórios públicos. Cópias de edições não públicas de dados anonimizados poderão ser compartilhadas com pesquisadores acadêmicos para fins de pesquisa não comerciais, sob licenças confidenciais de uso único e tempo limitado. Se o uso de uma pesquisa acadêmica incluir o uso de fotos transferidas para a LiteFarm por upload, todas as características identificáveis que revelem informações pessoais (ex.: rostos de pessoas) serão desfocados nas fotos antes que elas sejam compartilhadas. Não compartilhamos nenhuma informação pessoal com serviços de análise de terceiros, como o Google Analytics. Por meio de nossos protocolos de segurança, protegemos a vulnerabilidade das informações pessoais contidas no site da LiteFarm e usamos protocolos de anonimização de IP para prevenir a identificação e a geolocalização por terceiros. A LiteFarm não alugará nem venderá a ninguém suas informações pessoais, nem os dados coletados através do site da LiteFarm.
 &nbsp;
 
 &nbsp;
 
-**How we use cookies**
+**Como usamos cookies**
 &nbsp;
 
 &nbsp;
 
-In some areas of our site, a cookie might be placed on your computer or device. A cookie is a small file that resides on your computer or device's hard drive that allows us to improve the quality of your visit to our websites by responding to you as an individual. We use cookies to identify which pages are being used and improve our website. we only use this information for statistical analysis purposes, they are not shared with other sites and are not used for advertisements. You can choose to accept or decline cookies. Most web browsers automatically accept cookies, but you can usually modify your browser setting to decline cookies if you prefer. However, if you choose to decline cookies from the LiteFarm then functionality, including your ability to log-in and use the application, will be impaired. Acceptance of cookies is implied if you continue to access our website without adjusting your browser settings.
+Em algumas áreas de nosso site, é possível que um cookie seja colocado em seu computador ou dispositivo. Um cookie é um pequeno arquivo que fica no disco rígido de seu computador ou dispositivo e que nos permite melhorar a qualidade de sua visita a nossos sites, respondendo a você como a um indivíduo. Usamos cookies para identificar quais páginas estão sendo usadas e para melhorar nosso site. Usamos essas informações apenas para fins de análise estatística; elas não são compartilhadas com outros sites e não são usadas para anúncios. Você pode optar por aceitar ou não esses cookies. A maioria dos navegadores da web aceita cookies automaticamente, mas, se você preferir, geralmente é possível modificar a configuração de seu navegador para recusar cookies. No entanto, se você optar por recusar os cookies da LiteFarm, a funcionalidade que inclui sua capacidade de fazer login e usar o aplicativo será prejudicada. A aceitação dos cookies será implícita se você continuar acessando nosso site sem ajustar as configurações de seu navegador.
 &nbsp;
 
 &nbsp;
 
-**Where do we store your data?**
+**Onde armazenamos seus dados?**
 &nbsp;
 
 &nbsp;
 
-Our application is hosted on Heroku, which uses Amazon web Services (AWS) to quickly and reliably serve our website to an unpredictable number of people. This means that your data will be stored in multiple data centers and locations, including the United States of America (USA). While our application is non-commercial, we note that Heroku and AWS are participants in the Privacy Shield program developed by the USA Department of Commerce and the European Union (EU) and offers services for EU General Data Protection Regulation (GDPR) compliance. In addition to our cloud storage a local copy of the LiteFarm database is housed on an encrypted and password protected server at the University of British Columbia. Anonymized copies of the LiteFarm database can be served on public repositories following publishing standards for scientific reproducibility. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time limited and confidential single use licenses.
+Nosso aplicativo fica hospedado na Heroku, que usa Serviços da web da Amazon (AWS) para servir nosso site com rapidez e confiança para um número imprevisível de pessoas. Isso significa que seus dados serão armazenados em diversos centros de dados e locais, incluindo os Estados Unidos da América (EUA). Embora nosso aplicativo seja não comercial, enfatizamos que a Heroku e a AWS participam do programa Privacy Shield desenvolvido pelo Departamento de Comércio dos EUA e pela União Europeia (UE), e oferecem serviços em conformidade com a Regulação Geral de Proteção de Dados da UE (GDPR). Além de nosso armazenamento em nuvem, uma cópia local da base de dados da LiteFarm fica hospedada em um servidor criptografado e protegido por senha na Universidade da Colúmbia Britânica. Cópias anonimizadas da base de dados da LiteFarm podem ser servidas em repositórios públicos, seguindo os padrões de publicação para reprodutibilidade científica. Cópias de edições não públicas de dados anonimizados poderão ser compartilhadas com pesquisadores acadêmicos para fins de pesquisa não comerciais, sob licenças confidenciais de uso único e tempo limitado.&nbsp;
 &nbsp;
 
+**Como protegemos seus dados?**
 &nbsp;
 
-**How do we protect your data?**
 &nbsp;
 
+Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo nosso aplicativo alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
 &nbsp;
 
-We follow industry best practices to secure user data, and we have built and continue to maintain our application in line with Open Web Application Security Project’s Annotated Application Security Verification Standard Level 2. Access to the database is limited to members of the LiteFarm team who have undergone ethics training (Tri-Council Policy Statement: Ethical Conduct for Research Involving Humans, TCPS2), and have signed confidentiality agreements. However, we cannot guarantee that data transmitted over the internet will always be secure. As a result, though we strive to protect your personal information, we cannot ensure the security of any information you transmit while using LiteFarm.
 &nbsp;
 
+**Que outros riscos potenciais estão envolvidos no uso da LiteFarm?**
 &nbsp;
 
-**What other potential risks are involved with using LiteFarm?**
 &nbsp;
 
+Embora tenhamos feito todos os esforços razoáveis para garantir que nosso aplicativo seja seguro e forneça as informações mais precisas possíveis para ajudá-lo a gerenciar sua fazenda/sítio, reconhecemos que o uso da LiteFarm oferece riscos para você e para sua operação agrícola, podendo conter erros ou imprecisões de conteúdo e riscos de segurança. Os riscos associados a esses fatores incluem a perda potencial de produção, renda ou lucro, a incapacidade de uso, interrupção ou atraso de serviços, perdas, danos, corrupção ou recuperação de dados, violação de dados ou da segurança do sistema, que podem resultar do uso do serviço da LiteFarm. Não aceitamos responsabilidade por tais riscos. Se você tiver alguma dúvida e não for capaz de consentir com a possibilidade do surgimento desses problemas, pedimos que não assine o consentimento ao final desta página ou que não se registre para usar este produto. Em casos de riscos conhecidos iminentes (como datas conhecidas de perda de serviços), faremos todos os esforços para preveni-lo, como usuário, para que você possa tomar as precauções necessárias para mitigar o risco (ex.: fazer backup de seus dados).
 &nbsp;
 
-While we have made every reasonable effort to ensure our application is secure and provides as accurate as possible information to assist you in managing your farm, we recognize that usage of the LiteFarm carries risks to you and your farming operation, and may contain errors, or inaccuracies of content, and security risks. The risks associated with these include potential loss of production, revenue or profit, inability to use, interruption or delay of services, loss, damage, corruption or recovery of data, or breach of data or system security, which may result from using the LiteFarm Service. we do not accept liability for these risks. If you have any concern and are not able to consent to the possibility of these arising please do not sign the consent form at the end of this page or register to use this product. In the cases of known impending risks (such as known dates of loss of services) we will make every effort to forewarn you as a user so you can take necessary precautions to mitigate the risk (e.g. to back-up your data).
 &nbsp;
 
+**Por quanto tempo iremos reter seus dados?**
 &nbsp;
 
-**How long will we retain your data?**
 &nbsp;
 
+Nossa intenção é de reter seus dados indefinidamente no interesse da reprodutibilidade científica, por no mínimo 5 anos.
 &nbsp;
 
-We aim to retain your data indefinitely in the interests of scientific reproducibility, but for a minimum of 5 years.
 &nbsp;
 
+**Quais são os seus direitos com relação a suas informações pessoais?**
 &nbsp;
 
-**What are your rights with respect to your personal information?**
 &nbsp;
 
+Você tem o direito de saber quais dados temos sobre você, solicitar uma cópia deles, atualizar e corrigir seus dados, solicitar que paremos de coletar seus dados, solicitar uma transferência de seus dados ou fazer perguntas sobre quaisquer análises que utilizem seus dados. Para essas informações ou solicitações, contate data@litefarm.org.
 &nbsp;
 
-You have the right to know what data we have about you, request a copy of it, update and correct your data, request that we stop collecting your data, request a transfer of your data, or ask questions about any analyses using your data. For any such information or requests, contact data@litefarm.org.
 &nbsp;
 
+**O que acontece se eu retirar meu consentimento?**
 &nbsp;
 
-**What happens if you withdraw consent?**
 &nbsp;
 
+Se você retirar seu consentimento deste acordo de Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, sua(s) conta(s) na plataforma LiteFarm serão marcadas como inativas e você não poderá usar a plataforma LiteFarm. Porém, suas informações não serão excluídas, caso você queira retornar futuramente. Você pode solicitar que seus dados sejam permanente e irrevogavelmente excluídos enviando uma solicitação para data@litefarm.org. Se estiver pensando em retirar seu consentimento, certifique-se de fazer um backup de seus dados com antecedência.
 &nbsp;
 
-If you withdraw your consent from this Informed Consent Form and Privacy Policy agreement, your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to data@litefarm.org.. If you plan to withdraw consent, please ensure that you back up your data in advance.
 &nbsp;
 
+**Como fazemos alterações na Política de Privacidade?**
 &nbsp;
 
-**How do we make changes to the Privacy Policy?**
 &nbsp;
 
+Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. Depois de um mês, sua conta e seus dados serão marcados como inativos. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
 &nbsp;
 
-Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website (www.litefarm.org) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
 &nbsp;
 
+**Com faremos contato com você?**
 &nbsp;
 
-**When will we contact you?**
 &nbsp;
 
+Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma. Você poderá escolher os tipos de comunicação que deseja receber, ou então poderá desativar todas as comunicações visitando a página da LiteFarm para cancelamento de inscrições.
 &nbsp;
 
-If you create a LiteFarm account, we will occasionally send email to announce new features in LiteFarm, explain any changes to the app, invite you to special events, or tell you about research projects that LiteFarm data is helping make possible. We might also email you occasionally to ask for your feedback about the platform or website. Your participation in any such request is entirely optional and will not affect your use of the platform. You can choose the kinds of communications you wish to receive, or unsubscribe from all communications, by visiting the LiteFarm unsubscribe page.
 &nbsp;
 
+**Licenciamento**
 &nbsp;
 
-**Licensing**
 &nbsp;
 
+O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Licença Pública GNUv3, que é uma licença gratuita e de fonte aberta (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 &nbsp;
 
-The LiteFarm website is free to use. The software itself is licenced under the GNU Public Licence v3, which is a free and open source licence (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 &nbsp;
 
+**Para mais informações**
 &nbsp;
 
-**For further information**
 &nbsp;
 
-&nbsp;
+Com relação ao aplicativo, contate:
 
-With respect to the application, please contact:
+- Gerente de Produto: Kevin Cussen (kcussen@litefarm.org)
 
-- Product Manager: Kevin Cussen (kcussen@litefarm.org)
+  Com relação a este estudo, contate:
 
-With respect to this study, please contact the principal investigator:
-
-- Principle Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
-  &nbsp;
+- Pesquisadora principal: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
+&nbsp;
 
 &nbsp;
 
-**If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
+**Se tiver alguma dúvida ou reclamação sobre seus direitos como participante de pesquisas e/ou suas experiências durante a participação neste estudo**
 &nbsp;
 
 &nbsp;
 
-Contact the Research Participant Complaint Line in the UBC Office of Research Ethics at 604-822-8598 or if long distance e-mail RSIL@ors.ubc.ca or call toll free 1-877-822-8598.
+Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598.
 &nbsp;
 
 &nbsp;
 
-**Participant Consent and Signatures**
+**Consentimentos e assinaturas dos participantes**
 &nbsp;
 
 &nbsp;
 
-Your participation in LiteFarm is entirely voluntary. As a participant, you have the right to refuse to participate. You may choose to decline this consent form at any time without giving a reason without any further action by the researcher.
+Sua participação na LiteFarm é totalmente voluntária. Como participante, você tem o direito de se recusar a participar. Você pode optar por recusar este formulário de consentimento a qualquer momento, sem fornecer um motivo e sem qualquer ação adicional por parte do pesquisador.
 &nbsp;
 
 &nbsp;
 
-**Consent**
+**Consentimento**
 &nbsp;
 
 &nbsp;
 
-By pressing Agree below, it indicates that you have downloaded a copy of this consent form and Privacy Policy for your own records and that you consent to participate in this study.
+Ao pressionar o botão Concordo abaixo, você indica que baixou uma cópia deste formulário de Consentimento Livre e Esclarecido e Política de Privacidade para seus próprios registros e que consente em participar deste estudo.
 
-UBC Study ethics ID: H19-01482
+ID de Ética do Estudo da UBC: H19-01482
 &nbsp;
 
 &nbsp;

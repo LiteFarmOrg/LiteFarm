@@ -19,8 +19,6 @@ const LocationPicker = ({ className, setSelectedLocation }) => {
     setSelectedLocation(selectedLocation);
   }, [setSelectedLocation, selectedLocation]);
 
-  // TODO: use effect for selected location
-
   const getMapOptions = (maps) => {
     return {
       styles: [

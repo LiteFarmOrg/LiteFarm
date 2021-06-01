@@ -1,15 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { useTranslation } from 'react-i18next';
-import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, isLine, locationEnum } from '../Map/constants';
-import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../userFarmSlice';
-import useMapAssetRenderer from '../Map/useMapAssetRenderer';
-import useDrawingManager from '../Map/useDrawingManager';
-import { mapFilterSettingSelector } from '../Map/mapFilterSettingSlice';
-import CustomZoom from '../../components/Map/CustomZoom';
-import CustomCompass from '../../components/Map/CustomCompass';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import PageTitle from '../../components/PageTitle/v2';
 import Button from '../../components/Form/Button';
@@ -21,11 +10,18 @@ export default function PlantingLocation({ history }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   console.log(selectedLocation);
 
+  const onContinue = (data) => {
+    // TODO - add path 
+    //history.push(``)
+  }
+
+  const 
+
   return (
     <>
       <Layout
         buttonGroup={
-          <Button disabled={false} fullLength>
+          <Button disabled={selectedLocation === null} fullLength>
             {'Continue'}
           </Button>
         }

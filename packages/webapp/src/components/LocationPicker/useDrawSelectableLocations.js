@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  // cropLocationEntitiesSelector,
   cropLocationsSelector,
 } from '../../containers/locationSlice';
 import { isArea, polygonPath } from '../../containers/Map/constants';
@@ -21,6 +20,11 @@ const useDrawSelectableLocations = () => {
   const setSelectedLocation = (data) => {
     selectedLocationRef.current = data;
     _setSelectedLocation(data);
+  };
+
+  const [locations, setLocations] = useState([]);
+  const addLocations = (location) => {
+    locations.push(location);
   };
 
   const drawLocations = (map, maps, mapBounds) => {
@@ -105,6 +109,8 @@ const useDrawSelectableLocations = () => {
     marker.setMap(map);
 
     setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
+
+    addLocations(polygon);
   };
 
   // Draw a line
@@ -139,41 +145,14 @@ const useDrawSelectableLocations = () => {
       ],
     });
     polyline.setMap(map);
-    // if (isAreaLine(type)) {
+    
     const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
     linePolygon = new maps.Polygon({
       paths: polyPath,
       ...lineStyles[type].polyStyles,
     });
     linePolygon.setMap(map);
-    // }
-
     setLineListenersAndOptions(maps, line, linePolygon);
-
-    // let asset;
-    // if (isAreaLine(type)) {
-    //   linePolygon.setOptions({ visible: isVisible });
-    //   asset = { polygon: linePolygon, polyline };
-    // } else {
-    //   asset = { polyline };
-    // }
-    // polyline.setOptions({ visible: isVisible });
-
-    // maps.event.addListener(
-    //   isAreaLine(type) ? linePolygon : polyline,
-    //   'click',
-    //   function (mapsMouseEvent) {
-    //     handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
-    //   },
-    // );
-
-    // return {
-    //   ...asset,
-    //   location_id: line.location_id,
-    //   location_name: line.name,
-    //   asset: 'line',
-    //   type: line.type,
-    // };
   };
 
   const setAreaListenersAndOptions = (maps, area, polygon, polyline, marker) => {
@@ -208,6 +187,9 @@ const useDrawSelectableLocations = () => {
         marker,
         asset: 'area',
       });
+
+      console.log(locations.length);
+      
 
       this.setOptions({
         fillColor: selectedColour,

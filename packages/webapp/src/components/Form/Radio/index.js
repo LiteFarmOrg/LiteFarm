@@ -12,6 +12,7 @@ const Radio = ({
   hookFormRegister,
   onChange,
   onBlur,
+  inputRef,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -22,7 +23,7 @@ const Radio = ({
     >
       <input
         name={name}
-        ref={hookFormRegister?.ref}
+        ref={hookFormRegister?.ref || inputRef}
         onChange={(e) => {
           onChange?.(e);
           hookFormRegister?.onChange(e);

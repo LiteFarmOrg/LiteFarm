@@ -31,6 +31,7 @@ export default function PureCropTile({
       <img
         src={src}
         alt={alt}
+        loading="lazy"
         className={styles.img}
         onError={(e) => {
           e.target.onerror = null;
@@ -52,7 +53,7 @@ export default function PureCropTile({
 
       {needsPlan && (
         <div className={styles.cropCountContainer}>
-          <Square color={'needsPlan'} isCropTile />
+          <Square color={'needsPlan'} isCropTile style={{ borderBottomLeftRadius: '4px' }} />
         </div>
       )}
 

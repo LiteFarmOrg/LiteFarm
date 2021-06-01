@@ -11,14 +11,18 @@ import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
-import { useEffect, useState } from 'react';
-import { getCrops, getCropVarieties } from '../saga';
+import React, { useEffect, useState } from 'react';
+import { getCrops, getCropVarieties, getFieldCrops } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
+import useSortByCropTranslation from './useSortByCropTranslation';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import useFilterNoPlan from './useFilterNoPlan';
+import CatalogSpotlight from './CatalogSpotlight';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -28,15 +32,24 @@ export default function CropCatalogue({ history }) {
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
   const { active, planned, past, sum, cropCatalogue } = useCropCatalogue(filterString);
-  const crops = useStringFilteredCrops(useSelector(cropsSelector), filterString);
-  const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
-    useSelector(cropsWithVarietyWithoutManagementPlanSelector),
+  const crops = useStringFilteredCrops(
+    useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
   );
+  const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
+    useSortByCropTranslation(useSelector(cropsWithVarietyWithoutManagementPlanSelector)),
+    filterString,
+  );
+
+  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(
+    cropVarietiesWithoutManagementPlan,
+  );
+
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
     dispatch(getCrops());
+    dispatch(getFieldCrops());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -50,20 +63,37 @@ export default function CropCatalogue({ history }) {
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
+  useEffect(() => {
+    dispatch(resetAndUnLockFormData());
+  }, []);
+
   return (
-    <Layout>
+    <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
-      <PureSearchbarAndFilter
-        onFilterOpen={onFilterOpen}
-        value={filterString}
-        onChange={filterStringOnChange}
-      />
+      <div style={{ position: 'relative' }}>
+        <PureSearchbarAndFilter
+          onFilterOpen={onFilterOpen}
+          value={filterString}
+          onChange={filterStringOnChange}
+        />
+        <div
+          id={'filter'}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: 0,
+            height: '48px',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <CropCatalogueFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
 
       <div ref={containerRef}>
-        {!!sum && (
+        {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) && (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
@@ -73,6 +103,21 @@ export default function CropCatalogue({ history }) {
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
+              {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
+                const { crop_translation_key, crop_photo_url } = cropVariety;
+                const imageKey = cropVariety.crop_translation_key?.toLowerCase();
+                return (
+                  <PureCropTile
+                    key={crop_translation_key}
+                    title={t(`crop:${crop_translation_key}`)}
+                    src={crop_photo_url}
+                    alt={imageKey}
+                    style={{ width: cardWidth }}
+                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
+                    needsPlan
+                  />
+                );
+              })}
               {cropCatalogue.map((cropCatalog) => {
                 const {
                   crop_translation_key,
@@ -81,6 +126,7 @@ export default function CropCatalogue({ history }) {
                   past,
                   needsPlan,
                   imageKey,
+                  crop_photo_url,
                 } = cropCatalog;
                 return (
                   <PureCropTile
@@ -92,25 +138,10 @@ export default function CropCatalogue({ history }) {
                     }}
                     needsPlan={needsPlan}
                     title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
+                    src={crop_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
                     onClick={() => history.push(`/crop_varieties/crop/${cropCatalog.crop_id}`)}
-                  />
-                );
-              })}
-              {cropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key } = cropVariety;
-                const imageKey = cropVariety.crop_translation_key?.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={crop_translation_key}
-                    title={t(`crop:${crop_translation_key}`)}
-                    src={`crop-images/${imageKey}.jpg`}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
-                    needsPlan
                   />
                 );
               })}
@@ -122,7 +153,7 @@ export default function CropCatalogue({ history }) {
             {!!crops?.length && (
               <>
                 <PageBreak
-                  style={{ paddingBottom: '22px' }}
+                  style={{ paddingBottom: '16px' }}
                   label={t('CROP_CATALOGUE.ADD_TO_YOUR_FARM')}
                 />
                 <PureCropTileContainer gap={gap} padding={padding}>
@@ -133,10 +164,13 @@ export default function CropCatalogue({ history }) {
                       <PureCropTile
                         key={crop.crop_id}
                         title={t(`crop:${crop_translation_key}`)}
-                        src={`crop-images/${imageKey}.jpg`}
+                        src={crop.crop_photo_url}
                         alt={imageKey}
                         style={{ width: cardWidth }}
                         isCropTemplate
+                        onClick={() => {
+                          history.push(`/crop/${crop.crop_id}/add_crop_variety`);
+                        }}
                       />
                     );
                   })}
@@ -144,9 +178,13 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink>{t('CROP_CATALOGUE.ADD_CROP')}</AddLink>
+            <AddLink onClick={() => history.push('/crop/new')}>
+              {t('CROP_CATALOGUE.ADD_CROP')}
+            </AddLink>
           </>
         )}
+
+        <CatalogSpotlight />
       </div>
     </Layout>
   );

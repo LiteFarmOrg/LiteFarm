@@ -215,7 +215,9 @@ class Log extends Component {
           if (d.fieldCrop.length > 1) {
             return 'Multiple';
           } else {
-            return d.fieldCrop.map((fc) => this.props.t(`crop:${fc.crop.crop_translation_key}`));
+            return d.fieldCrop.map((fc) =>
+              this.props.t(`crop:${fc.crop_variety.crop.crop_translation_key}`),
+            );
           }
         },
         minWidth: 70,

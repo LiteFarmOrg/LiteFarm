@@ -3,57 +3,95 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
+const averagesList = [
+  'max_rooting_depth',
+  'depletion_fraction',
+  'is_avg_depth',
+  'initial_kc',
+  'mid_kc',
+  'end_kc',
+  'max_height',
+  'is_avg_kc',
+  'nutrient_notes',
+  'percentrefuse',
+  'refuse',
+  'protein',
+  'lipid',
+  'energy',
+  'ca',
+  'fe',
+  'mg',
+  'ph',
+  'k',
+  'na',
+  'zn',
+  'cu',
+  'fl',
+  'mn',
+  'se',
+  'vita_rae',
+  'vite',
+  'vitc',
+  'thiamin',
+  'riboflavin',
+  'niacin',
+  'pantothenic',
+  'vitb6',
+  'folate',
+  'vitb12',
+  'vitk',
+  'nutrient_credits',
+];
 const getCrop = (obj) => {
   return pick(obj, [
-    'crop_id',
-    'crop_common_name',
-    'crop_variety',
-    'crop_genus',
-    'crop_specie',
-    'crop_group',
-    'crop_subgroup',
-    'max_rooting_depth',
-    'depletion_fraction',
-    'is_avg_depth',
-    'initial_kc',
-    'mid_kc',
-    'end_kc',
-    'max_height',
-    'is_avg_kc',
-    'nutrient_notes',
-    'percentrefuse',
-    'refuse',
-    'protein',
-    'lipid',
-    'energy',
     'ca',
-    'fe',
-    'mg',
-    'ph',
-    'k',
-    'na',
-    'zn',
-    'cu',
-    'fl',
-    'mn',
-    'se',
-    'vita_rae',
-    'vite',
-    'vitc',
-    'thiamin',
-    'riboflavin',
-    'niacin',
-    'pantothenic',
-    'vitb6',
-    'folate',
-    'vitb12',
-    'vitk',
-    'is_avg_nutrient',
-    'farm_id',
-    'user_added',
-    'deleted',
-    'nutrient_credits',
+    'crop_common_name',
+    'crop_genus',
+    'crop_group',
+    'crop_id',
+    'crop_photo_url',
+    'crop_specie',
+    'crop_subgroup',
     'crop_translation_key',
+    'cu',
+    'depletion_fraction',
+    'end_kc',
+    'energy',
+    'farm_id',
+    'fe',
+    'fl',
+    'folate',
+    'initial_kc',
+    'is_avg_depth',
+    'is_avg_kc',
+    'is_avg_nutrient',
+    'k',
+    'lipid',
+    'max_height',
+    'max_rooting_depth',
+    'mg',
+    'mid_kc',
+    'mn',
+    'na',
+    'niacin',
+    'nutrient_credits',
+    'nutrient_notes',
+    'pantothenic',
+    'percentrefuse',
+    'ph',
+    'protein',
+    'refuse',
+    'reviewed',
+    'riboflavin',
+    'se',
+    'thiamin',
+    'vita_rae',
+    'vitb12',
+    'vitb6',
+    'vitc',
+    'vite',
+    'vitk',
+    'zn',
   ]);
 };
 const addOneCrop = (state, { payload }) => {
@@ -125,3 +163,35 @@ export const cropStatusSelector = createSelector([cropReducerSelector], ({ loadi
 });
 
 export const cropEntitiesSelector = cropSelectors.selectEntities;
+
+export const cropGroupAverages = createSelector([cropReducerSelector], ({ entities }) => {
+  return Object.keys(entities)
+    .map((k) => entities[k])
+    .reduce((averagesObject, crop) => {
+      const { crop_group } = crop;
+      if (!!averagesObject[crop_group]) {
+        return { ...averagesObject, [crop_group]: cropsAverage(crop, averagesObject[crop_group]) };
+      } else {
+        return {
+          ...averagesObject,
+          [crop_group]: { ...getAverageProperties(crop), numberInGroup: 1 },
+        };
+      }
+    }, {});
+});
+
+function cropsAverage(crop, cropAverage) {
+  const { numberInGroup } = cropAverage;
+  const newAverage = averagesList.reduce((obj, k) => {
+    return { ...obj, [k]: calculateRunningAverage(numberInGroup, cropAverage[k], crop[k]) };
+  }, {});
+  return { ...newAverage, numberInGroup: numberInGroup + 1 };
+}
+
+function calculateRunningAverage(n, average, newNumber) {
+  return (average * n + newNumber) / (n + 1);
+}
+
+function getAverageProperties(crop) {
+  return averagesList.reduce((obj, k) => ({ ...obj, [k]: crop[k] }), {});
+}

@@ -27,4 +27,3 @@ Full.args = {
   label: 'progress',
   value: 100,
 };
-

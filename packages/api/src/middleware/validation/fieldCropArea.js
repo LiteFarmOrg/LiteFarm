@@ -14,7 +14,7 @@
  */
 
 const locationModel = require('../../models/locationModel');
-const fieldCropModel = require('../../models/fieldCropModel');
+const managementPlanModel = require('../../models/managementPlanModel');
 
 async function validateFieldCropArea(req, res, next) {
   let location;
@@ -23,7 +23,7 @@ async function validateFieldCropArea(req, res, next) {
       .whereNotDeleted().findById(req.body.location_id)
       .withGraphJoined('figure.[area, line]');
   } else {
-    const fieldCrop = await fieldCropModel.query().whereNotDeleted().findById(req.params.field_crop_id)
+    const fieldCrop = await managementPlanModel.query().whereNotDeleted().findById(req.params.field_crop_id)
       .withGraphFetched(`[location.[
           figure.[area, line]]]`);
     location = fieldCrop?.location;

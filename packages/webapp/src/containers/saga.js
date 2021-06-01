@@ -368,13 +368,13 @@ export function* logUserInfoSaga() {
   }
 }
 
-export function* fetchAllSaga({ payload: userFarmIds }) {
-  try {
-    const farm_id = userFarmIds.farm_id;
-    const selectedUserFarmIds = yield select(loginSelector);
-    const user_id = userFarmIds.user_id || selectedUserFarmIds.user_id;
+export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
-    if (!user_id) return;
+export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
+  try {
+    yield put(selectFarmSuccess(userFarmIds));
+    const { has_consent } = yield select(userFarmSelector);
+    if (!has_consent) return;
 
     const tasks = [
       put(getCertifiers()),
@@ -475,7 +475,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
-  yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
+  yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);

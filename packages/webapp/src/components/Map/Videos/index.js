@@ -5,6 +5,7 @@ import PointVideo from '../../../assets/videos/AddingPoints.mp4';
 import styles from './styles.module.scss';
 import TitleLayout from "../../Layout/TitleLayout";
 
+
 function PureVideoView({ history }) {
   return (
     <TitleLayout title={'Map Tutorials'} onGoBack={() => history.push('/map')}>
@@ -22,9 +23,9 @@ function PureVideoView({ history }) {
           <video controls style={{width: '95%', height: 'auto'}} loop  muted src={PointVideo} />
         </div>
       </div>
+
     </TitleLayout>
-  )
+  );
 }
 
 export default PureVideoView;
-

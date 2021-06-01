@@ -24,6 +24,10 @@ const auth = (isAuthenticated = false) => ({
 export const useI18next = () => {
   const { t, ready } = useTranslation(
     [
+      'certifications',
+      'crop_group',
+      'crop_nutrients',
+      'filter',
       'translation',
       'crop',
       'common',
@@ -136,7 +140,9 @@ export const decoratorsWithStore = [
         <ThemeProvider theme={theme}>
           <>
             <CssBaseline />
-            <Router history={history}>{story()}</Router>
+            <Router history={history}>
+              <div style={{ padding: '3rem' }}>{story()}</div>
+            </Router>
           </>
         </ThemeProvider>
       </Provider>

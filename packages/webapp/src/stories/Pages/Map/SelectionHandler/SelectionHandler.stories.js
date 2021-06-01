@@ -1,6 +1,7 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureSelectionHandler from '../../../../components/Map/SelectionHandler';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/LocationSelection',
@@ -25,5 +26,5 @@ Primary.args = {
   history: () => {},
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

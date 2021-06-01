@@ -14,7 +14,6 @@
  */
 
 const locationModel = require('../../models/locationModel');
-const fieldCropModel = require('../../models/fieldCropModel');
 
 async function validateLocationId(req, res, next) {
   const location = await locationModel.query().whereNotDeleted().findById(req.body.location_id)

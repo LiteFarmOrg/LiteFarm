@@ -1,6 +1,7 @@
 import React from 'react';
 import LineDetails from '../../../../components/LocationDetailLayout/LineDetails';
 import decorator from '../../config/decorators';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Location/Line/LineDetails',
@@ -26,5 +27,5 @@ Post.args = {
   errors: (data) => {},
 };
 Post.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

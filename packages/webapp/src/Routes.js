@@ -405,7 +405,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/planting_location" exact component={PlantingLocation}/>
+            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

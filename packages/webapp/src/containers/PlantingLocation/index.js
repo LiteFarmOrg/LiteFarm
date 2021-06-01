@@ -6,7 +6,7 @@ import ProgressBar from '../../components/ProgressBar';
 import LocationPicker from '../../components/LocationPicker';
 import Layout from '../../components/Layout';
 
-export default function PlantingLocation({ history }) {
+export default function PlantingLocation({ history, match}) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   console.log(selectedLocation);
 
@@ -14,6 +14,16 @@ export default function PlantingLocation({ history }) {
     // TODO - add path 
     //history.push(``)
   }
+
+  const onGoBack = () => {
+
+  }
+
+  const onCancel = () => {
+
+  }
+
+  const progress = 37.5;
 
   return (
     <>
@@ -24,14 +34,17 @@ export default function PlantingLocation({ history }) {
           </Button>
         }
       >
-        <PageTitle title={'Add management plan'} onGoBack={() => {}} onCancel={() => {}} />
+        <PageTitle title={'Add management plan'} 
+          onGoBack={onGoBack} 
+          onCancel={onCancel}
+        />
         <div
           style={{
             marginBottom: '24px',
             marginTop: '8px',
           }}
         >
-          <ProgressBar value={37.5} />
+          <ProgressBar value={progress} />
         </div>
         <div className={styles.planting_label}>{'Select a planting location'}</div>
         <LocationPicker className={styles.mapContainer} setSelectedLocation={setSelectedLocation} />

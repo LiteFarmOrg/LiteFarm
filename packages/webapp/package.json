@@ -34,6 +34,7 @@
     "node-sass": "^5.0.0",
     "nuka-carousel": "^4.5.12",
     "prop-types": "^15.7.2",
+    "rc-year-calendar": "^1.0.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-chartkick": "^0.3.3",

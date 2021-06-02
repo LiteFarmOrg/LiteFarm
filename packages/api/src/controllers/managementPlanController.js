@@ -79,18 +79,13 @@ const managementPlanController = {
     };
   },
 
-  graphFetched: `[crop_variety.[crop], 
-          crop_management_plan.[beds, container, broadcast, 
-          location.[figure.[area, line], field, garden, buffer_zone,greenhouse]
-          ], transplant_container.[location.[figure.[area, line], field, garden, buffer_zone,greenhouse]]]`,
-
   getManagementPlanByID() {
     return async (req, res) => {
       try {
         const management_plan_id = req.params.management_plan_id;
         const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(management_plan_id)
-          .withGraphFetched(this.graphFetched);
-        return managementPlan ? res.status(200).send(managementPlan) : res.status(404).send('Field crop not found');
+          .withGraphFetched(planGraphFetchedQueryString);
+        return managementPlan ? res.status(200).send(removeLocationFromManagementPlan(managementPlan)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({
@@ -105,9 +100,9 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(this.graphFetched)
+          .withGraphJoined(planGraphFetchedQueryString)
           .where('crop_management_plan:location.farm_id', farm_id);
-        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({
@@ -123,12 +118,12 @@ const managementPlanController = {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(this.graphFetched)
+          .withGraphJoined(planGraphFetchedQueryString)
           .where('crop_management_plan:location.farm_id', farm_id)
           .andWhere('harvest_date', '>=', date);
 
 
-        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({ error });
@@ -141,15 +136,31 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(this.graphFetched)
+          .withGraphJoined(planGraphFetchedQueryString)
           .where('crop_management_plan:location.farm_id', farm_id)
           .andWhere(raw('harvest_date < now()'));
-        return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         res.status(400).json({ error });
       }
     };
   },
+};
+
+const planGraphFetchedQueryString = '[crop_management_plan.[beds, container, broadcast, location], transplant_container]';
+
+const removeLocationFromManagementPlan = (managementPlan) => {
+  !managementPlan.transplant_container && delete managementPlan.transplant_container;
+  delete managementPlan.crop_management_plan.location;
+  for (const plantingType of ['container', 'beds', 'rows', 'broadcast']) {
+    !managementPlan.crop_management_plan[plantingType] && delete managementPlan.crop_management_plan[plantingType];
+  }
+  return managementPlan;
+};
+
+const removeLocationFromManagementPlans = (managementPlans) => {
+  for (let i = 0; i < managementPlans.length; i++) removeLocationFromManagementPlan(managementPlans[i]);
+  return managementPlans;
 };
 
 module.exports = managementPlanController;

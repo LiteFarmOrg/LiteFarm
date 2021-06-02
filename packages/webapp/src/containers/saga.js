@@ -341,17 +341,14 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
     {},
   );
   const transplantContainers = [];
-  const locations = [];
   for (const managementPlan of managementPlans) {
     const crop_management_plan = managementPlan.crop_management_plan;
     plantingMethods[crop_management_plan.planting_type].push({
       ...crop_management_plan,
       ...crop_management_plan[crop_management_plan.planting_type.toLowerCase()],
     });
-    locations.push(crop_management_plan.location);
     if (managementPlan.transplant_container) {
       transplantContainers.push(managementPlan.transplant_container);
-      locations.push(managementPlan.transplant_container.location);
     }
   }
   for (const plantingTypePascal in plantingTypeActionMap) {
@@ -370,7 +367,6 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
     yield put(onLoadingTransplantContainerFail(e));
     console.log(e);
   }
-  yield put(getLocationsSuccess(locations));
 }
 
 export const getManagementPlans = createAction('getManagementPlansSaga');
@@ -384,9 +380,6 @@ export function* getManagementPlansSaga() {
     yield put(onLoadingManagementPlanAndPlantingMethodStart());
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
     yield put(getManagementPlanAndPlantingMethodSuccess(result.data));
-    // const cropVarieties = result.data.map((managementPlan) => managementPlan.crop_variety);
-    // yield put(getAllCropVarietiesSuccess(cropVarieties));
-    // yield put(getCropsSuccess(cropVarieties.map((cropVariety) => cropVariety.crop)));
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));

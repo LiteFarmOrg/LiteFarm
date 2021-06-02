@@ -48,7 +48,16 @@ class TransplantContainerModel extends Model {
   }
 
   static get relationMappings() {
-    return {};
+    return {
+      location: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./locationModel.js'),
+        join: {
+          from: 'transplant_container.location_id',
+          to: 'location.location_id',
+        },
+      },
+    };
   }
 }
 

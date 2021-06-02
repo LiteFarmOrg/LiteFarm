@@ -129,7 +129,6 @@ export default function PureInvitedUserCreateAccountPage({
         }
         defaultValue={birthYear}
         optional
-        hookFormSetValue={setValue}
       />
       {isNotSSO && (
         <>

@@ -10,16 +10,19 @@ import { cropCatalogueFilterDateSelector } from './filterSlice';
 
 const getManagementPlan = (obj) => {
   return pick(obj, [
-    'area_used',
-    'bed_config',
     'crop_variety_id',
-    'end_date',
-    'estimated_production',
-    'estimated_revenue',
+    'for_cover',
+    'germination_date',
+    'germination_days',
+    'harvest_date',
+    'harvest_days',
     'management_plan_id',
-    'is_by_bed',
-    'location_id',
-    'start_date',
+    'needs_transplant',
+    'seed_date',
+    'termination_date',
+    'termination_days',
+    'transplant_date',
+    'transplant_days',
   ]);
 };
 
@@ -68,9 +71,6 @@ const managementPlanSlice = createSlice({
       });
     },
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
-    selectManagementPlanSuccess(state, { payload: managementPlan_id }) {
-      state.managementPlan_id = managementPlan_id;
-    },
   },
 });
 export const {

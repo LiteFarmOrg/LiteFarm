@@ -11,7 +11,6 @@ const MoreInfo = ({ content = 'LiteFarm', className, autoOpen, ...props }) => {
         placement={'bottom-end'}
         content={content}
         event="hover"
-        eventDelay={0}
         style={{ transform: 'translateX(-10px)' }}
         autoOpen={autoOpen}
         isChildrenIcon

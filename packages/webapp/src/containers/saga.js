@@ -82,10 +82,10 @@ import {
   onLoadingCropStart,
 } from './cropSlice';
 import {
-  getFieldCropsSuccess,
-  onLoadingFieldCropFail,
-  onLoadingFieldCropStart,
-} from './fieldCropSlice';
+  getManagementPlansSuccess,
+  onLoadingManagementPlanFail,
+  onLoadingManagementPlanStart,
+} from './managementPlanSlice';
 import i18n from '../locales/i18n';
 import { getLogs, resetLogFilter } from './Log/actions';
 import { getAllShifts, resetShiftFilter } from './Shift/actions';
@@ -203,7 +203,7 @@ export function* getFarmInfoSaga() {
     }
     localStorage.setItem('role_id', userFarm.role_id);
     yield put(getLocations());
-    yield put(getFieldCrops());
+    yield put(getManagementPlans());
   } catch (e) {
     console.log(e);
     toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
@@ -301,44 +301,44 @@ const figureTypeActionMap = {
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
 };
 
-export const getFieldCrops = createAction('getFieldCropsSaga');
+export const getManagementPlans = createAction('getManagementPlansSaga');
 
-export function* getFieldCropsSaga() {
+export function* getManagementPlansSaga() {
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingFieldCropStart());
+    yield put(onLoadingManagementPlanStart());
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
-    yield put(getFieldCropsSuccess(result.data));
-    const cropVarieties = result.data.map((fieldCrop) => fieldCrop.crop_variety);
+    yield put(getManagementPlansSuccess(result.data));
+    const cropVarieties = result.data.map((managementPlan) => managementPlan.crop_variety);
     yield put(getAllCropVarietiesSuccess(cropVarieties));
     yield put(getCropsSuccess(cropVarieties.map((cropVariety) => cropVariety.crop)));
   } catch (e) {
-    yield put(onLoadingFieldCropFail(e));
+    yield put(onLoadingManagementPlanFail(e));
     console.log('failed to fetch field crops from db');
   }
 }
 
-export const getFieldCropsByDate = createAction('getFieldCropsByDateSaga');
+export const getManagementPlansByDate = createAction('getManagementPlansByDateSaga');
 
-export function* getFieldCropsByDateSaga() {
+export function* getManagementPlansByDateSaga() {
   let currentDate = formatDate(new Date());
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingFieldCropStart());
+    yield put(onLoadingManagementPlanStart());
     const result = yield call(
       axios.get,
       managementPlanURL + '/farm/date/' + farm_id + '/' + currentDate,
       header,
     );
-    yield put(getFieldCropsSuccess(result.data));
+    yield put(getManagementPlansSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingFieldCropFail());
+    yield put(onLoadingManagementPlanFail());
     console.log('failed to fetch field crops by date');
   }
 }
@@ -381,7 +381,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
       put(getCrops()),
       put(getCropVarieties()),
       put(getLocations()),
-      put(getFieldCrops()),
+      put(getManagementPlans()),
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
     ];
@@ -471,8 +471,8 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
   yield takeLeading(putFarm.type, putFarmSaga);
   yield takeLatest(getLocations.type, getLocationsSaga);
-  yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
-  yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
+  yield takeLatest(getManagementPlansByDate.type, getManagementPlansSaga);
+  yield takeLatest(getManagementPlans.type, getManagementPlansSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(getCropVarieties.type, getCropVarietiesSaga);
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);

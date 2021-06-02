@@ -18,15 +18,15 @@ import { withTranslation } from 'react-i18next';
 import {
   createPrice,
   createYield,
-  postFieldCrop,
-} from '../../../containers/LocationDetails/LocationFieldCrop/saga';
+  postManagementPlan,
+} from '../../../containers/LocationDetails/LocationManagementPlan/saga';
 import { numberOnKeyDown } from '../../Form/Input';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { Label, Semibold, Underlined } from '../../Typography';
 import { cropLocationEntitiesSelector } from '../../../containers/locationSlice';
 import ReactSelect from '../../Form/ReactSelect';
 
-class NewFieldCropModal extends React.Component {
+class NewManagementPlanModal extends React.Component {
   // props:
   // field: the current field selected
   constructor(props, context) {
@@ -34,7 +34,9 @@ class NewFieldCropModal extends React.Component {
 
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleFieldCropPropertiesChange = this.handleFieldCropPropertiesChange.bind(this);
+    this.handleManagementPlanPropertiesChange = this.handleManagementPlanPropertiesChange.bind(
+      this,
+    );
 
     this.validateNotEmptyLength = this.validateNotEmptyLength.bind(this);
     this.validateWarningEmptyLength = this.validateWarningEmptyLength.bind(this);
@@ -52,7 +54,7 @@ class NewFieldCropModal extends React.Component {
       show: false,
       field: null,
       crops: [],
-      fieldCrop: FIELD_CROPS_INIT,
+      managementPlan: FIELD_CROPS_INIT,
       percentage: 0,
       area_unit: getUnit(this.props.farm, 'm2', 'ft2'),
       area_unit_label: getUnit(this.props.farm, 'm', 'ft'),
@@ -86,7 +88,7 @@ class NewFieldCropModal extends React.Component {
     if (crops && prevProps.crops && crops.length > prevProps.crops.length) {
       const newCrop = crops[crops.length - 1];
       this.setState((preState) => ({
-        fieldCrop: { ...preState.fieldCrop, crop_id: newCrop.crop_id },
+        managementPlan: { ...preState.managementPlan, crop_id: newCrop.crop_id },
         crop_option: newCrop,
       }));
     }
@@ -108,29 +110,29 @@ class NewFieldCropModal extends React.Component {
   handleSaveNewCrop = () => {
     if (this.validateForm()) {
       const { isByArea, bed_num, bed_width, bed_length, area_unit, estimated_unit } = this.state;
-      let newFieldCrop = this.state.fieldCrop;
+      let newManagementPlan = this.state.managementPlan;
       let { total_area: fieldArea } = this.props.cropLocationEntities[this.props.location_id];
-      newFieldCrop.area_used =
-        newFieldCrop.area_used > fieldArea ? fieldArea : newFieldCrop.area_used;
+      newManagementPlan.area_used =
+        newManagementPlan.area_used > fieldArea ? fieldArea : newManagementPlan.area_used;
       let estimatedProduction = isByArea
-        ? newFieldCrop.estimated_yield * newFieldCrop.area_used
-        : newFieldCrop.estimated_yield * bed_num;
+        ? newManagementPlan.estimated_yield * newManagementPlan.area_used
+        : newManagementPlan.estimated_yield * bed_num;
       let estimatedRevenue = isByArea
-        ? estimatedProduction * newFieldCrop.estimated_price
-        : bed_num * newFieldCrop.estimated_price * newFieldCrop.estimated_yield;
+        ? estimatedProduction * newManagementPlan.estimated_price
+        : bed_num * newManagementPlan.estimated_price * newManagementPlan.estimated_yield;
 
       estimatedProduction = convertToMetric(estimatedProduction, estimated_unit, 'kg');
 
       let yieldData = {
-        crop_id: newFieldCrop.crop_id,
-        'quantity_kg/m2': newFieldCrop.estimated_yield,
-        date: newFieldCrop.end_date,
+        crop_id: newManagementPlan.crop_id,
+        'quantity_kg/m2': newManagementPlan.estimated_yield,
+        date: newManagementPlan.end_date,
       };
 
       let priceData = {
-        crop_id: newFieldCrop.crop_id,
-        value: newFieldCrop.estimated_price,
-        date: newFieldCrop.end_date,
+        crop_id: newManagementPlan.crop_id,
+        value: newManagementPlan.estimated_price,
+        date: newManagementPlan.end_date,
       };
 
       this.props.dispatch(createYield(yieldData));
@@ -145,12 +147,12 @@ class NewFieldCropModal extends React.Component {
         };
       }
       this.props.dispatch(
-        postFieldCrop({
-          crop_id: newFieldCrop.crop_id,
+        postManagementPlan({
+          crop_id: newManagementPlan.crop_id,
           location_id: this.props.location_id,
-          start_date: newFieldCrop.start_date,
-          end_date: newFieldCrop.end_date,
-          area_used: convertToMetric(newFieldCrop.area_used, area_unit, 'm2'),
+          start_date: newManagementPlan.start_date,
+          end_date: newManagementPlan.end_date,
+          area_used: convertToMetric(newManagementPlan.area_used, area_unit, 'm2'),
           estimated_production: estimatedProduction,
           estimated_revenue: estimatedRevenue,
           is_by_bed: !isByArea,
@@ -161,14 +163,14 @@ class NewFieldCropModal extends React.Component {
     }
   };
 
-  handleFieldCropPropertiesChange(event) {
-    let fieldCrop = this.state.fieldCrop;
+  handleManagementPlanPropertiesChange(event) {
+    let managementPlan = this.state.managementPlan;
     let cropBeingEdited = {
-      ...fieldCrop,
+      ...managementPlan,
       [event.target.id]: Number(event.target.value) >= 0 ? event.target.value : 0,
     };
     this.setState({
-      fieldCrop: cropBeingEdited,
+      managementPlan: cropBeingEdited,
     });
   }
 
@@ -188,7 +190,7 @@ class NewFieldCropModal extends React.Component {
   }
 
   validateForm() {
-    const currentFieldCrop = this.state.fieldCrop;
+    const currentManagementPlan = this.state.managementPlan;
 
     let { total_area: fieldArea } = this.props.cropLocationEntities[this.props.location_id];
 
@@ -199,16 +201,20 @@ class NewFieldCropModal extends React.Component {
     let isValid = true;
     let errors = '';
 
-    if (moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))) {
+    if (
+      moment(currentManagementPlan.end_date).isSameOrBefore(
+        moment(currentManagementPlan.start_date),
+      )
+    ) {
       toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
       isValid = false;
       return isValid;
     }
 
-    for (const key in currentFieldCrop) {
+    for (const key in currentManagementPlan) {
       if (
-        ((key === 'start_date' || key === 'end_date') && !currentFieldCrop[key]._isValid) ||
-        currentFieldCrop[key] === ''
+        ((key === 'start_date' || key === 'end_date') && !currentManagementPlan[key]._isValid) ||
+        currentManagementPlan[key] === ''
       ) {
         isValid = false;
         errors += key + ', ';
@@ -225,7 +231,7 @@ class NewFieldCropModal extends React.Component {
   }
 
   handlePercentage = (e) => {
-    let { fieldCrop } = this.state;
+    let { managementPlan } = this.state;
     if (e.target.value < 0) {
       e.target.value = 0;
     }
@@ -237,37 +243,37 @@ class NewFieldCropModal extends React.Component {
     let { total_area: fieldArea } = this.props.cropLocationEntities[this.props.location_id];
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
-    fieldCrop.area_used = ((Number(e.target.value) / 100) * fieldArea).toFixed(0);
+    managementPlan.area_used = ((Number(e.target.value) / 100) * fieldArea).toFixed(0);
     this.setState({
-      fieldCrop,
+      managementPlan,
       percentage: Number(e.target.value),
     });
   };
 
   toggleAreaBed = (isByArea) => {
-    let fieldCrop = this.state.fieldCrop;
-    this.setState({ isByArea, fieldCrop });
+    let managementPlan = this.state.managementPlan;
+    this.setState({ isByArea, managementPlan });
   };
 
   onStartDateChange = (date) => {
-    const currentCrop = this.state.fieldCrop;
+    const currentCrop = this.state.managementPlan;
     currentCrop.start_date = date;
-    this.setState({ fieldCrop: currentCrop });
+    this.setState({ managementPlan: currentCrop });
   };
 
   onEndDateChange = (date) => {
-    const currentCrop = this.state.fieldCrop;
+    const currentCrop = this.state.managementPlan;
     currentCrop.end_date = date;
-    this.setState({ fieldCrop: currentCrop });
+    this.setState({ managementPlan: currentCrop });
   };
 
   onBedLenChange = (e) => {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_length = e.target.value;
-    let { bed_width, bed_num, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
+    let { bed_width, bed_num, managementPlan } = this.state;
+    managementPlan.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
     this.setState({
-      fieldCrop,
+      managementPlan,
       bed_length,
     });
   };
@@ -276,10 +282,10 @@ class NewFieldCropModal extends React.Component {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_width = e.target.value;
 
-    let { bed_length, bed_num, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
+    let { bed_length, bed_num, managementPlan } = this.state;
+    managementPlan.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
     this.setState({
-      fieldCrop,
+      managementPlan,
       bed_width,
     });
   };
@@ -287,22 +293,22 @@ class NewFieldCropModal extends React.Component {
   onBedNumChange = (e) => {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_num = e.target.value;
-    let { bed_length, bed_width, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
+    let { bed_length, bed_width, managementPlan } = this.state;
+    managementPlan.area_used = Number(bed_length) * Number(bed_width) * Number(bed_num);
     this.setState({
-      fieldCrop,
+      managementPlan,
       bed_num,
     });
   };
 
   handleCropSelect = (crop) => {
-    let fieldCrop = this.state.fieldCrop;
+    let managementPlan = this.state.managementPlan;
     if (crop && crop.value && crop.value.crop_id) {
-      fieldCrop.crop_id = crop.value.crop_id;
-      this.setState({ fieldCrop, crop_option: crop.value });
+      managementPlan.crop_id = crop.value.crop_id;
+      this.setState({ managementPlan, crop_option: crop.value });
     } else {
-      fieldCrop.crop_id = '';
-      this.setState({ fieldCrop, crop_option: {} });
+      managementPlan.crop_id = '';
+      this.setState({ managementPlan, crop_option: {} });
     }
   };
 
@@ -355,7 +361,7 @@ class NewFieldCropModal extends React.Component {
 
             <FormGroup>
               <FormGroup
-                validationState={this.validateNotEmptyLength(this.state.fieldCrop.crop_id)}
+                validationState={this.validateNotEmptyLength(this.state.managementPlan.crop_id)}
                 controlId="crop_id"
               >
                 <ReactSelect
@@ -402,7 +408,9 @@ class NewFieldCropModal extends React.Component {
                 {isByArea && (
                   <div>
                     <FormGroup
-                      validationState={this.validateNotEmptyLength(this.state.fieldCrop.area_used)}
+                      validationState={this.validateNotEmptyLength(
+                        this.state.managementPlan.area_used,
+                      )}
                       className={newFieldStyles.areaContainer}
                     >
                       <Label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </Label>
@@ -422,7 +430,7 @@ class NewFieldCropModal extends React.Component {
                         onKeyDown={numberOnKeyDown}
                         placeholder="0"
                         disabled={true}
-                        value={(this.state.fieldCrop.area_used / 10000).toFixed(2)}
+                        value={(this.state.managementPlan.area_used / 10000).toFixed(2)}
                       />
                     </FormGroup>
                   </div>
@@ -484,7 +492,7 @@ class NewFieldCropModal extends React.Component {
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     disabled={true}
-                    value={this.state.fieldCrop.area_used}
+                    value={this.state.managementPlan.area_used}
                   />
                 </FormGroup>
 
@@ -493,20 +501,20 @@ class NewFieldCropModal extends React.Component {
                 </h4>
                 <FormGroup
                   controlId="start_date"
-                  validationState={this.validateHasDate(this.state.fieldCrop.start_date)}
+                  validationState={this.validateHasDate(this.state.managementPlan.start_date)}
                 >
                   <DateContainer
-                    date={this.state.fieldCrop.start_date}
+                    date={this.state.managementPlan.start_date}
                     onDateChange={this.onStartDateChange}
                     placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_START_DATE')}
                   />
                 </FormGroup>
                 <FormGroup
                   controlId="end_date"
-                  validationState={this.validateHasDate(this.state.fieldCrop.end_date)}
+                  validationState={this.validateHasDate(this.state.managementPlan.end_date)}
                 >
                   <DateContainer
-                    date={this.state.fieldCrop.end_date}
+                    date={this.state.managementPlan.end_date}
                     onDateChange={this.onEndDateChange}
                     placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_END_DATE')}
                   />
@@ -518,7 +526,7 @@ class NewFieldCropModal extends React.Component {
                   </h4>
                   <FormGroup
                     validationState={this.validateNotEmptyLength(
-                      this.state.fieldCrop.estimated_price,
+                      this.state.managementPlan.estimated_price,
                     )}
                     controlId="estimated_price"
                   >
@@ -528,8 +536,8 @@ class NewFieldCropModal extends React.Component {
                       placeholder={`${this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRICE')} (${
                         this.state.currencySymbol
                       }/${this.state.estimated_unit})`}
-                      value={this.state.fieldCrop.estimated_price}
-                      onChange={(e) => this.handleFieldCropPropertiesChange(e)}
+                      value={this.state.managementPlan.estimated_price}
+                      onChange={(e) => this.handleManagementPlanPropertiesChange(e)}
                     />
                   </FormGroup>
                 </div>
@@ -551,7 +559,7 @@ class NewFieldCropModal extends React.Component {
                   <FormGroup
                     controlId="estimated_yield"
                     validationState={this.validateNotEmptyLength(
-                      this.state.fieldCrop.estimated_yield,
+                      this.state.managementPlan.estimated_yield,
                     )}
                   >
                     <FormControl
@@ -560,8 +568,8 @@ class NewFieldCropModal extends React.Component {
                       placeholder={this.props.t(
                         'FIELDS.EDIT_FIELD.CROP.ESTIMATED_YIELD_PLACEHOLDER',
                       )}
-                      value={this.state.fieldCrop.estimated_yield}
-                      onChange={(e) => this.handleFieldCropPropertiesChange(e)}
+                      value={this.state.managementPlan.estimated_yield}
+                      onChange={(e) => this.handleManagementPlanPropertiesChange(e)}
                     />
                   </FormGroup>
                 </div>
@@ -604,4 +612,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewFieldCropModal));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withTranslation()(NewManagementPlanModal));

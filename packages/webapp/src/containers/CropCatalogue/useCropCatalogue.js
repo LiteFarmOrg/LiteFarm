@@ -1,9 +1,9 @@
 import {
-  fieldCropsSelector,
-  getCurrentFieldCrops,
-  getExpiredFieldCrops,
-  getPlannedFieldCrops,
-} from '../fieldCropSlice';
+  getCurrentManagementPlans,
+  getExpiredManagementPlans,
+  getPlannedManagementPlans,
+  managementPlansSelector,
+} from '../managementPlanSlice';
 import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
@@ -19,61 +19,66 @@ import {
 import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {
-  const fieldCrops = useSelector(fieldCropsSelector);
+  const managementPlans = useSelector(managementPlansSelector);
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
-  const fieldCropsFilteredByFilterString = useStringFilteredCrops(fieldCrops, filterString);
+  const managementPlansFilteredByFilterString = useStringFilteredCrops(
+    managementPlans,
+    filterString,
+  );
 
-  const fieldCropsFilteredByLocations = useMemo(() => {
+  const managementPlansFilteredByLocations = useMemo(() => {
     const locationFilter = cropCatalogueFilter[LOCATION];
     const included = new Set();
     for (const location_id in locationFilter) {
       if (locationFilter[location_id]) included.add(location_id);
     }
-    if (included.size === 0) return fieldCropsFilteredByFilterString;
-    return fieldCropsFilteredByFilterString.filter((fieldCrop) =>
-      included.has(fieldCrop.location_id),
+    if (included.size === 0) return managementPlansFilteredByFilterString;
+    return managementPlansFilteredByFilterString.filter((managementPlan) =>
+      included.has(managementPlan.location_id),
     );
-  }, [cropCatalogueFilter[LOCATION], fieldCropsFilteredByFilterString]);
+  }, [cropCatalogueFilter[LOCATION], managementPlansFilteredByFilterString]);
 
-  const fieldCropsFilteredBySuppliers = useMemo(() => {
+  const managementPlansFilteredBySuppliers = useMemo(() => {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];
     const included = new Set();
     for (const supplier in supplierFilter) {
       if (supplierFilter[supplier]) included.add(supplier);
     }
-    if (included.size === 0) return fieldCropsFilteredByLocations;
-    return fieldCropsFilteredByLocations.filter((fieldCrop) => included.has(fieldCrop.supplier));
-  }, [cropCatalogueFilter[SUPPLIERS], fieldCropsFilteredByLocations]);
+    if (included.size === 0) return managementPlansFilteredByLocations;
+    return managementPlansFilteredByLocations.filter((managementPlan) =>
+      included.has(managementPlan.supplier),
+    );
+  }, [cropCatalogueFilter[SUPPLIERS], managementPlansFilteredByLocations]);
 
   const cropCatalogue = useMemo(() => {
     const time = new Date(cropCatalogFilterDate).getTime();
-    const fieldCropsByStatus = {
-      active: getCurrentFieldCrops(fieldCropsFilteredBySuppliers, time),
-      planned: getPlannedFieldCrops(fieldCropsFilteredBySuppliers, time),
-      past: getExpiredFieldCrops(fieldCropsFilteredBySuppliers, time),
+    const managementPlansByStatus = {
+      active: getCurrentManagementPlans(managementPlansFilteredBySuppliers, time),
+      planned: getPlannedManagementPlans(managementPlansFilteredBySuppliers, time),
+      past: getExpiredManagementPlans(managementPlansFilteredBySuppliers, time),
     };
-    const fieldCropsByCropId = {};
-    for (const status in fieldCropsByStatus) {
-      for (const fieldCrop of fieldCropsByStatus[status]) {
-        if (!fieldCropsByCropId.hasOwnProperty(fieldCrop.crop_id)) {
-          fieldCropsByCropId[fieldCrop.crop_id] = {
+    const managementPlansByCropId = {};
+    for (const status in managementPlansByStatus) {
+      for (const managementPlan of managementPlansByStatus[status]) {
+        if (!managementPlansByCropId.hasOwnProperty(managementPlan.crop_id)) {
+          managementPlansByCropId[managementPlan.crop_id] = {
             active: [],
             planned: [],
             past: [],
-            crop_common_name: fieldCrop.crop_common_name,
-            crop_translation_key: fieldCrop.crop_translation_key,
-            imageKey: fieldCrop.crop_translation_key?.toLowerCase(),
-            crop_id: fieldCrop.crop_id,
-            crop_photo_url: fieldCrop.crop_photo_url,
+            crop_common_name: managementPlan.crop_common_name,
+            crop_translation_key: managementPlan.crop_translation_key,
+            imageKey: managementPlan.crop_translation_key?.toLowerCase(),
+            crop_id: managementPlan.crop_id,
+            crop_photo_url: managementPlan.crop_photo_url,
           };
         }
 
-        fieldCropsByCropId[fieldCrop.crop_id][status].push(fieldCrop);
+        managementPlansByCropId[managementPlan.crop_id][status].push(managementPlan);
       }
     }
-    return Object.values(fieldCropsByCropId);
-  }, [fieldCropsFilteredBySuppliers, cropCatalogFilterDate]);
+    return Object.values(managementPlansByCropId);
+  }, [managementPlansFilteredBySuppliers, cropCatalogFilterDate]);
 
   const cropCatalogueFilteredByStatus = useMemo(() => {
     const statusFilter = cropCatalogueFilter[STATUS];
@@ -95,9 +100,9 @@ export default function useCropCatalogue(filterString) {
 
   const cropCataloguesStatus = useMemo(() => {
     const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
-    for (const fieldCropsByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in fieldCropsByStatus) {
-        cropCataloguesStatus[status] += fieldCropsByStatus[status].length;
+    for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
+      for (const status in managementPlansByStatus) {
+        cropCataloguesStatus[status] += managementPlansByStatus[status].length;
       }
     }
     return {

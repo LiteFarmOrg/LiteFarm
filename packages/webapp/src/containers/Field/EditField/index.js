@@ -5,22 +5,22 @@ import styles from './styles.module.scss';
 import parentStyles from '../styles.module.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
-import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
-import { deleteField, deleteFieldCrop, getExpiredFieldCrops } from '../saga';
-import { getFieldCropsByDate, getLocations } from '../../saga';
+import NewManagementPlanModal from '../../../components/Forms/NewManagementPlanModal/';
+import { deleteField, deleteManagementPlan, getExpiredManagementPlans } from '../saga';
+import { getLocations, getManagementPlansByDate } from '../../saga';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
-import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/EditFieldCropModal';
+import EditManagementPlanModal from '../../../components/Forms/EditManagementPlanModal/EditManagementPlanModal';
 import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { putField } from './saga';
 import {
-  currentAndPlannedFieldCropsSelector,
-  expiredFieldCropsSelector,
-} from '../../fieldCropSlice';
+  currentAndPlannedManagementPlansSelector,
+  expiredManagementPlansSelector,
+} from '../../managementPlanSlice';
 import { withTranslation } from 'react-i18next';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
@@ -38,11 +38,11 @@ class EditField extends Component {
     this.state = {
       fieldId: null,
       selectedField: null,
-      selectedFieldCrops: [],
-      selectedExpiredFieldCrops: [],
-      selectedFieldCrop: null,
+      selectedManagementPlans: [],
+      selectedExpiredManagementPlans: [],
+      selectedManagementPlan: null,
       fieldArea: 0,
-      showDeleteFieldCropModal: false, // for confirming deleting a crop
+      showDeleteManagementPlanModal: false, // for confirming deleting a crop
       showDeleteFieldModal: false,
       showFieldNameModal: false,
       area_unit: getUnit(this.props.farm, 'm2', 'ft2'),
@@ -59,27 +59,27 @@ class EditField extends Component {
   }
 
   handleAddCrop() {
-    this.props.dispatch(getFieldCropsByDate());
-    this.props.dispatch(getExpiredFieldCrops());
+    this.props.dispatch(getManagementPlansByDate());
+    this.props.dispatch(getExpiredManagementPlans());
   }
 
   handleDeleteCrop(id) {
-    this.setState({ showDeleteFieldCropModal: true });
-    this.setState({ selectedFieldCrop: id });
+    this.setState({ showDeleteManagementPlanModal: true });
+    this.setState({ selectedManagementPlan: id });
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.fieldCrops !== prevProps.fieldCrops) {
-      const fieldCrops = this.props.fieldCrops.filter(
-        (fieldCrop) => fieldCrop.field_id === this.state.fieldId,
+    if (this.props.managementPlans !== prevProps.managementPlans) {
+      const managementPlans = this.props.managementPlans.filter(
+        (managementPlan) => managementPlan.field_id === this.state.fieldId,
       );
-      this.setState({ selectedFieldCrops: fieldCrops });
+      this.setState({ selectedManagementPlans: managementPlans });
     }
-    if (this.props.expiredFieldCrops !== prevProps.expiredFieldCrops) {
-      const expiredFieldCrops = this.props.expiredFieldCrops.filter(
-        (fieldCrop) => fieldCrop.field_id === this.state.fieldId,
+    if (this.props.expiredManagementPlans !== prevProps.expiredManagementPlans) {
+      const expiredManagementPlans = this.props.expiredManagementPlans.filter(
+        (managementPlan) => managementPlan.field_id === this.state.fieldId,
       );
-      this.setState({ selectedExpiredFieldCrops: expiredFieldCrops });
+      this.setState({ selectedExpiredManagementPlans: expiredManagementPlans });
     }
     if (this.props.fields !== prevProps.fields) {
       const field = this.props.fields.filter((field) => field.field_id === this.state.fieldId)[0];
@@ -92,8 +92,8 @@ class EditField extends Component {
 
   componentDidMount() {
     this.props.dispatch(getLocations());
-    this.props.dispatch(getFieldCropsByDate());
-    this.props.dispatch(getExpiredFieldCrops());
+    this.props.dispatch(getManagementPlansByDate());
+    this.props.dispatch(getExpiredManagementPlans());
     const urlVars = window.location.search.substring(1).split('&');
     const fieldId = urlVars[0];
     this.setState({
@@ -210,7 +210,7 @@ class EditField extends Component {
           backUrl="/field"
         />
         {hasPermissionToEdit && (
-          <NewFieldCropModal
+          <NewManagementPlanModal
             handler={() => {}}
             field={this.state.selectedField}
             fieldArea={this.state.fieldArea}
@@ -257,10 +257,11 @@ class EditField extends Component {
             <sup>2</sup>
           </p>
           <p>
-            {this.props.t('FIELDS.EDIT_FIELD.NUMBER_CROPS')}: {this.state.selectedFieldCrops.length}
+            {this.props.t('FIELDS.EDIT_FIELD.NUMBER_CROPS')}:{' '}
+            {this.state.selectedManagementPlans.length}
           </p>
           <div style={{ height: '80%' }}>
-            {this.state.selectedFieldCrops.map((crop, index) => (
+            {this.state.selectedManagementPlans.map((crop, index) => (
               <Card key={index} border={'success'}>
                 <Card.Header className={styles.cardHeaderSuccess} as="h3">
                   <div>
@@ -276,7 +277,7 @@ class EditField extends Component {
 
                   {hasPermissionToEdit && (
                     <div className={styles.inlineButtonContainer}>
-                      <EditFieldCropModal
+                      <EditManagementPlanModal
                         cropBeingEdited={crop}
                         handler={() => {}}
                         field={this.state.selectedField}
@@ -285,7 +286,7 @@ class EditField extends Component {
                       <div className={styles.deleteButton}>
                         <Button
                           onClick={() => {
-                            this.handleDeleteCrop(crop.field_crop_id);
+                            this.handleDeleteCrop(crop.management_plan_id);
                           }}
                           style={{ padding: '0 24px' }}
                         >
@@ -335,9 +336,9 @@ class EditField extends Component {
             ))}
             <p>
               {this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_EXPIRED')}:{' '}
-              {this.state.selectedExpiredFieldCrops.length}
+              {this.state.selectedExpiredManagementPlans.length}
             </p>
-            {this.state.selectedExpiredFieldCrops.map((crop, index) => (
+            {this.state.selectedExpiredManagementPlans.map((crop, index) => (
               <Card key={index}>
                 <Card.Header className={styles.panelHeading} as="h3">
                   <div>
@@ -352,7 +353,7 @@ class EditField extends Component {
                   </div>
                   {hasPermissionToEdit && (
                     <div className={styles.inlineButtonContainer}>
-                      <EditFieldCropModal
+                      <EditManagementPlanModal
                         cropBeingEdited={crop}
                         handler={() => {}}
                         field={this.state.selectedField}
@@ -361,7 +362,7 @@ class EditField extends Component {
                       <div className={styles.deleteButton}>
                         <Button
                           onClick={() => {
-                            this.handleDeleteCrop(crop.field_crop_id);
+                            this.handleDeleteCrop(crop.management_plan_id);
                           }}
                         >
                           {this.props.t('common:DELETE')}
@@ -410,11 +411,11 @@ class EditField extends Component {
             ))}
           </div>
           <ConfirmModal
-            open={this.state.showDeleteFieldCropModal}
-            onClose={() => this.setState({ showDeleteFieldCropModal: false })}
+            open={this.state.showDeleteManagementPlanModal}
+            onClose={() => this.setState({ showDeleteManagementPlanModal: false })}
             onConfirm={() => {
-              this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop));
-              this.setState({ showDeleteFieldCropModal: false });
+              this.props.dispatch(deleteManagementPlan(this.state.selectedManagementPlan));
+              this.setState({ showDeleteManagementPlanModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
           />
@@ -436,8 +437,8 @@ class EditField extends Component {
             </Modal.Footer>
           </Modal>
         </div>
-        {this.state.selectedFieldCrops.length === 0 &&
-          this.state.selectedExpiredFieldCrops.length === 0 && (
+        {this.state.selectedManagementPlans.length === 0 &&
+          this.state.selectedExpiredManagementPlans.length === 0 && (
             <>
               <div className={styles.deleteField}>
                 <button onClick={() => this.setState({ showDeleteFieldModal: true })}>
@@ -460,9 +461,9 @@ class EditField extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
-    expiredFieldCrops: expiredFieldCropsSelector(state),
+    expiredManagementPlans: expiredManagementPlansSelector(state),
   };
 };
 

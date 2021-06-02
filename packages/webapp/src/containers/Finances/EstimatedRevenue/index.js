@@ -7,8 +7,8 @@ import moment from 'moment';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
-import { getFieldCrops } from '../../saga';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
+import { getManagementPlans } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EstimatedRevenue extends Component {
@@ -36,7 +36,7 @@ class EstimatedRevenue extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getFieldCrops());
+    this.props.dispatch(getManagementPlans());
   }
 
   changeDate(type, date) {
@@ -50,11 +50,11 @@ class EstimatedRevenue extends Component {
   }
 
   // format data to insert into revenue table
-  formatData(fieldCrops) {
+  formatData(managementPlans) {
     // let visited = [];
     let totalRevenue = 0;
     let cropRevenueMap = {};
-    fieldCrops.forEach((f) => {
+    managementPlans.forEach((f) => {
       // check if this field crop existed during this year
       const endDate = new Date(f.end_date);
       // get all field crops with end dates belonging to the chosen year
@@ -87,8 +87,8 @@ class EstimatedRevenue extends Component {
   }
 
   render() {
-    const fieldCrops = this.props.fieldCrops || [];
-    this.formatData(fieldCrops);
+    const managementPlans = this.props.managementPlans || [];
+    this.formatData(managementPlans);
 
     // columns config for Summary Table
     const revenueColumns = [
@@ -103,7 +103,11 @@ class EstimatedRevenue extends Component {
         id: 'estimatedRevenue',
         Header: this.props.t('SALE.LABOUR.TABLE.EST_REVENUE'),
         accessor: 'estimated_revenue',
-        Cell: (d) => <span>{`${this.state.currencySymbol}${d.value ? d.value.toFixed(2).toString() : ''}`}</span>,
+        Cell: (d) => (
+          <span>{`${this.state.currencySymbol}${
+            d.value ? d.value.toFixed(2).toString() : ''
+          }`}</span>
+        ),
         minWidth: 75,
         Footer: (
           <div>
@@ -125,7 +129,7 @@ class EstimatedRevenue extends Component {
         <DateRangeSelector changeDateMethod={this.changeDate} hideTooltip />
         <Table
           columns={revenueColumns}
-          data={this.formatData(fieldCrops)}
+          data={this.formatData(managementPlans)}
           showPagination={true}
           pageSizeOptions={[10, 20, 50]}
           defaultPageSize={10}
@@ -139,7 +143,7 @@ class EstimatedRevenue extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
   };
 };

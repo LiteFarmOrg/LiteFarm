@@ -1,21 +1,21 @@
 import React from 'react';
-import PureFieldCropTile from '../../components/CropTile/FieldCropTile';
+import PureManagementPlanTile from '../../components/CropTile/ManagementPlanTile';
 import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/CropTile/FieldCropTile',
-  component: PureFieldCropTile,
+  title: 'Components/CropTile/ManagementPlanTile',
+  component: PureManagementPlanTile,
   decorators: componentDecorators,
 };
 
 const Template = (args) => (
   <div style={{ height: '140px' }}>
-    <PureFieldCropTile {...args} />
+    <PureManagementPlanTile {...args} />
   </div>
 );
 export const Active = Template.bind({});
 Active.args = {
-  fieldCrop: {
+  managementPlan: {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
@@ -26,7 +26,7 @@ Active.args = {
 
 export const Planned = Template.bind({});
 Planned.args = {
-  fieldCrop: {
+  managementPlan: {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
@@ -37,7 +37,7 @@ Planned.args = {
 
 export const Past = Template.bind({});
 Past.args = {
-  fieldCrop: {
+  managementPlan: {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',

@@ -49,7 +49,7 @@ import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
-import fieldCropReducer from '../containers/fieldCropSlice';
+import managementPlanReducer from '../containers/managementPlanSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
@@ -132,7 +132,7 @@ const entitiesReducer = combineReducers({
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
-  fieldCropReducer,
+  managementPlanReducer,
   weatherReducer,
   barnReducer,
   ceremonialReducer,

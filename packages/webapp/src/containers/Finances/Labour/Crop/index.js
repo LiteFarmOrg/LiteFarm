@@ -24,7 +24,7 @@ const reformatByCropID = (final) => {
           crop_id: final[fk].crop_id,
           profit: final[fk].profit,
           duration: final[fk].duration,
-          field_crop_id: final[fk].field_crop_id,
+          management_plan_id: final[fk].management_plan_id,
         },
       });
     }
@@ -33,34 +33,34 @@ const reformatByCropID = (final) => {
   return result;
 };
 
-const getCropsByFieldID = (location_id, fieldCrops) => {
+const getCropsByFieldID = (location_id, managementPlans) => {
   let result = new Set();
 
-  for (let fc of fieldCrops) {
+  for (let fc of managementPlans) {
     if (fc.location_id === location_id) {
-      result.add(fc.field_crop_id);
+      result.add(fc.management_plan_id);
     }
   }
 
   return Array.from(result);
 };
 
-const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
+const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) => {
   let data = [];
   const { t } = useTranslation(['translation', 'crop']);
   let final = Object.assign({}, {}); // crop: crop name, profit: number
-  for (let fc of fieldCrops) {
+  for (let fc of managementPlans) {
     const range1 = moment.range(startDate, endDate);
     const range2 = moment.range(moment(fc.start_date), moment(fc.end_date));
     if (range1.overlaps(range2)) {
       final = Object.assign(final, {
-        [fc.field_crop_id]: {
+        [fc.management_plan_id]: {
           crop: fc.crop_translation_key,
           location_id: fc.location_id,
           crop_id: fc.crop_id,
           profit: 0,
           duration: 0,
-          field_crop_id: fc.field_crop_id,
+          management_plan_id: fc.management_plan_id,
         },
       });
     }
@@ -70,23 +70,24 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
 
   if (shifts && shifts.length) {
     for (let s of shifts) {
-      let field_crop_id = s.field_crop_id;
+      let management_plan_id = s.management_plan_id;
       if (
         moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
         moment(s.shift_date).isSameOrBefore(moment(endDate))
       ) {
-        if (field_crop_id !== null) {
-          if (final.hasOwnProperty(field_crop_id)) {
-            final[field_crop_id].profit =
-              final[field_crop_id].profit +
+        if (management_plan_id !== null) {
+          if (final.hasOwnProperty(management_plan_id)) {
+            final[management_plan_id].profit =
+              final[management_plan_id].profit +
               Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1;
-            final[field_crop_id].duration = final[field_crop_id].duration + Number(s.duration);
+            final[management_plan_id].duration =
+              final[management_plan_id].duration + Number(s.duration);
           } else {
-            final[field_crop_id] = {
+            final[management_plan_id] = {
               crop: s.crop_translation_key,
               profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
               duration: Number(s.duration),
-              field_crop_id: field_crop_id,
+              management_plan_id: management_plan_id,
               crop_id: s.crop_id,
               location_id: s.location_id,
             };
@@ -119,7 +120,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   for (let uk of ukeys) {
     let uShift = unAllocatedShifts[uk];
 
-    let waitForAllocate = getCropsByFieldID(uk, fieldCrops);
+    let waitForAllocate = getCropsByFieldID(uk, managementPlans);
 
     let avg = Number(parseFloat(uShift.value / waitForAllocate.length).toFixed(2));
 

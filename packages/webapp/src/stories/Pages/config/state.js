@@ -9977,11 +9977,11 @@ export default {
       error: null,
       loaded: true,
     },
-    fieldCropReducer: {
+    managementPlanReducer: {
       ids: [145, 144, 143, 142, 141, 140, 139, 138, 137, 136, 135, 134],
       entities: {
         134: {
-          field_crop_id: 134,
+          management_plan_id: 134,
           crop_id: 167,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -9994,7 +9994,7 @@ export default {
           bed_config: null,
         },
         135: {
-          field_crop_id: 135,
+          management_plan_id: 135,
           crop_id: 142,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10007,7 +10007,7 @@ export default {
           bed_config: null,
         },
         136: {
-          field_crop_id: 136,
+          management_plan_id: 136,
           crop_id: 142,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-13T07:00:00.000Z',
@@ -10020,7 +10020,7 @@ export default {
           bed_config: null,
         },
         137: {
-          field_crop_id: 137,
+          management_plan_id: 137,
           crop_id: 81,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10033,7 +10033,7 @@ export default {
           bed_config: null,
         },
         138: {
-          field_crop_id: 138,
+          management_plan_id: 138,
           crop_id: 25,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10046,7 +10046,7 @@ export default {
           bed_config: null,
         },
         139: {
-          field_crop_id: 139,
+          management_plan_id: 139,
           crop_id: 31,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10059,7 +10059,7 @@ export default {
           bed_config: null,
         },
         140: {
-          field_crop_id: 140,
+          management_plan_id: 140,
           crop_id: 147,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10072,7 +10072,7 @@ export default {
           bed_config: null,
         },
         141: {
-          field_crop_id: 141,
+          management_plan_id: 141,
           crop_id: 147,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10085,7 +10085,7 @@ export default {
           bed_config: null,
         },
         142: {
-          field_crop_id: 142,
+          management_plan_id: 142,
           crop_id: 66,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10098,7 +10098,7 @@ export default {
           bed_config: null,
         },
         143: {
-          field_crop_id: 143,
+          management_plan_id: 143,
           crop_id: 82,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2021-04-14T17:10:00.145Z',
@@ -10111,7 +10111,7 @@ export default {
           bed_config: null,
         },
         144: {
-          field_crop_id: 144,
+          management_plan_id: 144,
           crop_id: 82,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2020-04-14T07:00:00.000Z',
@@ -10124,7 +10124,7 @@ export default {
           bed_config: null,
         },
         145: {
-          field_crop_id: 145,
+          management_plan_id: 145,
           crop_id: 82,
           location_id: '3da7abb4-9d44-11eb-bbf7-1bc17302df43',
           start_date: '2025-04-28T07:00:00.000Z',

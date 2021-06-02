@@ -7,12 +7,12 @@ import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox'
 import { AddLink, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
-import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice';
+import { cropsWithVarietyWithoutManagementPlanSelector } from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { getCrops, getCropVarieties, getFieldCrops } from '../saga';
+import { getCrops, getCropVarieties, getManagementPlans } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
@@ -49,7 +49,7 @@ export default function CropCatalogue({ history }) {
   useEffect(() => {
     dispatch(getCropVarieties());
     dispatch(getCrops());
-    dispatch(getFieldCrops());
+    dispatch(getManagementPlans());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);

@@ -14,7 +14,7 @@ import { deleteLog, editLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
@@ -67,8 +67,8 @@ class OtherLog extends Component {
       value: f.location_id,
       label: f.name,
     }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
-      value: fc.field_crop_id,
+    const selectedCrops = selectedLog.managementPlan.map((fc) => ({
+      value: fc.management_plan_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       location_id: fc.location_id,
     }));
@@ -76,7 +76,8 @@ class OtherLog extends Component {
     return (
       <div className="page-container">
         <PageTitle
-          onGoBack={() => this.props.history.push('/log')} style={{ paddingBottom: '24px' }}
+          onGoBack={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
           title={`${this.props.t('LOG_COMMON.EDIT_A_LOG')}`}
         />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_OTHER.TITLE')}</Semibold>
@@ -84,10 +85,9 @@ class OtherLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.otherLog)}
         >
@@ -101,7 +101,11 @@ class OtherLog extends Component {
             notesField={true}
             isCropNotRequired={true}
           />
-          <LogFooter edit={true} disabled={!this.props.formState.$form.valid} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter
+            edit={true}
+            disabled={!this.props.formState.$form.valid}
+            onClick={() => this.setState({ showModal: true })}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -116,11 +120,11 @@ class OtherLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    formState: otherLogStateSelector(state)
+    formState: otherLogStateSelector(state),
   };
 };
 

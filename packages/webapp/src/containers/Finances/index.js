@@ -29,8 +29,8 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
-import { getFieldCrops } from '../saga';
+import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
+import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
@@ -89,7 +89,7 @@ class Finances extends Component {
     this.props.dispatch(getShifts());
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
-    this.props.dispatch(getFieldCrops());
+    this.props.dispatch(getManagementPlans());
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({
@@ -129,10 +129,10 @@ class Finances extends Component {
     }
   }
 
-  getEstimatedRevenue(fieldCrops) {
+  getEstimatedRevenue(managementPlans) {
     let totalRevenue = 0;
-    if (fieldCrops) {
-      fieldCrops.forEach((f) => {
+    if (managementPlans) {
+      managementPlans.forEach((f) => {
         // check if this field crop existed during this year
         const endDate = new Date(f.end_date);
 
@@ -182,23 +182,23 @@ class Finances extends Component {
 
     if (shifts && shifts.length) {
       for (let s of shifts) {
-        let field_crop_id = s.field_crop_id;
+        let management_plan_id = s.management_plan_id;
         if (
           moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
           moment(s.shift_date).isSameOrBefore(moment(endDate))
         ) {
-          if (field_crop_id !== null) {
-            if (final.hasOwnProperty(field_crop_id)) {
-              final[field_crop_id].profit =
-                final[field_crop_id].profit +
+          if (management_plan_id !== null) {
+            if (final.hasOwnProperty(management_plan_id)) {
+              final[management_plan_id].profit =
+                final[management_plan_id].profit +
                 Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1;
             } else {
-              final[field_crop_id] = {
+              final[management_plan_id] = {
                 profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
                 crop_translation_key: s.crop_translation_key,
                 location_id: s.location_id,
                 crop_id: s.crop_id,
-                field_crop_id: s.field_crop_id,
+                management_plan_id: s.management_plan_id,
               };
             }
           }
@@ -280,11 +280,11 @@ class Finances extends Component {
   }
 
   getCropsByFieldID = (location_id) => {
-    const { fieldCrops } = this.props;
+    const { managementPlans } = this.props;
 
     let result = new Set();
 
-    for (let fc of fieldCrops) {
+    for (let fc of managementPlans) {
       if (fc.location_id === location_id) {
         result.add(fc.crop_id);
       }
@@ -367,7 +367,7 @@ class Finances extends Component {
 
   render() {
     const totalRevenue = this.getRevenue();
-    const estimatedRevenue = this.getEstimatedRevenue(this.props.fieldCrops);
+    const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { shifts, expenses } = this.props;
     const {
       balanceByCrop,
@@ -550,7 +550,7 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
     expenses: expenseSelector(state),
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
   };

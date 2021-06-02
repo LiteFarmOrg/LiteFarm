@@ -11,9 +11,9 @@ import { loginSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 
 import { getDuration } from './../../../util/index';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
-import { cropLocationEntitiesSelector, locationsSelector } from '../../locationSlice';
+import { locationsSelector } from '../../locationSlice';
 import ScrollToTop from '../../hooks/ScrollToTop';
 
 class MyShift extends Component {
@@ -67,7 +67,7 @@ class MyShift extends Component {
           }
         }
       } else {
-        let thisCrop = this.getCropName(task.field_crop_id);
+        let thisCrop = this.getCropName(task.management_plan_id);
         if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({
@@ -119,10 +119,10 @@ class MyShift extends Component {
   }
 
   // get crop now, not just name
-  getCropName(field_crop_id) {
+  getCropName(management_plan_id) {
     const crops = this.props.crops || [];
     for (let crop of crops) {
-      if (crop.field_crop_id === field_crop_id) {
+      if (crop.management_plan_id === management_plan_id) {
         return crop;
       }
     }
@@ -236,7 +236,7 @@ const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
     locations: locationsSelector(state),
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),

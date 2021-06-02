@@ -26,7 +26,7 @@ export default function RadioGroup({
     name,
     control: hookFormControl,
     rules: { validate },
-    shouldUnregister: true,
+    shouldUnregister,
   });
   useEffect(() => {
     if (!props.disabled) {
@@ -102,13 +102,14 @@ export default function RadioGroup({
           <Radio
             name={name}
             key={radioOptions.value}
+            checked={field.value === radioOptions.value}
             onChange={(e) => {
-              field?.onChange?.(e);
-              onChange?.(e);
+              field?.onChange?.(radioOptions.value);
+              onChange?.({ target: { value: radioOptions.value } });
             }}
             onBlur={(e) => {
-              field?.onBlur?.(e);
-              onBlur?.(e);
+              field?.onBlur?.(radioOptions.value);
+              onBlur?.({ target: { value: radioOptions.value } });
             }}
             inputRef={field.ref}
             value={field.value}

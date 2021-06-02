@@ -2,7 +2,7 @@ import Layout from '../Layout';
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
 import React from 'react';
-import { Semibold, Underlined } from '../Typography';
+import { Semibold, AddLink } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 function PureCropManagement({ history, match, onBack, variety }) {
@@ -26,7 +26,14 @@ function PureCropManagement({ history, match, onBack, variety }) {
         ]}
       />
       <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
-      <Underlined>+ {t('CROP_DETAIL.ADD_PLAN')}</Underlined>
+      <AddLink
+        onClick={() => {
+          history.push(`/crop/${match.params.variety_id}/add_management_plan`);
+        }}
+      >
+        {' '}
+        {t('CROP_DETAIL.ADD_PLAN')}
+      </AddLink>
     </Layout>
   );
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import PureCropDetail from '../../components/Crop/detail';
-import { componentDecorators } from '../Pages/config/decorators';
+import PureCropDetail from '../../../components/Crop/detail';
+import decorator from '../config/decorators';
 
 export default {
   title: 'Form/Crop/Detail',
   component: PureCropDetail,
-  decorators: componentDecorators,
+  decorators: decorator,
 };
 
 const Template = (args) => <PureCropDetail {...args} />;

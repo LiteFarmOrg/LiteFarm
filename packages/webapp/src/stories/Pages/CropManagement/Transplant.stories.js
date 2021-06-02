@@ -17,6 +17,8 @@ Default.args = {
   onSubmit: (data) => {
     console.log(data);
   },
+  onGoBack: () => {},
+  onCancel: () => {},
 };
 
 export const CoverCrop = Template.bind({});
@@ -29,4 +31,6 @@ CoverCrop.args = {
   onSubmit: (data) => {
     console.log(data);
   },
+  onGoBack: () => {},
+  onCancel: () => {},
 };

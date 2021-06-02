@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../Typography';
 import Input from '../Form/Input';
-import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
-import ProgressBar from '../../components/ProgressBar';
 import Form from '../Form';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
@@ -28,6 +26,7 @@ import {
 } from './constants';
 import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';
+import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -84,19 +83,13 @@ export default function PureAddNewCrop({
       }
       onSubmit={handleSubmit(handleContinue)}
     >
-      <PageTitle
+      <MultiStepPageTitle
+        style={{ marginBottom: '24px' }}
         onGoBack={handleGoBack}
         onCancel={handleCancel}
-        title={'Add a new crop'} //TODO: i18n
+        title={t('CROP.ADD_CROP')}
+        value={progress}
       />
-      <div
-        style={{
-          marginBottom: '24px',
-          marginTop: '8px',
-        }}
-      >
-        <ProgressBar value={progress} />
-      </div>
 
       <Input
         style={{ marginBottom: '40px' }}

@@ -40,7 +40,7 @@ const insightController = {
                 FROM "harvestUse" hu 
                 JOIN "activityLog" al ON hu.activity_id = al.activity_id
                 JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
-                JOIN "management_plan" mp ON mp.field_crop_id = ac.field_crop_id
+                JOIN "management_plan" mp ON mp.management_plan_id = ac.management_plan_id
                 JOIN "location" ON mp.location_id = location.location_id
                 JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
                 JOIN "crop" c ON mp.crop_id = c.crop_id
@@ -177,11 +177,11 @@ const insightController = {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key, mp.field_crop_id, l.location_id
+          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key, mp.management_plan_id, l.location_id
           FROM "shiftTask" st
             JOIN "shift" s ON s.shift_id = st.shift_id
             JOIN "taskType" t ON st.task_id = t.task_id
-            LEFT JOIN "management_plan" mp ON mp.field_crop_id = st.field_crop_id
+            LEFT JOIN "management_plan" mp ON mp.management_plan_id = st.management_plan_id
             LEFT JOIN "location" l ON l.location_id = st.location_id
             WHERE s.farm_id = ?
               and s.mood != 'na'

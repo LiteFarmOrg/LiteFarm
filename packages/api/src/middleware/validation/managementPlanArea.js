@@ -23,7 +23,7 @@ async function validateManagementPlanArea(req, res, next) {
       .whereNotDeleted().findById(req.body.location_id)
       .withGraphJoined('figure.[area, line]');
   } else {
-    const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(req.params.field_crop_id)
+    const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(req.params.management_plan_id)
       .withGraphFetched(`[location.[
           figure.[area, line]]]`);
     location = managementPlan?.location;

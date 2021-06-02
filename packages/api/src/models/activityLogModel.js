@@ -160,9 +160,9 @@ class activityLogModel extends BaseModel {
           through: {
             modelClass: require('./activityCropsModel'),
             from: 'activityCrops.activity_id',
-            to: 'activityCrops.field_crop_id',
+            to: 'activityCrops.management_plan_id',
           },
-          to: 'managementPlan.field_crop_id',
+          to: 'managementPlan.management_plan_id',
         },
 
       },

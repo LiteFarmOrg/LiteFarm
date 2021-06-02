@@ -43,7 +43,7 @@ const checkOwnership = (relation) => {
       case 'managementPlan':
         sqlQuery = `SELECT DISTINCT u.user_id
         FROM "${relation}" r, "users" u, "field" f
-        WHERE u.user_id = '${user_id}' AND r.field_crop_id = '${id}' AND f.field_id = r.field_id AND f.farm_id = u.farm_id`;
+        WHERE u.user_id = '${user_id}' AND r.management_plan_id = '${id}' AND f.field_id = r.field_id AND f.farm_id = u.farm_id`;
         break;
       case 'nitrogenSchedule':
         sqlQuery = `SELECT DISTINCT u.user_id

@@ -118,7 +118,7 @@ const outputNitrogenForFarm = async (farmID) => {
   const dataPoints = await knex.raw(`
   SELECT h.quantity_kg, c.crop_id, c.crop_common_name, c.percentrefuse, c.protein, fc.location_id
   FROM "harvestLog" h, "activityLog" a, "users" u, "activityCrops" ac, "nitrogenSchedule" n, "crop" c, "managementPlan" fc
-  WHERE h.activity_id = a.activity_id and u.farm_id = ? and ac.activity_id = h.activity_id and date(n.created_at) < date(a.date) and date(n.scheduled_at) >= date(a.date) and fc.field_crop_id = ac.field_crop_id and c.crop_id = fc.crop_id
+  WHERE h.activity_id = a.activity_id and u.farm_id = ? and ac.activity_id = h.activity_id and date(n.created_at) < date(a.date) and date(n.scheduled_at) >= date(a.date) and fc.management_plan_id = ac.management_plan_id and c.crop_id = fc.crop_id
   `, [farmID]);
   const totalNitrogenOutputByField = {};
   if(dataPoints.rows) {

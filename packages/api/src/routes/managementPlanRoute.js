@@ -20,18 +20,18 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const validateManagementPlanArea = require('../middleware/validation/managementPlanArea');
 const validateLocationId = require('../middleware/validation/managementPlanLocationId');
-router.get('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['get:field_crops']), managementPlanController.getManagementPlanByID());
+router.get('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['get:management_plan']), managementPlanController.getManagementPlanByID());
 
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:field_crops']), managementPlanController.getManagementPlanByFarmID());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:management_plan']), managementPlanController.getManagementPlanByFarmID());
 
-router.get('/farm/date/:farm_id/:date', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:field_crops']), managementPlanController.getManagementPlansByDate());
+router.get('/farm/date/:farm_id/:date', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:management_plan']), managementPlanController.getManagementPlansByDate());
 
-router.get('/expired/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:field_crops']), managementPlanController.getExpiredManagementPlans());
+router.get('/expired/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:management_plan']), managementPlanController.getExpiredManagementPlans());
 
-router.post('/', hasFarmAccess({ body: 'location_id' }), checkScope(['add:field_crops']), validateManagementPlanArea, validateLocationId, managementPlanController.addManagementPlan());
+router.post('/', hasFarmAccess({ body: 'location_id' }), checkScope(['add:management_plan']), validateManagementPlanArea, validateLocationId, managementPlanController.addManagementPlan());
 
-router.put('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['edit:field_crops']), validateManagementPlanArea, validateLocationId, managementPlanController.updateManagementPlan());
+router.put('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['edit:management_plan']), validateManagementPlanArea, validateLocationId, managementPlanController.updateManagementPlan());
 
-router.delete('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['delete:field_crops']), managementPlanController.delManagementPlan());
+router.delete('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['delete:management_plan']), managementPlanController.delManagementPlan());
 
 module.exports = router;

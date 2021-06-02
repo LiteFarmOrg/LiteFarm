@@ -3,7 +3,7 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_crop_id: fromManagementPlan,
+  management_plan_id: fromManagementPlan,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
@@ -124,20 +124,20 @@ async function fromActivity(req) {
     if (req.body.crops && req.body.crops.length) {
       managementPlans = [];
       for (const managementPlan of req.body.crops) {
-        if (!managementPlan.field_crop_id) {
+        if (!managementPlan.management_plan_id) {
           return {};
         }
-        managementPlans.push(managementPlan.field_crop_id);
+        managementPlans.push(managementPlan.management_plan_id);
       }
     }
 
     const sameFarm = managementPlans?.length ? await userFarmModel.query()
-        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'managementPlan.field_crop_id')
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'managementPlan.management_plan_id')
         .join('location', 'userFarm.farm_id', 'location.farm_id')
         .join('managementPlan', 'managementPlan.location_id', 'location.location_id')
         .skipUndefined()
         .whereIn('location.location_id', locations)
-        .whereIn('managementPlan.field_crop_id', managementPlans)
+        .whereIn('managementPlan.management_plan_id', managementPlans)
         .where('userFarm.user_id', user_id)
         .where('userFarm.farm_id', farm_id) :
       await userFarmModel.query()
@@ -169,7 +169,7 @@ async function fromActivity(req) {
 }
 
 async function fromManagementPlan(managementPlanId) {
-  const { location_id } = await knex('management_plan').where({ management_plan_id: managementPlanId }).first();
+  const { location_id } = await knex('management_plan').join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').join('location', 'crop_management_plan.location_id', 'location.location_id').where('management_plan.management_plan_id', managementPlanId).first();
   return fromLocation(location_id);
 }
 

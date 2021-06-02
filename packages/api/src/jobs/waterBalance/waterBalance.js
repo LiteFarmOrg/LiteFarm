@@ -248,7 +248,7 @@ const waterBalanceDailyCalc = async (dataPoint) => {
   // TODO: potential approach is to remove references to field (might require putting weather_id to location instead?)
   const dataPoints = await knex.raw(
     `
-    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.location_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, a.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
+    SELECT c.crop_common_name, c.crop_id, fc.management_plan_id, f.location_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, a.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
     FROM "field" f, "crop" c, "location" l, "figure" fig, "area" a,
     "activityLog" al,
     "soilDataLog" sdl, 
@@ -263,13 +263,13 @@ const waterBalanceDailyCalc = async (dataPoint) => {
           and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
       ON w.location_id = fc.location_id and w.crop_id = fc.crop_id
     LEFT JOIN (
-        SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
+        SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.management_plan_id
         FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
         WHERE il.activity_id = ac.activity_id and al.activity_id = il.activity_id
         and to_char(date(al.date), 'YYYY-MM-DD') = ?
-        GROUP BY ac.field_crop_id
+        GROUP BY ac.management_plan_id
         ) il 
-      ON il.field_crop_id = fc.field_crop_id
+      ON il.management_plan_id = fc.management_plan_id
     WHERE fc.location_id = f.location_id
       and l.farm_id = ?
       and f.location_id = l.location_id
@@ -279,7 +279,7 @@ const waterBalanceDailyCalc = async (dataPoint) => {
       and al.activity_id = sdl.activity_id
       and af.location_id = fc.location_id
       and af.activity_id = sdl.activity_id
-    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, a.grid_points, f.location_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
+    GROUP BY c.crop_common_name, c.crop_id, fc.management_plan_id,c.max_rooting_depth, c.mid_kc, a.grid_points, f.location_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
     `,
     [farmID, previousDay, currentDay, farmID],
   );

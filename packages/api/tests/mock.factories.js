@@ -449,7 +449,7 @@ async function containerFactory({
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }),
+  }, { ...fakeCropManagementPlan(), planting_type: 'CONTAINER' }),
 } = {}, container = fakeContainer()) {
   const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
   const [{ management_plan_id }] = cropManagementPlan;
@@ -494,7 +494,7 @@ async function broadcastFactory({
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }),
+  }, { ...fakeCropManagementPlan(), planting_type: 'BROADCAST' }),
 } = {}, broadcast = fakeBroadcast()) {
   const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
   const [{ management_plan_id }] = cropManagementPlan;

@@ -39,17 +39,17 @@ const managementPlanController = {
 
   delManagementPlan() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
+
       try {
-        const isDeleted = await baseController.delete(managementPlanModel, req.params.field_crop_id, req, { trx });
-        await trx.commit();
+        const isDeleted = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).delete();
+
         if (isDeleted) {
           res.sendStatus(200);
         } else {
           res.sendStatus(404);
         }
       } catch (error) {
-        await trx.rollback();
+        console.log(error);
         res.status(400).json({
           error,
         });
@@ -61,7 +61,7 @@ const managementPlanController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(managementPlanModel, req.params.field_crop_id, req.body, req, { trx });
+        const updated = await baseController.put(managementPlanModel, req.params.management_plan_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -82,13 +82,12 @@ const managementPlanController = {
   getManagementPlanByID() {
     return async (req, res) => {
       try {
-        const field_crop_id = req.params.field_crop_id;
-        const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(field_crop_id)
-          .withGraphFetched(`[location.[
-          figure.[area, line], 
-           field, garden, buffer_zone,
-          greenhouse
-        ], crop_variety.[crop]]`);
+        const management_plan_id = req.params.management_plan_id;
+        const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(management_plan_id)
+          .withGraphFetched(`[crop_variety.[crop], 
+          crop_management_plan.[beds, container, broadcast, 
+          location.[figure.[area, line], field, garden, buffer_zone,greenhouse]
+          ], transplant_container]`);
         return managementPlan ? res.status(200).send(managementPlan) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
@@ -125,17 +124,17 @@ const managementPlanController = {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(`[location.[
-          figure.[area, line], 
-           field, garden, buffer_zone,
-          greenhouse
-        ], crop_variety.[crop]]`)
-          .where('location.farm_id', farm_id)
-          .andWhere('management_plan.end_date', '>=', date);
+          .withGraphJoined(`[crop_variety.[crop], 
+          crop_management_plan.[beds, container, broadcast, 
+          location.[figure.[area, line], field, garden, buffer_zone,greenhouse]
+          ], transplant_container]`)
+          .where('crop_management_plan:location.farm_id', farm_id)
+          .andWhere('harvest_date', '>=', date);
 
 
         return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
+        console.log(error);
         res.status(400).json({ error });
       }
     };
@@ -146,15 +145,12 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(`[location.[
-          figure.[area, line], 
-           field, garden, buffer_zone,
-          greenhouse
-        ], crop_variety.[crop]]`)
-          .where('location.farm_id', farm_id)
-          .andWhere(raw('"management_plan".end_date < now()'));
-
-
+          .withGraphJoined(`[crop_variety.[crop], 
+          crop_management_plan.[beds, container, broadcast, 
+          location.[figure.[area, line], field, garden, buffer_zone,greenhouse]
+          ], transplant_container]`)
+          .where('crop_management_plan:location.farm_id', farm_id)
+          .andWhere(raw('harvest_date < now()'));
         return managementPlans?.length ? res.status(200).send(managementPlans) : res.status(404).send('Field crop not found');
       } catch (error) {
         res.status(400).json({ error });

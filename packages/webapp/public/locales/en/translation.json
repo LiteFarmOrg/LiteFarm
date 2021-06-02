@@ -101,14 +101,6 @@
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "FILTER_TITLE": "Crop Catalogue Filter"
   },
-  "CROP_MANAGEMENT": {
-    "ADD_MANAGEMENT_PLAN": "Add a management plan",
-    "TRANSPLANT": "Will this crop be transplanted?",
-    "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
-    "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
-    "AS_COVER_CROP": "As cover crop",
-    "FOR_HARVEST": "For harvest"
-  },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
     "ANNUAL": "Annual",
@@ -129,17 +121,17 @@
     "TREATED": "Have the seeds for this crop been treated?",
     "ORGANIC_COMPLIANCE": "Organic Compliance"
   },
+  "CROP_MANAGEMENT": {
+    "GERMINATE": "Germinate",
+    "HARVEST": "Harvest",
+    "SEED": "Seed",
+    "TERMINATE": "Terminate",
+    "TRANSPLANT": "Transplant"
+  },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
     "NEEDS_PLAN": "Needs Plan"
-  },
-  "CROP_MANAGEMENT": {
-    "HARVEST": "Harvest",
-    "TRANSPLANT": "Transplant",
-    "TERMINATE": "Terminate",
-    "GERMINATE": "Germinate",
-    "SEED": "Seed"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -823,16 +815,21 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
+    "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a containter of in ground?",
     "CONTAINER_TYPE": "Type of container",
+    "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
+    "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
     "DAYS_FROM_SEEDING": "What is your planting date?",
     "DURATION_TOOLTIP": "These are suggested values.  Please check your varietal and adjust as needed.",
+    "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
     "IN_GROUND": "In ground",
+    "IS_TRANSPLANT": "Will this crop be transplanted?",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLANT_SPACING": "Plant spacing",
     "PLANTING_DATE": "Days from seed to:",
@@ -1165,7 +1162,7 @@
   "WELCOME_SCREEN": {
     "BUTTON": "Let's get started"
   },
-  "YEAR_SELECTOR" : {
+  "YEAR_SELECTOR": {
     "TITLE": "Select Year"
   }
 }

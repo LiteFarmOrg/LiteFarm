@@ -22,10 +22,7 @@ const useDrawSelectableLocations = () => {
     _setSelectedLocation(data);
   };
 
-  const [locations, setLocations] = useState([]);
-  const addLocations = (location) => {
-    locations.push(location);
-  };
+  const reset_opacity = 0.5;
 
   const drawLocations = (map, maps, mapBounds) => {
     cropLocations.forEach((location) => {
@@ -34,15 +31,16 @@ const useDrawSelectableLocations = () => {
     cropLocations.length > 0 && map.fitBounds(mapBounds);
   };
 
-  const resetStyles = (maps, location) => {
-    if (location.asset === 'area') {
-      const { area, polygon, polyline, marker } = location;
-      setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
-    } else if (location.asset === 'line') {
-      const { line, polygon } = location;
-      setLineListenersAndOptions(maps, line, polygon);
-    }
+  const resetStyles = (color, polygon) => {
+    polygon.setOptions({
+      fillColor: color,
+      fillOpacity: reset_opacity,
+    });
   };
+
+  const isSelectedLocation = (location, selectedLocation) => {
+    return (selectedLocation !== null) && location.location_id === selectedLocation.location_id;
+  }
 
   // Draw an area
   const drawArea = (map, maps, mapBounds, area) => {
@@ -109,8 +107,6 @@ const useDrawSelectableLocations = () => {
     marker.setMap(map);
 
     setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
-
-    addLocations(polygon);
   };
 
   // Draw a line
@@ -157,10 +153,20 @@ const useDrawSelectableLocations = () => {
 
   const setAreaListenersAndOptions = (maps, area, polygon, polyline, marker) => {
     const { colour, selectedColour } = areaStyles[area.type];
-    polygon.setOptions({
-      fillColor: colour,
-      fillOpacity: 0.5,
-    });
+    if (selectedLocation) {
+      if (isSelectedLocation(area, selectedLocationRef.current.data)) {
+        polygon.setOptions({
+          fillColor: selectedColour,
+          fillOpacity: 0.5,
+        });
+      } else {
+        polygon.setOptions({
+          fillColor: colour,
+          fillOpacity: 0.5,
+        });
+      }
+    }
+    
     marker.setOptions({
       label: {
         text: area.name,
@@ -177,7 +183,36 @@ const useDrawSelectableLocations = () => {
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
-        resetStyles(maps, selectedLocationRef.current);
+        if (selectedLocationRef.current.asset === 'line') {
+          resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+        } else {
+          if (selectedLocationRef.current.area.location_id === area.location_id) {
+            console.log("YO");
+            this.setOptions({
+              fillColor: colour,
+              fillOpacity: 0.5,
+            });
+            marker.setOptions({
+              label: {
+                text: area.name,
+                color: 'white',
+                fontSize: '16px',
+                className: styles.mapLabel,
+              }
+            });
+            setSelectedLocation(null);
+          } else {
+            resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+            selectedLocationRef.current.marker.setOptions({
+              label: {
+                text: selectedLocationRef.current.area.name,
+                color: 'white',
+                fontSize: '16px',
+                className: styles.mapLabel,
+              }
+            });
+          }
+        }
       }
 
       setSelectedLocation({
@@ -187,10 +222,7 @@ const useDrawSelectableLocations = () => {
         marker,
         asset: 'area',
       });
-
-      console.log(locations.length);
       
-
       this.setOptions({
         fillColor: selectedColour,
         fillOpacity: 1.0,
@@ -203,7 +235,6 @@ const useDrawSelectableLocations = () => {
           className: styles.mapLabel,
         },
       });
-      maps.event.clearInstanceListeners(polygon);
     });
   };
 
@@ -221,7 +252,19 @@ const useDrawSelectableLocations = () => {
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
-        resetStyles(maps, selectedLocationRef.current);
+        if (selectedLocationRef.current.asset === 'line') {
+          resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+        } else {
+          resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+          selectedLocationRef.current.marker.setOptions({
+            label: {
+              text: selectedLocationRef.current.area.name,
+              color: 'white',
+              fontSize: '16px',
+              className: styles.mapLabel,
+            }
+          });
+        }
       }
 
       setSelectedLocation({
@@ -234,7 +277,6 @@ const useDrawSelectableLocations = () => {
         fillColor: selectedColour,
         fillOpacity: 1.0,
       });
-      maps.event.clearInstanceListeners(polygon);
     });
   };
 

@@ -37,8 +37,7 @@ export default function Transplant({
     });
 
     // TODO - Add path
-    const persistedPath = [`/path`]
-
+    const persistedPath = [`/crop/${match.params.variety_id}/choose_planting_location`];
     useHookFormPersist(persistedPath, getValues);
 
     const disabled = !isValid;

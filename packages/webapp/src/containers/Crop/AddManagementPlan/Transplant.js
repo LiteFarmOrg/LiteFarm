@@ -19,6 +19,7 @@ function TransplantForm({ history, match }) {
     const onContinue = (data) => {
         // TODO - put in path
         //history.push(`/map`);
+        history.push(`/crop/${variety_id}/choose_planting_location`);
     };
 
     return (

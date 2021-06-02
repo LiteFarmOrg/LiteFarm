@@ -27,14 +27,18 @@ const filterSliceReducer = createSlice({
     setCropCatalogueFilterDate: (state, { payload: date }) => {
       state.cropCatalogue.date = date;
     },
+    removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
+      state[pageFilterKey][filterKey][value] = false;
+    },
   },
 });
 
 export const {
-  resetFilter,
+  resetFilters,
   resetCropCatalogueFilter,
   setCropCatalogueFilter,
   setCropCatalogueFilterDate,
+  removeFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -50,3 +54,17 @@ export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),
 );
+
+export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
+  return createSelector([filterReducerSelector], (filterReducer) => {
+    const targetPageFilter = filterReducer[pageFilterKey];
+    let isActive = false;
+    for (const filterKey in targetPageFilter) {
+      const filter = targetPageFilter[filterKey];
+      isActive = Object.values(filter).reduce((acc, curr) => {
+        return acc || curr;
+      }, isActive);
+    }
+    return isActive;
+  });
+};

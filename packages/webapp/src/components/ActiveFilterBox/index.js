@@ -4,10 +4,35 @@ import styles from './styles.module.scss';
 import Pill from '../Filter/Pill';
 import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { removeFilter } from '../../containers/filterSlice';
 
-const ActiveFilterBox = ({ activeFilters, style }) => {
+const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const [firstRow, setFirstRow] = useState(0);
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  console.log({ pageFilter });
+  const activeFilters = Object.entries(pageFilter).reduce((pfAcc, pfCurr) => {
+    const filterKey = pfCurr[0];
+    const filter = pfCurr[1];
+    console.log({ filter });
+    const activeList = Object.entries(filter).reduce((fAcc, fCurr) => {
+      const filterItemValue = fCurr[0];
+      const isFilterItemActive = fCurr[1];
+      if (isFilterItemActive) {
+        fAcc.push({
+          filterKey,
+          value: filterItemValue,
+          label: filterItemValue,
+        });
+      }
+      return fAcc;
+    }, []);
+    return [...activeList, ...pfAcc];
+  }, []);
+  console.log({ activeFilters });
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,13 +58,25 @@ const ActiveFilterBox = ({ activeFilters, style }) => {
 
   const numHidden = activeFilters.length - firstRow;
 
+  const handleRemovePill = (filter) => () => {
+    dispatch(removeFilter({ pageFilterKey, filterKey: filter.filterKey, value: filter.value }));
+  };
+
   // open
   if (open)
     return (
       <div className={clsx(styles.container)} style={style}>
         <div className={clsx(styles.pillContainer)}>
           {activeFilters.map((filter) => {
-            return <Pill className={'uniqueClassName'} label={filter.label} selected removable />;
+            return (
+              <Pill
+                className={'uniqueClassName'}
+                label={filter.label}
+                selected
+                removable
+                onRemovePill={handleRemovePill(filter)}
+              />
+            );
           })}
           {numHidden > 0 && (
             <button className={styles.test} onClick={() => setOpen(false)}>
@@ -55,7 +92,15 @@ const ActiveFilterBox = ({ activeFilters, style }) => {
     <div className={clsx(styles.container, styles.closedContainer)} style={style}>
       <div className={clsx(styles.pillContainer)}>
         {activeFilters.map((filter) => {
-          return <Pill className={'uniqueClassName'} label={filter.label} selected removable />;
+          return (
+            <Pill
+              className={'uniqueClassName'}
+              label={filter.label}
+              selected
+              removable
+              onRemovePill={handleRemovePill(filter)}
+            />
+          );
         })}
       </div>
       {numHidden > 0 && (

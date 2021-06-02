@@ -15,7 +15,12 @@ import React, { useEffect, useState } from 'react';
 import { getCrops, getCropVarieties, getFieldCrops } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
-import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
+import {
+  cropCatalogueFilterDateSelector,
+  cropCatalogueFilterSelector,
+  setCropCatalogueFilterDate,
+  isFilterCurrentlyActiveSelector,
+} from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
@@ -23,6 +28,7 @@ import useSortByCropTranslation from './useSortByCropTranslation';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import useFilterNoPlan from './useFilterNoPlan';
 import CatalogSpotlight from './CatalogSpotlight';
+import ActiveFilterBox from '../../components/ActiveFilterBox';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -63,6 +69,9 @@ export default function CropCatalogue({ history }) {
   const date = useSelector(cropCatalogueFilterDateSelector);
   const setDate = (date) => dispatch(setCropCatalogueFilterDate(date));
 
+  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
+  const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('cropCatalogue'));
+
   useEffect(() => {
     dispatch(resetAndUnLockFormData());
   }, []);
@@ -91,6 +100,10 @@ export default function CropCatalogue({ history }) {
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <CropCatalogueFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
+
+      {isFilterCurrentlyActive && (
+        <ActiveFilterBox pageFilter={cropCatalogueFilter} pageFilterKey={'cropCatalogue'} />
+      )}
 
       <div ref={containerRef}>
         {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) && (

@@ -94,7 +94,36 @@ export const watercourse_width = {
   databaseUnit: databaseUnit.length,
 };
 
-export const seedAmounts = {
+
+export const container_planting_depth = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [12],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const container_plant_spacing = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [20],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
     defaultUnit: 'g',

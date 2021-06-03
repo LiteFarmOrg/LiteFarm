@@ -1,10 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
-import { cropLocationEntitiesSelector } from './locationSlice';
-import { cropVarietyEntitiesSelector } from './cropVarietySlice';
 
 const getBed = (obj) => {
   return pick(obj, [
@@ -77,31 +73,6 @@ export default bedSlice.reducer;
 
 export const bedReducerSelector = (state) => state.entitiesReducer[bedSlice.name];
 
-const bedSelectors = bedAdapter.getSelectors((state) => state.entitiesReducer[bedSlice.name]);
-
-export const bedsSelector = createSelector(
-  [
-    bedSelectors.selectAll,
-    cropLocationEntitiesSelector,
-    cropEntitiesSelector,
-    cropVarietyEntitiesSelector,
-    loginSelector,
-  ],
-  (beds, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
-    const bedsOfCurrentFarm = beds.filter(
-      (bed) => cropLocationEntities[bed.location_id]?.farm_id === farm_id,
-    );
-    return bedsOfCurrentFarm.map((bed) => {
-      const crop_variety = cropVarietyEntities[bed.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
-      return {
-        ...crop,
-        ...crop_variety,
-        location: cropLocationEntities[bed.location_id],
-        ...bed,
-        crop,
-        crop_variety,
-      };
-    });
-  },
+export const bedSelectors = bedAdapter.getSelectors(
+  (state) => state.entitiesReducer[bedSlice.name],
 );

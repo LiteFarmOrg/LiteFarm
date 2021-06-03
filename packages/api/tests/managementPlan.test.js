@@ -159,7 +159,7 @@ describe('ManagementPlan Tests', () => {
           expect(['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']).toContain(management_plan.crop_management_plan.planting_type);
           if (management_plan.crop_management_plan.planting_type === 'BROADCAST') {
             expect(management_plan.crop_management_plan.broadcast.management_plan_id).toBe(seedManagementPlan.management_plan_id);
-            expect(management_plan.transplant_container).toBeNull();
+            expect(management_plan.transplant_container).toBeUndefined();
           } else if (management_plan.crop_management_plan.planting_type === 'CONTAINER') {
             expect(management_plan.crop_management_plan.container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
             expect(management_plan.transplant_container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);

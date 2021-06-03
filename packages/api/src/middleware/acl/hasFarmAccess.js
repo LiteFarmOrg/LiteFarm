@@ -169,8 +169,7 @@ async function fromActivity(req) {
 }
 
 async function fromManagementPlan(managementPlanId) {
-  const { location_id } = await knex('management_plan').join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').join('location', 'crop_management_plan.location_id', 'location.location_id').where('management_plan.management_plan_id', managementPlanId).first();
-  return fromLocation(location_id);
+  return await knex('management_plan').where('management_plan_id', managementPlanId).join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
 }
 
 async function fromCropVariety(crop_variety_id) {

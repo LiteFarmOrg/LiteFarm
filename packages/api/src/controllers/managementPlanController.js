@@ -85,7 +85,7 @@ const managementPlanController = {
         const management_plan_id = req.params.management_plan_id;
         const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(management_plan_id)
           .withGraphFetched(planGraphFetchedQueryString);
-        return managementPlan ? res.status(200).send(removeLocationFromManagementPlan(managementPlan)) : res.status(404).send('Field crop not found');
+        return managementPlan ? res.status(200).send(removeCropVarietyFromManagementPlan(managementPlan)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({
@@ -101,8 +101,8 @@ const managementPlanController = {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString)
-          .where('crop_management_plan:location.farm_id', farm_id);
-        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
+          .where('crop_variety.farm_id', farm_id);
+        return managementPlans?.length ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({
@@ -119,11 +119,11 @@ const managementPlanController = {
         const date = req.params.date;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString)
-          .where('crop_management_plan:location.farm_id', farm_id)
+          .where('crop_variety.farm_id', farm_id)
           .andWhere('harvest_date', '>=', date);
 
 
-        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
         res.status(400).json({ error });
@@ -137,9 +137,9 @@ const managementPlanController = {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
           .withGraphJoined(planGraphFetchedQueryString)
-          .where('crop_management_plan:location.farm_id', farm_id)
+          .where('crop_variety.farm_id', farm_id)
           .andWhere(raw('harvest_date < now()'));
-        return managementPlans?.length ? res.status(200).send(removeLocationFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
+        return managementPlans?.length ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
         res.status(400).json({ error });
       }
@@ -147,19 +147,19 @@ const managementPlanController = {
   },
 };
 
-const planGraphFetchedQueryString = '[crop_management_plan.[beds, container, broadcast, location], transplant_container]';
+const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[beds, container, broadcast], transplant_container]';
 
-const removeLocationFromManagementPlan = (managementPlan) => {
+const removeCropVarietyFromManagementPlan = (managementPlan) => {
   !managementPlan.transplant_container && delete managementPlan.transplant_container;
-  delete managementPlan.crop_management_plan.location;
+  delete managementPlan.crop_variety;
   for (const plantingType of ['container', 'beds', 'rows', 'broadcast']) {
     !managementPlan.crop_management_plan[plantingType] && delete managementPlan.crop_management_plan[plantingType];
   }
   return managementPlan;
 };
 
-const removeLocationFromManagementPlans = (managementPlans) => {
-  for (let i = 0; i < managementPlans.length; i++) removeLocationFromManagementPlan(managementPlans[i]);
+const removeCropVarietyFromManagementPlans = (managementPlans) => {
+  for (let i = 0; i < managementPlans.length; i++) removeCropVarietyFromManagementPlan(managementPlans[i]);
   return managementPlans;
 };
 

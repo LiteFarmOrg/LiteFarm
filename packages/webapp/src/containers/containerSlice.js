@@ -1,10 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
-import { cropLocationEntitiesSelector } from './locationSlice';
-import { cropVarietyEntitiesSelector } from './cropVarietySlice';
 
 const getContainer = (obj) => {
   return pick(obj, [
@@ -87,33 +83,6 @@ export default containerSlice.reducer;
 
 export const containerReducerSelector = (state) => state.entitiesReducer[containerSlice.name];
 
-const containerSelectors = containerAdapter.getSelectors(
+export const containerSelectors = containerAdapter.getSelectors(
   (state) => state.entitiesReducer[containerSlice.name],
-);
-
-export const containersSelector = createSelector(
-  [
-    containerSelectors.selectAll,
-    cropLocationEntitiesSelector,
-    cropEntitiesSelector,
-    cropVarietyEntitiesSelector,
-    loginSelector,
-  ],
-  (containers, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
-    const containersOfCurrentFarm = containers.filter(
-      (container) => cropLocationEntities[container.location_id]?.farm_id === farm_id,
-    );
-    return containersOfCurrentFarm.map((container) => {
-      const crop_variety = cropVarietyEntities[container.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
-      return {
-        ...crop,
-        ...crop_variety,
-        location: cropLocationEntities[container.location_id],
-        ...container,
-        crop,
-        crop_variety,
-      };
-    });
-  },
 );

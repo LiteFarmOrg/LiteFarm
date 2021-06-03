@@ -1,10 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
-import { cropLocationEntitiesSelector } from './locationSlice';
-import { cropVarietyEntitiesSelector } from './cropVarietySlice';
 
 const getBroadcast = (obj) => {
   return pick(obj, [
@@ -82,33 +78,6 @@ export default broadcastSlice.reducer;
 
 export const broadcastReducerSelector = (state) => state.entitiesReducer[broadcastSlice.name];
 
-const broadcastSelectors = broadcastAdapter.getSelectors(
+export const broadcastSelectors = broadcastAdapter.getSelectors(
   (state) => state.entitiesReducer[broadcastSlice.name],
-);
-
-export const broadcastsSelector = createSelector(
-  [
-    broadcastSelectors.selectAll,
-    cropLocationEntitiesSelector,
-    cropEntitiesSelector,
-    cropVarietyEntitiesSelector,
-    loginSelector,
-  ],
-  (broadcasts, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
-    const broadcastsOfCurrentFarm = broadcasts.filter(
-      (broadcast) => cropLocationEntities[broadcast.location_id]?.farm_id === farm_id,
-    );
-    return broadcastsOfCurrentFarm.map((broadcast) => {
-      const crop_variety = cropVarietyEntities[broadcast.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
-      return {
-        ...crop,
-        ...crop_variety,
-        location: cropLocationEntities[broadcast.location_id],
-        ...broadcast,
-        crop,
-        crop_variety,
-      };
-    });
-  },
 );

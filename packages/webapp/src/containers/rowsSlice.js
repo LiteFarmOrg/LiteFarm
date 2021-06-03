@@ -1,10 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
-import { cropLocationEntitiesSelector } from './locationSlice';
-import { cropVarietyEntitiesSelector } from './cropVarietySlice';
 
 const getRow = (obj) => {
   return pick(obj, [
@@ -77,31 +73,6 @@ export default rowSlice.reducer;
 
 export const rowReducerSelector = (state) => state.entitiesReducer[rowSlice.name];
 
-const rowSelectors = rowAdapter.getSelectors((state) => state.entitiesReducer[rowSlice.name]);
-
-export const rowsSelector = createSelector(
-  [
-    rowSelectors.selectAll,
-    cropLocationEntitiesSelector,
-    cropEntitiesSelector,
-    cropVarietyEntitiesSelector,
-    loginSelector,
-  ],
-  (rows, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
-    const rowsOfCurrentFarm = rows.filter(
-      (row) => cropLocationEntities[row.location_id]?.farm_id === farm_id,
-    );
-    return rowsOfCurrentFarm.map((row) => {
-      const crop_variety = cropVarietyEntities[row.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
-      return {
-        ...crop,
-        ...crop_variety,
-        location: cropLocationEntities[row.location_id],
-        ...row,
-        crop,
-        crop_variety,
-      };
-    });
-  },
+export const rowSelectors = rowAdapter.getSelectors(
+  (state) => state.entitiesReducer[rowSlice.name],
 );

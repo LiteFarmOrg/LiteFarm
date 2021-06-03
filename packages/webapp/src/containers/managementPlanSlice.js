@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
@@ -7,6 +7,11 @@ import { pick } from '../util';
 import { cropLocationEntitiesSelector } from './locationSlice';
 import { cropVarietiesSelector, cropVarietyEntitiesSelector } from './cropVarietySlice';
 import { cropCatalogueFilterDateSelector } from './filterSlice';
+import { containerSelectors } from './containerSlice';
+import { bedSelectors } from './bedsSlice';
+import { rowSelectors } from './rowsSlice';
+import { broadcastSelectors } from './broadcastSlice';
+import { transplantContainerSelectors } from './transplantContainerSlice';
 
 const getManagementPlan = (obj) => {
   return pick(obj, [
@@ -90,31 +95,77 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
   (state) => state.entitiesReducer[managementPlanSlice.name],
 );
 
+const getPlantingTypeSelector = (plantingTypeEntitySelector) =>
+  createSelector(
+    [
+      managementPlanSelectors.selectEntities,
+      plantingTypeEntitySelector,
+      transplantContainerSelectors.selectEntities,
+      cropLocationEntitiesSelector,
+      cropEntitiesSelector,
+      cropVarietyEntitiesSelector,
+    ],
+    (
+      managementPlanEntities,
+      plantingTypeEntities,
+      transplantContainerEntities,
+      cropLocationEntities,
+      cropEntities,
+      cropVarietyEntities,
+    ) => {
+      let entities = {};
+      for (const management_plan_id in plantingTypeEntities) {
+        const plantingType = plantingTypeEntities[management_plan_id];
+        const management_plan = managementPlanEntities[management_plan_id];
+        const crop_variety = cropVarietyEntities[management_plan.crop_variety_id];
+        const crop = cropEntities[crop_variety.crop_id];
+        const location = cropLocationEntities[plantingType.location_id];
+        const transplant_container = transplantContainerEntities[management_plan_id];
+        entities[management_plan_id] = {
+          ...crop,
+          ...crop_variety,
+          ...plantingType,
+          ...management_plan,
+          crop,
+          crop_variety,
+          location,
+          transplant_container,
+          [plantingType.planting_type]: plantingType,
+        };
+      }
+    },
+  );
+
+export const containerEntitiesSelector = getPlantingTypeSelector(containerSelectors.selectEntities);
+export const containersSelector = createSelector([containerEntitiesSelector], (containerEntities) =>
+  Object.values(containerEntities),
+);
+export const bedEntitiesSelector = getPlantingTypeSelector(bedSelectors.selectEntities);
+export const bedsSelector = createSelector([bedEntitiesSelector], (bedEntities) =>
+  Object.values(bedEntities),
+);
+export const rowEntitiesSelector = getPlantingTypeSelector(rowSelectors.selectEntities);
+export const rowsSelector = createSelector([rowEntitiesSelector], (rowEntities) =>
+  Object.values(rowEntities),
+);
+export const broadcastEntitiesSelector = getPlantingTypeSelector(broadcastSelectors.selectEntities);
+export const broadcastsSelector = createSelector([broadcastEntitiesSelector], (broadcastEntities) =>
+  Object.values(broadcastEntities),
+);
+
+const managementPlanEntitiesSelector = createSelector(
+  [containerEntitiesSelector, bedEntitiesSelector, rowEntitiesSelector, broadcastEntitiesSelector],
+  (containerEntities, bedEntities, rowEntities, broadcastEntities) => ({
+    ...containerEntities,
+    ...bedEntities,
+    ...rowEntities,
+    ...broadcastEntities,
+  }),
+);
+
 export const managementPlansSelector = createSelector(
-  [
-    managementPlanSelectors.selectAll,
-    cropLocationEntitiesSelector,
-    cropEntitiesSelector,
-    cropVarietyEntitiesSelector,
-    loginSelector,
-  ],
-  (managementPlans, cropLocationEntities, cropEntities, cropVarietyEntities, { farm_id }) => {
-    const managementPlansOfCurrentFarm = managementPlans.filter(
-      (managementPlan) => cropLocationEntities[managementPlan.location_id]?.farm_id === farm_id,
-    );
-    return managementPlansOfCurrentFarm.map((managementPlan) => {
-      const crop_variety = cropVarietyEntities[managementPlan.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
-      return {
-        ...crop,
-        ...crop_variety,
-        location: cropLocationEntities[managementPlan.location_id],
-        ...managementPlan,
-        crop,
-        crop_variety,
-      };
-    });
-  },
+  [managementPlanEntitiesSelector],
+  (managementPlanEntities) => Object.values(managementPlanEntities),
 );
 
 export const expiredManagementPlansSelector = createSelector(
@@ -125,13 +176,15 @@ export const expiredManagementPlansSelector = createSelector(
 );
 
 export const getExpiredManagementPlans = (managementPlans, time) =>
-  managementPlans.filter((managementPlan) => new Date(managementPlan.end_date).getTime() < time);
+  managementPlans.filter(
+    (managementPlan) => new Date(managementPlan.harvest_date).getTime() < time,
+  );
 
 export const currentAndPlannedManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
     return managementPlans.filter(
-      (managementPlan) => new Date(managementPlan.end_date).getTime() >= lastActiveDatetime,
+      (managementPlan) => new Date(managementPlan.harvest_date).getTime() >= lastActiveDatetime,
     );
   },
 );
@@ -146,8 +199,8 @@ export const currentManagementPlansSelector = createSelector(
 export const getCurrentManagementPlans = (managementPlans, time) => {
   return managementPlans.filter(
     (managementPlan) =>
-      new Date(managementPlan.end_date).getTime() >= time &&
-      new Date(managementPlan.start_date).getTime() <= time,
+      new Date(managementPlan.harvest_date).getTime() >= time &&
+      new Date(managementPlan.seed_date).getTime() <= time,
   );
 };
 
@@ -159,7 +212,7 @@ export const plannedManagementPlansSelector = createSelector(
 );
 
 export const getPlannedManagementPlans = (managementPlans, time) =>
-  managementPlans.filter((managementPlan) => new Date(managementPlan.start_date).getTime() > time);
+  managementPlans.filter((managementPlan) => new Date(managementPlan.seed_date).getTime() > time);
 
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
   [managementPlansSelector, cropVarietiesSelector],

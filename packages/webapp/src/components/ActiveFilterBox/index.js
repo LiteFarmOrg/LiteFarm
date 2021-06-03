@@ -32,27 +32,32 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
     return [...activeList, ...pfAcc];
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const elements = document.getElementsByClassName('uniqueClassName');
-      let y = 0;
-      let firstRowEle = 0;
-      for (const element of elements) {
-        const top = element.getClientRects()?.[0]?.top;
-        if (!y) {
-          y = top;
-        } else if (y !== top) {
-          setFirstRow(firstRowEle);
-          return;
-        }
-        firstRowEle++;
+  const handleResize = () => {
+    const elements = document.getElementsByClassName('activePill');
+    let y = 0;
+    let firstRowEle = 0;
+    for (const element of elements) {
+      const top = element.getClientRects()?.[0]?.top;
+      if (!y) {
+        y = top;
+      } else if (y !== top) {
+        setFirstRow(firstRowEle);
+        return;
       }
-      setFirstRow(firstRowEle);
-    };
+      firstRowEle++;
+    }
+    setFirstRow(firstRowEle);
+  };
+
+  useEffect(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
     return (_) => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    handleResize();
+  }, [activeFilters]);
 
   const numHidden = activeFilters.length - firstRow;
 
@@ -68,7 +73,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
           {activeFilters.map((filter) => {
             return (
               <Pill
-                className={'uniqueClassName'}
+                className={'activePill'}
                 label={filter.label}
                 selected
                 removable
@@ -92,7 +97,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
         {activeFilters.map((filter) => {
           return (
             <Pill
-              className={'uniqueClassName'}
+              className={'activePill'}
               label={filter.label}
               selected
               removable

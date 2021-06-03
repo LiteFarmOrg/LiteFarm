@@ -13,23 +13,16 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
 
   const dispatch = useDispatch();
 
-  const activeFilters = Object.entries(pageFilter).reduce((pfAcc, pfCurr) => {
-    const filterKey = pfCurr[0];
-    const filter = pfCurr[1];
-    const activeList = Object.entries(filter).reduce((fAcc, fCurr) => {
-      const filterItemValue = fCurr[0];
-      const isFilterItemActive = fCurr[1].active;
-      const filterLabel = fCurr[1].label;
-      if (isFilterItemActive) {
-        fAcc.push({
+  const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
+    return [...acc].concat(
+      Object.keys(pageFilter[filterKey])
+        .filter((k) => pageFilter[filterKey][k].active)
+        .map((k) => ({
           filterKey,
-          value: filterItemValue,
-          label: filterLabel,
-        });
-      }
-      return fAcc;
-    }, []);
-    return [...activeList, ...pfAcc];
+          value: k,
+          label: pageFilter[filterKey][k].label,
+        })),
+    );
   }, []);
 
   const handleResize = () => {

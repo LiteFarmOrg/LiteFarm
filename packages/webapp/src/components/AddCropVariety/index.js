@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
 import Input from '../Form/Input';
-import PageTitle from '../PageTitle/v2';
 import styles from './styles.module.scss';
-import ProgressBar from '../../components/ProgressBar';
 import Radio from '../Form/Radio';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
+import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 
-export default function PureAddCrop({
+export default function PureAddCropVariety({
   match,
   onSubmit,
   onError,
@@ -53,7 +52,7 @@ export default function PureAddCrop({
   const disabled = !isValid;
 
   const varietyRegister = register(VARIETY, { required: true });
-  const supplierRegister = register(SUPPLIER, { required: isSeekingCert? true : false });
+  const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
   const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
@@ -74,15 +73,14 @@ export default function PureAddCrop({
       }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle onGoBack={handleGoBack} onCancel={handleCancel} title={t('CROP.ADD_CROP')} />
-      <div
-        style={{
-          marginBottom: '24px',
-          marginTop: '8px',
-        }}
-      >
-        <ProgressBar value={progress} />
-      </div>
+      <MultiStepPageTitle
+        style={{ marginBottom: '24px' }}
+        onGoBack={handleGoBack}
+        onCancel={handleCancel}
+        title={t('CROP.ADD_CROP')}
+        value={progress}
+      />
+
       <div className={styles.cropLabel}>{cropNameLabel}</div>
       <img
         src={crop_variety_photo_url}
@@ -183,7 +181,7 @@ export default function PureAddCrop({
   );
 }
 
-PureAddCrop.prototype = {
+PureAddCropVariety.prototype = {
   history: PropTypes.object,
   match: PropTypes.object,
   onSubmit: PropTypes.func,

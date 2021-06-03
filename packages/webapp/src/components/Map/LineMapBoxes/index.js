@@ -11,11 +11,6 @@ import { watercourseEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
 import { line_width } from '../../../util/unit';
 
-const distanceOptions = {
-  metric: 'm',
-  imperial: 'ft',
-};
-
 export default function PureLineBox({
   typeOfLine,
   system,

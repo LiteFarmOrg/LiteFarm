@@ -27,7 +27,7 @@ const IrrigationLogModel = require('../models/irrigationLogModel');
 const FieldWorkLogModel = require('../models/fieldWorkLogModel');
 const SoilDataLog = require('../models/soilDataLogModel');
 const SeedLog = require('../models/seedLogModel');
-const fieldCropModel = require('../models/fieldCropModel');
+const managementPlanModel = require('../models/managementPlanModel');
 const HarvestLog = require('../models/harvestLogModel');
 const fieldModel = require('../models/fieldModel');
 const locationModel = require('../models/locationModel');
@@ -184,7 +184,7 @@ const logServices = {
     const user_id = user.user_id;
     const activityLog = await baseController.post(ActivityLogModelModel, body, req, { trx });
     //insert crops,locations and beds
-    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
+    await baseController.relateModels(activityLog, managementPlanModel, body.crops, trx);
     await baseController.relateModels(activityLog, locationModel, body.locations, trx);
     if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await baseController.postRelated(activityLog, logModel, body, req, { trx });
@@ -254,7 +254,7 @@ const logServices = {
 
     //insert fieldCrops,locations
     // TODO: change body.crops to body.fieldCrops
-    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
+    await baseController.relateModels(activityLog, managementPlanModel, body.crops, trx);
     // TODO: Deprecate locations field in req.body
     await baseController.relateModels(activityLog, locationModel, body.locations, trx);
 

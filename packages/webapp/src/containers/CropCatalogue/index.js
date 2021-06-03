@@ -85,16 +85,7 @@ export default function CropCatalogue({ history }) {
           value={filterString}
           onChange={filterStringOnChange}
         />
-        <div
-          id={'filter'}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            top: 0,
-            height: '48px',
-            pointerEvents: 'none',
-          }}
-        />
+        <CatalogSpotlight />
       </div>
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
@@ -121,11 +112,11 @@ export default function CropCatalogue({ history }) {
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_photo_url } = cropVariety;
+                const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={crop_id}
                     title={t(`crop:${crop_translation_key}`)}
                     src={crop_photo_url}
                     alt={imageKey}
@@ -200,8 +191,6 @@ export default function CropCatalogue({ history }) {
             </AddLink>
           </>
         )}
-
-        <CatalogSpotlight />
       </div>
     </Layout>
   );

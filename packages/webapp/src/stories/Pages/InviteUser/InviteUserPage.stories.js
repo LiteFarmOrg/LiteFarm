@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../config/decorators';
 import PureInviteUser from '../../../components/InviteUser';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/InviteUser',
@@ -21,5 +22,5 @@ Primary.args = {
   onInvite: (data) => console.log(data),
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

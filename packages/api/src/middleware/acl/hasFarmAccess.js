@@ -169,7 +169,7 @@ async function fromActivity(req) {
 }
 
 async function fromFieldCrop(fieldCropId) {
-  const { location_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
+  const { location_id } = await knex('management_plan').where({ management_plan_id: fieldCropId }).first();
   return fromLocation(location_id);
 }
 

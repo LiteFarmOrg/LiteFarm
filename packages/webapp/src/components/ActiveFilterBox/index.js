@@ -123,12 +123,3 @@ ActiveFilterBox.prototype = {
 };
 
 export default ActiveFilterBox;
-
-// const FilterCountDropdownButton = ({onClick, numHidden, open}) => {
-//   return (
-//     <button className={styles.test} onClick={onClick}>
-//       {numHidden > 0 && !open && `+${numHidden}`}
-//       <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
-//     </button>
-//   );
-// }

@@ -58,12 +58,13 @@ const Input = ({
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
           <Label>
-            {label} {hasLeaf && <Leaf className={styles.leaf} />}
+            {label}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                 {t('common:OPTIONAL')}
               </Label>
             )}
+            {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
           {toolTipContent && <MoreInfo content={toolTipContent} />}
           {icon && <span className={styles.icon}>{icon}</span>}

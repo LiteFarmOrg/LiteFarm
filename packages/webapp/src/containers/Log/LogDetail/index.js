@@ -25,7 +25,6 @@ import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
-import ScrollToTop from '../../hooks/ScrollToTop';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -220,7 +219,6 @@ class LogDetail extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <ScrollToTop />
         <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>

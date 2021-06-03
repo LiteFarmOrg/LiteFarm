@@ -6,7 +6,7 @@ import { AddLink } from '../../../components/Typography';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
-  title: 'Form/AddCropVariety',
+  title: 'Form/Crop/AddCropVariety',
   decorators: decorators,
   component: AddCropVariety,
 };
@@ -44,6 +44,8 @@ Primary.args = {
       <AddLink>{'Add image'}</AddLink>
     </ImagePickerWrapper>
   ),
+  handleGoBack: () => {},
+  handleCancel: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

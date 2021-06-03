@@ -1,22 +1,17 @@
-.slideContainer {
+
+.videoFlex {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1024px;
-  height: 100%;
-  align-items: center;
-  text-align: center;
+  justify-content: space-evenly;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+  }
+  @media only screen and (min-width: 700px) {
+    flex-direction: row;
+  }
 }
 
-.revertPadding {
-  margin: -24px;
-}
-
-:global(.paging-item) {
-  margin-right: 4px !important;
-  margin-left: 4px !important;
-
-}
-:global([aria-label$="bullet"]) {
-  fill: white !important;
+.videoSpace {
+  @media only screen and (max-width: 700px) {
+    height: 16px;
+  }
 }

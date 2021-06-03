@@ -42,11 +42,16 @@ const AllFontTemplate = (args) => (
       Label with sm as prop
     </Label>
     <Main style={args.style} />
+    <Main style={args.style} hasLeaf />
+    <Main style={args.style} tooltipContent={'tooltip'} />
+    <Main style={args.style} hasLeaf tooltipContent={'tooltip'} />
     <Text style={args.style} />
     <Info style={args.style} />
     <Error style={args.style} />
     <Underlined style={args.style} />
-    <AddLink style={args.style} />
+    <div>
+      <AddLink style={args.style} />
+    </div>
   </>
 );
 

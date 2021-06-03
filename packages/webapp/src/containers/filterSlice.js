@@ -28,7 +28,7 @@ const filterSliceReducer = createSlice({
       state.cropCatalogue.date = date;
     },
     removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
-      state[pageFilterKey][filterKey][value] = false;
+      state[pageFilterKey][filterKey][value].active = false;
     },
   },
 });

@@ -223,7 +223,7 @@ describe('Location tests', () => {
     test('Delete should return 400 when field is referenced by managementPlan', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.management_planFactory({ promisedField: [field1] });
+      await mocks.crop_management_planFactory({ promisedField: [field1] });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -235,7 +235,10 @@ describe('Location tests', () => {
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const expiredManagementPlan = mocks.fakeManagementPlan();
       expiredManagementPlan.harvest_date = expiredManagementPlan.seed_date;
-      await mocks.management_planFactory({ promisedField: [field1] }, expiredManagementPlan);
+      await mocks.crop_management_planFactory({
+        promisedManagementPlan: mocks.management_planFactory({}, expiredManagementPlan),
+        promisedField: [field1],
+      });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(200);
         done();
@@ -276,9 +279,11 @@ describe('Location tests', () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const fakeManagementPlan = mocks.fakeManagementPlan();
-      const [managementPlan1] = await mocks.management_planFactory({ promisedField: [field1] }, {
-        ...fakeManagementPlan,
-        harvest_date: fakeManagementPlan.seed_date,
+      const [managementPlan1] = await mocks.crop_management_planFactory({
+        promisedManagementPlan: mocks.management_planFactory({}, {
+          ...fakeManagementPlan,
+          harvest_date: fakeManagementPlan.seed_date,
+        }), promisedField: [field1],
       });
       const shiftData = mocks.fakeShift();
       const today = new Date();

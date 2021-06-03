@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setLocationPickerManagementPlanFormData, hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../hooks/useHookFormPersist';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PurePlantingLocation from '../../components/PlantingLocation';
 
 export default function PlantingLocation({ history, match}) {
@@ -14,18 +14,37 @@ export default function PlantingLocation({ history, match}) {
   // TODO - add persist path for LF-1338
   const persistedPath = [`/path`];
 
+  const dispatch = useDispatch();
+
+  const saveLocation = () => {
+    if (selectedLocation.asset === 'area') {
+      dispatch(setLocationPickerManagementPlanFormData(selectedLocation.area.location_id));
+    } else {
+      dispatch(setLocationPickerManagementPlanFormData(selectedLocation.line.location_id));
+    }
+  }
+
   const onContinue = (data) => {
-    // TODO - add path 
+    saveLocation();
     if (persistedFormData.needs_transplant === 'true') {
+      // TODO - add path 
       console.log("Go to 1344");
     } else {
+      // TODO - add path 
       console.log("Go to 1340");
     }
   }
 
   const onGoBack = () => {
-    // TODO - add path
-    console.log('Go back to choose date');
+    if (selectedLocation !== null) {
+      saveLocation();
+      // TODO - add path
+      console.log('Go back to choose date');
+    } else {
+      // TODO - add path
+      console.log('Go back to choose date');
+    }
+    
   }
 
   const onCancel = () => {

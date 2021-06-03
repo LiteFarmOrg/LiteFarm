@@ -1,18 +1,15 @@
 import { useRef } from 'react';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   cropLocationsSelector,
 } from '../../containers/locationSlice';
 import { isArea, polygonPath } from '../../containers/Map/constants';
 import { areaStyles, lineStyles } from '../../containers/Map/mapStyles';
 import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
-import { setLocationPickerManagementPlanFormData, hookFormPersistSelector } from '../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const useDrawSelectableLocations = () => {
   const cropLocations = useSelector(cropLocationsSelector);
-
-  const dispatch = useDispatch();
 
   const assetFunctionMap = (assetType) => {
     return !!isArea(assetType) ? drawArea : drawLine;
@@ -187,10 +184,14 @@ const useDrawSelectableLocations = () => {
   const setAreaListenersAndOptions = (maps, area, polygon, polyline, marker) => {
     const { selectedColour } = areaStyles[area.type];
     maps.event.addListener(polygon, 'mouseover', function () {
-      this.setOptions({ fillOpacity: 0.8 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.8 });
+      }
     });
     maps.event.addListener(polygon, 'mouseout', function () {
-      this.setOptions({ fillOpacity: 0.5 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.5 });
+      }
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
@@ -217,8 +218,6 @@ const useDrawSelectableLocations = () => {
         asset: 'area',
       });
 
-      dispatch(setLocationPickerManagementPlanFormData(area.location_id));
-      
       this.setOptions({
         fillColor: selectedColour,
         fillOpacity: 1.0,
@@ -237,10 +236,14 @@ const useDrawSelectableLocations = () => {
   const setLineListenersAndOptions = (maps, line, polygon) => {
     const { selectedColour } = lineStyles[line.type];
     maps.event.addListener(polygon, 'mouseover', function () {
-      this.setOptions({ fillOpacity: 0.8 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.8 });
+      }  
     });
     maps.event.addListener(polygon, 'mouseout', function () {
-      this.setOptions({ fillOpacity: 0.5 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.5 });
+      }
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
@@ -264,8 +267,6 @@ const useDrawSelectableLocations = () => {
         polygon,
         asset: 'line',
       });
-
-      dispatch(setLocationPickerManagementPlanFormData(line.location_id));
 
       this.setOptions({
         fillColor: selectedColour,

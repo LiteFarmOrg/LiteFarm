@@ -7,74 +7,72 @@ import ProgressBar from '../ProgressBar';
 import LocationPicker from '../LocationPicker';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import Form from '../Form';
+import Layout from '../Layout';
 
 export default function PurePlantingLocation({
-    selectedLocation,
-    onContinue,
-    onGoBack,
-    onCancel,
-    setSelectedLocation,
-    persistedFormData,
-    useHookFormPersist,
-    persistedPath,
+  selectedLocation,
+  onContinue,
+  onGoBack,
+  onCancel,
+  setSelectedLocation,
+  persistedFormData,
+  useHookFormPersist,
+  persistedPath,
 }) {
 
-    const { t } = useTranslation(['translation', 'common', 'crop']);
+  const { t } = useTranslation(['translation', 'common', 'crop']);
 
-    const progress = 37.5;
+  const progress = 37.5;
 
-    const {
-        handleSubmit,
-        getValues,
-      } = useForm({
-        mode: 'onChange',
-        shouldUnregister: true,
-    });
+  const {
+    getValues,
+  } = useForm({
+    mode: 'onChange',
+    shouldUnregister: true,
+  });
 
-    useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(persistedPath, getValues);
 
-    const {needs_transplant, managementPlanLocationId} = persistedFormData;
+  const { needs_transplant, managementPlanLocationId } = persistedFormData;
 
 
-    return (
-        <>
-        <Form 
-          buttonGroup={
-              <Button disabled={selectedLocation === null} fullLength>
-                {t('common:CONTINUE')}
-              </Button>
-          }
-          onSubmit={handleSubmit(onContinue)}
-        > 
-          <PageTitle title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')} 
-            onGoBack={onGoBack} 
-            onCancel={onCancel}
-          />
-          <div
-            style={{
-              marginBottom: '24px',
-              marginTop: '8px',
-            }}
-          >
-            <ProgressBar value={progress} />
+  return (
+    <>
+      <Layout
+        buttonGroup={
+          <Button disabled={selectedLocation === null} onClick={onContinue} fullLength>
+            {t('common:CONTINUE')}
+          </Button>
+        }
+      >
+        <PageTitle title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
+          onGoBack={onGoBack}
+          onCancel={onCancel}
+        />
+        <div
+          style={{
+            marginBottom: '24px',
+            marginTop: '8px',
+          }}
+        >
+          <ProgressBar value={progress} />
+        </div>
+        <div className={styles.planting_label}>
+          {(needs_transplant === 'true') ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
+        </div>
+        <LocationPicker
+          className={styles.mapContainer}
+          setSelectedLocation={setSelectedLocation}
+          selectedLocationId={managementPlanLocationId}
+        />
+        <div>
+          <div className={styles.shown_label}>
+            {t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}
           </div>
-          <div className={styles.planting_label}>
-            {(needs_transplant==='true')? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
-          </div>
-          <LocationPicker 
-            className={styles.mapContainer} 
-            setSelectedLocation={setSelectedLocation}
-            selectedLocationId={managementPlanLocationId}
-          />
-          <div>
-            <div className={styles.shown_label}>
-              {t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}
-            </div>
-          </div>  
-        </Form>     
-      </>
-    )
+        </div>
+      </Layout>
+    </>
+  )
 }
 
 PurePlantingLocation.prototype = {

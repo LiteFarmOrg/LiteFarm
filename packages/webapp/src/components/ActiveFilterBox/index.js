@@ -13,14 +13,12 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
 
   const dispatch = useDispatch();
 
-  console.log({ pageFilter });
   const activeFilters = Object.entries(pageFilter).reduce((pfAcc, pfCurr) => {
     const filterKey = pfCurr[0];
     const filter = pfCurr[1];
-    console.log({ filter });
     const activeList = Object.entries(filter).reduce((fAcc, fCurr) => {
       const filterItemValue = fCurr[0];
-      const isFilterItemActive = fCurr[1];
+      const isFilterItemActive = fCurr[1].active;
       if (isFilterItemActive) {
         fAcc.push({
           filterKey,
@@ -32,7 +30,6 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
     }, []);
     return [...activeList, ...pfAcc];
   }, []);
-  console.log({ activeFilters });
 
   useEffect(() => {
     const handleResize = () => {

@@ -28,7 +28,7 @@ export default function useCropCatalogue(filterString) {
     const locationFilter = cropCatalogueFilter[LOCATION];
     const included = new Set();
     for (const location_id in locationFilter) {
-      if (locationFilter[location_id]) included.add(location_id);
+      if (locationFilter[location_id].active) included.add(location_id);
     }
     if (included.size === 0) return fieldCropsFilteredByFilterString;
     return fieldCropsFilteredByFilterString.filter((fieldCrop) =>
@@ -40,7 +40,7 @@ export default function useCropCatalogue(filterString) {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];
     const included = new Set();
     for (const supplier in supplierFilter) {
-      if (supplierFilter[supplier]) included.add(supplier);
+      if (supplierFilter[supplier].active) included.add(supplier);
     }
     if (included.size === 0) return fieldCropsFilteredByLocations;
     return fieldCropsFilteredByLocations.filter((fieldCrop) => included.has(fieldCrop.supplier));
@@ -79,7 +79,7 @@ export default function useCropCatalogue(filterString) {
     const statusFilter = cropCatalogueFilter[STATUS];
     const included = new Set();
     for (const status in statusFilter) {
-      if (statusFilter[status]) included.add(status);
+      if (statusFilter[status].active) included.add(status);
     }
     if (included.size === 0) return cropCatalogue;
     const newCropCatalogue = cropCatalogue.map((catalogue) => ({

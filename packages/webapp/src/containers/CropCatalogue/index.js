@@ -102,7 +102,11 @@ export default function CropCatalogue({ history }) {
       </MuiFullPagePopup>
 
       {isFilterCurrentlyActive && (
-        <ActiveFilterBox pageFilter={cropCatalogueFilter} pageFilterKey={'cropCatalogue'} />
+        <ActiveFilterBox
+          pageFilter={cropCatalogueFilter}
+          pageFilterKey={'cropCatalogue'}
+          style={{ marginBottom: '32px' }}
+        />
       )}
 
       <div ref={containerRef}>

@@ -60,9 +60,10 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
     const targetPageFilter = filterReducer[pageFilterKey];
     let isActive = false;
     for (const filterKey in targetPageFilter) {
+      if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
       const filter = targetPageFilter[filterKey];
       isActive = Object.values(filter).reduce((acc, curr) => {
-        return acc || curr;
+        return acc || curr.active;
       }, isActive);
     }
     return isActive;

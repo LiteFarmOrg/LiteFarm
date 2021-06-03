@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {
   const managementPlans = useSelector(managementPlansSelector);
+  console.log(managementPlans);
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const managementPlansFilteredByFilterString = useStringFilteredCrops(

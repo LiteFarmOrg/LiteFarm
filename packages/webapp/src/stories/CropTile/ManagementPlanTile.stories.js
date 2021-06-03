@@ -17,7 +17,7 @@ export const Active = Template.bind({});
 Active.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    start_date: '2020-12-25T15:02:31.440Z',
+    seed_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
   },
@@ -28,7 +28,7 @@ export const Planned = Template.bind({});
 Planned.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    start_date: '2020-12-25T15:02:31.440Z',
+    seed_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
   },
@@ -39,7 +39,7 @@ export const Past = Template.bind({});
 Past.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    start_date: '2020-12-25T15:02:31.440Z',
+    seed_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
   },

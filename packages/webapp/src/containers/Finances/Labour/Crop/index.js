@@ -51,7 +51,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) =
   let final = Object.assign({}, {}); // crop: crop name, profit: number
   for (let fc of managementPlans) {
     const range1 = moment.range(startDate, endDate);
-    const range2 = moment.range(moment(fc.start_date), moment(fc.end_date));
+    const range2 = moment.range(moment(fc.seed_date), moment(fc.harvest_date));
     if (range1.overlaps(range2)) {
       final = Object.assign(final, {
         [fc.management_plan_id]: {

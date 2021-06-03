@@ -261,7 +261,7 @@ class LogDetail extends Component {
                     return (
                       <div className={styles.innerList} key={fc.management_plan_id}>
                         <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
-                        <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
+                        <p>{moment(fc.seed_date).format('YYYY-MM-DD')}</p>
                       </div>
                     );
                   } else

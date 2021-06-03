@@ -109,7 +109,9 @@ class EditManagementPlanModal extends React.Component {
     }
 
     if (
-      moment(editedManagementPlan.end_date).isSameOrBefore(moment(editedManagementPlan.start_date))
+      moment(editedManagementPlan.harvest_date).isSameOrBefore(
+        moment(editedManagementPlan.seed_date),
+      )
     ) {
       toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
       return;
@@ -148,8 +150,8 @@ class EditManagementPlanModal extends React.Component {
         management_plan_id: parseInt(this.props.cropBeingEdited.management_plan_id, DEC_RADIX),
         crop_id: parseInt(editedManagementPlan.crop_id, DEC_RADIX),
         location_id: this.props.cropBeingEdited.location.location_id,
-        start_date: editedManagementPlan.start_date,
-        end_date: editedManagementPlan.end_date,
+        seed_date: editedManagementPlan.seed_date,
+        harvest_date: editedManagementPlan.harvest_date,
         area_used: convertToMetric(editedManagementPlan.area_used, area_unit, 'm2'),
         estimated_production: estimatedProduction,
         variety: editedManagementPlan.variety || '',
@@ -290,13 +292,13 @@ class EditManagementPlanModal extends React.Component {
 
   onStartDateChange = (date) => {
     const currentCrop = this.state.managementPlan;
-    currentCrop.start_date = date.format('YYYY-MM-DD');
+    currentCrop.seed_date = date.format('YYYY-MM-DD');
     this.setState({ managementPlan: currentCrop });
   };
 
   onEndDateChange = (date) => {
     const currentCrop = this.state.managementPlan;
-    currentCrop.end_date = date.format('YYYY-MM-DD');
+    currentCrop.harvest_date = date.format('YYYY-MM-DD');
     this.setState({ managementPlan: currentCrop });
   };
 
@@ -400,16 +402,16 @@ class EditManagementPlanModal extends React.Component {
               <h4 style={{ textAlign: 'center' }}>
                 {this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_START_FINISH')}
               </h4>
-              <FormGroup controlId="start_date">
+              <FormGroup controlId="seed_date">
                 <DateContainer
-                  date={moment(this.state.managementPlan.start_date)}
+                  date={moment(this.state.managementPlan.seed_date)}
                   onDateChange={this.onStartDateChange}
                   placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_START_DATE')}
                 />
               </FormGroup>
-              <FormGroup controlId="end_date">
+              <FormGroup controlId="harvest_date">
                 <DateContainer
-                  date={moment(this.state.managementPlan.end_date)}
+                  date={moment(this.state.managementPlan.harvest_date)}
                   onDateChange={this.onEndDateChange}
                   placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_END_DATE')}
                 />

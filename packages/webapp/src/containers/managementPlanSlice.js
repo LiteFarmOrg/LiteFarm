@@ -130,9 +130,10 @@ const getPlantingTypeSelector = (plantingTypeEntitySelector) =>
           crop_variety,
           location,
           transplant_container,
-          [plantingType.planting_type]: plantingType,
+          [plantingType.planting_type.toLowerCase()]: plantingType,
         };
       }
+      return entities;
     },
   );
 

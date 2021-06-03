@@ -56,7 +56,7 @@ class EstimatedRevenue extends Component {
     let cropRevenueMap = {};
     managementPlans.forEach((f) => {
       // check if this field crop existed during this year
-      const endDate = new Date(f.end_date);
+      const endDate = new Date(f.harvest_date);
       // get all field crops with end dates belonging to the chosen year
       if (
         (this.state.startDate && this.state.startDate._d) <= endDate &&

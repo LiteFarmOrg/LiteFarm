@@ -126,13 +126,13 @@ class NewManagementPlanModal extends React.Component {
       let yieldData = {
         crop_id: newManagementPlan.crop_id,
         'quantity_kg/m2': newManagementPlan.estimated_yield,
-        date: newManagementPlan.end_date,
+        date: newManagementPlan.harvest_date,
       };
 
       let priceData = {
         crop_id: newManagementPlan.crop_id,
         value: newManagementPlan.estimated_price,
-        date: newManagementPlan.end_date,
+        date: newManagementPlan.harvest_date,
       };
 
       this.props.dispatch(createYield(yieldData));
@@ -150,8 +150,8 @@ class NewManagementPlanModal extends React.Component {
         postManagementPlan({
           crop_id: newManagementPlan.crop_id,
           location_id: this.props.location_id,
-          start_date: newManagementPlan.start_date,
-          end_date: newManagementPlan.end_date,
+          seed_date: newManagementPlan.seed_date,
+          harvest_date: newManagementPlan.harvest_date,
           area_used: convertToMetric(newManagementPlan.area_used, area_unit, 'm2'),
           estimated_production: estimatedProduction,
           estimated_revenue: estimatedRevenue,
@@ -202,8 +202,8 @@ class NewManagementPlanModal extends React.Component {
     let errors = '';
 
     if (
-      moment(currentManagementPlan.end_date).isSameOrBefore(
-        moment(currentManagementPlan.start_date),
+      moment(currentManagementPlan.harvest_date).isSameOrBefore(
+        moment(currentManagementPlan.seed_date),
       )
     ) {
       toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
@@ -213,7 +213,7 @@ class NewManagementPlanModal extends React.Component {
 
     for (const key in currentManagementPlan) {
       if (
-        ((key === 'start_date' || key === 'end_date') && !currentManagementPlan[key]._isValid) ||
+        ((key === 'seed_date' || key === 'harvest_date') && !currentManagementPlan[key]._isValid) ||
         currentManagementPlan[key] === ''
       ) {
         isValid = false;
@@ -257,13 +257,13 @@ class NewManagementPlanModal extends React.Component {
 
   onStartDateChange = (date) => {
     const currentCrop = this.state.managementPlan;
-    currentCrop.start_date = date;
+    currentCrop.seed_date = date;
     this.setState({ managementPlan: currentCrop });
   };
 
   onEndDateChange = (date) => {
     const currentCrop = this.state.managementPlan;
-    currentCrop.end_date = date;
+    currentCrop.harvest_date = date;
     this.setState({ managementPlan: currentCrop });
   };
 
@@ -500,21 +500,21 @@ class NewManagementPlanModal extends React.Component {
                   {this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_START_FINISH')}
                 </h4>
                 <FormGroup
-                  controlId="start_date"
-                  validationState={this.validateHasDate(this.state.managementPlan.start_date)}
+                  controlId="seed_date"
+                  validationState={this.validateHasDate(this.state.managementPlan.seed_date)}
                 >
                   <DateContainer
-                    date={this.state.managementPlan.start_date}
+                    date={this.state.managementPlan.seed_date}
                     onDateChange={this.onStartDateChange}
                     placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_START_DATE')}
                   />
                 </FormGroup>
                 <FormGroup
-                  controlId="end_date"
-                  validationState={this.validateHasDate(this.state.managementPlan.end_date)}
+                  controlId="harvest_date"
+                  validationState={this.validateHasDate(this.state.managementPlan.harvest_date)}
                 >
                   <DateContainer
-                    date={this.state.managementPlan.end_date}
+                    date={this.state.managementPlan.harvest_date}
                     onDateChange={this.onEndDateChange}
                     placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_END_DATE')}
                   />

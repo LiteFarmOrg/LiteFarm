@@ -30,12 +30,12 @@ export default function PureManagementPlanTile({
   const {
     crop_variety_name,
     crop_translation_key,
-    start_date,
-    end_date,
+    seed_date,
+    harvest_date,
     crop_variety_photo_url,
   } = managementPlan;
   let displayDate;
-  const date = new Date(start_date);
+  const date = new Date(seed_date);
   if (isPast(status)) {
     displayDate = date.getFullYear();
   } else if (isPlanned(status)) {
@@ -79,7 +79,7 @@ export default function PureManagementPlanTile({
 PureManagementPlanTile.prototype = {
   managementPlan: PropTypes.shape({
     crop_variety_name: PropTypes.string,
-    start_date: PropTypes.string,
+    seed_date: PropTypes.string,
     crop_translation_key: PropTypes.string,
   }),
   className: PropTypes.string,

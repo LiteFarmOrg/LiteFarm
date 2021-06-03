@@ -300,9 +300,9 @@ class EditField extends Component {
                   <div>
                     <Card.Title style={{ fontSize: '13px' }}>
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
-                      {crop.start_date && crop.start_date.split('T')[0]}{' '}
+                      {crop.seed_date && crop.seed_date.split('T')[0]}{' '}
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
-                      {crop.end_date && crop.end_date.split('T')[0]}
+                      {crop.harvest_date && crop.harvest_date.split('T')[0]}
                     </Card.Title>
                   </div>
                 </Card.Header>
@@ -375,9 +375,9 @@ class EditField extends Component {
                   <div>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
-                      {crop.start_date && crop.start_date.split('T')[0]}{' '}
+                      {crop.seed_date && crop.seed_date.split('T')[0]}{' '}
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
-                      {crop.end_date && crop.end_date.split('T')[0]}
+                      {crop.harvest_date && crop.harvest_date.split('T')[0]}
                     </Card.Title>
                   </div>
                 </Card.Header>

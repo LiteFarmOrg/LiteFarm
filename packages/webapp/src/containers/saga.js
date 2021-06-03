@@ -336,6 +336,7 @@ export const getManagementPlanAndPlantingMethodSuccess = createAction(
 );
 
 export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: managementPlans }) {
+  yield put(getManagementPlansSuccess(managementPlans));
   const plantingMethods = Object.keys(plantingTypeActionMap).reduce(
     (map, plantingMethod) => Object.assign(map, { [plantingMethod]: [] }),
     {},

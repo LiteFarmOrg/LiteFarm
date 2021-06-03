@@ -61,7 +61,7 @@ import transplantContainerReducer from '../containers/transplantContainerSlice';
 import containerReducer from '../containers/containerSlice';
 import bedsReducer from '../containers/bedsSlice';
 import rowsReducer from '../containers/rowsSlice';
-import broadcastSliceReducer from '../containers/broadcastSlice';
+import broadcastReducer from '../containers/broadcastSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -158,7 +158,7 @@ const entitiesReducer = combineReducers({
   containerReducer,
   bedsReducer,
   rowsReducer,
-  broadcastSliceReducer,
+  broadcastReducer,
 });
 
 const persistedStateReducer = combineReducers({

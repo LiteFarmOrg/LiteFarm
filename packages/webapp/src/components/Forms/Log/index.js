@@ -94,7 +94,7 @@ class DefaultLogForm extends React.Component {
               return {
                 value: c.management_plan_id,
                 label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(
-                  c.start_date,
+                  c.seed_date,
                 ).format('YYYY-MM-DD')})`,
               };
             } else
@@ -114,7 +114,7 @@ class DefaultLogForm extends React.Component {
               return {
                 value: c.management_plan_id,
                 label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(
-                  c.start_date,
+                  c.seed_date,
                 ).format('YYYY-MM-DD')})`,
               };
             } else

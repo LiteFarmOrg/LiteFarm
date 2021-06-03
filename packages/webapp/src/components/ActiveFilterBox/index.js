@@ -19,11 +19,12 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
     const activeList = Object.entries(filter).reduce((fAcc, fCurr) => {
       const filterItemValue = fCurr[0];
       const isFilterItemActive = fCurr[1].active;
+      const filterLabel = fCurr[1].label;
       if (isFilterItemActive) {
         fAcc.push({
           filterKey,
           value: filterItemValue,
-          label: filterItemValue,
+          label: filterLabel,
         });
       }
       return fAcc;

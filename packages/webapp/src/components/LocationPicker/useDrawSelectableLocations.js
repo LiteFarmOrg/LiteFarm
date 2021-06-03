@@ -103,7 +103,7 @@ const useDrawSelectableLocations = () => {
       crossOnDrag: false,
       label: {
         text: name,
-        color: 'white',
+        color: (selectedLocationId !== undefined && selectedLocationId === location_id)? 'black' : 'white',
         fontSize: '16px',
         className: styles.mapLabel,
       },
@@ -114,12 +114,6 @@ const useDrawSelectableLocations = () => {
       polygon.setOptions({
         fillColor: selectedColour,
         fillOpacity: 0.5,
-      });
-      marker.setOptions({
-        text: name,
-        color: '#282B36',
-        fontSize: '16px',
-        className: styles.mapLabel,
       });
 
       setSelectedLocation({

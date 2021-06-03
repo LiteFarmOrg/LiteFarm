@@ -195,8 +195,6 @@ const useDrawSelectableLocations = () => {
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
         if (selectedLocationRef.current.asset === 'line') {
-          console.log("LINE");
-          console.log(selectedLocationRef.current);
           resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
         } else {
           resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);

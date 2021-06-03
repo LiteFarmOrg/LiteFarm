@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-// import styles from './styles.module.scss';
 import clsx from 'clsx';
 import CustomZoom from '../Map/CustomZoom';
 import CustomCompass from '../Map/CustomCompass';

@@ -6,7 +6,6 @@ import PurePlantingLocation from '../../components/PlantingLocation';
 
 export default function PlantingLocation({ history, match}) {
   const [selectedLocation, setSelectedLocation] = useState(null);
-  console.log(selectedLocation);
 
   const variety_id = match.params.variety_id;
 
@@ -26,7 +25,7 @@ export default function PlantingLocation({ history, match}) {
 
   const onGoBack = () => {
     // TODO - add path
-    history.push(`/path`);
+    console.log('Go back to choose date');
   }
 
   const onCancel = () => {

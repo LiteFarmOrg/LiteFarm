@@ -29,7 +29,7 @@ const Filter = ({ subject, items, filterKey, style, filterRef, filterState, upda
             <CheckBoxPill
               label={item.label}
               value={item.value}
-              checked={filterState[item.value]}
+              checked={filterState[item.value].active}
               updateFilterState={updateFilterState}
               key={item.value}
             />

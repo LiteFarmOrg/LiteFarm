@@ -84,6 +84,7 @@ export default function CropCatalogue({ history }) {
           onFilterOpen={onFilterOpen}
           value={filterString}
           onChange={filterStringOnChange}
+          isFilterActive={isFilterCurrentlyActive}
         />
         <CatalogSpotlight />
       </div>

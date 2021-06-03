@@ -49,12 +49,6 @@ export default function PureSearchbarAndFilter({ filterOptions, onFilterOpen, va
         {filterOptions?.length && <div className={classes.circle} />}
         <FiFilter className={classes.filter} onClick={onFilterOpen} />
       </div>
-
-      <div className={classes.pillContainer}>
-        {filterOptions &&
-          filterOptions.length &&
-          filterOptions.map((option, key) => <Pill item={option} removable selected key={key} />)}
-      </div>
     </>
   );
 }

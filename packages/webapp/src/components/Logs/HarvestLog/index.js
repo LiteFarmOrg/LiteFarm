@@ -84,8 +84,8 @@ export default function PureHarvestLog({
   const selectedCropValue = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].field_crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].management_plan_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -94,8 +94,8 @@ export default function PureHarvestLog({
   const setDefaultCrop = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].crop.crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].crop.crop_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -174,7 +174,7 @@ export default function PureHarvestLog({
     let value = 0;
     crops.map((item) => {
       if (item.crop_id === crop.value) {
-        value = item.field_crop_id;
+        value = item.management_plan_id;
       }
     });
     return value;

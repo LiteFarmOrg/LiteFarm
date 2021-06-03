@@ -369,16 +369,18 @@ async function management_planFactory({
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop }),
-} = {}, fieldCrop = fakeFieldCrop()) {
-  const [location, field, cropVariety] = await Promise.all([promisedLocation, promisedField, promisedCropVariety]);
-  const [{ created_by_user_id }] = location;
-  const [{ location_id }] = field;
-  const [{ crop_variety_id }] = cropVariety;
+} = {}, managementPlan = fakeManagementPlan()) {
+  const [cropVariety] = await Promise.all([promisedCropVariety]);
+  const [{ crop_variety_id, created_by_user_id }] = cropVariety;
   const base = baseProperties(created_by_user_id);
-  return knex('management_plan').insert({ crop_variety_id, location_id: location_id, ...fieldCrop, ...base }).returning('*');
+  return knex('management_plan').insert({
+    crop_variety_id,
+    ...managementPlan,
+    ...base,
+  }).returning('*');
 }
 
-function fakeFieldCrop() {
+function fakeManagementPlan() {
   return {
     seed_date: faker.date.past(),
     needs_transplant: faker.random.boolean(),
@@ -386,6 +388,170 @@ function fakeFieldCrop() {
     harvest_date: faker.date.future(),
   };
 }
+
+async function crop_management_planFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
+  promisedCrop = cropFactory({ promisedFarm }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedManagementPlan = management_planFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }),
+} = {}, cropManagementPlan = fakeCropManagementPlan()) {
+  const [field, managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
+  const [{ location_id }] = field;
+  const [{ management_plan_id, needs_transplant }] = managementPlan;
+  needs_transplant && await transplant_containerFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedCrop,
+    promisedField: [field],
+    promisedCropVariety,
+    promisedManagementPlan,
+  });
+  return knex('crop_management_plan').insert({
+    location_id, management_plan_id, ...cropManagementPlan,
+  }).returning('*');
+}
+
+function fakeCropManagementPlan() {
+  return {
+    planting_type: faker.random.arrayElement(['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']),
+    notes: faker.lorem.words(),
+    estimated_revenue: faker.random.number(10000),
+    estimated_yield: faker.random.number(10000),
+  };
+}
+
+
+async function containerFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
+  promisedCrop = cropFactory({ promisedFarm }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedManagementPlan = management_planFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }),
+  promisedCropManagementPlan = crop_management_planFactory({
+    promisedManagementPlan,
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }, { ...fakeCropManagementPlan(), planting_type: 'CONTAINER' }),
+} = {}, container = fakeContainer()) {
+  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
+  const [{ management_plan_id }] = cropManagementPlan;
+  return knex('container').insert({
+    management_plan_id,
+    ...container,
+  }).returning('*');
+}
+
+function fakeContainer() {
+  const in_ground = faker.random.boolean();
+  return {
+    in_ground,
+    plant_spacing: in_ground ? null : faker.random.number(100),
+    total_plants: in_ground ? faker.random.number(100) : null,
+    number_of_containers: in_ground ? null : faker.random.number(100),
+    plants_per_container: in_ground ? null : faker.random.number(100),
+    planting_depth: faker.random.number(100),
+    planting_soil: in_ground ? null : faker.random.words(),
+    container_type: in_ground ? null : faker.random.words(),
+
+  };
+}
+
+async function broadcastFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
+  promisedCrop = cropFactory({ promisedFarm }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedManagementPlan = management_planFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }),
+  promisedCropManagementPlan = crop_management_planFactory({
+    promisedManagementPlan,
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }, { ...fakeCropManagementPlan(), planting_type: 'BROADCAST' }),
+} = {}, broadcast = fakeBroadcast()) {
+  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
+  const [{ management_plan_id }] = cropManagementPlan;
+  return knex('broadcast').insert({
+    management_plan_id,
+    ...broadcast,
+  }).returning('*');
+}
+
+function fakeBroadcast() {
+  return {
+    percentage_planted: faker.random.number(100),
+    area_used: faker.random.number(10000),
+    seeding_rate: faker.random.number(10000),
+    required_seeds: faker.random.number(10000),
+  };
+}
+
+
+async function transplant_containerFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
+  promisedCrop = cropFactory({ promisedFarm }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedManagementPlan = management_planFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+  }),
+} = {}, container = fakeContainer()) {
+  const [managementPlan, field] = await Promise.all([promisedManagementPlan, promisedField]);
+  const [{ management_plan_id }] = managementPlan;
+  const [{ location_id }] = field;
+  return knex('transplant_container').insert({
+    management_plan_id,
+    location_id,
+    ...container,
+  }).returning('*');
+}
+
+function fakeTransplantContainer() {
+  const in_ground = faker.random.boolean();
+  return {
+    in_ground,
+    plant_spacing: in_ground ? null : faker.random.number(100),
+    total_plants: in_ground ? faker.random.number(100) : null,
+    number_of_containers: in_ground ? null : faker.random.number(100),
+    plants_per_container: in_ground ? null : faker.random.number(100),
+    planting_depth: faker.random.number(100),
+    planting_soil: in_ground ? null : faker.random.words(),
+    container_type: in_ground ? null : faker.random.words(),
+  };
+}
+
 
 async function crop_varietyFactory({
   promisedFarm = farmFactory(),
@@ -800,11 +966,11 @@ function fakeWaterBalance() {
   };
 }
 
-// async function waterBalanceFactory({ promisedFieldCrop = management_planFactory() } = {}, waterBalance = fakeWaterBalance()) {
-//   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
-//   const [{ field_id, crop_id }] = fieldCrop;
-//   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
-// }
+async function waterBalanceFactory({ promisedManagementPlan = management_planFactory() } = {}, waterBalance = fakeWaterBalance()) {
+  const [managementPlan] = await Promise.all([promisedManagementPlan]);
+  const [{ field_id, crop_id }] = managementPlan;
+  return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
+}
 
 function fakeNitrogenSchedule() {
   return {
@@ -1097,7 +1263,11 @@ module.exports = {
   fieldFactory, fakeField,
   gardenFactory, fakeGarden,
   cropFactory, fakeCrop,
-  management_planFactory, fakeFieldCrop,
+  management_planFactory, fakeManagementPlan,
+  crop_management_planFactory, fakeCropManagementPlan,
+  containerFactory, fakeContainer,
+  transplant_containerFactory, fakeTransplantContainer,
+  broadcastFactory, fakeBroadcast,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,

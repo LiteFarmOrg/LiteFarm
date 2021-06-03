@@ -27,11 +27,11 @@ class ActivityCrops extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['field_crop_id'],
+      required: ['management_plan_id'],
 
       properties: {
         activity_id: { type: 'integer' },
-        field_crop_id: { type: 'integer' },
+        management_plan_id: { type: 'integer' },
       },
       additionalProperties: false,
     };

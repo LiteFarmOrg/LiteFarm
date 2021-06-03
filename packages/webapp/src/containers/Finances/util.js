@@ -172,13 +172,13 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
         moment(s.sale_date).isSameOrBefore(moment(endDate))
       ) {
         for (let cropSale of s.cropSale) {
-          let cid = cropSale.fieldCrop.crop_id;
+          let cid = cropSale.managementPlan.crop_id;
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].revenue += Number(parseFloat(cropSale.sale_value).toFixed(2));
           } else {
             sortObj[cid] = {
               cost: 0,
-              crop: cropSale.fieldCrop.crop.crop_common_name,
+              crop: cropSale.managementPlan.crop.crop_common_name,
               revenue: Number(parseFloat(cropSale.sale_value).toFixed(2)),
             };
           }

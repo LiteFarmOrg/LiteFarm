@@ -86,12 +86,12 @@ xdescribe('Shift tests', () => {
 
   async function appendUserFarmAShiftTask({ user_id, farm_id }, shiftData = mocks.fakeShift()) {
     let fieldForFarm = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
-    let fieldCropForField = await mocks.fieldCropFactory({ promisedField: fieldForFarm });
+    let managementPlanForField = await mocks.management_planFactory({ promisedField: fieldForFarm });
     let shift = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
     return await mocks.shiftTaskFactory({
       promisedShift: shift,
       promisedField: fieldForFarm,
-      promisedFieldCrop: fieldCropForField,
+      promisedManagementPlan: managementPlanForField,
     });
   }
 

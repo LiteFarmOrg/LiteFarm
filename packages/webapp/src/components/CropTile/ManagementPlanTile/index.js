@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles.module.scss';
 import clsx from 'clsx';
-import { ReactComponent as CalendarIcon } from '../../../assets/images/fieldCrops/calendar.svg';
+import { ReactComponent as CalendarIcon } from '../../../assets/images/managementPlans/calendar.svg';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';
@@ -16,8 +16,8 @@ const isActive = (status) => status === cropStatus.active;
 const isPast = (status) => status === cropStatus.past;
 const isPlanned = (status) => status === cropStatus.planned;
 
-export default function PureFieldCropTile({
-  fieldCrop,
+export default function PureManagementPlanTile({
+  managementPlan,
   className,
   status,
   history,
@@ -30,12 +30,12 @@ export default function PureFieldCropTile({
   const {
     crop_variety_name,
     crop_translation_key,
-    start_date,
-    end_date,
+    seed_date,
+    harvest_date,
     crop_variety_photo_url,
-  } = fieldCrop;
+  } = managementPlan;
   let displayDate;
-  const date = new Date(start_date);
+  const date = new Date(seed_date);
   if (isPast(status)) {
     displayDate = date.getFullYear();
   } else if (isPlanned(status)) {
@@ -76,10 +76,10 @@ export default function PureFieldCropTile({
   );
 }
 
-PureFieldCropTile.prototype = {
-  fieldCrop: PropTypes.shape({
+PureManagementPlanTile.prototype = {
+  managementPlan: PropTypes.shape({
     crop_variety_name: PropTypes.string,
-    start_date: PropTypes.string,
+    seed_date: PropTypes.string,
     crop_translation_key: PropTypes.string,
   }),
   className: PropTypes.string,

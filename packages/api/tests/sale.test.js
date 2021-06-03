@@ -361,7 +361,7 @@ describe('Sale Tests', () => {
     test('Should return 400 if body.cropSale[i].crop exist', async (done) => {
       delete sampleReqBody.cropSale[0].crop_id;
       sampleReqBody.cropSale[0].crop={...mocks.fakeCrop(), farm_id: farm.farm_id};
-      // Should not allow upsertGraph to post new farm/crop/fieldCrop through post sale request
+      // Should not allow upsertGraph to post new farm/crop/managementPlan through post sale request
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();

@@ -41,11 +41,6 @@ const useDrawSelectableLocations = () => {
     });
   };
 
-  const isSelectedLocation = (location, selectedLocation) => {
-    return (selectedLocation !== null) && location.location_id === selectedLocation.location_id;
-  }
-
-  let reload = false;
 
   // Draw an area
   const drawArea = (map, maps, mapBounds, area, selectedLocationId) => {
@@ -123,8 +118,6 @@ const useDrawSelectableLocations = () => {
         marker,
         asset: 'area',
       }); 
-
-      reload = true;
     }
 
     polygon.setMap(map);
@@ -183,8 +176,6 @@ const useDrawSelectableLocations = () => {
         polygon: linePolygon,
         asset: 'line',
       }); 
-
-      reload = true;
     }
 
     polyline.setMap(map);

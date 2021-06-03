@@ -17,7 +17,7 @@ export default function PurePlantingLocation({
     setSelectedLocation,
     persistedFormData,
     useHookFormPersist,
-    variety_id,
+    persistedPath,
 }) {
 
     const { t } = useTranslation(['translation', 'common', 'crop']);
@@ -32,12 +32,10 @@ export default function PurePlantingLocation({
         shouldUnregister: true,
     });
 
-    const persistedPath = [`/crop/${variety_id}/add_management_plan`];
     useHookFormPersist(persistedPath, getValues);
 
-    const {managementPlanLocationId} = persistedFormData;
+    const {needs_transplant, managementPlanLocationId} = persistedFormData;
 
-    console.log(managementPlanLocationId);
 
     return (
         <>
@@ -49,7 +47,7 @@ export default function PurePlantingLocation({
           }
           onSubmit={handleSubmit(onContinue)}
         > 
-          <PageTitle title={'Add management plan'} 
+          <PageTitle title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')} 
             onGoBack={onGoBack} 
             onCancel={onCancel}
           />
@@ -61,7 +59,9 @@ export default function PurePlantingLocation({
           >
             <ProgressBar value={progress} />
           </div>
-          <div className={styles.planting_label}>{'Select a planting location'}</div>
+          <div className={styles.planting_label}>
+            {(needs_transplant==='true')? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
+          </div>
           <LocationPicker 
             className={styles.mapContainer} 
             setSelectedLocation={setSelectedLocation}
@@ -69,7 +69,7 @@ export default function PurePlantingLocation({
           />
           <div>
             <div className={styles.shown_label}>
-              {'Only locations that can contain crops are shown'}
+              {t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}
             </div>
           </div>  
         </Form>     
@@ -78,5 +78,12 @@ export default function PurePlantingLocation({
 }
 
 PurePlantingLocation.prototype = {
-
+  selectedLocation: PropTypes.object,
+  onContinue: PropTypes.func,
+  onGoBack: PropTypes.func,
+  onCancel: PropTypes.func,
+  setSelectedLocation: PropTypes.func,
+  persistedFormData: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  persistedPath: PropTypes.array,
 };

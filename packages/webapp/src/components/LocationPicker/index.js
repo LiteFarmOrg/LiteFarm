@@ -115,6 +115,10 @@ const LocationPicker = ({
   );
 };
 
-LocationPicker.prototype = {};
+LocationPicker.prototype = {
+  className: PropTypes.string, 
+  setSelectedLocation: PropTypes.object,
+  selectedLocationId: PropTypes.string,
+};
 
 export default LocationPicker;

@@ -123,7 +123,7 @@ export const container_plant_spacing = {
   databaseUnit: databaseUnit.length,
 };
 
-const seedAmounts = {
+export const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
     defaultUnit: 'g',

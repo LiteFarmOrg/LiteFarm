@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { area_total_area, seedAmounts} from '../../util/unit'
 import clsx from 'clsx';
 import Unit from '../Form/Unit';
+import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 
 function PureBroadcastPlan({ handleContinue, persistedForm, system='metric' }) {
   const {
@@ -34,6 +35,13 @@ function PureBroadcastPlan({ handleContinue, persistedForm, system='metric' }) {
         {t('common:CONTINUE')}
       </Button>
     } onSubmit={handleSubmit(handleContinue)}>
+      <MultiStepPageTitle
+        onGoBack={()=>{}}
+        onCancel={()=>{}}
+        value={50}
+        title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
+        style={{ marginBottom: '24px' }}
+      />
       <Main style={{paddingBottom: '24px'}}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
       <Input style={{paddingBottom: '40px'}} label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}  />
       <div  className={clsx(styles.row, styles.paddingBottom40)}>

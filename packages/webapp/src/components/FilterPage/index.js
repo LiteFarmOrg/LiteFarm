@@ -15,7 +15,10 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
   for (const filter of filters) {
     const initFilterState = {};
     for (const option of filter.options) {
-      initFilterState[option.value] = option.default;
+      initFilterState[option.value] = {
+        active: option.default,
+        label: option.label,
+      };
     }
     initFilterPageState[filter.filterKey] = initFilterState;
   }
@@ -24,14 +27,14 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
   const updateFilter = (filterKey, value) => {
     setFilterPageState((prev) => {
       const change = cloneObject(prev);
-      change[filterKey][value] = !prev[filterKey][value];
+      change[filterKey][value].active = !prev[filterKey][value].active;
       return change;
     });
   };
 
   const resetFilter = () => {
     setFilterPageState((prev) => {
-      const change = recursiveFilterReset(cloneObject(prev));
+      const change = filterResetHelper(cloneObject(prev));
       return change;
     });
   };
@@ -79,15 +82,26 @@ PureFilterPage.prototype = {
 
 export default PureFilterPage;
 
-// TRUST THE NATURAL RECURSION
-const recursiveFilterReset = (filter) => {
-  Object.keys(filter).forEach((key) => {
-    const value = filter[key];
-    if (typeof value === 'boolean') {
-      filter[key] = false;
-    } else {
-      filter[key] = recursiveFilterReset(value);
+// // TRUST THE NATURAL RECURSION
+// const recursiveFilterReset = (filter) => {
+//   Object.keys(filter).forEach((key) => {
+//     const value = filter[key];
+//     if (typeof value === 'boolean') {
+//       filter[key] = false;
+//     } else {
+//       filter[key] = recursiveFilterReset(value);
+//     }
+//   });
+//   return filter;
+// };
+
+const filterResetHelper = (filter) => {
+  for (const filterKey in filter) {
+    const filterContents = filter[filterKey];
+    for (const filterValue in filterContents) {
+      const filterItem = filterContents[filterValue];
+      filterItem.active = false;
     }
-  });
+  }
   return filter;
 };

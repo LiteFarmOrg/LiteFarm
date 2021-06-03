@@ -22,7 +22,7 @@ import { cropsSelector } from '../../../containers/cropSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';
 import { Dialog } from '@material-ui/core';
-import newFieldStyles from '../NewFieldCropModal/styles.module.scss';
+import newFieldStyles from '../NewManagementPlanModal/styles.module.scss';
 import { Semibold, Underlined } from '../../Typography';
 import ReactSelect from '../../Form/ReactSelect';
 

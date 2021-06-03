@@ -12,9 +12,9 @@ import {
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
 import {
-  currentFieldCropsByLocationIdSelector,
-  plannedFieldCropsByLocationIdSelector,
-} from '../../../fieldCropSlice';
+  currentManagementPlansByLocationIdSelector,
+  plannedManagementPlansByLocationIdSelector,
+} from '../../../managementPlanSlice';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 
@@ -51,8 +51,8 @@ function EditWaterValveDetailForm({ history, match }) {
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
   const { location_id } = match.params;
-  const activeCrops = useSelector(currentFieldCropsByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedFieldCropsByLocationIdSelector(location_id));
+  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
+  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
     // approach 1: redux store check for dependencies
     // if (activeCrops.length === 0 && plannedCrops.length === 0) {

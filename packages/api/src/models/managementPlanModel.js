@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldCropModel.js) is part of LiteFarm.
+ *  This file (managementPlanModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,8 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel')
+const baseModel = require('./baseModel');
+
 class ManagementPlan extends baseModel {
   static get tableName() {
     return 'management_plan';
@@ -23,16 +24,42 @@ class ManagementPlan extends baseModel {
   static get idColumn() {
     return 'management_plan_id';
   }
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+
+  getDate(seed_date, duration) {
+    // TODO set dates
+    if (duration !== null && duration !== undefined && seed_date) {
+      return seed_date;
+    }
+    return undefined;
+  }
+
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
+    this.germination_date = this.getDate(this.seed_date, this.germination_days);
+    this.termination_date = this.getDate(this.seed_date, this.termination_days);
+    this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
+    throw new Error('Need to properly set dates');
+  }
+
+  async $beforeUpdate(opt, context) {
+    await super.$beforeUpdate(opt, context);
+    // TODO: if seed_date/transplant_days/germination_days/termination_days/harvest_days exist reset dates
+    if (Object.keys(this) > 3 || !this.deleted) {
+      this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
+      this.germination_date = this.getDate(this.seed_date, this.germination_days);
+      this.termination_date = this.getDate(this.seed_date, this.termination_days);
+      this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
+      throw new Error('Need to properly set dates');
+    }
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'crop_variety_id', 'seed_date'],
+      required: ['crop_variety_id', 'seed_date'],
       properties: {
         management_plan_id: { type: 'integer' },
-        location_id: { type: 'string' },
         crop_variety_id: { type: 'string' },
         seed_date: { type: 'date' },
         needs_transplant: { type: 'boolean' },
@@ -50,42 +77,44 @@ class ManagementPlan extends baseModel {
       additionalProperties: false,
     };
   }
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-      location: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./locationModel.js'),
-        join: {
-          from: 'management_plan.location_id',
-          to: 'location.location_id',
-        },
 
-      },
+  static get relationMappings() {
+    return {
       crop_variety: {
         relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./cropVarietyModel'),
         join: {
           from: 'management_plan.crop_variety_id',
           to: 'crop_variety.crop_variety_id',
         },
       },
-      activityLog:{
-        relation:Model.ManyToManyRelation,
-        modelClass:require('./activityLogModel.js'),
-        join:{
+      crop_management_plan: {
+        modelClass: require('./cropManagementPlanModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'management_plan.management_plan_id',
+          to: 'crop_management_plan.management_plan_id',
+        },
+      },
+      transplant_container: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./transplantContainerModel'),
+        join: {
+          from: 'management_plan.management_plan_id',
+          to: 'transplant_container.management_plan_id',
+        },
+      },
+
+      activityLog: {
+        relation: Model.ManyToManyRelation,
+        modelClass: require('./activityLogModel.js'),
+        join: {
           to: 'activityLog.activity_id',
-          through:{
-            from:'activityCrops.activity_id',
-            to:'activityCrops.management_plan_id',
+          through: {
+            from: 'activityCrops.activity_id',
+            to: 'activityCrops.management_plan_id',
           },
-          from:'management_plan.management_plan_id',
+          from: 'management_plan.management_plan_id',
         },
       },
     };

@@ -23,7 +23,7 @@ import { currentLogSelector, logSelector, pestControlLogStateSelector } from '..
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import ReactSelect from '../../../components/Form/ReactSelect';
@@ -344,8 +344,8 @@ class PestControlLog extends Component {
       value: f.location_id,
       label: f.name,
     }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
-      value: fc.field_crop_id,
+    const selectedCrops = selectedLog.managementPlan.map((fc) => ({
+      value: fc.management_plan_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       location_id: fc.location_id,
     }));
@@ -487,7 +487,11 @@ class PestControlLog extends Component {
                   </div>
                 </div>
               )}
-              <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
+              <LogFooter
+                disabled={!this.props.formState.$form.valid}
+                edit={true}
+                onClick={() => this.setState({ showModal: true })}
+              />
             </Form>
             <ConfirmModal
               open={this.state.showModal}
@@ -636,7 +640,7 @@ class PestControlLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
@@ -644,7 +648,7 @@ const mapStateToProps = (state) => {
     pestControlLog: pestLogSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    formState: pestControlLogStateSelector(state)
+    formState: pestControlLogStateSelector(state),
   };
 };
 

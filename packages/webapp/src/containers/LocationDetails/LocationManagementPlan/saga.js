@@ -20,82 +20,82 @@ import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
-  deleteFieldCropSuccess,
-  getFieldCropsSuccess,
-  onLoadingFieldCropFail,
-  onLoadingFieldCropStart,
-  postFieldCropSuccess,
-  putFieldCropSuccess,
-} from '../../fieldCropSlice';
+  deleteManagementPlanSuccess,
+  getManagementPlansSuccess,
+  onLoadingManagementPlanFail,
+  onLoadingManagementPlanStart,
+  postManagementPlanSuccess,
+  putManagementPlanSuccess,
+} from '../../managementPlanSlice';
 import i18n from '../../../locales/i18n';
 
 const DEC = 10;
 
-export const getExpiredFieldCrops = createAction(`getExpiredFieldCropsSaga`);
+export const getExpiredManagementPlans = createAction(`getExpiredManagementPlansSaga`);
 
-export function* getExpiredFieldCropsSaga() {
-  const { fieldCropURL } = apiConfig;
+export function* getExpiredManagementPlansSaga() {
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingFieldCropStart());
-    const result = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-    yield put(getFieldCropsSuccess(result.data));
+    yield put(onLoadingManagementPlanStart());
+    const result = yield call(axios.get, managementPlanURL + '/expired/farm/' + farm_id, header);
+    yield put(getManagementPlansSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingFieldCropFail());
+    yield put(onLoadingManagementPlanFail());
     console.error('failed to fetch expired crops from database');
   }
 }
 
-export const postFieldCrop = createAction(`postFieldCropSaga`);
+export const postManagementPlan = createAction(`postManagementPlanSaga`);
 
-export function* postFieldCropSaga({ payload: fieldCrop }) {
-  const { fieldCropURL } = apiConfig;
+export function* postManagementPlanSaga({ payload: managementPlan }) {
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
+    const result = yield call(axios.post, managementPlanURL, managementPlan, header);
     console.log(result);
-    yield put(postFieldCropSuccess(result.data));
+    yield put(postManagementPlanSuccess(result.data));
   } catch (e) {
-    console.log('failed to add fieldCrop to database');
+    console.log('failed to add managementPlan to database');
   }
 }
 
-export const putFieldCrop = createAction(`putFieldCropSaga`);
+export const putManagementPlan = createAction(`putManagementPlanSaga`);
 
-export function* putFieldCropSaga({ payload: fieldCrop }) {
-  const { fieldCropURL } = apiConfig;
+export function* putManagementPlanSaga({ payload: managementPlan }) {
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(
       axios.put,
-      fieldCropURL + `/${fieldCrop.field_crop_id}`,
-      fieldCrop,
+      managementPlanURL + `/${managementPlan.management_plan_id}`,
+      managementPlan,
       header,
     );
-    yield put(putFieldCropSuccess(fieldCrop));
+    yield put(putManagementPlanSuccess(managementPlan));
     toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
   } catch (e) {
-    console.log('Failed to add fieldCrop to database');
+    console.log('Failed to add managementPlan to database');
     toastr.error(i18n.t('message:CROP.ERROR.EDIT'));
   }
 }
 
-export const deleteFieldCrop = createAction(`deleteFieldCropSaga`);
+export const deleteManagementPlan = createAction(`deleteManagementPlanSaga`);
 
-export function* deleteFieldCropSaga({ payload: field_crop_id }) {
+export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
   const currentDate = formatDate(new Date());
-  const { fieldCropURL } = apiConfig;
+  const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, fieldCropURL + `/${field_crop_id}`, header);
-    yield put(deleteFieldCropSuccess(field_crop_id));
+    const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
+    yield put(deleteManagementPlanSuccess(management_plan_id));
     toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
   } catch (e) {
     console.log('Failed To Delete Field Crop Error: ', e);
@@ -156,11 +156,11 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-export default function* fieldCropSaga() {
-  yield takeLeading(postFieldCrop.type, postFieldCropSaga);
-  yield takeLatest(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
-  yield takeLeading(deleteFieldCrop.type, deleteFieldCropSaga);
+export default function* managementPlanSaga() {
+  yield takeLeading(postManagementPlan.type, postManagementPlanSaga);
+  yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
+  yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);
   yield takeLeading(createYield.type, createYieldSaga);
   yield takeLeading(createPrice.type, createPriceSaga);
-  yield takeLeading(putFieldCrop.type, putFieldCropSaga);
+  yield takeLeading(putManagementPlan.type, putManagementPlanSaga);
 }

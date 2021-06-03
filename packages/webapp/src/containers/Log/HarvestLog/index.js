@@ -11,12 +11,12 @@ import {
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { getHarvestUseTypes } from '../actions';
-import { getFieldCrops } from '../../saga';
+import { getManagementPlans } from '../../saga';
 import { currentLogSelector } from '../selectors';
 import { deleteLog } from '../Utility/actions';
 
@@ -28,10 +28,10 @@ function HarvestLog() {
   const isEditStepOne = useSelector(canEditStepOneSelector);
   const selectedLog = useSelector(currentLogSelector);
   const locations = useSelector(cropLocationsSelector);
-  const crops = useSelector(currentAndPlannedFieldCropsSelector);
+  const crops = useSelector(currentAndPlannedManagementPlansSelector);
   const isEdit = useSelector(canEditSelector);
   useEffect(() => {
-    dispatch(getFieldCrops());
+    dispatch(getManagementPlans());
     dispatch(getHarvestUseTypes());
   }, []);
 

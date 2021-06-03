@@ -225,8 +225,8 @@ const logServices = {
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
     for (const log of logs) {
-      // get locations and fieldCrops associated with log
-      await log.$fetchGraph('fieldCrop.crop_variety.crop');
+      // get locations and management_plans associated with log
+      await log.$fetchGraph('management_plan.crop_variety.crop');
       await baseController.getRelated(log, locationModel);
 
       // get related models for specialized logs
@@ -252,8 +252,8 @@ const logServices = {
     const user_id = user.user_id;
     const activityLog = await baseController.updateIndividualById(ActivityLogModelModel, logId, body, req, { trx });
 
-    //insert fieldCrops,locations
-    // TODO: change body.crops to body.fieldCrops
+    //insert managementPlans,locations
+    // TODO: change body.crops to body.managementPlans
     await baseController.relateModels(activityLog, managementPlanModel, body.crops, trx);
     // TODO: Deprecate locations field in req.body
     await baseController.relateModels(activityLog, locationModel, body.locations, trx);

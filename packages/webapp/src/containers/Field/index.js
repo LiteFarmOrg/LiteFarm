@@ -27,7 +27,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getLocations } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
-import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
 import { Semibold, Title } from '../../components/Typography';
 
 class Field extends Component {
@@ -334,7 +334,7 @@ class Field extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
     fieldStats: fieldStatusSelector(state),
   };

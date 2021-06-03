@@ -147,7 +147,7 @@ export function* getAllShiftSaga() {
               {
                 task_id: shift.task_id,
                 duration: shift.duration,
-                field_crop_id: shift.field_crop_id,
+                management_plan_id: shift.management_plan_id,
                 location_id: shift.location_id,
                 is_location: shift.is_location,
                 shift_id: shift.shift_id,
@@ -158,7 +158,7 @@ export function* getAllShiftSaga() {
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
             duration: shift.duration,
-            field_crop_id: shift.field_crop_id,
+            management_plan_id: shift.management_plan_id,
             location_id: shift.location_id,
             is_location: shift.is_location,
             shift_id: shift.shift_id,

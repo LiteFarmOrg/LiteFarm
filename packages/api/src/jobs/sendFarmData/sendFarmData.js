@@ -16,7 +16,7 @@
 
 const fs = require('async-file');
 const fieldModel = require('../../models/fieldModel');
-const FieldCropController = require('../../controllers/fieldCropController');
+const ManagementPlanController = require('../../controllers/managementPlanController');
 const logController = require('../../controllers/logController');
 const logServices = logController.logServices;
 const farmExpenseModel = require('../../models/farmExpenseModel');
@@ -45,7 +45,7 @@ const TEMPLATE = {
   'farm': [],
   'users': [],
   'fields': [],
-  'field_crops': [],
+  'management_plans': [],
   'shifts': [],
   'logs': [],
   'expenses': [],
@@ -110,18 +110,18 @@ class sendUserFarmDataScheduler {
           );
           template.users = user_data.rows;
           template.fields = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
-          template.field_crops = await FieldCropController.getByForeignKey(farm_id);
+          template.management_plans = await ManagementPlanController.getByForeignKey(farm_id);
 
           const get_shifts = await knex.raw(
             `
-          SELECT t.shift_id, t.task_id, tp.task_name, t.duration AS "duration_minute", s.break_duration AS "break_duration_minute", s.start_time, s.end_time, s.wage_at_moment AS "hourly_wage", u.user_id, u.first_name, u.last_name, x.crop_id, x.crop_common_name, t.is_field, t.field_id, t.field_crop_id
+          SELECT t.shift_id, t.task_id, tp.task_name, t.duration AS "duration_minute", s.break_duration AS "break_duration_minute", s.start_time, s.end_time, s.wage_at_moment AS "hourly_wage", u.user_id, u.first_name, u.last_name, x.crop_id, x.crop_common_name, t.is_field, t.field_id, t.management_plan_id
           FROM "shiftTask" t
           LEFT JOIN (
-	          SELECT f.field_crop_id, c.crop_id, crop_common_name
-	          FROM "fieldCrop" f, "crop" c
+	          SELECT f.management_plan_id, c.crop_id, crop_common_name
+	          FROM "managementPlan" f, "crop" c
 	          WHERE f.crop_id = c.crop_id
 	          )
-	          x ON x.field_crop_id = t.field_crop_id,
+	          x ON x.management_plan_id = t.management_plan_id,
           "shift" s, "users" u, "taskType" tp, "userFarm" uf
           WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = ?
           AND t.task_id = tp.task_id
@@ -145,12 +145,12 @@ class sendUserFarmDataScheduler {
 
 
           await saveJson(template.farm, 'farm');
-          delete(template.users.notification_setting);
+          delete (template.users.notification_setting);
           await saveJson(template.users, 'users');
           await saveJson(template.fields, 'fields');
-          delete(template.field_crops.crop);
-          await saveJson(template.field_crops, 'field_crops', ['farm_id', 'field_id', 'field_name', 'grid_points.lat', 'grid_points.lng', 'crop_id', 'field_crop_id', 'crop_common_name', 'crop_genus', 'crop_specie', 'crop_group', 'crop_subgroup', 'start_date',
-            'end_date', 'area_used', 'estimated_production', 'estimated_revenue', 'is_by_bed', 'bed_config', 'field_name', 'deleted', 'yield.quantity_kg/m2', 'price.value_$/kg'
+          delete (template.management_plans.crop);
+          await saveJson(template.management_plans, 'management_plans', ['farm_id', 'field_id', 'field_name', 'grid_points.lat', 'grid_points.lng', 'crop_id', 'management_plan_id', 'crop_common_name', 'crop_genus', 'crop_specie', 'crop_group', 'crop_subgroup', 'start_date',
+            'end_date', 'area_used', 'estimated_production', 'estimated_revenue', 'is_by_bed', 'bed_config', 'field_name', 'deleted', 'yield.quantity_kg/m2', 'price.value_$/kg',
           ]);
 
           await saveJson(template.shifts, 'shifts', null);
@@ -163,7 +163,7 @@ class sendUserFarmDataScheduler {
           zip.addLocalFile(__dirname + '/temp_files/users.csv');
           zip.addLocalFile(__dirname + '/temp_files/expenses.csv');
           zip.addLocalFile(__dirname + '/temp_files/fertilizing_logs.csv');
-          zip.addLocalFile(__dirname + '/temp_files/field_crops.csv');
+          zip.addLocalFile(__dirname + '/temp_files/management_plans.csv');
           zip.addLocalFile(__dirname + '/temp_files/field_work_logs.csv');
           zip.addLocalFile(__dirname + '/temp_files/fields.csv');
           zip.addLocalFile(__dirname + '/temp_files/harvest_logs.csv');
@@ -194,7 +194,7 @@ class sendUserFarmDataScheduler {
                 //     //   path: __dirname + '/temp_files/fields.csv',
                 //     // },
                 //     // {
-                //     //   path: __dirname + '/temp_files/field_crops.csv',
+                //     //   path: __dirname + '/temp_files/management_plans.csv',
                 //     // },
                 //     // {
                 //     //   path: __dirname + '/temp_files/shifts.csv',
@@ -259,7 +259,7 @@ const SALE = {
   sale_date: null,
   sale_quantity_kg: null,
   sale_value: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_id: null,
   crop_common_name: null,
 };
@@ -275,7 +275,7 @@ const FERT = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
   fertilizer_id: null,
@@ -300,7 +300,7 @@ const PEST = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -323,7 +323,7 @@ const HARV = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -341,7 +341,7 @@ const SEED = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -363,7 +363,7 @@ const FIEL = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -418,7 +418,7 @@ const IRRI = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -439,7 +439,7 @@ const SCOUT = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 
@@ -457,7 +457,7 @@ const OTHER = {
   field_id: null,
   field_name: null,
   field_area_m2: null,
-  field_crop_id: null,
+  management_plan_id: null,
   crop_common_name: null,
   notes: null,
 };
@@ -495,7 +495,7 @@ const getFieldNameNArea = (field_id, fields) => {
 
 const processFert = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let processed = [];
 
@@ -542,16 +542,16 @@ const processFert = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.fertilizer_id = fertilizer_id;
       logObj.fertilizer_quantity_kg = log.fertilizerLog.quantity_kg;
@@ -573,7 +573,7 @@ const processFert = async (log) => {
 
 const processPest = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let pesticide_id = log.pestControlLog.pesticide_id;
   let pesticideDetail = await baseController.getIndividual(pesticideModel, pesticide_id);
@@ -616,16 +616,16 @@ const processPest = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.pesticide_id = pesticide_id;
       logObj.pesticide_name = pesticideDetail[0].pesticide_name;
@@ -642,7 +642,7 @@ const processPest = async (log) => {
 };
 
 const processHarv = async (log) => {
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let activity_id = log.activity_id;
   let harvDetail = await baseController.getIndividual(harvModel, activity_id);
@@ -661,16 +661,16 @@ const processHarv = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.harvest_quantity_kg = harvDetail[0].quantity_kg;
       processed.push(logObj);
@@ -681,7 +681,7 @@ const processHarv = async (log) => {
 };
 
 const processSeed = async (log) => {
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let activity_id = log.activity_id;
   let seedDetail = await baseController.getIndividual(seedModel, activity_id);
@@ -700,22 +700,22 @@ const processSeed = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.seed_type = seedDetail[0].type;
       logObj.seed_space_depth_cm = seedDetail[0].space_depth_cm;
       logObj.seed_space_length_cm = seedDetail[0].space_length_cm;
       logObj.seed_space_width_cm = seedDetail[0].space_width_cm;
-      logObj.seed_rate_seeds_per_m2 = seedDetail[0]["rate_seeds/m2"];
+      logObj.seed_rate_seeds_per_m2 = seedDetail[0]['rate_seeds/m2'];
       processed.push(logObj);
     }
   }
@@ -725,7 +725,7 @@ const processSeed = async (log) => {
 
 const processFieldWork = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let activity_id = log.activity_id;
   let fieldWorkDetail = await baseController.getIndividual(fieldWorkModel, activity_id);
@@ -812,7 +812,7 @@ const processSoil = async (log) => {
 
 const processIrri = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let processed = [];
 
@@ -855,16 +855,16 @@ const processIrri = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.irrigation_type = irriDetail[0].type;
       logObj.irri_flow_rate = irriDetail[0]['flow_rate_l/min'];
@@ -881,7 +881,7 @@ const processIrri = async (log) => {
 
 const processScout = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let processed = [];
 
@@ -921,16 +921,16 @@ const processScout = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       logObj.scout_type = scoutDetail[0].type;
 
@@ -944,7 +944,7 @@ const processScout = async (log) => {
 
 const processOther = async (log) => {
   let field_length = log['field'].length;
-  let crop_length = log['fieldCrop'].length;
+  let crop_length = log['managementPlan'].length;
 
   let processed = [];
 
@@ -979,16 +979,16 @@ const processOther = async (log) => {
       logObj.user_id = log.user_id;
       logObj.date = log.date;
       logObj.photo = log.photo;
-      logObj.field_id = log.fieldCrop[i].field_id;
+      logObj.field_id = log.managementPlan[i].field_id;
 
-      let nameArea = getFieldNameNArea(log.fieldCrop[i].field_id, log.field);
+      let nameArea = getFieldNameNArea(log.managementPlan[i].field_id, log.field);
       logObj.field_name = nameArea[0];
       logObj.field_area_m2 = nameArea[1];
 
       logObj.notes = log.notes;
 
-      logObj.field_crop_id = log.fieldCrop[i].field_crop_id;
-      logObj.crop_common_name = log.fieldCrop[i].crop.crop_common_name;
+      logObj.management_plan_id = log.managementPlan[i].management_plan_id;
+      logObj.crop_common_name = log.managementPlan[i].crop.crop_common_name;
 
       processed.push(logObj);
     }

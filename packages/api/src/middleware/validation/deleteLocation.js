@@ -21,9 +21,9 @@ const { raw } = require('objection');
 async function validateLocationDependency(req, res, next) {
 
   const location_id = req?.params?.location_id;
-  const fieldCrops = await managementPlanModel.query().whereNotDeleted().where({ location_id }).andWhere(raw('harvest_date >= now()'));
-  if (fieldCrops.length) {
-    return res.status(400).send('Location cannot be deleted when it has a fieldCrop');
+  const managementPlans = await managementPlanModel.query().whereNotDeleted().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').where('crop_management_plan.location_id', location_id).andWhere(raw('harvest_date >= now()'));
+  if (managementPlans.length) {
+    return res.status(400).send('Location cannot be deleted when it has a managementPlan');
   }
   const activityLogs = await activityLogModel.query().whereNotDeleted().join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id').where('activityFields.location_id', location_id).andWhere('activityLog.date', '>=', 'NOW()');
   if (activityLogs.length) {
@@ -34,8 +34,8 @@ async function validateLocationDependency(req, res, next) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }
 
-  const fieldCropShifts = await shiftTaskModel.query().join('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('management_plan.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
-  if (fieldCropShifts.length) {
+  const managementPlanShifts = await shiftTaskModel.query().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'shiftTask.management_plan_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('crop_management_plan.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
+  if (managementPlanShifts.length) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }
 

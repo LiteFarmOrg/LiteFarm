@@ -34,7 +34,7 @@ function HarvestAllocation() {
     const tempProps = {};
     tempProps.activity_kind = formData.activity_kind;
     tempProps.date = formData.date;
-    tempProps.crops = [{ field_crop_id: formData.crops.value }];
+    tempProps.crops = [{ management_plan_id: formData.crops.value }];
     tempProps.locations = [{ location_id: formData.locations.value }];
     tempProps.notes = defaultData.defaultNotes;
     tempProps.quantity_kg =

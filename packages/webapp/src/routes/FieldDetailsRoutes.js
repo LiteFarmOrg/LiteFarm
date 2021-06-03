@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 import EditFieldDetailForm from '../containers/LocationDetails/AreaDetails/FieldDetailForm/EditField';
-import LocationFieldCrop from '../containers/LocationDetails/LocationFieldCrop';
+import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 
@@ -11,7 +11,7 @@ export default function FieldDetailsRoutes() {
     <>
       <Route path="/field/:location_id/details" exact component={EditFieldDetailForm} />
       {isAdmin && <Route path="/field/:location_id/edit" exact component={EditFieldDetailForm} />}
-      <Route path="/field/:location_id/crops" exact component={LocationFieldCrop} />
+      <Route path="/field/:location_id/crops" exact component={LocationManagementPlan} />
     </>
   );
 }

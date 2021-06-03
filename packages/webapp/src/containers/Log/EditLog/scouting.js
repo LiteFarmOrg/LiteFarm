@@ -15,9 +15,7 @@ import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
@@ -83,8 +81,8 @@ class ScoutingLog extends Component {
       value: f.location_id,
       label: f.name,
     }));
-    const selectedCrops = this.props.selectedLog.fieldCrop.map((fc) => ({
-      value: fc.field_crop_id,
+    const selectedCrops = this.props.selectedLog.managementPlan.map((fc) => ({
+      value: fc.management_plan_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       location_id: fc.location_id,
     }));
@@ -128,7 +126,11 @@ class ScoutingLog extends Component {
               );
             }}
           />
-          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter
+            disabled={!this.props.formState.$form.valid}
+            edit={true}
+            onClick={() => this.setState({ showModal: true })}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -143,11 +145,11 @@ class ScoutingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    formState: scoutingLogStateSelector(state)
+    formState: scoutingLogStateSelector(state),
   };
 };
 

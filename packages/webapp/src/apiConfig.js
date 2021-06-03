@@ -38,7 +38,7 @@ const apiConfig = {
   cropVarietyURL: `${URI}/crop_variety`,
   logURL: `${URI}/log`,
   fertUrl: `${URI}/fertilizer`,
-  fieldCropURL: `${URI}/field_crop`,
+  managementPlanURL: `${URI}/management_plan`,
   pesticideUrl: `${URI}/pesticide`,
   diseaseUrl: `${URI}/disease`,
   taskTypeUrl: `${URI}/task_type`,

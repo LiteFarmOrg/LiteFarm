@@ -14,7 +14,7 @@
  */
 
 const locationModel = require('../../models/locationModel');
-const { fieldCropEnabledLocations } = require('./location');
+const { managementPlanEnabledLocations } = require('./location');
 
 async function validateLogLocationId(req, res, next) {
   req.body.locations = req.body.locations.map(location => ({ location_id: location.location_id }));
@@ -22,7 +22,7 @@ async function validateLogLocationId(req, res, next) {
     .withGraphFetched('figure');
 
   for (const location of locations) {
-    if (!fieldCropEnabledLocations.includes(location.figure.type)) {
+    if (!managementPlanEnabledLocations.includes(location.figure.type)) {
       return res.status(400).send('Location must be type of field, garden, buffer_zone, or greenhouse');
     }
   }

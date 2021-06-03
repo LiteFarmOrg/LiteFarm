@@ -12,7 +12,7 @@ import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
@@ -127,7 +127,7 @@ class SaleDetail extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: cropLocationsSelector(state),
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     sale: selectedSaleSelector(state),
     farm: userFarmSelector(state),
   };

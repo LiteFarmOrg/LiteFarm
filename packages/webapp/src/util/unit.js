@@ -94,7 +94,7 @@ export const watercourse_width = {
   databaseUnit: databaseUnit.length,
 };
 
-const seedAmounts = {
+export const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
     defaultUnit: 'g',

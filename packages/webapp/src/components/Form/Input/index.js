@@ -22,6 +22,8 @@ const Input = ({
   hookFormRegister,
   isSearchBar,
   type = 'text',
+  max,
+  min,
   toolTipContent,
   unit,
   showCross = true,
@@ -50,6 +52,32 @@ const Input = ({
   }, [errors]);
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
+
+  useEffect(() => {
+    if (
+      max !== undefined &&
+      type === 'number' &&
+      (input.current?.value || input.current?.value === 0) &&
+      input.current?.value > max
+    ) {
+      input.current.value = max;
+      onChange?.({ target: input.current });
+      hookFormRegister?.onChange?.({ target: input.current });
+    }
+  }, [max]);
+  useEffect(() => {
+    if (
+      min !== undefined &&
+      type === 'number' &&
+      (input.current?.value || input.current?.value === 0) &&
+      input.current?.value < min &&
+      (max === undefined || min <= max)
+    ) {
+      input.current.value = min;
+      onChange?.({ target: input.current });
+      hookFormRegister?.onChange?.({ target: input.current });
+    }
+  }, [min]);
   return (
     <div
       className={clsx(styles.container)}
@@ -110,6 +138,15 @@ const Input = ({
           hookFormRegister?.onChange?.(e);
         }}
         onBlur={(e) => {
+          if (type === 'number') {
+            if (max !== undefined && e.target.value > max) {
+              input.current.value = max;
+              hookFormRegister?.onChange?.({ target: input.current });
+            } else if (min !== undefined && e.target.value < min) {
+              input.current.value = min;
+              hookFormRegister?.onChange?.({ target: input.current });
+            }
+          }
           onBlur?.(e);
           hookFormRegister?.onBlur?.(e);
         }}
@@ -150,6 +187,8 @@ Input.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   hasLeaf: PropTypes.bool,
+  max: PropTypes.number,
+  min: PropTypes.number,
 };
 
 export default Input;

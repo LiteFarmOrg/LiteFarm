@@ -1,14 +1,14 @@
 import React from 'react';
-import Transplant from '../../../components/Crop/transplant';
+import PureTransplant from '../../../components/Crop/transplant';
 import decorators from '../config/decorators';
 
 export default {
   title: 'Page/AddManagementPlan/Transplant',
-  component: Transplant,
+  component: PureTransplant,
   decorators: decorators,
 };
 
-const Template = (args) => <Transplant {...args} />;
+const Template = (args) => <PureTransplant {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

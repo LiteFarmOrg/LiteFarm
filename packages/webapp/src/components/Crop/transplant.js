@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 
-export default function Transplant({
+export default function PureTransplant({
   onSubmit,
   isCoverCrop,
   onCancel,
@@ -105,7 +105,7 @@ export default function Transplant({
   );
 }
 
-Transplant.prototype = {
+PureTransplant.prototype = {
   isCoverCrop: PropTypes.bool,
   onSubmit: PropTypes.func,
   onGoBack: PropTypes.func,

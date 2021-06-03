@@ -1,5 +1,5 @@
 import React from 'react';
-import Transplant from '../../../components/Crop/transplant';
+import PureTransplant from '../../../components/Crop/transplant';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -21,7 +21,7 @@ function TransplantForm({ history, match }) {
 
   return (
     <>
-      <Transplant
+      <PureTransplant
         isCoverCrop={isCoverCrop}
         useHookFormPersist={useHookFormPersist}
         onGoBack={() => {

@@ -1,19 +1,18 @@
 import React from 'react';
 import FullYearCalendarView from '../../../components/FullYearCalendar';
-import decorator from '../config/decorators';
+import { componentDecorators } from '../config/decorators';
 
 export default {
-  title: 'Page/FullYearCalendar',
+  title: 'Components/FullYearCalendar',
   component: FullYearCalendarView,
-  decorators: decorator,
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <FullYearCalendarView {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
-  stages: {
-    seed: new Date(),
-    germinate: 5,
-    harvest: 290,
-  },
+  seed_date: '06-01-2021',
+  germination_date: '06-30-2021',
+  harvest_date: '04-30-2022',
+  transplant_date: '07-30-2021',
 };

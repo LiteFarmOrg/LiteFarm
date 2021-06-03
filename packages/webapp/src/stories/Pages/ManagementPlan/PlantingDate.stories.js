@@ -11,12 +11,26 @@ export default {
 
 const Template = (args) => <PurePlantingDate {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Transplant = Template.bind({});
+Transplant.args = {
   useHookFormPersist: () => ({}),
   onGoBack: () => {},
   onCancel: () => {},
+  persistedFormData: { for_cover: false, needs_transplant: true },
+  onSubmit: (data) => console.log(data),
 };
-Primary.parameters = {
+Transplant.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const CoverCrop = Template.bind({});
+CoverCrop.args = {
+  useHookFormPersist: () => ({}),
+  onGoBack: () => {},
+  onCancel: () => {},
+  persistedFormData: { for_cover: true, needs_transplant: false },
+  onSubmit: (data) => console.log(data),
+};
+CoverCrop.parameters = {
   ...chromaticSmallScreen,
 };

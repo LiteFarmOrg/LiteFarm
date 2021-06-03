@@ -11,8 +11,8 @@ import { convertToMetric, getUnit } from '../../../util';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
-import { getFieldCrops } from '../../saga';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
+import { getManagementPlans } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class AddSale extends Component {
@@ -30,7 +30,7 @@ class AddSale extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getFieldCrops());
+    this.props.dispatch(getManagementPlans());
     //TODO fetch farm
   }
 
@@ -68,15 +68,15 @@ class AddSale extends Component {
     });
   }
 
-  getCropOptions = (fieldCrops) => {
-    if (!fieldCrops || fieldCrops.length === 0) {
+  getCropOptions = (managementPlans) => {
+    if (!managementPlans || managementPlans.length === 0) {
       return;
     }
 
     let cropOptions = [];
     let cropSet = new Set();
 
-    for (let fc of fieldCrops) {
+    for (let fc of managementPlans) {
       if (!cropSet.has(fc.crop_id)) {
         cropOptions.push({
           label: this.props.t(`crop:${fc.crop_translation_key}`),
@@ -92,8 +92,8 @@ class AddSale extends Component {
   };
 
   render() {
-    let fieldCrops = this.props.fieldCrops || [];
-    const cropOptions = this.getCropOptions(fieldCrops);
+    let managementPlans = this.props.managementPlans || [];
+    const cropOptions = this.getCropOptions(managementPlans);
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('SALE.ADD_SALE.TITLE')} />
@@ -124,7 +124,7 @@ class AddSale extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
   };
 };

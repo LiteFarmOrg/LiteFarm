@@ -16,10 +16,10 @@ import { addLog } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold, Underlined } from '../../../components/Typography';
-import { soilDataLogStateSelector } from "../selectors";
+import { soilDataLogStateSelector } from '../selectors';
 
 const parsedTextureOptions = (t) => [
   { label: t('soil:SAND'), value: 'sand' },
@@ -268,10 +268,10 @@ class soilDataLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
-    formState: soilDataLogStateSelector(state)
+    formState: soilDataLogStateSelector(state),
   };
 };
 

@@ -12,10 +12,10 @@ import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
-import { fieldWorkStateSelector } from "../selectors";
+import { fieldWorkStateSelector } from '../selectors';
 
 class FieldWorkLog extends Component {
   constructor(props) {
@@ -54,23 +54,26 @@ class FieldWorkLog extends Component {
     const locations = this.props.locations;
 
     return (
-      <div className='page-container'>
-        <PageTitle onGoBack={() => this.props.history.push('/new_log')} onCancel={() => this.props.history.push('/log')}
-                   style={{ paddingBottom: '24px' }} title={this.props.t('LOG_COMMON.ADD_A_LOG')} />
+      <div className="page-container">
+        <PageTitle
+          onGoBack={() => this.props.history.push('/new_log')}
+          onCancel={() => this.props.history.push('/log')}
+          style={{ paddingBottom: '24px' }}
+          title={this.props.t('LOG_COMMON.ADD_A_LOG')}
+        />
         <Semibold style={{ marginBottom: '24px' }}>{this.props.t('LOG_FIELD_WORK.TITLE')}</Semibold>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
           label={this.props.t('common:DATE')}
-
         />
         <Form
-          model='logReducer.forms'
+          model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.fieldWorkLog)}
         >
           <DefaultLogForm
-            model='.fieldWorkLog'
+            model=".fieldWorkLog"
             locations={locations}
             crops={crops}
             notesField={true}
@@ -87,9 +90,9 @@ class FieldWorkLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
-    formState: fieldWorkStateSelector(state)
+    formState: fieldWorkStateSelector(state),
   };
 };
 

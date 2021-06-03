@@ -141,9 +141,9 @@ const SaleController = {
       .query().context({ showHidden: true }).whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
-      //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
+      //.join('management_plan', 'management_plan.management_plan_id', '=', 'cropSale.management_plan_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
-      //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
+      //.join('field', 'field.field_id', '=', 'management_plan.field_id')
       .where('sale.farm_id', farm_id);
   },
 }

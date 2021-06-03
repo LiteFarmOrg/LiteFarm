@@ -7,12 +7,12 @@ import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox'
 import { AddLink, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
-import { cropsWithVarietyWithoutManagementPlanSelector } from '../fieldCropSlice';
+import { cropsWithVarietyWithoutManagementPlanSelector } from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { getCrops, getCropVarieties, getFieldCrops } from '../saga';
+import { getCrops, getCropVarieties, getManagementPlans } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import { cropCatalogueFilterDateSelector, setCropCatalogueFilterDate } from '../filterSlice';
@@ -49,7 +49,7 @@ export default function CropCatalogue({ history }) {
   useEffect(() => {
     dispatch(getCropVarieties());
     dispatch(getCrops());
-    dispatch(getFieldCrops());
+    dispatch(getManagementPlans());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -76,16 +76,7 @@ export default function CropCatalogue({ history }) {
           value={filterString}
           onChange={filterStringOnChange}
         />
-        <div
-          id={'filter'}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            top: 0,
-            height: '48px',
-            pointerEvents: 'none',
-          }}
-        />
+        <CatalogSpotlight />
       </div>
 
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
@@ -104,11 +95,11 @@ export default function CropCatalogue({ history }) {
             />
             <PureCropTileContainer gap={gap} padding={padding}>
               {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
-                const { crop_translation_key, crop_photo_url } = cropVariety;
+                const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
                 return (
                   <PureCropTile
-                    key={crop_translation_key}
+                    key={crop_id}
                     title={t(`crop:${crop_translation_key}`)}
                     src={crop_photo_url}
                     alt={imageKey}
@@ -183,8 +174,6 @@ export default function CropCatalogue({ history }) {
             </AddLink>
           </>
         )}
-
-        <CatalogSpotlight />
       </div>
     </Layout>
   );

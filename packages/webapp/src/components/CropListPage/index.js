@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
-import NewFieldCropModal from '../Forms/NewFieldCropModal';
-import PureFieldCropTile from '../CropTile/FieldCropTile';
+import NewManagementPlanModal from '../Forms/NewManagementPlanModal';
+import PureManagementPlanTile from '../CropTile/ManagementPlanTile';
 import useCropTileListGap from '../CropTile/useCropTileListGap';
 import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
@@ -75,7 +75,7 @@ export default function PureCropList({
 
       {/*TODO: deprecate*/}
       {isAdmin && (
-        <NewFieldCropModal
+        <NewManagementPlanModal
           location_id={match.params.location_id}
           fieldArea={100}
           handler={() => {}}
@@ -89,10 +89,10 @@ export default function PureCropList({
             </PageBreak>
             <PureCropTileContainer gap={gap} padding={padding}>
               {activeCrops.map((fc) => (
-                <PureFieldCropTile
+                <PureManagementPlanTile
                   history={history}
-                  key={fc.field_crop_id}
-                  fieldCrop={fc}
+                  key={fc.management_plan_id}
+                  managementPlan={fc}
                   status={'Active'}
                   style={{ width: `${cardWidth}px` }}
                 />
@@ -108,10 +108,10 @@ export default function PureCropList({
 
             <PureCropTileContainer gap={gap} padding={padding}>
               {plannedCrops.map((fc) => (
-                <PureFieldCropTile
+                <PureManagementPlanTile
                   history={history}
-                  key={fc.field_crop_id}
-                  fieldCrop={fc}
+                  key={fc.management_plan_id}
+                  managementPlan={fc}
                   status={'Planned'}
                   style={{ width: `${cardWidth}px` }}
                 />
@@ -127,10 +127,10 @@ export default function PureCropList({
 
             <PureCropTileContainer gap={gap} padding={padding}>
               {pastCrops.map((fc) => (
-                <PureFieldCropTile
+                <PureManagementPlanTile
                   history={history}
-                  key={fc.field_crop_id}
-                  fieldCrop={fc}
+                  key={fc.management_plan_id}
+                  managementPlan={fc}
                   status={'Past'}
                   style={{ width: `${cardWidth}px` }}
                 />

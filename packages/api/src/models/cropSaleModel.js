@@ -32,7 +32,7 @@ class CropSale extends Model {
       required: ['crop_id'],
 
       properties: {
-        field_crop_id: { type: 'integer' },
+        management_plan_id: { type: 'integer' },
         sale_id: { type: 'integer' },
         quantity_kg: { type: 'float' },
         sale_value: { type: 'float' },

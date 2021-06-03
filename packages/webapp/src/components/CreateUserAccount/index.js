@@ -109,7 +109,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
-        hookFormSetValue={setValue}
       />
       <Input
         style={{ marginBottom: '28px' }}

@@ -24,13 +24,13 @@ import { convertToMetric, getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import ReactSelect from '../../../components/Form/ReactSelect';
 import { AddLink, Semibold, Underlined } from '../../../components/Typography';
 import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
-import { pestControlLogStateSelector } from "../selectors";
+import { pestControlLogStateSelector } from '../selectors';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -635,13 +635,13 @@ class PestControlLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),
     pestControlLog: pestLogSelector(state),
-    formState: pestControlLogStateSelector(state)
+    formState: pestControlLogStateSelector(state),
   };
 };
 

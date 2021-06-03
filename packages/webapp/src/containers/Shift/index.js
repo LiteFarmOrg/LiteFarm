@@ -36,7 +36,7 @@ import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { getFieldCrops, getLocations } from '../saga';
+import { getLocations, getManagementPlans } from '../saga';
 import { getDuration } from '../../util';
 import Table from '../../components/Table';
 import { Semibold, Title, Underlined } from '../../components/Typography';
@@ -52,7 +52,7 @@ class Shift extends Component {
 
   componentDidMount() {
     const { dispatch, users } = this.props;
-    dispatch(getFieldCrops());
+    dispatch(getManagementPlans());
     dispatch(getLocations());
     dispatch(getTaskTypes());
     dispatch(getAllShifts());

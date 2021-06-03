@@ -12,7 +12,7 @@ import {
   currentCropVarietiesByCropIdSelector,
   expiredCropVarietiesByCropIdSelector,
   plannedCropVarietiesByCropIdSelector,
-} from '../fieldCropSlice';
+} from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
@@ -74,8 +74,8 @@ export default function CropVarieties({ history, match }) {
 
   const onGoBack = () => history.push('/crop_catalogue');
 
-  const goToVarietyDetails = (varietyId) => {
-    history.push(`/crop/${varietyId}/detail`);
+  const goToVarietyManagement = (varietyId) => {
+    history.push(`/crop/${varietyId}/management`);
   };
 
   const goToVarietyCreation = () => {
@@ -122,7 +122,7 @@ export default function CropVarieties({ history, match }) {
                     src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => goToVarietyDetails(crop_variety_id)}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
                   />
                 );
               })}
@@ -149,7 +149,7 @@ export default function CropVarieties({ history, match }) {
                     src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => goToVarietyDetails(crop_variety_id)}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
                   />
                 );
               })}
@@ -176,7 +176,7 @@ export default function CropVarieties({ history, match }) {
                     src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => goToVarietyDetails(crop_variety_id)}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
                   />
                 );
               })}
@@ -203,7 +203,7 @@ export default function CropVarieties({ history, match }) {
                     src={crop_variety_photo_url}
                     alt={imageKey}
                     style={{ width: cardWidth }}
-                    onClick={() => goToVarietyDetails(crop_variety_id)}
+                    onClick={() => goToVarietyManagement(crop_variety_id)}
                     isPastVariety
                   />
                 );

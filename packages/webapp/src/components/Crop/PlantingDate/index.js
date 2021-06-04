@@ -8,7 +8,6 @@ import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputDuration from '../../Form/InputDuration';
-import { getDateInputFormat } from '../../LocationDetailLayout/utils';
 import FullYearCalendarView from '../../FullYearCalendar';
 
 export default function PurePlantingDate({
@@ -41,7 +40,6 @@ export default function PurePlantingDate({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      [SEED_DATE]: getDateInputFormat(new Date()),
       [GERMINATION_DATE]: null,
       [TRANSPLANT_DATE]: persistedFormData.needs_transplant ? null : undefined,
       [HARVEST_DATE]: null,
@@ -86,14 +84,17 @@ export default function PurePlantingDate({
   };
 
   const min = 0;
-  const max = 999;
-  const transplantDaysMin = useMemo(() => (germination_days > max ? max : germination_days), [
-    germination_days,
-  ]);
+  const germinationDaysMax = persistedFormData.needs_transplant ? 997 : 998;
+  const transplantDaysMax = 998;
+  const harvestDaysMax = 999;
+  const transplantDaysMin = useMemo(
+    () => (germination_days > germinationDaysMax ? germinationDaysMax : germination_days),
+    [germination_days],
+  );
   const harvestDaysMin = useMemo(() => {
-    const min = transplant_days || germination_days;
-    return min > max ? max : min;
-  }, [transplant_days, germination_days]);
+    const min = (persistedFormData.needs_transplant && transplant_days) || germination_days;
+    return min > transplantDaysMax ? transplantDaysMax : min;
+  }, [transplant_days, germination_days, persistedFormData.needs_transplant]);
 
   return (
     <Form
@@ -120,6 +121,7 @@ export default function PurePlantingDate({
         hookFormRegister={register(SEED_DATE, { required: true })}
         errors={errors[SEED_DATE] && t('common:REQUIRED')}
       />
+
       <Main style={{ marginBottom: '24px' }} tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}>
         {t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING')}
       </Main>
@@ -130,14 +132,14 @@ export default function PurePlantingDate({
         hookFormRegister={register(GERMINATION_DAYS, {
           required: true,
           valueAsNumber: true,
-          max,
-          min,
+          max: germinationDaysMax,
+          min: min + 1,
         })}
-        max={max}
+        max={germinationDaysMax}
         label={t('MANAGEMENT_PLAN.GERMINATION')}
         hookFormSetValue={setValue}
         dateName={GERMINATION_DATE}
-        errors={getErrorMessage(errors[GERMINATION_DAYS], min, max)}
+        errors={getErrorMessage(errors[GERMINATION_DAYS], min, germinationDaysMax + 1)}
       />
       {!!persistedFormData.needs_transplant && (
         <InputDuration
@@ -147,14 +149,18 @@ export default function PurePlantingDate({
           hookFormRegister={register(TRANSPLANT_DAYS, {
             required: true,
             valueAsNumber: true,
-            max,
-            min: transplantDaysMin,
+            max: transplantDaysMax,
+            min: transplantDaysMin + 1,
           })}
-          max={999}
+          max={transplantDaysMax}
           label={t('MANAGEMENT_PLAN.TRANSPLANT')}
           hookFormSetValue={setValue}
           dateName={TRANSPLANT_DATE}
-          errors={getErrorMessage(errors[TRANSPLANT_DAYS], transplantDaysMin, max)}
+          errors={getErrorMessage(
+            errors[TRANSPLANT_DAYS],
+            transplantDaysMin,
+            transplantDaysMax + 1,
+          )}
         />
       )}
       <InputDuration
@@ -164,10 +170,10 @@ export default function PurePlantingDate({
         hookFormRegister={register(HARVEST_DAYS, {
           required: true,
           valueAsNumber: true,
-          max,
-          min: harvestDaysMin,
+          max: harvestDaysMax,
+          min: harvestDaysMin + 1,
         })}
-        max={999}
+        max={harvestDaysMax}
         label={
           persistedFormData.for_cover
             ? t('MANAGEMENT_PLAN.TERMINATION')
@@ -175,13 +181,15 @@ export default function PurePlantingDate({
         }
         hookFormSetValue={setValue}
         dateName={HARVEST_DATE}
-        errors={getErrorMessage(errors[HARVEST_DAYS], harvestDaysMin, max)}
+        errors={getErrorMessage(errors[HARVEST_DAYS], harvestDaysMin, harvestDaysMax + 1)}
       />
-      <FullYearCalendarView
-        {...{ seed_date, germination_date, transplant_date }}
-        termination_date={persistedFormData.for_cover ? harvest_date : undefined}
-        harvest_date={persistedFormData.for_cover ? undefined : harvest_date}
-      />
+      {seed_date && (
+        <FullYearCalendarView
+          {...{ seed_date, germination_date, transplant_date }}
+          termination_date={persistedFormData.for_cover ? harvest_date : undefined}
+          harvest_date={persistedFormData.for_cover ? undefined : harvest_date}
+        />
+      )}
     </Form>
   );
 }

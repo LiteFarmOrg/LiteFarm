@@ -1,22 +1,24 @@
-import Button from '../Form/Button';
+import Button from '../../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import Input from '../Form/Input';
-import Form from '../Form';
+import Input from '../../Form/Input';
+import Form from '../../Form';
 import { useForm } from 'react-hook-form';
-import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import InputAutoSize from '../Form/InputAutoSize';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function PureManagementPlanName({
   onSubmit,
   onError,
-  onGoBack,
-  onCancel,
+  match,
+  history,
   persistedFormData,
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
+  const variety_id = match?.params?.variety_id;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/${persistedFormData?.planting_type?.toLowerCase()}`;
   const NAME = 'name';
   const NOTES = 'notes';
 
@@ -31,7 +33,13 @@ export default function PureManagementPlanName({
     shouldUnregister: true,
     defaultValues: persistedFormData,
   });
-
+  useHookFormPersist([goBackPath], getValues);
+  const onGoBack = () => {
+    history?.push(goBackPath);
+  };
+  const onCancel = () => {
+    history?.push(`/crop/${variety_id}/management`);
+  };
   const disabled = !isValid;
 
   return (
@@ -47,7 +55,7 @@ export default function PureManagementPlanName({
         onGoBack={onGoBack}
         onCancel={onCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={15}
+        value={87.5}
         style={{ marginBottom: '24px' }}
       />
 

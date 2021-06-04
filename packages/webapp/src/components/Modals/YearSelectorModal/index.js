@@ -31,6 +31,7 @@ export default function YearSelectorModal({ dismissModal, isOpen, initYear, sele
       <List>
         {years.map((year) => (
           <ListItem
+            key={year}
             onClick={() => selectYear(year)}
             alignItems={'center'}
             style={{ width: '227px' }}

@@ -11,7 +11,7 @@ export default {
 
 const Template = (args) => {
   const { register, watch } = useForm({ mode: 'onChange' });
-  return <InputDuration {...args} hookformWatch={watch} hookFormRegister={register('duration')} />;
+  return <InputDuration {...args} hookFormWatch={watch} hookFormRegister={register('duration')} />;
 };
 
 export const Default = Template.bind({});

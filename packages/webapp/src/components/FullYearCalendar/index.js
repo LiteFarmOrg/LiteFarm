@@ -1,69 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Calendar from 'rc-year-calendar';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Semibold } from '../Typography';
 import YearSelectorModal from '../Modals/YearSelectorModal';
+import { getNewDate } from '../Form/InputDuration/utils';
 
-function FullYearCalendarView({ stages }) {
+function FullYearCalendarView({
+  seed_date,
+  germination_date,
+  harvest_date,
+  transplant_date,
+  termination_date,
+}) {
   const { t } = useTranslation();
   const [customYearSelected, setCustomYear] = useState(null);
   const [isYearSelectorActive, setYearSelectorOpened] = useState(false);
-  const { seed, ...durations } = stages;
-  const initDate = seed;
-  const endDate = calculateFinishDate(initDate, Object.values(durations));
+
+  const initDate = getNewDate(seed_date);
+  const endDate = getNewDate(
+    harvest_date || termination_date || transplant_date || germination_date,
+  );
+
   const initYear = initDate.getFullYear();
   const endYear = endDate.getFullYear();
-  const { accumDays, ...stagesDates } = Object.keys(durations).reduce(
-    (obj, k) => {
-      return {
-        ...obj,
-        accumDays: obj.accumDays + durations[k],
-        [k]: calculateFinishDate(initDate, [obj.accumDays + durations[k]]),
-      };
-    },
-    { accumDays: 0 },
+
+  const stagesDates = {
+    seed_date,
+    germination_date,
+    harvest_date,
+    transplant_date,
+    termination_date,
+  };
+
+  const dateKeys = useMemo(
+    () =>
+      [
+        'seed_date',
+        'germination_date',
+        'transplant_date',
+        'harvest_date',
+        'termination_date',
+      ].filter((dateKey) => stagesDates[dateKey] !== undefined),
+    [seed_date, germination_date, harvest_date, transplant_date, termination_date],
   );
 
   const stageToColor = {
-    seed: '#037A0F',
-    germinate: '#AA5F04',
-    harvest: '#8F26F0',
-    transplant: '#0669E1',
-    terminate: 'D02620',
+    seed_date: '#037A0F',
+    germination_date: '#AA5F04',
+    harvest_date: '#8F26F0',
+    transplant_date: '#0669E1',
+    termination_date: '#D02620',
   };
   const stageToTranslation = {
-    seed: t('CROP_MANAGEMENT.SEED'),
-    germinate: t('CROP_MANAGEMENT.GERMINATE'),
-    harvest: t('CROP_MANAGEMENT.HARVEST'),
-    transplant: t('CROP_MANAGEMENT.TRANSPLANT'),
-    terminate: t('CROP_MANAGEMENT.TERMINATE'),
+    seed_date: t('CROP_MANAGEMENT.SEED'),
+    germination_date: t('CROP_MANAGEMENT.GERMINATE'),
+    harvest_date: t('CROP_MANAGEMENT.HARVEST'),
+    transplant_date: t('CROP_MANAGEMENT.TRANSPLANT'),
+    termination_date: t('CROP_MANAGEMENT.TERMINATE'),
   };
   const dataSource = [
     {
       id: 0,
       name: '',
       startDate: initDate,
-      endDate: initDate,
-      color: stageToColor.seed,
-    },
-    {
-      id: 1,
-      name: '',
-      startDate: initDate,
       endDate: endDate,
       color: 'rgba(62, 169, 146, 0.3)',
     },
-  ].concat(
-    Object.keys(stagesDates).map((k, i) => ({
-      id: i + 2,
+    ...dateKeys.map((k, i) => ({
+      id: i + 1,
       name: k,
-      startDate: stagesDates[k],
-      endDate: stagesDates[k],
+      startDate: getNewDate(stagesDates[k]),
+      endDate: getNewDate(stagesDates[k]),
       color: stageToColor[k],
     })),
-  );
+  ];
 
   const yearSelectorToggle = (toggle) => {
     setYearSelectorOpened(toggle);
@@ -81,8 +93,8 @@ function FullYearCalendarView({ stages }) {
   return (
     <>
       <div className={styles.stagesBox}>
-        {Object.keys(stages).map((stageKey) => (
-          <div className={styles.flexStage}>
+        {dateKeys.map((stageKey) => (
+          <div className={styles.flexStage} key={stageKey}>
             <div
               className={styles.colorBox}
               style={{ backgroundColor: stageToColor[stageKey], display: 'inline-block' }}
@@ -133,21 +145,12 @@ function FullYearCalendarView({ stages }) {
   );
 }
 
-function calculateFinishDate(initialDay, arrayOfDurations) {
-  const days = arrayOfDurations.reduce((a, b) => a + b, 0);
-  const date = new Date(initialDay);
-  date.setDate(date.getDate() + days);
-  return date;
-}
-
 FullYearCalendarView.prototype = {
-  stages: PropTypes.shape({
-    seed: PropTypes.instanceOf(Date).isRequired,
-    germinate: PropTypes.number,
-    harvest: PropTypes.number,
-    transplant: PropTypes.number,
-    terminate: PropTypes.number,
-  }),
+  seed_date: PropTypes.string.isRequired,
+  germination_date: PropTypes.string,
+  harvest_date: PropTypes.string,
+  transplant_date: PropTypes.string,
+  termination_date: PropTypes.string,
 };
 
 export default FullYearCalendarView;

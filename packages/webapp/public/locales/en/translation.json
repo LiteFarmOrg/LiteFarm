@@ -842,7 +842,10 @@
     "ROWS": "Rows",
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
-    "TRANSPLANT": "Transplant"
+    "TRANSPLANT": "Transplant",
+    "SELECT_STARTING_LOCATION": "Where is your starting location?",
+    "SELECT_PLANTING_LOCATION": "Where is your planting location?",
+    "LOCATION_SUBTEXT": "Only locations that can grow crops are shown."
   },
   "MY_FARM": {
     "FARM_INFO": "Farm info",

@@ -12,11 +12,19 @@ import { useForm } from 'react-hook-form';
 import convert from 'convert-units';
 
 const UnitWithHookForm = (props) => {
-  const { register, errors, setValue, getValues, watch, setError, control, handleSubmit } = useForm(
-    {
-      mode: 'onChange',
-    },
-  );
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    setError,
+    control,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+  });
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Unit

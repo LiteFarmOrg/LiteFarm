@@ -42,17 +42,6 @@ class Location extends baseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fieldCrop:{
-        modelClass: require('./fieldCropModel.js'),
-        relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        join: {
-          from: 'fieldCrop.location_id',
-          to:'location.location_id',
-        },
-      },
       figure: {
         modelClass: require('./figureModel'),
         relation: Model.HasOneRelation,
@@ -173,7 +162,6 @@ class Location extends baseModel {
           to: 'water_valve.location_id',
         },
       },
-      ...this.baseRelationMappings('location'),
     };
   }
 }

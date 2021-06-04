@@ -114,6 +114,7 @@ export default function PureNavBar({
     'harvest_uses',
     'soil',
     'certifications',
+    'crop_group',
   ]);
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const isIntroducingFarmMap = !introduce_map && navigation;
@@ -152,7 +153,7 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
-    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'))
+    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'));
     history.push('/map');
     closeFloater();
   };
@@ -348,6 +349,7 @@ export default function PureNavBar({
           </div>
         </ClickAwayListener>
         {showSpotLight && (
+          //Deprecated
           <ReactJoyride
             steps={steps}
             continuous

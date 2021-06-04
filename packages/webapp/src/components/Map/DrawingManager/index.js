@@ -8,6 +8,7 @@ import PureWarningBox from '../../WarningBox';
 import Button from '../../Form/Button';
 import { Label } from '../../Typography';
 import PureLineBox from '../LineMapBoxes';
+import { watercourseEnum } from '../../../containers/constants';
 
 export default function PureDrawingManager({
   className,
@@ -55,7 +56,7 @@ export default function PureDrawingManager({
               </Button>
             </PureWarningBox>
           )}
-          {showLineModal && (
+          {showLineModal && lineData?.hasOwnProperty(watercourseEnum.width) && (
             <>
               <PureLineBox
                 system={system}

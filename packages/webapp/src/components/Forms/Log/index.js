@@ -4,8 +4,8 @@ import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { getFieldCrops, getLocations } from '../../../containers/saga';
-import { currentAndPlannedFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import { getLocations, getManagementPlans } from '../../../containers/saga';
+import { currentAndPlannedManagementPlansSelector } from '../../../containers/managementPlanSlice';
 import { withTranslation } from 'react-i18next';
 import { Label } from '../../Typography';
 import PureWarningBox from '../../WarningBox';
@@ -16,7 +16,7 @@ class DefaultLogForm extends React.Component {
   constructor(props) {
     super(props);
     const { selectedFields, selectedCrops, dispatch, parent, model } = this.props;
-    dispatch(getFieldCrops());
+    dispatch(getManagementPlans());
     dispatch(getLocations());
 
     let selectedCropsMap = {};
@@ -50,14 +50,14 @@ class DefaultLogForm extends React.Component {
     }
   }
 
-  hasSameCrop = (fieldCrop) => {
+  hasSameCrop = (managementPlan) => {
     const { crops } = this.state;
 
     for (let c of crops) {
       if (
-        c.field_crop_id !== fieldCrop.field_crop_id &&
-        c.crop_id === fieldCrop.crop_id &&
-        c.location_id === fieldCrop.location_id
+        c.management_plan_id !== managementPlan.management_plan_id &&
+        c.crop_id === managementPlan.crop_id &&
+        c.location_id === managementPlan.location_id
       ) {
         return true;
       }
@@ -92,14 +92,14 @@ class DefaultLogForm extends React.Component {
             let hasDup = this.hasSameCrop(c);
             if (hasDup) {
               return {
-                value: c.field_crop_id,
+                value: c.management_plan_id,
                 label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(
-                  c.start_date,
+                  c.seed_date,
                 ).format('YYYY-MM-DD')})`,
               };
             } else
               return {
-                value: c.field_crop_id,
+                value: c.management_plan_id,
                 label: this.props.t(`crop:${c.crop_translation_key}`),
               };
           }));
@@ -112,14 +112,14 @@ class DefaultLogForm extends React.Component {
             let hasDup = this.hasSameCrop(c);
             if (hasDup) {
               return {
-                value: c.field_crop_id,
+                value: c.management_plan_id,
                 label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(
-                  c.start_date,
+                  c.seed_date,
                 ).format('YYYY-MM-DD')})`,
               };
             } else
               return {
-                value: c.field_crop_id,
+                value: c.management_plan_id,
                 label: this.props.t(`crop:${c.crop_translation_key}`),
               };
           }));
@@ -362,7 +362,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
   };
 };
 

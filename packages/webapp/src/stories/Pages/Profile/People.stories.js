@@ -1,7 +1,7 @@
 import React from 'react';
 import PurePeople from '../../../components/Profile/People';
 import decorator from '../config/decorators';
-import '../../../../public/css/react-table.css';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/Profile/People',
@@ -27,5 +27,5 @@ Primary.args = {
   isAdmin: true,
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

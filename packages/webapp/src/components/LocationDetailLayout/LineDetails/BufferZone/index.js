@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
-import { line_width, area_total_area } from '../../../../util/unit';
+import { area_total_area, line_width } from '../../../../util/unit';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
@@ -27,15 +27,16 @@ export default function PureBufferZone({
   const {
     register,
     handleSubmit,
-    errors,
     setValue,
     getValues,
     setError,
     control,
     watch,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('buffer_zone', match, {
     isCreateLocationPage,
@@ -43,7 +44,7 @@ export default function PureBufferZone({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, width, length, total_area },
+    persistedData: { name, line_points, width, length, total_area },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
@@ -56,15 +57,16 @@ export default function PureBufferZone({
       ...data,
       type: 'buffer_zone',
     };
-    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit].value;
-    formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit].value;
+    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit]?.value;
+    formData[bufferZoneEnum.length_unit] = formData[bufferZoneEnum.length_unit]?.value;
+    formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit]?.value;
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.BUFFER_ZONE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.BUFFER_ZONE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form

@@ -7,7 +7,7 @@ import PureStepTwo from '../../../components/Shift/StepTwo';
 import { toastr } from 'react-redux-toastr';
 import history from '../../../history';
 import { submitShift } from '../actions';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useTranslation } from 'react-i18next';
 import { locationsSelector } from '../../locationSlice';
 
@@ -18,7 +18,7 @@ function StepTwo() {
   const [finalForm, setFinalForm] = useState({});
   const [cropDurations, setCropDurations] = useState({});
   const [mood, setMood] = useState(null);
-  const crops = useSelector(currentAndPlannedFieldCropsSelector);
+  const crops = useSelector(currentAndPlannedManagementPlansSelector);
   const users = useSelector(userFarmSelector);
 
   const locations = useSelector(locationsSelector);
@@ -77,9 +77,9 @@ function StepTwo() {
           let duration = Number(
             parseFloat(Number(mutatingFinalForm[key].duration) / val_num).toFixed(3),
           );
-          const calculationOffset = mutatingFinalForm[key].duration - ( duration * val_num);
+          const calculationOffset = mutatingFinalForm[key].duration - duration * val_num;
           if (valIterator === val_num - 1) {
-            if ((duration * val_num) !== Number(mutatingFinalForm[key].duration)) {
+            if (duration * val_num !== Number(mutatingFinalForm[key].duration)) {
               duration = duration + calculationOffset;
             }
           }
@@ -107,7 +107,7 @@ function StepTwo() {
             for (let crop of crops_on_field) {
               if (i === crop_num - 1) {
                 if (sub_duration * crop_num !== duration) {
-                  const cropOffset = duration - (sub_duration * (crop_num));
+                  const cropOffset = duration - sub_duration * crop_num;
                   sub_duration += Number(cropOffset);
                 }
               }
@@ -116,7 +116,7 @@ function StepTwo() {
                 duration: parseFloat(sub_duration.toFixed(3)),
                 is_location: true,
                 location_id: val.id,
-                field_crop_id: crop.field_crop_id,
+                management_plan_id: crop.management_plan_id,
               });
               i++;
             }
@@ -158,7 +158,7 @@ function StepTwo() {
               task_id: Number(key),
               duration: Number(parseFloat(subDuration).toFixed(3)),
               is_location: false,
-              field_crop_id: a_crop.field_crop_id,
+              management_plan_id: a_crop.management_plan_id,
               location_id: a_crop.location_id,
             });
           }

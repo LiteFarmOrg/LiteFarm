@@ -124,7 +124,9 @@ const loginController = {
             email,
             first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
             language_preference: ssoUser?.language_preference ?? passwordUser?.language_preference ?? language_preference,
+            full_name: isPasswordNeeded ? `${passwordUser.first_name} ${passwordUser.last_name}` : `${first_name} ${last_name}`
           },
+          isSignUp: isUserNew,
         });
       } catch (err) {
         return res.status(400).json({

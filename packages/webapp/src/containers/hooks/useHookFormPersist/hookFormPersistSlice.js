@@ -46,6 +46,8 @@ const hookFormPersistSlice = createSlice({
       const formData = { ...payload };
       formData[bufferZoneEnum.length_unit] = unitOptionMap[payload[bufferZoneEnum.length_unit]];
       formData[bufferZoneEnum.width_unit] = unitOptionMap[payload[bufferZoneEnum.width_unit]];
+      formData[bufferZoneEnum.total_area_unit] =
+        unitOptionMap[payload[bufferZoneEnum.total_area_unit]];
       formData[watercourseEnum.buffer_width_unit] =
         unitOptionMap[payload[watercourseEnum.buffer_width_unit]];
       state.formData = formData;
@@ -56,6 +58,9 @@ const hookFormPersistSlice = createSlice({
       formData[waterValveEnum.flow_rate_unit] =
         unitOptionMap[payload[waterValveEnum.flow_rate_unit]];
       state.formData = formData;
+    },
+    setLocationPickerManagementPlanFormData: (state, { payload: location_id }) => {
+      state.formData.managementPlanLocationId = location_id;
     },
   },
 });
@@ -69,6 +74,7 @@ export const {
   setAreaDetailFormData,
   setLineDetailFormData,
   setPointDetailFormData,
+  setLocationPickerManagementPlanFormData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

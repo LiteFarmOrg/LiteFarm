@@ -175,6 +175,8 @@ const EditCeremonialForm = React.lazy(() =>
 const PostGreenhouseForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
+const CropManagement = React.lazy(() => import('./containers/Crop/CropManagement'));
+const CropDetail = React.lazy(() => import('./containers/Crop/CropDetail/index'));
 
 const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
 const PostFenceForm = React.lazy(() =>
@@ -197,6 +199,24 @@ const PostWatercourseForm = React.lazy(() =>
 
 const EditWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/EditWatercourse'),
+);
+
+const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
+const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
+const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
+const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
+const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
+const PlantingLocation = React.lazy(() => import('./containers/PlantingLocation'));
+const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
+const PlantingDate = React.lazy(() => import('./containers/Crop/AddManagementPlan/PlantingDate'));
+const PlantingMethod = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/PlantingMethod'),
+);
+const PlantInContainer = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/PlantInContainer'),
+);
+const ManagementPlanName = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 
 const Routes = () => {
@@ -285,9 +305,48 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
+            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
+            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
+            <Route
+              path="/crop/:variety_id/add_management_plan/needs_transplant"
+              exact
+              component={Transplant}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_date"
+              exact
+              component={PlantingDate}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_method"
+              exact
+              component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/transplant_container"
+              exact
+              component={PlantInContainer}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/container"
+              exact
+              component={PlantInContainer}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/name"
+              exact
+              component={ManagementPlanName}
+            />
 
-            <Route path="/create_location/garden" exact component={PostGardenForm} />
-            <Route path="/garden/:location_id" component={GardenDetails} />
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
+            <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -339,6 +398,9 @@ const Routes = () => {
             />
             <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
 
+            <Route path="/create_location/garden" exact component={PostGardenForm} />
+            <Route path="/garden/:location_id" component={GardenDetails} />
+
             <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
 
@@ -383,19 +445,11 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-
-            {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
-            {/* and remove edit_expense  */}
-            {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
-            {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
+            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
             <Route path="/edit_expense" exact component={TempEditExpense} />
 
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            {/*<Route path="/callback" render={(props) => {*/}
-            {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
-            {/*  return <Callback {...props} />*/}
-            {/*}}/>*/}
             <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -445,8 +499,42 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/create_location/garden" exact component={PostGardenForm} />
-            <Route path="/garden/:location_id" component={GardenDetails} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/needs_transplant"
+              exact
+              component={Transplant}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_date"
+              exact
+              component={PlantingDate}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_method"
+              exact
+              component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/transplant_container"
+              exact
+              component={PlantInContainer}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/container"
+              exact
+              component={PlantInContainer}
+            />
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
+            <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/detail" component={CropDetail} />
+            <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"
@@ -491,6 +579,8 @@ const Routes = () => {
             />
             <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
             <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
+            <Route path="/create_location/garden" exact component={PostGardenForm} />
+            <Route path="/garden/:location_id" component={GardenDetails} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/field/:location_id" component={FieldDetails} />
@@ -507,11 +597,8 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
-            <Route
-              path="/watercourse/:location_id/edit"
-              exact
-              component={EditWatercourseForm}
-            />{' '}
+            <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
+
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />
@@ -522,6 +609,15 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
+            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
+            <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
@@ -539,10 +635,6 @@ const Routes = () => {
             <Route path="/insights/erosion" exact component={Erosion} />
             <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            {/*<Route path="/callback" render={(props) => {*/}
-            {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
-            {/*  return <Callback {...props} />*/}
-            {/*}}/>*/}
             <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
@@ -562,6 +654,8 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
+            <Route path="/crop_catalogue" exact component={CropCatalogue} />
+            <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route
@@ -589,7 +683,6 @@ const Routes = () => {
             <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
             <Route path="/gate/:location_id/details" exact component={EditGateForm} />
             <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
-
             <Route path="/map" exact component={Map} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
@@ -618,10 +711,6 @@ const Routes = () => {
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            {/*<Route path="/callback" render={(props) => {*/}
-            {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
-            {/*  return <Callback {...props} />*/}
-            {/*}}/>*/}
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
@@ -631,7 +720,6 @@ const Routes = () => {
             <Route path="/insights/waterbalance" exact component={WaterBalance} />
             <Route path="/insights/erosion" exact component={Erosion} />
             <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
-
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />

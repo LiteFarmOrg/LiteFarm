@@ -1,6 +1,7 @@
 import React from 'react';
-import decorators, { componentDecoratorsWithoutPadding } from '../../config/decorators';
+import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureMapHeader from '../../../../components/Map/Header/';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/MapHeader',
@@ -15,5 +16,5 @@ Primary.args = {
   farmName: 'Happy Valley',
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

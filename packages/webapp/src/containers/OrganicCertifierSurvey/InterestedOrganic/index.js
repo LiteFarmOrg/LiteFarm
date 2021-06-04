@@ -19,7 +19,6 @@ export default function InterestedOrganic() {
   const paragraph = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.PARAGRAPH');
   const underlined = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY');
   const content = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY_ANSWER');
-  const ref = register({ required: true });
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   const dispatch = useDispatch();
 
@@ -50,15 +49,13 @@ export default function InterestedOrganic() {
         inputs={[
           {
             label: t('common:YES'),
-            inputRef: ref,
-            name: INTERESTED,
+            hookFormRegister: register(INTERESTED, { required: true }),
             value: true,
             defaultChecked: survey.interested === true,
           },
           {
             label: t('common:NO'),
-            inputRef: ref,
-            name: INTERESTED,
+            hookFormRegister: register(INTERESTED, { required: true }),
             value: false,
             defaultChecked: survey.interested === false,
           },

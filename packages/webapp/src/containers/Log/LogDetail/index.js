@@ -20,12 +20,11 @@ import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
-import ScrollToTop from '../../hooks/ScrollToTop';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -138,13 +137,13 @@ class LogDetail extends Component {
     });
   };
 
-  hasSameCrop = (fieldCrop) => {
+  hasSameCrop = (managementPlan) => {
     let { selectedLog } = this.props;
 
-    for (let fc of selectedLog.fieldCrop) {
+    for (let fc of selectedLog.managementPlan) {
       if (
-        fc.field_crop_id !== fieldCrop.field_crop_id &&
-        fieldCrop.crop.crop_id === fc.crop.crop_id
+        fc.management_plan_id !== managementPlan.management_plan_id &&
+        managementPlan.crop.crop_id === fc.crop.crop_id
       ) {
         return true;
       }
@@ -220,7 +219,6 @@ class LogDetail extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <ScrollToTop />
         <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
@@ -250,23 +248,23 @@ class LogDetail extends Component {
           </div>
         </div>
 
-        {selectedLog.fieldCrop.length > 0 && (
+        {selectedLog.managementPlan.length > 0 && (
           <div className={styles.infoBlock}>
             <div className={styles.fcInfo}>
               <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_COMMON.FIELD_CROPS')}</div>
-              <div className={styles.fieldCropList}>
-                {selectedLog.fieldCrop.map((fc) => {
+              <div className={styles.managementPlanList}>
+                {selectedLog.managementPlan.map((fc) => {
                   let hasDup = this.hasSameCrop(fc);
                   if (hasDup) {
                     return (
-                      <div className={styles.innerList} key={fc.field_crop_id}>
+                      <div className={styles.innerList} key={fc.management_plan_id}>
                         <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
-                        <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
+                        <p>{moment(fc.seed_date).format('YYYY-MM-DD')}</p>
                       </div>
                     );
                   } else
                     return (
-                      <p key={fc.field_crop_id}>
+                      <p key={fc.management_plan_id}>
                         {this.props.t(`crop:${fc.crop.crop_translation_key}`)}
                       </p>
                     );
@@ -586,7 +584,7 @@ const mapStateToProps = (state) => {
   return {
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),

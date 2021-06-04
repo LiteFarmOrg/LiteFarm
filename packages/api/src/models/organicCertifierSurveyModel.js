@@ -61,7 +61,6 @@ class organicCertifierSurveyModel extends BaseModel {
           to: 'farm.farm_id',
         },
       },
-      ...this.baseRelationMappings('organicCertifierSurvey'),
     }
   }
 }

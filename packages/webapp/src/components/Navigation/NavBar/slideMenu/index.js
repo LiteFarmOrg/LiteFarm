@@ -53,6 +53,18 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
               className={classes.subListItem}
               button
               onClick={() => {
+                handleClick('/crop_catalogue');
+              }}
+            >
+              <ListItemText
+                classes={{ primary: classes.subListItemText }}
+                primary={t('SLIDE_MENU.CROPS')}
+              />
+            </ListItem>
+            <ListItem
+              className={classes.subListItem}
+              button
+              onClick={() => {
                 handleClick('/Log');
               }}
             >

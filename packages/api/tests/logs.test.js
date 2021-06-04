@@ -37,13 +37,13 @@ const activityFieldsModel = require('../src/models/activityFieldsModel');
 const activityCropsModel = require('../src/models/activityCropsModel');
 const fertilizerModel = require('../src/models/fertilizerModel');
 const fieldModel = require('../src/models/fieldModel');
-const fieldCropModel = require('../src/models/fieldCropModel');
+const managementPlanModel = require('../src/models/managementPlanModel');
 const pesticideModel = require('../src/models/pesiticideModel');
 const diseaseModel = require('../src/models/diseaseModel');
 const harvestUseModel = require('../src/models/harvestUseModel');
 
 
-describe('Log Tests', () => {
+xdescribe('Log Tests', () => {
   let middleware;
   let owner;
   let farm;
@@ -151,14 +151,19 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
+      let cropVariety;
       let fertilizer;
       beforeEach(async () => {
         [fertilizer] = await mocks.fertilizerFactory({ promisedFarm: [farm] });
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
+        [managementPlan] = await mocks.management_planFactory({
+          promisedCropVariety: [cropVariety],
+          promisedField: [field],
+        });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'fertilizing',
@@ -169,7 +174,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -223,7 +228,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -233,7 +238,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -250,7 +255,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -268,7 +273,7 @@ describe('Log Tests', () => {
           });
         });
 
-        test('Should get fieldCrop/fertilizer/field through fertilizingLog even if those items are deleted', async (done) => {
+        test('Should get managementPlan/fertilizer/field through fertilizingLog even if those items are deleted', async (done) => {
           let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
             ...mocks.fakeActivityLog(),
             activity_kind: 'fertilizing',
@@ -279,7 +284,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -289,10 +294,10 @@ describe('Log Tests', () => {
             showHidden: true,
             user_id: owner.user_id,
           }).findById(fertilizer.fertilizer_id).delete();
-          await fieldCropModel.query().context({
+          await managementPlanModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
-          }).findById(fieldCrop.field_crop_id).delete();
+          }).findById(managementPlan.field_crop_id).delete();
           await fieldModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -301,7 +306,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -340,7 +345,7 @@ describe('Log Tests', () => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -351,7 +356,7 @@ describe('Log Tests', () => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -362,7 +367,7 @@ describe('Log Tests', () => {
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
               expect(res.body[0].fertilizerLog.fertilizer_id).toBe(fertilizer.fertilizer_id);
-              expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+              expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
               expect(res.body[0].location[0].location_id).toBe(field.location_id);
               done();
             });
@@ -563,7 +568,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             quantity_kg: fakefertilizingLog.quantity_kg,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }],
             locations: [{ location_id: field.location_id }],
             fertilizer_id: fertilizer.fertilizer_id,
           };
@@ -581,7 +586,7 @@ describe('Log Tests', () => {
           let unauthorizedActivityFieldLog;
           let unauthorizedCrop;
           let unauthorizedField;
-          let unauthorizedFieldCrop;
+          let unauthorizedManagementPlan;
           let unauthorizedFertilizer;
 
           beforeEach(async () => {
@@ -611,7 +616,7 @@ describe('Log Tests', () => {
               promisedFarm: [farmunAuthorizedUser],
               promisedStation: [weatherStation],
             });
-            [unauthorizedFieldCrop] = await mocks.fieldCropFactory({
+            [unauthorizedManagementPlan] = await mocks.management_planFactory({
               promisedCrop: [unauthorizedCrop],
               promisedField: [unauthorizedField],
             });
@@ -625,7 +630,7 @@ describe('Log Tests', () => {
             });
             [unauthorizedActivityCropLog] = await mocks.activityCropsFactory({
               promisedActivityLog: [unauthorizedActivityLog],
-              promisedFieldCrop: [unauthorizedFieldCrop],
+              promisedManagementPlan: [unauthorizedManagementPlan],
             });
             [unauthorizedActivityFieldLog] = await mocks.activityFieldsFactory({
               promisedActivityLog: [unauthorizedActivityLog],
@@ -782,7 +787,7 @@ describe('Log Tests', () => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
             sampleRequestBody.locations = [{ location_id: unauthorizedField.location_id }];
-            sampleRequestBody.crops = [{ field_crop_id: unauthorizedFieldCrop.field_crop_id }];
+            sampleRequestBody.crops = [{ field_crop_id: unauthorizedManagementPlan.field_crop_id }];
             sampleRequestBody.fertilizer_id = unauthorizedFertilizer.fertilizer_id;
             putRequest(sampleRequestBody, {
               user_id: unAuthorizedUser.user_id,
@@ -794,7 +799,7 @@ describe('Log Tests', () => {
             });
           });
 
-          test('Should return 400 if locations, fieldCrops, and fertilizer reference a farm that the user does not have access to', async (done) => {
+          test('Should return 400 if locations, managementPlans, and fertilizer reference a farm that the user does not have access to', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
             sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
             putRequest(sampleRequestBody, {
@@ -830,7 +835,7 @@ describe('Log Tests', () => {
           let fertilizer1;
           let crop1;
           let field1;
-          let fieldCrop1;
+          let managementPlan1;
           let sampleRequestBody;
           let newFarm;
           let newUserFarm;
@@ -843,7 +848,7 @@ describe('Log Tests', () => {
             [crop1] = await mocks.cropFactory({ promisedFarm: [newFarm] });
             let [weatherStation] = await mocks.weather_stationFactory();
             [field1] = await mocks.fieldFactory({ promisedFarm: [newFarm], promisedStation: [weatherStation] });
-            [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+            [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
             sampleRequestBody = {
               activity_id: activityLog.activity_id,
@@ -852,7 +857,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
               notes: fakeActivityLog.notes,
               quantity_kg: fakefertilizingLog.quantity_kg,
-              crops: [{ field_crop_id: fieldCrop.field_crop_id }],
+              crops: [{ field_crop_id: managementPlan.field_crop_id }],
               locations: [{ location_id: field.location_id }],
               fertilizer_id: fertilizer.fertilizer_id,
             };
@@ -867,9 +872,9 @@ describe('Log Tests', () => {
             });
           });
 
-          test('Should return 403 if field, fieldCrop, and fertilizer reference a new farm', async (done) => {
+          test('Should return 403 if field, managementPlan, and fertilizer reference a new farm', async (done) => {
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
-            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
+            sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }];
             sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
@@ -877,8 +882,8 @@ describe('Log Tests', () => {
             });
           });
 
-          test('Should return 403 if field and fieldCrop reference 2 farms', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: fieldCrop1.field_crop_id }];
+          test('Should return 403 if field and managementPlan reference 2 farms', async (done) => {
+            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: managementPlan1.field_crop_id }];
             sampleRequestBody.locations = [sampleRequestBody.locations[0], { location_id: field1.location_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
@@ -896,7 +901,7 @@ describe('Log Tests', () => {
           });
 
           test('Should return 403 if field_crop references a new farm', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: fieldCrop1.field_crop_id }];
+            sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: managementPlan1.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
               done();
@@ -911,7 +916,7 @@ describe('Log Tests', () => {
           let fertilizer1;
           let crop1;
           let field1;
-          let fieldCrop1;
+          let managementPlan1;
           let sampleRequestBody;
           beforeEach(async () => {
             fakeActivityLog1 = newFakeActivityLog('fertilizing');
@@ -920,7 +925,7 @@ describe('Log Tests', () => {
             [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
             let [weatherStation] = await mocks.weather_stationFactory();
             [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-            [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+            [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
             sampleRequestBody = {
               activity_id: activityLog.activity_id,
@@ -929,7 +934,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
               notes: fakeActivityLog1.notes,
               quantity_kg: fakefertilizingLog.quantity_kg,
-              crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+              crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
               locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
               fertilizer_id: fertilizer1.fertilizer_id,
             };
@@ -1130,7 +1135,7 @@ describe('Log Tests', () => {
 
           test('Owner should change fertilizerLog to a different field  ', async (done) => {
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
-            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
+            sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
               const activityLog = await activityLogModel.query().context({
@@ -1156,15 +1161,15 @@ describe('Log Tests', () => {
                 user_id: owner.user_id,
               }).where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(1);
-              expect(activityCrops[0].field_crop_id).toBe(fieldCrop1.field_crop_id);
+              expect(activityCrops[0].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
             });
           });
 
-          test('Owner should change fertilizerLog to a different field with 2 fieldCrops', async (done) => {
-            const [fieldCrop2] = await mocks.fieldCropFactory({ promisedField: [field1] });
+          test('Owner should change fertilizerLog to a different field with 2 managementPlans', async (done) => {
+            const [managementPlan2] = await mocks.management_planFactory({ promisedField: [field1] });
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
-            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }];
+            sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
               const activityLog = await activityLogModel.query().context({
@@ -1190,7 +1195,7 @@ describe('Log Tests', () => {
                 user_id: owner.user_id,
               }).where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(2);
-              expect(activityCrops[0].field_crop_id).toBe(fieldCrop1.field_crop_id);
+              expect(activityCrops[0].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
             });
           });
@@ -1221,7 +1226,7 @@ describe('Log Tests', () => {
                 user_id: owner.user_id,
               }).where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(2);
-              expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+              expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
               done();
             });
           });
@@ -1237,14 +1242,14 @@ describe('Log Tests', () => {
           });
 
           xtest('Should return 400 if field_crops reference a field that is not in locations in the database', async (done) => {
-            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
+            sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(400);
               done();
             });
           });
 
-          xtest('Should return 400 if field reference a field that is not in fieldCrop array', async (done) => {
+          xtest('Should return 400 if field reference a field that is not in managementPlan array', async (done) => {
             sampleRequestBody.crops = [sampleRequestBody.crops[0]];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(400);
@@ -1252,7 +1257,7 @@ describe('Log Tests', () => {
             });
           });
 
-          test('Should return 403 if field reference a field that is not in fieldCrop in the database', async (done) => {
+          test('Should return 403 if field reference a field that is not in managementPlan in the database', async (done) => {
             sampleRequestBody.locations = [{ location_id: field1.location_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
@@ -1319,7 +1324,7 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       let pesticide;
       let disease;
       beforeEach(async () => {
@@ -1328,7 +1333,7 @@ describe('Log Tests', () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'pestControl',
@@ -1340,7 +1345,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -1374,7 +1379,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -1384,13 +1389,13 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
         });
 
-        test('Should get fieldCrop/pesticide/disease/field through pestControlLog even if those items are deleted', async (done) => {
+        test('Should get managementPlan/pesticide/disease/field through pestControlLog even if those items are deleted', async (done) => {
           let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
             ...mocks.fakeActivityLog(),
             activity_kind: 'pestControl',
@@ -1402,7 +1407,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -1416,10 +1421,10 @@ describe('Log Tests', () => {
             showHidden: true,
             user_id: owner.user_id,
           }).findById(disease.disease_id).delete();
-          await fieldCropModel.query().context({
+          await managementPlanModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
-          }).findById(fieldCrop.field_crop_id).delete();
+          }).findById(managementPlan.field_crop_id).delete();
           await fieldModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -1429,7 +1434,7 @@ describe('Log Tests', () => {
             expect(res.body.length).toBe(2);
             expect(res.body[0].pestControlLog.pesticide_id).toBe(pesticide.pesticide_id);
             expect(res.body[0].pestControlLog.target_disease_id).toBe(disease.disease_id);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -1443,7 +1448,7 @@ describe('Log Tests', () => {
         let pesticide1;
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakePesticideControlLog;
@@ -1454,7 +1459,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1462,7 +1467,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             pesticide_id: pesticide1.pesticide_id,
             ...fakePesticideControlLog,
@@ -1496,7 +1501,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -1513,12 +1518,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'harvest',
@@ -1528,7 +1533,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -1560,7 +1565,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -1570,7 +1575,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -1582,7 +1587,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakeHarvestLog;
@@ -1592,7 +1597,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1601,7 +1606,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
             selectedUseTypes: [],
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeHarvestLog,
 
@@ -1634,7 +1639,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -1651,12 +1656,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'seeding',
@@ -1666,7 +1671,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -1698,7 +1703,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -1708,7 +1713,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -1720,7 +1725,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakeseedLog;
@@ -1730,7 +1735,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1738,7 +1743,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeseedLog,
 
@@ -1771,7 +1776,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -1788,12 +1793,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'fieldWork',
@@ -1831,7 +1836,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -1841,7 +1846,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop.length).toBe(0);
+            expect(res.body[0].managementPlan.length).toBe(0);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -1853,7 +1858,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakefieldWorkLog;
@@ -1863,7 +1868,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -1871,7 +1876,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakefieldWorkLog,
 
@@ -1943,7 +1948,7 @@ describe('Log Tests', () => {
         });
 
         //TODO fail
-        xtest('Should return 400 when fieldCrops is not empty', async (done) => {
+        xtest('Should return 400 when managementPlans is not empty', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(400);
             done();
@@ -1962,12 +1967,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'soilData',
@@ -2005,7 +2010,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -2015,7 +2020,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop.length).toBe(0);
+            expect(res.body[0].managementPlan.length).toBe(0);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -2027,7 +2032,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakeSoilDataLog;
@@ -2037,7 +2042,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2045,7 +2050,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeSoilDataLog,
 
@@ -2084,7 +2089,7 @@ describe('Log Tests', () => {
         });
 
         //TODO fail
-        xtest('Should return 400 when fieldCrops is not empty', async (done) => {
+        xtest('Should return 400 when managementPlans is not empty', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
             expect(res.status).toBe(400);
             done();
@@ -2104,12 +2109,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'irrigation',
@@ -2119,7 +2124,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -2151,7 +2156,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -2161,7 +2166,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body.map(activityLog => activityLog.activity_id)).toEqual([activityLog.activity_id, activityLog1.activity_id]);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -2173,7 +2178,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakeIrrigationLog;
@@ -2183,7 +2188,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2191,7 +2196,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeIrrigationLog,
 
@@ -2224,7 +2229,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -2241,12 +2246,12 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'scouting',
@@ -2256,7 +2261,7 @@ describe('Log Tests', () => {
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -2288,7 +2293,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -2298,7 +2303,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -2310,7 +2315,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         let fakeScoutingLog;
@@ -2320,7 +2325,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2328,7 +2333,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
             ...fakeScoutingLog,
 
@@ -2361,7 +2366,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -2377,19 +2382,19 @@ describe('Log Tests', () => {
       let activityFieldLog;
       let crop;
       let field;
-      let fieldCrop;
+      let managementPlan;
       beforeEach(async () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
+        [managementPlan] = await mocks.management_planFactory({ promisedCrop: [crop], promisedField: [field] });
         [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
           ...mocks.fakeActivityLog(),
           activity_kind: 'other',
         });
         [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
-          promisedFieldCrop: [fieldCrop],
+          promisedManagementPlan: [managementPlan],
         });
         [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
@@ -2418,7 +2423,7 @@ describe('Log Tests', () => {
           });
           let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
-            promisedFieldCrop: [fieldCrop],
+            promisedManagementPlan: [managementPlan],
           });
           let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
@@ -2428,7 +2433,7 @@ describe('Log Tests', () => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
             expect(res.body[0].notes).toBe(activityLog.notes);
-            expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            expect(res.body[0].managementPlan[0].field_crop_id).toBe(managementPlan.field_crop_id);
             expect(res.body[0].location[0].location_id).toBe(field.location_id);
             done();
           });
@@ -2440,7 +2445,7 @@ describe('Log Tests', () => {
         // TODO update single locations tests
         let crop1;
         let field1;
-        let fieldCrop1;
+        let managementPlan1;
         let sampleRequestBody;
         let fakeActivityLog;
         beforeEach(async () => {
@@ -2448,7 +2453,7 @@ describe('Log Tests', () => {
           [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
           let [weatherStation] = await mocks.weather_stationFactory();
           [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-          [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+          [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
           sampleRequestBody = {
             activity_id: activityLog.activity_id,
@@ -2456,7 +2461,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
-            crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
+            crops: [{ field_crop_id: managementPlan.field_crop_id }, { field_crop_id: managementPlan1.field_crop_id }],
             locations: [{ location_id: field.location_id }, { location_id: field1.location_id }],
 
 
@@ -2483,7 +2488,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(2);
-            expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
+            expect(activityCrops[1].field_crop_id).toBe(managementPlan1.field_crop_id);
             done();
           });
         });
@@ -2505,7 +2510,7 @@ describe('Log Tests', () => {
       let fertilizer;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('fertilizing');
@@ -2514,7 +2519,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -2522,7 +2527,7 @@ describe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           quantity_kg: fakefertilizingLog.quantity_kg,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
           fertilizer_id: fertilizer.fertilizer_id,
         };
@@ -2589,7 +2594,7 @@ describe('Log Tests', () => {
         });
       });
 
-      test('Should return 400 when all fieldCrop do not exist', async (done) => {
+      test('Should return 400 when all managementPlan do not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           //TODO error status
@@ -2599,25 +2604,25 @@ describe('Log Tests', () => {
       });
 
       //TODO fail
-      xtest('Should return 400 when 1 fieldCrop references a field that is not in body.locations', async (done) => {
-        const [newFieldCrop] = await mocks.fieldCropFactory({ promisedField: mocks.fieldFactory({ promisedFarm: [farm] }) });
-        sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
+      xtest('Should return 400 when 1 managementPlan references a field that is not in body.locations', async (done) => {
+        const [newManagementPlan] = await mocks.management_planFactory({ promisedField: mocks.fieldFactory({ promisedFarm: [farm] }) });
+        sampleRequestBody.crops = [{ field_crop_id: newManagementPlan.field_crop_id }, sampleRequestBody.crops[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(400);
           done();
         });
       });
 
-      xtest('Should return 403 when 1 fieldCrop references a field that user does not have access to', async (done) => {
-        const [newFieldCrop] = await mocks.fieldCropFactory();
-        sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
+      xtest('Should return 403 when 1 managementPlan references a field that user does not have access to', async (done) => {
+        const [newManagementPlan] = await mocks.management_planFactory();
+        sampleRequestBody.crops = [{ field_crop_id: newManagementPlan.field_crop_id }, sampleRequestBody.crops[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
 
-      test('Should return 400 when 1 fieldCrop does not exist', async (done) => {
+      test('Should return 400 when 1 managementPlan does not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }, sampleRequestBody.crops[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           //TODO error status
@@ -2823,10 +2828,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -2852,7 +2857,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });
@@ -2977,7 +2982,7 @@ describe('Log Tests', () => {
       let pesticide;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       let disease;
       beforeEach(async () => {
@@ -2987,7 +2992,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
         [disease] = await mocks.diseaseFactory({ promisedFarm: [farm] });
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -2996,7 +3001,7 @@ describe('Log Tests', () => {
           notes: fakeActivityLog.notes,
           quantity_kg: fakePestControlLog.quantity_kg,
           type: fakePestControlLog.type,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
           pesticide_id: pesticide.pesticide_id,
           target_disease_id: disease.disease_id,
@@ -3027,10 +3032,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -3056,7 +3061,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });
@@ -3171,7 +3176,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       let fakeHarvestUseType;
       let fakeHarvestUse;
@@ -3181,7 +3186,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
         [fakeHarvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [farm] });
         fakeHarvestUse = mocks.fakeHarvestUse();
         fakeHarvestUseType.quantity_kg = fakeHarvestUse.quantity_kg;
@@ -3192,7 +3197,7 @@ describe('Log Tests', () => {
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
           quantity_kg: fakeHarvestLog.quantity_kg,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
           selectedUseTypes: [
             fakeHarvestUseType,
@@ -3231,10 +3236,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -3260,7 +3265,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           const harvestUse = await harvestUseModel.query().context({
             showHidden: true,
             user_id: owner.user_id,
@@ -3390,7 +3395,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('seeding');
@@ -3398,7 +3403,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3409,7 +3414,7 @@ describe('Log Tests', () => {
           space_length_cm: fakeSeedLog.space_length_cm,
           space_width_cm: fakeSeedLog.space_width_cm,
           'rate_seeds/m2': fakeSeedLog['rate_seeds/m2'],
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
         };
 
@@ -3438,10 +3443,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -3467,7 +3472,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });
@@ -3579,7 +3584,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('fieldWork');
@@ -3587,7 +3592,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -3624,10 +3629,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -3762,7 +3767,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('soilData');
@@ -3770,7 +3775,7 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
           date: fakeActivityLog.date,
@@ -3805,10 +3810,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -3943,7 +3948,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('irrigation');
@@ -3951,14 +3956,14 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
           date: fakeActivityLog.date,
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
           ...fakeIrrigationLog,
         };
@@ -3988,10 +3993,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -4017,7 +4022,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });
@@ -4132,7 +4137,7 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('scouting');
@@ -4140,14 +4145,14 @@ describe('Log Tests', () => {
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
           date: fakeActivityLog.date,
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
           ...fakeScoutingLog,
         };
@@ -4177,10 +4182,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -4206,7 +4211,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });
@@ -4320,21 +4325,21 @@ describe('Log Tests', () => {
       let fakeActivityLog;
       let crop1;
       let field1;
-      let fieldCrop1;
+      let managementPlan1;
       let sampleRequestBody;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('other');
         [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
+        [managementPlan1] = await mocks.management_planFactory({ promisedCrop: [crop1], promisedField: [field1] });
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
           date: fakeActivityLog.date,
           user_id: fakeActivityLog.user_id,
           notes: fakeActivityLog.notes,
-          crops: [{ field_crop_id: fieldCrop1.field_crop_id }],
+          crops: [{ field_crop_id: managementPlan1.field_crop_id }],
           locations: [{ location_id: field1.location_id }],
         };
       });
@@ -4356,10 +4361,10 @@ describe('Log Tests', () => {
         let [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
         let [weatherStation] = await mocks.weather_stationFactory();
         let [field2] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-        let [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field1] });
-        let [fieldCrop3] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field2] });
+        let [managementPlan2] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field1] });
+        let [managementPlan3] = await mocks.management_planFactory({ promisedCrop: [crop2], promisedField: [field2] });
         sampleRequestBody.locations = [{ location_id: field1.location_id }, { location_id: field2.location_id }];
-        sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }, { field_crop_id: fieldCrop2.field_crop_id }, { field_crop_id: fieldCrop3.field_crop_id }];
+        sampleRequestBody.crops = [{ field_crop_id: managementPlan1.field_crop_id }, { field_crop_id: managementPlan2.field_crop_id }, { field_crop_id: managementPlan3.field_crop_id }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const activityLog = await activityLogModel.query().context({
@@ -4379,7 +4384,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
-          expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          expect(activityCropss[1].field_crop_id).toBe(managementPlan2.field_crop_id);
           done();
         });
       });

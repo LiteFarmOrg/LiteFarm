@@ -36,7 +36,10 @@ class activityLogModel extends BaseModel {
 
       properties: {
         activity_id: { type: 'integer' },
-        activity_kind: { type: 'string', enum:['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'] },
+        activity_kind: {
+          type: 'string',
+          enum: ['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'],
+        },
         date: { type: 'date-time' },
         notes: { type: 'string' },
         action_needed: { type: 'boolean' },
@@ -46,6 +49,7 @@ class activityLogModel extends BaseModel {
       additionalProperties: false,
     };
   }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
@@ -82,7 +86,7 @@ class activityLogModel extends BaseModel {
           to: 'irrigationLog.activity_id',
         },
       },
-      scoutingLog:{
+      scoutingLog: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -93,7 +97,7 @@ class activityLogModel extends BaseModel {
           to: 'scoutingLog.activity_id',
         },
       },
-      soilDataLog:{
+      soilDataLog: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -104,7 +108,7 @@ class activityLogModel extends BaseModel {
           to: 'soilDataLog.activity_id',
         },
       },
-      fieldWorkLog:{
+      fieldWorkLog: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -115,7 +119,7 @@ class activityLogModel extends BaseModel {
           to: 'fieldWorkLog.activity_id',
         },
       },
-      harvestLog:{
+      harvestLog: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -126,7 +130,7 @@ class activityLogModel extends BaseModel {
           to: 'harvestLog.activity_id',
         },
       },
-      harvestUse:{
+      harvestUse: {
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -137,7 +141,7 @@ class activityLogModel extends BaseModel {
           to: 'harvestUse.activity_id',
         },
       },
-      seedLog:{
+      seedLog: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
@@ -148,24 +152,24 @@ class activityLogModel extends BaseModel {
           to: 'seedLog.activity_id',
         },
       },
-      fieldCrop:{
-        modelClass:require('./fieldCropModel'),
-        relation:Model.ManyToManyRelation,
-        join:{
+      managementPlan: {
+        modelClass: require('./managementPlanModel'),
+        relation: Model.ManyToManyRelation,
+        join: {
           from: 'activityLog.activity_id',
           through: {
             modelClass: require('./activityCropsModel'),
             from: 'activityCrops.activity_id',
-            to: 'activityCrops.field_crop_id',
+            to: 'activityCrops.management_plan_id',
           },
-          to: 'fieldCrop.field_crop_id',
+          to: 'managementPlan.management_plan_id',
         },
 
       },
       location: {
-        modelClass:require('./locationModel'),
-        relation:Model.ManyToManyRelation,
-        join:{
+        modelClass: require('./locationModel'),
+        relation: Model.ManyToManyRelation,
+        join: {
           from: 'activityLog.activity_id',
           through: {
             modelClass: require('./activityFieldsModel'),
@@ -175,7 +179,6 @@ class activityLogModel extends BaseModel {
           to: 'location.location_id',
         },
       },
-      ...this.baseRelationMappings('activityLog'),
     };
   }
 }

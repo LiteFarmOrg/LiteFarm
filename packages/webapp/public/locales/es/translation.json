@@ -80,6 +80,77 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "CROP_CATALOGUE": {
+    "ADD_CROP": "MISSING",
+    "ADD_CROPS_T0_YOUR_FARM": "MISSING",
+    "ADD_TO_YOUR_FARM": "MISSING",
+    "CAN_NOT_FIND": "MISSING",
+    "CREATE_MANAGEMENT_PLANS": "MISSING",
+    "CROP_CATALOGUE": "MISSING",
+    "CROP_STATUS": "MISSING",
+    "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
+    "FILTER": {
+      "LOCATION": "MISSING",
+      "STATUS": "MISSING",
+      "SUPPLIERS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "HERE_YOU_CAN": "MISSING",
+    "LETS_BEGIN": "MISSING",
+    "ON_YOUR_FARM": "MISSING",
+    "SELECT_A_CROP": "MISSING",
+    "FILTER_TITLE": "MISSING"
+  },
+  "CROP_DETAIL": {
+    "ADD_PLAN": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_PERENNIAL": "MISSING",
+    "COMMERCIAL_AVAILABILITY": "MISSING",
+    "COMPLIANCE_DOC": "MISSING",
+    "DETAIL_TAB": "MISSING",
+    "EDIT_CROP_DETAIL": "MISSING",
+    "EXPENSE_RECORD": "MISSING",
+    "GENETICALLY_ENGINEERED": "MISSING",
+    "MANAGEMENT_PLANS": "MISSING",
+    "MANAGEMENT_TAB": "MISSING",
+    "ORGANIC": "MISSING",
+    "PERENNIAL": "MISSING",
+    "SEED": "MISSING",
+    "SEED_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "TREATED": "MISSING"
+  },
+  "CROP_MANAGEMENT": {
+    "GERMINATE": "MISSING",
+    "HARVEST": "MISSING",
+    "SEED": "MISSING",
+    "TERMINATE": "MISSING",
+    "TRANSPLANT": "MISSING"
+  },
+  "CROP_VARIETIES": {
+    "ADD_VARIETY": "MISSING",
+    "CROP_VARIETIES": "MISSING",
+    "NEEDS_PLAN": "MISSING"
+  },
+  "CROP": {
+    "ADD_COMPLIANCE_FILE": "MISSING",
+    "ADD_CROP": "MISSING",
+    "ADD_IMAGE": "MISSING",
+    "ANNUAL": "MISSING",
+    "ANNUAL_OR_PERENNIAL": "MISSING",
+    "IS_GENETICALLY_ENGINEERED": "MISSING",
+    "IS_ORGANIC": "MISSING",
+    "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
+    "NEED_DOCUMENT_PERFORM_SEARCH": "MISSING",
+    "NEED_DOCUMENT_TREATED": "MISSING",
+    "PERENNIAL": "MISSING",
+    "PERFORM_SEARCH": "MISSING",
+    "SEED": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
+    "TREATED": "MISSING",
+    "UPLOAD_LATER": "MISSING"
+  },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",
@@ -399,6 +470,9 @@
       "FIELD_NAME": "Nombre del campo"
     },
     "TITLE": "Campos"
+  },
+  "FILTER": {
+    "CLEAR_ALL_FILTERS": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
@@ -738,6 +812,40 @@
     "TITLE": "Registro de informacion del suelo",
     "TOTAL_CARBON": "Carbón total"
   },
+  "MANAGEMENT_PLAN": {
+    "ADD_MANAGEMENT_PLAN": "MISSING",
+    "AS_COVER_CROP": "MISSING",
+    "BEDS": "MISSING",
+    "BROADCAST": "MISSING",
+    "CONTAINER": "MISSING",
+    "CONTAINER_OR_IN_GROUND": "MISSING",
+    "CONTAINER_TYPE": "MISSING",
+    "COVER_INFO": "MISSING",
+    "COVER_OR_HARVEST": "MISSING",
+    "DAYS_FROM_SEEDING": "MISSING",
+    "DURATION_TOOLTIP": "MISSING",
+    "FOR_HARVEST": "MISSING",
+    "GERMINATION": "MISSING",
+    "HARVEST": "MISSING",
+    "IN_GROUND": "MISSING",
+    "IS_TRANSPLANT": "MISSING",
+    "NUMBER_OF_CONTAINER": "MISSING",
+    "PLANT_SPACING": "MISSING",
+    "PLANTING_DATE": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "PLANTING_METHOD": "MISSING",
+    "PLANTING_METHOD_TOOLTIP": "MISSING",
+    "PLANTING_NOTE": "MISSING",
+    "PLANTING_SOIL": "MISSING",
+    "PLANTS_PER_CONTAINER": "MISSING",
+    "ROWS": "MISSING",
+    "TERMINATION": "MISSING",
+    "TOTAL_PLANTS": "MISSING",
+    "TRANSPLANT": "MISSING",
+    "SELECT_STARTING_LOCATION": "MISSING",
+    "SELECT_PLANTING_LOCATION": "MISSING",
+    "LOCATION_SUBTEXT": "MISSING"
+  },
   "MY_FARM": {
     "FARM_INFO": "Información de la finca",
     "FARM_MAP": "Mapa de la finca",
@@ -1018,6 +1126,7 @@
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
   "SLIDE_MENU": {
+    "CROPS": "MISSING",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
@@ -1054,5 +1163,8 @@
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Vamos a comenzar"
+  },
+  "YEAR_SELECTOR": {
+    "TITLE": "MISSING"
   }
 }

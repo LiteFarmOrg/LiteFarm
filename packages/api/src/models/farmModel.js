@@ -102,7 +102,6 @@ class Farm extends baseModel {
           to: 'yield.farm_id',
         },
       },
-      ...this.baseRelationMappings('farm'),
     };
   }
 

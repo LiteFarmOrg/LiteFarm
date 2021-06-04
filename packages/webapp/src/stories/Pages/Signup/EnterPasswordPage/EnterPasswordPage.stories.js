@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import EnterPasswordPage from '../../../../components/Signup/EnterPasswordPage';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Signup/EnterPassword',
@@ -13,11 +14,11 @@ const Template = (args) => <EnterPasswordPage {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Not_Chrome = Template.bind({});
 Not_Chrome.args = { isChrome: false };
 Not_Chrome.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

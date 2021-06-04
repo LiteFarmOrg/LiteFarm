@@ -1,0 +1,12 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "Location",
+    "STATUS": "Status",
+    "SUPPLIERS": "Suppliers",
+    "ACTIVE": "Active",
+    "ABANDONED": "Abandoned",
+    "COMPLETE": "Complete",
+    "PLANNED": "Planned",
+    "NEEDS_PLAN": "Needs plan"
+  }
+}

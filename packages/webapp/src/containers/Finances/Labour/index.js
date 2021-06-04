@@ -11,7 +11,7 @@ import { dateRangeSelector, shiftSelector } from '../selectors';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { Main } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
@@ -103,7 +103,7 @@ class Labour extends Component {
             shifts={this.props.shifts}
             startDate={this.state.startDate}
             endDate={this.state.endDate}
-            fieldCrops={this.props.fieldCrops}
+            managementPlans={this.props.managementPlans}
           />
         )}
         {dropDownTitle === 'TASKS' && (
@@ -124,7 +124,7 @@ const mapStateToProps = (state) => {
     shifts: shiftSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
   };
 };
 

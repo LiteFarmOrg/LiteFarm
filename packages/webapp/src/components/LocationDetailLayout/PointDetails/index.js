@@ -4,6 +4,7 @@ import Input from '../../Form/Input';
 import { gateEnum as pointEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function PointDetailsLayout({
   name,
@@ -51,21 +52,17 @@ export default function PointDetailsLayout({
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={pointEnum.name}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(pointEnum.name, { required: true })}
         errors={errors[pointEnum.name] && t('common:REQUIRED')}
         disabled={isViewLocationPage}
       />
 
       {children}
-      <Input
+      <InputAutoSize
+        optional={true}
         label={t('common:NOTES')}
-        type="text"
-        optional
         style={{ marginBottom: '40px' }}
-        hookFormSetValue={setValue}
-        inputRef={register}
-        name={pointEnum.notes}
+        hookFormRegister={register(pointEnum.notes)}
         disabled={isViewLocationPage}
       />
     </>

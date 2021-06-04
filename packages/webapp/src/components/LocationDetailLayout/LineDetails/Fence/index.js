@@ -30,14 +30,15 @@ export default function PureFence({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('fence', match, {
     isCreateLocationPage,
@@ -45,28 +46,30 @@ export default function PureFence({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, length },
+    persistedData: { name, line_points, length },
   } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const isPressureTreated = watch(fenceEnum.pressure_treated);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
-    data[fenceEnum.length_unit] = data[fenceEnum.length_unit].value;
-    data[fenceEnum.width] = 0;
     const formData = {
       ...data,
       line_points: line_points,
       pressure_treated: isPressureTreated !== null ? isPressureTreated === 'true' : null,
       type: 'fence',
     };
+    formData[fenceEnum.width] = 0;
+    formData[fenceEnum.width_unit] = formData[fenceEnum.width_unit]?.value;
+    formData[fenceEnum.length_unit] = formData[fenceEnum.length_unit]?.value;
+    delete formData[bufferZoneEnum.total_area_unit];
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.FENCE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -142,17 +145,15 @@ export default function PureFence({
             <div style={{ marginBottom: '16px' }}>
               <Radio
                 label={t('common:YES')}
-                inputRef={register({ required: false })}
+                hookFormRegister={register(fenceEnum.pressure_treated, { required: false })}
                 value={true}
-                name={fenceEnum.pressure_treated}
                 disabled={isViewLocationPage}
               />
               <Radio
                 style={{ marginLeft: '40px' }}
                 label={t('common:NO')}
-                inputRef={register({ required: false })}
+                hookFormRegister={register(fenceEnum.pressure_treated, { required: false })}
                 value={false}
-                name={fenceEnum.pressure_treated}
                 disabled={isViewLocationPage}
               />
             </div>

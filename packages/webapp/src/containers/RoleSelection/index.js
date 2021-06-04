@@ -41,33 +41,29 @@ function RoleSelection() {
         {
           label: t('ROLE_SELECTION.FARM_OWNER'),
           value: 'Owner',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
+
           defaultChecked: true,
         },
         {
           label: t('ROLE_SELECTION.FARM_MANAGER'),
           value: 'Manager',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
         },
         {
           label: t('ROLE_SELECTION.FARM_EO'),
           value: 'Extension Officer',
-          inputRef: register({ required: true }),
-          name: ROLE,
+          hookFormRegister: register(ROLE, { required: true }),
         },
         {
           label: t('common:YES'),
           value: true,
-          inputRef: register(),
-          name: OWNER_OPERATED,
+          hookFormRegister: register(OWNER_OPERATED),
         },
         {
           label: t('common:NO'),
           value: false,
-          inputRef: register(),
-          name: OWNER_OPERATED,
+          hookFormRegister: register(OWNER_OPERATED),
         },
       ]}
       title={t('ROLE_SELECTION.TITLE')}

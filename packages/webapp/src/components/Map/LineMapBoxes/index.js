@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
@@ -10,11 +10,6 @@ import Button from '../../Form/Button';
 import { watercourseEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
 import { line_width } from '../../../util/unit';
-
-const distanceOptions = {
-  metric: 'm',
-  imperial: 'ft',
-};
 
 export default function PureLineBox({
   typeOfLine,
@@ -29,14 +24,14 @@ export default function PureLineBox({
   const {
     register,
     handleSubmit,
-    errors,
     setValue,
     getValues,
     setError,
     control,
     watch,
     trigger,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
   });

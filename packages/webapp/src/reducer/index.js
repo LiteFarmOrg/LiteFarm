@@ -48,13 +48,20 @@ import waterValveReducer from '../containers/waterValveSlice';
 import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
-import fieldCropReducer from '../containers/fieldCropSlice';
+import cropVarietyReducer from '../containers/cropVarietySlice';
+import managementPlanReducer from '../containers/managementPlanSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
+import filterReducer from '../containers/filterSlice';
+import transplantContainerReducer from '../containers/transplantContainerSlice';
+import containerReducer from '../containers/containerSlice';
+import bedsReducer from '../containers/bedsSlice';
+import rowsReducer from '../containers/rowsSlice';
+import broadcastReducer from '../containers/broadcastSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -129,7 +136,8 @@ const entitiesReducer = combineReducers({
   certifierSurveyReducer,
   rolesReducer,
   cropReducer,
-  fieldCropReducer,
+  cropVarietyReducer,
+  managementPlanReducer,
   weatherReducer,
   barnReducer,
   ceremonialReducer,
@@ -146,6 +154,11 @@ const entitiesReducer = combineReducers({
   gateReducer,
   waterValveReducer,
   showedSpotlightReducer,
+  transplantContainerReducer,
+  containerReducer,
+  bedsReducer,
+  rowsReducer,
+  broadcastReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -161,6 +174,7 @@ const tempStateReducer = combineReducers({
   mapLocationReducer,
   hookFormPersistReducer,
   organicCertifierSurveyReducer,
+  filterReducer,
 });
 
 // combine all reducers here and pass it to application

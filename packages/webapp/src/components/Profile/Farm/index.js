@@ -10,6 +10,16 @@ import ProfileLayout from '../ProfileLayout';
 import useDefaultOption from '../../Form/useDefaultOption';
 
 export default function PureFarm({ userFarm, onSubmit }) {
+  const MEASUREMENT = 'measurement';
+  const CURRENCY = 'currency';
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[userFarmEnum.farm_name] = userFarm.farm_name;
+    defaultValues[userFarmEnum.farm_phone_number] = userFarm.farm_phone_number;
+    defaultValues[userFarmEnum.address] = userFarm.address;
+    defaultValues[CURRENCY] = userFarm.units.currency;
+    return defaultValues;
+  };
   const { t } = useTranslation();
   const {
     register,
@@ -18,9 +28,9 @@ export default function PureFarm({ userFarm, onSubmit }) {
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
+    defaultValues: getDefaultValues(),
   });
-  const MEASUREMENT = 'measurement';
-  const CURRENCY = 'currency';
+
   const disabled = !isDirty || !isValid;
 
   const options = [
@@ -38,39 +48,31 @@ export default function PureFarm({ userFarm, onSubmit }) {
       }
     >
       <Input
-        defaultValue={userFarm.farm_name}
-        name={userFarmEnum.farm_name}
         label={t('PROFILE.FARM.FARM_NAME')}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(userFarmEnum.farm_name, { required: true })}
       />
       <Input
-        defaultValue={userFarm.farm_phone_number}
-        name={userFarmEnum.farm_phone_number}
         label={t('PROFILE.FARM.PHONE_NUMBER')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.farm_phone_number, { required: false })}
         type={'number'}
         onKeyDown={integerOnKeyDown}
       />
       <Input
-        defaultValue={userFarm.address}
-        name={userFarmEnum.address}
         label={t('PROFILE.FARM.ADDRESS')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(userFarmEnum.address, { required: false })}
         disabled
       />
       <Controller
         control={control}
         name={MEASUREMENT}
-        label={t('PROFILE.FARM.UNITS')}
-        options={options}
         defaultValue={defaultMeasurementOption}
-        as={<ReactSelect />}
+        render={({ field }) => (
+          <ReactSelect {...field} label={t('PROFILE.FARM.UNITS')} options={options} />
+        )}
       />
       <Input
-        defaultValue={userFarm.units.currency}
-        name={CURRENCY}
         label={t('PROFILE.FARM.CURRENCY')}
-        inputRef={register({ required: false })}
+        hookFormRegister={register(CURRENCY, { required: false })}
         disabled
       />
     </ProfileLayout>

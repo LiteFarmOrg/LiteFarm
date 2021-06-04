@@ -1,0 +1,19 @@
+name: 'Chromatic'
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/webapp
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: npm install
+      - name: Publish to Chromatic
+        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+

@@ -1,4 +1,4 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from '../userFarmSlice';
 import { createSelector } from 'reselect';
 
@@ -29,12 +29,6 @@ const slice = createSlice({
     onLoadingCertifierSurveyFail: onLoadingFail,
     getCertifiersSuccess: addOneCertifier,
     postCertifiersSuccess: addOneCertifier,
-    patchCertifiersSuccess(state, { payload: { certifiers, farm_id } }) {
-      certifierSurveyAdapter.updateOne(state, {
-        changes: { certifiers },
-        id: farm_id,
-      });
-    },
     patchRequestedCertifiersSuccess(state, { payload: { requested_certifier, farm_id } }) {
       certifierSurveyAdapter.updateOne(state, {
         changes: { requested_certifier },
@@ -58,7 +52,6 @@ const slice = createSlice({
 export const {
   getCertifiersSuccess,
   postCertifiersSuccess,
-  patchCertifiersSuccess,
   patchRequestedCertifiersSuccess,
   patchRequestedCertificationSuccess,
   patchInterestedSuccess,

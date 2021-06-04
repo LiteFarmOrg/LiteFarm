@@ -24,6 +24,10 @@ const auth = (isAuthenticated = false) => ({
 export const useI18next = () => {
   const { t, ready } = useTranslation(
     [
+      'certifications',
+      'crop_group',
+      'crop_nutrients',
+      'filter',
       'translation',
       'crop',
       'common',
@@ -42,9 +46,16 @@ export const useI18next = () => {
   return ready;
 };
 
+const setIdToken = () => {
+  if (!localStorage.getItem('id_token')) {
+    localStorage.setItem('id_token', 'id_token');
+  }
+};
+
 export default [
   (story) => {
     const ready = useI18next();
+    setIdToken();
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
@@ -84,6 +95,7 @@ export default [
 export const authenticatedDecorators = [
   (story) => {
     const ready = useI18next();
+    setIdToken();
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
@@ -128,7 +140,9 @@ export const decoratorsWithStore = [
         <ThemeProvider theme={theme}>
           <>
             <CssBaseline />
-            <Router history={history}>{story()}</Router>
+            <Router history={history}>
+              <div style={{ padding: '3rem' }}>{story()}</div>
+            </Router>
           </>
         </ThemeProvider>
       </Provider>

@@ -12,6 +12,17 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "BROADCAST_PLAN" : {
+    "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
+    "PERCENTAGE_LABEL": "% of location",
+    "PERCENTAGE_INFO": "",
+    "LOCATION_SIZE": "Location size",
+    "AREA_USED": "Area used",
+    "SEEDING_RATE": "Seeding rate",
+    "ESTIMATED_SEED": "Estimated seed required",
+    "ESTIMATED_YIELD": "Estimated yield",
+    "PLANTING_NOTES": "Planting notes"
+  },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",

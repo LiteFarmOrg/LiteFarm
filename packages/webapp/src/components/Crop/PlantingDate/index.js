@@ -108,7 +108,7 @@ export default function PurePlantingDate({
         onGoBack={onGoBack}
         onCancel={onCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={15}
+        value={25}
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.PLANTING_DATE')}</Main>

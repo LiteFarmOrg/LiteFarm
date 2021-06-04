@@ -7,7 +7,7 @@ import InputAutoSize from '../Form/InputAutoSize';
 import Form from '../Form';
 import Button from '../Form/Button';
 import { useForm } from 'react-hook-form';
-import { area_total_area, getDefaultUnit, seedYield } from '../../util/unit'
+import { area_total_area, getDefaultUnit, seedYield } from '../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
 import Unit, { unitOptionMap } from '../Form/Unit';
@@ -22,9 +22,9 @@ function PureBroadcastPlan({
   onCancel,
   persistedPaths,
   locationSize,
-  yieldPerArea
- }) {
-  const { t } = useTranslation([ 'translation' ]);
+  yieldPerArea,
+}) {
+  const { t } = useTranslation(['translation']);
   const {
     register,
     handleSubmit,
@@ -33,14 +33,14 @@ function PureBroadcastPlan({
     control,
     setValue,
     setError,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm({
     defaultValues: { ...persistedForm },
     shouldUnregister: true,
-    mode: 'onChange'
+    mode: 'onChange',
   });
   const shouldValidate = { shouldValidate: true };
-  const [ seedingRateValue, setSeedingRate ] = useState(0);
+  const [seedingRateValue, setSeedingRate] = useState(0);
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
@@ -55,46 +55,51 @@ function PureBroadcastPlan({
   const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
   const NOTES = 'notes';
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
-  register(SEEDING_RATE, {required: true})
-  let percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  let seedingRateForm = watch(SEEDING_RATE);
-  let areaUsed = watch(AREA_USED);
-  let areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
-
+  register(SEEDING_RATE, { required: true });
+  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
+  const seedingRateForm = watch(SEEDING_RATE);
+  const areaUsed = watch(AREA_USED);
+  const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
 
   useHookFormPersist(persistedPaths, getValues);
-
 
   const seedingRateHandler = (e) => {
     const seedingRateConversion = system === 'metric' ? 1 : LbAcToKgHa;
     setValue(SEEDING_RATE, seedingRateConversion * Number(e.target.value), shouldValidate);
-  }
+  };
 
   useEffect(() => {
-    const areaUsed = locationSize * percentageOfAreaPlanted / 100
+    const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
     setValue(AREA_USED, areaUsed, shouldValidate);
-    setValue(AREA_USED_UNIT, unitOptionMap[getDefaultUnit(area_total_area, areaUsed, system).displayUnit], shouldValidate);
-  }, [ percentageOfAreaPlanted ]);
+    setValue(
+      AREA_USED_UNIT,
+      unitOptionMap[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
+      shouldValidate,
+    );
+  }, [percentageOfAreaPlanted]);
 
   useEffect(() => {
     setSeedingRate(system === 'metric' ? seedingRateForm : seedingRateForm * KgHaToLbAc);
-    setValue(ESTIMATED_SEED, seedingRateForm * areaUsed / 10000, shouldValidate);
+    setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
     setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
-  }, [ seedingRateForm, areaUsed ]);
+  }, [seedingRateForm, areaUsed]);
 
   useEffect(() => {
-    if(areaUsedUnit?.value) {
+    if (areaUsedUnit?.value) {
       const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value);
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);
 
   return (
-    <Form buttonGroup={
-      <Button type={'submit'} disabled={!isValid} fullLength>
-        {t('common:CONTINUE')}
-      </Button>
-    } onSubmit={handleSubmit(handleContinue)}>
+    <Form
+      buttonGroup={
+        <Button type={'submit'} disabled={!isValid} fullLength>
+          {t('common:CONTINUE')}
+        </Button>
+      }
+      onSubmit={handleSubmit(handleContinue)}
+    >
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
@@ -104,17 +109,26 @@ function PureBroadcastPlan({
       />
       <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
       <Input
-        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true})}
-        style={{ paddingBottom: '40px' }} label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}/>
+        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true })}
+        max={100}
+        type={'number'}
+        style={{ paddingBottom: '40px' }}
+        label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
+      />
       <div className={clsx(styles.row, styles.paddingBottom40)}>
-        <div style={{ flex: '1 1 0px'}}>
-          <Label sm style={{ fontSize: '14px' }}>{t('BROADCAST_PLAN.LOCATION_SIZE')}</Label>
-          <Input value={displayedLocationSize}
-                 classes={{ input: { borderRadius: '0px', borderRightStyle: 'none', ...greenInput} }} disabled/>
+        <div style={{ flex: '1 1 0px' }}>
+          <Label sm style={{ fontSize: '14px' }}>
+            {t('BROADCAST_PLAN.LOCATION_SIZE')}
+          </Label>
+          <Input
+            value={displayedLocationSize}
+            classes={{ input: { borderRadius: '0px', borderRightStyle: 'none', ...greenInput } }}
+            disabled
+          />
         </div>
         <Unit
           register={register}
-          classes={{ input: { borderLeftStyle: 'none', ...greenInput} }}
+          classes={{ input: { borderLeftStyle: 'none', ...greenInput } }}
           label={t('BROADCAST_PLAN.AREA_USED')}
           name={AREA_USED}
           displayUnitName={AREA_USED_UNIT}
@@ -128,13 +142,19 @@ function PureBroadcastPlan({
           hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
-          style={{ flex: '1 1 0px'}}/>
+          style={{ flex: '1 1 0px' }}
+        />
       </div>
-      <Input type={'number'} label={t('BROADCAST_PLAN.SEEDING_RATE')} defaultValue={seedingRateValue}
-             onChange={seedingRateHandler} unit={seedingRateUnit} style={{ paddingBottom: '40px' }}/>
+      <Input
+        type={'number'}
+        label={t('BROADCAST_PLAN.SEEDING_RATE')}
+        defaultValue={seedingRateValue}
+        onChange={seedingRateHandler}
+        unit={seedingRateUnit}
+        style={{ paddingBottom: '40px' }}
+      />
 
-
-      { areaUsed > 0 && seedingRateForm > 0 && (
+      {areaUsed > 0 && seedingRateForm > 0 && (
         <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>
           <Unit
             register={register}
@@ -150,7 +170,8 @@ function PureBroadcastPlan({
             hookFromWatch={watch}
             control={control}
             required
-            style={{ flex: '1 1 0px' }}/>
+            style={{ flex: '1 1 0px' }}
+          />
           <Unit
             register={register}
             label={t('BROADCAST_PLAN.ESTIMATED_YIELD')}
@@ -165,7 +186,8 @@ function PureBroadcastPlan({
             hookFromWatch={watch}
             control={control}
             required
-            style={{ flex: '1 1 0px' }}/>
+            style={{ flex: '1 1 0px' }}
+          />
         </div>
       )}
       <InputAutoSize
@@ -175,7 +197,7 @@ function PureBroadcastPlan({
         hookFormRegister={register(NOTES)}
       />
     </Form>
-  )
+  );
 }
 
 export default PureBroadcastPlan;

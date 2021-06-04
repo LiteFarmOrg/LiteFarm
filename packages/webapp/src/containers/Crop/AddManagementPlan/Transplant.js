@@ -1,5 +1,5 @@
 import React from 'react';
-import Transplant from '../../../components/Crop/transplant';
+import PureTransplant from '../../../components/Crop/transplant';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -10,18 +10,13 @@ function TransplantForm({ history, match }) {
 
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const isCoverCrop = variety.can_be_cover_crop;
+  const isCoverCrop = true || variety.can_be_cover_crop;
 
   const persistedFormData = useSelector(hookFormPersistSelector);
-
-  const onContinue = (data) => {
-    // TODO - put in path
-    //history.push(`/map`);
-  };
-
+  console.log(match);
   return (
     <>
-      <Transplant
+      <PureTransplant
         isCoverCrop={isCoverCrop}
         useHookFormPersist={useHookFormPersist}
         onGoBack={() => {
@@ -31,8 +26,8 @@ function TransplantForm({ history, match }) {
           history.push(`/crop/${variety_id}/management`);
         }}
         persistedFormData={persistedFormData}
-        onSubmit={onContinue}
         match={match}
+        history={history}
       />
     </>
   );

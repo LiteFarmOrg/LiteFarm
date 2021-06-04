@@ -1,5 +1,5 @@
 import React from 'react';
-import PurePlantInContainer from '../../../components/PlantInContainer';
+import PurePlantInContainer from '../../../components/Crop/PlantInContainer';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

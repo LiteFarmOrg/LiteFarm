@@ -44,5 +44,7 @@
   "SUBMITTING": "Submitting...",
   "TO": "to",
   "UPDATE": "Update",
-  "YES": "Yes"
+  "YES": "Yes",
+  "MIN_ERROR": "Please enter a value greater than {{value}}",
+  "MAX_ERROR": "Please enter a value less than {{value}}"
 }

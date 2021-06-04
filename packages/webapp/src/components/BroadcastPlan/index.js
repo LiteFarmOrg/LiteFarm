@@ -107,7 +107,7 @@ function PureBroadcastPlan({
         hookFormRegister={register(PERCENTAGE_PLANTED, { required: true})}
         style={{ paddingBottom: '40px' }} label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}/>
       <div className={clsx(styles.row, styles.paddingBottom40)}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flex: '1 1 0px'}}>
           <Label sm style={{ fontSize: '14px' }}>{t('BROADCAST_PLAN.LOCATION_SIZE')}</Label>
           <Input value={displayedLocationSize}
                  classes={{ input: { borderRadius: '0px', borderRightStyle: 'none', ...greenInput} }} disabled/>
@@ -128,7 +128,7 @@ function PureBroadcastPlan({
           hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
-          style={{ flexGrow: 1 }}/>
+          style={{ flex: '1 1 0px'}}/>
       </div>
       <Input type={'number'} label={t('BROADCAST_PLAN.SEEDING_RATE')} defaultValue={seedingRateValue}
              onChange={seedingRateHandler} unit={seedingRateUnit} style={{ paddingBottom: '40px' }}/>
@@ -150,7 +150,7 @@ function PureBroadcastPlan({
             hookFromWatch={watch}
             control={control}
             required
-            style={{ flexGrow: 1 }}/>
+            style={{ flex: '1 1 0px' }}/>
           <Unit
             register={register}
             label={t('BROADCAST_PLAN.ESTIMATED_YIELD')}
@@ -165,7 +165,7 @@ function PureBroadcastPlan({
             hookFromWatch={watch}
             control={control}
             required
-            style={{ flexGrow: 1 }}/>
+            style={{ flex: '1 1 0px' }}/>
         </div>
       )}
       <InputAutoSize

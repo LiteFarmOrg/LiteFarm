@@ -46,6 +46,10 @@
   overflow: hidden;
 }
 
+.calendarBox > * {
+  overflow: hidden;
+}
+
 .yearBox {
   border: 1px solid #028577;
   border-radius: 4px;

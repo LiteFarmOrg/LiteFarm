@@ -1,5 +1,5 @@
 import React from 'react';
-import PurePlantingMethod from '../../../components/PlantingMethod';
+import PurePlantingMethod from '../../../components/Crop/PlantingMethod';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

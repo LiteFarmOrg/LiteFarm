@@ -1,20 +1,20 @@
-import Button from '../Form/Button';
+import Button from '../../Form/Button';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../Typography';
-import Form from '../Form';
+import { Main } from '../../Typography';
+import Form from '../../Form';
 import { useForm } from 'react-hook-form';
-import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import RadioGroup from '../Form/RadioGroup';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import RadioGroup from '../../Form/RadioGroup';
 import styles from './styles.module.scss';
-import { ReactComponent as Individual } from '../../assets/images/plantingMethod/Individual.svg';
-import { ReactComponent as Rows } from '../../assets/images/plantingMethod/Rows.svg';
+import { ReactComponent as Individual } from '../../../assets/images/plantingMethod/Individual.svg';
+import { ReactComponent as Rows } from '../../../assets/images/plantingMethod/Rows.svg';
 
-import { ReactComponent as Beds } from '../../assets/images/plantingMethod/Beds.svg';
-import { ReactComponent as Monocrop } from '../../assets/images/plantingMethod/Monocrop.svg';
-import { DO_CDN_URL } from '../../util/constants';
-import ImageModal from '../Modals/ImageModal';
+import { ReactComponent as Beds } from '../../../assets/images/plantingMethod/Beds.svg';
+import { ReactComponent as Monocrop } from '../../../assets/images/plantingMethod/Monocrop.svg';
+import { DO_CDN_URL } from '../../../util/constants';
+import ImageModal from '../../Modals/ImageModal';
 
 const BROADCAST = 'BROADCAST';
 const CONTAINER = 'CONTAINER';
@@ -44,14 +44,14 @@ const images = {
 };
 
 export default function PurePlantingMethod({
-  onSubmit,
-  onError,
-  onGoBack,
-  onCancel,
   useHookFormPersist,
   persistedFormData,
+  match,
+  history,
 }) {
   const { t } = useTranslation();
+  const variety_id = match?.params?.variety_id;
+
   const {
     register,
     handleSubmit,
@@ -68,6 +68,19 @@ export default function PurePlantingMethod({
   });
   const PLANTING_TYPE = 'planting_type';
   const planting_type = watch(PLANTING_TYPE);
+  const submitPath = `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
+  useHookFormPersist([submitPath, goBackPath], getValues);
+  const onSubmit = () => {
+    history?.push(submitPath);
+  };
+  const onError = () => {};
+  const onGoBack = () => {
+    history?.push(goBackPath);
+  };
+  const onCancel = () => {
+    history?.push(`/crop/${variety_id}/management`);
+  };
 
   const disabled = !isValid;
   const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});
@@ -87,7 +100,7 @@ export default function PurePlantingMethod({
         onGoBack={onGoBack}
         onCancel={onCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={15}
+        value={62.5}
         style={{ marginBottom: '24px' }}
       />
       <Main

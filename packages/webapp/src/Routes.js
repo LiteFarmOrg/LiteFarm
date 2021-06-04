@@ -206,6 +206,7 @@ const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
 const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
+const PlantingLocation = React.lazy(() => import('./containers/PlantingLocation'));
 const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
 const PlantingDate = React.lazy(() => import('./containers/Crop/AddManagementPlan/PlantingDate'));
 const PlantingMethod = React.lazy(() =>
@@ -444,6 +445,7 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
             <Route path="/edit_expense" exact component={TempEditExpense} />
 
             <Route path="/sale_detail" exact component={SaleDetail} />
@@ -607,6 +609,19 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
+            <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
+            <Route
+              path="/crop/:crop_id/add_crop_variety/compliance"
+              exact
+              component={ComplianceInfo}
+            />
+            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
+            <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
+            {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
+            {/* and remove edit_expense  */}
+            {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
+            {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
             <Route path="/edit_expense" exact component={TempEditExpense} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />

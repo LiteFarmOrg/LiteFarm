@@ -15,5 +15,8 @@ Management.args = {
   onGoBack: () =>{},
   handleContinue: () =>{},
   onCancel: () =>{},
-  persistedForm: {}
+  persistedForm: {},
+  system: 'metric',
+  locationSize: 2000,
+  yieldPerArea: 30
 };

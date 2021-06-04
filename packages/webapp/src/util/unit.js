@@ -137,6 +137,20 @@ export const seedAmounts = {
   databaseUnit: databaseUnit.mass,
 };
 
+export const seedYield = {
+  metric: {
+    units: ['g', 'kg'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['oz', 'lb'],
+    defaultUnit: 'lb',
+    breakpoints: [16],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
 //TODO move to storybook
 
 const areaUnits = {

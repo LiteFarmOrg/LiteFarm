@@ -141,7 +141,7 @@ export default function PurePlantInContainer({
               hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
-              required
+              optional
               style={{ flexGrow: 1 }}
             />
             {in_ground && (

@@ -13,7 +13,6 @@ export default function PlantingLocation({ history, match}) {
 
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  // TODO - add path
   const persistedPath = isTransplantPage? 
   [`/crop/${variety_id}/add_management_plan/transplant_container`, `/crop/${variety_id}/add_management_plan/planting_method`,] : 
   [

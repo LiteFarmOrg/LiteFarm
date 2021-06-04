@@ -14,7 +14,7 @@ import {
   createYield,
   deleteManagementPlan,
   putManagementPlan,
-} from '../../../containers/LocationDetails/LocationManagementPlan/saga';
+} from '../../../containers/Crop/AddManagementPlan/ManagementPlanName/saga';
 
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';

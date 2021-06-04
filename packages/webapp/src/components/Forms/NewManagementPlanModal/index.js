@@ -19,7 +19,7 @@ import {
   createPrice,
   createYield,
   postManagementPlan,
-} from '../../../containers/LocationDetails/LocationManagementPlan/saga';
+} from '../../../containers/Crop/AddManagementPlan/ManagementPlanName/saga';
 import { numberOnKeyDown } from '../../Form/Input';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { Label, Semibold, Underlined } from '../../Typography';

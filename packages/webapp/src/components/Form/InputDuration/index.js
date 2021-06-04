@@ -48,7 +48,9 @@ export default function InputDuration({
         {...props}
       />
       <div className={styles.dateContainer}>
-        <Semibold>{isNaN(duration) || duration === '' ? '' : date}</Semibold>
+        {!errors && !!startDate && !isNaN(duration) && duration !== '' && (
+          <Semibold>{date}</Semibold>
+        )}
       </div>
     </div>
   );

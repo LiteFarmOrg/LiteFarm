@@ -15,9 +15,9 @@
 
 import { toastr } from 'react-redux-toastr';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import apiConfig from '../../../apiConfig';
-import { loginSelector } from '../../userFarmSlice';
-import { axios, getHeader } from '../../saga';
+import apiConfig from '../../../../apiConfig';
+import { loginSelector } from '../../../userFarmSlice';
+import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -26,8 +26,8 @@ import {
   onLoadingManagementPlanStart,
   postManagementPlanSuccess,
   putManagementPlanSuccess,
-} from '../../managementPlanSlice';
-import i18n from '../../../locales/i18n';
+} from '../../../managementPlanSlice';
+import i18n from '../../../../locales/i18n';
 
 const DEC = 10;
 
@@ -56,7 +56,6 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.post, managementPlanURL, managementPlan, header);
-    console.log(result);
     yield put(postManagementPlanSuccess(result.data));
   } catch (e) {
     console.log('failed to add managementPlan to database');

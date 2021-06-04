@@ -13,7 +13,7 @@ function TransplantForm({ history, match }) {
   const isCoverCrop = true || variety.can_be_cover_crop;
 
   const persistedFormData = useSelector(hookFormPersistSelector);
-
+  console.log(match);
   return (
     <>
       <PureTransplant

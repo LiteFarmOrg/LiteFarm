@@ -1,17 +1,19 @@
+import PurePlantInContainer from '../../../../components/Crop/PlantInContainer';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
-import PurePlantingDate from '../../../../components/Crop/PlantingDate';
+import { measurementSelector } from '../../../userFarmSlice';
 
-export default function PlantingDate({ history, match }) {
+export default function PlantInContainer({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-
+  const system = useSelector(measurementSelector);
   return (
-    <PurePlantingDate
+    <PurePlantInContainer
       useHookFormPersist={useHookFormPersist}
       persistedFormData={persistedFormData}
       match={match}
       history={history}
+      system={system}
     />
   );
 }

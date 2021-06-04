@@ -1,13 +1,16 @@
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
-import PurePlantingDate from '../../../../components/Crop/PlantingDate';
+import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
 
-export default function PlantingDate({ history, match }) {
+export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-
+  const onSubmit = () => {};
+  const onError = () => {};
   return (
-    <PurePlantingDate
+    <PureManagementPlanName
+      onSubmit={onSubmit}
+      onError={onError}
       useHookFormPersist={useHookFormPersist}
       persistedFormData={persistedFormData}
       match={match}

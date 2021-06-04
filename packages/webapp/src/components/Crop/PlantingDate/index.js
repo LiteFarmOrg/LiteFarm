@@ -19,7 +19,7 @@ export default function PurePlantingDate({
 }) {
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
-  const submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
+  const submitPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/needs_transplant`;
 
   const SEED_DATE = 'seed_date';

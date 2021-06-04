@@ -1,13 +1,13 @@
-import PurePlantingDate from '../../../../components/Crop/PlantingDate';
+import PurePlantingMethod from '../../../../components/Crop/PlantingMethod';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 
-export default function PlantingDate({ history, match }) {
+export default function PlantingMethod({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   return (
-    <PurePlantingDate
+    <PurePlantingMethod
       useHookFormPersist={useHookFormPersist}
       persistedFormData={persistedFormData}
       match={match}

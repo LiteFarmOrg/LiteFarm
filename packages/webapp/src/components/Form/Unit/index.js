@@ -114,6 +114,7 @@ const Unit = ({
   to,
   required,
   mode = 'onBlur',
+  attached = false,
   ...props
 }) => {
   const reactSelectStyles = useReactSelectStyles(disabled);
@@ -287,6 +288,7 @@ const Unit = ({
             styles.pseudoInputContainer,
             errors && styles.inputError,
             isSelectDisabled && disabled && styles.disableBackground,
+            attached && styles.noBorderRadius
           )}
         >
           <div

@@ -215,6 +215,9 @@ const PlantingMethod = React.lazy(() =>
 const PlantInContainer = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantInContainer'),
 );
+const PlantBroadcast = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/BroadcastPlan'),
+);
 const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
@@ -324,10 +327,17 @@ const Routes = () => {
               exact
               component={PlantingDate}
             />
+            <Route path="/crop/:variety_id/add_management_plan/choose_planting_location" exact component={PlantingLocation}/>
+            <Route path="/crop/:variety_id/add_management_plan/choose_transplant_location" exact component={PlantingLocation}/>
             <Route
               path="/crop/:variety_id/add_management_plan/planting_method"
               exact
               component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/broadcast"
+              exact
+              component={PlantBroadcast}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/transplant_container"
@@ -445,7 +455,6 @@ const Routes = () => {
             <Route path="/expense_detail" exact component={ExpenseDetail} />
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
-            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
             <Route path="/edit_expense" exact component={TempEditExpense} />
 
             <Route path="/sale_detail" exact component={SaleDetail} />
@@ -520,6 +529,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/planting_method"
               exact
               component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/broadcast"
+              exact
+              component={PlantBroadcast}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/transplant_container"
@@ -616,7 +630,7 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-            <Route path="/crop/:variety_id/choose_planting_location" exact component={PlantingLocation}/>
+            <Route path="/crop/:variety_id/add_management_plan/choose_planting_location" exact component={PlantingLocation}/>
             <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}

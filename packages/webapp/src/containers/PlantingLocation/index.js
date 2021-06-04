@@ -11,8 +11,11 @@ export default function PlantingLocation({ history, match}) {
 
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  // TODO - add persist path for LF-1338
-  const persistedPath = [`/path`];
+  const persistedPath = [
+    `/crop/${variety_id}/add_management_plan/transplant_container`,
+    `/crop/${variety_id}/add_management_plan/planting_method`,
+    `/crop/${variety_id}/add_management_plan/planting_date`
+  ];
 
   const dispatch = useDispatch();
 
@@ -27,24 +30,17 @@ export default function PlantingLocation({ history, match}) {
   const onContinue = (data) => {
     saveLocation();
     if (persistedFormData.needs_transplant === 'true') {
-      // TODO - add path 
-      console.log("Go to 1344");
+      history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
     } else {
-      // TODO - add path 
-      console.log("Go to 1340");
+      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
     }
   }
 
   const onGoBack = () => {
     if (selectedLocation !== null) {
       saveLocation();
-      // TODO - add path
-      console.log('Go back to choose date');
-    } else {
-      // TODO - add path
-      console.log('Go back to choose date');
     }
-    
+    history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
   }
 
   const onCancel = () => {
@@ -68,5 +64,3 @@ export default function PlantingLocation({ history, match}) {
     </>
   );
 }
-
-

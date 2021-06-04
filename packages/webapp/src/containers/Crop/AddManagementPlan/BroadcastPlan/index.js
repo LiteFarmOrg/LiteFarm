@@ -14,7 +14,7 @@ function BroadcastPlan({ history, match }) {
   const yieldPerArea = cropVariety.yield_per_area || 0
   const system = useSelector(measurementSelector)
   const variety_id = match.params.variety_id;
-  const persistedPaths = [`/crop/${variety_id}/add_management_plan/name`];
+  const persistedPaths = [`/crop/${variety_id}/add_management_plan/name`, `/crop/${variety_id}/add_management_plan/planting_method`];
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
   }

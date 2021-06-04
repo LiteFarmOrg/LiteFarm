@@ -189,7 +189,6 @@ describe('CropVariety Tests', () => {
           });
         });
 
-        // TODO switch to JWT
         test('Circumvent authorization by modifying farm_id', async (done) => {
           getRequest(`/crop_variety/${cropVariety.crop_variety_id}`, {
             user_id: unAuthorizedUser.user_id,
@@ -215,8 +214,8 @@ describe('CropVariety Tests', () => {
           crop_variety_name: 'cropVarietyNotInUse',
         });
       });
-
-      test('Owner should delete a cropVariety that is referenced by a fieldCropVariety', async (done) => {
+      // TODO: fix delete test once management plan is implemented
+      test('Owner should delete a cropVariety that is referenced by a management plan', async (done) => {
         deleteRequest(`/crop_variety/${cropVariety.crop_variety_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const cropVarietys = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm.farm_id);

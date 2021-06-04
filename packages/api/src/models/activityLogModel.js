@@ -152,17 +152,17 @@ class activityLogModel extends BaseModel {
           to: 'seedLog.activity_id',
         },
       },
-      fieldCrop: {
-        modelClass: require('./fieldCropModel'),
+      managementPlan: {
+        modelClass: require('./managementPlanModel'),
         relation: Model.ManyToManyRelation,
         join: {
           from: 'activityLog.activity_id',
           through: {
             modelClass: require('./activityCropsModel'),
             from: 'activityCrops.activity_id',
-            to: 'activityCrops.field_crop_id',
+            to: 'activityCrops.management_plan_id',
           },
-          to: 'fieldCrop.field_crop_id',
+          to: 'managementPlan.management_plan_id',
         },
 
       },

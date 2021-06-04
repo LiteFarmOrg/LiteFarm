@@ -31,7 +31,7 @@ import {
   setSelectedLog,
   setStartDate,
 } from './actions';
-import { getFieldCropsByDate, getLocations } from '../saga';
+import { getLocations, getManagementPlansByDate } from '../saga';
 import {
   logCropFilterSelector,
   logFieldFilterSelector,
@@ -48,7 +48,7 @@ import { BsCaretRight } from 'react-icons/all';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 
-import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
 import { Label, Semibold, Title, Underlined } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 import { colors } from '../../assets/theme';
@@ -65,7 +65,7 @@ class Log extends Component {
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
     const { dispatch } = this.props;
-    dispatch(getFieldCropsByDate());
+    dispatch(getManagementPlansByDate());
     dispatch(getLocations());
     dispatch(getLogs());
     //TODO fatch userFarm
@@ -94,7 +94,7 @@ class Log extends Component {
       return logs.filter(
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
-          checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
+          checkFilter(l.managementPlan[0], 'crop_id', cropFilter) &&
           checkFilter(l.location[0], 'location_id', fieldFilter) &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
@@ -111,7 +111,7 @@ class Log extends Component {
       return logs.filter(
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
-          checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
+          checkFilter(l.managementPlan[0], 'crop_id', cropFilter) &&
           checkFilter(l.location[0], 'location_id', fieldFilter) &&
           l.user_id === user.user_id &&
           startDate.isBefore(l.date) &&
@@ -209,13 +209,13 @@ class Log extends Component {
         id: 'crop',
         Header: this.props.t('LOG_COMMON.CROP'),
         accessor: (d) => {
-          if (!d.fieldCrop.length) {
+          if (!d.managementPlan.length) {
             return 'None';
           }
-          if (d.fieldCrop.length > 1) {
+          if (d.managementPlan.length > 1) {
             return 'Multiple';
           } else {
-            return d.fieldCrop.map((fc) =>
+            return d.managementPlan.map((fc) =>
               this.props.t(`crop:${fc.crop_variety.crop.crop_translation_key}`),
             );
           }
@@ -381,7 +381,7 @@ class Log extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),

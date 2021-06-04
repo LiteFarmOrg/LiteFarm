@@ -44,13 +44,13 @@ const SaleForm = ({
           searchable={true}
           isMulti={true}
           placeholder={t('SALE.ADD_SALE.CROP_PLACEHOLDER')}
-          model=".fieldCrop"
+          model=".managementPlan"
           onChange={(option) => handleChooseCrop(option)}
           validators={{ required: (val) => val && val.length }}
         />
         <Errors
           className="required"
-          model=".fieldCrop"
+          model=".managementPlan"
           show={{ touched: true, focus: false }}
           messages={{
             required: t('SALE.ADD_SALE.CROP_REQUIRED'),

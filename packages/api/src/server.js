@@ -36,20 +36,15 @@ const loginRoutes = require('./routes/loginRoute');
 const cropRoutes = require('./routes/cropRoute');
 const cropVarietyRoutes = require('./routes/cropVarietyRoute');
 const fieldRoutes = require('./routes/fieldRoute');
-// const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
-//const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
-// const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
 const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
-// const notificationRoutes = require('./routes/notificationRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
 const shiftRoutes = require('./routes/shiftRoute');
-// const notificationSettingRoutes = require('./routes/notificationSettingRoute');
-const fieldCropRoutes = require('./routes/fieldCropRoute');
+const managementPlanRoute = require('./routes/managementPlanRoute');
 const fertilizerRoutes = require('./routes/fertilizerRoute');
 const diseaseRoutes = require('./routes/diseaseRoute');
 const pesticideRoutes = require('./routes/pesticideRoute');
@@ -57,7 +52,6 @@ const yieldRoutes = require('./routes/yieldRoute');
 const priceRoutes = require('./routes/priceRoute');
 const insightRoutes = require('./routes/insightRoute');
 const locationRoute = require('./routes/locationRoute');
-const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
@@ -98,7 +92,6 @@ app.use(bodyParser.json())
   })
   .use(router)
   .set('json spaces', 2)
-  .use('/stats', statsRoutes)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   // ACL middleware
@@ -123,7 +116,7 @@ app.use(bodyParser.json())
   .use('/log', logRoutes)
   .use('/shift', shiftRoutes)
   // .use('/notification_setting', notificationSettingRoutes)
-  .use('/field_crop', fieldCropRoutes)
+  .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
   .use('/pesticide', pesticideRoutes)

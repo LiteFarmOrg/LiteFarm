@@ -61,10 +61,10 @@ export const TREE_ICON =
 export const FIELD_CROPS_INIT = {
   area_used: '',
   crop_id: '',
-  end_date: moment().add(1, 'M'),
+  harvest_date: moment().add(1, 'M'),
   estimated_price: '',
   estimated_yield: '',
-  start_date: moment(),
+  seed_date: moment(),
 };
 export const DISPLAY_NONE = 'none';
 export const DISPLAY_DEFAULT = 'block';

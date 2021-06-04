@@ -15,10 +15,10 @@ import parseFields from '../Utility/parseFields';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
-import { irrigationStateSelector } from "../selectors";
+import { irrigationStateSelector } from '../selectors';
 
 class IrrigationLog extends Component {
   constructor(props) {
@@ -77,7 +77,13 @@ class IrrigationLog extends Component {
             dropdown={true}
             options={rateOptions}
           />
-          <Unit model=".hours" title={`${this.props.t('LOG_IRRIGATION.TOTAL_TIME')} ${this.props.t('common:OPTIONAL')}`} type="hrs" />
+          <Unit
+            model=".hours"
+            title={`${this.props.t('LOG_IRRIGATION.TOTAL_TIME')} ${this.props.t(
+              'common:OPTIONAL',
+            )}`}
+            type="hrs"
+          />
         </div>
       );
     };
@@ -121,10 +127,10 @@ class IrrigationLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
-    formState: irrigationStateSelector(state)
+    formState: irrigationStateSelector(state),
   };
 };
 

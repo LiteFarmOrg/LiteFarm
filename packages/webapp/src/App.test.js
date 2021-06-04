@@ -21,7 +21,7 @@ describe('test intitial state of baseReducer', () => {
       users: null,
       farm: null,
       fields: null,
-      fieldCrops: null,
+      managementPlans: null,
     });
   });
 });

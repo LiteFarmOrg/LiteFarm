@@ -9,7 +9,7 @@ export default function useFilterNoPlan(crops) {
     const statusFilter = cropCatalogueFilter[STATUS];
     const included = new Set();
     for (const status in statusFilter) {
-      if (statusFilter[status]) included.add(status);
+      if (statusFilter[status].active) included.add(status);
     }
     if (included.size === 0 || statusFilter[NEEDS_PLAN]) return crops;
     return [];
@@ -19,7 +19,7 @@ export default function useFilterNoPlan(crops) {
     const supplierFilter = cropCatalogueFilter[SUPPLIERS];
     const included = new Set();
     for (const supplier in supplierFilter) {
-      if (supplierFilter[supplier]) included.add(supplier);
+      if (supplierFilter[supplier].active) included.add(supplier);
     }
     if (included.size === 0) return filteredByStatus;
     return filteredByStatus.filter((crop) => included.has(crop.supplier));

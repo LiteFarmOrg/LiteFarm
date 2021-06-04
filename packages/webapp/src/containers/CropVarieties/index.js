@@ -12,7 +12,7 @@ import {
   currentCropVarietiesByCropIdSelector,
   expiredCropVarietiesByCropIdSelector,
   plannedCropVarietiesByCropIdSelector,
-} from '../fieldCropSlice';
+} from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';

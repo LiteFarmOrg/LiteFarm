@@ -27,14 +27,18 @@ const filterSliceReducer = createSlice({
     setCropCatalogueFilterDate: (state, { payload: date }) => {
       state.cropCatalogue.date = date;
     },
+    removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
+      state[pageFilterKey][filterKey][value].active = false;
+    },
   },
 });
 
 export const {
-  resetFilter,
+  resetFilters,
   resetCropCatalogueFilter,
   setCropCatalogueFilter,
   setCropCatalogueFilterDate,
+  removeFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -50,3 +54,18 @@ export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),
 );
+
+export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
+  return createSelector([filterReducerSelector], (filterReducer) => {
+    const targetPageFilter = filterReducer[pageFilterKey];
+    let isActive = false;
+    for (const filterKey in targetPageFilter) {
+      if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
+      const filter = targetPageFilter[filterKey];
+      isActive = Object.values(filter).reduce((acc, curr) => {
+        return acc || curr.active;
+      }, isActive);
+    }
+    return isActive;
+  });
+};

@@ -856,7 +856,8 @@
     "TRANSPLANT": "Transplant",
     "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
-    "LOCATION_SUBTEXT": "Only locations that can grow crops are shown."
+    "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?"
   },
   "MY_FARM": {
     "FARM_INFO": "Farm info",

@@ -34,6 +34,7 @@ export default function PurePlantingLocation({
   useHookFormPersist(persistedPath, getValues);
 
   const { needs_transplant } = persistedFormData;
+  console.log(needs_transplant);
 
   const selectedLocationId = transplant? persistedFormData.transplantLocationId : persistedFormData.managementPlanLocationId;
 
@@ -60,7 +61,7 @@ export default function PurePlantingLocation({
         </div>
         <div className={styles.planting_label}>
           {(transplant)?
-           t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION') : ((needs_transplant === 'true') ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION'))
+           t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION') : ((needs_transplant) ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION'))
           }
         </div>
         <LocationPicker

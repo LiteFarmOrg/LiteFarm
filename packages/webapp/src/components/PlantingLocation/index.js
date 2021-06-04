@@ -34,7 +34,6 @@ export default function PurePlantingLocation({
   useHookFormPersist(persistedPath, getValues);
 
   const { needs_transplant } = persistedFormData;
-  console.log(needs_transplant);
 
   const selectedLocationId = transplant? persistedFormData.transplantLocationId : persistedFormData.managementPlanLocationId;
 

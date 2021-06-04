@@ -41,7 +41,6 @@ export default function PlantingLocation({ history, match}) {
   const onContinue = (data) => {
     saveLocation();
     if (persistedFormData.needs_transplant) {
-      console.log("YO");
       history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
     } else {
       history.push(`/crop/${variety_id}/add_management_plan/planting_method`);

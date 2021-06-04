@@ -1,5 +1,5 @@
 import React from 'react';
-import PurePlantingDate from '../../../components/PlantingDate';
+import PurePlantingDate from '../../../components/Crop/PlantingDate';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

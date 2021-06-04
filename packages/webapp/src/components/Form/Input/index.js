@@ -53,31 +53,6 @@ const Input = ({
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
-  useEffect(() => {
-    if (
-      max !== undefined &&
-      type === 'number' &&
-      (input.current?.value || input.current?.value === 0) &&
-      input.current?.value > max
-    ) {
-      input.current.value = max;
-      onChange?.({ target: input.current });
-      hookFormRegister?.onChange?.({ target: input.current });
-    }
-  }, [max]);
-  useEffect(() => {
-    if (
-      min !== undefined &&
-      type === 'number' &&
-      (input.current?.value || input.current?.value === 0) &&
-      input.current?.value < min &&
-      (max === undefined || min <= max)
-    ) {
-      input.current.value = min;
-      onChange?.({ target: input.current });
-      hookFormRegister?.onChange?.({ target: input.current });
-    }
-  }, [min]);
   return (
     <div
       className={clsx(styles.container)}
@@ -196,3 +171,4 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+const preventNumberScrolling = (e) => e.target.blur();

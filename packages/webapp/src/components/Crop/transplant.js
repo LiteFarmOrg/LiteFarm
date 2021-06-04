@@ -9,15 +9,17 @@ import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
 
 export default function PureTransplant({
-  onSubmit,
   isCoverCrop,
   onCancel,
   onGoBack,
   useHookFormPersist,
   persistedFormData,
   match,
+  history,
 }) {
   const { t } = useTranslation();
+  const variety_id = match?.params?.variety_id;
+  const submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
 
   const progress = 12.5;
 
@@ -33,10 +35,10 @@ export default function PureTransplant({
     defaultValues: { ...persistedFormData },
   });
 
-  // TODO - Add path
-  const persistedPath = [`/path`];
-
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist([submitPath], getValues);
+  const onSubmit = () => {
+    history?.push(submitPath);
+  };
 
   const disabled = !isValid;
 
@@ -107,7 +109,6 @@ export default function PureTransplant({
 
 PureTransplant.prototype = {
   isCoverCrop: PropTypes.bool,
-  onSubmit: PropTypes.func,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,
   persistedFormData: PropTypes.func,

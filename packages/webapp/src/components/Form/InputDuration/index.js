@@ -15,15 +15,16 @@ export default function InputDuration({
   hookFormWatch,
   hookFormSetValue,
   dateName,
+  errors,
   max,
   min,
-  errors,
   ...props
 }) {
   const duration = hookFormWatch(hookFormRegister?.name);
   const date = useMemo(() => {
+    const maxDuration = max || 999;
     return moment(startDate)
-      .add(duration, 'days')
+      .add(duration > maxDuration ? maxDuration : duration, 'days')
       .locale(getLanguageFromLocalStorage())
       .format('MMMM DD, YYYY');
   }, [duration, startDate]);
@@ -41,9 +42,9 @@ export default function InputDuration({
         onKeyDown={integerOnKeyDown}
         label={label}
         hookFormRegister={hookFormRegister}
+        errors={errors}
         max={max}
         min={min}
-        errors={errors}
         {...props}
       />
       <div className={styles.dateContainer}>

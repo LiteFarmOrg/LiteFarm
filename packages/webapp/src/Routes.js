@@ -207,6 +207,7 @@ const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVari
 const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
 const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
+const PlantingDate = React.lazy(() => import('./containers/Crop/AddManagementPlan/PlantingDate'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -307,6 +308,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
               component={Transplant}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_date"
+              exact
+              component={PlantingDate}
             />
 
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
@@ -473,6 +479,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
               component={Transplant}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/planting_date"
+              exact
+              component={PlantingDate}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />

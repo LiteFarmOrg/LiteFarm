@@ -71,8 +71,9 @@ export default function PurePlantingMethod({
   const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map((plantingType) =>
     `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`
   )
+  pathsToPersist.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
   const submitPath = `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
   useHookFormPersist([...pathsToPersist, goBackPath], getValues);
   const onSubmit = () => {
     history?.push(submitPath);

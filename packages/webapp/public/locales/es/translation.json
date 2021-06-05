@@ -709,12 +709,12 @@
   },
   "LOG_FIELD_WORK": {
     "DISCING": "Rastra doble o de discos",
-    "MULCH_TILL": "Lebranza con cobertura",
+    "MULCH_TILL": "Labranza con cobertura",
     "PLOW": "Arar",
-    "RIDGE_TILL": "Lebranza de cresta",
+    "RIDGE_TILL": "Labranza de cresta",
     "RIPPING": "Rastra pesada",
     "TITLE": "Registro de trabajo de campo",
-    "ZONE_TILL": "Lebranza por zona"
+    "ZONE_TILL": "Labranza por zona"
   },
   "LOG_HARVEST": {
     "ADD_A_HARVEST_USE": "Agregar uso de cosecha",

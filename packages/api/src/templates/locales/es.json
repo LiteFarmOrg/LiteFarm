@@ -4,17 +4,17 @@
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
     "CONTACT_METHOD_HEADER": "Metodo de contacto preferido",
-    "SUBJECT": "Your LiteFarm request for help"
+    "SUBJECT": "Su solicitud de ayuda de LiteFarm"
   },
   "TEMPLATE": {
     "DEAR": "Querido",
     "CHEERS": "Saludos",
     "LITEFARM_TEAM": "El equipo de LiteFarm",
     "NO_RESPONSE": "Por favor no responda a este correo electrónico.",
-    "GET_IN_TOUCH": "To get in touch with us, click",
-    "HELP": "help",
-    "OR": "or",
-    "CONTACT": "contact us"
+    "GET_IN_TOUCH": "Para ponerse en contacto con nosotros, haga clic en",
+    "HELP": "Ayuda",
+    "OR": "o",
+    "CONTACT": "Contacta con nosotres"
   },
   "INVITE": {
     "GREAT_FOLK": "Las personas de",
@@ -79,10 +79,10 @@
     "SUBJECT": "No aceptaste la politica de privacidad de Litefarm - estas son tus opciones"
   },
   "EXPORT_MAP": {
-    "EXPORT": "EXPORT_MAP.EXPORT",
-    "REQUESTED": "EXPORT_MAP.REQUESTED",
-    "GREETING": "EXPORT_MAP.GREETING",
-    "SUBJECT0": "Here’s your farm map for",
-    "SUBJECT1": "on LiteFarm"
+    "EXPORT": "Aquí está la exportación del mapa de la granja para",
+    "REQUESTED": "que solicitó en LiteFarm.",
+    "GREETING": "¡Qué tengas un lindo día!",
+    "SUBJECT0": "Aquí está el mapa de su granja para",
+    "SUBJECT1": "en LiteFarm"
   }
 }

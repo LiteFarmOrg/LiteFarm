@@ -23,10 +23,10 @@ export default function PurePlantInContainer({
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_planting_location' : 'planting_method'
+    isTransplant ? 'choose_transplant_location' : 'planting_method'
   }`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_transplant_location' : 'planting_method'
+    isTransplant ? 'choose_planting_location' : 'planting_method'
   }`;
 
   const IN_GROUND = 'in_ground';

@@ -18,11 +18,11 @@ export default function PurePlantingLocation({
   persistedFormData,
   useHookFormPersist,
   persistedPath,
+  transplant,
+  progress,
 }) {
 
   const { t } = useTranslation(['translation', 'common', 'crop']);
-
-  const progress = 37.5;
 
   const {
     getValues,
@@ -33,8 +33,9 @@ export default function PurePlantingLocation({
 
   useHookFormPersist(persistedPath, getValues);
 
-  const { needs_transplant, managementPlanLocationId } = persistedFormData;
+  const { needs_transplant } = persistedFormData;
 
+  const selectedLocationId = transplant? persistedFormData.transplantLocationId : persistedFormData.managementPlanLocationId;
 
   return (
     <>
@@ -58,12 +59,14 @@ export default function PurePlantingLocation({
           <ProgressBar value={progress} />
         </div>
         <div className={styles.planting_label}>
-          {(needs_transplant === 'true') ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
+          {(transplant)?
+           t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION') : ((needs_transplant) ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION') : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION'))
+          }
         </div>
         <LocationPicker
           className={styles.mapContainer}
           setSelectedLocation={setSelectedLocation}
-          selectedLocationId={managementPlanLocationId}
+          selectedLocationId={selectedLocationId}
         />
         <div>
           <div className={styles.shown_label}>
@@ -84,4 +87,6 @@ PurePlantingLocation.prototype = {
   persistedFormData: PropTypes.func,
   useHookFormPersist: PropTypes.func,
   persistedPath: PropTypes.array,
+  transplant: PropTypes.bool,
+  progress: PropTypes.number,
 };

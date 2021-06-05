@@ -1,6 +1,7 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureVideo from '../../../../components/Map/Videos/index';
+
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {

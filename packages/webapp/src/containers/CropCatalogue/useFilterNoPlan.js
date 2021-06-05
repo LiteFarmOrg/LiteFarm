@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/CropCatalogue/constants';
+import { LOCATION, NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/CropCatalogue/constants';
 import { cropCatalogueFilterSelector } from '../filterSlice';
 
 export default function useFilterNoPlan(crops) {
@@ -25,5 +25,13 @@ export default function useFilterNoPlan(crops) {
     return filteredByStatus.filter((crop) => included.has(crop.supplier));
   }, [cropCatalogueFilter[SUPPLIERS], filteredByStatus]);
 
-  return filteredBySupplier;
+  const filteredByLocation = useMemo(() => {
+    const locationFilter = cropCatalogueFilter[LOCATION];
+    for (const location in locationFilter) {
+      if (locationFilter[location].active) return [];
+    }
+    return filteredBySupplier;
+  }, [cropCatalogueFilter[LOCATION], filteredBySupplier]);
+
+  return filteredByLocation;
 }

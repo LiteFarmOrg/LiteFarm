@@ -9,7 +9,6 @@ export default function CropVarietySpotlight() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { crop_variety_detail } = useSelector(showedSpotlightSelector);
-  console.log(crop_variety_detail)
   const onFinish = () => dispatch(setSpotlightToShown('crop_variety_detail'));
   const managementId = `#${t('CROP_DETAIL.MANAGEMENT_TAB')}0`
   const detailId = `#${t('CROP_DETAIL.DETAIL_TAB')}1`
@@ -28,6 +27,7 @@ export default function CropVarietySpotlight() {
                   t('MANAGEMENT_PLAN.MANAGEMENT_SPOTLIGHT_2'),
                   t('MANAGEMENT_PLAN.MANAGEMENT_SPOTLIGHT_3'),
                 ],
+                buttonText: t('common:NEXT'),
                 target: managementId,
                 placement: 'bottom',
                 disableCloseOnEsc: true,
@@ -42,6 +42,7 @@ export default function CropVarietySpotlight() {
                 target: detailId,
                 placement: 'bottom',
                 disableBeacon: true,
+                buttonText: t('MANAGEMENT_PLAN.STARTED'),
               },
             ]}
             onFinish={onFinish}

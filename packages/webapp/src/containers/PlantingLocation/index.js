@@ -25,16 +25,12 @@ export default function PlantingLocation({ history, match}) {
 
   const saveLocation = () => {
     let payload = {};
-    let asset = isTransplantPage? selectedTransplantLocation.asset : selectedLocation.asset;
-    if (asset === 'area') {
-      isTransplantPage?  
-      (payload.transplantLocationId = selectedTransplantLocation.area.location_id) : (payload.managementPlanLocationId = selectedLocation.area.location_id);
-      dispatch(setLocationPickerManagementPlanFormData(payload));
+    if (isTransplantPage) {
+      payload.transplantLocationId = selectedTransplantLocation.locationId;
     } else {
-      isTransplantPage?  
-      (payload.transplantLocationId = selectedTransplantLocation.line.location_id) : (payload.managementPlanLocationId = selectedLocation.line.location_id);
-      dispatch(setLocationPickerManagementPlanFormData(payload));
+      payload.managementPlanLocationId = selectedLocation.locationId;
     }
+    dispatch(setLocationPickerManagementPlanFormData(payload));
   }
 
   const onContinue = (data) => {

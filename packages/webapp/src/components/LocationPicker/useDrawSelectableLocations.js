@@ -105,7 +105,7 @@ const useDrawSelectableLocations = () => {
     if (selectedLocationId !== undefined && selectedLocationId === location_id) {
       polygon.setOptions({
         fillColor: selectedColour,
-        fillOpacity: 0.5,
+        fillOpacity: 1.0,
       });
 
       setSelectedLocation({
@@ -114,14 +114,15 @@ const useDrawSelectableLocations = () => {
         polyline,
         marker,
         asset: 'area',
+        locationId: area.location_id,
       }); 
     }
+
+    setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
 
     polygon.setMap(map);
     polyline.setMap(map);
     marker.setMap(map);
-
-    setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
   };
 
   // Draw a line
@@ -172,13 +173,14 @@ const useDrawSelectableLocations = () => {
         line,
         polygon: linePolygon,
         asset: 'line',
+        locationId: line.location_id,
       }); 
     }
 
+    setLineListenersAndOptions(maps, line, linePolygon);
+
     polyline.setMap(map);
     linePolygon.setMap(map);
-
-    setLineListenersAndOptions(maps, line, linePolygon);
   };
 
   const setAreaListenersAndOptions = (maps, area, polygon, polyline, marker) => {
@@ -210,12 +212,18 @@ const useDrawSelectableLocations = () => {
         }
       }
 
+      if (selectedLocationRef.current && selectedLocationRef.current.locationId === area.location_id) {
+        setSelectedLocation(null);
+        return;
+      }
+
       setSelectedLocation({
         area,
         polygon,
         polyline,
         marker,
         asset: 'area',
+        locationId : area.location_id,
       });
 
       this.setOptions({
@@ -262,10 +270,16 @@ const useDrawSelectableLocations = () => {
         }
       }
 
+      if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {
+        setSelectedLocation(null);
+        return;
+      }
+
       setSelectedLocation({
         line,
         polygon,
         asset: 'line',
+        locationId: line.location_id,
       });
 
       this.setOptions({

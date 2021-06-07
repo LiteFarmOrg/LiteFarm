@@ -20,7 +20,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {
   const managementPlans = useSelector(managementPlansSelector);
-  console.log(managementPlans);
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const managementPlansFilteredByFilterString = useStringFilteredCrops(
@@ -90,9 +89,9 @@ export default function useCropCatalogue(filterString) {
     if (included.size === 0) return cropCatalogue;
     const newCropCatalogue = cropCatalogue.map((catalogue) => ({
       ...catalogue,
-      active: statusFilter[ACTIVE] ? catalogue.active : [],
-      planned: statusFilter[PLANNED] ? catalogue.planned : [],
-      past: statusFilter[COMPLETE] ? catalogue.past : [],
+      active: statusFilter[ACTIVE].active ? catalogue.active : [],
+      planned: statusFilter[PLANNED].active ? catalogue.planned : [],
+      past: statusFilter[COMPLETE].active ? catalogue.past : [],
     }));
     return newCropCatalogue.filter(
       (catalog) => catalog.active.length || catalog.past.length || catalog.planned.length,
@@ -111,6 +110,7 @@ export default function useCropCatalogue(filterString) {
       sum: cropCataloguesStatus.active + cropCataloguesStatus.planned + cropCataloguesStatus.past,
     };
   }, [cropCatalogueFilteredByStatus]);
+
   const { t } = useTranslation();
   const onlyOneOfTwoNumberIsZero = (i, j) => i + j > 0 && i * j === 0;
   const sortedCropCatalogue = useMemo(() => {

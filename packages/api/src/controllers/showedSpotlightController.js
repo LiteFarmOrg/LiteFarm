@@ -33,6 +33,7 @@ const showedSpotlightController = {
           'navigation',
           'introduce_map',
           'crop_catalog',
+          'crop_variety_detail'
         ).findById(user_id);
         res.status(200).send(data);
       } catch (error) {

@@ -3,6 +3,7 @@ import PureCropDetail from '../../../components/Crop/detail';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import CropVarietySpotlight from '../CropVarietySpotlight';
 
 function CropDetail({ history, match }) {
   const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
@@ -30,6 +31,7 @@ function CropDetail({ history, match }) {
         submitForm={submitForm}
         onBack={goBack}
       />
+      <CropVarietySpotlight />
     </>
   );
 }

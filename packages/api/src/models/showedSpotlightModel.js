@@ -51,6 +51,8 @@ class ShowedSpotlight extends Model {
         introduce_map_end: { type: ['string', 'null'] },
         crop_catalog: { type: 'boolean' },
         crop_catalog_end: { type: ['string', 'null'] },
+        crop_variety_detail: { type: 'boolean' },
+        crop_variety_detail_end: { type: ['string', 'null'] },
       },
     };
   }

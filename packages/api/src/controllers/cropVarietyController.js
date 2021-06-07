@@ -1,7 +1,8 @@
 const CropVarietyModel = require('../models/cropVarietyModel');
 const CropModel = require('../models/cropModel');
 const nutrients = [ 'protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
-  'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits']
+  'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits',
+  'can_be_cover_crop']
 const baseController = require('./baseController');
 const cropVarietyController = {
   getCropVarietiesByFarmId() {

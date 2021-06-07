@@ -13,7 +13,6 @@ export default function PlantingLocation({ history, match}) {
 
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  // TODO - add path
   const persistedPath = isTransplantPage? 
   [`/crop/${variety_id}/add_management_plan/transplant_container`, `/crop/${variety_id}/add_management_plan/planting_method`,] : 
   [
@@ -41,7 +40,6 @@ export default function PlantingLocation({ history, match}) {
   const onContinue = (data) => {
     saveLocation();
     if (persistedFormData.needs_transplant) {
-      console.log("YO");
       history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
     } else {
       history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
@@ -71,7 +69,7 @@ export default function PlantingLocation({ history, match}) {
     history.push(`/crop/${variety_id}/management`);
   }
 
-  const progress = 37.5;
+  const progress = isTransplantPage? 55 : 37.5;
 
   return (
     <>

@@ -10,7 +10,7 @@ function TransplantForm({ history, match }) {
 
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const isCoverCrop = true || variety.can_be_cover_crop;
+  const isCoverCrop = variety.can_be_cover_crop;
 
   const persistedFormData = useSelector(hookFormPersistSelector);
 

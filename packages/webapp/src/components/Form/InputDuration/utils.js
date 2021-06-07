@@ -1,2 +1,4 @@
 export const getNewDate = (newInputFormatDateString) =>
-  new Date(`${newInputFormatDateString} 00:00:00`);
+  new Date(`${standardDateString(newInputFormatDateString)} 00:00:00`);
+
+const standardDateString = (dateString) => dateString.replace(/-/g, '/')

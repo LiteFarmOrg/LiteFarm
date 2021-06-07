@@ -12,7 +12,7 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
-  "BROADCAST_PLAN" : {
+  "BROADCAST_PLAN": {
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_INFO": "",
@@ -830,7 +830,7 @@
     "BEDS": "Beds",
     "BROADCAST": "Broadcast",
     "CONTAINER": "Container",
-    "CONTAINER_OR_IN_GROUND": "Are you planting in a containter of in ground?",
+    "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",

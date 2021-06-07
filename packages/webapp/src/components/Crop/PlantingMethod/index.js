@@ -68,9 +68,9 @@ export default function PurePlantingMethod({
   });
   const PLANTING_TYPE = 'planting_type';
   const planting_type = watch(PLANTING_TYPE);
-  const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map((plantingType) =>
-    `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`
-  )
+  const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
+    (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
+  );
   pathsToPersist.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
   const submitPath = `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
@@ -142,6 +142,7 @@ export default function PurePlantingMethod({
         <div className={styles.imageGrid}>
           {images[planting_type].map((url, index) => (
             <img
+              key={index}
               src={url}
               alt={`${planting_type}${index}`}
               onClick={() => onImageSelect(url, planting_type)}

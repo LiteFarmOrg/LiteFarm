@@ -125,6 +125,7 @@ const Input = ({
           onBlur?.(e);
           hookFormRegister?.onBlur?.(e);
         }}
+        onWheel={type === 'number' ? preventNumberScrolling : undefined}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

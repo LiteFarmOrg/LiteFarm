@@ -62,7 +62,7 @@ export default function PureManagementPlanName({
       <Input
         style={{ marginBottom: '40px' }}
         label={t('common:NAME')}
-        hookFormRegister={register(NAME)}
+        hookFormRegister={register(NAME, { required: true })}
       />
 
       <InputAutoSize

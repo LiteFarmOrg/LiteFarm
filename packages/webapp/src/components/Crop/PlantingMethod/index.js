@@ -66,6 +66,8 @@ export default function PurePlantingMethod({
     shouldUnregister: true,
     defaultValues: persistedFormData,
   });
+  const namePrefix = 'crop_management_plan.';
+
   const PLANTING_TYPE = 'planting_type';
   const planting_type = watch(PLANTING_TYPE);
   const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(

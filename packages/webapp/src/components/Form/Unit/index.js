@@ -179,7 +179,7 @@ const Unit = ({
     }
   }, []);
 
-  const hookFormValue = hookFromWatch(name, defaultValue) || undefined;
+  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);
@@ -211,9 +211,11 @@ const Unit = ({
     }
   };
   useEffect(() => {
-    if (hookFormValue !== undefined && databaseUnit && hookFormUnit) {
+    if (databaseUnit && hookFormUnit) {
       setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+        hookFormValue > 0 || hookFormValue === 0
+          ? roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit))
+          : '',
       );
     }
   }, [hookFormValue]);
@@ -288,7 +290,7 @@ const Unit = ({
             styles.pseudoInputContainer,
             errors && styles.inputError,
             isSelectDisabled && disabled && styles.disableBackground,
-            attached && styles.noBorderRadius
+            attached && styles.noBorderRadius,
           )}
         >
           <div

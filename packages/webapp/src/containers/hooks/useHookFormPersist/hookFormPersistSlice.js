@@ -59,6 +59,13 @@ const hookFormPersistSlice = createSlice({
         unitOptionMap[payload[waterValveEnum.flow_rate_unit]];
       state.formData = formData;
     },
+    setPlantingLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
+      state.formData.location_id = location_id;
+    },
+    setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
+      !state.formData.transplant_container && (state.formData.transplant_container = {});
+      state.formData.transplant_container.location_id = location_id;
+    },
     setLocationPickerManagementPlanFormData: (state, { payload }) => {
       if (payload.managementPlanLocationId) {
         state.formData.managementPlanLocationId = payload.managementPlanLocationId;
@@ -79,6 +86,8 @@ export const {
   setAreaDetailFormData,
   setLineDetailFormData,
   setPointDetailFormData,
+  setPlantingLocationIdManagementPlanFormData,
+  setTransplantContainerLocationIdManagementPlanFormData,
   setLocationPickerManagementPlanFormData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;

@@ -46,9 +46,13 @@ export default function PlantingLocation({ history, match }) {
   };
 
   const onGoBack = () => {
-    isTransplantPage
-      ? history.push(`/crop/${variety_id}/add_management_plan/transplant_container`)
-      : history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
+    if (isTransplantPage) {
+      history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+    } else {
+      history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+    }
   };
 
   const onCancel = () => {

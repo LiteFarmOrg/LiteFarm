@@ -14,22 +14,26 @@
  */
 
 const locationModel = require('../../models/locationModel');
-const managementPlanModel = require('../../models/managementPlanModel');
+const cropManagementPlanModel = require('../../models/cropManagementPlanModel');
+const plantationMapping = {
+  broadcast : (body) => body.crop_management_plan.broadcast.area_used,
+}
 
-async function validateManagementPlanArea(req, res, next) {
+const validateManagementPlanArea  = (typeOfPlantation) =>  async (req, res, next) => {
   let location;
-  if (req.body.location_id) {
+  if (req.body.crop_management_plan.location_id) {
     location = await locationModel.query()
-      .whereNotDeleted().findById(req.body.location_id)
+      .whereNotDeleted().findById(req.body.crop_management_plan.location_id)
       .withGraphJoined('figure.[area, line]');
   } else {
-    const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(req.params.management_plan_id)
+    const managementPlan = await cropManagementPlanModel.query().findById(req.params.management_plan_id)
       .withGraphFetched(`[location.[
           figure.[area, line]]]`);
     location = managementPlan?.location;
   }
 
-  if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < req.body.area_used) {
+  const areaUsed = plantationMapping[typeOfPlantation](req.body);
+  if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < areaUsed) {
     return res.status(400).send('Area needed is greater than the field\'s area');
   } else {
     return next();

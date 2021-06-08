@@ -33,7 +33,7 @@ class BroadcastModel extends Model {
         management_plan_id: { type: 'number' },
         percentage_planted: { type: 'number' },
         area_used: { type: 'number' },
-        area_used_unit: { type: 'number', enum: ['m2', 'ha', 'ft2', 'ac'] },
+        area_used_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
         seeding_rate: {
           type: 'number',
         },

@@ -42,6 +42,7 @@ class TransplantContainerModel extends Model {
         planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
         planting_soil: { type: ['string', null] },
         container_type: { type: ['string', null] },
+        notes: { type: ['string', null] },
       },
       additionalProperties: false,
     };

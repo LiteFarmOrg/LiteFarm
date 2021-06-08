@@ -53,7 +53,7 @@ export default function useFilterNoPlan(cropCatalogue, filterString) {
     const activeFilterStatus = new Set(
       Object.keys(statusFilter).filter((status) => statusFilter[status].active),
     );
-    if (!statusFilter[NEEDS_PLAN].active && activeFilterStatus.size) return [];
+    if (!statusFilter[NEEDS_PLAN]?.active && activeFilterStatus.size) return [];
 
     const catalogueCropIds = new Set(cropCatalogue.map(({ crop_id }) => crop_id));
     return cropsWithNoPlans.filter((crop) => !catalogueCropIds.has(crop.crop_id));

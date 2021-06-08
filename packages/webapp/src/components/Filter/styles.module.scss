@@ -29,3 +29,22 @@
   flex-wrap: wrap;
   border: 0;
 }
+
+.headSubcontainer {
+  // display: flex;
+  flex-direction: row;
+}
+
+.circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--teal700);
+}
+
+.counter {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--teal700);
+}

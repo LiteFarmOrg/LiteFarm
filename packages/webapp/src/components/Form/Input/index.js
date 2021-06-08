@@ -125,6 +125,7 @@ const Input = ({
           onBlur?.(e);
           hookFormRegister?.onBlur?.(e);
         }}
+        onWheel={type === 'number' ? preventNumberScrolling : undefined}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
@@ -171,4 +172,4 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
-const preventNumberScrolling = (e) => e.target.blur();
+export const preventNumberScrolling = (e) => e.target.blur();

@@ -1,5 +1,5 @@
 import React from 'react';
-import PureBroadcastPlan from '../../../components/BroadcastPlan';
+import PureBroadcastPlan from '../../../components/Crop/BroadcastPlan';
 import decorators from '../config/decorators';
 
 export default {
@@ -12,11 +12,11 @@ const Template = (args) => <PureBroadcastPlan {...args} />;
 
 export const Management = Template.bind({});
 Management.args = {
-  onGoBack: () =>{},
-  handleContinue: () =>{},
-  onCancel: () =>{},
+  onGoBack: () => {},
+  handleContinue: () => {},
+  onCancel: () => {},
   persistedForm: {},
   system: 'metric',
   locationSize: 2000,
-  yieldPerArea: 30
+  yieldPerArea: 30,
 };

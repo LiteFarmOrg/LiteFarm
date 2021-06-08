@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
+import { cloneObject } from '../../../util';
 
 export default function PurePlantingDate({
   useHookFormPersist,
@@ -38,12 +39,12 @@ export default function PurePlantingDate({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
+    shouldUnregister: false,
     defaultValues: {
       [GERMINATION_DATE]: null,
       [TRANSPLANT_DATE]: persistedFormData.needs_transplant ? null : undefined,
       [HARVEST_DATE]: null,
-      ...persistedFormData,
+      ...cloneObject(persistedFormData),
     },
   });
   useHookFormPersist([submitPath, goBackPath], getValues);
@@ -61,9 +62,9 @@ export default function PurePlantingDate({
   const seed_date = watch(SEED_DATE);
   const germination_date = watch(GERMINATION_DATE);
   const harvest_date = watch(HARVEST_DATE);
-  const transplant_date = watch(TRANSPLANT_DATE);
+  const transplant_date = persistedFormData.needs_transplant ? watch(TRANSPLANT_DATE) : undefined;
   const germination_days = watch(GERMINATION_DAYS);
-  const transplant_days = watch(TRANSPLANT_DAYS);
+  const transplant_days = persistedFormData.needs_transplant ? watch(TRANSPLANT_DAYS) : undefined;
   const harvest_days = watch(HARVEST_DAYS);
 
   useEffect(() => {
@@ -84,9 +85,9 @@ export default function PurePlantingDate({
   };
 
   const min = 0;
-  const germinationDaysMax = persistedFormData.needs_transplant ? 997 : 998;
-  const transplantDaysMax = 998;
-  const harvestDaysMax = 999;
+  const germinationDaysMax = persistedFormData.needs_transplant ? 9997 : 9998;
+  const transplantDaysMax = 9998;
+  const harvestDaysMax = 9999;
   const transplantDaysMin = useMemo(
     () => (germination_days > germinationDaysMax ? germinationDaysMax : germination_days),
     [germination_days],

@@ -21,7 +21,7 @@ Card.propTypes = {
     'blueActive',
     'info',
   ]),
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   className: PropTypes.string,
   onClick: PropTypes.func,
 };

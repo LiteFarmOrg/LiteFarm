@@ -10,17 +10,13 @@ import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
 
-const LocationPicker = ({ 
-  className, 
-  setSelectedLocation,
-  selectedLocationId,
-}) => {
+const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   const { grid_points } = useSelector(userFarmSelector);
 
   const { drawLocations, selectedLocation } = useDrawSelectableLocations();
   useEffect(() => {
-    setSelectedLocation(selectedLocation);
-  }, [setSelectedLocation, selectedLocation]);
+    selectedLocation && setLocationId(selectedLocation.locationId);
+  }, [setLocationId, selectedLocation]);
 
   const getMapOptions = (maps) => {
     return {
@@ -115,7 +111,7 @@ const LocationPicker = ({
 };
 
 LocationPicker.prototype = {
-  className: PropTypes.string, 
+  className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationId: PropTypes.string,
 };

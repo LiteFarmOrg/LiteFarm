@@ -1,12 +1,12 @@
 import React from 'react';
 import decorators from '../config/decorators';
-import PurePlantingLocation from '../../../components/PlantingLocation';
+import PurePlantingLocation from '../../../components/Crop/PlantingLocation';
 
 export default {
-    title: 'Page/PlantingLocation',
-    decorators: decorators,
-    component: PurePlantingLocation,
-}
+  title: 'Page/PlantingLocation',
+  decorators: decorators,
+  component: PurePlantingLocation,
+};
 
 const Template = (args) => <PurePlantingLocation {...args} />;
 
@@ -17,7 +17,7 @@ PlantingLocationPage.args = {
   onGoBack: () => {},
   onCancel: () => {},
   setSelectedLocation: () => {},
-  useHookFormPersist: () =>{},
-  persistedFormData: {needs_tranplant: 'true'},
+  useHookFormPersist: () => {},
+  persistedFormData: { needs_tranplant: 'true' },
   persistedPath: [],
 };

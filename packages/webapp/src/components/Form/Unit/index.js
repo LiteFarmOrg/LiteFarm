@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
-import { numberOnKeyDown } from '../Input';
+import { numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
@@ -179,7 +179,7 @@ const Unit = ({
     }
   }, []);
 
-  const hookFormValue = hookFromWatch(name, defaultValue) || undefined;
+  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);
@@ -191,10 +191,7 @@ const Unit = ({
         message: t('UNIT.INVALID_NUMBER'),
       });
     } else if (required && e.target.value === '') {
-      hookFormSetError(name, {
-        type: 'manual',
-        message: t('common:REQUIRED'),
-      });
+      hookFormSetValue(name, '', { shouldValidate: true });
     } else if (e.target.value === '') {
       hookFormSetValue(name, undefined, { shouldValidate: true });
       setVisibleInputValue('');
@@ -211,9 +208,11 @@ const Unit = ({
     }
   };
   useEffect(() => {
-    if (hookFormValue !== undefined && databaseUnit && hookFormUnit) {
+    if (databaseUnit && hookFormUnit) {
       setVisibleInputValue(
-        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+        hookFormValue > 0 || hookFormValue === 0
+          ? roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit))
+          : '',
       );
     }
   }, [hookFormValue]);
@@ -261,6 +260,7 @@ const Unit = ({
           onKeyDown={numberOnKeyDown}
           onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
+          onWheel={preventNumberScrolling}
           {...props}
         />
 
@@ -288,7 +288,7 @@ const Unit = ({
             styles.pseudoInputContainer,
             errors && styles.inputError,
             isSelectDisabled && disabled && styles.disableBackground,
-            attached && styles.noBorderRadius
+            attached && styles.noBorderRadius,
           )}
         >
           <div
@@ -302,7 +302,7 @@ const Unit = ({
       </div>
       <input
         className={styles.hiddenInput}
-        defaultValue={defaultValue || hookFormValue}
+        defaultValue={defaultValue || hookFormValue || ''}
         {...register(name, { required, valueAsNumber: true })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

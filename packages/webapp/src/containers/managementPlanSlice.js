@@ -332,7 +332,7 @@ export const cropVarietiesWithoutManagementPlanByCropIdSelector = (crop_id) =>
     cropVarieties.filter((cropVariety) => cropVariety.crop_id === crop_id),
   );
 
-const getUniqueEntities = (entities, key) => {
+export const getUniqueEntities = (entities, key) => {
   const entitiesByKey = {};
   for (const entity of entities) {
     entitiesByKey[entity[key]] = entity;

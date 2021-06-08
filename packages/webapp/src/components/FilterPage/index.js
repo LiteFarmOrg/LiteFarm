@@ -25,20 +25,14 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
     initCountTrackerState[filter.filterKey] = 0;
   }
   const [filterPageState, setFilterPageState] = useState(initFilterPageState);
-  console.log({ filters });
   const [countTrackerState, setCountTrackerState] = useState(initCountTrackerState);
 
   useEffect(() => {
-    // console.log({filterPageState});
-    // console.log('Object.values(filterPageState)', Object.values(filterPageState));
     for (const filterKey in filterPageState) {
       const filter = filterPageState[filterKey];
-      // console.log(filterKey, filter);
-      // console.log('Object.values(filter)', Object.values(filter));
       const activeSum = Object.values(filter).reduce((acc, curr) => {
         return curr.active ? acc + 1 : acc;
       }, 0);
-      // console.log(activeSum);
       setCountTrackerState((prev) => {
         const change = cloneObject(prev);
         change[filterKey] = activeSum;

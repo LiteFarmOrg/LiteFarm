@@ -100,17 +100,3 @@ export default [
     }
   }, [props.disabled]);
 ```
-
-### Hookform isRequired validation does not work properly with defaultValue when valueAsNumber:true
-
-###### Walk around:  validate the required number input field when input component onMount
-
-```js
-  useEffect(()=>{
-    in_ground && trigger(PLANT_SPACING);
-  },[in_ground]);
-```
-
-
-
-

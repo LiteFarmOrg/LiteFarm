@@ -4,7 +4,6 @@ exports.up = async function(knex) {
     table.dropColumn('germination_days');
     table.dropColumn('termination_days');
     table.dropColumn('harvest_days');
-
   });
   await knex.schema.table('management_plan', table => {
     table.integer('transplant_days').unsigned();

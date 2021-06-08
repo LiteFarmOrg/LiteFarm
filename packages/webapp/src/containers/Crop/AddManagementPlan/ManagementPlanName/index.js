@@ -9,6 +9,7 @@ import { containerProperties } from '../../../containerSlice';
 import { bedProperties } from '../../../bedsSlice';
 import { rowProperties } from '../../../rowsSlice';
 import { postManagementPlan } from './saga';
+import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -37,7 +38,8 @@ export default function ManagementPlanName({ history, match }) {
   );
 }
 
-const formatManagementPlanFormData = (data) => {
+const formatManagementPlanFormData = (formData) => {
+  const data = getProcessedFormData(formData);
   const planting_type = data.planting_type;
   const plantingMethodAndCropManagementPlan = data[data.planting_type.toLowerCase()];
   const plantingMethod = pick(

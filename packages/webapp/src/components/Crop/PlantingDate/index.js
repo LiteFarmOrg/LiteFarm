@@ -73,25 +73,27 @@ export default function PurePlantingDate({
   const termination_days = watch(TERMINATION_DAYS);
   useEffect(() => {
     if (!persistedFormData?.needs_transplant) {
-      setValue(TRANSPLANT_DAYS, null);
-      setValue(TRANSPLANT_DATE, null);
+      setValue(TRANSPLANT_DAYS, undefined);
+      setValue(TRANSPLANT_DATE, undefined);
     }
     if (persistedFormData.for_cover) {
-      setValue(HARVEST_DATE, null);
-      setValue(HARVEST_DAYS, null);
+      setValue(HARVEST_DATE, undefined);
+      setValue(HARVEST_DAYS, undefined);
     } else {
-      setValue(TERMINATION_DATE, null);
-      setValue(TERMINATION_DAYS, null);
+      setValue(TERMINATION_DATE, undefined);
+      setValue(TERMINATION_DAYS, undefined);
     }
   }, []);
 
   useEffect(() => {
     if (transplant_days || transplant_days === 0) trigger(TRANSPLANT_DAYS);
     if (harvest_days || harvest_days === 0) trigger(HARVEST_DAYS);
+    if (termination_days || termination_days === 0) trigger(TERMINATION_DAYS);
   }, [germination_days]);
 
   useEffect(() => {
     if (harvest_days || harvest_days === 0) trigger(HARVEST_DAYS);
+    if (termination_days || termination_days === 0) trigger(TERMINATION_DAYS);
   }, [transplant_days]);
 
   const disabled = !isValid;

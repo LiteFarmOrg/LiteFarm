@@ -28,6 +28,7 @@ import {
   putManagementPlanSuccess,
 } from '../../../managementPlanSlice';
 import i18n from '../../../../locales/i18n';
+import history from '../../../../history';
 
 const DEC = 10;
 
@@ -62,6 +63,7 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
       header,
     );
     yield put(postManagementPlanSuccess(result.data));
+    history.push(`/crop/${managementPlan.crop_variety_id}/management`);
   } catch (e) {
     console.log('failed to add managementPlan to database');
   }

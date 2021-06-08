@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -11,6 +11,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import Unit from '../../Form/Unit';
 import { container_plant_spacing, container_planting_depth } from '../../../util/unit';
 import styles from './styles.module.scss';
+import { cloneObject } from '../../../util';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -20,26 +21,28 @@ export default function PurePlantInContainer({
   history,
 }) {
   const isTransplant = match?.path === '/crop/:variety_id/add_management_plan/transplant_container';
+  const namePrefix = isTransplant ? 'transplant_container.' : 'container.';
+
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_transplant_location' : 'planting_method'
+    isTransplant ? 'choose_transplant_location' : 'name'
   }`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/${
     isTransplant ? 'choose_planting_location' : 'planting_method'
   }`;
 
-  const IN_GROUND = 'in_ground';
-  const NUMBER_OF_CONTAINER = 'number_of_container';
-  const PLANTS_PER_CONTAINER = 'plants_per_container';
-  const PLANT_SPACING = 'plant_spacing';
-  const PLANT_SPACING_UNIT = 'plant_spacing_unit';
-  const TOTAL_PLANTS = 'total_plants';
-  const PLANTING_DEPTH = 'planting_depth';
-  const PLANTING_DEPTH_UNIT = 'planting_depth_unit';
-  const PLANTING_SOIL = 'planting_soil';
-  const CONTAINER_TYPE = 'container_type';
-  const PLANTING_NOTE = 'planting_notes';
+  const IN_GROUND = namePrefix + 'in_ground';
+  const NUMBER_OF_CONTAINER = namePrefix + 'number_of_container';
+  const PLANTS_PER_CONTAINER = namePrefix + 'plants_per_container';
+  const PLANT_SPACING = namePrefix + 'plant_spacing';
+  const PLANT_SPACING_UNIT = namePrefix + 'plant_spacing_unit';
+  const TOTAL_PLANTS = namePrefix + 'total_plants';
+  const PLANTING_DEPTH = namePrefix + 'planting_depth';
+  const PLANTING_DEPTH_UNIT = namePrefix + 'planting_depth_unit';
+  const PLANTING_SOIL = namePrefix + 'planting_soil';
+  const CONTAINER_TYPE = namePrefix + 'container_type';
+  const PLANTING_NOTE = namePrefix + 'planting_notes';
   const {
     register,
     handleSubmit,
@@ -51,8 +54,8 @@ export default function PurePlantInContainer({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
   useHookFormPersist([submitPath, goBackPath], getValues);
   const onSubmit = () => {
@@ -70,9 +73,6 @@ export default function PurePlantInContainer({
 
   const disabled = !isValid;
 
-  const namePrefix = isTransplant ? 'transplant.' : '';
-
-  const { plant_spacing, planting_depth } = persistedFormData;
   return (
     <Form
       buttonGroup={
@@ -92,7 +92,7 @@ export default function PurePlantInContainer({
       <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}</Main>
       <RadioGroup
         hookFormControl={control}
-        name={namePrefix + IN_GROUND}
+        name={IN_GROUND}
         radios={[
           {
             label: t('MANAGEMENT_PLAN.CONTAINER'),
@@ -109,21 +109,33 @@ export default function PurePlantInContainer({
             <div className={styles.row}>
               <Input
                 label={t('MANAGEMENT_PLAN.NUMBER_OF_CONTAINER')}
-                hookFormRegister={register(namePrefix + NUMBER_OF_CONTAINER)}
+                hookFormRegister={register(NUMBER_OF_CONTAINER, {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 style={{ flexGrow: 1 }}
+                type={'number'}
+                onKeyDown={integerOnKeyDown}
               />
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
-                hookFormRegister={register(namePrefix + PLANTS_PER_CONTAINER)}
+                hookFormRegister={register(PLANTS_PER_CONTAINER, {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 style={{ flexGrow: 1 }}
+                type={'number'}
+                onKeyDown={integerOnKeyDown}
               />
             </div>
           )}
           {in_ground && (
             <Input
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
-              hookFormRegister={register(namePrefix + TOTAL_PLANTS)}
+              hookFormRegister={register(TOTAL_PLANTS, { required: true, valueAsNumber: true })}
               style={{ paddingBottom: '40px' }}
+              type={'number'}
+              onKeyDown={integerOnKeyDown}
             />
           )}
 
@@ -131,9 +143,9 @@ export default function PurePlantInContainer({
             <Unit
               register={register}
               label={t('MANAGEMENT_PLAN.PLANTING_DEPTH')}
-              name={namePrefix + PLANTING_DEPTH}
-              displayUnitName={namePrefix + PLANTING_DEPTH_UNIT}
-              errors={errors[namePrefix + PLANTING_DEPTH]}
+              name={PLANTING_DEPTH}
+              displayUnitName={PLANTING_DEPTH_UNIT}
+              errors={errors[PLANTING_DEPTH]}
               unitType={container_planting_depth}
               system={system}
               hookFormSetValue={setValue}
@@ -148,9 +160,9 @@ export default function PurePlantInContainer({
               <Unit
                 register={register}
                 label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
-                name={namePrefix + PLANT_SPACING}
-                displayUnitName={namePrefix + PLANT_SPACING_UNIT}
-                errors={errors[namePrefix + PLANT_SPACING]}
+                name={PLANT_SPACING}
+                displayUnitName={PLANT_SPACING_UNIT}
+                errors={errors[PLANT_SPACING]}
                 unitType={container_plant_spacing}
                 system={system}
                 hookFormSetValue={setValue}
@@ -168,14 +180,14 @@ export default function PurePlantInContainer({
             <>
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTING_SOIL')}
-                hookFormRegister={register(namePrefix + PLANTING_SOIL)}
+                hookFormRegister={register(PLANTING_SOIL)}
                 style={{ paddingBottom: '40px' }}
                 optional
                 hasLeaf
               />
               <Input
                 label={t('MANAGEMENT_PLAN.CONTAINER_TYPE')}
-                hookFormRegister={register(namePrefix + CONTAINER_TYPE)}
+                hookFormRegister={register(CONTAINER_TYPE)}
                 style={{ paddingBottom: '40px' }}
                 optional
               />
@@ -184,7 +196,7 @@ export default function PurePlantInContainer({
 
           <Input
             label={t('MANAGEMENT_PLAN.PLANTING_NOTE')}
-            hookFormRegister={register(namePrefix + PLANTING_NOTE)}
+            hookFormRegister={register(PLANTING_NOTE)}
             optional
           />
         </>

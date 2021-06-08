@@ -15,6 +15,7 @@ import { ReactComponent as Beds } from '../../../assets/images/plantingMethod/Be
 import { ReactComponent as Monocrop } from '../../../assets/images/plantingMethod/Monocrop.svg';
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
+import { cloneObject } from '../../../util';
 
 const BROADCAST = 'BROADCAST';
 const CONTAINER = 'CONTAINER';
@@ -63,14 +64,16 @@ export default function PurePlantingMethod({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
+  const namePrefix = 'crop_management_plan.';
+
   const PLANTING_TYPE = 'planting_type';
   const planting_type = watch(PLANTING_TYPE);
-  const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map((plantingType) =>
-    `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`
-  )
+  const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
+    (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
+  );
   pathsToPersist.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
   const submitPath = `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
@@ -142,6 +145,7 @@ export default function PurePlantingMethod({
         <div className={styles.imageGrid}>
           {images[planting_type].map((url, index) => (
             <img
+              key={index}
               src={url}
               alt={`${planting_type}${index}`}
               onClick={() => onImageSelect(url, planting_type)}

@@ -87,3 +87,16 @@ export default [
   <Text>If defaultValuesPassedThroughProp is passed to defaultValues directly, hookForm will try to delete
     defaultValuesPassedThroughProp and through errors when defaultValuesPassedThroughProp is inmutable</Text>
 </DocCard>
+
+
+### Hookform does not repopulate radio input field when disabled changes from false to true.
+
+###### Walk around: reset hookfrom value when disabled is updated
+
+```js
+  useEffect(() => {
+    if (!props.disabled) {
+      field.onChange(field.value);
+    }
+  }, [props.disabled]);
+```

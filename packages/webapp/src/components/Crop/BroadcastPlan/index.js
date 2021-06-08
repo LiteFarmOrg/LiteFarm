@@ -64,6 +64,12 @@ function PureBroadcastPlan({
 
   useHookFormPersist(persistedPaths, getValues);
 
+  const getErrorMessage = (error, min, max) => {
+    if (error?.type === 'isRequired') return t('common:REQUIRED');
+    if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
+    if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
+  };
+
   const seedingRateHandler = (e) => {
     const seedingRateConversion = system === 'metric' ? 1 : LbAcToKgHa;
     setValue(
@@ -114,10 +120,12 @@ function PureBroadcastPlan({
       />
       <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
       <Input
-        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true, valueAsNumber: true })}
+        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true, valueAsNumber: true, min: 1, max: 100})}
         max={100}
+        min={1}
         type={'number'}
         style={{ paddingBottom: '40px' }}
+        errors={getErrorMessage(errors[PERCENTAGE_PLANTED], 1, 100)}
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
       />
       <div className={clsx(styles.row, styles.paddingBottom40)}>
@@ -152,13 +160,15 @@ function PureBroadcastPlan({
       </div>
       <Input
         type={'number'}
+        min={1}
         label={t('BROADCAST_PLAN.SEEDING_RATE')}
         value={seedingRateValue}
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
+        errors={getErrorMessage(errors[SEEDING_RATE], 1)}
       />
-      <input {...register(SEEDING_RATE, { required: true })} style={{ display: 'none' }} />
+      <input {...register(SEEDING_RATE, { required: true, valueAsNumber: true, min: 1 })} style={{ display: 'none' }} />
 
       {areaUsed > 0 && seedingRateForm > 0 && (
         <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>

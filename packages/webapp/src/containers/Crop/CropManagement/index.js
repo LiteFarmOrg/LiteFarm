@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/management';
 import { cropVarietySelector } from '../../cropVarietySlice';
+import CropVarietySpotlight from '../CropVarietySpotlight';
 
 function CropManagement({ history, match }) {
   const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
@@ -17,6 +18,7 @@ function CropManagement({ history, match }) {
         match={match}
         onBack={goBack}
       />
+      <CropVarietySpotlight />
     </>
   );
 }

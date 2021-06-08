@@ -19,6 +19,7 @@ const entitiesGetters = {
   sale_id: fromSale,
   shift_id: fromShift,
   location_id: fromLocation,
+  crop_management_plan: fromCropManagement,
   //TODO remove
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
@@ -70,6 +71,9 @@ async function fromPesticide(pesticideId) {
 
 async function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
+}
+function fromCropManagement(cropPlan){
+  return fromLocation(cropPlan.location_id);
 }
 
 async function fromDisease(disease_id) {

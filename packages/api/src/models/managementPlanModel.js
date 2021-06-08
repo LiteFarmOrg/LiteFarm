@@ -39,7 +39,7 @@ class ManagementPlan extends baseModel {
     this.germination_date = this.getDate(this.seed_date, this.germination_days);
     this.termination_date = this.getDate(this.seed_date, this.termination_days);
     this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    throw new Error('Need to properly set dates');
+    // throw new Error('Need to properly set dates');
   }
 
   async $beforeUpdate(opt, context) {

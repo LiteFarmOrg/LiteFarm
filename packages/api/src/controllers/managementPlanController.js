@@ -16,20 +16,18 @@
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
 const { transaction, Model, raw } = require('objection');
-const knex = Model.knex();
 
 const managementPlanController = {
   addManagementPlan() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(managementPlanModel, req.body, req, { trx });
-        await trx.commit();
-        res.status(201).send(result);
+        await managementPlanModel.transaction(async trx => {
+          const result = await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            req.body, { noUpdate: true, noDelete: true, noInsert: ['location'] });
+          return res.status(201).send(result);
+        });
       } catch (error) {
-        //handle more exceptions
         console.log(error);
-        await trx.rollback();
         res.status(400).json({
           error,
         });
@@ -42,7 +40,6 @@ const managementPlanController = {
 
       try {
         const isDeleted = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).delete();
-
         if (isDeleted) {
           res.sendStatus(200);
         } else {

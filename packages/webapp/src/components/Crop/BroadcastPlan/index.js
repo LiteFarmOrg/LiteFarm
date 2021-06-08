@@ -41,7 +41,6 @@ function PureBroadcastPlan({
     mode: 'onChange',
   });
   const shouldValidate = { shouldValidate: true };
-  const [seedingRateValue, setSeedingRate] = useState(0);
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
@@ -90,18 +89,17 @@ function PureBroadcastPlan({
   }, [percentageOfAreaPlanted]);
 
   useEffect(() => {
-    setSeedingRate(system === 'metric' ? seedingRateForm : seedingRateForm * KgHaToLbAc);
     setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
     setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
   }, [seedingRateForm, areaUsed]);
 
   useEffect(() => {
     if (areaUsedUnit?.value) {
-      const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value);
+      const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value).toFixed(2);
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);
-
+  
   return (
     <Form
       buttonGroup={
@@ -162,7 +160,6 @@ function PureBroadcastPlan({
         type={'number'}
         min={1}
         label={t('BROADCAST_PLAN.SEEDING_RATE')}
-        value={seedingRateValue}
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}

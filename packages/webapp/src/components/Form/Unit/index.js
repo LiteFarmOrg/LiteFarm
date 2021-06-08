@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
-import { numberOnKeyDown } from '../Input';
+import { numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
@@ -260,6 +260,7 @@ const Unit = ({
           onKeyDown={numberOnKeyDown}
           onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
+          onWheel={preventNumberScrolling}
           {...props}
         />
 

@@ -27,6 +27,12 @@ const filterSliceReducer = createSlice({
     setCropCatalogueFilterDate: (state, { payload: date }) => {
       state.cropCatalogue.date = date;
     },
+    setCropVarietyFilterDefault: (state, { payload: cropId }) => {
+      state[`${cropId}`] = initialCropCatalogueFilter;
+    },
+    setCropVarietyFilter: (state, { payload: { cropId, cropVarietyFilter } }) => {
+      Object.assign(state[`${cropId}`], cropVarietyFilter);
+    },
     removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
       state[pageFilterKey][filterKey][value].active = false;
     },
@@ -38,6 +44,8 @@ export const {
   resetCropCatalogueFilter,
   setCropCatalogueFilter,
   setCropCatalogueFilterDate,
+  setCropVarietyFilterDefault,
+  setCropVarietyFilter,
   removeFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
@@ -50,6 +58,9 @@ export const cropCatalogueFilterSelector = createSelector(
   [filterReducerSelector],
   (filterReducer) => filterReducer.cropCatalogue,
 );
+export const cropVarietyFilterSelector = (cropId) => {
+  return createSelector([filterReducerSelector], (filterReducer) => filterReducer[`${cropId}`]);
+};
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),

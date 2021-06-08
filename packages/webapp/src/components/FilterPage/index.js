@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
@@ -12,6 +12,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
   const { t } = useTranslation();
 
   const initFilterPageState = {};
+  const initCountTrackerState = {};
   for (const filter of filters) {
     const initFilterState = {};
     for (const option of filter.options) {
@@ -21,8 +22,24 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
       };
     }
     initFilterPageState[filter.filterKey] = initFilterState;
+    initCountTrackerState[filter.filterKey] = 0;
   }
   const [filterPageState, setFilterPageState] = useState(initFilterPageState);
+  const [countTrackerState, setCountTrackerState] = useState(initCountTrackerState);
+
+  useEffect(() => {
+    for (const filterKey in filterPageState) {
+      const filter = filterPageState[filterKey];
+      const activeSum = Object.values(filter).reduce((acc, curr) => {
+        return curr.active ? acc + 1 : acc;
+      }, 0);
+      setCountTrackerState((prev) => {
+        const change = cloneObject(prev);
+        change[filterKey] = activeSum;
+        return change;
+      });
+    }
+  }, [filterPageState]);
 
   const updateFilter = (filterKey, value) => {
     setFilterPageState((prev) => {
@@ -67,6 +84,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
               filterState={filterPageState[filter.filterKey]}
               updateFilter={updateFilter}
               key={filter.filterKey}
+              counter={countTrackerState[filter.filterKey]}
             />
           );
       })}

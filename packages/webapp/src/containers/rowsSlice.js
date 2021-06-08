@@ -1,17 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
+import { cropManagementPlanProperties } from './broadcastSlice';
 
+export const rowProperties = [];
 const getRow = (obj) => {
-  return pick(obj, [
-    'estimated_revenue',
-    'estimated_yield',
-    'estimated_yield_unit',
-    'location_id',
-    'management_plan_id',
-    'notes',
-    'planting_type',
-  ]);
+  return pick(obj, [...cropManagementPlanProperties, ...rowProperties]);
 };
 
 const addOneRow = (state, { payload }) => {

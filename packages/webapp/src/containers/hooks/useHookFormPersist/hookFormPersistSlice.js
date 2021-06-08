@@ -66,14 +66,6 @@ const hookFormPersistSlice = createSlice({
       !state.formData.transplant_container && (state.formData.transplant_container = {});
       state.formData.transplant_container.location_id = location_id;
     },
-    setLocationPickerManagementPlanFormData: (state, { payload }) => {
-      if (payload.managementPlanLocationId) {
-        state.formData.managementPlanLocationId = payload.managementPlanLocationId;
-      }
-      if (payload.transplantLocationId) {
-        state.formData.transplantLocationId = payload.transplantLocationId;
-      }
-    },
   },
 });
 
@@ -88,7 +80,6 @@ export const {
   setPointDetailFormData,
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
-  setLocationPickerManagementPlanFormData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

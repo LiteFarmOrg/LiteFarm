@@ -191,10 +191,7 @@ const Unit = ({
         message: t('UNIT.INVALID_NUMBER'),
       });
     } else if (required && e.target.value === '') {
-      hookFormSetError(name, {
-        type: 'manual',
-        message: t('common:REQUIRED'),
-      });
+      hookFormSetValue(name, '', { shouldValidate: true });
     } else if (e.target.value === '') {
       hookFormSetValue(name, undefined, { shouldValidate: true });
       setVisibleInputValue('');
@@ -304,7 +301,7 @@ const Unit = ({
       </div>
       <input
         className={styles.hiddenInput}
-        defaultValue={defaultValue || hookFormValue}
+        defaultValue={defaultValue || hookFormValue || ''}
         {...register(name, { required, valueAsNumber: true })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

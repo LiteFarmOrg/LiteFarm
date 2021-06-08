@@ -7,6 +7,7 @@ import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { cloneObject } from '../../../util';
 
 export default function PureManagementPlanName({
   onSubmit,
@@ -30,8 +31,8 @@ export default function PureManagementPlanName({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
   useHookFormPersist([goBackPath], getValues);
   const onGoBack = () => {

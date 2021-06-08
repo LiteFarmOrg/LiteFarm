@@ -2,21 +2,27 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
 
+export const cropManagementPlanProperties = [
+  'estimated_revenue',
+  'estimated_yield',
+  'estimated_yield_unit',
+  'location_id',
+  'management_plan_id',
+  'notes',
+  'planting_type',
+];
+
+export const broadcastProperties = [
+  'management_plan_id',
+  'area_used',
+  'area_used_unit',
+  'percentage_planted',
+  'required_seeds',
+  'seeding_rate',
+];
+
 const getBroadcast = (obj) => {
-  return pick(obj, [
-    'estimated_revenue',
-    'estimated_yield',
-    'estimated_yield_unit',
-    'location_id',
-    'management_plan_id',
-    'notes',
-    'planting_type',
-    'area_used',
-    'area_used_unit',
-    'percentage_planted',
-    'required_seeds',
-    'seeding_rate',
-  ]);
+  return pick(obj, [...cropManagementPlanProperties, ...broadcastProperties]);
 };
 
 const addOneBroadcast = (state, { payload }) => {

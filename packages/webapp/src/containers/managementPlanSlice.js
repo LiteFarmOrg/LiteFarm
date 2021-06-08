@@ -13,7 +13,7 @@ import { rowSelectors } from './rowsSlice';
 import { broadcastSelectors } from './broadcastSlice';
 import { transplantContainerSelectors } from './transplantContainerSlice';
 
-const getManagementPlan = (obj) => {
+export const getManagementPlan = (obj) => {
   return pick(obj, [
     'crop_variety_id',
     'for_cover',

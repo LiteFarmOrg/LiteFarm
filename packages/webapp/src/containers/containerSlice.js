@@ -1,27 +1,22 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
+import { cropManagementPlanProperties } from './broadcastSlice';
 
+export const containerProperties = [
+  'container_type',
+  'in_ground',
+  'number_of_containers',
+  'plant_spacing',
+  'plant_spacing_unit',
+  'planting_depth',
+  'planting_depth_unit',
+  'planting_soil',
+  'plants_per_container',
+  'total_plants',
+];
 const getContainer = (obj) => {
-  return pick(obj, [
-    'estimated_revenue',
-    'estimated_yield',
-    'estimated_yield_unit',
-    'location_id',
-    'management_plan_id',
-    'notes',
-    'planting_type',
-    'container_type',
-    'in_ground',
-    'number_of_containers',
-    'plant_spacing',
-    'plant_spacing_unit',
-    'planting_depth',
-    'planting_depth_unit',
-    'planting_soil',
-    'plants_per_container',
-    'total_plants',
-  ]);
+  return pick(obj, [...cropManagementPlanProperties, ...containerProperties]);
 };
 
 const addOneContainer = (state, { payload }) => {

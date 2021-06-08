@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../Typography';
-import Input from '../Form/Input';
-import InputAutoSize from '../Form/InputAutoSize';
-import Form from '../Form';
-import Button from '../Form/Button';
+import { Label, Main } from '../../Typography';
+import Input from '../../Form/Input';
+import InputAutoSize from '../../Form/InputAutoSize';
+import Form from '../../Form';
+import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { area_total_area, getDefaultUnit, seedYield } from '../../util/unit';
+import { area_total_area, getDefaultUnit, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
-import Unit, { unitOptionMap } from '../Form/Unit';
-import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
+import Unit, { unitOptionMap } from '../../Form/Unit';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
+import { cloneObject } from '../../../util';
 
 function PureBroadcastPlan({
   handleContinue,
@@ -35,8 +36,8 @@ function PureBroadcastPlan({
     setError,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: { ...persistedForm },
-    shouldUnregister: true,
+    defaultValues: cloneObject(persistedForm),
+    shouldUnregister: false,
     mode: 'onChange',
   });
   const shouldValidate = { shouldValidate: true };
@@ -55,9 +56,9 @@ function PureBroadcastPlan({
   const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
   const NOTES = 'notes';
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
-  register(SEEDING_RATE, { required: true });
+
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  const seedingRateForm = watch(SEEDING_RATE);
+  const seedingRateForm = watch(SEEDING_RATE, persistedForm?.broadcast?.seeding_rate);
   const areaUsed = watch(AREA_USED);
   const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
 
@@ -65,7 +66,11 @@ function PureBroadcastPlan({
 
   const seedingRateHandler = (e) => {
     const seedingRateConversion = system === 'metric' ? 1 : LbAcToKgHa;
-    setValue(SEEDING_RATE, seedingRateConversion * Number(e.target.value), shouldValidate);
+    setValue(
+      SEEDING_RATE,
+      e.target.value === '' ? '' : seedingRateConversion * Number(e.target.value),
+      shouldValidate,
+    );
   };
 
   useEffect(() => {
@@ -109,7 +114,7 @@ function PureBroadcastPlan({
       />
       <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
       <Input
-        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true })}
+        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true, valueAsNumber: true })}
         max={100}
         type={'number'}
         style={{ paddingBottom: '40px' }}
@@ -148,11 +153,12 @@ function PureBroadcastPlan({
       <Input
         type={'number'}
         label={t('BROADCAST_PLAN.SEEDING_RATE')}
-        defaultValue={seedingRateValue}
+        value={seedingRateValue}
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
       />
+      <input {...register(SEEDING_RATE, { required: true })} style={{ display: 'none' }} />
 
       {areaUsed > 0 && seedingRateForm > 0 && (
         <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>

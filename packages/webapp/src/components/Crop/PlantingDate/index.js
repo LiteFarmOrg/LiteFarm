@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
+import { cloneObject } from '../../../util';
 
 export default function PurePlantingDate({
   useHookFormPersist,
@@ -38,12 +39,12 @@ export default function PurePlantingDate({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
+    shouldUnregister: false,
     defaultValues: {
       [GERMINATION_DATE]: null,
       [TRANSPLANT_DATE]: persistedFormData.needs_transplant ? null : undefined,
       [HARVEST_DATE]: null,
-      ...persistedFormData,
+      ...cloneObject(persistedFormData),
     },
   });
   useHookFormPersist([submitPath, goBackPath], getValues);

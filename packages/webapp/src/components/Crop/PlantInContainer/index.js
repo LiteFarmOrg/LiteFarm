@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -11,6 +11,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import Unit from '../../Form/Unit';
 import { container_plant_spacing, container_planting_depth } from '../../../util/unit';
 import styles from './styles.module.scss';
+import { cloneObject } from '../../../util';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -50,12 +51,11 @@ export default function PurePlantInContainer({
     control,
     setValue,
     setError,
-    trigger,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
   useHookFormPersist([submitPath, goBackPath], getValues);
   const onSubmit = () => {
@@ -72,10 +72,6 @@ export default function PurePlantInContainer({
   const in_ground = watch(IN_GROUND);
 
   const disabled = !isValid;
-
-  useEffect(() => {
-    in_ground && trigger(PLANT_SPACING);
-  }, [in_ground]);
 
   return (
     <Form
@@ -113,14 +109,20 @@ export default function PurePlantInContainer({
             <div className={styles.row}>
               <Input
                 label={t('MANAGEMENT_PLAN.NUMBER_OF_CONTAINER')}
-                hookFormRegister={register(NUMBER_OF_CONTAINER, { required: true })}
+                hookFormRegister={register(NUMBER_OF_CONTAINER, {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
               />
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
-                hookFormRegister={register(PLANTS_PER_CONTAINER, { required: true })}
+                hookFormRegister={register(PLANTS_PER_CONTAINER, {
+                  required: true,
+                  valueAsNumber: true,
+                })}
                 style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
@@ -130,7 +132,7 @@ export default function PurePlantInContainer({
           {in_ground && (
             <Input
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
-              hookFormRegister={register(TOTAL_PLANTS, { required: true })}
+              hookFormRegister={register(TOTAL_PLANTS, { required: true, valueAsNumber: true })}
               style={{ paddingBottom: '40px' }}
               type={'number'}
               onKeyDown={integerOnKeyDown}

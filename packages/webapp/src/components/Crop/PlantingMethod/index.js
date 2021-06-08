@@ -15,6 +15,7 @@ import { ReactComponent as Beds } from '../../../assets/images/plantingMethod/Be
 import { ReactComponent as Monocrop } from '../../../assets/images/plantingMethod/Monocrop.svg';
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
+import { cloneObject } from '../../../util';
 
 const BROADCAST = 'BROADCAST';
 const CONTAINER = 'CONTAINER';
@@ -63,8 +64,8 @@ export default function PurePlantingMethod({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues: persistedFormData,
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
   const namePrefix = 'crop_management_plan.';
 

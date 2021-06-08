@@ -25,10 +25,12 @@ export default function PurePlantingDate({
   const SEED_DATE = 'seed_date';
   const GERMINATION_DATE = 'germination_date';
   const HARVEST_DATE = 'harvest_date';
+  const TERMINATION_DATE = 'termination_date';
   const TRANSPLANT_DATE = 'transplant_date';
   const GERMINATION_DAYS = 'germination_days';
   const HARVEST_DAYS = 'harvest_days';
   const TRANSPLANT_DAYS = 'transplant_days';
+  const TERMINATION_DAYS = 'termination_days';
   const {
     register,
     handleSubmit,
@@ -44,6 +46,7 @@ export default function PurePlantingDate({
       [GERMINATION_DATE]: null,
       [TRANSPLANT_DATE]: persistedFormData.needs_transplant ? null : undefined,
       [HARVEST_DATE]: null,
+      [TERMINATION_DATE]: null,
       ...cloneObject(persistedFormData),
     },
   });
@@ -62,10 +65,25 @@ export default function PurePlantingDate({
   const seed_date = watch(SEED_DATE);
   const germination_date = watch(GERMINATION_DATE);
   const harvest_date = watch(HARVEST_DATE);
-  const transplant_date = persistedFormData.needs_transplant ? watch(TRANSPLANT_DATE) : undefined;
+  const transplant_date = watch(TRANSPLANT_DATE);
+  const termination_date = watch(TERMINATION_DATE);
   const germination_days = watch(GERMINATION_DAYS);
-  const transplant_days = persistedFormData.needs_transplant ? watch(TRANSPLANT_DAYS) : undefined;
+  const transplant_days = watch(TRANSPLANT_DAYS);
   const harvest_days = watch(HARVEST_DAYS);
+  const termination_days = watch(TERMINATION_DAYS);
+  useEffect(() => {
+    if (!persistedFormData?.needs_transplant) {
+      setValue(TRANSPLANT_DAYS, null);
+      setValue(TRANSPLANT_DATE, null);
+    }
+    if (persistedFormData.for_cover) {
+      setValue(HARVEST_DATE, null);
+      setValue(HARVEST_DAYS, null);
+    } else {
+      setValue(TERMINATION_DATE, null);
+      setValue(TERMINATION_DAYS, null);
+    }
+  }, []);
 
   useEffect(() => {
     if (transplant_days || transplant_days === 0) trigger(TRANSPLANT_DAYS);
@@ -168,7 +186,7 @@ export default function PurePlantingDate({
         style={{ marginBottom: '40px' }}
         startDate={seed_date}
         hookFormWatch={watch}
-        hookFormRegister={register(HARVEST_DAYS, {
+        hookFormRegister={register(persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS, {
           required: true,
           valueAsNumber: true,
           max: harvestDaysMax,
@@ -181,14 +199,12 @@ export default function PurePlantingDate({
             : t('MANAGEMENT_PLAN.HARVEST')
         }
         hookFormSetValue={setValue}
-        dateName={HARVEST_DATE}
+        dateName={persistedFormData.for_cover ? TERMINATION_DATE : HARVEST_DATE}
         errors={getErrorMessage(errors[HARVEST_DAYS], harvestDaysMin, harvestDaysMax + 1)}
       />
       {seed_date && (
         <FullYearCalendarView
-          {...{ seed_date, germination_date, transplant_date }}
-          termination_date={persistedFormData.for_cover ? harvest_date : undefined}
-          harvest_date={persistedFormData.for_cover ? undefined : harvest_date}
+          {...{ seed_date, germination_date, transplant_date, termination_date, harvest_date }}
         />
       )}
     </Form>

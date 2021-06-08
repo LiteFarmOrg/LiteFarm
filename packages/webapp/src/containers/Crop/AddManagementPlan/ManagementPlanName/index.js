@@ -14,8 +14,15 @@ export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const dispatch = useDispatch();
   const onSubmit = (data) => {
-    formatManagementPlanFormData({ ...persistedFormData, ...data });
-    dispatch(postManagementPlan(formatManagementPlanFormData(data)));
+    dispatch(
+      postManagementPlan(
+        formatManagementPlanFormData({
+          ...persistedFormData,
+          ...data,
+          crop_variety_id: match.params.variety_id,
+        }),
+      ),
+    );
   };
   const onError = () => {};
   return (

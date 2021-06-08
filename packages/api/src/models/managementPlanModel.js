@@ -15,6 +15,7 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel');
+const moment = require('moment');
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -26,9 +27,8 @@ class ManagementPlan extends baseModel {
   }
 
   getDate(seed_date, duration) {
-    // TODO set dates
     if (duration !== null && duration !== undefined && seed_date) {
-      return seed_date;
+      return moment(seed_date).add(duration, 'days').utc().format('YYYY-MM-DD');
     }
     return undefined;
   }

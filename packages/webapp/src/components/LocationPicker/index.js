@@ -13,11 +13,8 @@ import useDrawSelectableLocations from './useDrawSelectableLocations';
 const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   const { grid_points } = useSelector(userFarmSelector);
 
-  const { drawLocations, selectedLocation } = useDrawSelectableLocations();
-  useEffect(() => {
-    selectedLocation && setLocationId(selectedLocation.locationId);
-  }, [setLocationId, selectedLocation]);
-
+  const { drawLocations } = useDrawSelectableLocations(setLocationId);
+  
   const getMapOptions = (maps) => {
     return {
       styles: [

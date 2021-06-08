@@ -8,7 +8,7 @@ import { isArea, polygonPath } from '../../containers/Map/constants';
 import { areaStyles, lineStyles } from '../../containers/Map/mapStyles';
 import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 
-const useDrawSelectableLocations = () => {
+const useDrawSelectableLocations = (setLocationId) => {
   const cropLocations = useSelector(cropLocationsSelector);
 
   const assetFunctionMap = (assetType) => {
@@ -20,6 +20,7 @@ const useDrawSelectableLocations = () => {
   const setSelectedLocation = (data) => {
     selectedLocationRef.current = data;
     _setSelectedLocation(data);
+    setLocationId(data?.locationId);
   };
 
   const reset_opacity = 0.5;
@@ -289,7 +290,7 @@ const useDrawSelectableLocations = () => {
     });
   };
 
-  return { drawLocations, selectedLocation };
+  return { drawLocations };
 };
 
 export default useDrawSelectableLocations;

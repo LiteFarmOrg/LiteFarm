@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
@@ -165,8 +165,11 @@ const managementPlanEntitiesSelector = createSelector(
 );
 
 export const managementPlansSelector = createSelector(
-  [managementPlanEntitiesSelector],
-  (managementPlanEntities) => Object.values(managementPlanEntities),
+  [managementPlanEntitiesSelector, loginSelector],
+  (managementPlanEntities, { farm_id }) =>
+    Object.values(managementPlanEntities).filter(
+      (managementPlan) => managementPlan.farm_id === farm_id,
+    ),
 );
 
 export const expiredManagementPlansSelector = createSelector(

@@ -6,7 +6,16 @@ import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import { cloneObject } from '../../util';
 
-const Filter = ({ subject, items, filterKey, style, filterRef, filterState, updateFilter }) => {
+const Filter = ({
+  subject,
+  items,
+  filterKey,
+  style,
+  filterRef,
+  filterState,
+  updateFilter,
+  counter,
+}) => {
   const [open, setOpen] = useState(false);
 
   const updateFilterState = (value) => {
@@ -21,6 +30,13 @@ const Filter = ({ subject, items, filterKey, style, filterRef, filterState, upda
     <div className={clsx(styles.container, open && styles.openContainer)} style={style}>
       <div className={clsx(styles.head, open && styles.openHead)} onClick={() => setOpen(!open)}>
         <div>{subject}</div>
+        {counter > 0 && (
+          <>
+            <div className={styles.circle} />
+            <div style={{ flexGrow: '1' }} />
+            <div className={styles.counter}>{`+${counter}`}</div>
+          </>
+        )}
         <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
       </div>
       <fieldset className={styles.dropdown} style={{ display: open ? 'flex' : 'none' }}>

@@ -29,20 +29,15 @@ const Filter = ({
   return (
     <div className={clsx(styles.container, open && styles.openContainer)} style={style}>
       <div className={clsx(styles.head, open && styles.openHead)} onClick={() => setOpen(!open)}>
-        <div className={styles.headSubcontainer}>
-          <div>{subject}</div>
-          {counter > 0 && <div className={styles.circle} />}
-        </div>
-        {/* {counter > 0 && (
+        <div>{subject}</div>
+        {counter > 0 && (
           <>
             <div className={styles.circle} />
+            <div style={{ flexGrow: '1' }} />
             <div className={styles.counter}>{`+${counter}`}</div>
           </>
-        )} */}
-        <div>
-          {counter > 0 && <div className={styles.counter}>{`+${counter}`}</div>}
-          <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
-        </div>
+        )}
+        <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
       </div>
       <fieldset className={styles.dropdown} style={{ display: open ? 'flex' : 'none' }}>
         {items.map((item) => {

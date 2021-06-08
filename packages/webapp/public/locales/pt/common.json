@@ -21,6 +21,8 @@
   "HOURS": "Horas",
   "LOADING": "Carregando...",
   "LOCATION": "Local",
+  "MAX_ERROR": "MISSING",
+  "MIN_ERROR": "MISSING",
   "NAME": "Nome",
   "NEW": "Novo",
   "NEXT": "Próximo",

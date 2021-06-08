@@ -32,9 +32,11 @@ export default function useFilterNoPlan(cropCatalogue, filterString) {
   );
 
   const cropsWithNoPlans = useMemo(() => {
-    const cropIds = new Set(managementPlans.map(({ crop_id }) => crop_id));
+    const cropVarietyIds = new Set(managementPlans.map(({ crop_variety_id }) => crop_variety_id));
     return getUniqueEntities(
-      varietiesFilteredByString.filter((cropVariety) => !cropIds.has(cropVariety.crop_id)),
+      varietiesFilteredByString.filter(
+        (cropVariety) => !cropVarietyIds.has(cropVariety.crop_variety_id),
+      ),
       'crop_id',
     );
   }, [managementPlans, varietiesFilteredByString]);

@@ -33,7 +33,7 @@ export default function PurePlantInContainer({
   }`;
 
   const IN_GROUND = namePrefix + 'in_ground';
-  const NUMBER_OF_CONTAINER = namePrefix + 'number_of_container';
+  const NUMBER_OF_CONTAINERS = namePrefix + 'number_of_containers';
   const PLANTS_PER_CONTAINER = namePrefix + 'plants_per_container';
   const PLANT_SPACING = namePrefix + 'plant_spacing';
   const PLANT_SPACING_UNIT = namePrefix + 'plant_spacing_unit';
@@ -42,7 +42,7 @@ export default function PurePlantInContainer({
   const PLANTING_DEPTH_UNIT = namePrefix + 'planting_depth_unit';
   const PLANTING_SOIL = namePrefix + 'planting_soil';
   const CONTAINER_TYPE = namePrefix + 'container_type';
-  const PLANTING_NOTE = namePrefix + 'planting_notes';
+  const NOTES = namePrefix + 'notes';
   const {
     register,
     handleSubmit,
@@ -109,7 +109,7 @@ export default function PurePlantInContainer({
             <div className={styles.row}>
               <Input
                 label={t('MANAGEMENT_PLAN.NUMBER_OF_CONTAINER')}
-                hookFormRegister={register(NUMBER_OF_CONTAINER, {
+                hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
                   valueAsNumber: true,
                 })}
@@ -196,7 +196,7 @@ export default function PurePlantInContainer({
 
           <Input
             label={t('MANAGEMENT_PLAN.PLANTING_NOTE')}
-            hookFormRegister={register(PLANTING_NOTE)}
+            hookFormRegister={register(NOTES)}
             optional
           />
         </>

@@ -8,7 +8,6 @@ export default function useFilterVarieties(varieties, cropId, status) {
   const { t } = useTranslation();
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
   console.log('useFilterVarieties');
-  console.log({ varieties });
   const filteredBySupplier = useMemo(() => {
     const supplierFilter = cropVarietyFilter[SUPPLIERS];
     const included = new Set();
@@ -25,7 +24,7 @@ export default function useFilterVarieties(varieties, cropId, status) {
     for (const location_id in locationFilter) {
       if (locationFilter[location_id].active) included.add(location_id);
     }
-    if (included.size === 0) return varieties;
+    if (included.size === 0) return filteredBySupplier;
     return varieties.filter((variety) => included.has(variety.location_id));
   }, [cropVarietyFilter[LOCATION], filteredBySupplier]);
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
@@ -14,20 +14,35 @@ import {
   STATUS,
   SUPPLIERS,
 } from '../constants';
-import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
+import {
+  cropVarietyFilterSelector,
+  setCropVarietyFilter,
+  setCropVarietyFilterDefault,
+} from '../../filterSlice';
 import { suppliersSelector } from '../../cropVarietySlice';
 
 const statuses = [ACTIVE, ABANDONED, PLANNED, COMPLETE, NEEDS_PLAN];
 
-const CropCatalogueFilterPage = ({ onGoBack }) => {
+const CropVarietyFilterPage = ({ cropId, onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const cropEnabledLocations = useSelector(cropLocationsSelector);
-  const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
-  const suppliers = useSelector(suppliersSelector);
+  const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
+  const suppliers = useSelector(suppliersSelector); //TODO: SELECT SUPPLIERS EXCLUSIVE TO THIS CROP
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (!cropVarietyFilter) {
+      dispatch(setCropVarietyFilterDefault(cropId));
+    }
+  }, []);
+
   const handleApply = () => {
-    dispatch(setCropCatalogueFilter(filterRef.current));
+    dispatch(
+      setCropVarietyFilter({
+        cropId,
+        cropVarietyFilter: filterRef.current,
+      }),
+    );
     onGoBack?.();
   };
   const filterRef = useRef({});
@@ -38,7 +53,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
-        default: cropCatalogueFilter[STATUS][status]?.active ?? false,
+        default: cropVarietyFilter?.[STATUS][status]?.active ?? false,
         label: t(`filter:CROP_CATALOGUE.${status}`),
       })),
     },
@@ -47,7 +62,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: LOCATION,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
-        default: cropCatalogueFilter[LOCATION][location.location_id]?.active ?? false,
+        default: cropVarietyFilter?.[LOCATION][location.location_id]?.active ?? false,
         label: location.name,
       })),
     },
@@ -56,7 +71,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: SUPPLIERS,
       options: suppliers.map((supplier) => ({
         value: supplier,
-        default: cropCatalogueFilter[SUPPLIERS][supplier]?.active ?? false,
+        default: cropVarietyFilter?.[SUPPLIERS][supplier]?.active ?? false,
         label: supplier,
       })),
     },
@@ -73,9 +88,8 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
   );
 };
 
-CropCatalogueFilterPage.prototype = {
-  subject: PropTypes.string,
-  items: PropTypes.array,
+CropVarietyFilterPage.prototype = {
+  crop_id: PropTypes.number,
 };
 
-export default CropCatalogueFilterPage;
+export default CropVarietyFilterPage;

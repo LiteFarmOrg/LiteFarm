@@ -8,14 +8,7 @@ import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
 import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
-import {
-  ACTIVE,
-  COMPLETE,
-  LOCATION,
-  PLANNED,
-  STATUS,
-  SUPPLIERS,
-} from '../Filter/CropCatalogue/constants';
+import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
 
 export default function useCropCatalogue(filterString) {

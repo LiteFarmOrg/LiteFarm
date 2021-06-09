@@ -29,6 +29,7 @@ export const getManagementPlan = (obj) => {
     'transplant_date',
     'transplant_days',
     'notes',
+    'name'
   ]);
 };
 

@@ -5,14 +5,12 @@ import { cropVarietyFilterSelector } from '../filterSlice';
 
 export default function useFilterVarieties(varieties, cropId, status) {
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
-  // if (!cropVarietyFilter) return varieties;
   const filteredBySupplier = useMemo(() => {
     if (!cropVarietyFilter) return varieties;
     const supplierFilter = cropVarietyFilter[SUPPLIERS];
-    const included = new Set();
-    for (const supplier in supplierFilter) {
-      if (supplierFilter[supplier].active) included.add(supplier);
-    }
+    const included = new Set(
+      Object.keys(supplierFilter).filter((supplier) => supplierFilter[supplier].active),
+    );
     if (included.size === 0) return varieties;
     return varieties.filter((variety) => included.has(variety.supplier));
   }, [cropVarietyFilter?.[SUPPLIERS], varieties]);
@@ -20,10 +18,9 @@ export default function useFilterVarieties(varieties, cropId, status) {
   const filteredByLocation = useMemo(() => {
     if (!cropVarietyFilter) return filteredBySupplier;
     const locationFilter = cropVarietyFilter[LOCATION];
-    const included = new Set();
-    for (const location_id in locationFilter) {
-      if (locationFilter[location_id].active) included.add(location_id);
-    }
+    const included = new Set(
+      Object.keys(locationFilter).filter((location_id) => locationFilter[location_id].active),
+    );
     if (included.size === 0) return filteredBySupplier;
     return varieties.filter((variety) => included.has(variety.location_id));
   }, [cropVarietyFilter?.[LOCATION], filteredBySupplier]);

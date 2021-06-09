@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
 import { getManagementPlan } from '../../../managementPlanSlice';
 import { pick } from '../../../../util';
@@ -10,6 +9,7 @@ import { bedProperties } from '../../../bedsSlice';
 import { rowProperties } from '../../../rowsSlice';
 import { postManagementPlan } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -27,14 +27,14 @@ export default function ManagementPlanName({ history, match }) {
   };
   const onError = () => {};
   return (
-    <PureManagementPlanName
-      onSubmit={onSubmit}
-      onError={onError}
-      useHookFormPersist={useHookFormPersist}
-      persistedFormData={persistedFormData}
-      match={match}
-      history={history}
-    />
+    <HookFormPersistProvider>
+      <PureManagementPlanName
+        onSubmit={onSubmit}
+        onError={onError}
+        match={match}
+        history={history}
+      />
+    </HookFormPersistProvider>
   );
 }
 

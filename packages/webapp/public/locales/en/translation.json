@@ -843,6 +843,7 @@
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
     "IN_GROUND": "In ground",
+    "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",

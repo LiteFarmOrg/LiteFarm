@@ -15,6 +15,7 @@
 
 const Model = require('objection').Model;
 const baseModel = require('./baseModel');
+const moment = require('moment');
 
 class ManagementPlan extends baseModel {
   static get tableName() {
@@ -26,9 +27,8 @@ class ManagementPlan extends baseModel {
   }
 
   getDate(seed_date, duration) {
-    // TODO set dates
     if (duration !== null && duration !== undefined && seed_date) {
-      return seed_date;
+      return moment(seed_date).add(duration, 'days').utc().format('YYYY-MM-DD');
     }
     return undefined;
   }
@@ -39,7 +39,7 @@ class ManagementPlan extends baseModel {
     this.germination_date = this.getDate(this.seed_date, this.germination_days);
     this.termination_date = this.getDate(this.seed_date, this.termination_days);
     this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    throw new Error('Need to properly set dates');
+    // throw new Error('Need to properly set dates');
   }
 
   async $beforeUpdate(opt, context) {
@@ -65,13 +65,14 @@ class ManagementPlan extends baseModel {
         needs_transplant: { type: 'boolean' },
         for_cover: { type: 'boolean' },
         transplant_date: { type: 'date' },
-        transplant_days: { type: 'integer' },
+        transplant_days: { type: ['integer', null] },
         germination_date: { type: 'date' },
-        germination_days: { type: 'integer' },
+        germination_days: { type: ['integer', null] },
         termination_date: { type: 'date' },
-        termination_days: { type: 'integer' },
+        termination_days: { type: ['integer', null] },
         harvest_date: { type: 'date' },
-        harvest_days: { type: 'integer' },
+        harvest_days: { type: ['integer', null] },
+        notes: { type: ['string', null] },
         ...this.baseProperties,
       },
       additionalProperties: false,

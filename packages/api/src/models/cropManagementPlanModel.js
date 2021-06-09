@@ -37,9 +37,9 @@ class CropManagementPlanModel extends Model {
           enum: ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS'],
         },
         notes: { type: 'string' },
-        estimated_revenue: { type: 'number' },
-        estimated_yield: { type: 'number' },
-        estimated_yield_unit: { type: 'string', enum: ['g', 'lb', 'kg', 'oz', 'l', 'gal'] },
+        estimated_revenue: { type: ['number', null] },
+        estimated_yield: { type: ['number', null] },
+        estimated_yield_unit: { type: ['string', null], enum: ['g', 'lb', 'kg', 'oz', 'l', 'gal', null] },
       },
       additionalProperties: false,
     };

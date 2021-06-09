@@ -28,12 +28,12 @@ class BroadcastModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id'],
+      required: ['management_plan_id', 'seeding_rate', 'area_used', 'required_seeds'],
       properties: {
         management_plan_id: { type: 'number' },
         percentage_planted: { type: 'number' },
         area_used: { type: 'number' },
-        area_used_unit: { type: 'number', enum: ['m2', 'ha', 'ft2', 'ac'] },
+        area_used_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
         seeding_rate: {
           type: 'number',
         },

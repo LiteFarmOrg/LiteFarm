@@ -28,6 +28,7 @@ import {
   putManagementPlanSuccess,
 } from '../../../managementPlanSlice';
 import i18n from '../../../../locales/i18n';
+import history from '../../../../history';
 
 const DEC = 10;
 
@@ -55,8 +56,14 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, managementPlanURL, managementPlan, header);
+    const result = yield call(
+      axios.post,
+      managementPlanURL + `/${managementPlan.crop_management_plan.planting_type.toLowerCase()}`,
+      managementPlan,
+      header,
+    );
     yield put(postManagementPlanSuccess(result.data));
+    history.push(`/crop/${managementPlan.crop_variety_id}/management`);
   } catch (e) {
     console.log('failed to add managementPlan to database');
   }

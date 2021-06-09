@@ -23,6 +23,9 @@ export default function PureTransplant({
 
   const progress = 12.5;
 
+  const TRANSPLANT = 'needs_transplant';
+  const COVER = 'for_cover';
+
   const {
     register,
     handleSubmit,
@@ -32,7 +35,7 @@ export default function PureTransplant({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { ...persistedFormData },
+    defaultValues: (isCoverCrop && !persistedFormData.hasOwnProperty(COVER))?  { ...persistedFormData, for_cover: true } : { ...persistedFormData },
   });
 
   useHookFormPersist([submitPath], getValues);
@@ -41,9 +44,6 @@ export default function PureTransplant({
   };
 
   const disabled = !isValid;
-
-  const TRANSPLANT = 'needs_transplant';
-  const COVER = 'for_cover';
 
   return (
     <Form

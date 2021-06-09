@@ -202,7 +202,11 @@ export default function PurePlantingDate({
         }
         hookFormSetValue={setValue}
         dateName={persistedFormData.for_cover ? TERMINATION_DATE : HARVEST_DATE}
-        errors={getErrorMessage(errors[HARVEST_DAYS], harvestDaysMin, harvestDaysMax + 1)}
+        errors={getErrorMessage(
+          errors[persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS],
+          harvestDaysMin,
+          harvestDaysMax + 1,
+        )}
       />
       {seed_date && (
         <FullYearCalendarView

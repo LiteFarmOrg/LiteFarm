@@ -31,6 +31,8 @@ import useSortByVarietyName from './useSortByVarietyName';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CropVarietyFilterPage from '../Filter/CropVariety';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
+import useFilterVarieties from '../CropCatalogue/useFilterVarieties';
+import { ACTIVE, COMPLETE, NEEDS_PLAN, PLANNED } from '../Filter/constants';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -42,21 +44,39 @@ export default function CropVarieties({ history, match }) {
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
 
-  const cropVarietiesWithoutManagementPlan = useStringFilteredCrops(
-    useSortByVarietyName(useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id))),
-    filterString,
+  const cropVarietiesWithoutManagementPlan = useFilterVarieties(
+    useStringFilteredCrops(
+      useSortByVarietyName(
+        useSelector(cropVarietiesWithoutManagementPlanByCropIdSelector(crop_id)),
+      ),
+      filterString,
+    ),
+    crop_id,
+    NEEDS_PLAN,
   );
-  const currentCropVarieties = useStringFilteredCrops(
-    useSortByVarietyName(useSelector(currentCropVarietiesByCropIdSelector(crop_id))),
-    filterString,
+  const currentCropVarieties = useFilterVarieties(
+    useStringFilteredCrops(
+      useSortByVarietyName(useSelector(currentCropVarietiesByCropIdSelector(crop_id))),
+      filterString,
+    ),
+    crop_id,
+    ACTIVE,
   );
-  const plannedCropVarieties = useStringFilteredCrops(
-    useSortByVarietyName(useSelector(plannedCropVarietiesByCropIdSelector(crop_id))),
-    filterString,
+  const plannedCropVarieties = useFilterVarieties(
+    useStringFilteredCrops(
+      useSortByVarietyName(useSelector(plannedCropVarietiesByCropIdSelector(crop_id))),
+      filterString,
+    ),
+    crop_id,
+    PLANNED,
   );
-  const expiredCropVarieties = useStringFilteredCrops(
-    useSortByVarietyName(useSelector(expiredCropVarietiesByCropIdSelector(crop_id))),
-    filterString,
+  const expiredCropVarieties = useFilterVarieties(
+    useStringFilteredCrops(
+      useSortByVarietyName(useSelector(expiredCropVarietiesByCropIdSelector(crop_id))),
+      filterString,
+    ),
+    crop_id,
+    COMPLETE,
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([
     currentCropVarieties.length,

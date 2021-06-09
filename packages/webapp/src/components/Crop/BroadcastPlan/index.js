@@ -12,12 +12,12 @@ import clsx from 'clsx';
 import convert from 'convert-units';
 import Unit, { unitOptionMap } from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
 import { cloneObject } from '../../../util';
 
 function PureBroadcastPlan({
   handleContinue,
-  persistedForm,
+  persistedFormData,
+  useHookFormPersist,
   system,
   onGoBack,
   onCancel,
@@ -36,7 +36,7 @@ function PureBroadcastPlan({
     setError,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: cloneObject(persistedForm),
+    defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
     mode: 'onChange',
   });
@@ -57,7 +57,7 @@ function PureBroadcastPlan({
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  const seedingRateForm = watch(SEEDING_RATE, persistedForm?.broadcast?.seeding_rate);
+  const seedingRateForm = watch(SEEDING_RATE, persistedFormData?.broadcast?.seeding_rate);
   const areaUsed = watch(AREA_USED);
   const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
 
@@ -99,7 +99,7 @@ function PureBroadcastPlan({
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);
-  
+
   return (
     <Form
       buttonGroup={
@@ -118,7 +118,12 @@ function PureBroadcastPlan({
       />
       <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
       <Input
-        hookFormRegister={register(PERCENTAGE_PLANTED, { required: true, valueAsNumber: true, min: 1, max: 100})}
+        hookFormRegister={register(PERCENTAGE_PLANTED, {
+          required: true,
+          valueAsNumber: true,
+          min: 1,
+          max: 100,
+        })}
         max={100}
         min={1}
         type={'number'}
@@ -165,7 +170,10 @@ function PureBroadcastPlan({
         style={{ paddingBottom: '40px' }}
         errors={getErrorMessage(errors[SEEDING_RATE], 1)}
       />
-      <input {...register(SEEDING_RATE, { required: true, valueAsNumber: true, min: 1 })} style={{ display: 'none' }} />
+      <input
+        {...register(SEEDING_RATE, { required: true, valueAsNumber: true, min: 1 })}
+        style={{ display: 'none' }}
+      />
 
       {areaUsed > 0 && seedingRateForm > 0 && (
         <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>

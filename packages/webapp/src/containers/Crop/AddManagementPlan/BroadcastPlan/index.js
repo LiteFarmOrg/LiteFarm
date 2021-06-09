@@ -5,6 +5,7 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../../locationSlice';
 import { cropVarietyByID } from '../../../cropVarietySlice';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function BroadcastPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -31,16 +32,17 @@ function BroadcastPlan({ history, match }) {
   };
 
   return (
-    <PureBroadcastPlan
-      onCancel={onCancel}
-      handleContinue={onContinue}
-      onGoBack={onBack}
-      system={system}
-      persistedForm={persistedFormData}
-      persistedPaths={persistedPaths}
-      locationSize={location.total_area}
-      yieldPerArea={yieldPerArea}
-    />
+    <HookFormPersistProvider>
+      <PureBroadcastPlan
+        onCancel={onCancel}
+        handleContinue={onContinue}
+        onGoBack={onBack}
+        system={system}
+        persistedPaths={persistedPaths}
+        locationSize={location.total_area}
+        yieldPerArea={yieldPerArea}
+      />
+    </HookFormPersistProvider>
   );
 }
 

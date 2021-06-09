@@ -34,7 +34,7 @@ export default function PureAddNewCrop({
   handleContinue,
   handleGoBack,
   handleCancel,
-  defaultValues,
+  persistedFormData,
   useHookFormPersist,
   isPhysiologyAnatomyDropDownOpen,
 }) {
@@ -48,7 +48,7 @@ export default function PureAddNewCrop({
     formState: { isValid, errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues,
+    defaultValues: { ...persistedFormData },
   });
   const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
   useHookFormPersist(persistedPath, getValues);

@@ -129,7 +129,7 @@ export default function PurePlantingMethod({
             },
             { label: t('MANAGEMENT_PLAN.BEDS'), value: BEDS },
             {
-              label: t('MANAGEMENT_PLAN.CONTAINER'),
+              label: t('MANAGEMENT_PLAN.INDIVIDUAL_CONTAINER'),
               value: CONTAINER,
             },
             { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },

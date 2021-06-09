@@ -38,7 +38,7 @@ class ContainerModel extends Model {
         total_plants: { type: ['integer', null] },
         number_of_containers: { type: ['integer', null] },
         plants_per_container: { type: ['integer', null] },
-        planting_depth: { type: 'number' },
+        planting_depth: { type: ['number', null] },
         planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
 
         planting_soil: { type: ['string', null] },

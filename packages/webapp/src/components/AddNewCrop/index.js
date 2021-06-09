@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../Typography';
 import Input from '../Form/Input';
-import styles from './styles.module.scss';
+//import styles from './styles.module.scss';
 import Form from '../Form';
 import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
@@ -27,6 +27,8 @@ import {
 import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers/cropSlice';
 import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
+import RadioGroup from '../Form/RadioGroup';
+import styles from '../Crop/PlantingMethod/styles.module.scss';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -114,6 +116,11 @@ export default function PureAddNewCrop({
           />
         )}
       />
+
+      <div style={{ marginBottom: '20px', fontSize: '16px' }}>{t('CROP_CATALOGUE.COVER_CROP')}</div>
+      <div style={{ marginBottom: '20px' }}>
+        <RadioGroup hookFormControl={control} name="can_be_cover_crop"></RadioGroup>
+      </div>
 
       <PhysiologyAnatomyDropDown
         register={register}

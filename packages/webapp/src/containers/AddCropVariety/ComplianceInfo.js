@@ -3,7 +3,7 @@ import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import useHookFormPersist from '../hooks/useHookFormPersist';
+import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function ComplianceInfoForm({ history, match }) {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function ComplianceInfoForm({ history, match }) {
   };
 
   return (
-    <>
+    <HookFormPersistProvider>
       <ComplianceInfo
         history={history}
         onSubmit={onSubmit}
@@ -47,10 +47,8 @@ function ComplianceInfoForm({ history, match }) {
         onGoBack={onGoBack}
         onCancel={onCancel}
         match={match}
-        persistedFormData={persistedFormData}
-        useHookFormPersist={useHookFormPersist}
       />
-    </>
+    </HookFormPersistProvider>
   );
 }
 

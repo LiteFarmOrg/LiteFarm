@@ -185,7 +185,7 @@ export default function PurePlantingDate({
         />
       )}
       <InputDuration
-        style={{ marginBottom: '40px' }}
+        style={{ marginBottom: '16px' }}
         startDate={seed_date}
         hookFormWatch={watch}
         hookFormRegister={register(persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS, {

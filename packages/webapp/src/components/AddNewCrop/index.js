@@ -117,7 +117,7 @@ export default function PureAddNewCrop({
         )}
       />
 
-      <div style={{ marginBottom: '20px' }}>{t('CROP_CATALOGUE.COVER_CROP')}</div>
+      <div style={{ marginBottom: '20px', fontSize: '16px' }}>{t('CROP_CATALOGUE.COVER_CROP')}</div>
       <div style={{ marginBottom: '20px' }}>
         <RadioGroup hookFormControl={control} name="cover_crop_radio"></RadioGroup>
       </div>

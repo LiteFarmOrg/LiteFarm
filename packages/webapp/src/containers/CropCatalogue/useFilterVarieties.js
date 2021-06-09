@@ -1,13 +1,10 @@
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { LOCATION, STATUS, SUPPLIERS } from '../Filter/constants';
 import { cropVarietyFilterSelector } from '../filterSlice';
 
 export default function useFilterVarieties(varieties, cropId, status) {
-  const { t } = useTranslation();
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(cropId));
-  console.log('useFilterVarieties');
   const filteredBySupplier = useMemo(() => {
     const supplierFilter = cropVarietyFilter[SUPPLIERS];
     const included = new Set();

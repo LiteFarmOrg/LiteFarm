@@ -28,6 +28,7 @@ export const getManagementPlan = (obj) => {
     'termination_days',
     'transplant_date',
     'transplant_days',
+    'notes',
   ]);
 };
 
@@ -181,14 +182,17 @@ export const expiredManagementPlansSelector = createSelector(
 
 export const getExpiredManagementPlans = (managementPlans, time) =>
   managementPlans.filter(
-    (managementPlan) => new Date(managementPlan.harvest_date).getTime() < time,
+    (managementPlan) =>
+      new Date(managementPlan.harvest_date || managementPlan.termination_date).getTime() < time,
   );
 
 export const currentAndPlannedManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
     return managementPlans.filter(
-      (managementPlan) => new Date(managementPlan.harvest_date).getTime() >= lastActiveDatetime,
+      (managementPlan) =>
+        new Date(managementPlan.harvest_date || managementPlan.termination_date).getTime() >=
+        lastActiveDatetime,
     );
   },
 );
@@ -203,7 +207,7 @@ export const currentManagementPlansSelector = createSelector(
 export const getCurrentManagementPlans = (managementPlans, time) => {
   return managementPlans.filter(
     (managementPlan) =>
-      new Date(managementPlan.harvest_date).getTime() >= time &&
+      new Date(managementPlan.harvest_date || managementPlan.termination_date).getTime() >= time &&
       new Date(managementPlan.seed_date).getTime() <= time,
   );
 };

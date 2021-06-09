@@ -38,8 +38,8 @@ describe('ManagementPlan Tests', () => {
   });
 
 
-  function postManagementPlanRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).post('/management_plan')
+  function postManagementPlanRequest(type, data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).post(`/management_plan/${type}`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -519,218 +519,127 @@ describe('ManagementPlan Tests', () => {
 
   })
 
-  xdescribe('Post managementPlan', () => {
+  describe('POST management plan', () => {
+    let userFarm;
+    let location;
     let crop;
     let cropVariety;
+    let fakeManagement;
+    let fakeCropManagement;
+    let fakeBroadcast;
+    let fakeContainer;
+    let fakeTransplantContainer;
+
     beforeEach(async () => {
-      [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, {
-        ...mocks.fakeCrop(),
-        crop_common_name: 'crop',
-        user_added: true,
-      });
-      [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] }, {
-        ...mocks.fakeCropVariety(),
-        crop_variety_name: 'crop_variety',
-      });
-    });
+      userFarm = await mocks.userFarmFactory({}, { role_id: 1, status: 'Active' });
+      location = await mocks.locationFactory({promisedFarm: userFarm});
+      crop = await mocks.cropFactory({promisedFarm: userFarm});
+      cropVariety = await mocks.crop_varietyFactory({promisedFarm: userFarm, promisedCrop: crop});
+      fakeManagement = mocks.fakeManagementPlan();
+      fakeCropManagement = mocks.fakeCropManagementPlan();
+      fakeBroadcast = mocks.fakeBroadcast();
+      fakeContainer = mocks.fakeContainer();
+      fakeTransplantContainer = mocks.fakeTransplantContainer();
+    })
 
-    test('should return 400 status if managementPlan is posted w/o crop_id', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      delete managementPlan.crop_variety_id;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.crop_variety_id[0].keyword).toBe('required');
-        done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/o area_used', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      delete managementPlan.area_used;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.area_used[0].keyword).toBe('required');
-        done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/o estimated_revenue', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      delete managementPlan.estimated_revenue;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.estimated_revenue[0].keyword).toBe('required');
-        done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/o estimated_production', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      delete managementPlan.estimated_production;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.estimated_production[0].keyword).toBe('required');
-        done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/ area > field.figure.area.total_area', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.area_used = field.figure.area.total_area + 1;
-      managementPlan.estimated_production = 1;
-      managementPlan.estimated_revenue = 1;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(res.error.text).toBe('Area needed is greater than the field\'s area');
-        done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/ area < 0', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.area_used = -1;
-      managementPlan.estimated_production = 1;
-      managementPlan.estimated_revenue = 1;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.area_used[0].message).toBe('should be >= 0');
-        done();
-      });
-    });
-
-    test('should return 400 status if asset type is fence', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.estimated_revenue = 1;
-      managementPlan.area_used = field.figure.area.total_area * 0.25;
-      managementPlan.estimated_production = 1;
-      const [fence] = await mocks.fenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
-      managementPlan.location_id = fence.location_id;
-      postManagementPlanRequest(managementPlan, {}, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
-    });
-
-    test('Should post then get a valid fieldcrop (bed size and percentage)', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.estimated_revenue = 1;
-      managementPlan.area_used = field.figure.area.total_area * 0.25;
-      managementPlan.estimated_production = 1;
-      postManagementPlanRequest(managementPlan, {}, async (err, res) => {
+    test('should create a broadcast management plan with required data', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          broadcast: fakeBroadcast
+        }
+      }
+      postManagementPlanRequest('broadcast', body, userFarm[0], async (err, res) => {
         expect(res.status).toBe(201);
-        const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-        expect(newManagementPlan.field_id).toBe(field.field_id);
+        const container = await knex('broadcast').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(container).not.toBeUndefined();
         done();
-      });
-    });
-
-    test('should return 400 status if managementPlan is posted w/ estimated_revenue < 0', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.estimated_revenue = -1;
-      managementPlan.area_used = field.figure.area.total_area * 0.25;
-      managementPlan.estimated_production = 1;
-      postManagementPlanRequest(managementPlan, {}, (err, res) => {
-        expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.estimated_revenue[0].message).toBe('should be >= 0');
-        done();
-      });
-    });
-
-    test('Should post then get an expired crop', async (done) => {
-      let managementPlan = fakeManagementPlan(cropVariety);
-      managementPlan.estimated_revenue = 1;
-      managementPlan.area_used = field.figure.area.total_area * 0.25;
-      managementPlan.estimated_production = 1;
-      managementPlan.start_date = moment().subtract(50, 'd').toDate();
-      managementPlan.harvest_date = moment().subtract(20, 'd').toDate();
-      postManagementPlanRequest(managementPlan, {}, async (err, res) => {
-        expect(res.status).toBe(201);
-        const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-        expect(newManagementPlan.field_id).toBe(field.field_id);
-        done();
-      });
-    });
-
-    describe('Post managementPlan authorization', () => {
-      let worker;
-      let manager;
-      let unAuthorizedUser;
-      let farmunAuthorizedUser;
-
-      beforeEach(async () => {
-        [worker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory({
-          promisedUser: [worker],
-          promisedFarm: [farm],
-        }, fakeUserFarm(3));
-        [manager] = await mocks.usersFactory();
-        const [managerFarm] = await mocks.userFarmFactory({
-          promisedUser: [manager],
-          promisedFarm: [farm]
-        }, fakeUserFarm(2));
-
-
-        [unAuthorizedUser] = await mocks.usersFactory();
-        [farmunAuthorizedUser] = await mocks.farmFactory();
-        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
-          promisedUser: [unAuthorizedUser],
-          promisedFarm: [farmunAuthorizedUser]
-        }, fakeUserFarm(1));
       })
+    })
 
-      test('Should post then get a valid fieldcrop by a manager', async (done) => {
-        let managementPlan = fakeManagementPlan(cropVariety);
-        managementPlan.estimated_revenue = 1;
-        managementPlan.area_used = field.figure.area.total_area * 0.25;
-        managementPlan.estimated_production = 1;
-        postManagementPlanRequest(managementPlan, { user_id: manager.user_id }, async (err, res) => {
-          expect(res.status).toBe(201);
-          const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('crop_variety_id', cropVariety.crop_variety_id).first();
-          expect(newManagementPlan.field_id).toBe(field.field_id);
-          done();
-        });
-      });
+    test('should create a broadcast management plan with transplant', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        transplant_container: {
+          location_id: location[0].location_id,
+            ...fakeTransplantContainer
+        },
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          broadcast: fakeBroadcast
+        }
+      }
+      postManagementPlanRequest('broadcast', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(201);
+        const container = await knex('broadcast').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(container).not.toBeUndefined();
+        done();
+      })
+    })
 
-      test('Should return status 403 when a worker tries to post a valid fieldcrop', async (done) => {
-        let managementPlan = fakeManagementPlan(cropVariety);
-        managementPlan.estimated_revenue = 1;
-        managementPlan.area_used = field.figure.area.total_area * 0.25;
-        managementPlan.estimated_production = 1;
-        postManagementPlanRequest(managementPlan, { user_id: worker.user_id }, (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
+    test('should create a container management plan with required data', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          container: fakeContainer
+        }
+      }
+      postManagementPlanRequest('container', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(201);
+        const container = await knex('container').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(container).not.toBeUndefined();
+        done();
+      })
+    })
 
-      test('Should return status 403 when an unauthorized user tries to post a valid fieldcrop', async (done) => {
-        let managementPlan = fakeManagementPlan(cropVariety);
-        managementPlan.estimated_revenue = 1;
-        managementPlan.area_used = field.figure.area.total_area * 0.25;
-        managementPlan.estimated_production = 1;
-        postManagementPlanRequest(managementPlan, { user_id: unAuthorizedUser.user_id }, (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
+    test('should create a container management plan with transplant', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        transplant_container: {
+          location_id: location[0].location_id,
+          ...fakeTransplantContainer
+        },
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          container: fakeContainer
+        }
+      }
+      postManagementPlanRequest('container', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(201);
+        const container = await knex('container').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(container).not.toBeUndefined();
+        done();
+      })
+    })
 
-      test('Circumvent authorization by modify farm_id', async (done) => {
-        let managementPlan = fakeManagementPlan(cropVariety);
-        managementPlan.estimated_revenue = 1;
-        managementPlan.area_used = field.figure.area.total_area * 0.25;
-        managementPlan.estimated_production = 1;
-        postManagementPlanRequest(managementPlan, {
-            user_id: unAuthorizedUser.user_id,
-            farm_id: farmunAuthorizedUser.farm_id,
-          }, (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          },
-        );
-      });
 
-    });
+    test('should not allow multiple types of plantation', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          container: fakeContainer,
+          broadcast: fakeBroadcast
+        }
+      }
+      postManagementPlanRequest('container', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(400);
+        expect(res.body.message).toBe('You are trying to modify an unallowed object');
+        done();
+      })
+    } )
 
   })
 

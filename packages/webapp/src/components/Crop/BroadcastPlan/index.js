@@ -53,7 +53,7 @@ function PureBroadcastPlan({
   const ESTIMATED_YIELD_UNIT = 'broadcast.estimated_yield_unit';
   const ESTIMATED_SEED = 'broadcast.required_seeds';
   const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
-  const NOTES = 'notes';
+  const NOTES = 'broadcast.notes';
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { LOCATION, NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/CropCatalogue/constants';
+import { LOCATION, NEEDS_PLAN, STATUS, SUPPLIERS } from '../Filter/constants';
 import { cropCatalogueFilterSelector } from '../filterSlice';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';

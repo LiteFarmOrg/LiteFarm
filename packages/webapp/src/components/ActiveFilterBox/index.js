@@ -14,6 +14,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const dispatch = useDispatch();
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
+    if (filterKey === 'date') return acc;
     return [...acc].concat(
       Object.keys(pageFilter[filterKey])
         .filter((k) => pageFilter[filterKey][k].active)

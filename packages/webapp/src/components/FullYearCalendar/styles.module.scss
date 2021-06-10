@@ -19,11 +19,10 @@
 }
 
 .colorBox {
-  margin-left: 16px;
   width: 16px;
   height: 16px;
-  margin-right: 6px;
-  vertical-align: text-bottom;
+  margin: auto;
+  vertical-align: center;
 }
 
 .colorBoxFont {
@@ -33,17 +32,20 @@
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0px;
-  text-align: left;
+  text-align: center;
 }
 
 .calendarBox {
+  transform: translateX(-24px);
+  width: 100vw;
   border: 1px solid #D4DAE3;
   border-radius: 4px;
+  max-height: 436px;
   @media screen and (min-device-width: 667px) {
     padding-left: 18px;
     padding-right: 18px;
   }
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .calendarBox > * {

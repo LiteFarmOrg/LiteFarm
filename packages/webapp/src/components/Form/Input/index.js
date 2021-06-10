@@ -6,9 +6,9 @@ import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { BiSearchAlt2, MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { mergeRefs } from '../utils';
-import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
+import Infoi from '../../Tooltip/Infoi';
 
 const Input = ({
   disabled = false,
@@ -69,7 +69,7 @@ const Input = ({
             )}
             {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
-          {toolTipContent && <MoreInfo content={toolTipContent} />}
+          {toolTipContent && <Infoi content={toolTipContent} />}
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}

@@ -2,9 +2,9 @@ import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
-import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
+import Infoi from '../../Tooltip/Infoi';
 
 export const styles = {
   option: (provided, state) => ({
@@ -132,7 +132,7 @@ const ReactSelect = React.forwardRef(
             }}
           >
             <Label>{label}</Label>
-            {toolTipContent && <MoreInfo content={toolTipContent} autoOpen={autoOpen} />}
+            {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
             {icon && <span className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}

@@ -6,6 +6,7 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropVarietySuccess } from '../cropVarietySlice';
 import history from '../../history';
+import { postCropSuccess } from '../cropSlice';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -17,7 +18,7 @@ export function* postVarietalSaga({ payload: varietal }) {
   try {
     const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
-    history.push(`/crop_catalogue`);
+    history.push(`/crop/${result.data.crop_variety_id}/management`);
     toastr.success('Successfully saved varietal!');
   } catch (e) {
     //TODO remove toastr messages
@@ -76,8 +77,9 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   };
   try {
     const result = yield call(axios.post, `${cropURL}/crop_variety`, data, header);
-    // yield put(postCropVarietySuccess(result.data));
-    history.push(`/crop_catalogue`);
+    yield put(postCropVarietySuccess(result.data.variety));
+    yield put(postCropSuccess(result.data.crop));
+    history.push(`/crop/${result.data.variety.crop_variety_id}/management`);
     toastr.success('Successfully saved varietal!');
   } catch (e) {
     if (e.response.data.violationError) {

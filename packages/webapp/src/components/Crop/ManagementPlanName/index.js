@@ -62,13 +62,13 @@ export default function PureManagementPlanName({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={t('common:NAME')}
+        label={t('MANAGEMENT_PLAN.PLAN_NAME')}
         hookFormRegister={register(NAME, { required: true })}
       />
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}
-        label={t('common:NOTES')}
+        label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
         hookFormRegister={register(NOTES)}
         optional
       />

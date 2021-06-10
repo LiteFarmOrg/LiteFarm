@@ -38,7 +38,7 @@ function PureBroadcastPlan({
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
-    mode: 'onChange',
+    mode: 'onBlur',
   });
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
@@ -53,7 +53,7 @@ function PureBroadcastPlan({
   const ESTIMATED_YIELD_UNIT = 'broadcast.estimated_yield_unit';
   const ESTIMATED_SEED = 'broadcast.required_seeds';
   const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
-  const NOTES = 'notes';
+  const NOTES = 'broadcast.notes';
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
@@ -64,7 +64,7 @@ function PureBroadcastPlan({
   useHookFormPersist(persistedPaths, getValues);
 
   const getErrorMessage = (error, min, max) => {
-    if (error?.type === 'isRequired') return t('common:REQUIRED');
+    if (error?.type === 'required') return t('common:REQUIRED');
     if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
     if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
   };
@@ -125,15 +125,14 @@ function PureBroadcastPlan({
           max: 100,
         })}
         max={100}
-        min={1}
         type={'number'}
         style={{ paddingBottom: '40px' }}
-        errors={getErrorMessage(errors[PERCENTAGE_PLANTED], 1, 100)}
+        errors={getErrorMessage(errors?.broadcast?.percentage_planted, 1, 100)}
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
       />
       <div className={clsx(styles.row, styles.paddingBottom40)}>
         <div style={{ flex: '1 1 0px' }}>
-          <Label sm style={{ fontSize: '14px' }}>
+          <Label >
             {t('BROADCAST_PLAN.LOCATION_SIZE')}
           </Label>
           <Input
@@ -144,7 +143,7 @@ function PureBroadcastPlan({
         </div>
         <Unit
           register={register}
-          classes={{ input: { borderLeftStyle: 'none', ...greenInput } }}
+          classes={{ input: { ...greenInput } }}
           label={t('BROADCAST_PLAN.AREA_USED')}
           name={AREA_USED}
           displayUnitName={AREA_USED_UNIT}
@@ -163,12 +162,11 @@ function PureBroadcastPlan({
       </div>
       <Input
         type={'number'}
-        min={1}
         label={t('BROADCAST_PLAN.SEEDING_RATE')}
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
-        errors={getErrorMessage(errors[SEEDING_RATE], 1)}
+        errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}
       />
       <input
         {...register(SEEDING_RATE, { required: true, valueAsNumber: true, min: 1 })}

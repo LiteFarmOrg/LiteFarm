@@ -110,7 +110,8 @@
     "LETS_BEGIN": "Let's begin",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "FILTER_TITLE": "Crop Catalogue Filter"
+    "FILTER_TITLE": "Crop Catalogue Filter",
+    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group."
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",
@@ -838,7 +839,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
-    "DURATION_TOOLTIP": "These are suggested values.  Please check your varietal and adjust as needed.",
+    "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",

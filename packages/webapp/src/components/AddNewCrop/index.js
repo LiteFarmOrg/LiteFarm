@@ -105,6 +105,7 @@ export default function PureAddNewCrop({
         rules={{ required: true }}
         render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
+            toolTipContent={t('CROP_CATALOGUE.CROP_GROUP_TOOL_TIP')}
             label={'Crop group'}
             options={cropGroupOptions}
             onChange={(e) => {

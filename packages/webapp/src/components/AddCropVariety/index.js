@@ -45,7 +45,6 @@ export default function PureAddCropVariety({
 
   const VARIETY = 'crop_variety_name';
   const SUPPLIER = 'supplier';
-  const SEED_TYPE = 'seeding_type';
   const LIFE_CYCLE = 'lifecycle';
   const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
 
@@ -53,7 +52,6 @@ export default function PureAddCropVariety({
 
   const varietyRegister = register(VARIETY, { required: true });
   const supplierRegister = register(SUPPLIER, { required: isSeekingCert ? true : false });
-  const seedTypeRegister = register(SEED_TYPE, { required: true });
   const lifeCycleRegister = register(LIFE_CYCLE, { required: true });
   const imageUrlRegister = register(CROP_VARIETY_PHOTO_URL, { required: true });
 
@@ -127,31 +125,6 @@ export default function PureAddCropVariety({
         hasLeaf={true}
         optional={!isSeekingCert}
       />
-
-      <div>
-        <div style={{ marginBottom: '24px' }}>
-          <Label
-            style={{
-              paddingRight: '10px',
-              fontSize: '16px',
-              lineHeight: '20px',
-              display: 'inline-block',
-            }}
-          >
-            {t('CROP.SEED_OR_SEEDLING')}
-          </Label>
-        </div>
-        <div>
-          <Radio label={t('CROP.SEED')} value={'SEED'} hookFormRegister={seedTypeRegister} />
-        </div>
-        <div>
-          <Radio
-            label={t('CROP.SEEDLING_OR_PLANTING_STOCK')}
-            value={'SEEDLING_OR_PLANTING_STOCK'}
-            hookFormRegister={seedTypeRegister}
-          />
-        </div>
-      </div>
 
       <div>
         <div style={{ marginTop: '16px', marginBottom: '20px' }}>

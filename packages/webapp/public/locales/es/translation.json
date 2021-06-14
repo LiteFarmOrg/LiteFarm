@@ -1156,7 +1156,8 @@
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos"
+    "SHIFTS": "Turnos",
+    "DOCUMENTS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Activo",

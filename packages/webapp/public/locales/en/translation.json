@@ -1158,7 +1158,8 @@
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts"
+    "SHIFTS": "Shifts",
+    "DOCUMENTS": "Documents"
   },
   "STATUS": {
     "ACTIVE": "Active",

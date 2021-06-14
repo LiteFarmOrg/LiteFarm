@@ -31,6 +31,7 @@ class Document extends baseModel {
       type: 'object',
       required: [ 'name', 'thumbnail_url', 'farm_id' ],
       properties: {
+        document_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string' },
         thumbnail_url: { type: 'string' },

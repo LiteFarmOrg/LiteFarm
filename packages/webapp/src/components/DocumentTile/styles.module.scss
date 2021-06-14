@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
 }
 
 .img {
@@ -22,7 +21,6 @@
     padding: 4px;
     border-radius: 0 0 4px 4px;
     flex-grow: 1;
-    display: flex;
     flex-direction: column;
 }
 
@@ -31,6 +29,9 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }  
 
 .type {

@@ -55,7 +55,7 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
 }
 
 Square.propTypes = {
-  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan']),
+  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan', 'valid', 'archived']),
   isCropTile: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };

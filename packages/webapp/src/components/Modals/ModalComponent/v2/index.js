@@ -16,6 +16,9 @@ export default function ModalComponent({
   warning,
   error,
 }) {
+  if (warning && error) {
+    console.error('warning and error cannot be true at the same time');
+  }
   const color = error ? colors.red700 : warning ? colors.brown700 : colors.teal700;
   return (
     <Modal dismissModal={dismissModal}>

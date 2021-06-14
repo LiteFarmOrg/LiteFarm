@@ -22,6 +22,12 @@
     "PLANTING_NOTES": "Planting notes",
     "SEEDING_RATE": "Seeding rate"
   },
+  "CANCEL_FLOW_MODAL": {
+    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
+    "TITLE": {
+      "MANAGEMENT_PLAN": "Cancel your management plan?"
+    }
+  },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
@@ -98,6 +104,7 @@
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop catalogue",
+    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group.",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
@@ -110,8 +117,7 @@
     "LETS_BEGIN": "Let's begin",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
-    "FILTER_TITLE": "Crop Catalogue Filter",
-    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group."
+    "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_DETAIL": {
     "ADD_PLAN": "Add a plan",

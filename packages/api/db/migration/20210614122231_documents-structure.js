@@ -20,9 +20,9 @@ exports.up = async function (knex) {
     t.uuid('document_id')
       .references('document_id')
       .inTable('document').onDelete('CASCADE')
-    t.string('file_name');
-    t.string('url');
-    t.string('thumbnail_url');
+    t.string('file_name').notNullable();
+    t.string('url').notNullable();
+    t.string('thumbnail_url').notNullable();
   })
 };
 

@@ -29,6 +29,12 @@ const useStyles = makeStyles({
   needsPlan: {
     backgroundColor: colors.red700,
   },
+  valid: {
+    backgroundColor: colors.brightGreen700,
+  },
+  archived: {
+    backgroundColor: colors.teal900,
+  },
   cropTile: {
     minWidth: '24px',
     height: '24px',

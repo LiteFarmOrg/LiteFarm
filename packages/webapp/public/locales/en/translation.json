@@ -1192,5 +1192,11 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "DOCUMENTS": {
+    "DOCUMENTS": "Documents",
+    "ADD_DOCUMENT": "Add a new document",
+    "VALID": "Valid",
+    "ARCHIVED": "Archived"
   }
 }

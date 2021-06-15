@@ -57,10 +57,11 @@ class ManagementPlan extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_variety_id', 'seed_date'],
+      required: ['crop_variety_id', 'seed_date', 'name'],
       properties: {
         management_plan_id: { type: 'integer' },
         crop_variety_id: { type: 'string' },
+        name: { type: 'string' },
         seed_date: { type: 'date' },
         needs_transplant: { type: 'boolean' },
         for_cover: { type: 'boolean' },

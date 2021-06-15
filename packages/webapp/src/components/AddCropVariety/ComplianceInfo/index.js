@@ -3,13 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { AddLink, Info, Label } from '../../Typography';
-import PageTitle from '../../PageTitle/v2';
-import ProgressBar from '../../ProgressBar';
 import Form from '../../Form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
 import { useForm } from 'react-hook-form';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 
 export default function ComplianceInfo({
   onSubmit,
@@ -62,15 +61,16 @@ export default function ComplianceInfo({
       }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle onGoBack={onGoBack} onCancel={onCancel} title={t('CROP.ADD_CROP')} />
-      <div
+      <MultiStepPageTitle
+        onGoBack={onGoBack}
+        onCancel={onCancel}
+        title={t('CROP.ADD_CROP')}
+        value={progress}
         style={{
           marginBottom: '23px',
-          marginTop: '8px',
         }}
-      >
-        <ProgressBar value={progress} />
-      </div>
+      />
+
       <div>
         <div style={{ marginBottom: '16px' }}>
           <Label style={labelStyle}>{t('CROP.IS_ORGANIC')}</Label>

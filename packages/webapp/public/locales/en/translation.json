@@ -108,6 +108,7 @@
     },
     "HERE_YOU_CAN": "Here you can:",
     "LETS_BEGIN": "Let's begin",
+    "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
     "FILTER_TITLE": "Crop Catalogue Filter",
@@ -839,7 +840,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
-    "DURATION_TOOLTIP": "These are suggested values.  Please check your varietal and adjust as needed.",
+    "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
@@ -852,6 +853,8 @@
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
+    "PLAN_NAME": "Management plan name",
+    "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
     "PLANTING_DATE": "What is your planting date?",
     "PLANTING_DEPTH": "Planting depth",
@@ -1155,7 +1158,8 @@
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts"
+    "SHIFTS": "Shifts",
+    "DOCUMENTS": "Documents"
   },
   "STATUS": {
     "ACTIVE": "Active",

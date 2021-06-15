@@ -97,9 +97,11 @@ function FullYearCalendarView({
           <div className={styles.flexStage} key={stageKey}>
             <div
               className={styles.colorBox}
-              style={{ backgroundColor: stageToColor[stageKey], display: 'inline-block' }}
+              style={{ backgroundColor: stageToColor[stageKey] }}
             />
-            <span className={styles.colorBoxFont}>{stageToTranslation[stageKey]}</span>
+            <div style={{width: '100%', textAlign: 'center'}}>
+              <span className={styles.colorBoxFont}>{stageToTranslation[stageKey]}</span>
+            </div>
           </div>
         ))}
       </div>
@@ -122,7 +124,7 @@ function FullYearCalendarView({
               </Semibold>
             </div>
             <Calendar dataSource={dataSource} year={initYear} displayHeader={false} />
-            {initYear !== endYear && (
+            {initYear !== endYear && !isNaN(endYear) && (
               <>
                 <div className={styles.yearBox}>
                   <Semibold style={{ color: 'var(--teal700)', textAlign: 'center' }}>

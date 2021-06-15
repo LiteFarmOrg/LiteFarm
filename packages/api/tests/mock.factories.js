@@ -382,6 +382,7 @@ async function management_planFactory({
 
 function fakeManagementPlan() {
   return {
+    name: faker.lorem.words(),
     seed_date: faker.date.past(),
     needs_transplant: faker.random.boolean(),
     for_cover: false,

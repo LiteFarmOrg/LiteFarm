@@ -29,7 +29,6 @@ function PureCropDetail({
     control,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
-  const SEEDING_TYPE = 'seeding_type';
   const LIFECYCLE = 'lifecycle';
   const ORGANIC = 'organic';
   const TREATED = 'treated';
@@ -96,21 +95,6 @@ function PureCropDetail({
       {isEditing && (
         <Title style={{ marginTop: '24px' }}>{t('CROP_DETAIL.EDIT_CROP_DETAIL')}</Title>
       )}
-
-      <Main className={styles.labelToRadioDistance}>{t('CROP_DETAIL.SEED_SEEDLING')}</Main>
-      <RadioGroup
-        hookFormControl={control}
-        name={SEEDING_TYPE}
-        disabled={!isEditing}
-        style={{ paddingBottom: '16px' }}
-        radios={[
-          { value: 'SEED', label: t('CROP_DETAIL.SEED') },
-          {
-            value: 'SEEDLING_OR_PLANTING_STOCK',
-            label: t('CROP_DETAIL.SEEDLING'),
-          },
-        ]}
-      />
 
       <Main className={styles.labelToRadioDistance}>{t('CROP_DETAIL.ANNUAL_PERENNIAL')}</Main>
       <RadioGroup

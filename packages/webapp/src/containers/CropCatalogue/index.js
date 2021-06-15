@@ -4,7 +4,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
-import { AddLink, Text } from '../../components/Typography';
+import { AddLink, Semibold, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
 import { cropsWithVarietyWithoutManagementPlanSelector } from '../managementPlanSlice';
@@ -94,7 +94,7 @@ export default function CropCatalogue({ history }) {
       )}
 
       <div ref={containerRef}>
-        {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) && (
+        {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) ? (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
@@ -148,6 +148,12 @@ export default function CropCatalogue({ history }) {
               })}
             </PureCropTileContainer>
           </>
+        ) : (
+          isFilterCurrentlyActive && (
+            <Semibold style={{ color: 'var(--teal700)' }}>
+              {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
+            </Semibold>
+          )
         )}
         {isAdmin && !isFilterCurrentlyActive && (
           <>

@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const server = require('./../src/server');
+const server = require('../src/server');
 const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -11,7 +11,15 @@ const { tableCleanup } = require('./testEnvironment');
 
 
 describe('Document tests', () => {
-
+  let middleware;
+  beforeEach(() =>{
+    middleware = require('../src/middleware/acl/checkJwt');
+    middleware.mockImplementation((req, res, next) => {
+      req.user = {};
+      req.user.user_id = req.get('user_id');
+      next();
+    });
+  })
   function getRequest(url, { user_id , farm_id }, callback) {
     chai.request(server).get(url)
       .set('user_id', user_id)
@@ -22,6 +30,12 @@ describe('Document tests', () => {
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
+
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
+  });
 
   describe('Authorization tests', () => {
     test('Owner should GET documents if they exist', async (done) => {

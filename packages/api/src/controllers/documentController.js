@@ -5,7 +5,7 @@ const documentController = {
     return async (req, res, next) => {
       const { farm_id } = req.params;
       try {
-        const result = await DocumentModel.query().whereNotDeleted().withGraphFetched('[file]').where({ farm_id });
+        const result = await DocumentModel.query().whereNotDeleted().withGraphFetched('[files]').where({ farm_id });
         return result?.length ? res.status(200).send(result) : res.status(404).send('No documents found');
       } catch (error) {
         console.error(error);

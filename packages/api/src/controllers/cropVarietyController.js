@@ -64,9 +64,5 @@ const cropVarietyController = {
       }
     };
   },
-  // todo: Audrey
-  patchCropVariety() {
-    return undefined;
-  },
 };
 module.exports = cropVarietyController;

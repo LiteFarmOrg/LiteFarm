@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (cropRoute.js) is part of LiteFarm.

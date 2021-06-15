@@ -1,5 +1,5 @@
 
-const organicCertifierModel = require('./../models/organicCertifierSurveyModel');
+const organicCertifierModel = require('../../models/organicCertifierSurveyModel');
 
 async function organicCertifierCheck(req, res, next) { // express
   const { body } = req;

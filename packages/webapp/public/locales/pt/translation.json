@@ -115,6 +115,7 @@
     },
     "HERE_YOU_CAN": "MISSING",
     "LETS_BEGIN": "MISSING",
+    "NO_RESULTS_FOUND": "MISSING",
     "ON_YOUR_FARM": "MISSING",
     "SELECT_A_CROP": "MISSING",
     "FILTER_TITLE": "MISSING"
@@ -1162,7 +1163,8 @@
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
     "MANAGE": "Administrar",
-    "SHIFTS": "Turnos"
+    "SHIFTS": "Turnos",
+    "DOCUMENTS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Ativo",

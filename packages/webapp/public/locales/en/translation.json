@@ -98,6 +98,7 @@
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop catalogue",
+    "CROP_GROUP": "Crop group",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
@@ -169,6 +170,24 @@
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",
     "TITLE": "Filter Report by Date"
+  },
+  "DOCUMENT" : {
+    "ADD": {
+      "TITLE": "Add a document",
+      "DOCUMENT_NAME": "Document name",
+      "TYPE": "Type",
+      "VALID_UNTIL": "Valid until",
+      "DOES_NOT_EXPIRE": "This file does not expire",
+      "ADD_MORE_PAGES": "Add more pages"
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT":  "Cleaning product",
+      "CROP_COMPLIANCE": "Crop compliance",
+      "FERTILIZING_PRODUCT":  "Fertilizing product",
+      "PEST_CONTROL_PRODUCT": "Pest control product",
+      "SOIL_AMENDMENT":  "Soil Amendment",
+      "OTHER": "Other"
+    }
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",

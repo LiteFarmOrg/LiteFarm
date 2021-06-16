@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../assets/theme';
+import Square from '../Square';
 
 import PropTypes from 'prop-types';
 
@@ -29,9 +30,14 @@ const useStyles = makeStyles({
   label: {
     color: colors.grey600,
   },
+  documentCountContainer: {
+    display: 'flex',
+    gap: '4px',
+    alignItems: 'center',
+  },
 });
 
-export default function PageBreak({ label, children, style }) {
+export default function PageBreak({ label, square, children, style }) {
   const classes = useStyles();
   return (
     <div className={classes.container} style={style}>
@@ -44,6 +50,13 @@ export default function PageBreak({ label, children, style }) {
           )}
 
           {children}
+        </div>
+      )}
+      {square && (
+        <div className={classes.documentCountContainer}>
+          {square && (
+            <Square color={square.type}>{square.count}</Square>
+          )}
         </div>
       )}
       <div className={classes.breakContainer}>

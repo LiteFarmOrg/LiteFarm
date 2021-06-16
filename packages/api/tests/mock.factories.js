@@ -1254,6 +1254,27 @@ function fakePoint() {
   };
 }
 
+async function documentFactory({
+  promisedFarm = farmFactory(),
+  creatorUser = usersFactory(),
+}= {}, document = fakeDocument()) {
+  const [ farm, user ] = await Promise.all([ promisedFarm, creatorUser ]);
+  const [ { farm_id } ] = farm;
+  const [ { user_id } ] = user;
+  const base = baseProperties(user_id);
+  return knex('document').insert({ farm_id, ...document, ...base }).returning('*');
+}
+
+function fakeDocument() {
+  return {
+    name: faker.lorem.words(),
+    thumbnail_url: faker.image.imageUrl(),
+    valid_until: faker.date.future(),
+    notes: faker.lorem.words(),
+    type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'])
+  }
+}
+
 
 module.exports = {
   weather_stationFactory, fakeStation,
@@ -1319,6 +1340,7 @@ module.exports = {
   gateFactory,
   crop_varietyFactory,
   fakeCropVariety,
+  fakeDocument, documentFactory,
   // allSupportedCertificationsFactory,
   // allSupportedCertifiersFactory,
 };

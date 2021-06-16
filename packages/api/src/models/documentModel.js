@@ -57,7 +57,7 @@ class Document extends baseModel {
           to: 'farm.farm_id',
         },
       },
-      file: {
+      files: {
         relation: Model.HasManyRelation,
         modelClass: require('./fileModel'),
         join: {

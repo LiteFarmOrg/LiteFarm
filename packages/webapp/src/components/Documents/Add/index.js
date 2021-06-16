@@ -14,12 +14,12 @@ import { Controller, useForm } from 'react-hook-form';
 function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument}) {
   const { t } = useTranslation();
   const typeOptions = [
-    {label: t('DOCUMENT.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT'},
-    {label: t('DOCUMENT.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE'},
-    {label: t('DOCUMENT.TYPE.FERTILIZING_PRODUCT'), value: 'FERTILIZING_PRODUCT'},
-    {label: t('DOCUMENT.TYPE.PEST_CONTROL_PRODUCT'), value: 'PEST_CONTROL_PRODUCT'},
-    {label: t('DOCUMENT.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT'},
-    {label: t('DOCUMENT.TYPE.OTHER'), value: 'OTHER'},
+    {label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT'},
+    {label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE'},
+    {label: t('DOCUMENTS.TYPE.FERTILIZING_PRODUCT'), value: 'FERTILIZING_PRODUCT'},
+    {label: t('DOCUMENTS.TYPE.PEST_CONTROL_PRODUCT'), value: 'PEST_CONTROL_PRODUCT'},
+    {label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT'},
+    {label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER'},
   ];
   const NAME = 'name';
   const TYPE = 'type';
@@ -51,10 +51,10 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
         onGoBack={onGoBack}
         onCancel={onCancel}
         value={50}
-        title={t('DOCUMENT.ADD.TITLE')}
+        title={t('DOCUMENTS.ADD.TITLE')}
         style={{ marginBottom: '24px' }}
       />
-      <Input name={NAME} hookFormRegister={register(NAME, { required: true })} label={t('DOCUMENT.ADD.DOCUMENT_NAME')} classes={{container: { paddingBottom: '32px' } }} />
+      <Input name={NAME} hookFormRegister={register(NAME, { required: true })} label={t('DOCUMENTS.ADD.DOCUMENT_NAME')} classes={{container: { paddingBottom: '32px' } }} />
       <Controller
         control={control}
         name={TYPE}
@@ -62,7 +62,7 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
           <ReactSelect
             optional
             options={typeOptions}
-            label={t('DOCUMENT.ADD.TYPE')}
+            label={t('DOCUMENTS.ADD.TYPE')}
             value={value}
             onChange={(e) => {
               onChange(e);
@@ -73,15 +73,15 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
       />
       <Input type={'date'} name={VALID_UNTIL}
              hookFormRegister={register(VALID_UNTIL)}
-             label={t('DOCUMENT.ADD.VALID_UNTIL')} optional classes={{container: {paddingBottom: '18px' }}} />
-      <Checkbox label={t('DOCUMENT.ADD.DOES_NOT_EXPIRE')} classes={{container: {paddingBottom: '42px'}}} />
+             label={t('DOCUMENTS.ADD.VALID_UNTIL')} optional classes={{container: {paddingBottom: '18px' }}} />
+      <Checkbox label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')} classes={{container: {paddingBottom: '42px'}}} />
       <div style={{width: '312px', height: '383px', margin: 'auto', paddingBottom: '16px'}}>
         <div style={{background: 'var(--teal700)', width: '24px', height:'24px', position: 'relative', float:'right', zIndex: 10 }} onClick={deleteImage}>
           <TrashIcon />
         </div>
-        <img width={'100%'} style={{position: 'relative', top:'-24px', zIndex: 0}} height={'100%'} src={'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'} />
+        <img width={'100%'} style={{position: 'relative', top:'-24px', zIndex: 0}} height={'100%'} src={'https: //litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'} />
       </div>
-      <AddLink style={{paddingBottom: '32px'}} onClick={uploadImageOrDocument}>{t('DOCUMENT.ADD.ADD_MORE_PAGES')}</AddLink>
+      <AddLink style={{paddingBottom: '32px'}} onClick={uploadImageOrDocument}>{t('DOCUMENTS.ADD.ADD_MORE_PAGES')}</AddLink>
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES} label={t('common:NOTES')} optional classes={{container: { paddingBottom: '40px' } }} />

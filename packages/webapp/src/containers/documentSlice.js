@@ -39,6 +39,14 @@ const addManyDocument = (state, { payload: documents }) => {
   );
 };
 
+const onUploadFileSuccess = (state, { payload }) => {
+  state.uploadedFiles = payload.files.map(({url, thumbnailUrl}) => ({ fileUrl: url, thumbnailUrl }))
+}
+
+const onDeleteUploadedFile = (state, { payload }) => {
+  state.uploadedFiles = state.uploadedFiles.filter(({fileUrl}) => payload.fileUrl !== fileUrl);
+}
+
 const documentAdapter = createEntityAdapter({
   selectId: (document) => document.document_id,
 });
@@ -49,6 +57,7 @@ const documentSlice = createSlice({
     loading: false,
     error: undefined,
     loaded: false,
+    uploadedFiles: []
   }),
   reducers: {
     onLoadingDocumentStart: onLoadingStart,
@@ -68,6 +77,8 @@ const documentSlice = createSlice({
     selectDocumentSuccess(state, { payload: document_id }) {
       state.document_id = document_id;
     },
+    uploadFileSuccess: onUploadFileSuccess,
+    deleteUploadedFile: onDeleteUploadedFile
   },
 });
 
@@ -78,6 +89,8 @@ export const {
   onLoadingDocumentStart,
   onLoadingDocumentFail,
   getAllDocumentsSuccess,
+  uploadFileSuccess,
+  deleteUploadedFile,
 } = documentSlice.actions;
 export default documentSlice.reducer;
 

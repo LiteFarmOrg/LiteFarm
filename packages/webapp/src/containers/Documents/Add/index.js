@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureAddDocumentView from '../../../components/Documents/Add';
+import { useDispatch } from 'react-redux';
+import { uploadFileSuccess } from '../../documentSlice';
 
 
 function AddDocument({ history }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(uploadFileSuccess([{
+      url: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
+      thumbnailUrl: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'
+    }]))
+  },[]);
 
   const handleSubmit = (data) => {
 

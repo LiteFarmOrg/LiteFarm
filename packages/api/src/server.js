@@ -65,6 +65,7 @@ const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
+const documentRoute = require('./routes/documentRoute');
 
 // register API
 const router = promiseRouter();
@@ -130,6 +131,7 @@ app.use(bodyParser.json())
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/document', documentRoute)
 
   // handle errors
   .use((req, res, next) => {

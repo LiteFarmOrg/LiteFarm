@@ -90,7 +90,7 @@ const documentSelectors = documentAdapter.getSelectors(
 export const documentEntitiesSelector = documentSelectors.selectEntities;
 
 export const documentsSelector = createSelector(
-  [documentSelectors.selectAll, documentEntitiesSelector, loginSelector],
+  [documentSelectors.selectAll, loginSelector],
   (documents, { farm_id }) => {
     const documentsOfCurrentFarm = documents.filter(
       (document) => document.farm_id === farm_id,

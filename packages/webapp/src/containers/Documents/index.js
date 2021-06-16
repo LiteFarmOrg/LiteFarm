@@ -4,16 +4,30 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
-import { AddLink, Text } from '../../components/Typography';
+import { AddLink } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from '../../components/DocumentTile';
 import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
 import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
+import { documentsSelector } from '../documentSlice';
+import { getLanguageFromLocalStorage } from '../../util';
+import moment from 'moment';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const lang = getLanguageFromLocalStorage();
+
+  const isValid = (date, currDate) => {
+    var given_date = new Date(date);
+    return (currDate < given_date);
+  };
+
+  
+  const getDisplayedDate = (date) => {
+    return moment(date).locale(lang).format('MMM D, YY') + "'";
+  }
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
@@ -21,12 +35,6 @@ export default function Documents({ history }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const isFilterCurrentlyActive = false;
-
-  const validDocuments = ["", "", "", "", "", "", "", ""];
-
-  const archivedDocuments = ["", "", "", "", "", ""];
-
-  const { ref: containerRef, gap, padding } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const onFilterClose = () => {
     setIsFilterOpen(false);
@@ -36,15 +44,32 @@ export default function Documents({ history }) {
   };
 
   useEffect(() => {
-    console.log("HEY");
     dispatch(getDocuments());
   }, []);
+
+  const documents = useSelector(documentsSelector);
+  const validDocuments = [];
+  const archivedDocuments = [];
+  
+  const currDate = new Date();
+  
+  documents.forEach((document) => {
+    if (isValid(document.valid_until, currDate)) {
+      validDocuments.push(document);
+    } else {
+      archivedDocuments.push(document);
+    }
+  });
+
+  const { ref: containerRef, gap, padding } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
+
 
   const onGoBack = () => {
     history.push('/home');
   }
 
   const tileClick = () => {
+    // TODO - Add path
     console.log("Go to document detail");
   }
 
@@ -78,10 +103,10 @@ export default function Documents({ history }) {
                   {validDocuments.map((document) => {
                     return (
                       <PureDocumentTile
-                        title={'Document Name I have a very long name, hahaha'}
-                        type={'Crop Compliance'}
-                        date={"May 2, 21'"}
-                        preview={'crop-images/default.jpg'}
+                        title={document.name}
+                        type={document.type}
+                        date={getDisplayedDate(document.valid_until)}
+                        preview={document.thumbnail_url}
                         onClick={tileClick}
                       />)
                   })}
@@ -99,10 +124,10 @@ export default function Documents({ history }) {
                   {archivedDocuments.map((document) => {
                     return (
                       <PureDocumentTile
-                        title={'Document Name I have a very long name, hahaha'}
-                        type={'Crop Compliance'}
-                        date={"May 2, 21'"}
-                        preview={'crop-images/default.jpg'}
+                        title={document.name}
+                        type={document.type}
+                        date={getDisplayedDate(document.valid_until)}
+                        preview={document.thumbnail_url}
                         onClick={tileClick}
                       />
                     )

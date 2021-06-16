@@ -1205,6 +1205,12 @@
     "DOCUMENTS": "Documents",
     "ADD_DOCUMENT": "Add a new document",
     "VALID": "Valid",
-    "ARCHIVED": "Archived"
+    "ARCHIVED": "Archived",
+    "CROP_COMPLIANCE": "Crop compliance",
+    "CLEANING_PRODUCT": "Cleaning product",
+    "FERTILIZING_PRODUCT": "Fertilizing product",
+    "PEST_CONTROL_PRODUCT": "Pest control product",
+    "SOIL_AMENDMENT": "Soil amendment",
+    "OTHER": "Other"
   }
 }

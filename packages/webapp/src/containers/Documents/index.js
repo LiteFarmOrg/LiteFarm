@@ -12,6 +12,7 @@ import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
+import {useStringFilteredDocuments, useSortByName} from './util';
 import moment from 'moment';
 
 export default function Documents({ history }) {
@@ -26,7 +27,7 @@ export default function Documents({ history }) {
 
   
   const getDisplayedDate = (date) => {
-    return moment(date).locale(lang).format('MMM D, YY') + "'";
+    return date && moment(date).locale(lang).format('MMM D, YY') + "'";
   }
 
   const [filterString, setFilterString] = useState('');
@@ -47,7 +48,9 @@ export default function Documents({ history }) {
     dispatch(getDocuments());
   }, []);
 
-  const documents = useSelector(documentsSelector);
+  const documents = useStringFilteredDocuments(
+    useSortByName(useSelector(documentsSelector)), 
+    filterString);
   const validDocuments = [];
   const archivedDocuments = [];
   
@@ -104,8 +107,8 @@ export default function Documents({ history }) {
                     return (
                       <PureDocumentTile
                         title={document.name}
-                        type={document.type}
-                        date={getDisplayedDate(document.valid_until)}
+                        type={t(`DOCUMENTS.${document.type}`)}
+                        date={null}//getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
                         onClick={tileClick}
                       />)
@@ -125,7 +128,7 @@ export default function Documents({ history }) {
                     return (
                       <PureDocumentTile
                         title={document.name}
-                        type={document.type}
+                        type={t(`DOCUMENTS.${document.type}`)}
                         date={getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
                         onClick={tileClick}

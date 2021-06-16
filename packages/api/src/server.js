@@ -65,6 +65,7 @@ const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
+const farmTokenRoute = require('./routes/farmTokenRoute');
 const documentRoute = require('./routes/documentRoute');
 
 // register API
@@ -131,6 +132,7 @@ app.use(bodyParser.json())
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
 
   // handle errors

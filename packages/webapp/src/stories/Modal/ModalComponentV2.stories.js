@@ -25,6 +25,18 @@ Warning.parameters = {
   ...chromaticSmallScreen,
 };
 
+export const Error = Template.bind({});
+Error.args = {
+  title: 'Unable to retire',
+  contents: [
+    'All crops and tasks associated with Field 1 need to be expired in order to retire the location.',
+  ],
+  error: true,
+};
+Error.parameters = {
+  ...chromaticSmallScreen,
+};
+
 export const Primary = Template.bind({});
 Primary.args = {
   title: 'Unable to retire',

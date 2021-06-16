@@ -8,9 +8,12 @@ import { AddLink, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from '../../components/DocumentTile';
 import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
+import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap';
+import { getDocuments } from '../saga';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
@@ -19,9 +22,11 @@ export default function Documents({ history }) {
 
   const isFilterCurrentlyActive = false;
 
-  const validDocuments = [''];
+  const validDocuments = ["", "", "", "", "", "", "", ""];
 
-  const archivedDocuments = [''];
+  const archivedDocuments = ["", "", "", "", "", ""];
+
+  const { ref: containerRef, gap, padding } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
   const onFilterClose = () => {
     setIsFilterOpen(false);
@@ -29,6 +34,11 @@ export default function Documents({ history }) {
   const onFilterOpen = () => {
     setIsFilterOpen(true);
   };
+
+  useEffect(() => {
+    console.log("HEY");
+    dispatch(getDocuments());
+  }, []);
 
   const onGoBack = () => {
     history.push('/home');
@@ -51,50 +61,58 @@ export default function Documents({ history }) {
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
       />
-
-      {!isFilterCurrentlyActive && (
-        <>
-          <AddLink style={{ marginBottom: '26px' }} onClick={() => history.push('/')}>
-            {t('DOCUMENTS.ADD_DOCUMENT')}
-          </AddLink>
-          {!!validDocuments.length && (
-            <>
-              <PageBreak
-                style={{ paddingBottom: '16px' }}
-                label={t('DOCUMENTS.VALID')}
-                square={{ count: validDocuments.length, type: 'valid' }}
-              />
-              <PureDocumentTileContainer>
-                {<PureDocumentTile
-                  title={'Document Name I have a very long name, hahaha'}
-                  type={'Crop Compliance'}
-                  date={"May 2, 21'"}
-                  preview={'crop-images/default.jpg'}
-                  onClick={tileClick}
-                />}
-              </PureDocumentTileContainer>
-            </>
-          )}
-          {!!archivedDocuments.length && (
-            <>
-              <PageBreak
-                style={{ paddingTop: '35px', paddingBottom: '16px' }}
-                label={t('DOCUMENTS.ARCHIVED')}
-                square={{ count: archivedDocuments.length, type: 'archived' }}
-              />
-              <PureDocumentTileContainer>
-                {<PureDocumentTile
-                  title={'Document Name I have a very long name, hahaha'}
-                  type={'Crop Compliance'}
-                  date={"May 2, 21'"}
-                  preview={'crop-images/default.jpg'}
-                  onClick={tileClick}
-                />}
-              </PureDocumentTileContainer>
-            </>
-          )}
-        </>
-      )}
+      <div ref={containerRef}>
+        {!isFilterCurrentlyActive && (
+          <>
+            <AddLink style={{ marginBottom: '26px' }} onClick={() => history.push('/')}>
+              {t('DOCUMENTS.ADD_DOCUMENT')}
+            </AddLink>
+            {!!validDocuments.length && (
+              <>
+                <PageBreak
+                  style={{ paddingBottom: '16px' }}
+                  label={t('DOCUMENTS.VALID')}
+                  square={{ count: validDocuments.length, type: 'valid' }}
+                />
+                <PureDocumentTileContainer gap={gap} padding={padding}>
+                  {validDocuments.map((document) => {
+                    return (
+                      <PureDocumentTile
+                        title={'Document Name I have a very long name, hahaha'}
+                        type={'Crop Compliance'}
+                        date={"May 2, 21'"}
+                        preview={'crop-images/default.jpg'}
+                        onClick={tileClick}
+                      />)
+                  })}
+                </PureDocumentTileContainer>
+              </>
+            )}
+            {!!archivedDocuments.length && (
+              <>
+                <PageBreak
+                  style={{ paddingTop: '35px', paddingBottom: '16px' }}
+                  label={t('DOCUMENTS.ARCHIVED')}
+                  square={{ count: archivedDocuments.length, type: 'archived' }}
+                />
+                <PureDocumentTileContainer gap={gap} padding={padding}>
+                  {archivedDocuments.map((document) => {
+                    return (
+                      <PureDocumentTile
+                        title={'Document Name I have a very long name, hahaha'}
+                        type={'Crop Compliance'}
+                        date={"May 2, 21'"}
+                        preview={'crop-images/default.jpg'}
+                        onClick={tileClick}
+                      />
+                    )
+                  })}
+                </PureDocumentTileContainer>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </Layout>
   )
 }

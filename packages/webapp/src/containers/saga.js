@@ -112,6 +112,11 @@ import {
   onLoadingTransplantContainerFail,
   onLoadingTransplantContainerStart,
 } from './transplantContainerSlice';
+import {
+  getAllDocumentsSuccess,
+  onLoadingDocumentFail,
+  onLoadingDocumentStart
+} from './documentSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -199,6 +204,36 @@ export function* getCropVarietiesSaga() {
   } catch (e) {
     yield put(onLoadingCropVarietyFail(e));
     console.error('failed to fetch all crop varieties from database');
+  }
+}
+
+export const getDocuments = createAction(`getDocumentsSaga`);
+
+export function* getDocumentsSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  console.log("Before try");
+
+  try {
+    yield put(onLoadingDocumentStart());
+    console.log("HERE");
+    // const result = yield call(axios.get, `${url}/document/farm/${farm_id}`, header);
+    // yield put(getAllDocumentsSuccess(result.data));
+    yield put(getAllDocumentsSuccess([{
+    document_id: 'abc',
+    name: 'abc',
+    valid_until: '2021-May-01',
+    type: 'Crop Compliance',
+    thumbnail_url: "www.google.ca",
+    notes: "Hey",
+    farm_id: 'ababab',
+    created_at: 'KKKS',
+    updated_at: 'HMMM'
+    }]));
+  } catch (e) {
+    console.log(e);
+    yield put(onLoadingDocumentFail(e));
+    console.error('failed to fetch all documents from database');
   }
 }
 
@@ -545,6 +580,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
+  yield takeLatest(getDocuments.type, getDocumentsSaga); 
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,

@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     display: 'inline-flex',
     flexFlow: 'row wrap',
     justifyContent: 'flex-start',
-    columnGap: '24px',
+    columnGap: '14px',
     rowGap: '16px',
   },
 });

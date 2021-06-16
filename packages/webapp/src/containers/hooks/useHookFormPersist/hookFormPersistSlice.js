@@ -5,23 +5,25 @@ import { unitOptionMap } from '../../../components/Form/Unit';
 export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
-  uploadedFiles: [],
 };
 
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
-  uploadedFiles: [],
 };
 
 const onUploadFileSuccess = (state, { payload }) => {
-  state.uploadedFiles = payload.files.map(({url, thumbnailUrl}) => ({ fileUrl: url, thumbnailUrl }))
-}
+  state.formData.uploadedFiles = payload.files.map(({ url, thumbnailUrl }) => ({
+    fileUrl: url,
+    thumbnailUrl,
+  }));
+};
 
 const onDeleteUploadedFile = (state, { payload }) => {
-  state.uploadedFiles = state.uploadedFiles.filter(({thumbnailUrl}) => payload.thumbnailUrl !== thumbnailUrl);
-}
-
+  state.formData.uploadedFiles = state.formData.uploadedFiles.filter(
+    ({ thumbnailUrl }) => payload.thumbnailUrl !== thumbnailUrl,
+  );
+};
 
 const hookFormPersistSlice = createSlice({
   name: 'hookFormPersistReducer',
@@ -78,7 +80,7 @@ const hookFormPersistSlice = createSlice({
       state.formData.transplant_container.location_id = location_id;
     },
     uploadFileSuccess: onUploadFileSuccess,
-    deleteUploadedFile: onDeleteUploadedFile
+    deleteUploadedFile: onDeleteUploadedFile,
   },
 });
 
@@ -94,11 +96,8 @@ export const {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   uploadFileSuccess,
-  deleteUploadedFile
+  deleteUploadedFile,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
-
-export const hookFormFileSelector = (state) =>
-  state?.tempStateReducer[hookFormPersistSlice.name].uploadedFiles;

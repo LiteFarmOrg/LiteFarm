@@ -17,7 +17,18 @@ Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  deleteImage: () => {}
-}
+  deleteImage: () => {},
+  useHookFormPersist: () => ({
+    persistedData: {
+      uploadedFiles: [
+        {
+          url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
+          thumbnailUrl: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
+        },
+      ],
+    },
+  }),
+  imageComponent: (props) => <img {...props} />,
+};
 
-Primary.parameters = {...chromaticSmallScreen}
+Primary.parameters = { ...chromaticSmallScreen };

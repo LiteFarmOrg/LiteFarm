@@ -16,7 +16,8 @@ export const Primary = Template.bind({});
 Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
-  onCancel: () => {}
+  onCancel: () => {},
+  deleteImage: () => {}
 }
 
 Primary.parameters = {...chromaticSmallScreen}

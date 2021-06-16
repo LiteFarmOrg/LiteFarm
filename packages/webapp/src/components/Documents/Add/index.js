@@ -10,8 +10,11 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { AddLink } from '../../Typography'
 import { ReactComponent as TrashIcon }  from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import { ImageWithAuthentication } from '../../../containers/ImageWithAuthentication';
+import { useSelector } from 'react-redux';
+import { hookFormFileSelector } from '../../../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
-function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument}) {
+function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument, deleteImage }) {
   const { t } = useTranslation();
   const typeOptions = [
     {label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT'},
@@ -21,6 +24,8 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
     {label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT'},
     {label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER'},
   ];
+  const uploadedFiles  = useSelector(hookFormFileSelector)
+
   const NAME = 'name';
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
@@ -36,10 +41,6 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
     mode: 'onChange',
     shouldUnregister: false,
   });
-
-  const deleteImage = () => {
-
-  }
 
   return (
     <Form onSubmit={handleSubmit(submit)}   buttonGroup={
@@ -76,10 +77,21 @@ function PureAddDocumentView({ submit, onGoBack, onCancel, uploadImageOrDocument
              label={t('DOCUMENTS.ADD.VALID_UNTIL')} optional classes={{container: {paddingBottom: '18px' }}} />
       <Checkbox label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')} classes={{container: {paddingBottom: '42px'}}} />
       <div style={{width: '312px', height: '383px', margin: 'auto', paddingBottom: '16px'}}>
-        <div style={{background: 'var(--teal700)', width: '24px', height:'24px', position: 'relative', float:'right', zIndex: 10 }} onClick={deleteImage}>
-          <TrashIcon />
-        </div>
-        <img width={'100%'} style={{position: 'relative', top:'-24px', zIndex: 0}} height={'100%'} src={'https: //litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'} />
+
+        {
+          uploadedFiles?.map(({thumbnailUrl}) => (
+            <>
+              <div style={{background: 'var(--teal700)', width: '24px', height:'24px', position: 'relative', float:'right', zIndex: 10 }}
+                   onClick={() => deleteImage(thumbnailUrl)}>
+                <TrashIcon />
+              </div>
+              <ImageWithAuthentication
+                width={'100%'} style={{position: 'relative', top:'-24px', zIndex: 0}} height={'100%'}
+                src={thumbnailUrl}
+              />
+            </>
+          ))
+        }
       </div>
       <AddLink style={{paddingBottom: '32px'}} onClick={uploadImageOrDocument}>{t('DOCUMENTS.ADD.ADD_MORE_PAGES')}</AddLink>
       <InputAutoSize

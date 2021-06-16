@@ -221,6 +221,7 @@ export function* getFarmInfoSaga() {
     toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
   }
 }
+
 export const putFarm = createAction(`putFarmSaga`);
 
 export function* putFarmSaga({ payload: farm }) {
@@ -260,6 +261,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
 }
+
 export const getLocations = createAction('getLocationsSaga');
 
 export function* getLocationsSaga() {
@@ -437,10 +439,10 @@ export function* logUserInfoSaga() {
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
-export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
+export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   try {
-    yield put(selectFarmSuccess(userFarmIds));
-    const { has_consent } = yield select(userFarmSelector);
+    yield put(selectFarmSuccess(userFarm));
+    const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return;
 
     const tasks = [
@@ -462,6 +464,11 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
       put(resetLogFilter()),
       put(resetShiftFilter()),
     ]);
+
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
+    localStorage.setItem('farm_token', farm_token);
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }

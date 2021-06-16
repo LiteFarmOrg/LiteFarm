@@ -15,7 +15,7 @@
 
 const Model = require('objection').Model;
 
-class File {
+class FileModel extends Model {
   static get tableName() {
     return 'file';
   }
@@ -45,4 +45,4 @@ class File {
   }
 }
 
-module.exports = File;
+module.exports = FileModel;

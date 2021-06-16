@@ -137,19 +137,18 @@ function PureBroadcastPlan({
           </Label>
           <Input
             value={displayedLocationSize}
-            classes={{ input: { borderRadius: '0px', borderRightStyle: 'none', ...greenInput } }}
+            classes={{ input: { borderTopRightRadius: '0px',borderBottomRightRadius: '0px', borderRightStyle: 'none', ...greenInput } }}
             disabled
           />
         </div>
         <Unit
           register={register}
-          classes={{ input: { ...greenInput } }}
+          classes={{ input: { borderTopLeftRadius: '0px',borderBottomLeftRadius: '0px', ...greenInput } }}
           label={t('BROADCAST_PLAN.AREA_USED')}
           name={AREA_USED}
           displayUnitName={AREA_USED_UNIT}
           errors={errors[AREA_USED]}
           unitType={area_total_area}
-          attached={true}
           disabled
           system={system}
           hookFormSetValue={setValue}

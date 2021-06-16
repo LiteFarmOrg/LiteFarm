@@ -29,6 +29,12 @@ const useStyles = makeStyles({
   needsPlan: {
     backgroundColor: colors.red700,
   },
+  valid: {
+    backgroundColor: colors.brightGreen700,
+  },
+  archived: {
+    backgroundColor: colors.teal900,
+  },
   cropTile: {
     minWidth: '24px',
     height: '24px',
@@ -49,7 +55,7 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
 }
 
 Square.propTypes = {
-  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan']),
+  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan', 'valid', 'archived']),
   isCropTile: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };

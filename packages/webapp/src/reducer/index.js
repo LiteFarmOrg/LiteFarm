@@ -62,6 +62,7 @@ import containerReducer from '../containers/containerSlice';
 import bedsReducer from '../containers/bedsSlice';
 import rowsReducer from '../containers/rowsSlice';
 import broadcastReducer from '../containers/broadcastSlice';
+import documentReducer from '../containers/documentSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -159,6 +160,7 @@ const entitiesReducer = combineReducers({
   bedsReducer,
   rowsReducer,
   broadcastReducer,
+  documentReducer,
 });
 
 const persistedStateReducer = combineReducers({

@@ -13,7 +13,7 @@ export default function PureDocumentTile({
   onClick,
 }) {
   return (
-    <div 
+    <div
       className={clsx(styles.container, className)}
       onClick={onClick}
     >
@@ -25,13 +25,23 @@ export default function PureDocumentTile({
         <div className={styles.title}>
           {title}
         </div>
-        <div className={styles.type}>
+        <div
+          className={styles.type}
+          style={{
+              marginTop: '4px',
+              marginBottom: date ? '4px' : '8px'
+          }}
+        >
           {type}
         </div>
-        <div className={styles.date}>
-          {<CalendarIcon className={styles.calendar}/>}
-          {date}
-        </div>
+        {date && (
+          <>
+            <div className={styles.date} style={{ marginBottom:'8px'}}>
+              {<CalendarIcon className={styles.calendar} />}
+              {date}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

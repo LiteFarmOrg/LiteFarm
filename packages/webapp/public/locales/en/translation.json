@@ -135,9 +135,6 @@
     "MANAGEMENT_TAB": "Management",
     "ORGANIC": "Is the crop certified Organic?",
     "PERENNIAL": "Perennial",
-    "SEED": "Seed",
-    "SEED_SEEDLING": "Will you plant as a seed or seedling?",
-    "SEEDLING": "Seedling",
     "TREATED": "Have the seeds for this crop been treated?",
     "ORGANIC_COMPLIANCE": "Organic Compliance"
   },
@@ -159,6 +156,7 @@
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "EDIT_CROP": "Edit crop",
     "EDIT_MODAL": {
       "BODY": "Editing this crop will not modify any existing crop management plans. Only  management plans created after your edits will be impacted. Proceed to edit?",
       "TITLE": "Edit crop?"
@@ -170,9 +168,6 @@
     "NEED_DOCUMENT_TREATED": "Your certifier may ask for documentation describing any treatments.",
     "PERENNIAL": "Perennial",
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
-    "SEED": "Seed",
-    "SEED_OR_SEEDLING": "Will you plant as a seed or seedling?",
-    "SEEDLING_OR_PLANTING_STOCK": "Seedling or planting stock",
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well"
   },
@@ -180,6 +175,28 @@
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
     "HELP_TITLE": "Date Range Help",
     "TITLE": "Filter Report by Date"
+  },
+  "DOCUMENTS": {
+    "ADD_DOCUMENT": "Add a new document",
+    "ADD": {
+      "ADD_MORE_PAGES": "Add more pages",
+      "DOCUMENT_NAME": "Document name",
+      "DOES_NOT_EXPIRE": "This file does not expire",
+      "TITLE": "Add a document",
+      "TYPE": "Type",
+      "VALID_UNTIL": "Valid until"
+    },
+    "ARCHIVED": "Archived",
+    "DOCUMENTS": "Documents",
+    "TYPE": {
+      "CLEANING_PRODUCT": "Cleaning product",
+      "CROP_COMPLIANCE": "Crop compliance",
+      "FERTILIZING_PRODUCT": "Fertilizing product",
+      "OTHER": "Other",
+      "PEST_CONTROL_PRODUCT": "Pest control product",
+      "SOIL_AMENDMENT": "Soil Amendment"
+    },
+    "VALID": "Valid"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -1165,12 +1182,12 @@
   },
   "SLIDE_MENU": {
     "CROPS": "Crops",
+    "DOCUMENTS": "Documents",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts",
-    "DOCUMENTS": "Documents"
+    "SHIFTS": "Shifts"
   },
   "STATUS": {
     "ACTIVE": "Active",
@@ -1205,33 +1222,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "DOCUMENTS": {
-    "DOCUMENTS": "Documents",
-    "ADD_DOCUMENT": "Add a new document",
-    "VALID": "Valid",
-    "ARCHIVED": "Archived",
-    "ADD": {
-      "TITLE": "Add a document",
-      "DOCUMENT_NAME": "Document name",
-      "TYPE": "Type",
-      "VALID_UNTIL": "Valid until",
-      "DOES_NOT_EXPIRE": "This file does not expire",
-      "ADD_MORE_PAGES": "Add more pages"
-    },
-    "TYPE": {
-      "CLEANING_PRODUCT":  "Cleaning product",
-      "CROP_COMPLIANCE": "Crop compliance",
-      "FERTILIZING_PRODUCT":  "Fertilizing product",
-      "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT":  "Soil Amendment",
-      "OTHER": "Other"
-    },
-    "CROP_COMPLIANCE": "Crop compliance",
-    "CLEANING_PRODUCT": "Cleaning product",
-    "FERTILIZING_PRODUCT": "Fertilizing product",
-    "PEST_CONTROL_PRODUCT": "Pest control product",
-    "SOIL_AMENDMENT": "Soil amendment",
-    "OTHER": "Other"
   }
 }

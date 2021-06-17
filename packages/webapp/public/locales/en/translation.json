@@ -1229,5 +1229,9 @@
     "PEST_CONTROL_PRODUCT": "Pest control product",
     "SOIL_AMENDMENT": "Soil amendment",
     "OTHER": "Other"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "File size too large",
+    "BODY": "Files can not exceed 25MB or 5 pages."
   }
 }

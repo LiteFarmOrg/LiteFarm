@@ -17,7 +17,6 @@ function PureCropDetail({
   match,
   variety,
   isEditing,
-  setIsEditing,
   submitForm,
   onBack,
   isInterestedInOrganic,

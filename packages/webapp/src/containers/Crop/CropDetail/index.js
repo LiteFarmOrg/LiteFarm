@@ -7,14 +7,14 @@ import CropVarietySpotlight from '../CropVarietySpotlight';
 import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModal';
 
 function CropDetail({ history, match }) {
-  const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
+  const { variety_id } = match.params;
+  const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const { interested } = useSelector(certifierSurveySelector);
-  const [isEditing, setIsEditing] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
   const submitForm = (data) => {
-    setIsEditing(false);
+    // setIsEditing(false);
   };
 
   const goBack = () => {
@@ -27,9 +27,7 @@ function CropDetail({ history, match }) {
         history={history}
         match={match}
         variety={selectedVariety}
-        isEditing={isEditing}
         isInterestedInOrganic={interested}
-        setIsEditing={setIsEditing}
         submitForm={submitForm}
         onBack={goBack}
         setShowEditModal={setShowEditModal}
@@ -38,7 +36,7 @@ function CropDetail({ history, match }) {
       {showEditModal && (
         <EditCropVarietyModal
           dismissModal={() => setShowEditModal(false)}
-          handleEdit={() => setIsEditing(true)}
+          handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
         />
       )}
       {/* todo: make handleEdit history push to edit page */}

@@ -207,7 +207,6 @@ describe('CropVariety Tests', () => {
     describe('Delete cropVariety', function() {
       let cropVarietyNotInUse;
 
-
       beforeEach(async () => {
         [cropVarietyNotInUse] = await mocks.crop_varietyFactory({ promisedFarm: [farm] }, {
           ...mocks.fakeCropVariety(),
@@ -237,6 +236,36 @@ describe('CropVariety Tests', () => {
           done();
         });
       });
+
+      test('Should delete a cropVariety that is not part of an active management plan', async (done) => {
+        const [{crop_variety_id}] = await mocks.management_planFactory({}, {
+          seed_date: new Date('December 17, 1995 03:24:00'),
+          harvest_date: new Date('December 18, 1995 03:24:00')
+        });
+        deleteRequest(`/crop_variety/${crop_variety_id}`, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const cropVarietysDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm.farm_id);
+          expect(cropVarietysDeleted.length).toBe(1);
+          expect(cropVarietysDeleted[0].deleted).toBe(true);
+          expect(cropVarietysDeleted[0].crop_variety_name).toBe(cropVarietyNotInUse.crop_variety_name);
+          done();
+        });
+      })
+
+      test('Should not delete a cropVariety that is part of an active management plan', async (done) => {
+
+        const [{crop_variety_id}] = await mocks.management_planFactory({}, {
+          seed_date: new Date('May 17, 2021 03:24:00'),
+          harvest_date: new Date('July 18, 2021 03:24:00')
+        });
+        deleteRequest(`/crop_variety/${crop_variety_id}`, {}, async (err, res) => {
+          //expect(res.status).toBe(400);
+          console.log(crop_variety_id);
+          const cropVarietyNotDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: false }).where('farm_id', farm.farm_id);
+          expect(cropVarietyNotDeleted.length).toBe(0);
+          done();
+        });
+      })
 
       describe('Delete cropVariety Authorization test', () => {
         let worker;

@@ -380,7 +380,7 @@ async function management_planFactory({
   }).returning('*');
 }
 
-function fakeManagementPlan() {
+function fakeManagementPlan() { // seed date always in past, harvest date always in future - management plan is in progress
   return {
     name: faker.lorem.words(),
     seed_date: faker.date.past(),

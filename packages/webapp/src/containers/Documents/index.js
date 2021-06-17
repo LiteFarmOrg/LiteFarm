@@ -66,11 +66,6 @@ export default function Documents({ history }) {
 
   const { ref: containerRef, gap, padding } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
 
-
-  const onGoBack = () => {
-    history.push('/home');
-  }
-
   const tileClick = () => {
     // TODO - Add path
     console.log("Go to document detail");
@@ -81,7 +76,6 @@ export default function Documents({ history }) {
       <PageTitle
         title={t('DOCUMENTS.DOCUMENTS')}
         style={{ paddingBottom: '20px' }}
-        onGoBack={onGoBack}
       />
       <PureSearchbarAndFilter
         onFilterOpen={onFilterOpen}

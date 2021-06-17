@@ -104,6 +104,7 @@
     "COVER_CROP": "Can this be grown as a cover crop?",
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop catalogue",
+    "CROP_GROUP": "Crop group",
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group.",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
@@ -1206,6 +1207,22 @@
     "ADD_DOCUMENT": "Add a new document",
     "VALID": "Valid",
     "ARCHIVED": "Archived",
+    "ADD": {
+      "TITLE": "Add a document",
+      "DOCUMENT_NAME": "Document name",
+      "TYPE": "Type",
+      "VALID_UNTIL": "Valid until",
+      "DOES_NOT_EXPIRE": "This file does not expire",
+      "ADD_MORE_PAGES": "Add more pages"
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT":  "Cleaning product",
+      "CROP_COMPLIANCE": "Crop compliance",
+      "FERTILIZING_PRODUCT":  "Fertilizing product",
+      "PEST_CONTROL_PRODUCT": "Pest control product",
+      "SOIL_AMENDMENT":  "Soil Amendment",
+      "OTHER": "Other"
+    },
     "CROP_COMPLIANCE": "Crop compliance",
     "CLEANING_PRODUCT": "Cleaning product",
     "FERTILIZING_PRODUCT": "Fertilizing product",

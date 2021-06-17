@@ -11981,6 +11981,20 @@ export default {
   farmReducer: {
     farm_data_schedule: null,
   },
+  documentReducer: {
+    ids: ['51a5sd1a1sd'],
+    entities: {
+      '51a5sd1a1sd': {
+        document_id: '',
+        name: 'doc name',
+        valid_until: new Date(),
+        type: null,
+        thumbnail_url: null,
+        notes: null,
+        farm_id: null,
+      },
+    },
+  },
   _persist: {
     version: -1,
     rehydrated: true,

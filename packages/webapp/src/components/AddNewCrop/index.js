@@ -106,7 +106,7 @@ export default function PureAddNewCrop({
         render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             toolTipContent={t('CROP_CATALOGUE.CROP_GROUP_TOOL_TIP')}
-            label={'Crop group'}
+            label={t('CROP_CATALOGUE.CROP_GROUP')}
             options={cropGroupOptions}
             onChange={(e) => {
               onChange(e);
@@ -120,7 +120,7 @@ export default function PureAddNewCrop({
 
       <div style={{ marginBottom: '20px', fontSize: '16px' }}>{t('CROP_CATALOGUE.COVER_CROP')}</div>
       <div style={{ marginBottom: '20px' }}>
-        <RadioGroup hookFormControl={control} name="can_be_cover_crop"></RadioGroup>
+        <RadioGroup hookFormControl={control} name="can_be_cover_crop" />
       </div>
 
       <PhysiologyAnatomyDropDown

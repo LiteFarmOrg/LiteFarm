@@ -112,6 +112,11 @@ import {
   onLoadingTransplantContainerFail,
   onLoadingTransplantContainerStart,
 } from './transplantContainerSlice';
+import {
+  getAllDocumentsSuccess,
+  onLoadingDocumentFail,
+  onLoadingDocumentStart
+} from './documentSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -202,6 +207,22 @@ export function* getCropVarietiesSaga() {
   }
 }
 
+export const getDocuments = createAction(`getDocumentsSaga`);
+
+export function* getDocumentsSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    yield put(onLoadingDocumentStart());
+    const result = yield call(axios.get, `${url}/document/farm/${farm_id}`, header);
+    yield put(getAllDocumentsSuccess(result.data));
+  } catch (e) {
+    console.log(e);
+    yield put(onLoadingDocumentFail(e));
+    console.error('failed to fetch all documents from database');
+  }
+}
+
 export const getFarmInfo = createAction(`getFarmInfoSaga`);
 
 export function* getFarmInfoSaga() {
@@ -221,6 +242,7 @@ export function* getFarmInfoSaga() {
     toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
   }
 }
+
 export const putFarm = createAction(`putFarmSaga`);
 
 export function* putFarmSaga({ payload: farm }) {
@@ -260,6 +282,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
 }
+
 export const getLocations = createAction('getLocationsSaga');
 
 export function* getLocationsSaga() {
@@ -437,10 +460,10 @@ export function* logUserInfoSaga() {
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
-export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
+export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   try {
-    yield put(selectFarmSuccess(userFarmIds));
-    const { has_consent } = yield select(userFarmSelector);
+    yield put(selectFarmSuccess(userFarm));
+    const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return;
 
     const tasks = [
@@ -462,6 +485,11 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarmIds }) {
       put(resetLogFilter()),
       put(resetShiftFilter()),
     ]);
+
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
+    localStorage.setItem('farm_token', farm_token);
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
@@ -479,58 +507,6 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-// export function* updateAgreementSaga(payload) {
-//   const userFarm = yield select(userFarmSelector);
-//   const {user_id, farm_id, step_three} = userFarm;
-//   const { callback } = payload;
-//   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
-//
-//   const { userFarmUrl } = apiConfig;
-//   const header = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-//       user_id,
-//       farm_id,
-//     },
-//   };
-//
-//   let data = {
-//     has_consent: payload.consent_bool.consent,
-//     consent_version: payload.consent_version,
-//   };
-//
-//   try {
-//     //TODO replace changed async calls with axios.all
-//     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
-//     if (result) {
-//       if (payload.consent_bool.consent) {
-//         // TODO potential bug
-//         // yield put(updateConsentOfFarm(farm_id, data));
-//         // yield put(setFarmInState(data));
-//         // const farms = yield select((state) => state.userFarmReducer.farms);
-//         // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
-//         let step = {};
-//         if (!step_three) {
-//           step = {
-//             step_three: true,
-//             step_three_end: new Date(),
-//           };
-//           yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-//         }
-//         yield put(setFarmInState({ ...userFarm, ...step, ...data }));
-//         callback && callback();
-//       } else {
-//         //did not give consent - log user out
-//         const auth = new Auth();
-//         auth.logout();
-//         history.push('/callback');
-//       }
-//     }
-//   } catch (e) {
-//     toastr.error('Failed to update user agreement');
-//   }
-// }
 
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
@@ -545,6 +521,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
+  yield takeLatest(getDocuments.type, getDocumentsSaga); 
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,

@@ -14,20 +14,26 @@ export default function ModalComponent({
   buttonGroup,
   children,
   warning,
+  error,
 }) {
+  if (warning && error) {
+    console.error('warning and error cannot be true at the same time');
+  }
+  const color = error ? colors.red700 : warning ? colors.brown700 : colors.teal700;
   return (
     <Modal dismissModal={dismissModal}>
       <div className={styles.container}>
         {!!title && (
           <Semibold
             style={{
-              color: warning ? colors.red700 : 'var(--teal700)',
+              color,
               marginBottom: '16px',
               display: 'inline-flex',
               gap: '8px',
             }}
           >
-            {icon || (warning && <VscWarning />)} {title}
+            {icon || ((warning || error) && <VscWarning />)} {title}{' '}
+            {/* todo: have different icons between error and warning modals */}
           </Semibold>
         )}
         {contents?.map((line) => (

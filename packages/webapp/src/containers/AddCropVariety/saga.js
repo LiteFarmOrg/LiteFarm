@@ -4,7 +4,7 @@ import { loginSelector } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { postCropVarietySuccess } from '../cropVarietySlice';
+import { postCropVarietySuccess, putCropVarietySuccess } from '../cropVarietySlice';
 import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
 
@@ -92,7 +92,32 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   }
 }
 
+export const patchVarietal = createAction(`patchVarietalSaga`);
+
+export function* patchVarietalSaga({ payload: { variety_id, data } }) {
+  const { cropVarietyURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.patch,
+      `${cropVarietyURL}/${variety_id}`,
+      { ...data, farm_id },
+      header,
+    );
+    yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
+    history.push(`/crop/${variety_id}/detail`);
+    toastr.success('Successfully updated varietal!'); // TODO: I18N
+  } catch (e) {
+    //TODO remove toastr messages
+    toastr.error('failed to update crop variety');
+    console.log('failed to update crop variety');
+  }
+}
+
 export default function* varietalSaga() {
   yield takeLeading(postVarietal.type, postVarietalSaga);
   yield takeLeading(postCropAndVarietal.type, postCropAndVarietalSaga);
+  yield takeLeading(patchVarietal.type, patchVarietalSaga);
 }

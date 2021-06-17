@@ -9,6 +9,7 @@ import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropVarietySelector } from '../cropVarietySlice';
+import { patchVarietal } from '../AddCropVariety/saga';
 
 function EditCropVarietyForm({ history, match }) {
   const { t } = useTranslation(['translation']);
@@ -22,9 +23,14 @@ function EditCropVarietyForm({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    console.log({ data });
-    console.log('dispatch patch endpoint');
-    // dispatch(postVarietal({ ...cropData, crop_id: Number(crop_id) }));
+    const varietyData = {
+      organic: null,
+      genetically_engineered: null,
+      searched: null,
+      treated: null,
+      ...data,
+    };
+    dispatch(patchVarietal({ variety_id, data: varietyData }));
   };
 
   return (

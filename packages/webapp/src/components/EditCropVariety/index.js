@@ -17,11 +17,12 @@ export default function PureEditCropVariety({
   onSubmit,
   onError,
   isSeekingCert,
-  crop,
   imageUploader,
   handleGoBack,
+  cropVariety,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+
   const {
     register,
     handleSubmit,
@@ -33,8 +34,25 @@ export default function PureEditCropVariety({
     shouldUnregister: true,
     defaultValues: {
       crop_variety_photo_url:
-        crop.crop_photo_url ||
+        cropVariety.crop_photo_url ||
         `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
+      ...(({
+        crop_variety_name,
+        supplier,
+        lifecycle,
+        organic,
+        treated,
+        genetically_engineered,
+        searched,
+      }) => ({
+        crop_variety_name,
+        supplier,
+        lifecycle,
+        organic,
+        treated,
+        genetically_engineered,
+        searched,
+      }))(cropVariety),
     },
   });
 
@@ -57,10 +75,10 @@ export default function PureEditCropVariety({
 
   const crop_variety_photo_url = watch(CROP_VARIETY_PHOTO_URL);
   const organic = watch(CERTIFIED_ORGANIC);
-  const cropTranslationKey = crop.crop_translation_key;
+  const cropTranslationKey = cropVariety.crop_translation_key;
   const cropNameLabel = cropTranslationKey
     ? t(`crop:${cropTranslationKey}`)
-    : crop.crop_common_name;
+    : cropVariety.crop_common_name;
 
   return (
     <Form
@@ -80,7 +98,7 @@ export default function PureEditCropVariety({
       <div className={styles.cropLabel}>{cropNameLabel}</div>
       <img
         src={crop_variety_photo_url}
-        alt={crop.crop_common_name}
+        alt={cropVariety.crop_common_name}
         className={styles.circleImg}
         onError={(e) => {
           e.target.onerror = null;

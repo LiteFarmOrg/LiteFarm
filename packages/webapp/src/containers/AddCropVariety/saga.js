@@ -7,6 +7,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { postCropVarietySuccess, putCropVarietySuccess } from '../cropVarietySlice';
 import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
+import i18n from '../../locales/i18n';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -108,10 +109,10 @@ export function* patchVarietalSaga({ payload: { variety_id, data } }) {
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
     history.push(`/crop/${variety_id}/detail`);
-    toastr.success('Successfully updated varietal!'); // TODO: I18N
+    toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')); // TODO: I18N
   } catch (e) {
     //TODO remove toastr messages
-    toastr.error('failed to update crop variety');
+    toastr.error(i18n.t('message:CROP_VARIETY.ERROR.UPDATE'));
     console.log('failed to update crop variety');
   }
 }

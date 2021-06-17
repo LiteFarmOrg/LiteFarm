@@ -507,58 +507,6 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-// export function* updateAgreementSaga(payload) {
-//   const userFarm = yield select(userFarmSelector);
-//   const {user_id, farm_id, step_three} = userFarm;
-//   const { callback } = payload;
-//   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
-//
-//   const { userFarmUrl } = apiConfig;
-//   const header = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-//       user_id,
-//       farm_id,
-//     },
-//   };
-//
-//   let data = {
-//     has_consent: payload.consent_bool.consent,
-//     consent_version: payload.consent_version,
-//   };
-//
-//   try {
-//     //TODO replace changed async calls with axios.all
-//     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
-//     if (result) {
-//       if (payload.consent_bool.consent) {
-//         // TODO potential bug
-//         // yield put(updateConsentOfFarm(farm_id, data));
-//         // yield put(setFarmInState(data));
-//         // const farms = yield select((state) => state.userFarmReducer.farms);
-//         // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
-//         let step = {};
-//         if (!step_three) {
-//           step = {
-//             step_three: true,
-//             step_three_end: new Date(),
-//           };
-//           yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-//         }
-//         yield put(setFarmInState({ ...userFarm, ...step, ...data }));
-//         callback && callback();
-//       } else {
-//         //did not give consent - log user out
-//         const auth = new Auth();
-//         auth.logout();
-//         history.push('/callback');
-//       }
-//     }
-//   } catch (e) {
-//     toastr.error('Failed to update user agreement');
-//   }
-// }
 
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);

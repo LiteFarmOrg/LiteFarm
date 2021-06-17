@@ -46,6 +46,7 @@ const apiConfig = {
   priceURL: `${URI}/price`,
   yieldURL: `${URI}/yield`,
   insightUrl: `${URI}/insight`,
+  documentUrl: `${URI}/document`,
   salesURL: URI + '/sale',
   cropSalesURL: URI + '/crop_sale',
   farmShiftUrl: URI + '/shift/farm/',

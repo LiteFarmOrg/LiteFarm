@@ -21,6 +21,7 @@ function PureCropDetail({
   submitForm,
   onBack,
   isInterestedInOrganic,
+  onRetire
 }) {
   const { t } = useTranslation();
   const {
@@ -46,7 +47,7 @@ function PureCropDetail({
             </Button>
           ) : (
             <>
-              <Button color={'secondary'} fullLength>
+              <Button color={'secondary'} fullLength onClick={onRetire}>
                 {t('common:RETIRE')}
               </Button>
               <Button onClick={() => setIsEditing(true)} fullLength>

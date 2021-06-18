@@ -151,7 +151,13 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
-    "NEEDS_PLAN": "Needs Plan"
+    "NEEDS_PLAN": "Needs Plan",
+    "RETIRE": {
+      "CONFIRMATION": "Retiring this crop will remove it and all its management plans from your crop catalogue. Do you want to proceed?",
+      "RETIRE_CROP_TITLE": "Retire crop?",
+      "UNABLE_TO_RETIRE_TITLE": "Unable to retire",
+      "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop"
+    }
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",

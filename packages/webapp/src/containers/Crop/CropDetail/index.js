@@ -4,10 +4,11 @@ import { cropVarietySelector } from '../../cropVarietySlice';
 import { useState } from 'react';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
+import RetireCropWarning from '../../../components/Modals/CropModals/RetireCropWarningModal';
 
 function CropDetail({ history, match }) {
   const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
-
+  const [showWarningBox, setShowWarningBox] = useState(false);
   const { interested } = useSelector(certifierSurveySelector);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -18,6 +19,14 @@ function CropDetail({ history, match }) {
   const goBack = () => {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
+
+  const askForRetireConfirmation = () => {
+    setShowWarningBox(true);
+  }
+
+  const confirmRetire = () => {
+    
+  }
 
   return (
     <>
@@ -30,8 +39,12 @@ function CropDetail({ history, match }) {
         setIsEditing={setIsEditing}
         submitForm={submitForm}
         onBack={goBack}
+        onRetire={askForRetireConfirmation}
       />
       <CropVarietySpotlight />
+      ( showWarningBox &&
+        <RetireCropWarning handleRetire={confirmRetire}  />
+      )
     </>
   );
 }

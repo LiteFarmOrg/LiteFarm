@@ -12,16 +12,15 @@ const resetState = {
   shouldUpdateFormData: false,
 };
 
-const onUploadFileSuccess = (state, { payload }) => {
-  state.formData.uploadedFiles = payload.files.map(({ url, thumbnailUrl }) => ({
-    fileUrl: url,
-    thumbnailUrl,
-  }));
+const onUploadFileSuccess = (state, { payload: file }) => {
+  state.formData.uploadedFiles = state.formData.uploadedFiles
+    ? [...state.formData.uploadedFiles, file]
+    : [file];
 };
 
 const onDeleteUploadedFile = (state, { payload }) => {
   state.formData.uploadedFiles = state.formData.uploadedFiles.filter(
-    ({ thumbnailUrl }) => payload.thumbnailUrl !== thumbnailUrl,
+    ({ thumbnail_url }) => payload.thumbnail_url !== thumbnail_url,
   );
 };
 

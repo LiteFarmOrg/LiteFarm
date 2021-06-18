@@ -99,7 +99,7 @@ function PureAddDocumentView({
         classes={{ container: { paddingBottom: '42px' } }}
       />
       <div style={{ width: '312px', height: '383px', margin: 'auto', paddingBottom: '16px' }}>
-        {uploadedFiles?.map(({ thumbnailUrl }) => (
+        {uploadedFiles?.map(({ thumbnail_url }) => (
           <>
             <div
               style={{
@@ -110,7 +110,7 @@ function PureAddDocumentView({
                 float: 'right',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnailUrl)}
+              onClick={() => deleteImage(thumbnail_url)}
             >
               <TrashIcon />
             </div>
@@ -118,7 +118,7 @@ function PureAddDocumentView({
               width: '100%',
               style: { position: 'relative', top: '-24px', zIndex: 0 },
               height: '100%',
-              src: thumbnailUrl,
+              src: thumbnail_url,
             })}
           </>
         ))}

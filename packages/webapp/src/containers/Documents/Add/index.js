@@ -12,7 +12,7 @@ function AddDocument({ history }) {
     // Just to see images.
     // dispatch(uploadFileSuccess([{
     //   url: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
-    //   thumbnailUrl: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'
+    //   thumbnail_url: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'
     // }]))
   }, []);
 
@@ -33,7 +33,7 @@ function AddDocument({ history }) {
   };
 
   const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ thumbnailUrl: url }));
+    dispatch(deleteUploadedFile({ thumbnail_url: url }));
   };
 
   return (

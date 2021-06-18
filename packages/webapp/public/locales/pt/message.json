@@ -4,6 +4,14 @@
       "FAILED_UPLOAD": "Anexos não carregados"
     }
   },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "UPDATE": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Falha na exclusão do cultivo de campo",

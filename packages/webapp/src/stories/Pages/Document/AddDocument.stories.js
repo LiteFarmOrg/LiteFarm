@@ -23,7 +23,7 @@ Primary.args = {
       uploadedFiles: [
         {
           url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
-          thumbnailUrl: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
+          thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
         },
       ],
     },

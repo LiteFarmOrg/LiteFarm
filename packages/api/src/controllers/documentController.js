@@ -21,7 +21,7 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        const result = await DocumentModel.query().context(req.user).insert(req.body).promise();
+        const result = await DocumentModel.query().context(req.user).insert(req.body);
         return res.status(201).json(result);
       } catch (error) {
         return res.status(400).json({ error });

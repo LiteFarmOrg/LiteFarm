@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { ReactComponent as CalendarIcon } from '../../assets/images/managementPlans/calendar.svg';
 import PropTypes from 'prop-types';
+import { ImageWithAuthentication } from '../../containers/ImageWithAuthentication';
 
 export default function PureDocumentTile({
   className,
@@ -17,7 +18,7 @@ export default function PureDocumentTile({
       className={clsx(styles.container, className)}
       onClick={onClick}
     >
-      <img
+      <ImageWithAuthentication
         className={styles.img}
         src={preview}
       />

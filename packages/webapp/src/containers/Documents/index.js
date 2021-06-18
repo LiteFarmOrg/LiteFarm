@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
-import { AddLink } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from '../../components/DocumentTile';
 import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
@@ -12,8 +11,9 @@ import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import {useStringFilteredDocuments, useSortByName} from './util';
+import { useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
+import { DocumentUploader } from './DocumentUploader';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -22,13 +22,12 @@ export default function Documents({ history }) {
 
   const isValid = (date, currDate) => {
     var given_date = new Date(date);
-    return (currDate < given_date);
+    return currDate < given_date;
   };
 
-  
   const getDisplayedDate = (date) => {
     return date && moment(date).locale(lang).format('MMM D, YY') + "'";
-  }
+  };
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
@@ -49,13 +48,14 @@ export default function Documents({ history }) {
   }, []);
 
   const documents = useStringFilteredDocuments(
-    useSortByName(useSelector(documentsSelector)), 
-    filterString);
+    useSortByName(useSelector(documentsSelector)),
+    filterString,
+  );
   const validDocuments = [];
   const archivedDocuments = [];
-  
+
   const currDate = new Date();
-  
+
   documents.forEach((document) => {
     if (isValid(document.valid_until, currDate)) {
       validDocuments.push(document);
@@ -64,17 +64,19 @@ export default function Documents({ history }) {
     }
   });
 
-  const { ref: containerRef, gap, padding } = useDocumentTileGap([validDocuments.length, archivedDocuments.length]);
-
+  const { ref: containerRef, gap, padding } = useDocumentTileGap([
+    validDocuments.length,
+    archivedDocuments.length,
+  ]);
 
   const onGoBack = () => {
     history.push('/home');
-  }
+  };
 
   const tileClick = () => {
     // TODO - Add path
-    console.log("Go to document detail");
-  }
+    console.log('Go to document detail');
+  };
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
@@ -92,9 +94,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <AddLink style={{ marginBottom: '26px' }} onClick={() => history.push('/')}>
-              {t('DOCUMENTS.ADD_DOCUMENT')}
-            </AddLink>
+            <DocumentUploader style={{ marginBottom: '26px' }} />
             {!!validDocuments.length && (
               <>
                 <PageBreak
@@ -108,10 +108,11 @@ export default function Documents({ history }) {
                       <PureDocumentTile
                         title={document.name}
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                        date={null}//getDisplayedDate(document.valid_until)}
+                        date={null} //getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
                         onClick={tileClick}
-                      />)
+                      />
+                    );
                   })}
                 </PureDocumentTileContainer>
               </>
@@ -133,7 +134,7 @@ export default function Documents({ history }) {
                         preview={document.thumbnail_url}
                         onClick={tileClick}
                       />
-                    )
+                    );
                   })}
                 </PureDocumentTileContainer>
               </>
@@ -142,5 +143,5 @@ export default function Documents({ history }) {
         )}
       </div>
     </Layout>
-  )
+  );
 }

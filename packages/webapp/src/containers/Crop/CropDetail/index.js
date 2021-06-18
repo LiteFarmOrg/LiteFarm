@@ -5,15 +5,17 @@ import { useState } from 'react';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
 import RetireCropWarning from '../../../components/Modals/CropModals/RetireCropWarningModal';
+import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModal';
 
 function CropDetail({ history, match }) {
-  const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
+  const { variety_id } = match.params;
+  const selectedVariety = useSelector(cropVarietySelector(variety_id));
   const [showWarningBox, setShowWarningBox] = useState(false);
   const { interested } = useSelector(certifierSurveySelector);
-  const [isEditing, setIsEditing] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const submitForm = (data) => {
-    setIsEditing(false);
+    // setIsEditing(false);
   };
 
   const goBack = () => {
@@ -34,17 +36,23 @@ function CropDetail({ history, match }) {
         history={history}
         match={match}
         variety={selectedVariety}
-        isEditing={isEditing}
         isInterestedInOrganic={interested}
-        setIsEditing={setIsEditing}
         submitForm={submitForm}
         onBack={goBack}
         onRetire={askForRetireConfirmation}
+        setShowEditModal={setShowEditModal}
       />
       <CropVarietySpotlight />
       ( showWarningBox &&
         <RetireCropWarning handleRetire={confirmRetire}  />
       )
+      {showEditModal && (
+        <EditCropVarietyModal
+          dismissModal={() => setShowEditModal(false)}
+          handleEdit={() => history.push(`/crop/${variety_id}/edit_crop_variety`)}
+        />
+      )}
+      {/* todo: make handleEdit history push to edit page */}
     </>
   );
 }

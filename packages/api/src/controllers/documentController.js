@@ -21,10 +21,16 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        const result = await DocumentModel.query().context(req.user).insert(req.body);
-        return res.status(201).json(result);
+        return await DocumentModel.transaction(async trx => {
+          const result = await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            req.body, { noUpdate: true, noDelete: true });
+          return res.status(201).send(result);
+        });
       } catch (error) {
-        return res.status(400).json({ error });
+        console.log(error);
+        res.status(400).json({
+          error,
+        });
       }
     };
   },
@@ -58,7 +64,7 @@ const documentController = {
         const THUMBNAIL_FORMAT = 'webp';
         const THUMBNAIL_WIDTH = '300';
 
-        const thumbnail = await axios.get(`http://localhost:8088/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
+        const thumbnail = await axios.get(`http://165.227.105.206:8088/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
           headers: {
             'API-Key': process.env.IMAGINARY_TOKEN,
           },
@@ -78,6 +84,7 @@ const documentController = {
         return res.status(201).json({
           url: `https://${s3BucketName}/${DO_ENDPOINT}/${fileName}`,
           thumbnail_url: `https://${s3BucketName}/${DO_ENDPOINT}/${thumbnailName}`,
+          worker_thumbnail_url: `https://images.litefarm.workers.dev/${thumbnailName}`,
         });
       } catch (error) {
         console.log(error);

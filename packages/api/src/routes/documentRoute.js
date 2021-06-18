@@ -29,4 +29,8 @@ router.post('/upload/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']), multerDiskUpload, documentController.uploadDocument());
 
+router.post('/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:document']), documentController.createDocument());
+
 module.exports = router;

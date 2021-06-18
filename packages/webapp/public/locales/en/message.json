@@ -4,6 +4,14 @@
       "FAILED_UPLOAD": "Failed to upload attachments"
     }
   },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "UPDATE": "Failed to update crop variety"
+    },
+    "SUCCESS": {
+      "UPDATE": "Successfully updated crop variety"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "Failed To Delete Field Crop",

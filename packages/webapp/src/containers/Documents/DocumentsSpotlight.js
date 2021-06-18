@@ -23,8 +23,12 @@ export default function DocumentsSpotlight() {
   if (!documents)
     initSteps.push({
       title: t('DOCUMENTS.DOCUMENTS'),
-      contents: [t('DOCUMENTS.HERE_YOU_CAN')],
-      list: [t('DOCUMENTS.YOU_CAN_ONE'), t('DOCUMENTS.YOU_CAN_TWO'), t('DOCUMENTS.YOU_CAN_THREE')],
+      contents: [t('DOCUMENTS.SPOTLIGHT.HERE_YOU_CAN')],
+      list: [
+        t('DOCUMENTS.SPOTLIGHT.YOU_CAN_ONE'),
+        t('DOCUMENTS.SPOTLIGHT.YOU_CAN_TWO'),
+        t('DOCUMENTS.SPOTLIGHT.YOU_CAN_THREE'),
+      ],
       target: 'body',
       placement: 'center',
       disableCloseOnEsc: true,
@@ -34,7 +38,7 @@ export default function DocumentsSpotlight() {
   if (!compliance_docs_and_certification && interested)
     initSteps.push({
       title: t('DOCUMENTS.COMPLIANCE_DOCUMENTS_AND_CERTIFICATION'),
-      contents: [t('DOCUMENTS.CDC_SPOTLIGHT')],
+      contents: [t('DOCUMENTS.SPOTLIGHT.CDC')],
       target: 'body',
       placement: 'center',
       disableCloseOnEsc: true,

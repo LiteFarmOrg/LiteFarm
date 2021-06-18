@@ -104,6 +104,7 @@
     "COVER_CROP": "MISSING",
     "CREATE_MANAGEMENT_PLANS": "MISSING",
     "CROP_CATALOGUE": "MISSING",
+    "CROP_GROUP": "MISSING",
     "CROP_GROUP_TOOL_TIP": "MISSING",
     "CROP_STATUS": "MISSING",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
@@ -134,9 +135,6 @@
     "MANAGEMENT_TAB": "MISSING",
     "ORGANIC": "MISSING",
     "PERENNIAL": "MISSING",
-    "SEED": "MISSING",
-    "SEED_SEEDLING": "MISSING",
-    "SEEDLING": "MISSING",
     "TREATED": "MISSING"
   },
   "CROP_MANAGEMENT": {
@@ -164,9 +162,6 @@
     "NEED_DOCUMENT_TREATED": "MISSING",
     "PERENNIAL": "MISSING",
     "PERFORM_SEARCH": "MISSING",
-    "SEED": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
     "TREATED": "MISSING",
     "UPLOAD_LATER": "MISSING"
   },
@@ -174,6 +169,36 @@
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
     "TITLE": "Filtrar relatório por data"
+  },
+  "DOCUMENTS": {
+    "ADD_DOCUMENT": "MISSING",
+    "ADD": {
+      "ADD_MORE_PAGES": "MISSING",
+      "DOCUMENT_NAME": "MISSING",
+      "DOES_NOT_EXPIRE": "MISSING",
+      "TITLE": "MISSING",
+      "TYPE": "MISSING",
+      "VALID_UNTIL": "MISSING"
+    },
+    "ARCHIVED": "MISSING",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "MISSING",
+    "DOCUMENTS": "MISSING",
+    "SPOTLIGHT": {
+      "CDC": "MISSING",
+      "HERE_YOU_CAN": "MISSING",
+      "YOU_CAN_ONE": "MISSING",
+      "YOU_CAN_THREE": "MISSING",
+      "YOU_CAN_TWO": "MISSING"
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT": "MISSING",
+      "CROP_COMPLIANCE": "MISSING",
+      "FERTILIZING_PRODUCT": "MISSING",
+      "OTHER": "MISSING",
+      "PEST_CONTROL_PRODUCT": "MISSING",
+      "SOIL_AMENDMENT": "MISSING"
+    },
+    "VALID": "MISSING"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
@@ -1159,12 +1184,12 @@
   },
   "SLIDE_MENU": {
     "CROPS": "MISSING",
+    "DOCUMENTS": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
     "MANAGE": "Administrar",
-    "SHIFTS": "Turnos",
-    "DOCUMENTS": "MISSING"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Ativo",
@@ -1199,17 +1224,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
-  },
-  "DOCUMENTS": {
-    "DOCUMENTS": "MISSING",
-    "ADD_DOCUMENT": "MISSING",
-    "VALID": "MISSING",
-    "ARCHIVED": "MISSING",
-    "CROP_COMPLIANCE": "MISSING",
-    "CLEANING_PRODUCT": "MISSING",
-    "FERTILIZING_PRODUCT": "MISSING",
-    "PEST_CONTROL_PRODUCT": "MISSING",
-    "SOIL_AMENDMENT": "MISSING",
-    "OTHER": "MISSING"
   }
 }

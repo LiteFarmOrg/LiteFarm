@@ -8,7 +8,7 @@ import Filter from '../Filter';
 import Button from '../Form/Button';
 import { cloneObject } from '../../util';
 
-const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
+const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack, children }) => {
   const { t } = useTranslation();
 
   const initFilterPageState = {};
@@ -88,6 +88,7 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
             />
           );
       })}
+      {children}
     </Layout>
   );
 };

@@ -21,11 +21,11 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        return await DocumentModel.transaction(async trx => {
-          const result = await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+        const result = await DocumentModel.transaction(async trx => {
+          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
             req.body, { noUpdate: true, noDelete: true });
-          return res.status(201).send(result);
         });
+        return res.status(201).send(result);
       } catch (error) {
         console.log(error);
         res.status(400).json({
@@ -84,7 +84,6 @@ const documentController = {
         return res.status(201).json({
           url: `https://${s3BucketName}/${DO_ENDPOINT}/${fileName}`,
           thumbnail_url: `https://${s3BucketName}/${DO_ENDPOINT}/${thumbnailName}`,
-          worker_thumbnail_url: `https://images.litefarm.workers.dev/${thumbnailName}`,
         });
       } catch (error) {
         console.log(error);

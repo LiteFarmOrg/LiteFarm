@@ -82,21 +82,24 @@ describe('Document tests', () => {
   });
 
   describe('Post and put documents tests', () => {
-    function getFakeDocument(numberOfFiles, files = new Array(numberOfFiles).map(_ => mocks.fakeFile())) {
-      return { ...mocks.fakeDocument(), files };
+    function getFakeDocument(farm_id, numberOfFiles, files = Array.apply(null, { length: numberOfFiles }).map(_ => mocks.fakeFile())) {
+      return { ...mocks.fakeDocument(), farm_id, files };
     }
 
     describe('Post document test', () => {
       test('Should return 400 when files === []', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(0), { user_id, farm_id }, (err, res) => {
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 0), {
+          user_id,
+          farm_id,
+        }, (err, res) => {
           expect(res.status).toBe(400);
           done();
         });
       });
       test('Should return 400 when files is not an array', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(0, 'files'), {
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 0, 'files'), {
           user_id,
           farm_id,
         }, (err, res) => {
@@ -106,8 +109,7 @@ describe('Document tests', () => {
       });
       test('Should post document with multiple files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        const document = getFakeDocument(4);
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(4), {
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 4), {
           user_id,
           farm_id,
         }, async (err, res) => {
@@ -121,7 +123,7 @@ describe('Document tests', () => {
         test('Worker should not POST documents', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(4), {
+          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 4), {
             user_id,
             farm_id,
           }, async (err, res) => {
@@ -132,7 +134,7 @@ describe('Document tests', () => {
         test('Owner should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(1), {
+          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 1), {
             user_id,
             farm_id,
           }, async (err, res) => {
@@ -145,7 +147,7 @@ describe('Document tests', () => {
         test('Manager should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(1), {
+          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 1), {
             user_id,
             farm_id,
           }, async (err, res) => {
@@ -158,7 +160,7 @@ describe('Document tests', () => {
         test('EO should POST a document', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
-          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(1), {
+          postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 1), {
             user_id,
             farm_id,
           }, async (err, res) => {

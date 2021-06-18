@@ -156,6 +156,11 @@
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "EDIT_CROP": "Edit crop",
+    "EDIT_MODAL": {
+      "BODY": "Editing this crop will not modify any existing crop management plans. Only  management plans created after your edits will be impacted. Proceed to edit?",
+      "TITLE": "Edit crop?"
+    },
     "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
     "IS_ORGANIC": "Is the crop certified organic?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",

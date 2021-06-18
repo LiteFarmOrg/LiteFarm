@@ -18,10 +18,15 @@ const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const documentController = require('../controllers/documentController');
+const multerDiskUpload = require('../util/fileUpload');
+
 
 router.get('/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  checkScope(['get:document']), documentController.getDocumentsByFarmId())
+  checkScope(['get:document']), documentController.getDocumentsByFarmId());
 
+router.post('/upload/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:document']), multerDiskUpload, documentController.uploadDocument());
 
 module.exports = router;

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
-import { AddLink } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import PureDocumentTile from '../../components/DocumentTile';
 import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
@@ -15,6 +14,7 @@ import { getLanguageFromLocalStorage } from '../../util';
 import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
+import { DocumentUploader } from './DocumentUploader';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -70,10 +70,6 @@ export default function Documents({ history }) {
     archivedDocuments.length,
   ]);
 
-  const onGoBack = () => {
-    history.push('/home');
-  };
-
   const tileClick = () => {
     // TODO - Add path
     console.log('Go to document detail');
@@ -81,11 +77,7 @@ export default function Documents({ history }) {
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
-      <PageTitle
-        title={t('DOCUMENTS.DOCUMENTS')}
-        style={{ paddingBottom: '20px' }}
-        onGoBack={onGoBack}
-      />
+      <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
       <PureSearchbarAndFilter
         onFilterOpen={onFilterOpen}
         value={filterString}
@@ -96,9 +88,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <AddLink style={{ marginBottom: '26px' }} onClick={() => history.push('/')}>
-              {t('DOCUMENTS.ADD_DOCUMENT')}
-            </AddLink>
+            <DocumentUploader style={{ marginBottom: '26px' }} />
             {!!validDocuments.length && (
               <>
                 <PageBreak

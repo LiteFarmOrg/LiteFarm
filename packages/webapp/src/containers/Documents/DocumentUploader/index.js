@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { uploadDocument } from './saga';
 import { useState } from 'react';
+import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 
 export function DocumentUploader({ style, onUpload }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const onChange = (e) => {
-    if (e?.target?.files?.[0] > 26214400) {
+    if (e?.target?.files?.[0].size > 26214400) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
@@ -20,9 +21,17 @@ export function DocumentUploader({ style, onUpload }) {
   };
 
   return (
-    <PureFilePickerWrapper onChange={onChange} style={style}>
-      <AddLink style={style}>{t('DOCUMENTS.ADD_DOCUMENT')}</AddLink>
-    </PureFilePickerWrapper>
+    <>
+      <PureFilePickerWrapper onChange={onChange} style={style}>
+        <AddLink style={style}>{t('DOCUMENTS.ADD_DOCUMENT')}</AddLink>
+      </PureFilePickerWrapper>
+      {showErrorModal && (
+        <FileSizeExceedModal
+          dismissModal={() => {setShowErrorModal(false)}}
+          handleRetry={() =>  {setShowErrorModal(false)}}
+        />
+      )}
+    </>
   );
 }
 

@@ -11,16 +11,6 @@ export default function FileSizeExceedModal({ dismissModal, handleRetry }) {
       title={t(`FILE_SIZE_MODAL.TITLE`)}
       contents={[t('FILE_SIZE_MODAL.BODY')]}
       dismissModal={dismissModal}
-      buttonGroup={
-        <>
-          <Button className={styles.button} onClick={dismissModal} color={'secondary'} sm>
-            {t('common:CANCEL')}
-          </Button>
-          <Button className={styles.button} onClick={handleRetry} sm>
-            {t('common:RETRY')}
-          </Button>
-        </>
-      }
       error
     />
   );

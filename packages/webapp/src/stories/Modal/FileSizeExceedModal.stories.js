@@ -13,12 +13,6 @@ const Template = (args) => <FileSizeExceedModal {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  dismissModal: () => {
-    console.log('dismissing modal');
-  },
-  handleRetry: () => {
-    console.log('retry upload');
-  },
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

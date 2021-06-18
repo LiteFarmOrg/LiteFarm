@@ -58,7 +58,7 @@ const documentController = {
         const THUMBNAIL_FORMAT = 'webp';
         const THUMBNAIL_WIDTH = '300';
 
-        const thumbnail = await axios.get(`http://localhost:8088/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
+        const thumbnail = await axios.get(`http://165.227.105.206:8088/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
           headers: {
             'API-Key': process.env.IMAGINARY_TOKEN,
           },

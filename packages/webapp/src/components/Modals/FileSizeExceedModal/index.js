@@ -23,5 +23,23 @@ export default function FileSizeExceedModal({ dismissModal, handleRetry }) {
       }
       error
     />
+    //<File/>
   );
 }
+
+const styles1 = {
+  fontFamily: 'sans-serif',
+  textAlign: 'center',
+  display: 'flex',
+};
+
+export function File({ }) {
+  return (
+    <div style={styles1}>
+      <label className="custom-file-upload">
+        <input type="file" multiple />
+        <i className="fa fa-cloud-upload" /> Attach
+        </label>
+    </div>
+  );
+};

@@ -4,6 +4,14 @@
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
     }
   },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "UPDATE": "MISSING"
+    }
+  },
   "CROP": {
     "ERROR": {
       "DELETE": "No se pudo borrar campo de cultivo",

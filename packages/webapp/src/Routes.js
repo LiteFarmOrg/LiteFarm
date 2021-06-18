@@ -204,6 +204,7 @@ const EditWatercourseForm = React.lazy(() =>
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
 const AddCrop = React.lazy(() => import('./containers/AddCropVariety/AddCropVariety'));
+const EditCrop = React.lazy(() => import('./containers/EditCropVariety'));
 const ComplianceInfo = React.lazy(() => import('./containers/AddCropVariety/ComplianceInfo'));
 const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
 const PlantingLocation = React.lazy(() =>
@@ -224,9 +225,7 @@ const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 
-const Documents = React.lazy(() => 
-    import('./containers/Documents'),
-)
+const Documents = React.lazy(() => import('./containers/Documents'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -323,6 +322,7 @@ const Routes = () => {
             />
             <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
             <Route path="/crop/:variety_id/management" exact component={CropManagement} />
+            <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
@@ -372,7 +372,7 @@ const Routes = () => {
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
-            <Route path="/documents" exact component={Documents}/>
+            <Route path="/documents" exact component={Documents} />
 
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -525,7 +525,6 @@ const Routes = () => {
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
-            <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
@@ -565,7 +564,8 @@ const Routes = () => {
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
             <Route path="/crop/:variety_id/detail" component={CropDetail} />
             <Route path="/crop/:variety_id/management" component={CropManagement} />
-            <Route path="/documents" exact component={Documents}/>
+            <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
+            <Route path="/documents" exact component={Documents} />
             <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"

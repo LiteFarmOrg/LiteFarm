@@ -8,7 +8,7 @@ import Button from '../../Form/Button';
 import clsx from 'clsx';
 import { Title } from '../../Typography';
 
-export default function ArchiveDocumentModal({ dismissModal }) {
+export default function ArchiveDocumentModal({ dismissModal, onCancel, onContinue }) {
   const { t } = useTranslation();
 
   return (
@@ -18,10 +18,10 @@ export default function ArchiveDocumentModal({ dismissModal }) {
         title={t('DOCUMENTS.ARCHIVE_DOCUMENT')}
         buttonGroup={
           <>
-            <Button className={styles.button} color="secondary" sm>
+            <Button onClick={onCancel} className={styles.button} color="secondary" sm>
               {t('DOCUMENTS.CANCEL')}
             </Button>
-            <Button className={styles.button} color="primary" sm>
+            <Button onClick={onContinue} className={styles.button} color="primary" sm>
               {t('DOCUMENTS.ARCHIVE')}
             </Button>
           </>

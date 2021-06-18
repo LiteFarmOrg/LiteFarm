@@ -4,7 +4,7 @@ const organicCertifierModel = require('../../models/organicCertifierSurveyModel'
 async function organicCertifierCheck(req, res, next) {
   const { body } = req;
   if (body.farm_id) {
-    const isFarmInterestedInOrganic = await organicCertifierModel.query().where({ farm_id: body.farm_id })
+    const isFarmInterestedInOrganic = await organicCertifierModel.query().where({ farm_id: body.farm_id }).first();
     if(isFarmInterestedInOrganic.interested) {
       if(body.organic === null){
         return res.status(400).send({ message: 'Organic can\'t be null' });

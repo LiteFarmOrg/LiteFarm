@@ -41,7 +41,7 @@ exports.getNutritionalData = (cropNutritionData) => {
     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
   };
-  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
+  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 75, 'Vitamin C': 90, 'Vitamin A': 900 };
 
   cropNutritionData.map((item) => {
     const percentRefuse = item.percentrefuse || 0;

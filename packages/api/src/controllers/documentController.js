@@ -40,13 +40,16 @@ const documentController = {
       }
     }
   },
-  updateDocument() {
-    return async (req, res) => {
-      const { valid_until } = req.params;
+  archiveDocument() {
+    return async (req, res, next) => {
+      const { document_id } = req.params;
       try {
-        const result = await DocumentModel.query()
+        const result = await DocumentModel.query().context(req.user).findById(document_id).patch({ valid_until: new Date('2000/1/1').toISOString() });
+        return result ? res.status(200).send(result) : res.status(404).send('Document not found');
+      } catch (error) {
+        return res.status(400).json({ error });
       }
-    }
+    };
   },
   uploadDocument() {
     return async (req, res, next) => {

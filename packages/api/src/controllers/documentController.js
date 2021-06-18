@@ -28,6 +28,26 @@ const documentController = {
       }
     };
   },
+
+  deleteNewEntity() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try {
+        const result = await NewEntityModel.query().where();
+        return result ? res.sendStatus(200):  res.status(404).send('New entity not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    }
+  },
+  updateDocument() {
+    return async (req, res) => {
+      const { valid_until } = req.params;
+      try {
+        const result = await DocumentModel.query()
+      }
+    }
+  },
   uploadDocument() {
     return async (req, res, next) => {
       const { farm_id } = req.params;

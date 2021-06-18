@@ -4,7 +4,7 @@ import ModalComponent from '../ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 
-export default function ArchiveDocumentModal({ onContinue }) {
+export default function ArchiveDocumentModal() {
   const { t } = useTranslation();
   const [showArchiveDocumentModal, setShowArchiveDocumentModal] = useState(true);
 
@@ -27,7 +27,7 @@ export default function ArchiveDocumentModal({ onContinue }) {
                 </Button>
               )}
 
-              <Button onClick={onContinue} className={styles.button} color="primary" sm>
+              <Button onClick={() => {}} className={styles.button} color="primary" sm>
                 {t('DOCUMENTS.ARCHIVE')}
               </Button>
             </>

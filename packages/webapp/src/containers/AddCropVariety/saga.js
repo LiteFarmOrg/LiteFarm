@@ -130,8 +130,8 @@ export function* deleteVarietalSaga({ payload: { variety_id} }) {
       header
     );
     toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE'));
-    yield put(deleteCropVarietySuccess({ id: variety_id }))
     history.push('/crop_catalogue')
+    yield put(deleteCropVarietySuccess(variety_id))
   } catch (e) {
     console.log('failed to delete crop variety');
     toastr.error(i18n.t('message:CROP_VARIETY.ERROR.DELETE'))

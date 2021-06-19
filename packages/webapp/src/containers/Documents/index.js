@@ -15,7 +15,7 @@ import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup';
+import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import DocumentsFilterPage from '../Filter/Documents';
 
 export default function Documents({ history }) {

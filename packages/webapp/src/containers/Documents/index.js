@@ -14,7 +14,7 @@ import { getLanguageFromLocalStorage } from '../../util';
 import { useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
 import { DocumentUploader } from './DocumentUploader';
-import MuiFullPagePopup from '../../components/MuiFullPagePopup';
+import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import DocumentsFilterPage from '../Filter/Documents';
 
 export default function Documents({ history }) {

@@ -26,6 +26,7 @@ import { isAuthenticated } from './util/jwt';
 // action
 import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
+import { DownloadDocument } from './containers/ImageWithAuthentication/DownloadDocument';
 
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
@@ -482,6 +483,8 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            {/*TODO: remove*/}
+            <Route path={'/test'} exact component={DownloadDocument} />
             <Redirect
               to={'/'}
               //TODO change to 404

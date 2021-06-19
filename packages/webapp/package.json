@@ -29,6 +29,7 @@
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",
     "jsonwebtoken": "^8.5.1",
+    "jszip": "^3.6.0",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
     "node-sass": "^5.0.0",

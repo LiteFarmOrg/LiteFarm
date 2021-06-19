@@ -60,6 +60,7 @@ const updateOneCropVariety = (state, { payload }) => {
 const addManyCropVariety = (state, { payload: cropVarieties }) => {
   state.loading = false;
   state.error = null;
+  cropVarietyAdapter.removeAll(state);
   cropVarietyAdapter.upsertMany(
     state,
     cropVarieties.map((cropVariety) => getCropVariety(cropVariety)),
@@ -92,6 +93,7 @@ const cropVarietySlice = createSlice({
         id: cropVariety.crop_variety_id,
       });
     },
+    deleteCropVarietySuccess: cropVarietyAdapter.removeOne,
     selectCropVarietySuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
@@ -104,6 +106,7 @@ export const {
   onLoadingCropVarietyStart,
   onLoadingCropVarietyFail,
   getAllCropVarietiesSuccess,
+  deleteCropVarietySuccess,
 } = cropVarietySlice.actions;
 export default cropVarietySlice.reducer;
 

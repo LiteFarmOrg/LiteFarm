@@ -178,6 +178,7 @@
   },
   "DOCUMENTS": {
     "ADD_DOCUMENT": "Add a new document",
+    "EDIT_DOCUMENT": "Edit document",
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
       "DOCUMENT_NAME": "Document name",

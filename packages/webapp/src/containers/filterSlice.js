@@ -8,9 +8,13 @@ const initialCropCatalogueFilter = {
   SUPPLIERS: {},
   date: undefined,
 };
+const initialDocumentsFilter = {
+  TYPE: {},
+};
 
 export const initialState = {
   cropCatalogue: initialCropCatalogueFilter,
+  documents: initialDocumentsFilter,
 };
 
 const filterSliceReducer = createSlice({
@@ -36,6 +40,12 @@ const filterSliceReducer = createSlice({
     removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
       state[pageFilterKey][filterKey][value].active = false;
     },
+    resetDocumentsFilter: (state) => {
+      state.documents = initialDocumentsFilter;
+    },
+    setDocumentsFilter: (state, { payload: documentsFilter }) => {
+      Object.assign(state.documents, documentsFilter);
+    },
   },
 });
 
@@ -47,6 +57,8 @@ export const {
   setCropVarietyFilterDefault,
   setCropVarietyFilter,
   removeFilter,
+  resetDocumentsFilter,
+  setDocumentsFilter,
 } = filterSliceReducer.actions;
 export default filterSliceReducer.reducer;
 
@@ -61,6 +73,10 @@ export const cropCatalogueFilterSelector = createSelector(
 export const cropVarietyFilterSelector = (cropId) => {
   return createSelector([filterReducerSelector], (filterReducer) => filterReducer[`${cropId}`]);
 };
+export const documentsFilterSelector = createSelector(
+  [filterReducerSelector],
+  (filterReducer) => filterReducer.documents,
+);
 export const cropCatalogueFilterDateSelector = createSelector(
   [cropCatalogueFilterSelector],
   (cropCatalogueFilter) => cropCatalogueFilter.date || getDateInputFormat(new Date()),

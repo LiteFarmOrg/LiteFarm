@@ -15,6 +15,8 @@ import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
+import MuiFullPagePopup from '../../components/MuiFullPagePopup';
+import DocumentsFilterPage from '../Filter/Documents';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -84,6 +86,19 @@ export default function Documents({ history }) {
         isFilterActive={isFilterCurrentlyActive}
       />
       <DocumentsSpotlight />
+      {/* <div style={{ position: 'relative' }}>
+        <PureSearchbarAndFilter
+          onFilterOpen={onFilterOpen}
+          value={filterString}
+          onChange={filterStringOnChange}
+          isFilterActive={isFilterCurrentlyActive}
+        />
+      </div> */}
+
+      <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
+        <DocumentsFilterPage onGoBack={onFilterClose} />
+      </MuiFullPagePopup>
+
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>

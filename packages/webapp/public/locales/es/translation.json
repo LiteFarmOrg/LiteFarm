@@ -177,6 +177,7 @@
   },
   "DOCUMENTS": {
     "ADD_DOCUMENT": "MISSING",
+    "EDIT_DOCUMENT": "MISSING",
     "ADD": {
       "ADD_MORE_PAGES": "MISSING",
       "DOCUMENT_NAME": "MISSING",

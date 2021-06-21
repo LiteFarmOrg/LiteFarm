@@ -512,7 +512,7 @@ async function broadcastFactory({
 
 function fakeBroadcast() {
   return {
-    percentage_planted: faker.random.number(100),
+    percentage_planted: faker.random.number(10),
     area_used: faker.random.number(10000),
     seeding_rate: faker.random.number(10000),
     required_seeds: faker.random.number(10000),
@@ -1052,7 +1052,7 @@ async function supportTicketFactory({
 
 function fakeOrganicCertifierSurvey(farm_id) {
   const certificationIDS = [1, 2];
-  const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();
   const now = new Date();
   return {
@@ -1285,6 +1285,24 @@ function fakeDocument() {
   };
 }
 
+async function fileFactory({
+  promisedFarm = farmFactory(),
+  creatorUser = usersFactory(),
+  promisedDocument = documentFactory({ promisedFarm, creatorUser }),
+} = {}, file = fakeFile()) {
+  const [document] = await Promise.all([promisedDocument]);
+  const [{ document_id }] = document;
+  return knex('file').insert({ document_id, ...file }).returning('*');
+}
+
+function fakeFile() {
+  return {
+    file_name: faker.lorem.words(),
+    thumbnail_url: faker.image.imageUrl(),
+    url: faker.image.imageUrl(),
+  };
+}
+
 
 module.exports = {
   weather_stationFactory, fakeStation,
@@ -1351,6 +1369,7 @@ module.exports = {
   crop_varietyFactory,
   fakeCropVariety,
   fakeDocument, documentFactory,
+  fakeFile, fileFactory,
   // allSupportedCertificationsFactory,
   // allSupportedCertifiersFactory,
 };

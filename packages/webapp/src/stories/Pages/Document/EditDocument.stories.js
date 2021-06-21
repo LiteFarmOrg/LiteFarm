@@ -4,7 +4,7 @@ import decorator from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
-  title: 'Page/Document/AddDocument',
+  title: 'Page/Document/EditDocument',
   component: PureDocumentDetailView,
   decorators: decorator,
 };
@@ -16,7 +16,6 @@ export const Primary = Template.bind({});
 Primary.args = {
   handleSubmit: () => {},
   onGoBack: () => {},
-  onCancel: () => {},
   deleteImage: () => {},
   useHookFormPersist: () => ({
     persistedData: {
@@ -29,7 +28,7 @@ Primary.args = {
     },
   }),
   imageComponent: (props) => <img {...props} />,
-  isEdit: false,
+  isEdit: true,
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

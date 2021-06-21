@@ -33,6 +33,9 @@ function EditCropVarietyForm({ history, match }) {
     dispatch(patchVarietal({ variety_id, data: varietyData }));
   };
 
+  // TODO - Add persisted path (LF-1430)
+  const persistedPath = [];
+
   return (
     <HookFormPersistProvider>
       <PureEditCropVariety
@@ -46,6 +49,7 @@ function EditCropVarietyForm({ history, match }) {
         }
         handleGoBack={() => history.push(`/crop/${variety_id}/detail`)}
         cropVariety={cropVariety}
+        persistedPath={persistedPath}
       />
     </HookFormPersistProvider>
   );

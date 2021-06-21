@@ -27,6 +27,13 @@ describe('Document tests', () => {
       .end(callback);
   }
 
+  function archiveDocumentRequest(document_id, { user_id, farm_id }, callback) {
+    chai.request(server).patch(`/document/archive/document/${document_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }

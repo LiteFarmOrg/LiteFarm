@@ -1,6 +1,6 @@
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
@@ -28,6 +28,7 @@ function PureCropDetail({
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors, isValid },
   } = useForm({ mode: 'onChange', defaultValues: { ...variety } });
   const LIFECYCLE = 'lifecycle';
@@ -36,6 +37,15 @@ function PureCropDetail({
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
+
+  // hackiest force rerender to fix yes radio bug
+  useEffect(() => {
+    if (!isOrganic) {
+      watch(GENETICALLY_ENGINEERED);
+      setValue(GENETICALLY_ENGINEERED, variety.genetically_engineered);
+    }
+  }, [isOrganic]);
+
   return (
     <Form
       onSubmit={handleSubmit(submitForm)}

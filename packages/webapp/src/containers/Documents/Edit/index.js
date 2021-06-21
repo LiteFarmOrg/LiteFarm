@@ -5,31 +5,31 @@ import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function EditDocument({ history, match }) {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-	const onGoBack = () => {
-		console.log("Go back to view(LF-1430)");
-	};
+  const onGoBack = () => {
+    console.log("Go back to view(LF-1430)");
+  };
 
-	const onSubmit = () => {
-		// TODO - Add functionality to PATCH
-		console.log("Patch data to document");
-	}
+  const onSubmit = () => {
+    // TODO - Add functionality to PATCH
+    console.log("Patch data to document");
+  }
 
-	const deleteImage = (url) => {
+  const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ thumbnail_url: url }));
   };
 
-	return (
-		<>
-		 <HookFormPersistProvider>
-		 	<PureDocumentDetailView
-			 onGoBack={onGoBack}
-			 submit={onSubmit}
-			 deleteImage={deleteImage}
-			 isEdit={true}
-			/>
-		 </HookFormPersistProvider>
-		</>
-	);
+  return (
+    <>
+      <HookFormPersistProvider>
+        <PureDocumentDetailView
+          onGoBack={onGoBack}
+          submit={onSubmit}
+          deleteImage={deleteImage}
+          isEdit={true}
+        />
+      </HookFormPersistProvider>
+    </>
+  );
 };

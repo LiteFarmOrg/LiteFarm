@@ -20,6 +20,7 @@ function PureDocumentDetailView({
   useHookFormPersist,
   imageComponent,
   isEdit,
+  persistedPath,
 }) {
   const { t } = useTranslation();
   const typeOptions = [
@@ -41,19 +42,19 @@ function PureDocumentDetailView({
     control,
     getValues,
     watch,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
   });
   const {
     persistedData: { uploadedFiles },
-  } = useHookFormPersist([], getValues);
+  } = useHookFormPersist(persistedPath, getValues);
   return (
     <Form
       onSubmit={handleSubmit(submit)}
       buttonGroup={
-        <Button type={'submit'} disabled={false} fullLength>
+        <Button type={'submit'} disabled={isEdit? (!isValid || !isDirty) : isValid} fullLength>
           {isEdit? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }

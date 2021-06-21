@@ -183,7 +183,15 @@
       "VALID_UNTIL": "MISSING"
     },
     "ARCHIVED": "MISSING",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "MISSING",
     "DOCUMENTS": "MISSING",
+    "SPOTLIGHT": {
+      "CDC": "MISSING",
+      "HERE_YOU_CAN": "MISSING",
+      "YOU_CAN_ONE": "MISSING",
+      "YOU_CAN_THREE": "MISSING",
+      "YOU_CAN_TWO": "MISSING"
+    },
     "TYPE": {
       "CLEANING_PRODUCT": "MISSING",
       "CROP_COMPLIANCE": "MISSING",
@@ -1218,5 +1226,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "MISSING",
+    "BODY": "MISSING"
   }
 }

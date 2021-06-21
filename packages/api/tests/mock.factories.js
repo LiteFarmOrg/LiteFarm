@@ -368,7 +368,7 @@ async function management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
 } = {}, managementPlan = fakeManagementPlan()) {
   const [cropVariety] = await Promise.all([promisedCropVariety]);
   const [{ crop_variety_id, created_by_user_id }] = cropVariety;
@@ -380,7 +380,7 @@ async function management_planFactory({
   }).returning('*');
 }
 
-function fakeManagementPlan() {
+function fakeManagementPlan() { // seed date always in past, harvest date always in future - management plan is in progress
   return {
     name: faker.lorem.words(),
     seed_date: faker.date.past(),

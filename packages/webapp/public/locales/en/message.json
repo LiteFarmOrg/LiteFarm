@@ -6,9 +6,11 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "UPDATE": "Failed to update crop variety"
+      "UPDATE": "Failed to update crop variety",
+      "DELETE": "Failed to delete crop variety"
     },
     "SUCCESS": {
+      "DELETE": "Deleted crop variety",
       "UPDATE": "Successfully updated crop variety"
     }
   },

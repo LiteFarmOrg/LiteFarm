@@ -57,6 +57,8 @@ class CropVariety extends BaseModel {
         can_be_cover_crop: { type: ['boolean', null] },
         planting_depth: { type: ['number', null] },
         yield_per_area: { type: ['number', null] },
+        average_seed_weight: { type: ['number', null] },
+        yield_per_plant: { type: ['number', null] },
         vita_rae: { type: ['number', null] },
         vitc: { type: ['number', null] },
         thiamin: { type: ['number', null] },

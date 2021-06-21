@@ -132,18 +132,25 @@ function PureBroadcastPlan({
       />
       <div className={clsx(styles.row, styles.paddingBottom40)}>
         <div style={{ flex: '1 1 0px' }}>
-          <Label >
-            {t('BROADCAST_PLAN.LOCATION_SIZE')}
-          </Label>
+          <Label>{t('BROADCAST_PLAN.LOCATION_SIZE')}</Label>
           <Input
             value={displayedLocationSize}
-            classes={{ input: { borderTopRightRadius: '0px',borderBottomRightRadius: '0px', borderRightStyle: 'none', ...greenInput } }}
+            classes={{
+              input: {
+                borderTopRightRadius: '0px',
+                borderBottomRightRadius: '0px',
+                borderRightStyle: 'none',
+                ...greenInput,
+              },
+            }}
             disabled
           />
         </div>
         <Unit
           register={register}
-          classes={{ input: { borderTopLeftRadius: '0px',borderBottomLeftRadius: '0px', ...greenInput } }}
+          classes={{
+            input: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', ...greenInput },
+          }}
           label={t('BROADCAST_PLAN.AREA_USED')}
           name={AREA_USED}
           displayUnitName={AREA_USED_UNIT}
@@ -176,7 +183,7 @@ function PureBroadcastPlan({
         <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>
           <Unit
             register={register}
-            label={t('BROADCAST_PLAN.ESTIMATED_SEED')}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
             name={ESTIMATED_SEED}
             displayUnitName={ESTIMATED_SEED_UNIT}
             errors={errors[ESTIMATED_SEED]}
@@ -192,7 +199,7 @@ function PureBroadcastPlan({
           />
           <Unit
             register={register}
-            label={t('BROADCAST_PLAN.ESTIMATED_YIELD')}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
             name={ESTIMATED_YIELD}
             displayUnitName={ESTIMATED_YIELD_UNIT}
             errors={errors[ESTIMATED_YIELD]}

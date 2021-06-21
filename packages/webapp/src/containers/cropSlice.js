@@ -92,6 +92,11 @@ const getCrop = (obj) => {
     'vite',
     'vitk',
     'zn',
+    'can_be_cover_crop',
+    'planting_depth',
+    'yield_per_area',
+    'average_seed_weight',
+    'yield_per_plant',
   ]);
 };
 const addOneCrop = (state, { payload }) => {

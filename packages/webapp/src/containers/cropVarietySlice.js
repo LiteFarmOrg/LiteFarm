@@ -43,6 +43,11 @@ const getCropVariety = (obj) => {
     'vitb6',
     'vitc',
     'zn',
+    'can_be_cover_crop',
+    'planting_depth',
+    'yield_per_area',
+    'average_seed_weight',
+    'yield_per_plant',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {
@@ -92,7 +97,7 @@ const cropVarietySlice = createSlice({
         id: cropVariety.crop_variety_id,
       });
     },
-    deleteCropVarietySuccess :cropVarietyAdapter.removeOne,
+    deleteCropVarietySuccess: cropVarietyAdapter.removeOne,
     selectCropVarietySuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },

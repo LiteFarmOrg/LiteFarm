@@ -1,4 +1,4 @@
-import { useComponentWidth } from '../../containers/hooks/useComponentWidthHeight';
+import { useComponentWidth } from '../../hooks/useComponentWidthHeight';
 import { useEffect, useState } from 'react';
 
 export default function useDocumentTileGap(numberOfCropTilesInEachContainer = []) {
@@ -37,5 +37,5 @@ export default function useDocumentTileGap(numberOfCropTilesInEachContainer = []
       ),
     );
   }, [width]);
-  return { ref, gap, padding};
+  return { ref, gap, padding };
 }

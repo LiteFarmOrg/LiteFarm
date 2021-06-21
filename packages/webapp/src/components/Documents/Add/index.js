@@ -7,18 +7,20 @@ import Checkbox from '../../Form/Checkbox';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { AddLink } from '../../Typography';
+import PageTitle from '../../PageTitle/v2';
+import { DocumentUploader } from '../../../containers/Documents/DocumentUploader';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
 
-function PureAddDocumentView({
+function PureDocumentDetailView({
   submit,
   onGoBack,
   onCancel,
-  uploadImageOrDocument,
   deleteImage,
   useHookFormPersist,
   imageComponent,
+  isEdit,
+  persistedPath,
 }) {
   const { t } = useTranslation();
   const typeOptions = [
@@ -40,30 +42,39 @@ function PureAddDocumentView({
     control,
     getValues,
     watch,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
   });
   const {
     persistedData: { uploadedFiles },
-  } = useHookFormPersist([], getValues);
+  } = useHookFormPersist(persistedPath, getValues);
   return (
     <Form
       onSubmit={handleSubmit(submit)}
       buttonGroup={
-        <Button type={'submit'} disabled={false} fullLength>
-          {t('common:SAVE')}
+        <Button type={'submit'} disabled={isEdit? (!isValid || !isDirty) : isValid} fullLength>
+          {isEdit? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
     >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={onCancel}
-        value={50}
-        title={t('DOCUMENTS.ADD.TITLE')}
-        style={{ marginBottom: '24px' }}
-      />
+      {isEdit && (
+        <PageTitle
+          onGoBack={onGoBack}
+          title={t('DOCUMENTS.EDIT_DOCUMENT')}
+          style={{ marginBottom: '24px' }}
+        />
+      )}
+      {!isEdit && (
+        <MultiStepPageTitle
+          onGoBack={onGoBack}
+          onCancel={onCancel}
+          value={50}
+          title={t('DOCUMENTS.ADD.TITLE')}
+          style={{ marginBottom: '24px' }}
+        />
+      )}
       <Input
         name={NAME}
         hookFormRegister={register(NAME, { required: true })}
@@ -123,9 +134,7 @@ function PureAddDocumentView({
           </>
         ))}
       </div>
-      <AddLink style={{ paddingBottom: '32px' }} onClick={uploadImageOrDocument}>
-        {t('DOCUMENTS.ADD.ADD_MORE_PAGES')}
-      </AddLink>
+      <DocumentUploader style={{paddingBottom: '32px'}} linkText={t("DOCUMENTS.ADD.ADD_MORE_PAGES")}/>
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}
@@ -137,4 +146,4 @@ function PureAddDocumentView({
   );
 }
 
-export default PureAddDocumentView;
+export default PureDocumentDetailView;

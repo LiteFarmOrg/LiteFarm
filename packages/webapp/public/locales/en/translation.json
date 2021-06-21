@@ -184,6 +184,7 @@
   },
   "DOCUMENTS": {
     "ADD_DOCUMENT": "Add a new document",
+    "EDIT_DOCUMENT": "Edit document",
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
       "DOCUMENT_NAME": "Document name",
@@ -200,7 +201,7 @@
       "HERE_YOU_CAN": "Here you can:",
       "YOU_CAN_ONE": "Upload documents that you want included in your certification export",
       "YOU_CAN_THREE": "Archive unneeded documents",
-      "YOU_CAN_TWO": "Categorize and keep tabs on your documents expiration dates"
+      "YOU_CAN_TWO": "Categorize and keep tabs on your document's expiration dates"
     },
     "TYPE": {
       "CLEANING_PRODUCT": "Cleaning product",
@@ -1236,5 +1237,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "File size too large",
+    "BODY": "Files can not exceed 25MB or 5 pages."
   }
 }

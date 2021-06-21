@@ -91,7 +91,7 @@ export default function ImagePickerWrapper({
         <input
           type={'file'}
           accept="image/*"
-          size={1}
+          multiple={true}
           className={classes.input}
           onChange={onFileUpload}
           disabled={disabled}

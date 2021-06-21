@@ -11,8 +11,9 @@ import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useSortByName, useStringFilteredDocuments } from './util';
+import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
+import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
 
 export default function Documents({ history }) {
@@ -83,6 +84,7 @@ export default function Documents({ history }) {
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
       />
+      <DocumentsSpotlight />
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>

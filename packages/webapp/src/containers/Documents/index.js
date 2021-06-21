@@ -11,8 +11,9 @@ import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useSortByName, useStringFilteredDocuments } from './util';
+import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
+import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
 
 export default function Documents({ history }) {
@@ -76,16 +77,14 @@ export default function Documents({ history }) {
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
-      <PageTitle
-        title={t('DOCUMENTS.DOCUMENTS')}
-        style={{ paddingBottom: '20px' }}
-      />
+      <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
       <PureSearchbarAndFilter
         onFilterOpen={onFilterOpen}
         value={filterString}
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
       />
+      <DocumentsSpotlight />
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>

@@ -53,6 +53,10 @@ class ShowedSpotlight extends Model {
         crop_catalog_end: { type: ['string', 'null'] },
         crop_variety_detail: { type: 'boolean' },
         crop_variety_detail_end: { type: ['string', 'null'] },
+        documents: { type: 'boolean' },
+        documents_end: { type: ['string', 'null'] },
+        compliance_docs_and_certification: { type: 'boolean' },
+        compliance_docs_and_certification_end: { type: ['string', 'null'] },
       },
     };
   }

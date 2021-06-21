@@ -17,6 +17,7 @@ const express = require('express');
 const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+const validateFilesLength = require('../middleware/validation/createDocument');
 const documentController = require('../controllers/documentController');
 const multerDiskUpload = require('../util/fileUpload');
 
@@ -28,5 +29,9 @@ router.get('/farm/:farm_id',
 router.post('/upload/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']), multerDiskUpload, documentController.uploadDocument());
+
+router.post('/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['add:document']), validateFilesLength, documentController.createDocument());
 
 module.exports = router;

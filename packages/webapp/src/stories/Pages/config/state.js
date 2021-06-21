@@ -10303,6 +10303,8 @@ export default {
       adjust_line: false,
       navigation: true,
       introduce_map: true,
+      documents: true,
+      compliance_docs_and_certification: true,
     },
   },
   persistedStateReducer: {

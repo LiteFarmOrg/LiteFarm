@@ -193,7 +193,15 @@
       "VALID_UNTIL": "Valid until"
     },
     "ARCHIVED": "Archived",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
+    "SPOTLIGHT": {
+      "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
+      "HERE_YOU_CAN": "Here you can:",
+      "YOU_CAN_ONE": "Upload documents that you want included in your certification export",
+      "YOU_CAN_THREE": "Archive unneeded documents",
+      "YOU_CAN_TWO": "Categorize and keep tabs on your documents expiration dates"
+    },
     "TYPE": {
       "CLEANING_PRODUCT": "Cleaning product",
       "CROP_COMPLIANCE": "Crop compliance",

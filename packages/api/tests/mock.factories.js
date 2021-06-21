@@ -1271,8 +1271,26 @@ function fakeDocument() {
     thumbnail_url: faker.image.imageUrl(),
     valid_until: faker.date.future(),
     notes: faker.lorem.words(),
-    type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'])
-  }
+    type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER']),
+  };
+}
+
+async function fileFactory({
+  promisedFarm = farmFactory(),
+  creatorUser = usersFactory(),
+  promisedDocument = documentFactory({ promisedFarm, creatorUser }),
+} = {}, file = fakeFile()) {
+  const [document] = await Promise.all([promisedDocument]);
+  const [{ document_id }] = document;
+  return knex('file').insert({ document_id, ...file }).returning('*');
+}
+
+function fakeFile() {
+  return {
+    file_name: faker.lorem.words(),
+    thumbnail_url: faker.image.imageUrl(),
+    url: faker.image.imageUrl(),
+  };
 }
 
 
@@ -1341,6 +1359,7 @@ module.exports = {
   crop_varietyFactory,
   fakeCropVariety,
   fakeDocument, documentFactory,
+  fakeFile, fileFactory,
   // allSupportedCertificationsFactory,
   // allSupportedCertifiersFactory,
 };

@@ -1236,5 +1236,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "File size too large",
+    "BODY": "Files can not exceed 25MB or 5 pages."
   }
 }

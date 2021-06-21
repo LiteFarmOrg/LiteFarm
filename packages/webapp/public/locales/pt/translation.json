@@ -1226,5 +1226,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "MISSING",
+    "BODY": "MISSING"
   }
 }

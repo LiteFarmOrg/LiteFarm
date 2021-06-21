@@ -21,10 +21,16 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        const result = await DocumentModel.query().context(req.user).insert(req.body);
-        return res.status(201).json(result);
+        const result = await DocumentModel.transaction(async trx => {
+          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            req.body, { noUpdate: true, noDelete: true });
+        });
+        return res.status(201).send(result);
       } catch (error) {
-        return res.status(400).json({ error });
+        console.log(error);
+        res.status(400).json({
+          error,
+        });
       }
     };
   },

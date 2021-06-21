@@ -505,7 +505,7 @@ describe('Location tests', () => {
     });
   });
 
-  xdescribe('PUT /location' , () => {
+  describe('PUT /location', () => {
     let user, farm;
 
     beforeEach(async () => {

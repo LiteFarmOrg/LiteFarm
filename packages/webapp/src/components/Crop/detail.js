@@ -20,6 +20,7 @@ function PureCropDetail({
   submitForm,
   onBack,
   isInterestedInOrganic,
+  onRetire,
   setShowEditModal,
 }) {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ function PureCropDetail({
             </Button>
           ) : (
             <>
-              <Button color={'secondary'} fullLength>
+              <Button color={'secondary'} fullLength onClick={onRetire}>
                 {t('common:RETIRE')}
               </Button>
               <Button onClick={() => setShowEditModal(true)} fullLength>
@@ -81,11 +82,7 @@ function PureCropDetail({
               },
             ]}
           />
-          <Button style={{ marginBottom: '16px', width: '100%' }} color={'success'}>
-            <Expense style={{ marginRight: '8px' }} />
-            {t('CROP_DETAIL.EXPENSE_RECORD')}
-            <Leaf style={{ marginLeft: '14px' }} />
-          </Button>
+
           <Button style={{ marginBottom: '32px', width: '100%' }} color={'success'}>
             <Document style={{ marginRight: '1px' }} /> {t('CROP_DETAIL.COMPLIANCE_DOC')}
             <Leaf style={{ marginLeft: '14px' }} />

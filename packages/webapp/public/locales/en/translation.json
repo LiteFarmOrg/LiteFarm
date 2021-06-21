@@ -144,7 +144,13 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
-    "NEEDS_PLAN": "Needs Plan"
+    "NEEDS_PLAN": "Needs Plan",
+    "RETIRE": {
+      "CONFIRMATION": "Retiring this crop will remove it and all its management plans from your crop catalogue. Do you want to proceed?",
+      "RETIRE_CROP_TITLE": "Retire crop?",
+      "UNABLE_TO_RETIRE_TITLE": "Unable to retire",
+      "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop"
+    }
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -181,8 +187,19 @@
     "ARCHIVE_DOCUMENT": "Archive document?",
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
+
     "CANCEL": "Cancel",
+
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
+
     "DOCUMENTS": "Documents",
+    "SPOTLIGHT": {
+      "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
+      "HERE_YOU_CAN": "Here you can:",
+      "YOU_CAN_ONE": "Upload documents that you want included in your certification export",
+      "YOU_CAN_THREE": "Archive unneeded documents",
+      "YOU_CAN_TWO": "Categorize and keep tabs on your document's expiration dates"
+    },
     "TYPE": {
       "CLEANING_PRODUCT": "Cleaning product",
       "CROP_COMPLIANCE": "Crop compliance",
@@ -1217,5 +1234,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "FILE_SIZE_MODAL": {
+    "TITLE": "File size too large",
+    "BODY": "Files can not exceed 25MB or 5 pages."
   }
 }

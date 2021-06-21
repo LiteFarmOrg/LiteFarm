@@ -1,7 +1,6 @@
 import React from 'react';
-import PureDocumentTile from '../../components/DocumentTile';
+import PureDocumentTile from '../../containers/Documents/DocumentTile';
 import { componentDecorators } from '../Pages/config/decorators';
-
 
 export default {
   title: 'Components/DocumentTile',
@@ -21,4 +20,5 @@ Variety.args = {
   type: 'Crop Compliance',
   date: "May 01 21'",
   preview: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`,
+  imageComponent: (props) => <img {...props} />,
 };

@@ -266,6 +266,13 @@ export const currentAndPlannedManagementPlansByLocationIdSelector = (location_id
       managementPlans.filter((managementPlan) => managementPlan.location_id === location_id),
   );
 
+export const currentAndPlannedManagementPlansByCropVarietySelector = (crop_variety) =>
+  createSelector(
+    [() => crop_variety, currentAndPlannedManagementPlansSelector],
+    (crop_variety, managementPlans) =>
+      managementPlans.filter((managementPlan) => managementPlan.crop_variety_id === crop_variety),
+  );
+
 export const currentManagementPlansByLocationIdSelector = (location_id) =>
   createSelector(
     [() => location_id, currentManagementPlansSelector],

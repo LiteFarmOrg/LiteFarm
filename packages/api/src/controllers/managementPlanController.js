@@ -21,14 +21,14 @@ const managementPlanController = {
   addManagementPlan() {
     return async (req, res) => {
       try {
-        const result = await managementPlanModel.transaction(async trx => {
-          return await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+        await managementPlanModel.transaction(async trx => {
+          const result = await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
             req.body, { noUpdate: true, noDelete: true, noInsert: ['location'] });
+          return res.status(201).send(result);
         });
-        return res.status(201).send(result);
       } catch (error) {
         console.log(error);
-        return res.status(400).json({
+        res.status(400).json({
           error,
         });
       }
@@ -41,13 +41,13 @@ const managementPlanController = {
       try {
         const isDeleted = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).delete();
         if (isDeleted) {
-          return res.sendStatus(200);
+          res.sendStatus(200);
         } else {
-          return res.sendStatus(404);
+          res.sendStatus(404);
         }
       } catch (error) {
         console.log(error);
-        return res.status(400).json({
+        res.status(400).json({
           error,
         });
       }
@@ -61,15 +61,15 @@ const managementPlanController = {
         const updated = await baseController.put(managementPlanModel, req.params.management_plan_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
-          return res.sendStatus(404);
+          res.sendStatus(404);
         } else {
-          return res.status(200).send(updated);
+          res.status(200).send(updated);
         }
 
       } catch (error) {
         console.log(error);
         await trx.rollback();
-        return res.status(400).json({
+        res.status(400).json({
           error,
         });
       }
@@ -85,7 +85,7 @@ const managementPlanController = {
         return managementPlan ? res.status(200).send(removeCropVarietyFromManagementPlan(managementPlan)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
-        return res.status(400).json({
+        res.status(400).json({
           error,
         });
       }

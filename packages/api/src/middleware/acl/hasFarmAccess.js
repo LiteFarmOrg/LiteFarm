@@ -24,6 +24,7 @@ const entitiesGetters = {
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
+  document_id: fromDocument,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -177,7 +178,8 @@ async function fromManagementPlan(managementPlanId) {
 }
 
 async function fromCropVariety(crop_variety_id) {
-  return await knex('crop_variety').where({ crop_variety_id }).first();
+  const cropVariety = await knex('crop_variety').where({ crop_variety_id }).first();
+  return cropVariety;
 }
 
 async function fromYield(yieldId) {
@@ -204,6 +206,10 @@ async function fromOrganicCertifierSurvey(survey_id) {
   return await knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
+async function fromDocument(document_id){
+  return await knex('document').where({ document_id }).first();
+}
+
 function sameFarm(object, farm) {
   return object.farm_id === farm;
 }
@@ -211,3 +217,4 @@ function sameFarm(object, farm) {
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
 }
+

@@ -21,16 +21,10 @@ const documentController = {
   createDocument() {
     return async (req, res, next) => {
       try {
-        const result = await DocumentModel.transaction(async trx => {
-          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
-            req.body, { noUpdate: true, noDelete: true });
-        });
-        return res.status(201).send(result);
+        const result = await DocumentModel.query().context(req.user).insert(req.body);
+        return res.status(201).json(result);
       } catch (error) {
-        console.log(error);
-        res.status(400).json({
-          error,
-        });
+        return res.status(400).json({ error });
       }
     };
   },
@@ -51,8 +45,9 @@ const documentController = {
       const { document_id } = req.params;
       try {
         const result = await DocumentModel.query().context(req.user).findById(document_id).patch({ valid_until: new Date('2000/1/1').toISOString() });
-        return result ? res.status(200).send(result) : res.status(404).send('Document not found');
+        return result ? res.sendStatus(200) : res.status(404).send('Document not found');
       } catch (error) {
+        console.log(error);
         return res.status(400).json({ error });
       }
     };

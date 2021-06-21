@@ -44,55 +44,6 @@ describe('Document tests', () => {
     done();
   });
 
-  describe('Archive document tests', ()=>{
-    test('User should be able to archive documents', async (done) => {
-      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-      const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-      archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
-        expect(res.status).toBe(200);
-        done();
-      })
-    });
-
-    describe('Archive document authorization tests',()=>{
-
-      test('Owner should be able to archive documents', async (done) => {
-        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        })
-      });
-      test('Manager should be able to archive documents', async (done) => {
-        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        })
-      });
-      test('EO should be able to archive documents', async (done) => {
-        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
-          expect(res.status).toBe(200);
-          done();
-        })
-      });
-      test('Worker should NOT be able to archive documents', async (done) => {
-        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
-          expect(res.status).toBe(403);
-          done();
-        })
-      });
-      
-    })
-
-  })
-
   describe('Authorization tests', () => {
     test('Owner should GET documents if they exist', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -136,4 +87,55 @@ describe('Document tests', () => {
 
 
   });
+
+  describe('Archive document tests', ()=>{
+    test('User should be able to archive documents', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+      const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
+      archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      })
+    });
+
+    describe('Archive document authorization tests',()=>{
+
+      test('Owner should be able to archive documents', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
+        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+        })
+      });
+      test('User should be able to archive documents', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
+        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+        })
+      });
+      test('User should be able to archive documents', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
+        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+        })
+      });
+      test('User should be able to archive documents', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
+        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          done();
+        })
+      });
+
+
+    })
+
+
+  })
 })

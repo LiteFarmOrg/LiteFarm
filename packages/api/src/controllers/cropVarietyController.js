@@ -10,7 +10,7 @@ const cropVarietyController = {
       const { farm_id } = req.params;
       try {
         const result = await CropVarietyModel.query().whereNotDeleted().withGraphFetched('[crop]').where({ farm_id });
-        return res.status(200).send(result)
+        return result?.length ? res.status(200).send(result) : res.status(404).send('Crop variety not found');
       } catch (error) {
         return res.status(400).json({ error });
       }

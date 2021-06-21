@@ -29,16 +29,16 @@ class Document extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'name', 'thumbnail_url', 'farm_id' ],
+      required: ['name', 'thumbnail_url', 'farm_id'],
       properties: {
         document_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string' },
         thumbnail_url: { type: 'string' },
-        valid_until: { type: [ 'date', null ] },
-        notes: { type: [ 'string', null ] },
+        valid_until: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        notes: { type: ['string', null] },
         type: {
-          type: [ 'string', null ],
+          type: ['string', null],
           enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'],
         },
         ...this.baseProperties,

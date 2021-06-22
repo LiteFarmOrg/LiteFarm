@@ -11,7 +11,7 @@ import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useStringFilteredDocuments, useSortByName } from './util';
+import { useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
@@ -87,7 +87,11 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <DocumentUploader style={{ marginBottom: '26px' }} linkText={t("DOCUMENTS.ADD_DOCUMENT")} gotoAdd={true}/>
+            <DocumentUploader
+              style={{ marginBottom: '26px' }}
+              linkText={t('DOCUMENTS.ADD_DOCUMENT')}
+              onUpload={() => history.push('/documents/add_document')}
+            />
             {!!validDocuments.length && (
               <>
                 <PageBreak
@@ -101,7 +105,7 @@ export default function Documents({ history }) {
                       <PureDocumentTile
                         title={document.name}
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                        date={null} 
+                        date={null}
                         preview={document.thumbnail_url}
                         onClick={() => tileClick(document.document_id)}
                       />

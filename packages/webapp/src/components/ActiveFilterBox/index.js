@@ -5,7 +5,8 @@ import Pill from '../Filter/Pill';
 import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
-import { removeFilter } from '../../containers/filterSlice';
+import { removeFilter, removeNonFilterValue } from '../../containers/filterSlice';
+import { VALID_UNTIL } from '../../containers/Filter/constants';
 
 const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const [firstRow, setFirstRow] = useState(0);
@@ -15,6 +16,19 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
     if (filterKey === 'date') return acc;
+    if (filterKey === VALID_UNTIL) {
+      if (pageFilter[filterKey])
+        return [
+          ...acc,
+          {
+            filterKey,
+            value: pageFilter[filterKey],
+            label: `Valid until: ${pageFilter[filterKey]}`,
+            customRemoveFilter: removeNonFilterValue({ pageFilterKey, filterKey }),
+          },
+        ];
+      else return acc;
+    }
     return [...acc].concat(
       Object.keys(pageFilter[filterKey])
         .filter((k) => pageFilter[filterKey][k].active)
@@ -56,7 +70,12 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const numHidden = activeFilters.length - firstRow;
 
   const handleRemovePill = (filter) => () => {
-    dispatch(removeFilter({ pageFilterKey, filterKey: filter.filterKey, value: filter.value }));
+    const { filterKey, customRemoveFilter } = filter;
+    if (customRemoveFilter) {
+      dispatch(customRemoveFilter);
+      return;
+    }
+    dispatch(removeFilter({ pageFilterKey, filterKey, value: filter.value }));
   };
 
   // open

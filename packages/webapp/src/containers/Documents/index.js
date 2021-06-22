@@ -17,6 +17,8 @@ import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import DocumentsFilterPage from '../Filter/Documents';
+import { documentsFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
+import ActiveFilterBox from '../../components/ActiveFilterBox';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -37,7 +39,8 @@ export default function Documents({ history }) {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const isFilterCurrentlyActive = false;
+  const documentsFilter = useSelector(documentsFilterSelector);
+  const isFilterCurrentlyActive = useSelector(isFilterCurrentlyActiveSelector('documents'));
 
   const onFilterClose = () => {
     setIsFilterOpen(false);
@@ -90,6 +93,14 @@ export default function Documents({ history }) {
       <MuiFullPagePopup open={isFilterOpen} onClose={onFilterClose}>
         <DocumentsFilterPage onGoBack={onFilterClose} />
       </MuiFullPagePopup>
+
+      {isFilterCurrentlyActive && (
+        <ActiveFilterBox
+          pageFilter={documentsFilter}
+          pageFilterKey={'documents'}
+          style={{ marginBottom: '32px' }}
+        />
+      )}
 
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (

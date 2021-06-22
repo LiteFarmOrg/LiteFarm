@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getDateInputFormat } from '../components/LocationDetailLayout/utils';
+import { VALID_UNTIL } from './Filter/constants';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -41,6 +42,9 @@ const filterSliceReducer = createSlice({
     removeFilter: (state, { payload: { pageFilterKey, filterKey, value } }) => {
       state[pageFilterKey][filterKey][value].active = false;
     },
+    removeNonFilterValue: (state, { payload: { pageFilterKey, filterKey } }) => {
+      state[pageFilterKey][filterKey] = undefined;
+    },
     resetDocumentsFilter: (state) => {
       state.documents = initialDocumentsFilter;
     },
@@ -58,6 +62,7 @@ export const {
   setCropVarietyFilterDefault,
   setCropVarietyFilter,
   removeFilter,
+  removeNonFilterValue,
   resetDocumentsFilter,
   setDocumentsFilter,
 } = filterSliceReducer.actions;
@@ -88,8 +93,12 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
     const targetPageFilter = filterReducer[pageFilterKey];
     let isActive = false;
     for (const filterKey in targetPageFilter) {
-      if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
       const filter = targetPageFilter[filterKey];
+      if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
+      if (filterKey === VALID_UNTIL) {
+        isActive = isActive || !!filter;
+        continue;
+      }
       isActive = Object.values(filter).reduce((acc, curr) => {
         return acc || curr.active;
       }, isActive);

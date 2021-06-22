@@ -18,6 +18,7 @@ Primary.args = {
   onCancel: () => {},
   system: 'metric',
   persistedFormData: {},
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
 };
 Primary.parameters = {
   ...chromaticSmallScreen,
@@ -30,6 +31,7 @@ Container.args = {
   onCancel: () => {},
   system: 'metric',
   persistedFormData: { in_ground: false, planting_depth: 0.99 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
 };
 Container.parameters = {
   ...chromaticSmallScreen,
@@ -42,6 +44,7 @@ InGround.args = {
   onCancel: () => {},
   system: 'metric',
   persistedFormData: { in_ground: true, plant_spacing: 1 },
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
 };
 InGround.parameters = {
   ...chromaticSmallScreen,

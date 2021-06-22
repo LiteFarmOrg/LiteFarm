@@ -115,7 +115,7 @@ import {
 import {
   getAllDocumentsSuccess,
   onLoadingDocumentFail,
-  onLoadingDocumentStart
+  onLoadingDocumentStart,
 } from './documentSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
@@ -198,8 +198,6 @@ export function* getCropVarietiesSaga() {
   try {
     yield put(onLoadingCropVarietyStart());
     const result = yield call(axios.get, `${url}/crop_variety/farm/${farm_id}`, header);
-    const crops = result.data.map((cropVariety) => cropVariety.crop);
-    yield put(getAllCropsSuccess(crops));
     yield put(getAllCropVarietiesSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCropVarietyFail(e));
@@ -507,7 +505,6 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
   yield takeLeading(updateUser.type, updateUserSaga);
@@ -521,7 +518,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(selectFarmAndFetchAll.type, selectFarmAndFetchAllSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
-  yield takeLatest(getDocuments.type, getDocumentsSaga); 
+  yield takeLatest(getDocuments.type, getDocumentsSaga);
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
@@ -530,5 +527,4 @@ export default function* getFarmIdSaga() {
     onLoadingManagementPlanAndPlantingMethodStart.type,
     onLoadingManagementPlanAndPlantingMethodStartSaga,
   );
-  // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

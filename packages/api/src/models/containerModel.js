@@ -28,7 +28,7 @@ class ContainerModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'in_ground', 'planting_depth'],
+      required: ['management_plan_id', 'in_ground'],
       properties: {
         management_plan_id: { type: 'number' },
         in_ground: { type: 'boolean' },

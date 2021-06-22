@@ -10,9 +10,9 @@ import {
   CROP_COMPLIANCE,
   FERTILIZING_PRODUCT,
   PEST_CONTROL_PRODUCT,
-  SOIL_AMENDMENTS,
+  SOIL_AMENDMENT,
   OTHER,
-  VALID_UNTIL,
+  VALID_ON,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
 
@@ -21,7 +21,7 @@ const types = [
   CROP_COMPLIANCE,
   FERTILIZING_PRODUCT,
   PEST_CONTROL_PRODUCT,
-  SOIL_AMENDMENTS,
+  SOIL_AMENDMENT,
   OTHER,
 ];
 
@@ -29,12 +29,12 @@ const DocumentsFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const documentsFilter = useSelector(documentsFilterSelector);
   const dispatch = useDispatch();
-  const [validUntilDate, setValidUntilDate] = useState(documentsFilter[VALID_UNTIL] ?? '');
+  const [validUntilDate, setValidUntilDate] = useState(documentsFilter[VALID_ON] ?? '');
 
   const handleApply = () => {
     const filterToApply = {
       ...filterRef.current,
-      VALID_UNTIL: validUntilDate ? validUntilDate : undefined,
+      VALID_ON: validUntilDate ? validUntilDate : undefined,
     };
     dispatch(setDocumentsFilter(filterToApply));
     onGoBack?.();
@@ -72,7 +72,7 @@ const DocumentsFilterPage = ({ onGoBack }) => {
       ]}
     >
       <Input
-        label={t('DOCUMENTS.FILTER.VALID_UNTIL')}
+        label={t('DOCUMENTS.FILTER.VALID_ON')}
         type={'date'}
         value={validUntilDate}
         onChange={handleDateChange}

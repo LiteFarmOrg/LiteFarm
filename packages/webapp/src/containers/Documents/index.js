@@ -11,7 +11,7 @@ import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useStringFilteredDocuments, useSortByName } from './util';
+import { useStringFilteredDocuments, useSortByName, useFilterDocuments } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
@@ -57,12 +57,13 @@ export default function Documents({ history }) {
     useSortByName(useSelector(documentsSelector)),
     filterString,
   );
+  const filteredDocuments = useFilterDocuments(documents);
   const validDocuments = [];
   const archivedDocuments = [];
 
   const currDate = new Date();
 
-  documents.forEach((document) => {
+  filteredDocuments.forEach((document) => {
     if (isValid(document.valid_until, currDate)) {
       validDocuments.push(document);
     } else {
@@ -103,58 +104,56 @@ export default function Documents({ history }) {
       )}
 
       <div ref={containerRef}>
-        {!isFilterCurrentlyActive && (
-          <>
-            <DocumentUploader
-              style={{ marginBottom: '26px' }}
-              linkText={t('DOCUMENTS.ADD_DOCUMENT')}
-            />
-            {!!validDocuments.length && (
-              <>
-                <PageBreak
-                  style={{ paddingBottom: '16px' }}
-                  label={t('DOCUMENTS.VALID')}
-                  square={{ count: validDocuments.length, type: 'valid' }}
-                />
-                <PureDocumentTileContainer gap={gap} padding={padding}>
-                  {validDocuments.map((document) => {
-                    return (
-                      <PureDocumentTile
-                        title={document.name}
-                        type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                        date={null} //getDisplayedDate(document.valid_until)}
-                        preview={document.thumbnail_url}
-                        onClick={() => tileClick(document.document_id)}
-                      />
-                    );
-                  })}
-                </PureDocumentTileContainer>
-              </>
-            )}
-            {!!archivedDocuments.length && (
-              <>
-                <PageBreak
-                  style={{ paddingTop: '35px', paddingBottom: '16px' }}
-                  label={t('DOCUMENTS.ARCHIVED')}
-                  square={{ count: archivedDocuments.length, type: 'archived' }}
-                />
-                <PureDocumentTileContainer gap={gap} padding={padding}>
-                  {archivedDocuments.map((document) => {
-                    return (
-                      <PureDocumentTile
-                        title={document.name}
-                        type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                        date={getDisplayedDate(document.valid_until)}
-                        preview={document.thumbnail_url}
-                        onClick={() => tileClick(document.document_id)}
-                      />
-                    );
-                  })}
-                </PureDocumentTileContainer>
-              </>
-            )}
-          </>
-        )}
+        <>
+          <DocumentUploader
+            style={{ marginBottom: '26px' }}
+            linkText={t('DOCUMENTS.ADD_DOCUMENT')}
+          />
+          {!!validDocuments.length && (
+            <>
+              <PageBreak
+                style={{ paddingBottom: '16px' }}
+                label={t('DOCUMENTS.VALID')}
+                square={{ count: validDocuments.length, type: 'valid' }}
+              />
+              <PureDocumentTileContainer gap={gap} padding={padding}>
+                {validDocuments.map((document) => {
+                  return (
+                    <PureDocumentTile
+                      title={document.name}
+                      type={t(`DOCUMENTS.TYPE.${document.type}`)}
+                      date={null} //getDisplayedDate(document.valid_until)}
+                      preview={document.thumbnail_url}
+                      onClick={() => tileClick(document.document_id)}
+                    />
+                  );
+                })}
+              </PureDocumentTileContainer>
+            </>
+          )}
+          {!!archivedDocuments.length && (
+            <>
+              <PageBreak
+                style={{ paddingTop: '35px', paddingBottom: '16px' }}
+                label={t('DOCUMENTS.ARCHIVED')}
+                square={{ count: archivedDocuments.length, type: 'archived' }}
+              />
+              <PureDocumentTileContainer gap={gap} padding={padding}>
+                {archivedDocuments.map((document) => {
+                  return (
+                    <PureDocumentTile
+                      title={document.name}
+                      type={t(`DOCUMENTS.TYPE.${document.type}`)}
+                      date={getDisplayedDate(document.valid_until)}
+                      preview={document.thumbnail_url}
+                      onClick={() => tileClick(document.document_id)}
+                    />
+                  );
+                })}
+              </PureDocumentTileContainer>
+            </>
+          )}
+        </>
       </div>
     </Layout>
   );

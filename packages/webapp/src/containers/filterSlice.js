@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { getDateInputFormat } from '../components/LocationDetailLayout/utils';
-import { VALID_UNTIL } from './Filter/constants';
+import { VALID_ON } from './Filter/constants';
 
 const initialCropCatalogueFilter = {
   STATUS: {},
@@ -11,7 +11,7 @@ const initialCropCatalogueFilter = {
 };
 const initialDocumentsFilter = {
   TYPE: {},
-  VALID_UNTIL: undefined,
+  VALID_ON: undefined,
 };
 
 export const initialState = {
@@ -95,7 +95,7 @@ export const isFilterCurrentlyActiveSelector = (pageFilterKey) => {
     for (const filterKey in targetPageFilter) {
       const filter = targetPageFilter[filterKey];
       if (filterKey === 'date') continue; // TODO: this is hacky, need to figure out if date can be stored differently, or if we can just remove it from initial state
-      if (filterKey === VALID_UNTIL) {
+      if (filterKey === VALID_ON) {
         isActive = isActive || !!filter;
         continue;
       }

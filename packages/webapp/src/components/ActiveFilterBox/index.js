@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { BsChevronDown } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { removeFilter, removeNonFilterValue } from '../../containers/filterSlice';
-import { VALID_UNTIL } from '../../containers/Filter/constants';
+import { VALID_ON } from '../../containers/Filter/constants';
 
 const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const [firstRow, setFirstRow] = useState(0);
@@ -16,14 +16,14 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
     if (filterKey === 'date') return acc;
-    if (filterKey === VALID_UNTIL) {
+    if (filterKey === VALID_ON) {
       if (pageFilter[filterKey])
         return [
           ...acc,
           {
             filterKey,
             value: pageFilter[filterKey],
-            label: `Valid until: ${pageFilter[filterKey]}`,
+            label: `Valid on: ${pageFilter[filterKey]}`,
             customRemoveFilter: removeNonFilterValue({ pageFilterKey, filterKey }),
           },
         ];

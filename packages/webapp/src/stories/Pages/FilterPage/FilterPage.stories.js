@@ -240,9 +240,9 @@ DocumentsFilter.args = {
           label: 'Pest control product',
         },
         {
-          value: 'soil_amendments',
+          value: 'soil_amendment',
           default: false,
-          label: 'Soil amendments',
+          label: 'Soil amendment',
         },
         {
           value: 'other',

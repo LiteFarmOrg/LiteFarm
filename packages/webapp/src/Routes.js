@@ -227,6 +227,8 @@ const ManagementPlanName = React.lazy(() =>
 
 const Documents = React.lazy(() => import('./containers/Documents'));
 
+const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
+
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -375,6 +377,7 @@ const Routes = () => {
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
             <Route path="/documents" exact component={Documents} />
+            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument}/>
 
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -568,6 +571,7 @@ const Routes = () => {
             <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route path="/documents" exact component={Documents} />
+            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument}/>
             <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"

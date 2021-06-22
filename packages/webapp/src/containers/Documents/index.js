@@ -5,9 +5,9 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import PureDocumentTile from '../../components/DocumentTile';
-import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
-import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap';
+import PureDocumentTile from './DocumentTile';
+import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
+import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
@@ -88,7 +88,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <DocumentUploader style={{ marginBottom: '26px' }} />
+            <DocumentUploader style={{ marginBottom: '26px' }} linkText={t("DOCUMENTS.ADD_DOCUMENT")} />
             {!!validDocuments.length && (
               <>
                 <PageBreak

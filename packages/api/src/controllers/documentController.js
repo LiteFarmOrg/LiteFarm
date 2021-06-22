@@ -34,6 +34,29 @@ const documentController = {
       }
     };
   },
+
+  deleteNewEntity() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try {
+        const result = await NewEntityModel.query().where();
+        return result ? res.sendStatus(200):  res.status(404).send('New entity not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    }
+  },
+  archiveDocument() {
+    return async (req, res, next) => {
+      const { document_id } = req.params;
+      try {
+        const result = await DocumentModel.query().context(req.user).findById(document_id).patch({ valid_until: new Date('2000/1/1').toISOString() });
+        return result ? res.sendStatus(200) : res.status(404).send('Document not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    };
+  },
   uploadDocument() {
     return async (req, res, next) => {
       const { farm_id } = req.params;

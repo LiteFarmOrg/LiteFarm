@@ -11,7 +11,6 @@ export default function EditDocument({ history, match }) {
   const { document_id } = match.params;
 
   const document = useSelector(documentSelector(document_id));
-  //document.type={ label: 'Cleaning product', value: 'CLEANING_PRODUCT' };
 
   const onGoBack = () => {
     history.push(`/documents/${document_id}`);
@@ -20,7 +19,6 @@ export default function EditDocument({ history, match }) {
   const onSubmit = (data) => {
     // TODO - Add functionality to PATCH
     console.log("Patch data to document");
-    console.log(data);
   }
 
   const deleteImage = (url) => {

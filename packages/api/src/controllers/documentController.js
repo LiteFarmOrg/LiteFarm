@@ -34,6 +34,29 @@ const documentController = {
       }
     };
   },
+
+  deleteNewEntity() {
+    return async (req, res, next) => {
+      const { new_entity_id } = req.params;
+      try {
+        const result = await NewEntityModel.query().where();
+        return result ? res.sendStatus(200):  res.status(404).send('New entity not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    }
+  },
+  archiveDocument() {
+    return async (req, res, next) => {
+      const { document_id } = req.params;
+      try {
+        const result = await DocumentModel.query().context(req.user).findById(document_id).patch({ valid_until: new Date('2000/1/1').toISOString() });
+        return result ? res.sendStatus(200) : res.status(404).send('Document not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
+    };
+  },
   uploadDocument() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
@@ -64,7 +87,7 @@ const documentController = {
         const THUMBNAIL_FORMAT = 'webp';
         const THUMBNAIL_WIDTH = '300';
 
-        const thumbnail = await axios.get(`http://165.227.105.206:8088/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
+        const thumbnail = await axios.get(`https://image.litefarm.org/thumbnail?width=${THUMBNAIL_WIDTH}&type=${THUMBNAIL_FORMAT}&url=${encodeURIComponent(presignedUrl)}`, {
           headers: {
             'API-Key': process.env.IMAGINARY_TOKEN,
           },

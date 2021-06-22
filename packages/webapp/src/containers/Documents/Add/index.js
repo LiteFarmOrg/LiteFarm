@@ -11,7 +11,6 @@ function AddDocument({ history }) {
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
-    console.log(data);
     dispatch(postDocument(data));
   };
 

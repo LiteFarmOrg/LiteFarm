@@ -87,10 +87,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <DocumentUploader
-              style={{ marginBottom: '26px' }}
-              linkText={t('DOCUMENTS.ADD_DOCUMENT')}
-            />
+            <DocumentUploader style={{ marginBottom: '26px' }} linkText={t("DOCUMENTS.ADD_DOCUMENT")} gotoAdd={true}/>
             {!!validDocuments.length && (
               <>
                 <PageBreak
@@ -104,7 +101,7 @@ export default function Documents({ history }) {
                       <PureDocumentTile
                         title={document.name}
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                        date={null} //getDisplayedDate(document.valid_until)}
+                        date={null} 
                         preview={document.thumbnail_url}
                         onClick={() => tileClick(document.document_id)}
                       />

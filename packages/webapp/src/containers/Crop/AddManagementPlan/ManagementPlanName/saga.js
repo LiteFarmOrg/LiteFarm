@@ -64,8 +64,10 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     );
     yield put(postManagementPlanSuccess(result.data));
     history.push(`/crop/${managementPlan.crop_variety_id}/management`);
+    toastr.success(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'));
   } catch (e) {
     console.log('failed to add managementPlan to database');
+    toastr.error(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST'));
   }
 }
 

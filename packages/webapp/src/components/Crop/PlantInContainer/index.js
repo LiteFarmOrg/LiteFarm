@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import Unit from '../../Form/Unit';
-import { container_plant_spacing, container_planting_depth } from '../../../util/unit';
+import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 
@@ -19,6 +19,7 @@ export default function PurePlantInContainer({
   system,
   match,
   history,
+  crop_variety,
 }) {
   const isTransplant = match?.path === '/crop/:variety_id/add_management_plan/transplant_container';
   const namePrefix = isTransplant ? 'transplant_container.' : 'container.';
@@ -42,6 +43,10 @@ export default function PurePlantInContainer({
   const PLANTING_DEPTH_UNIT = namePrefix + 'planting_depth_unit';
   const PLANTING_SOIL = namePrefix + 'planting_soil';
   const CONTAINER_TYPE = namePrefix + 'container_type';
+  const ESTIMATED_YIELD = namePrefix + 'estimated_yield';
+  const ESTIMATED_YIELD_UNIT = namePrefix + 'estimated_yield_unit';
+  const ESTIMATED_SEED = namePrefix + 'required_seeds';
+  const ESTIMATED_SEED_UNIT = namePrefix + 'required_seeds_unit';
   const NOTES = namePrefix + 'notes';
   const {
     register,
@@ -70,6 +75,43 @@ export default function PurePlantInContainer({
   };
 
   const in_ground = watch(IN_GROUND);
+  const number_of_container = watch(NUMBER_OF_CONTAINERS);
+  const plants_per_container = watch(PLANTS_PER_CONTAINER);
+  const total_plants = watch(TOTAL_PLANTS);
+
+  const IsValidNumberInput = (number) => number === 0 || number > 0;
+
+  const showEstimatedValue = useMemo(() => {
+    if (in_ground && IsValidNumberInput(total_plants)) {
+      return true;
+    } else if (
+      !in_ground &&
+      IsValidNumberInput(number_of_container) &&
+      IsValidNumberInput(plants_per_container)
+    ) {
+      return true;
+    }
+    return false;
+  }, [in_ground, number_of_container, plants_per_container, total_plants]);
+
+  useEffect(() => {
+    const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
+    if (in_ground && IsValidNumberInput(total_plants)) {
+      const required_seeds = total_plants * average_seed_weight;
+      const estimated_yield = total_plants * yield_per_plant;
+      setValue(ESTIMATED_SEED, required_seeds);
+      setValue(ESTIMATED_YIELD, estimated_yield);
+    } else if (
+      !in_ground &&
+      IsValidNumberInput(number_of_container) &&
+      IsValidNumberInput(plants_per_container)
+    ) {
+      const required_seeds = number_of_container * plants_per_container * average_seed_weight;
+      const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
+      setValue(ESTIMATED_SEED, required_seeds);
+      setValue(ESTIMATED_YIELD, estimated_yield);
+    }
+  }, [in_ground, number_of_container, plants_per_container, total_plants]);
 
   const disabled = !isValid;
 
@@ -139,7 +181,7 @@ export default function PurePlantInContainer({
             />
           )}
 
-          <div className={styles.row}>
+          <div className={in_ground ? styles.row : styles.marginBottom}>
             <Unit
               register={register}
               label={t('MANAGEMENT_PLAN.PLANTING_DEPTH')}
@@ -193,6 +235,42 @@ export default function PurePlantInContainer({
               />
             </>
           )}
+          {!isTransplant && showEstimatedValue && (
+            <div className={styles.row}>
+              <Unit
+                register={register}
+                label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+                name={ESTIMATED_SEED}
+                displayUnitName={ESTIMATED_SEED_UNIT}
+                errors={errors[ESTIMATED_SEED]}
+                unitType={seedYield}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFormSetError={setError}
+                hookFromWatch={watch}
+                control={control}
+                required
+                style={{ flexGrow: 1 }}
+              />
+              <Unit
+                register={register}
+                label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+                name={ESTIMATED_YIELD}
+                displayUnitName={ESTIMATED_YIELD_UNIT}
+                errors={errors[ESTIMATED_YIELD]}
+                unitType={seedYield}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFormSetError={setError}
+                hookFromWatch={watch}
+                control={control}
+                required
+                style={{ flexGrow: 1 }}
+              />
+            </div>
+          )}
 
           <Input
             label={t('MANAGEMENT_PLAN.PLANTING_NOTE')}
@@ -210,4 +288,5 @@ PurePlantInContainer.prototype = {
   match: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
+  crop_variety: PropTypes.object,
 };

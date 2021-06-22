@@ -237,6 +237,8 @@ const Routes = () => {
     userFarmSelector,
     (pre, next) =>
       pre.step_five === next.step_five &&
+      pre.step_two === next.step_two &&
+      pre.step_four === next.step_four &&
       pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&

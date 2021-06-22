@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
+import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
+import { archiveDocument } from '../saga';
 
 export default function MainDocument({ history, match }) {
   const { document_id } = match.params;
+  const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();
   const document = useSelector(documentSelector(document_id))
   const onGoBack = () => {
@@ -13,6 +16,7 @@ export default function MainDocument({ history, match }) {
   };
 
   const onRetire = () => {
+    dispatch(archiveDocument(document_id))
   }
 
   const onUpdate = () => {
@@ -25,9 +29,12 @@ export default function MainDocument({ history, match }) {
         onGoBack={onGoBack}
         imageComponent={ImageWithAuthentication}
         onUpdate={onUpdate}
-        onRetire={onRetire}
+        onRetire={() => setShowArchiveModal(true)}
         document={document}
       />
+      { showArchiveModal &&
+        <ArchiveDocumentModal dismissModal={() => setShowArchiveModal(false)} onArchive={onRetire} />
+      }
     </>
   );
 };

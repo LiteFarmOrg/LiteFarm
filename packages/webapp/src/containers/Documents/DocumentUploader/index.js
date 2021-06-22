@@ -20,7 +20,7 @@ export function DocumentUploader({ style, onUpload, linkText }) {
 
   return (
     <>
-      <PureFilePickerWrapper onChange={onChange} style={style}>
+      <PureFilePickerWrapper onChange={onChange} style={style} accept={'application/pdf,image/*'}>
         <AddLink style={style}>{linkText}</AddLink>
       </PureFilePickerWrapper>
       {showErrorModal && (

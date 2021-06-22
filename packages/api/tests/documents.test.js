@@ -29,7 +29,7 @@ describe('Document tests', () => {
   }
 
   function archiveDocumentRequest(document_id, { user_id, farm_id }, callback) {
-    chai.request(server).patch(`/document/archive/document/${document_id}`)
+    chai.request(server).patch(`/document/archive/${document_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);

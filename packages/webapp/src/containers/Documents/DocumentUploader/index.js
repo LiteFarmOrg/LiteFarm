@@ -6,7 +6,7 @@ import { uploadDocument } from './saga';
 import { useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 
-export function DocumentUploader({ style, onUpload, linkText, gotoAdd }) {
+export function DocumentUploader({ style, onUpload, linkText }) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const onChange = (e) => {
@@ -14,7 +14,7 @@ export function DocumentUploader({ style, onUpload, linkText, gotoAdd }) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
-      dispatch(uploadDocument({file: e.target.files[0], gotoAdd: gotoAdd}));
+      dispatch(uploadDocument({ file: e.target.files[0] }));
     }
   };
 

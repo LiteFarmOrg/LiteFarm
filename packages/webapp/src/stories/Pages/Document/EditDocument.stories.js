@@ -2,6 +2,7 @@ import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
+import { AddLink } from '../../../components/Typography';
 
 export default {
   title: 'Page/Document/EditDocument',
@@ -28,6 +29,7 @@ Primary.args = {
     },
   }),
   imageComponent: (props) => <img {...props} />,
+  documentUploader: (props) => <AddLink {...props}>{props.linkText}</AddLink>,
   isEdit: true,
 };
 

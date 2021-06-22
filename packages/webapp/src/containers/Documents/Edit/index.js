@@ -5,6 +5,7 @@ import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersi
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { DocumentUploader } from '../DocumentUploader';
 
 export default function EditDocument({ history, match }) {
   const dispatch = useDispatch();
@@ -18,8 +19,8 @@ export default function EditDocument({ history, match }) {
 
   const onSubmit = (data) => {
     // TODO - Add functionality to PATCH
-    console.log("Patch data to document");
-  }
+    console.log('Patch data to document');
+  };
 
   const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ thumbnail_url: url }));
@@ -34,7 +35,8 @@ export default function EditDocument({ history, match }) {
         isEdit={true}
         persistedFormData={document}
         useHookFormPersist={useHookFormPersist}
-        imageComponent={ImageWithAuthentication}
+        imageComponent={(props) => <ImageWithAuthentication {...props} />}
+        documentUploader={(props) => <DocumentUploader {...props} />}
       />
     </>
   );

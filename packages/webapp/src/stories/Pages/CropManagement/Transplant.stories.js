@@ -3,7 +3,7 @@ import PureTransplant from '../../../components/Crop/transplant';
 import decorators from '../config/decorators';
 
 export default {
-  title: 'Page/AddManagementPlan/Transplant',
+  title: 'Form/ManagementPlan/Transplant',
   component: PureTransplant,
   decorators: decorators,
 };

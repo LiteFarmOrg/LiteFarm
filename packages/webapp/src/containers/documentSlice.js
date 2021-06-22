@@ -68,6 +68,7 @@ const documentSlice = createSlice({
     selectDocumentSuccess(state, { payload: document_id }) {
       state.document_id = document_id;
     },
+    archiveDocumentSuccess: documentAdapter.removeOne
   },
 });
 
@@ -77,6 +78,7 @@ export const {
   putDocumentSuccess,
   onLoadingDocumentStart,
   onLoadingDocumentFail,
+  archiveDocumentSuccess,
   getAllDocumentsSuccess,
 } = documentSlice.actions;
 export default documentSlice.reducer;

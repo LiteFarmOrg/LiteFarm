@@ -1,7 +1,11 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "Failed to upload attachments"
+      "FAILED_UPLOAD": "Failed to upload attachments",
+      "FAILED_ARCHIVE": "Failed to archive document"
+    },
+    "SUCCESS" : {
+      "ARCHIVE": "Successfully archived document"
     }
   },
   "CROP_VARIETY": {

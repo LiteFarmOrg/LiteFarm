@@ -20,20 +20,31 @@ const oldCertifiers = [
   },
 ];
 const newCertifier = {
+  certifier_id: 19,
   certification_type: 2,
   certifier_name: 'Redes Povos da Mata',
   certifier_acronym: 'Povos da Mata',
 }
 
 exports.up = async function (knex) {
+  const ecovidaMigration = await knex('organicCertifierSurvey').select('survey_id').whereIn('certifier_id', [11, 12]);
+  const ecovidaSurveyIds = ecovidaMigration.map((r) => r.survey_id);
+  const redesPovoMigration = await knex('organicCertifierSurvey').select('survey_id').where({ certifier_id: 14 });
+  const redesPovoSurveyIds = redesPovoMigration.map((r) => r.survey_id);
+  await knex('organicCertifierSurvey').update({ certifier_id: null }).whereIn('certifier_id', [11, 12, 14])
   await knex('certifier_country').whereIn('certifier_id', certifiersToDelete).delete();
-  return Promise.all([
+  await Promise.all([
     knex('certifiers').whereIn('certifier_id', certifiersToDelete).delete(),
     knex('certifiers').insert(newCertifier),
-  ])
+  ]);
+  await Promise.all([
+    knex('organicCertifierSurvey').update({ certifier_id: 18 }).whereIn('survey_id', ecovidaSurveyIds),
+    knex('organicCertifierSurvey').update({ certifier_id: 19 }).whereIn('survey_id', redesPovoSurveyIds),
+  ]);
 };
 
 exports.down = async function (knex) {
+  await knex('organicCertifierSurvey').update({ certifier_id: null }).whereIn('certifier_id', [19])
   await Promise.all([
     knex('certifiers').where(newCertifier).delete(),
     knex.batchInsert('certifiers', oldCertifiers),

@@ -14,8 +14,6 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "MISSING",
-    "ESTIMATED_SEED": "MISSING",
-    "ESTIMATED_YIELD": "MISSING",
     "LOCATION_SIZE": "MISSING",
     "PERCENTAGE_LABEL": "MISSING",
     "PERCENTAGE_LOCATION": "MISSING",
@@ -126,7 +124,6 @@
     "COMPLIANCE_DOC": "MISSING",
     "DETAIL_TAB": "MISSING",
     "EDIT_CROP_DETAIL": "MISSING",
-    "EXPENSE_RECORD": "MISSING",
     "GENETICALLY_ENGINEERED": "MISSING",
     "MANAGEMENT_PLANS": "MISSING",
     "MANAGEMENT_TAB": "MISSING",
@@ -144,7 +141,13 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "MISSING",
     "CROP_VARIETIES": "MISSING",
-    "NEEDS_PLAN": "MISSING"
+    "NEEDS_PLAN": "MISSING",
+    "RETIRE": {
+      "CONFIRMATION": "MISSING",
+      "RETIRE_CROP_TITLE": "MISSING",
+      "UNABLE_TO_RETIRE": "MISSING",
+      "UNABLE_TO_RETIRE_TITLE": "MISSING"
+    }
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "MISSING",
@@ -246,11 +249,11 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
-      "COLD_STORAGE": "Este celeiro tem câmara fria?",
-      "EDIT_TITLE": "Editar celeiro",
-      "NAME": "Celeiro",
-      "TITLE": "Adicionar celeiro",
-      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
+      "COLD_STORAGE": "Este galpão tem câmara fria?",
+      "EDIT_TITLE": "Editar galpão",
+      "NAME": "Galpão",
+      "TITLE": "Adicionar galpão",
+      "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -338,7 +341,7 @@
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar to your map",
       "AREAS": "Áreas",
-      "BARN": "Celeiro",
+      "BARN": "Galpão",
       "BZ": "Zona de amortecimento/proteção",
       "CA": "Área cerimonial",
       "FENCE": "Cerca",
@@ -517,6 +520,10 @@
       "FIELD_NAME": "Nome do Campo"
     },
     "TITLE": "CAMPOS"
+  },
+  "FILE_SIZE_MODAL": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "MISSING"
@@ -874,6 +881,8 @@
     "DETAILS_SPOTLIGHT_1": "MISSING",
     "DETAILS_SPOTLIGHT_2": "MISSING",
     "DURATION_TOOLTIP": "MISSING",
+    "ESTIMATED_SEED": "MISSING",
+    "ESTIMATED_YIELD": "MISSING",
     "FOR_HARVEST": "MISSING",
     "GERMINATION": "MISSING",
     "HARVEST": "MISSING",
@@ -1227,9 +1236,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
-  },
-  "FILE_SIZE_MODAL": {
-    "TITLE": "MISSING",
-    "BODY": "MISSING"
   }
 }

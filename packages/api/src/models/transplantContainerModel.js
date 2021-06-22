@@ -28,7 +28,7 @@ class TransplantContainerModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'in_ground', 'planting_depth', 'location_id'],
+      required: ['management_plan_id', 'in_ground', 'location_id'],
       properties: {
         management_plan_id: { type: 'number' },
         in_ground: { type: 'boolean' },

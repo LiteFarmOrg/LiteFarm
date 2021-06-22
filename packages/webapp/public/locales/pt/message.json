@@ -6,9 +6,11 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
+      "DELETE": "MISSING",
       "UPDATE": "MISSING"
     },
     "SUCCESS": {
+      "DELETE": "MISSING",
       "UPDATE": "MISSING"
     }
   },
@@ -89,6 +91,14 @@
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Falha no login das informações do usuário"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "POST": "MISSING"
     }
   },
   "MAP": {

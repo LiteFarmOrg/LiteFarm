@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { postDocumentSaga } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 
 function AddDocument({ history }) {
   const dispatch = useDispatch();
@@ -39,7 +40,9 @@ function AddDocument({ history }) {
       submit={handleSubmit}
       deleteImage={deleteImage}
       useHookFormPersist={useHookFormPersist}
+      imageComponent={ImageWithAuthentication}
       isEdit={false}
+      persistedPath={[]}
     />
   );
 }

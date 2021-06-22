@@ -70,9 +70,8 @@ export default function Documents({ history }) {
     archivedDocuments.length,
   ]);
 
-  const tileClick = () => {
-    // TODO - Add path
-    console.log('Go to document detail');
+  const tileClick = (document_id) => {
+    history.push(`/documents/${document_id}`);
   };
 
   return (
@@ -104,7 +103,7 @@ export default function Documents({ history }) {
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
                         date={null} //getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
-                        onClick={tileClick}
+                        onClick={() => tileClick(document.document_id)}
                       />
                     );
                   })}
@@ -126,7 +125,7 @@ export default function Documents({ history }) {
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
                         date={getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
-                        onClick={tileClick}
+                        onClick={() => tileClick(document.document_id)}
                       />
                     );
                   })}

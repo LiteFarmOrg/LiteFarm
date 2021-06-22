@@ -30,6 +30,11 @@ router.post('/upload/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']), multerDiskUpload, documentController.uploadDocument());
 
+router.patch('/archive/:document_id',
+  hasFarmAccess({ params: 'document_id' }),
+  checkScope(['edit:document']),
+  documentController.archiveDocument())
+
 router.post('/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['add:document']), validateFilesLength, documentController.createDocument());

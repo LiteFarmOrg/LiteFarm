@@ -5,17 +5,18 @@ import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../../locales/i18n';
+import history from '../../../history';
 import { uploadFileSuccess } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const uploadDocument = createAction(`uploadDocumentSaga`);
 
-export function* uploadDocumentSaga({ payload: file }) {
+export function* uploadDocumentSaga({ payload }) {
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     const formData = new FormData();
-    formData.append('_file_', file);
+    formData.append('_file_', payload.file);
     const result = yield call(
       axios.post,
       `${documentUrl}/upload/farm/${farm_id}`,
@@ -24,6 +25,9 @@ export function* uploadDocumentSaga({ payload: file }) {
     );
     if (result) {
       yield put(uploadFileSuccess(result.data));
+      if (payload.gotoAdd) {
+        history.push('/documents/add_document');
+      }
     } else {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     }

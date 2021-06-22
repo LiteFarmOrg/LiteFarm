@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util';
 
-const getTransplantContainer = (obj) => {
+export const getTransplantContainer = (obj) => {
   return pick(obj, [
     'transplantContainer_type',
     'in_ground',

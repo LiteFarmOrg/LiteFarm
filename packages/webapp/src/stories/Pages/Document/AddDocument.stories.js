@@ -29,7 +29,7 @@ Primary.args = {
     },
   }),
   imageComponent: (props) => <img {...props} />,
-  isEdit: false
+  isEdit: false,
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

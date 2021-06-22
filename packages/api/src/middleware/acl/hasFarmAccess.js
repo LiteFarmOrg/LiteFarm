@@ -24,6 +24,7 @@ const entitiesGetters = {
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
+  document_id: fromDocument
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -59,6 +60,10 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
 
 async function fromTask(taskId) {
   return knex('taskType').where({ task_id: taskId }).first();
+}
+
+async function fromDocument(document_id){
+  return await knex('document').where({ document_id }).first();
 }
 
 async function fromShift(shiftId) {

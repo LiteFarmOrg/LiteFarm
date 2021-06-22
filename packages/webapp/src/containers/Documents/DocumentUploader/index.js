@@ -16,7 +16,7 @@ export function DocumentUploader({ style, onUpload, linkText }) {
       onUpload?.();
       dispatch(uploadDocument(e.target.files[0]));
       // TODO - Add path
-      console.log("Go to Add Document page");
+      console.log('Go to Add Document page');
     }
   };
 
@@ -27,8 +27,12 @@ export function DocumentUploader({ style, onUpload, linkText }) {
       </PureFilePickerWrapper>
       {showErrorModal && (
         <FileSizeExceedModal
-          dismissModal={() => { setShowErrorModal(false) }}
-          handleRetry={() => { setShowErrorModal(false) }}
+          dismissModal={() => {
+            setShowErrorModal(false);
+          }}
+          handleRetry={() => {
+            setShowErrorModal(false);
+          }}
         />
       )}
     </>

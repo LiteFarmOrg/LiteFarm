@@ -14,8 +14,6 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
-    "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated yield",
     "LOCATION_SIZE": "Location size",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
@@ -23,10 +21,7 @@
     "SEEDING_RATE": "Seeding rate"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
-    "TITLE": {
-      "MANAGEMENT_PLAN": "Cancel your management plan?"
-    }
+    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
@@ -129,7 +124,6 @@
     "COMPLIANCE_DOC": "Compliance Documents",
     "DETAIL_TAB": "Details",
     "EDIT_CROP_DETAIL": "Edit crop details",
-    "EXPENSE_RECORD": "Expense Record",
     "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
     "MANAGEMENT_PLANS": "Management Plans",
     "MANAGEMENT_TAB": "Management",
@@ -152,8 +146,8 @@
     "RETIRE": {
       "CONFIRMATION": "Retiring this crop will remove it and all its management plans from your crop catalogue. Do you want to proceed?",
       "RETIRE_CROP_TITLE": "Retire crop?",
-      "UNABLE_TO_RETIRE_TITLE": "Unable to retire",
-      "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop"
+      "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop",
+      "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
     }
   },
   "CROP": {
@@ -162,11 +156,6 @@
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
-    "EDIT_CROP": "Edit crop",
-    "EDIT_MODAL": {
-      "BODY": "Editing this crop will not modify any existing crop management plans. Only  management plans created after your edits will be impacted. Proceed to edit?",
-      "TITLE": "Edit crop?"
-    },
     "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
     "IS_ORGANIC": "Is the crop certified organic?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
@@ -193,7 +182,11 @@
       "TYPE": "Type",
       "VALID_UNTIL": "Valid until"
     },
+    "ARCHIVE": "Archive",
+    "ARCHIVE_DOCUMENT": "Archive document?",
+    "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
+    "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
     "SPOTLIGHT": {
@@ -528,6 +521,10 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILE_SIZE_MODAL": {
+    "BODY": "Files can not exceed 25MB or 5 pages.",
+    "TITLE": "File size too large"
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Clear all filters"
@@ -885,6 +882,8 @@
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
+    "ESTIMATED_SEED": "Estimated seed required",
+    "ESTIMATED_YIELD": "Estimated yield",
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
@@ -1238,9 +1237,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "FILE_SIZE_MODAL": {
-    "TITLE": "File size too large",
-    "BODY": "Files can not exceed 25MB or 5 pages."
   }
 }

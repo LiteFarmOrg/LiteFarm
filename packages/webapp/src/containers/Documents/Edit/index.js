@@ -15,8 +15,8 @@ export default function EditDocument({ history, match }) {
 
   const onSubmit = () => {
     // TODO - Add functionality to PATCH
-    console.log("Patch data to document");
-  }
+    console.log('Patch data to document');
+  };
 
   const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ thumbnail_url: url }));
@@ -35,4 +35,4 @@ export default function EditDocument({ history, match }) {
       </HookFormPersistProvider>
     </>
   );
-};
+}

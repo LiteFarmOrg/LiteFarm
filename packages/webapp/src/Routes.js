@@ -237,6 +237,8 @@ const Routes = () => {
     userFarmSelector,
     (pre, next) =>
       pre.step_five === next.step_five &&
+      pre.step_two === next.step_two &&
+      pre.step_four === next.step_four &&
       pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
@@ -378,9 +380,10 @@ const Routes = () => {
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
             <Route path="/documents" exact component={Documents} />
+
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument}/>
-            <Route path="/documents/:document_id"  exact component={MainDocument}/>
+            <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
+            <Route path="/documents/:document_id" exact component={MainDocument} />
 
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -574,8 +577,9 @@ const Routes = () => {
             <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route path="/documents" exact component={Documents} />
-            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument}/>
-            <Route path="/documents/:document_id"  exact component={MainDocument}/>
+
+            <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
+            <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
 
             <Route path="/map" exact component={Map} />

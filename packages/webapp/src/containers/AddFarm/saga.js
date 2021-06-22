@@ -118,10 +118,9 @@ export function* patchRoleSaga({ payload }) {
     yield all([
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
+      owner_operated !== null &&
+        call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header),
     ]);
-    if (owner_operated !== null) {
-      yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
-    }
     yield put(
       patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }),
     );

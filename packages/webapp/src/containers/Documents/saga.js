@@ -5,7 +5,7 @@ import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { archiveDocumentSuccess } from '../documentSlice';
+import { archiveDocumentSuccess, postDocumentSuccess } from '../documentSlice';
 import history from '../../history';
 
 export const postDocument = createAction(`postDocumentSaga`);
@@ -14,6 +14,21 @@ export function* postDocumentSaga({ payload: documentData }) {
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  try {
+    documentData.type = documentData.type.value;
+    const result = yield call(
+      axios.post,
+      `${documentUrl}/farm/${farm_id}`,
+      { ...documentData, farm_id },
+      header
+    )
+    yield put(postDocumentSuccess(result));
+    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'));
+    history.push('/documents')
+  } catch (e) {
+    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.CREATE'));
+    console.log(e);
+  }
 }
 
 export const archiveDocument = createAction(`archiveDocumentSaga`);

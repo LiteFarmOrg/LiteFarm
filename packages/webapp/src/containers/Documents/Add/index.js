@@ -2,23 +2,16 @@ import React, { useEffect } from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { postDocumentSaga } from '../saga';
+import { postDocument } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 
 function AddDocument({ history }) {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Just to see images.
-    // dispatch(uploadFileSuccess([{
-    //   url: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
-    //   thumbnail_url: 'https://litefarmbeta.nyc3.digitaloceanspaces.com/default_crop/default.jpg'
-    // }]))
-  }, []);
-
   const handleSubmit = (data) => {
-    dispatch(postDocumentSaga(data));
+    console.log(data);
+    dispatch(postDocument(data));
   };
 
   const onBack = () => {
@@ -26,7 +19,7 @@ function AddDocument({ history }) {
   };
 
   const onCancel = () => {
-    history.push('/document');
+    history.push('/documents');
   };
 
   const deleteImage = (url) => {

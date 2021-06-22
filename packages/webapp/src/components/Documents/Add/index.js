@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -57,14 +57,27 @@ function PureDocumentDetailView({
     shouldUnregister: false,
     defaultValues: defaultData,
   });
+
+  const submitWithFiles = (data) => {
+    const validUntil = !!data.valid_until ? data.valid_until : null;
+    submit({
+      ...data,
+      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      files: uploadedFiles.map((file, i) => ({
+        ...file,
+        file_name: `${data.name}_i`,
+      })),
+      valid_until: validUntil
+    })
+  }
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
   return (
     <Form
-      onSubmit={handleSubmit(submit)}
+      onSubmit={handleSubmit(submitWithFiles)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit ? !isValid || !isDirty : isValid} fullLength>
+        <Button type={'submit'} disabled={isEdit ? (!isValid || !isDirty) : !isValid} fullLength>
           {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }

@@ -105,8 +105,8 @@ const documentController = {
 
 
         return res.status(201).json({
-          url: `https://${s3BucketName}/${DO_ENDPOINT}/${fileName}`,
-          thumbnail_url: `https://${s3BucketName}/${DO_ENDPOINT}/${thumbnailName}`,
+          url: `https://${s3BucketName}.${DO_ENDPOINT}/${fileName}`,
+          thumbnail_url: `https://${s3BucketName}.${DO_ENDPOINT}/${thumbnailName}`,
         });
       } catch (error) {
         console.log(error);

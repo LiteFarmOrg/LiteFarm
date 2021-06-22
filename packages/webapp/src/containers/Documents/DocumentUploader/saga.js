@@ -5,7 +5,6 @@ import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../../locales/i18n';
-import history from '../../../history';
 import { uploadFileSuccess } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const uploadDocument = createAction(`uploadDocumentSaga`);
@@ -25,9 +24,6 @@ export function* uploadDocumentSaga({ payload }) {
     );
     if (result) {
       yield put(uploadFileSuccess(result.data));
-      if (payload.gotoAdd) {
-        history.push('/documents/add_document');
-      }
     } else {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     }

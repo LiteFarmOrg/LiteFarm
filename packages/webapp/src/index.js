@@ -77,7 +77,20 @@ import mapSaga from './containers/Map/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 
+if (process.env.REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 0.7,
+  });
+}
 // config for redux-persist
 const persistConfig = {
   key: 'root',
@@ -121,6 +134,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
     store.replaceReducer(newRootReducer);
   });
 }
+
 
 sagaMiddleware.run(homeSaga);
 // sagaMiddleware.run(createAccount);

@@ -8,7 +8,7 @@ import Filter from '../Filter';
 import Button from '../Form/Button';
 import { cloneObject } from '../../util';
 
-const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack, children }) => {
+const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack, children, resetters }) => {
   const { t } = useTranslation();
 
   const initFilterPageState = {};
@@ -54,6 +54,10 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack, children
       const change = filterResetHelper(cloneObject(prev));
       return change;
     });
+    for (const resetter of resetters) {
+      const { setFunc, defaultVal } = resetter;
+      setFunc(defaultVal);
+    }
   };
 
   return (

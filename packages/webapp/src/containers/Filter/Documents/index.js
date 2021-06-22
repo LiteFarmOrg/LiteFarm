@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import PureFilterPage from '../../../components/FilterPage';
+import Input from '../../../components/Form/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   TYPE,
@@ -11,12 +12,9 @@ import {
   PEST_CONTROL_PRODUCT,
   SOIL_AMENDMENTS,
   OTHER,
+  VALID_UNTIL,
 } from '../constants';
-import {
-  cropCatalogueFilterSelector,
-  documentsFilterSelector,
-  setCropCatalogueFilter,
-} from '../../filterSlice';
+import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
 
 const types = [
   CLEANING_PRODUCT,
@@ -31,11 +29,20 @@ const DocumentsFilterPage = ({ onGoBack }) => {
   const { t } = useTranslation(['translation', 'filter']);
   const documentsFilter = useSelector(documentsFilterSelector);
   const dispatch = useDispatch();
+  const [validUntilDate, setValidUntilDate] = useState(documentsFilter[VALID_UNTIL] ?? '');
 
   const handleApply = () => {
-    // dispatch(setCropCatalogueFilter(filterRef.current));
+    const filterToApply = {
+      ...filterRef.current,
+      VALID_UNTIL: validUntilDate ? validUntilDate : undefined,
+    };
+    dispatch(setDocumentsFilter(filterToApply));
     onGoBack?.();
   };
+  const handleDateChange = (e) => {
+    setValidUntilDate(e.target.value);
+  };
+
   const filterRef = useRef({});
 
   const filters = [
@@ -57,7 +64,20 @@ const DocumentsFilterPage = ({ onGoBack }) => {
       onApply={handleApply}
       filterRef={filterRef}
       onGoBack={onGoBack}
-    />
+      resetters={[
+        {
+          setFunc: setValidUntilDate,
+          defaultVal: '',
+        },
+      ]}
+    >
+      <Input
+        label={t('DOCUMENTS.FILTER.VALID_UNTIL')}
+        type={'date'}
+        value={validUntilDate}
+        onChange={handleDateChange}
+      />
+    </PureFilterPage>
   );
 };
 

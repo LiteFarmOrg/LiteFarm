@@ -10,6 +10,7 @@ const initialCropCatalogueFilter = {
 };
 const initialDocumentsFilter = {
   TYPE: {},
+  VALID_UNTIL: undefined,
 };
 
 export const initialState = {

@@ -8,7 +8,6 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Button from '../../Form/Button';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
-import { DocumentUploader } from '../../../containers/Documents/DocumentUploader';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -22,15 +21,22 @@ function PureDocumentDetailView({
   persistedFormData,
   isEdit,
   persistedPath,
+  documentUploader,
 }) {
   const { t } = useTranslation();
   const typeOptions = {
-    "CLEANING_PRODUCT": { label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT' },
-    "CROP_COMPLIANCE": { label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE' },
-    "FERTILIZING_PRODUCT": { label: t('DOCUMENTS.TYPE.FERTILIZING_PRODUCT'), value: 'FERTILIZING_PRODUCT' },
-    "PEST_CONTROL_PRODUCT": { label: t('DOCUMENTS.TYPE.PEST_CONTROL_PRODUCT'), value: 'PEST_CONTROL_PRODUCT' },
-    "SOIL_AMENDMENT": { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
-    "OTHER": { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
+    CLEANING_PRODUCT: { label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT' },
+    CROP_COMPLIANCE: { label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE' },
+    FERTILIZING_PRODUCT: {
+      label: t('DOCUMENTS.TYPE.FERTILIZING_PRODUCT'),
+      value: 'FERTILIZING_PRODUCT',
+    },
+    PEST_CONTROL_PRODUCT: {
+      label: t('DOCUMENTS.TYPE.PEST_CONTROL_PRODUCT'),
+      value: 'PEST_CONTROL_PRODUCT',
+    },
+    SOIL_AMENDMENT: { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
+    OTHER: { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
   };
 
   const NAME = 'name';
@@ -38,13 +44,15 @@ function PureDocumentDetailView({
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
 
-  const defaultData = persistedFormData? {
-    'name': persistedFormData.name, 
-    'type': typeOptions[persistedFormData.type],
-    'valid_until': persistedFormData.valid_until.substring(0,10),
-    'notes': persistedFormData.notes
-  } : {};
-  
+  const defaultData = persistedFormData
+    ? {
+        name: persistedFormData.name,
+        type: typeOptions[persistedFormData.type],
+        valid_until: persistedFormData.valid_until.substring(0, 10),
+        notes: persistedFormData.notes,
+      }
+    : {};
+
   const {
     register,
     handleSubmit,
@@ -119,9 +127,9 @@ function PureDocumentDetailView({
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
-      <div style={{ width: '312px', height: '383px', margin: 'auto', paddingBottom: '16px' }}>
-        {uploadedFiles?.map(({ thumbnail_url }) => (
-          <>
+      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
+        {uploadedFiles?.map(({ thumbnail_url }, index) => (
+          <div key={index}>
             <div
               style={{
                 background: 'var(--teal700)',
@@ -141,13 +149,13 @@ function PureDocumentDetailView({
               height: '100%',
               src: thumbnail_url,
             })}
-          </>
+          </div>
         ))}
       </div>
-      <DocumentUploader
-        style={{ paddingBottom: '32px' }}
-        linkText={t('DOCUMENTS.ADD.ADD_MORE_PAGES')}
-      />
+      {documentUploader({
+        style: { paddingBottom: '32px' },
+        linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+      })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

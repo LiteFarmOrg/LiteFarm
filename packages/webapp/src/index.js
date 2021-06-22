@@ -77,8 +77,6 @@ import mapSaga from './containers/Map/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({

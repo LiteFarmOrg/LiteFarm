@@ -87,7 +87,10 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <DocumentUploader style={{ marginBottom: '26px' }} linkText={t("DOCUMENTS.ADD_DOCUMENT")} />
+            <DocumentUploader
+              style={{ marginBottom: '26px' }}
+              linkText={t('DOCUMENTS.ADD_DOCUMENT')}
+            />
             {!!validDocuments.length && (
               <>
                 <PageBreak

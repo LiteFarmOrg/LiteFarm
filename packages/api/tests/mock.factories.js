@@ -336,6 +336,11 @@ function fakeCrop() {
     deleted: false,
     nutrient_credits: faker.random.number(10),
     crop_photo_url: faker.internet.url(),
+    can_be_cover_crop: faker.random.boolean(),
+    planting_depth: faker.random.number(10),
+    yield_per_area: faker.random.number(10),
+    average_seed_weight: faker.random.number(10),
+    yield_per_plant: faker.random.number(10),
   };
 }
 
@@ -599,6 +604,11 @@ function fakeCropVariety() {
     vitb12: faker.random.number(10),
     nutrient_credits: faker.random.number(10),
     crop_variety_photo_url: faker.internet.url(),
+    can_be_cover_crop: faker.random.boolean(),
+    planting_depth: faker.random.number(10),
+    yield_per_area: faker.random.number(10),
+    average_seed_weight: faker.random.number(10),
+    yield_per_plant: faker.random.number(10),
   };
 }
 
@@ -1257,10 +1267,10 @@ function fakePoint() {
 async function documentFactory({
   promisedFarm = farmFactory(),
   creatorUser = usersFactory(),
-}= {}, document = fakeDocument()) {
-  const [ farm, user ] = await Promise.all([ promisedFarm, creatorUser ]);
-  const [ { farm_id } ] = farm;
-  const [ { user_id } ] = user;
+} = {}, document = fakeDocument()) {
+  const [farm, user] = await Promise.all([promisedFarm, creatorUser]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
   const base = baseProperties(user_id);
   return knex('document').insert({ farm_id, ...document, ...base }).returning('*');
 }

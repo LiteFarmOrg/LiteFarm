@@ -6,8 +6,8 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "UPDATE": "Failed to update crop variety",
-      "DELETE": "Failed to delete crop variety"
+      "DELETE": "Failed to delete crop variety",
+      "UPDATE": "Failed to update crop variety"
     },
     "SUCCESS": {
       "DELETE": "Deleted crop variety",
@@ -91,6 +91,14 @@
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Failed to login user info"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "POST": "Failed to add management plan!"
+    },
+    "SUCCESS": {
+      "POST": "Successfully added management plan!"
     }
   },
   "MAP": {

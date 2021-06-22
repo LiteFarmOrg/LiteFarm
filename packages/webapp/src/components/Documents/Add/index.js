@@ -54,8 +54,8 @@ function PureDocumentDetailView({
     <Form
       onSubmit={handleSubmit(submit)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit? (!isValid || !isDirty) : isValid} fullLength>
-          {isEdit? t('common:UPDATE') : t('common:SAVE')}
+        <Button type={'submit'} disabled={isEdit ? !isValid || !isDirty : isValid} fullLength>
+          {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
     >
@@ -134,7 +134,10 @@ function PureDocumentDetailView({
           </>
         ))}
       </div>
-      <DocumentUploader style={{paddingBottom: '32px'}} linkText={t("DOCUMENTS.ADD.ADD_MORE_PAGES")}/>
+      <DocumentUploader
+        style={{ paddingBottom: '32px' }}
+        linkText={t('DOCUMENTS.ADD.ADD_MORE_PAGES')}
+      />
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

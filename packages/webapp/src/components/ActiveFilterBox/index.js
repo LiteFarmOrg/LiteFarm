@@ -7,11 +7,13 @@ import { BsChevronDown } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { removeFilter, removeNonFilterValue } from '../../containers/filterSlice';
 import { VALID_ON } from '../../containers/Filter/constants';
+import { useTranslation } from 'react-i18next';
 
 const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
   const [firstRow, setFirstRow] = useState(0);
   const [open, setOpen] = useState(false);
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const activeFilters = Object.keys(pageFilter).reduce((acc, filterKey) => {
@@ -23,7 +25,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
           {
             filterKey,
             value: pageFilter[filterKey],
-            label: `Valid on: ${pageFilter[filterKey]}`,
+            label: `${t('DOCUMENTS.FILTER.VALID_ON')}: ${pageFilter[filterKey]}`,
             customRemoveFilter: removeNonFilterValue({ pageFilterKey, filterKey }),
           },
         ];

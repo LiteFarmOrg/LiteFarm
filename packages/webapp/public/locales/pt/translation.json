@@ -249,11 +249,11 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
-      "COLD_STORAGE": "Este celeiro tem câmara fria?",
-      "EDIT_TITLE": "Editar celeiro",
-      "NAME": "Celeiro",
-      "TITLE": "Adicionar celeiro",
-      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
+      "COLD_STORAGE": "Este galpão tem câmara fria?",
+      "EDIT_TITLE": "Editar galpão",
+      "NAME": "Galpão",
+      "TITLE": "Adicionar galpão",
+      "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -341,7 +341,7 @@
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar to your map",
       "AREAS": "Áreas",
-      "BARN": "Celeiro",
+      "BARN": "Galpão",
       "BZ": "Zona de amortecimento/proteção",
       "CA": "Área cerimonial",
       "FENCE": "Cerca",

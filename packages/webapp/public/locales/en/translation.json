@@ -205,7 +205,8 @@
       "PEST_CONTROL_PRODUCT": "Pest control product",
       "SOIL_AMENDMENT": "Soil Amendment"
     },
-    "VALID": "Valid"
+    "VALID": "Valid",
+    "ARCHIVE": "Archive"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",

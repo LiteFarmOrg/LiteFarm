@@ -29,7 +29,7 @@ export const getManagementPlan = (obj) => {
     'transplant_date',
     'transplant_days',
     'notes',
-    'name'
+    'name',
   ]);
 };
 
@@ -119,8 +119,8 @@ const getPlantingTypeSelector = (plantingTypeEntitySelector) =>
       for (const management_plan_id in plantingTypeEntities) {
         const plantingType = plantingTypeEntities[management_plan_id];
         const management_plan = managementPlanEntities[management_plan_id];
-        const crop_variety = cropVarietyEntities[management_plan.crop_variety_id];
-        const crop = cropEntities[crop_variety.crop_id];
+        const crop_variety = cropVarietyEntities[management_plan.crop_variety_id] ?? {};
+        const crop = cropVarietyEntities[management_plan.crop_variety_id] ? cropEntities[crop_variety.crop_id] : {};
         const location = cropLocationEntities[plantingType.location_id];
         const transplant_container = transplantContainerEntities[management_plan_id];
         entities[management_plan_id] = {
@@ -366,4 +366,30 @@ export const plannedCropVarietiesByCropIdSelector = (crop_id) =>
 export const expiredCropVarietiesByCropIdSelector = (crop_id) =>
   createSelector([expiredManagementPlanByCropIdSelector(crop_id)], (managementPlans) =>
     getUniqueEntities(managementPlans, 'crop_variety_id'),
+  );
+
+export const managementPlansByCropVarietyIdSelector = (crop_variety_id) =>
+  createSelector([managementPlansSelector], (managementPlans) => {
+    return managementPlans.filter(
+      (managementPlan) => managementPlan.crop_variety_id === crop_variety_id,
+    );
+  });
+
+export const currentManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
+  createSelector(
+    [managementPlansByCropVarietyIdSelector(crop_variety_id), lastActiveDatetimeSelector],
+    (managementPlans, lastActiveDate) =>
+      getCurrentManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
+  );
+export const plannedManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
+  createSelector(
+    [managementPlansByCropVarietyIdSelector(crop_variety_id), lastActiveDatetimeSelector],
+    (managementPlans, lastActiveDate) =>
+      getPlannedManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
+  );
+export const expiredManagementPlanByCropVarietyIdSelector = (crop_variety_id) =>
+  createSelector(
+    [managementPlansByCropVarietyIdSelector(crop_variety_id), lastActiveDatetimeSelector],
+    (managementPlans, lastActiveDate) =>
+      getExpiredManagementPlans(managementPlans, new Date(lastActiveDate).getTime()),
   );

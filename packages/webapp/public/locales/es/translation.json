@@ -23,10 +23,7 @@
     "SEEDING_RATE": "MISSING"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "MISSING",
-    "TITLE": {
-      "MANAGEMENT_PLAN": "MISSING"
-    }
+    "BODY": "MISSING"
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
@@ -104,6 +101,7 @@
     "COVER_CROP": "MISSING",
     "CREATE_MANAGEMENT_PLANS": "MISSING",
     "CROP_CATALOGUE": "MISSING",
+    "CROP_GROUP": "MISSING",
     "CROP_GROUP_TOOL_TIP": "MISSING",
     "CROP_STATUS": "MISSING",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "MISSING",
@@ -134,9 +132,6 @@
     "MANAGEMENT_TAB": "MISSING",
     "ORGANIC": "MISSING",
     "PERENNIAL": "MISSING",
-    "SEED": "MISSING",
-    "SEED_SEEDLING": "MISSING",
-    "SEEDLING": "MISSING",
     "TREATED": "MISSING"
   },
   "CROP_MANAGEMENT": {
@@ -157,6 +152,11 @@
     "ADD_IMAGE": "MISSING",
     "ANNUAL": "MISSING",
     "ANNUAL_OR_PERENNIAL": "MISSING",
+    "EDIT_CROP": "MISSING",
+    "EDIT_MODAL": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "IS_GENETICALLY_ENGINEERED": "MISSING",
     "IS_ORGANIC": "MISSING",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "MISSING",
@@ -164,9 +164,6 @@
     "NEED_DOCUMENT_TREATED": "MISSING",
     "PERENNIAL": "MISSING",
     "PERFORM_SEARCH": "MISSING",
-    "SEED": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDLING_OR_PLANTING_STOCK": "MISSING",
     "TREATED": "MISSING",
     "UPLOAD_LATER": "MISSING"
   },
@@ -174,6 +171,37 @@
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
     "HELP_TITLE": "Ayuda con el rango de fechas",
     "TITLE": "Filtrar reporte por fecha"
+  },
+  "DOCUMENTS": {
+    "ADD_DOCUMENT": "MISSING",
+    "EDIT_DOCUMENT": "MISSING",
+    "ADD": {
+      "ADD_MORE_PAGES": "MISSING",
+      "DOCUMENT_NAME": "MISSING",
+      "DOES_NOT_EXPIRE": "MISSING",
+      "TITLE": "MISSING",
+      "TYPE": "MISSING",
+      "VALID_UNTIL": "MISSING"
+    },
+    "ARCHIVED": "MISSING",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "MISSING",
+    "DOCUMENTS": "MISSING",
+    "SPOTLIGHT": {
+      "CDC": "MISSING",
+      "HERE_YOU_CAN": "MISSING",
+      "YOU_CAN_ONE": "MISSING",
+      "YOU_CAN_THREE": "MISSING",
+      "YOU_CAN_TWO": "MISSING"
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT": "MISSING",
+      "CROP_COMPLIANCE": "MISSING",
+      "FERTILIZING_PRODUCT": "MISSING",
+      "OTHER": "MISSING",
+      "PEST_CONTROL_PRODUCT": "MISSING",
+      "SOIL_AMENDMENT": "MISSING"
+    },
+    "VALID": "MISSING"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
@@ -1159,12 +1187,12 @@
   },
   "SLIDE_MENU": {
     "CROPS": "MISSING",
+    "DOCUMENTS": "MISSING",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
     "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos",
-    "DOCUMENTS": "MISSING"
+    "SHIFTS": "Turnos"
   },
   "STATUS": {
     "ACTIVE": "Activo",
@@ -1200,16 +1228,8 @@
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
   },
-  "DOCUMENTS": {
-    "DOCUMENTS": "MISSING",
-    "ADD_DOCUMENT": "MISSING",
-    "VALID": "MISSING",
-    "ARCHIVED": "MISSING",
-    "CROP_COMPLIANCE": "MISSING",
-    "CLEANING_PRODUCT": "MISSING",
-    "FERTILIZING_PRODUCT": "MISSING",
-    "PEST_CONTROL_PRODUCT": "MISSING",
-    "SOIL_AMENDMENT": "MISSING",
-    "OTHER": "MISSING"
+  "FILE_SIZE_MODAL": {
+    "TITLE": "MISSING",
+    "BODY": "MISSING"
   }
 }

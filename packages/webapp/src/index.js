@@ -74,6 +74,7 @@ import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import mapSaga from './containers/Map/saga';
+import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
 import * as Sentry from "@sentry/react";
@@ -181,6 +182,7 @@ sagaMiddleware.run(SSOInfoSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
+sagaMiddleware.run(uploadDocumentSaga);
 
 const persistor = persistStore(store);
 

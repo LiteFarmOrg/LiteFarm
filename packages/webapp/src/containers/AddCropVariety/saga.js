@@ -4,9 +4,10 @@ import { loginSelector } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { postCropVarietySuccess } from '../cropVarietySlice';
+import { postCropVarietySuccess, putCropVarietySuccess, deleteCropVarietySuccess } from '../cropVarietySlice';
 import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
+import i18n from '../../locales/i18n';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -92,7 +93,55 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
   }
 }
 
+export const patchVarietal = createAction(`patchVarietalSaga`);
+
+export function* patchVarietalSaga({ payload: { variety_id, data } }) {
+  const { cropVarietyURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.patch,
+      `${cropVarietyURL}/${variety_id}`,
+      { ...data, farm_id },
+      header,
+    );
+    yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
+    history.push(`/crop/${variety_id}/detail`);
+    toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE'));
+  } catch (e) {
+    toastr.error(i18n.t('message:CROP_VARIETY.ERROR.UPDATE'));
+    console.log('failed to update crop variety');
+  }
+}
+
+
+export const deleteVarietal = createAction('deleteVarietalSaga');
+
+export function* deleteVarietalSaga({ payload: { variety_id} }) {
+  const { cropVarietyURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.delete,
+      `${cropVarietyURL}/${variety_id}`,
+      header
+    );
+    toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE'));
+    history.push('/crop_catalogue')
+    yield put(deleteCropVarietySuccess(variety_id))
+  } catch (e) {
+    console.log('failed to delete crop variety');
+    toastr.error(i18n.t('message:CROP_VARIETY.ERROR.DELETE'))
+  }
+
+}
+
 export default function* varietalSaga() {
   yield takeLeading(postVarietal.type, postVarietalSaga);
   yield takeLeading(postCropAndVarietal.type, postCropAndVarietalSaga);
+  yield takeLeading(patchVarietal.type, patchVarietalSaga);
+  yield takeLeading(deleteVarietal.type, deleteVarietalSaga);
 }

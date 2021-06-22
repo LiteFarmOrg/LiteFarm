@@ -1,15 +1,15 @@
 import React from 'react';
-import PureAddDocumentView from '../../../components/Documents/Add';
+import PureDocumentDetailView from '../../../components/Documents/Add';
 import decorator from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Page/Document/AddDocument',
-  component: PureAddDocumentView,
+  component: PureDocumentDetailView,
   decorators: decorator,
 };
 
-const Template = (args) => <PureAddDocumentView {...args} />;
+const Template = (args) => <PureDocumentDetailView {...args} />;
 
 export const Primary = Template.bind({});
 
@@ -23,12 +23,13 @@ Primary.args = {
       uploadedFiles: [
         {
           url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
-          thumbnailUrl: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
+          thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg',
         },
       ],
     },
   }),
   imageComponent: (props) => <img {...props} />,
+  isEdit: false
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

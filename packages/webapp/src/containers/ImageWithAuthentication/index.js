@@ -14,7 +14,9 @@ export function ImageWithAuthentication({ src, ...props }) {
     const getImageSrc = async () => {
       try {
         subscribed = true;
-        const response = await fetch(src, config);
+        const url = new URL(src);
+        url.hostname = 'images.litefarm.workers.dev';
+        const response = await fetch(url.toString(), config);
         const image = await response.blob();
         subscribed && setImageSrc(URL.createObjectURL(image));
       } catch (e) {

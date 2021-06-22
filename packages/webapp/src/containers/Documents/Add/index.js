@@ -5,6 +5,7 @@ import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersi
 import { postDocumentSaga } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
+import { DocumentUploader } from '../DocumentUploader';
 
 function AddDocument({ history }) {
   const dispatch = useDispatch();
@@ -40,7 +41,8 @@ function AddDocument({ history }) {
       submit={handleSubmit}
       deleteImage={deleteImage}
       useHookFormPersist={useHookFormPersist}
-      imageComponent={ImageWithAuthentication}
+      imageComponent={(props) => <ImageWithAuthentication {...props} />}
+      documentUploader={(props) => <DocumentUploader {...props} />}
       isEdit={false}
       persistedPath={[]}
     />

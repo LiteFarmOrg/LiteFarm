@@ -9,13 +9,13 @@ import { uploadFileSuccess } from '../../hooks/useHookFormPersist/hookFormPersis
 
 export const uploadDocument = createAction(`uploadDocumentSaga`);
 
-export function* uploadDocumentSaga({ payload: file }) {
+export function* uploadDocumentSaga({ payload }) {
   const { documentUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     const formData = new FormData();
-    formData.append('_file_', file);
+    formData.append('_file_', payload.file);
     const result = yield call(
       axios.post,
       `${documentUrl}/upload/farm/${farm_id}`,

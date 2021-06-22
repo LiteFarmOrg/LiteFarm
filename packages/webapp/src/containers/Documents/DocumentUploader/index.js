@@ -14,9 +14,7 @@ export function DocumentUploader({ style, onUpload, linkText }) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
-      dispatch(uploadDocument(e.target.files[0]));
-      // TODO - Add path
-      console.log('Go to Add Document page');
+      dispatch(uploadDocument({ file: e.target.files[0] }));
     }
   };
 

@@ -108,6 +108,7 @@ export default function Documents({ history }) {
           <DocumentUploader
             style={{ marginBottom: '26px' }}
             linkText={t('DOCUMENTS.ADD_DOCUMENT')}
+            onUpload={() => history.push('/documents/add_document')}
           />
           {!!validDocuments.length && (
             <>
@@ -122,7 +123,7 @@ export default function Documents({ history }) {
                     <PureDocumentTile
                       title={document.name}
                       type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                      date={null} //getDisplayedDate(document.valid_until)}
+                      date={null}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
                     />

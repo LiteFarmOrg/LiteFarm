@@ -19,23 +19,32 @@ function PureDocumentDetailView({
   deleteImage,
   useHookFormPersist,
   imageComponent,
+  persistedFormData,
   isEdit,
   persistedPath,
 }) {
   const { t } = useTranslation();
-  const typeOptions = [
-    { label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT' },
-    { label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE' },
-    { label: t('DOCUMENTS.TYPE.FERTILIZING_PRODUCT'), value: 'FERTILIZING_PRODUCT' },
-    { label: t('DOCUMENTS.TYPE.PEST_CONTROL_PRODUCT'), value: 'PEST_CONTROL_PRODUCT' },
-    { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
-    { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
-  ];
+  const typeOptions = {
+    "CLEANING_PRODUCT": { label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT' },
+    "CROP_COMPLIANCE": { label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE' },
+    "FERTILIZING_PRODUCT": { label: t('DOCUMENTS.TYPE.FERTILIZING_PRODUCT'), value: 'FERTILIZING_PRODUCT' },
+    "PEST_CONTROL_PRODUCT": { label: t('DOCUMENTS.TYPE.PEST_CONTROL_PRODUCT'), value: 'PEST_CONTROL_PRODUCT' },
+    "SOIL_AMENDMENT": { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
+    "OTHER": { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
+  };
 
   const NAME = 'name';
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
+
+  const defaultData = persistedFormData? {
+    'name': persistedFormData.name, 
+    'type': typeOptions[persistedFormData.type],
+    'valid_until': persistedFormData.valid_until.substring(0,10),
+    'notes': persistedFormData.notes
+  } : {};
+  
   const {
     register,
     handleSubmit,
@@ -46,6 +55,7 @@ function PureDocumentDetailView({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
+    defaultValues: defaultData,
   });
   const {
     persistedData: { uploadedFiles },
@@ -87,7 +97,7 @@ function PureDocumentDetailView({
         render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             optional
-            options={typeOptions}
+            options={Object.values(typeOptions)}
             label={t('DOCUMENTS.ADD.TYPE')}
             value={value}
             onChange={(e) => {

@@ -9,19 +9,18 @@ import { ReactComponent as Document } from '../../assets/images/managementPlans/
 import { Main, Title } from '../Typography';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../Form/RadioGroup';
-import Form from '../Form';
 import styles from './styles.module.scss';
+import Layout from '../Layout';
 
 function PureCropDetail({
   history,
   match,
   variety,
   isEditing,
-  submitForm,
   onBack,
   isInterestedInOrganic,
   onRetire,
-  setShowEditModal,
+  onEdit,
 }) {
   const { t } = useTranslation();
   const {
@@ -37,24 +36,15 @@ function PureCropDetail({
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
   return (
-    <Form
-      onSubmit={handleSubmit(submitForm)}
+    <Layout
       buttonGroup={
         <>
-          {isEditing ? (
-            <Button disabled={!isValid} fullLength>
-              {t('common:UPDATE')}
-            </Button>
-          ) : (
-            <>
-              <Button color={'secondary'} fullLength onClick={onRetire}>
-                {t('common:RETIRE')}
-              </Button>
-              <Button onClick={() => setShowEditModal(true)} fullLength>
-                {t('common:EDIT')}
-              </Button>
-            </>
-          )}
+          <Button color={'secondary'} fullLength onClick={onRetire}>
+            {t('common:RETIRE')}
+          </Button>
+          <Button onClick={onEdit} fullLength>
+            {t('common:EDIT')}
+          </Button>
         </>
       }
     >
@@ -152,7 +142,7 @@ function PureCropDetail({
           <RadioGroup disabled={!isEditing} hookFormControl={control} name={TREATED} showNotSure />
         </>
       )}
-    </Form>
+    </Layout>
   );
 }
 

@@ -119,8 +119,8 @@ const getPlantingTypeSelector = (plantingTypeEntitySelector) =>
       for (const management_plan_id in plantingTypeEntities) {
         const plantingType = plantingTypeEntities[management_plan_id];
         const management_plan = managementPlanEntities[management_plan_id];
-        const crop_variety = cropVarietyEntities[management_plan.crop_variety_id];
-        const crop = cropEntities[crop_variety.crop_id];
+        const crop_variety = cropVarietyEntities[management_plan.crop_variety_id] ?? {};
+        const crop = cropVarietyEntities[management_plan.crop_variety_id] ? cropEntities[crop_variety.crop_id] : {};
         const location = cropLocationEntities[plantingType.location_id];
         const transplant_container = transplantContainerEntities[management_plan_id];
         entities[management_plan_id] = {

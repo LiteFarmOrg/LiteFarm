@@ -14,8 +14,6 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
-    "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated yield",
     "LOCATION_SIZE": "Location size",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
@@ -144,7 +142,13 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Add a new variety",
     "CROP_VARIETIES": "variety",
-    "NEEDS_PLAN": "Needs Plan"
+    "NEEDS_PLAN": "Needs Plan",
+    "RETIRE": {
+      "CONFIRMATION": "Retiring this crop will remove it and all its management plans from your crop catalogue. Do you want to proceed?",
+      "RETIRE_CROP_TITLE": "Retire crop?",
+      "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop",
+      "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
+    }
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -169,6 +173,7 @@
   },
   "DOCUMENTS": {
     "ADD_DOCUMENT": "Add a new document",
+    "EDIT_DOCUMENT": "Edit document",
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
       "DOCUMENT_NAME": "Document name",
@@ -182,7 +187,15 @@
     "ARCHIVE_DOCUMENT_TEXT": "Archiving this document will move it to the archived section of your documents, but not delete it. Archived documents will not be exported for your certifications. Do you want to proceed?",
     "ARCHIVED": "Archived",
     "CANCEL": "Cancel",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
+    "SPOTLIGHT": {
+      "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
+      "HERE_YOU_CAN": "Here you can:",
+      "YOU_CAN_ONE": "Upload documents that you want included in your certification export",
+      "YOU_CAN_THREE": "Archive unneeded documents",
+      "YOU_CAN_TWO": "Categorize and keep tabs on your document's expiration dates"
+    },
     "TYPE": {
       "CLEANING_PRODUCT": "Cleaning product",
       "CROP_COMPLIANCE": "Crop compliance",
@@ -191,7 +204,8 @@
       "PEST_CONTROL_PRODUCT": "Pest control product",
       "SOIL_AMENDMENT": "Soil Amendment"
     },
-    "VALID": "Valid"
+    "VALID": "Valid",
+    "ARCHIVE": "Archive"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -507,6 +521,10 @@
       "FIELD_NAME": "Field Name"
     },
     "TITLE": "Fields"
+  },
+  "FILE_SIZE_MODAL": {
+    "BODY": "Files can not exceed 25MB or 5 pages.",
+    "TITLE": "File size too large"
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Clear all filters"
@@ -864,6 +882,8 @@
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
+    "ESTIMATED_SEED": "Estimated seed required",
+    "ESTIMATED_YIELD": "Estimated yield",
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",

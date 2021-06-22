@@ -192,7 +192,7 @@ const Unit = ({
     } else if (required && e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
     } else if (e.target.value === '') {
-      hookFormSetValue(name, undefined, { shouldValidate: true });
+      hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
     } else if (e.target.value > 1000000000) {
       hookFormSetError(name, {

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import PureAddDocumentView from '../../../components/Documents/Add';
+import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { postDocumentSaga } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 
 function AddDocument({ history }) {
   const dispatch = useDispatch();
@@ -28,22 +29,20 @@ function AddDocument({ history }) {
     history.push('/document');
   };
 
-  const upload = () => {
-    //TODO: uploading functionality tbd
-  };
-
   const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ thumbnail_url: url }));
   };
 
   return (
-    <PureAddDocumentView
+    <PureDocumentDetailView
       onCancel={onCancel}
       onGoBack={onBack}
       submit={handleSubmit}
-      uploadImageOrDocument={upload}
       deleteImage={deleteImage}
       useHookFormPersist={useHookFormPersist}
+      imageComponent={ImageWithAuthentication}
+      isEdit={false}
+      persistedPath={[]}
     />
   );
 }

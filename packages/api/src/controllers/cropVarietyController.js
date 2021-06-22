@@ -9,8 +9,8 @@ const cropVarietyController = {
     return async (req, res, next) => {
       const { farm_id } = req.params;
       try {
-        const result = await CropVarietyModel.query().whereNotDeleted().withGraphFetched('[crop]').where({ farm_id });
-        return result?.length ? res.status(200).send(result) : res.status(404).send('Crop variety not found');
+        const result = await CropVarietyModel.query().whereNotDeleted().where({ farm_id });
+        return res.status(200).send(result)
       } catch (error) {
         return res.status(400).json({ error });
       }
@@ -20,7 +20,7 @@ const cropVarietyController = {
     return async (req, res, next) => {
       const { crop_variety_id } = req.params;
       try {
-        const result = await CropVarietyModel.query().whereNotDeleted().withGraphFetched('[crop]').findById(crop_variety_id);
+        const result = await CropVarietyModel.query().whereNotDeleted().findById(crop_variety_id);
         return result ? res.status(200).send(result) : res.status(404).send('Crop variety not found');
       } catch (error) {
         return res.status(400).json({ error });

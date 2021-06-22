@@ -336,6 +336,11 @@ function fakeCrop() {
     deleted: false,
     nutrient_credits: faker.random.number(10),
     crop_photo_url: faker.internet.url(),
+    can_be_cover_crop: faker.random.boolean(),
+    planting_depth: faker.random.number(10),
+    yield_per_area: faker.random.number(10),
+    average_seed_weight: faker.random.number(10),
+    yield_per_plant: faker.random.number(10),
   };
 }
 
@@ -368,7 +373,7 @@ async function management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
 } = {}, managementPlan = fakeManagementPlan()) {
   const [cropVariety] = await Promise.all([promisedCropVariety]);
   const [{ crop_variety_id, created_by_user_id }] = cropVariety;
@@ -380,7 +385,7 @@ async function management_planFactory({
   }).returning('*');
 }
 
-function fakeManagementPlan() {
+function fakeManagementPlan() { // seed date always in past, harvest date always in future - management plan is in progress
   return {
     name: faker.lorem.words(),
     seed_date: faker.date.past(),
@@ -507,7 +512,7 @@ async function broadcastFactory({
 
 function fakeBroadcast() {
   return {
-    percentage_planted: faker.random.number(100),
+    percentage_planted: faker.random.number(10),
     area_used: faker.random.number(10000),
     seeding_rate: faker.random.number(10000),
     required_seeds: faker.random.number(10000),
@@ -599,6 +604,11 @@ function fakeCropVariety() {
     vitb12: faker.random.number(10),
     nutrient_credits: faker.random.number(10),
     crop_variety_photo_url: faker.internet.url(),
+    can_be_cover_crop: faker.random.boolean(),
+    planting_depth: faker.random.number(10),
+    yield_per_area: faker.random.number(10),
+    average_seed_weight: faker.random.number(10),
+    yield_per_plant: faker.random.number(10),
   };
 }
 
@@ -1042,7 +1052,7 @@ async function supportTicketFactory({
 
 function fakeOrganicCertifierSurvey(farm_id) {
   const certificationIDS = [1, 2];
-  const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();
   const now = new Date();
   return {
@@ -1257,10 +1267,10 @@ function fakePoint() {
 async function documentFactory({
   promisedFarm = farmFactory(),
   creatorUser = usersFactory(),
-}= {}, document = fakeDocument()) {
-  const [ farm, user ] = await Promise.all([ promisedFarm, creatorUser ]);
-  const [ { farm_id } ] = farm;
-  const [ { user_id } ] = user;
+} = {}, document = fakeDocument()) {
+  const [farm, user] = await Promise.all([promisedFarm, creatorUser]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
   const base = baseProperties(user_id);
   return knex('document').insert({ farm_id, ...document, ...base }).returning('*');
 }
@@ -1271,8 +1281,26 @@ function fakeDocument() {
     thumbnail_url: faker.image.imageUrl(),
     valid_until: faker.date.future(),
     notes: faker.lorem.words(),
-    type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'])
-  }
+    type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER']),
+  };
+}
+
+async function fileFactory({
+  promisedFarm = farmFactory(),
+  creatorUser = usersFactory(),
+  promisedDocument = documentFactory({ promisedFarm, creatorUser }),
+} = {}, file = fakeFile()) {
+  const [document] = await Promise.all([promisedDocument]);
+  const [{ document_id }] = document;
+  return knex('file').insert({ document_id, ...file }).returning('*');
+}
+
+function fakeFile() {
+  return {
+    file_name: faker.lorem.words(),
+    thumbnail_url: faker.image.imageUrl(),
+    url: faker.image.imageUrl(),
+  };
 }
 
 
@@ -1341,6 +1369,7 @@ module.exports = {
   crop_varietyFactory,
   fakeCropVariety,
   fakeDocument, documentFactory,
+  fakeFile, fileFactory,
   // allSupportedCertificationsFactory,
   // allSupportedCertifiersFactory,
 };

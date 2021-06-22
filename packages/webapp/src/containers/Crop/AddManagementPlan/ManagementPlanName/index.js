@@ -10,6 +10,7 @@ import { rowProperties } from '../../../rowsSlice';
 import { postManagementPlan } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { getTransplantContainer } from '../../../transplantContainerSlice';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -54,7 +55,7 @@ const formatManagementPlanFormData = (formData) => {
       ...pick(plantingMethodAndCropManagementPlan, cropManagementPlanProperties),
       [planting_type.toLowerCase()]: plantingMethod,
     },
-    transplant_container: data?.transplant_container,
+    transplant_container: getTransplantContainer(data?.transplant_container),
   };
   return reqBody;
 };

@@ -177,8 +177,7 @@ async function fromManagementPlan(managementPlanId) {
 }
 
 async function fromCropVariety(crop_variety_id) {
-  const cropVariety = await knex('crop_variety').where({ crop_variety_id }).first();
-  return cropVariety;
+  return await knex('crop_variety').where({ crop_variety_id }).first();
 }
 
 async function fromYield(yieldId) {

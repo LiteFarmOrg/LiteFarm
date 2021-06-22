@@ -5,14 +5,15 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import PureDocumentTile from '../../components/DocumentTile';
-import PureDocumentTileContainer from '../../components/DocumentTile/DocumentTileContainer';
-import useDocumentTileGap from '../../components/DocumentTile/useDocumentTileGap';
+import PureDocumentTile from './DocumentTile';
+import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
+import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { documentsSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useSortByName, useStringFilteredDocuments } from './util';
+import { useStringFilteredDocuments, useSortByName } from './util';
 import moment from 'moment';
+import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
 
 export default function Documents({ history }) {
@@ -69,32 +70,27 @@ export default function Documents({ history }) {
     archivedDocuments.length,
   ]);
 
-  const onGoBack = () => {
-    history.push('/home');
-  };
-
-  const tileClick = () => {
-    // TODO - Add path
-    console.log('Go to document detail');
+  const tileClick = (document_id) => {
+    history.push(`/documents/${document_id}`);
   };
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
-      <PageTitle
-        title={t('DOCUMENTS.DOCUMENTS')}
-        style={{ paddingBottom: '20px' }}
-        onGoBack={onGoBack}
-      />
+      <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
       <PureSearchbarAndFilter
         onFilterOpen={onFilterOpen}
         value={filterString}
         onChange={filterStringOnChange}
         isFilterActive={isFilterCurrentlyActive}
       />
+      <DocumentsSpotlight />
       <div ref={containerRef}>
         {!isFilterCurrentlyActive && (
           <>
-            <DocumentUploader style={{ marginBottom: '26px' }} />
+            <DocumentUploader
+              style={{ marginBottom: '26px' }}
+              linkText={t('DOCUMENTS.ADD_DOCUMENT')}
+            />
             {!!validDocuments.length && (
               <>
                 <PageBreak
@@ -110,7 +106,7 @@ export default function Documents({ history }) {
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
                         date={null} //getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
-                        onClick={tileClick}
+                        onClick={() => tileClick(document.document_id)}
                       />
                     );
                   })}
@@ -132,7 +128,7 @@ export default function Documents({ history }) {
                         type={t(`DOCUMENTS.TYPE.${document.type}`)}
                         date={getDisplayedDate(document.valid_until)}
                         preview={document.thumbnail_url}
-                        onClick={tileClick}
+                        onClick={() => tileClick(document.document_id)}
                       />
                     );
                   })}

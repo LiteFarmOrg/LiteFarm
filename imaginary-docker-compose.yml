@@ -4,8 +4,8 @@ services:
   imaginary:
     image: h2non/imaginary
     ports:
-      - "8088:80"
+      - "443:8088"
     environment:
-      - PORT=80
+      - PORT=8088
     command: -concurrency 5 -disable-endpoints form -key ${token} -enable-url-source litefarm-app-secret.nyc3.digitaloceanspaces.com,litefarm-beta-secret.nyc3.digitaloceanspaces.com,litefarm-dev-secret.nyc3.digitaloceanspaces.com,litefarmapp.nyc3.digitaloceanspaces.com,litefarmbeta.nyc3.digitaloceanspaces.com,litefarm.nyc3.digitaloceanspaces.com
 

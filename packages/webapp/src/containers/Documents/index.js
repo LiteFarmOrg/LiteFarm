@@ -109,7 +109,7 @@ export default function Documents({ history }) {
                     <PureDocumentTile
                       title={document.name}
                       type={t(`DOCUMENTS.TYPE.${document.type}`)}
-                      date={null}
+                      date={getDisplayedDate(document.valid_until)}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
@@ -131,7 +131,7 @@ export default function Documents({ history }) {
                   return (
                     <PureDocumentTile
                       title={document.name}
-                      type={t(`DOCUMENTS.TYPE.${document.type}`)}
+                      type={document.type}
                       date={getDisplayedDate(document.valid_until)}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}

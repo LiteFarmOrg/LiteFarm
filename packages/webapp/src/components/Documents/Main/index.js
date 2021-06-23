@@ -9,6 +9,7 @@ import PageTitle from '../../PageTitle/v2';
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
   const isArchived = document.valid_until !== null && new Date(document.valid_until) < new Date();
+  const validUntil = document.valid_until?.split('T')[0];
   return (
     <Layout
       buttonGroup={
@@ -29,15 +30,19 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         value={document.name}
         disabled
       />
+      {
+        document.valid_until && (
+          <Input
+            type={'date'}
+            value={validUntil}
+            label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+            optional
+            disabled
+            classes={{ container: { paddingBottom: '40px' } }}
+          />
+        )
+      }
 
-      <Input
-        type={'date'}
-        value={document.valid_until}
-        label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-        optional
-        disabled
-        classes={{ container: { paddingBottom: '40px' } }}
-      />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '32px' }}>
         {document.files?.map(({ thumbnail_url }) => (
           <>

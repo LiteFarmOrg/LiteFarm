@@ -55,7 +55,9 @@ const formatManagementPlanFormData = (formData) => {
       ...pick(plantingMethodAndCropManagementPlan, cropManagementPlanProperties),
       [planting_type.toLowerCase()]: plantingMethod,
     },
-    transplant_container: getTransplantContainer(data?.transplant_container),
+    transplant_container: data.needs_transplant
+      ? getTransplantContainer(data?.transplant_container)
+      : undefined,
   };
   return reqBody;
 };

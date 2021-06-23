@@ -9,9 +9,9 @@ import PureDocumentTile from './DocumentTile';
 import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
 import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
-import { documentsSelector } from '../documentSlice';
+import { expiredDocumentSelector, validDocumentSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useStringFilteredDocuments, useSortByName, useFilterDocuments } from './util';
+import { useFilterDocuments, useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
@@ -24,11 +24,6 @@ export default function Documents({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();
-
-  const isValid = (date, currDate) => {
-    let given_date = new Date(date);
-    return currDate < given_date;
-  };
 
   const getDisplayedDate = (date) => {
     return date && moment(date).locale(lang).format('MMM D, YY') + "'";
@@ -53,23 +48,14 @@ export default function Documents({ history }) {
     dispatch(getDocuments());
   }, []);
 
-  const documents = useStringFilteredDocuments(
-    useSortByName(useSelector(documentsSelector)),
+  const validDocuments = useStringFilteredDocuments(
+    useSortByName(useFilterDocuments(useSelector(validDocumentSelector))),
     filterString,
   );
-  const filteredDocuments = useFilterDocuments(documents);
-  const validDocuments = [];
-  const archivedDocuments = [];
-
-  const currDate = new Date();
-
-  filteredDocuments.forEach((document) => {
-    if (isValid(document.valid_until, currDate)) {
-      validDocuments.push(document);
-    } else {
-      archivedDocuments.push(document);
-    }
-  });
+  const archivedDocuments = useStringFilteredDocuments(
+    useSortByName(useFilterDocuments(useSelector(expiredDocumentSelector))),
+    filterString,
+  );
 
   const { ref: containerRef, gap, padding } = useDocumentTileGap([
     validDocuments.length,
@@ -126,6 +112,7 @@ export default function Documents({ history }) {
                       date={null}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
+                      key={document.document_id}
                     />
                   );
                 })}
@@ -148,6 +135,7 @@ export default function Documents({ history }) {
                       date={getDisplayedDate(document.valid_until)}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
+                      key={document.document_id}
                     />
                   );
                 })}

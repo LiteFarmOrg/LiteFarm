@@ -1,8 +1,12 @@
 const CropVarietyModel = require('../models/cropVarietyModel');
 const CropModel = require('../models/cropModel');
-const nutrients = [ 'protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
+const nutrients = ['protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
   'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits',
   'can_be_cover_crop'];
+const { getPublicS3BucketName, getImaginaryThumbnailUrl, s3, DO_ENDPOINT } = require('../util/digitalOceanSpaces');
+const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
+const path = require('path');
 
 const cropVarietyController = {
   getCropVarietiesByFarmId() {
@@ -10,7 +14,7 @@ const cropVarietyController = {
       const { farm_id } = req.params;
       try {
         const result = await CropVarietyModel.query().whereNotDeleted().where({ farm_id });
-        return res.status(200).send(result)
+        return res.status(200).send(result);
       } catch (error) {
         return res.status(400).json({ error });
       }
@@ -61,6 +65,60 @@ const cropVarietyController = {
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });
+      }
+    };
+  },
+  uploadCropImage() {
+    return async (req, res, next) => {
+      const { farm_id } = req.params;
+      try {
+        const s3BucketName = getPublicS3BucketName();
+
+        const fileName = `crop_variety/${uuidv4()}`;
+
+        await s3.putObject({
+          Body: req.file.buffer,
+          Bucket: s3BucketName,
+          Key: fileName,
+          ACL: 'public-read',
+        }).promise();
+
+        const presignedUrl = s3.getSignedUrl('getObject', {
+          Bucket: s3BucketName,
+          Key: fileName,
+          Expires: 60,
+        });
+
+        const THUMBNAIL_FORMAT = 'webp';
+        const THUMBNAIL_WIDTH = '300';
+
+        const thumbnail = await axios.get(getImaginaryThumbnailUrl(presignedUrl, {
+          width: THUMBNAIL_WIDTH,
+          format: THUMBNAIL_FORMAT,
+        }), {
+          headers: {
+            'API-Key': process.env.IMAGINARY_TOKEN,
+          },
+          responseType: 'arraybuffer',
+        });
+
+        const thumbnailName = `${farm_id}/thumbnail/${uuidv4()}.${THUMBNAIL_FORMAT}`;
+
+        await s3.putObject({
+          Body: thumbnail.data,
+          Bucket: getPublicS3BucketName(),
+          Key: thumbnailName,
+          ACL: 'private',
+        }).promise();
+
+
+        return res.status(201).json({
+          url: `https://${s3BucketName}.${DO_ENDPOINT}/${fileName}`,
+          thumbnail_url: `https://${s3BucketName}.${DO_ENDPOINT}/${thumbnailName}`,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error });
       }
     };
   },

@@ -11,12 +11,12 @@ const getDocument = (obj) => {
     'type',
     'thumbnail_url',
     'notes',
+    'files',
     'farm_id',
     'created_at',
     'updated_at',
   ]);
 };
-
 
 const addOneDocument = (state, { payload }) => {
   state.loading = false;
@@ -68,7 +68,7 @@ const documentSlice = createSlice({
     selectDocumentSuccess(state, { payload: document_id }) {
       state.document_id = document_id;
     },
-    archiveDocumentSuccess: documentAdapter.removeOne
+    archiveDocumentSuccess: documentAdapter.removeOne,
   },
 });
 
@@ -94,19 +94,17 @@ export const documentEntitiesSelector = documentSelectors.selectEntities;
 export const documentsSelector = createSelector(
   [documentSelectors.selectAll, loginSelector],
   (documents, { farm_id }) => {
-    const documentsOfCurrentFarm = documents.filter(
-      (document) => document.farm_id === farm_id,
-    );
+    const documentsOfCurrentFarm = documents.filter((document) => document.farm_id === farm_id);
     return documentsOfCurrentFarm;
-  }
+  },
 );
 
-export const documentSelector = (document_id) => (state) => 
+export const documentSelector = (document_id) => (state) =>
   documentSelectors.selectById(state, document_id);
 
 export const documentStatusSelector = createSelector(
   [documentReducerSelector],
   ({ loading, error }) => {
     return { loading, error };
-  }
+  },
 );

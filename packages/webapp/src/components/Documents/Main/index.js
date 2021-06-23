@@ -14,19 +14,15 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
       buttonGroup={
         <>
           <Button color={'secondary'} onClick={onRetire} disabled={isArchived} fullLength>
-            { t('DOCUMENTS.ARCHIVE') }
+            {t('DOCUMENTS.ARCHIVE')}
           </Button>
           <Button color={'primary'} onClick={onUpdate} fullLength>
-            { t('common:EDIT') }
+            {t('common:EDIT')}
           </Button>
         </>
       }
     >
-      <PageTitle
-        onGoBack={onGoBack}
-        title={document.name}
-        style={{ marginBottom: '24px' }}
-      />
+      <PageTitle onGoBack={onGoBack} title={document.name} style={{ marginBottom: '24px' }} />
       <Input
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
@@ -42,13 +38,12 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         disabled
         classes={{ container: { paddingBottom: '40px' } }}
       />
-      <div style={{ width: '312px', height: '383px', margin: 'auto', paddingBottom: '32px' }}>
+      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '32px' }}>
         {document.files?.map(({ thumbnail_url }) => (
           <>
             {imageComponent({
               width: '100%',
               style: { position: 'relative', zIndex: 0 },
-              height: '100%',
               src: thumbnail_url,
             })}
           </>
@@ -63,7 +58,6 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
       />
     </Layout>
   );
-
 }
 
 export default MainDocumentView;

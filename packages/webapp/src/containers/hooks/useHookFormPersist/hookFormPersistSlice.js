@@ -80,6 +80,9 @@ const hookFormPersistSlice = createSlice({
     },
     uploadFileSuccess: onUploadFileSuccess,
     deleteUploadedFile: onDeleteUploadedFile,
+    initEditDocument: (state, { payload: files }) => {
+      state.formData.uploadedFiles = files;
+    },
   },
 });
 
@@ -96,6 +99,7 @@ export const {
   setTransplantContainerLocationIdManagementPlanFormData,
   uploadFileSuccess,
   deleteUploadedFile,
+  initEditDocument,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

@@ -10,31 +10,34 @@ export default function MainDocument({ history, match }) {
   const { document_id } = match.params;
   const [showArchiveModal, setShowArchiveModal] = useState(false);
   const dispatch = useDispatch();
-  const document = useSelector(documentSelector(document_id))
+  const document = useSelector(documentSelector(document_id));
   const onGoBack = () => {
     history.push('/documents');
   };
 
   const onRetire = () => {
-    dispatch(archiveDocument(document_id))
-  }
+    dispatch(archiveDocument(document_id));
+  };
 
   const onUpdate = () => {
-    history.push(`/documents/${document_id}/edit_document`)
+    history.push(`/documents/${document_id}/edit_document`);
   };
 
   return (
     <>
       <MainDocumentView
         onGoBack={onGoBack}
-        imageComponent={ImageWithAuthentication}
+        imageComponent={(props) => <ImageWithAuthentication {...props} />}
         onUpdate={onUpdate}
         onRetire={() => setShowArchiveModal(true)}
         document={document}
       />
-      { showArchiveModal &&
-        <ArchiveDocumentModal dismissModal={() => setShowArchiveModal(false)} onArchive={onRetire} />
-      }
+      {showArchiveModal && (
+        <ArchiveDocumentModal
+          dismissModal={() => setShowArchiveModal(false)}
+          onArchive={onRetire}
+        />
+      )}
     </>
   );
-};
+}

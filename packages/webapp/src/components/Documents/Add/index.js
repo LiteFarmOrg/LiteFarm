@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -90,11 +90,19 @@ function PureDocumentDetailView({
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
 
+  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
+
+  const onUploadEnd = () => {
+    setIsFirstUploadEnded(true);
+  };
+
+  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : !isValid;
+
   return (
     <Form
       onSubmit={handleSubmit(submitWithFiles)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit ? !isValid || !isDirty : !isValid} fullLength>
+        <Button type={'submit'} disabled={disabled} fullLength>
           {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
@@ -180,6 +188,7 @@ function PureDocumentDetailView({
       {documentUploader({
         style: { paddingBottom: '32px' },
         linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+        onUploadEnd,
       })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}

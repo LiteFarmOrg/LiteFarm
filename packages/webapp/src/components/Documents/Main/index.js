@@ -1,4 +1,4 @@
-import Form from '../../Form';
+import Layout from '../../Layout';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
@@ -8,11 +8,12 @@ import PageTitle from '../../PageTitle/v2';
 
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
+  const isArchived = document.valid_until !== null && new Date(document.valid_until) < new Date();
   return (
-    <Form
+    <Layout
       buttonGroup={
         <>
-          <Button color={'secondary'} onClick={onRetire} fullLength>
+          <Button color={'secondary'} onClick={onRetire} disabled={isArchived} fullLength>
             { t('DOCUMENTS.ARCHIVE') }
           </Button>
           <Button color={'primary'} onClick={onUpdate} fullLength>
@@ -60,7 +61,7 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         disabled
         classes={{ container: { paddingBottom: '40px' } }}
       />
-    </Form>
+    </Layout>
   );
 
 }

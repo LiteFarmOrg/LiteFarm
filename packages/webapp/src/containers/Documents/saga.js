@@ -5,7 +5,7 @@ import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { archiveDocumentSuccess, postDocumentSuccess } from '../documentSlice';
+import { postDocumentSuccess } from '../documentSlice';
 import history from '../../history';
 
 export const postDocument = createAction(`postDocumentSaga`);
@@ -15,14 +15,13 @@ export function* postDocumentSaga({ payload: documentData }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    documentData.type = documentData.type.value;
     const result = yield call(
       axios.post,
       `${documentUrl}/farm/${farm_id}`,
       { ...documentData, farm_id },
       header
     )
-    yield put(postDocumentSuccess(result));
+    yield put(postDocumentSuccess(result.data));
     toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'));
     history.push('/documents')
   } catch (e) {
@@ -40,13 +39,12 @@ export function* archiveDocumentSaga({ payload: document_id }) {
   try {
     const result = yield call(
       axios.patch,
-      `${documentUrl}/archive/document/${document_id}`,
+      `${documentUrl}/archive/${document_id}`,
       {},
       header,
     );
     if (result) {
-      toastr.error(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE'));
-      yield put(archiveDocumentSuccess(document_id));
+      toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE'));
       history.push('/documents');
     } else {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE'));

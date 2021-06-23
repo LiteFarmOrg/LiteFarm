@@ -33,6 +33,7 @@ import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
+import documentSaga from './containers/Documents/saga';
 import managementPlanSaga from './containers/Crop/AddManagementPlan/ManagementPlanName/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
@@ -180,6 +181,7 @@ sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
 sagaMiddleware.run(uploadDocumentSaga);
+sagaMiddleware.run(documentSaga);
 
 const persistor = persistStore(store);
 

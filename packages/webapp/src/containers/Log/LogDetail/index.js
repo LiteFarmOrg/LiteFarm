@@ -82,8 +82,7 @@ class LogDetail extends Component {
       clay: this.props.t('soil:CLAY'),
     };
     return typeLabel[type];
-  }
-
+  };
 
   componentDidMount() {
     this.props.dispatch(getFertilizers());
@@ -156,9 +155,9 @@ class LogDetail extends Component {
 
     for (let p of pesticides) {
       if (p.pesticide_id === p_id) {
-        return p.farm_id ?
-          p.pesticide_name :
-          this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`);
+        return p.farm_id
+          ? p.pesticide_name
+          : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`);
       }
     }
 
@@ -231,10 +230,10 @@ class LogDetail extends Component {
       date = logDate.format('MMMM DD, YYYY');
       let typeName;
       if (selectedLog.activity_kind === 'pestControl') {
-        typeName = selectedLog.pestControlLog.type
+        typeName = selectedLog.pestControlLog.type;
       }
       if (selectedLog.activity_kind === 'soilData') {
-        typeName = selectedLog.soilDataLog.texture
+        typeName = selectedLog.soilDataLog.texture;
       }
       if (selectedLog.activity_kind === 'fieldWork') {
         typeName = selectedLog.fieldWorkLog.type;

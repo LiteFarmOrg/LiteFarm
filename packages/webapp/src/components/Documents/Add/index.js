@@ -49,9 +49,10 @@ function PureDocumentDetailView({
     ? {
         name: persistedFormData.name,
         type: typeOptions[persistedFormData.type],
-        valid_until: persistedFormData.valid_until.substring(0, 10),
+        valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
+        no_expiration: persistedFormData.valid_until ? new Date(persistedFormData.valid_until).getFullYear() === 2100 : false
       }
     : {};
 
@@ -96,7 +97,7 @@ function PureDocumentDetailView({
     setIsFirstUploadEnded(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : !isValid;
+  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
 
   return (
     <Form
@@ -185,11 +186,16 @@ function PureDocumentDetailView({
           </div>
         ))}
       </div>
-      {documentUploader({
-        style: { paddingBottom: '32px' },
-        linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-        onUploadEnd,
-      })}
+      {
+        uploadedFiles?.length <= 5 &&
+        (
+          documentUploader({
+            style: { paddingBottom: '32px' },
+            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+            onUploadEnd,
+          })
+        )
+      }
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

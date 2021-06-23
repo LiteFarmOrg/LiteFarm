@@ -12,6 +12,13 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "BED_PLAN": {
+    "LENGTH_OF_BED": "Length of bed",
+    "NUMBER_0F_BEDS": "# of beds",
+    "NUMBER_OF_ROWS": "# of rows in bed",
+    "PLANT_SPACING": "Plant spacing",
+    "PLANTING_DETAILS": "Please specify planting details"
+  },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
     "LOCATION_SIZE": "Location size",
@@ -156,6 +163,11 @@
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
+    "EDIT_CROP": "MISSING",
+    "EDIT_MODAL": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
     "IS_ORGANIC": "Is the crop certified organic?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
@@ -173,7 +185,6 @@
   },
   "DOCUMENTS": {
     "ADD_DOCUMENT": "Add a new document",
-    "EDIT_DOCUMENT": "Edit document",
     "ADD": {
       "ADD_MORE_PAGES": "Add more pages",
       "DOCUMENT_NAME": "Document name",
@@ -189,6 +200,7 @@
     "CANCEL": "Cancel",
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
+    "EDIT_DOCUMENT": "Edit document",
     "SPOTLIGHT": {
       "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
       "HERE_YOU_CAN": "Here you can:",
@@ -204,8 +216,7 @@
       "PEST_CONTROL_PRODUCT": "Pest control product",
       "SOIL_AMENDMENT": "Soil Amendment"
     },
-    "VALID": "Valid",
-    "ARCHIVE": "Archive"
+    "VALID": "Valid"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",

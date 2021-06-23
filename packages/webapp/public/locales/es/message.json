@@ -1,6 +1,7 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
+      "FAILED_archive": "MISSING",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
     }
   },

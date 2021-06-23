@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,6 @@ function PureDocumentDetailView({
   documentUploader,
 }) {
   const { t } = useTranslation();
-  const [docFiles, setDocFiles] = useState([]);
   const typeOptions = {
     CLEANING_PRODUCT: { label: t('DOCUMENTS.TYPE.CLEANING_PRODUCT'), value: 'CLEANING_PRODUCT' },
     CROP_COMPLIANCE: { label: t('DOCUMENTS.TYPE.CROP_COMPLIANCE'), value: 'CROP_COMPLIANCE' },
@@ -52,7 +51,7 @@ function PureDocumentDetailView({
         type: typeOptions[persistedFormData.type],
         valid_until: persistedFormData.valid_until.substring(0, 10),
         notes: persistedFormData.notes,
-        files: persistedFormData.files
+        files: persistedFormData.files,
       }
     : {};
 
@@ -71,40 +70,31 @@ function PureDocumentDetailView({
 
   const submitWithFiles = (data) => {
     let validUntil = !!data.valid_until ? data.valid_until : null;
-    validUntil = data.no_expiration ?  new Date('2100-1-1') : validUntil;
-    data.type =  !!data.type ? data.type.value : data.type;
+    validUntil = data.no_expiration ? new Date('2100-1-1') : validUntil;
+    data.type = !!data.type ? data.type.value : data.type;
     delete data.no_expiration;
     submit({
       ...data,
-      thumbnail_url: docFiles[0].thumbnail_url,
-      files: docFiles.map((file, i) => ({
+      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      files: uploadedFiles.map((file, i) => ({
         ...file,
         file_name: `${data.name}_i`,
       })),
-      valid_until: validUntil
-    })
-  }
+      valid_until: validUntil,
+    });
+  };
 
   const noExpirationChecked = watch(LOCAL_NO_EXPIRATION);
-
 
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
 
-  useEffect(() => {
-    setDocFiles(uploadedFiles);
-  }, [uploadedFiles]);
-
-  useEffect(() => {
-    if (isEdit) setDocFiles(persistedFormData.files)
-  }, [])
-
   return (
     <Form
       onSubmit={handleSubmit(submitWithFiles)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit ? (!isValid || !isDirty) : !isValid} fullLength>
+        <Button type={'submit'} disabled={isEdit ? !isValid || !isDirty : !isValid} fullLength>
           {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
@@ -147,25 +137,23 @@ function PureDocumentDetailView({
           />
         )}
       />
-      {
-        !noExpirationChecked && (
-          <Input
-            type={'date'}
-            name={VALID_UNTIL}
-            hookFormRegister={register(VALID_UNTIL)}
-            label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-            optional
-            classes={{ container: { paddingBottom: '18px' } }}
-          />
-        )
-      }
+      {!noExpirationChecked && (
+        <Input
+          type={'date'}
+          name={VALID_UNTIL}
+          hookFormRegister={register(VALID_UNTIL)}
+          label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+          optional
+          classes={{ container: { paddingBottom: '18px' } }}
+        />
+      )}
       <Checkbox
         hookFormRegister={register(LOCAL_NO_EXPIRATION)}
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
-        {docFiles?.map(({ thumbnail_url }, index) => (
+        {uploadedFiles?.map(({ thumbnail_url }, index) => (
           <div key={index}>
             <div
               style={{

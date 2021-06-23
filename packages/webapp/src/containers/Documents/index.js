@@ -122,8 +122,8 @@ export default function Documents({ history }) {
                   return (
                     <PureDocumentTile
                       title={document.name}
-                      type={document.type}
-                      date={null}
+                      type={t(`DOCUMENTS.TYPE.${document.type}`)}
+                      date={getDisplayedDate(document.valid_until)}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
                     />

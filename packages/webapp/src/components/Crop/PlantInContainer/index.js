@@ -281,4 +281,5 @@ PurePlantInContainer.prototype = {
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']),
 };

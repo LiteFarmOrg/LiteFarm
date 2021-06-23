@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  deleteUploadedFile,
+  hookFormPersistSelector,
+  initEditDocument,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
@@ -12,7 +16,12 @@ export default function EditDocument({ history, match }) {
   const { document_id } = match.params;
 
   const document = useSelector(documentSelector(document_id));
-
+  const { uploadedFiles } = useSelector(hookFormPersistSelector);
+  useEffect(() => {
+    if (!uploadedFiles) {
+      dispatch(initEditDocument(document.files));
+    }
+  }, []);
   const onGoBack = () => {
     history.push(`/documents/${document_id}`);
   };

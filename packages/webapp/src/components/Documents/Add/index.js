@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -43,6 +43,7 @@ function PureDocumentDetailView({
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
+  const LOCAL_NO_EXPIRATION = 'no_expiration';
 
   const defaultData = persistedFormData
     ? {
@@ -50,6 +51,7 @@ function PureDocumentDetailView({
         type: typeOptions[persistedFormData.type],
         valid_until: persistedFormData.valid_until.substring(0, 10),
         notes: persistedFormData.notes,
+        files: persistedFormData.files,
       }
     : {};
 
@@ -67,7 +69,10 @@ function PureDocumentDetailView({
   });
 
   const submitWithFiles = (data) => {
-    const validUntil = !!data.valid_until ? data.valid_until : null;
+    let validUntil = !!data.valid_until ? data.valid_until : null;
+    validUntil = data.no_expiration ? new Date('2100-1-1') : validUntil;
+    data.type = !!data.type ? data.type.value : data.type;
+    delete data.no_expiration;
     submit({
       ...data,
       thumbnail_url: uploadedFiles[0].thumbnail_url,
@@ -75,17 +80,29 @@ function PureDocumentDetailView({
         ...file,
         file_name: `${data.name}_i`,
       })),
-      valid_until: validUntil
-    })
-  }
+      valid_until: validUntil,
+    });
+  };
+
+  const noExpirationChecked = watch(LOCAL_NO_EXPIRATION);
+
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
+
+  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
+
+  const onUploadEnd = () => {
+    setIsFirstUploadEnded(true);
+  };
+
+  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : !isValid;
+
   return (
     <Form
       onSubmit={handleSubmit(submitWithFiles)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit ? (!isValid || !isDirty) : !isValid} fullLength>
+        <Button type={'submit'} disabled={disabled} fullLength>
           {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
@@ -128,15 +145,18 @@ function PureDocumentDetailView({
           />
         )}
       />
-      <Input
-        type={'date'}
-        name={VALID_UNTIL}
-        hookFormRegister={register(VALID_UNTIL)}
-        label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-        optional
-        classes={{ container: { paddingBottom: '18px' } }}
-      />
+      {!noExpirationChecked && (
+        <Input
+          type={'date'}
+          name={VALID_UNTIL}
+          hookFormRegister={register(VALID_UNTIL)}
+          label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+          optional
+          classes={{ container: { paddingBottom: '18px' } }}
+        />
+      )}
       <Checkbox
+        hookFormRegister={register(LOCAL_NO_EXPIRATION)}
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
@@ -168,6 +188,7 @@ function PureDocumentDetailView({
       {documentUploader({
         style: { paddingBottom: '32px' },
         linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+        onUploadEnd,
       })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}

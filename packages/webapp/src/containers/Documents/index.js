@@ -26,7 +26,7 @@ export default function Documents({ history }) {
   const lang = getLanguageFromLocalStorage();
 
   const isValid = (date, currDate) => {
-    var given_date = new Date(date);
+    let given_date = new Date(date);
     return currDate < given_date;
   };
 

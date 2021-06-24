@@ -72,6 +72,7 @@ function PureDocumentDetailView({
   const submitWithFiles = (data) => {
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
+    validUntil = data.no_expiration ? null : validUntil;
     submit({
       ...data,
       thumbnail_url: uploadedFiles[0].thumbnail_url,

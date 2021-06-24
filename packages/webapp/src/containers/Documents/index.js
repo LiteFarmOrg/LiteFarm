@@ -110,6 +110,7 @@ export default function Documents({ history }) {
                       title={document.name}
                       type={document.type}
                       date={getDisplayedDate(document.valid_until)}
+                      noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
@@ -133,6 +134,7 @@ export default function Documents({ history }) {
                       title={document.name}
                       type={document.type}
                       date={getDisplayedDate(document.valid_until)}
+                      noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}

@@ -13,6 +13,7 @@ export default function PureDocumentTile({
   date,
   preview,
   onClick,
+  noExpiration,
   imageComponent = (props) => <ImageWithAuthentication {...props} />,
 }) {
 
@@ -41,7 +42,7 @@ export default function PureDocumentTile({
             </div>
           </>
         )}
-        {date && (
+        {date && !noExpiration &&  (
           <>
             <div className={styles.date} style={{ marginBottom: '8px' }}>
               {<CalendarIcon className={styles.calendar} />}

@@ -29,6 +29,7 @@
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
+    margin-left: 4px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -37,12 +38,14 @@
 .type {
     color:  #282B36;
     font-weight: 400;
+    margin-left: 4px;
     font-size: 12px;
     line-height: 16px;
 }  
 
 .calendar {
     transform: translate(0px, 3px);
+    margin-left: 4px;
     margin-right: 5px;
     fill: var(--teal700)
 }

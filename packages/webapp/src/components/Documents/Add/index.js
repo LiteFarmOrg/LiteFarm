@@ -172,6 +172,7 @@ function PureDocumentDetailView({
                 height: '24px',
                 position: 'relative',
                 float: 'right',
+                borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
               onClick={() => deleteImage(thumbnail_url)}

@@ -92,7 +92,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         <>
           <DocumentUploader
-            style={{ marginBottom: '26px' }}
+            style={{marginBottom: '24px'}}
             linkText={t('DOCUMENTS.ADD_DOCUMENT')}
             onUpload={() => history.push('/documents/add_document')}
           />
@@ -123,7 +123,7 @@ export default function Documents({ history }) {
           {!!archivedDocuments.length && (
             <>
               <PageBreak
-                style={{ paddingTop: '35px', paddingBottom: '16px' }}
+                style={{ paddingBottom: '16px' }}
                 label={t('DOCUMENTS.ARCHIVED')}
                 square={{ count: archivedDocuments.length, type: 'archived' }}
               />

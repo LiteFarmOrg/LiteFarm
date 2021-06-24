@@ -64,7 +64,7 @@ function PureDocumentDetailView({
     watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     shouldUnregister: false,
     defaultValues: defaultData,
   });
@@ -117,7 +117,7 @@ function PureDocumentDetailView({
         <MultiStepPageTitle
           onGoBack={onGoBack}
           onCancel={onCancel}
-          value={50}
+          value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
         />
@@ -127,6 +127,7 @@ function PureDocumentDetailView({
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
+        errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
         control={control}
@@ -169,6 +170,7 @@ function PureDocumentDetailView({
                 height: '24px',
                 position: 'relative',
                 float: 'right',
+                borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
               onClick={() => deleteImage(thumbnail_url)}

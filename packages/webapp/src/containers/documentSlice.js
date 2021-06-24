@@ -2,6 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
+import { lastActiveDatetimeSelector } from './userLogSlice';
 
 const getDocument = (obj) => {
   return pick(obj, [
@@ -106,5 +107,22 @@ export const documentStatusSelector = createSelector(
   [documentReducerSelector],
   ({ loading, error }) => {
     return { loading, error };
+  },
+);
+
+const isValidDocument = (document, lastActiveDatetime) => {
+  return lastActiveDatetime <= new Date(document.valid_until).getTime();
+};
+export const validDocumentSelector = createSelector(
+  [documentsSelector, lastActiveDatetimeSelector],
+  (documents, lastActiveDatetime) => {
+    return documents.filter((document) => isValidDocument(document, lastActiveDatetime));
+  },
+);
+
+export const expiredDocumentSelector = createSelector(
+  [documentsSelector, lastActiveDatetimeSelector],
+  (documents, lastActiveDatetime) => {
+    return documents.filter((document) => !isValidDocument(document, lastActiveDatetime));
   },
 );

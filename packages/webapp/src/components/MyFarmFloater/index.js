@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactComponent as FarmMapIcon } from '../../assets/images/farm-profile/farm-map.svg';
 import { ReactComponent as FarmInfoIcon } from '../../assets/images/farm-profile/farm-info.svg';
 import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/people.svg';
+import { ReactComponent as CertificationsIcon } from '../../assets/images/farm-profile/certificate.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
 
@@ -22,7 +23,7 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntrod
       <ListOption
         clickFn={farmInfo}
         iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        icon={<FarmInfoIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
         customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
         customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
@@ -35,9 +36,15 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntrod
       <ListOption
         clickFn={people}
         iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon style={isIntroducingFarmMap ? { background: 'white' } : {}}/>}
+        icon={<PeopleIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
         customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
         customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+      />
+      <ListOption
+        clickFn={farmMap}
+        iconText={t('MY_FARM.CERTIFICATIONS')}
+        icon={<CertificationsIcon />}
+        customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
       />
     </div>
   );
@@ -65,7 +72,10 @@ export default function PureMyFarmFloater({
       placement={'bottom-end'}
       open={openProfile || isIntroducingFarmMap}
       styles={{
-        floater: { zIndex: 1500, display: openProfile || isIntroducingFarmMap ? 'initial' : 'none' },
+        floater: {
+          zIndex: 1500,
+          display: openProfile || isIntroducingFarmMap ? 'initial' : 'none',
+        },
       }}
     >
       {children}

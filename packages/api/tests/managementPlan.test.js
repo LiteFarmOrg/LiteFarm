@@ -560,6 +560,25 @@ describe('ManagementPlan Tests', () => {
       })
     })
 
+    test('should create a broadcast management plan with 100% planted', async (done) => {
+      const broadcastData = mocks.fakeBroadcast({ percentage_planted: 100 });
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        crop_management_plan: {
+          location_id: location[0].location_id,
+          ...fakeCropManagement,
+          broadcast: broadcastData
+        }
+      }
+      postManagementPlanRequest('broadcast', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(201);
+        const container = await knex('broadcast').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(container).not.toBeUndefined();
+        done();
+      })
+    })
+
     test('should create a broadcast management plan with transplant', async (done) => {
       const body = {
         crop_variety_id: cropVariety[0].crop_variety_id,

@@ -5,12 +5,13 @@ function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
 }
 
-function fakeStation() {
+function fakeStation(defaultData = {}) {
   return {
     id: faker.random.number(0x7FFFFFFF),
     name: faker.address.country(),
     country: faker.address.countryCode(),
     timezone: faker.random.number(1000),
+    ...defaultData
   };
 }
 
@@ -18,7 +19,7 @@ function usersFactory(userObject = fakeUser()) {
   return knex('users').insert(userObject).returning('*');
 }
 
-function fakeUser() {
+function fakeUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
@@ -29,11 +30,12 @@ function fakeUser() {
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.random.number({ min: 1900, max: new Date().getFullYear() }),
+    ...defaultData
   };
 }
 
 
-function fakeSSOUser() {
+function fakeSSOUser(defaultData = {}) {
   const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
@@ -41,6 +43,7 @@ function fakeSSOUser() {
     email: email.toLowerCase(),
     user_id: faker.random.number(10),
     phone_number: faker.phone.phoneNumber(),
+    ...defaultData
   };
 }
 
@@ -50,7 +53,7 @@ async function farmFactory(farmObject = fakeFarm()) {
   return knex('farm').insert({ ...farmObject, ...base }).returning('*');
 }
 
-function fakeFarm() {
+function fakeFarm(defaultData = {}) {
   return {
     farm_name: faker.company.companyName(),
     address: faker.address.streetAddress(),
@@ -59,6 +62,7 @@ function fakeFarm() {
       lng: faker.address.longitude(),
     },
     farm_phone_number: faker.phone.phoneNumber(),
+    ...defaultData
   };
 }
 
@@ -72,13 +76,14 @@ async function userFarmFactory({
   return knex('userFarm').insert({ user_id, farm_id, ...userFarm }).returning('*');
 }
 
-function fakeUserFarm() {
+function fakeUserFarm(defaultData = {}) {
   return {
     role_id: faker.random.arrayElement([1, 2, 3, 5]),
     status: 'Active',
     has_consent: true,
     step_one: false,
     wage: { type: 'hourly', amount: faker.random.number(300) },
+    ...defaultData
   };
 }
 
@@ -92,9 +97,10 @@ async function farmDataScheduleFactory({
   return knex('farmDataSchedule').insert({ user_id, farm_id, ...farmDataSchedule }).returning('*');
 }
 
-function fakeFarmDataSchedule() {
+function fakeFarmDataSchedule(defaultData = {}) {
   return {
     has_failed: false,
+    ...defaultData
   };
 }
 
@@ -106,10 +112,11 @@ async function locationFactory({ promisedFarm = farmFactory() } = {}, location =
   return knex('location').insert({ farm_id, ...base, ...location }).returning('*');
 }
 
-function fakeLocation() {
+function fakeLocation(defaultData = {}) {
   return {
     name: faker.random.arrayElement(['Location1', 'Nice Location', 'Fence', 'AreaLocation']),
     notes: faker.lorem.word(3),
+    ...defaultData
   };
 }
 
@@ -128,7 +135,7 @@ function figureFactory(location_id, type) {
   return knex('figure').insert({ location_id, type }).returning('*');
 }
 
-function fakeArea(stringify = true) {
+function fakeArea(defaultData = {}, stringify = true) {
   return {
     total_area: faker.random.number(2000),
     grid_points: stringify ? JSON.stringify([...Array(3).map(() => ({
@@ -141,6 +148,7 @@ function fakeArea(stringify = true) {
     perimeter: faker.random.number(),
     total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
     perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
+    ...defaultData
   };
 }
 
@@ -156,10 +164,11 @@ async function fieldFactory({
   return knex('field').insert({ location_id: location_id, station_id, ...field }).returning('*');
 }
 
-function fakeField() {
+function fakeField(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     transition_date: faker.date.future(),
+    ...defaultData
   };
 }
 
@@ -175,28 +184,31 @@ async function gardenFactory({
   return knex('garden').insert({ location_id: location_id, station_id, ...garden }).returning('*');
 }
 
-function fakeGarden() {
+function fakeGarden(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
     transition_date: faker.date.future(),
+    ...defaultData
   };
 }
 
-function fakeFieldForTests() {
+function fakeFieldForTests(defaultData = {}) {
   return {
     ...fakeField(), grid_points: [{
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }],
+    ...defaultData
   };
 }
 
-function fakePriceInsightForTests() {
+function fakePriceInsightForTests(defaultData = {}) {
   return {
     distance: faker.random.arrayElement([5, 10, 25, 50]),
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
     startdate: '2021-10-10',
+    ...defaultData
   };
 }
 
@@ -211,7 +223,7 @@ async function lineFactory({
   return knex('line').insert({ figure_id, ...realLine }).returning('*');
 }
 
-function fakeLine(stringify = true) {
+function fakeLine(defaultData = {}, stringify = true) {
   return {
     length: faker.random.number(),
     width: faker.random.number(),
@@ -222,6 +234,7 @@ function fakeLine(stringify = true) {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }))],
+    ...defaultData
   };
 }
 
@@ -235,9 +248,10 @@ async function fenceFactory({
   return knex('fence').insert({ location_id, ...fence }).returning('*');
 }
 
-function fakeFence() {
+function fakeFence(defaultData = {}) {
   return {
     pressure_treated: faker.random.boolean(),
+    ...defaultData
   };
 }
 
@@ -283,7 +297,7 @@ async function farmExpenseFactory({
   return knex('farmExpense').insert({ expense_type_id, farm_id, ...expense, ...base }).returning('*');
 }
 
-function fakeCrop() {
+function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
     crop_genus: faker.lorem.words(),
@@ -341,30 +355,34 @@ function fakeCrop() {
     yield_per_area: faker.random.number(10),
     average_seed_weight: faker.random.number(10),
     yield_per_plant: faker.random.number(10),
+    ...defaultData
   };
 }
 
-function fakeYield() {
+function fakeYield(defaultData = {}) {
   return {
     yield_id: faker.random.number(0x7FFFFFFF),
     'quantity_kg/m2': faker.random.number(10),
     date: faker.date.future(),
+    ...defaultData
   };
 }
 
-function fakePrice() {
+function fakePrice(defaultData = {}) {
   return {
     price_id: faker.random.number(0x7FFFFFFF),
     'value_$/kg': faker.random.number(100),
     date: faker.date.future(),
+    ...defaultData
   };
 }
 
-function fakeExpense() {
+function fakeExpense(defaultData = {}) {
   return {
     expense_date: faker.date.future(),
     value: faker.random.number(100),
     note: faker.helpers.randomize(),
+    ...defaultData
   };
 }
 
@@ -385,13 +403,14 @@ async function management_planFactory({
   }).returning('*');
 }
 
-function fakeManagementPlan() { // seed date always in past, harvest date always in future - management plan is in progress
+function fakeManagementPlan(defaultData = {}) { // seed date always in past, harvest date always in future - management plan is in progress
   return {
     name: faker.lorem.words(),
     seed_date: faker.date.past(),
     needs_transplant: faker.random.boolean(),
     for_cover: false,
     harvest_date: faker.date.future(),
+    ...defaultData
   };
 }
 
@@ -425,12 +444,13 @@ async function crop_management_planFactory({
   }).returning('*');
 }
 
-function fakeCropManagementPlan() {
+function fakeCropManagementPlan(defaultData = {}) {
   return {
     planting_type: faker.random.arrayElement(['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']),
     notes: faker.lorem.words(),
     estimated_revenue: faker.random.number(10000),
     estimated_yield: faker.random.number(10000),
+    ...defaultData
   };
 }
 
@@ -465,7 +485,7 @@ async function containerFactory({
   }).returning('*');
 }
 
-function fakeContainer() {
+function fakeContainer(defaultData = {}) {
   const in_ground = faker.random.boolean();
   return {
     in_ground,
@@ -476,7 +496,7 @@ function fakeContainer() {
     planting_depth: faker.random.number(100),
     planting_soil: in_ground ? null : faker.random.words(),
     container_type: in_ground ? null : faker.random.words(),
-
+    ...defaultData
   };
 }
 
@@ -510,12 +530,13 @@ async function broadcastFactory({
   }).returning('*');
 }
 
-function fakeBroadcast() {
+function fakeBroadcast(defaultData = {}) {
   return {
     percentage_planted: faker.random.number(10),
     area_used: faker.random.number(10000),
     seeding_rate: faker.random.number(10000),
     required_seeds: faker.random.number(10000),
+    ...defaultData
   };
 }
 
@@ -544,7 +565,7 @@ async function transplant_containerFactory({
   }).returning('*');
 }
 
-function fakeTransplantContainer() {
+function fakeTransplantContainer(defaultData = {}) {
   const in_ground = faker.random.boolean();
   return {
     in_ground,
@@ -555,6 +576,7 @@ function fakeTransplantContainer() {
     planting_depth: faker.random.number(100),
     planting_soil: in_ground ? null : faker.random.words(),
     container_type: in_ground ? null : faker.random.words(),
+    ...defaultData
   };
 }
 
@@ -571,7 +593,7 @@ async function crop_varietyFactory({
 
 }
 
-function fakeCropVariety() {
+function fakeCropVariety(defaultData = {}) {
   return {
     crop_variety_name: faker.lorem.word(),
     supplier: faker.lorem.word(),
@@ -609,6 +631,7 @@ function fakeCropVariety() {
     yield_per_area: faker.random.number(10),
     average_seed_weight: faker.random.number(10),
     yield_per_plant: faker.random.number(10),
+    ...defaultData
   };
 }
 
@@ -620,7 +643,7 @@ async function fertilizerFactory({ promisedFarm = farmFactory() } = {}, fertiliz
   return knex('fertilizer').insert({ farm_id, ...fertilizer, ...base }).returning('*');
 }
 
-function fakeFertilizer() {
+function fakeFertilizer(defaultData = {}) {
   return {
     fertilizer_type: faker.lorem.word(),
     moisture_percentage: faker.random.number(100),
@@ -629,6 +652,7 @@ function fakeFertilizer() {
     p_percentage: faker.random.number(100),
     k_percentage: faker.random.number(100),
     mineralization_rate: faker.random.number(100),
+    ...defaultData
   };
 }
 
@@ -640,12 +664,13 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 
 }
 
-function fakeActivityLog() {
+function fakeActivityLog(defaultData = {}) {
   return {
     activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
       'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']),
     date: faker.date.future(),
     notes: faker.lorem.words(),
+    ...defaultData
   };
 }
 
@@ -659,8 +684,9 @@ async function fertilizerLogFactory({
   return knex('fertilizerLog').insert({ activity_id, fertilizer_id, ...fertilizerLog }).returning('*');
 }
 
-function fakeFertilizerLog() {
-  return { quantity_kg: faker.random.number(200) };
+function fakeFertilizerLog(defaultData = {}) {
+  return { quantity_kg: faker.random.number(
+    ...defaultData200) };
 
 }
 
@@ -692,19 +718,21 @@ async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide
   return knex('pesticide').insert({ farm_id, ...pesticide, ...base }).returning('*');
 }
 
-function fakePesticide() {
+function fakePesticide(defaultData = {}) {
   return {
     pesticide_name: faker.lorem.word(),
     entry_interval: faker.random.number(20),
     harvest_interval: faker.random.number(20),
     active_ingredients: faker.lorem.words(),
     concentration: faker.random.number(3000),
+    ...defaultData
   };
 }
 
-function fakeTaskType() {
+function fakeTaskType(defaultData = {}) {
   return {
     task_name: faker.lorem.word(),
+    ...defaultData
   };
 }
 
@@ -727,15 +755,17 @@ async function harvestUseTypeFactory({ promisedFarm = farmFactory() } = {}, harv
   return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
 }
 
-function fakeHarvestUseType() {
+function fakeHarvestUseType(defaultData = {}) {
   return {
     harvest_use_type_name: faker.lorem.words(),
+    ...defaultData
   };
 }
 
-function fakeHarvestUse() {
+function fakeHarvestUse(defaultData = {}) {
   return {
     quantity_kg: faker.random.number(200),
+    ...defaultData
   };
 }
 
@@ -761,11 +791,12 @@ async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = f
   return knex('disease').insert({ farm_id, ...disease, ...base }).returning('*');
 }
 
-function fakeDisease() {
+function fakeDisease(defaultData = {}) {
   return {
     disease_scientific_name: faker.lorem.words(),
     disease_common_name: faker.lorem.words(),
     disease_group: faker.random.arrayElement(['Fungus', 'Insect', 'Bacteria', 'Virus', 'Deficiency', 'Mite', 'Other', 'Weed']),
+    ...defaultData
   };
 }
 
@@ -786,10 +817,11 @@ async function pestControlLogFactory({
 
 }
 
-function fakePestControlLog() {
+function fakePestControlLog(defaultData = {}) {
   return {
     quantity_kg: faker.random.number(2000),
     type: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
+    ...defaultData
   };
 }
 
@@ -799,9 +831,10 @@ async function harvestLogFactory({ promisedActivity = activityLogFactory() } = {
   return knex('harvestLog').insert({ activity_id, ...harvestLog }).returning('*');
 }
 
-function fakeHarvestLog() {
+function fakeHarvestLog(defaultData = {}) {
   return {
     quantity_kg: faker.random.number(1000),
+    ...defaultData
   };
 }
 
@@ -826,12 +859,13 @@ async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, 
 }
 
 
-function fakeSeedLog() {
+function fakeSeedLog(defaultData = {}) {
   return {
     space_depth_cm: faker.random.number(1000),
     space_length_cm: faker.random.number(1000),
     space_width_cm: faker.random.number(1000),
     'rate_seeds/m2': faker.random.number(1000),
+    ...defaultData
   };
 }
 
@@ -841,9 +875,10 @@ async function fieldWorkLogFactory({ promisedActivity = activityLogFactory() } =
   return knex('fieldWorkLog').insert({ activity_id, ...fieldWorkLog }).returning('*');
 }
 
-function fakeFieldWorkLog() {
+function fakeFieldWorkLog(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']),
+    ...defaultData
   };
 }
 
@@ -853,7 +888,7 @@ async function soilDataLogFactory({ promisedActivity = activityLogFactory() } = 
   return knex('soilDataLog').insert({ activity_id, ...soilDataLog }).returning('*');
 }
 
-function fakeSoilDataLog() {
+function fakeSoilDataLog(defaultData = {}) {
   return {
     texture: faker.random.arrayElement(['sand', 'loamySand', 'sandyLoam', 'loam', 'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam', 'sandyClay', 'siltyClay', 'clay']),
     k: faker.random.number(1000),
@@ -877,6 +912,7 @@ function fakeSoilDataLog() {
     na: faker.random.number(1000),
     total_carbon: faker.random.number(1000),
     depth_cm: faker.random.arrayElement(['5', '10', '20', '30', '50', '100']),
+    ...defaultData
   };
 }
 
@@ -886,11 +922,12 @@ async function irrigationLogFactory({ promisedActivity = activityLogFactory() } 
   return knex('irrigationLog').insert({ activity_id, ...irrigationLog }).returning('*');
 }
 
-function fakeIrrigationLog() {
+function fakeIrrigationLog(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     hours: faker.random.number(10),
     'flow_rate_l/min': faker.random.number(10),
+    ...defaultData
   };
 }
 
@@ -900,9 +937,10 @@ async function scoutingLogFactory({ promisedActivity = activityLogFactory() } = 
   return knex('scoutingLog').insert({ activity_id, ...scoutingLog }).returning('*');
 }
 
-function fakeScoutingLog() {
+function fakeScoutingLog(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
+    ...defaultData
   };
 }
 
@@ -913,11 +951,12 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
   return knex('shift').insert({ user_id, farm_id, ...base, ...shift }).returning('*');
 }
 
-function fakeShift() {
+function fakeShift(defaultData = {}) {
   return {
     shift_date: new Date(),
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.random.number(20),
+    ...defaultData
   };
 }
 
@@ -942,10 +981,11 @@ async function shiftTaskFactory({
   }).returning('*');
 }
 
-function fakeShiftTask() {
+function fakeShiftTask(defaultData = {}) {
   return {
     is_location: faker.random.boolean(),
     duration: faker.random.number(200),
+    ...defaultData
   };
 }
 
@@ -956,24 +996,27 @@ async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale =
   return knex('sale').insert({ farm_id, ...sale, ...base }).returning('*');
 }
 
-function fakeSale() {
+function fakeSale(defaultData = {}) {
   return {
     customer_name: faker.name.findName(),
     sale_date: faker.date.recent(),
+    ...defaultData
   };
 }
 
-function fakeExpenseType() {
+function fakeExpenseType(defaultData = {}) {
   return {
     expense_name: faker.finance.transactionType(),
+    ...defaultData
   };
 }
 
-function fakeWaterBalance() {
+function fakeWaterBalance(defaultData = {}) {
   return {
     created_at: faker.date.future(),
     soil_water: faker.random.number(2000),
     plant_available_water: faker.random.number(2000),
+    ...defaultData
   };
 }
 
@@ -983,11 +1026,12 @@ async function waterBalanceFactory({ promisedManagementPlan = management_planFac
   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
 }
 
-function fakeNitrogenSchedule() {
+function fakeNitrogenSchedule(defaultData = {}) {
   return {
     created_at: faker.date.past(),
     scheduled_at: faker.date.future(),
     frequency: faker.random.number(10),
+    ...defaultData
   };
 }
 
@@ -997,10 +1041,11 @@ async function nitrogenScheduleFactory({ promisedFarm = farmFactory() } = {}, ni
   return knex('nitrogenSchedule').insert({ farm_id, ...nitrogenSchedule }).returning('*');
 }
 
-function fakeCropSale() {
+function fakeCropSale(defaultData = {}) {
   return {
     sale_value: faker.random.number(1000),
     quantity_kg: faker.random.number(1000),
+    ...defaultData
   };
 }
 
@@ -1014,7 +1059,7 @@ async function cropSaleFactory({
   return knex('cropSale').insert({ crop_id, sale_id, ...cropSale }).returning('*');
 }
 
-function fakeSupportTicket(farm_id) {
+function fakeSupportTicket(defaultData = {}, farm_id) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
   const status = ['Open', 'Closed', 'In progress'];
@@ -1033,6 +1078,7 @@ function fakeSupportTicket(farm_id) {
     email: faker.internet.email(),
     whatsapp: faker.phone.phoneNumber(),
     farm_id,
+    ...defaultData
   };
 }
 
@@ -1050,7 +1096,7 @@ async function supportTicketFactory({
   }).returning('*');
 }
 
-function fakeOrganicCertifierSurvey(farm_id) {
+function fakeOrganicCertifierSurvey(defaultData = {}, farm_id) {
   const certificationIDS = [1, 2];
   const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();
@@ -1062,6 +1108,7 @@ function fakeOrganicCertifierSurvey(farm_id) {
     updated_at: faker.date.between(past, now),
     interested: faker.random.boolean(),
     farm_id,
+    ...defaultData
   };
 }
 
@@ -1104,10 +1151,11 @@ async function barnFactory({
   return knex('barn').insert({ location_id, ...barn }).returning('*');
 }
 
-function fakeBarn() {
+function fakeBarn(defaultData = {}) {
   return {
     wash_and_pack: faker.random.boolean(),
     cold_storage: faker.random.boolean(),
+    ...defaultData
   };
 }
 
@@ -1123,9 +1171,10 @@ async function greenhouseFactory({
 }
 
 
-function fakeGreenhouse() {
+function fakeGreenhouse(defaultData = {}) {
   return {
     organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    ...defaultData
   };
 }
 
@@ -1139,10 +1188,11 @@ async function watercourseFactory({
   return knex('watercourse').insert({ location_id, ...watercourse }).returning('*');
 }
 
-function fakeWatercourse() {
+function fakeWatercourse(defaultData = {}) {
   return {
     used_for_irrigation: faker.random.boolean(),
     buffer_width: faker.random.number(),
+    ...defaultData
   };
 }
 
@@ -1157,12 +1207,12 @@ async function water_valveFactory({
   return knex('water_valve').insert({ location_id, ...water_valve }).returning('*');
 }
 
-function fakeWaterValve() {
+function fakeWaterValve(defaultData = {}) {
   return {
     source: faker.random.arrayElement(['Municipal water', 'Surface water', 'Groundwater', 'Rain water']),
     flow_rate_unit: faker.random.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
     flow_rate: faker.random.number(1000),
-
+    ...defaultData
   };
 }
 
@@ -1177,9 +1227,10 @@ async function surface_waterFactory({
   return knex('surface_water').insert({ location_id, ...surface_water }).returning('*');
 }
 
-function fakeSurfaceWater() {
+function fakeSurfaceWater(defaultData = {}) {
   return {
     used_for_irrigation: faker.random.boolean(),
+    ...defaultData
   };
 }
 
@@ -1255,12 +1306,13 @@ async function gateFactory({
 }
 
 
-function fakePoint() {
+function fakePoint(defaultData = {}) {
   return {
     point: {
       lat: Number(faker.address.latitude()),
       lng: Number(faker.address.longitude()),
     },
+    ...defaultData
   };
 }
 
@@ -1275,13 +1327,14 @@ async function documentFactory({
   return knex('document').insert({ farm_id, ...document, ...base }).returning('*');
 }
 
-function fakeDocument() {
+function fakeDocument(defaultData = {}) {
   return {
     name: faker.lorem.words(),
     thumbnail_url: faker.image.imageUrl(),
     valid_until: faker.date.future(),
     notes: faker.lorem.words(),
     type: faker.random.arrayElement(['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER']),
+    ...defaultData
   };
 }
 
@@ -1295,11 +1348,12 @@ async function fileFactory({
   return knex('file').insert({ document_id, ...file }).returning('*');
 }
 
-function fakeFile() {
+function fakeFile(defaultData = {}) {
   return {
     file_name: faker.lorem.words(),
     thumbnail_url: faker.image.imageUrl(),
     url: faker.image.imageUrl(),
+    ...defaultData
   };
 }
 

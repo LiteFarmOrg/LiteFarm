@@ -16,6 +16,7 @@ const getDocument = (obj) => {
     'created_at',
     'updated_at',
     'files',
+    'no_expiration',
   ]);
 };
 
@@ -111,7 +112,7 @@ export const documentStatusSelector = createSelector(
 );
 
 const isValidDocument = (document, lastActiveDatetime) => {
-  return lastActiveDatetime <= new Date(document.valid_until).getTime();
+  return lastActiveDatetime <= new Date(document.valid_until).getTime() || document.no_expiration;
 };
 export const validDocumentSelector = createSelector(
   [documentsSelector, lastActiveDatetimeSelector],

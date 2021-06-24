@@ -43,7 +43,7 @@ function PureDocumentDetailView({
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
-  const LOCAL_NO_EXPIRATION = 'no_expiration';
+  const NO_EXPIRATION = 'no_expiration';
 
   const defaultData = persistedFormData
     ? {
@@ -52,7 +52,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.valid_until ? new Date(persistedFormData.valid_until).getFullYear() === 2100 : false
+        no_expiration: persistedFormData.no_expiration
       }
     : {};
 
@@ -64,16 +64,14 @@ function PureDocumentDetailView({
     watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     shouldUnregister: false,
     defaultValues: defaultData,
   });
 
   const submitWithFiles = (data) => {
     let validUntil = !!data.valid_until ? data.valid_until : null;
-    validUntil = data.no_expiration ? new Date('2100-1-1') : validUntil;
     data.type = !!data.type ? data.type.value : data.type;
-    delete data.no_expiration;
     submit({
       ...data,
       thumbnail_url: uploadedFiles[0].thumbnail_url,
@@ -85,7 +83,7 @@ function PureDocumentDetailView({
     });
   };
 
-  const noExpirationChecked = watch(LOCAL_NO_EXPIRATION);
+  const noExpirationChecked = watch(NO_EXPIRATION);
 
   const {
     persistedData: { uploadedFiles },
@@ -119,7 +117,7 @@ function PureDocumentDetailView({
         <MultiStepPageTitle
           onGoBack={onGoBack}
           onCancel={onCancel}
-          value={50}
+          value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
         />
@@ -129,6 +127,7 @@ function PureDocumentDetailView({
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
+        errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
         control={control}
@@ -157,7 +156,7 @@ function PureDocumentDetailView({
         />
       )}
       <Checkbox
-        hookFormRegister={register(LOCAL_NO_EXPIRATION)}
+        hookFormRegister={register(NO_EXPIRATION)}
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
@@ -171,6 +170,7 @@ function PureDocumentDetailView({
                 height: '24px',
                 position: 'relative',
                 float: 'right',
+                borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
               onClick={() => deleteImage(thumbnail_url)}

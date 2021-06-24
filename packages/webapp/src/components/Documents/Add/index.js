@@ -163,7 +163,7 @@ function PureDocumentDetailView({
       />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
         {uploadedFiles?.map(({ thumbnail_url }, index) => (
-          <div key={index}>
+          <div key={thumbnail_url}>
             <div
               style={{
                 background: 'var(--teal700)',

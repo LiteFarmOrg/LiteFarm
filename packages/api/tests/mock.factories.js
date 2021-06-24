@@ -135,7 +135,7 @@ function figureFactory(location_id, type) {
   return knex('figure').insert({ location_id, type }).returning('*');
 }
 
-function fakeArea(defaultData = {}, stringify = true) {
+function fakeArea(stringify = true, defaultData = {}) {
   return {
     total_area: faker.random.number(2000),
     grid_points: stringify ? JSON.stringify([...Array(3).map(() => ({
@@ -223,7 +223,7 @@ async function lineFactory({
   return knex('line').insert({ figure_id, ...realLine }).returning('*');
 }
 
-function fakeLine(defaultData = {}, stringify = true) {
+function fakeLine(stringify = true, defaultData = {}) {
   return {
     length: faker.random.number(),
     width: faker.random.number(),
@@ -685,8 +685,7 @@ async function fertilizerLogFactory({
 }
 
 function fakeFertilizerLog(defaultData = {}) {
-  return { quantity_kg: faker.random.number(
-    ...defaultData200) };
+  return { quantity_kg: faker.random.number(), ...defaultData };
 
 }
 
@@ -1059,7 +1058,7 @@ async function cropSaleFactory({
   return knex('cropSale').insert({ crop_id, sale_id, ...cropSale }).returning('*');
 }
 
-function fakeSupportTicket(defaultData = {}, farm_id) {
+function fakeSupportTicket(farm_id, defaultData = {}) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
   const status = ['Open', 'Closed', 'In progress'];
@@ -1096,7 +1095,7 @@ async function supportTicketFactory({
   }).returning('*');
 }
 
-function fakeOrganicCertifierSurvey(defaultData = {}, farm_id) {
+function fakeOrganicCertifierSurvey(farm_id, defaultData = {}) {
   const certificationIDS = [1, 2];
   const certifierIDS = [1, 2, 3, 4, 5, 6, 7, 10, 13, 15, 16, 17, 18];
   const past = faker.date.past();

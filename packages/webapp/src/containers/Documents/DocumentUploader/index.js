@@ -10,7 +10,7 @@ export function DocumentUploader({ style, onUpload, linkText, onUploadEnd }) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const onChange = (e) => {
-    if (e?.target?.files?.[0].size > 26214400) {
+    if (e?.target?.files?.[0]?.size > 26214400) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
       onUpload?.();

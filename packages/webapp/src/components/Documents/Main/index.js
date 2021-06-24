@@ -5,6 +5,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
+import Checkbox from '../../Form/Checkbox';
 
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
@@ -39,6 +40,15 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
             optional
             disabled
             classes={{ container: { paddingBottom: '40px' } }}
+          />
+        )
+      }
+      {
+        document.no_expiration && (
+          <Checkbox
+            label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
+            checked={document.no_expiration}
+            classes={{ container: { paddingBottom: '42px' } }}
           />
         )
       }

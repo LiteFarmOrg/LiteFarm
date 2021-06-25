@@ -43,15 +43,16 @@ function PureDocumentDetailView({
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
-  const LOCAL_NO_EXPIRATION = 'no_expiration';
+  const NO_EXPIRATION = 'no_expiration';
 
   const defaultData = persistedFormData
     ? {
         name: persistedFormData.name,
         type: typeOptions[persistedFormData.type],
-        valid_until: persistedFormData.valid_until.substring(0, 10),
+        valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
+        no_expiration: persistedFormData.no_expiration
       }
     : {};
 
@@ -63,16 +64,14 @@ function PureDocumentDetailView({
     watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     shouldUnregister: false,
     defaultValues: defaultData,
   });
 
   const submitWithFiles = (data) => {
     let validUntil = !!data.valid_until ? data.valid_until : null;
-    validUntil = data.no_expiration ? new Date('2100-1-1') : validUntil;
     data.type = !!data.type ? data.type.value : data.type;
-    delete data.no_expiration;
     submit({
       ...data,
       thumbnail_url: uploadedFiles[0].thumbnail_url,
@@ -84,7 +83,7 @@ function PureDocumentDetailView({
     });
   };
 
-  const noExpirationChecked = watch(LOCAL_NO_EXPIRATION);
+  const noExpirationChecked = watch(NO_EXPIRATION);
 
   const {
     persistedData: { uploadedFiles },
@@ -96,7 +95,7 @@ function PureDocumentDetailView({
     setIsFirstUploadEnded(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : !isValid;
+  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
 
   return (
     <Form
@@ -118,7 +117,7 @@ function PureDocumentDetailView({
         <MultiStepPageTitle
           onGoBack={onGoBack}
           onCancel={onCancel}
-          value={50}
+          value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
         />
@@ -128,6 +127,7 @@ function PureDocumentDetailView({
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
+        errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
         control={control}
@@ -156,13 +156,13 @@ function PureDocumentDetailView({
         />
       )}
       <Checkbox
-        hookFormRegister={register(LOCAL_NO_EXPIRATION)}
+        hookFormRegister={register(NO_EXPIRATION)}
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
         {uploadedFiles?.map(({ thumbnail_url }, index) => (
-          <div key={index}>
+          <div key={thumbnail_url}>
             <div
               style={{
                 background: 'var(--teal700)',
@@ -170,6 +170,7 @@ function PureDocumentDetailView({
                 height: '24px',
                 position: 'relative',
                 float: 'right',
+                borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
               onClick={() => deleteImage(thumbnail_url)}
@@ -185,11 +186,16 @@ function PureDocumentDetailView({
           </div>
         ))}
       </div>
-      {documentUploader({
-        style: { paddingBottom: '32px' },
-        linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-        onUploadEnd,
-      })}
+      {
+        uploadedFiles?.length <= 5 &&
+        (
+          documentUploader({
+            style: { paddingBottom: '32px' },
+            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+            onUploadEnd,
+          })
+        )
+      }
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

@@ -5,10 +5,12 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
+import Checkbox from '../../Form/Checkbox';
 
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
   const isArchived = document.valid_until !== null && new Date(document.valid_until) < new Date();
+  const validUntil = document.valid_until?.split('T')[0];
   return (
     <Layout
       buttonGroup={
@@ -29,15 +31,28 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         value={document.name}
         disabled
       />
+      {
+        document.valid_until && (
+          <Input
+            type={'date'}
+            value={validUntil}
+            label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+            optional
+            disabled
+            classes={{ container: { paddingBottom: '40px' } }}
+          />
+        )
+      }
+      {
+        document.no_expiration && (
+          <Checkbox
+            label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
+            checked={document.no_expiration}
+            classes={{ container: { paddingBottom: '42px' } }}
+          />
+        )
+      }
 
-      <Input
-        type={'date'}
-        value={document.valid_until}
-        label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-        optional
-        disabled
-        classes={{ container: { paddingBottom: '40px' } }}
-      />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '32px' }}>
         {document.files?.map(({ thumbnail_url }) => (
           <>

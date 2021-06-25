@@ -42,7 +42,7 @@ export default function CropCatalogue({ history }) {
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
   );
-  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(cropCatalogue, filterString);
+  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(filterString);
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
@@ -125,10 +125,14 @@ export default function CropCatalogue({ history }) {
                   active,
                   planned,
                   past,
-                  needsPlan,
                   imageKey,
                   crop_photo_url,
+                  crop_id,
                 } = cropCatalog;
+                const noPlanCropIds = new Set(
+                  filteredCropVarietiesWithoutManagementPlan.map(({ crop_id }) => crop_id),
+                );
+                const needsPlan = noPlanCropIds.has(crop_id);
                 return (
                   <PureCropTile
                     key={crop_translation_key}

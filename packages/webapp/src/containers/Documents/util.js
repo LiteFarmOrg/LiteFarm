@@ -5,7 +5,15 @@ import { documentsFilterSelector } from '../filterSlice';
 
 export function useSortByName(documents) {
   return useMemo(() => {
-    return documents.sort((doc_i, doc_j) => (doc_i.name > doc_j.name ? 1 : -1));
+    return documents.sort((doc_i, doc_j) => {
+      if (doc_i.name > doc_j.name) {
+        return 1;
+      } else if (doc_i.name < doc_j.name) {
+        return -1;
+      } else {
+        return doc_i.document_id > doc_j.document_id ? 1 : -1;
+      }
+    });
   }, [documents]);
 }
 

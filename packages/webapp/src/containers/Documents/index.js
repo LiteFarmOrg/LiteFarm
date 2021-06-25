@@ -9,9 +9,9 @@ import PureDocumentTile from './DocumentTile';
 import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
 import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
-import { documentsSelector } from '../documentSlice';
+import { expiredDocumentSelector, validDocumentSelector } from '../documentSlice';
 import { getLanguageFromLocalStorage } from '../../util';
-import { useStringFilteredDocuments, useSortByName, useFilterDocuments } from './util';
+import { useFilterDocuments, useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
 import { DocumentUploader } from './DocumentUploader';
@@ -25,13 +25,9 @@ export default function Documents({ history }) {
   const dispatch = useDispatch();
   const lang = getLanguageFromLocalStorage();
 
-  const isValid = (date, currDate) => {
-    let given_date = new Date(date);
-    return currDate < given_date;
-  };
-
   const getDisplayedDate = (date) => {
-    return date && moment(date).locale(lang).format('MMM D, YY') + "'";
+    var formattedDate = moment(date).locale(lang).format('MMM D, YY');
+    return date && formattedDate.substring(0, formattedDate.length - 2) + "'" + formattedDate.substring(formattedDate.length - 2);
   };
 
   const [filterString, setFilterString] = useState('');
@@ -53,23 +49,14 @@ export default function Documents({ history }) {
     dispatch(getDocuments());
   }, []);
 
-  const documents = useStringFilteredDocuments(
-    useSortByName(useSelector(documentsSelector)),
+  const validDocuments = useStringFilteredDocuments(
+    useSortByName(useFilterDocuments(useSelector(validDocumentSelector))),
     filterString,
   );
-  const filteredDocuments = useFilterDocuments(documents);
-  const validDocuments = [];
-  const archivedDocuments = [];
-
-  const currDate = new Date();
-
-  filteredDocuments.forEach((document) => {
-    if (isValid(document.valid_until, currDate)) {
-      validDocuments.push(document);
-    } else {
-      archivedDocuments.push(document);
-    }
-  });
+  const archivedDocuments = useStringFilteredDocuments(
+    useSortByName(useFilterDocuments(useSelector(expiredDocumentSelector))),
+    filterString,
+  );
 
   const { ref: containerRef, gap, padding } = useDocumentTileGap([
     validDocuments.length,
@@ -106,7 +93,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         <>
           <DocumentUploader
-            style={{ marginBottom: '26px' }}
+            style={{marginBottom: '24px'}}
             linkText={t('DOCUMENTS.ADD_DOCUMENT')}
             onUpload={() => history.push('/documents/add_document')}
           />
@@ -123,9 +110,11 @@ export default function Documents({ history }) {
                     <PureDocumentTile
                       title={document.name}
                       type={document.type}
-                      date={null}
+                      date={getDisplayedDate(document.valid_until)}
+                      noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
+                      key={document.document_id}
                     />
                   );
                 })}
@@ -135,7 +124,7 @@ export default function Documents({ history }) {
           {!!archivedDocuments.length && (
             <>
               <PageBreak
-                style={{ paddingTop: '35px', paddingBottom: '16px' }}
+                style={{ paddingBottom: '16px' }}
                 label={t('DOCUMENTS.ARCHIVED')}
                 square={{ count: archivedDocuments.length, type: 'archived' }}
               />
@@ -146,8 +135,10 @@ export default function Documents({ history }) {
                       title={document.name}
                       type={document.type}
                       date={getDisplayedDate(document.valid_until)}
+                      noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
                       onClick={() => tileClick(document.document_id)}
+                      key={document.document_id}
                     />
                   );
                 })}

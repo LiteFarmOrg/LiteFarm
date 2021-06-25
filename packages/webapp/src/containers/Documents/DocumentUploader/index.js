@@ -6,11 +6,11 @@ import { uploadDocument } from './saga';
 import { useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
 
-export function DocumentUploader({ style, onUpload, linkText, onUploadEnd }) {
+export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploadEnd }) {
   const dispatch = useDispatch();
   const [showErrorModal, setShowErrorModal] = useState(false);
   const onChange = (e) => {
-    if (e?.target?.files?.[0].size > 26214400) {
+    if (e?.target?.files?.[0]?.size > 26214400) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
       onUpload?.();
@@ -21,7 +21,7 @@ export function DocumentUploader({ style, onUpload, linkText, onUploadEnd }) {
   return (
     <>
       <PureFilePickerWrapper onChange={onChange} style={style} accept={'application/pdf,image/*'}>
-        <AddLink style={style}>{linkText}</AddLink>
+        <AddLink style={linkstyle}>{linkText}</AddLink>
       </PureFilePickerWrapper>
       {showErrorModal && (
         <FileSizeExceedModal

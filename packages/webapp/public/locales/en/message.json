@@ -1,11 +1,11 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "Failed to upload attachments",
       "CREATE": "Failed to create document",
-      "FAILED_ARCHIVE": "Failed to archive document"
+      "FAILED_ARCHIVE": "Failed to archive document",
+      "FAILED_UPLOAD": "Failed to upload attachments"
     },
-    "SUCCESS" : {
+    "SUCCESS": {
       "ARCHIVE": "Successfully archived document",
       "CREATE": "Successfully created document"
     }

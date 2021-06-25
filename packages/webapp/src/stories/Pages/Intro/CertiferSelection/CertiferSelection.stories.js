@@ -96,6 +96,7 @@ NotSearchable.args = {
   allSupportedCertificationTypes: allSupportedCertificationTypes.slice(0, 2),
   certifierType,
   certificationType,
+  onBack: () => {},
 };
 NotSearchable.parameters = {
   ...chromaticSmallScreen,
@@ -107,6 +108,7 @@ Searchable.args = {
   allSupportedCertificationTypes,
   certifierType,
   certificationType,
+  onBack: () => {},
 };
 Searchable.parameters = {
   ...chromaticSmallScreen,

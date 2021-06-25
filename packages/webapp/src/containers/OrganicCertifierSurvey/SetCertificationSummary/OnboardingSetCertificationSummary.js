@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { patchStepFour } from '../saga';
 import history from '../../../history';
 import {
-  selectedCertifierSelector,
-  selectedCertificationSelector,
-  requestedCertifierSelector,
-  allCertifierTypesSelector,
   allCertificationTypesSelector,
+  allCertifierTypesSelector,
+  requestedCertifierSelector,
+  selectedCertificationSelector,
+  selectedCertifierSelector,
 } from '../organicCertifierSurveySlice';
 
-export default function SetCertificationSummary() {
+export default function OnboardingSetCertificationSummary() {
   const dispatch = useDispatch();
   const certifierType = useSelector(selectedCertifierSelector);
   const requestedCertifierData = useSelector(requestedCertifierSelector);

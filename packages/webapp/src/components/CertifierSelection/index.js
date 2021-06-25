@@ -2,11 +2,12 @@ import Layout from '../Layout';
 import Button from '../Form/Button';
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Semibold, Text, Title, Underlined } from '../Typography';
+import { Semibold, Text, Underlined } from '../Typography';
 import CertifierSelectionMenuItem from './CertifierSelectionMenu/CertiferSelectionMenuItem';
 import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureCertifierSelectionScreen({
   allSupportedCertifiers,
@@ -70,16 +71,17 @@ export default function PureCertifierSelectionScreen({
       classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
-          <Button onClick={onBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button onClick={onSubmit} fullLength disabled={disabled}>
             {t('common:PROCEED')}
           </Button>
         </>
       }
     >
-      <Title style={{ marginBottom: '16px' }}>{t('CERTIFICATION.CERTIFIER_SELECTION.TITLE')}</Title>
+      <PageTitle
+        style={{ marginBottom: '16px' }}
+        title={t('CERTIFICATION.CERTIFIER_SELECTION.TITLE')}
+        onGoBack={onBack}
+      />
       <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
         {t('CERTIFICATION.CERTIFICATION_SELECTION.SUBTITLE_ONE') +
           ' ' +

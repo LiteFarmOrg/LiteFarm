@@ -2,11 +2,11 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Radio from '../Form/Radio';
 import React, { useEffect, useState } from 'react';
-import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
 import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureCertificationSelection({
   onSubmit,
@@ -61,16 +61,17 @@ export default function PureCertificationSelection({
       onSubmit={handleSubmit(submit)}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button type={'submit'} fullLength onClick={redirectConsent} disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
       }
     >
-      <Title>{t('CERTIFICATION.CERTIFICATION_SELECTION.TITLE')}</Title>
+      <PageTitle
+        title={t('CERTIFICATION.CERTIFICATION_SELECTION.TITLE')}
+        onGoBack={onGoBack}
+        style={{ marginBottom: '20px' }}
+      />
 
       {allSupportedCertificationTypes.map((item, idx) => {
         return (

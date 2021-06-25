@@ -19,6 +19,7 @@ Primary.args = {
     requestedCertification: null,
   },
   name: 'Certifier',
+  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

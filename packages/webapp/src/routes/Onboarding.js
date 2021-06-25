@@ -29,7 +29,7 @@ const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const InterestedOrganic = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/CertificationSelection'),
@@ -40,7 +40,9 @@ const CertifierSelectionMenu = React.lazy(() =>
 );
 
 const SetCertificationSummary = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/SetCertificationSummary'),
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+  ),
 );
 
 const RequestCertifier = React.lazy(() =>

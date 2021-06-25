@@ -32,6 +32,7 @@ Primary.args = {
   ],
   selectedCertification: () => {},
   dispatch: () => {},
+  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

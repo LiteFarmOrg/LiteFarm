@@ -3,13 +3,13 @@ import PureCertifierSelectionScreen from '../../../components/CertifierSelection
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import {
+  allCertificationTypesSelector,
   allCertifierTypesSelector,
-  selectedCertificationSelector,
-  selectedCertifierSelector,
-  selectedCertifier,
   loadSummary,
   requestedCertifier,
-  allCertificationTypesSelector,
+  selectedCertificationSelector,
+  selectedCertifier,
+  selectedCertifierSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { patchRequestedCertifiers } from '../saga';
@@ -26,7 +26,6 @@ export default function CertifierSelectionMenu() {
   const role = useSelector(userFarmSelector);
 
   const onSubmit = () => {
-    console.log(certifierType);
     dispatch(requestedCertifier(null));
     dispatch(loadSummary(true));
     const callback = () => history.push('certification_summary');

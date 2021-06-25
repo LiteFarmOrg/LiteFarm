@@ -18,6 +18,7 @@ Primary.args = {
     certificationID: null,
     requestedCertification: 'Certification',
   },
+  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

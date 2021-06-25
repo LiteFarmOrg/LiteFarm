@@ -63,11 +63,14 @@
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
   "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
     "EMAIL": "MISSING",
+    "EXPORT": "MISSING",
     "EXPORT_DOCS": "MISSING",
     "FROM": "MISSING",
     "SELECT_REPORTING_PERIOD": "MISSING",
     "TO": "MISSING",
+    "UH_OH": "MISSING",
     "WHERE_TO_SEND_DOCS": "MISSING"
   },
   "CHOOSE_FARM": {

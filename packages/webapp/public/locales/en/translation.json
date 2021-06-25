@@ -63,11 +63,14 @@
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
   "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EMAIL": "Email",
+    "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FROM": "From",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
+    "UH_OH": "Uh oh!",
     "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
   },
   "CHOOSE_FARM": {

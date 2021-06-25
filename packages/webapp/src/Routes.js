@@ -232,7 +232,10 @@ const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
 const CertificationReportingPeriod = React.lazy(() =>
-  import('./containers/CertificationReportingPeriod'),
+  import('./containers/Certifications/ReportingPeriod'),
+);
+const CertificationContactCertifierFailed = React.lazy(() =>
+  import('./containers/Certifications/ContactCertifierFailed'),
 );
 
 const Routes = () => {
@@ -501,6 +504,11 @@ const Routes = () => {
               exact
               component={CertificationReportingPeriod}
             />
+            <Route
+              path="/certifications/contact_certifier_failed"
+              exact
+              component={CertificationContactCertifierFailed}
+            />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -706,6 +714,11 @@ const Routes = () => {
               path="/certifications/report_period"
               exact
               component={CertificationReportingPeriod}
+            />
+            <Route
+              path="/certifications/contact_certifier_failed"
+              exact
+              component={CertificationContactCertifierFailed}
             />
             <Redirect to={'/'} />
           </Switch>

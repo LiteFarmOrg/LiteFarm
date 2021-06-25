@@ -1,10 +1,10 @@
 import React from 'react';
-import PureCertificationReportingPeriod from '../../components/CertificationReportingPeriod';
+import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
-import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
-import { userFarmSelector } from '../userFarmSlice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { userFarmSelector } from '../../userFarmSlice';
 
 function CertificationReportingPeriod({ history, match }) {
   const { t } = useTranslation();

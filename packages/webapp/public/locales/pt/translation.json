@@ -63,11 +63,14 @@
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
   "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
     "EMAIL": "Email",
+    "EXPORT": "MISSING",
     "EXPORT_DOCS": "Export certification docs",
     "FROM": "From",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
+    "UH_OH": "MISSING",
     "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
   },
   "CHOOSE_FARM": {

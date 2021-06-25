@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import PureCertificationContactCertifierFailed from '../../../components/CertificationContactCertiferFailed';
+import PureCertificationAllInfoReady from '../../../components/CertificationAllInfoReady';
 
-function CertificationContactCertifierFailed({ history, match }) {
+function CertificationAllInfoReady({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onExport = () => {
@@ -12,7 +12,7 @@ function CertificationContactCertifierFailed({ history, match }) {
   };
 
   return (
-    <PureCertificationContactCertifierFailed
+    <PureCertificationAllInfoReady
       onExport={onExport}
       handleGoBack={() => console.log('TODO: replace with proper goBack history push')}
       handleCancel={() => console.log('TODO: replace with proper cancel history push')}
@@ -20,4 +20,4 @@ function CertificationContactCertifierFailed({ history, match }) {
   );
 }
 
-export default CertificationContactCertifierFailed;
+export default CertificationAllInfoReady;

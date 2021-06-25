@@ -237,6 +237,9 @@ const CertificationReportingPeriod = React.lazy(() =>
 const CertificationContactCertifierFailed = React.lazy(() =>
   import('./containers/Certifications/ContactCertifierFailed'),
 );
+const CertificationAllInfoReady = React.lazy(() =>
+  import('./containers/Certifications/AllInfoReady'),
+);
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -509,6 +512,11 @@ const Routes = () => {
               exact
               component={CertificationContactCertifierFailed}
             />
+            <Route
+              path="/certifications/all_info_ready"
+              exact
+              component={CertificationAllInfoReady}
+            />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -719,6 +727,11 @@ const Routes = () => {
               path="/certifications/contact_certifier_failed"
               exact
               component={CertificationContactCertifierFailed}
+            />
+            <Route
+              path="/certifications/all_info_ready"
+              exact
+              component={CertificationAllInfoReady}
             />
             <Redirect to={'/'} />
           </Switch>

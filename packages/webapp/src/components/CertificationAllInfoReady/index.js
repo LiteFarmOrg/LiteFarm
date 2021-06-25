@@ -7,10 +7,9 @@ import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../Typography';
 import Layout from '../Layout';
-import { VscWarning } from 'react-icons/all';
 import { colors } from '../../assets/theme';
 
-const PureCertificationContactCertifierFailed = ({ onExport, handleGoBack, handleCancel }) => {
+const PureCertificationAllInfoReady = ({ onExport, handleGoBack, handleCancel }) => {
   const { t } = useTranslation();
 
   const progress = 33;
@@ -32,28 +31,27 @@ const PureCertificationContactCertifierFailed = ({ onExport, handleGoBack, handl
 
       <Semibold
         style={{
-          color: colors.brown700,
+          color: colors.teal700,
           marginBottom: '16px',
           display: 'inline-flex',
           gap: '8px',
           alignItems: 'center',
         }}
       >
-        <VscWarning style={{ fontSize: '20px' }} />
-        {t('CERTIFICATIONS.UH_OH')}
+        {t('CERTIFICATIONS.GOOD_NEWS')}
       </Semibold>
 
       <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
-        {t('CERTIFICATIONS.COULD_NOT_CONTACT_CERTIFIER')}
+        {t('CERTIFICATIONS.HAVE_ALL_INFO')}
       </Main>
     </Layout>
   );
 };
 
-PureCertificationContactCertifierFailed.propTypes = {
+PureCertificationAllInfoReady.propTypes = {
   onExport: PropTypes.func,
   handleGoBack: PropTypes.func,
   handleCancel: PropTypes.func,
 };
 
-export default PureCertificationContactCertifierFailed;
+export default PureCertificationAllInfoReady;

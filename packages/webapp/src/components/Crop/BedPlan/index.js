@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { integerOnKeyDown } from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { area_total_area, getDefaultUnit, seedYield } from '../../../util/unit';
+import { container_planting_depth, getDefaultUnit, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
 import Unit, { unitOptionMap } from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
-function PureBroadcastPlan({
+function PureBedPlan({
   handleContinue,
   persistedFormData,
   useHookFormPersist,
@@ -22,8 +22,7 @@ function PureBroadcastPlan({
   onGoBack,
   onCancel,
   persistedPaths,
-  locationSize,
-  yieldPerArea,
+  crop_variety, // todo: added for const {average_seed_weight = 0} = crop_variety; in a useEffect for calculations
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -40,65 +39,23 @@ function PureBroadcastPlan({
     shouldUnregister: false,
     mode: 'onBlur',
   });
-  const shouldValidate = { shouldValidate: true };
-  const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
-  const KgHaToLbAc = 2.20462 / 2.47105;
-  const LbAcToKgHa = 0.453592 / 0.404686;
-  const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
-  const PERCENTAGE_PLANTED = 'broadcast.percentage_planted';
-  const SEEDING_RATE = 'broadcast.seeding_rate';
-  const AREA_USED = 'broadcast.area_used';
-  const AREA_USED_UNIT = 'broadcast.area_used_unit';
-  const ESTIMATED_YIELD = 'broadcast.estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'broadcast.estimated_yield_unit';
-  const ESTIMATED_SEED = 'broadcast.required_seeds';
-  const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
-  const NOTES = 'broadcast.notes';
-  const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
-  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  const seedingRateForm = watch(SEEDING_RATE, persistedFormData?.broadcast?.seeding_rate);
-  const areaUsed = watch(AREA_USED);
-  const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
+  const AREA_USED = 'beds.area_used';
+  const AREA_USED_UNIT = 'beds.area_used_unit';
+
+  const NUMBER_OF_BEDS = 'beds.number_of_beds';
+  const NUMBER_OF_ROWS_IN_BED = 'beds.number_of_rows_in_bed';
+  const PLANT_SPACING_UNIT = 'beds.plant_spacing_unit';
+  const PLANT_SPACING = 'beds.plant_spacing';
+  const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
+  const LENGTH_OF_BED = 'beds.length_of_bed';
+
+  const number_of_beds = watch(NUMBER_OF_BEDS);
+  const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
+  const length_of_bed = watch(LENGTH_OF_BED);
+  const plant_spacing = watch(PLANT_SPACING);
 
   useHookFormPersist(persistedPaths, getValues);
-
-  const getErrorMessage = (error, min, max) => {
-    if (error?.type === 'required') return t('common:REQUIRED');
-    if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
-    if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
-  };
-
-  const seedingRateHandler = (e) => {
-    const seedingRateConversion = system === 'metric' ? 1 : LbAcToKgHa;
-    setValue(
-      SEEDING_RATE,
-      e.target.value === '' ? '' : seedingRateConversion * Number(e.target.value),
-      shouldValidate,
-    );
-  };
-
-  useEffect(() => {
-    const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
-    setValue(AREA_USED, areaUsed, shouldValidate);
-    setValue(
-      AREA_USED_UNIT,
-      unitOptionMap[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
-      shouldValidate,
-    );
-  }, [percentageOfAreaPlanted]);
-
-  useEffect(() => {
-    setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
-    setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
-  }, [seedingRateForm, areaUsed]);
-
-  useEffect(() => {
-    if (areaUsedUnit?.value) {
-      const newDisplayedSize = convert(locationSize).from('m2').to(areaUsedUnit.value).toFixed(2);
-      setDisplayedLocationSize(newDisplayedSize);
-    }
-  }, [areaUsedUnit]);
 
   return (
     <Form
@@ -119,119 +76,75 @@ function PureBroadcastPlan({
       <Main style={{ paddingBottom: '24px' }}>{t('BED_PLAN.PLANTING_DETAILS')}</Main>
 
       <div className={clsx(styles.row)}>
+        {/*todo: is onKeyDown = {integerOnKeyDown} how to listen/gather user input?*/}
+        {/* # of beds */}
         <Input
-          hookFormRegister={register(PERCENTAGE_PLANTED, {
-            required: true,
-            valueAsNumber: true,
-          })}
-          type={'number'}
-          style={{ paddingBottom: '5px' }}
           label={t('BED_PLAN.NUMBER_0F_BEDS')}
-        />
-        <Input
-          hookFormRegister={register(PERCENTAGE_PLANTED, {
+          hookFormRegister={register(NUMBER_OF_BEDS, {
             required: true,
             valueAsNumber: true,
+            min: 1,
+            max: 999,
           })}
           type={'number'}
-          style={{ paddingBottom: '5px', paddingLeft: '20px' }}
+          style={{ paddingBottom: '5px', flexGrow: 1 }}
+          onKeyDown={integerOnKeyDown}
+        />
+
+        {/* # of rows in bed */}
+        <Input
           label={t('BED_PLAN.NUMBER_OF_ROWS')}
+          hookFormRegister={register(NUMBER_OF_ROWS_IN_BED, {
+            required: true,
+            valueAsNumber: true,
+            min: 1,
+            max: 999,
+          })}
+          type={'number'}
+          style={{ paddingBottom: '5px', paddingLeft: '20px', flexGrow: 1 }}
+          onKeyDown={integerOnKeyDown}
         />
       </div>
 
-      <div className={clsx(styles.row, styles.paddingBottom40)}>
+      <div className={clsx(styles.row)}>
+        {/*todo: how to listen/gather user input for <Unit> for calculations*/}
+        {/* Length of bed */}
         <Unit
           register={register}
-          classes={{
-            input: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', ...greenInput },
-          }}
           label={t('BED_PLAN.LENGTH_OF_BED')}
-          name={AREA_USED}
-          displayUnitName={AREA_USED_UNIT}
-          errors={errors[AREA_USED]}
-          unitType={area_total_area}
-          disabled
+          name={LENGTH_OF_BED}
+          displayUnitName={LENGTH_OF_BED_UNIT}
+          errors={errors[LENGTH_OF_BED]}
+          unitType={container_planting_depth}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
-          style={{ flex: '1 1 0px' }}
+          required
         />
 
+        {/*Plant spacing*/}
         <Unit
           register={register}
-          classes={{
-            input: { borderTopLeftRadius: '0px', borderBottomLeftRadius: '0px', ...greenInput },
-          }}
           label={t('BED_PLAN.PLANT_SPACING')}
-          name={AREA_USED}
-          displayUnitName={AREA_USED_UNIT}
-          errors={errors[AREA_USED]}
-          unitType={area_total_area}
-          disabled
+          name={PLANT_SPACING}
+          displayUnitName={PLANT_SPACING_UNIT}
+          errors={errors[PLANT_SPACING]}
+          unitType={container_planting_depth}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
-          style={{ flex: '1 1 0px', paddingLeft: '20px' }}
+          required
+          style={{ paddingLeft: '20px' }}
         />
       </div>
-
-      {/*<Input*/}
-      {/*  type={'number'}*/}
-      {/*  label={t('BROADCAST_PLAN.SEEDING_RATE')}*/}
-      {/*  onChange={seedingRateHandler}*/}
-      {/*  unit={seedingRateUnit}*/}
-      {/*  style={{paddingBottom: '40px'}}*/}
-      {/*  errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}*/}
-      {/*/>*/}
-      {/*<input*/}
-      {/*  {...register(SEEDING_RATE, {required: true, valueAsNumber: true, min: 1})}*/}
-      {/*  style={{display: 'none'}}*/}
-      {/*/>*/}
-
-      {areaUsed > 0 && seedingRateForm > 0 && (
-        <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-            name={ESTIMATED_SEED}
-            displayUnitName={ESTIMATED_SEED_UNIT}
-            errors={errors[ESTIMATED_SEED]}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFormSetError={setError}
-            hookFromWatch={watch}
-            control={control}
-            required
-            style={{ flex: '1 1 0px' }}
-          />
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-            name={ESTIMATED_YIELD}
-            displayUnitName={ESTIMATED_YIELD_UNIT}
-            errors={errors[ESTIMATED_YIELD]}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFormSetError={setError}
-            hookFromWatch={watch}
-            control={control}
-            required
-            style={{ flex: '1 1 0px' }}
-          />
-        </div>
-      )}
     </Form>
   );
 }
 
-export default PureBroadcastPlan;
+export default PureBedPlan;

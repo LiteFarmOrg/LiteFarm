@@ -18,6 +18,12 @@ class BedsModel extends Model {
         area_used: { type: 'float', minimum: 0 },
         area_used_unit: { type: 'number', enum: ['m2', 'ha', 'ft2', 'ac'] },
         bed_config: { type: 'object, null' },
+        number_of_beds: { type: 'integer' },
+        number_of_rows_in_bed: { type: 'integer' },
+        plant_spacing_unit: { type: 'number', enum: ['cm', 'm', 'ft', 'in'] },
+        plant_spacing: { type: ['number'] },
+        length_of_bed_unit: { type: 'number', enum: ['cm', 'm', 'ft', 'in'] },
+        length_of_bed: { type: ['number'] },
       },
       additionalProperties: false,
     };

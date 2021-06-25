@@ -62,6 +62,14 @@
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
+  "CERTIFICATIONS": {
+    "EMAIL": "Email",
+    "EXPORT_DOCS": "Export certification docs",
+    "FROM": "From",
+    "SELECT_REPORTING_PERIOD": "Select your reporting period",
+    "TO": "To",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
     "CHOOSE_TITLE": "Choose your farm",
@@ -906,6 +914,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLAN": "Plan {{count}}",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",

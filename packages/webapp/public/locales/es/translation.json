@@ -62,6 +62,14 @@
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
+  "CERTIFICATIONS": {
+    "EMAIL": "MISSING",
+    "EXPORT_DOCS": "MISSING",
+    "FROM": "MISSING",
+    "SELECT_REPORTING_PERIOD": "MISSING",
+    "TO": "MISSING",
+    "WHERE_TO_SEND_DOCS": "MISSING"
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agrega otra finca",
     "CHOOSE_TITLE": "Elige otra finca",
@@ -905,6 +913,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",

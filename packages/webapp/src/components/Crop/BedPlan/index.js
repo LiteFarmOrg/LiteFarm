@@ -18,7 +18,7 @@ function PureBedPlan({
   handleContinue,
   persistedFormData,
   useHookFormPersist,
-  system,
+  system, // metric or imperial
   onGoBack,
   onCancel,
   persistedPaths,
@@ -49,6 +49,10 @@ function PureBedPlan({
   const PLANT_SPACING = 'beds.plant_spacing';
   const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
   const LENGTH_OF_BED = 'beds.length_of_bed';
+  const ESTIMATED_SEED = 'required_seeds'; // from Broadcast plan ???
+  const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
+  const ESTIMATED_YIELD = 'estimated_yield';
+  const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
@@ -56,6 +60,30 @@ function PureBedPlan({
   const plant_spacing = watch(PLANT_SPACING);
 
   useHookFormPersist(persistedPaths, getValues);
+
+  useEffect(() => {
+    // const {average_seed_weight = 0, yield_per_plant = 0} = crop_variety;
+    let average_seed_weight = 0.1;
+    let yield_per_plant = 10;
+
+    const estimated_yield =
+      ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) * yield_per_plant;
+
+    const estimated_seed_required_in_weight =
+      ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) *
+      average_seed_weight;
+    const estimated_seed_required_in_seeds =
+      (number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing; // todo: is number of seeds needed?
+
+    setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
+    setValue(ESTIMATED_YIELD, estimated_yield);
+  }, [number_of_beds, number_of_rows_in_bed, length_of_bed, plant_spacing]);
+
+  function check() {
+    if (number_of_beds && number_of_rows_in_bed && length_of_bed && plant_spacing) {
+      return true;
+    }
+  }
 
   return (
     <Form
@@ -141,6 +169,41 @@ function PureBedPlan({
           control={control}
           required
           style={{ paddingLeft: '20px' }}
+        />
+      </div>
+
+      <div className={clsx(styles.row)}>
+        <Unit
+          register={register}
+          label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+          name={ESTIMATED_SEED}
+          displayUnitName={ESTIMATED_SEED_UNIT}
+          errors={errors[ESTIMATED_SEED]}
+          unitType={seedYield}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFormSetError={setError}
+          hookFromWatch={watch}
+          control={control}
+          required
+          style={{ flexGrow: 1 }}
+        />
+        <Unit
+          register={register}
+          label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+          name={ESTIMATED_YIELD}
+          displayUnitName={ESTIMATED_YIELD_UNIT}
+          errors={errors[ESTIMATED_YIELD]}
+          unitType={seedYield}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFormSetError={setError}
+          hookFromWatch={watch}
+          control={control}
+          required
+          style={{ flexGrow: 1 }}
         />
       </div>
     </Form>

@@ -26,7 +26,8 @@ export default function Documents({ history }) {
   const lang = getLanguageFromLocalStorage();
 
   const getDisplayedDate = (date) => {
-    return date && moment(date).locale(lang).format('MMM D, YY') + "'";
+    var formattedDate = moment(date).locale(lang).format('MMM D, YY');
+    return date && formattedDate.substring(0, formattedDate.length - 2) + "'" + formattedDate.substring(formattedDate.length - 2);
   };
 
   const [filterString, setFilterString] = useState('');

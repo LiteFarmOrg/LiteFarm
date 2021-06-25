@@ -231,6 +231,9 @@ const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
+const CertificationReportingPeriod = React.lazy(() =>
+  import('./containers/CertificationReportingPeriod'),
+);
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -493,6 +496,11 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route
+              path="/certifications/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -694,6 +702,11 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route
+              path="/certifications/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

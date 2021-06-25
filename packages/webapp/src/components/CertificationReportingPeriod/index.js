@@ -9,8 +9,16 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Input from '../Form/Input';
 import { Main } from '../Typography';
+import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
-const PureCertificationReportingPeriod = ({ onSubmit, onError, handleGoBack, handleCancel }) => {
+const PureCertificationReportingPeriod = ({
+  onSubmit,
+  onError,
+  handleGoBack,
+  handleCancel,
+  persistedFormData,
+  defaultEmail,
+}) => {
   const { t } = useTranslation();
   const {
     register,
@@ -22,12 +30,21 @@ const PureCertificationReportingPeriod = ({ onSubmit, onError, handleGoBack, han
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      // crop_variety_photo_url:
-      //   crop.crop_photo_url ||
-      //   `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
-      // ...persistedFormData,
+      email: defaultEmail,
+      ...persistedFormData,
     },
   });
+  const persistedPath = [];
+
+  useHookFormPersist(persistedPath, getValues);
+
+  const FROM_DATE = 'from_date';
+  const TO_DATE = 'to_date';
+  const EMAIL = 'email';
+
+  const fromDateRegister = register(FROM_DATE, { required: true });
+  const toDateRegister = register(TO_DATE, { required: true });
+  const emailRegister = register(EMAIL, { required: true });
 
   const progress = 33;
   return (
@@ -54,7 +71,7 @@ const PureCertificationReportingPeriod = ({ onSubmit, onError, handleGoBack, han
           style={{ marginBottom: '40px' }}
           label={t('CERTIFICATIONS.FROM')}
           type="date"
-          // hookFormRegister={certRegister}
+          hookFormRegister={fromDateRegister}
           classes={{
             container: { flex: '1' },
           }}
@@ -64,7 +81,7 @@ const PureCertificationReportingPeriod = ({ onSubmit, onError, handleGoBack, han
           style={{ marginBottom: '40px' }}
           label={t('CERTIFICATIONS.TO')}
           type="date"
-          // hookFormRegister={certRegister}
+          hookFormRegister={toDateRegister}
           classes={{
             container: { flex: '1' },
           }}
@@ -75,13 +92,19 @@ const PureCertificationReportingPeriod = ({ onSubmit, onError, handleGoBack, han
       <Input
         style={{ marginBottom: '40px' }}
         label={t('CERTIFICATIONS.EMAIL')}
-        // defaultValue={email}
-        // hookFormRegister={certRegister}
+        hookFormRegister={emailRegister}
       />
     </Form>
   );
 };
 
-PureCertificationReportingPeriod.propTypes = {};
+PureCertificationReportingPeriod.propTypes = {
+  onSubmit: PropTypes.func,
+  onError: PropTypes.func,
+  persistedFormData: PropTypes.object,
+  handleGoBack: PropTypes.func,
+  handleCancel: PropTypes.func,
+  defaultEmail: PropTypes.string,
+};
 
 export default PureCertificationReportingPeriod;

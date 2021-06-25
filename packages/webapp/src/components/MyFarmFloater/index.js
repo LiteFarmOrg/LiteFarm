@@ -7,8 +7,16 @@ import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
 
 import Floater from 'react-floater';
+import { useSelector } from 'react-redux';
+import { userFarmSelector } from '../../containers/userFarmSlice';
 
-export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntroducingFarmMap }) {
+export function PureMyFarmFloaterComponent({
+  farmInfo,
+  farmMap,
+  people,
+  isIntroducingFarmMap,
+  isAdmin,
+}) {
   const { t } = useTranslation();
   return (
     <div
@@ -40,12 +48,14 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people, isIntrod
         customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
         customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
       />
-      <ListOption
-        clickFn={farmMap}
-        iconText={t('MY_FARM.CERTIFICATIONS')}
-        icon={<CertificationsIcon />}
-        customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
-      />
+      {isAdmin && (
+        <ListOption
+          clickFn={farmMap}
+          iconText={t('MY_FARM.CERTIFICATIONS')}
+          icon={<CertificationsIcon />}
+          customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
+        />
+      )}
     </div>
   );
 }
@@ -58,12 +68,14 @@ export default function PureMyFarmFloater({
   peopleClick,
   isIntroducingFarmMap,
 }) {
+  const { is_admin } = useSelector(userFarmSelector);
   const Wrapper = (
     <PureMyFarmFloaterComponent
       farmInfo={farmInfoClick}
       farmMap={farmMapClick}
       people={peopleClick}
       isIntroducingFarmMap={isIntroducingFarmMap}
+      isAdmin={is_admin}
     />
   );
   return (

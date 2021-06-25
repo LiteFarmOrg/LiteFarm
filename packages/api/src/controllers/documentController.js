@@ -46,6 +46,25 @@ const documentController = {
       }
     };
   },
+
+  updateDocument() {
+    return async (req, res, next) => {
+      const { document_id } = req.params; 
+      try {
+        console.log(req.body);
+        const result = await DocumentModel.transaction(async trx => {
+          //return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).
+        });
+        return res.status(201).send(result);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
   uploadDocument() {
     return async (req, res, next) => {
       const { farm_id } = req.params;

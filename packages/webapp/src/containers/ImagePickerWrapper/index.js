@@ -5,6 +5,8 @@ import { useRef } from 'react';
 import { mergeRefs } from '../../components/Form/utils';
 import PropTypes from 'prop-types';
 import { uploadCropVarietyImage } from './saga';
+import { toastr } from 'react-redux-toastr';
+import i18n from '../../locales/i18n';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -44,7 +46,10 @@ export default function ImagePickerWrapper({
   const onFileUpload = async (e) => {
     if (e?.target?.files?.[0]) {
       const blob = e.target.files[0];
-      if (blob.size < 200000) {
+      const isNotImage = !/^image\/.*/.test(blob.type);
+      if (isNotImage) {
+        toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+      } else if (blob.size < 200000) {
         dispatch(uploadCropVarietyImage({ file: blob, onUploadSuccess }));
       } else {
         new Compressor(blob, {

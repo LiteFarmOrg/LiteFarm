@@ -10,6 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 
 function PureDocumentDetailView({
   submit,
@@ -52,7 +53,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.no_expiration
+        no_expiration: persistedFormData.no_expiration,
       }
     : {};
 
@@ -70,14 +71,19 @@ function PureDocumentDetailView({
   });
 
   const submitWithFiles = (data) => {
+    const getDocumentThumbnailUrl = (files) => {
+      for (const file of files) {
+        if (file.thumbnail_url) return file.thumbnail_url;
+      }
+      return undefined;
+    };
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
     submit({
       ...data,
-      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
-        file_name: `${data.name}_i`,
       })),
       valid_until: validUntil,
     });
@@ -95,7 +101,9 @@ function PureDocumentDetailView({
     setIsFirstUploadEnded(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
+  const disabled = isEdit
+    ? !isValid || !(isDirty || isFirstUploadEnded)
+    : !isValid || uploadedFiles?.length === 0;
 
   return (
     <Form
@@ -161,7 +169,7 @@ function PureDocumentDetailView({
         classes={{ container: { paddingBottom: '42px' } }}
       />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
-        {uploadedFiles?.map(({ thumbnail_url }, index) => (
+        {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
           <div key={thumbnail_url}>
             <div
               style={{
@@ -173,29 +181,32 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnail_url)}
+              onClick={() => deleteImage(url)}
             >
               <TrashIcon />
             </div>
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', top: '-24px', zIndex: 0 },
-              height: '100%',
-              src: thumbnail_url,
-            })}
+            {thumbnail_url ? (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                height: '100%',
+                src: thumbnail_url,
+              })
+            ) : (
+              <CertifierSelectionMenuItem
+                certifierName={file_name}
+                style={{ position: 'relative', top: '-24px', zIndex: 0 }}
+              />
+            )}
           </div>
         ))}
       </div>
-      {
-        uploadedFiles?.length <= 5 &&
-        (
-          documentUploader({
-            style: { paddingBottom: '32px' },
-            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-            onUploadEnd,
-          })
-        )
-      }
+      {uploadedFiles?.length <= 5 &&
+        documentUploader({
+          style: { paddingBottom: '32px' },
+          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUploadEnd,
+        })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

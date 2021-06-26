@@ -6,6 +6,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Checkbox from '../../Form/Checkbox';
+import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 
 function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageComponent }) {
   const { t } = useTranslation();
@@ -31,36 +32,36 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         value={document.name}
         disabled
       />
-      {
-        document.valid_until && (
-          <Input
-            type={'date'}
-            value={validUntil}
-            label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-            optional
-            disabled
-            classes={{ container: { paddingBottom: '40px' } }}
-          />
-        )
-      }
-      {
-        document.no_expiration && (
-          <Checkbox
-            label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
-            checked={document.no_expiration}
-            classes={{ container: { paddingBottom: '42px' } }}
-          />
-        )
-      }
+      {document.valid_until && (
+        <Input
+          type={'date'}
+          value={validUntil}
+          label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+          optional
+          disabled
+          classes={{ container: { paddingBottom: '40px' } }}
+        />
+      )}
+      {document.no_expiration && (
+        <Checkbox
+          label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
+          checked={document.no_expiration}
+          classes={{ container: { paddingBottom: '42px' } }}
+        />
+      )}
 
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '32px' }}>
-        {document.files?.map(({ thumbnail_url }) => (
+        {document.files?.map(({ thumbnail_url, file_name, url }) => (
           <>
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', zIndex: 0 },
-              src: thumbnail_url,
-            })}
+            {thumbnail_url ? (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', zIndex: 0 },
+                src: thumbnail_url,
+              })
+            ) : (
+              <CertifierSelectionMenuItem certifierName={file_name} />
+            )}
           </>
         ))}
       </div>

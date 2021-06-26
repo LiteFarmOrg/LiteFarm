@@ -32,7 +32,7 @@ export default function EditDocument({ history, match }) {
   };
 
   const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ thumbnail_url: url }));
+    dispatch(deleteUploadedFile({ url }));
   };
 
   return (

@@ -25,7 +25,7 @@ export function* uploadDocumentSaga({ payload }) {
       header,
     );
     if (result) {
-      yield put(uploadFileSuccess(result.data));
+      yield put(uploadFileSuccess({ ...result.data, file_name: payload.file.name }));
       payload.onUploadEnd?.();
     } else {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));

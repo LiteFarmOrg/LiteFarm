@@ -1,14 +1,14 @@
 import React from 'react';
-import PureBedPlan from '../../../components/Crop/BedPlan/BedPlan';
+import PureBedPlanGuidance from '../../../components/Crop/BedPlan/BedPlanGuidance';
 import decorators from '../config/decorators';
 
 export default {
-  title: 'Form/ManagementPlan/BedPlan',
-  component: PureBedPlan,
+  title: 'Form/ManagementPlan/BedPlanGuidance',
+  component: PureBedPlanGuidance,
   decorators: decorators,
 };
 
-const Template = (args) => <PureBedPlan {...args} />;
+const Template = (args) => <PureBedPlanGuidance {...args} />;
 
 export const Management = Template.bind({});
 Management.args = {

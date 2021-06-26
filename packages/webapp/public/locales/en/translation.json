@@ -13,11 +13,19 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "Length of bed",
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
     "NUMBER_OF_ROWS": "# of rows in bed",
     "PLANT_SPACING": "Plant spacing",
     "PLANTING_DETAILS": "Please specify planting details"
+  },
+  "BED_PLAN_GUIDANCE": {
+    "SPECIFY_BEDS": "Specify beds",
+    "PLANTING_DEPTH": "Planting depth",
+    "BED_WIDTH": "Bed width",
+    "SPACE_BETWEEN": "Space between beds",
+    "NOTES": "Planting notes"
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",

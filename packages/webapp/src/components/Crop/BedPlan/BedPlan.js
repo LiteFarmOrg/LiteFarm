@@ -1,3 +1,5 @@
+// TODO: BEDPLAN COMPONENT
+
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -40,15 +42,13 @@ function PureBedPlan({
     mode: 'onBlur',
   });
 
-  const AREA_USED = 'beds.area_used';
-  const AREA_USED_UNIT = 'beds.area_used_unit';
-
   const NUMBER_OF_BEDS = 'beds.number_of_beds';
   const NUMBER_OF_ROWS_IN_BED = 'beds.number_of_rows_in_bed';
   const PLANT_SPACING_UNIT = 'beds.plant_spacing_unit';
   const PLANT_SPACING = 'beds.plant_spacing';
   const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
   const LENGTH_OF_BED = 'beds.length_of_bed';
+
   const ESTIMATED_SEED = 'required_seeds'; // from Broadcast plan ???
   const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
   const ESTIMATED_YIELD = 'estimated_yield';
@@ -172,40 +172,42 @@ function PureBedPlan({
         />
       </div>
 
-      <div className={clsx(styles.row)}>
-        <Unit
-          register={register}
-          label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-          name={ESTIMATED_SEED}
-          displayUnitName={ESTIMATED_SEED_UNIT}
-          errors={errors[ESTIMATED_SEED]}
-          unitType={seedYield}
-          system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFormSetError={setError}
-          hookFromWatch={watch}
-          control={control}
-          required
-          style={{ flexGrow: 1 }}
-        />
-        <Unit
-          register={register}
-          label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-          name={ESTIMATED_YIELD}
-          displayUnitName={ESTIMATED_YIELD_UNIT}
-          errors={errors[ESTIMATED_YIELD]}
-          unitType={seedYield}
-          system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFormSetError={setError}
-          hookFromWatch={watch}
-          control={control}
-          required
-          style={{ flexGrow: 1 }}
-        />
-      </div>
+      {!!number_of_beds && !!number_of_rows_in_bed && !!length_of_bed && !!plant_spacing && (
+        <div className={clsx(styles.row)}>
+          <Unit
+            register={register}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+            name={ESTIMATED_SEED}
+            displayUnitName={ESTIMATED_SEED_UNIT}
+            errors={errors[ESTIMATED_SEED]}
+            unitType={seedYield}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            required
+            style={{ flexGrow: 1 }}
+          />
+          <Unit
+            register={register}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+            name={ESTIMATED_YIELD}
+            displayUnitName={ESTIMATED_YIELD_UNIT}
+            errors={errors[ESTIMATED_YIELD]}
+            unitType={seedYield}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            required
+            style={{ flexGrow: 1 }}
+          />
+        </div>
+      )}
     </Form>
   );
 }

@@ -12,7 +12,11 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
+  "BED_PLAN_GUIDANCE": {
+    "SPECIFY_BEDS": "MISSING"
+  },
   "BED_PLAN": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
     "LENGTH_OF_BED": "MISSING",
     "NUMBER_0F_BEDS": "MISSING",
     "NUMBER_OF_ROWS": "MISSING",

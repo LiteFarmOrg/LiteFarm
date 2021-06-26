@@ -221,6 +221,10 @@ const PlantInContainer = React.lazy(() =>
 const PlantBroadcast = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/BroadcastPlan'),
 );
+const BedPlan = React.lazy(() => import('./containers/Crop/AddManagementPlan/BedPlan/BedPlan'));
+const BedPlanGuidance = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
+);
 const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
@@ -370,6 +374,12 @@ const Routes = () => {
               exact
               component={PlantInContainer}
             />
+            <Route path="/crop/:variety_id/add_management_plan/beds" exact component={BedPlan} />
+            <Route
+              path="/crop/:variety_id/add_management_plan/beds_guidance"
+              exact
+              component={BedPlanGuidance}
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/name"
               exact
@@ -382,8 +392,8 @@ const Routes = () => {
             <Route path="/documents" exact component={Documents} />
 
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument} />
-            <Route path="/documents/:document_id"  exact component={MainDocument} />
+            <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
+            <Route path="/documents/:document_id" exact component={MainDocument} />
 
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -578,11 +588,11 @@ const Routes = () => {
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route path="/documents" exact component={Documents} />
 
-            <Route path="/documents/:document_id/edit_document"  exact component={EditDocument} />
-            <Route path="/documents/:document_id"  exact component={MainDocument} />
+            <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
+            <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
 
-              <Route path="/map" exact component={Map} />
+            <Route path="/map" exact component={Map} />
             <Route
               path="/create_location/farm_site_boundary"
               exact

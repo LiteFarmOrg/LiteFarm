@@ -142,7 +142,7 @@
     "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
     "MANAGEMENT_PLANS": "Management Plans",
     "MANAGEMENT_TAB": "Management",
-    "ORGANIC": "Is the crop certified Organic?",
+    "ORGANIC": "Is the crop certified organic?",
     "PERENNIAL": "Perennial",
     "TREATED": "Have the seeds for this crop been treated?",
     "ORGANIC_COMPLIANCE": "Organic Compliance"
@@ -171,10 +171,12 @@
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
     "ANNUAL_OR_PERENNIAL": "Is the crop an annual or perennial?",
-    "EDIT_CROP": "MISSING",
+
+    "EDIT_CROP": "Edit crop",
     "EDIT_MODAL": {
-      "BODY": "MISSING",
-      "TITLE": "MISSING"
+      "BODY": "Editing this crop will not modify any existing crop management plans. Only  management plans created after your edits will be impacted. Proceed to edit?",
+      "TITLE": "Edit crop?"
+
     },
     "IS_GENETICALLY_ENGINEERED": "Is the crop genetically engineered?",
     "IS_ORGANIC": "Is the crop certified organic?",
@@ -209,6 +211,13 @@
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "Compliance documents and your certification",
     "DOCUMENTS": "Documents",
     "EDIT_DOCUMENT": "Edit document",
+
+    "FILTER": {
+      "TITLE": "Documents Filter",
+      "TYPE": "Type",
+      "VALID_ON": "Valid on"
+    },
+
     "SPOTLIGHT": {
       "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
       "HERE_YOU_CAN": "Here you can:",
@@ -890,7 +899,7 @@
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
     "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
-    "BROADCAST": "Broadcast",
+    "BROADCAST": "Broadcast or drill",
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
@@ -915,6 +924,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
+    "PLAN": "Plan {{count}}",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",

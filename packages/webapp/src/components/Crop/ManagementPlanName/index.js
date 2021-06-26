@@ -16,6 +16,7 @@ export default function PureManagementPlanName({
   history,
   persistedFormData,
   useHookFormPersist,
+  managementPlanCount,
 }) {
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
@@ -32,7 +33,10 @@ export default function PureManagementPlanName({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: cloneObject(persistedFormData),
+    defaultValues: {
+      [NAME]: t('MANAGEMENT_PLAN.PLAN', { count: managementPlanCount }),
+      ...cloneObject(persistedFormData),
+    },
   });
   useHookFormPersist([goBackPath], getValues);
   const onGoBack = () => {
@@ -83,4 +87,5 @@ PureManagementPlanName.prototype = {
   onError: PropTypes.func,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
+  managementPlanCount: PropTypes.number,
 };

@@ -136,7 +136,7 @@ RadioGroup.propTypes = {
       style: PropTypes.object,
       label: PropTypes.string,
       defaultChecked: PropTypes.bool,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     }),
   ),
 };

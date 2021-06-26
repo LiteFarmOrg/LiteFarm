@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
-import { getManagementPlan } from '../../../managementPlanSlice';
+import {
+  getManagementPlan,
+  managementPlansByCropVarietyIdSelector,
+} from '../../../managementPlanSlice';
 import { pick } from '../../../../util';
 import { broadcastProperties, cropManagementPlanProperties } from '../../../broadcastSlice';
 import { containerProperties } from '../../../containerSlice';
@@ -27,6 +30,10 @@ export default function ManagementPlanName({ history, match }) {
     );
   };
   const onError = () => {};
+  const managementPlans = useSelector(
+    managementPlansByCropVarietyIdSelector(match?.params?.variety_id),
+  );
+
   return (
     <HookFormPersistProvider>
       <PureManagementPlanName
@@ -34,6 +41,7 @@ export default function ManagementPlanName({ history, match }) {
         onError={onError}
         match={match}
         history={history}
+        managementPlanCount={managementPlans.length + 1}
       />
     </HookFormPersistProvider>
   );
@@ -55,7 +63,9 @@ const formatManagementPlanFormData = (formData) => {
       ...pick(plantingMethodAndCropManagementPlan, cropManagementPlanProperties),
       [planting_type.toLowerCase()]: plantingMethod,
     },
-    transplant_container: getTransplantContainer(data?.transplant_container),
+    transplant_container: data.needs_transplant
+      ? getTransplantContainer(data?.transplant_container)
+      : undefined,
   };
   return reqBody;
 };

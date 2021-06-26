@@ -37,6 +37,7 @@ class Document extends baseModel {
         thumbnail_url: { type: 'string' },
         valid_until: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         notes: { type: ['string', null] },
+        no_expiration: { type: ['boolean', null] },
         type: {
           type: ['string', null],
           enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'],

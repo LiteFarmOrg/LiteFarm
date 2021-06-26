@@ -1,9 +1,12 @@
 const DocumentModel = require('../models/documentModel');
 const { v4: uuidv4 } = require('uuid');
-const axios = require('axios');
-const path = require('path');
-const { getPrivateS3BucketName, getImaginaryThumbnailUrl, s3, DO_ENDPOINT } = require('../util/digitalOceanSpaces');
-
+const {
+  getPrivateS3BucketName,
+  s3,
+  imaginaryPost,
+  getRandomFileName,
+  getPrivateS3Url,
+} = require('../util/digitalOceanSpaces');
 
 const documentController = {
   getDocumentsByFarmId() {
@@ -52,51 +55,56 @@ const documentController = {
       try {
         const s3BucketName = getPrivateS3BucketName();
 
-        const fileName = `${farm_id}/document/${uuidv4()}${path.extname(req.file.originalname)}`;
+        const fileName = `${farm_id}/document/${getRandomFileName(req.file)}`;
 
-        await s3.putObject({
+        const uploadOriginalDocumentPromise = s3.putObject({
           Body: req.file.buffer,
           Bucket: s3BucketName,
           Key: fileName,
           ACL: 'private',
         }).promise();
 
-        const presignedUrl = s3.getSignedUrl('getObject', {
-          Bucket: s3BucketName,
-          Key: fileName,
-          Expires: 60,
-        });
+        if (req.isMinimized) {
+          await uploadOriginalDocumentPromise;
+          return res.status(201).json({
+            url: `${getPrivateS3Url()}/${fileName}`,
+            thumbnail_url: `${getPrivateS3Url()}/${fileName}`,
+          });
+        } else if (req.isTextDocument) {
+          await uploadOriginalDocumentPromise;
+          return res.status(201).json({
+            url: `${getPrivateS3Url()}/${fileName}`,
+          });
+        } else if (req.isNotMinimized) {
+          const THUMBNAIL_FORMAT = 'webp';
+          const THUMBNAIL_WIDTH = '300';
 
-        const THUMBNAIL_FORMAT = 'webp';
-        const THUMBNAIL_WIDTH = '300';
+          const imaginaryThumbnailPromise = imaginaryPost(req.file, {
+            width: THUMBNAIL_WIDTH,
+            type: THUMBNAIL_FORMAT,
+          });
 
-        const thumbnail = await axios.get(getImaginaryThumbnailUrl(presignedUrl, {
-          width: THUMBNAIL_WIDTH,
-          format: THUMBNAIL_FORMAT,
-        }), {
-          headers: {
-            'API-Key': process.env.IMAGINARY_TOKEN,
-          },
-          responseType: 'arraybuffer',
-        });
+          const [thumbnail] = await Promise.all([imaginaryThumbnailPromise, uploadOriginalDocumentPromise]);
 
-        const thumbnailName = `${farm_id}/thumbnail/${uuidv4()}.${THUMBNAIL_FORMAT}`;
+          const thumbnailName = `${farm_id}/thumbnail/${uuidv4()}.${THUMBNAIL_FORMAT}`;
 
-        await s3.putObject({
-          Body: thumbnail.data,
-          Bucket: getPrivateS3BucketName(),
-          Key: thumbnailName,
-          ACL: 'private',
-        }).promise();
+          await s3.putObject({
+            Body: thumbnail.data,
+            Bucket: getPrivateS3BucketName(),
+            Key: thumbnailName,
+            ACL: 'private',
+          }).promise();
 
 
-        return res.status(201).json({
-          url: `https://${s3BucketName}.${DO_ENDPOINT}/${fileName}`,
-          thumbnail_url: `https://${s3BucketName}.${DO_ENDPOINT}/${thumbnailName}`,
-        });
+          return res.status(201).json({
+            url: `${getPrivateS3Url()}/${fileName}`,
+            thumbnail_url: `${getPrivateS3Url()}/${thumbnailName}`,
+          });
+        }
+        return req.status(400);
       } catch (error) {
         console.log(error);
-        return res.status(400).json({ error });
+        return res.status(400).send('Fail to upload document');
       }
     };
   },

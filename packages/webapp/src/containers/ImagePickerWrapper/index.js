@@ -1,11 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
-import uploadFile, { digestMessage } from '../../util/uploadFile';
-import { useSelector } from 'react-redux';
-import { loginSelector } from '../userFarmSlice';
+import { useDispatch } from 'react-redux';
 import Compressor from 'compressorjs';
 import { useRef } from 'react';
 import { mergeRefs } from '../../components/Form/utils';
 import PropTypes from 'prop-types';
+import { uploadCropVarietyImage } from './saga';
 
 const useStyles = makeStyles({
   inputContainer: {
@@ -39,23 +38,20 @@ export default function ImagePickerWrapper({
   ...props
 }) {
   const classes = useStyles();
-  const { user_id } = useSelector(loginSelector);
   const input = useRef();
   const name = hookFormRegister?.name ?? props?.name;
+  const dispatch = useDispatch();
   const onFileUpload = async (e) => {
     if (e?.target?.files?.[0]) {
       const blob = e.target.files[0];
-      const hash = await digestMessage(`${user_id}${new Date().getTime().toString()}`);
       if (blob.size < 200000) {
-        uploadFile(blob, `crop/${hash}`, onUploadSuccess, { isPublic: true });
+        dispatch(uploadCropVarietyImage({ file: blob, onUploadSuccess }));
       } else {
         new Compressor(blob, {
           quality: blob.size > 1000000 ? 0.6 : 0.8,
           convertSize: 200000,
           success(compressedBlob) {
-            uploadFile(compressedBlob, `${uploadDirectory}${hash}`, onUploadSuccess, {
-              isPublic: true,
-            });
+            dispatch(uploadCropVarietyImage({ file: compressedBlob, onUploadSuccess }));
           },
           error(err) {
             console.log(err.message);

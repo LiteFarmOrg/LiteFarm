@@ -1,4 +1,8 @@
 const S3 = require('aws-sdk/clients/s3');
+const axios = require('axios');
+const FormData = require('form-data');
+const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
 function getPrivateS3BucketName() {
   const node_env = process.env.NODE_ENV;
@@ -14,15 +18,15 @@ function getPublicS3BucketName() {
   return 'litefarm';
 }
 
-function getImaginaryThumbnailUrl(imgSrc, { format = 'webp', width, ...props } = {}) {
-  const url = new URL('https://image.litefarm.org/thumbnail');
-  width && url.searchParams.append('width', width);
-  url.searchParams.append('type', format);
-  url.searchParams.append('url', encodeURIComponent(imgSrc));
-  for (const key in props) {
-    url.searchParams.append(key, props.key);
+function getImaginaryUrl({ url, type = 'webp', width, ...imaginaryQueries } = {}, { endpoint = 'thumbnail' } = {}) {
+  const reqUrl = new URL(`https://image.litefarm.org/${endpoint}`);
+  width && reqUrl.searchParams.append('width', width);
+  reqUrl.searchParams.append('type', type);
+  url && reqUrl.searchParams.append('url', url);
+  for (const key in imaginaryQueries) {
+    reqUrl.searchParams.append(key, imaginaryQueries[key]);
   }
-  return url.toString();
+  return reqUrl.toString();
 }
 
 const DO_ENDPOINT = 'nyc3.digitaloceanspaces.com';
@@ -33,4 +37,61 @@ const s3 = new S3({
   secretAccessKey: process.env.DO_SPACES_SECRET_ACCESS_KEY,
 });
 
-module.exports = { getPublicS3BucketName, getPrivateS3BucketName, getImaginaryThumbnailUrl, s3, DO_ENDPOINT };
+async function imaginaryPost({ buffer, originalname }, {
+  width,
+  type,
+  ...imaginaryQueries
+} = {}, { endpoint = 'thumbnail' } = {}) {
+  const form = new FormData();
+  form.append('file', buffer, { filename: originalname });
+  return axios.post(getImaginaryUrl({
+    width,
+    type,
+    ...imaginaryQueries,
+  }, { endpoint }), form, {
+    headers: {
+      'API-Key': process.env.IMAGINARY_TOKEN,
+      ...form.getHeaders(),
+    },
+    responseType: 'arraybuffer',
+  });
+}
+
+async function imaginaryGet(url, { width, type, ...imaginaryQueries } = {}, { endpoint = 'thumbnail' } = {}) {
+  return axios.post(getImaginaryUrl({
+    width,
+    type,
+    url,
+    ...imaginaryQueries,
+  }, { endpoint }), {
+    headers: {
+      'API-Key': process.env.IMAGINARY_TOKEN,
+    },
+    responseType: 'arraybuffer',
+  });
+}
+
+function getRandomFileName(file) {
+  return `${uuidv4()}${path.extname(file.originalname)}`;
+}
+
+function getPrivateS3Url() {
+  return `https://${getPrivateS3BucketName()}.${DO_ENDPOINT}`;
+}
+
+function getPublicS3Url() {
+  return `https://${getPublicS3BucketName()}.${DO_ENDPOINT}`;
+}
+
+module.exports = {
+  getPublicS3BucketName,
+  getPrivateS3BucketName,
+  getImaginaryUrl,
+  s3,
+  DO_ENDPOINT,
+  imaginaryPost,
+  imaginaryGet,
+  getRandomFileName,
+  getPublicS3Url,
+  getPrivateS3Url,
+};

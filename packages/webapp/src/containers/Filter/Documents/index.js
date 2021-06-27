@@ -13,6 +13,7 @@ import {
   SOIL_AMENDMENT,
   OTHER,
   VALID_ON,
+  UNCATEGORIZED,
 } from '../constants';
 import { documentsFilterSelector, setDocumentsFilter } from '../../filterSlice';
 
@@ -23,6 +24,7 @@ const types = [
   PEST_CONTROL_PRODUCT,
   SOIL_AMENDMENT,
   OTHER,
+  UNCATEGORIZED,
 ];
 
 const DocumentsFilterPage = ({ onGoBack }) => {

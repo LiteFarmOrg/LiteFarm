@@ -73,6 +73,7 @@
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
     "UH_OH": "Uh oh!",
     "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
   },

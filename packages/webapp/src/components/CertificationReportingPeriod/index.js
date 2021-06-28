@@ -8,7 +8,7 @@ import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Input from '../Form/Input';
-import { Main } from '../Typography';
+import { Error, Main } from '../Typography';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
 const PureCertificationReportingPeriod = ({
@@ -42,9 +42,23 @@ const PureCertificationReportingPeriod = ({
   const TO_DATE = 'to_date';
   const EMAIL = 'email';
 
-  const fromDateRegister = register(FROM_DATE, { required: true });
-  const toDateRegister = register(TO_DATE, { required: true });
+  const fromDateRegister = register(FROM_DATE, {
+    required: true,
+    valueAsDate: true,
+    validate: {
+      beforeToDate: (v) => v < watch(TO_DATE),
+    },
+  });
+  const toDateRegister = register(TO_DATE, {
+    required: true,
+    valueAsDate: true,
+    validate: {
+      afterFromDate: (v) => v > watch(FROM_DATE),
+    },
+  });
   const emailRegister = register(EMAIL, { required: true });
+  const areNotDatesProperlySet =
+    !isNaN(watch(FROM_DATE)) && !isNaN(watch(FROM_DATE)) && watch(FROM_DATE) >= watch(TO_DATE);
 
   const progress = 33;
   return (
@@ -66,26 +80,27 @@ const PureCertificationReportingPeriod = ({
 
       <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_REPORTING_PERIOD')}</Main>
 
-      <div className={styles.dateContainer}>
-        <Input
-          style={{ marginBottom: '40px' }}
-          label={t('CERTIFICATIONS.FROM')}
-          type="date"
-          hookFormRegister={fromDateRegister}
-          classes={{
-            container: { flex: '1' },
-          }}
-        />
-        <div className={styles.dateDivider} />
-        <Input
-          style={{ marginBottom: '40px' }}
-          label={t('CERTIFICATIONS.TO')}
-          type="date"
-          hookFormRegister={toDateRegister}
-          classes={{
-            container: { flex: '1' },
-          }}
-        />
+      <div className={styles.dateInput}>
+        <div className={styles.dateContainer}>
+          <Input
+            label={t('CERTIFICATIONS.FROM')}
+            type="date"
+            hookFormRegister={fromDateRegister}
+            classes={{
+              container: { flex: '1' },
+            }}
+          />
+          <div className={styles.dateDivider} />
+          <Input
+            label={t('CERTIFICATIONS.TO')}
+            type="date"
+            hookFormRegister={toDateRegister}
+            classes={{
+              container: { flex: '1' },
+            }}
+          />
+        </div>
+        {areNotDatesProperlySet && <Error>{t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')}</Error>}
       </div>
 
       <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>

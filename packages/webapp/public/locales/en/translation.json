@@ -70,6 +70,7 @@
     "FROM": "From",
     "GOOD_NEWS": "Good news!",
     "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
+    "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
     "UH_OH": "Uh oh!",

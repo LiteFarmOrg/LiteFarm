@@ -64,7 +64,7 @@ const PureCertificationReportingPeriod = ({
         value={progress}
       />
 
-      <Main style={{ marginBottom: '24px' }}>{t('CERTIFICATIONS.SELECT_REPORTING_PERIOD')}</Main>
+      <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_REPORTING_PERIOD')}</Main>
 
       <div className={styles.dateContainer}>
         <Input
@@ -88,12 +88,14 @@ const PureCertificationReportingPeriod = ({
         />
       </div>
 
-      <Main style={{ marginBottom: '24px' }}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
+      <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
       <Input
         style={{ marginBottom: '40px' }}
         label={t('CERTIFICATIONS.EMAIL')}
         hookFormRegister={emailRegister}
       />
+
+      <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
     </Form>
   );
 };

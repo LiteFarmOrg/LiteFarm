@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
-import { ReactComponent as LoadingAnimation } from '../../../assets/images/signUp/animated_loading_farm.svg';
+import { Loading } from '../../Loading/Loading';
 
 function PureDocumentDetailView({
   submit,
@@ -91,11 +91,17 @@ function PureDocumentDetailView({
   } = useHookFormPersist(persistedPath, getValues);
 
   const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
-  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(!isEdit);
-
+  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
+    !isEdit && !uploadedFiles?.length,
+  );
+  const onUpload = () => {
+    setShouldShowLoadingImage(true);
+  };
+  useEffect(() => {
+    uploadedFiles?.length && setShouldShowLoadingImage(false);
+  }, [uploadedFiles?.length]);
   const onUploadEnd = () => {
     setIsFirstUploadEnded(true);
-    setShouldShowLoadingImage(false);
   };
 
   const disabled = isEdit
@@ -165,7 +171,17 @@ function PureDocumentDetailView({
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
-      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
+      <div
+        style={{
+          width: '312px',
+          flexGrow: 1,
+          margin: 'auto',
+          paddingBottom: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '24px',
+        }}
+      >
         {uploadedFiles?.map(({ thumbnail_url }, index) => (
           <div key={thumbnail_url}>
             <div
@@ -183,23 +199,21 @@ function PureDocumentDetailView({
               <TrashIcon />
             </div>
 
-            {shouldShowLoadingImage ? (
-              <LoadingAnimation />
-            ) : (
-              imageComponent({
-                width: '100%',
-                style: { position: 'relative', top: '-24px', zIndex: 0 },
-                height: '100%',
-                src: thumbnail_url,
-              })
-            )}
+            {imageComponent({
+              width: '100%',
+              style: { position: 'relative', top: '-24px', zIndex: 0 },
+              height: '100%',
+              src: thumbnail_url,
+            })}
           </div>
         ))}
+        {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
       </div>
       {uploadedFiles?.length <= 5 &&
         documentUploader({
           style: { paddingBottom: '32px' },
           linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUpload,
           onUploadEnd,
         })}
       <InputAutoSize

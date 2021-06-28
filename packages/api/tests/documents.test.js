@@ -190,7 +190,18 @@ describe('Document tests', () => {
     });
     describe('Put document test', () => {
 
+      async function documentWithFilesFactory(farm_id, numberOfFiles = 2) {
+        const [document] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+        const files = [];
+        for(let i =  0; i<numberOfFiles;i++){
+          const [file] = await mocks.fileFactory({promisedDocument: [document], promisedFarm:[{ farm_id }]}); 
+          files.push(file);
+        }
+        return {...document, files}
+      }
+
       const fakeDate = new Date('2021-08-03T07:00:00.000Z');
+      
 
       test('Owner should be able to edit a document, add files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
@@ -211,7 +222,6 @@ describe('Document tests', () => {
             expect(files.length).toBe(2);
             done();
           });
-          done();
         });
       });
 
@@ -234,7 +244,6 @@ describe('Document tests', () => {
             expect(files.length).toBe(1);
             done();
           });
-          done();
         });
       });
 
@@ -258,7 +267,6 @@ describe('Document tests', () => {
             expect(files.length).toBe(1);
             done();
           });
-          done();
         });
       });
 
@@ -281,22 +289,16 @@ describe('Document tests', () => {
             expect(files.length).toBe(1);
             done();
           });
-          done();
         });
       });
 
       test('Worker should not be a able to update document', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
-          user_id,
-          farm_id,
-        }, async (err, res) => {
-          const newDocument = getFakeDocument(farm_id, 1);
-          let data = { document_id: res.body.document_id, ...newDocument }
-          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
-            expect(res.status).toBe(403);
-            done();
-          });
+        const document = await documentWithFilesFactory(farm_id);
+        const newDocument = getFakeDocument(farm_id, 1);
+        let data = { document_id: document.document_id, ...newDocument }
+        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(403);
           done();
         });
       });

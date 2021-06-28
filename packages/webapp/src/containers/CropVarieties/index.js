@@ -4,7 +4,7 @@ import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
 import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
-import { AddLink } from '../../components/Typography';
+import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import {
@@ -251,9 +251,19 @@ export default function CropVarieties({ history, match }) {
             </PureCropTileContainer>
           </>
         )}
+
+        {!cropVarietiesWithoutManagementPlan.length &&
+          !currentCropVarieties.length &&
+          !plannedCropVarieties.length &&
+          !expiredCropVarieties.length &&
+          isFilterCurrentlyActive && (
+            <Semibold style={{ color: 'var(--teal700)' }}>
+              {t('CROP_CATALOGUE.NO_RESULTS_FOUND')}
+            </Semibold>
+          )}
       </div>
 
-      {isAdmin && (
+      {isAdmin && !isFilterCurrentlyActive && (
         <AddLink onClick={goToVarietyCreation}>{t('CROP_VARIETIES.ADD_VARIETY')}</AddLink>
       )}
     </Layout>

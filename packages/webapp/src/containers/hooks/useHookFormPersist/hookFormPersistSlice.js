@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
 import { unitOptionMap } from '../../../components/Form/Unit';
+import { cloneObject } from '../../../util';
 
 export const initialState = {
   formData: {},
@@ -10,6 +11,22 @@ export const initialState = {
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
+};
+
+const getCorrectedPayload = (payload) => {
+  const result = cloneObject(payload);
+  const removeNullValues = (object) => {
+    for (const key in object) {
+      if (object[key] !== null && typeof object[key] === 'object') {
+        removeNullValues(object[key]);
+      } else if (!object[key] && object[key] !== 0 && object[key] !== false) {
+        //remove NaN, undefined, null, ''
+        delete object[key];
+      }
+    }
+    return object;
+  };
+  return removeNullValues(result);
 };
 
 const onUploadFileSuccess = (state, { payload: file }) => {
@@ -35,7 +52,7 @@ const hookFormPersistSlice = createSlice({
       if (!state.shouldUpdateFormData) {
         return initialState;
       } else {
-        Object.assign(state.formData, payload);
+        Object.assign(state.formData, getCorrectedPayload(payload));
       }
     },
     setFormData: (state, { payload }) => {
@@ -80,6 +97,9 @@ const hookFormPersistSlice = createSlice({
     },
     uploadFileSuccess: onUploadFileSuccess,
     deleteUploadedFile: onDeleteUploadedFile,
+    initEditDocument: (state, { payload: files }) => {
+      state.formData.uploadedFiles = files;
+    },
   },
 });
 
@@ -96,6 +116,7 @@ export const {
   setTransplantContainerLocationIdManagementPlanFormData,
   uploadFileSuccess,
   deleteUploadedFile,
+  initEditDocument,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

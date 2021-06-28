@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -81,19 +81,7 @@ export default function PurePlantInContainer({
 
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
-  const showEstimatedValue = useMemo(() => {
-    if (in_ground && IsValidNumberInput(total_plants)) {
-      return true;
-    } else if (
-      !in_ground &&
-      IsValidNumberInput(number_of_container) &&
-      IsValidNumberInput(plants_per_container)
-    ) {
-      return true;
-    }
-    return false;
-  }, [in_ground, number_of_container, plants_per_container, total_plants]);
-
+  const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
     if (in_ground && IsValidNumberInput(total_plants)) {
@@ -101,6 +89,7 @@ export default function PurePlantInContainer({
       const estimated_yield = total_plants * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
       setValue(ESTIMATED_YIELD, estimated_yield);
+      setShowEstimatedValue(true);
     } else if (
       !in_ground &&
       IsValidNumberInput(number_of_container) &&
@@ -110,6 +99,9 @@ export default function PurePlantInContainer({
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
       setValue(ESTIMATED_YIELD, estimated_yield);
+      setShowEstimatedValue(true);
+    } else {
+      setShowEstimatedValue(false);
     }
   }, [in_ground, number_of_container, plants_per_container, total_plants]);
 
@@ -128,7 +120,7 @@ export default function PurePlantInContainer({
         onGoBack={onGoBack}
         onCancel={onCancel}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={75}
+        value={isTransplant ? 50 : 75}
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}</Main>
@@ -289,4 +281,5 @@ PurePlantInContainer.prototype = {
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']),
 };

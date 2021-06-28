@@ -1,8 +1,14 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_archive": "MISSING",
+
+      "CREATE": "Failed to create document",
+      "FAILED_ARCHIVE": "Failed to archive document",
       "FAILED_UPLOAD": "Failed to upload attachments"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Successfully archived document",
+      "CREATE": "Successfully created document"
     }
   },
   "CROP_VARIETY": {

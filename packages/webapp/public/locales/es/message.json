@@ -1,8 +1,15 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_archive": "MISSING",
+
+      "CREATE": "MISSING",
+      "FAILED_ARCHIVE": "MISSING",
+
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "MISSING",
+      "CREATE": "MISSING"
     }
   },
   "CROP_VARIETY": {

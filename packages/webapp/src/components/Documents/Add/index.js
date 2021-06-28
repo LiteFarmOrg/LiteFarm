@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -43,13 +43,16 @@ function PureDocumentDetailView({
   const TYPE = 'type';
   const VALID_UNTIL = 'valid_until';
   const NOTES = 'notes';
+  const NO_EXPIRATION = 'no_expiration';
 
   const defaultData = persistedFormData
     ? {
         name: persistedFormData.name,
         type: typeOptions[persistedFormData.type],
-        valid_until: persistedFormData.valid_until.substring(0, 10),
+        valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
+        files: persistedFormData.files,
+        no_expiration: persistedFormData.no_expiration
       }
     : {};
 
@@ -61,18 +64,44 @@ function PureDocumentDetailView({
     watch,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
     shouldUnregister: false,
     defaultValues: defaultData,
   });
+
+  const submitWithFiles = (data) => {
+    let validUntil = !!data.valid_until ? data.valid_until : null;
+    data.type = !!data.type ? data.type.value : data.type;
+    submit({
+      ...data,
+      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      files: uploadedFiles.map((file, i) => ({
+        ...file,
+        file_name: `${data.name}_i`,
+      })),
+      valid_until: validUntil,
+    });
+  };
+
+  const noExpirationChecked = watch(NO_EXPIRATION);
+
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
+
+  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
+
+  const onUploadEnd = () => {
+    setIsFirstUploadEnded(true);
+  };
+
+  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
+
   return (
     <Form
-      onSubmit={handleSubmit(submit)}
+      onSubmit={handleSubmit(submitWithFiles)}
       buttonGroup={
-        <Button type={'submit'} disabled={isEdit ? !isValid || !isDirty : isValid} fullLength>
+        <Button type={'submit'} disabled={disabled} fullLength>
           {isEdit ? t('common:UPDATE') : t('common:SAVE')}
         </Button>
       }
@@ -88,7 +117,7 @@ function PureDocumentDetailView({
         <MultiStepPageTitle
           onGoBack={onGoBack}
           onCancel={onCancel}
-          value={50}
+          value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}
         />
@@ -98,6 +127,7 @@ function PureDocumentDetailView({
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
         classes={{ container: { paddingBottom: '32px' } }}
+        errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
         control={control}
@@ -115,21 +145,24 @@ function PureDocumentDetailView({
           />
         )}
       />
-      <Input
-        type={'date'}
-        name={VALID_UNTIL}
-        hookFormRegister={register(VALID_UNTIL)}
-        label={t('DOCUMENTS.ADD.VALID_UNTIL')}
-        optional
-        classes={{ container: { paddingBottom: '18px' } }}
-      />
+      {!noExpirationChecked && (
+        <Input
+          type={'date'}
+          name={VALID_UNTIL}
+          hookFormRegister={register(VALID_UNTIL)}
+          label={t('DOCUMENTS.ADD.VALID_UNTIL')}
+          optional
+          classes={{ container: { paddingBottom: '18px' } }}
+        />
+      )}
       <Checkbox
+        hookFormRegister={register(NO_EXPIRATION)}
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
       <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
         {uploadedFiles?.map(({ thumbnail_url }, index) => (
-          <div key={index}>
+          <div key={thumbnail_url}>
             <div
               style={{
                 background: 'var(--teal700)',
@@ -137,6 +170,7 @@ function PureDocumentDetailView({
                 height: '24px',
                 position: 'relative',
                 float: 'right',
+                borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
               onClick={() => deleteImage(thumbnail_url)}
@@ -152,10 +186,16 @@ function PureDocumentDetailView({
           </div>
         ))}
       </div>
-      {documentUploader({
-        style: { paddingBottom: '32px' },
-        linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-      })}
+      {
+        uploadedFiles?.length <= 5 &&
+        (
+          documentUploader({
+            style: { paddingBottom: '32px' },
+            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+            onUploadEnd,
+          })
+        )
+      }
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

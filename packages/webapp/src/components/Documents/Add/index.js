@@ -10,6 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import { ReactComponent as LoadingAnimation } from '../../../assets/images/signUp/animated_loading_farm.svg';
 
 function PureDocumentDetailView({
   submit,
@@ -52,7 +53,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.no_expiration
+        no_expiration: persistedFormData.no_expiration,
       }
     : {};
 
@@ -90,12 +91,16 @@ function PureDocumentDetailView({
   } = useHookFormPersist(persistedPath, getValues);
 
   const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
+  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!isEdit);
 
   const onUploadEnd = () => {
     setIsFirstUploadEnded(true);
+    setShouldShowSkeleton(false);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
+  const disabled = isEdit
+    ? !isValid || !(isDirty || isFirstUploadEnded)
+    : !isValid || uploadedFiles?.length === 0;
 
   return (
     <Form
@@ -177,25 +182,26 @@ function PureDocumentDetailView({
             >
               <TrashIcon />
             </div>
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', top: '-24px', zIndex: 0 },
-              height: '100%',
-              src: thumbnail_url,
-            })}
+
+            {shouldShowSkeleton ? (
+              <LoadingAnimation />
+            ) : (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                height: '100%',
+                src: thumbnail_url,
+              })
+            )}
           </div>
         ))}
       </div>
-      {
-        uploadedFiles?.length <= 5 &&
-        (
-          documentUploader({
-            style: { paddingBottom: '32px' },
-            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-            onUploadEnd,
-          })
-        )
-      }
+      {uploadedFiles?.length <= 5 &&
+        documentUploader({
+          style: { paddingBottom: '32px' },
+          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUploadEnd,
+        })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

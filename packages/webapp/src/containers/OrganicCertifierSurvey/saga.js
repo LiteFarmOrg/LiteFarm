@@ -20,7 +20,7 @@ const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
 const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
 const patchRequestedCertifierUrl = (survey_id) =>
-  `${url}/organic_certifier_survey/${survey_id}/certification/certifier/request`;
+  `${url}/organic_certifier_survey/${survey_id}/requested_certifier`;
 const patchInterestedUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/interested`;
 const patchRequestedCertificationUrl = (survey_id) =>
   `${url}/organic_certifier_survey/${survey_id}/requested_certification`;
@@ -139,8 +139,8 @@ export function* patchRequestedCertifiersSaga({ payload }) {
 export const patchRequestedCertification = createAction(`patchRequestedCertificationSaga`);
 
 export function* patchRequestedCertificationSaga({ payload }) {
-  const survey = yield select(certifierSurveySelector);
   try {
+    const survey = yield select(certifierSurveySelector);
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const { data, callback } = payload;

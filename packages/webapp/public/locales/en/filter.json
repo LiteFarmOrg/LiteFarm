@@ -15,6 +15,7 @@
     "FERTILIZING_PRODUCT": "Fertilizing product",
     "OTHER": "Other",
     "PEST_CONTROL_PRODUCT": "Pest control product",
-    "SOIL_AMENDMENT": "Soil amendment"
+    "SOIL_AMENDMENT": "Soil amendment",
+    "UNCATEGORIZED": "Uncategorized"
   }
 }

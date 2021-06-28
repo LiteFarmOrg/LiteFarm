@@ -39,7 +39,7 @@ export default function PureCertifierSelectionScreen({
         isRequestingCertifier: true,
       }),
     );
-    history.push('/requested_certifier');
+    history.push('/certification/certifier/request');
   };
   const onSelectCertifier = (certifier_id, certifier_name) => {
     selectedCertifierId !== certifier_id && setCertifier(certifier_id);

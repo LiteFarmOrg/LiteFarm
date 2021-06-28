@@ -20,7 +20,7 @@ const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
 const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
 const patchRequestedCertifierUrl = (survey_id) =>
-  `${url}/organic_certifier_survey/${survey_id}/requested_certifier`;
+  `${url}/organic_certifier_survey/${survey_id}/certification/certifier/request`;
 const patchInterestedUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/interested`;
 const patchRequestedCertificationUrl = (survey_id) =>
   `${url}/organic_certifier_survey/${survey_id}/requested_certification`;

@@ -38,7 +38,7 @@ export default function CertifierSelectionMenu() {
   };
 
   const onBack = () => {
-    history.push('/certification_selection');
+    history.push('/certification/selection');
   };
 
   return (

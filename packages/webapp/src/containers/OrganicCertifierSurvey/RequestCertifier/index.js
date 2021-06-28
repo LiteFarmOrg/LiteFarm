@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import PureRequestCertifier from '../../../components/RequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchRequestedCertifiers, getAllSupportedCertifications } from '../saga';
+import { getAllSupportedCertifications, patchRequestedCertifiers } from '../saga';
 import history from '../../../history';
 import {
+  allCertifierTypesSelector,
   requestedCertifier,
   requestedCertifierSelector,
   selectedCertificationSelector,
-  allCertifierTypesSelector,
 } from '../organicCertifierSurveySlice';
 
 export default function RequestCertifier() {
@@ -31,10 +31,10 @@ export default function RequestCertifier() {
 
   const onGoBack = () => {
     certificationType.certificationName === 'Other'
-      ? history.push('/certification_selection')
+      ? history.push('/certification/selection')
       : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification_selection')
-      : history.push('/certifier_selection_menu');
+      ? history.push('/certification/selection')
+      : history.push('/certification/certifier/selection');
   };
 
   return (

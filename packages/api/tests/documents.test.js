@@ -12,7 +12,7 @@ const { tableCleanup } = require('./testEnvironment');
 
 describe('Document tests', () => {
   let middleware;
-  beforeEach(() =>{
+  beforeEach(() => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
@@ -44,6 +44,15 @@ describe('Document tests', () => {
       .end(callback);
   }
 
+  function putDocumentRequest(data, { user_id, farm_id }, callback) {
+    const { document_id } = data;
+    chai.request(server).put(`/document/${document_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -67,8 +76,8 @@ describe('Document tests', () => {
 
     test('Manager should GET documents if they exist', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-      await mocks.documentFactory({promisedFarm: [{farm_id}]});
-      getRequest(`/document/farm/${farm_id}`, {user_id, farm_id}, (err, res) => {
+      await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+      getRequest(`/document/farm/${farm_id}`, { user_id, farm_id }, (err, res) => {
         expect(res.status).toBe(200)
         expect(res.body.length).toBe(1);
         done();
@@ -126,7 +135,7 @@ describe('Document tests', () => {
           done();
         });
       });
-      describe('Post document authorization test', function() {
+      describe('Post document authorization test', function () {
         test('Worker should not POST documents', async (done) => {
           const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
           await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
@@ -181,57 +190,166 @@ describe('Document tests', () => {
     });
     describe('Put document test', () => {
 
+      const fakeDate = new Date('2021-08-03T07:00:00.000Z');
+
+      test('Owner should be able to edit a document, add files', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 1), {
+          user_id,
+          farm_id,
+        }, async (err, res) => {
+          const newDocument = getFakeDocument(farm_id, 2);
+          let data = { document_id: res.body.document_id, ...newDocument };
+          data.valid_until = fakeDate;
+          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+            expect(res.status).toBe(201);
+            const document = await knex('document').where({ document_id: res.body.document_id });
+            expect(document[0].name).toBe(newDocument.name);
+            expect(document[0].type).toBe(newDocument.type);
+            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+            const files = await knex('file').where({ document_id: res.body.document_id });
+            expect(files.length).toBe(2);
+            done();
+          });
+          done();
+        });
+      });
+
+      test('Owner should be able to edit a document, delete files', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
+          user_id,
+          farm_id,
+        }, async (err, res) => {
+          const newDocument = getFakeDocument(farm_id, 1);
+          let data = { document_id: res.body.document_id, ...newDocument };
+          data.valid_until = fakeDate;
+          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+            expect(res.status).toBe(201);
+            const document = await knex('document').where({ document_id: res.body.document_id });
+            expect(document[0].name).toBe(newDocument.name);
+            expect(document[0].type).toBe(newDocument.type);
+            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+            const files = await knex('file').where({ document_id: res.body.document_id });
+            expect(files.length).toBe(1);
+            done();
+          });
+          done();
+        });
+      });
+
+      
+      test('Manager shoud be able to edit a document', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
+          user_id,
+          farm_id,
+        }, async (err, res) => {
+          const newDocument = getFakeDocument(farm_id, 1);
+          let data = { document_id: res.body.document_id, ...newDocument };
+          data.valid_until = fakeDate;
+          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+            expect(res.status).toBe(201);
+            const document = await knex('document').where({ document_id: res.body.document_id });
+            expect(document[0].name).toBe(newDocument.name);
+            expect(document[0].type).toBe(newDocument.type);
+            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+            const files = await knex('file').where({ document_id: res.body.document_id });
+            expect(files.length).toBe(1);
+            done();
+          });
+          done();
+        });
+      });
+
+      test('EO shoud be able to edit a document', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
+          user_id,
+          farm_id,
+        }, async (err, res) => {
+          const newDocument = getFakeDocument(farm_id, 1);
+          let data = { document_id: res.body.document_id, ...newDocument };
+          data.valid_until = fakeDate;
+          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+            expect(res.status).toBe(201);
+            const document = await knex('document').where({ document_id: res.body.document_id });
+            expect(document[0].name).toBe(newDocument.name);
+            expect(document[0].type).toBe(newDocument.type);
+            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+            const files = await knex('file').where({ document_id: res.body.document_id });
+            expect(files.length).toBe(1);
+            done();
+          });
+          done();
+        });
+      });
+
+      test('Worker should not be a able to update document', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
+        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
+          user_id,
+          farm_id,
+        }, async (err, res) => {
+          const newDocument = getFakeDocument(farm_id, 1);
+          let data = { document_id: res.body.document_id, ...newDocument }
+          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+          done();
+        });
+      });
     });
   });
 
-  describe('Archive document tests', ()=>{
+  describe('Archive document tests', () => {
     test('User should be able to archive documents', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-      const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-      archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+      const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+      archiveDocumentRequest(document_id, { user_id, farm_id }, (err, res) => {
         expect(res.status).toBe(200);
         done();
       })
     });
 
-    describe('Archive document authorization tests',()=>{
+    describe('Archive document authorization tests', () => {
 
       test('Owner should be able to archive documents', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+        const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+        archiveDocumentRequest(document_id, { user_id, farm_id }, (err, res) => {
           expect(res.status).toBe(200);
           done();
         })
       });
       test('Manager should be able to archive documents', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+        const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+        archiveDocumentRequest(document_id, { user_id, farm_id }, (err, res) => {
           expect(res.status).toBe(200);
           done();
         })
       });
       test('EO should be able to archive documents', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+        const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+        archiveDocumentRequest(document_id, { user_id, farm_id }, (err, res) => {
           expect(res.status).toBe(200);
           done();
         })
       });
       test('Worker should NOT be able to archive documents', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-        const [{ document_id }] = await mocks.documentFactory({promisedFarm: [{farm_id}]});
-        archiveDocumentRequest(document_id, {user_id, farm_id}, (err, res) => {
+        const [{ document_id }] = await mocks.documentFactory({ promisedFarm: [{ farm_id }] });
+        archiveDocumentRequest(document_id, { user_id, farm_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         })
       });
 
-    })
+    });
 
-  })
-
+  });
 })
 

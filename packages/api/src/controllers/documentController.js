@@ -49,11 +49,12 @@ const documentController = {
 
   updateDocument() {
     return async (req, res, next) => {
-      const { document_id } = req.params; 
       try {
-        console.log(req.body);
+        const { document_id } = req.params;
         const result = await DocumentModel.transaction(async trx => {
-          //return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).
+          return await DocumentModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            {document_id: document_id, ...req.body}
+          );
         });
         return res.status(201).send(result);
       } catch (err) {

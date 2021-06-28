@@ -29,28 +29,10 @@ export default function EditDocument({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    // TODO - Add functionality to PATCH
-    console.log(data);
-    let newFiles = [];
-    let deleted = [];
-    // data.files.forEach((file) => {
-    //   if (!('file_id' in file) && !deletedFiles.includes(file.url)) {
-    //     newFiles.push(file);
-    //   }
-    //   // if (deletedFiles.includes(file.url) && ('file_id' in file)) {
-    //   //   deleted.push(file);
-    //   // }
-    // });
-    let fileUrls = document
-    data.files.forEach((file) => {
-      // if (file)
-    });
-    console.log(newFiles);
-    console.log(document.files);
-    // dispatch(updateDocument({
-    //   document_id: document_id,
-    //   documentData: data
-    // }));
+    dispatch(updateDocument({
+      document_id: document_id,
+      documentData: data
+    }));
   };
 
   const deleteImage = (url) => {

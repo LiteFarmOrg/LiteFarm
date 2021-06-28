@@ -52,7 +52,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.no_expiration
+        no_expiration: persistedFormData.no_expiration,
       }
     : {};
 
@@ -94,7 +94,9 @@ function PureDocumentDetailView({
     setIsFilesUpdated(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstFileUpdateEnded) : (!isValid || uploadedFiles?.length === 0);
+  const disabled = isEdit
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
+    : !isValid || uploadedFiles?.length === 0;
 
   return (
     <Form
@@ -172,7 +174,10 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => {deleteImage(thumbnail_url); onFileUpdate();}}
+              onClick={() => {
+                deleteImage(thumbnail_url);
+                onFileUpdate();
+              }}
             >
               <TrashIcon />
             </div>
@@ -185,16 +190,12 @@ function PureDocumentDetailView({
           </div>
         ))}
       </div>
-      {
-        uploadedFiles?.length <= 5 &&
-        (
-          documentUploader({
-            style: { paddingBottom: '32px' },
-            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-            onUploadEnd: onFileUpdate,
-          })
-        )
-      }
+      {uploadedFiles?.length <= 5 &&
+        documentUploader({
+          style: { paddingBottom: '32px' },
+          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUploadEnd: onFileUpdate,
+        })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

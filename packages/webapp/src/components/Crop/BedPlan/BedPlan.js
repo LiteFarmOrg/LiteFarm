@@ -85,6 +85,13 @@ function PureBedPlan({
     }
   }
 
+  // todo: not quite sure how to use this
+  const getErrorMessage = (error, min, max) => {
+    if (error?.type === 'required') return t('common:REQUIRED');
+    if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
+    if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
+  };
+
   return (
     <Form
       buttonGroup={
@@ -117,6 +124,7 @@ function PureBedPlan({
           type={'number'}
           style={{ paddingBottom: '5px', flexGrow: 1 }}
           onKeyDown={integerOnKeyDown}
+          errors={getErrorMessage(errors?.BedPlan?.number_of_beds, 1, 999)}
         />
 
         {/* # of rows in bed */}

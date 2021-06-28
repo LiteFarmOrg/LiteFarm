@@ -11,7 +11,7 @@ import {
 } from '../managementPlanSlice';
 import { cropVarietiesSelector } from '../cropVarietySlice';
 
-export default function useFilterNoPlan(cropCatalogue, filterString) {
+export default function useFilterNoPlan(filterString) {
   const managementPlans = useSelector(managementPlansSelector);
   const cropVarieties = useSelector(cropVarietiesSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
@@ -55,9 +55,8 @@ export default function useFilterNoPlan(cropCatalogue, filterString) {
     );
     if (!statusFilter[NEEDS_PLAN]?.active && activeFilterStatus.size) return [];
 
-    const catalogueCropIds = new Set(cropCatalogue.map(({ crop_id }) => crop_id));
-    return cropsWithNoPlans.filter((crop) => !catalogueCropIds.has(crop.crop_id));
-  }, [cropCatalogue, cropsWithNoPlans, cropCatalogueFilter[STATUS], cropCatalogueFilter[LOCATION]]);
+    return cropsWithNoPlans;
+  }, [cropsWithNoPlans, cropCatalogueFilter[STATUS], cropCatalogueFilter[LOCATION]]);
 
   return cropsFilteredByStatusAndLocation;
 }

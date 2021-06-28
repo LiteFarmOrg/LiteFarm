@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { validateResetToken, patchUserFarmStatus } from './saga';
-import PureCallback from '../../components/Callback';
+import { patchUserFarmStatus, validateResetToken } from './saga';
+import Spinner from '../../components/Spinner';
 
 function Callback({ history }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function Callback({ history }) {
     }
   }, []);
 
-  return <PureCallback />;
+  return <Spinner />;
 }
 
 export default Callback;

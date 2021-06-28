@@ -91,11 +91,11 @@ function PureDocumentDetailView({
   } = useHookFormPersist(persistedPath, getValues);
 
   const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
-  const [shouldShowSkeleton, setShouldShowSkeleton] = useState(!isEdit);
+  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(!isEdit);
 
   const onUploadEnd = () => {
     setIsFirstUploadEnded(true);
-    setShouldShowSkeleton(false);
+    setShouldShowLoadingImage(false);
   };
 
   const disabled = isEdit
@@ -183,7 +183,7 @@ function PureDocumentDetailView({
               <TrashIcon />
             </div>
 
-            {shouldShowSkeleton ? (
+            {shouldShowLoadingImage ? (
               <LoadingAnimation />
             ) : (
               imageComponent({

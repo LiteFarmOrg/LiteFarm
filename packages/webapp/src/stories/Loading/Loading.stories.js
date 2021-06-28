@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loading } from '../../components/Loading/Loading';
+import Spinner from '../../components/Spinner';
 import decorator from '../Pages/config/decorators';
 import Form from '../../components/Form';
 import Button from '../../components/Form/Button';
@@ -27,5 +28,7 @@ const TemplateWithText = (args) => (
 export const Primary = Template.bind({});
 Primary.args = {};
 
-export const InjectStyle = TemplateWithText.bind({});
-InjectStyle.args = {};
+export const InForm = TemplateWithText.bind({});
+InForm.args = {};
+
+export const Transparent = () => <Spinner />;

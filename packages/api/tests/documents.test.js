@@ -7,7 +7,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
-
+const moment = require('moment');
 
 
 describe('Document tests', () => {
@@ -200,7 +200,11 @@ describe('Document tests', () => {
         return {...document, files}
       }
 
-      const fakeDate = new Date('2021-08-03T07:00:00.000Z');
+      const fakeDate = formatDate(new Date(1));
+
+      function formatDate(date) {
+        return moment(date).format('MMM D, YY');
+      }
       
 
       test('Owner should be able to edit a document, add files', async (done) => {
@@ -214,7 +218,7 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          expect(formatDate(document[0].valid_until)).toBe(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(2);
           done();
@@ -232,7 +236,7 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          expect(formatDate(document[0].valid_until)).toBe(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -251,7 +255,7 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          expect(formatDate(document[0].valid_until)).toBe(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();
@@ -269,7 +273,7 @@ describe('Document tests', () => {
           const document = await knex('document').where({ document_id: res.body.document_id });
           expect(document[0].name).toBe(newDocument.name);
           expect(document[0].type).toBe(newDocument.type);
-          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          expect(formatDate(document[0].valid_until)).toBe(fakeDate);
           const files = await knex('file').where({ document_id: res.body.document_id });
           expect(files.length).toBe(1);
           done();

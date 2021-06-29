@@ -54,7 +54,7 @@ export function PureMyFarmFloaterComponent({
           clickFn={certification}
           iconText={t('MY_FARM.CERTIFICATIONS')}
           icon={<CertificationsIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
-          customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
+          customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
           customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
         />
       )}

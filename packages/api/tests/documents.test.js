@@ -205,90 +205,74 @@ describe('Document tests', () => {
 
       test('Owner should be able to edit a document, add files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 1), {
-          user_id,
-          farm_id,
-        }, async (err, res) => {
-          const newDocument = getFakeDocument(farm_id, 2);
-          let data = { document_id: res.body.document_id, ...newDocument };
-          data.valid_until = fakeDate;
-          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
-            expect(res.status).toBe(201);
-            const document = await knex('document').where({ document_id: res.body.document_id });
-            expect(document[0].name).toBe(newDocument.name);
-            expect(document[0].type).toBe(newDocument.type);
-            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
-            const files = await knex('file').where({ document_id: res.body.document_id });
-            expect(files.length).toBe(2);
-            done();
-          });
+        const document = await documentWithFilesFactory(farm_id,1);
+        const newDocument = getFakeDocument(farm_id, 2);
+        let data = { document_id: document.document_id, ...newDocument };
+        data.valid_until = fakeDate;
+        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const document = await knex('document').where({ document_id: res.body.document_id });
+          expect(document[0].name).toBe(newDocument.name);
+          expect(document[0].type).toBe(newDocument.type);
+          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          const files = await knex('file').where({ document_id: res.body.document_id });
+          expect(files.length).toBe(2);
+          done();
         });
       });
 
       test('Owner should be able to edit a document, delete files', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
-          user_id,
-          farm_id,
-        }, async (err, res) => {
-          const newDocument = getFakeDocument(farm_id, 1);
-          let data = { document_id: res.body.document_id, ...newDocument };
-          data.valid_until = fakeDate;
-          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
-            expect(res.status).toBe(201);
-            const document = await knex('document').where({ document_id: res.body.document_id });
-            expect(document[0].name).toBe(newDocument.name);
-            expect(document[0].type).toBe(newDocument.type);
-            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
-            const files = await knex('file').where({ document_id: res.body.document_id });
-            expect(files.length).toBe(1);
-            done();
-          });
+        const document = await documentWithFilesFactory(farm_id,3);
+        const newDocument = getFakeDocument(farm_id, 1);
+        let data = { document_id: document.document_id, ...newDocument };
+        data.valid_until = fakeDate;
+        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const document = await knex('document').where({ document_id: res.body.document_id });
+          expect(document[0].name).toBe(newDocument.name);
+          expect(document[0].type).toBe(newDocument.type);
+          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          const files = await knex('file').where({ document_id: res.body.document_id });
+          expect(files.length).toBe(1);
+          done();
         });
       });
 
       
       test('Manager shoud be able to edit a document', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(2));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
-          user_id,
-          farm_id,
-        }, async (err, res) => {
-          const newDocument = getFakeDocument(farm_id, 1);
-          let data = { document_id: res.body.document_id, ...newDocument };
-          data.valid_until = fakeDate;
-          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
-            expect(res.status).toBe(201);
-            const document = await knex('document').where({ document_id: res.body.document_id });
-            expect(document[0].name).toBe(newDocument.name);
-            expect(document[0].type).toBe(newDocument.type);
-            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
-            const files = await knex('file').where({ document_id: res.body.document_id });
-            expect(files.length).toBe(1);
-            done();
-          });
+        const document = await documentWithFilesFactory(farm_id,3);
+        const newDocument = getFakeDocument(farm_id, 1);
+        let data = { document_id: document.document_id, ...newDocument };
+        data.valid_until = fakeDate;
+        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const document = await knex('document').where({ document_id: res.body.document_id });
+          expect(document[0].name).toBe(newDocument.name);
+          expect(document[0].type).toBe(newDocument.type);
+          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          const files = await knex('file').where({ document_id: res.body.document_id });
+          expect(files.length).toBe(1);
+          done();
         });
       });
 
       test('EO shoud be able to edit a document', async (done) => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(5));
-        postManagementPlanRequest(`/document/farm/${farm_id}`, getFakeDocument(farm_id, 3), {
-          user_id,
-          farm_id,
-        }, async (err, res) => {
-          const newDocument = getFakeDocument(farm_id, 1);
-          let data = { document_id: res.body.document_id, ...newDocument };
-          data.valid_until = fakeDate;
-          putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
-            expect(res.status).toBe(201);
-            const document = await knex('document').where({ document_id: res.body.document_id });
-            expect(document[0].name).toBe(newDocument.name);
-            expect(document[0].type).toBe(newDocument.type);
-            expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
-            const files = await knex('file').where({ document_id: res.body.document_id });
-            expect(files.length).toBe(1);
-            done();
-          });
+        const document = await documentWithFilesFactory(farm_id,3);
+        const newDocument = getFakeDocument(farm_id, 1);
+        let data = { document_id: document.document_id, ...newDocument };
+        data.valid_until = fakeDate;
+        putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(201);
+          const document = await knex('document').where({ document_id: res.body.document_id });
+          expect(document[0].name).toBe(newDocument.name);
+          expect(document[0].type).toBe(newDocument.type);
+          expect(document[0].valid_until.toString()).toBe(fakeDate.toString());
+          const files = await knex('file').where({ document_id: res.body.document_id });
+          expect(files.length).toBe(1);
+          done();
         });
       });
 
@@ -296,7 +280,7 @@ describe('Document tests', () => {
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
         const document = await documentWithFilesFactory(farm_id);
         const newDocument = getFakeDocument(farm_id, 1);
-        let data = { document_id: document.document_id, ...newDocument }
+        let data = { document_id: document.document_id, ...newDocument };
         putDocumentRequest(data, { user_id, farm_id }, async (err, res) => {
           expect(res.status).toBe(403);
           done();

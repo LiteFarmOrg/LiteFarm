@@ -65,10 +65,10 @@ export function* updateDocumentSaga({ payload: {document_id, documentData} }) {
       header,
     );
     yield put(putDocumentSuccess(result.data));
-    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'));
+    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.UPDATE'));
     history.push('/documents');
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.CREATE'));
+    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.UPDATE'));
     console.log(e);
   }
 }

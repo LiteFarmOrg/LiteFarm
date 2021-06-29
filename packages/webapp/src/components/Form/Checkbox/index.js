@@ -24,7 +24,6 @@ const Checkbox = ({
     >
       <input
         type={'checkbox'}
-        ref={hookFormRegister?.ref}
         name={name}
         onChange={(e) => {
           onChange?.(e);

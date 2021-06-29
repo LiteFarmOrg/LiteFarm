@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import { Loading } from '../../Loading/Loading';
 
 function PureDocumentDetailView({
   submit,
@@ -52,7 +53,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.no_expiration
+        no_expiration: persistedFormData.no_expiration,
       }
     : {};
 
@@ -88,14 +89,24 @@ function PureDocumentDetailView({
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
-
-  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
-
-  const onUploadEnd = () => {
-    setIsFirstUploadEnded(true);
+  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
+  const onFileUpdateEnd = () => {
+    setIsFilesUpdated(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
+  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
+    !isEdit && !uploadedFiles?.length,
+  );
+  const onUpload = () => {
+    setShouldShowLoadingImage(true);
+  };
+  useEffect(() => {
+    uploadedFiles?.length && setShouldShowLoadingImage(false);
+  }, [uploadedFiles?.length]);
+
+  const disabled = isEdit
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
+    : !isValid || uploadedFiles?.length === 0;
 
   return (
     <Form
@@ -160,7 +171,17 @@ function PureDocumentDetailView({
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
-      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
+      <div
+        style={{
+          width: '312px',
+          flexGrow: 1,
+          margin: 'auto',
+          paddingBottom: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '24px',
+        }}
+      >
         {uploadedFiles?.map(({ thumbnail_url }, index) => (
           <div key={thumbnail_url}>
             <div
@@ -173,10 +194,14 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnail_url)}
+              onClick={() => {
+                deleteImage(thumbnail_url);
+                onFileUpdateEnd();
+              }}
             >
               <TrashIcon />
             </div>
+
             {imageComponent({
               width: '100%',
               style: { position: 'relative', top: '-24px', zIndex: 0 },
@@ -185,17 +210,15 @@ function PureDocumentDetailView({
             })}
           </div>
         ))}
+        {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
       </div>
-      {
-        uploadedFiles?.length <= 5 &&
-        (
-          documentUploader({
-            style: { paddingBottom: '32px' },
-            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-            onUploadEnd,
-          })
-        )
-      }
+      {uploadedFiles?.length <= 5 &&
+        documentUploader({
+          style: { paddingBottom: '32px' },
+          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUpload,
+          onUploadEnd: onFileUpdateEnd,
+        })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

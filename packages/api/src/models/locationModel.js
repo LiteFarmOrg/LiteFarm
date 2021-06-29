@@ -33,7 +33,7 @@ class Location extends baseModel {
         location_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string', minLength: 1, maxLength: 255 },
-        notes: { type: 'string' },
+        notes: { type: 'string', maxLength: 10000 },
         ...this.baseProperties,
       },
       additionalProperties: false,

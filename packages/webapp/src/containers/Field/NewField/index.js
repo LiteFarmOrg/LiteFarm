@@ -85,7 +85,9 @@ class NewField extends Component {
     this.handleModeChange = this.handleModeChange.bind(this);
     this.handlePolygonComplete = this.handlePolygonComplete.bind(this);
     this.handleFieldNameChange = this.handleFieldNameChange.bind(this);
-    this.handleFieldCropPropertiesChange = this.handleFieldCropPropertiesChange.bind(this);
+    this.handleManagementPlanPropertiesChange = this.handleManagementPlanPropertiesChange.bind(
+      this,
+    );
     this.handleShowHideDetailToggle = this.handleShowHideDetailToggle.bind(this);
     this.handleYieldChange = this.handleYieldChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
@@ -160,36 +162,38 @@ class NewField extends Component {
   handleFieldNameChange(event) {
     this.setState({ fieldName: event.target.value });
   }
-  handleFieldCropPropertiesChange(event, index) {
-    let fieldCrops = [...this.state.fieldCrops];
+
+  handleManagementPlanPropertiesChange(event, index) {
+    let managementPlans = [...this.state.managementPlans];
     let cropBeingEdited = {
-      ...fieldCrops[index],
+      ...managementPlans[index],
       [event.target.id]: event.target.value,
     };
-    fieldCrops[index] = cropBeingEdited;
-    this.setState({ fieldCrops: fieldCrops });
+    managementPlans[index] = cropBeingEdited;
+    this.setState({ managementPlans: managementPlans });
   }
+
   handleYieldChange(event, index) {
-    let fieldCrops = [...this.state.fieldCrops];
+    let managementPlans = [...this.state.managementPlans];
     let cropBeingEdited = {
-      ...fieldCrops[index],
+      ...managementPlans[index],
       estimated_production: event.target.value * this.state.price,
     };
-    fieldCrops[index] = cropBeingEdited;
+    managementPlans[index] = cropBeingEdited;
     this.setState({
-      fieldCrops: fieldCrops,
+      managementPlans: managementPlans,
       [event.target.id]: event.target.value,
     });
   }
   handlePriceChange(event, index) {
-    let fieldCrops = [...this.state.fieldCrops];
+    let managementPlans = [...this.state.managementPlans];
     let cropBeingEdited = {
-      ...fieldCrops[index],
+      ...managementPlans[index],
       estimated_production: event.target.value * this.state.yield,
     };
-    fieldCrops[index] = cropBeingEdited;
+    managementPlans[index] = cropBeingEdited;
     this.setState({
-      fieldCrops: fieldCrops,
+      managementPlans: managementPlans,
       [event.target.id]: event.target.value,
     });
   }

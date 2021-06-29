@@ -20,12 +20,11 @@ import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
-import ScrollToTop from '../../hooks/ScrollToTop';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -40,6 +39,50 @@ class LogDetail extends Component {
       showModal: false,
     };
   }
+  typeLabels = (type) => {
+    const typeLabel = {
+      systemicSpray: this.props.t('LOG_PESTICIDE.SYSTEMIC_SPRAY'),
+      foliarSpray: this.props.t('LOG_PESTICIDE.FOLIAR_SPRAY'),
+      handPick: this.props.t('LOG_PESTICIDE.HAND_PICK'),
+      biologicalControl: this.props.t('LOG_PESTICIDE.BIOLOGICAL_CONTROL'),
+      burning: this.props.t('LOG_PESTICIDE.BURNING'),
+      soilFumigation: this.props.t('LOG_PESTICIDE.SOIL_FUMIGATION'),
+      heatTreatment: this.props.t('LOG_PESTICIDE.HEAT_TREATMENT'),
+      plow: this.props.t('LOG_FIELD_WORK.PLOW'),
+      ridgeTill: this.props.t('LOG_FIELD_WORK.RIDGE_TILL'),
+      zoneTill: this.props.t('LOG_FIELD_WORK.ZONE_TILL'),
+      mulchTill: this.props.t('LOG_FIELD_WORK.MULCH_TILL'),
+      ripping: this.props.t('LOG_FIELD_WORK.RIPPING'),
+      discing: this.props.t('LOG_FIELD_WORK.DISCING'),
+      sprinkler: this.props.t('LOG_IRRIGATION.SPRINKLER'),
+      drip: this.props.t('LOG_IRRIGATION.DRIP'),
+      subsurface: this.props.t('LOG_IRRIGATION.SUBSURFACE'),
+      flood: this.props.t('LOG_IRRIGATION.FLOOD'),
+      Harvest: this.props.t('LOG_HARVEST.HARVEST'),
+      harvest: this.props.t('LOG_HARVEST.HARVEST'),
+      Pest: this.props.t('LOG_HARVEST.PEST'),
+      pest: this.props.t('LOG_HARVEST.PEST'),
+      Disease: this.props.t('LOG_HARVEST.DISEASE'),
+      disease: this.props.t('LOG_HARVEST.DISEASE'),
+      Weed: this.props.t('LOG_HARVEST.WEED'),
+      weed: this.props.t('LOG_HARVEST.WEED'),
+      Other: this.props.t('LOG_HARVEST.OTHER'),
+      other: this.props.t('LOG_HARVEST.OTHER'),
+      sand: this.props.t('soil:SAND'),
+      loamySand: this.props.t('soil:LOAMY_SAND'),
+      sandyLoam: this.props.t('soil:SANDY_LOAM'),
+      loam: this.props.t('soil:LOAM'),
+      siltLoam: this.props.t('soil:SILT_LOAM'),
+      silt: this.props.t('soil:SILT'),
+      sandyClayLoam: this.props.t('soil:SANDY_CLAYLOAM'),
+      clayLoam: this.props.t('soil:CLAY_LOAM'),
+      siltyClayLoam: this.props.t('soil:SILTY_CLAYLOAM'),
+      sandyClay: this.props.t('soil:SANDY_CLAY'),
+      siltyClay: this.props.t('soil:SILTY_CLAY'),
+      clay: this.props.t('soil:CLAY'),
+    };
+    return typeLabel[type];
+  };
 
   componentDidMount() {
     this.props.dispatch(getFertilizers());
@@ -48,24 +91,24 @@ class LogDetail extends Component {
   getKindname = (activityKind) => {
     switch (activityKind) {
       case 'fertilizing':
-        return 'Fertilizing Log';
+        return this.props.t(`LOG_FERTILIZING.TITLE`);
       case 'pestControl':
-        return 'Pest Control Log';
+        return this.props.t(`LOG_PESTICIDE.TITLE`);
       case 'harvest':
-        return 'Harvest Log';
+        return this.props.t(`LOG_HARVEST.TITLE`);
       case 'seeding':
-        return 'Seeding Log';
+        return this.props.t(`LOG_SEEDING.TITLE`);
       case 'fieldWork':
-        return 'Field Work Log';
+        return this.props.t(`LOG_FIELD_WORK.TITLE`);
       case 'soilData':
-        return 'Soil Data Log';
+        return this.props.t(`LOG_SOIL.TITLE`);
       case 'irrigation':
-        return 'Irrigation Log';
+        return this.props.t(`LOG_IRRIGATION.TITLE`);
       case 'scouting':
-        return 'Scouting Log';
+        return this.props.t(`LOG_SCOUTING.TITLE`);
       case 'other':
       default:
-        return 'Other Log';
+        return this.props.t(`LOG_OTHER.TITLE`);
     }
   };
 
@@ -99,8 +142,8 @@ class LogDetail extends Component {
     for (let d of diseases) {
       if (d.disease_id === d_id) {
         return d.farm_id
-          ? this.props.t(`disease:name.${d.disease_name_translation_key}`)
-          : d.disease_common_name;
+          ? d.disease_common_name
+          : this.props.t(`disease:name.${d.disease_name_translation_key}`);
       }
     }
 
@@ -112,7 +155,9 @@ class LogDetail extends Component {
 
     for (let p of pesticides) {
       if (p.pesticide_id === p_id) {
-        return p.pesticide_name;
+        return p.farm_id
+          ? p.pesticide_name
+          : this.props.t(`disease:PESTICIDE.${p.pesticide_translation_key}`);
       }
     }
 
@@ -138,13 +183,13 @@ class LogDetail extends Component {
     });
   };
 
-  hasSameCrop = (fieldCrop) => {
+  hasSameCrop = (managementPlan) => {
     let { selectedLog } = this.props;
 
-    for (let fc of selectedLog.fieldCrop) {
+    for (let fc of selectedLog.managementPlan) {
       if (
-        fc.field_crop_id !== fieldCrop.field_crop_id &&
-        fieldCrop.crop.crop_id === fc.crop.crop_id
+        fc.management_plan_id !== managementPlan.management_plan_id &&
+        managementPlan.crop.crop_id === fc.crop.crop_id
       ) {
         return true;
       }
@@ -185,42 +230,27 @@ class LogDetail extends Component {
       date = logDate.format('MMMM DD, YYYY');
       let typeName;
       if (selectedLog.activity_kind === 'pestControl') {
-        typeName = selectedLog.pestControlLog.type
-          .replace(/([A-Z]+)/g, ' $1')
-          .replace(/([A-Z][a-z])/g, ' $1');
-        regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeName = selectedLog.pestControlLog.type;
       }
       if (selectedLog.activity_kind === 'soilData') {
-        typeName = selectedLog.soilDataLog.texture
-          .replace(/([A-Z]+)/g, ' $1')
-          .replace(/([A-Z][a-z])/g, ' $1');
-        regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeName = selectedLog.soilDataLog.texture;
       }
       if (selectedLog.activity_kind === 'fieldWork') {
-        typeName = selectedLog.fieldWorkLog.type
-          .replace(/([A-Z]+)/g, ' $1')
-          .replace(/([A-Z][a-z])/g, ' $1');
-        regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeName = selectedLog.fieldWorkLog.type;
       }
       if (selectedLog.activity_kind === 'irrigation') {
-        typeName = selectedLog.irrigationLog.type
-          .replace(/([A-Z]+)/g, ' $1')
-          .replace(/([A-Z][a-z])/g, ' $1');
-        regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeName = selectedLog.irrigationLog.type;
       }
       if (selectedLog.activity_kind === 'scouting') {
-        typeName = selectedLog.scoutingLog.type
-          .replace(/([A-Z]+)/g, ' $1')
-          .replace(/([A-Z][a-z])/g, ' $1');
-        regularName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+        typeName = selectedLog.scoutingLog.type;
       }
+      regularName = this.typeLabels(typeName);
     }
 
     let dropDown = 0;
 
     return (
       <div className={styles.logContainer}>
-        <ScrollToTop />
         <PageTitle onGoBack={this.onBack} title={this.props.t('LOG_DETAIL.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
@@ -250,23 +280,23 @@ class LogDetail extends Component {
           </div>
         </div>
 
-        {selectedLog.fieldCrop.length > 0 && (
+        {selectedLog.managementPlan.length > 0 && (
           <div className={styles.infoBlock}>
             <div className={styles.fcInfo}>
               <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_COMMON.FIELD_CROPS')}</div>
-              <div className={styles.fieldCropList}>
-                {selectedLog.fieldCrop.map((fc) => {
+              <div className={styles.managementPlanList}>
+                {selectedLog.managementPlan.map((fc) => {
                   let hasDup = this.hasSameCrop(fc);
                   if (hasDup) {
                     return (
-                      <div className={styles.innerList} key={fc.field_crop_id}>
+                      <div className={styles.innerList} key={fc.management_plan_id}>
                         <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
-                        <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
+                        <p>{moment(fc.seed_date).format('YYYY-MM-DD')}</p>
                       </div>
                     );
                   } else
                     return (
-                      <p key={fc.field_crop_id}>
+                      <p key={fc.management_plan_id}>
                         {this.props.t(`crop:${fc.crop.crop_translation_key}`)}
                       </p>
                     );
@@ -586,7 +616,7 @@ const mapStateToProps = (state) => {
   return {
     locations: cropLocationsSelector(state),
     farm: userFarmSelector(state),
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),

@@ -12,6 +12,17 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
+  "BROADCAST_PLAN": {
+    "AREA_USED": "MISSING",
+    "LOCATION_SIZE": "MISSING",
+    "PERCENTAGE_LABEL": "MISSING",
+    "PERCENTAGE_LOCATION": "MISSING",
+    "PLANTING_NOTES": "MISSING",
+    "SEEDING_RATE": "MISSING"
+  },
+  "CANCEL_FLOW_MODAL": {
+    "BODY": "MISSING"
+  },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Solicite outro tipo de certificação",
@@ -45,11 +56,11 @@
       "BAD_NEWS": "LiteFarm atualmente não coleta as informações que você precisa para gerar seus documentos de certificação.",
       "BAD_NEWS_INFO": "No entanto, podemos criar formulários genéricos que são úteis para a maioria dos certificadores. Nós vamos indicar estas informações através do aplicativo com um ícone de folha",
       "CERTIFICATION": "certificação",
-      "GOOD_NEWS": "Boas notícias! O LiteFarm pode agregar as informações que você precisa para gerar seus documentos de certificação!",
+      "GOOD_NEWS": "Boas notícias! O LiteFarm pode documentar as informações que você precisa para gerar seus documentos de certificação!",
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
       "TITLE": "Você está interessado(a) em aplicar para:"
     },
-    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
+    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
@@ -85,11 +96,14 @@
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
+    "COVER_CROP": "MISSING",
     "CREATE_MANAGEMENT_PLANS": "Crie planos de manejo",
-    "CROP_CATALOG": "Catálogo de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
+    "CROP_GROUP": "MISSING",
+    "CROP_GROUP_TOOL_TIP": "MISSING",
     "CROP_STATUS": "Status de cultivo ativo ",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
+
     "FILTER": {
       "LOCATION": "Localização",
       "STATUS": "Status",
@@ -99,6 +113,7 @@
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
     "ON_YOUR_FARM": "Em sua fazenda",
+    "NO_RESULTS_FOUND": "MISSING",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-la à sua fazenda. Use a busca e os filtros para encontrar as colheitas mais rapidamente.",
     "FILTER_TITLE": "Filtro de catálogo de cultivo"
   },
@@ -110,21 +125,30 @@
     "COMPLIANCE_DOC": "Documentos de conformidade",
     "DETAIL_TAB": "Detalhes",
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
-    "EXPENSE_RECORD": "Registro de despesas",
     "GENETICALLY_ENGINEERED": "Esta cultura é geneticamente modificada?",
     "MANAGEMENT_PLANS": "Planos de Manejo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "O cultivo é certificada como orgânica?",
     "PERENNIAL": "Perene",
-    "SEED": "Semente",
-    "SEED_SEEDLING": "Você vai plantar como uma semente ou plântula?",
-    "SEEDLING": "Plântula",
     "TREATED": "As sementes desta cultivo foram tratadas?"
+  },
+  "CROP_MANAGEMENT": {
+    "GERMINATE": "MISSING",
+    "HARVEST": "MISSING",
+    "SEED": "MISSING",
+    "TERMINATE": "MISSING",
+    "TRANSPLANT": "MISSING"
   },
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Adicione uma nova variedade",
     "CROP_VARIETIES": "variedade",
     "NEEDS_PLAN": "Precisa de um plano"
+    "RETIRE": {
+      "CONFIRMATION": "MISSING",
+      "RETIRE_CROP_TITLE": "MISSING",
+      "UNABLE_TO_RETIRE": "MISSING",
+      "UNABLE_TO_RETIRE_TITLE": "MISSING"
+    }
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
@@ -132,6 +156,11 @@
     "ADD_IMAGE": "Adicionar imagem personalizada",
     "ANNUAL": "Anual",
     "ANNUAL_OR_PERENNIAL": "O cultivo é anual ou perene?",
+    "EDIT_CROP": "MISSING",
+    "EDIT_MODAL": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "IS_GENETICALLY_ENGINEERED": "Esta cultura é geneticamente modificada?",
     "IS_ORGANIC": "O cultivo é certificada como orgânica?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que esto cultivo não foi geneticamente modificada.",
@@ -139,9 +168,6 @@
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
-    "SEED": "Semente",
-    "SEED_OR_SEEDLING": "Você vai plantar como uma semente ou plântula?",
-    "SEEDLING_OR_PLANTING_STOCK": "Plântula ou plantinha",
     "TREATED": "As sementes desta cultivo foram tratadas?",
     "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
   },
@@ -149,6 +175,46 @@
     "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
     "HELP_TITLE": "Ajuda",
     "TITLE": "Filtrar relatório por data"
+  },
+  "DOCUMENTS": {
+    "ADD_DOCUMENT": "MISSING",
+    "ADD": {
+      "ADD_MORE_PAGES": "MISSING",
+      "DOCUMENT_NAME": "MISSING",
+      "DOES_NOT_EXPIRE": "MISSING",
+      "TITLE": "MISSING",
+      "TYPE": "MISSING",
+      "VALID_UNTIL": "MISSING"
+    },
+    "ARCHIVE": "MISSING",
+    "ARCHIVE_DOCUMENT": "MISSING",
+    "ARCHIVE_DOCUMENT_TEXT": "MISSING",
+    "ARCHIVED": "MISSING",
+    "CANCEL": "MISSING",
+    "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "MISSING",
+    "DOCUMENTS": "MISSING",
+    "EDIT_DOCUMENT": "MISSING",
+    "FILTER": {
+      "TITLE": "MISSING",
+      "TYPE": "MISSING",
+      "VALID_ON": "MISSING"
+    },
+    "SPOTLIGHT": {
+      "CDC": "MISSING",
+      "HERE_YOU_CAN": "MISSING",
+      "YOU_CAN_ONE": "MISSING",
+      "YOU_CAN_THREE": "MISSING",
+      "YOU_CAN_TWO": "MISSING"
+    },
+    "TYPE": {
+      "CLEANING_PRODUCT": "MISSING",
+      "CROP_COMPLIANCE": "MISSING",
+      "FERTILIZING_PRODUCT": "MISSING",
+      "OTHER": "MISSING",
+      "PEST_CONTROL_PRODUCT": "MISSING",
+      "SOIL_AMENDMENT": "MISSING"
+    },
+    "VALID": "MISSING"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
@@ -193,11 +259,11 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
-      "COLD_STORAGE": "Este celeiro tem câmara fria?",
-      "EDIT_TITLE": "Editar celeiro",
-      "NAME": "Celeiro",
-      "TITLE": "Adicionar celeiro",
-      "WASH_PACK": "Este celeiro tem uma estação de lavação e embalagem?"
+      "COLD_STORAGE": "Este galpão tem câmara fria?",
+      "EDIT_TITLE": "Editar galpão",
+      "NAME": "Galpão",
+      "TITLE": "Adicionar galpão",
+      "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
     },
     "BUFFER_ZONE": {
       "EDIT_TITLE": "Editar zona de amortecimento/proteção",
@@ -285,7 +351,7 @@
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar to your map",
       "AREAS": "Áreas",
-      "BARN": "Celeiro",
+      "BARN": "Galpão",
       "BZ": "Zona de amortecimento/proteção",
       "CA": "Área cerimonial",
       "FENCE": "Cerca",
@@ -305,7 +371,7 @@
       "SURFACE_WATER": "Água superficial",
       "TITLE": "Filtre o seu mapa",
       "WATERCOURSE": "Curso d'água",
-      "WV": "Ponto de Bombeamento"
+      "WV": "Ponto de bombeamento"
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editarar área natural",
@@ -386,7 +452,7 @@
     }
   },
   "FIELDS": {
-    "ADD_NEW_FIELD": "Agregar Campo Novo",
+    "ADD_NEW_FIELD": "Agregar campo novo",
     "EDIT_FIELD": {
       "CROP": {
         "ADD_NEW_CROP_OR_VARIETY": "Adicionar nova cultivo ou variedade",
@@ -402,7 +468,7 @@
         "CHOOSE_START_DATE": "Escolha a data de início",
         "CROP_COMMON_NAME": "Nome Comum",
         "CROP_GROUP_INFO": "informações do novo cultivo",
-        "CROP_GROUP_SUBGROUP": "Grupo de cultivo e subgrupo",
+        "CROP_GROUP_SUBGROUP": "Informação de subgrupo",
         "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
         "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
@@ -411,9 +477,9 @@
         "ENTER_CROP_DETAILS": "Insira os detalhes do cultivo",
         "ENTER_START_FINISH": "Insira as datas de início e término",
         "ESTIMATED_PRICE": "Preço estimado",
-        "ESTIMATED_PRODUCTION": "Produção Estimada",
-        "ESTIMATED_REVENUE": "Receita Estimada",
-        "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento Estimado",
+        "ESTIMATED_PRODUCTION": "Produção estimada",
+        "ESTIMATED_REVENUE": "Receita estimada",
+        "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento estimado",
         "FIELD_SIZE": "Tamanho do campo",
         "GENUS": "Gênero",
         "HOW_MUCH_FIELD": "Quanto do campo você deseja usar?",
@@ -426,19 +492,19 @@
         "NUMBER_OF_BEDS": "Número de canteiros",
         "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
         "PERCENTAGE": "Percentagem",
-        "REMOVE_CROP": "Remover Cultivo",
-        "SELECT_CROP_GROUP": "Selecione o grupo de cultivo",
-        "SELECT_CROP_SUBGROUP": "Selecione o subgrupo de cultivo",
+        "REMOVE_CROP": "Remover cultivo",
+        "SELECT_CROP_GROUP": "Selecione o grupo de cultura",
+        "SELECT_CROP_SUBGROUP": "Selecione o subgrupo de cultura",
         "SELECT_CROP_TEMPLATE": "Selecione um tipo de cultivo",
         "SPECIES": "Espécie",
         "START_DATE": "Data de início",
-        "VARIETY_NAME": "Nome da Variedade"
+        "VARIETY_NAME": "Nome da variedade"
       },
-      "DELETE_FIELD": "Apagar Campo",
+      "DELETE_FIELD": "Apagar campo",
       "DELETE_FIELD_WARNING": "Tem certeza que deseja excluir este campo?",
-      "EDIT_NAME": "Editar Nome do Campo",
-      "NAME": "Nome do Campo",
-      "NUMBER_CROPS": "Número de Cultivos",
+      "EDIT_NAME": "Editar come do campo",
+      "NAME": "Nome do campo",
+      "NUMBER_CROPS": "Número de cultivos",
       "SELECT": "Selecionar...",
       "TITLE": "Editar Campo",
       "TOTAL_AREA": "Área total",
@@ -464,6 +530,10 @@
       "FIELD_NAME": "Nome do Campo"
     },
     "TITLE": "CAMPOS"
+  },
+  "FILE_SIZE_MODAL": {
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Remover todos os filtros"
@@ -626,16 +696,16 @@
     "ACTIVITY": "Atividade",
     "ADD_A_LOG": "Adicione um registro",
     "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
-    "ADD_NEW_LOG": "Adicionar Novo registro",
+    "ADD_NEW_LOG": "Adicionar novo registro",
     "ALL": "Todos",
     "ALL_CROPS": "Todas as culturas",
     "ALL_LOCATIONS": "Todos os locais",
     "AMMONIA": "Amônia",
-    "CHEMICAL_COMPOSITION": "Composição Química",
+    "CHEMICAL_COMPOSITION": "Composição química",
     "CHOOSE_DATE": "Escolha uma data",
     "CROP": "Cultivos",
     "DATE": "Data",
-    "DEFAULT_PRODUCT": "Produto Padrão",
+    "DEFAULT_PRODUCT": "Produto padrão",
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
     "EDIT_A_LOG": "Editar um registro",
     "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
@@ -707,7 +777,7 @@
     "PLOW": "Arado",
     "RIDGE_TILL": "Lavoura de cume",
     "RIPPING": "Arrasto pesado",
-    "TITLE": "Registro de Trabalho de Campo",
+    "TITLE": "Registro de trabalho de campo",
     "ZONE_TILL": "Lavoura por zona"
   },
   "LOG_HARVEST": {
@@ -787,10 +857,10 @@
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
-    "SPACE_DEPTH": "Profundidade de Semeadura",
-    "SPACE_LENGTH": "Distância de Semeadura (Comprimento)",
-    "SPACE_WIDTH": "Distância de Semeadura (Largura)",
-    "TITLE": "Registro de Semeadura"
+    "SPACE_DEPTH": "Profundidade de semeadura",
+    "SPACE_LENGTH": "Distância de semeadura (Comprimento)",
+    "SPACE_WIDTH": "Distância de semeadura (Largura)",
+    "TITLE": "Registro de semeadura"
   },
   "LOG_SOIL": {
     "BULK_DENSITY": "Densidade aparente",
@@ -805,6 +875,56 @@
     "TEXTURE": "Textura",
     "TITLE": "Registro de dados do solo",
     "TOTAL_CARBON": "Carbono Total"
+  },
+  "MANAGEMENT_PLAN": {
+    "ADD_MANAGEMENT_PLAN": "MISSING",
+    "AS_COVER_CROP": "MISSING",
+    "BEDS": "MISSING",
+    "BROADCAST": "MISSING",
+    "CONTAINER": "MISSING",
+    "CONTAINER_OR_IN_GROUND": "MISSING",
+    "CONTAINER_TYPE": "MISSING",
+    "COVER_INFO": "MISSING",
+    "COVER_OR_HARVEST": "MISSING",
+    "DAYS_FROM_SEEDING": "MISSING",
+    "DETAIL_SPOTLIGHT_TITLE": "MISSING",
+    "DETAILS_SPOTLIGHT_1": "MISSING",
+    "DETAILS_SPOTLIGHT_2": "MISSING",
+    "DURATION_TOOLTIP": "MISSING",
+    "ESTIMATED_SEED": "MISSING",
+    "ESTIMATED_YIELD": "MISSING",
+    "FOR_HARVEST": "MISSING",
+    "GERMINATION": "MISSING",
+    "HARVEST": "MISSING",
+    "IN_GROUND": "MISSING",
+    "INDIVIDUAL_CONTAINER": "MISSING",
+    "IS_TRANSPLANT": "MISSING",
+    "LOCATION_SUBTEXT": "MISSING",
+    "MANAGEMENT_SPOTLIGHT_1": "MISSING",
+    "MANAGEMENT_SPOTLIGHT_2": "MISSING",
+    "MANAGEMENT_SPOTLIGHT_3": "MISSING",
+    "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
+    "NUMBER_OF_CONTAINER": "MISSING",
+    "PLAN": "MISSING",
+    "PLAN_NAME": "MISSING",
+    "PLAN_NOTES": "MISSING",
+    "PLANT_SPACING": "MISSING",
+    "PLANTING_DATE": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "PLANTING_METHOD": "MISSING",
+    "PLANTING_METHOD_TOOLTIP": "MISSING",
+    "PLANTING_NOTE": "MISSING",
+    "PLANTING_SOIL": "MISSING",
+    "PLANTS_PER_CONTAINER": "MISSING",
+    "ROWS": "MISSING",
+    "SELECT_PLANTING_LOCATION": "MISSING",
+    "SELECT_STARTING_LOCATION": "MISSING",
+    "SPOTLIGHT_HERE_YOU_CAN": "MISSING",
+    "STARTED": "MISSING",
+    "TERMINATION": "MISSING",
+    "TOTAL_PLANTS": "MISSING",
+    "TRANSPLANT": "MISSING",
+    "TRANSPLANT_LOCATION": "MISSING"
   },
   "MY_FARM": {
     "FARM_INFO": "Informação da fazenda",
@@ -1087,6 +1207,7 @@
   },
   "SLIDE_MENU": {
     "CROPS": "Cultivos",
+    "DOCUMENTS": "MISSING",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
@@ -1123,5 +1244,8 @@
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Vamos começar"
+  },
+  "YEAR_SELECTOR": {
+    "TITLE": "MISSING"
   }
 }

@@ -45,7 +45,7 @@ export function* postFarmSaga({ payload: farm }) {
     country: farm.country,
   };
   const header = getHeader(user_id);
-  const { userUrl } = apiConfig;
+  const { userUrl, url } = apiConfig;
   try {
     const [addFarmResult, getUserResult] = yield all([
       call(axios.post, farmUrl, addFarmData, header),
@@ -69,6 +69,10 @@ export function* postFarmSaga({ payload: farm }) {
     );
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection');
+    const {
+      data: { farm_token },
+    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
+    localStorage.setItem('farm_token', farm_token);
   } catch (e) {
     yield put(setLoadingEnd());
     console.log(e);
@@ -114,10 +118,9 @@ export function* patchRoleSaga({ payload }) {
     yield all([
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
+      owner_operated !== null &&
+        call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header),
     ]);
-    if (owner_operated !== null) {
-      yield call(axios.patch, patchFarmUrl(farm_id), { owner_operated }, header);
-    }
     yield put(
       patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role, role_id, owner_operated }),
     );

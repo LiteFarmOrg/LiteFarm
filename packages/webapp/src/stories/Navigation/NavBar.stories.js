@@ -10,16 +10,12 @@ import { themeWrapper, useI18next } from '../Pages/config/decorators';
 const store = {
   getState: () => {
     return {
-      baseReducer: {
-        users: {
-          first_name: 'Fake',
-          last_name: 'User',
-          email: 'email@test.com',
-          user_id: '221242323',
+      entitiesReducer: {
+        userFarmReducer: {
+          farm_id: 'farm_id',
+          user_id: 'user_id',
         },
-        farm: {
-          has_consent: true,
-        },
+        showedSpotlightReducer: {},
       },
     };
   },

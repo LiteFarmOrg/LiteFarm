@@ -2,9 +2,9 @@ import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
-import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../../assets/theme';
+import Infoi from '../../Tooltip/Infoi';
 
 export const styles = {
   option: (provided, state) => ({
@@ -117,7 +117,7 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label, placeholder, options, toolTipContent, icon, style, autoOpen, components, ...props },
+    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, ...props },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -131,8 +131,16 @@ const ReactSelect = React.forwardRef(
               height: '20px',
             }}
           >
-            <Label>{label}</Label>
-            {toolTipContent && <MoreInfo content={toolTipContent} autoOpen={autoOpen} />}
+            <Label>{label}
+            {
+              optional && (
+                <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+                  {t('common:OPTIONAL')}
+                </Label>
+              )
+            }
+            </Label>
+            {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
             {icon && <span className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}

@@ -43,12 +43,12 @@ export default function PureHarvestLog({
     setFilteredCropOptions(setDefaultCropOptions);
   }, []);
 
-  let locationOptions = locations.map(({ name, location_id }) => ({
+  let locationOptions = locations?.map(({ name, location_id }) => ({
     label: name,
     value: location_id,
   }));
 
-  let cropOptions = crops.map(
+  let cropOptions = crops?.map(
     ({ crop_translation_key, crop_id, location: { name: location_name, location_id } }) => ({
       label: t(`crop:${crop_translation_key}`),
       value: crop_id,
@@ -78,14 +78,14 @@ export default function PureHarvestLog({
     if (isEdit.isEditStepOne) {
       return { label: selectedLog.location[0].name, value: selectedLog.location[0].location_id };
     }
-    return defaultData.defaultField ? defaultData.defaultField : null;
+    return defaultData?.defaultField ? defaultData.defaultField : null;
   };
 
   const selectedCropValue = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].field_crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].management_plan_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -94,8 +94,8 @@ export default function PureHarvestLog({
   const setDefaultCrop = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].crop.crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].crop.crop_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -174,7 +174,7 @@ export default function PureHarvestLog({
     let value = 0;
     crops.map((item) => {
       if (item.crop_id === crop.value) {
-        value = item.field_crop_id;
+        value = item.management_plan_id;
       }
     });
     return value;
@@ -227,7 +227,7 @@ export default function PureHarvestLog({
               </Button>
             )}
             <Button type={'submit'} disabled={!location || !crop || !quant} fullLength>
-              {isEdit.isEdit ? t('common:UPDATE') : t('common:NEXT')}
+              {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }
@@ -251,7 +251,7 @@ export default function PureHarvestLog({
           onChange={(e) => handleFieldChange(e)}
           value={location}
           style={{ marginBottom: '24px' }}
-          defaultValue={defaultData.defaultField}
+          defaultValue={defaultData?.defaultField}
         />
         {location && (
           <ReactSelect

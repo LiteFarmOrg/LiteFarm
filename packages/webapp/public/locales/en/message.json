@@ -1,7 +1,23 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
+      "CREATE": "Failed to create document",
+      "FAILED_ARCHIVE": "Failed to archive document",
       "FAILED_UPLOAD": "Failed to upload attachments"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Successfully archived document",
+      "CREATE": "Successfully created document"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "DELETE": "Failed to delete crop variety",
+      "UPDATE": "Failed to update crop variety"
+    },
+    "SUCCESS": {
+      "DELETE": "Deleted crop variety",
+      "UPDATE": "Successfully updated crop variety"
     }
   },
   "CROP": {
@@ -81,6 +97,14 @@
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Failed to login user info"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "POST": "Failed to add management plan!"
+    },
+    "SUCCESS": {
+      "POST": "Successfully added management plan!"
     }
   },
   "MAP": {

@@ -13,7 +13,7 @@ import {
   PLANNED,
   STATUS,
   SUPPLIERS,
-} from './constants';
+} from '../constants';
 import { cropCatalogueFilterSelector, setCropCatalogueFilter } from '../../filterSlice';
 import { suppliersSelector } from '../../cropVarietySlice';
 
@@ -38,7 +38,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: STATUS,
       options: statuses.map((status) => ({
         value: status,
-        default: cropCatalogueFilter[STATUS][status] ?? false,
+        default: cropCatalogueFilter[STATUS][status]?.active ?? false,
         label: t(`filter:CROP_CATALOGUE.${status}`),
       })),
     },
@@ -47,7 +47,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: LOCATION,
       options: cropEnabledLocations.map((location) => ({
         value: location.location_id,
-        default: cropCatalogueFilter[LOCATION][location.location_id] ?? false,
+        default: cropCatalogueFilter[LOCATION][location.location_id]?.active ?? false,
         label: location.name,
       })),
     },
@@ -56,7 +56,7 @@ const CropCatalogueFilterPage = ({ onGoBack }) => {
       filterKey: SUPPLIERS,
       options: suppliers.map((supplier) => ({
         value: supplier,
-        default: cropCatalogueFilter[SUPPLIERS][supplier] ?? false,
+        default: cropCatalogueFilter[SUPPLIERS][supplier]?.active ?? false,
         label: supplier,
       })),
     },

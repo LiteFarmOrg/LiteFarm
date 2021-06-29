@@ -21,6 +21,8 @@
   "HOURS": "Hours",
   "LOADING": "Loading...",
   "LOCATION": "Location",
+  "MAX_ERROR": "Please enter a value less than {{value}}",
+  "MIN_ERROR": "Please enter a value greater than {{value}}",
   "NAME": "Name",
   "NEW": "New",
   "NEXT": "Next",

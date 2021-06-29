@@ -6,9 +6,9 @@ import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { BiSearchAlt2, MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { mergeRefs } from '../utils';
-import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
+import Infoi from '../../Tooltip/Infoi';
 
 const Input = ({
   disabled = false,
@@ -22,6 +22,8 @@ const Input = ({
   hookFormRegister,
   isSearchBar,
   type = 'text',
+  max,
+  min,
   toolTipContent,
   unit,
   showCross = true,
@@ -50,6 +52,7 @@ const Input = ({
   }, [errors]);
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
+
   return (
     <div
       className={clsx(styles.container)}
@@ -58,14 +61,15 @@ const Input = ({
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
           <Label>
-            {label} {hasLeaf && <Leaf className={styles.leaf} />}
+            {label}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                 {t('common:OPTIONAL')}
               </Label>
             )}
+            {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
-          {toolTipContent && <MoreInfo content={toolTipContent} />}
+          {toolTipContent && <Infoi content={toolTipContent} />}
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
@@ -109,9 +113,19 @@ const Input = ({
           hookFormRegister?.onChange?.(e);
         }}
         onBlur={(e) => {
+          if (type === 'number') {
+            if (max !== undefined && e.target.value > max) {
+              input.current.value = max;
+              hookFormRegister?.onChange?.({ target: input.current });
+            } else if (min !== undefined && e.target.value < min) {
+              input.current.value = min;
+              hookFormRegister?.onChange?.({ target: input.current });
+            }
+          }
           onBlur?.(e);
           hookFormRegister?.onBlur?.(e);
         }}
+        onWheel={type === 'number' ? preventNumberScrolling : undefined}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
@@ -149,6 +163,8 @@ Input.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   hasLeaf: PropTypes.bool,
+  max: PropTypes.number,
+  min: PropTypes.number,
 };
 
 export default Input;
@@ -156,3 +172,4 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+export const preventNumberScrolling = (e) => e.target.blur();

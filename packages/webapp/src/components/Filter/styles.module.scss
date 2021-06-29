@@ -29,3 +29,20 @@
   flex-wrap: wrap;
   border: 0;
 }
+
+.circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--teal700);
+  margin-left: 6px;
+  margin-top: 3px;
+}
+
+.counter {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--teal700);
+  margin-right: 6px;
+}

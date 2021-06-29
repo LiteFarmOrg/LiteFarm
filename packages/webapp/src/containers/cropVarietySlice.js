@@ -6,19 +6,48 @@ import { cropEntitiesSelector } from './cropSlice';
 
 const getCropVariety = (obj) => {
   return pick(obj, [
-    'crop_variety_id',
-    'crop_id',
-    'crop_variety_name',
-    'farm_id',
-    'supplier',
-    'seeding_type',
-    'lifecycle',
+    'ca',
     'compliance_file_url',
-    'organic',
-    'treated',
-    'genetically_engineered',
-    'searched',
+    'crop_id',
+    'crop_variety_id',
+    'crop_variety_name',
     'crop_variety_photo_url',
+    'yield_per_area',
+    'planting_depth',
+    'can_be_cover_crop',
+    'cu',
+    'energy',
+    'farm_id',
+    'fe',
+    'folate',
+    'genetically_engineered',
+    'k',
+    'lifecycle',
+    'lipid',
+    'mg',
+    'mn',
+    'na',
+    'niacin',
+    'nutrient_credits',
+    'organic',
+    'ph',
+    'protein',
+    'riboflavin',
+    'searched',
+    'seeding_type',
+    'supplier',
+    'thiamin',
+    'treated',
+    'vita_rae',
+    'vitb12',
+    'vitb6',
+    'vitc',
+    'zn',
+    'can_be_cover_crop',
+    'planting_depth',
+    'yield_per_area',
+    'average_seed_weight',
+    'yield_per_plant',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {
@@ -68,6 +97,7 @@ const cropVarietySlice = createSlice({
         id: cropVariety.crop_variety_id,
       });
     },
+    deleteCropVarietySuccess: cropVarietyAdapter.removeOne,
     selectCropVarietySuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
@@ -80,6 +110,7 @@ export const {
   onLoadingCropVarietyStart,
   onLoadingCropVarietyFail,
   getAllCropVarietiesSuccess,
+  deleteCropVarietySuccess,
 } = cropVarietySlice.actions;
 export default cropVarietySlice.reducer;
 
@@ -97,10 +128,15 @@ export const cropVarietiesSelector = createSelector(
     const cropVarietiesOfCurrentFarm = cropVarieties.filter(
       (cropVariety) => cropVariety.farm_id === farm_id,
     );
-    return cropVarietiesOfCurrentFarm.map((cropVariety) => ({
-      ...cropEntities[cropVariety.crop_id],
-      ...cropVariety,
-    }));
+
+    return cropVarietiesOfCurrentFarm.map((cropVariety) => {
+      const crop = cropEntities[cropVariety.crop_id];
+      return {
+        ...crop,
+        ...cropVariety,
+        crop,
+      };
+    });
   },
 );
 
@@ -111,7 +147,8 @@ export const cropVarietySelector = (crop_variety_id) =>
   createSelector(
     [cropEntitiesSelector, cropVarietyByID(crop_variety_id)],
     (cropEntities, cropVariety) => {
-      return { ...cropEntities[cropVariety.crop_id], ...cropVariety };
+      const crop = cropEntities[cropVariety.crop_id];
+      return { ...cropEntities[cropVariety.crop_id], ...cropVariety, crop };
     },
   );
 

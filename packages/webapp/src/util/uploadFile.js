@@ -1,4 +1,5 @@
-import AWS from 'aws-sdk';
+import S3 from 'aws-sdk/clients/s3';
+import { DO_ORIGIN_URL, DO_URI } from './constants';
 
 export default function uploadFile(
   blob,
@@ -11,10 +12,8 @@ export default function uploadFile(
     },
   },
 ) {
-  const DO_URI = 'nyc3.digitaloceanspaces.com';
-  const spacesEndpoint = new AWS.Endpoint(DO_URI);
-  const s3 = new AWS.S3({
-    endpoint: spacesEndpoint,
+  const s3 = new S3({
+    endpoint: DO_URI,
     accessKeyId: process.env.REACT_APP_DO_ACCESS_KEY_ID,
     secretAccessKey: process.env.REACT_APP_DO_ACCESS_SECRET_KEY,
   });
@@ -23,7 +22,7 @@ export default function uploadFile(
     Bucket: `${process.env.REACT_APP_DO_BUCKET_NAME}`,
     Key: filename,
   };
-  const host = `https://${process.env.REACT_APP_DO_BUCKET_NAME}.${DO_URI}`;
+  const host = DO_ORIGIN_URL;
   s3.putObject(params)
     .on('build', (request) => {
       request.httpRequest.headers.Host = host;

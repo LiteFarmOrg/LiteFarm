@@ -11,6 +11,9 @@ const initialState = {
   adjust_line: false,
   navigation: false,
   introduce_map: false,
+  crop_catalog: false,
+  documents: false,
+  compliance_docs_and_certification: false,
 };
 
 const showedSpotlightSlice = createSlice({

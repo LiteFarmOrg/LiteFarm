@@ -94,7 +94,36 @@ export const watercourse_width = {
   databaseUnit: databaseUnit.length,
 };
 
-const seedAmounts = {
+
+export const container_planting_depth = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [12],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const container_plant_spacing = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [20],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
     defaultUnit: 'g',
@@ -103,6 +132,20 @@ const seedAmounts = {
   imperial: {
     units: ['oz', 'lb'],
     defaultUnit: 'oz',
+    breakpoints: [16],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+export const seedYield = {
+  metric: {
+    units: ['g', 'kg'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['oz', 'lb'],
+    defaultUnit: 'lb',
     breakpoints: [16],
   },
   databaseUnit: databaseUnit.mass,

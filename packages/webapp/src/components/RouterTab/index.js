@@ -12,6 +12,7 @@ export default function RouterTab({ tabs, history, classes }) {
           key={index}
           className={clsx(styles.pill, isSelected(tab.path) && styles.selected)}
           onClick={() => !isSelected(tab.path) && history.push(tab.path)}
+          id={tab.label + index}
         >
           {tab.label}
         </Semibold>

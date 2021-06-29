@@ -1,7 +1,23 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
+      "CREATE": "MISSING",
+      "FAILED_ARCHIVE": "MISSING",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "MISSING",
+      "CREATE": "MISSING"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP": {
@@ -81,6 +97,14 @@
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "No se pudo iniciar sesión con información del usuario"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "POST": "MISSING"
     }
   },
   "MAP": {

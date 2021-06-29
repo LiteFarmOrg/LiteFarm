@@ -33,7 +33,8 @@ import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
-import fieldCropSaga from './containers/LocationDetails/LocationFieldCrop/saga';
+import documentSaga from './containers/Documents/saga';
+import managementPlanSaga from './containers/Crop/AddManagementPlan/ManagementPlanName/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
 import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';
@@ -51,7 +52,7 @@ import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
 import financeSaga from './containers/Finances/saga';
 import cropSaga from './components/Forms/NewCropModal/saga';
-import varietalSaga from './containers/AddCrop/saga';
+import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
@@ -74,9 +75,21 @@ import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import mapSaga from './containers/Map/saga';
+import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
 
+if (process.env.REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 0.7,
+  });
+}
 // config for redux-persist
 const persistConfig = {
   key: 'root',
@@ -133,7 +146,7 @@ sagaMiddleware.run(fertSaga);
 sagaMiddleware.run(defaultAddLogSaga);
 sagaMiddleware.run(locationSaga);
 sagaMiddleware.run(fieldLocationSaga);
-sagaMiddleware.run(fieldCropSaga);
+sagaMiddleware.run(managementPlanSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
 sagaMiddleware.run(barnSaga);
@@ -167,6 +180,8 @@ sagaMiddleware.run(SSOInfoSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
+sagaMiddleware.run(uploadDocumentSaga);
+sagaMiddleware.run(documentSaga);
 
 const persistor = persistStore(store);
 

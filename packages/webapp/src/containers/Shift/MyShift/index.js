@@ -11,10 +11,9 @@ import { loginSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 
 import { getDuration } from './../../../util/index';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
-import { cropLocationEntitiesSelector, locationsSelector } from '../../locationSlice';
-import ScrollToTop from '../../hooks/ScrollToTop';
+import { locationsSelector } from '../../locationSlice';
 
 class MyShift extends Component {
   constructor(props) {
@@ -67,7 +66,7 @@ class MyShift extends Component {
           }
         }
       } else {
-        let thisCrop = this.getCropName(task.field_crop_id);
+        let thisCrop = this.getCropName(task.management_plan_id);
         if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({
@@ -119,10 +118,10 @@ class MyShift extends Component {
   }
 
   // get crop now, not just name
-  getCropName(field_crop_id) {
+  getCropName(management_plan_id) {
     const crops = this.props.crops || [];
     for (let crop of crops) {
-      if (crop.field_crop_id === field_crop_id) {
+      if (crop.management_plan_id === management_plan_id) {
         return crop;
       }
     }
@@ -150,7 +149,6 @@ class MyShift extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <ScrollToTop />
         <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
@@ -236,7 +234,7 @@ const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
     locations: locationsSelector(state),
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),

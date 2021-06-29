@@ -17,9 +17,7 @@ import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from 
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedFieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { cropLocationsSelector } from '../../locationSlice';
 import { Semibold } from '../../../components/Typography';
 
@@ -112,8 +110,8 @@ class IrrigationLog extends Component {
       value: f.location_id,
       label: f.name,
     }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
-      value: fc.field_crop_id,
+    const selectedCrops = selectedLog.managementPlan.map((fc) => ({
+      value: fc.management_plan_id,
       label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       location_id: fc.location_id,
     }));
@@ -166,7 +164,11 @@ class IrrigationLog extends Component {
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
             customFieldset={customFieldset}
           />
-          <LogFooter disabled={!this.props.formState.$form.valid} edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter
+            disabled={!this.props.formState.$form.valid}
+            edit={true}
+            onClick={() => this.setState({ showModal: true })}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
@@ -181,12 +183,12 @@ class IrrigationLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentAndPlannedFieldCropsSelector(state),
+    crops: currentAndPlannedManagementPlansSelector(state),
     locations: cropLocationsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),
-    formState: irrigationStateSelector(state)
+    formState: irrigationStateSelector(state),
   };
 };
 

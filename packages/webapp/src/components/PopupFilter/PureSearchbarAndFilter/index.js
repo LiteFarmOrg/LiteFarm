@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PureSearchbarAndFilter({ filterOptions, onFilterOpen, value, onChange }) {
+export default function PureSearchbarAndFilter({ onFilterOpen, value, onChange, isFilterActive }) {
   const classes = useStyles();
   return (
     <>
@@ -46,22 +46,16 @@ export default function PureSearchbarAndFilter({ filterOptions, onFilterOpen, va
           value={value}
           onChange={onChange}
         />
-        {filterOptions?.length && <div className={classes.circle} />}
+        {isFilterActive && <div className={classes.circle} />}
         <FiFilter className={classes.filter} onClick={onFilterOpen} />
-      </div>
-
-      <div className={classes.pillContainer}>
-        {filterOptions &&
-          filterOptions.length &&
-          filterOptions.map((option, key) => <Pill item={option} removable selected key={key} />)}
       </div>
     </>
   );
 }
 
 PureSearchbarAndFilter.propTypes = {
-  filterOptions: PropTypes.arrayOf(PropTypes.string),
   onFilterOpen: PropTypes.func,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  isFilterActive: PropTypes.bool,
 };

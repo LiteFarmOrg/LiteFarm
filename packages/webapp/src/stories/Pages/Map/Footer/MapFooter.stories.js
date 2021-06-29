@@ -2,6 +2,7 @@ import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureMapFooter from '../../../../components/Map/Footer/';
 import { locationEnum } from '../../../../containers/Map/constants';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/MapFooter',
@@ -32,7 +33,7 @@ Admin.args = {
   availableFilterSettings,
 };
 Admin.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Worker = Template.bind({});
@@ -42,5 +43,5 @@ Worker.args = {
   availableFilterSettings,
 };
 Worker.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

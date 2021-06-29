@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import ExpiredTokenScreen from '../../../../components/ExpiredTokenScreen';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Page/ExpiredToken',
@@ -15,7 +16,7 @@ Primary.args = {
   text: 'This link has expired. Please ask for a new invite link.',
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const ResetPassword = Template.bind({});
@@ -24,5 +25,5 @@ ResetPassword.args = {
   linkText: 'Send new password link.',
 };
 ResetPassword.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

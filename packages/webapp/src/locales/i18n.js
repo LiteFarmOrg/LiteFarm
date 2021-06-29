@@ -10,7 +10,7 @@ i18n
   .init({
     defaultNS: 'translation',
     fallbackLng: 'en',
-    debug: process.env.NODE_ENV !== 'production',
+    debug: false,
     detection: {
       lookupLocalStorage: 'litefarm_lang',
     },

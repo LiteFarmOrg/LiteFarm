@@ -8,5 +8,14 @@
     "COMPLETE": "Complete",
     "PLANNED": "Planned",
     "NEEDS_PLAN": "Needs plan"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "Cleaning product",
+    "CROP_COMPLIANCE": "Crop compliance",
+    "FERTILIZING_PRODUCT": "Fertilizing product",
+    "OTHER": "Other",
+    "PEST_CONTROL_PRODUCT": "Pest control product",
+    "SOIL_AMENDMENT": "Soil amendment",
+    "UNCATEGORIZED": "Uncategorized"
   }
 }

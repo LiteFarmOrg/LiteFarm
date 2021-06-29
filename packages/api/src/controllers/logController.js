@@ -27,7 +27,7 @@ const IrrigationLogModel = require('../models/irrigationLogModel');
 const FieldWorkLogModel = require('../models/fieldWorkLogModel');
 const SoilDataLog = require('../models/soilDataLogModel');
 const SeedLog = require('../models/seedLogModel');
-const fieldCropModel = require('../models/fieldCropModel');
+const managementPlanModel = require('../models/managementPlanModel');
 const HarvestLog = require('../models/harvestLogModel');
 const fieldModel = require('../models/fieldModel');
 const locationModel = require('../models/locationModel');
@@ -184,7 +184,7 @@ const logServices = {
     const user_id = user.user_id;
     const activityLog = await baseController.post(ActivityLogModelModel, body, req, { trx });
     //insert crops,locations and beds
-    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
+    await baseController.relateModels(activityLog, managementPlanModel, body.crops, trx);
     await baseController.relateModels(activityLog, locationModel, body.locations, trx);
     if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await baseController.postRelated(activityLog, logModel, body, req, { trx });
@@ -225,8 +225,8 @@ const logServices = {
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
     for (const log of logs) {
-      // get locations and fieldCrops associated with log
-      await log.$fetchGraph('fieldCrop.crop_variety.crop');
+      // get locations and management_plans associated with log
+      await log.$fetchGraph('management_plan.crop_variety.crop');
       await baseController.getRelated(log, locationModel);
 
       // get related models for specialized logs
@@ -252,9 +252,9 @@ const logServices = {
     const user_id = user.user_id;
     const activityLog = await baseController.updateIndividualById(ActivityLogModelModel, logId, body, req, { trx });
 
-    //insert fieldCrops,locations
-    // TODO: change body.crops to body.fieldCrops
-    await baseController.relateModels(activityLog, fieldCropModel, body.crops, trx);
+    //insert managementPlans,locations
+    // TODO: change body.crops to body.managementPlans
+    await baseController.relateModels(activityLog, managementPlanModel, body.crops, trx);
     // TODO: Deprecate locations field in req.body
     await baseController.relateModels(activityLog, locationModel, body.locations, trx);
 

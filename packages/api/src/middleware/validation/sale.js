@@ -20,7 +20,7 @@ async function validateSale(req, res, next) {
     return res.status(400).send('Crop is required');
   }
   for (const oneCropSale of cropSale) {
-    if (!oneCropSale.crop_id || oneCropSale.fieldCrop || oneCropSale.farm || oneCropSale.crop) {
+    if (!oneCropSale.crop_id || oneCropSale.managementPlan || oneCropSale.farm || oneCropSale.crop) {
       return res.status(400).send('Crop is required');
     }
   }

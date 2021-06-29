@@ -1,6 +1,7 @@
 import React from 'react';
 import PureFarm from '../../../components/Profile/Farm';
 import decorator from '../config/decorators';
+import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/Profile/Farm',
@@ -24,5 +25,5 @@ Primary.args = {
   },
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

@@ -1,7 +1,23 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
+      "CREATE": "MISSING",
+      "FAILED_ARCHIVE": "MISSING",
       "FAILED_UPLOAD": "Anexos não carregados"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "MISSING",
+      "CREATE": "MISSING"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP": {
@@ -81,6 +97,14 @@
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Falha no login das informações do usuário"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "POST": "MISSING"
     }
   },
   "MAP": {

@@ -3,7 +3,7 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_crop_id: fromFieldCrop,
+  management_plan_id: fromManagementPlan,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
@@ -19,10 +19,12 @@ const entitiesGetters = {
   sale_id: fromSale,
   shift_id: fromShift,
   location_id: fromLocation,
+  crop_management_plan: fromCropManagement,
   //TODO remove
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
+  document_id: fromDocument
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -60,6 +62,10 @@ async function fromTask(taskId) {
   return knex('taskType').where({ task_id: taskId }).first();
 }
 
+async function fromDocument(document_id){
+  return await knex('document').where({ document_id }).first();
+}
+
 async function fromShift(shiftId) {
   return knex('shift').where({ shift_id: shiftId }).first();
 }
@@ -70,6 +76,9 @@ async function fromPesticide(pesticideId) {
 
 async function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
+}
+function fromCropManagement(cropPlan){
+  return fromLocation(cropPlan.location_id);
 }
 
 async function fromDisease(disease_id) {
@@ -110,7 +119,7 @@ async function fromActivity(req) {
 
   if (req.body.locations) {
     const locations = [];
-    let fieldCrops;
+    let managementPlans;
     for (const location of req.body.locations) {
       if (!location.location_id) {
         return {};
@@ -122,22 +131,22 @@ async function fromActivity(req) {
     }
 
     if (req.body.crops && req.body.crops.length) {
-      fieldCrops = [];
-      for (const fieldCrop of req.body.crops) {
-        if (!fieldCrop.field_crop_id) {
+      managementPlans = [];
+      for (const managementPlan of req.body.crops) {
+        if (!managementPlan.management_plan_id) {
           return {};
         }
-        fieldCrops.push(fieldCrop.field_crop_id);
+        managementPlans.push(managementPlan.management_plan_id);
       }
     }
 
-    const sameFarm = fieldCrops?.length ? await userFarmModel.query()
-        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'fieldCrop.field_crop_id')
+    const sameFarm = managementPlans?.length ? await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'managementPlan.management_plan_id')
         .join('location', 'userFarm.farm_id', 'location.farm_id')
-        .join('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
+        .join('managementPlan', 'managementPlan.location_id', 'location.location_id')
         .skipUndefined()
         .whereIn('location.location_id', locations)
-        .whereIn('fieldCrop.field_crop_id', fieldCrops)
+        .whereIn('managementPlan.management_plan_id', managementPlans)
         .where('userFarm.user_id', user_id)
         .where('userFarm.farm_id', farm_id) :
       await userFarmModel.query()
@@ -149,7 +158,7 @@ async function fromActivity(req) {
         .where('userFarm.farm_id', farm_id);
 
 
-    if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
+    if (!sameFarm.length || sameFarm.length < (managementPlans ? managementPlans.length : 0)) {
       return {};
     }
   }
@@ -168,14 +177,12 @@ async function fromActivity(req) {
   return userFarm;
 }
 
-async function fromFieldCrop(fieldCropId) {
-  const { location_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
-  return fromLocation(location_id);
+async function fromManagementPlan(managementPlanId) {
+  return await knex('management_plan').where('management_plan_id', managementPlanId).join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
 }
 
 async function fromCropVariety(crop_variety_id) {
-  const cropVariety = await knex('crop_variety').where({ crop_variety_id }).first();
-  return cropVariety;
+  return await knex('crop_variety').where({ crop_variety_id }).first();
 }
 
 async function fromYield(yieldId) {

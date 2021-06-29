@@ -2,6 +2,7 @@ import React from 'react';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import decorator from '../Pages/config/decorators';
 import { Post } from '../Pages/LocationDetails/AreaDetails/Barn/Barn.stories';
+import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
 export default {
   title: 'Components/MuiFullPagePopup',
@@ -17,5 +18,5 @@ Barn.args = {
   children: <Post {...Post.args} />,
 };
 Barn.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

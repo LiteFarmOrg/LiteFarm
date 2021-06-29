@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
 import PageTitle from '../PageTitle/v2';
@@ -8,32 +8,56 @@ import Filter from '../Filter';
 import Button from '../Form/Button';
 import { cloneObject } from '../../util';
 
-const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
+const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack, children, resetters }) => {
   const { t } = useTranslation();
 
   const initFilterPageState = {};
+  const initCountTrackerState = {};
   for (const filter of filters) {
     const initFilterState = {};
     for (const option of filter.options) {
-      initFilterState[option.value] = option.default;
+      initFilterState[option.value] = {
+        active: option.default,
+        label: option.label,
+      };
     }
     initFilterPageState[filter.filterKey] = initFilterState;
+    initCountTrackerState[filter.filterKey] = 0;
   }
   const [filterPageState, setFilterPageState] = useState(initFilterPageState);
+  const [countTrackerState, setCountTrackerState] = useState(initCountTrackerState);
+
+  useEffect(() => {
+    for (const filterKey in filterPageState) {
+      const filter = filterPageState[filterKey];
+      const activeSum = Object.values(filter).reduce((acc, curr) => {
+        return curr.active ? acc + 1 : acc;
+      }, 0);
+      setCountTrackerState((prev) => {
+        const change = cloneObject(prev);
+        change[filterKey] = activeSum;
+        return change;
+      });
+    }
+  }, [filterPageState]);
 
   const updateFilter = (filterKey, value) => {
     setFilterPageState((prev) => {
       const change = cloneObject(prev);
-      change[filterKey][value] = !prev[filterKey][value];
+      change[filterKey][value].active = !prev[filterKey][value].active;
       return change;
     });
   };
 
   const resetFilter = () => {
     setFilterPageState((prev) => {
-      const change = recursiveFilterReset(cloneObject(prev));
+      const change = filterResetHelper(cloneObject(prev));
       return change;
     });
+    for (const resetter of resetters) {
+      const { setFunc, defaultVal } = resetter;
+      setFunc(defaultVal);
+    }
   };
 
   return (
@@ -64,9 +88,11 @@ const PureFilterPage = ({ title, filters, onApply, filterRef, onGoBack }) => {
               filterState={filterPageState[filter.filterKey]}
               updateFilter={updateFilter}
               key={filter.filterKey}
+              counter={countTrackerState[filter.filterKey]}
             />
           );
       })}
+      {children}
     </Layout>
   );
 };
@@ -79,15 +105,26 @@ PureFilterPage.prototype = {
 
 export default PureFilterPage;
 
-// TRUST THE NATURAL RECURSION
-const recursiveFilterReset = (filter) => {
-  Object.keys(filter).forEach((key) => {
-    const value = filter[key];
-    if (typeof value === 'boolean') {
-      filter[key] = false;
-    } else {
-      filter[key] = recursiveFilterReset(value);
+// // TRUST THE NATURAL RECURSION
+// const recursiveFilterReset = (filter) => {
+//   Object.keys(filter).forEach((key) => {
+//     const value = filter[key];
+//     if (typeof value === 'boolean') {
+//       filter[key] = false;
+//     } else {
+//       filter[key] = recursiveFilterReset(value);
+//     }
+//   });
+//   return filter;
+// };
+
+const filterResetHelper = (filter) => {
+  for (const filterKey in filter) {
+    const filterContents = filter[filterKey];
+    for (const filterValue in filterContents) {
+      const filterItem = filterContents[filterValue];
+      filterItem.active = false;
     }
-  });
+  }
   return filter;
 };

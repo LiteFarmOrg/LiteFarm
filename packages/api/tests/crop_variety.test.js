@@ -22,6 +22,7 @@ const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
+const faker = require('faker');
 const { tableCleanup } = require('./testEnvironment');
 const cropVarietyModel = require('../src/models/cropVarietyModel');
 
@@ -189,7 +190,6 @@ describe('CropVariety Tests', () => {
           });
         });
 
-        // TODO switch to JWT
         test('Circumvent authorization by modifying farm_id', async (done) => {
           getRequest(`/crop_variety/${cropVariety.crop_variety_id}`, {
             user_id: unAuthorizedUser.user_id,
@@ -208,15 +208,14 @@ describe('CropVariety Tests', () => {
     describe('Delete cropVariety', function() {
       let cropVarietyNotInUse;
 
-
       beforeEach(async () => {
         [cropVarietyNotInUse] = await mocks.crop_varietyFactory({ promisedFarm: [farm] }, {
           ...mocks.fakeCropVariety(),
           crop_variety_name: 'cropVarietyNotInUse',
         });
       });
-
-      test('Owner should delete a cropVariety that is referenced by a fieldCropVariety', async (done) => {
+      // TODO: fix delete test once management plan is implemented
+      test('Owner should delete a cropVariety that is referenced by a management plan', async (done) => {
         deleteRequest(`/crop_variety/${cropVariety.crop_variety_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const cropVarietys = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm.farm_id);
@@ -238,6 +237,41 @@ describe('CropVariety Tests', () => {
           done();
         });
       });
+
+      test('Should delete a cropVariety that is not part of an active management plan', async (done) => {
+        const [{farm_id, user_id}] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
+        const [{crop_variety_id}] = await mocks.management_planFactory({
+          promisedFarm: [{farm_id}]
+        }, {
+          seed_date: new Date('December 17, 1995 03:24:00'),
+          harvest_date: new Date('December 18, 1995 03:24:00')
+        });
+        deleteRequest(`/crop_variety/${crop_variety_id}`, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          const cropVarietiesDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm_id);
+          expect(cropVarietiesDeleted.length).toBe(1);
+          expect(cropVarietiesDeleted[0].deleted).toBe(true);
+          expect(cropVarietiesDeleted[0].crop_variety_id).toBe(crop_variety_id);
+          done();
+        });
+      })
+
+      test('Should not delete a cropVariety that is part of an active management plan', async (done) => {
+        const [{farm_id, user_id}] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
+        const [managementPlan] = await mocks.management_planFactory({
+          promisedFarm: [{ farm_id }]
+        }, {
+          seed_date: faker.date.past(),
+          harvest_date: faker.date.future()
+        });
+        deleteRequest(`/crop_variety/${managementPlan.crop_variety_id}`, { user_id, farm_id }, async (err, res) => {
+          expect(res.status).toBe(400);
+          const cropVarietyNotDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: false }).where('farm_id', farm_id);
+          expect(cropVarietyNotDeleted.length).toBe(0);
+          done();
+        });
+      })
+
 
       describe('Delete cropVariety Authorization test', () => {
         let worker;
@@ -266,13 +300,21 @@ describe('CropVariety Tests', () => {
           }, fakeUserFarm(1));
         });
 
-        test('Manager should delete a cropVariety that is not in use', async (done) => {
-          deleteRequest(`/crop_variety/${cropVarietyNotInUse.crop_variety_id}`, { user_id: manager.user_id }, async (err, res) => {
-            expect(res.status).toBe(200);
-            const cropVarietysDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm.farm_id);
-            expect(cropVarietysDeleted.length).toBe(1);
-            expect(cropVarietysDeleted[0].deleted).toBe(true);
-            expect(cropVarietysDeleted[0].crop_variety_name).toBe(cropVarietyNotInUse.crop_variety_name);
+        test('Manager should delete a cropVariety that has past management plan', async (done) => {
+          const [{farm_id, user_id}] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 2});
+          const [{crop_variety_id}] = await mocks.management_planFactory({
+            promisedFarm: [{farm_id}]
+          }, {
+            seed_date: new Date('December 17, 1995 03:24:00'),
+            harvest_date: new Date('December 18, 1995 03:24:00')
+          });
+          console.log(crop_variety_id);
+          deleteRequest(`/crop_variety/${crop_variety_id}`, { user_id, farm_id }, async (err, response) => {
+            expect(response.status).toBe(200);
+            const cropVarietiesDeleted = await cropVarietyModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm_id);
+            expect(cropVarietiesDeleted.length).toBe(1);
+            expect(cropVarietiesDeleted[0].deleted).toBe(true);
+            expect(cropVarietiesDeleted[0].crop_variety_id).toBe(crop_variety_id);
             done();
           });
         });

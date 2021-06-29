@@ -621,6 +621,7 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
 
             <Route path="/map" exact component={Map} />
+            <Route path="/map/videos" exact component={MapVideo} />
             <Route
               path="/create_location/farm_site_boundary"
               exact

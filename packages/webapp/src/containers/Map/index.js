@@ -338,6 +338,7 @@ export default function Map({ history }) {
           className={styles.mapHeader}
           farmName={farm_name}
           showVideo={handleShowVideo}
+          isAdmin={is_admin}
         />
       )}
       {showSuccessHeader && (

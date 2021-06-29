@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { TYPE, VALID_ON } from '../Filter/constants';
+import { TYPE, UNCATEGORIZED, VALID_ON } from '../Filter/constants';
 import { documentsFilterSelector } from '../filterSlice';
 
 export function useSortByName(documents) {
@@ -38,7 +38,10 @@ export function useFilterDocuments(documents) {
       Object.keys(typeFilter).filter((type) => typeFilter[type].active),
     );
     return activeFilterTypes.size
-      ? documents.filter((document) => activeFilterTypes.has(document.type))
+      ? documents.filter((document) => {
+          if (!document.type) return activeFilterTypes.has(UNCATEGORIZED);
+          return activeFilterTypes.has(document.type);
+        })
       : documents;
   }, [documentsFilter[TYPE], documents]);
 

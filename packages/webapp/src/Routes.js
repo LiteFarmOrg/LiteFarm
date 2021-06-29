@@ -240,6 +240,7 @@ const CertificationContactCertifierFailed = React.lazy(() =>
 const CertificationAllInfoReady = React.lazy(() =>
   import('./containers/Certifications/AllInfoReady'),
 );
+const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -517,6 +518,7 @@ const Routes = () => {
               exact
               component={CertificationAllInfoReady}
             />
+            <Route path="/certifications/survey" exact component={CertificationSurvey} />
             <Redirect
               to={'/'}
               //TODO change to 404

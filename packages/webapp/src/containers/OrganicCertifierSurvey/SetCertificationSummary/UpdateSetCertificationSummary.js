@@ -20,15 +20,15 @@ export default function UpdateSetCertificationSummary({ history }) {
   const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
 
   const onSubmit = () => {
-    history.push('/view_certification');
+    history.push('/certification');
   };
 
   const onGoBack = () => {
     certificationType.certificationName === 'Other'
-      ? history.push('/requested_certifier')
+      ? history.push('/certification/certifier/request')
       : allSupportedCertifierTypes.length < 1
-      ? history.push('/requested_certifier')
-      : history.push('/certifier_selection_menu');
+      ? history.push('/certification/certifier/request')
+      : history.push('/certification/certifier/selection');
   };
 
   return (

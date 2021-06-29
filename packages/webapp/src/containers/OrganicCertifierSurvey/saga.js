@@ -139,8 +139,8 @@ export function* patchRequestedCertifiersSaga({ payload }) {
 export const patchRequestedCertification = createAction(`patchRequestedCertificationSaga`);
 
 export function* patchRequestedCertificationSaga({ payload }) {
-  const survey = yield select(certifierSurveySelector);
   try {
+    const survey = yield select(certifierSurveySelector);
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const { data, callback } = payload;

@@ -98,7 +98,7 @@
     "CAN_NOT_FIND": "No puede encontrar",
     "COVER_CROP": "MISSING",
     "CREATE_MANAGEMENT_PLANS": "Crear plan de manejo",
-    "CROP_CATALOG": "Catálogo de cultivos",
+    "CROP_CATALOGUE": "MISSING",
     "CROP_GROUP": "MISSING",
     "CROP_GROUP_TOOL_TIP": "MISSING",
     "CROP_STATUS": "Estatus del cultivo activo",
@@ -109,7 +109,6 @@
       "SUPPLIERS": "Proveedores",
       "TITLE": "Título"
     },
-
     "HERE_YOU_CAN": "Aca uno puede",
     "LETS_BEGIN": "Vamos a comenzar",
     "NO_RESULTS_FOUND": "MISSING",
@@ -142,7 +141,7 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Agregar una nueva variedad",
     "CROP_VARIETIES": "variedad",
-    "NEEDS_PLAN": "Necesita un plan"
+    "NEEDS_PLAN": "Necesita un plan",
     "RETIRE": {
       "CONFIRMATION": "MISSING",
       "RETIRE_CROP_TITLE": "MISSING",
@@ -906,6 +905,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",

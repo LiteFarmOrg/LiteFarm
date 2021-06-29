@@ -906,6 +906,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLAN": "Plan {{count}}",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",

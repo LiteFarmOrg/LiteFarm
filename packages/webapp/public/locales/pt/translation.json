@@ -103,7 +103,6 @@
     "CROP_GROUP_TOOL_TIP": "MISSING",
     "CROP_STATUS": "Status de cultivo ativo ",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
-
     "FILTER": {
       "LOCATION": "Localização",
       "STATUS": "Status",
@@ -112,8 +111,8 @@
     },
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
-    "ON_YOUR_FARM": "Em sua fazenda",
     "NO_RESULTS_FOUND": "MISSING",
+    "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-la à sua fazenda. Use a busca e os filtros para encontrar as colheitas mais rapidamente.",
     "FILTER_TITLE": "Filtro de catálogo de cultivo"
   },
@@ -142,7 +141,7 @@
   "CROP_VARIETIES": {
     "ADD_VARIETY": "Adicione uma nova variedade",
     "CROP_VARIETIES": "variedade",
-    "NEEDS_PLAN": "Precisa de um plano"
+    "NEEDS_PLAN": "Precisa de um plano",
     "RETIRE": {
       "CONFIRMATION": "MISSING",
       "RETIRE_CROP_TITLE": "MISSING",
@@ -906,6 +905,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",

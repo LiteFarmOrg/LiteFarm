@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -8,16 +8,35 @@ import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../Typography';
 import Layout from '../Layout';
 import { colors } from '../../assets/theme';
+import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
+import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
+import UnregisteredCertifierSurvey from './UnregisteredCertifier';
 
 const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, certiferAcronym }) => {
   const { t } = useTranslation();
+  const [submitted, setSubmitted] = useState(false);
 
   const progress = 33;
+
+  useEffect(() => {
+    const handler = (event) => {
+      // console.log(event);
+      if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
+      const data = JSON.parse(event.data);
+      console.log('Hello World?', data);
+      setSubmitted(true);
+    };
+
+    window.addEventListener('message', handler);
+
+    // clean up
+    return () => window.removeEventListener('message', handler);
+  }, []);
 
   return (
     <Layout
       buttonGroup={
-        <Button fullLength onClick={onExport} disabled>
+        <Button fullLength onClick={onExport} disabled={!submitted}>
           {t('CERTIFICATIONS.EXPORT')}
         </Button>
       }
@@ -30,27 +49,9 @@ const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, cer
         value={progress}
       />
 
-      <Semibold
-        style={{
-          color: colors.teal700,
-          marginBottom: '16px',
-          display: 'inline-flex',
-          gap: '8px',
-          alignItems: 'center',
-        }}
-      >
-        {`${t('CERTIFICATIONS.ORGANIC_CERTIFICATION_FROM')} ${certiferAcronym}`}
-      </Semibold>
-
-      <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
-        {t('CERTIFICATIONS.WOULD_LIKE_ANSWERS')}
-      </Main>
-
-      <iframe
-        title="temp iframe title"
-        src="https://app.surveystack.io/surveys/60da1692e5a5180001008566"
-        className={styles.surveyFrame}
-      />
+      <RegisteredCertifierQuestionsSurvey />
+      {/* <RegisteredCertifierNoQuestionsSurvey /> */}
+      {/* <UnregisteredCertifierSurvey /> */}
     </Layout>
   );
 };

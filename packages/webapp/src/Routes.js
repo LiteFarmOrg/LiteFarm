@@ -234,12 +234,6 @@ const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
 const CertificationReportingPeriod = React.lazy(() =>
   import('./containers/Certifications/ReportingPeriod'),
 );
-const CertificationContactCertifierFailed = React.lazy(() =>
-  import('./containers/Certifications/ContactCertifierFailed'),
-);
-const CertificationAllInfoReady = React.lazy(() =>
-  import('./containers/Certifications/AllInfoReady'),
-);
 const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
 
 const Routes = () => {
@@ -504,21 +498,11 @@ const Routes = () => {
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
             <Route
-              path="/certifications/report_period"
+              path="/certification/report_period"
               exact
               component={CertificationReportingPeriod}
             />
-            <Route
-              path="/certifications/contact_certifier_failed"
-              exact
-              component={CertificationContactCertifierFailed}
-            />
-            <Route
-              path="/certifications/all_info_ready"
-              exact
-              component={CertificationAllInfoReady}
-            />
-            <Route path="/certifications/survey" exact component={CertificationSurvey} />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -721,20 +705,11 @@ const Routes = () => {
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
             <Route
-              path="/certifications/report_period"
+              path="/certification/report_period"
               exact
               component={CertificationReportingPeriod}
             />
-            <Route
-              path="/certifications/contact_certifier_failed"
-              exact
-              component={CertificationContactCertifierFailed}
-            />
-            <Route
-              path="/certifications/all_info_ready"
-              exact
-              component={CertificationAllInfoReady}
-            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

@@ -1247,5 +1247,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "PREPARING_EXPORT": {
+    "TITLE": "Your export is being prepared",
+    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes..."
   }
 }

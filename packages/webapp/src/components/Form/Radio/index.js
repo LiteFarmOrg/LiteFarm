@@ -23,7 +23,7 @@ const Radio = ({
     >
       <input
         name={name}
-        ref={hookFormRegister?.ref || inputRef}
+        ref={inputRef}
         onChange={(e) => {
           onChange?.(e);
           hookFormRegister?.onChange(e);

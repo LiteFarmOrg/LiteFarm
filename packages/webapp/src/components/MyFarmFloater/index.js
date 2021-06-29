@@ -14,6 +14,7 @@ export function PureMyFarmFloaterComponent({
   farmInfo,
   farmMap,
   people,
+  certification,
   isIntroducingFarmMap,
   isAdmin,
 }) {
@@ -50,10 +51,11 @@ export function PureMyFarmFloaterComponent({
       />
       {isAdmin && (
         <ListOption
-          clickFn={farmMap}
+          clickFn={certification}
           iconText={t('MY_FARM.CERTIFICATIONS')}
-          icon={<CertificationsIcon />}
+          icon={<CertificationsIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
           customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
+          customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
         />
       )}
     </div>
@@ -66,6 +68,7 @@ export default function PureMyFarmFloater({
   farmInfoClick,
   farmMapClick,
   peopleClick,
+  certificationClick,
   isIntroducingFarmMap,
 }) {
   const { is_admin } = useSelector(userFarmSelector);
@@ -74,6 +77,7 @@ export default function PureMyFarmFloater({
       farmInfo={farmInfoClick}
       farmMap={farmMapClick}
       people={peopleClick}
+      certification={certificationClick}
       isIntroducingFarmMap={isIntroducingFarmMap}
       isAdmin={is_admin}
     />

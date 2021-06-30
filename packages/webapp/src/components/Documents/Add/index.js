@@ -143,7 +143,7 @@ function PureDocumentDetailView({
         name={NAME}
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
-        classes={{ container: { paddingBottom: '32px' } }}
+        classes={{ container: { paddingBottom: '40px' } }}
         errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller

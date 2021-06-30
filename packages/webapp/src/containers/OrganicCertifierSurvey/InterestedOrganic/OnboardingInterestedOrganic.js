@@ -12,7 +12,7 @@ export default function OnboardingInterestedOrganic() {
   const onSubmit = (data) => {
     const interested = data.interested;
     const callback = () =>
-      interested ? history.push('/certification_selection') : history.push('/outro');
+      interested ? history.push('/certification/selection') : history.push('/outro');
     if (survey.survey_id) {
       dispatch(patchInterested({ interested, callback }));
     } else {

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import VideoLogo from '../../../assets/images/map/video.svg';
 import clsx from 'clsx';
 
-export default function PureMapHeader({ className, style, farmName, showVideo }) {
+export default function PureMapHeader({ className, style, farmName, showVideo, isAdmin }) {
   const { t } = useTranslation();
 
   return (
@@ -15,7 +15,9 @@ export default function PureMapHeader({ className, style, farmName, showVideo })
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      <input type="image" src={VideoLogo} className={styles.button} onClick={showVideo} />
+      {isAdmin && (
+        <input type="image" src={VideoLogo} className={styles.button} onClick={showVideo} />
+      )}
     </div>
   );
 }

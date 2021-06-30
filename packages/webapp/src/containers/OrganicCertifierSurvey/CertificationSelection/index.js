@@ -9,10 +9,10 @@ import {
 import history from '../../../history';
 import {
   allCertificationTypesSelector,
-  selectedCertificationSelector,
-  selectedCertification,
-  finishedSelectingCertificationType,
   allCertifierTypesSelector,
+  finishedSelectingCertificationType,
+  selectedCertification,
+  selectedCertificationSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 
@@ -48,17 +48,17 @@ export default function CertificationSelection() {
 
     const callback = () => {
       !certification.certificationID
-        ? history.push('/requested_certifier')
+        ? history.push('/certification/certifier/request')
         : allSupportedCertifiers.length === 0
-        ? history.push('/requested_certifier')
-        : history.push('/certifier_selection_menu');
+        ? history.push('/certification/certifier/request')
+        : history.push('/certification/certifier/selection');
     };
 
     dispatch(patchRequestedCertification({ data, callback }));
   };
 
   const onGoBack = () => {
-    history.push('/interested_in_organic');
+    history.push('/certification/interested_in_organic');
   };
 
   return (

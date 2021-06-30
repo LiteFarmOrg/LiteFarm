@@ -6,10 +6,10 @@ import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { patchOutroStep } from './saga';
 import {
   finishedSelectingCertificationTypeSelector,
+  requestedCertifier,
   requestedCertifierSelector,
   selectedCertification,
   selectedCertifier,
-  requestedCertifier,
 } from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -23,10 +23,10 @@ function Outro() {
   const onGoBack = () => {
     history.push(
       !survey.interested || !selected
-        ? '/interested_in_organic'
+        ? '/certification/interested_in_organic'
         : requestCertifierData
-        ? '/requested_certifier'
-        : '/certifier_selection_menu',
+        ? '/certification/certifier/request'
+        : '/certification/certifier/selection',
     );
   };
   const onContinue = () => {
@@ -48,7 +48,13 @@ function Outro() {
     dispatch(patchOutroStep());
   };
 
-  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} toShowSpotlight={toShowSpotlight} />;
+  return (
+    <PureOutroSplash
+      onGoBack={onGoBack}
+      onContinue={onContinue}
+      toShowSpotlight={toShowSpotlight}
+    />
+  );
 }
 
 export default Outro;

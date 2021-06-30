@@ -28,7 +28,7 @@ export default function CertifierSelectionMenu() {
   const onSubmit = () => {
     dispatch(requestedCertifier(null));
     dispatch(loadSummary(true));
-    const callback = () => history.push('certification_summary');
+    const callback = () => history.push('/certification/summary');
     let data = {
       requested_certifier: null,
       certifier_id: certifierType.certifierID,
@@ -38,7 +38,7 @@ export default function CertifierSelectionMenu() {
   };
 
   const onBack = () => {
-    history.push('/certification_selection');
+    history.push('/certification/selection');
   };
 
   return (

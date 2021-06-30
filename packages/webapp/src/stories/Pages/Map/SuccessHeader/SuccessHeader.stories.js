@@ -1,15 +1,15 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
-import PureMapSuccessHeader from '../../../../components/Map/SuccessHeader/';
+import { PureSnackbarWithoutBorder } from '../../../../components/PureSnackbar/';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Components/Map/SuccessHeader',
-  component: PureMapSuccessHeader,
+  component: PureSnackbarWithoutBorder,
   decorators: componentDecoratorsWithoutPadding,
 };
 
-const Template = (args) => <PureMapSuccessHeader {...args} />;
+const Template = (args) => <PureSnackbarWithoutBorder {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

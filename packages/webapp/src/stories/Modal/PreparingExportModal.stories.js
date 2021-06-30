@@ -3,7 +3,6 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { componentDecorators } from '../Pages/config/decorators';
 import { chromaticSmallScreen } from '../Pages/config/chromatic';
 
-
 export default {
   title: 'Components/Modals/PreparingExportModal',
   decorators: componentDecorators,
@@ -13,8 +12,7 @@ export default {
 const Template = (args) => <PreparingExportModal {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {
-};
+Primary.args = {};
 
 Primary.parameters = {
   ...chromaticSmallScreen,

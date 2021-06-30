@@ -29,14 +29,16 @@ export default function EditDocument({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    dispatch(updateDocument({
-      document_id: document_id,
-      documentData: data
-    }));
+    dispatch(
+      updateDocument({
+        document_id: document_id,
+        documentData: data,
+      }),
+    );
   };
 
   const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ thumbnail_url: url }));
+    dispatch(deleteUploadedFile({ url }));
   };
 
   return (

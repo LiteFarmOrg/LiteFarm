@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PureDocumentDetailView from '../../../components/Documents/Add';
 import { useDispatch } from 'react-redux';
 import { deleteUploadedFile } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -23,7 +23,7 @@ function AddDocument({ history }) {
   };
 
   const deleteImage = (url) => {
-    dispatch(deleteUploadedFile({ thumbnail_url: url }));
+    dispatch(deleteUploadedFile({ url }));
   };
 
   return (

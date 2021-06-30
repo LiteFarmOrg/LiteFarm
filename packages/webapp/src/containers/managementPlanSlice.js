@@ -70,20 +70,11 @@ const managementPlanSlice = createSlice({
     onLoadingManagementPlanStart: onLoadingStart,
     onLoadingManagementPlanFail: onLoadingFail,
     getManagementPlansSuccess: addManyManagementPlan,
-    postManagementPlanSuccess: addOneManagementPlan,
-    putManagementPlanSuccess(state, { payload: managementPlan }) {
-      managementPlanAdapter.updateOne(state, {
-        changes: managementPlan,
-        id: managementPlan.management_plan_id,
-      });
-    },
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
   },
 });
 export const {
   getManagementPlansSuccess,
-  postManagementPlanSuccess,
-  putManagementPlanSuccess,
   onLoadingManagementPlanStart,
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
@@ -120,7 +111,9 @@ const getPlantingTypeSelector = (plantingTypeEntitySelector) =>
         const plantingType = plantingTypeEntities[management_plan_id];
         const management_plan = managementPlanEntities[management_plan_id];
         const crop_variety = cropVarietyEntities[management_plan.crop_variety_id] ?? {};
-        const crop = cropVarietyEntities[management_plan.crop_variety_id] ? cropEntities[crop_variety.crop_id] : {};
+        const crop = cropVarietyEntities[management_plan.crop_variety_id]
+          ? cropEntities[crop_variety.crop_id]
+          : {};
         const location = cropLocationEntities[plantingType.location_id];
         const transplant_container = transplantContainerEntities[management_plan_id];
         entities[management_plan_id] = {

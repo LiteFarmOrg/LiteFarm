@@ -10,6 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';
 
 function PureDocumentDetailView({
@@ -71,14 +72,19 @@ function PureDocumentDetailView({
   });
 
   const submitWithFiles = (data) => {
+    const getDocumentThumbnailUrl = (files) => {
+      for (const file of files) {
+        if (file.thumbnail_url) return file.thumbnail_url;
+      }
+      return undefined;
+    };
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
     submit({
       ...data,
-      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
-        file_name: `${data.name}_i`,
       })),
       valid_until: validUntil,
     });
@@ -89,8 +95,11 @@ function PureDocumentDetailView({
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
+  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
+  const onFileUpdateEnd = () => {
+    setIsFilesUpdated(true);
+  };
 
-  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
   const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
     !isEdit && !uploadedFiles?.length,
   );
@@ -100,12 +109,9 @@ function PureDocumentDetailView({
   useEffect(() => {
     uploadedFiles?.length && setShouldShowLoadingImage(false);
   }, [uploadedFiles?.length]);
-  const onUploadEnd = () => {
-    setIsFirstUploadEnded(true);
-  };
 
   const disabled = isEdit
-    ? !isValid || !(isDirty || isFirstUploadEnded)
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
     : !isValid || uploadedFiles?.length === 0;
 
   return (
@@ -182,7 +188,7 @@ function PureDocumentDetailView({
           rowGap: '24px',
         }}
       >
-        {uploadedFiles?.map(({ thumbnail_url }, index) => (
+        {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
           <div key={thumbnail_url}>
             <div
               style={{
@@ -194,17 +200,26 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnail_url)}
+              onClick={() => {
+                deleteImage(url);
+                onFileUpdateEnd();
+              }}
             >
               <TrashIcon />
             </div>
-
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', top: '-24px', zIndex: 0 },
-              height: '100%',
-              src: thumbnail_url,
-            })}
+            {thumbnail_url ? (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                height: '100%',
+                src: thumbnail_url,
+              })
+            ) : (
+              <CertifierSelectionMenuItem
+                certifierName={file_name}
+                style={{ position: 'relative', top: '-24px', zIndex: 0 }}
+              />
+            )}
           </div>
         ))}
         {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
@@ -214,7 +229,7 @@ function PureDocumentDetailView({
           style: { paddingBottom: '32px' },
           linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
           onUpload,
-          onUploadEnd,
+          onUploadEnd: onFileUpdateEnd,
         })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}

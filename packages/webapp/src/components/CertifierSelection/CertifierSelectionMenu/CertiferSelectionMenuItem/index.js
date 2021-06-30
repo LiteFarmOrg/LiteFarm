@@ -4,6 +4,8 @@ import Card from '../../../Card';
 import { Semibold } from '../../../Typography';
 import { colors } from '../../../../assets/theme';
 
+// TODO: CERTIFIER TILE
+
 const CertifierSelectionMenuItem = ({
   color = 'secondary',
   certifierName = 'Certifier name',

@@ -24,6 +24,12 @@
     "BODY": "MISSING"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "CHANGE_CERT": "MISSING",
+      "NO_LONGER_WORKING": "MISSING",
+      "TITLE_ONE": "MISSING",
+      "TITLE_TWO": "MISSING"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
       "SUBTITLE_ONE": "Esta es una lista de certificadores de",
@@ -905,6 +911,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",
@@ -961,6 +968,10 @@
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "MISSING",
+    "TITLE": "MISSING"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ayuda",
@@ -1247,9 +1258,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
-  },
-  "PREPARING_EXPORT": {
-    "TITLE": "MISSING",
-    "MESSAGE": "MISSING"
   }
 }

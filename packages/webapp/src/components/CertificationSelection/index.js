@@ -8,6 +8,8 @@ import Infoi from '../Tooltip/Infoi';
 import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
 
+// TODO: WHAT TYPE OF CERTIFICATION?
+
 export default function PureCertificationSelection({
   onSubmit,
   inputClasses = {},

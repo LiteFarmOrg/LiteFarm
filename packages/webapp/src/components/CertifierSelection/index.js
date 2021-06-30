@@ -8,6 +8,8 @@ import Input from '../Form/Input';
 import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
 
+// TODO: WHO IS YOUR CERTIFIER?
+
 export default function PureCertifierSelectionScreen({
   allSupportedCertifiers,
   history,

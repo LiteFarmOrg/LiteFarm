@@ -29,7 +29,7 @@ const addOneDocument = (state, { payload }) => {
 const updateOneDocument = (state, { payload }) => {
   state.loading = false;
   state.error = null;
-  documentAdapter.updateOne(state, getDocument(payload));
+  documentAdapter.upsertOne(state, getDocument(payload));
 };
 
 const addManyDocument = (state, { payload: documents }) => {

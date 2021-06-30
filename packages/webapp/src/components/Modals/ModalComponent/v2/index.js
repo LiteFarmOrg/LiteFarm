@@ -32,7 +32,13 @@ export default function ModalComponent({
               gap: '8px',
             }}
           >
-            {icon || ((warning || error) && <VscWarning style={{marginTop : '1px'}} />)} {title}{' '}
+            {(warning || error) && <VscWarning style={{ marginTop: '1px' }} />}
+            {icon && (
+                icon
+              )
+            }
+            {title}
+            {' '}
             {/* todo: have different icons between error and warning modals */}
           </Semibold>
         )}

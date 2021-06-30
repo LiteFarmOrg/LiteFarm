@@ -5,7 +5,7 @@ import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { archiveDocumentSuccess, postDocumentSuccess } from '../documentSlice';
+import { archiveDocumentSuccess, postDocumentSuccess, putDocumentSuccess } from '../documentSlice';
 import history from '../../history';
 
 export const postDocument = createAction(`postDocumentSaga`);
@@ -51,7 +51,30 @@ export function* archiveDocumentSaga({ payload: document_id }) {
   }
 }
 
+export const updateDocument = createAction(`updateDocumentSaga`);
+
+export function* updateDocumentSaga({ payload: {document_id, documentData} }) {
+  const { documentUrl } = apiConfig;
+  let {user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.put,
+      `${documentUrl}/${document_id}`,
+      { ...documentData, farm_id },
+      header,
+    );
+    yield put(putDocumentSuccess(result.data));
+    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.UPDATE'));
+    history.push('/documents');
+  } catch (e) {
+    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.UPDATE'));
+    console.log(e);
+  }
+}
+
 export default function* documentSaga() {
   yield takeLeading(postDocument.type, postDocumentSaga);
   yield takeLeading(archiveDocument.type, archiveDocumentSaga);
+  yield takeLeading(updateDocument.type, updateDocumentSaga);
 }

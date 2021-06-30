@@ -9,11 +9,12 @@ import { createSelector } from 'reselect';
 import { pick } from '../../util';
 
 const certifierProperties = [
-  'certification_type',
+  'certification_id',
   'certifier_acronym',
   'certifier_id',
   'certifier_name',
   'country_id',
+  'certifier_country_id',
 ];
 
 const getCertifier = (certifier) => {
@@ -21,7 +22,7 @@ const getCertifier = (certifier) => {
 };
 
 const certifierAdapter = createEntityAdapter({
-  selectId: (certifier) => certifier.certifier_id,
+  selectId: (certifier) => certifier.certifier_country_id,
 });
 
 const certifierSlice = createSlice({
@@ -60,8 +61,15 @@ export const certifiersSelector = createSelector(
   },
 );
 
-export const certifierSelector = (certifier_id) =>
-  createSelector(certifierEntitiesSelector, (entities) => entities[certifier_id]);
+export const certifiersByCertificationSelector = (certification_id) =>
+  createSelector(certifiersSelector, (certifiers) =>
+    certifiers.filter((certifier) => {
+      return certifier.certification_id === certification_id;
+    }),
+  );
+
+export const certifierSelector = (certifier_country_id) =>
+  createSelector(certifierEntitiesSelector, (entities) => entities[certifier_country_id]);
 
 export const certifierStatusSelector = createSelector(
   [certifierReducerSelector],

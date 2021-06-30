@@ -84,7 +84,7 @@ const certifierType = {
 };
 const certificationType = {
   certificationName: 'Organic',
-  certificationID: 1,
+  certification_id: 1,
   requestedCertification: null,
 };
 

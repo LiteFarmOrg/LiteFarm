@@ -31,7 +31,7 @@ export default function PureCertificationSelection({
   });
   const SELECTION = 'selection';
   const [selectionName, setSelectionName] = useState(certification.certificationName || null);
-  const [selectionID, setSelectionID] = useState(certification.certificationID || null);
+  const [selectionID, setSelectionID] = useState(certification.certification_id || null);
   const REQUESTED = 'requested';
   const [requested, setRequested] = useState(certification.requestedCertification || null);
 
@@ -42,7 +42,7 @@ export default function PureCertificationSelection({
       dispatch(
         selectedCertification({
           certificationName: selectionName,
-          certificationID: selectionID,
+          certification_id: selectionID,
           requestedCertification: requested,
         }),
       );

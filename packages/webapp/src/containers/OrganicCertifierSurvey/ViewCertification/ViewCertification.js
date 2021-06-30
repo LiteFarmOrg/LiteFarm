@@ -1,28 +1,21 @@
 import { useSelector } from 'react-redux';
-import {
-  allCertificationTypesSelector,
-  allCertifierTypesSelector,
-  requestedCertifierSelector,
-  selectedCertificationSelector,
-  selectedCertifierSelector,
-} from '../organicCertifierSurveySlice';
+import { selectedCertificationSelector } from '../organicCertifierSurveySlice';
 import { certifierSurveySelector } from '../slice';
 import { PureViewNotInterestedInCertification } from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
 import { PureViewUnsupportedCertification } from '../../../components/ViewCertification/PureViewUnsupportedCertification';
 import { PureViewSupportedCertification } from '../../../components/ViewCertification/PureViewSupportedCertification';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function ViewCertification({ history }) {
   const { interested } = useSelector(certifierSurveySelector);
-  const certifierType = useSelector(selectedCertifierSelector);
-  const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certificationType = useSelector(selectedCertificationSelector);
-  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
-  const selectedCertificationTranslation = allSupportedCertificationTypes.find(
-    (cert) => cert.certification_id === certificationType.certificationID,
-  )?.certification_translation_key;
-  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
+
+  const certification = useSelector(selectedCertificationSelector);
+
+  const allSupportedCertifierTypes = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
   const isNotSupported =
-    certificationType.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
+    certification.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
   const onExport = () => {};
   const onAddCertification = () => history.push('/certification/interested_in_organic');
   const onChangePreference = onAddCertification;

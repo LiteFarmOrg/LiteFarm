@@ -4,17 +4,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllSupportedCertifications, patchRequestedCertifiers } from '../saga';
 import history from '../../../history';
 import {
-  allCertifierTypesSelector,
   requestedCertifier,
   requestedCertifierSelector,
   selectedCertificationSelector,
 } from '../organicCertifierSurveySlice';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function RequestCertifier() {
   const dispatch = useDispatch();
   const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certificationType = useSelector(selectedCertificationSelector);
-  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
+  const certification = useSelector(selectedCertificationSelector);
+  const allSupportedCertifierTypes = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
@@ -30,7 +32,7 @@ export default function RequestCertifier() {
   };
 
   const onGoBack = () => {
-    certificationType.certificationName === 'Other'
+    certification.certificationName === 'Other'
       ? history.push('/certification/selection')
       : allSupportedCertifierTypes.length < 1
       ? history.push('/certification/selection')
@@ -45,7 +47,7 @@ export default function RequestCertifier() {
         requestedCertifier={requestedCertifier}
         requestedCertifierData={requestedCertifierData}
         dispatch={dispatch}
-        certificationType={certificationType}
+        certificationType={certification}
         allSupportedCertifierTypes={allSupportedCertifierTypes}
       />
     </>

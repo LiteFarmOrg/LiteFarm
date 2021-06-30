@@ -33,7 +33,7 @@ function Outro() {
     dispatch(
       selectedCertification({
         certificationName: null,
-        certificationID: null,
+        certification_id: null,
         requestedCertification: null,
       }),
     );

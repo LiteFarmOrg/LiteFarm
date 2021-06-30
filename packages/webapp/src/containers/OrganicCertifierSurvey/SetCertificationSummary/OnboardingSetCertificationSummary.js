@@ -4,30 +4,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { patchStepFour } from '../saga';
 import history from '../../../history';
 import {
-  allCertificationTypesSelector,
-  allCertifierTypesSelector,
   requestedCertifierSelector,
   selectedCertificationSelector,
   selectedCertifierSelector,
 } from '../organicCertifierSurveySlice';
+import { certificationsSelector } from '../certificationSlice';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function OnboardingSetCertificationSummary() {
   const dispatch = useDispatch();
   const certifierType = useSelector(selectedCertifierSelector);
   const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certificationType = useSelector(selectedCertificationSelector);
-  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+  const certification = useSelector(selectedCertificationSelector);
+  const allSupportedCertificationTypes = useSelector(certificationsSelector);
   const selectedCertificationTranslation = allSupportedCertificationTypes.find(
-    (cert) => cert.certification_id === certificationType.certificationID,
+    (cert) => cert.certification_id === certification.certification_id,
   )?.certification_translation_key;
-  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
-
+  const allSupportedCertifierTypes = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
   const onSubmit = () => {
     dispatch(patchStepFour());
   };
 
   const onGoBack = () => {
-    certificationType.certificationName === 'Other'
+    certification.certificationName === 'Other'
       ? history.push('/certification/certifier/request')
       : allSupportedCertifierTypes.length < 1
       ? history.push('/certification/certifier/request')
@@ -42,7 +43,7 @@ export default function OnboardingSetCertificationSummary() {
         onSubmit={onSubmit}
         onGoBack={onGoBack}
         allSupportedCertificationTypes={allSupportedCertificationTypes}
-        certificationType={certificationType}
+        certificationType={certification}
         certificationTranslation={selectedCertificationTranslation}
       />
     </>

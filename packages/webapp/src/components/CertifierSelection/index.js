@@ -27,7 +27,7 @@ export default function PureCertifierSelectionScreen({
   const disabled = !selectedCertifierId;
   const isSearchable = allSupportedCertifiers.length >= 2;
   const selectedCertificationTranslation = allSupportedCertificationTypes.find(
-    (cert) => cert.certification_id === certificationType.certificationID,
+    (cert) => cert.certification_id === certificationType.certification_id,
   )?.certification_translation_key;
   const onFilterChange = (e) => {
     setFilter(e.target.value);

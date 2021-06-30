@@ -8,30 +8,31 @@ import {
 } from '../saga';
 import history from '../../../history';
 import {
-  allCertificationTypesSelector,
-  allCertifierTypesSelector,
   finishedSelectingCertificationType,
   selectedCertification,
   selectedCertificationSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
+import { certificationsSelector } from '../certificationSlice';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function CertificationSelection() {
   const dispatch = useDispatch();
-  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+  const allSupportedCertificationTypes = useSelector(certificationsSelector);
   const certification = useSelector(selectedCertificationSelector);
   const role = useSelector(userFarmSelector);
-  const allSupportedCertifiers = useSelector(allCertifierTypesSelector);
-
+  const allSupportedCertifiers = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
   }, [dispatch]);
 
   useEffect(() => {
-    if (certification.certificationID) {
-      dispatch(getAllSupportedCertifiers(certification.certificationID));
+    if (certification.certification_id) {
+      dispatch(getAllSupportedCertifiers(certification.certification_id));
     }
-  }, [certification.certificationID]);
+  }, [certification.certification_id]);
 
   const onSubmit = () => {
     dispatch(finishedSelectingCertificationType(true));
@@ -40,14 +41,14 @@ export default function CertificationSelection() {
       requested_certification: null,
       certification_id: null,
     };
-    if (!certification.certificationID) {
+    if (!certification.certification_id) {
       data.requested_certification = certification.requestedCertification;
     } else {
-      data.certification_id = certification.certificationID;
+      data.certification_id = certification.certification_id;
     }
 
     const callback = () => {
-      !certification.certificationID
+      !certification.certification_id
         ? history.push('/certification/certifier/request')
         : allSupportedCertifiers.length === 0
         ? history.push('/certification/certifier/request')

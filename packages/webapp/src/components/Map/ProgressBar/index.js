@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { colors } from '../../../assets/theme';
 
 const useStyles = makeStyles({
   root: {
@@ -9,12 +10,15 @@ const useStyles = makeStyles({
   colorPrimary: {
     backgroundColor: 'transparent',
   },
-  barColorPrimary: {
-    backgroundColor: '#037A0F',
+  success: {
+    backgroundColor: colors.brightGreen700,
+  },
+  error: {
+    backgroundColor: colors.red700,
   },
 });
 
-export default function ProgressBar({ closeSuccessHeader }) {
+export default function ProgressBar({ onDismiss, type = 'success' }) {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
 
@@ -22,7 +26,7 @@ export default function ProgressBar({ closeSuccessHeader }) {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
-          closeSuccessHeader();
+          onDismiss();
           return 0;
         }
         const diff = Math.random() * 28;
@@ -42,7 +46,7 @@ export default function ProgressBar({ closeSuccessHeader }) {
         value={progress}
         classes={{
           colorPrimary: classes.colorPrimary,
-          barColorPrimary: classes.barColorPrimary,
+          barColorPrimary: classes[type],
         }}
       />
     </div>

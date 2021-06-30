@@ -5,8 +5,14 @@ import { ReactComponent as Cross } from '../../assets/images/map/cross.svg';
 import { ReactComponent as Checkmark } from '../../assets/images/map/checkmark.svg';
 import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
+import { VscWarning } from 'react-icons/all';
 
-export function PureSnackbarWithoutBorder({ className, onDismiss, title }) {
+function Icon({ type }) {
+  if (type === 'success') return <Checkmark className={styles.button} />;
+  if (type === 'error') return <VscWarning className={styles.errorIcon} />;
+}
+
+export function PureSnackbarWithoutBorder({ className, onDismiss, title, type = 'success' }) {
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
   return (
@@ -17,7 +23,7 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title }) {
     >
       <div className={clsx(styles.contentContainer)}>
         <div className={styles.headerText}>
-          <Checkmark className={styles.button} />
+          <Icon type={type} />
           <span style={{ paddingLeft: '10px' }}>{title}</span>
         </div>
         <div style={{ paddingTop: '5px' }}>
@@ -25,7 +31,7 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title }) {
         </div>
       </div>
       <div className={styles.progressBarContainer}>
-        {!dismissProgressBar && <ProgressBar closeSuccessHeader={onDismiss} />}
+        {!dismissProgressBar && <ProgressBar type={type} onDismiss={onDismiss} />}
       </div>
     </div>
   );
@@ -33,7 +39,7 @@ export function PureSnackbarWithoutBorder({ className, onDismiss, title }) {
 
 export const PureSnackbar = forwardRef(({ message, type, onDismiss }, ref) => (
   <div className={clsx(styles.container, styles[type])} ref={ref}>
-    <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} />
+    <PureSnackbarWithoutBorder title={message} onDismiss={onDismiss} type={type} />
   </div>
 ));
 
@@ -42,10 +48,11 @@ PureSnackbarWithoutBorder.prototype = {
   title: PropTypes.string,
   farmName: PropTypes.string,
   closeSuccessHeader: PropTypes.func,
+  type: PropTypes.oneOf(['success', 'error']),
 };
 
 PureSnackbar.prototype = {
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['success', 'error']),
   message: PropTypes.string,
   onDismiss: PropTypes.func,
 };

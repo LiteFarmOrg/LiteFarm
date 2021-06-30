@@ -10,6 +10,7 @@ import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { documentSelector } from '../../documentSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { DocumentUploader } from '../DocumentUploader';
+import { updateDocument } from '../saga';
 
 export default function EditDocument({ history, match }) {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function EditDocument({ history, match }) {
 
   const document = useSelector(documentSelector(document_id));
   const { uploadedFiles } = useSelector(hookFormPersistSelector);
+
   useEffect(() => {
     if (!uploadedFiles) {
       dispatch(initEditDocument(document.files));
@@ -27,8 +29,12 @@ export default function EditDocument({ history, match }) {
   };
 
   const onSubmit = (data) => {
-    // TODO - Add functionality to PATCH
-    console.log('Patch data to document');
+    dispatch(
+      updateDocument({
+        document_id: document_id,
+        documentData: data,
+      }),
+    );
   };
 
   const deleteImage = (url) => {

@@ -54,7 +54,6 @@ export default function RadioGroup({
                 field?.onBlur?.(YES);
                 onBlur?.({ target: { value: YES } });
               }}
-              inputRef={field.ref}
               value={YES}
               {...props}
             />
@@ -70,7 +69,6 @@ export default function RadioGroup({
                 field?.onBlur?.(NO);
                 onBlur?.({ target: { value: NO } });
               }}
-              inputRef={field.ref}
               value={NO}
               {...props}
             />
@@ -87,7 +85,6 @@ export default function RadioGroup({
                   field?.onBlur?.(NOT_SURE);
                   onBlur?.({ target: { value: NOT_SURE } });
                 }}
-                inputRef={field.ref}
                 value={NOT_SURE}
                 {...props}
               />
@@ -109,7 +106,6 @@ export default function RadioGroup({
               field?.onBlur?.(radioOptions.value);
               onBlur?.({ target: { value: radioOptions.value } });
             }}
-            inputRef={field.ref}
             value={field.value}
             {...props}
             {...radioOptions}

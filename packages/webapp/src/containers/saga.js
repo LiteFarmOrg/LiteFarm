@@ -377,9 +377,11 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   }
   for (const plantingTypePascal in plantingTypeActionMap) {
     try {
-      yield put(
-        plantingTypeActionMap[plantingTypePascal].success(plantingMethods[plantingTypePascal]),
-      );
+      if (plantingMethods[plantingTypePascal]?.length) {
+        yield put(
+          plantingTypeActionMap[plantingTypePascal].success(plantingMethods[plantingTypePascal]),
+        );
+      }
     } catch (e) {
       yield put(plantingTypeActionMap[plantingTypePascal].fail(e));
       console.log(e);

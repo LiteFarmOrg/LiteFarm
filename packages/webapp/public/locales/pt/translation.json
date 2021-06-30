@@ -926,6 +926,7 @@
     "TRANSPLANT_LOCATION": "MISSING"
   },
   "MY_FARM": {
+    "CERTIFICATIONS": "MISSING",
     "FARM_INFO": "Informação da fazenda",
     "FARM_MAP": "Mapa de fazenda/sitio",
     "PEOPLE": "Pessoas"
@@ -1246,5 +1247,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
+  },
+  "PREPARING_EXPORT": {
+    "TITLE": "MISSING",
+    "MESSAGE": "MISSING"
   }
 }

@@ -2,10 +2,13 @@ import { useSelector } from 'react-redux';
 import PureCropManagement from '../../../components/Crop/management';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
+import { currentAndPlannedManagementPlansByCropVarietySelector } from '../../managementPlanSlice';
 
 function CropManagement({ history, match }) {
   const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
-
+  const currentManagementPlans = useSelector(
+    currentAndPlannedManagementPlansByCropVarietySelector(match.params.variety_id),
+  );
   const goBack = () => {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
   };

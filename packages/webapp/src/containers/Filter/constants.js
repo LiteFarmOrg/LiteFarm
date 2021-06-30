@@ -15,3 +15,4 @@ export const PEST_CONTROL_PRODUCT = 'PEST_CONTROL_PRODUCT';
 export const SOIL_AMENDMENT = 'SOIL_AMENDMENT';
 export const OTHER = 'OTHER';
 export const VALID_ON = 'VALID_ON';
+export const UNCATEGORIZED = 'UNCATEGORIZED';

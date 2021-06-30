@@ -17,15 +17,12 @@ import { toastr } from 'react-redux-toastr';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
-import { axios, getHeader } from '../../../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccess } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
-  getManagementPlansSuccess,
   onLoadingManagementPlanFail,
   onLoadingManagementPlanStart,
-  postManagementPlanSuccess,
-  putManagementPlanSuccess,
 } from '../../../managementPlanSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
@@ -42,7 +39,7 @@ export function* getExpiredManagementPlansSaga() {
   try {
     yield put(onLoadingManagementPlanStart());
     const result = yield call(axios.get, managementPlanURL + '/expired/farm/' + farm_id, header);
-    yield put(getManagementPlansSuccess(result.data));
+    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
   } catch (e) {
     yield put(onLoadingManagementPlanFail());
     console.error('failed to fetch expired crops from database');
@@ -62,7 +59,7 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
       managementPlan,
       header,
     );
-    yield put(postManagementPlanSuccess(result.data));
+    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
     history.push(`/crop/${managementPlan.crop_variety_id}/management`);
     toastr.success(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'));
   } catch (e) {
@@ -85,7 +82,7 @@ export function* putManagementPlanSaga({ payload: managementPlan }) {
       managementPlan,
       header,
     );
-    yield put(putManagementPlanSuccess(managementPlan));
+    yield put(getManagementPlanAndPlantingMethodSuccess([managementPlan]));
     toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
   } catch (e) {
     console.log('Failed to add managementPlan to database');

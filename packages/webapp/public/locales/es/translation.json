@@ -64,7 +64,9 @@
     "VIEW_CERTIFICATION": {
       "ADD_CERTIFICATION": "MISSING",
       "CHANGE_PREFERENCE": "MISSING",
-      "EXPORT": "MISSING"
+      "EXPORT": "MISSING",
+      "NO_SUPPORT_FIRST": "MISSING",
+      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },

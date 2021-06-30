@@ -21,7 +21,7 @@ export default function UpdateInterestedOrganic() {
   };
 
   const onGoBack = () => {
-    history.push('/consent');
+    history.push('/view_certification');
   };
 
   return (

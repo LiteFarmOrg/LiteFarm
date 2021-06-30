@@ -64,7 +64,9 @@
     "VIEW_CERTIFICATION": {
       "ADD_CERTIFICATION": "Add a certification",
       "CHANGE_PREFERENCE": "Change your certification preferences",
-      "EXPORT": "Export"
+      "EXPORT": "Export",
+      "NO_SUPPORT_FIRST": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or ",
+      "NO_SUPPORT_SECOND": " to see if there are new certifiers available in your area."
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },

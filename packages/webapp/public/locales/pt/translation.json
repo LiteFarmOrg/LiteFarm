@@ -64,7 +64,9 @@
     "VIEW_CERTIFICATION": {
       "ADD_CERTIFICATION": "MISSING",
       "CHANGE_PREFERENCE": "MISSING",
-      "EXPORT": "MISSING"
+      "EXPORT": "MISSING",
+      "NO_SUPPORT_FIRST": "MISSING",
+      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },

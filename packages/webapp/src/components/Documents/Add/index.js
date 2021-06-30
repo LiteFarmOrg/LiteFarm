@@ -201,7 +201,7 @@ function PureDocumentDetailView({
                 zIndex: 10,
               }}
               onClick={() => {
-                deleteImage(thumbnail_url);
+                deleteImage(url);
                 onFileUpdateEnd();
               }}
             >

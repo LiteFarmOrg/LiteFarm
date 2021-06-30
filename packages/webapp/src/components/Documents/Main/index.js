@@ -50,7 +50,17 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
         />
       )}
 
-      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '32px' }}>
+      <div
+        style={{
+          width: '312px',
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '24px',
+          margin: 'auto',
+          paddingBottom: '32px',
+        }}
+      >
         {document.files?.map(({ thumbnail_url, file_name, url }) => (
           <>
             {thumbnail_url ? (

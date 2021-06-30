@@ -53,9 +53,9 @@ export function* archiveDocumentSaga({ payload: document_id }) {
 
 export const updateDocument = createAction(`updateDocumentSaga`);
 
-export function* updateDocumentSaga({ payload: {document_id, documentData} }) {
+export function* updateDocumentSaga({ payload: { document_id, documentData } }) {
   const { documentUrl } = apiConfig;
-  let {user_id, farm_id } = yield select(loginSelector);
+  let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(

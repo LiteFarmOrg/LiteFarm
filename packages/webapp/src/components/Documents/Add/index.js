@@ -10,6 +10,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';
 
 function PureDocumentDetailView({
@@ -71,14 +72,19 @@ function PureDocumentDetailView({
   });
 
   const submitWithFiles = (data) => {
+    const getDocumentThumbnailUrl = (files) => {
+      for (const file of files) {
+        if (file.thumbnail_url) return file.thumbnail_url;
+      }
+      return undefined;
+    };
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
     submit({
       ...data,
-      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
-        file_name: `${data.name}_i`,
       })),
       valid_until: validUntil,
     });
@@ -137,7 +143,7 @@ function PureDocumentDetailView({
         name={NAME}
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
-        classes={{ container: { paddingBottom: '32px' } }}
+        classes={{ container: { paddingBottom: '40px' } }}
         errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
@@ -182,7 +188,7 @@ function PureDocumentDetailView({
           rowGap: '24px',
         }}
       >
-        {uploadedFiles?.map(({ thumbnail_url }, index) => (
+        {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
           <div key={thumbnail_url}>
             <div
               style={{
@@ -195,19 +201,25 @@ function PureDocumentDetailView({
                 zIndex: 10,
               }}
               onClick={() => {
-                deleteImage(thumbnail_url);
+                deleteImage(url);
                 onFileUpdateEnd();
               }}
             >
               <TrashIcon />
             </div>
-
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', top: '-24px', zIndex: 0 },
-              height: '100%',
-              src: thumbnail_url,
-            })}
+            {thumbnail_url ? (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                height: '100%',
+                src: thumbnail_url,
+              })
+            ) : (
+              <CertifierSelectionMenuItem
+                certifierName={file_name}
+                style={{ position: 'relative', top: '-24px', zIndex: 0 }}
+              />
+            )}
           </div>
         ))}
         {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}

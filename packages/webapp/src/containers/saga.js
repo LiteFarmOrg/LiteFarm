@@ -137,14 +137,16 @@ axios.interceptors.response.use(
   },
 );
 
-export function getHeader(user_id, farm_id) {
+export function getHeader(user_id, farm_id, { headers, ...props } = {}) {
   return {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + localStorage.getItem('id_token'),
       user_id,
       farm_id,
+      ...headers,
     },
+    ...props,
   };
 }
 

@@ -1,88 +1,70 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
+import {
+  onLoadingFail,
+  onLoadingStart,
+  onLoadingSuccess,
+  userFarmSelector,
+} from '../userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
-import { areaProperties, figureProperties, locationProperties } from './constants';
+import { pick } from '../../util';
 
-const barnProperties = ['wash_and_pack', 'cold_storage', 'location_id'];
-export const getLocationObjectFromBarn = (data) => {
-  return {
-    figure: {
-      ...pick(data, figureProperties),
-      area: pick(data, areaProperties),
-    },
-    barn: pick(data, barnProperties),
-    ...pick(data, locationProperties),
-  };
-};
-const getBarnFromLocationObject = (location) => {
-  return {
-    ...pick(location, locationProperties),
-    ...pick(location.figure, figureProperties),
-    ...pick(location.figure.area, areaProperties),
-    ...pick(location.barn, barnProperties),
-  };
+const certifierProperties = [
+  'certification_type',
+  'certifier_acronym',
+  'certifier_id',
+  'certifier_name',
+  'country_id',
+];
+
+const getCertifier = (certifier) => {
+  return pick(certifier, certifierProperties);
 };
 
-const upsertOneBarnWithLocation = (state, { payload: location }) => {
-  barnAdapter.upsertOne(state, getBarnFromLocationObject(location));
-};
-const upsertManyBarnWithLocation = (state, { payload: locations }) => {
-  barnAdapter.upsertMany(
-    state,
-    locations.map((location) => getBarnFromLocationObject(location)),
-  );
-  onLoadingSuccess(state);
-};
-
-const barnAdapter = createEntityAdapter({
-  selectId: (barn) => barn.location_id,
+const certifierAdapter = createEntityAdapter({
+  selectId: (certifier) => certifier.certifier_id,
 });
 
-const barnSlice = createSlice({
-  name: 'barnReducer',
-  initialState: barnAdapter.getInitialState({
+const certifierSlice = createSlice({
+  name: 'certifierReducer',
+  initialState: certifierAdapter.getInitialState({
     loading: false,
     error: undefined,
-    location_id: undefined,
     loaded: false,
   }),
   reducers: {
-    onLoadingBarnStart: onLoadingStart,
-    onLoadingBarnFail: onLoadingFail,
-    getBarnsSuccess: upsertManyBarnWithLocation,
-    postBarnSuccess: upsertOneBarnWithLocation,
-    editBarnSuccess: upsertOneBarnWithLocation,
-    deleteBarnSuccess: barnAdapter.removeOne,
+    onLoadingCertifierStart: onLoadingStart,
+    onLoadingCertifierFail: onLoadingFail,
+    getCertifiersSuccess: (state, { payload: certifiers }) => {
+      certifierAdapter.upsertMany(
+        state,
+        certifiers.map((certifier) => getCertifier(certifier)),
+      );
+      onLoadingSuccess(state);
+    },
   },
 });
-export const {
-  getBarnsSuccess,
-  postBarnSuccess,
-  editBarnSuccess,
-  onLoadingBarnStart,
-  onLoadingBarnFail,
-  deleteBarnSuccess,
-} = barnSlice.actions;
-export default barnSlice.reducer;
+export const { getCertifiersSuccess } = certifierSlice.actions;
+export default certifierSlice.reducer;
 
-export const barnReducerSelector = (state) => state.entitiesReducer[barnSlice.name];
+export const certifierReducerSelector = (state) => state.entitiesReducer[certifierSlice.name];
 
-const barnSelectors = barnAdapter.getSelectors((state) => state.entitiesReducer[barnSlice.name]);
+const certifierSelectors = certifierAdapter.getSelectors(
+  (state) => state.entitiesReducer[certifierSlice.name],
+);
 
-export const barnEntitiesSelector = barnSelectors.selectEntities;
-export const barnsSelector = createSelector(
-  [barnSelectors.selectAll, loginSelector],
-  (barns, { farm_id }) => {
-    return barns.filter((barn) => barn.farm_id === farm_id);
+export const certifierEntitiesSelector = certifierSelectors.selectEntities;
+export const certifiersSelector = createSelector(
+  [certifierSelectors.selectAll, userFarmSelector],
+  (certifiers, { country_id }) => {
+    return certifiers.filter((certifier) => certifier.country_id === country_id);
   },
 );
 
-export const barnSelector = (location_id) =>
-  createSelector(barnEntitiesSelector, (entities) => entities[location_id]);
+export const certifierSelector = (certifier_id) =>
+  createSelector(certifierEntitiesSelector, (entities) => entities[certifier_id]);
 
-export const barnStatusSelector = createSelector(
-  [barnReducerSelector],
+export const certifierStatusSelector = createSelector(
+  [certifierReducerSelector],
   ({ loading, error, loaded }) => {
     return { loading, error, loaded };
   },

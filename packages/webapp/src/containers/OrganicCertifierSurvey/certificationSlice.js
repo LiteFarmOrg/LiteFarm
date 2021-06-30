@@ -1,78 +1,57 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from '../userFarmSlice';
+import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../userFarmSlice';
 import { createSelector } from 'reselect';
+import { pick } from '../../util';
 
-const addOneCertifier = (state, { payload }) => {
-  const { certifiers, interested, survey_id, farm_id } = payload;
-  state.loading = false;
-  state.error = null;
-  certifierSurveyAdapter.upsertOne(state, {
-    certifiers,
-    interested,
-    survey_id,
-    farm_id,
-  });
+const certificationProperties = [
+  'certification_id',
+  'certification_translation_key',
+  'certification_type',
+];
+
+const getCertification = (certification) => {
+  return pick(certification, certificationProperties);
 };
 
-const certifierSurveyAdapter = createEntityAdapter({
-  selectId: (certifierSurvey) => certifierSurvey.farm_id,
+const certificationAdapter = createEntityAdapter({
+  selectId: (certification) => certification.certification_id,
 });
 
 const slice = createSlice({
-  name: 'certifierSurveyReducer',
-  initialState: certifierSurveyAdapter.getInitialState({
+  name: 'certificationReducer',
+  initialState: certificationAdapter.getInitialState({
     loading: false,
     error: undefined,
   }),
   reducers: {
-    onLoadingCertifierSurveyStart: onLoadingStart,
-    onLoadingCertifierSurveyFail: onLoadingFail,
-    getCertifiersSuccess: addOneCertifier,
-    postCertifiersSuccess: addOneCertifier,
-    patchRequestedCertifiersSuccess(state, { payload: { requested_certifier, farm_id } }) {
-      certifierSurveyAdapter.updateOne(state, {
-        changes: { requested_certifier },
-        id: farm_id,
-      });
-    },
-    patchInterestedSuccess(state, { payload: { interested, farm_id } }) {
-      certifierSurveyAdapter.updateOne(state, {
-        changes: { interested },
-        id: farm_id,
-      });
-    },
-    patchRequestedCertificationSuccess(state, { payload: { requested_certification, farm_id } }) {
-      certifierSurveyAdapter.updateOne(state, {
-        changes: { requested_certification },
-        id: farm_id,
-      });
+    onLoadingCertificationStart: onLoadingStart,
+    onLoadingCertificationFail: onLoadingFail,
+    getCertificationsSuccess: (state, { payload: certifiers }) => {
+      certificationAdapter.upsertMany(
+        state,
+        certifiers.map((certifier) => getCertification(certifier)),
+      );
+      onLoadingSuccess(state);
     },
   },
 });
 export const {
-  getCertifiersSuccess,
-  postCertifiersSuccess,
-  patchRequestedCertifiersSuccess,
-  patchRequestedCertificationSuccess,
-  patchInterestedSuccess,
-  onLoadingCertifierSurveyStart,
-  onLoadingCertifierSurveyFail,
+  onLoadingCertificationStart,
+  onLoadingCertificationFail,
+  getCertificationsSuccess,
 } = slice.actions;
 export default slice.reducer;
 
-export const certifierSurveyReducerSelector = (state) => state.entitiesReducer[slice.name];
+export const certificationReducerSelector = (state) => state.entitiesReducer[slice.name];
 
-const certifierSurveySelectors = certifierSurveyAdapter.getSelectors(
+const certificationSelectors = certificationAdapter.getSelectors(
   (state) => state.entitiesReducer[slice.name],
 );
 
-export const certifierSurveySelector = (state) => {
-  const { farm_id } = loginSelector(state);
-  return farm_id ? certifierSurveySelectors.selectById(state, farm_id) || {} : {};
-};
+export const certificationsSelector = certificationSelectors.selectAll;
 
-export const certifierSurveyStatusSelector = createSelector(
-  [certifierSurveyReducerSelector],
+export const certificationStatusSelector = createSelector(
+  [certificationReducerSelector],
   ({ loading, error }) => {
     return { loading, error };
   },

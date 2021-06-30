@@ -5,15 +5,15 @@ import styles from './styles.module.scss';
 import { ReactComponent as Email } from '../../../assets/images/export/email/Email.svg';
 
 export default function PreparingExportModal({ dismissModal }) {
-	const { t } = useTranslation();
+  const { t } = useTranslation();
 
-	return (
-		<ModalComponent
-			dismissModal={dismissModal}
-			title={t('PREPARING_EXPORT.TITLE')}
-			icon={<Email styles={styles.icon}/>}
-		>
-			<div className={styles.message}> {t('PREPARING_EXPORT.MESSAGE')} </div>
-		</ModalComponent>
-	)
+  return (
+    <ModalComponent
+      dismissModal={dismissModal}
+      title={t('PREPARING_EXPORT.TITLE')}
+      icon={<Email styles={styles.icon} />}
+    >
+      <div className={styles.message}> {t('PREPARING_EXPORT.MESSAGE')} </div>
+    </ModalComponent>
+  );
 }

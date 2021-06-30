@@ -89,8 +89,11 @@ function PureDocumentDetailView({
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
+  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
+  const onFileUpdateEnd = () => {
+    setIsFilesUpdated(true);
+  };
 
-  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
   const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
     !isEdit && !uploadedFiles?.length,
   );
@@ -100,12 +103,9 @@ function PureDocumentDetailView({
   useEffect(() => {
     uploadedFiles?.length && setShouldShowLoadingImage(false);
   }, [uploadedFiles?.length]);
-  const onUploadEnd = () => {
-    setIsFirstUploadEnded(true);
-  };
 
   const disabled = isEdit
-    ? !isValid || !(isDirty || isFirstUploadEnded)
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
     : !isValid || uploadedFiles?.length === 0;
 
   return (
@@ -194,7 +194,10 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnail_url)}
+              onClick={() => {
+                deleteImage(thumbnail_url);
+                onFileUpdateEnd();
+              }}
             >
               <TrashIcon />
             </div>
@@ -214,7 +217,7 @@ function PureDocumentDetailView({
           style: { paddingBottom: '32px' },
           linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
           onUpload,
-          onUploadEnd,
+          onUploadEnd: onFileUpdateEnd,
         })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}

@@ -7,6 +7,7 @@ import {
 } from '../userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../../util';
+import { certifierSurveySelector } from './slice';
 
 const certifierProperties = [
   'certification_id',
@@ -68,8 +69,13 @@ export const certifiersByCertificationSelector = (certification_id) =>
     }),
   );
 
-export const certifierSelector = (certifier_country_id) =>
+export const certifierByIdSelector = (certifier_country_id) =>
   createSelector(certifierEntitiesSelector, (entities) => entities[certifier_country_id]);
+
+export const certifierSelector = createSelector(
+  [certifierEntitiesSelector, certifierSurveySelector],
+  (entities, { certifier_id }) => entities[certifier_id],
+);
 
 export const certifierStatusSelector = createSelector(
   [certifierReducerSelector],

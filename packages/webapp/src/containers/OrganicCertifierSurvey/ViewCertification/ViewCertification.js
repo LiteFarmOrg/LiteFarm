@@ -4,7 +4,7 @@ import { certifierSurveySelector } from '../slice';
 import { PureViewNotInterestedInCertification } from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
 import { PureViewUnsupportedCertification } from '../../../components/ViewCertification/PureViewUnsupportedCertification';
 import { PureViewSupportedCertification } from '../../../components/ViewCertification/PureViewSupportedCertification';
-import { certifiersByCertificationSelector } from '../certifierSlice';
+import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
 
 export default function ViewCertification({ history }) {
   const { interested } = useSelector(certifierSurveySelector);
@@ -19,6 +19,8 @@ export default function ViewCertification({ history }) {
   const onExport = () => {};
   const onAddCertification = () => history.push('/certification/interested_in_organic');
   const onChangePreference = onAddCertification;
+
+  const certifier = useSelector(certifierSelector);
 
   return (
     <>

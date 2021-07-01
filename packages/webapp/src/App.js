@@ -20,7 +20,8 @@ import Routes from './Routes.js';
 import './locales/i18n';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import ScrollToTop from './containers/hooks/ScrollToTop';
+import { SnackbarProvider } from 'notistack';
+import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,14 +37,18 @@ const useStyles = makeStyles((theme) => ({
   webkitHeight: {
     minHeight: '-webkit-fill-available',
   },
+  root: {
+    width: 'calc(100vw - 48px)',
+    maxWidth: '976px',
+  },
 }));
+
 function App() {
   const classes = useStyles();
   return (
     <>
       <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
         <NavBar history={history} />
-        <ScrollToTop />
         <div
           className="app"
           style={{
@@ -54,7 +59,16 @@ function App() {
             flexDirection: 'column',
           }}
         >
-          <Routes />
+          <SnackbarProvider
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            classes={{ root: classes.root }}
+            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
+          >
+            <Routes />
+          </SnackbarProvider>
         </div>
       </div>
     </>

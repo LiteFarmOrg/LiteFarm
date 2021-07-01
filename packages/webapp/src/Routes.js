@@ -26,6 +26,8 @@ import { isAuthenticated } from './util/jwt';
 // action
 import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
+import useScrollToTop from './containers/hooks/useScrollToTop';
+import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
@@ -257,6 +259,8 @@ const ViewCertification = React.lazy(() =>
 );
 
 const Routes = () => {
+  useScrollToTop();
+  useReduxSnackbar();
   const userFarm = useSelector(
     userFarmSelector,
     (pre, next) =>

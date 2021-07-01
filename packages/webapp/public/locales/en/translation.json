@@ -212,7 +212,7 @@
       "FERTILIZING_PRODUCT": "Fertilizing product",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT": "Soil Amendment"
+      "SOIL_AMENDMENT": "Soil amendment"
     },
     "VALID": "Valid"
   },
@@ -906,7 +906,6 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLAN": "Plan {{count}}",
-    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
@@ -915,7 +914,7 @@
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "PLANTING_NOTE": "Planting notes",
-    "PLANTING_SOIL": "Planting soil to be used ",
+    "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",

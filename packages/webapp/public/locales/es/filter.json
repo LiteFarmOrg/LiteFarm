@@ -10,12 +10,12 @@
     "NEEDS_PLAN": "Necesita un plan"
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "MISSING",
-    "CROP_COMPLIANCE": "MISSING",
-    "FERTILIZING_PRODUCT": "MISSING",
-    "OTHER": "MISSING",
-    "PEST_CONTROL_PRODUCT": "MISSING",
-    "SOIL_AMENDMENT": "MISSING",
-    "UNCATEGORIZED": "MISSING"
+    "CLEANING_PRODUCT": "Producto de limpieza",
+    "CROP_COMPLIANCE": "Cumplimiento de cultivos",
+    "FERTILIZING_PRODUCT": "Producto fertilizante",
+    "OTHER": "Otro",
+    "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
+    "SOIL_AMENDMENT": "Enmienda del suelo",
+    "UNCATEGORIZED": "Sin categorizar"
   }
 }

@@ -1,23 +1,23 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "FAILED_ARCHIVE": "MISSING",
+      "CREATE": "Falha ao criar documento",
+      "FAILED_ARCHIVE": "Falha ao arquivar o documento",
       "FAILED_UPLOAD": "Anexos não carregados"
     },
     "SUCCESS": {
-      "ARCHIVE": "MISSING",
-      "CREATE": "MISSING"
+      "ARCHIVE": "Documento arquivado com sucesso",
+      "CREATE": "Documento criado com sucesso"
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "Falha ao deletar variedade de cultivo",
+      "UPDATE": "Falha ao atualizar variedade de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "Variedade de cultivo deletado",
+      "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }
   },
   "CROP": {
@@ -101,10 +101,10 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "POST": "MISSING"
+      "POST": "Falha ao adicionar plano de gestão!"
     },
     "SUCCESS": {
-      "POST": "MISSING"
+      "POST": "Plano de gestão adicionado com sucesso!"
     }
   },
   "MAP": {
@@ -118,7 +118,7 @@
     "ERROR": {
       "GENERAL": "Falha ao adicionar cultivo de campo ao banco de dados",
       "NOT_FILLED": "não está preenchido",
-      "VARIETY_EXISTS": "Já existe uma cultura desse variedade, tente outra."
+      "VARIETY_EXISTS": "Já existe um cultivo desse variedade, tente outra."
     },
     "SUCCESS": {
       "SAVE": "Cultivo salvo com sucesso!"

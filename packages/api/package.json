@@ -27,6 +27,7 @@
     "gitlab-server": "NODE_ENV=ci node src/server.js",
     "ci": "start-server-and-test gitlab-server 5000 test-end2end",
     "e2e": "start-server-and-test start 5000 test-end2end",
+    "scheduler": "node src/jobs/index.js",
     "fix-lint": "eslint src --fix",
     "precommit": ""
   },

@@ -234,6 +234,30 @@ const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
 
+const InterestedOrganic = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
+);
+const CertificationSelection = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertificationSelection'),
+);
+
+const CertifierSelectionMenu = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+);
+
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    './containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
+  ),
+);
+
+const RequestCertifier = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/RequestCertifier'),
+);
+const ViewCertification = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+);
+
 const Routes = () => {
   useScrollToTop();
   useReduxSnackbar();
@@ -497,6 +521,20 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -698,6 +736,20 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

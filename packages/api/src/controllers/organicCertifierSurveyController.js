@@ -13,14 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
 const certificationModel = require('../models/certificationModel');
 const certifierModel = require('../models/certifierModel');
-const certifierCountryModel = require('../models/certifierCountryModel');
 
 const organicCertifierSurveyController = {
-  getCertifiersByFarmId() {
+  getCertificationSurveyByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -63,8 +61,8 @@ const organicCertifierSurveyController = {
   getAllSupportedCertifiers() {
     return async (req, res) => {
       try {
-        const { farm_id, certification_type } = req.params;
-        const result = await certifierModel.query().select('*').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_type', certification_type);
+        const { farm_id, certification_id } = req.params;
+        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_id', certification_id);
         if (!result) {
           res.sendStatus(404);
         } else {

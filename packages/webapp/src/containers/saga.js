@@ -89,7 +89,7 @@ import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getRoles } from './InviteUser/saga';
 import { getAllUserFarmsByFarmId } from './Profile/People/saga';
-import { getCertifiers } from './OrganicCertifierSurvey/saga';
+import { getCertificationSurveys } from './OrganicCertifierSurvey/saga';
 import {
   getAllCropVarietiesSuccess,
   onLoadingCropVarietyFail,
@@ -469,7 +469,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     if (!has_consent) return;
 
     const tasks = [
-      put(getCertifiers()),
+      put(getCertificationSurveys()),
       put(getCrops()),
       put(getCropVarieties()),
       put(getLocations()),

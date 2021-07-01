@@ -58,7 +58,15 @@
       "CERTIFICATION": "certificação",
       "GOOD_NEWS": "Boas notícias! O LiteFarm pode documentar as informações que você precisa para gerar seus documentos de certificação!",
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
-      "TITLE": "Você está interessado(a) em aplicar para:"
+      "TITLE": "Você está interessado(a) em aplicar para:",
+      "YOUR_CERTIFICATION": "MISSING"
+    },
+    "VIEW_CERTIFICATION": {
+      "ADD_CERTIFICATION": "MISSING",
+      "CHANGE_PREFERENCE": "MISSING",
+      "EXPORT": "MISSING",
+      "NO_SUPPORT_FIRST": "MISSING",
+      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -905,6 +913,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",

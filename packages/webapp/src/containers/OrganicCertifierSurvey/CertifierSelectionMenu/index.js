@@ -3,33 +3,35 @@ import PureCertifierSelectionScreen from '../../../components/CertifierSelection
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import {
-  allCertifierTypesSelector,
-  selectedCertificationSelector,
-  selectedCertifierSelector,
-  selectedCertifier,
   loadSummary,
   requestedCertifier,
-  allCertificationTypesSelector,
+  selectedCertificationSelector,
+  selectedCertifier,
+  selectedCertifierSelector,
 } from '../organicCertifierSurveySlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { patchRequestedCertifiers } from '../saga';
+import { certificationsSelector } from '../certificationSlice';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function CertifierSelectionMenu() {
   const dispatch = useDispatch();
-  const allSupportedCertifiers = useSelector(allCertifierTypesSelector);
+  const certification = useSelector(selectedCertificationSelector);
+  const allSupportedCertifiers = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
   const allSupportedCertifiersCopy = JSON.parse(
     JSON.stringify(allSupportedCertifiers),
   ).sort((a, b) => (a.certifier_name > b.certifier_name ? 1 : -1));
   const certificationType = useSelector(selectedCertificationSelector);
   const certifierType = useSelector(selectedCertifierSelector);
-  const allSupportedCertificationTypes = useSelector(allCertificationTypesSelector);
+  const allSupportedCertificationTypes = useSelector(certificationsSelector);
   const role = useSelector(userFarmSelector);
 
   const onSubmit = () => {
-    console.log(certifierType);
     dispatch(requestedCertifier(null));
     dispatch(loadSummary(true));
-    const callback = () => history.push('certification_summary');
+    const callback = () => history.push('/certification/summary');
     let data = {
       requested_certifier: null,
       certifier_id: certifierType.certifierID,
@@ -39,7 +41,7 @@ export default function CertifierSelectionMenu() {
   };
 
   const onBack = () => {
-    history.push('/certification_selection');
+    history.push('/certification/selection');
   };
 
   return (

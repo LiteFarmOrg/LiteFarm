@@ -14,6 +14,7 @@ const Template = (args) => <PureOutroSplash {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   redirectFinish: () => {},
+  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react';
 import PureRequestCertifier from '../../../components/RequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchRequestedCertifiers, getAllSupportedCertifications } from '../saga';
+import { getAllSupportedCertifications, patchRequestedCertifiers } from '../saga';
 import history from '../../../history';
 import {
   requestedCertifier,
   requestedCertifierSelector,
   selectedCertificationSelector,
-  allCertifierTypesSelector,
 } from '../organicCertifierSurveySlice';
+import { certifiersByCertificationSelector } from '../certifierSlice';
 
 export default function RequestCertifier() {
   const dispatch = useDispatch();
   const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certificationType = useSelector(selectedCertificationSelector);
-  const allSupportedCertifierTypes = useSelector(allCertifierTypesSelector);
+  const certification = useSelector(selectedCertificationSelector);
+  const allSupportedCertifierTypes = useSelector(
+    certifiersByCertificationSelector(certification.certification_id),
+  );
 
   useEffect(() => {
     dispatch(getAllSupportedCertifications());
   }, [dispatch]);
 
   const onSubmit = (info) => {
-    const callback = () => history.push('certification_summary');
+    const callback = () => history.push('/certification/summary');
     let data = {
       requested_certifier: info.requestedCertifier,
       certifier_id: null,
@@ -30,11 +32,11 @@ export default function RequestCertifier() {
   };
 
   const onGoBack = () => {
-    certificationType.certificationName === 'Other'
-      ? history.push('/certification_selection')
+    certification.certificationName === 'Other'
+      ? history.push('/certification/selection')
       : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification_selection')
-      : history.push('/certifier_selection_menu');
+      ? history.push('/certification/selection')
+      : history.push('/certification/certifier/selection');
   };
 
   return (
@@ -45,7 +47,7 @@ export default function RequestCertifier() {
         requestedCertifier={requestedCertifier}
         requestedCertifierData={requestedCertifierData}
         dispatch={dispatch}
-        certificationType={certificationType}
+        certificationType={certification}
         allSupportedCertifierTypes={allSupportedCertifierTypes}
       />
     </>

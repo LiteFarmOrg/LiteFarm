@@ -15,7 +15,6 @@
 
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
-import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import {
   loginSelector,
@@ -117,6 +116,7 @@ import {
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -168,9 +168,9 @@ export function* updateUserSaga({ payload: user }) {
     yield put(putUserSuccess({ ...user, farm_id }));
     i18n.changeLanguage(user.language_preference);
     localStorage.setItem('litefarm_lang', user.language_preference);
-    toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.UPDATE')));
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.UPDATE')));
   }
 }
 
@@ -239,7 +239,7 @@ export function* getFarmInfoSaga() {
     yield put(getManagementPlans());
   } catch (e) {
     console.log(e);
-    toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.FETCH')));
   }
 }
 
@@ -258,9 +258,9 @@ export function* putFarmSaga({ payload: farm }) {
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
     yield put(patchFarmSuccess(data));
-    toastr.success(i18n.t('message:FARM.SUCCESS.UPDATE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:FARM.SUCCESS.UPDATE')));
   } catch (e) {
-    toastr.error(i18n.t('message:FARM.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.UPDATE')));
   }
 }
 

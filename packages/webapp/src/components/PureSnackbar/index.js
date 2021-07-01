@@ -7,19 +7,19 @@ import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
 import { VscWarning } from 'react-icons/all';
 
-function Icon({ type }) {
-  if (type === 'success') return <Checkmark className={styles.button} />;
+function Icon({ type = 'success' }) {
   if (type === 'error') return <VscWarning className={styles.errorIcon} />;
+  if (type === 'success') return <Checkmark className={styles.button} />;
 }
 
-export function PureSnackbarWithoutBorder({ className, onDismiss, title, type = 'success' }) {
+export function PureSnackbarWithoutBorder({ className, onDismiss, title, type }) {
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
   return (
     <div
       className={clsx(className)}
       onClick={() => setDismissProgressBar(true)}
-      onMouseOver={() => setDismissProgressBar(true)}
+      onMouseOver={() => !type && setDismissProgressBar(true)}
     >
       <div className={clsx(styles.contentContainer)}>
         <div className={styles.headerText}>

@@ -30,11 +30,11 @@ import {
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
-import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 import history from '../../history';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -65,14 +65,14 @@ export function* addSale(action) {
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
     if (result) {
-      toastr.success(addOrUpdateSuccess);
+      yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
       if (result) {
         yield put(setSalesInState(result.data));
       }
     }
   } catch (e) {
-    toastr.error(addOrUpdateFail);
+    yield put(enqueueErrorSnackbar(addOrUpdateFail));
   }
 }
 
@@ -88,7 +88,7 @@ export function* updateSaleSaga(action) {
   try {
     const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     if (result) {
-      toastr.success(i18n.t('message:SALE.SUCCESS.UPDATE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
       if (result) {
         yield put(setSalesInState(result.data));
@@ -96,7 +96,7 @@ export function* updateSaleSaga(action) {
     }
   } catch (e) {
     console.log(`failed to update sale`);
-    toastr.error(i18n.t('message:SALE.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
   }
 }
 
@@ -112,11 +112,11 @@ export function* deleteSale(action) {
       if (result) {
         yield put(setSalesInState(result.data));
       }
-      toastr.success(i18n.t('message:SALE.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
     }
   } catch (e) {
     console.log(`failed to delete sale`);
-    toastr.error(i18n.t('message:SALE.ERROR.DELETE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
   }
 }
 
@@ -176,14 +176,14 @@ export function* addExpensesSaga(action) {
   try {
     const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
     if (result) {
-      toastr.success(i18n.t('message:EXPENSE.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.ADD')));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
   } catch (e) {
-    toastr.error(i18n.t('message:EXPENSE.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.ADD')));
   }
 }
 
@@ -196,11 +196,11 @@ export function* tempDeleteExpenseSaga(action) {
   try {
     const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
     if (result) {
-      toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.DELETE')));
       history.push('/other_expense');
     }
   } catch (e) {
-    toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.DELETE')));
   }
 }
 
@@ -212,14 +212,14 @@ export function* deleteExpensesSaga(action) {
   try {
     const result = yield call(axios.put, expenseUrl, action.ids, header);
     if (result) {
-      toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.DELETE')));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
   } catch (e) {
-    toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.DELETE')));
   }
 }
 
@@ -235,7 +235,7 @@ export function* addRemoveExpenseSaga(action) {
     if (result) {
       result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
       if (result) {
-        toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
+        yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.UPDATE')));
         result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
         if (result) {
           yield put(setExpense(result.data));
@@ -243,7 +243,7 @@ export function* addRemoveExpenseSaga(action) {
       }
     }
   } catch (e) {
-    toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
   }
 }
 
@@ -255,14 +255,14 @@ export function* tempEditExpenseSaga(action) {
   try {
     let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
     if (result) {
-      toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:EXPENSE.SUCCESS.UPDATE')));
       result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
   } catch (e) {
-    toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:EXPENSE.ERROR.UPDATE')));
   }
 }
 

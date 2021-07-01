@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
   allCertificationTypes: [],
   certificationName: null,
-  certificationID: null,
+  certification_id: null,
   requestedCertification: null,
   finishedSelectingCertificationType: false,
   allCertifierTypes: [],
@@ -22,7 +22,7 @@ const organicCertifierSurveyReducer = createSlice({
     },
     selectedCertification: (state, { payload: certification }) => {
       state.certificationName = certification.certificationName;
-      state.certificationID = certification.certificationID;
+      state.certification_id = certification.certification_id;
       state.requestedCertification = certification.requestedCertification;
     },
     finishedSelectingCertificationType: (state, { payload: selected }) => {
@@ -62,7 +62,7 @@ export const allCertificationTypesSelector = (state) =>
   state?.tempStateReducer[organicCertifierSurveyReducer.name].allCertificationTypes;
 export const selectedCertificationSelector = (state) => ({
   certificationName: state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationName,
-  certificationID: state?.tempStateReducer[organicCertifierSurveyReducer.name].certificationID,
+  certification_id: state?.tempStateReducer[organicCertifierSurveyReducer.name].certification_id,
   requestedCertification:
     state?.tempStateReducer[organicCertifierSurveyReducer.name].requestedCertification,
 });

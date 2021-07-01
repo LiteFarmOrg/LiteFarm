@@ -1,10 +1,11 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import React, { useEffect, useState } from 'react';
-import { Semibold, Title } from '../Typography';
+import { Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureRequestCertifier({
   onSubmit,
@@ -45,16 +46,17 @@ export default function PureRequestCertifier({
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button type={'submit'} fullLength onClick={redirectConsent} disabled={!isValid}>
             {t('common:CONTINUE')}
           </Button>
         </>
       }
     >
-      <Title style={{ marginBottom: '28px' }}>{t('CERTIFICATION.REQUEST_CERTIFIER.TITLE')}</Title>
+      <PageTitle
+        style={{ marginBottom: '28px' }}
+        title={t('CERTIFICATION.REQUEST_CERTIFIER.TITLE')}
+        onGoBack={onGoBack}
+      />
       <Semibold style={{ marginBottom: '28px' }}>
         {certificationType.requestedCertification
           ? t('CERTIFICATION.REQUEST_CERTIFIER.SORRY_ONE') +

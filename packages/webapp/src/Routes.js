@@ -26,6 +26,8 @@ import { isAuthenticated } from './util/jwt';
 // action
 import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
+import useScrollToTop from './containers/hooks/useScrollToTop';
+import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
@@ -236,7 +238,33 @@ const CertificationReportingPeriod = React.lazy(() =>
 );
 const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
 
+const InterestedOrganic = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
+);
+const CertificationSelection = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertificationSelection'),
+);
+
+const CertifierSelectionMenu = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+);
+
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    './containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
+  ),
+);
+
+const RequestCertifier = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/RequestCertifier'),
+);
+const ViewCertification = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+);
+
 const Routes = () => {
+  useScrollToTop();
+  useReduxSnackbar();
   const userFarm = useSelector(
     userFarmSelector,
     (pre, next) =>
@@ -497,12 +525,26 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
             <Route
               path="/certification/report_period"
               exact
               component={CertificationReportingPeriod}
             />
             <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -704,12 +746,26 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
             <Route
               path="/certification/report_period"
               exact
               component={CertificationReportingPeriod}
             />
             <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

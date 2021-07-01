@@ -11,10 +11,12 @@ import { colors } from '../../assets/theme';
 import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
+import CancelFlowModal from '../Modals/CancelFlowModal';
 
-const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, certiferAcronym }) => {
+const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, certiferSurvey }) => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
   const progress = 33;
 
@@ -34,25 +36,34 @@ const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, cer
   }, []);
 
   return (
-    <Layout
-      buttonGroup={
-        <Button fullLength onClick={onExport} disabled={!submitted}>
-          {t('CERTIFICATIONS.EXPORT')}
-        </Button>
-      }
-    >
-      <MultiStepPageTitle
-        style={{ marginBottom: '24px' }}
-        onGoBack={handleGoBack}
-        onCancel={handleCancel}
-        title={t('CERTIFICATIONS.EXPORT_DOCS')}
-        value={progress}
-      />
+    <>
+      <Layout
+        buttonGroup={
+          <Button fullLength onClick={onExport} disabled={!submitted}>
+            {t('CERTIFICATIONS.EXPORT')}
+          </Button>
+        }
+      >
+        <MultiStepPageTitle
+          style={{ marginBottom: '24px' }}
+          onGoBack={handleGoBack}
+          onCancel={() => setShowConfirmCancelModal(true)}
+          title={t('CERTIFICATIONS.EXPORT_DOCS')}
+          value={progress}
+        />
 
-      <RegisteredCertifierQuestionsSurvey />
-      {/* <RegisteredCertifierNoQuestionsSurvey /> */}
-      {/* <UnregisteredCertifierSurvey /> */}
-    </Layout>
+        <RegisteredCertifierQuestionsSurvey />
+        {/* <RegisteredCertifierNoQuestionsSurvey /> */}
+        {/* <UnregisteredCertifierSurvey /> */}
+      </Layout>
+      {showConfirmCancelModal && (
+        <CancelFlowModal
+          dismissModal={() => setShowConfirmCancelModal(false)}
+          handleCancel={handleCancel}
+          flow={t('CERTIFICATIONS.FLOW_TITLE')}
+        />
+      )}
+    </>
   );
 };
 

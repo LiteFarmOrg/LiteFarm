@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../Form/Input';
 import { Error, Main } from '../Typography';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
+import CancelFlowModal from '../Modals/CancelFlowModal';
 
 const PureCertificationReportingPeriod = ({
   onSubmit,
@@ -20,6 +21,10 @@ const PureCertificationReportingPeriod = ({
   defaultEmail,
 }) => {
   const { t } = useTranslation();
+  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+  let { email, from_date, to_date } = persistedFormData;
+  if (from_date) from_date = new Date(from_date).toISOString().substring(0, 10);
+  if (to_date) to_date = new Date(to_date).toISOString().substring(0, 10);
   const {
     register,
     handleSubmit,
@@ -30,11 +35,10 @@ const PureCertificationReportingPeriod = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      email: defaultEmail,
-      ...persistedFormData,
+      email: email ?? defaultEmail,
     },
   });
-  const persistedPath = [];
+  const persistedPath = ['/certification', '/certification/survey'];
 
   useHookFormPersist(persistedPath, getValues);
 
@@ -62,56 +66,67 @@ const PureCertificationReportingPeriod = ({
 
   const progress = 33;
   return (
-    <Form
-      buttonGroup={
-        <Button disabled={!isValid} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
-      }
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <MultiStepPageTitle
-        style={{ marginBottom: '24px' }}
-        onGoBack={handleGoBack}
-        onCancel={handleCancel}
-        title={t('CERTIFICATIONS.EXPORT_DOCS')}
-        value={progress}
-      />
+    <>
+      <Form
+        buttonGroup={
+          <Button disabled={!isValid} fullLength>
+            {t('common:CONTINUE')}
+          </Button>
+        }
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <MultiStepPageTitle
+          style={{ marginBottom: '24px' }}
+          onGoBack={handleGoBack}
+          onCancel={() => setShowConfirmCancelModal(true)}
+          title={t('CERTIFICATIONS.EXPORT_DOCS')}
+          value={progress}
+        />
 
-      <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_REPORTING_PERIOD')}</Main>
+        <Main className={styles.mainText}>{t('CERTIFICATIONS.SELECT_REPORTING_PERIOD')}</Main>
 
-      <div className={styles.dateInput}>
-        <div className={styles.dateContainer}>
-          <Input
-            label={t('CERTIFICATIONS.FROM')}
-            type="date"
-            hookFormRegister={fromDateRegister}
-            classes={{
-              container: { flex: '1' },
-            }}
-          />
-          <div className={styles.dateDivider} />
-          <Input
-            label={t('CERTIFICATIONS.TO')}
-            type="date"
-            hookFormRegister={toDateRegister}
-            classes={{
-              container: { flex: '1' },
-            }}
-          />
+        <div className={styles.dateInput}>
+          <div className={styles.dateContainer}>
+            <Input
+              label={t('CERTIFICATIONS.FROM')}
+              type="date"
+              hookFormRegister={fromDateRegister}
+              classes={{
+                container: { flex: '1' },
+              }}
+              defaultValue={from_date}
+            />
+            <div className={styles.dateDivider} />
+            <Input
+              label={t('CERTIFICATIONS.TO')}
+              type="date"
+              hookFormRegister={toDateRegister}
+              classes={{
+                container: { flex: '1' },
+              }}
+              defaultValue={to_date}
+            />
+          </div>
+          {areNotDatesProperlySet && <Error>{t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')}</Error>}
         </div>
-        {areNotDatesProperlySet && <Error>{t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')}</Error>}
-      </div>
 
-      <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
-      <Input
-        style={{ marginBottom: '40px' }}
-        label={t('CERTIFICATIONS.EMAIL')}
-        hookFormRegister={emailRegister}
-      />
+        <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
+        <Input
+          style={{ marginBottom: '40px' }}
+          label={t('CERTIFICATIONS.EMAIL')}
+          hookFormRegister={emailRegister}
+        />
 
-      <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
-    </Form>
+        <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
+      </Form>
+      {showConfirmCancelModal && (
+        <CancelFlowModal
+          dismissModal={() => setShowConfirmCancelModal(false)}
+          handleCancel={handleCancel}
+          flow={t('CERTIFICATIONS.FLOW_TITLE')}
+        />
+      )}
+    </>
   );
 };
 

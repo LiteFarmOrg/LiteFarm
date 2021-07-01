@@ -21,7 +21,8 @@
     "SEEDING_RATE": "MISSING"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "MISSING"
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "CERTIFICATION": {
     "CERTIFICATION_SELECTION": {
@@ -75,6 +76,7 @@
     "EMAIL": "MISSING",
     "EXPORT": "MISSING",
     "EXPORT_DOCS": "MISSING",
+    "FLOW_TITLE": "MISSING",
     "FROM": "MISSING",
     "GOOD_NEWS": "MISSING",
     "HAVE_ALL_INFO": "MISSING",
@@ -988,6 +990,10 @@
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
   },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "PROFILE_FLOATER": {
     "HELP": "Ayuda",
     "INFO": "Mi información",
@@ -1273,9 +1279,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
-  },
-  "PREPARING_EXPORT": {
-    "TITLE": "MISSING",
-    "MESSAGE": "MISSING"
   }
 }

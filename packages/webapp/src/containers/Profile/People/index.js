@@ -16,12 +16,12 @@ import { actions, Control, Form } from 'react-redux-form';
 import { Alert, Button } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Cleave from 'cleave.js/react.js';
-import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import history from '../../../history';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
+import { enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
@@ -144,7 +144,9 @@ class People extends Component {
       this.props.dispatch(updateUserFarm(finalUser));
       this.closeEditModal();
     } else {
-      toastr.success(this.props.t('message:USER.ERROR.NOTHING_CHANGED'));
+      this.props.dispatch(
+        enqueueSuccessSnackbar(this.props.t('message:USER.ERROR.NOTHING_CHANGED')),
+      );
       this.closeEditModal();
     }
   }

@@ -20,7 +20,6 @@ import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore } from '@reduxjs/toolkit';
-import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
@@ -199,16 +198,6 @@ const render = () => {
             <CssBaseline />
             <Router history={history}>
               <>
-                <ReduxToastr
-                  timeOut={4000}
-                  newestOnTop={false}
-                  preventDuplicates
-                  position="top-left"
-                  transitionIn="fadeIn"
-                  transitionOut="fadeOut"
-                  progressBar
-                  closeOnToastrClick
-                />
                 <App />
               </>
             </Router>

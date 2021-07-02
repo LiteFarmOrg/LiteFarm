@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import PureCertificationReportingPeriod from '../../../components/CertificationReportingPeriod';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  hookFormPersistSelector,
+  resetAndUnLockFormData,
+} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useTranslation } from 'react-i18next';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -32,7 +35,7 @@ function CertificationReportingPeriod({ history, match }) {
         onSubmit={onContinue}
         onError={onError}
         handleGoBack={() => history.push('/certification')}
-        handleCancel={() => history.push('/certification')}
+        handleCancel={() => history.push('/certification', { forceReset: true })}
         defaultEmail={email}
       />
     </HookFormPersistProvider>

@@ -3,6 +3,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { certifierSelector } from '../../OrganicCertifierSurvey/certifierSlice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function CertificationSurveyPage({ history, match }) {
   const { t } = useTranslation();
@@ -12,15 +14,22 @@ function CertificationSurveyPage({ history, match }) {
     console.log('clicked export button');
   };
 
-  const certiferSurvey = useSelector(certifierSurveySelector);
+  const certifierSurvey = useSelector(certifierSurveySelector);
+  const certifier = useSelector(certifierSelector);
+  const { interested, requested_certifier } = certifierSurvey;
 
   return (
-    <PureCertificationSurveyPage
-      onExport={onExport}
-      handleGoBack={() => history.push('/certification/report_period')}
-      handleCancel={() => history.push('/certification')}
-      certifierSurvey={certiferSurvey}
-    />
+    <HookFormPersistProvider>
+      <PureCertificationSurveyPage
+        onExport={onExport}
+        handleGoBack={() => history.push('/certification/report_period')}
+        handleCancel={() => history.push('/certification')}
+        certifierSurvey={certifierSurvey}
+        interested={interested}
+        certifier={certifier}
+        requested_certifier={requested_certifier}
+      />
+    </HookFormPersistProvider>
   );
 }
 

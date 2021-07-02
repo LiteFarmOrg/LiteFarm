@@ -48,6 +48,10 @@ function PureBedPlanGuidance({
   const PLANT_SPACING = 'beds.plant_spacing';
   const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
   const LENGTH_OF_BED = 'beds.length_of_bed';
+  const BED_WIDTH = 'beds.bed_width';
+  const BED_WIDTH_UNIT = 'beds.bed_width_unit';
+  const BED_SPACING = 'beds.bed_spacing';
+  const BED_SPACING_UNIT = 'beds.bed_spacing_unit';
 
   const ESTIMATED_SEED = 'required_seeds'; // from Broadcast plan ???
   const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
@@ -106,9 +110,9 @@ function PureBedPlanGuidance({
       <Unit
         register={register}
         label={t('BED_PLAN_GUIDANCE.BED_WIDTH')}
-        name={LENGTH_OF_BED}
-        displayUnitName={LENGTH_OF_BED_UNIT}
-        errors={errors[LENGTH_OF_BED]}
+        name={BED_WIDTH}
+        displayUnitName={BED_WIDTH_UNIT}
+        errors={errors[BED_WIDTH]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}
@@ -122,9 +126,9 @@ function PureBedPlanGuidance({
       <Unit
         register={register}
         label={t('BED_PLAN_GUIDANCE.SPACE_BETWEEN')}
-        name={LENGTH_OF_BED}
-        displayUnitName={LENGTH_OF_BED_UNIT}
-        errors={errors[LENGTH_OF_BED]}
+        name={BED_SPACING}
+        displayUnitName={BED_SPACING_UNIT}
+        errors={errors[BED_SPACING]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}

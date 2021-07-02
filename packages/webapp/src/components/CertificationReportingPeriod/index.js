@@ -22,9 +22,6 @@ const PureCertificationReportingPeriod = ({
 }) => {
   const { t } = useTranslation();
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
-  let { email, from_date, to_date } = persistedFormData;
-  if (from_date) from_date = new Date(from_date).toISOString().substring(0, 10);
-  if (to_date) to_date = new Date(to_date).toISOString().substring(0, 10);
   const {
     register,
     handleSubmit,
@@ -35,7 +32,8 @@ const PureCertificationReportingPeriod = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      email: email ?? defaultEmail,
+      email: defaultEmail,
+      ...persistedFormData,
     },
   });
   const persistedPath = ['/certification', '/certification/survey'];
@@ -48,14 +46,12 @@ const PureCertificationReportingPeriod = ({
 
   const fromDateRegister = register(FROM_DATE, {
     required: true,
-    valueAsDate: true,
     validate: {
       beforeToDate: (v) => v < watch(TO_DATE),
     },
   });
   const toDateRegister = register(TO_DATE, {
     required: true,
-    valueAsDate: true,
     validate: {
       afterFromDate: (v) => v > watch(FROM_DATE),
     },
@@ -94,7 +90,6 @@ const PureCertificationReportingPeriod = ({
               classes={{
                 container: { flex: '1' },
               }}
-              defaultValue={from_date}
             />
             <div className={styles.dateDivider} />
             <Input
@@ -104,7 +99,6 @@ const PureCertificationReportingPeriod = ({
               classes={{
                 container: { flex: '1' },
               }}
-              defaultValue={to_date}
             />
           </div>
           {areNotDatesProperlySet && <Error>{t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')}</Error>}

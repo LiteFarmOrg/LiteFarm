@@ -12,11 +12,24 @@ import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
 import CancelFlowModal from '../Modals/CancelFlowModal';
+import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
-const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, certiferSurvey }) => {
+const certifiersWithQuestions = ['FVOPA'];
+
+const PureCertificationSurveyPage = ({
+  onExport,
+  handleGoBack,
+  handleCancel,
+  certifier,
+  requested_certifier,
+  persistedFormData,
+}) => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
+
+  const persistedPath = ['/certification/report_period'];
+  useHookFormPersist(persistedPath, () => ({}));
 
   const progress = 33;
 
@@ -35,11 +48,25 @@ const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, cer
     return () => window.removeEventListener('message', handler);
   }, []);
 
+  let surveyBody;
+  const { certifier_acronym } = certifier ?? {};
+  const hasQuestions = certifiersWithQuestions.includes(certifier_acronym);
+  if (requested_certifier) {
+    surveyBody = <UnregisteredCertifierSurvey />;
+  } else {
+    if (hasQuestions) {
+      // TODO: this is hard coded for the purpose of proof-of-concept
+      surveyBody = <RegisteredCertifierQuestionsSurvey certiferAcronym={certifier_acronym} />;
+    } else {
+      surveyBody = <RegisteredCertifierNoQuestionsSurvey />;
+    }
+  }
+
   return (
     <>
       <Layout
         buttonGroup={
-          <Button fullLength onClick={onExport} disabled={!submitted}>
+          <Button fullLength onClick={onExport} disabled={hasQuestions && !submitted}>
             {t('CERTIFICATIONS.EXPORT')}
           </Button>
         }
@@ -52,9 +79,7 @@ const PureCertificationSurveyPage = ({ onExport, handleGoBack, handleCancel, cer
           value={progress}
         />
 
-        <RegisteredCertifierQuestionsSurvey />
-        {/* <RegisteredCertifierNoQuestionsSurvey /> */}
-        {/* <UnregisteredCertifierSurvey /> */}
+        {surveyBody}
       </Layout>
       {showConfirmCancelModal && (
         <CancelFlowModal

@@ -7,12 +7,7 @@ import Layout from '../../Layout';
 
 export default function PureViewSupportedCertification({
   supportedCertifier,
-  history,
-  onBack,
-  onSubmit,
-  selectedCertifier,
-  certifierType,
-  role_id,
+  onExport,
   supportedCertification,
   onAddCertification,
 }) {
@@ -22,7 +17,7 @@ export default function PureViewSupportedCertification({
     <Layout
       hasWhiteBackground
       buttonGroup={
-        <Button onClick={onSubmit} color={'primary'} fullLength>
+        <Button onClick={onExport} color={'primary'} fullLength>
           {t('common:Export')}
         </Button>
       }
@@ -36,10 +31,6 @@ export default function PureViewSupportedCertification({
           t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
       </Semibold>
 
-      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.NO_LONGER_WORKING')}
-      </Semibold>
-
       <CertifierSelectionMenuItem
         style={{ marginBottom: '16px' }}
         certifierName={
@@ -48,20 +39,22 @@ export default function PureViewSupportedCertification({
         color={'active'}
       />
 
-      {role_id !== 3 && (
-        <div
-          style={{
-            width: 'fit-content',
-            fontSize: '16px',
-            color: 'var(--iconActive)',
-            lineHeight: '16px',
-            cursor: 'pointer',
-          }}
-          onClick={onAddCertification}
-        >
-          <Underlined>{t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}</Underlined>
-        </div>
-      )}
+      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.NO_LONGER_WORKING')}
+      </Semibold>
+
+      <div
+        style={{
+          width: 'fit-content',
+          fontSize: '16px',
+          color: 'var(--iconActive)',
+          lineHeight: '16px',
+          cursor: 'pointer',
+        }}
+        onClick={onAddCertification}
+      >
+        <Underlined>{t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}</Underlined>
+      </div>
     </Layout>
   );
 }

@@ -44,14 +44,6 @@ const supportedCertification = {
   certification_translation_key: 'ORGANIC',
 };
 
-const NotInterested = (args) => <PureViewNotInterestedInCertification {...args} />;
-
-export const NotInterestedInCertification = NotInterested.bind({});
-NotInterestedInCertification.args = {};
-NotInterestedInCertification.parameters = {
-  ...chromaticSmallScreen,
-};
-
 const Supported = (args) => <PureViewSupportedCertification {...args} />;
 
 export const SupportedCertification = Supported.bind({});
@@ -69,5 +61,13 @@ const Unsupported = (args) => <PureViewUnsupportedCertification {...args} />;
 export const UnsupportedCertification = Unsupported.bind({});
 UnsupportedCertification.args = {};
 UnsupportedCertification.parameters = {
+  ...chromaticSmallScreen,
+};
+
+const NotInterested = (args) => <PureViewNotInterestedInCertification {...args} />;
+
+export const NotInterestedInCertification = NotInterested.bind({});
+NotInterestedInCertification.args = {};
+NotInterestedInCertification.parameters = {
   ...chromaticSmallScreen,
 };

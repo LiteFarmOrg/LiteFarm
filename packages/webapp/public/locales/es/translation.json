@@ -25,10 +25,17 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
+      "ADD": "MISSING",
       "CHANGE_CERT": "MISSING",
+      "NO_CERTIFICATIONS": "MISSING",
       "NO_LONGER_WORKING": "MISSING",
+      "REQUEST_ONE": "MISSING",
+      "REQUEST_TWO": "MISSING",
       "TITLE_ONE": "MISSING",
-      "TITLE_TWO": "MISSING"
+      "TITLE_TWO": "MISSING",
+      "UNSUPPORTED_CHANGE_PREFERENCE": "MISSING",
+      "UNSUPPORTED_ONE": "MISSING",
+      "UNSUPPORTED_TWO": "MISSING"
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
@@ -66,13 +73,6 @@
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Estas interesado en aplicar para:",
       "YOUR_CERTIFICATION": "MISSING"
-    },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "MISSING",
-      "CHANGE_PREFERENCE": "MISSING",
-      "EXPORT": "MISSING",
-      "NO_SUPPORT_FIRST": "MISSING",
-      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },

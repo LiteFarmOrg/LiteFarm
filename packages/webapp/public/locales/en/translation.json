@@ -25,10 +25,17 @@
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
+      "ADD": "Add a certification",
       "CHANGE_CERT": "Change your certification preferences",
+      "NO_CERTIFICATIONS": "You are not currently pursuing any certifications.",
       "NO_LONGER_WORKING": "No longer pursuing this certification or working with this certifier? No problem!",
+      "REQUEST_ONE": "You've requested",
+      "REQUEST_TWO": "certification from",
       "TITLE_ONE": "You are pursuing ",
-      "TITLE_TWO": " certification from:"
+      "TITLE_TWO": " certification from:",
+      "UNSUPPORTED_CHANGE_PREFERENCE": "change your certification preferences",
+      "UNSUPPORTED_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
+      "UNSUPPORTED_TWO": "to see if there are new certifiers available in your area."
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
@@ -66,13 +73,6 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "Add a certification",
-      "CHANGE_PREFERENCE": "Change your certification preferences",
-      "EXPORT": "Export",
-      "NO_SUPPORT_FIRST": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or ",
-      "NO_SUPPORT_SECOND": " to see if there are new certifiers available in your area."
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },

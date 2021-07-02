@@ -43,7 +43,14 @@ const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
 };
 
-const useReactSelectStyles = (disabled) => {
+const DEFAULT_REACT_SELECT_WIDTH = 61;
+
+const getReactSelectWidth = (measure) => {
+  if (measure === 'time') return 93;
+  return DEFAULT_REACT_SELECT_WIDTH;
+};
+
+const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELECT_WIDTH } = {}) => {
   return useMemo(
     () => ({
       ...reactSelectDefaultStyles,
@@ -67,7 +74,7 @@ const useReactSelectStyles = (disabled) => {
       valueContainer: (provided, state) => ({
         ...provided,
         padding: '0',
-        width: '42px',
+        width: `${reactSelectWidth - 19}px`,
         justifyContent: 'center',
       }),
       singleValue: (provided, state) => ({
@@ -77,7 +84,7 @@ const useReactSelectStyles = (disabled) => {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
-        width: '42px',
+        width: `${reactSelectWidth - 19}px`,
         overflowX: 'hidden',
         textAlign: 'center',
         position: 'absolute',
@@ -92,7 +99,7 @@ const useReactSelectStyles = (disabled) => {
         transform: 'translateX(-4px)',
       }),
     }),
-    [disabled],
+    [disabled, reactSelectWidth],
   );
 };
 const Unit = ({
@@ -121,7 +128,6 @@ const Unit = ({
   max = 1000000000,
   ...props
 }) => {
-  const reactSelectStyles = useReactSelectStyles(disabled);
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
     hookFormSetValue(name, undefined);
@@ -134,12 +140,22 @@ const Unit = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled } = useMemo(() => {
+  const {
+    displayUnit,
+    displayValue,
+    options,
+    databaseUnit,
+    isSelectDisabled,
+    measure,
+    reactSelectWidth,
+  } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
     const isSelectDisabled = options.length <= 1;
+    const measure = convert().describe(databaseUnit)?.measure;
+    const reactSelectWidth = getReactSelectWidth(measure);
     return to && convert().describe(to)?.system === system
       ? {
           displayUnit: to,
@@ -147,14 +163,19 @@ const Unit = ({
           options,
           databaseUnit,
           isSelectDisabled,
+          measure,
+          reactSelectWidth,
         }
       : {
           ...getDefaultUnit(unitType, value, system, databaseUnit),
           options,
           databaseUnit,
           isSelectDisabled,
+          measure,
+          reactSelectWidth,
         };
   }, [unitType, defaultValue, system, defaultValueUnit, to]);
+  const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
   useEffect(() => {
@@ -300,6 +321,7 @@ const Unit = ({
               errors && styles.inputError,
               isSelectDisabled && styles.none,
             )}
+            style={{ width: `${reactSelectWidth}px` }}
           />
         </div>
       </div>

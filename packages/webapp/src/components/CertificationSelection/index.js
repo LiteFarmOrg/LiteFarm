@@ -8,8 +8,6 @@ import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
 import PageTitle from '../PageTitle/v2';
 
-// TODO: WHAT TYPE OF CERTIFICATION?
-
 export default function PureCertificationSelection({
   onSubmit,
   inputClasses = {},

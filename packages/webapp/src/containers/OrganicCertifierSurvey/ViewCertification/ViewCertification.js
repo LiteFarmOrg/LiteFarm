@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 import { selectedCertificationSelector } from '../organicCertifierSurveySlice';
 import { certifierSurveySelector } from '../slice';
-import { PureViewNotInterestedInCertification } from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
-import { PureViewUnsupportedCertification } from '../../../components/ViewCertification/PureViewUnsupportedCertification';
-import { PureViewSupportedCertification } from '../../../components/ViewCertification/PureViewSupportedCertification';
+import PureViewSupportedCertification from '../../../components/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/ViewCertification/PureViewUnsupportedCertification';
+import PureViewNotInterestedInCertification from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
+
 import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
 
 export default function ViewCertification({ history }) {

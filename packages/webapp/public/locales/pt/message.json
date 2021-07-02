@@ -3,11 +3,13 @@
     "ERROR": {
       "CREATE": "MISSING",
       "FAILED_ARCHIVE": "MISSING",
-      "FAILED_UPLOAD": "Anexos não carregados"
+      "FAILED_UPLOAD": "Anexos não carregados",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "MISSING",
-      "CREATE": "MISSING"
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {

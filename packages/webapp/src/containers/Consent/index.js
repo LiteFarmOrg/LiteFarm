@@ -24,7 +24,7 @@ const getLanguageConsent = (language) => languageConsent[language] || languageCo
 
 function ConsentForm({
   goBackTo = '/role_selection',
-  goForwardTo = '/interested_in_organic',
+  goForwardTo = '/certification/interested_in_organic',
   history,
 }) {
   const { t, i18n } = useTranslation();

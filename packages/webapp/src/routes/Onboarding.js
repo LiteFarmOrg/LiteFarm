@@ -29,7 +29,7 @@ const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
 const InterestedOrganic = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/CertificationSelection'),
@@ -40,7 +40,9 @@ const CertifierSelectionMenu = React.lazy(() =>
 );
 
 const SetCertificationSummary = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/SetCertificationSummary'),
+  import(
+    '../containers/OrganicCertifierSurvey/SetCertificationSummary/OnboardingSetCertificationSummary'
+  ),
 );
 
 const RequestCertifier = React.lazy(() =>
@@ -77,15 +79,21 @@ function OnboardingFlow({
             component={() => <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />}
           />
         )}
-        {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
+        {step_three && (
+          <Route path="/certification/interested_in_organic" exact component={InterestedOrganic} />
+        )}
         {interested && (
-          <Route path="/certification_selection" exact component={CertificationSelection} />
+          <Route path="/certification/selection" exact component={CertificationSelection} />
         )}
         {selected && (
           <>
-            <Route path="/certifier_selection_menu" exact component={CertifierSelectionMenu} />
-            <Route path="/requested_certifier" exact component={RequestCertifier} />
-            <Route path="/certification_summary" exact component={SetCertificationSummary} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             {step_four && <Route path="/outro" exact component={Outro} />}
           </>
         )}
@@ -97,7 +105,9 @@ function OnboardingFlow({
             {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
-            {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
+            {step_three && !step_four && !interested && (
+              <Redirect to={'/certification/interested_in_organic'} />
+            )}
             {step_four && !step_five && !(interested && !certifiers?.length) && (
               <Redirect to={'/outro'} />
             )}

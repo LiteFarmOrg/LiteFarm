@@ -95,7 +95,6 @@ export const watercourse_width = {
   databaseUnit: databaseUnit.length,
 };
 
-
 export const container_planting_depth = {
   metric: {
     units: ['cm', 'm'],
@@ -126,14 +125,14 @@ export const container_plant_spacing = {
 
 export const crop_age = {
   metric: {
-    units: ['year', 'week', 'month'],
+    units: ['week', 'month', 'year'],
     defaultUnit: 'week',
-    breakpoints: [],
+    breakpoints: [4.28, 52.14],
   },
   imperial: {
-    units: ['year', 'week', 'month'],
+    units: ['week', 'month', 'year'],
     defaultUnit: 'week',
-    breakpoints: [],
+    breakpoints: [4.28, 52.14],
   },
   databaseUnit: databaseUnit.time,
 };
@@ -223,8 +222,6 @@ const volumeFlowRateUnits = {
   },
   databaseUnit: databaseUnit.volumeFlowRate,
 };
-
-
 
 export const getDefaultUnit = (unitType = area_total_area, value, system, unit) => {
   if (value) {

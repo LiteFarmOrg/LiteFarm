@@ -11,13 +11,17 @@ import { Label } from '../../Typography';
 import Infoi from '../../Tooltip/Infoi';
 import { crop_age } from '../../../util/unit';
 import styles from './styles.module.scss';
+import { cloneObject } from '../../../util';
 
 
 export default function PurePlantedAlready({
   onSubmit,
   onGoBack,
   onCancel,
+  useHookFormPersist,
+  persistedFormData,
   system,
+  persistPath,
 }) {
 
   const { t } = useTranslation();
@@ -34,7 +38,12 @@ export default function PurePlantedAlready({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: cloneObject(persistedFormData),
   });
+
+  useHookFormPersist([persistPath], getValues);
+
+  console.log(persistedFormData);
 
 
   const disabled = !isValid;
@@ -48,6 +57,8 @@ export default function PurePlantedAlready({
   const AGE_UNIT = 'age_unit';
   const SEEDING_TYPE = 'seeding_type';
   const WILD_CROP = 'wild_crop';
+
+  const MAX_AGE = 999;
 
   const in_ground = watch(IN_GROUND);
   const seeding_type = watch(SEEDING_TYPE);
@@ -152,6 +163,7 @@ export default function PurePlantedAlready({
                       hookFormSetError={setError}
                       hookFromWatch={watch}
                       control={control}
+                      max={MAX_AGE}
                       optional
                     />
                   </div>
@@ -181,6 +193,7 @@ export default function PurePlantedAlready({
                   hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
+                  max={MAX_AGE}
                   optional
                 />
               </div>
@@ -207,5 +220,11 @@ export default function PurePlantedAlready({
 }
 
 PurePlantedAlready.prototype = {
-
+  onSubmit: PropTypes.func,
+  onGoBack: PropTypes.func,
+  onCancel: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  persistedFormData: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']),
+  persistPath: PropTypes.string,
 };

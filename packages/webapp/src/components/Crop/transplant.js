@@ -20,6 +20,7 @@ export default function PureTransplant({
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
 
   const progress = 12.5;
 
@@ -38,7 +39,7 @@ export default function PureTransplant({
     defaultValues: (isCoverCrop && !persistedFormData.hasOwnProperty(COVER))?  { ...persistedFormData, for_cover: true } : { ...persistedFormData },
   });
 
-  useHookFormPersist([submitPath], getValues);
+  useHookFormPersist([submitPath, goBackPath], getValues);
   const onSubmit = () => {
     history?.push(submitPath);
   };

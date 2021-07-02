@@ -924,7 +924,16 @@
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?"
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
+    "PLANTING": "Planting",
+    "WHAT_IS_AGE": "What is the age of the crop?",
+    "AGE": "Age",
+    "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SEEDLING": "Seedling or planting stock",
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "SEEDLING_AGE": "What age is the the seedling or planting stock?",
+    "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock."
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1252,5 +1261,10 @@
   "PREPARING_EXPORT": {
     "TITLE": "Your export is being prepared",
     "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes..."
+  },
+  "AGE_UNIT": {
+    "WEEK": "weeks",
+    "MONTH": "months",
+    "YEAR": "years"
   }
 }

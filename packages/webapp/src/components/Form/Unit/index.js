@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../../locales/i18n';
 import { numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
@@ -33,6 +34,9 @@ export const unitOptionMap = {
   oz: { label: 'oz', value: 'oz' },
   lb: { label: 'lb', value: 'lb' },
   t: { label: 't', value: 't' },
+  year: { label: i18n.t('AGE_UNIT.YEAR'), value: 'year'},
+  week: { label: i18n.t('AGE_UNIT.WEEK'), value: 'week'},
+  month: { label: i18n.t('AGE_UNIT.MONTH'), value: 'month'},
 };
 
 const getOptions = (unitType = area_total_area, system) => {

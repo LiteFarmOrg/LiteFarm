@@ -33,13 +33,8 @@ export default function ModalComponent({
             }}
           >
             {(warning || error) && <VscWarning style={{ marginTop: '1px' }} />}
-            {icon && (
-                icon
-              )
-            }
-            {title}
-            {' '}
-            {/* todo: have different icons between error and warning modals */}
+            {icon && icon}
+            {title} {/* todo: have different icons between error and warning modals */}
           </Semibold>
         )}
         {contents?.map((line) => (

@@ -29,12 +29,12 @@ class Document extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'thumbnail_url', 'farm_id'],
+      required: ['name', 'farm_id'],
       properties: {
         document_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string' },
-        thumbnail_url: { type: 'string' },
+        thumbnail_url: { type: ['string', null] },
         valid_until: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         notes: { type: ['string', null] },
         no_expiration: { type: ['boolean', null] },

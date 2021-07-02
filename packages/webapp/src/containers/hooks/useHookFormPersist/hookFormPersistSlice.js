@@ -37,7 +37,7 @@ const onUploadFileSuccess = (state, { payload: file }) => {
 
 const onDeleteUploadedFile = (state, { payload }) => {
   state.formData.uploadedFiles = state.formData.uploadedFiles.filter(
-    ({ thumbnail_url }) => payload.thumbnail_url !== thumbnail_url,
+    ({ url }) => payload.url !== url,
   );
 };
 

@@ -34,9 +34,9 @@ export const getUnitOptionMap = () => ({
   oz: { label: 'oz', value: 'oz' },
   lb: { label: 'lb', value: 'lb' },
   t: { label: 't', value: 't' },
-  year: { label: i18n.t('AGE_UNIT.YEAR'), value: 'year' },
-  week: { label: i18n.t('AGE_UNIT.WEEK'), value: 'week' },
-  month: { label: i18n.t('AGE_UNIT.MONTH'), value: 'month' },
+  year: { label: i18n.t('UNIT.TIME.YEAR'), value: 'year' },
+  week: { label: i18n.t('UNIT.TIME.WEEK'), value: 'week' },
+  month: { label: i18n.t('UNIT.TIME.MONTH'), value: 'month' },
 });
 
 const getOptions = (unitType = area_total_area, system) => {

@@ -885,6 +885,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "MISSING",
+    "AGE": "MISSING",
     "AS_COVER_CROP": "MISSING",
     "BEDS": "MISSING",
     "BROADCAST": "MISSING",
@@ -917,6 +918,8 @@
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",
+    "PLANTED_ALREADY": "MISSING",
+    "PLANTING": "MISSING",
     "PLANTING_DATE": "MISSING",
     "PLANTING_DEPTH": "MISSING",
     "PLANTING_METHOD": "MISSING",
@@ -925,6 +928,10 @@
     "PLANTING_SOIL": "MISSING",
     "PLANTS_PER_CONTAINER": "MISSING",
     "ROWS": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "SEEDLING_AGE": "MISSING",
+    "SEEDLING_AGE_INFO": "MISSING",
     "SELECT_PLANTING_LOCATION": "MISSING",
     "SELECT_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "MISSING",
@@ -933,15 +940,8 @@
     "TOTAL_PLANTS": "MISSING",
     "TRANSPLANT": "MISSING",
     "TRANSPLANT_LOCATION": "MISSING",
-    "PLANTED_ALREADY": "MISSING",
-    "PLANTING": "MISSING",
     "WHAT_IS_AGE": "MISSING",
-    "AGE": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDLING": "MISSING",
-    "WILD_CROP": "MISSING",
-    "SEEDLING_AGE": "MISSING",
-    "SEEDLING_AGE_INFO": "MISSING"
+    "WILD_CROP": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -979,6 +979,10 @@
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
     "TITLE": "Link enviado"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "MISSING",
+    "TITLE": "MISSING"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ajuda",
@@ -1254,7 +1258,12 @@
   },
   "UNIT": {
     "INVALID_NUMBER": "Número inválido",
-    "MAXIMUM": "Valor máximo excedido"
+    "MAXIMUM": "Valor máximo excedido",
+    "TIME": {
+      "MONTH": "MISSING",
+      "WEEK": "MISSING",
+      "YEAR": "MISSING"
+    }
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",
@@ -1265,14 +1274,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "MISSING"
-  },
-  "PREPARING_EXPORT": {
-    "TITLE": "MISSING",
-    "MESSAGE": "MISSING"
-  },
-  "AGE_UNIT": {
-    "WEEK": "MISSING",
-    "MONTH": "MISSING",
-    "YEAR": "MISSING"
   }
 }

@@ -13,7 +13,6 @@ import { crop_age } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 
-
 export default function PurePlantedAlready({
   onSubmit,
   onGoBack,
@@ -23,7 +22,6 @@ export default function PurePlantedAlready({
   system,
   persistPath,
 }) {
-
   const { t } = useTranslation();
 
   const {
@@ -43,9 +41,6 @@ export default function PurePlantedAlready({
 
   useHookFormPersist([persistPath], getValues);
 
-  console.log(persistedFormData);
-
-
   const disabled = !isValid;
 
   const progress = 12.5;
@@ -62,7 +57,6 @@ export default function PurePlantedAlready({
 
   const in_ground = watch(IN_GROUND);
   const seeding_type = watch(SEEDING_TYPE);
-
 
   return (
     <Form
@@ -85,10 +79,7 @@ export default function PurePlantedAlready({
 
       <div>
         <div>
-          <Label
-            className={styles.label}
-            style={{ marginBottom: '18px' }}
-          >
+          <Label className={styles.label} style={{ marginBottom: '18px' }}>
             {t('MANAGEMENT_PLAN.PLANTED_ALREADY')}
           </Label>
         </div>
@@ -104,7 +95,7 @@ export default function PurePlantedAlready({
             {
               label: t('MANAGEMENT_PLAN.IN_GROUND'),
               value: true,
-            }
+            },
           ]}
           required
         />
@@ -113,10 +104,7 @@ export default function PurePlantedAlready({
         <>
           {!in_ground && (
             <>
-              <Label
-                className={styles.label}
-                style={{ marginBottom: '18px' }}
-              >
+              <Label className={styles.label} style={{ marginBottom: '18px' }}>
                 {t('MANAGEMENT_PLAN.SEED_OR_SEEDLING')}
               </Label>
               <RadioGroup
@@ -126,22 +114,19 @@ export default function PurePlantedAlready({
                 radios={[
                   {
                     label: t('CROP_MANAGEMENT.SEED'),
-                    value: 'SEED'
+                    value: 'SEED',
                   },
                   {
                     label: t('MANAGEMENT_PLAN.SEEDLING'),
-                    value: 'SEEDLING_OR_PLANTING_STOCK'
-                  }
+                    value: 'SEEDLING_OR_PLANTING_STOCK',
+                  },
                 ]}
                 required
               />
               {seeding_type === 'SEEDLING_OR_PLANTING_STOCK' && (
                 <>
                   <div>
-                    <Label
-                      className={styles.label}
-                      style={{ marginBottom: '23px' }}
-                    >
+                    <Label className={styles.label} style={{ marginBottom: '23px' }}>
                       {t('MANAGEMENT_PLAN.SEEDLING_AGE')}
                     </Label>
                     <Infoi
@@ -173,10 +158,7 @@ export default function PurePlantedAlready({
           )}
           {in_ground && (
             <>
-              <Label
-                className={styles.label}
-                style={{ marginBottom: '24px' }}
-              >
+              <Label className={styles.label} style={{ marginBottom: '24px' }}>
                 {t('MANAGEMENT_PLAN.WHAT_IS_AGE')}
               </Label>
               <div style={{ marginBottom: '40px' }}>
@@ -198,23 +180,15 @@ export default function PurePlantedAlready({
                 />
               </div>
               <div>
-                <Label
-                  className={styles.label}
-                  style={{ marginBottom: '18px' }}
-                >
+                <Label className={styles.label} style={{ marginBottom: '18px' }}>
                   {t('MANAGEMENT_PLAN.WILD_CROP')}
                 </Label>
-                <RadioGroup
-                  hookFormControl={control}
-                  name={WILD_CROP}
-                  required
-                />
+                <RadioGroup hookFormControl={control} name={WILD_CROP} required />
               </div>
             </>
           )}
         </>
       )}
-
     </Form>
   );
 }

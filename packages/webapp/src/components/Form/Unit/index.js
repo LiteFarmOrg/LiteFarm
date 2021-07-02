@@ -13,7 +13,7 @@ import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
-export const unitOptionMap = {
+export const getUnitOptionMap = () => ({
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
   ft2: { label: 'ft²', value: 'ft2' },
@@ -34,13 +34,13 @@ export const unitOptionMap = {
   oz: { label: 'oz', value: 'oz' },
   lb: { label: 'lb', value: 'lb' },
   t: { label: 't', value: 't' },
-  year: { label: i18n.t('AGE_UNIT.YEAR'), value: 'year'},
-  week: { label: i18n.t('AGE_UNIT.WEEK'), value: 'week'},
-  month: { label: i18n.t('AGE_UNIT.MONTH'), value: 'month'},
-};
+  year: { label: i18n.t('AGE_UNIT.YEAR'), value: 'year' },
+  week: { label: i18n.t('AGE_UNIT.WEEK'), value: 'week' },
+  month: { label: i18n.t('AGE_UNIT.MONTH'), value: 'month' },
+});
 
 const getOptions = (unitType = area_total_area, system) => {
-  return unitType[system].units.map((unit) => unitOptionMap[unit]);
+  return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
 };
 
 const useReactSelectStyles = (disabled) => {
@@ -118,6 +118,7 @@ const Unit = ({
   to,
   required,
   mode = 'onBlur',
+  max = 1000000000,
   ...props
 }) => {
   const reactSelectStyles = useReactSelectStyles(disabled);
@@ -158,7 +159,7 @@ const Unit = ({
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
   useEffect(() => {
     if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system) {
-      hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }
   }, [hookFormUnit]);
 
@@ -198,7 +199,7 @@ const Unit = ({
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
-    } else if (e.target.value > 1000000000) {
+    } else if (e.target.value > max) {
       hookFormSetError(name, {
         type: 'manual',
         message: t('UNIT.MAXIMUM'),

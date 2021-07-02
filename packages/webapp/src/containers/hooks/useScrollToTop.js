@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import history from '../../history';
-//TODO: toDeprecate
-export default function ScrollToTop() {
-  const pathname = history.location.pathname;
+
+export default function useScrollToTop() {
   useEffect(() => {
     window.scrollY && window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
+  }, [history.location.pathname]);
 }

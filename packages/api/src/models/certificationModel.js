@@ -44,9 +44,9 @@ class Certification extends Model {
             modelClass: require('./certifierModel'),
             relation: Model.HasManyRelation,
             join: {
-                from: 'certificationModel.certification_id',
-                to: 'certifierModel.certification_type',
-              },
+              from: 'certificationModel.certification_id',
+              to: 'certifierModel.certification_id',
+            },
         }
     };
   }

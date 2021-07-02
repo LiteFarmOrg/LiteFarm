@@ -89,7 +89,7 @@ import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 import { getRoles } from './InviteUser/saga';
 import { getAllUserFarmsByFarmId } from './Profile/People/saga';
-import { getCertifiers } from './OrganicCertifierSurvey/saga';
+import { getCertificationSurveys } from './OrganicCertifierSurvey/saga';
 import {
   getAllCropVarietiesSuccess,
   onLoadingCropVarietyFail,
@@ -137,14 +137,16 @@ axios.interceptors.response.use(
   },
 );
 
-export function getHeader(user_id, farm_id) {
+export function getHeader(user_id, farm_id, { headers, ...props } = {}) {
   return {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + localStorage.getItem('id_token'),
       user_id,
       farm_id,
+      ...headers,
     },
+    ...props,
   };
 }
 
@@ -375,9 +377,11 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   }
   for (const plantingTypePascal in plantingTypeActionMap) {
     try {
-      yield put(
-        plantingTypeActionMap[plantingTypePascal].success(plantingMethods[plantingTypePascal]),
-      );
+      if (plantingMethods[plantingTypePascal]?.length) {
+        yield put(
+          plantingTypeActionMap[plantingTypePascal].success(plantingMethods[plantingTypePascal]),
+        );
+      }
     } catch (e) {
       yield put(plantingTypeActionMap[plantingTypePascal].fail(e));
       console.log(e);
@@ -465,7 +469,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     if (!has_consent) return;
 
     const tasks = [
-      put(getCertifiers()),
+      put(getCertificationSurveys()),
       put(getCrops()),
       put(getCropVarieties()),
       put(getLocations()),

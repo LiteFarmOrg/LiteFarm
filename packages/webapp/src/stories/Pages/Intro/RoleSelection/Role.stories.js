@@ -12,7 +12,9 @@ export default {
 const Template = (args) => <RoleSelection {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  onGoBack: () => {},
+};
 Primary.parameters = {
   ...chromaticSmallScreen,
 };

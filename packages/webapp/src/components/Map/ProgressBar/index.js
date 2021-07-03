@@ -43,7 +43,6 @@ export default function ProgressBar({ closeSuccessHeader }) {
         classes={{
           colorPrimary: classes.colorPrimary,
           barColorPrimary: classes.barColorPrimary,
-          height: classes.height,
         }}
       />
     </div>

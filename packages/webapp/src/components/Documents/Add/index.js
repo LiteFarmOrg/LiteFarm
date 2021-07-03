@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../../Form/Input';
 import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,8 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
+import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import { Loading } from '../../Loading/Loading';
 
 function PureDocumentDetailView({
   submit,
@@ -52,7 +54,7 @@ function PureDocumentDetailView({
         valid_until: persistedFormData.valid_until?.substring(0, 10),
         notes: persistedFormData.notes,
         files: persistedFormData.files,
-        no_expiration: persistedFormData.no_expiration
+        no_expiration: persistedFormData.no_expiration,
       }
     : {};
 
@@ -70,14 +72,19 @@ function PureDocumentDetailView({
   });
 
   const submitWithFiles = (data) => {
+    const getDocumentThumbnailUrl = (files) => {
+      for (const file of files) {
+        if (file.thumbnail_url) return file.thumbnail_url;
+      }
+      return undefined;
+    };
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
     submit({
       ...data,
-      thumbnail_url: uploadedFiles[0].thumbnail_url,
+      thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
       files: uploadedFiles.map((file, i) => ({
         ...file,
-        file_name: `${data.name}_i`,
       })),
       valid_until: validUntil,
     });
@@ -88,14 +95,24 @@ function PureDocumentDetailView({
   const {
     persistedData: { uploadedFiles },
   } = useHookFormPersist(persistedPath, getValues);
-
-  const [isFirstUploadEnded, setIsFirstUploadEnded] = useState(false);
-
-  const onUploadEnd = () => {
-    setIsFirstUploadEnded(true);
+  const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
+  const onFileUpdateEnd = () => {
+    setIsFilesUpdated(true);
   };
 
-  const disabled = isEdit ? !isValid || !(isDirty || isFirstUploadEnded) : (!isValid || uploadedFiles?.length === 0);
+  const [shouldShowLoadingImage, setShouldShowLoadingImage] = useState(
+    !isEdit && !uploadedFiles?.length,
+  );
+  const onUpload = () => {
+    setShouldShowLoadingImage(true);
+  };
+  useEffect(() => {
+    uploadedFiles?.length && setShouldShowLoadingImage(false);
+  }, [uploadedFiles?.length]);
+
+  const disabled = isEdit
+    ? !isValid || uploadedFiles?.length === 0 || !(isDirty || isFirstFileUpdateEnded)
+    : !isValid || uploadedFiles?.length === 0;
 
   return (
     <Form
@@ -126,7 +143,7 @@ function PureDocumentDetailView({
         name={NAME}
         hookFormRegister={register(NAME, { required: true })}
         label={t('DOCUMENTS.ADD.DOCUMENT_NAME')}
-        classes={{ container: { paddingBottom: '32px' } }}
+        classes={{ container: { paddingBottom: '40px' } }}
         errors={errors[NAME] && t('common:REQUIRED')}
       />
       <Controller
@@ -160,8 +177,18 @@ function PureDocumentDetailView({
         label={t('DOCUMENTS.ADD.DOES_NOT_EXPIRE')}
         classes={{ container: { paddingBottom: '42px' } }}
       />
-      <div style={{ width: '312px', minHeight: '383px', margin: 'auto', paddingBottom: '16px' }}>
-        {uploadedFiles?.map(({ thumbnail_url }, index) => (
+      <div
+        style={{
+          width: '312px',
+          flexGrow: 1,
+          margin: 'auto',
+          paddingBottom: '16px',
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: '24px',
+        }}
+      >
+        {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
           <div key={thumbnail_url}>
             <div
               style={{
@@ -173,29 +200,37 @@ function PureDocumentDetailView({
                 borderRadius: '4px 0 4px 4px',
                 zIndex: 10,
               }}
-              onClick={() => deleteImage(thumbnail_url)}
+              onClick={() => {
+                deleteImage(url);
+                onFileUpdateEnd();
+              }}
             >
               <TrashIcon />
             </div>
-            {imageComponent({
-              width: '100%',
-              style: { position: 'relative', top: '-24px', zIndex: 0 },
-              height: '100%',
-              src: thumbnail_url,
-            })}
+            {thumbnail_url ? (
+              imageComponent({
+                width: '100%',
+                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                height: '100%',
+                src: thumbnail_url,
+              })
+            ) : (
+              <CertifierSelectionMenuItem
+                certifierName={file_name}
+                style={{ position: 'relative', top: '-24px', zIndex: 0 }}
+              />
+            )}
           </div>
         ))}
+        {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
       </div>
-      {
-        uploadedFiles?.length <= 5 &&
-        (
-          documentUploader({
-            style: { paddingBottom: '32px' },
-            linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
-            onUploadEnd,
-          })
-        )
-      }
+      {uploadedFiles?.length <= 5 &&
+        documentUploader({
+          style: { paddingBottom: '32px' },
+          linkText: t('DOCUMENTS.ADD.ADD_MORE_PAGES'),
+          onUpload,
+          onUploadEnd: onFileUpdateEnd,
+        })}
       <InputAutoSize
         hookFormRegister={register(NOTES)}
         name={NOTES}

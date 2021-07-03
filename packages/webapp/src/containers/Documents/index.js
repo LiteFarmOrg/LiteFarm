@@ -26,7 +26,13 @@ export default function Documents({ history }) {
   const lang = getLanguageFromLocalStorage();
 
   const getDisplayedDate = (date) => {
-    return date && moment(date).locale(lang).format('MMM D, YY') + "'";
+    var formattedDate = moment(date).locale(lang).format('MMM D, YY');
+    return (
+      date &&
+      formattedDate.substring(0, formattedDate.length - 2) +
+        "'" +
+        formattedDate.substring(formattedDate.length - 2)
+    );
   };
 
   const [filterString, setFilterString] = useState('');
@@ -92,7 +98,7 @@ export default function Documents({ history }) {
       <div ref={containerRef}>
         <>
           <DocumentUploader
-            style={{marginBottom: '24px'}}
+            style={{ marginBottom: '24px' }}
             linkText={t('DOCUMENTS.ADD_DOCUMENT')}
             onUpload={() => history.push('/documents/add_document')}
           />

@@ -15,10 +15,11 @@ export const Primary = Template.bind({});
 Primary.args = {
   certificationType: {
     certificationName: 'Participatory Guarantee System',
-    certificationID: 2,
+    certification_id: 2,
     requestedCertification: null,
   },
   name: 'Certifier',
+  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

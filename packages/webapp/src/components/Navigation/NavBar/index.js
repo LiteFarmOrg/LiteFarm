@@ -165,6 +165,11 @@ export default function PureNavBar({
     });
     closeFloater();
   };
+  const certificationClick = () => {
+    if (!introduce_map) return;
+    history.push('/certification');
+    closeFloater();
+  };
 
   //PureProfileFloater
   const helpClick = () => {
@@ -293,6 +298,7 @@ export default function PureNavBar({
               farmInfoClick={farmInfoClick}
               farmMapClick={farmMapClick}
               peopleClick={peopleClick}
+              certificationClick={certificationClick}
               isIntroducingFarmMap={isIntroducingFarmMap}
             >
               <IconButton

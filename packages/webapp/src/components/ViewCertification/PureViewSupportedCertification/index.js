@@ -7,9 +7,9 @@ import Layout from '../../Layout';
 
 export default function PureViewSupportedCertification({
   supportedCertifier,
-  onExport,
   supportedCertification,
-  onAddCertification,
+  onExport,
+  onChangeCertification,
 }) {
   const { t } = useTranslation(['translation', 'common']);
 
@@ -51,7 +51,7 @@ export default function PureViewSupportedCertification({
           lineHeight: '16px',
           cursor: 'pointer',
         }}
-        onClick={onAddCertification}
+        onClick={onChangeCertification}
       >
         <Underlined>{t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}</Underlined>
       </div>

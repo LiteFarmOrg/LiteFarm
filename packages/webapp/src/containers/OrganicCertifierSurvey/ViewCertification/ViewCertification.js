@@ -26,19 +26,16 @@ export default function ViewCertification({ history }) {
   return (
     <>
       {!interested ? (
-        <PureViewNotInterestedInCertification
-          onAddCertification={onAddCertification}
-          onExport={onExport}
-        />
+        <PureViewNotInterestedInCertification onAddCertification={onAddCertification} />
       ) : isNotSupported ? (
         <PureViewUnsupportedCertification
-          onChangePreference={onChangePreference}
           onExport={onExport}
+          onChangePreference={onChangePreference}
         />
       ) : (
         <PureViewSupportedCertification
-          onChangePreference={onChangePreference}
           onExport={onExport}
+          onChangePreference={onChangePreference}
         />
       )}
     </>

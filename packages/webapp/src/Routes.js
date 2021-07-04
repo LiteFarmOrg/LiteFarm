@@ -227,7 +227,7 @@ const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 
-const PlantedAlready = React.lazy(() => 
+const PlantedAlready = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantedAlready'),
 );
 
@@ -261,6 +261,8 @@ const RequestCertifier = React.lazy(() =>
 const ViewCertification = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
 );
+
+const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
 
 const Routes = () => {
   useScrollToTop();
@@ -362,11 +364,11 @@ const Routes = () => {
             <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
             <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
-            <Route 
+            <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
               exact
               component={PlantedAlready}
-            />  
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
@@ -592,7 +594,7 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-            <Route 
+            <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
               exact
               component={PlantedAlready}
@@ -857,6 +859,7 @@ const Routes = () => {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
+          <Route path={'/render_survey'} exact component={RenderSurvey} />
           <Route path="/callback" component={Callback} />
           <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />

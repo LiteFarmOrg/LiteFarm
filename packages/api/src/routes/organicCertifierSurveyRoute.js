@@ -34,6 +34,8 @@ router.patch('/:survey_id/requested_certification', hasFarmAccess({ params: 'sur
 
 router.patch('/:survey_id/certifiers', hasFarmAccess({ params: 'survey_id' }), checkScope(['edit:organic_certifier_survey']), organicCertifierSurveyController.patchCertifiers());
 router.patch('/:survey_id/interested', hasFarmAccess({ params: 'survey_id' }), checkScope(['edit:organic_certifier_survey']), organicCertifierSurveyController.patchInterested());
-router.delete('/:survey_id', hasFarmAccess({ params:'survey_id' }), checkScope(['delete:organic_certifier_survey']), organicCertifierSurveyController.delOrganicCertifierSurvey());
+router.delete('/:survey_id', hasFarmAccess({ params: 'survey_id' }), checkScope(['delete:organic_certifier_survey']), organicCertifierSurveyController.delOrganicCertifierSurvey());
+
+router.get('/export/:farm_id', organicCertifierSurveyController.exportSurvey());
 
 module.exports = router;

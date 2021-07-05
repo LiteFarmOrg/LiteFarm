@@ -48,7 +48,8 @@ const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym }) => {
               </script>
             </head>
             <body>
-              <h1>Content inside an iframe, who knew...</h1>
+              <h1>This is a sample survey</h1>
+              <h2>Please wait 5 seconds for a demo submission (export button will be enabled)</h2>
             </body>
           </html>
         `}

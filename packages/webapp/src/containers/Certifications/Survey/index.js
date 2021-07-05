@@ -5,14 +5,13 @@ import PureCertificationSurveyPage from '../../../components/CertificationSurvey
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { certifierSelector } from '../../OrganicCertifierSurvey/certifierSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { exportCertificationData } from '../saga';
 
 function CertificationSurveyPage({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const onExport = (exportData) => {
-    // TODO: dispatch action and history push
-    console.log({ exportData });
-    console.log('clicked export button');
+    dispatch(exportCertificationData(exportData));
   };
 
   const certifierSurvey = useSelector(certifierSurveySelector);

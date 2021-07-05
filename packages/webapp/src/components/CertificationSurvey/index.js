@@ -71,7 +71,7 @@ const PureCertificationSurveyPage = ({
             onClick={() =>
               onExport({
                 ...persistedFormData,
-                submissionId,
+                submission_id: submissionId,
               })
             }
             disabled={hasQuestions && !submissionId}

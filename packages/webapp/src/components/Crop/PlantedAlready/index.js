@@ -35,7 +35,7 @@ export default function PurePlantedAlready({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
+    shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
 
@@ -75,6 +75,7 @@ export default function PurePlantedAlready({
         style={{
           marginBottom: '24px',
         }}
+        cancelModalTitle
       />
 
       <div>

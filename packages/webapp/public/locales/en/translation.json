@@ -24,6 +24,19 @@
     "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "Add a certification",
+      "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Change your certification preferences",
+      "NO_CERTIFICATIONS": "You are not currently pursuing any certifications.",
+      "NO_LONGER_WORKING": "No longer pursuing this certification or working with this certifier? No problem!",
+      "SUPPORTED_CERTIFICATION_ONE": "You are pursuing ",
+      "SUPPORTED_CERTIFICATION_TWO": " certification from:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "to see if there are new certifiers available in your area.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "You've requested",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -60,13 +73,6 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "Add a certification",
-      "CHANGE_PREFERENCE": "Change your certification preferences",
-      "EXPORT": "Export",
-      "NO_SUPPORT_FIRST": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or ",
-      "NO_SUPPORT_SECOND": " to see if there are new certifiers available in your area."
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
@@ -1261,8 +1267,8 @@
     "INVALID_NUMBER": "Invalid number",
     "MAXIMUM": "Maximum value exceeded",
     "TIME": {
-      "WEEK": "weeks",
       "MONTH": "months",
+      "WEEK": "weeks",
       "YEAR": "years"
     }
   },

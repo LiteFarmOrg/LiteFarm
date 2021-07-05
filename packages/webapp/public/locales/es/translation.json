@@ -24,6 +24,19 @@
     "BODY": "MISSING"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "MISSING",
+      "CHANGE_CERTIFICATION_PREFERENCE": "MISSING",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "MISSING",
+      "NO_CERTIFICATIONS": "MISSING",
+      "NO_LONGER_WORKING": "MISSING",
+      "SUPPORTED_CERTIFICATION_ONE": "MISSING",
+      "SUPPORTED_CERTIFICATION_TWO": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "MISSING"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
       "SUBTITLE_ONE": "Esta es una lista de certificadores de",
@@ -60,13 +73,6 @@
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Estas interesado en aplicar para:",
       "YOUR_CERTIFICATION": "MISSING"
-    },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "MISSING",
-      "CHANGE_PREFERENCE": "MISSING",
-      "EXPORT": "MISSING",
-      "NO_SUPPORT_FIRST": "MISSING",
-      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },

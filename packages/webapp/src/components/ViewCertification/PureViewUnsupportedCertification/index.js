@@ -7,7 +7,7 @@ import Layout from '../../Layout';
 
 export default function PureViewUnsupportedCertification({
   onExport,
-  onChangePreference,
+  onChangeCertificationPreference,
   unsupportedCertifier,
   unsupportedCertification,
 }) {
@@ -43,7 +43,7 @@ export default function PureViewUnsupportedCertification({
             cursor: 'pointer',
             fontSize: '16px',
           }}
-          onClick={onChangePreference}
+          onClick={onChangeCertificationPreference}
         >
           {' '}
           {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CHANGE_PREFERENCE')}{' '}

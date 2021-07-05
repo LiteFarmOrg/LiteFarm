@@ -9,7 +9,7 @@ export default function PureViewSupportedCertification({
   supportedCertifier,
   supportedCertification,
   onExport,
-  onChangeCertification,
+  onChangeCertificationPreference,
 }) {
   const { t } = useTranslation(['translation', 'common']);
 
@@ -51,7 +51,7 @@ export default function PureViewSupportedCertification({
           lineHeight: '16px',
           cursor: 'pointer',
         }}
-        onClick={onChangeCertification}
+        onClick={onChangeCertificationPreference}
       >
         <Underlined>{t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}</Underlined>
       </div>

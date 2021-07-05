@@ -30,12 +30,12 @@ export default function ViewCertification({ history }) {
       ) : isNotSupported ? (
         <PureViewUnsupportedCertification
           onExport={onExport}
-          onChangePreference={onChangePreference}
+          onChangeCertificationPreference={onChangePreference}
         />
       ) : (
         <PureViewSupportedCertification
           onExport={onExport}
-          onChangePreference={onChangePreference}
+          onChangeCertificationPreference={onChangePreference}
         />
       )}
     </>

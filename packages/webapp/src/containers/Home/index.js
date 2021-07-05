@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -13,11 +13,12 @@ import {
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
-import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmModal'
+import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmModal';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
+import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 
-export default function Home() {
+export default function Home({ history }) {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
@@ -30,6 +31,7 @@ export default function Home() {
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
+  const [showExportModal, setShowExportModal] = useState(history.location.state.showExportModal);
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
@@ -62,6 +64,8 @@ export default function Home() {
           dismissModal={() => dispatch(setSpotlightToShown('introduce_map'))}
         />
       )}
+
+      {showExportModal && <PreparingExportModal dismissModal={() => setShowExportModal(false)} />}
     </PureHome>
   );
 }

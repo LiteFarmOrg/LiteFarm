@@ -19,7 +19,7 @@ export function* exportCertificationDataSaga({ payload: exportData }) {
       ...exportData,
     };
     const result = yield call(axios.post, exportUrl(), postData, header);
-    history.push('/');
+    history.push('/', { showExportModal: true });
   } catch (error) {
     console.log('failed to submit reporting period', error);
   }

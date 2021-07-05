@@ -7,11 +7,11 @@ import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
 import { container_planting_depth, container_plant_spacing, seedYield } from '../../../util/unit';
-import clsx from 'clsx';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
+import PropTypes from 'prop-types';
 
 export default function PureRowMethod({
   onGoBack,
@@ -144,7 +144,7 @@ export default function PureRowMethod({
             </>
           )}
           {!same_length && (
-            <div>
+            <div style={ {paddingBottom: '40px' }}>
               <Unit
                 style={{ paddingLeft: '16px' }}
                 register={register}
@@ -226,3 +226,14 @@ export default function PureRowMethod({
     </Form>
   );
 }
+
+PureRowMethod.prototype = {
+  onGoBack: PropTypes.func,
+  onCancel: PropTypes.func,
+  onContinue: PropTypes.func,
+  useHookFormPersist: PropTypes.func,
+  persistedFormData: PropTypes.object,
+  variety: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']),
+  persistPath: PropTypes.array,
+};

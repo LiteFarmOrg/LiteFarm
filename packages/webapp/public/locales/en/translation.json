@@ -942,7 +942,14 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "ROW_METHOD": {
+      "SAME_LENGTH": "Are your rows all the same length?",
+      "NUMBER_OF_ROWS": "# of rows",
+      "LENGTH_OF_ROW": "Length of row",
+      "TOTAL_LENGTH": "Total length of rows",
+      "PLANT_SPACING": "Plant spacing"
+    }
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

@@ -1,11 +1,18 @@
 const Queue = require('bull');
 require('dotenv').config();
-const retrieveQueue = new Queue('zip', 'redis://localhost:1500');
-const excelQueue = new Queue('excel', 'redis://localhost:1500');
-const zipQueue = new Queue('zip', 'redis://localhost:1500');
-const pdfQueue = new Queue('pdf', 'redis://localhost:1500');
-const emailQueue = new Queue('email', 'redis://localhost:1500');
-const uploadQueue = new Queue('upload', 'redis://localhost:1500');
+const redisConf = {
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD,
+  },
+}
+const retrieveQueue = new Queue('retrieve', redisConf);
+const excelQueue = new Queue('excel', redisConf);
+const zipQueue = new Queue('zip', redisConf);
+const pdfQueue = new Queue('pdf', redisConf);
+const emailQueue = new Queue('email', redisConf);
+const uploadQueue = new Queue('upload', redisConf);
 const retrieveFn = require('./certification/do_retrieve');
 const uploadFn = require('./certification/upload');
 const excelFn = require('./certification/recordD');
@@ -31,11 +38,6 @@ pdfQueue.on('error', (e) => console.error(e));
 emailQueue.on('error', (e) => console.error(e));
 uploadQueue.on('error', (e) => console.error(e));
 zipQueue.on('error', (e) => console.error(e));
-
-retrieveQueue.add({ farm_id: '2057ced0-ca09-11eb-acd2-0242ac120002', files: [
-  '0050e352-7505-4930-bf47-37f6966cff9f.jpg',
-  '558374d4-1cf1-4a4b-8945-9f29f620b718.jpg',
-], data: [] }, { removeOnComplete: true, delay: 3000 })
 
 module.exports = {
   zipQueue, emailQueue, excelQueue, pdfQueue,

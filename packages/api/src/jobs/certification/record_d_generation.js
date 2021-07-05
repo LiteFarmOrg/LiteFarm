@@ -9,7 +9,7 @@ const dataToCellMapping = {
   genetically_engineered: 'H',
   notes: 'I',
 }
-module.exports = (data) => {
+module.exports = (data, farm_id) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
@@ -17,6 +17,7 @@ module.exports = (data) => {
         fontFamily: 'Calibri',
         fill: 'F2F2F2',
       }
+      console.log('GENERATING EXCEL, rows: ', data.length);
       const RichText = XlsxPopulate.RichText;
       const rowSix = new RichText();
       const rowSeven = new RichText();
@@ -90,11 +91,13 @@ module.exports = (data) => {
       data.map((row, i) => {
         const rowN = i + 11;
         Object.keys(row).map((k) => {
-          workbook.sheet(0).cell(`${dataToCellMapping[k]}${rowN}`).value(row[k])
+          const cell = `${dataToCellMapping[k]}${rowN}`;
+          console.log(cell);
+          workbook.sheet(0).cell(cell).value(row[k]);
         })
       })
 
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${data.farm_id}/record.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/record.xlsx`);
     })
 }
 

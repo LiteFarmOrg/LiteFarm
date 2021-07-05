@@ -6,6 +6,7 @@ const bucketNames = {
 }
 
 module.exports = (emailQueue) => (job, done) => {
+  console.log('STEP 4 > Upload', job.id);
   const { farm_id, email } = job.data;
   const dateIdentifier = Date.now();
   const fileIdentifier = `${getS3BucketName()}/${farm_id}/document/exports/${dateIdentifier}`
@@ -18,7 +19,8 @@ module.exports = (emailQueue) => (job, done) => {
   ]
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
-    emailQueue.add({ email, fileIdentifier });
+    emailQueue.add({ data: job.data, file: fileIdentifier });
+    done();
   }, ()=> {
     emailQueue.add({ fail: true, email });
     done();

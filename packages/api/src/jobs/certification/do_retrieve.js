@@ -6,6 +6,8 @@ const bucketNames = {
 }
 
 module.exports = (nextQueue, emailQueue) => (job, done) => {
+  console.log('JOB DATA', JSON.stringify(job.data));
+  console.log('STEP 1 > RETRIEVE DO', job.id);
   const { farm_id, files, email } = job.data;
   const args = [
     's3', // command
@@ -18,7 +20,7 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
   ].concat(files.map((fileName) => `--include=${fileName}`))
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
-    nextQueue.add({ data: job.data });
+    nextQueue.add(job.data);
   }, ()=> {
     emailQueue.add({ fail: true, email });
     done();

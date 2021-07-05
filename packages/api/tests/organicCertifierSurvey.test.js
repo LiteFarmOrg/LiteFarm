@@ -51,14 +51,18 @@ describe('organicCertifierSurvey Tests', () => {
   function getAllSupportedCertificationsRequest({ farm_id = farm.farm_id }, callback) {
     chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifications`)
       .set('farm_id', farm_id)
-      .end(callback)
+      .end(callback);
   }
 
-  function getAllSupportedCertifiersRequest({ user_id = owner.user_id, farm_id = farm.farm_id, certification_type = certification_type }, callback) {
-    chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifiers/${certification_type}`)
+  function getAllSupportedCertifiersRequest({
+    user_id = owner.user_id,
+    farm_id = farm.farm_id,
+    certification_id = certification_id,
+  }, callback) {
+    chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifiers/${certification_id}`)
       .set('farm_id', farm_id)
       .set('user_id', user_id)
-      .end(callback)
+      .end(callback);
   }
 
   // function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -137,12 +141,15 @@ describe('organicCertifierSurvey Tests', () => {
       })
 
       test('User should get all supported certifiers', async (done) => {
-        console.log(organicCertifierSurvey)
-        getAllSupportedCertifiersRequest({ user_id: manager.user_id, certification_type: organicCertifierSurvey.certification_id }, (err, res) => {
+        console.log(organicCertifierSurvey);
+        getAllSupportedCertifiersRequest({
+          user_id: manager.user_id,
+          certification_id: organicCertifierSurvey.certification_id,
+        }, (err, res) => {
           expect(res.status).toBe(200);
-          console.log(res.body)
+          console.log(res.body);
           done();
-        })
+        });
       });
 
 
@@ -150,10 +157,10 @@ describe('organicCertifierSurvey Tests', () => {
 
        describe('Get all supported certifications', () => {
       test('User should get all supported certifications', async (done) => {
-       
+
         getAllSupportedCertificationsRequest({ }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body[0].certification_type).toBe('Organic');
+          expect(res.body[0].certification_id).toBe('Organic');
           done();
         });
       })
@@ -283,7 +290,7 @@ describe('organicCertifierSurvey Tests', () => {
 
       test('Owner should delete a certifier survey', async (done) => {
         deleteRequest({survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
-    
+
           expect(res.status).toBe(200);
           const SurveyRes = await organicCertifierSurveyModel.query().context({showHidden: true}).where('survey_id',organicCertifierSurvey.survey_id);
           expect(SurveyRes.length).toBe(1);

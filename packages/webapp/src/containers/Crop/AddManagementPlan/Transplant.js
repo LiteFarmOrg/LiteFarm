@@ -16,7 +16,7 @@ function TransplantForm({ history, match }) {
       <PureTransplant
         isCoverCrop={isCoverCrop}
         onGoBack={() => {
-          history.push(`/crop/${variety_id}/management`);
+          history.push(`/crop/${variety_id}/add_management_plan/planted_already`);
         }}
         onCancel={() => {
           history.push(`/crop/${variety_id}/management`);

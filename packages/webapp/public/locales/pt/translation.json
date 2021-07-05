@@ -58,7 +58,15 @@
       "CERTIFICATION": "certificação",
       "GOOD_NEWS": "Boas notícias! O LiteFarm pode documentar as informações que você precisa para gerar seus documentos de certificação!",
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
-      "TITLE": "Você está interessado(a) em aplicar para:"
+      "TITLE": "Você está interessado(a) em aplicar para:",
+      "YOUR_CERTIFICATION": "MISSING"
+    },
+    "VIEW_CERTIFICATION": {
+      "ADD_CERTIFICATION": "MISSING",
+      "CHANGE_PREFERENCE": "MISSING",
+      "EXPORT": "MISSING",
+      "NO_SUPPORT_FIRST": "MISSING",
+      "NO_SUPPORT_SECOND": "MISSING"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -877,6 +885,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "MISSING",
+    "AGE": "MISSING",
     "AS_COVER_CROP": "MISSING",
     "BEDS": "MISSING",
     "BROADCAST": "MISSING",
@@ -905,9 +914,12 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",
+    "PLANTED_ALREADY": "MISSING",
+    "PLANTING": "MISSING",
     "PLANTING_DATE": "MISSING",
     "PLANTING_DEPTH": "MISSING",
     "PLANTING_METHOD": "MISSING",
@@ -916,6 +928,10 @@
     "PLANTING_SOIL": "MISSING",
     "PLANTS_PER_CONTAINER": "MISSING",
     "ROWS": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "SEEDLING_AGE": "MISSING",
+    "SEEDLING_AGE_INFO": "MISSING",
     "SELECT_PLANTING_LOCATION": "MISSING",
     "SELECT_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "MISSING",
@@ -923,9 +939,12 @@
     "TERMINATION": "MISSING",
     "TOTAL_PLANTS": "MISSING",
     "TRANSPLANT": "MISSING",
-    "TRANSPLANT_LOCATION": "MISSING"
+    "TRANSPLANT_LOCATION": "MISSING",
+    "WHAT_IS_AGE": "MISSING",
+    "WILD_CROP": "MISSING"
   },
   "MY_FARM": {
+    "CERTIFICATIONS": "MISSING",
     "FARM_INFO": "Informação da fazenda",
     "FARM_MAP": "Mapa de fazenda/sitio",
     "PEOPLE": "Pessoas"
@@ -960,6 +979,10 @@
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
     "TITLE": "Link enviado"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "MISSING",
+    "TITLE": "MISSING"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ajuda",
@@ -1235,7 +1258,12 @@
   },
   "UNIT": {
     "INVALID_NUMBER": "Número inválido",
-    "MAXIMUM": "Valor máximo excedido"
+    "MAXIMUM": "Valor máximo excedido",
+    "TIME": {
+      "MONTH": "MISSING",
+      "WEEK": "MISSING",
+      "YEAR": "MISSING"
+    }
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

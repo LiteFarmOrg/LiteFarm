@@ -5,7 +5,12 @@ import { Semibold, Text, Title, Underlined } from '../../Typography';
 import Button from '../../Form/Button';
 import Layout from '../../Layout';
 
-export default function PureViewUnsupportedCertification({ onExport, onChangePreference }) {
+export default function PureViewUnsupportedCertification({
+  onExport,
+  onChangePreference,
+  unsupportedCertifier,
+  unsupportedCertification,
+}) {
   const { t } = useTranslation(['translation', 'common']);
 
   return (
@@ -19,13 +24,14 @@ export default function PureViewUnsupportedCertification({ onExport, onChangePre
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_ONE') +
-          ' ' +
-          `Organic` +
-          ' ' +
-          t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_TWO') +
-          ' ' +
-          'Oregon Tilth'}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_ONE')}
+        <span style={{ fontWeight: 'bold' }}>
+          {' ' + `${unsupportedCertification.certification_type}` + ' '}
+        </span>
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_TWO')}
+        <span style={{ fontWeight: 'bold' }}>
+          {' ' + `${unsupportedCertifier.certifier_name}` + ' '}
+        </span>
       </Semibold>
 
       <Text style={{ fontSize: '16px' }}>

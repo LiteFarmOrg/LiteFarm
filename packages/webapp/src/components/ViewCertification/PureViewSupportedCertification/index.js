@@ -24,11 +24,11 @@ export default function PureViewSupportedCertification({
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_ONE') +
-          ' ' +
-          `${supportedCertification.certification_type}` +
-          ' ' +
-          t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_ONE')}
+        <span style={{ fontWeight: 'bold' }}>
+          {' ' + `${supportedCertification.certification_type}` + ' '}
+        </span>
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
       </Semibold>
 
       <CertifierSelectionMenuItem
@@ -39,7 +39,7 @@ export default function PureViewSupportedCertification({
         color={'active'}
       />
 
-      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
+      <Semibold style={{ paddingBottom: '5px', fontSize: '16px', fontWeight: 'normal' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.NO_LONGER_WORKING')}
       </Semibold>
 

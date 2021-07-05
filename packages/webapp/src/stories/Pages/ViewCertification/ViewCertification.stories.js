@@ -44,6 +44,14 @@ const supportedCertification = {
   certification_translation_key: 'ORGANIC',
 };
 
+const unsupportedCertifier = {
+  certifier_name: 'Oregon Tilth',
+};
+
+const unsupportedCertification = {
+  certification_type: 'Organic',
+};
+
 const Supported = (args) => <PureViewSupportedCertification {...args} />;
 
 export const SupportedCertification = Supported.bind({});
@@ -59,7 +67,10 @@ SupportedCertification.parameters = {
 const Unsupported = (args) => <PureViewUnsupportedCertification {...args} />;
 
 export const UnsupportedCertification = Unsupported.bind({});
-UnsupportedCertification.args = {};
+UnsupportedCertification.args = {
+  unsupportedCertifier: unsupportedCertifier,
+  unsupportedCertification: unsupportedCertification,
+};
 UnsupportedCertification.parameters = {
   ...chromaticSmallScreen,
 };

@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 export default function PureViewUnsupportedCertification({
   onExport,
   onChangeCertificationPreference,
-  unsupportedCertifier,
-  unsupportedCertification,
+  unsupportedCertifierName,
+  unsupportedCertificationName,
 }) {
   const { t } = useTranslation(['translation', 'common']);
 
@@ -24,9 +24,9 @@ export default function PureViewUnsupportedCertification({
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Main style={{ paddingBottom: '20px' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_ONE')}
-        <strong>{` ${unsupportedCertification} `}</strong>
+        <strong>{` ${unsupportedCertificationName} `}</strong>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_TWO')}
-        <strong style={{ fontWeight: 'bold' }}>{` ${unsupportedCertifier} `}</strong>
+        <strong style={{ fontWeight: 'bold' }}>{` ${unsupportedCertifierName} `}</strong>
       </Main>
 
       <Main>
@@ -49,6 +49,6 @@ export default function PureViewUnsupportedCertification({
 PureViewUnsupportedCertification.propTypes = {
   onExport: PropTypes.func,
   onChangeCertificationPreference: PropTypes.func,
-  unsupportedCertifier: PropTypes.string,
-  unsupportedCertification: PropTypes.string,
+  unsupportedCertifierName: PropTypes.string,
+  unsupportedCertificationName: PropTypes.string,
 };

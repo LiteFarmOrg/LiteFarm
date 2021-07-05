@@ -8,8 +8,10 @@ import { certifiersByCertificationSelector, certifierSelector } from '../certifi
 import { useEffect } from 'react';
 import { getCertificationSurveys } from '../saga';
 import { certificationSelector } from '../certificationSlice';
+import { useTranslation } from 'react-i18next';
 
 export default function ViewCertification({ history }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCertificationSurveys());
@@ -17,6 +19,7 @@ export default function ViewCertification({ history }) {
   const { interested } = useSelector(certifierSurveySelector);
   const organicSurvey = useSelector(certifierSurveySelector);
   const certification = useSelector(certificationSelector);
+  const certificationName = t(`certifications:${certification.certification_translation_key}`);
   const certifier = useSelector(certifierSelector);
 
   const allSupportedCertifierTypes = useSelector(
@@ -36,14 +39,14 @@ export default function ViewCertification({ history }) {
         <PureViewUnsupportedCertification
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
-          unsupportedCertification={certification.certification_type}
-          unsupportedCertifier={certifier.certifier_name || organicSurvey.requested_certifier}
+          unsupportedCertificationName={certificationName}
+          unsupportedCertifierName={organicSurvey.requested_certifier}
         />
       ) : (
         <PureViewSupportedCertification
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
-          supportedCertification={certification}
+          supportedCertificationName={certificationName}
           supportedCertifier={certifier}
         />
       )}

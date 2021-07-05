@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Main, Title, Underlined } from '../../Typography';
 import Button from '../../Form/Button';
 import Layout from '../../Layout';
+import PropTypes from 'prop-types';
+import PureViewUnsupportedCertification from '../PureViewUnsupportedCertification';
 
 export default function PureViewSupportedCertification({
   supportedCertifier,
-  supportedCertification,
+  supportedCertificationName,
   onExport,
   onChangeCertificationPreference,
 }) {
@@ -24,15 +26,13 @@ export default function PureViewSupportedCertification({
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Main style={{ paddingBottom: '20px' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_ONE')}
-        <strong>{` ${supportedCertification.certification_type} `}</strong>
+        <strong>{` ${supportedCertificationName} `}</strong>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
       </Main>
 
       <CertifierSelectionMenuItem
         style={{ marginBottom: '16px' }}
-        certifierName={
-          supportedCertifier.certifier_name + ' ' + '(' + supportedCertifier.certifier_acronym + ')'
-        }
+        certifierName={`${supportedCertifier.certifier_name} (${supportedCertifier.certifier_acronym})`}
         color={'active'}
       />
 
@@ -46,3 +46,12 @@ export default function PureViewSupportedCertification({
     </Layout>
   );
 }
+PureViewUnsupportedCertification.propTypes = {
+  onExport: PropTypes.func,
+  onChangeCertificationPreference: PropTypes.func,
+  supportedCertifier: PropTypes.shape({
+    certifier_acronym: PropTypes.string,
+    certifier_name: PropTypes.string,
+  }),
+  supportedCertificationName: PropTypes.string,
+};

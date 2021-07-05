@@ -31,7 +31,7 @@ export default function Home({ history }) {
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
-  const [showExportModal, setShowExportModal] = useState(history.location.state.showExportModal);
+  const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}

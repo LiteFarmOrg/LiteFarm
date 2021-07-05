@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../../Typography';
+import { Main } from '../../Typography';
 import Input, { integerOnKeyDown } from '../../Form/Input';
-import InputAutoSize from '../../Form/InputAutoSize';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { container_planting_depth, container_plant_spacing, getDefaultUnit, seedYield } from '../../../util/unit';
+import { container_planting_depth, container_plant_spacing, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
-import convert from 'convert-units';
-import Unit, { unitOptionMap } from '../../Form/Unit';
+import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
@@ -18,8 +16,12 @@ import { cloneObject } from '../../../util';
 export default function PureRowMethod({
   onGoBack,
   onCancel,
-  onCotinue,
+  onContinue,
   system,
+  variety,
+  useHookFormPersist,
+  persistedFormData,
+  persistPath,
 }) {
 
   const { t } = useTranslation(['translation']);
@@ -34,14 +36,17 @@ export default function PureRowMethod({
     formState: { errors, isValid },
   } = useForm({
     shouldUnregister: false,
-    mode: 'onBlur',
+    mode: 'onChange',
+    defaultValues: cloneObject(persistedFormData),
   });
+
+  useHookFormPersist(persistPath, getValues);
 
   const progress = 75;
 
   const row_prefix = 'row_method.'
 
-  const SAME_LENGTH = row_prefix +'same_length';
+  const SAME_LENGTH = row_prefix + 'same_length';
   const NUMBER_OF_ROWS = row_prefix + 'number_of_rows';
   const LENGTH_OF_ROW = row_prefix + 'length_of_row';
   const LENGTH_OF_ROW_UNIT = row_prefix + 'length_of_row_unit';
@@ -49,8 +54,31 @@ export default function PureRowMethod({
   const PLANT_SPACING_UNIT = row_prefix + 'plant_spacing_unit';
   const TOTAL_LENGTH = row_prefix + 'total_length';
   const TOTAL_LENGTH_UNIT = row_prefix + 'total_length_unit';
+  const ESTIMATED_SEED = row_prefix + 'required_seeds';
+  const ESTIMATED_SEED_UNIT = row_prefix + 'required_seeds_unit';
+  const ESTIMATED_YIELD = row_prefix + 'estimated_yield';
+  const ESTIMATED_YIELD_UNIT = row_prefix + 'estimated_yield_unit';
 
   const same_length = watch(SAME_LENGTH);
+  const num_of_rows = watch(NUMBER_OF_ROWS);
+  const length_of_row = watch(LENGTH_OF_ROW);
+  const total_length = watch(TOTAL_LENGTH);
+  const plant_spacing = watch(PLANT_SPACING);
+
+  useEffect(() => {
+    let avg_seed_weight = variety.average_seed_weight;
+    let yield_per_plant = variety.yield_per_plant;
+    let estimated_seed_required;
+    let estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
+    if (same_length) {
+      estimated_seed_required = ((num_of_rows * length_of_row) / plant_spacing) * avg_seed_weight;
+    } else {
+      estimated_seed_required = (total_length / plant_spacing) * avg_seed_weight;
+    }
+
+    setValue(ESTIMATED_SEED, estimated_seed_required);
+    setValue(ESTIMATED_YIELD, estimated_yield);
+  }, [num_of_rows, length_of_row, total_length, plant_spacing]);
 
   return (
     <Form
@@ -59,7 +87,7 @@ export default function PureRowMethod({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onCotinue)}
+      onSubmit={handleSubmit(onContinue)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
@@ -67,6 +95,7 @@ export default function PureRowMethod({
         value={progress}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
+        cancelModalTitle
       />
       <Main style={{ paddingBottom: '24px' }}>
         {t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
@@ -117,33 +146,53 @@ export default function PureRowMethod({
           {!same_length && (
             <div>
               <Unit
-                  style={{ paddingLeft: '16px' }}
-                  register={register}
-                  label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
-                  name={TOTAL_LENGTH}
-                  displayUnitName={TOTAL_LENGTH_UNIT}
-                  errors={errors[TOTAL_LENGTH]}
-                  unitType={container_plant_spacing}
-                  system={system}
-                  hookFormSetValue={setValue}
-                  hookFormGetValue={getValues}
-                  hookFormSetError={setError}
-                  hookFromWatch={watch}
-                  control={control}
-                  required
-                  style={{ flexGrow: 1 }}
-                />
+                style={{ paddingLeft: '16px' }}
+                register={register}
+                label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
+                name={TOTAL_LENGTH}
+                displayUnitName={TOTAL_LENGTH_UNIT}
+                errors={errors[TOTAL_LENGTH]}
+                unitType={container_plant_spacing}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFormSetError={setError}
+                hookFromWatch={watch}
+                control={control}
+                required
+                style={{ flexGrow: 1 }}
+              />
             </div>
           )}
-          <div style={{ marginTop: '40px' }}>
+          <div>
+            <Unit
+              style={{ paddingLeft: '16px' }}
+              register={register}
+              label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
+              name={PLANT_SPACING}
+              displayUnitName={PLANT_SPACING_UNIT}
+              errors={errors[PLANT_SPACING]}
+              unitType={container_plant_spacing}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              style={{ flexGrow: 1 }}
+            />
+          </div>
+          {((num_of_rows > 0 && length_of_row > 0 && plant_spacing > 0) || (total_length > 0 && plant_spacing > 0)) && (
+            <>
+              <div className={styles.row} style={{ marginTop: '40px' }}>
                 <Unit
-                  style={{ paddingLeft: '16px' }}
                   register={register}
-                  label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
-                  name={PLANT_SPACING}
-                  displayUnitName={PLANT_SPACING_UNIT}
-                  errors={errors[PLANT_SPACING]}
-                  unitType={container_plant_spacing}
+                  label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+                  name={ESTIMATED_SEED}
+                  displayUnitName={ESTIMATED_SEED_UNIT}
+                  errors={errors[ESTIMATED_SEED]}
+                  unitType={seedYield}
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
@@ -153,7 +202,25 @@ export default function PureRowMethod({
                   required
                   style={{ flexGrow: 1 }}
                 />
-          </div>
+                <Unit
+                  register={register}
+                  label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+                  name={ESTIMATED_YIELD}
+                  displayUnitName={ESTIMATED_YIELD_UNIT}
+                  errors={errors[ESTIMATED_YIELD]}
+                  unitType={seedYield}
+                  system={system}
+                  hookFormSetValue={setValue}
+                  hookFormGetValue={getValues}
+                  hookFormSetError={setError}
+                  hookFromWatch={watch}
+                  control={control}
+                  required
+                  style={{ flexGrow: 1 }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </Form>

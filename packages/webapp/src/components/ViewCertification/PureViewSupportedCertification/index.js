@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { useTranslation } from 'react-i18next';
-import { Semibold, Text, Title, Underlined } from '../../Typography';
+import { Main, Title, Underlined } from '../../Typography';
 import Button from '../../Form/Button';
 import Layout from '../../Layout';
 
@@ -15,21 +15,18 @@ export default function PureViewSupportedCertification({
 
   return (
     <Layout
-      hasWhiteBackground
       buttonGroup={
         <Button onClick={onExport} color={'primary'} fullLength>
-          {t('common:Export')}
+          {t('common:EXPORT')}
         </Button>
       }
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
-      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
+      <Main style={{ paddingBottom: '20px' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_ONE')}
-        <span style={{ fontWeight: 'bold' }}>
-          {' ' + `${supportedCertification.certification_type}` + ' '}
-        </span>
+        <strong>{` ${supportedCertification.certification_type} `}</strong>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
-      </Semibold>
+      </Main>
 
       <CertifierSelectionMenuItem
         style={{ marginBottom: '16px' }}
@@ -39,22 +36,13 @@ export default function PureViewSupportedCertification({
         color={'active'}
       />
 
-      <Semibold style={{ paddingBottom: '5px', fontSize: '16px', fontWeight: 'normal' }}>
+      <Main style={{ paddingBottom: '5px' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.NO_LONGER_WORKING')}
-      </Semibold>
+      </Main>
 
-      <div
-        style={{
-          width: 'fit-content',
-          fontSize: '16px',
-          color: 'var(--iconActive)',
-          lineHeight: '16px',
-          cursor: 'pointer',
-        }}
-        onClick={onChangeCertificationPreference}
-      >
-        <Underlined>{t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}</Underlined>
-      </div>
+      <Underlined onClick={onChangeCertificationPreference}>
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}
+      </Underlined>
     </Layout>
   );
 }

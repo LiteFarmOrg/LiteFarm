@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Semibold, Text, Title, Underlined } from '../../Typography';
+import { Main, Title } from '../../Typography';
 import Button from '../../Form/Button';
 import Layout from '../../Layout';
+import PropTypes from 'prop-types';
 
 export default function PureViewUnsupportedCertification({
   onExport,
@@ -15,41 +15,40 @@ export default function PureViewUnsupportedCertification({
 
   return (
     <Layout
-      hasWhiteBackground
       buttonGroup={
         <Button onClick={onExport} color={'primary'} fullLength>
-          {t('common:Export')}
+          {t('common:EXPORT')}
         </Button>
       }
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
-      <Semibold style={{ paddingBottom: '20px', fontSize: '16px', fontWeight: 'normal' }}>
+      <Main style={{ paddingBottom: '20px' }}>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_ONE')}
-        <span style={{ fontWeight: 'bold' }}>
-          {' ' + `${unsupportedCertification.certification_type}` + ' '}
-        </span>
+        <strong>{` ${unsupportedCertification} `}</strong>
         {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_TWO')}
-        <span style={{ fontWeight: 'bold' }}>
-          {' ' + `${unsupportedCertifier.certifier_name}` + ' '}
-        </span>
-      </Semibold>
+        <strong style={{ fontWeight: 'bold' }}>{` ${unsupportedCertifier} `}</strong>
+      </Main>
 
-      <Text style={{ fontSize: '16px' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_ONE')}
+      <Main>
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_ONE')}{' '}
         <span
           style={{
             textDecorationLine: 'underline',
             color: 'var(--iconActive)',
             cursor: 'pointer',
-            fontSize: '16px',
           }}
           onClick={onChangeCertificationPreference}
         >
-          {' '}
-          {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CHANGE_PREFERENCE')}{' '}
-        </span>
+          {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CHANGE_PREFERENCE')}
+        </span>{' '}
         {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_TWO')}
-      </Text>
+      </Main>
     </Layout>
   );
 }
+PureViewUnsupportedCertification.propTypes = {
+  onExport: PropTypes.func,
+  onChangeCertificationPreference: PropTypes.func,
+  unsupportedCertifier: PropTypes.string,
+  unsupportedCertification: PropTypes.string,
+};

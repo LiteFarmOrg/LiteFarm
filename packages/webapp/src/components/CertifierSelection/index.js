@@ -104,6 +104,7 @@ export default function PureCertifierSelectionScreen({
       {filteredCertifiers.map((certifier) => {
         return (
           <CertifierSelectionMenuItem
+            key={certifier.certifier_id}
             style={{ marginBottom: '16px' }}
             certifierName={certifier.certifier_name + ' ' + '(' + certifier.certifier_acronym + ')'}
             color={selectedCertifierId === certifier.certifier_id ? 'active' : 'secondary'}

@@ -1,16 +1,23 @@
-import { useSelector } from 'react-redux';
-import { selectedCertificationSelector } from '../organicCertifierSurveySlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
 import PureViewSupportedCertification from '../../../components/ViewCertification/PureViewSupportedCertification';
 import PureViewUnsupportedCertification from '../../../components/ViewCertification/PureViewUnsupportedCertification';
 import PureViewNotInterestedInCertification from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
 
 import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
+import { useEffect } from 'react';
+import { getCertificationSurveys } from '../saga';
+import { certificationSelector } from '../certificationSlice';
 
 export default function ViewCertification({ history }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCertificationSurveys());
+  }, []);
   const { interested } = useSelector(certifierSurveySelector);
-
-  const certification = useSelector(selectedCertificationSelector);
+  const organicSurvey = useSelector(certifierSurveySelector);
+  const certification = useSelector(certificationSelector);
+  const certifier = useSelector(certifierSelector);
 
   const allSupportedCertifierTypes = useSelector(
     certifiersByCertificationSelector(certification.certification_id),
@@ -21,14 +28,6 @@ export default function ViewCertification({ history }) {
   const onAddCertification = () => history.push('/certification/interested_in_organic');
   const onChangePreference = onAddCertification;
 
-  // todo: audrey added these props for certifier and certifications for supported and unsupported certification selections
-  const unsupportedCertification = {};
-  const unsupportedCertifier = {};
-  const supportedCertification = {};
-  const supportedCertifier = {};
-
-  const certifier = useSelector(certifierSelector);
-
   return (
     <>
       {!interested ? (
@@ -37,15 +36,15 @@ export default function ViewCertification({ history }) {
         <PureViewUnsupportedCertification
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
-          unsupportedCertification={unsupportedCertification}
-          unsupportedCertifier={unsupportedCertifier}
+          unsupportedCertification={certification.certification_type}
+          unsupportedCertifier={certifier.certifier_name || organicSurvey.requested_certifier}
         />
       ) : (
         <PureViewSupportedCertification
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
-          supportedCertification={supportedCertification}
-          supportedCertifier={supportedCertifier}
+          supportedCertification={certification}
+          supportedCertifier={certifier}
         />
       )}
     </>

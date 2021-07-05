@@ -886,6 +886,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
+    "AGE": "Age",
     "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
@@ -918,6 +919,8 @@
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
+    "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
+    "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
@@ -926,6 +929,10 @@
     "PLANTING_SOIL": "Planting soil to be used ",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
+    "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SEEDLING": "Seedling or planting stock",
+    "SEEDLING_AGE": "What age is the the seedling or planting stock?",
+    "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
     "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
@@ -933,7 +940,9 @@
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?"
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "WHAT_IS_AGE": "What is the age of the crop?",
+    "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -971,6 +980,10 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes...",
+    "TITLE": "Your export is being prepared"
   },
   "PROFILE_FLOATER": {
     "HELP": "Help",
@@ -1246,7 +1259,12 @@
   },
   "UNIT": {
     "INVALID_NUMBER": "Invalid number",
-    "MAXIMUM": "Maximum value exceeded"
+    "MAXIMUM": "Maximum value exceeded",
+    "TIME": {
+      "WEEK": "weeks",
+      "MONTH": "months",
+      "YEAR": "years"
+    }
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",
@@ -1257,9 +1275,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "PREPARING_EXPORT": {
-    "TITLE": "Your export is being prepared",
-    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes..."
   }
 }

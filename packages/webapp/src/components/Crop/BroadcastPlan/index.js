@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { area_total_area, getDefaultUnit, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
-import Unit, { unitOptionMap } from '../../Form/Unit';
+import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
@@ -83,7 +83,7 @@ function PureBroadcastPlan({
     setValue(AREA_USED, areaUsed, shouldValidate);
     setValue(
       AREA_USED_UNIT,
-      unitOptionMap[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
+      getUnitOptionMap()[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
       shouldValidate,
     );
   }, [percentageOfAreaPlanted]);

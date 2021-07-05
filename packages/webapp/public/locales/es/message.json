@@ -3,11 +3,13 @@
     "ERROR": {
       "CREATE": "MISSING",
       "FAILED_ARCHIVE": "MISSING",
-      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
+      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "MISSING",
-      "CREATE": "MISSING"
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {

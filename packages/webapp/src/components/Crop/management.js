@@ -28,7 +28,7 @@ function PureCropManagement({ history, match, onBack, variety }) {
       <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
       <AddLink
         onClick={() => {
-          history.push(`/crop/${match.params.variety_id}/add_management_plan/needs_transplant`);
+          history.push(`/crop/${match.params.variety_id}/add_management_plan/planted_already`);
         }}
       >
         {' '}

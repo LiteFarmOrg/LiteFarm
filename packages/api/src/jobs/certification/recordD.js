@@ -1,10 +1,10 @@
-
-module.exports = (nextQueue) => (job, done) => {
-  setTimeout(() => {
-    console.log(`Excel ID:  ${job.id}`);
-    console.log(`Excel data ${JSON.stringify(job.data)}`);
-    nextQueue.add({ param: 'string from Excel' });
-    done();
-  }, 2000);
-
+const recordDGenerator = require('./record_d_generation');
+module.exports = (nextQueue, emailQueue) => (job) => {
+  return recordDGenerator(job.data.records)
+    .then(() => {
+      nextQueue.add({ data: job.data })
+    })
+    .catch(() => {
+      emailQueue.add({ fail: true, email: job.data.email })
+    })
 }

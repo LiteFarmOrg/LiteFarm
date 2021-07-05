@@ -5,9 +5,8 @@ const bucketNames = {
   development: 'litefarm-dev-secret',
 }
 
-module.exports = (nextQueue) => (job, done) => {
-  console.log('ENVS', process.env.NODE_ENV, process.env.EXPORT_WD);
-  const { farm_id, files } = job.data;
+module.exports = (nextQueue, emailQueue) => (job, done) => {
+  const { farm_id, files, email } = job.data;
   const args = [
     's3', // command
     'cp', //sub command
@@ -17,18 +16,13 @@ module.exports = (nextQueue) => (job, done) => {
     '--endpoint=https://nyc3.digitaloceanspaces.com',
     '--exclude=*',
   ].concat(files.map((fileName) => `--include=${fileName}`))
-  console.log(args);
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
-    console.log('retrieved files');
-    const zipProcess = spawn('tar',
-      ['-cvzf', `${farm_id}.zip`, `temp/${farm_id}`], { cwd: process.env.EXPORT_WD });
-    zipProcess.on('exit', childProcessExitCheck(() => {
-      console.log('zipped files');
-      nextQueue.add({ file: `${farm_id}.zip` });
-      done();
-    }, () =>  done()));
-  }, ()=> done()));
+    nextQueue.add({ data: job.data });
+  }, ()=> {
+    emailQueue.add({ fail: true, email });
+    done();
+  }));
 }
 
 function childProcessExitCheck(successFn, failFn) {

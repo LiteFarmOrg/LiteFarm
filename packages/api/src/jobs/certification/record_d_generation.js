@@ -94,7 +94,7 @@ module.exports = (data) => {
         })
       })
 
-      return workbook.toFileAsync('./out.xlsx');
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${data.farm_id}/record.xlsx`);
     })
 }
 

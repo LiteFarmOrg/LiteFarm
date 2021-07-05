@@ -29,11 +29,13 @@ retrieveQueue.on('error', (e) => console.error(e));
 excelQueue.on('error', (e) => console.error(e));
 pdfQueue.on('error', (e) => console.error(e));
 emailQueue.on('error', (e) => console.error(e));
+uploadQueue.on('error', (e) => console.error(e));
+zipQueue.on('error', (e) => console.error(e));
 
 retrieveQueue.add({ farm_id: '2057ced0-ca09-11eb-acd2-0242ac120002', files: [
   '0050e352-7505-4930-bf47-37f6966cff9f.jpg',
   '558374d4-1cf1-4a4b-8945-9f29f620b718.jpg',
-] }, { removeOnComplete: true, delay: 3000 })
+], data: [] }, { removeOnComplete: true, delay: 3000 })
 
 module.exports = {
   zipQueue, emailQueue, excelQueue, pdfQueue,

@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
 const certificationModel = require('../models/certificationModel');
 const certifierModel = require('../models/certifierModel');
-const certifierCountryModel = require('../models/certifierCountryModel');
+const documentModel = require('../models/documentModel');
+const knex = require('./../util/knex')
 
 const organicCertifierSurveyController = {
   getCertifiersByFarmId() {
@@ -162,6 +162,24 @@ const organicCertifierSurveyController = {
         });
       }
     };
+  },
+
+  triggerExport() {
+    return async (req, res) => {
+      const { farm_id, from_date, to_date, email } = req.body;
+      const invalid = [farm_id, from_date, to_date, email].some(property => !property)
+      if(invalid) {
+        return res.status(400).json({
+          message: 'Bad request. Missing properties',
+        })
+      }
+      const files = await documentModel.query().joinRelated('files').whereBetween('valid_until', [from_date, to_date]).andWhere({ farm_id });
+      const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated, 
+            CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
+            cp.genetically_engineered, mp.seed_date AS notes, f.farm_name as name
+            FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
+            WHERE seed_date BETWEEN ? AND ? AND cp.organic IS NOT NULL AND farm_id  = ?`, [from_date, to_date, farm_id]);
+    }
   },
 
   delOrganicCertifierSurvey() {

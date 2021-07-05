@@ -9,8 +9,9 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function CertificationSurveyPage({ history, match }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const onExport = () => {
+  const onExport = (exportData) => {
     // TODO: dispatch action and history push
+    console.log({ exportData });
     console.log('clicked export button');
   };
 

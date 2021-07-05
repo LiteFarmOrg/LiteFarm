@@ -1,10 +1,12 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectedCertificationSelector } from '../organicCertifierSurveySlice';
 import { certifierSurveySelector } from '../slice';
 import { PureViewNotInterestedInCertification } from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
 import { PureViewUnsupportedCertification } from '../../../components/ViewCertification/PureViewUnsupportedCertification';
 import { PureViewSupportedCertification } from '../../../components/ViewCertification/PureViewSupportedCertification';
 import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
+import { useEffect } from 'react';
+import { getCertificationSurveys } from '../saga';
 
 export default function ViewCertification({ history }) {
   const { interested } = useSelector(certifierSurveySelector);
@@ -14,6 +16,12 @@ export default function ViewCertification({ history }) {
   const allSupportedCertifierTypes = useSelector(
     certifiersByCertificationSelector(certification.certification_id),
   );
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCertificationSurveys());
+  }, []);
+
   const isNotSupported =
     certification.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
   const onExport = () => {};

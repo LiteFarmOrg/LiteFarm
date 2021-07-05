@@ -25,7 +25,7 @@ const PureCertificationSurveyPage = ({
   persistedFormData,
 }) => {
   const { t } = useTranslation();
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionId, setSubmissionId] = useState(undefined);
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
   const persistedPath = ['/certification/report_period'];
@@ -39,7 +39,7 @@ const PureCertificationSurveyPage = ({
       if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
       const data = JSON.parse(event.data);
       console.log('Hello World?', data);
-      setSubmitted(true);
+      setSubmissionId('60df45608b55990001f24afd');
     };
 
     window.addEventListener('message', handler);
@@ -66,7 +66,16 @@ const PureCertificationSurveyPage = ({
     <>
       <Layout
         buttonGroup={
-          <Button fullLength onClick={onExport} disabled={hasQuestions && !submitted}>
+          <Button
+            fullLength
+            onClick={() =>
+              onExport({
+                ...persistedFormData,
+                submissionId,
+              })
+            }
+            disabled={hasQuestions && !submissionId}
+          >
             {t('CERTIFICATIONS.EXPORT')}
           </Button>
         }

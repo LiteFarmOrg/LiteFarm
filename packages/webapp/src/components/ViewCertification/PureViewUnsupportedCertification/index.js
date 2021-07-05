@@ -23,14 +23,14 @@ export default function PureViewUnsupportedCertification({
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Main style={{ paddingBottom: '20px' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_ONE')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CERTIFICATION_REQUEST_ONE')}
         <strong>{` ${unsupportedCertificationName} `}</strong>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.REQUEST_TWO')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CERTIFICATION_REQUEST_TWO')}
         <strong style={{ fontWeight: 'bold' }}>{` ${unsupportedCertifierName} `}</strong>
       </Main>
 
       <Main>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_ONE')}{' '}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CERTIFICATION_MESSAGE_ONE')}{' '}
         <span
           style={{
             textDecorationLine: 'underline',
@@ -39,9 +39,9 @@ export default function PureViewUnsupportedCertification({
           }}
           onClick={onChangeCertificationPreference}
         >
-          {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CHANGE_PREFERENCE')}
+          {t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERTIFICATION_PREFERENCE')}
         </span>{' '}
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_TWO')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.UNSUPPORTED_CERTIFICATION_MESSAGE_TWO')}
       </Main>
     </Layout>
   );

@@ -25,9 +25,9 @@ export default function PureViewSupportedCertification({
     >
       <Title style={{ marginBottom: '16px' }}>{t('MY_FARM.CERTIFICATIONS')}</Title>
       <Main style={{ paddingBottom: '20px' }}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_ONE')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.SUPPORTED_CERTIFICATION_ONE')}
         <strong>{` ${supportedCertificationName} `}</strong>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.TITLE_TWO')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.SUPPORTED_CERTIFICATION_TWO')}
       </Main>
 
       <CertifierSelectionMenuItem
@@ -41,7 +41,7 @@ export default function PureViewSupportedCertification({
       </Main>
 
       <Underlined onClick={onChangeCertificationPreference}>
-        {t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERT')}
+        {t('CERTIFICATION.CERTIFICATION_EXPORT.CHANGE_CERTIFICATION_PREFERENCE_CAPITAL')}
       </Underlined>
     </Layout>
   );

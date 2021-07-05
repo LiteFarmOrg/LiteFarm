@@ -1,14 +1,13 @@
 import { Semibold } from '../../Typography';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import { colors } from '../../../assets/theme';
 import ProgressBar from '../../ProgressBar';
+import { CancelButton } from '../CancelButton';
 
-function MultiStepPageTitle({ title, onGoBack, onCancel, style, value }) {
-  const { t } = useTranslation();
+function MultiStepPageTitle({ title, onGoBack, onCancel, style, value, cancelModalTitle }) {
   return (
     <div style={style}>
       <div className={styles.titleContainer}>
@@ -20,11 +19,7 @@ function MultiStepPageTitle({ title, onGoBack, onCancel, style, value }) {
           )}
           <Semibold style={{ marginBottom: 0, color: colors.grey600 }}>{title}</Semibold>
         </div>
-        {onCancel && (
-          <Semibold sm style={{ color: colors.teal700 }} onClick={onCancel}>
-            {t('common:CANCEL')}
-          </Semibold>
-        )}
+        {onCancel && <CancelButton onCancel={onCancel} cancelModalTitle={cancelModalTitle} />}
       </div>
       <ProgressBar value={value} />
     </div>

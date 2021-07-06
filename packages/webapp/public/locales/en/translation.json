@@ -21,9 +21,23 @@
     "SEEDING_RATE": "Seeding rate"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?"
+    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
+    "TITLE": "Cancel your {{flow}}?"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "Add a certification",
+      "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Change your certification preferences",
+      "NO_CERTIFICATIONS": "You are not currently pursuing any certifications.",
+      "NO_LONGER_WORKING": "No longer pursuing this certification or working with this certifier? No problem!",
+      "SUPPORTED_CERTIFICATION_ONE": "You are pursuing ",
+      "SUPPORTED_CERTIFICATION_TWO": " certification from:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "to see if there are new certifiers available in your area.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "You've requested",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -61,14 +75,25 @@
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
     },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "Add a certification",
-      "CHANGE_PREFERENCE": "Change your certification preferences",
-      "EXPORT": "Export",
-      "NO_SUPPORT_FIRST": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or ",
-      "NO_SUPPORT_SECOND": " to see if there are new certifiers available in your area."
-    },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "EMAIL": "Email",
+    "EXPORT": "Export",
+    "EXPORT_DOCS": "Export certification docs",
+    "FLOW_TITLE": "certification documents export",
+    "FROM": "From",
+    "GOOD_NEWS": "Good news!",
+    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
+    "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
+    "SELECT_REPORTING_PERIOD": "Select your reporting period",
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "UH_OH": "Uh oh!",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
+    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -220,7 +245,7 @@
       "FERTILIZING_PRODUCT": "Fertilizing product",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT": "Soil Amendment"
+      "SOIL_AMENDMENT": "Soil amendment"
     },
     "VALID": "Valid"
   },
@@ -926,7 +951,7 @@
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "PLANTING_NOTE": "Planting notes",
-    "PLANTING_SOIL": "Planting soil to be used ",
+    "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
@@ -942,7 +967,14 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "ROW_METHOD": {
+      "SAME_LENGTH": "Are your rows all the same length?",
+      "NUMBER_OF_ROWS": "# of rows",
+      "LENGTH_OF_ROW": "Length of row",
+      "TOTAL_LENGTH": "Total length of rows",
+      "PLANT_SPACING": "Plant spacing"
+    }
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1262,8 +1294,8 @@
     "MAXIMUM": "Maximum value exceeded",
     "VALID_VALUE": "Please enter a value between 0-",
     "TIME": {
-      "WEEK": "weeks",
       "MONTH": "months",
+      "WEEK": "weeks",
       "YEAR": "years"
     }
   },

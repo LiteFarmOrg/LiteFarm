@@ -222,7 +222,7 @@ const Unit = ({
         shouldClearError && setShowError(false);
       }, 1);
     },
-    [hookFormUnit, databaseUnit, name],
+    [name],
   );
 
   const inputOnBlur = (e) => {

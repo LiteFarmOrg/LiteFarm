@@ -96,7 +96,7 @@ function sendEmail(template_path, replacements, email_to, {
         content: file.buffer,
       }));
     }
-    return emailTransporter.send(mailOptions);
+    return emailTransporter.send(mailOptions).then(console.log).catch(console.error);
   } catch (error) {
     console.log(error);
   }

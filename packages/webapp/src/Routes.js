@@ -262,6 +262,8 @@ const ViewCertification = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
 );
 
+const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
+
 const Routes = () => {
   useScrollToTop();
   useReduxSnackbar();
@@ -857,6 +859,7 @@ const Routes = () => {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
+          <Route path={'/render_survey'} exact component={RenderSurvey} />
           <Route path="/callback" component={Callback} />
           <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />

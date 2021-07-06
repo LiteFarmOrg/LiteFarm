@@ -528,6 +528,7 @@ describe('ManagementPlan Tests', () => {
     let fakeCropManagement;
     let fakeBroadcast;
     let fakeContainer;
+    let fakeRows;
     let fakeTransplantContainer;
 
     beforeEach(async () => {
@@ -539,6 +540,7 @@ describe('ManagementPlan Tests', () => {
       fakeCropManagement = mocks.fakeCropManagementPlan();
       fakeBroadcast = mocks.fakeBroadcast();
       fakeContainer = mocks.fakeContainer();
+      fakeRows = mocks.fakeRows();
       fakeTransplantContainer = mocks.fakeTransplantContainer();
     })
 
@@ -641,6 +643,23 @@ describe('ManagementPlan Tests', () => {
       })
     })
 
+    test('should create a rows management plan', async (done) => {
+      const body = {
+        crop_variety_id: cropVariety[0].crop_variety_id,
+        ...fakeManagement,
+        crop_management_plan: {
+          ...fakeCropManagement,
+          rows: fakeRows
+        }
+      }
+
+      postManagementPlanRequest('rows', body, userFarm[0], async (err, res) => {
+        expect(res.status).toBe(201);
+        const rows = await knex('rows').where({ management_plan_id: res.body.management_plan_id}).first();
+        expect(rows).not.toBeUndefined();
+        done();
+      })
+    })
 
     test('should not allow multiple types of plantation', async (done) => {
       const body = {

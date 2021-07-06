@@ -37,7 +37,7 @@ router.post('/broadcast', hasFarmAccess({ body: 'crop_management_plan' }),
 router.post('/container', hasFarmAccess({ body: 'crop_management_plan' }),
   modelMapping.container, checkScope(['add:management_plan']), managementPlanController.addManagementPlan())
 
-router.post('./rows', hasFarmAccess({body: 'crop_management_plan' }),
+router.post('/rows', hasFarmAccess({body: 'crop_management_plan' }),
   modelMapping.rows, checkScope(['add:management_plan']), managementPlanController.addManagementPlan())
 
 router.put('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['edit:management_plan']), validateManagementPlanArea, validateLocationId, managementPlanController.updateManagementPlan());

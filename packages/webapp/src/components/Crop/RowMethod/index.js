@@ -6,7 +6,7 @@ import Input, { integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
+import { container_planting_depth, container_plant_spacing, seedYield } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';

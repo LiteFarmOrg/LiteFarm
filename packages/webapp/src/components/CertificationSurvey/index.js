@@ -30,7 +30,7 @@ const PureCertificationSurveyPage = ({
   const persistedPath = ['/certification/report_period'];
   useHookFormPersist(persistedPath, () => ({}));
 
-  const progress = 33;
+  const progress = 67;
 
   useEffect(() => {
     const handler = (event) => {

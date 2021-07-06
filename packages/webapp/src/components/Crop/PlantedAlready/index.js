@@ -57,8 +57,7 @@ export default function PurePlantedAlready({
   const seeding_type = watch(SEEDING_TYPE);
   const wild_crop = watch(WILD_CROP);
 
-  const disabled = !isValid || (in_ground === true && (wild_crop !== true && wild_crop !== false));
-
+  const disabled = !isValid || (in_ground === true && wild_crop !== true && wild_crop !== false);
 
   return (
     <Form
@@ -152,7 +151,6 @@ export default function PurePlantedAlready({
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
-                      validValue={true}
                       optional
                     />
                   </div>
@@ -180,7 +178,6 @@ export default function PurePlantedAlready({
                   hookFromWatch={watch}
                   control={control}
                   max={MAX_AGE}
-                  validValue={true}
                   optional
                 />
               </div>

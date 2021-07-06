@@ -74,7 +74,7 @@ export const certifierByIdSelector = (certifier_country_id) =>
 
 export const certifierSelector = createSelector(
   [certifierEntitiesSelector, certifierSurveySelector],
-  (entities, { certifier_id }) => entities[certifier_id],
+  (entities, { certifier_id }) => entities[certifier_id] || {},
 );
 
 export const certifierStatusSelector = createSelector(

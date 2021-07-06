@@ -45,20 +45,18 @@ export default function CertifierSelectionMenu() {
   };
 
   return (
-    <>
-      <PureCertifierSelectionScreen
-        onSubmit={onSubmit}
-        allSupportedCertifiers={allSupportedCertifiersCopy}
-        certificationType={certificationType}
-        allSupportedCertificationTypes={allSupportedCertificationTypes}
-        selectedCertifier={selectedCertifier}
-        certifierType={certifierType}
-        onBack={onBack}
-        dispatch={dispatch}
-        history={history}
-        role_id={role.role_id}
-        requestedCertifier={requestedCertifier}
-      />
-    </>
+    <PureCertifierSelectionScreen
+      onSubmit={onSubmit}
+      allSupportedCertifiers={allSupportedCertifiersCopy}
+      certificationType={certificationType}
+      allSupportedCertificationTypes={allSupportedCertificationTypes}
+      selectedCertifier={selectedCertifier}
+      certifierType={certifierType}
+      onBack={onBack}
+      dispatch={dispatch}
+      history={history}
+      role_id={role.role_id}
+      requestedCertifier={requestedCertifier}
+    />
   );
 }

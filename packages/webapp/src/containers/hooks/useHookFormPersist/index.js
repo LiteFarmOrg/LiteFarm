@@ -17,7 +17,9 @@ export default function useHookFormPersist(
   const formData = useSelector(hookFormPersistSelector);
   useLayoutEffect(() => {
     return () => {
-      if (persistedPathNames.includes(history.location.pathname)) {
+      if (history.location.state?.forceReset) {
+        dispatch(resetAndUnLockFormData());
+      } else if (persistedPathNames.includes(history.location.pathname)) {
         dispatch(hookFormPersistUnMount(getValues()));
       } else {
         dispatch(resetAndUnLockFormData());

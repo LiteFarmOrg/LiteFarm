@@ -263,6 +263,7 @@ const ViewCertification = React.lazy(() =>
 );
 
 const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
+const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
 const Routes = () => {
   useScrollToTop();
@@ -546,6 +547,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
+            <Route path="/export/:id" exact component={ExportDownload} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -766,6 +768,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
+            <Route path={'/export/:id'} exact component={ExportDownload} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

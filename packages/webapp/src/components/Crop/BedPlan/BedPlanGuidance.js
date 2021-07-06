@@ -1,5 +1,3 @@
-// TODO: BEDPLANGUIDANCE COMPONENT
-
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -17,14 +15,13 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
 function PureBedPlanGuidance({
+  onGoBack,
+  onCancel,
+  system,
   handleContinue,
   persistedFormData,
   useHookFormPersist,
-  system, // metric or imperial
-  onGoBack,
-  onCancel,
   persistedPaths,
-  crop_variety, // todo: added for const {average_seed_weight = 0} = crop_variety; in a useEffect for calculations
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -42,26 +39,14 @@ function PureBedPlanGuidance({
     mode: 'onBlur',
   });
 
-  const NUMBER_OF_BEDS = 'beds.number_of_beds';
-  const NUMBER_OF_ROWS_IN_BED = 'beds.number_of_rows_in_bed';
-  const PLANT_SPACING_UNIT = 'beds.plant_spacing_unit';
-  const PLANT_SPACING = 'beds.plant_spacing';
-  const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
-  const LENGTH_OF_BED = 'beds.length_of_bed';
+  const SPECIFY_BEDS = 'beds.specify_beds';
+  const PLANTING_DEPTH = 'beds.planting_depth';
+  const PLANTING_DEPTH_UNIT = 'beds.planting_depth_unit';
   const BED_WIDTH = 'beds.bed_width';
   const BED_WIDTH_UNIT = 'beds.bed_width_unit';
   const BED_SPACING = 'beds.bed_spacing';
   const BED_SPACING_UNIT = 'beds.bed_spacing_unit';
-
-  const ESTIMATED_SEED = 'required_seeds'; // from Broadcast plan ???
-  const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
-  const ESTIMATED_YIELD = 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
-
-  const number_of_beds = watch(NUMBER_OF_BEDS);
-  const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
-  const length_of_bed = watch(LENGTH_OF_BED);
-  const plant_spacing = watch(PLANT_SPACING);
+  const PLANTING_NOTES = 'beds.planting_notes';
 
   useHookFormPersist(persistedPaths, getValues);
 
@@ -86,7 +71,7 @@ function PureBedPlanGuidance({
       <Input
         toolTipContent={'hello'}
         label={t('BED_PLAN_GUIDANCE.SPECIFY_BEDS')}
-        hookFormRegister={register(NUMBER_OF_BEDS)}
+        hookFormRegister={register(SPECIFY_BEDS)}
         style={{ paddingBottom: '40px' }}
         optional={true}
       />
@@ -94,9 +79,9 @@ function PureBedPlanGuidance({
       <Unit
         register={register}
         label={t('BED_PLAN_GUIDANCE.PLANTING_DEPTH')}
-        name={LENGTH_OF_BED}
-        displayUnitName={LENGTH_OF_BED_UNIT}
-        errors={errors[LENGTH_OF_BED]}
+        name={PLANTING_DEPTH}
+        displayUnitName={PLANTING_DEPTH_UNIT}
+        errors={errors[PLANTING_DEPTH]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}
@@ -143,6 +128,7 @@ function PureBedPlanGuidance({
         label={t('BED_PLAN_GUIDANCE.NOTES')}
         style={{ paddingBottom: '40px' }}
         optional={true}
+        hookFormRegister={register(PLANTING_NOTES)}
       />
     </Form>
   );

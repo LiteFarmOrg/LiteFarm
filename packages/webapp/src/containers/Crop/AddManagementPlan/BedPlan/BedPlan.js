@@ -25,9 +25,9 @@ export default function BedPlan({ history, match }) {
   return (
     <HookFormPersistProvider>
       <PureBedPlan
+        onGoBack={onBack}
         onCancel={onCancel}
         handleContinue={onContinue}
-        onGoBack={onBack}
         match={match}
         history={history}
         system={system}

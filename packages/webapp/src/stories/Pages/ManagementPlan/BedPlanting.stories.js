@@ -13,11 +13,15 @@ const Template = (args) => <PureBedPlan {...args} />;
 export const Management = Template.bind({});
 Management.args = {
   onGoBack: () => {},
-  handleContinue: () => {},
   onCancel: () => {},
+  handleContinue: () => {},
+  match: {},
+  history: {},
+  system: 'metric',
+  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
+
   useHookFormPersist: () => {},
   persistedFormData: {},
-  system: 'metric',
   locationSize: 2000,
   yieldPerArea: 30,
 };

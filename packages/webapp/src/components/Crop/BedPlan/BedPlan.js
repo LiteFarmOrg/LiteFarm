@@ -1,5 +1,3 @@
-// TODO: BEDPLAN COMPONENT
-
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -17,14 +15,17 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
 function PureBedPlan({
-  handleContinue,
-  persistedFormData,
-  useHookFormPersist,
-  system, // metric or imperial
   onGoBack,
   onCancel,
+  handleContinue,
+  match,
+  history,
+  system,
+  crop_variety,
+
+  useHookFormPersist,
+  persistedFormData,
   persistedPaths,
-  crop_variety, // todo: added for const {average_seed_weight = 0} = crop_variety; in a useEffect for calculations
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -49,7 +50,7 @@ function PureBedPlan({
   const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
   const LENGTH_OF_BED = 'beds.length_of_bed';
 
-  const ESTIMATED_SEED = 'required_seeds'; // from Broadcast plan ???
+  const ESTIMATED_SEED = 'required_seeds';
   const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
   const ESTIMATED_YIELD = 'estimated_yield';
   const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
@@ -62,9 +63,7 @@ function PureBedPlan({
   useHookFormPersist(persistedPaths, getValues);
 
   useEffect(() => {
-    // const {average_seed_weight = 0, yield_per_plant = 0} = crop_variety;
-    let average_seed_weight = 0.1;
-    let yield_per_plant = 10;
+    const { average_seed_weight, yield_per_plant } = crop_variety;
 
     const estimated_yield =
       ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) * yield_per_plant;
@@ -111,8 +110,6 @@ function PureBedPlan({
       <Main style={{ paddingBottom: '24px' }}>{t('BED_PLAN.PLANTING_DETAILS')}</Main>
 
       <div className={clsx(styles.row)}>
-        {/*todo: is onKeyDown = {integerOnKeyDown} how to listen/gather user input?*/}
-        {/* # of beds */}
         <Input
           label={t('BED_PLAN.NUMBER_0F_BEDS')}
           hookFormRegister={register(NUMBER_OF_BEDS, {
@@ -127,7 +124,6 @@ function PureBedPlan({
           errors={getErrorMessage(errors?.BedPlan?.number_of_beds, 1, 999)}
         />
 
-        {/* # of rows in bed */}
         <Input
           label={t('BED_PLAN.NUMBER_OF_ROWS')}
           hookFormRegister={register(NUMBER_OF_ROWS_IN_BED, {
@@ -143,8 +139,6 @@ function PureBedPlan({
       </div>
 
       <div className={clsx(styles.row)}>
-        {/*todo: how to listen/gather user input for <Unit> for calculations*/}
-        {/* Length of bed */}
         <Unit
           register={register}
           label={t('BED_PLAN.LENGTH_OF_BED')}
@@ -161,7 +155,6 @@ function PureBedPlan({
           required
         />
 
-        {/*Plant spacing*/}
         <Unit
           register={register}
           label={t('BED_PLAN.PLANT_SPACING')}

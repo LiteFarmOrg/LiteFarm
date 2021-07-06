@@ -15,7 +15,7 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
     ...obj,
     [label] : submission.data[name].value,
   }), {});
-  console.log('SUBMISSION Answers', questionAnswerMap);
+
   try {
     const page = await browser.newPage();
     await page.evaluateOnNewDocument((data) => {

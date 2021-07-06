@@ -220,15 +220,6 @@ const organicCertifierSurveyController = {
     };
   },
 
-
-  exportSurvey() {
-    return async (req, res) => {
-
-
-    };
-  },
-
-
 };
 
 module.exports = organicCertifierSurveyController;

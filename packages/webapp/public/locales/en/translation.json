@@ -21,9 +21,23 @@
     "SEEDING_RATE": "Seeding rate"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?"
+    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
+    "TITLE": "Cancel your {{flow}}?"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "Add a certification",
+      "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Change your certification preferences",
+      "NO_CERTIFICATIONS": "You are not currently pursuing any certifications.",
+      "NO_LONGER_WORKING": "No longer pursuing this certification or working with this certifier? No problem!",
+      "SUPPORTED_CERTIFICATION_ONE": "You are pursuing ",
+      "SUPPORTED_CERTIFICATION_TWO": " certification from:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "to see if there are new certifiers available in your area.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "You've requested",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -58,9 +72,28 @@
       "CERTIFICATION": "certification",
       "GOOD_NEWS": "Good news! LiteFarm can gather the information you need to generate your certification documents!",
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
-      "TITLE": "You are interested in applying for:"
+      "TITLE": "You are interested in applying for:",
+      "YOUR_CERTIFICATION": "Your certification"
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "EMAIL": "Email",
+    "EXPORT": "Export",
+    "EXPORT_DOCS": "Export certification docs",
+    "FLOW_TITLE": "certification documents export",
+    "FROM": "From",
+    "GOOD_NEWS": "Good news!",
+    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
+    "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
+    "SELECT_REPORTING_PERIOD": "Select your reporting period",
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "UH_OH": "Uh oh!",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
+    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -878,6 +911,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
+    "AGE": "Age",
     "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
@@ -906,9 +940,12 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLAN": "Plan {{count}}",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
+    "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
+    "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
@@ -917,6 +954,10 @@
     "PLANTING_SOIL": "Planting soil to be used ",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
+    "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SEEDLING": "Seedling or planting stock",
+    "SEEDLING_AGE": "What age is the the seedling or planting stock?",
+    "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
     "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
@@ -924,9 +965,12 @@
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?"
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "WHAT_IS_AGE": "What is the age of the crop?",
+    "WILD_CROP": "Are you harvesting a wild crop?"
   },
   "MY_FARM": {
+    "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",
     "FARM_MAP": "Farm map",
     "PEOPLE": "People"
@@ -961,6 +1005,10 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes...",
+    "TITLE": "Your export is being prepared"
   },
   "PROFILE_FLOATER": {
     "HELP": "Help",
@@ -1236,7 +1284,12 @@
   },
   "UNIT": {
     "INVALID_NUMBER": "Invalid number",
-    "MAXIMUM": "Maximum value exceeded"
+    "MAXIMUM": "Maximum value exceeded",
+    "TIME": {
+      "MONTH": "months",
+      "WEEK": "weeks",
+      "YEAR": "years"
+    }
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

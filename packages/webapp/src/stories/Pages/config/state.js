@@ -10368,7 +10368,7 @@ export default {
     organicCertifierSurveyReducer: {
       allCertificationTypes: [],
       certificationName: null,
-      certificationID: null,
+      certification_id: null,
       requestedCertification: null,
       finishedSelectingCertificationType: false,
       allCertifierTypes: [],

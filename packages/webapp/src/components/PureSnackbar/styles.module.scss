@@ -1,0 +1,54 @@
+@import '../../assets/mixin';
+
+.contentContainer {
+  display: flex;
+  height: 48px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 24px;
+}
+
+.headerText {
+  font-family: Open Sans;
+  color: var(--grey900);
+  font-style: normal;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.farmName {
+  font-weight: 600;
+}
+
+.farmMap {
+  font-weight: 400;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.progressBarContainer {
+  height: 2px
+}
+
+
+.container {
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  @include smallShadow2();
+  border-radius: 4px;
+}
+
+.success.container {
+  background: white;
+}
+
+.error.container {
+  background: var(--red400);
+
+}
+
+
+

@@ -26,6 +26,8 @@ import { isAuthenticated } from './util/jwt';
 // action
 import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
+import useScrollToTop from './containers/hooks/useScrollToTop';
+import { useReduxSnackbar } from './containers/Snackbar/useReduxSnackbar';
 
 //dynamic imports
 const Home = React.lazy(() => import('./containers/Home'));
@@ -225,14 +227,48 @@ const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
 
+const PlantedAlready = React.lazy(() => 
+  import('./containers/Crop/AddManagementPlan/PlantedAlready'),
+);
+
 const Documents = React.lazy(() => import('./containers/Documents'));
 
 const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
+const CertificationReportingPeriod = React.lazy(() =>
+  import('./containers/Certifications/ReportingPeriod'),
+);
+const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
+
+const InterestedOrganic = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
+);
+const CertificationSelection = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertificationSelection'),
+);
+
+const CertifierSelectionMenu = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+);
+
+const SetCertificationSummary = React.lazy(() =>
+  import(
+    './containers/OrganicCertifierSurvey/SetCertificationSummary/UpdateSetCertificationSummary'
+  ),
+);
+
+const RequestCertifier = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/RequestCertifier'),
+);
+const ViewCertification = React.lazy(() =>
+  import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
+);
 
 const Routes = () => {
+  useScrollToTop();
+  useReduxSnackbar();
   const userFarm = useSelector(
     userFarmSelector,
     (pre, next) =>
@@ -330,6 +366,11 @@ const Routes = () => {
             <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
             <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/planted_already"
+              exact
+              component={PlantedAlready}
+            />  
             <Route
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
@@ -493,6 +534,26 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
+            <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -540,6 +601,11 @@ const Routes = () => {
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
               component={ComplianceInfo}
+            />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/planted_already"
+              exact
+              component={PlantedAlready}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/needs_transplant"
@@ -694,6 +760,26 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/certification" exact component={ViewCertification} />
+            <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
+              path="/certification/interested_in_organic"
+              exact
+              component={InterestedOrganic}
+            />
+            <Route path="/certification/selection" exact component={CertificationSelection} />
+            <Route
+              path="/certification/certifier/selection"
+              exact
+              component={CertifierSelectionMenu}
+            />
+            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+            <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

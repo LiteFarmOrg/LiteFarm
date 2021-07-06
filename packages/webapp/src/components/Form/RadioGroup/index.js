@@ -33,9 +33,7 @@ export default function RadioGroup({
       field.onChange(field.value);
     }
   }, [props.disabled]);
-  if (showNotSure && required) {
-    console.error('showNotSure and required cannot be true at the same time');
-  }
+
   const YES = showNotSure ? 'YES' : true;
   const NO = showNotSure ? 'NO' : false;
   const NOT_SURE = 'NOT_SURE';

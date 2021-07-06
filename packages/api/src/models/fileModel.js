@@ -28,13 +28,13 @@ class FileModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'file_name', 'thumbnail_url', 'document_id' ],
+      required: ['file_name', 'document_id'],
       properties: {
         file_id: { type: 'string' },
         document_id: { type: 'string' },
         file_name: { type: 'string' },
         url: { type: 'string' },
-        thumbnail_url: { type: 'string' },
+        thumbnail_url: { type: ['string', null] },
       },
       additionalProperties: false,
     };

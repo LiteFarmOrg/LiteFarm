@@ -6,6 +6,7 @@ import Layout from '../Layout';
 import Farmland from '../../assets/images/certification/Farmland.svg';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
 import { colors } from '../../assets/theme';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureSetCertificationSummary({
   onSubmit,
@@ -21,15 +22,18 @@ export default function PureSetCertificationSummary({
       onSubmit={onSubmit}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
           <Button type={'submit'} fullLength onClick={onSubmit}>
             {t('common:CONTINUE')}
           </Button>
         </>
       }
     >
+      <PageTitle
+        title={t('CERTIFICATION.SUMMARY.YOUR_CERTIFICATION')}
+        onGoBack={onGoBack}
+        style={{ marginBottom: '20px' }}
+      />
+
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
         {certificationTranslation

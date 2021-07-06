@@ -21,9 +21,23 @@
     "SEEDING_RATE": "MISSING"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "MISSING"
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "MISSING",
+      "CHANGE_CERTIFICATION_PREFERENCE": "MISSING",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "MISSING",
+      "NO_CERTIFICATIONS": "MISSING",
+      "NO_LONGER_WORKING": "MISSING",
+      "SUPPORTED_CERTIFICATION_ONE": "MISSING",
+      "SUPPORTED_CERTIFICATION_TWO": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "MISSING",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "MISSING"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
       "SUBTITLE_ONE": "Esta es una lista de certificadores de",
@@ -58,9 +72,28 @@
       "CERTIFICATION": "Certificacion",
       "GOOD_NEWS": "Buenas noticias! Litefarm puede recolectar la informacion que necesitas para generar tus documentos de certificacion!",
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
-      "TITLE": "Estas interesado en aplicar para:"
+      "TITLE": "Estas interesado en aplicar para:",
+      "YOUR_CERTIFICATION": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
+    "EMAIL": "MISSING",
+    "EXPORT": "MISSING",
+    "EXPORT_DOCS": "MISSING",
+    "FLOW_TITLE": "MISSING",
+    "FROM": "MISSING",
+    "GOOD_NEWS": "MISSING",
+    "HAVE_ALL_INFO": "MISSING",
+    "NEXT_WE_WILL_CHECK": "MISSING",
+    "ORGANIC_CERTIFICATION_FROM": "MISSING",
+    "SELECT_REPORTING_PERIOD": "MISSING",
+    "TO": "MISSING",
+    "TO_MUST_BE_AFTER_FROM": "MISSING",
+    "UH_OH": "MISSING",
+    "WHERE_TO_SEND_DOCS": "MISSING",
+    "WOULD_LIKE_ANSWERS": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agrega otra finca",
@@ -877,6 +910,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "MISSING",
+    "AGE": "MISSING",
     "AS_COVER_CROP": "MISSING",
     "BEDS": "MISSING",
     "BROADCAST": "MISSING",
@@ -905,9 +939,12 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "MISSING",
     "NUMBER_OF_CONTAINER": "MISSING",
     "PLAN": "MISSING",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "MISSING",
     "PLAN_NOTES": "MISSING",
     "PLANT_SPACING": "MISSING",
+    "PLANTED_ALREADY": "MISSING",
+    "PLANTING": "MISSING",
     "PLANTING_DATE": "MISSING",
     "PLANTING_DEPTH": "MISSING",
     "PLANTING_METHOD": "MISSING",
@@ -916,6 +953,10 @@
     "PLANTING_SOIL": "MISSING",
     "PLANTS_PER_CONTAINER": "MISSING",
     "ROWS": "MISSING",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "SEEDLING_AGE": "MISSING",
+    "SEEDLING_AGE_INFO": "MISSING",
     "SELECT_PLANTING_LOCATION": "MISSING",
     "SELECT_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "MISSING",
@@ -923,9 +964,12 @@
     "TERMINATION": "MISSING",
     "TOTAL_PLANTS": "MISSING",
     "TRANSPLANT": "MISSING",
-    "TRANSPLANT_LOCATION": "MISSING"
+    "TRANSPLANT_LOCATION": "MISSING",
+    "WHAT_IS_AGE": "MISSING",
+    "WILD_CROP": "MISSING"
   },
   "MY_FARM": {
+    "CERTIFICATIONS": "MISSING",
     "FARM_INFO": "Información de la finca",
     "FARM_MAP": "Mapa de la finca",
     "PEOPLE": "Personas"
@@ -960,6 +1004,10 @@
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
+  },
+  "PREPARING_EXPORT": {
+    "MESSAGE": "MISSING",
+    "TITLE": "MISSING"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ayuda",
@@ -1235,7 +1283,12 @@
   },
   "UNIT": {
     "INVALID_NUMBER": "Numero invalido",
-    "MAXIMUM": "Valor maximo excedido"
+    "MAXIMUM": "Valor maximo excedido",
+    "TIME": {
+      "MONTH": "MISSING",
+      "WEEK": "MISSING",
+      "YEAR": "MISSING"
+    }
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

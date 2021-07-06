@@ -1,9 +1,15 @@
 const { sendEmail, emails } = require('./../../templates/sendEmailTemplate')
 module.exports = (job) => {
-  const farm_name = job.data.records[0].notes.split('/')[0];
-  const { first_name, email, file } = job.data;
-  const buttonLink = `/export/${file.split('/').pop()}`;
-  return sendEmail(emails.EXPORT_EMAIL, { first_name, farm_name }, email, {
-    buttonLink,
-  })
+  if(!job.data?.fail) {
+    const farm_name = job.data.records[0].notes.split('/')[0];
+    const { first_name, email, file } = job.data;
+    const buttonLink = `/export/${file.split('/').pop()}`;
+    return sendEmail(emails.EXPORT_EMAIL, { first_name, farm_name }, email, {
+      buttonLink,
+    })
+  } else {
+    // Send failure email
+    console.log('Failure');
+    return Promise.resolve({});
+  }
 }

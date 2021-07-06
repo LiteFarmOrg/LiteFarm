@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Form from '../Form';
 import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Input from '../Form/Input';
 import { Error, Main } from '../Typography';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
-import CancelFlowModal from '../Modals/CancelFlowModal';
+
+const FROM_DATE = 'from_date';
+const TO_DATE = 'to_date';
+const EMAIL = 'email';
 
 const PureCertificationReportingPeriod = ({
   onSubmit,
@@ -21,12 +23,12 @@ const PureCertificationReportingPeriod = ({
   defaultEmail,
 }) => {
   const { t } = useTranslation();
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const {
     register,
     handleSubmit,
     getValues,
     watch,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -40,25 +42,19 @@ const PureCertificationReportingPeriod = ({
 
   useHookFormPersist(persistedPath, getValues);
 
-  const FROM_DATE = 'from_date';
-  const TO_DATE = 'to_date';
-  const EMAIL = 'email';
-
   const fromDateRegister = register(FROM_DATE, {
     required: true,
     validate: {
-      beforeToDate: (v) => v < watch(TO_DATE),
+      beforeToDate: (v) => v < getValues(TO_DATE),
     },
   });
   const toDateRegister = register(TO_DATE, {
     required: true,
     validate: {
-      afterFromDate: (v) => v > watch(FROM_DATE),
+      afterFromDate: (v) => v > getValues(FROM_DATE),
     },
   });
   const emailRegister = register(EMAIL, { required: true });
-  const areNotDatesProperlySet =
-    !isNaN(watch(FROM_DATE)) && !isNaN(watch(FROM_DATE)) && watch(FROM_DATE) >= watch(TO_DATE);
 
   const progress = 33;
   return (
@@ -74,8 +70,9 @@ const PureCertificationReportingPeriod = ({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={() => setShowConfirmCancelModal(true)}
+          onCancel={handleCancel}
           title={t('CERTIFICATIONS.EXPORT_DOCS')}
+          cancelModalTitle={t('CERTIFICATIONS.FLOW_TITLE')}
           value={progress}
         />
 
@@ -101,7 +98,7 @@ const PureCertificationReportingPeriod = ({
               }}
             />
           </div>
-          {areNotDatesProperlySet && <Error>{t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')}</Error>}
+          <DateError control={control} errorMessage={t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')} />
         </div>
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
@@ -113,15 +110,17 @@ const PureCertificationReportingPeriod = ({
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
       </Form>
-      {showConfirmCancelModal && (
-        <CancelFlowModal
-          dismissModal={() => setShowConfirmCancelModal(false)}
-          handleCancel={handleCancel}
-          flow={t('CERTIFICATIONS.FLOW_TITLE')}
-        />
-      )}
     </>
   );
+};
+
+const DateError = ({ control, errorMessage }) => {
+  const from_date = useWatch({ control, name: FROM_DATE });
+  const to_date = useWatch({ control, name: TO_DATE });
+  const areDatesProperlySet =
+    (from_date && to_date && from_date < to_date) || !from_date || !to_date;
+
+  return <>{!areDatesProperlySet && <Error>{errorMessage}</Error>}</>;
 };
 
 PureCertificationReportingPeriod.propTypes = {

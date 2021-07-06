@@ -26,7 +26,6 @@ const PureCertificationSurveyPage = ({
 }) => {
   const { t } = useTranslation();
   const [submissionId, setSubmissionId] = useState(undefined);
-  const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
 
   const persistedPath = ['/certification/report_period'];
   useHookFormPersist(persistedPath, () => ({}));
@@ -48,19 +47,8 @@ const PureCertificationSurveyPage = ({
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  let surveyBody;
   const { certifier_acronym } = certifier ?? {};
   const hasQuestions = certifiersWithQuestions.includes(certifier_acronym);
-  if (requested_certifier) {
-    surveyBody = <UnregisteredCertifierSurvey />;
-  } else {
-    if (hasQuestions) {
-      // TODO: this is hard coded for the purpose of proof-of-concept
-      surveyBody = <RegisteredCertifierQuestionsSurvey certiferAcronym={certifier_acronym} />;
-    } else {
-      surveyBody = <RegisteredCertifierNoQuestionsSurvey />;
-    }
-  }
 
   return (
     <>
@@ -83,22 +71,33 @@ const PureCertificationSurveyPage = ({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={() => setShowConfirmCancelModal(true)}
+          onCancel={handleCancel}
           title={t('CERTIFICATIONS.EXPORT_DOCS')}
+          cancelModalTitle={t('CERTIFICATIONS.FLOW_TITLE')}
           value={progress}
         />
 
-        {surveyBody}
-      </Layout>
-      {showConfirmCancelModal && (
-        <CancelFlowModal
-          dismissModal={() => setShowConfirmCancelModal(false)}
-          handleCancel={handleCancel}
-          flow={t('CERTIFICATIONS.FLOW_TITLE')}
+        <SurveyBody
+          requested_certifier={requested_certifier}
+          hasQuestions={hasQuestions}
+          certifier_acronym={certifier_acronym}
         />
-      )}
+      </Layout>
     </>
   );
+};
+
+const SurveyBody = ({ requested_certifier, hasQuestions, certifier_acronym }) => {
+  if (requested_certifier) {
+    return <UnregisteredCertifierSurvey />;
+  } else {
+    if (hasQuestions) {
+      // TODO: this is hard coded for the purpose of proof-of-concept
+      return <RegisteredCertifierQuestionsSurvey certiferAcronym={certifier_acronym} />;
+    } else {
+      return <RegisteredCertifierNoQuestionsSurvey />;
+    }
+  }
 };
 
 PureCertificationSurveyPage.propTypes = {

@@ -15,6 +15,8 @@
 
 const Model = require('objection').Model;
 const BaseModel = require('./baseModel');
+const CertifierModel = require('./certifierModel');
+const CertificationModel = require('./certificationModel');
 
 class organicCertifierSurveyModel extends BaseModel {
   static get tableName() {
@@ -22,7 +24,7 @@ class organicCertifierSurveyModel extends BaseModel {
   }
 
   static get idColumn() {
-    return 'survey_id'
+    return 'survey_id';
   }
 
   static get jsonSchema() {
@@ -59,6 +61,22 @@ class organicCertifierSurveyModel extends BaseModel {
         join: {
           from: 'organicCertifierSurvey.farm_id',
           to: 'farm.farm_id',
+        },
+      },
+      certifiers: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./certifierModel'),
+        join: {
+          from: 'organicCertifierSurvey.certifier_id',
+          to: 'certifiers.certifier_id',
+        },
+      },
+      certifications: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./certificationModel'),
+        join: {
+          from: 'organicCertifierSurvey.certification_id',
+          to: 'certifications.certification_id',
         },
       },
     }

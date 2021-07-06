@@ -5,6 +5,7 @@ import { bufferZoneEnum, fieldEnum, waterValveEnum } from '../../../containers/c
 import {
   area_perimeter,
   area_total_area,
+  crop_age,
   line_width,
   water_valve_flow_rate,
 } from '../../../util/unit';
@@ -212,5 +213,16 @@ gallonPerMinWaterValveFlowRate.args = {
       .to(water_valve_flow_rate.databaseUnit) * 1,
   unitType: water_valve_flow_rate,
   system: 'imperial',
+  required: true,
+};
+
+export const WeeksCropAge = Template.bind({});
+WeeksCropAge.args = {
+  label: 'Weeks',
+  name: 'age',
+  displayUnitName: 'age_unit',
+  defaultValue: 4,
+  unitType: crop_age,
+  system: 'metric',
   required: true,
 };

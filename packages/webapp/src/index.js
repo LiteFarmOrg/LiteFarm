@@ -78,6 +78,8 @@ import mapSaga from './containers/Map/saga';
 import uploadDocumentSaga from './containers/Documents/DocumentUploader/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
+import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
+import certificationsSaga from './containers/Certifications/saga';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -182,6 +184,8 @@ sagaMiddleware.run(inviteUserSaga);
 sagaMiddleware.run(mapSaga);
 sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
+sagaMiddleware.run(cropVarietyImageUploaderSaga);
+sagaMiddleware.run(certificationsSaga);
 
 const persistor = persistStore(store);
 

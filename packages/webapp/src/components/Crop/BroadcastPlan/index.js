@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { area_total_area, getDefaultUnit, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
-import Unit, { unitOptionMap } from '../../Form/Unit';
+import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
@@ -42,6 +42,7 @@ function PureBroadcastPlan({
   });
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
+  const [initialSeedingRate, setInitialSeedingRate] = useState(null);
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
@@ -79,11 +80,17 @@ function PureBroadcastPlan({
   };
 
   useEffect(() => {
+    if(seedingRateForm) {
+      setInitialSeedingRate( system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2));
+    }
+  }, [])
+
+  useEffect(() => {
     const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
     setValue(AREA_USED, areaUsed, shouldValidate);
     setValue(
       AREA_USED_UNIT,
-      unitOptionMap[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
+      getUnitOptionMap()[getDefaultUnit(area_total_area, areaUsed, system).displayUnit],
       shouldValidate,
     );
   }, [percentageOfAreaPlanted]);
@@ -99,6 +106,7 @@ function PureBroadcastPlan({
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);
+
 
   return (
     <Form
@@ -172,6 +180,7 @@ function PureBroadcastPlan({
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
+        defaultValue={initialSeedingRate}
         errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}
       />
       <input

@@ -107,17 +107,19 @@ export default function CropCatalogue({ history }) {
               {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
                 const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
-                return (
-                  <PureCropTile
-                    key={crop_id}
-                    title={t(`crop:${crop_translation_key}`)}
-                    src={crop_photo_url}
-                    alt={imageKey}
-                    style={{ width: cardWidth }}
-                    onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
-                    needsPlan
-                  />
-                );
+                const withPlanCropIds = new Set(cropCatalogue.map(({ crop_id }) => crop_id));
+                if (!withPlanCropIds.has(crop_id))
+                  return (
+                    <PureCropTile
+                      key={crop_id}
+                      title={t(`crop:${crop_translation_key}`)}
+                      src={crop_photo_url}
+                      alt={imageKey}
+                      style={{ width: cardWidth }}
+                      onClick={() => history.push(`/crop_varieties/crop/${cropVariety.crop_id}`)}
+                      needsPlan
+                    />
+                  );
               })}
               {cropCatalogue.map((cropCatalog) => {
                 const {

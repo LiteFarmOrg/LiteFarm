@@ -4,6 +4,7 @@ import Radio from '../Form/Radio';
 import React from 'react';
 import { Label, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureRoleSelection({
   onSubmit,
@@ -28,7 +29,7 @@ export default function PureRoleSelection({
         </>
       }
     >
-      <Title>{title}</Title>
+      <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
       <Radio classes={inputClasses} {...inputs[0]} />
       <Radio classes={inputClasses} {...inputs[1]} />
       <Radio classes={inputClasses} {...inputs[2]} />

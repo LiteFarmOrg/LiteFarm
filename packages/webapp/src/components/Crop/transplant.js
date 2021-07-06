@@ -23,9 +23,16 @@ export default function PureTransplant({
   const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
 
   const progress = 29;
-
+  console.log(persistedFormData);
   const TRANSPLANT = 'needs_transplant';
   const COVER = 'for_cover';
+
+  let defaultTransplantValue;
+  if (persistedFormData.in_ground) {
+    defaultTransplantValue = false;
+  } else if (persistedFormData.seeding_type === 'SEEDLING_OR_PLANTING_STOCK') {
+    defaultTransplantValue = true;
+  }
 
   const {
     register,
@@ -38,8 +45,8 @@ export default function PureTransplant({
     shouldUnregister: true,
     defaultValues:
       isCoverCrop && !persistedFormData.hasOwnProperty(COVER)
-        ? { ...persistedFormData, for_cover: true }
-        : { ...persistedFormData },
+        ? { ...persistedFormData, for_cover: true, needs_transplant: defaultTransplantValue }
+        : { ...persistedFormData, needs_transplant: defaultTransplantValue },
   });
 
   useHookFormPersist([submitPath, goBackPath], getValues);

@@ -1,0 +1,19 @@
+.dateContainer {
+  display: flex;
+}
+
+.dateInput {
+  margin-bottom: 40px;
+}
+
+.dateDivider {
+  width: 16px;
+  height: 1px;
+  background-color: var(--grey400);
+  margin: 44px 8px 24px 8px;
+}
+
+.mainText {
+  margin-bottom: 24px;
+  line-height: 20px;
+}

@@ -32,7 +32,8 @@
     "SEEDING_RATE": "MISSING"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "MISSING"
+    "BODY": "MISSING",
+    "TITLE": "MISSING"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
@@ -86,6 +87,24 @@
       "YOUR_CERTIFICATION": "MISSING"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
+    "EMAIL": "MISSING",
+    "EXPORT": "MISSING",
+    "EXPORT_DOCS": "MISSING",
+    "FLOW_TITLE": "MISSING",
+    "FROM": "MISSING",
+    "GOOD_NEWS": "MISSING",
+    "HAVE_ALL_INFO": "MISSING",
+    "NEXT_WE_WILL_CHECK": "MISSING",
+    "ORGANIC_CERTIFICATION_FROM": "MISSING",
+    "SELECT_REPORTING_PERIOD": "MISSING",
+    "TO": "MISSING",
+    "TO_MUST_BE_AFTER_FROM": "MISSING",
+    "UH_OH": "MISSING",
+    "WHERE_TO_SEND_DOCS": "MISSING",
+    "WOULD_LIKE_ANSWERS": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agrega otra finca",

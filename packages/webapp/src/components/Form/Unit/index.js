@@ -231,6 +231,9 @@ const Unit = ({
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
+    } else if (e.target.value > max) {
+      const newHookFormValue = convert(max).from(hookFormUnit).to(databaseUnit);
+      hookFormSetHiddenValue(newHookFormValue, { shouldDirty: true });
     } else {
       const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
       hookFormSetHiddenValue(newHookFormValue, { shouldDirty: true });

@@ -11,10 +11,10 @@ export default function RenderSurvey() {
         zIndex: 9999,
       }}
     >
-      {Array.from(Array(100)).map((index) => (
+      {Object.keys(data).map((label) => (
         <>
-          <Title>{data?.question}</Title>
-          <Underlined>{data?.answer}</Underlined>
+          <Title>{label}</Title>
+          <Underlined>{data[label]}</Underlined>
         </>
       ))}
     </div>

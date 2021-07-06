@@ -20,14 +20,6 @@ const userModel = require('../models/userModel');
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
-const puppeteer = require('puppeteer');
-const {
-  getPrivateS3BucketName,
-  s3,
-  imaginaryPost,
-  getRandomFileName,
-  getPrivateS3Url,
-} = require('../util/digitalOceanSpaces');
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,
@@ -205,7 +197,7 @@ const organicCertifierSurveyController = {
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
             WHERE ( mp.seed_date BETWEEN ? AND ? ) AND cp.organic IS NOT NULL AND cp.farm_id  = ?`, [from_date, to_date, farm_id]);
       const { first_name } = await userModel.query().where({ user_id }).first();
-      const body = { records: records.rows, files, farm_id, email, first_name };
+      const body = { records: records.rows, files, farm_id, email, first_name, submission: '60e455b2fdef070001d06b6c' };
       res.status(200).json({ message: 'Processing' });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })
@@ -232,39 +224,7 @@ const organicCertifierSurveyController = {
   exportSurvey() {
     return async (req, res) => {
 
-      const browser = await puppeteer.launch({ headless: true });
-      try {
-        const page = await browser.newPage();
-        await page.evaluateOnNewDocument((data) => {
-          window.data = data;
-        }, { question: 'question', answer: 'answer' });
-        await page.goto('http://localhost:3000/render_survey', { waitUntil: 'networkidle2' });
-        // await page.waitForNavigation({
-        //   waitUntil: 'networkidle0',
-        // });
-        const pdf = await page.pdf({ format: 'A4' });
-        const { farm_id } = req.params;
-        const fileName = `${farm_id}/survey/${getRandomFileName({ originalname: 'name' })}`;
-        const s3BucketName = getPrivateS3BucketName();
-        await s3.putObject({
-          Body: pdf,
-          Bucket: s3BucketName,
-          Key: `${fileName}.pdf`,
-          ACL: 'public-read',
-        }).promise();
 
-        console.log(`https://litefarm-dev-secret.nyc3.digitaloceanspaces.com/${fileName}.pdf`);
-
-      } catch (e) {
-        console.log(e);
-        res.status(400).json({
-          e,
-        });
-      }
-
-      res.sendStatus(200);
-
-      return await browser.close();
     };
   },
 

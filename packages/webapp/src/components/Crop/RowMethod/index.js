@@ -6,12 +6,13 @@ import Input, { integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { container_planting_depth, container_plant_spacing, seedYield } from '../../../util/unit';
+import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
+import { HideForm } from '../../HideForm/HideForm';
 
 export default function PureRowMethod({
   onGoBack,
@@ -23,7 +24,6 @@ export default function PureRowMethod({
   persistedFormData,
   persistPath,
 }) {
-
   const { t } = useTranslation(['translation']);
   const {
     register,
@@ -44,7 +44,7 @@ export default function PureRowMethod({
 
   const progress = 75;
 
-  const row_prefix = 'row_method.'
+  const row_prefix = 'row_method.';
 
   const SAME_LENGTH = row_prefix + 'same_length';
   const NUMBER_OF_ROWS = row_prefix + 'number_of_rows';
@@ -97,15 +97,9 @@ export default function PureRowMethod({
         style={{ marginBottom: '24px' }}
         cancelModalTitle
       />
-      <Main style={{ paddingBottom: '24px' }}>
-        {t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
-      </Main>
+      <Main style={{ paddingBottom: '24px' }}>{t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}</Main>
       <div>
-        <RadioGroup
-          hookFormControl={control}
-          name={SAME_LENGTH}
-          required
-        />
+        <RadioGroup hookFormControl={control} name={SAME_LENGTH} required />
       </div>
       {(same_length === true || same_length === false) && (
         <>
@@ -143,30 +137,26 @@ export default function PureRowMethod({
               </div>
             </>
           )}
-          {!same_length && (
-            <div style={ {paddingBottom: '40px' }}>
-              <Unit
-                style={{ paddingLeft: '16px' }}
-                register={register}
-                label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
-                name={TOTAL_LENGTH}
-                displayUnitName={TOTAL_LENGTH_UNIT}
-                errors={errors[TOTAL_LENGTH]}
-                unitType={container_plant_spacing}
-                system={system}
-                hookFormSetValue={setValue}
-                hookFormGetValue={getValues}
-                hookFormSetError={setError}
-                hookFromWatch={watch}
-                control={control}
-                required
-                style={{ flexGrow: 1 }}
-              />
-            </div>
-          )}
+          <HideForm style={{ paddingBottom: '40px' }} shouldHide={same_length}>
+            <Unit
+              register={register}
+              label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
+              name={TOTAL_LENGTH}
+              displayUnitName={TOTAL_LENGTH_UNIT}
+              errors={errors[TOTAL_LENGTH]}
+              unitType={container_plant_spacing}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              style={{ flexGrow: 1 }}
+            />
+          </HideForm>
           <div>
             <Unit
-              style={{ paddingLeft: '16px' }}
               register={register}
               label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
               name={PLANT_SPACING}
@@ -183,7 +173,8 @@ export default function PureRowMethod({
               style={{ flexGrow: 1 }}
             />
           </div>
-          {((num_of_rows > 0 && length_of_row > 0 && plant_spacing > 0) || (total_length > 0 && plant_spacing > 0)) && (
+          {((num_of_rows > 0 && length_of_row > 0 && plant_spacing > 0) ||
+            (total_length > 0 && plant_spacing > 0)) && (
             <>
               <div className={styles.row} style={{ marginTop: '40px' }}>
                 <Unit

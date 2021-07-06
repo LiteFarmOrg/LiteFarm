@@ -28,7 +28,9 @@ export default function ViewCertification({ history }) {
 
   const isNotSupported =
     certification.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
-  const onExport = () => {};
+  const onExport = () => {
+    history.push('/certification/report_period');
+  };
   const onAddCertification = () => history.push('/certification/interested_in_organic');
   const onChangePreference = onAddCertification;
 

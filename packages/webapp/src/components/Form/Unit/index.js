@@ -226,10 +226,17 @@ const Unit = ({
         message: t('UNIT.MAXIMUM'),
       });
     } else {
-      hookFormSetValue(name, convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
+      const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
+      hookFormSetValue(name, newHookFormValue, {
         shouldValidate: true,
         shouldDirty: true,
       });
+      //TODO: wait for hookform fix
+      setTimeout(() => {
+        hookFormSetValue(name, newHookFormValue, {
+          shouldValidate: true,
+        });
+      }, 1);
     }
   };
   useEffect(() => {

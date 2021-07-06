@@ -126,6 +126,7 @@ const Unit = ({
   required,
   mode = 'onBlur',
   max = 1000000000,
+  validValue = false,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -223,7 +224,7 @@ const Unit = ({
     } else if (e.target.value > max) {
       hookFormSetError(name, {
         type: 'manual',
-        message: t('UNIT.MAXIMUM'),
+        message: validValue? t('UNIT.VALID_VALUE') + max : t('UNIT.MAXIMUM'),
       });
     } else {
       const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
@@ -269,7 +270,7 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-62px, 23px)',
+            transform: isSelectDisabled ? 'translate(-1px, 23px)' : ((unitType.databaseUnit === 'week')? 'translate(-95px, 23px)' : 'translate(-62px, 23px)'),
             lineHeight: '40px',
             cursor: 'pointer',
             zIndex: 2,

@@ -1260,6 +1260,7 @@
   "UNIT": {
     "INVALID_NUMBER": "Invalid number",
     "MAXIMUM": "Maximum value exceeded",
+    "VALID_VALUE": "Please enter a value between 0-",
     "TIME": {
       "WEEK": "weeks",
       "MONTH": "months",

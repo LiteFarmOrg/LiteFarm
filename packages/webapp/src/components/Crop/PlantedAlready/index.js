@@ -41,8 +41,6 @@ export default function PurePlantedAlready({
 
   useHookFormPersist([persistPath], getValues);
 
-  const disabled = !isValid;
-
   const progress = 12.5;
 
   const IN_GROUND = 'in_ground';
@@ -57,6 +55,10 @@ export default function PurePlantedAlready({
 
   const in_ground = watch(IN_GROUND);
   const seeding_type = watch(SEEDING_TYPE);
+  const wild_crop = watch(WILD_CROP);
+
+  const disabled = !isValid || (in_ground === true && (wild_crop !== true && wild_crop !== false));
+
 
   return (
     <Form
@@ -150,6 +152,7 @@ export default function PurePlantedAlready({
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
+                      validValue={true}
                       optional
                     />
                   </div>
@@ -177,6 +180,7 @@ export default function PurePlantedAlready({
                   hookFromWatch={watch}
                   control={control}
                   max={MAX_AGE}
+                  validValue={true}
                   optional
                 />
               </div>
@@ -184,7 +188,7 @@ export default function PurePlantedAlready({
                 <Label className={styles.label} style={{ marginBottom: '18px' }}>
                   {t('MANAGEMENT_PLAN.WILD_CROP')}
                 </Label>
-                <RadioGroup hookFormControl={control} name={WILD_CROP} required />
+                <RadioGroup hookFormControl={control} name={WILD_CROP} />
               </div>
             </>
           )}

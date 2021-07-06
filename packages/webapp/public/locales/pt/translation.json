@@ -21,7 +21,7 @@
     "SEEDING_RATE": "Taxa de semeadura"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Qualquer informação que você inseriu será descartada. Você quer prosseguir?"
+    "BODY": "Qualquer informação que você inseriu será descartada. Você quer prosseguir?",
     "TITLE": "MISSING"
   },
   "CERTIFICATION": {
@@ -910,6 +910,7 @@
   },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de manejo",
+    "AGE": "MISSING",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
@@ -938,9 +939,12 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PLAN": "Plan {{count}}",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Nome do plano de manejo",
     "PLAN_NOTES": "Notas de plan",
     "PLANT_SPACING": "Espaçamento de plantas",
+    "PLANTED_ALREADY": "MISSING",
+    "PLANTING": "MISSING",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
@@ -949,6 +953,10 @@
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
     "ROWS": "Linhas",
+    "SEED_OR_SEEDLING": "MISSING",
+    "SEEDLING": "MISSING",
+    "SEEDLING_AGE": "MISSING",
+    "SEEDLING_AGE_INFO": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
     "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
@@ -956,7 +964,9 @@
     "TERMINATION": "Terminação",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Transplantar",
-    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?"
+    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
+    "WHAT_IS_AGE": "MISSING",
+    "WILD_CROP": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",

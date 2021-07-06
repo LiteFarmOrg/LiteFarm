@@ -3,11 +3,13 @@
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
-      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
+      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento archivado exitosamente",
-      "CREATE": "Documento creado exitosamente"
+      "CREATE": "Documento creado exitosamente",
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {

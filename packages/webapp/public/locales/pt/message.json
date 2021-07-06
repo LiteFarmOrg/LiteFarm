@@ -3,11 +3,13 @@
     "ERROR": {
       "CREATE": "Falha ao criar documento",
       "FAILED_ARCHIVE": "Falha ao arquivar o documento",
-      "FAILED_UPLOAD": "Anexos não carregados"
+      "FAILED_UPLOAD": "Anexos não carregados",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento arquivado com sucesso",
-      "CREATE": "Documento criado com sucesso"
+      "CREATE": "Documento criado com sucesso",
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {

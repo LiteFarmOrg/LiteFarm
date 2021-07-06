@@ -21,7 +21,7 @@
     "SEEDING_RATE": "Tasa de siembra"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Se descartará cualquier información que haya ingresado. Quieres proceder?"
+    "BODY": "Se descartará cualquier información que haya ingresado. Quieres proceder?",
     "TITLE": "MISSING"
   },
   "CERTIFICATION": {
@@ -939,6 +939,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PLAN": "Plan {{count}}",
+    "PLAN_plural": "MISSING",
     "PLAN_NAME": "Nombre del plan de manejo",
     "PLAN_NOTES": "Notas del plan",
     "PLANT_SPACING": "Espaciamiento de plantas",
@@ -963,7 +964,7 @@
     "TERMINATION": "Terminar",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
-    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "WHAT_IS_AGE": "MISSING",
     "WILD_CROP": "MISSING"
   },

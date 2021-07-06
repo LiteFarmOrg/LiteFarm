@@ -245,7 +245,7 @@
       "FERTILIZING_PRODUCT": "Fertilizing product",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT": "Soil Amendment"
+      "SOIL_AMENDMENT": "Soil amendment"
     },
     "VALID": "Valid"
   },
@@ -951,7 +951,7 @@
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "PLANTING_NOTE": "Planting notes",
-    "PLANTING_SOIL": "Planting soil to be used ",
+    "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
     "SEED_OR_SEEDLING": "How will you plant this crop?",

@@ -1,8 +1,9 @@
-module.exports = (job, done) => {
-  setTimeout(() => {
-    console.log(`EMAIL ID:  ${job.id}`);
-    console.log(`EMAIL data ${JSON.stringify(job.data)}`);
-    console.log(`Uploaded file ${job.data.file}`);
-    done();
-  }, 2000)
+const { sendEmail, emails } = require('./../../templates/sendEmailTemplate')
+module.exports = (job) => {
+  const farm_name = job.data.records[0].notes.split('/')[0];
+  const { first_name, email, file } = job.data;
+  const buttonLink = `/export/${file.split('/').pop()}`;
+  return sendEmail(emails.EXPORT_EMAIL, { first_name, farm_name }, email, {
+    buttonLink,
+  })
 }

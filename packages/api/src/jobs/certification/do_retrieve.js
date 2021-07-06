@@ -17,13 +17,14 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
     '--recursive',
     '--endpoint=https://nyc3.digitaloceanspaces.com',
     '--exclude=*',
-  ].concat(files.map((fileName) => `--include=${fileName}`))
+  ].concat(files.map((fileName) => `--include=${fileName.split('/').pop()}`))
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
-    nextQueue.add(job.data);
-  }, ()=> {
-    emailQueue.add({ fail: true, email });
     done();
+    nextQueue.add(job.data, { removeOnComplete: true });
+  }, ()=> {
+    done();
+    emailQueue.add({ fail: true, email }, { removeOnComplete: true });
   }));
 }
 

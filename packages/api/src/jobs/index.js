@@ -27,10 +27,6 @@ zipQueue.process(zipFn(uploadQueue));
 uploadQueue.process(uploadFn(emailQueue));
 emailQueue.process(emailFn);
 
-emailQueue.on('completed', () => {
-  console.log('EMAIL SENT');
-})
-
 
 retrieveQueue.on('error', (e) => console.error(e));
 excelQueue.on('error', (e) => console.error(e));

@@ -2,14 +2,14 @@ const { spawn }= require('child_process')
 module.exports = (nextQueue, emailQueue) => (job, done) => {
   console.log('STEP 3 > ZIP', job.id);
   const { farm_id, email } = job.data;
-  const zipProcess = spawn('tar',
-    ['-cvzf', `${farm_id}.zip`, `temp/${farm_id}`], { cwd: process.env.EXPORT_WD });
+  const zipProcess = spawn('zip',
+    ['-r', `${farm_id}.zip`, `temp/${farm_id}`], { cwd: process.env.EXPORT_WD });
   zipProcess.on('exit', childProcessExitCheck(() => {
-    nextQueue.add(job.data);
     done();
+    nextQueue.add(job.data, { removeOnComplete: true });
   }, () => {
-    emailQueue.add({ fail: true, email });
     done();
+    emailQueue.add({ fail: true, email }, { removeOnComplete: true });
   }));
 }
 

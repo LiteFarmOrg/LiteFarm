@@ -1,7 +1,7 @@
 module.exports = (nextQueue) => (job, done) => {
   setTimeout(() => {
     console.log(`PDF ID:  ${job.id}`);
-    nextQueue.add(job.data);
     done();
+    nextQueue.add(job.data, { removeOnComplete: true });
   }, 2000)
 }

@@ -17,7 +17,6 @@ module.exports = (data, farm_id) => {
         fontFamily: 'Calibri',
         fill: 'F2F2F2',
       }
-      console.log('GENERATING EXCEL, rows: ', data.length);
       const RichText = XlsxPopulate.RichText;
       const rowSix = new RichText();
       const rowSeven = new RichText();
@@ -92,7 +91,6 @@ module.exports = (data, farm_id) => {
         const rowN = i + 11;
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
-          console.log(cell);
           workbook.sheet(0).cell(cell).value(row[k]);
         })
       })

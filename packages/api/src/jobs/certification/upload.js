@@ -14,16 +14,16 @@ module.exports = (emailQueue) => (job, done) => {
     's3', // command
     'cp', //sub command
     `${farm_id}.zip`, // destination
-    `s3://${fileIdentifier}`, // location
+    `s3://${fileIdentifier}.zip`, // location
     '--endpoint=https://nyc3.digitaloceanspaces.com',
   ]
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
-    emailQueue.add({ data: job.data, file: fileIdentifier });
     done();
+    emailQueue.add({ ...job.data, file: fileIdentifier }, { removeOnComplete: true });
   }, ()=> {
-    emailQueue.add({ fail: true, email });
     done();
+    emailQueue.add({ fail: true, email }, { removeOnComplete: true });
   }));
 }
 

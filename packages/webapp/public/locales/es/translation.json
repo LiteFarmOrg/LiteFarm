@@ -13,7 +13,12 @@
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "BED_PLAN_GUIDANCE": {
-    "SPECIFY_BEDS": "MISSING"
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
   },
   "BED_PLAN": {
     "ADDITIONAL_GUIDANCE": "MISSING",
@@ -237,13 +242,11 @@
     "COMPLIANCE_DOCUMENTS_AND_CERTIFICATION": "MISSING",
     "DOCUMENTS": "MISSING",
     "EDIT_DOCUMENT": "MISSING",
-
     "FILTER": {
       "TITLE": "MISSING",
       "TYPE": "MISSING",
       "VALID_ON": "MISSING"
     },
-
     "SPOTLIGHT": {
       "CDC": "MISSING",
       "HERE_YOU_CAN": "MISSING",

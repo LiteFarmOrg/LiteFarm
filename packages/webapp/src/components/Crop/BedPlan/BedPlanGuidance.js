@@ -69,7 +69,7 @@ function PureBedPlanGuidance({
       <Main style={{ paddingBottom: '24px' }}>{t('BED_PLAN.ADDITIONAL_GUIDANCE')}</Main>
 
       <Input
-        toolTipContent={'hello'}
+        toolTipContent={t('BED_PLAN_GUIDANCE.TOOLTIP')}
         label={t('BED_PLAN_GUIDANCE.SPECIFY_BEDS')}
         hookFormRegister={register(SPECIFY_BEDS)}
         style={{ paddingBottom: '40px' }}

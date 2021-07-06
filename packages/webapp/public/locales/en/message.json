@@ -1,7 +1,6 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-
       "CREATE": "Failed to create document",
       "FAILED_ARCHIVE": "Failed to archive document",
       "FAILED_UPLOAD": "Failed to upload attachments",

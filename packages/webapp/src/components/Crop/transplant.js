@@ -22,7 +22,7 @@ export default function PureTransplant({
   const submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
 
-  const progress = 12.5;
+  const progress = 29;
 
   const TRANSPLANT = 'needs_transplant';
   const COVER = 'for_cover';

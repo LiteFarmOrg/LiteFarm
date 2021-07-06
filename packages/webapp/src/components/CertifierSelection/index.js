@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import Infoi from '../Tooltip/Infoi';
 import PageTitle from '../PageTitle/v2';
 
+// TODO: WHO IS YOUR CERTIFIER?
+
 export default function PureCertifierSelectionScreen({
   allSupportedCertifiers,
   history,
@@ -102,6 +104,7 @@ export default function PureCertifierSelectionScreen({
       {filteredCertifiers.map((certifier) => {
         return (
           <CertifierSelectionMenuItem
+            key={certifier.certifier_id}
             style={{ marginBottom: '16px' }}
             certifierName={certifier.certifier_name + ' ' + '(' + certifier.certifier_acronym + ')'}
             color={selectedCertifierId === certifier.certifier_id ? 'active' : 'secondary'}

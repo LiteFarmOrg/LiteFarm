@@ -237,6 +237,10 @@ const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
+const CertificationReportingPeriod = React.lazy(() =>
+  import('./containers/Certifications/ReportingPeriod'),
+);
+const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
 
 const InterestedOrganic = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
@@ -535,6 +539,12 @@ const Routes = () => {
             <Route path="/invite_user" exact component={InviteUser} />
             <Route path="/certification" exact component={ViewCertification} />
             <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
               path="/certification/interested_in_organic"
               exact
               component={InterestedOrganic}
@@ -755,6 +765,12 @@ const Routes = () => {
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
             <Route path="/certification" exact component={ViewCertification} />
+            <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
             <Route
               path="/certification/interested_in_organic"
               exact

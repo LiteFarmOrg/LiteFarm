@@ -26,7 +26,7 @@ const mocks  = require('./mock.factories');
 
 const taskTypeModel = require('../src/models/taskTypeModel');
 
-describe('taskType Tests', () => {
+xdescribe('taskType Tests', () => {
   let middleware;
   let owner;
   let farm;

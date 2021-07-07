@@ -245,7 +245,7 @@
       "FERTILIZING_PRODUCT": "Fertilizing product",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT": "Soil Amendment"
+      "SOIL_AMENDMENT": "Soil amendment"
     },
     "VALID": "Valid"
   },
@@ -951,7 +951,7 @@
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "PLANTING_NOTE": "Planting notes",
-    "PLANTING_SOIL": "Planting soil to be used ",
+    "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "ROWS": "Rows",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
@@ -967,7 +967,14 @@
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "ROW_METHOD": {
+      "SAME_LENGTH": "Are your rows all the same length?",
+      "NUMBER_OF_ROWS": "# of rows",
+      "LENGTH_OF_ROW": "Length of row",
+      "TOTAL_LENGTH": "Total length of rows",
+      "PLANT_SPACING": "Plant spacing"
+    }
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1285,6 +1292,7 @@
   "UNIT": {
     "INVALID_NUMBER": "Invalid number",
     "MAXIMUM": "Maximum value exceeded",
+    "VALID_VALUE": "Please enter a value between 0-",
     "TIME": {
       "MONTH": "months",
       "WEEK": "weeks",

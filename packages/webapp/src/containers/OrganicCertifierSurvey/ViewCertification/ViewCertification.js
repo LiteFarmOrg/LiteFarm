@@ -19,15 +19,15 @@ export default function ViewCertification({ history }) {
   const { interested } = useSelector(certifierSurveySelector);
   const organicSurvey = useSelector(certifierSurveySelector);
   const certification = useSelector(certificationSelector);
-  const certificationName = t(`certifications:${certification.certification_translation_key}`);
+  const certificationName = t(`certifications:${certification?.certification_translation_key}`);
   const certifier = useSelector(certifierSelector);
 
   const allSupportedCertifierTypes = useSelector(
-    certifiersByCertificationSelector(certification.certification_id),
+    certifiersByCertificationSelector(certification?.certification_id),
   );
 
   const isNotSupported =
-    certification.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
+    certification?.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
   const onExport = () => {
     history.push('/certification/report_period');
   };

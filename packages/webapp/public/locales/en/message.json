@@ -118,7 +118,7 @@
   },
   "NEW_FIELD_CROP": {
     "ERROR": {
-      "GENERAL": "failed to add fieldCrop to database",
+      "GENERAL": "Failed to add fieldCrop to database",
       "NOT_FILLED": "is not filled out",
       "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
     },

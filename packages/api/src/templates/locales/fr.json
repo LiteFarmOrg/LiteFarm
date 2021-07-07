@@ -84,5 +84,12 @@
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In"
+  },
+  "EXPORT": {
+    "HI": "EXPORT.HI",
+    "SEASON": "EXPORT.SEASON",
+    "CERTIFICATION": "EXPORT.CERTIFICATION",
+    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
+    "SUBJECT": "EXPORT.SUBJECT"
   }
 }

@@ -6,13 +6,13 @@ import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
 
-const exportUrl = () => `${url}/temporary_route_to_be_replaced`; //TODO: REPLACE ROUTE
+const exportUrl = () => `${url}/organic_certifier_survey/request_export`;
 
 export const exportCertificationData = createAction('exportCertificationDataSaga');
 export function* exportCertificationDataSaga({ payload: exportData }) {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id);
+    const header = getHeader(user_id, farm_id);
 
     const postData = {
       farm_id,

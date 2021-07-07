@@ -81,6 +81,14 @@
     "SUBJECT0": "Here’s your farm map for",
     "SUBJECT1": "on LiteFarm"
   },
+  "EXPORT": {
+    "SEASON": "We hope you've had a fantastic season at",
+    "CERTIFICATION": "Please find your certification documents attached. You can also click the link below to download a zip of all the supporting documents (photos of seed packages, scans of your input receipts, etc.) for your reporting period. Good luck with your submission and thanks for using Litefarm!",
+    "GET_EXPORT": "Get your export",
+    "SUBJECT": "Your certification documents export from LiteFarm",
+    "HI": "Hi",
+    "GET_YOUR_EXPORT": "Get documents"
+  },
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In"

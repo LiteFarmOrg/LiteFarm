@@ -982,7 +982,14 @@
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "WHAT_IS_AGE": "MISSING",
-    "WILD_CROP": "MISSING"
+    "WILD_CROP": "MISSING",
+    "ROW_METHOD": {
+      "SAME_LENGTH": "MISSING",
+      "NUMBER_OF_ROWS": "MISSING",
+      "LENGTH_OF_ROW": "MISSING",
+      "TOTAL_LENGTH": "MISSING",
+      "PLANT_SPACING": "MISSING"
+    }
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -1300,6 +1307,7 @@
   "UNIT": {
     "INVALID_NUMBER": "Número inválido",
     "MAXIMUM": "Valor máximo excedido",
+    "VALID_VALUE": "MISSING",
     "TIME": {
       "MONTH": "MISSING",
       "WEEK": "MISSING",

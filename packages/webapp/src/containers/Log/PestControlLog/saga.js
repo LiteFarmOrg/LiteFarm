@@ -10,10 +10,10 @@ import { getDiseases, getPesticides, setDiseaseInState, setPesticideInState } fr
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
 import i18n from '../../../locales/i18n';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 export function* getPesticideSaga() {
   const { pesticideUrl } = apiConfig;
@@ -94,11 +94,11 @@ export function* editPestControlLog(payload) {
     const result = yield call(axios.put, logURL + `/${pcLog.activity_id}`, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG.SUCCESS.EDIT')));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG.ERROR.EDIT')));
   }
 }
 

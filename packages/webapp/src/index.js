@@ -20,7 +20,6 @@ import { Integrations } from '@sentry/tracing';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore } from '@reduxjs/toolkit';
-import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
@@ -51,7 +50,6 @@ import watercourseSaga from './containers/LocationDetails/LineDetails/Watercours
 import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
 import financeSaga from './containers/Finances/saga';
-import cropSaga from './components/Forms/NewCropModal/saga';
 import varietalSaga from './containers/AddCropVariety/saga';
 import insightSaga from './containers/Insights/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
@@ -69,8 +67,6 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
 import loginSaga from './containers/GoogleLoginButton/saga';
-import newFieldSaga from './containers/Field/NewField/saga';
-import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import SSOInfoSaga from './containers/SSOUserCreateAccountInfo/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
@@ -165,15 +161,12 @@ sagaMiddleware.run(watercourseSaga);
 sagaMiddleware.run(pestControlSaga);
 sagaMiddleware.run(shiftSaga);
 sagaMiddleware.run(financeSaga);
-sagaMiddleware.run(cropSaga);
 sagaMiddleware.run(varietalSaga);
 sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
-sagaMiddleware.run(newFieldSaga);
-sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
@@ -207,16 +200,6 @@ const render = () => {
             <CssBaseline />
             <Router history={history}>
               <>
-                <ReduxToastr
-                  timeOut={4000}
-                  newestOnTop={false}
-                  preventDuplicates
-                  position="top-left"
-                  transitionIn="fadeIn"
-                  transitionOut="fadeOut"
-                  progressBar
-                  closeOnToastrClick
-                />
                 <App />
               </>
             </Router>

@@ -485,84 +485,9 @@
     }
   },
   "FIELDS": {
-    "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
-      "CROP": {
-        "ADD_NEW_CROP_OR_VARIETY": "Add New Crop or Variety",
-        "AREA_USED": "Area Used",
-        "AREA_USED_HECTARE": "Area used in hectare",
-        "AREA_USED_IN": "Area Used in",
-        "BED": "bed",
-        "BED_LENGTH": "Bed Length",
-        "BED_WIDTH": "Bed Width",
-        "BY_AREA": "By Area",
-        "BY_BEDS": "By Bed",
-        "CHOOSE_END_DATE": "Choose end date",
-        "CHOOSE_START_DATE": "Choose start date",
-        "CROP_COMMON_NAME": "Common Name",
-        "CROP_GROUP_INFO": "Crop Group Info",
-        "CROP_GROUP_SUBGROUP": "Crop Group and Subgroup",
-        "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
-        "EDIT_CROP_DETAIL": "Edit Crop Detail",
-        "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
-        "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
-        "END_DATE": "End Date",
-        "ENTER_CROP_DETAILS": "Enter Crop Details",
-        "ENTER_START_FINISH": "Enter start and finish dates",
-        "ESTIMATED_PRICE": "Estimated price",
-        "ESTIMATED_PRODUCTION": "Estimated Production",
-        "ESTIMATED_REVENUE": "Estimated Revenue",
-        "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
-        "FIELD_SIZE": "Field size",
-        "GENUS": "Genus",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
-        "NEW_CROP": "New Crop",
-        "NEW_CROP_INFOBOX": "If you have information on the details of your crop or variety such as it’s nutrient content, or physiological traits, you can edit them here.",
-        "NEW_CROP_VARIETY": "New Crop or Variety",
-        "NEW_FIELD_CROP": "New Field Crop",
-        "NO_DATA": "No Data",
-        "NUMBER_EXPIRED": "Number of Expired Crops",
-        "NUMBER_OF_BEDS": "Number of Beds",
-        "NUTRIENT_LABEL": "Nutrients in Edible Portion (per 100g)",
-        "PERCENTAGE": "Percentage",
-        "REMOVE_CROP": "Remove crop",
-        "SELECT_CROP_GROUP": "Select crop group",
-        "SELECT_CROP_SUBGROUP": "Select crop subgroup",
-        "SELECT_CROP_TEMPLATE": "Select a crop template",
-        "SPECIES": "Species",
-        "START_DATE": "Start Date",
-        "VARIETY_NAME": "Variety Name"
-      },
-      "DELETE_FIELD": "Delete Field",
-      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
-      "EDIT_NAME": "Edit Field Name",
-      "NAME": "Field Name",
-      "NUMBER_CROPS": "Number of Crops",
-      "SELECT": "Select...",
-      "TITLE": "Edit Field",
-      "TOTAL_AREA": "Total Area",
-      "VARIETY": "Variety",
-      "DELETE_FIELD_CONFIRM": "I would like to delete this field."
-    },
-    "EXPLORE": "Explore Your Fields",
-    "LIST": "List",
-    "MAP": "Map",
-    "NEW_FIELD": {
-      "DRAW": "Draw",
-      "FIELD_NAME": "Field Name",
-      "FIELD_NAME_PLACEHOLDER": "Enter Field Name",
-      "REDRAW": "Redraw",
-      "SAVE_FIELD": "Save Field",
-      "SEARCH_BOX_PLACEHOLDER": "Search",
-      "TITLE": "New Field (2 of 2)",
-      "ZERO_AREA_DETECTED": "Field with no area detected. Please draw again."
-    },
-    "TABLE": {
-      "AREA": "Area",
-      "EDIT": "Edit",
-      "FIELD_NAME": "Field Name"
-    },
-    "TITLE": "Fields"
+      "VARIETY": "Variety"
+    }
   },
   "FILE_SIZE_MODAL": {
     "BODY": "Files can not exceed 25MB or 5 pages.",
@@ -939,8 +864,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NUMBER_OF_CONTAINER": "# of containers",
-    "PLAN": "Plan {{count}}",
-    "PLAN_plural": "MISSING",
+    "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
@@ -953,6 +877,12 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "ROW_METHOD": {
+      "LENGTH_OF_ROW": "Length of row",
+      "NUMBER_OF_ROWS": "# of rows",
+      "SAME_LENGTH": "Are your rows all the same length?",
+      "TOTAL_LENGTH": "Total length of rows"
+    },
     "ROWS": "Rows",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDLING": "Seedling or planting stock",
@@ -968,13 +898,7 @@
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
-    "ROW_METHOD": {
-      "SAME_LENGTH": "Are your rows all the same length?",
-      "NUMBER_OF_ROWS": "# of rows",
-      "LENGTH_OF_ROW": "Length of row",
-      "TOTAL_LENGTH": "Total length of rows",
-      "PLANT_SPACING": "Plant spacing"
-    }
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -1014,7 +938,7 @@
     "TITLE": "Link Sent"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes...",
+    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes... Click anywhere outside of this box to close this message. We'll continue preparing your certification documents in the background and email them once finished, but you can still keep using LiteFarm while we're preparing those.",
     "TITLE": "Your export is being prepared"
   },
   "PROFILE_FLOATER": {
@@ -1290,14 +1214,12 @@
     "ROWS_TEXT": "rows"
   },
   "UNIT": {
-    "INVALID_NUMBER": "Invalid number",
-    "MAXIMUM": "Maximum value exceeded",
-    "VALID_VALUE": "Please enter a value between 0-",
     "TIME": {
       "MONTH": "months",
       "WEEK": "weeks",
       "YEAR": "years"
-    }
+    },
+    "VALID_VALUE": "Please enter a value between 0-"
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

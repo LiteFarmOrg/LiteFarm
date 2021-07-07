@@ -32,11 +32,6 @@
       "EDIT": "Cultivo editado com sucesso"
     }
   },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "A Data de Término não pode ser igual ou anterior à Data de Início"
-    }
-  },
   "EXPENSE": {
     "ERROR": {
       "ADD": "Falha de adicionar novas despesas",
@@ -62,15 +57,6 @@
   "FERTILIZER": {
     "ERROR": {
       "ADD": "falhou em adicionar fertilizante"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "O nome do campo não pode estar vazio",
-      "UPDATE_NAME": "Falha ao atualizar o nome do campo"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Nome de campo alterado com sucesso"
     }
   },
   "LOG_HARVEST": {
@@ -115,16 +101,6 @@
     "SUCCESS_DELETE": " retirado com sucesso",
     "SUCCESS_PATCH": " atualizado com sucesso",
     "SUCCESS_POST": " salvo com sucesso"
-  },
-  "NEW_FIELD_CROP": {
-    "ERROR": {
-      "GENERAL": "Falha ao adicionar cultivo de campo ao banco de dados",
-      "NOT_FILLED": "não está preenchido",
-      "VARIETY_EXISTS": "Já existe um cultivo desse variedade, tente outra."
-    },
-    "SUCCESS": {
-      "SAVE": "Cultivo salvo com sucesso!"
-    }
   },
   "SALE": {
     "ERROR": {

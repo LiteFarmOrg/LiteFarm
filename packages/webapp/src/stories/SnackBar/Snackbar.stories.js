@@ -5,7 +5,8 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import Layout from '../../components/Layout';
 import PageTitle from '../../components/PageTitle/v2';
 import Button from '../../components/Form/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import { PureSnackbar } from '../../components/PureSnackbar';
+import styles from './styles.module.scss';
 
 export default {
   title: 'Components/Snackbar',
@@ -43,18 +44,10 @@ function Page() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 'calc(100vw - 48px)',
-    maxWidth: '976px',
-  },
-}));
-
 const Template = (args) => {
-  const classes = useStyles();
   return (
     <SnackbarProvider
-      classes={classes}
+      classes={{ root: styles.root, containerRoot: styles.root }}
       anchorOrigin={{
         vertical: 'bottom',
         horizontal: 'center',
@@ -67,3 +60,17 @@ const Template = (args) => {
 };
 export const Primary = Template.bind({});
 Primary.args = {};
+const SnackBarTemplate = (args) => <PureSnackbar {...args} />;
+export const Success = SnackBarTemplate.bind({});
+Success.args = {
+  type: 'success',
+  message: 'success',
+  onDismiss: () => {},
+};
+
+export const Error = SnackBarTemplate.bind({});
+Error.args = {
+  type: 'error',
+  message: 'error',
+  onDismiss: () => {},
+};

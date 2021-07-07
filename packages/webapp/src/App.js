@@ -64,7 +64,7 @@ function App() {
               vertical: 'bottom',
               horizontal: 'center',
             }}
-            classes={{ root: classes.root }}
+            classes={{ root: classes.root, containerRoot: classes.root }}
             content={(key, message) => <NotistackSnackbar id={key} message={message} />}
           >
             <Routes />

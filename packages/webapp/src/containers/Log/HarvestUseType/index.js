@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { currentLogSelector, setAllHarvestUseTypesSelector } from '../selectors';
-import { toastr } from 'react-redux-toastr';
 import { useTranslation } from 'react-i18next';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 function HarvestUseType() {
   const dispatch = useDispatch();
@@ -94,7 +94,8 @@ function HarvestUseType() {
     history.push('/harvest_allocation');
   };
 
-  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.ERROR.REQUIRED_TASK'));
+  const showUseTypeRequiredError = () =>
+    dispatch(enqueueErrorSnackbar(t('message:LOG_HARVEST.ERROR.REQUIRED_TASK')));
 
   return (
     <>

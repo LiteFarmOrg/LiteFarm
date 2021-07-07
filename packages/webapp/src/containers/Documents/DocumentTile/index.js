@@ -5,6 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/managemen
 import PropTypes from 'prop-types';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { useTranslation } from 'react-i18next';
+import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
 
 export default function PureDocumentTile({
   className,
@@ -14,19 +15,25 @@ export default function PureDocumentTile({
   preview,
   onClick,
   noExpiration,
+  extensionName,
   imageComponent = (props) => <ImageWithAuthentication {...props} />,
 }) {
-
   const { t } = useTranslation();
 
   return (
     <div className={clsx(styles.container, className)} onClick={onClick}>
-      {imageComponent({
-        className: styles.img,
-        src: preview,
-      })}
+      {preview ? (
+        imageComponent({
+          className: styles.img,
+          src: preview,
+        })
+      ) : (
+        <div className={styles.documentIconContainer}>
+          <DocumentIcon extensionName={extensionName} />
+        </div>
+      )}
       <div className={styles.info}>
-        <div className={styles.title} style={{marginBottom: '4px'}}>
+        <div className={styles.title} style={{ marginBottom: '4px' }}>
           {title}
         </div>
         {type && (
@@ -42,7 +49,7 @@ export default function PureDocumentTile({
             </div>
           </>
         )}
-        {date && !noExpiration &&  (
+        {date && !noExpiration && (
           <>
             <div className={styles.date} style={{ marginBottom: '8px' }}>
               {<CalendarIcon className={styles.calendar} />}
@@ -62,4 +69,5 @@ PureDocumentTile.prototype = {
   date: PropTypes.string,
   preview: PropTypes.string,
   onClick: PropTypes.func,
+  extensionName: PropTypes.string,
 };

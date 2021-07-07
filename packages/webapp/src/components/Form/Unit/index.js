@@ -210,19 +210,19 @@ const Unit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldClearError } = {}) => {
-      hookFormSetValue(name, convert(value).from(hookFormUnit).to(databaseUnit), {
+      hookFormSetValue(name, value, {
         shouldValidate: true,
         shouldDirty,
       });
       //https://develop--60b6712d8009e500398eae5f.chromatic.com/welcome?id=docs-bugs--page&viewMode=story#hookform-trigger-does-not-update-errors-properly-when-there-is-a-required-radiogroup-after-triggered-input-field
       setTimeout(() => {
-        hookFormSetValue(name, convert(value).from(hookFormUnit).to(databaseUnit), {
+        hookFormSetValue(name, value, {
           shouldValidate: true,
         });
         shouldClearError && setShowError(false);
       }, 1);
     },
-    [hookFormUnit, databaseUnit, name],
+    [name],
   );
 
   const inputOnBlur = (e) => {

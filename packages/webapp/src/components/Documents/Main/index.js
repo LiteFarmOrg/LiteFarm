@@ -61,8 +61,8 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
           paddingBottom: '32px',
         }}
       >
-        {document.files?.map(({ thumbnail_url, file_name, url }) => (
-          <>
+        {document.files?.map(({ thumbnail_url, file_name, url }, index) => (
+          <div key={index}>
             {thumbnail_url ? (
               imageComponent({
                 width: '100%',
@@ -72,7 +72,7 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
             ) : (
               <CertifierSelectionMenuItem certifierName={file_name} />
             )}
-          </>
+          </div>
         ))}
       </div>
       <InputAutoSize

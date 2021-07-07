@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -80,7 +80,7 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
       singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
+        color: state.isDisabled ? 'var(--grey600)' : 'var(--grey600)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',
@@ -115,7 +115,6 @@ const Unit = ({
   displayUnitName,
   hookFormSetValue,
   hookFormGetValue,
-  hookFormSetError,
   hookFromWatch,
   defaultValue,
   system,
@@ -130,9 +129,8 @@ const Unit = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
-    hookFormSetValue(name, undefined);
+    hookFormSetHiddenValue('', { shouldClearError: true });
     setVisibleInputValue('');
-    setShowError(false);
   };
 
   const [showError, setShowError] = useState();
@@ -209,27 +207,33 @@ const Unit = ({
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);
   };
-  const inputOnBlur = (e) => {
-    if (isNaN(e.target.value)) {
-      hookFormSetError(name, {
-        type: 'manual',
-        message: t('UNIT.INVALID_NUMBER'),
+
+  const hookFormSetHiddenValue = useCallback(
+    (value, { shouldDirty = false, shouldClearError } = {}) => {
+      hookFormSetValue(name, value, {
+        shouldValidate: true,
+        shouldDirty,
       });
-    } else if (required && e.target.value === '') {
-      hookFormSetValue(name, '', { shouldValidate: true });
+      //https://develop--60b6712d8009e500398eae5f.chromatic.com/welcome?id=docs-bugs--page&viewMode=story#hookform-trigger-does-not-update-errors-properly-when-there-is-a-required-radiogroup-after-triggered-input-field
+      setTimeout(() => {
+        hookFormSetValue(name, value, {
+          shouldValidate: true,
+        });
+        shouldClearError && setShowError(false);
+      }, 1);
+    },
+    [name],
+  );
+
+  const inputOnBlur = (e) => {
+    if (required && e.target.value === '') {
+      hookFormSetHiddenValue('');
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
-    } else if (e.target.value > max) {
-      hookFormSetError(name, {
-        type: 'manual',
-        message: t('UNIT.MAXIMUM'),
-      });
     } else {
-      hookFormSetValue(name, convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
+      const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
+      hookFormSetHiddenValue(newHookFormValue, { shouldDirty: true });
     }
   };
   useEffect(() => {
@@ -241,6 +245,10 @@ const Unit = ({
       );
     }
   }, [hookFormValue]);
+
+  const getMax = useCallback(() => {
+    return hookFormUnit ? convert(max).from(hookFormUnit).to(databaseUnit) : max;
+  }, [hookFormUnit, max, databaseUnit]);
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -262,7 +270,11 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-62px, 23px)',
+            transform: isSelectDisabled
+              ? 'translate(-1px, 23px)'
+              : unitType.databaseUnit === 'week'
+              ? 'translate(-95px, 23px)'
+              : 'translate(-62px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
             zIndex: 2,
@@ -328,7 +340,11 @@ const Unit = ({
       <input
         className={styles.hiddenInput}
         defaultValue={defaultValue || hookFormValue || ''}
-        {...register(name, { required, valueAsNumber: true })}
+        {...register(name, {
+          required: required && t('common:REQUIRED'),
+          valueAsNumber: true,
+          max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
+        })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
@@ -354,7 +370,6 @@ Unit.propTypes = {
   style: PropTypes.object,
   hookFormSetValue: PropTypes.func,
   hookFormGetValue: PropTypes.func,
-  hookFormSetError: PropTypes.func,
   hookFromWatch: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']).isRequired,

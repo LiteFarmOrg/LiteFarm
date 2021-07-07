@@ -38,10 +38,11 @@ function PureBroadcastPlan({
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
-    mode: 'onBlur',
+    mode: 'onChange',
   });
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
+  const [initialSeedingRate, setInitialSeedingRate] = useState(null);
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
@@ -79,6 +80,12 @@ function PureBroadcastPlan({
   };
 
   useEffect(() => {
+    if(seedingRateForm) {
+      setInitialSeedingRate( system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2));
+    }
+  }, [])
+
+  useEffect(() => {
     const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
     setValue(AREA_USED, areaUsed, shouldValidate);
     setValue(
@@ -99,6 +106,7 @@ function PureBroadcastPlan({
       setDisplayedLocationSize(newDisplayedSize);
     }
   }, [areaUsedUnit]);
+
 
   return (
     <Form
@@ -172,6 +180,7 @@ function PureBroadcastPlan({
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
+        defaultValue={initialSeedingRate}
         errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}
       />
       <input
@@ -186,7 +195,7 @@ function PureBroadcastPlan({
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
             name={ESTIMATED_SEED}
             displayUnitName={ESTIMATED_SEED_UNIT}
-            errors={errors[ESTIMATED_SEED]}
+            errors={errors?.broadcast?.required_seeds}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}
@@ -202,7 +211,7 @@ function PureBroadcastPlan({
             label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
             name={ESTIMATED_YIELD}
             displayUnitName={ESTIMATED_YIELD_UNIT}
-            errors={errors[ESTIMATED_YIELD]}
+            errors={errors?.broadcast?.estimated_yield}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}

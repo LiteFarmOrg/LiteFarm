@@ -5,7 +5,6 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import { measurementSelector } from '../../../userFarmSlice';
 
 function PlantedAlready({ history, match }) {
-
   const system = useSelector(measurementSelector);
   const variety_id = match?.params?.variety_id;
 
@@ -25,7 +24,7 @@ function PlantedAlready({ history, match }) {
 
   return (
     <HookFormPersistProvider>
-      <PurePlantedAlready 
+      <PurePlantedAlready
         onSubmit={onSubmit}
         onGoBack={onGoBack}
         onCancel={onCancel}

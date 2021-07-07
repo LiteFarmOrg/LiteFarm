@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -124,6 +124,7 @@ export default function PurePlantedAlready({
                   },
                 ]}
                 required
+                shouldUnregister={false}
               />
               {seeding_type === 'SEEDLING_OR_PLANTING_STOCK' && (
                 <>
@@ -185,7 +186,7 @@ export default function PurePlantedAlready({
                 <Label className={styles.label} style={{ marginBottom: '18px' }}>
                   {t('MANAGEMENT_PLAN.WILD_CROP')}
                 </Label>
-                <RadioGroup hookFormControl={control} name={WILD_CROP} />
+                <RadioGroup hookFormControl={control} name={WILD_CROP} shouldUnregister={false} />
               </div>
             </>
           )}

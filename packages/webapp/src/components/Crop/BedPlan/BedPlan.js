@@ -60,10 +60,14 @@ function PureBedPlan({
   const length_of_bed = watch(LENGTH_OF_BED);
   const plant_spacing = watch(PLANT_SPACING);
 
+  const [showEstimatedValue, setShowEstimatedValue] = useState(false);
+
   useHookFormPersist(persistedPaths, getValues);
 
   useEffect(() => {
-    const { average_seed_weight, yield_per_plant } = crop_variety;
+    const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
+    // let yield_per_plant = 2;
+    // let average_seed_weight = 3;
 
     const estimated_yield =
       ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) * yield_per_plant;
@@ -72,10 +76,11 @@ function PureBedPlan({
       ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) *
       average_seed_weight;
     const estimated_seed_required_in_seeds =
-      (number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing; // todo: is number of seeds needed?
+      (number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing;
 
     setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
     setValue(ESTIMATED_YIELD, estimated_yield);
+    setShowEstimatedValue(true);
   }, [number_of_beds, number_of_rows_in_bed, length_of_bed, plant_spacing]);
 
   function check() {
@@ -173,42 +178,46 @@ function PureBedPlan({
         />
       </div>
 
-      {!!number_of_beds && !!number_of_rows_in_bed && !!length_of_bed && !!plant_spacing && (
-        <div className={clsx(styles.row)}>
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
-            name={ESTIMATED_SEED}
-            displayUnitName={ESTIMATED_SEED_UNIT}
-            errors={errors[ESTIMATED_SEED]}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFormSetError={setError}
-            hookFromWatch={watch}
-            control={control}
-            required
-            style={{ flexGrow: 1 }}
-          />
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-            name={ESTIMATED_YIELD}
-            displayUnitName={ESTIMATED_YIELD_UNIT}
-            errors={errors[ESTIMATED_YIELD]}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFormSetError={setError}
-            hookFromWatch={watch}
-            control={control}
-            required
-            style={{ flexGrow: 1 }}
-          />
-        </div>
-      )}
+      {!!number_of_beds &&
+        !!number_of_rows_in_bed &&
+        !!length_of_bed &&
+        !!plant_spacing &&
+        showEstimatedValue && (
+          <div className={clsx(styles.row)}>
+            <Unit
+              register={register}
+              label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
+              name={ESTIMATED_SEED}
+              displayUnitName={ESTIMATED_SEED_UNIT}
+              errors={errors[ESTIMATED_SEED]}
+              unitType={seedYield}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              style={{ flexGrow: 1 }}
+            />
+            <Unit
+              register={register}
+              label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+              name={ESTIMATED_YIELD}
+              displayUnitName={ESTIMATED_YIELD_UNIT}
+              errors={errors[ESTIMATED_YIELD]}
+              unitType={seedYield}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              style={{ flexGrow: 1 }}
+            />
+          </div>
+        )}
     </Form>
   );
 }

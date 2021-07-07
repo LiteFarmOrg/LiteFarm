@@ -1,11 +1,11 @@
 {
-  "BEVERAGE_AND_SPICE_CROPS": "MISSING",
-  "CEREALS": "MISSING",
-  "FRUITS_AND_NUTS": "MISSING",
-  "LEGUMINOUS_CROPS": "MISSING",
-  "OILSEED_CROPS": "MISSING",
-  "OTHER_CROPS": "MISSING",
-  "POTATOES_AND_YAMS": "MISSING",
-  "SUGAR_CROPS": "MISSING",
-  "VEGETABLE_AND_MELONS": "MISSING"
+  "BEVERAGE_AND_SPICE_CROPS": "Colheitas de bebidas e especiarias",
+  "CEREALS": "Cereais",
+  "FRUITS_AND_NUTS": "Frutas e nozes",
+  "LEGUMINOUS_CROPS": "Colheita leguminosas",
+  "OILSEED_CROPS": "Colheita oleaginosos",
+  "OTHER_CROPS": "Outras colheita",
+  "POTATOES_AND_YAMS": "Batatas e inhames",
+  "SUGAR_CROPS": "Colheitas de açúcar",
+  "VEGETABLE_AND_MELONS": "Vegetal e melão"
 }

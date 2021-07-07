@@ -211,7 +211,9 @@ function PureDocumentDetailView({
             )}
           </ContainerWithIcon>
         ))}
-        {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
+        {shouldShowLoadingImage && (
+          <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />
+        )}
       </div>
       {uploadedFiles?.length <= 5 &&
         documentUploader({

@@ -5,6 +5,7 @@ const modelMapping = {
   broadcast: modelValidation('broadcast'),
   container: modelValidation('container'),
   beds: modelValidation('beds'),
+  rows: modelValidation('rows'),
 };
 
 function modelValidation(asset) {

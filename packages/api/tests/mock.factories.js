@@ -541,6 +541,20 @@ function fakeBroadcast(defaultData = {}) {
 }
 
 
+function fakeRows(defaultData = {}) {
+  const same_length = faker.random.boolean();
+  return {
+    same_length: same_length,
+    number_of_rows: same_length? faker.random.number(999) : null,
+    row_length: same_length? faker.random.number(10000) : null,
+    plant_spacing: faker.random.number(10000),
+    total_rows_length: same_length? null : faker.random.number(10000),
+    estimated_yield: faker.random.number(10000),
+    estimated_seeds: faker.random.number(10000),
+    ...defaultData
+  }
+}
+
 async function transplant_containerFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
@@ -1371,6 +1385,7 @@ module.exports = {
   containerFactory, fakeContainer,
   transplant_containerFactory, fakeTransplantContainer,
   broadcastFactory, fakeBroadcast,
+  fakeRows,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,

@@ -34,7 +34,7 @@ export default function PureManagementPlanName({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
-      [NAME]: t('MANAGEMENT_PLAN.PLAN', { count: managementPlanCount }),
+      [NAME]: t('MANAGEMENT_PLAN.PLAN_AND_ID', { id: managementPlanCount }),
       ...cloneObject(persistedFormData),
     },
   });

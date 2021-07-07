@@ -79,6 +79,14 @@ class CropManagementPlanModel extends Model {
           to: 'beds.management_plan_id',
         },
       },
+      rows: {
+        modelClass: require('./rowsModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'crop_management_plan.management_plan_id',
+          to: 'rows.management_plan_id',
+        },
+      }
     };
   }
 }

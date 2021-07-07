@@ -500,84 +500,9 @@
     }
   },
   "FIELDS": {
-    "ADD_NEW_FIELD": "Agregar campo novo",
     "EDIT_FIELD": {
-      "CROP": {
-        "ADD_NEW_CROP_OR_VARIETY": "Adicionar nova cultivo ou variedade",
-        "AREA_USED": "Área Utilizada",
-        "AREA_USED_HECTARE": "Área usada em hectareas",
-        "AREA_USED_IN": "Área usada em",
-        "BED": "Cama",
-        "BED_LENGTH": "Comprimento do canteiro",
-        "BED_WIDTH": "Largura do canteiro",
-        "BY_AREA": "Por área",
-        "BY_BEDS": "Por canteiro",
-        "CHOOSE_END_DATE": "Escolha a data de término",
-        "CHOOSE_START_DATE": "Escolha a data de início",
-        "CROP_COMMON_NAME": "Nome Comum",
-        "CROP_GROUP_INFO": "informações do novo cultivo",
-        "CROP_GROUP_SUBGROUP": "Informação de subgrupo",
-        "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir este cultivo?",
-        "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
-        "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
-        "EDIT_ESTIMATED_YIELD": "Editar rendimento estimado para o cultivo",
-        "END_DATE": "Data de término",
-        "ENTER_CROP_DETAILS": "Insira os detalhes do cultivo",
-        "ENTER_START_FINISH": "Insira as datas de início e término",
-        "ESTIMATED_PRICE": "Preço estimado",
-        "ESTIMATED_PRODUCTION": "Produção estimada",
-        "ESTIMATED_REVENUE": "Receita estimada",
-        "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento estimado",
-        "FIELD_SIZE": "Tamanho do campo",
-        "GENUS": "Gênero",
-        "HOW_MUCH_FIELD": "Quanto do campo você deseja usar?",
-        "NEW_CROP": "Novo Cultivo",
-        "NEW_CROP_INFOBOX": "Se você tiver informações sobre os detalhes de seu cultivo ou variedade, como conteúdo de nutrientes ou características fisiológicas, pode editá-los aqui.",
-        "NEW_CROP_VARIETY": "Novo Cultivo ou Variedade",
-        "NEW_FIELD_CROP": "Novo cultivo de campo",
-        "NO_DATA": "Sem dados",
-        "NUMBER_EXPIRED": "Número de colheitas expiradas",
-        "NUMBER_OF_BEDS": "Número de canteiros",
-        "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
-        "PERCENTAGE": "Percentagem",
-        "REMOVE_CROP": "Remover cultivo",
-        "SELECT_CROP_GROUP": "Selecione o grupo de cultivo",
-        "SELECT_CROP_SUBGROUP": "Selecione o subgrupo de cultivo",
-        "SELECT_CROP_TEMPLATE": "Selecione um tipo de cultivo",
-        "SPECIES": "Espécie",
-        "START_DATE": "Data de início",
-        "VARIETY_NAME": "Nome da variedade"
-      },
-      "DELETE_FIELD": "Apagar campo",
-      "DELETE_FIELD_WARNING": "Tem certeza que deseja excluir este campo?",
-      "EDIT_NAME": "Editar come do campo",
-      "NAME": "Nome do campo",
-      "NUMBER_CROPS": "Número de cultivos",
-      "SELECT": "Selecionar...",
-      "TITLE": "Editar Campo",
-      "TOTAL_AREA": "Área total",
-      "VARIETY": "Variedade",
-      "DELETE_FIELD_CONFIRM": "Quero excluir este campo"
-    },
-    "EXPLORE": "Verifique seus campos",
-    "LIST": "Lista",
-    "MAP": "Mapa",
-    "NEW_FIELD": {
-      "DRAW": "Desenhar",
-      "FIELD_NAME": "Nome do campos",
-      "FIELD_NAME_PLACEHOLDER": "Insira o nome do campo",
-      "REDRAW": "Redesenhar",
-      "SAVE_FIELD": "Salvar campo",
-      "SEARCH_BOX_PLACEHOLDER": "Pesquisar",
-      "TITLE": "Novo campo (2 de 2)",
-      "ZERO_AREA_DETECTED": "Parcela/campo sem área detectada. Por favor desenhe novamente"
-    },
-    "TABLE": {
-      "AREA": "Área",
-      "EDIT": "Editar",
-      "FIELD_NAME": "Nome do Campo"
-    },
-    "TITLE": "CAMPOS"
+      "VARIETY": "Variedade"
+    }
   },
   "FILE_SIZE_MODAL": {
     "BODY": "Os arquivos não podem exceder 25 MB ou 5 páginas.",
@@ -954,8 +879,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
-    "PLAN": "Plan {{count}}",
-    "PLAN_plural": "MISSING",
+    "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
     "PLAN_NOTES": "Notas de plan",
     "PLANT_SPACING": "Espaçamento de plantas",
@@ -968,6 +892,12 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
+    "ROW_METHOD": {
+      "LENGTH_OF_ROW": "MISSING",
+      "NUMBER_OF_ROWS": "MISSING",
+      "SAME_LENGTH": "MISSING",
+      "TOTAL_LENGTH": "MISSING"
+    },
     "ROWS": "Linhas",
     "SEED_OR_SEEDLING": "MISSING",
     "SEEDLING": "MISSING",
@@ -983,13 +913,7 @@
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "WHAT_IS_AGE": "MISSING",
     "WILD_CROP": "MISSING",
-    "ROW_METHOD": {
-      "SAME_LENGTH": "MISSING",
-      "NUMBER_OF_ROWS": "MISSING",
-      "LENGTH_OF_ROW": "MISSING",
-      "TOTAL_LENGTH": "MISSING",
-      "PLANT_SPACING": "MISSING"
-    }
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -1305,14 +1229,12 @@
     "ROWS_TEXT": "linhas"
   },
   "UNIT": {
-    "INVALID_NUMBER": "Número inválido",
-    "MAXIMUM": "Valor máximo excedido",
-    "VALID_VALUE": "MISSING",
     "TIME": {
       "MONTH": "MISSING",
       "WEEK": "MISSING",
       "YEAR": "MISSING"
-    }
+    },
+    "VALID_VALUE": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

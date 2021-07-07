@@ -32,11 +32,6 @@
       "EDIT": "Successfully Edited Crop"
     }
   },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date"
-    }
-  },
   "EXPENSE": {
     "ERROR": {
       "ADD": "Failed to add new expenses",
@@ -62,15 +57,6 @@
   "FERTILIZER": {
     "ERROR": {
       "ADD": "failed to add fertilizer"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "Field name cannot be empty",
-      "UPDATE_NAME": "Failed To update Field name"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Successfully changed field name"
     }
   },
   "LOG_HARVEST": {
@@ -115,16 +101,6 @@
     "SUCCESS_DELETE": " successfully retired",
     "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
-  },
-  "NEW_FIELD_CROP": {
-    "ERROR": {
-      "GENERAL": "Failed to add fieldCrop to database",
-      "NOT_FILLED": "is not filled out",
-      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
-    },
-    "SUCCESS": {
-      "SAVE": "Successfully saved Crop!"
-    }
   },
   "SALE": {
     "ERROR": {

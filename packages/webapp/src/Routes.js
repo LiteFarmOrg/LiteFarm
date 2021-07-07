@@ -223,6 +223,10 @@ const PlantInContainer = React.lazy(() =>
 const PlantBroadcast = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/BroadcastPlan'),
 );
+const BedPlan = React.lazy(() => import('./containers/Crop/AddManagementPlan/BedPlan/BedPlan'));
+const BedPlanGuidance = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
+);
 const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
@@ -416,6 +420,12 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/container"
               exact
               component={PlantInContainer}
+            />
+            <Route path="/crop/:variety_id/add_management_plan/beds" exact component={BedPlan} />
+            <Route
+              path="/crop/:variety_id/add_management_plan/beds_guidance"
+              exact
+              component={BedPlanGuidance}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/rows"

@@ -648,6 +648,7 @@ describe('ManagementPlan Tests', () => {
         crop_variety_id: cropVariety[0].crop_variety_id,
         ...fakeManagement,
         crop_management_plan: {
+          location_id: location[0].location_id,
           ...fakeCropManagement,
           rows: fakeRows
         }

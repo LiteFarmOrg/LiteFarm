@@ -35,13 +35,11 @@ export default function PurePlantedAlready({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
+    shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
 
   useHookFormPersist([persistPath], getValues);
-
-  const disabled = !isValid;
 
   const progress = 12.5;
 
@@ -57,6 +55,8 @@ export default function PurePlantedAlready({
 
   const in_ground = watch(IN_GROUND);
   const seeding_type = watch(SEEDING_TYPE);
+
+  const disabled = !isValid;
 
   return (
     <Form
@@ -75,6 +75,7 @@ export default function PurePlantedAlready({
         style={{
           marginBottom: '24px',
         }}
+        cancelModalTitle
       />
 
       <div>

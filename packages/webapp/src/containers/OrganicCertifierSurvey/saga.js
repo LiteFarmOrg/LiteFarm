@@ -37,7 +37,6 @@ export function* getCertificationSurveysSaga() {
     const header = getHeader(user_id, farm_id);
     const result = yield call(axios.get, getSurveyUrl(farm_id), header);
     yield put(getCertificationSurveysSuccess(result.data));
-    //TODO: Replace with withGraphJoined
     yield all([
       put(getAllSupportedCertifications()),
       put(getAllSupportedCertifiers(result.data.certification_id)),

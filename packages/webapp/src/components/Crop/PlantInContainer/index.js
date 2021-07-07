@@ -78,13 +78,13 @@ export default function PurePlantInContainer({
   const number_of_container = watch(NUMBER_OF_CONTAINERS);
   const plants_per_container = watch(PLANTS_PER_CONTAINER);
   const total_plants = watch(TOTAL_PLANTS);
+  const plant_spacing = watch(PLANT_SPACING);
 
-  const IsValidNumberInput = (number) => number === 0 || number > 0;
-
+  const isValidNumberInput = (number) => number === 0 || number > 0;
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
-    if (in_ground && IsValidNumberInput(total_plants)) {
+    if (in_ground && isValidNumberInput(total_plants) && isValidNumberInput(plant_spacing)) {
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
@@ -92,8 +92,8 @@ export default function PurePlantInContainer({
       setShowEstimatedValue(true);
     } else if (
       !in_ground &&
-      IsValidNumberInput(number_of_container) &&
-      IsValidNumberInput(plants_per_container)
+      isValidNumberInput(number_of_container) &&
+      isValidNumberInput(plants_per_container)
     ) {
       const required_seeds = number_of_container * plants_per_container * average_seed_weight;
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
@@ -103,7 +103,7 @@ export default function PurePlantInContainer({
     } else {
       setShowEstimatedValue(false);
     }
-  }, [in_ground, number_of_container, plants_per_container, total_plants]);
+  }, [in_ground, number_of_container, plants_per_container, total_plants, plant_spacing]);
 
   const disabled = !isValid;
 

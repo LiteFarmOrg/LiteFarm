@@ -110,6 +110,7 @@ const PureCertificationReportingPeriod = ({
           style={{ marginBottom: '40px' }}
           label={t('CERTIFICATIONS.EMAIL')}
           hookFormRegister={emailRegister}
+          errors={errors[EMAIL] && t('CERTIFICATIONS.EMAIL_ERROR')}
         />
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>

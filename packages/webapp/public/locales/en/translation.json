@@ -12,6 +12,22 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "Bed width",
+    "NOTES": "Planting notes",
+    "PLANTING_DEPTH": "Planting depth",
+    "SPACE_BETWEEN": "Space between beds",
+    "SPECIFY_BEDS": "Specify beds",
+    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible."
+  },
+  "BED_PLAN": {
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "LENGTH_OF_BED": "Length of beds",
+    "NUMBER_0F_BEDS": "# of beds",
+    "NUMBER_OF_ROWS": "# of rows in bed",
+    "PLANT_SPACING": "Plant spacing",
+    "PLANTING_DETAILS": "Please specify planting details"
+  },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
     "LOCATION_SIZE": "Location size",
@@ -80,6 +96,7 @@
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EMAIL": "Email",
+    "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FLOW_TITLE": "certification documents export",

@@ -12,6 +12,22 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
+  },
+  "BED_PLAN": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "LENGTH_OF_BED": "MISSING",
+    "NUMBER_0F_BEDS": "MISSING",
+    "NUMBER_OF_ROWS": "MISSING",
+    "PLANT_SPACING": "MISSING",
+    "PLANTING_DETAILS": "MISSING"
+  },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
     "LOCATION_SIZE": "Tamanho da localização",
@@ -80,6 +96,7 @@
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EMAIL": "Email",
+    "EMAIL_ERROR": "MISSING",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FLOW_TITLE": "MISSING",

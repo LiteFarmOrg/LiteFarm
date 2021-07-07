@@ -6,7 +6,7 @@ const bucketNames = {
 }
 
 module.exports = (emailQueue) => (job, done) => {
-  console.log('STEP 4 > Upload', job.id);
+  console.log('STEP 5 > Upload', job.id);
   const { farm_id, email } = job.data;
   const dateIdentifier = Date.now();
   const fileIdentifier = `${getS3BucketName()}/${farm_id}/document/exports/${dateIdentifier}`

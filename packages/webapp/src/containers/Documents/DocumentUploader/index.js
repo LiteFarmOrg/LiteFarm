@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { uploadDocument } from './saga';
 import { useState } from 'react';
 import FileSizeExceedModal from '../../../components/Modals/FileSizeExceedModal';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../../locales/i18n';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploadEnd }) {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ export function DocumentUploader({ style, linkstyle, onUpload, linkText, onUploa
   const onChange = (e) => {
     const file = e?.target?.files?.[0];
     if (!isValidFile(file)) {
-      toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+      dispatch(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     } else if (e?.target?.files?.[0]?.size > 26214400) {
       setShowErrorModal(true);
     } else if (e?.target?.files?.[0]) {
@@ -51,7 +51,7 @@ DocumentUploader.propTypes = {
   onUpload: PropTypes.func,
 };
 const allowedDocumentFormatArray = [
-  '.cvs',
+  '.csv',
   '.doc',
   '.docb',
   '.docm',

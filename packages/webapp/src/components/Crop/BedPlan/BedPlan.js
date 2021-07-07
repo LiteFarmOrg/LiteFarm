@@ -22,7 +22,6 @@ function PureBedPlan({
   history,
   system,
   crop_variety,
-
   useHookFormPersist,
   persistedFormData,
   persistedPaths,
@@ -65,7 +64,11 @@ function PureBedPlan({
   useHookFormPersist(persistedPaths, getValues);
 
   useEffect(() => {
-    const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
+    //let { average_seed_weight = 0, yield_per_plant = crop_variety.yield_per_plant} = crop_variety;
+    const yield_per_plant = crop_variety.yield_per_plant ? crop_variety.yield_per_plant : 10;
+    const average_seed_weight = crop_variety.average_seed_weight
+      ? crop_variety.average_seed_weight
+      : 0.1;
     // let yield_per_plant = 2;
     // let average_seed_weight = 3;
 

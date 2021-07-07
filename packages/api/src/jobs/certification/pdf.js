@@ -3,8 +3,9 @@ const fs = require('fs');
 const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = (nextQueue, emailQueue) => async (job) => {
+  console.log('STEP 3 > PDF')
   const { farm_id } = job.data;
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: true, ignoreDefaultArgs : ['--disable-extensions'] });
   const submission = await rp({ uri: `${surveyStackURL}/submissions/${job.data.submission}`, json: true });
   const survey = await rp({ uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`, json: true });
   if(!submission || !survey) {

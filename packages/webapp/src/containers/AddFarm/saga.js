@@ -15,7 +15,6 @@
 import history from '../../history';
 import { all, call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
-import { toastr } from 'react-redux-toastr';
 import {
   loginSelector,
   patchFarmSuccess,
@@ -29,6 +28,7 @@ import {
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../locales/i18n';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchFarmUrl = (farm_id) => `${farmUrl}/owner_operated/${farm_id}`;
@@ -76,7 +76,7 @@ export function* postFarmSaga({ payload: farm }) {
   } catch (e) {
     yield put(setLoadingEnd());
     console.log(e);
-    toastr.error(i18n.t('message:FARM.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
   }
 }
 
@@ -99,7 +99,7 @@ export function* patchFarmSaga({ payload: farm }) {
     history.push('/role_selection');
   } catch (e) {
     console.error(e);
-    toastr.error(i18n.t('message:FARM.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:FARM.ERROR.ADD')));
   }
 }
 

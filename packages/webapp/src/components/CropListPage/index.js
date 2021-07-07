@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
-import NewManagementPlanModal from '../Forms/NewManagementPlanModal';
 import PureManagementPlanTile from '../CropTile/ManagementPlanTile';
 import useCropTileListGap from '../CropTile/useCropTileListGap';
 import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
+import { AddLink } from '../Typography';
 
 export default function PureCropList({
   onFilterChange,
@@ -57,30 +57,22 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
-      {/*{isAdmin && (*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      marginBottom: '20px',*/}
-      {/*      width: 'fit-content',*/}
-      {/*      fontSize: '16px',*/}
-      {/*      color: 'var(--iconActive)',*/}
-      {/*      lineHeight: '16px',*/}
-      {/*      cursor: 'pointer',*/}
-      {/*    }}*/}
-      {/*    onClick={onAddCrop}*/}
-      {/*  >*/}
-      {/*    + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>*/}
-      {/*  </div>*/}
-      {/*)}*/}
-
-      {/*TODO: deprecate*/}
       {isAdmin && (
-        <NewManagementPlanModal
-          location_id={match.params.location_id}
-          fieldArea={100}
-          handler={() => {}}
-        />
+        <div
+          style={{
+            marginBottom: '20px',
+            width: 'fit-content',
+            fontSize: '16px',
+            color: 'var(--iconActive)',
+            lineHeight: '16px',
+            cursor: 'pointer',
+          }}
+          onClick={onAddCrop}
+        >
+          <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>
+        </div>
       )}
+
       <div ref={containerRef}>
         {activeCrops.length > 0 && (
           <>

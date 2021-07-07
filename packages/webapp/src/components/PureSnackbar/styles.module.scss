@@ -46,8 +46,13 @@
 }
 
 .error.container {
-  background: var(--red400);
+  background: white;
+}
 
+.errorIcon {
+  font-size: 20px;
+  color: var(--red700);
+  transform: translateY(4px);
 }
 
 

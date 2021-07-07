@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -65,19 +65,27 @@ export default function PureRowMethod({
   const total_length = watch(TOTAL_LENGTH);
   const plant_spacing = watch(PLANT_SPACING);
 
-  useEffect(() => {
-    let avg_seed_weight = variety.average_seed_weight;
-    let yield_per_plant = variety.yield_per_plant;
-    let estimated_seed_required;
-    let estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
-    if (same_length) {
-      estimated_seed_required = ((num_of_rows * length_of_row) / plant_spacing) * avg_seed_weight;
-    } else {
-      estimated_seed_required = (total_length / plant_spacing) * avg_seed_weight;
-    }
+  const IsValidNumberInput = (number) => number === 0 || number > 0;
 
-    setValue(ESTIMATED_SEED, estimated_seed_required);
-    setValue(ESTIMATED_YIELD, estimated_yield);
+  const [showEstimatedValue, setShowEstimatedValue] = useState(false);
+
+  useEffect(() => {
+    const { average_seed_weight = 0, yield_per_plant = 0 } = variety;
+    if (same_length && IsValidNumberInput(num_of_rows) && IsValidNumberInput(length_of_row) && IsValidNumberInput(plant_spacing)) {
+      const estimated_seed_required = ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
+      const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
+      setValue(ESTIMATED_SEED, estimated_seed_required);
+      setValue(ESTIMATED_YIELD, estimated_yield);
+      setShowEstimatedValue(true);
+    } else if (!same_length && IsValidNumberInput(total_length) && IsValidNumberInput(plant_spacing)) {
+      const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
+      const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
+      setValue(ESTIMATED_SEED, estimated_seed_required);
+      setValue(ESTIMATED_YIELD, estimated_yield);
+      setShowEstimatedValue(true);
+    } else {
+      setShowEstimatedValue(false);
+    }
   }, [num_of_rows, length_of_row, total_length, plant_spacing]);
 
   return (
@@ -174,8 +182,7 @@ export default function PureRowMethod({
               style={{ flexGrow: 1 }}
             />
           </div>
-          {((num_of_rows > 0 && length_of_row > 0 && plant_spacing > 0) ||
-            (total_length > 0 && plant_spacing > 0)) && (
+          {showEstimatedValue && (
             <>
               <div className={styles.row} style={{ marginTop: '40px' }}>
                 <Unit

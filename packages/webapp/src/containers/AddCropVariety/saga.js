@@ -1,13 +1,17 @@
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { toastr } from 'react-redux-toastr';
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { postCropVarietySuccess, putCropVarietySuccess, deleteCropVarietySuccess } from '../cropVarietySlice';
+import {
+  deleteCropVarietySuccess,
+  postCropVarietySuccess,
+  putCropVarietySuccess,
+} from '../cropVarietySlice';
 import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
 import i18n from '../../locales/i18n';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -20,15 +24,15 @@ export function* postVarietalSaga({ payload: varietal }) {
     const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
     history.push(`/crop/${result.data.crop_variety_id}/management`);
-    toastr.success('Successfully saved varietal!');
+    yield put(enqueueSuccessSnackbar('Successfully saved varietal!'));
   } catch (e) {
     //TODO remove toastr messages
     if (e.response.data.violationError) {
-      toastr.error('Error: Varietal exists');
+      yield put(enqueueErrorSnackbar('Error: Varietal exists'));
       console.log('failed to add varietal to database');
     } else {
       console.log('failed to add varietal to database');
-      toastr.error('Error: failed to add varietal to database');
+      yield put(enqueueErrorSnackbar('Error: failed to add varietal to database'));
     }
   }
 }
@@ -81,14 +85,14 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
     yield put(postCropVarietySuccess(result.data.variety));
     yield put(postCropSuccess(result.data.crop));
     history.push(`/crop/${result.data.variety.crop_variety_id}/management`);
-    toastr.success('Successfully saved varietal!');
+    yield put(enqueueSuccessSnackbar('Successfully saved varietal!'));
   } catch (e) {
     if (e.response.data.violationError) {
-      toastr.error('Error: Varietal exists');
+      yield put(enqueueErrorSnackbar('Error: Varietal exists'));
       console.log('failed to add varietal to database');
     } else {
       console.log('failed to add varietal to database');
-      toastr.error('Error: failed to add varietal to database');
+      yield put(enqueueErrorSnackbar('Error: failed to add varietal to database'));
     }
   }
 }
@@ -109,34 +113,28 @@ export function* patchVarietalSaga({ payload: { variety_id, data } }) {
     );
     yield put(putCropVarietySuccess({ crop_variety_id: variety_id, ...data }));
     history.push(`/crop/${variety_id}/detail`);
-    toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.UPDATE')));
   } catch (e) {
-    toastr.error(i18n.t('message:CROP_VARIETY.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.UPDATE')));
     console.log('failed to update crop variety');
   }
 }
 
-
 export const deleteVarietal = createAction('deleteVarietalSaga');
 
-export function* deleteVarietalSaga({ payload: { variety_id} }) {
+export function* deleteVarietalSaga({ payload: { variety_id } }) {
   const { cropVarietyURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(
-      axios.delete,
-      `${cropVarietyURL}/${variety_id}`,
-      header
-    );
-    toastr.success(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE'));
-    history.push('/crop_catalogue')
-    yield put(deleteCropVarietySuccess(variety_id))
+    const result = yield call(axios.delete, `${cropVarietyURL}/${variety_id}`, header);
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE')));
+    history.push('/crop_catalogue');
+    yield put(deleteCropVarietySuccess(variety_id));
   } catch (e) {
     console.log('failed to delete crop variety');
-    toastr.error(i18n.t('message:CROP_VARIETY.ERROR.DELETE'))
+    yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.DELETE')));
   }
-
 }
 
 export default function* varietalSaga() {

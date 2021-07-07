@@ -1213,12 +1213,6 @@
     "ROWS_TEXT": "filas"
   },
   "UNIT": {
-<<<<<<< HEAD
-    "INVALID_NUMBER": "Numero invalido",
-    "MAXIMUM": "Valor maximo excedido",
-    "VALID_VALUE": "MISSING",
-=======
->>>>>>> origin/develop
     "TIME": {
       "MONTH": "MISSING",
       "WEEK": "MISSING",

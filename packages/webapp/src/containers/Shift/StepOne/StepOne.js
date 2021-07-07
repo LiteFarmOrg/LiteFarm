@@ -8,7 +8,7 @@ import { resetStepOne, stepOneData, stepOneSelector } from '../../shiftSlice';
 import { taskTypeSelector } from '../MyShift/selectors';
 import { addTaskType } from '../actions';
 import { useTranslation } from 'react-i18next';
-import { toastr } from 'react-redux-toastr';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 function StepOne() {
   const { t } = useTranslation(['translation', 'message']);
@@ -35,7 +35,8 @@ function StepOne() {
 
   const dispatchAddTaskType = (taskName) => dispatch(addTaskType(taskName));
 
-  const showTaskRequiredError = () => toastr.error(t('message:SHIFT.ERROR.REQUIRED_TASK'));
+  const showTaskRequiredError = () =>
+    dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.REQUIRED_TASK')));
 
   return (
     <PureStepOne

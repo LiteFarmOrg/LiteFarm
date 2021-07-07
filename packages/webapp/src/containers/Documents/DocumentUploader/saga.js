@@ -3,9 +3,9 @@ import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../../locales/i18n';
 import { uploadFileSuccess } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 export const uploadDocument = createAction(`uploadDocumentSaga`);
 
@@ -28,10 +28,10 @@ export function* uploadDocumentSaga({ payload }) {
       yield put(uploadFileSuccess({ ...result.data, file_name: payload.file.name }));
       payload.onUploadEnd?.();
     } else {
-      toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     }
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
   }
 }

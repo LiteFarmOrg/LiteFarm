@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 import { convertToMetric } from '../../../util';
-import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
+import { enqueueErrorSnackbar } from '../../../containers/Snackbar/snackbarSlice';
 
 export default function PureHarvestAllocation({
   onGoBack,
@@ -58,7 +58,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
+      dispatch(enqueueErrorSnackbar(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL')));
     }
   };
   const handleChange = (typeName, quant) => {

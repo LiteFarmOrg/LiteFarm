@@ -100,3 +100,21 @@ export default [
     }
   }, [props.disabled]);
 ```
+### Hookform trigger does not update errors properly when there is a required RadioGroup after triggered input field
+
+[github discussion](https://github.com/react-hook-form/react-hook-form/discussions/5843)
+
+###### Walk around: trigger validation twice
+```js
+  const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
+      hookFormSetValue(name, newHookFormValue, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      //TODO: wait for hookform fix
+      setTimeout(()=>{
+        hookFormSetValue(name, newHookFormValue, {
+          shouldValidate: true
+        });
+      },1);
+```

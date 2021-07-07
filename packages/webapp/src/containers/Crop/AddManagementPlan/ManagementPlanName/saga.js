@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { toastr } from 'react-redux-toastr';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
@@ -26,6 +25,7 @@ import {
 } from '../../../managementPlanSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
 
 const DEC = 10;
 
@@ -61,10 +61,10 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     );
     yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
     history.push(`/crop/${managementPlan.crop_variety_id}/management`);
-    toastr.success(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST')));
   } catch (e) {
     console.log('failed to add managementPlan to database');
-    toastr.error(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
   }
 }
 
@@ -83,10 +83,10 @@ export function* putManagementPlanSaga({ payload: managementPlan }) {
       header,
     );
     yield put(getManagementPlanAndPlantingMethodSuccess([managementPlan]));
-    toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.EDIT')));
   } catch (e) {
     console.log('Failed to add managementPlan to database');
-    toastr.error(i18n.t('message:CROP.ERROR.EDIT'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.EDIT')));
   }
 }
 
@@ -101,10 +101,10 @@ export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
   try {
     const result = yield call(axios.delete, managementPlanURL + `/${management_plan_id}`, header);
     yield put(deleteManagementPlanSuccess(management_plan_id));
-    toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.DELETE')));
   } catch (e) {
     console.log('Failed To Delete Field Crop Error: ', e);
-    toastr.error(i18n.t('message:CROP.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.DELETE')));
   }
 }
 

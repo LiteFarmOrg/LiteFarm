@@ -3,10 +3,10 @@ import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { archiveDocumentSuccess, postDocumentSuccess, putDocumentSuccess } from '../documentSlice';
 import history from '../../history';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export const postDocument = createAction(`postDocumentSaga`);
 
@@ -22,10 +22,10 @@ export function* postDocumentSaga({ payload: documentData }) {
       header,
     );
     yield put(postDocumentSuccess(result.data));
-    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE')));
     history.push('/documents');
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.CREATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.CREATE')));
     console.log(e);
   }
 }
@@ -40,13 +40,13 @@ export function* archiveDocumentSaga({ payload: document_id }) {
     const result = yield call(axios.patch, `${documentUrl}/archive/${document_id}`, {}, header);
     if (result) {
       yield put(archiveDocumentSuccess(document_id));
-      toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE')));
       history.push('/documents');
     } else {
-      toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
     }
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
     console.log(e);
   }
 }
@@ -65,10 +65,10 @@ export function* updateDocumentSaga({ payload: { document_id, documentData } }) 
       header,
     );
     yield put(putDocumentSuccess(result.data));
-    toastr.success(i18n.t('message:ATTACHMENTS.SUCCESS.UPDATE'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.UPDATE')));
     history.push('/documents');
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.UPDATE')));
     console.log(e);
   }
 }

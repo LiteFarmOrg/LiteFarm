@@ -21,12 +21,12 @@ import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
 import { purgeState } from '../../index';
 import jwt from 'jsonwebtoken';
 import i18n from '../../locales/i18n';
-import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
 import { axios } from '../saga';
 
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 import { getLanguageFromLocalStorage } from '../../util';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
@@ -86,7 +86,7 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
         error: i18n.t(translateKey),
       });
     } else {
-      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
     }
   }
 }

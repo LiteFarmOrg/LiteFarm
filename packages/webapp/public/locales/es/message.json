@@ -32,11 +32,6 @@
       "EDIT": "Cultivo editado exitosamente"
     }
   },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio"
-    }
-  },
   "EXPENSE": {
     "ERROR": {
       "ADD": "No se pudo agregar nuevos gastos",
@@ -62,15 +57,6 @@
   "FERTILIZER": {
     "ERROR": {
       "ADD": "Nose pudo agregar fertilizante"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "El nombre de campo no puede quedar vacío",
-      "UPDATE_NAME": "No se pudo actualizar nombre del campo"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Nombre del campo cambiado exitosamente"
     }
   },
   "LOG_HARVEST": {
@@ -115,16 +101,6 @@
     "SUCCESS_DELETE": " se retiro exitosamente",
     "SUCCESS_PATCH": " se actualizo exitosamente",
     "SUCCESS_POST": " se creo exitosamente"
-  },
-  "NEW_FIELD_CROP": {
-    "ERROR": {
-      "GENERAL": "No se pudo agregar campo de cultivo a la base de datos",
-      "NOT_FILLED": "Esto no esta completado",
-      "VARIETY_EXISTS": "Un cultivo con ese nombre de variedad ya existe. Por favor intente otro."
-    },
-    "SUCCESS": {
-      "SAVE": "Cultivo ingresado exitosamente!"
-    }
   },
   "SALE": {
     "ERROR": {

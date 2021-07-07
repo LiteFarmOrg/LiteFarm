@@ -38,7 +38,7 @@ function PureBroadcastPlan({
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
-    mode: 'onBlur',
+    mode: 'onChange',
   });
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
@@ -195,7 +195,7 @@ function PureBroadcastPlan({
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
             name={ESTIMATED_SEED}
             displayUnitName={ESTIMATED_SEED_UNIT}
-            errors={errors[ESTIMATED_SEED]}
+            errors={errors?.broadcast?.required_seeds}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}
@@ -211,7 +211,7 @@ function PureBroadcastPlan({
             label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
             name={ESTIMATED_YIELD}
             displayUnitName={ESTIMATED_YIELD_UNIT}
-            errors={errors[ESTIMATED_YIELD]}
+            errors={errors?.broadcast?.estimated_yield}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}

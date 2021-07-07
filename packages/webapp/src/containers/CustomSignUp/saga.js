@@ -19,10 +19,10 @@ import { url } from '../../apiConfig';
 import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
 import { axios } from '../saga';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -93,7 +93,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
       showPasswordError();
     } else {
       console.log(e);
-      toastr.error(i18n.t('message:USER.ERROR.SIGNUP_UNKNOWN'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.SIGNUP_UNKNOWN')));
     }
   }
 }
@@ -134,7 +134,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.INVITE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.INVITE')));
   }
 }
 
@@ -144,7 +144,7 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.RESET_PASSWORD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
   }
 }
 

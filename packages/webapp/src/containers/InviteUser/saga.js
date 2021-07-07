@@ -1,5 +1,4 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../apiConfig';
 import { loginSelector, postUserSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
@@ -7,6 +6,7 @@ import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 
 import { getRolesSuccess, onLoadingRolesFail, onLoadingRolesStart } from '../Profile/People/slice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export const inviteUserToFarm = createAction('inviteUserToFarmSaga');
 
@@ -21,12 +21,12 @@ export function* inviteUserToFarmSaga({ payload: user }) {
     //TODO post should return id. Remove nested saga call.
 
     yield put(postUserSuccess(result.data));
-    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.ADD')));
   } catch (err) {
     if (err.response.status === 409) {
-      toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.EXISTS')));
     } else {
-      toastr.error(i18n.t('message:USER.ERROR.ADD'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.ADD')));
     }
   }
 }
@@ -42,10 +42,10 @@ export function* addPseudoWorkerSaga({ payload: user }) {
   try {
     const result = yield call(axios.post, pseudoUserUrl, user, header);
     yield put(postUserSuccess(result.data));
-    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:USER.SUCCESS.ADD')));
   } catch (err) {
     console.error(err);
-    toastr.error(i18n.t('message:USER.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.ADD')));
   }
 }
 

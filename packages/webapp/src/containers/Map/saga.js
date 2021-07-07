@@ -16,7 +16,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { axios, getHeader } from '../saga';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
@@ -25,6 +24,7 @@ import {
   patchSpotlightFlagsSuccess,
   spotlightLoading,
 } from '../showedSpotlightSlice';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
 const showedSpotlightUrl = () => `${url}/showed_spotlight`;
@@ -49,7 +49,7 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
       },
     });
   } catch (e) {
-    toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD')));
     console.log(e);
   }
 }

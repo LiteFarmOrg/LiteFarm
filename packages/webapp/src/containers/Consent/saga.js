@@ -15,7 +15,6 @@
 
 import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { userFarmUrl } from '../../apiConfig';
-import { toastr } from 'react-redux-toastr';
 import {
   patchConsentStepThreeSuccess,
   patchStatusConsentSuccess,
@@ -26,6 +25,7 @@ import { axios, getHeader, selectFarmAndFetchAll } from '../saga';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
 
 export const patchConsent = createAction('patchConsentSaga');
 
@@ -64,7 +64,7 @@ export function* patchConsentSaga({ payload }) {
       history.push(payload.goForwardTo);
     }
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.AGREEMENT'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.AGREEMENT')));
   }
 }
 

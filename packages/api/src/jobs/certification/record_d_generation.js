@@ -9,9 +9,10 @@ const dataToCellMapping = {
   genetically_engineered: 'H',
   notes: 'I',
 }
-module.exports = (data, farm_id) => {
+module.exports = (data, farm_id, from_date, to_date) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
+      const farm_name = data[0]?.notes.split('/')[0];
       const defaultStyles = {
         verticalAlignment: 'center',
         fontFamily: 'Calibri',
@@ -22,6 +23,7 @@ module.exports = (data, farm_id) => {
       const rowSeven = new RichText();
       const rowEight = new RichText();
       const rowNine = new RichText();
+      const reportDate = new Date().toISOString().split('T')[0].replace(/-/g, '/');
       rowSix.add('2. Where ').add(' non-organic seed/stock ', { bold: true }).add('is used, the following documentation is required to be available at inspection:');
       rowSeven.add('     A.  Commercial Availability Search per COS 5.3- (Record D1 or equivalent)');
       rowEight.add('     B.  Documentation confirming non-GE status');
@@ -53,10 +55,14 @@ module.exports = (data, farm_id) => {
       });
 
       workbook.sheet(0).cell('A2').value('OPERATION NAME');
-      workbook.sheet(0).cell('B2').value('My beautiful Farm');
+      workbook.sheet(0).cell('B2').value(farm_name);
       workbook.sheet(0).cell('F2').value('Date Completed: ');
-      workbook.sheet(0).cell('H2').value('2021/01/01');
+      workbook.sheet(0).cell('H2').value(reportDate);
       workbook.sheet(0).cell('A3').value('Reporting Period');
+      workbook.sheet(0).cell('B3').value('From: ');
+      workbook.sheet(0).cell('C3').value(from_date);
+      workbook.sheet(0).cell('D3').value('To: ');
+      workbook.sheet(0).cell('E3').value(to_date);
       workbook.sheet(0).cell('A4').value('List ALL seed and planting stock used during the reporting period.  Please note:');
       workbook.sheet(0).cell('A5').value('1. Ensure that purchase receipts, labels, tags and organic certificates for all seed/stock is available for review during inspection.');
       workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });
@@ -74,9 +80,9 @@ module.exports = (data, farm_id) => {
       workbook.sheet(0).cell('I10').value('Notes /Perennial planting dates / etc.');
       workbook.sheet(0).column('A').width(25);
       workbook.sheet(0).column('B').width(25);
-      workbook.sheet(0).column('C').width(12);
-      workbook.sheet(0).column('D').width(12);
-      workbook.sheet(0).column('E').width(12);
+      workbook.sheet(0).column('C').width(15);
+      workbook.sheet(0).column('D').width(15);
+      workbook.sheet(0).column('E').width(15);
       workbook.sheet(0).column('F').width(20);
       workbook.sheet(0).column('G').width(15);
       workbook.sheet(0).column('H').width(15);

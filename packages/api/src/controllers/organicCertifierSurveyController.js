@@ -197,7 +197,10 @@ const organicCertifierSurveyController = {
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
             WHERE ( mp.seed_date BETWEEN ? AND ? ) AND cp.organic IS NOT NULL AND cp.farm_id  = ?`, [from_date, to_date, farm_id]);
       const { first_name } = await userModel.query().where({ user_id }).first();
-      const body = { records: records.rows, files, farm_id, email, first_name, submission: '60e455b2fdef070001d06b6c' };
+      const body = { records: records.rows,
+        files, farm_id, email, first_name,
+        from_date, to_date,
+        submission: '60e455b2fdef070001d06b6c' };
       res.status(200).json({ message: 'Processing' });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })

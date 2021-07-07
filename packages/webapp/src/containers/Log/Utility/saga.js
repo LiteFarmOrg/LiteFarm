@@ -2,7 +2,6 @@
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
 import { ADD_HARVEST_USE_TYPE, GET_HARVEST_USE_TYPES } from '../constants';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
@@ -11,6 +10,7 @@ import i18n from '../../../locales/i18n';
 import { getHarvestUseTypes, setAllHarvestUseTypes, setLogsInState } from '../actions';
 import { harvestLogDataSelector, resetHarvestLog } from '../Utility/logSlice';
 import { logSelector } from '../selectors';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 export function* addLog(action) {
   const { logURL } = apiConfig;
@@ -25,12 +25,12 @@ export function* addLog(action) {
     if (result) {
       history.push('/log');
       yield put(resetHarvestLog());
-      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG.SUCCESS.ADD')));
     }
   } catch (e) {
     console.log(e);
     console.log('failed to add log');
-    toastr.error(i18n.t('message:LOG.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG.ERROR.ADD')));
   }
 }
 
@@ -46,7 +46,7 @@ export function* getHarvestUseTypesSaga() {
     }
   } catch (e) {
     console.log('failed to get harvest use types');
-    toastr.error(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
   }
 }
 
@@ -68,11 +68,11 @@ export function* addCustomHarvestUseTypeSaga(action) {
     if (result) {
       yield put(getHarvestUseTypes());
       history.push('/harvest_use_type', { isCustomHarvestUsePage: true });
-      toastr.success(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE')));
     }
   } catch (e) {
     console.log('failed to add custom harvest use type');
-    toastr.error(i18n.t('message:LOG_HARVEST.ERROR.ADD_USE_TYPE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.ADD_USE_TYPE')));
   }
 }
 
@@ -89,11 +89,11 @@ export function* editLog(action) {
     if (result) {
       history.push('/log');
       yield put(resetHarvestLog());
-      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG.SUCCESS.EDIT')));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG.ERROR.EDIT')));
   }
 }
 
@@ -108,11 +108,11 @@ export function* deleteLog(action) {
       const logs = yield select(logSelector);
       yield put(setLogsInState(logs.filter((log) => log.activity_id !== action.id)));
       history.push('/log');
-      toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG.SUCCESS.DELETE')));
     }
   } catch (e) {
     console.log('failed to delete log');
-    toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG.ERROR.DELETE')));
   }
 }
 

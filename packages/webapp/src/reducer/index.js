@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
-import { reducer as toastrReducer } from 'react-redux-toastr';
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import insightReducer from '../containers/Insights/reducer';
@@ -187,7 +186,6 @@ const tempStateReducer = combineReducers({
 
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
-  toastr: toastrReducer,
   profileForms: combineForms(
     {
       addInfo: addUserInfo,

@@ -26,12 +26,12 @@ import {
   UPDATE_SHIFT,
 } from './constants';
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
-import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export function* getTaskTypesSaga() {
   const { taskTypeUrl } = apiConfig;
@@ -86,10 +86,10 @@ export function* addShift(action) {
     if (result) {
       yield put(resetStepOne());
       history.push('/shift');
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.ADD')));
     }
   } catch (e) {
-    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.ADD')));
   }
 }
 
@@ -103,11 +103,11 @@ export function* addMultiShiftSaga(action) {
     const result = yield call(axios.post, shiftUrl + '/multi', shiftObj, header);
     if (result) {
       history.push('/shift');
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.ADD')));
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.ADD')));
   }
 }
 
@@ -185,11 +185,11 @@ export function* deleteShiftSaga(action) {
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
     if (result) {
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.DELETE')));
       history.push('/shift');
     }
   } catch (e) {
-    toastr.error(i18n.t('message:SHIFT.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.DELETE')));
   }
 }
 
@@ -209,12 +209,12 @@ export function* updateShiftSaga(action) {
       header,
     );
     if (result) {
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.UPDATE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.UPDATE')));
       history.push('/shift');
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error(i18n.t('message:SHIFT.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.UPDATE')));
   }
 }
 

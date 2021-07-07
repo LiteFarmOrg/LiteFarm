@@ -71,7 +71,6 @@ export default function Documents({ history }) {
   const tileClick = (document_id) => {
     history.push(`/documents/${document_id}`);
   };
-
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
@@ -118,6 +117,7 @@ export default function Documents({ history }) {
                       date={getDisplayedDate(document.valid_until)}
                       noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
+                      extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
                     />
@@ -142,6 +142,7 @@ export default function Documents({ history }) {
                       date={getDisplayedDate(document.valid_until)}
                       noExpiration={document.no_expiration}
                       preview={document.thumbnail_url}
+                      extensionName={document?.files?.[0]?.file_name.split('.').pop()}
                       onClick={() => tileClick(document.document_id)}
                       key={document.document_id}
                     />

@@ -54,7 +54,11 @@ const PureCertificationReportingPeriod = ({
       afterFromDate: (v) => v > getValues(FROM_DATE),
     },
   });
-  const emailRegister = register(EMAIL, { required: true });
+  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  const emailRegister = register(EMAIL, {
+    required: true,
+    pattern: validEmailRegex,
+  });
 
   const progress = 33;
   return (

@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
+import useFilterNoPlan from './useFilterNoPlan';
 
 export default function useCropCatalogue(filterString) {
   const managementPlans = useSelector(managementPlansSelector);
@@ -124,5 +125,29 @@ export default function useCropCatalogue(filterString) {
       }
     });
   }, [cropCatalogueFilteredByStatus]);
-  return { cropCatalogue: sortedCropCatalogue, ...cropCataloguesStatus };
+
+  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(filterString);
+
+  const filteredCropsWithoutManagementPlan = useMemo(() => {
+    const cropIdsWithPlan = new Set(sortedCropCatalogue.map(({ crop_id }) => crop_id));
+    return filteredCropVarietiesWithoutManagementPlan.filter(
+      (cropVariety) => !cropIdsWithPlan.has(cropVariety.crop_id),
+    );
+  }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
+
+  const sortedCropCatalogueWithNeedsPlanProp = useMemo(() => {
+    const cropIdsWithoutPlan = new Set(
+      filteredCropVarietiesWithoutManagementPlan.map(({ crop_id }) => crop_id),
+    );
+    return sortedCropCatalogue.map((crop) => ({
+      ...crop,
+      needsPlan: cropIdsWithoutPlan.has(crop.crop_id),
+    }));
+  }, [filteredCropVarietiesWithoutManagementPlan, sortedCropCatalogue]);
+
+  return {
+    cropCatalogue: sortedCropCatalogueWithNeedsPlanProp,
+    filteredCropsWithoutManagementPlan,
+    ...cropCataloguesStatus,
+  };
 }

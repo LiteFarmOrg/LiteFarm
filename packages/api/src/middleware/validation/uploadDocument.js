@@ -16,7 +16,7 @@ async function validateFileExtension(req, res, next) {
   return res.status(400).send(`Do not support file type ${path.extname(file.originalname)}`);
 }
 
-const allowedDocumentFormatSet = new Set(['.cvs', '.doc', '.docb', '.docm', '.docx', '.dot', '.dotm', '.dotx', '.txt', '.xls', '.xlsx']);
+const allowedDocumentFormatSet = new Set(['.csv', '.doc', '.docb', '.docm', '.docx', '.dot', '.dotm', '.dotx', '.txt', '.xls', '.xlsx']);
 
 const minimizedImageFormatSet = new Set(['.webp', '.svg']);
 

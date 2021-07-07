@@ -51,7 +51,7 @@ DocumentUploader.propTypes = {
   onUpload: PropTypes.func,
 };
 const allowedDocumentFormatArray = [
-  '.cvs',
+  '.csv',
   '.doc',
   '.docb',
   '.docm',

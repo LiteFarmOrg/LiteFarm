@@ -23,7 +23,6 @@ export default function PureTransplant({
   const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
 
   const progress = 29;
-  console.log(persistedFormData);
   const TRANSPLANT = 'needs_transplant';
   const COVER = 'for_cover';
 

@@ -955,7 +955,7 @@
     "TITLE": "Link Sent"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes... Click anywhere outside of this box to close this message. We'll continue preparing your certification documents in the background and email them once finished, but you can still keep using LiteFarm while we're preparing those.",
+    "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",
     "TITLE": "Your export is being prepared"
   },
   "PROFILE_FLOATER": {

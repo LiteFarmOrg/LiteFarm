@@ -94,6 +94,17 @@ WithOneUnitDisabled.args = {
   disabled: true,
 };
 
+export const WithToolTip = Template.bind({});
+WithToolTip.args = {
+  label: 'WithToolTip',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'imperial',
+  required: true,
+  toolTipContent: 'toolTip',
+};
+
 export const SquareMeterAreaTotalArea = Template.bind({});
 SquareMeterAreaTotalArea.args = {
   label: 'SquareMeter',

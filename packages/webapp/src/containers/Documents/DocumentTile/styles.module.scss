@@ -17,15 +17,23 @@
 
 
 .info {
+    display: flex;
     background-color: var(--grey100);
     padding: 4px;
     border-radius: 0 0 4px 4px;
     flex-grow: 1;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.titleAndTypeContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
 }
 
 .title {
-    color:  #282B36;
+    color: #282B36;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;

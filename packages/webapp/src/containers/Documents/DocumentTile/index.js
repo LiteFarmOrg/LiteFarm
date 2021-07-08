@@ -33,22 +33,25 @@ export default function PureDocumentTile({
         </div>
       )}
       <div className={styles.info}>
-        <div className={styles.title} style={{ marginBottom: '4px' }}>
-          {title}
+        <div>
+          <div className={styles.title} style={{ marginBottom: '4px' }}>
+            {title}
+          </div>
+          {type && (
+            <>
+              <div
+                className={styles.type}
+                style={{
+                  marginTop: '4px',
+                  marginBottom: date ? '4px' : '8px',
+                }}
+              >
+                {t(`DOCUMENTS.TYPE.${type}`)}
+              </div>
+            </>
+          )}
         </div>
-        {type && (
-          <>
-            <div
-              className={styles.type}
-              style={{
-                marginTop: '4px',
-                marginBottom: date ? '4px' : '8px',
-              }}
-            >
-              {t(`DOCUMENTS.TYPE.${type}`)}
-            </div>
-          </>
-        )}
+
         {date && !noExpiration && (
           <>
             <div className={styles.date} style={{ marginBottom: '8px' }}>

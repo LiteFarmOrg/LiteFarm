@@ -11,8 +11,8 @@ import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
-import { Controller } from 'react-hook-form';
 import Infoi from '../../Tooltip/Infoi';
+import { Controller } from 'react-hook-form';
 
 export const getUnitOptionMap = () => ({
   m2: { label: 'm²', value: 'm2' },

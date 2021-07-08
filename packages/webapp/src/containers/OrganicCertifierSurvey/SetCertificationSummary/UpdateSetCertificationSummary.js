@@ -22,7 +22,7 @@ export default function UpdateSetCertificationSummary({ history }) {
   );
 
   const onSubmit = () => {
-    history.push('/certification');
+    history.push('/certification', { success: true });
   };
 
   const onGoBack = () => {

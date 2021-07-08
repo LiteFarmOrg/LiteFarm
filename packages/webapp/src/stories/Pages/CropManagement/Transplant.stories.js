@@ -1,5 +1,5 @@
 import React from 'react';
-import PureTransplant from '../../../components/Crop/transplant';
+import PureTransplant from '../../../components/Crop/Transplant';
 import decorators from '../config/decorators';
 
 export default {

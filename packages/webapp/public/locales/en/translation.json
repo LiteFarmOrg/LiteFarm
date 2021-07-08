@@ -52,7 +52,8 @@
       "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
       "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "to see if there are new certifiers available in your area.",
       "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "You've requested",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from"
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from",
+      "UPDATE_SUCCESS": "Certification preferences saved"
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
@@ -876,6 +877,7 @@
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
+    "MANAGEMENT_PLAN_FLOW": "management plan",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",

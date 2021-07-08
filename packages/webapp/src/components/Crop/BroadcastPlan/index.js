@@ -80,10 +80,12 @@ function PureBroadcastPlan({
   };
 
   useEffect(() => {
-    if(seedingRateForm) {
-      setInitialSeedingRate( system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2));
+    if (seedingRateForm) {
+      setInitialSeedingRate(
+        system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2),
+      );
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
@@ -107,7 +109,6 @@ function PureBroadcastPlan({
     }
   }, [areaUsedUnit]);
 
-
   return (
     <Form
       buttonGroup={
@@ -120,6 +121,7 @@ function PureBroadcastPlan({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={75}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}

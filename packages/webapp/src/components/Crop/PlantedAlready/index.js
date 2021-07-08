@@ -148,7 +148,7 @@ export default function PurePlantedAlready({
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
-                      tooltip={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
+                      toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
                       optional
                     />
                   </div>

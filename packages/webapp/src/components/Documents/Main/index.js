@@ -52,28 +52,25 @@ function MainDocumentView({ onRetire, onUpdate, onGoBack, document, imageCompone
 
       <div
         style={{
-          width: '312px',
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
           rowGap: '24px',
-          margin: 'auto',
           paddingBottom: '32px',
+          alignItems: 'center',
         }}
       >
-        {document.files?.map(({ thumbnail_url, file_name, url }, index) => (
-          <div key={index}>
-            {thumbnail_url ? (
-              imageComponent({
-                width: '100%',
-                style: { position: 'relative', zIndex: 0 },
-                src: thumbnail_url,
-              })
-            ) : (
-              <CertifierSelectionMenuItem certifierName={file_name} />
-            )}
-          </div>
-        ))}
+        {document.files?.map(({ thumbnail_url, file_name, url }, index) =>
+          thumbnail_url ? (
+            imageComponent({
+              style: { width: '100%', maxWidth: '312px', position: 'relative', zIndex: 0 },
+              src: thumbnail_url,
+              key: index,
+            })
+          ) : (
+            <CertifierSelectionMenuItem key={index} certifierName={file_name} />
+          ),
+        )}
       </div>
       <InputAutoSize
         label={t('common:NOTES')}

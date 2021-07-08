@@ -1,12 +1,12 @@
-import Button from '../Form/Button';
+import Button from '../../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../Typography';
-import Form from '../Form';
+import { Label, Main } from '../../Typography';
+import Form from '../../Form';
 import { useForm } from 'react-hook-form';
-import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
-import RadioGroup from '../Form/RadioGroup';
+import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import RadioGroup from '../../Form/RadioGroup';
 
 export default function PureTransplant({
   isCoverCrop,
@@ -73,12 +73,12 @@ export default function PureTransplant({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}
         style={{
           marginBottom: '24px',
         }}
-        cancelModalTitle
       />
       <div>
         <div style={{ marginBottom: '18px' }}>

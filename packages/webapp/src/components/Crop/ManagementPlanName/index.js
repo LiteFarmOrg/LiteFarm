@@ -59,6 +59,7 @@ export default function PureManagementPlanName({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={87.5}
         style={{ marginBottom: '24px' }}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -8,7 +8,6 @@ import RadioGroup from '../../Form/RadioGroup';
 import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
-import Infoi from '../../Tooltip/Infoi';
 import { crop_age } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
@@ -71,12 +70,12 @@ export default function PurePlantedAlready({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}
         style={{
           marginBottom: '24px',
         }}
-        cancelModalTitle
       />
 
       <div>

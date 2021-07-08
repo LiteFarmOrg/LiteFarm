@@ -877,6 +877,7 @@
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
+    "MANAGEMENT_PLAN_FLOW": "management plan",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",

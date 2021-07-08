@@ -72,6 +72,7 @@ export default function PureTransplant({
         style={{
           marginBottom: '24px',
         }}
+        cancelModalTitle
       />
       <div>
         <div style={{ marginBottom: '18px' }}>

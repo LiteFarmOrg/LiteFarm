@@ -19,8 +19,14 @@ export default function PureTransplant({
 }) {
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
-  const submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
+  let submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
+
+  // TODO: LF-1584 assignee needs to change true case for submitPath to be path to their container because crop is a wild crop and in ground:
+  // if wild_crop == true and in_ground == true, then go to LF-1584 -> need in_ground check or else going back and selecting planting when previously selected wild_crop == true will not override wild_crop == false
+  persistedFormData.wild_crop && persistedFormData.in_ground
+    ? (submitPath = `/crop/${variety_id}/add_management_plan/planting_date`)
+    : (submitPath = `/crop/${variety_id}/add_management_plan/planting_date`);
 
   const progress = 29;
   const TRANSPLANT = 'needs_transplant';

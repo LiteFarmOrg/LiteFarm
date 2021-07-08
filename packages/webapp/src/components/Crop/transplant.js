@@ -89,7 +89,7 @@ export default function PureTransplant({
         <RadioGroup hookFormControl={control} name={TRANSPLANT} required />
       </div>
       <div>
-        {isCoverCrop && (
+        {!isCoverCrop && (
           <>
             <Main
               style={{ marginTop: '16px', marginBottom: '18px' }}

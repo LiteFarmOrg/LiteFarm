@@ -132,10 +132,6 @@ export default function PurePlantedAlready({
                     <Label className={styles.label} style={{ marginBottom: '23px' }}>
                       {t('MANAGEMENT_PLAN.SEEDLING_AGE')}
                     </Label>
-                    <Infoi
-                      style={{ fontSize: '18px', transform: 'translateY(3px)' }}
-                      content={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
-                    />
                   </div>
                   <div>
                     <Unit
@@ -152,6 +148,7 @@ export default function PurePlantedAlready({
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
+                      toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
                       optional
                     />
                   </div>

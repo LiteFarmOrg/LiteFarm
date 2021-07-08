@@ -97,6 +97,7 @@
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EMAIL": "Email",
+    "EMAIL_ERROR": "MISSING",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FLOW_TITLE": "MISSING",

@@ -11,6 +11,7 @@ import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
+import Infoi from '../../Tooltip/Infoi';
 import { Controller } from 'react-hook-form';
 
 export const getUnitOptionMap = () => ({
@@ -125,6 +126,7 @@ const Unit = ({
   required,
   mode = 'onBlur',
   max = 1000000000,
+  toolTipContent,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -262,6 +264,7 @@ const Unit = ({
               </Label>
             )}
           </Label>
+          {toolTipContent && <Infoi content={toolTipContent} />}
         </div>
       )}
       {showError && (
@@ -382,6 +385,7 @@ Unit.propTypes = {
   from: PropTypes.string,
   to: PropTypes.string,
   required: PropTypes.bool,
+  toolTipContent: PropTypes.string,
 };
 
 export default Unit;

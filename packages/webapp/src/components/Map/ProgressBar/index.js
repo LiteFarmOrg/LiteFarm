@@ -22,28 +22,34 @@ export default function ProgressBar({ onDismiss, type = 'success' }) {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
 
+  const INCREMENT = 12.5;
+  const MAX_PROGRESS = 100 + INCREMENT;
+
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          onDismiss();
-          return 0;
+        if (oldProgress >= MAX_PROGRESS) {
+          return MAX_PROGRESS;
         }
-        const diff = Math.random() * 28;
-        return Math.min(oldProgress + diff, 100);
+        return Math.min(oldProgress + INCREMENT, MAX_PROGRESS);
       });
     }, 250);
-
     return () => {
       clearInterval(timer);
     };
   }, []);
 
+  useEffect(() => {
+    if (progress >= MAX_PROGRESS) {
+      onDismiss();
+    }
+  }, [progress]);
+
   return (
     <div className={classes.root}>
       <LinearProgress
         variant="determinate"
-        value={progress}
+        value={Math.min(progress, 100)}
         classes={{
           colorPrimary: classes.colorPrimary,
           barColorPrimary: classes[type],

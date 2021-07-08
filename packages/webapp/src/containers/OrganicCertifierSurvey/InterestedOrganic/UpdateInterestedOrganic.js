@@ -12,7 +12,9 @@ export default function UpdateInterestedOrganic() {
   const onSubmit = (data) => {
     const interested = data.interested;
     const callback = () =>
-      interested ? history.push('/certification/selection') : history.push('/certification');
+      interested
+        ? history.push('/certification/selection')
+        : history.push('/certification', { success: true });
     if (survey.survey_id) {
       dispatch(patchInterested({ interested, callback }));
     } else {

@@ -33,13 +33,18 @@ export default function ViewCertification({ history }) {
   };
   const onAddCertification = () => history.push('/certification/interested_in_organic');
   const onChangePreference = onAddCertification;
+  const showSuccessSnackBar = history.location?.state?.success;
 
   return (
     <>
       {!interested ? (
-        <PureViewNotInterestedInCertification onAddCertification={onAddCertification} />
+        <PureViewNotInterestedInCertification
+          showSuccessSnackBar={showSuccessSnackBar}
+          onAddCertification={onAddCertification}
+        />
       ) : isNotSupported ? (
         <PureViewUnsupportedCertification
+          showSuccessSnackBar={showSuccessSnackBar}
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
           unsupportedCertificationName={certificationName}
@@ -47,6 +52,7 @@ export default function ViewCertification({ history }) {
         />
       ) : (
         <PureViewSupportedCertification
+          showSuccessSnackBar={showSuccessSnackBar}
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
           supportedCertificationName={certificationName}

@@ -2,7 +2,7 @@ extends ../template
 block content
     p
         span=`${t('EXPORT.SEASON')} `
-        strong #{farm_name}
+        strong #{farm_name}!
         span=` ${t('EXPORT.CERTIFICATION')}`
     a#email-button(href=`${buttonLink}` target='_blank')
         button.button=`${t('EXPORT.GET_YOUR_EXPORT')}`

@@ -6,7 +6,7 @@ import Input, { integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { container_planting_depth, container_plant_spacing, seedYield } from '../../../util/unit';
+import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
@@ -71,13 +71,23 @@ export default function PureRowMethod({
 
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = variety;
-    if (same_length && IsValidNumberInput(num_of_rows) && IsValidNumberInput(length_of_row) && IsValidNumberInput(plant_spacing)) {
-      const estimated_seed_required = ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
+    if (
+      same_length &&
+      IsValidNumberInput(num_of_rows) &&
+      IsValidNumberInput(length_of_row) &&
+      IsValidNumberInput(plant_spacing)
+    ) {
+      const estimated_seed_required =
+        ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
       const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
       setValue(ESTIMATED_SEED, estimated_seed_required);
       setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
-    } else if (!same_length && IsValidNumberInput(total_length) && IsValidNumberInput(plant_spacing)) {
+    } else if (
+      !same_length &&
+      IsValidNumberInput(total_length) &&
+      IsValidNumberInput(plant_spacing)
+    ) {
       const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
       const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
       setValue(ESTIMATED_SEED, estimated_seed_required);
@@ -100,6 +110,7 @@ export default function PureRowMethod({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={progress}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}

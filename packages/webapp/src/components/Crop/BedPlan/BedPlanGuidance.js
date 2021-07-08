@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../../Typography';
-import Input, { integerOnKeyDown } from '../../Form/Input';
-import InputAutoSize from '../../Form/InputAutoSize';
+import { Main } from '../../Typography';
+import Input from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
-import { container_planting_depth, getDefaultUnit, seedYield } from '../../../util/unit';
-import clsx from 'clsx';
-import convert from 'convert-units';
-import Unit, { unitOptionMap } from '../../Form/Unit';
+import { container_planting_depth } from '../../../util/unit';
+import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 
@@ -62,6 +58,7 @@ function PureBedPlanGuidance({
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={75}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}

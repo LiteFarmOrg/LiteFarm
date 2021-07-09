@@ -1,5 +1,5 @@
 import React from 'react';
-import PureRequestCertifier from '../../../../components/RequestCertifier';
+import PureRequestCertifier from '../../../../components/OrganicCertifierSurvey/RequestCertifier';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 

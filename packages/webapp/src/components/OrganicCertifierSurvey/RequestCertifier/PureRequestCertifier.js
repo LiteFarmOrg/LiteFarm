@@ -1,11 +1,11 @@
-import Form from '../Form';
-import Button from '../Form/Button';
+import Form from '../../Form';
+import Button from '../../Form/Button';
 import React, { useEffect, useState } from 'react';
-import { Semibold } from '../Typography';
+import { Semibold } from '../../Typography';
 import { useTranslation } from 'react-i18next';
-import Input from '../Form/Input';
+import Input from '../../Form/Input';
 import { useForm } from 'react-hook-form';
-import PageTitle from '../PageTitle/v2';
+import PageTitle from '../../PageTitle/v2';
 
 export default function PureRequestCertifier({
   onSubmit,

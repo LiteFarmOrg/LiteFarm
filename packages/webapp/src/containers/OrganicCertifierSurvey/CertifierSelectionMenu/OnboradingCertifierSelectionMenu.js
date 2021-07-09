@@ -1,5 +1,5 @@
 import React from 'react';
-import PureCertifierSelectionScreen from '../../../components/CertifierSelection';
+import PureCertifierSelectionScreen from '../../../components/OrganicCertifierSurvey/CertifierSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import {

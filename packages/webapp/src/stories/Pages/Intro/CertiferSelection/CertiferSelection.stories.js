@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import PureCertifierSelectionScreen from '../../../../components/CertifierSelection';
+import PureCertifierSelectionScreen from '../../../../components/OrganicCertifierSurvey/CertifierSelection';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {

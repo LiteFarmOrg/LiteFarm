@@ -32,11 +32,15 @@ const InterestedOrganic = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/CertificationSelection'),
+  import(
+    '../containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
+  ),
 );
 
 const CertifierSelectionMenu = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+  import(
+    '../containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
+  ),
 );
 
 const SetCertificationSummary = React.lazy(() =>
@@ -46,7 +50,7 @@ const SetCertificationSummary = React.lazy(() =>
 );
 
 const RequestCertifier = React.lazy(() =>
-  import('../containers/OrganicCertifierSurvey/RequestCertifier'),
+  import('../containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
 );
 
 const SSOUserCreateAccountInfo = React.lazy(() => import('../containers/SSOUserCreateAccountInfo'));

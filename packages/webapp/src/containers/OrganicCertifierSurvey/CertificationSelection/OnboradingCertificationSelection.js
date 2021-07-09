@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PureCertificationSelection from '../../../components/CertificationSelection';
+import PureCertificationSelection from '../../../components/OrganicCertifierSurvey/CertificationSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getAllSupportedCertifications,

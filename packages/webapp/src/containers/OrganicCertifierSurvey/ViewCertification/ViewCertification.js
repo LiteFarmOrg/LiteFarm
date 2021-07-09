@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
-import PureViewSupportedCertification from '../../../components/ViewCertification/PureViewSupportedCertification';
-import PureViewUnsupportedCertification from '../../../components/ViewCertification/PureViewUnsupportedCertification';
-import PureViewNotInterestedInCertification from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
+import PureViewSupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
+import PureViewNotInterestedInCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
 
 import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';

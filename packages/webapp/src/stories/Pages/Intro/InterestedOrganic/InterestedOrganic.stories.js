@@ -1,19 +1,20 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import OnboardingInterestedOrganic from '../../../../containers/OrganicCertifierSurvey/InterestedOrganic/OnboardingInterestedOrganic';
 import { chromaticSmallScreen } from '../../config/chromatic';
+import PureInterestedOrganic from '../../../../components/OrganicCertifierSurvey/InterestedOrganic';
 
 export default {
   title: 'Form/Intro/4-InterestedOrganic',
   decorators: decorators,
-  component: OnboardingInterestedOrganic,
+  component: PureInterestedOrganic,
 };
 
-const Template = (args) => <OnboardingInterestedOrganic {...args} />;
+const Template = (args) => <PureInterestedOrganic {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   onGoBack: () => {},
+  onSubmit: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

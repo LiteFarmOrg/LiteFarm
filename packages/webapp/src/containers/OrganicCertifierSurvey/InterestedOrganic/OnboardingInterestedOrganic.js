@@ -1,5 +1,5 @@
 import React from 'react';
-import PureInterestedOrganic from '../../../components/InterestedOrganic';
+import PureInterestedOrganic from '../../../components/OrganicCertifierSurvey/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { patchInterested, postCertifiers } from '../saga';
 import history from '../../../history';

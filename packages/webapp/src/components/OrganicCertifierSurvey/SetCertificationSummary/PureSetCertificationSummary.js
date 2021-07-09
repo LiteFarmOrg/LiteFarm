@@ -1,12 +1,12 @@
-import Button from '../Form/Button';
+import Button from '../../Form/Button';
 import React from 'react';
-import { Main, Semibold, Text } from '../Typography';
+import { Main, Semibold, Text } from '../../Typography';
 import { useTranslation } from 'react-i18next';
-import Layout from '../Layout';
-import Farmland from '../../assets/images/certification/Farmland.svg';
-import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
-import { colors } from '../../assets/theme';
-import PageTitle from '../PageTitle/v2';
+import Layout from '../../Layout';
+import Farmland from '../../../assets/images/certification/Farmland.svg';
+import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
+import { colors } from '../../../assets/theme';
+import PageTitle from '../../PageTitle/v2';
 
 export default function PureSetCertificationSummary({
   onSubmit,

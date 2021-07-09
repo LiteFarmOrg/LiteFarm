@@ -1,9 +1,10 @@
 import React from 'react';
-import PureInterestedOrganic from '../../../components/InterestedOrganic';
+import PureInterestedOrganic from '../../../components/OrganicCertifierSurvey/InterestedOrganic';
 import { useDispatch, useSelector } from 'react-redux';
 import { patchInterested, postCertifiers } from '../saga';
 import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 export default function UpdateInterestedOrganic() {
   const survey = useSelector(certifierSurveySelector);
@@ -27,12 +28,12 @@ export default function UpdateInterestedOrganic() {
   };
 
   return (
-    <>
+    <HookFormPersistProvider>
       <PureInterestedOrganic
         onSubmit={onSubmit}
         onGoBack={onGoBack}
         defaultValues={{ interested: survey.interested }}
       />
-    </>
+    </HookFormPersistProvider>
   );
 }

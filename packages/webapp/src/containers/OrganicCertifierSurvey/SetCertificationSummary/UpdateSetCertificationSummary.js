@@ -1,5 +1,5 @@
 import React from 'react';
-import PureSetCertificationSummary from '../../../components/SetCertificationSummary';
+import PureSetCertificationSummary from '../../../components/OrganicCertifierSurvey/SetCertificationSummary';
 import { useSelector } from 'react-redux';
 import {
   requestedCertifierSelector,

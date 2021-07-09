@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PureRequestCertifier from '../../../components/RequestCertifier';
+import PureRequestCertifier from '../../../components/OrganicCertifierSurvey/RequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSupportedCertifications, patchRequestedCertifiers } from '../saga';
 import history from '../../../history';

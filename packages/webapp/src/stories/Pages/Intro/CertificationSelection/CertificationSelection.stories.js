@@ -1,5 +1,5 @@
 import React from 'react';
-import CertificationSelection from '../../../../components/CertificationSelection';
+import CertificationSelection from '../../../../components/OrganicCertifierSurvey/CertificationSelection';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 

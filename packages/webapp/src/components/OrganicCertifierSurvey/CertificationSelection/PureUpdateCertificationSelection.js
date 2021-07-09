@@ -1,12 +1,12 @@
-import Form from '../Form';
-import Button from '../Form/Button';
-import Radio from '../Form/Radio';
+import Form from '../../Form';
+import Button from '../../Form/Button';
+import Radio from '../../Form/Radio';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Infoi from '../Tooltip/Infoi';
-import Input from '../Form/Input';
+import Infoi from '../../Tooltip/Infoi';
+import Input from '../../Form/Input';
 import { useForm } from 'react-hook-form';
-import PageTitle from '../PageTitle/v2';
+import PageTitle from '../../PageTitle/v2';
 
 export default function PureCertificationSelection({
   onSubmit,

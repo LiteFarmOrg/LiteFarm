@@ -1,55 +1,51 @@
-import React, { useEffect } from 'react';
-import PureRequestCertifier from '../../../components/OrganicCertifierSurvey/RequestCertifier';
+import React, { useMemo } from 'react';
+import { PureRequestCertifier } from '../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllSupportedCertifications, patchRequestedCertifiers } from '../saga';
 import history from '../../../history';
-import {
-  requestedCertifier,
-  requestedCertifierSelector,
-  selectedCertificationSelector,
-} from '../organicCertifierSurveySlice';
-import { certifiersByCertificationSelector } from '../certifierSlice';
+import { certifiersSelector } from '../certifierSlice';
+import { certifierSurveySelector } from '../slice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useCertificationName } from '../useCertificationName';
 
 export default function RequestCertifier() {
+  const survey = useSelector(certifierSurveySelector);
+
   const dispatch = useDispatch();
-  const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certification = useSelector(selectedCertificationSelector);
-  const allSupportedCertifierTypes = useSelector(
-    certifiersByCertificationSelector(certification.certification_id),
+  const { certificationName, isRequestedCertification } = useCertificationName();
+
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const certification_id = persistedFormData.certification_id ?? survey.certification_id;
+  const summaryPath = '/certification/summary';
+  const selectCertificationPath = '/certification/selection';
+  const selectCertifierPath = '/certification/certifier/selection';
+
+  const onSubmit = (data) => {
+    history.push(summaryPath);
+  };
+  const certifiers = useSelector(certifiersSelector);
+  const certifiersByCertificationId = useMemo(
+    () => certifiers.filter((certifier) => certifier.certification_id === certification_id),
+    [certifiers, certification_id],
   );
 
-  useEffect(() => {
-    dispatch(getAllSupportedCertifications());
-  }, [dispatch]);
-
-  const onSubmit = (info) => {
-    const callback = () => history.push('/certification/summary');
-    let data = {
-      requested_certifier: info.requestedCertifier,
-      certifier_id: null,
-    };
-    dispatch(patchRequestedCertifiers({ data, callback }));
-  };
-
   const onGoBack = () => {
-    certification.certificationName === 'Other'
-      ? history.push('/certification/selection')
-      : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification/selection')
-      : history.push('/certification/certifier/selection');
+    certification_id === 0 || certifiersByCertificationId.length < 1
+      ? history.push(selectCertificationPath)
+      : history.push(selectCertifierPath);
   };
 
   return (
-    <>
+    <HookFormPersistProvider>
       <PureRequestCertifier
         onSubmit={onSubmit}
         onGoBack={onGoBack}
-        requestedCertifier={requestedCertifier}
-        requestedCertifierData={requestedCertifierData}
-        dispatch={dispatch}
-        certificationType={certification}
-        allSupportedCertifierTypes={allSupportedCertifierTypes}
+        certificationName={certificationName}
+        isRequestedCertification={isRequestedCertification}
+        hasSupportedCertifiers={certifiersByCertificationId.length}
+        persistedPathNames={[selectCertifierPath, summaryPath, selectCertificationPath]}
+        survey={survey}
       />
-    </>
+    </HookFormPersistProvider>
   );
 }

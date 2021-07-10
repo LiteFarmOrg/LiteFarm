@@ -4,17 +4,15 @@ import { Main, Semibold, Text } from '../../Typography';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import Farmland from '../../../assets/images/certification/Farmland.svg';
-import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import { colors } from '../../../assets/theme';
 import PageTitle from '../../PageTitle/v2';
 
-export default function PureSetCertificationSummary({
+export function PureSetCertificationSummary({
   onSubmit,
-  certificationTranslation,
+  certificationName,
   onGoBack,
-  certificationType,
-  name,
-  requestedCertifierData,
+  certifierName,
+  isRequestedCertifier,
 }) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   return (
@@ -36,25 +34,22 @@ export default function PureSetCertificationSummary({
 
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        {certificationTranslation
-          ? t(`certifications:${certificationTranslation}`)
-          : certificationType.requestedCertification}{' '}
-        {t('CERTIFICATION.SUMMARY.CERTIFICATION') + ' ' + t('common:FROM') + ' ' + name}{' '}
+        `${certificationName} ${t('CERTIFICATION.SUMMARY.CERTIFICATION')} ${t('common:FROM')} $
+        {certifierName} `
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />
       </div>
 
       <Main style={{ padding: '20px 0' }}>
-        {requestedCertifierData
+        {isRequestedCertifier
           ? t('CERTIFICATION.SUMMARY.BAD_NEWS')
           : t('CERTIFICATION.SUMMARY.GOOD_NEWS')}
       </Main>
-      <Main>
-        {requestedCertifierData
+      <Main hasLeaf>
+        {isRequestedCertifier
           ? t('CERTIFICATION.SUMMARY.BAD_NEWS_INFO')
-          : t('CERTIFICATION.SUMMARY.INFORMATION')}{' '}
-        <Leaf style={{ marginLeft: '4px' }} />
+          : t('CERTIFICATION.SUMMARY.INFORMATION')}
       </Main>
     </Layout>
   );

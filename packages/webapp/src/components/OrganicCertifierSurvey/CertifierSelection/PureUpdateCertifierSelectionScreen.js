@@ -9,39 +9,22 @@ import { useTranslation } from 'react-i18next';
 import Infoi from '../../Tooltip/Infoi';
 import PageTitle from '../../PageTitle/v2';
 
-export default function PureCertifierSelectionScreen({
+export function PureCertifierSelectionScreen({
   certifiers,
-  history,
   onBack,
   onSubmit,
-  certifier_id,
   certificationName,
-  requestCertifier,
-  selectCertifier,
+  onRequestCertifier,
+  onSelectCertifier,
+  certifier_id,
 }) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
-  const [selectedCertifierId, setCertifier] = useState(certifier_id);
   const [filter, setFilter] = useState();
-  const disabled = !selectedCertifierId;
+  const disabled = !certifier_id;
   const isSearchable = certifiers.length >= 2;
 
   const onFilterChange = (e) => {
     setFilter(e.target.value);
-  };
-  const onRequestCertifier = () => {
-    requestCertifier({
-      certifierName: null,
-      isRequestingCertifier: true,
-    });
-    history.push('/certification/certifier/request');
-  };
-  const onSelectCertifier = (certifier_id, certifier_name) => {
-    selectedCertifierId !== certifier_id && setCertifier(certifier_id);
-    selectCertifier({
-      certifierName: certifier_name,
-      certifierID: certifier_id,
-      isRequestingCertifier: false,
-    });
   };
 
   const filteredCertifiers = useMemo(() => {
@@ -53,16 +36,7 @@ export default function PureCertifierSelectionScreen({
         )
       : certifiers;
   }, [filter]);
-  // console.log({  certifiers,
-  //   history,
-  //   onBack,
-  //   onSubmit,
-  //   certifierType,
-  //   role_id,
-  //   certifications,
-  //   certificationType,
-  //   requestCertifier,
-  //   selectCertifier})
+
   return (
     <Layout
       hasWhiteBackground
@@ -101,8 +75,8 @@ export default function PureCertifierSelectionScreen({
             key={certifier.certifier_id}
             style={{ marginBottom: '16px' }}
             certifierName={`${certifier.certifier_name} (${certifier.certifier_acronym})`}
-            color={selectedCertifierId === certifier.certifier_id ? 'active' : 'secondary'}
-            onClick={() => onSelectCertifier(certifier.certifier_id, certifier.certifier_acronym)}
+            color={certifier_id === certifier.certifier_id ? 'active' : 'secondary'}
+            onClick={() => onSelectCertifier(certifier_id)}
           />
         );
       })}
@@ -129,30 +103,10 @@ PureCertifierSelectionScreen.prototype = {
       certifier_id: PropTypes.string,
     }),
   ),
-  certifications: PropTypes.arrayOf(
-    PropTypes.exact({
-      certification_id: PropTypes.number,
-      certifier_acronym: PropTypes.string,
-      certifier_country_id: PropTypes.number,
-      certifier_id: PropTypes.number,
-      certifier_name: PropTypes.string,
-      country_id: PropTypes.number,
-    }),
-  ),
-  history: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  certifierType: PropTypes.shape({
-    certifierName: PropTypes.string,
-    certifierID: PropTypes.number,
-    isRequestingCertifier: PropTypes.bool,
-  }),
-  role_id: PropTypes.number,
-  certificationType: PropTypes.shape({
-    certificationName: PropTypes.string,
-    certification_id: PropTypes.number,
-    requestedCertification: PropTypes.any,
-  }),
-  requestCertifier: PropTypes.func,
-  selectCertifier: PropTypes.func,
+  certificationName: PropTypes.string,
+  onRequestCertifier: PropTypes.func,
+  onSelectCertifier: PropTypes.func,
+  certifier_id: PropTypes.string,
 };

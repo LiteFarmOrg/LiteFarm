@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './radio.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Infoi from '../../Tooltip/Infoi';
 
 const Radio = ({
   label = 'label',
@@ -13,6 +14,7 @@ const Radio = ({
   onChange,
   onBlur,
   inputRef,
+  toolTipContent,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -39,6 +41,8 @@ const Radio = ({
       <p className={clsx(styles.label)} style={classes.label}>
         {label}
       </p>
+      {toolTipContent && <Infoi content={toolTipContent} />}
+
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />
       {children}
     </label>

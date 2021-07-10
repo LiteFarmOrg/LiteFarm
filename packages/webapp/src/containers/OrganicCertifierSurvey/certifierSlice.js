@@ -68,8 +68,14 @@ export const certifiersByCertificationSelector = (certification_id) =>
       return certifier.certification_id === certification_id;
     }),
   );
+export const certifierByCertifierIdSelector = (certifier_id) =>
+  createSelector(certifiersSelector, (certifiers) =>
+    certifiers.find((certifier) => {
+      return certifier.certifier_id === certifier_id;
+    }),
+  );
 
-export const certifierByIdSelector = (certifier_country_id) =>
+export const certifierByCertifierCountryIdSelector = (certifier_country_id) =>
   createSelector(certifierEntitiesSelector, (entities) => entities[certifier_country_id]);
 
 export const certifierSelector = createSelector(

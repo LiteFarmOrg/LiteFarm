@@ -251,15 +251,11 @@ const InterestedOrganic = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
-  import(
-    './containers/OrganicCertifierSurvey/CertificationSelection/OnboradingCertificationSelection'
-  ),
+  import('./containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'),
 );
 
 const CertifierSelectionMenu = React.lazy(() =>
-  import(
-    './containers/OrganicCertifierSurvey/CertifierSelectionMenu/OnboradingCertifierSelectionMenu'
-  ),
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'),
 );
 
 const SetCertificationSummary = React.lazy(() =>
@@ -269,7 +265,7 @@ const SetCertificationSummary = React.lazy(() =>
 );
 
 const RequestCertifier = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/RequestCertifier/OnboardingRequestCertifier'),
+  import('./containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
 );
 const ViewCertification = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),

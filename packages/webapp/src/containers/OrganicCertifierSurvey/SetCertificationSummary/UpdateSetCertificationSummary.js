@@ -1,49 +1,37 @@
 import React from 'react';
-import PureSetCertificationSummary from '../../../components/OrganicCertifierSurvey/SetCertificationSummary';
+import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useSelector } from 'react-redux';
-import {
-  requestedCertifierSelector,
-  selectedCertificationSelector,
-  selectedCertifierSelector,
-} from '../organicCertifierSurveySlice';
-import { certificationsSelector } from '../certificationSlice';
-import { certifiersByCertificationSelector } from '../certifierSlice';
+import { useCertificationName } from '../useCertificationName';
+import { useCertifiers } from '../useCertifiers';
+import { useCertifierName } from '../useCertifierName';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function UpdateSetCertificationSummary({ history }) {
-  const certifierType = useSelector(selectedCertifierSelector);
-  const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certification = useSelector(selectedCertificationSelector);
-  const allSupportedCertificationTypes = useSelector(certificationsSelector);
-  const selectedCertificationTranslation = allSupportedCertificationTypes.find(
-    (cert) => cert.certification_id === certification.certification_id,
-  )?.certification_translation_key;
-  const allSupportedCertifierTypes = useSelector(
-    certifiersByCertificationSelector(certification.certification_id),
-  );
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const requestCertifierPath = '/certification/certifier/request';
+  const selectCertifierPath = '/certification/certifier/selection';
 
   const onSubmit = () => {
-    history.push('/certification', { success: true });
+    console.log(persistedFormData);
+    // history.push('/certification', { success: true });
   };
-
+  const { isRequestedCertification, certificationName } = useCertificationName();
+  const certifiers = useCertifiers();
   const onGoBack = () => {
-    certification.certificationName === 'Other'
-      ? history.push('/certification/certifier/request')
-      : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification/certifier/request')
-      : history.push('/certification/certifier/selection');
+    isRequestedCertification || certifiers.length < 1
+      ? history.push(requestCertifierPath)
+      : history.push(selectCertifierPath);
   };
-
+  const { certifierName, isRequestedCertifier } = useCertifierName();
+  useHookFormPersist([requestCertifierPath, selectCertifierPath], () => ({}));
   return (
-    <>
-      <PureSetCertificationSummary
-        name={requestedCertifierData ? requestedCertifierData : certifierType.certifierName}
-        requestedCertifierData={requestedCertifierData}
-        onSubmit={onSubmit}
-        onGoBack={onGoBack}
-        allSupportedCertificationTypes={allSupportedCertificationTypes}
-        certificationType={certification}
-        certificationTranslation={selectedCertificationTranslation}
-      />
-    </>
+    <PureSetCertificationSummary
+      onSubmit={onSubmit}
+      onGoBack={onGoBack}
+      certificationName={certificationName}
+      certifierName={certifierName}
+      isRequestedCertifier={isRequestedCertifier}
+    />
   );
 }

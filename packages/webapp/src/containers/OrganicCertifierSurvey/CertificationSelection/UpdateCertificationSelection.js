@@ -1,78 +1,45 @@
-import React, { useEffect } from 'react';
-import PureCertificationSelection from '../../../components/OrganicCertifierSurvey/CertificationSelection';
+import React from 'react';
+import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureUpdateCertificationSelection';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getAllSupportedCertifications,
-  getAllSupportedCertifiers,
-  patchRequestedCertification,
-} from '../saga';
 import history from '../../../history';
-import {
-  finishedSelectingCertificationType,
-  selectedCertification,
-  selectedCertificationSelector,
-} from '../organicCertifierSurveySlice';
-import { userFarmSelector } from '../../userFarmSlice';
 import { certificationsSelector } from '../certificationSlice';
-import { certifiersByCertificationSelector } from '../certifierSlice';
+import { certifierSurveySelector } from '../slice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useGetCertifiers } from '../useCertifiers';
 
 export default function CertificationSelection() {
+  const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
-  const allSupportedCertificationTypes = useSelector(certificationsSelector);
-  const certification = useSelector(selectedCertificationSelector);
-  const role = useSelector(userFarmSelector);
-  const allSupportedCertifiers = useSelector(
-    certifiersByCertificationSelector(certification.certification_id),
-  );
-  useEffect(() => {
-    dispatch(getAllSupportedCertifications());
-  }, [dispatch]);
 
-  useEffect(() => {
-    if (certification.certification_id) {
-      dispatch(getAllSupportedCertifiers(certification.certification_id));
-    }
-  }, [certification.certification_id]);
+  const certifications = useSelector(certificationsSelector);
 
-  const onSubmit = () => {
-    dispatch(finishedSelectingCertificationType(true));
+  const requestCertifierPath = '/certification/certifier/request';
+  const selectCertifierPath = '/certification/certifier/selection';
+  const interestedInOrganicPath = '/certification/interested_in_organic';
+  const getCertifiers = useGetCertifiers();
+  const onSubmit = (data) => {
+    const certifiers = getCertifiers(data.certification_id);
 
-    let data = {
-      requested_certification: null,
-      certification_id: null,
-    };
-    if (!certification.certification_id) {
-      data.requested_certification = certification.requestedCertification;
+    if (data.certification_id === 0 || certifiers.length === 0) {
+      history.push(requestCertifierPath);
     } else {
-      data.certification_id = certification.certification_id;
+      history.push(selectCertifierPath);
     }
-
-    const callback = () => {
-      !certification.certification_id
-        ? history.push('/certification/certifier/request')
-        : allSupportedCertifiers.length === 0
-        ? history.push('/certification/certifier/request')
-        : history.push('/certification/certifier/selection');
-    };
-
-    dispatch(patchRequestedCertification({ data, callback }));
   };
 
   const onGoBack = () => {
-    history.push('/certification/interested_in_organic');
+    history.push(interestedInOrganicPath);
   };
 
   return (
-    <>
+    <HookFormPersistProvider>
       <PureCertificationSelection
         onSubmit={onSubmit}
         onGoBack={onGoBack}
-        dispatch={dispatch}
-        allSupportedCertificationTypes={allSupportedCertificationTypes}
-        certification={certification}
-        selectedCertification={selectedCertification}
-        role_id={role.role_id}
+        certifications={certifications}
+        survey={survey}
+        persistedPathNames={[requestCertifierPath, selectCertifierPath, interestedInOrganicPath]}
       />
-    </>
+    </HookFormPersistProvider>
   );
 }

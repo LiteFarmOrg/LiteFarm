@@ -1,56 +1,53 @@
 import Form from '../../Form';
 import Button from '../../Form/Button';
-import Radio from '../../Form/Radio';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import Infoi from '../../Tooltip/Infoi';
 import Input from '../../Form/Input';
 import { useForm } from 'react-hook-form';
 import PageTitle from '../../PageTitle/v2';
+import RadioGroup from '../../Form/RadioGroup';
 
-export default function PureCertificationSelection({
+export function PureCertificationSelection({
   onSubmit,
-  inputClasses = {},
-  allSupportedCertificationTypes,
-  certification,
-  selectedCertification,
-  redirectConsent,
+  certifications,
   onGoBack,
-  dispatch,
-  role_id,
+  persistedFormData,
+  useHookFormPersist,
+  persistedPathNames,
+  survey = {},
 }) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
   const {
     register,
     handleSubmit,
-    setValue,
-
-    formState: { errors },
+    getValues,
+    watch,
+    control,
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
+    defaultValues: { ...survey, ...persistedFormData },
   });
-  const SELECTION = 'selection';
-  const [selectionName, setSelectionName] = useState(certification.certificationName || null);
-  const [selectionID, setSelectionID] = useState(certification.certification_id || null);
-  const REQUESTED = 'requested';
-  const [requested, setRequested] = useState(certification.requestedCertification || null);
+  useHookFormPersist?.(persistedPathNames, getValues);
+  const CERTIFICATION_ID = 'certification_id';
+  const certification_id = watch(CERTIFICATION_ID);
+  const REQUESTED_CERTIFICATION = 'requested_certification';
+  const radioOptions = useMemo(() => {
+    const certificationRadioOptions = certifications.map((certification) => ({
+      label: t(`certifications:${certification.certification_translation_key}`),
+      value: certification.certification_id,
+    }));
+    return [
+      ...certificationRadioOptions,
+      {
+        label: t('common:OTHER'),
+        value: 0,
+        toolTipContent: t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP'),
+      },
+    ];
+  }, [certifications]);
 
-  const [disabled, setDisabled] = useState(true);
-
-  useEffect(() => {
-    if (selectionName) {
-      dispatch(
-        selectedCertification({
-          certificationName: selectionName,
-          certification_id: selectionID,
-          requestedCertification: requested,
-        }),
-      );
-    }
-
-    setValue(SELECTION, selectionName);
-    setDisabled(!selectionName || (selectionName === 'Other' && !requested));
-  }, [selectionName, selectionID, requested]);
+  const disabled = !isValid;
 
   const submit = () => {
     onSubmit();
@@ -61,7 +58,7 @@ export default function PureCertificationSelection({
       onSubmit={handleSubmit(submit)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength onClick={redirectConsent} disabled={disabled}>
+          <Button type={'submit'} fullLength disabled={disabled}>
             {t('common:CONTINUE')}
           </Button>
         </>
@@ -72,53 +69,13 @@ export default function PureCertificationSelection({
         onGoBack={onGoBack}
         style={{ marginBottom: '20px' }}
       />
+      <RadioGroup name={CERTIFICATION_ID} hookFormControl={control} radios={radioOptions} />
 
-      {allSupportedCertificationTypes.map((item, idx) => {
-        return (
-          <div key={idx}>
-            <Radio
-              classes={inputClasses}
-              label={t(`certifications:${item.certification_translation_key}`)}
-              value={item.certification_type}
-              hookFormRegister={register(SELECTION, { required: true })}
-              onChange={() => {
-                setSelectionName(item.certification_type);
-                setSelectionID(item.certification_id);
-                setRequested(null);
-              }}
-            />
-          </div>
-        );
-      })}
-
-      <div style={{ marginBottom: '8px' }}>
-        <Radio
-          classes={inputClasses}
-          label={t('common:OTHER')}
-          value={'Other'}
-          hookFormRegister={register(SELECTION, { required: true })}
-          onChange={() => {
-            setSelectionName('Other');
-            setSelectionID(null);
-          }}
-        />{' '}
-        {selectionName === 'Other' && (
-          <Infoi
-            placement={'bottom'}
-            content={t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP')}
-            style={{ transform: 'translateY(-2px)' }}
-          />
-        )}
-      </div>
-      {selectionName === 'Other' && role_id !== 3 && (
+      {certification_id === 0 && (
         <Input
           label={t('CERTIFICATION.CERTIFICATION_SELECTION.REQUEST_CERTIFICATION')}
-          onChange={(e) => {
-            setRequested(e.target.value);
-          }}
-          name={REQUESTED}
-          defaultValue={requested}
-          errors={errors[REQUESTED] && t('common:REQUIRED')}
+          hookFormRegister={register(REQUESTED_CERTIFICATION, { required: true })}
+          errors={errors[REQUESTED_CERTIFICATION] && t('common:REQUIRED')}
         />
       )}
     </Form>

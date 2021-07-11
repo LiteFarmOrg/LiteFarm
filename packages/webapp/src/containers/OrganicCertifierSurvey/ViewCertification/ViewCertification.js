@@ -6,7 +6,11 @@ import PureViewNotInterestedInCertification from '../../../components/OrganicCer
 
 import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { getCertificationSurveys } from '../saga';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+  getCertificationSurveys,
+} from '../saga';
 import { certificationSelector } from '../certificationSlice';
 import { useTranslation } from 'react-i18next';
 
@@ -15,9 +19,11 @@ export default function ViewCertification({ history }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCertificationSurveys());
+    dispatch(getAllSupportedCertifications());
+    dispatch(getAllSupportedCertifiers());
   }, []);
   const { interested } = useSelector(certifierSurveySelector);
-  const organicSurvey = useSelector(certifierSurveySelector);
+  const survey = useSelector(certifierSurveySelector);
   const certification = useSelector(certificationSelector);
   const certificationName = t(`certifications:${certification?.certification_translation_key}`);
   const certifier = useSelector(certifierSelector);
@@ -26,8 +32,7 @@ export default function ViewCertification({ history }) {
     certifiersByCertificationSelector(certification?.certification_id),
   );
 
-  const isNotSupported =
-    certification?.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
+  const isNotSupported = survey?.requested_certification || survey?.requested_certifier;
   const onExport = () => {
     history.push('/certification/report_period');
   };
@@ -48,7 +53,7 @@ export default function ViewCertification({ history }) {
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
           unsupportedCertificationName={certificationName}
-          unsupportedCertifierName={organicSurvey.requested_certifier}
+          unsupportedCertifierName={survey.requested_certifier}
         />
       ) : (
         <PureViewSupportedCertification

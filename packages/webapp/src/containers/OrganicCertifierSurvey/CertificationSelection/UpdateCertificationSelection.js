@@ -19,7 +19,6 @@ export default function CertificationSelection() {
   const getCertifiers = useGetCertifiers();
   const onSubmit = (data) => {
     const certifiers = getCertifiers(data.certification_id);
-
     if (data.certification_id === 0 || certifiers.length === 0) {
       history.push(requestCertifierPath);
     } else {

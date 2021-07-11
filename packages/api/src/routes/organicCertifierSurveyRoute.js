@@ -22,7 +22,7 @@ const checkScope = require('../middleware/acl/checkScope');
 
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertificationSurveyByFarmId());
 router.get('/:farm_id/supported_certifications', hasFarmAccess({ params: 'farm_id' }), organicCertifierSurveyController.getAllSupportedCertifications());
-router.get('/:farm_id/supported_certifiers/:certification_id', hasFarmAccess({
+router.get('/:farm_id/supported_certifiers', hasFarmAccess({
   params: 'farm_id',
   body: 'certification_id',
 }), organicCertifierSurveyController.getAllSupportedCertifiers());

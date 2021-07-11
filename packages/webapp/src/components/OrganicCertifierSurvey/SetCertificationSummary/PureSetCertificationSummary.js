@@ -34,8 +34,9 @@ export function PureSetCertificationSummary({
 
       <Text style={{ paddingBottom: '4px' }}>{t('CERTIFICATION.SUMMARY.TITLE')}</Text>
       <Semibold style={{ color: colors.teal700 }}>
-        `${certificationName} ${t('CERTIFICATION.SUMMARY.CERTIFICATION')} ${t('common:FROM')} $
-        {certifierName} `
+        {`${certificationName} ${t('CERTIFICATION.SUMMARY.CERTIFICATION')} ${t(
+          'common:FROM',
+        )} ${certifierName} `}
       </Semibold>
       <div style={{ paddingTop: '20px' }}>
         <img src={Farmland} style={{ width: '100%', transform: 'translateY(-12px)' }} />

@@ -42,20 +42,16 @@ export function PureCertificationSelection({
       {
         label: t('common:OTHER'),
         value: 0,
-        toolTipContent: t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP'),
+        toolTipContent:
+          certification_id === 0 ? t('CERTIFICATION.CERTIFICATION_SELECTION.TOOLTIP') : undefined,
       },
     ];
-  }, [certifications]);
-
+  }, [certifications, certification_id]);
   const disabled = !isValid;
-
-  const submit = () => {
-    onSubmit();
-  };
 
   return (
     <Form
-      onSubmit={handleSubmit(submit)}
+      onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
         <>
           <Button type={'submit'} fullLength disabled={disabled}>

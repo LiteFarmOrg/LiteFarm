@@ -13,17 +13,30 @@ export default function UpdateSetCertificationSummary({ history }) {
   const selectCertifierPath = '/certification/certifier/selection';
 
   const onSubmit = () => {
-    console.log(persistedFormData);
+    const data = {
+      ...persistedFormData,
+      certification_id:
+        persistedFormData.certification_id === 0 ? undefined : persistedFormData.certification_id,
+      certifier_id: persistedFormData.requested_certifier
+        ? undefined
+        : persistedFormData.certifier_id,
+      requested_certification:
+        persistedFormData.certification_id === 0
+          ? persistedFormData.requested_certification
+          : undefined,
+    };
+    console.log(data);
     // history.push('/certification', { success: true });
   };
-  const { isRequestedCertification, certificationName } = useCertificationName();
+  const { certifierName, isRequestedCertifier } = useCertifierName();
+  const { certificationName } = useCertificationName();
   const certifiers = useCertifiers();
   const onGoBack = () => {
-    isRequestedCertification || certifiers.length < 1
+    isRequestedCertifier || certifiers.length < 1
       ? history.push(requestCertifierPath)
       : history.push(selectCertifierPath);
   };
-  const { certifierName, isRequestedCertifier } = useCertifierName();
+
   useHookFormPersist([requestCertifierPath, selectCertifierPath], () => ({}));
   return (
     <PureSetCertificationSummary

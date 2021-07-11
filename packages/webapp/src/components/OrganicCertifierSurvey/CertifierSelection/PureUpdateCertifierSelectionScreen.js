@@ -35,7 +35,7 @@ export function PureCertifierSelectionScreen({
             certifier.certifier_acronym.toLowerCase().includes(filter?.toLowerCase()),
         )
       : certifiers;
-  }, [filter]);
+  }, [filter, certifiers]);
 
   return (
     <Layout
@@ -76,7 +76,7 @@ export function PureCertifierSelectionScreen({
             style={{ marginBottom: '16px' }}
             certifierName={`${certifier.certifier_name} (${certifier.certifier_acronym})`}
             color={certifier_id === certifier.certifier_id ? 'active' : 'secondary'}
-            onClick={() => onSelectCertifier(certifier_id)}
+            onClick={() => onSelectCertifier(certifier.certifier_id)}
           />
         );
       })}

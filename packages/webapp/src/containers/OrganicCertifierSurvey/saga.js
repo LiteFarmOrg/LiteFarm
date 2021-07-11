@@ -9,7 +9,7 @@ import {
   postCertifiersSuccess,
 } from './slice';
 import { createAction } from '@reduxjs/toolkit';
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
 import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
@@ -37,10 +37,6 @@ export function* getCertificationSurveysSaga() {
     const header = getHeader(user_id, farm_id);
     const result = yield call(axios.get, getSurveyUrl(farm_id), header);
     yield put(getCertificationSurveysSuccess(result.data));
-    yield all([
-      put(getAllSupportedCertifications()),
-      put(getAllSupportedCertifiers(result.data.certification_id)),
-    ]);
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail(e));
     console.log('failed to fetch certifiers from database');
@@ -64,13 +60,14 @@ export function* getAllSupportedCertificationsSaga() {
 }
 
 export const getAllSupportedCertifiers = createAction(`getAllSupportedCertifiersSaga`);
-export function* getAllSupportedCertifiersSaga({ payload }) {
+
+export function* getAllSupportedCertifiersSaga() {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const result = yield call(
       axios.get,
-      `${url}/organic_certifier_survey/${farm_id}/supported_certifiers/${payload}`,
+      `${url}/organic_certifier_survey/${farm_id}/supported_certifiers`,
       header,
     );
     yield put(getCertifiersSuccess(result.data));

@@ -9,12 +9,16 @@ import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
 import Input from '../../Form/Input';
 import { seedYield } from '../../../util/unit';
+import { cloneObject } from '../../../util';
 
 export default function PureNextHarvest({
   onCancel,
   onGoBack,
   onContinue,
   system,
+  persistedFormData,
+  useHookFormPersist,
+  variety,
 }) {
 
   const { t } = useTranslation();
@@ -31,6 +35,7 @@ export default function PureNextHarvest({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
 
   const progress = 32;
@@ -38,6 +43,11 @@ export default function PureNextHarvest({
   const NEXT_HARVEST_DATE = 'next_harvest_date';
   const ESTIMATED_YIELD = 'estimated_yield';
   const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
+
+  const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
+  const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;
+
+  useHookFormPersist([submitPath, goBackPath], getValues);
 
   return (
     <Form
@@ -97,4 +107,7 @@ PureNextHarvest.prototype = {
   onGoBack: PropTypes.func,
   onContinue: PropTypes.func,
   system: PropTypes.string,
+  persistedFormData: PropTypes.object,
+  useHookFormPersist: PropTypes.func,
+  variety: PropTypes.string,
 };

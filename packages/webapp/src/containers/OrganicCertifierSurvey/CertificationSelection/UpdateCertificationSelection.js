@@ -1,6 +1,6 @@
 import React from 'react';
 import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureUpdateCertificationSelection';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import history from '../../../history';
 import { certificationsSelector } from '../certificationSlice';
 import { certifierSurveySelector } from '../slice';
@@ -9,7 +9,6 @@ import { useGetCertifiers } from '../useCertifiers';
 
 export default function CertificationSelection() {
   const survey = useSelector(certifierSurveySelector);
-  const dispatch = useDispatch();
 
   const certifications = useSelector(certificationsSelector);
 

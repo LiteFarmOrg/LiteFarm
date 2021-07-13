@@ -1,6 +1,6 @@
 import Form from '../../Form';
 import Button from '../../Form/Button';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import { useForm } from 'react-hook-form';
@@ -17,6 +17,16 @@ export function PureCertificationSelection({
   survey = {},
 }) {
   const { t } = useTranslation(['translation', 'common', 'certifications']);
+  const defaultValues = { ...survey, ...persistedFormData };
+  const getDefaultCertificationId = useCallback(() => {
+    if (defaultValues.certification_id === 0 || defaultValues.certification_id) {
+      return defaultValues.certification_id;
+    } else if (defaultValues.requested_certification) {
+      return 0;
+    } else {
+      return undefined;
+    }
+  }, [defaultValues.certification_id, defaultValues.requested_certification]);
   const {
     register,
     handleSubmit,
@@ -26,7 +36,11 @@ export function PureCertificationSelection({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { ...survey, ...persistedFormData },
+    defaultValues: {
+      ...survey,
+      ...persistedFormData,
+      certification_id: getDefaultCertificationId(),
+    },
   });
   useHookFormPersist?.(persistedPathNames, getValues);
   const CERTIFICATION_ID = 'certification_id';

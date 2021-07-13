@@ -1,51 +1,57 @@
 import React from 'react';
-import PureSetCertificationSummary from '../../../components/OrganicCertifierSurvey/SetCertificationSummary';
+import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import { useDispatch, useSelector } from 'react-redux';
-import { patchStepFour } from '../saga';
-import history from '../../../history';
-import {
-  requestedCertifierSelector,
-  selectedCertificationSelector,
-  selectedCertifierSelector,
-} from '../organicCertifierSurveySlice';
-import { certificationsSelector } from '../certificationSlice';
-import { certifiersByCertificationSelector } from '../certifierSlice';
+import { useCertificationName } from '../useCertificationName';
+import { useCertifiers } from '../useCertifiers';
+import { useCertifierName } from '../useCertifierName';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
+import { postOrganicCertifierSurvey, putOrganicCertifierSurvey } from '../saga';
+import { certifierSurveySelector } from '../slice';
 
-export default function OnboardingSetCertificationSummary() {
+export default function OnboardingSetCertificationSummary({ history }) {
+  const survey = useSelector(certifierSurveySelector);
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const requestCertifierPath = '/certification/certifier/request';
+  const selectCertifierPath = '/certification/certifier/selection';
+  const outroPath = '/outro';
   const dispatch = useDispatch();
-  const certifierType = useSelector(selectedCertifierSelector);
-  const requestedCertifierData = useSelector(requestedCertifierSelector);
-  const certification = useSelector(selectedCertificationSelector);
-  const allSupportedCertificationTypes = useSelector(certificationsSelector);
-  const selectedCertificationTranslation = allSupportedCertificationTypes.find(
-    (cert) => cert.certification_id === certification.certification_id,
-  )?.certification_translation_key;
-  const allSupportedCertifierTypes = useSelector(
-    certifiersByCertificationSelector(certification.certification_id),
-  );
   const onSubmit = () => {
-    dispatch(patchStepFour());
+    const callback = () => history.push('/outro', { success: true });
+    if (survey.survey_id) {
+      dispatch(
+        putOrganicCertifierSurvey({
+          survey: getOrganicSurveyReqBody({ ...survey, ...persistedFormData }),
+          callback,
+        }),
+      );
+    } else {
+      dispatch(
+        postOrganicCertifierSurvey({
+          survey: getOrganicSurveyReqBody(persistedFormData),
+          callback,
+        }),
+      );
+    }
   };
-
+  const { certifierName, isRequestedCertifier } = useCertifierName();
+  const { certificationName } = useCertificationName();
+  const certifiers = useCertifiers();
   const onGoBack = () => {
-    certification.certificationName === 'Other'
-      ? history.push('/certification/certifier/request')
-      : allSupportedCertifierTypes.length < 1
-      ? history.push('/certification/certifier/request')
-      : history.push('/certification/certifier/selection');
+    isRequestedCertifier || certifiers.length < 1
+      ? history.push(requestCertifierPath)
+      : history.push(selectCertifierPath);
   };
 
+  useHookFormPersist([requestCertifierPath, selectCertifierPath, outroPath], () => ({}));
   return (
-    <>
-      <PureSetCertificationSummary
-        name={requestedCertifierData ? requestedCertifierData : certifierType.certifierName}
-        requestedCertifierData={requestedCertifierData}
-        onSubmit={onSubmit}
-        onGoBack={onGoBack}
-        allSupportedCertificationTypes={allSupportedCertificationTypes}
-        certificationType={certification}
-        certificationTranslation={selectedCertificationTranslation}
-      />
-    </>
+    <PureSetCertificationSummary
+      onSubmit={onSubmit}
+      onGoBack={onGoBack}
+      certificationName={certificationName}
+      certifierName={certifierName}
+      isRequestedCertifier={isRequestedCertifier}
+    />
   );
 }

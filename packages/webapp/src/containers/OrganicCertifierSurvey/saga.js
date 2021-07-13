@@ -49,6 +49,7 @@ export function* getCertificationSurveysSaga() {
 }
 
 export const getAllSupportedCertifications = createAction(`getAllSupportedCertificationsSaga`);
+
 export function* getAllSupportedCertificationsSaga() {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
@@ -91,17 +92,18 @@ export function* postOrganicCertifierSurveySaga({ payload }) {
     const surveyReqBody = { ...survey, farm_id };
     const result = yield call(axios.post, postUrl(), surveyReqBody, header);
     yield put(postOrganicCertifierSurveySuccess(result.data));
-    if (!survey?.interested) {
-      let step = {
-        step_four: true,
-        step_four_end: new Date(),
-      };
-      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-      yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
-    }
+
+    const step = {
+      step_four: true,
+      step_four_end: new Date(),
+    };
+    yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+    yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
+
     callback && callback();
   } catch (e) {
     console.log('failed to add certifiers');
+    yield put(enqueueErrorSnackbar(i18n.t('message:ORGANIC_CERTIFIER_SURVEY.ERROR.CREATE')));
   }
 }
 

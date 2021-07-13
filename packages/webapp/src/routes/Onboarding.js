@@ -16,11 +16,10 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { shallowEqual, useSelector } from 'react-redux';
-import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
+import { useSelector } from 'react-redux';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
-import { finishedSelectingCertificationTypeSelector } from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
+import { hookFormPersistSelector } from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
 const Outro = React.lazy(() => import('../containers/Outro'));
@@ -64,8 +63,11 @@ function OnboardingFlow({
   has_consent,
   farm_id,
 }) {
-  const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
-  const selected = useSelector(finishedSelectingCertificationTypeSelector);
+  const { interested } = useSelector(
+    hookFormPersistSelector,
+    (pre, next) => pre.interested === next.interested,
+  );
+
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Suspense fallback={<Spinner />}>
@@ -74,6 +76,7 @@ function OnboardingFlow({
         <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
         <Route path="/welcome" exact component={WelcomeScreen} />
         <Route path="/add_farm" exact component={AddFarm} />
+
         {step_one && <Route path="/role_selection" exact component={RoleSelection} />}
         {step_two && !step_five && <Route path="/consent" exact component={ConsentForm} />}
         {step_five && !has_consent && (
@@ -86,22 +89,24 @@ function OnboardingFlow({
         {step_three && (
           <Route path="/certification/interested_in_organic" exact component={InterestedOrganic} />
         )}
-        {interested && (
+        {(step_four || interested) && (
           <Route path="/certification/selection" exact component={CertificationSelection} />
         )}
-        {selected && (
-          <>
-            <Route
-              path="/certification/certifier/selection"
-              exact
-              component={CertifierSelectionMenu}
-            />
-            <Route path="/certification/certifier/request" exact component={RequestCertifier} />
-            <Route path="/certification/summary" exact component={SetCertificationSummary} />
-            {step_four && <Route path="/outro" exact component={Outro} />}
-          </>
+        {(step_four || interested) && (
+          <Route
+            path="/certification/certifier/selection"
+            exact
+            component={CertifierSelectionMenu}
+          />
         )}
-        {!selected && step_four && <Route path="/outro" exact component={Outro} />}
+        {(step_four || interested) && (
+          <Route path="/certification/certifier/request" exact component={RequestCertifier} />
+        )}
+        {(step_four || interested) && (
+          <Route path="/certification/summary" exact component={SetCertificationSummary} />
+        )}
+        {step_four && <Route path="/outro" exact component={Outro} />}
+
         <Route>
           <>
             {step_four && !has_consent && <Redirect to={'/consent'} />}
@@ -109,12 +114,8 @@ function OnboardingFlow({
             {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
-            {step_three && !step_four && !interested && (
-              <Redirect to={'/certification/interested_in_organic'} />
-            )}
-            {step_four && !step_five && !(interested && !certifiers?.length) && (
-              <Redirect to={'/outro'} />
-            )}
+            {step_three && !step_four && <Redirect to={'/certification/interested_in_organic'} />}
+            {step_four && !step_five && <Redirect to={'/outro'} />}
           </>
         </Route>
       </Switch>

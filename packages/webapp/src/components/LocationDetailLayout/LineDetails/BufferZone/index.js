@@ -137,7 +137,6 @@ export default function PureBufferZone({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
@@ -164,7 +163,6 @@ export default function PureBufferZone({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required

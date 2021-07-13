@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
-import Input from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 import { PasswordError } from '../Form/Errors';
 import { validatePasswordWithErrors } from '../Signup/utils';
 
@@ -93,6 +93,7 @@ export default function PureInvitedUserCreateAccountPage({
         label={t('INVITATION.FULL_NAME')}
         hookFormRegister={register(NAME, { required: true })}
         style={{ marginBottom: '24px' }}
+        errors={getInputErrors(errors, NAME)}
       />
       <Controller
         control={control}

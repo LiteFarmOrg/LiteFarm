@@ -95,6 +95,7 @@ export default function PureNextHarvest({
           hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
+          max={999}
           optional
         />
       </div>

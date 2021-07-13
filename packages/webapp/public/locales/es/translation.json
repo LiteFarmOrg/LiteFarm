@@ -22,8 +22,8 @@
   },
   "BED_PLAN": {
     "ADDITIONAL_GUIDANCE": "MISSING",
-    "LENGTH_OF_BED": "MISSING",
-    "NUMBER_0F_BEDS": "MISSING",
+    "LENGTH_OF_BED": "Largo de camas",
+    "NUMBER_0F_BEDS": "# de camas",
     "NUMBER_OF_ROWS": "MISSING",
     "PLANT_SPACING": "MISSING",
     "PLANTING_DETAILS": "MISSING"

@@ -293,9 +293,18 @@ const Routes = () => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
+  let {
+    step_five,
+    has_consent,
+    role_id,
+    status,
+    step_one,
+    farm_id,
+    step_three,
+    step_four,
+  } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const hasFinishedOnBoardingFlow = step_five;
+  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step

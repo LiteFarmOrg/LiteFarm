@@ -109,13 +109,16 @@ function OnboardingFlow({
 
         <Route>
           <>
+            {!step_one && <Redirect to={'/add_farm'} />}
             {step_four && !has_consent && <Redirect to={'/consent'} />}
-            {(!farm_id || !step_one) && hasUserFarms && <Redirect to={'/farm_selection'} />}
+            {!farm_id && hasUserFarms && <Redirect to={'/farm_selection'} />}
             {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
             {step_one && !step_two && <Redirect to={'/role_selection'} />}
             {step_two && !step_three && <Redirect to={'/consent'} />}
-            {step_three && !step_four && <Redirect to={'/certification/interested_in_organic'} />}
-            {step_four && !step_five && <Redirect to={'/outro'} />}
+            {step_one && step_three && !step_four && (
+              <Redirect to={'/certification/interested_in_organic'} />
+            )}
+            {step_one && step_four && !step_five && <Redirect to={'/outro'} />}
           </>
         </Route>
       </Switch>

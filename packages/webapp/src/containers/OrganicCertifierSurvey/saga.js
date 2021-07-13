@@ -12,7 +12,7 @@ import {
 import { createAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
-import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
+import { loginSelector, patchStepFourSuccess, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import history from '../../history';
 import { getCertificationsSuccess } from './certificationSlice';
@@ -111,12 +111,20 @@ export const putOrganicCertifierSurvey = createAction(`putOrganicCertifierSurvey
 
 export function* putOrganicCertifierSurveySaga({ payload }) {
   try {
-    const { user_id, farm_id } = yield select(loginSelector);
+    const { user_id, farm_id, step_four } = yield select(userFarmSelector);
     const header = getHeader(user_id, farm_id);
     const { survey, callback } = payload;
     const surveyReqBody = { ...survey, farm_id };
     const result = yield call(axios.put, putUrl(), surveyReqBody, header);
     yield put(putOrganicCertifierSurveySuccess(result.data));
+    if (!step_four) {
+      const step = {
+        step_four: true,
+        step_four_end: new Date(),
+      };
+      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+      yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
+    }
     callback && callback();
   } catch (e) {
     console.log('failed to add certifiers');

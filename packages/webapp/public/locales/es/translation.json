@@ -13,12 +13,12 @@
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
   "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
+    "BED_WIDTH": "Ancho de la cama",
+    "NOTES": "Notas de plantación",
+    "PLANTING_DEPTH": "Profundidad de plantación",
+    "SPACE_BETWEEN": "Espacio entre camas",
+    "SPECIFY_BEDS": "Especificar camas",
+    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo."
   },
   "BED_PLAN": {
     "ADDITIONAL_GUIDANCE": "MISSING",

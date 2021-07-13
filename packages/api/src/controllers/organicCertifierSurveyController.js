@@ -190,7 +190,7 @@ const organicCertifierSurveyController = {
       }
       const documents = await documentModel.query().withGraphJoined('files').whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true }).andWhere({ farm_id });
       const user_id = req.user.user_id;
-      const files = documents.map(({ files }) => files.map(({ url }) => url)).reduce((a, b) => a.concat(b), []);
+      const files = documents.map(({ files }) => files.map(({ url, file_name }) => ({ url, file_name }))).reduce((a, b) => a.concat(b), []);
       const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated, 
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
             cp.genetically_engineered, f.farm_name || ' / ' || mp.name || ' / ' || mp.seed_date  as notes

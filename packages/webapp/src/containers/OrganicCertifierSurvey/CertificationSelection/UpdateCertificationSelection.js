@@ -1,5 +1,5 @@
 import React from 'react';
-import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureUpdateCertificationSelection';
+import { PureCertificationSelection } from '../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import { useSelector } from 'react-redux';
 import history from '../../../history';
 import { certificationsSelector } from '../certificationSlice';

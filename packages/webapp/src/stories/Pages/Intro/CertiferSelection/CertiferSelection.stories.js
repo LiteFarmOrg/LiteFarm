@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import PureCertifierSelectionScreen from '../../../../components/OrganicCertifierSurvey/CertifierSelection';
+import { PureCertifierSelectionScreen } from '../../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
@@ -9,7 +9,7 @@ export default {
   component: PureCertifierSelectionScreen,
 };
 
-const allSupportedCertifiers = [
+const certifiers = [
   {
     certifier_id: 5,
     certification_type: 1,
@@ -65,7 +65,7 @@ const allSupportedCertifiers = [
     owner_operated: true,
   },
 ];
-const allSupportedCertificationTypes = [
+const certifications = [
   {
     certification_id: 1,
     certification_type: 'Organic',
@@ -77,26 +77,14 @@ const allSupportedCertificationTypes = [
     certification_translation_key: 'PGS',
   },
 ];
-const certifierType = {
-  certifierName: 'BDASBC',
-  certifierID: 5,
-  isRequestingCertifier: false,
-};
-const certificationType = {
-  certificationName: 'Organic',
-  certification_id: 1,
-  requestedCertification: null,
-};
 
 const Template = (args) => <PureCertifierSelectionScreen {...args} />;
 
 export const NotSearchable = Template.bind({});
 NotSearchable.args = {
-  allSupportedCertifiers: allSupportedCertifiers.slice(0, 1),
-  allSupportedCertificationTypes: allSupportedCertificationTypes.slice(0, 2),
-  certifierType,
-  certificationType,
-  onBack: () => {},
+  persistedFormData: {},
+  certifications: certifications,
+  certifiers: certifiers.slice(0, 1),
 };
 NotSearchable.parameters = {
   ...chromaticSmallScreen,
@@ -104,11 +92,9 @@ NotSearchable.parameters = {
 
 export const Searchable = Template.bind({});
 Searchable.args = {
-  allSupportedCertifiers,
-  allSupportedCertificationTypes,
-  certifierType,
-  certificationType,
-  onBack: () => {},
+  persistedFormData: {},
+  certifications: certifications,
+  certifiers,
 };
 Searchable.parameters = {
   ...chromaticSmallScreen,

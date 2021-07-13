@@ -1,7 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
-import PureInterestedOrganic from '../../../../components/OrganicCertifierSurvey/InterestedOrganic';
+import { PureInterestedOrganic } from '../../../../components/OrganicCertifierSurvey/InterestedOrganic/PureInterestedOrganic';
 
 export default {
   title: 'Form/Intro/4-InterestedOrganic',

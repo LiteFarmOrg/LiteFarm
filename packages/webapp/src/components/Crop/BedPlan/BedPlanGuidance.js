@@ -83,7 +83,6 @@ function PureBedPlanGuidance({
         system={system}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
-        hookFormSetError={setError}
         hookFromWatch={watch}
         control={control}
         optional={true}
@@ -99,7 +98,6 @@ function PureBedPlanGuidance({
         system={system}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
-        hookFormSetError={setError}
         hookFromWatch={watch}
         control={control}
         optional={true}
@@ -115,7 +113,6 @@ function PureBedPlanGuidance({
         system={system}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
-        hookFormSetError={setError}
         hookFromWatch={watch}
         control={control}
         optional={true}

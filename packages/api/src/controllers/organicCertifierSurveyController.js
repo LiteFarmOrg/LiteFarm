@@ -17,6 +17,7 @@ const organicCertifierSurveyModel = require('../models/organicCertifierSurveyMod
 const certificationModel = require('../models/certificationModel');
 const certifierModel = require('../models/certifierModel');
 const userModel = require('../models/userModel');
+const farmModel = require('../models/farmModel');
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
@@ -193,14 +194,14 @@ const organicCertifierSurveyController = {
       const files = documents.map(({ files }) => files.map(({ url, file_name }) => ({ url, file_name }))).reduce((a, b) => a.concat(b), []);
       const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated, 
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
-            cp.genetically_engineered, f.farm_name || ' / ' || mp.name || ' / ' || mp.seed_date  as notes
+            cp.genetically_engineered
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
             WHERE ( mp.seed_date BETWEEN ? AND ? ) AND cp.organic IS NOT NULL AND cp.farm_id  = ?`, [from_date, to_date, farm_id]);
       const { first_name } = await userModel.query().where({ user_id }).first();
+      const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,
-        files, farm_id, email, first_name,
-        from_date, to_date,
-        submission: '60e455b2fdef070001d06b6c' };
+        files, farm_id, email, first_name, farm_name,
+        from_date, to_date, submission: '60e455b2fdef070001d06b6c' };
       res.status(200).json({ message: 'Processing' });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })

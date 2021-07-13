@@ -1,4 +1,6 @@
 const XlsxPopulate = require('xlsx-populate');
+const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
+const treatmentDocTransformation = (str) => str.substr(0,1);
 const dataToCellMapping = {
   crop_variety_name: 'A',
   supplier: 'B',
@@ -7,12 +9,17 @@ const dataToCellMapping = {
   treated: 'F',
   treated_doc: 'G',
   genetically_engineered: 'H',
-  notes: 'I',
 }
-module.exports = (data, farm_id, from_date, to_date) => {
+const dataTransformsMapping = {
+  organic: boolToStringTransformation,
+  searched: boolToStringTransformation,
+  treated_doc: treatmentDocTransformation,
+  genetically_engineered: boolToStringTransformation,
+}
+
+module.exports = (data, farm_id, from_date, to_date, farm_name) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
-      const farm_name = data[0]?.notes.split('/')[0];
       const defaultStyles = {
         verticalAlignment: 'center',
         fontFamily: 'Calibri',
@@ -97,11 +104,11 @@ module.exports = (data, farm_id, from_date, to_date) => {
         const rowN = i + 11;
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
-          workbook.sheet(0).cell(cell).value(row[k]);
+          const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];
+          workbook.sheet(0).cell(cell).value(value);
         })
       })
-
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/record.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/iCertify-RecordD.xlsx`);
     })
 }
 

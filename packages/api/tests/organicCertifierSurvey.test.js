@@ -66,9 +66,8 @@ describe('organicCertifierSurvey Tests', () => {
   function getAllSupportedCertifiersRequest({
     user_id = owner.user_id,
     farm_id = farm.farm_id,
-    certification_id = certification_id,
   }, callback) {
-    chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifiers/${certification_id}`)
+    chai.request(server).get(`/organic_certifier_survey/${farm_id}/supported_certifiers`)
       .set('farm_id', farm_id)
       .set('user_id', user_id)
       .end(callback);
@@ -94,9 +93,11 @@ describe('organicCertifierSurvey Tests', () => {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
 
-  function getFakeOrganicCertifierSurvey(farm_id = farm.farm_id) {
+  function getFakeOrganicCertifierSurvey(farm_id = farm.farm_id, interested = true) {
     const organicCertifierSurvey = mocks.fakeOrganicCertifierSurvey();
     return ({
+      ...organicCertifierSurvey,
+      interested,
       certifier_id: organicCertifierSurvey.certifier_id,
       certification_id: organicCertifierSurvey.certification_id,
       farm_id,
@@ -143,7 +144,6 @@ describe('organicCertifierSurvey Tests', () => {
         console.log(organicCertifierSurvey);
         getAllSupportedCertifiersRequest({
           user_id: manager.user_id,
-          certification_id: organicCertifierSurvey.certification_id,
         }, (err, res) => {
           expect(res.status).toBe(200);
           console.log(res.body);
@@ -159,7 +159,7 @@ describe('organicCertifierSurvey Tests', () => {
 
         getAllSupportedCertificationsRequest({}, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body[0].certification_id).toBe('Organic');
+          expect(res.body[0].certification_id).toBe(1);
           done();
         });
       });
@@ -360,6 +360,7 @@ describe('organicCertifierSurvey Tests', () => {
     test('should return 400 if certification_id and requested_certification are null', async (done) => {
       delete fakeOrganicCertifierSurvey.certification_id;
       delete fakeOrganicCertifierSurvey.requested_certification;
+      console.log(fakeOrganicCertifierSurvey);
       postRequest(fakeOrganicCertifierSurvey, {}, (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -497,7 +498,7 @@ describe('organicCertifierSurvey Tests', () => {
     beforeEach(async () => {
       [fakeOrganicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [ownerFarm] });
       fakeOrganicCertifierSurvey = {
-        ...fakeOrganicCertifierSurvey, ...mocks.fakeOrganicCertifierSurvey(),
+        ...fakeOrganicCertifierSurvey, ...getFakeOrganicCertifierSurvey(),
         farm_id: farm.farm_id,
       };
     });

@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../../util';
 import { certifierSurveySelector } from './slice';
+import { pick } from '../../util/pick';
 
 const certificationProperties = [
   'certification_id',

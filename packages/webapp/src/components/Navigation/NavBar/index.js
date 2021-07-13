@@ -18,7 +18,7 @@ import SmallLogo from '../../../assets/images/small_logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import { BiMenu } from 'react-icons/all';
+import { BiMenu } from 'react-icons/bi';
 import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';

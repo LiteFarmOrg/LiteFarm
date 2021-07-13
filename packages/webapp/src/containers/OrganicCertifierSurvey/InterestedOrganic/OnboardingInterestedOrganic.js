@@ -1,7 +1,7 @@
 import React from 'react';
 import PureInterestedOrganic from '../../../components/OrganicCertifierSurvey/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { patchInterested, postCertifiers } from '../saga';
+import { patchInterested, postOrganicCertifierSurvey } from '../saga';
 import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
 
@@ -16,7 +16,7 @@ export default function OnboardingInterestedOrganic() {
     if (survey.survey_id) {
       dispatch(patchInterested({ interested, callback }));
     } else {
-      dispatch(postCertifiers({ survey: { interested }, callback }));
+      dispatch(postOrganicCertifierSurvey({ survey: { interested }, callback }));
     }
   };
   const onGoBack = () => {

@@ -18,6 +18,7 @@ const router = express.Router();
 const organicCertifierSurveyController = require('../controllers/organicCertifierSurveyController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
+const validateOrganicSurvey = require('../middleware/validation/addAndPutOrganicSurvey');
 
 
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertificationSurveyByFarmId());
@@ -26,8 +27,8 @@ router.get('/:farm_id/supported_certifiers', hasFarmAccess({
   params: 'farm_id',
   body: 'certification_id',
 }), organicCertifierSurveyController.getAllSupportedCertifiers());
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:organic_certifier_survey']), organicCertifierSurveyController.addOrganicCertifierSurvey());
-
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:organic_certifier_survey']), validateOrganicSurvey, organicCertifierSurveyController.addOrganicCertifierSurvey());
+router.put('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:organic_certifier_survey']), validateOrganicSurvey, organicCertifierSurveyController.putOrganicCertifierSurvey());
 
 router.patch('/:survey_id/requested_certifier', hasFarmAccess({ params: 'survey_id' }), checkScope(['edit:organic_certifier_survey']), organicCertifierSurveyController.patchRequestedCertifiers());
 router.patch('/:survey_id/requested_certification', hasFarmAccess({ params: 'survey_id' }), checkScope(['edit:organic_certifier_survey']), organicCertifierSurveyController.patchRequestedCertification());

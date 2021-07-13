@@ -6,8 +6,8 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../../util';
 import { certifierSurveySelector } from './slice';
+import { pick } from '../../util/pick';
 
 const certifierProperties = [
   'certification_id',

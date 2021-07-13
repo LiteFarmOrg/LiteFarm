@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { pick } from '../util';
 import { cropManagementPlanProperties } from './broadcastSlice';
+import { pick } from '../util/pick';
 
 export const rowProperties = [];
 const getRow = (obj) => {

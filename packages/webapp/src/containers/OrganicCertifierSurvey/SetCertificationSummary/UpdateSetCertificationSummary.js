@@ -1,32 +1,23 @@
 import React from 'react';
 import { PureSetCertificationSummary } from '../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useCertificationName } from '../useCertificationName';
 import { useCertifiers } from '../useCertifiers';
 import { useCertifierName } from '../useCertifierName';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getOrganicSurveyReqBody } from './utils/getOrganicSurveyReqBody';
+import { putOrganicCertifierSurvey } from '../saga';
 
 export default function UpdateSetCertificationSummary({ history }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const requestCertifierPath = '/certification/certifier/request';
   const selectCertifierPath = '/certification/certifier/selection';
-
+  const dispatch = useDispatch();
   const onSubmit = () => {
-    const data = {
-      ...persistedFormData,
-      certification_id:
-        persistedFormData.certification_id === 0 ? undefined : persistedFormData.certification_id,
-      certifier_id: persistedFormData.requested_certifier
-        ? undefined
-        : persistedFormData.certifier_id,
-      requested_certification:
-        persistedFormData.certification_id === 0
-          ? persistedFormData.requested_certification
-          : undefined,
-    };
-    console.log(data);
-    // history.push('/certification', { success: true });
+    const data = getOrganicSurveyReqBody(persistedFormData);
+    const callback = () => history.push('/certification', { success: true });
+    dispatch(putOrganicCertifierSurvey({ survey: data, callback }));
   };
   const { certifierName, isRequestedCertifier } = useCertifierName();
   const { certificationName } = useCertificationName();

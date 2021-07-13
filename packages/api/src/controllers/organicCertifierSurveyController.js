@@ -103,6 +103,21 @@ const organicCertifierSurveyController = {
     };
   },
 
+  putOrganicCertifierSurvey() {
+    return async (req, res) => {
+      try {
+        const user_id = req.user.user_id;
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(req.body.survey_id).update(req.body).returning('*');
+        return res.status(200).send(result);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
   patchCertifiers() {
     return async (req, res) => {
       const survey_id = req.params.survey_id;

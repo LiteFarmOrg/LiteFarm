@@ -1,7 +1,6 @@
-
-exports.up = function(knex) {
-  return knex.raw(`
-  ALTER TABLE figure
+exports.up = async function (knex) {
+  await knex.raw(`
+  ALTER TABLE "figure"
   MODIFY COLUMN
     type enum(
     field,
@@ -23,6 +22,6 @@ exports.up = function(knex) {
   `)
 };
 
-exports.down = async function(knex) {
+exports.down = async function (knex) {
   await knex.schema.dropColumn('type');
 };

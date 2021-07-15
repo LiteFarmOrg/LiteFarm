@@ -1,7 +1,8 @@
 @import '../../../assets/colors';
 @import '../../../assets/mixin';
 .container {
-  display: inline-block;
+  display: flex;
+  column-gap: 4px;
   position: relative;
   padding-left: 24px;
   cursor: pointer;

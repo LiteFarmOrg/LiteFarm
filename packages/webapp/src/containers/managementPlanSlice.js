@@ -3,7 +3,6 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
-import { pick } from '../util';
 import { cropLocationEntitiesSelector } from './locationSlice';
 import { cropVarietiesSelector, cropVarietyEntitiesSelector } from './cropVarietySlice';
 import { cropCatalogueFilterDateSelector } from './filterSlice';
@@ -12,6 +11,7 @@ import { bedSelectors } from './bedsSlice';
 import { rowSelectors } from './rowsSlice';
 import { broadcastSelectors } from './broadcastSlice';
 import { transplantContainerSelectors } from './transplantContainerSlice';
+import { pick } from '../util/pick';
 
 export const getManagementPlan = (obj) => {
   return pick(obj, [

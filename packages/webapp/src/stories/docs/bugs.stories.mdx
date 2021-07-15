@@ -118,3 +118,13 @@ export default [
         });
       },1);
 ```
+
+### Frontend tests won't compile when react-icons are imported from 'react-icons/all'
+
+[github issue](https://github.com/react-icons/react-icons/issues/444)
+
+###### Walk around: import icons from individual folders instead of "react-icons/all"
+
+```js
+import { IoLogoAndroid } from "react-icons/io5"
+```

@@ -5,7 +5,6 @@ import {
   getManagementPlan,
   managementPlansByCropVarietyIdSelector,
 } from '../../../managementPlanSlice';
-import { pick } from '../../../../util';
 import { broadcastProperties, cropManagementPlanProperties } from '../../../broadcastSlice';
 import { containerProperties } from '../../../containerSlice';
 import { bedProperties } from '../../../bedsSlice';
@@ -14,6 +13,7 @@ import { postManagementPlan } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getTransplantContainer } from '../../../transplantContainerSlice';
+import { pick } from '../../../../util/pick';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);

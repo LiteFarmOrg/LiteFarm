@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -135,6 +135,7 @@ export default function PureRowMethod({
                   type={'number'}
                   onKeyDown={integerOnKeyDown}
                   max={999}
+                  errors={getInputErrors(errors, NUMBER_OF_ROWS)}
                 />
                 <Unit
                   style={{ paddingLeft: '16px' }}
@@ -147,7 +148,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required
@@ -167,7 +167,6 @@ export default function PureRowMethod({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -186,7 +185,6 @@ export default function PureRowMethod({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -206,7 +204,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required
@@ -222,7 +219,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required

@@ -7,7 +7,7 @@ import {
   currentAndPlannedManagementPlansByCropVarietySelector,
   currentManagementPlanByCropVarietyIdSelector,
   plannedManagementPlanByCropVarietyIdSelector,
-} from './../../managementPlanSlice';
+} from '../../managementPlanSlice';
 import CropVarietySpotlight from '../CropVarietySpotlight';
 import RetireCropWarning from '../../../components/Modals/CropModals/RetireCropWarningModal';
 import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModal';

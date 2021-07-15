@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AddLink, Main, Title } from '../../Typography';
+import { AddLink, Main, Title } from '../../../Typography';
 
-import Layout from '../../Layout';
-import { PureSnackbar } from '../../PureSnackbar';
+import Layout from '../../../Layout';
+import { PureSnackbar } from '../../../PureSnackbar';
 
 export default function PureViewNotInterestedInCertification({
   showSuccessSnackBar,

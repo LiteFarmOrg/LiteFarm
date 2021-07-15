@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '../../../Card';
-import { Semibold } from '../../../Typography';
-import { colors } from '../../../../assets/theme';
+import Card from '../../../../Card';
+import { Semibold } from '../../../../Typography';
+import { colors } from '../../../../../assets/theme';
 
 const CertifierSelectionMenuItem = ({
   color = 'secondary',

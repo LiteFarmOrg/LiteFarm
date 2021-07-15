@@ -143,7 +143,6 @@ export default function PurePlantedAlready({
                       system={system}
                       hookFormSetValue={setValue}
                       hookFormGetValue={getValues}
-                      hookFormSetError={setError}
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
@@ -171,7 +170,6 @@ export default function PurePlantedAlready({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   max={MAX_AGE}

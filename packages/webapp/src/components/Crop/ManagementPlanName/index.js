@@ -2,7 +2,7 @@ import Button from '../../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -69,6 +69,7 @@ export default function PureManagementPlanName({
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NAME')}
         hookFormRegister={register(NAME, { required: true })}
+        errors={getInputErrors(errors, NAME)}
       />
 
       <InputAutoSize

@@ -89,7 +89,6 @@ export default function PureLineBox({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required
@@ -111,7 +110,6 @@ export default function PureLineBox({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required

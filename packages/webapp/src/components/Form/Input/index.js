@@ -9,6 +9,8 @@ import { mergeRefs } from '../utils';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 import Infoi from '../../Tooltip/Infoi';
+import { get } from 'react-hook-form';
+import i18n from '../../../locales/i18n';
 
 const Input = ({
   disabled = false,
@@ -33,23 +35,25 @@ const Input = ({
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
-  const input = useRef();
   const name = hookFormRegister?.name ?? props?.name;
-  const onClear = () => {
-    input.current.value = '';
-    onChange?.({ target: input.current });
-    hookFormRegister?.onChange({ target: input.current });
-  };
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
+
   const [showError, setShowError] = useState();
   useEffect(() => {
     setShowError(!!errors && !disabled);
   }, [errors]);
+  const input = useRef();
+  const onClear = () => {
+    input.current.value = '';
+    onChange?.({ target: input.current });
+    hookFormRegister?.onChange({ target: input.current });
+    setShowError(false);
+  };
 
   const onKeyDown = ['number', 'decimal'].includes(type) ? numberOnKeyDown : undefined;
 
@@ -123,7 +127,9 @@ const Input = ({
             }
           }
           onBlur?.(e);
+          hookFormRegister?.onChange?.({ target: input.current });
           hookFormRegister?.onBlur?.(e);
+          i18n.t('common:REQUIRED') === errors && setShowError(true);
         }}
         onWheel={type === 'number' ? preventNumberScrolling : undefined}
         {...props}
@@ -173,3 +179,12 @@ export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
 export const preventNumberScrolling = (e) => e.target.blur();
+
+export const getInputErrors = (errors, name) => {
+  const error = get(errors, name);
+  if (error?.type === 'required') {
+    return i18n.t('common:REQUIRED');
+  } else {
+    return error?.message;
+  }
+};

@@ -33,7 +33,6 @@ const UnitWithHookForm = (props) => {
         errors={errors[props.name]}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
-        hookFormSetError={setError}
         hookFromWatch={watch}
         control={control}
         {...props}

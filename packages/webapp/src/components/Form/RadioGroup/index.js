@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -28,11 +28,6 @@ export default function RadioGroup({
     rules: { validate },
     shouldUnregister,
   });
-  useEffect(() => {
-    if (!props.disabled) {
-      field.onChange(field.value);
-    }
-  }, [props.disabled]);
 
   const YES = showNotSure ? 'YES' : true;
   const NO = showNotSure ? 'NO' : false;

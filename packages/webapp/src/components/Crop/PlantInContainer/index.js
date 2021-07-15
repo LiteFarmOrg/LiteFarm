@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -151,6 +151,7 @@ export default function PurePlantInContainer({
                 style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
+                errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
               />
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
@@ -161,6 +162,7 @@ export default function PurePlantInContainer({
                 style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
+                errors={getInputErrors(errors, PLANTS_PER_CONTAINER)}
               />
             </div>
           )}
@@ -171,6 +173,7 @@ export default function PurePlantInContainer({
               style={{ paddingBottom: '40px' }}
               type={'number'}
               onKeyDown={integerOnKeyDown}
+              errors={getInputErrors(errors, TOTAL_PLANTS)}
             />
           )}
 
@@ -185,7 +188,6 @@ export default function PurePlantInContainer({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               optional
@@ -202,7 +204,6 @@ export default function PurePlantInContainer({
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}
-                hookFormSetError={setError}
                 hookFromWatch={watch}
                 control={control}
                 required
@@ -240,7 +241,6 @@ export default function PurePlantInContainer({
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}
-                hookFormSetError={setError}
                 hookFromWatch={watch}
                 control={control}
                 required
@@ -256,7 +256,6 @@ export default function PurePlantInContainer({
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}
-                hookFormSetError={setError}
                 hookFromWatch={watch}
                 control={control}
                 required

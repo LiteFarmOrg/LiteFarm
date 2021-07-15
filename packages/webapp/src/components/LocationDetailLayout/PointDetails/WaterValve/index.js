@@ -157,7 +157,6 @@ export default function PureWaterValve({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             optional

@@ -104,7 +104,7 @@ export default function PurePlantingLocation({
 }
 
 PurePlantingLocation.prototype = {
-  selectedLocation: PropTypes.object,
+  selectedLocationId: PropTypes.object,
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,

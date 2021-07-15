@@ -867,6 +867,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
+    "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
@@ -896,6 +897,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",

@@ -866,6 +866,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
+    "DROP_PIN": "MISSING",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
@@ -895,6 +896,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
+    "REMOVE_PIN": "MISSING",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "MISSING",
       "NUMBER_OF_ROWS": "MISSING",

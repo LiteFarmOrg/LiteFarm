@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
+import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
+import { ReactComponent as MapPin } from '../../../assets/images/map/map_pin.svg';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -35,9 +38,19 @@ export default function PurePlantingLocation({
     <>
       <Layout
         buttonGroup={
-          <Button disabled={!selectedLocationId} onClick={onContinue} fullLength>
-            {t('common:CONTINUE')}
-          </Button>
+          <>
+            <Button disabled={!selectedLocationId} onClick={onContinue} fullLength>
+              {t('common:CONTINUE')}
+            </Button>
+            <Button color={'secondary'} fullLength>
+              <LocationPin></LocationPin>
+              {t('MANAGEMENT_PLAN.DROP_PIN')}
+            </Button>
+            <Button color={'secondary'} fullLength>
+              <Cross />
+              {t('MANAGEMENT_PLAN.REMOVE_PIN')}
+            </Button>
+          </>
         }
       >
         <MultiStepPageTitle

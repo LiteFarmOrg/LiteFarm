@@ -17,7 +17,7 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
     '--recursive',
     '--endpoint=https://nyc3.digitaloceanspaces.com',
     '--exclude=*',
-  ].concat(files.map((fileName) => `--include=${fileName.split('/').pop()}`))
+  ].concat(files.map(({ url }) => `--include=${url.split('/').pop()}`))
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
     done();

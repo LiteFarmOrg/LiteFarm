@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { useTranslation } from 'react-i18next';
-import { Main, Title, Underlined } from '../../Typography';
-import Button from '../../Form/Button';
-import Layout from '../../Layout';
+import { Main, Title, Underlined } from '../../../Typography';
+import Button from '../../../Form/Button';
+import Layout from '../../../Layout';
 import PropTypes from 'prop-types';
 import PureViewUnsupportedCertification from '../PureViewUnsupportedCertification';
-import { PureSnackbar } from '../../PureSnackbar';
+import { PureSnackbar } from '../../../PureSnackbar';
 
 export default function PureViewSupportedCertification({
   supportedCertifier,

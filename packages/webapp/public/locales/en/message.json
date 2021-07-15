@@ -102,6 +102,11 @@
     "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
   },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "UPDATE": "Failed to update certification!"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "Failed to add sale",

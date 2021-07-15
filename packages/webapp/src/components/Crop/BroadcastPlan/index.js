@@ -170,7 +170,6 @@ function PureBroadcastPlan({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           style={{ flex: '1 1 0px' }}
@@ -202,7 +201,6 @@ function PureBroadcastPlan({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required
@@ -218,7 +216,6 @@ function PureBroadcastPlan({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required

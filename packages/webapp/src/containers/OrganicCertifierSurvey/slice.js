@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from '../userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../../util';
+import { pick } from '../../util/pick';
 
-const certifierSurveyProperties = [
+export const certifierSurveyProperties = [
   'certification_id',
   'certifier_id',
   'farm_id',
@@ -13,7 +13,7 @@ const certifierSurveyProperties = [
   'survey_id',
 ];
 
-const addOneCertifier = (state, { payload }) => {
+const upsertOneOrganicCertifierSurvey = (state, { payload }) => {
   state.loading = false;
   state.error = null;
   certifierSurveyAdapter.upsertOne(state, pick(payload, certifierSurveyProperties));
@@ -32,8 +32,9 @@ const slice = createSlice({
   reducers: {
     onLoadingCertifierSurveyStart: onLoadingStart,
     onLoadingCertifierSurveyFail: onLoadingFail,
-    getCertificationSurveysSuccess: addOneCertifier,
-    postCertifiersSuccess: addOneCertifier,
+    getCertificationSurveysSuccess: upsertOneOrganicCertifierSurvey,
+    postOrganicCertifierSurveySuccess: upsertOneOrganicCertifierSurvey,
+    putOrganicCertifierSurveySuccess: upsertOneOrganicCertifierSurvey,
     patchRequestedCertifiersSuccess(state, { payload: { requested_certifier, farm_id } }) {
       certifierSurveyAdapter.updateOne(state, {
         changes: { requested_certifier },
@@ -56,7 +57,8 @@ const slice = createSlice({
 });
 export const {
   getCertificationSurveysSuccess,
-  postCertifiersSuccess,
+  postOrganicCertifierSurveySuccess,
+  putOrganicCertifierSurveySuccess,
   patchRequestedCertifiersSuccess,
   patchRequestedCertificationSuccess,
   patchInterestedSuccess,

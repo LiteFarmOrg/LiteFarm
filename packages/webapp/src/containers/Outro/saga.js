@@ -19,6 +19,7 @@ import { loginSelector, patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { axios, getHeader } from '../saga';
 import history from '../../history';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 
@@ -41,6 +42,7 @@ export function* patchOutroStepSaga() {
     );
     yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
     history.push('/');
+    yield put(resetAndUnLockFormData());
   } catch (e) {
     console.error('failed to update table');
   }

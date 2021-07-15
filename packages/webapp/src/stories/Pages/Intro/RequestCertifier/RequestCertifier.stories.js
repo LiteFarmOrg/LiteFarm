@@ -1,5 +1,5 @@
 import React from 'react';
-import PureRequestCertifier from '../../../../components/RequestCertifier';
+import { PureRequestCertifier } from '../../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
@@ -11,15 +11,38 @@ export default {
 
 const Template = (args) => <PureRequestCertifier {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
-  certificationType: {
-    certificationName: 'Other',
-    certification_id: null,
-    requestedCertification: 'Certification',
-  },
+export const RequestedCertification = Template.bind({});
+RequestedCertification.args = {
+  certificationName: 'Other',
+  isRequestedCertification: true,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
   onGoBack: () => {},
 };
-Primary.parameters = {
+RequestedCertification.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const WithSupportedCertifier = Template.bind({});
+WithSupportedCertifier.args = {
+  certificationName: 'Organic',
+  isRequestedCertification: false,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
+  onGoBack: () => {},
+};
+WithSupportedCertifier.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const NoSupportedCertifier = Template.bind({});
+NoSupportedCertifier.args = {
+  certificationName: 'Organic',
+  isRequestedCertification: false,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
+  onGoBack: () => {},
+};
+NoSupportedCertifier.parameters = {
   ...chromaticSmallScreen,
 };

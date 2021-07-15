@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
-import { pick } from '../../util';
+import { pick } from '../../util/pick';
 
 const getWeather = (payload) => {
   return pick(payload, [

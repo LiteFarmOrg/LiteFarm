@@ -82,7 +82,7 @@ export function* postFarmSaga({ payload: farm }) {
 
 export const patchFarm = createAction('patchFarmSaga');
 export function* patchFarmSaga({ payload: farm }) {
-  const { user_id, farm_id } = yield select(loginSelector);
+  const { user_id, farm_id, step_one } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
   let patchFarmData = {
@@ -95,7 +95,14 @@ export function* patchFarmSaga({ payload: farm }) {
   try {
     const patchedFarm = yield call(axios.patch, `${farmUrl}/${farm_id}`, patchFarmData, header);
     const farm = patchedFarm.data[0];
-    yield put(patchFarmSuccess({ ...farm, user_id }));
+    if (!step_one) {
+      const step = {
+        step_one: true,
+        step_one_end: new Date(),
+      };
+      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
+    }
+    yield put(patchFarmSuccess({ ...farm, user_id, step_one: true }));
     history.push('/role_selection');
   } catch (e) {
     console.error(e);

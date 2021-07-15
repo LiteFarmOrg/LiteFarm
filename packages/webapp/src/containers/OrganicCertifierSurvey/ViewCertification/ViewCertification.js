@@ -1,37 +1,40 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../slice';
-import PureViewSupportedCertification from '../../../components/ViewCertification/PureViewSupportedCertification';
-import PureViewUnsupportedCertification from '../../../components/ViewCertification/PureViewUnsupportedCertification';
-import PureViewNotInterestedInCertification from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
+import PureViewSupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
+import PureViewNotInterestedInCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
 
-import { certifiersByCertificationSelector, certifierSelector } from '../certifierSlice';
+import { certifierSelector } from '../certifierSlice';
 import { useEffect } from 'react';
-import { getCertificationSurveys } from '../saga';
-import { certificationSelector } from '../certificationSlice';
+import {
+  getAllSupportedCertifications,
+  getAllSupportedCertifiers,
+  getCertificationSurveys,
+} from '../saga';
 import { useTranslation } from 'react-i18next';
+import { resetAndUnLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useCertificationName } from '../useCertificationName';
 
 export default function ViewCertification({ history }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCertificationSurveys());
+    dispatch(getAllSupportedCertifications());
+    dispatch(getAllSupportedCertifiers());
   }, []);
   const { interested } = useSelector(certifierSurveySelector);
-  const organicSurvey = useSelector(certifierSurveySelector);
-  const certification = useSelector(certificationSelector);
-  const certificationName = t(`certifications:${certification?.certification_translation_key}`);
+  const survey = useSelector(certifierSurveySelector);
+  const { certificationName } = useCertificationName();
   const certifier = useSelector(certifierSelector);
-
-  const allSupportedCertifierTypes = useSelector(
-    certifiersByCertificationSelector(certification?.certification_id),
-  );
-
-  const isNotSupported =
-    certification?.certificationName === 'Other' || allSupportedCertifierTypes.length < 1;
+  const isNotSupported = survey?.requested_certification || survey?.requested_certifier;
   const onExport = () => {
     history.push('/certification/report_period');
   };
-  const onAddCertification = () => history.push('/certification/interested_in_organic');
+  const onAddCertification = () => {
+    dispatch(resetAndUnLockFormData());
+    history.push('/certification/interested_in_organic');
+  };
   const onChangePreference = onAddCertification;
   const showSuccessSnackBar = history.location?.state?.success;
 
@@ -48,7 +51,7 @@ export default function ViewCertification({ history }) {
           onExport={onExport}
           onChangeCertificationPreference={onChangePreference}
           unsupportedCertificationName={certificationName}
-          unsupportedCertifierName={organicSurvey.requested_certifier}
+          unsupportedCertifierName={survey.requested_certifier}
         />
       ) : (
         <PureViewSupportedCertification

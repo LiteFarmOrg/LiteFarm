@@ -5,6 +5,11 @@
   color: var(--error);
   font-style: normal;
   font-family: 'Open Sans', 'SansSerif', serif;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .clickable {
   cursor: pointer;

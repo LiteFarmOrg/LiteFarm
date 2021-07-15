@@ -1,6 +1,6 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import Input, { integerOnKeyDown } from '../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../Form/Input';
 import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
@@ -75,6 +75,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
         hookFormRegister={register(NAME, { required: true })}
+        errors={getInputErrors(errors, NAME)}
       />
       <Controller
         control={control}

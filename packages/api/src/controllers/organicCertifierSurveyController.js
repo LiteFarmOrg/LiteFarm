@@ -196,17 +196,16 @@ const organicCertifierSurveyController = {
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
             cp.genetically_engineered
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
-            WHERE mp.seed_date < :to_date::date 
-            AND (mp.completed_date IS NULL OR mp.completed_date > :from_date::date)
+            WHERE (mp.completed_date IS NULL OR mp.completed_date > :from_date::date)
             AND (mp.abandoned_date IS NULL OR mp.abandoned_date > :from_date::date)
-            AND (mp.start_date IS NOT NULL AND mp.start_date < :to_date::date)
+            AND mp.start_date IS NOT NULL AND mp.start_date < :to_date::date
             AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id });
       const { first_name } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,
         files, farm_id, email, first_name, farm_name,
         from_date, to_date, submission: '60e455b2fdef070001d06b6c' };
-      res.status(200).json({ message: 'Processing' });
+      res.status(200).json({ message: 'Processing', records: records.rows });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })
     }

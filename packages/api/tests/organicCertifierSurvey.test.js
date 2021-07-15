@@ -37,7 +37,12 @@ describe('organicCertifierSurvey Tests', () => {
   let ownerFarm;
 
   beforeAll(() => {
-    token = global.token;
+    middleware = require('../src/middleware/acl/checkJwt');
+    middleware.mockImplementation((req, res, next) => {
+      req.user = {};
+      req.user.user_id = req.get('user_id');
+      next();
+    });
   });
 
 
@@ -119,13 +124,6 @@ describe('organicCertifierSurvey Tests', () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     [ownerFarm] = await mocks.userFarmFactory({ promisedUser: [owner], promisedFarm: [farm] }, fakeUserFarm(1));
-
-    middleware = require('../src/middleware/acl/checkJwt');
-    middleware.mockImplementation((req, res, next) => {
-      req.user = {};
-      req.user.user_id = req.get('user_id');
-      next();
-    });
   });
 
   afterAll(async (done) => {
@@ -512,7 +510,7 @@ describe('organicCertifierSurvey Tests', () => {
       }
     }
     test('Should get records that were active before the to_date and NOT completed before the from date' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory();
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm : [ { farm_id } ]}, mocks.fakeCropVariety({organic: true}));
       const completeBeforeTheToDate = await mocks.management_planFactory({
         promisedFarm: [ { farm_id }],
@@ -535,7 +533,7 @@ describe('organicCertifierSurvey Tests', () => {
     });
 
     test('Should get records that were active before the to_date and NOT abandoned' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory();
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm : [ { farm_id } ]}, mocks.fakeCropVariety({organic: true}));
       const completeBeforeTheToDate = await mocks.management_planFactory({
         promisedFarm: [ { farm_id }],
@@ -558,7 +556,7 @@ describe('organicCertifierSurvey Tests', () => {
     });
 
     test('Should get no records if no management plans (Possible failure scenario in the future)' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory();
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
       getExportRequest({
         from_date: '2021-02-01',
         to_date: '2021-05-20',

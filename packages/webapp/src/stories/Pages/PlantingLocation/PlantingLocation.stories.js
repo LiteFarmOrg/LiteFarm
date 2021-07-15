@@ -18,6 +18,18 @@ PlantingLocationPage.args = {
   onCancel: () => {},
   setSelectedLocation: () => {},
   useHookFormPersist: () => {},
-  persistedFormData: { needs_tranplant: 'true' },
+  persistedFormData: { needs_transplant: 'true' },
+  persistedPath: [],
+};
+
+export const PlantingLocationWild = Template.bind({});
+PlantingLocationWild.args = {
+  selectedLocation: {},
+  onContinue: () => {},
+  onGoBack: () => {},
+  onCancel: () => {},
+  setSelectedLocation: () => {},
+  useHookFormPersist: () => {},
+  persistedFormData: { wild_crop: 'true' },
   persistedPath: [],
 };

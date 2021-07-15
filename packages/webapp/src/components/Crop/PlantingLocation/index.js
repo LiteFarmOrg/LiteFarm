@@ -76,7 +76,7 @@ export default function PurePlantingLocation({
           <div className={styles.shown_label}>{t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}</div>
         </div>
 
-        {pinMode && (
+        {persistedFormData.wild_crop && pinMode && (
           <Button
             color={'secondary'}
             style={{ marginBottom: '25px' }}
@@ -87,7 +87,7 @@ export default function PurePlantingLocation({
             {t('MANAGEMENT_PLAN.REMOVE_PIN')}
           </Button>
         )}
-        {!pinMode && (
+        {persistedFormData.wild_crop && !pinMode && (
           <Button
             color={'secondary'}
             style={{ marginBottom: '25px' }}

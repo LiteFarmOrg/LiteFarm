@@ -153,14 +153,14 @@ export const seedAmounts = {
 
 export const seedYield = {
   metric: {
-    units: ['g', 'kg'],
+    units: ['kg', 'mt'],
     defaultUnit: 'kg',
     breakpoints: [1000],
   },
   imperial: {
-    units: ['oz', 'lb'],
+    units: ['lb', 't'],
     defaultUnit: 'lb',
-    breakpoints: [16],
+    breakpoints: [2000],
   },
   databaseUnit: databaseUnit.mass,
 };

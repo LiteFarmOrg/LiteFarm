@@ -241,6 +241,10 @@ const PlantedAlready = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantedAlready'),
 );
 
+const NextHarvest = React.lazy(() =>
+import('./containers/Crop/AddManagementPlan/NextHarvest'),
+);
+
 const Documents = React.lazy(() => import('./containers/Documents'));
 
 const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
@@ -388,6 +392,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
               component={Transplant}
+            />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/next_harvest"
+              exact
+              component={NextHarvest}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/planting_date"
@@ -641,6 +650,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
               component={Transplant}
+            />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/next_harvest"
+              exact
+              component={NextHarvest}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/planting_date"

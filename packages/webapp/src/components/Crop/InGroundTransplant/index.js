@@ -15,10 +15,16 @@ import { ReactComponent as Monocrop } from '../../../assets/images/plantingMetho
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 
+const BROADCAST = 'BROADCAST';
 const CONTAINER = 'CONTAINER';
 const BEDS = 'BEDS';
 const ROWS = 'ROWS';
 const images = {
+  [BROADCAST]: [
+    `${DO_CDN_URL}/planting_method/Broadcast_1.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_2.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_3.jpg`,
+  ],
   [CONTAINER]: [
     `${DO_CDN_URL}/planting_method/Individual_1.jpg`,
     `${DO_CDN_URL}/planting_method/Individual_2.jpg`,
@@ -42,6 +48,7 @@ export default function PureInGroundTransplant({
   onContinue,
   useHookFormPersist,
   persistedFormData,
+  variety_id,
 }) {
   const { t } = useTranslation();
 
@@ -133,7 +140,8 @@ export default function PureInGroundTransplant({
                 {
                   label: t('MANAGEMENT_PLAN.INDIVIDUAL_CONTAINER'),
                   value: CONTAINER,
-                }
+                },
+                { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
               ]}
               required
             />

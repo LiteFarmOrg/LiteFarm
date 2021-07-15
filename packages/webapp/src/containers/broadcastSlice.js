@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
-import { pick } from '../util';
+import { pick } from '../util/pick';
 
 export const cropManagementPlanProperties = [
   'estimated_revenue',

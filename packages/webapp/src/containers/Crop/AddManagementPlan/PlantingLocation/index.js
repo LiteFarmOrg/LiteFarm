@@ -19,16 +19,21 @@ export default function PlantingLocation({ history, match }) {
   );
   const variety_id = match.params.variety_id;
 
+  const isWildCrop = Boolean(persistedFormData.wild_crop);
   const persistedPath = isTransplantPage
     ? [
-        `/crop/${variety_id}/add_management_plan/transplant_container`,
-        `/crop/${variety_id}/add_management_plan/planting_method`,
-      ]
+      `/crop/${variety_id}/add_management_plan/transplant_container`,
+      `/crop/${variety_id}/add_management_plan/planting_method`,
+    ]
     : [
-        `/crop/${variety_id}/add_management_plan/transplant_container`,
-        `/crop/${variety_id}/add_management_plan/planting_method`,
-        `/crop/${variety_id}/add_management_plan/planting_date`,
-      ];
+      `/crop/${variety_id}/add_management_plan/transplant_container`,
+      `/crop/${variety_id}/add_management_plan/planting_method`,
+      `/crop/${variety_id}/add_management_plan/planting_date`,
+    ];
+
+  if (isWildCrop && !isTransplantPage) {
+    persistedPath.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
+  }
 
   const dispatch = useDispatch();
 
@@ -50,7 +55,11 @@ export default function PlantingLocation({ history, match }) {
       history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
       dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
     } else {
-      history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
+      if (isWildCrop) {
+        history.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
+      } else {
+        history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
+      }
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
     }
   };

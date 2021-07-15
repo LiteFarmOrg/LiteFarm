@@ -3,28 +3,23 @@ import {
   getCertificationSurveysSuccess,
   onLoadingCertifierSurveyFail,
   onLoadingCertifierSurveyStart,
-  patchInterestedSuccess,
-  patchRequestedCertificationSuccess,
-  patchRequestedCertifiersSuccess,
-  postCertifiersSuccess,
+  postOrganicCertifierSurveySuccess,
+  putOrganicCertifierSurveySuccess,
 } from './slice';
 import { createAction } from '@reduxjs/toolkit';
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { url, userFarmUrl } from '../../apiConfig';
-import { loginSelector, patchStepFourSuccess } from '../userFarmSlice';
+import { loginSelector, patchStepFourSuccess, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import history from '../../history';
 import { getCertificationsSuccess } from './certificationSlice';
 import { getCertifiersSuccess } from './certifierSlice';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import i18n from '../../locales/i18n';
 
 const getSurveyUrl = (farm_id) => `${url}/organic_certifier_survey/${farm_id}`;
 const postUrl = () => url + '/organic_certifier_survey';
-const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
-const patchRequestedCertifierUrl = (survey_id) =>
-  `${url}/organic_certifier_survey/${survey_id}/requested_certifier`;
-const patchInterestedUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/interested`;
-const patchRequestedCertificationUrl = (survey_id) =>
-  `${url}/organic_certifier_survey/${survey_id}/requested_certification`;
+const putUrl = () => url + '/organic_certifier_survey';
 const patchStepUrl = (farm_id, user_id) =>
   `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
@@ -37,10 +32,6 @@ export function* getCertificationSurveysSaga() {
     const header = getHeader(user_id, farm_id);
     const result = yield call(axios.get, getSurveyUrl(farm_id), header);
     yield put(getCertificationSurveysSuccess(result.data));
-    yield all([
-      put(getAllSupportedCertifications()),
-      put(getAllSupportedCertifiers(result.data.certification_id)),
-    ]);
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail(e));
     console.log('failed to fetch certifiers from database');
@@ -48,6 +39,7 @@ export function* getCertificationSurveysSaga() {
 }
 
 export const getAllSupportedCertifications = createAction(`getAllSupportedCertificationsSaga`);
+
 export function* getAllSupportedCertificationsSaga() {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
@@ -64,13 +56,14 @@ export function* getAllSupportedCertificationsSaga() {
 }
 
 export const getAllSupportedCertifiers = createAction(`getAllSupportedCertifiersSaga`);
-export function* getAllSupportedCertifiersSaga({ payload }) {
+
+export function* getAllSupportedCertifiersSaga() {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const result = yield call(
       axios.get,
-      `${url}/organic_certifier_survey/${farm_id}/supported_certifiers/${payload}`,
+      `${url}/organic_certifier_survey/${farm_id}/supported_certifiers`,
       header,
     );
     yield put(getCertifiersSuccess(result.data));
@@ -79,19 +72,43 @@ export function* getAllSupportedCertifiersSaga({ payload }) {
   }
 }
 
-export const postCertifiers = createAction(`postCertifiersSaga`);
+export const postOrganicCertifierSurvey = createAction(`postOrganicCertifierSurveySaga`);
 
-export function* postCertifiersSaga({ payload }) {
+export function* postOrganicCertifierSurveySaga({ payload }) {
   try {
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const { survey, callback } = payload;
     const surveyReqBody = { ...survey, farm_id };
-    // only non-deleted users
     const result = yield call(axios.post, postUrl(), surveyReqBody, header);
-    yield put(postCertifiersSuccess(result.data));
-    if (!survey?.interested) {
-      let step = {
+    yield put(postOrganicCertifierSurveySuccess(result.data));
+
+    const step = {
+      step_four: true,
+      step_four_end: new Date(),
+    };
+    yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+    yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
+
+    callback && callback();
+  } catch (e) {
+    console.log('failed to add certifiers');
+    yield put(enqueueErrorSnackbar(i18n.t('message:ORGANIC_CERTIFIER_SURVEY.ERROR.CREATE')));
+  }
+}
+
+export const putOrganicCertifierSurvey = createAction(`putOrganicCertifierSurveySaga`);
+
+export function* putOrganicCertifierSurveySaga({ payload }) {
+  try {
+    const { user_id, farm_id, step_four } = yield select(userFarmSelector);
+    const header = getHeader(user_id, farm_id);
+    const { survey, callback } = payload;
+    const surveyReqBody = { ...survey, farm_id };
+    const result = yield call(axios.put, putUrl(), surveyReqBody, header);
+    yield put(putOrganicCertifierSurveySuccess(result.data));
+    if (!step_four) {
+      const step = {
         step_four: true,
         step_four_end: new Date(),
       };
@@ -101,6 +118,7 @@ export function* postCertifiersSaga({ payload }) {
     callback && callback();
   } catch (e) {
     console.log('failed to add certifiers');
+    yield put(enqueueErrorSnackbar(i18n.t('message:ORGANIC_CERTIFIER_SURVEY.ERROR.UPDATE')));
   }
 }
 
@@ -125,72 +143,11 @@ export function* patchStepFourSaga({ payload }) {
   }
 }
 
-export const patchRequestedCertifiers = createAction(`patchRequestedCertifiersSaga`);
-
-export function* patchRequestedCertifiersSaga({ payload }) {
-  const survey = yield select(certifierSurveySelector);
-  try {
-    const { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id, farm_id);
-    const { data, callback } = payload;
-    const body = { ...survey, data };
-    yield call(axios.patch, patchRequestedCertifierUrl(survey.survey_id), body, header);
-    yield put(patchRequestedCertifiersSuccess({ data, farm_id }));
-    callback && callback();
-  } catch (e) {
-    console.log('failed to add requested certifiers');
-  }
-}
-
-export const patchRequestedCertification = createAction(`patchRequestedCertificationSaga`);
-
-export function* patchRequestedCertificationSaga({ payload }) {
-  try {
-    const survey = yield select(certifierSurveySelector);
-    const { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id, farm_id);
-    const { data, callback } = payload;
-    const body = { ...survey, data };
-    yield call(axios.patch, patchRequestedCertificationUrl(survey.survey_id), body, header);
-    yield put(patchRequestedCertificationSuccess({ data, farm_id }));
-    callback && callback();
-  } catch (e) {
-    console.log('failed to add requested certifications');
-  }
-}
-
-export const patchInterested = createAction(`patchInterestedSaga`);
-
-export function* patchInterestedSaga({ payload }) {
-  const survey = yield select(certifierSurveySelector);
-  try {
-    const { user_id, farm_id } = yield select(loginSelector);
-    const header = getHeader(user_id, farm_id);
-    const { interested, callback } = payload;
-    const body = { ...survey, interested };
-    yield call(axios.patch, patchInterestedUrl(survey.survey_id), body, header);
-    yield put(patchInterestedSuccess({ interested, farm_id }));
-    if (!interested) {
-      let step = {
-        step_four: true,
-        step_four_end: new Date(),
-      };
-      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-      yield put(patchStepFourSuccess({ ...step, user_id, farm_id }));
-    }
-    callback && callback();
-  } catch (e) {
-    console.log('failed to add certifiers');
-  }
-}
-
 export default function* certifierSurveySaga() {
-  yield takeLeading(patchInterested.type, patchInterestedSaga);
   yield takeLatest(getCertificationSurveys.type, getCertificationSurveysSaga);
-  yield takeLeading(postCertifiers.type, postCertifiersSaga);
+  yield takeLeading(postOrganicCertifierSurvey.type, postOrganicCertifierSurveySaga);
+  yield takeLeading(putOrganicCertifierSurvey.type, putOrganicCertifierSurveySaga);
   yield takeLatest(getAllSupportedCertifications.type, getAllSupportedCertificationsSaga);
   yield takeLatest(getAllSupportedCertifiers.type, getAllSupportedCertifiersSaga);
-  yield takeLeading(patchRequestedCertifiers.type, patchRequestedCertifiersSaga);
-  yield takeLeading(patchRequestedCertification.type, patchRequestedCertificationSaga);
   yield takeLeading(patchStepFour.type, patchStepFourSaga);
 }

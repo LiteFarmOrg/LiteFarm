@@ -137,7 +137,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -164,7 +163,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -184,7 +182,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
@@ -203,7 +200,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}

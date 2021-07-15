@@ -917,7 +917,8 @@
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
-    "PLAN_AND_ID_plural": "MISSING"
+    "PLAN_AND_ID_plural": "MISSING",
+    "NEXT_HARVEST": "When do you expect your next harvest?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

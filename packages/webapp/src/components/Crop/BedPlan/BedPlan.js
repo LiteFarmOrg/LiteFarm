@@ -156,7 +156,6 @@ function PureBedPlan({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           required
@@ -172,7 +171,6 @@ function PureBedPlan({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           required
@@ -196,7 +194,6 @@ function PureBedPlan({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -212,7 +209,6 @@ function PureBedPlan({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required

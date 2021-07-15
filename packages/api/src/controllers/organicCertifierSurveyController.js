@@ -73,8 +73,8 @@ const organicCertifierSurveyController = {
   getAllSupportedCertifiers() {
     return async (req, res) => {
       try {
-        const { farm_id, certification_id } = req.params;
-        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_id', certification_id);
+        const { farm_id } = req.params;
+        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -104,76 +104,15 @@ const organicCertifierSurveyController = {
     };
   },
 
-  patchCertifiers() {
+  putOrganicCertifierSurvey() {
     return async (req, res) => {
-      const survey_id = req.params.survey_id;
       try {
         const user_id = req.user.user_id;
-        const certifiers = req.body.certifiers || [];
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certifiers });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  patchRequestedCertifiers() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const requested_certifier = req.body.data.requested_certifier || null;
-        const certifier_id = req.body.data.certifier_id || null;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({
-          requested_certifier,
-          certifier_id,
-        });
-        res.sendStatus(200);
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(req.body.survey_id).update(req.body).returning('*');
+        return res.status(200).send(result);
       } catch (error) {
         console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  patchRequestedCertification() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const requested_certification = req.body.data.requested_certification || null;
-        const certification_id = req.body.data.certification_id || null;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({
-          certification_id,
-          requested_certification,
-        });
-
-        res.sendStatus(200);
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-
-  patchInterested() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const interested = req.body.interested;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ interested });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

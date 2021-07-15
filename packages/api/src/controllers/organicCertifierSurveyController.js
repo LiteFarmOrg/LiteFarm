@@ -196,10 +196,11 @@ const organicCertifierSurveyController = {
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
             cp.genetically_engineered
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
-            WHERE mp.seed_date < ?::date 
-            AND (mp.completed_date IS NULL OR mp.completed_date > ?::date)
-            AND (mp.abandoned_date IS NULL OR mp.abandoned_date > ?::date)
-            AND cp.organic IS NOT NULL AND cp.farm_id  = ?`, [to_date, from_date, from_date, farm_id]);
+            WHERE mp.seed_date < :to_date::date 
+            AND (mp.completed_date IS NULL OR mp.completed_date > :from_date::date)
+            AND (mp.abandoned_date IS NULL OR mp.abandoned_date > :from_date::date)
+            AND (mp.start_date IS NOT NULL AND mp.start_date < :to_date::date)
+            AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id });
       const { first_name } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,

@@ -102,6 +102,11 @@
     "SUCCESS_PATCH": " se actualizo exitosamente",
     "SUCCESS_POST": " se creo exitosamente"
   },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "UPDATE": "MISSING"
+    }
+  },
   "SALE": {
     "ERROR": {
       "ADD": "No se pudo agregar venta",

@@ -105,6 +105,13 @@ const hookFormPersistSlice = createSlice({
     initEditDocument: (state, { payload: files }) => {
       state.formData.uploadedFiles = files;
     },
+    setCertifierId: (state, { payload: certifier_id }) => {
+      state.formData.certifier_id = certifier_id;
+      delete state.formData.requested_certifier;
+    },
+    setInterested: (state, { payload: interested }) => {
+      state.formData.interested = interested;
+    },
   },
 });
 
@@ -122,6 +129,8 @@ export const {
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,
+  setCertifierId,
+  setInterested,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

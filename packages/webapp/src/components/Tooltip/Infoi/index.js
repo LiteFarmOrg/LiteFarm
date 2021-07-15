@@ -1,4 +1,4 @@
-import { AiOutlineInfoCircle } from 'react-icons/all';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import OverlayTooltip from '../index';
 import React from 'react';
 import PropTypes from 'prop-types';

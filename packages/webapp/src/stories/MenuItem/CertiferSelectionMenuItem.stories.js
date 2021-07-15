@@ -1,5 +1,5 @@
 import React from 'react';
-import CertifierSelectionMenuItem from '../../components/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import CertifierSelectionMenuItem from '../../components/OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 
 export default {
   title: 'Components/MenuItem/CertifierSelection',

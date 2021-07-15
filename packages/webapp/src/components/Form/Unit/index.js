@@ -12,7 +12,7 @@ import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import Infoi from '../../Tooltip/Infoi';
-import { Controller } from 'react-hook-form';
+import { Controller, get, useFormState } from 'react-hook-form';
 
 export const getUnitOptionMap = () => ({
   m2: { label: 'm²', value: 'm2' },
@@ -110,7 +110,6 @@ const Unit = ({
   label,
   optional,
   info,
-  errors,
   register,
   name,
   displayUnitName,
@@ -131,14 +130,16 @@ const Unit = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
-    hookFormSetHiddenValue('', { shouldClearError: true });
     setVisibleInputValue('');
+    hookFormSetHiddenValue('', { shouldClearError: true, shouldValidate: false });
   };
 
   const [showError, setShowError] = useState();
+  const { errors } = useFormState({ control });
+  const error = get(errors, name);
   useEffect(() => {
-    setShowError(!!errors && !disabled);
-  }, [errors]);
+    setShowError(!!error && !disabled);
+  }, [error]);
 
   const {
     displayUnit,
@@ -189,6 +190,7 @@ const Unit = ({
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
+      (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
     }
   }, [hookFormUnit]);
 
@@ -211,18 +213,12 @@ const Unit = ({
   };
 
   const hookFormSetHiddenValue = useCallback(
-    (value, { shouldDirty = false, shouldClearError } = {}) => {
+    (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
       hookFormSetValue(name, value, {
-        shouldValidate: true,
+        shouldValidate,
         shouldDirty,
       });
-      //https://develop--60b6712d8009e500398eae5f.chromatic.com/welcome?id=docs-bugs--page&viewMode=story#hookform-trigger-does-not-update-errors-properly-when-there-is-a-required-radiogroup-after-triggered-input-field
-      setTimeout(() => {
-        hookFormSetValue(name, value, {
-          shouldValidate: true,
-        });
-        shouldClearError && setShowError(false);
-      }, 1);
+      shouldClearError && setShowError(false);
     },
     [name],
   );
@@ -233,9 +229,13 @@ const Unit = ({
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
+    } else if (e.target.value >= getMax()) {
+      setVisibleInputValue(max);
+      hookFormSetHiddenValue(getMax(), { shouldDirty: true });
     } else {
-      const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
-      hookFormSetHiddenValue(newHookFormValue, { shouldDirty: true });
+      hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
+        shouldDirty: true,
+      });
     }
   };
   useEffect(() => {
@@ -291,7 +291,7 @@ const Unit = ({
       <div className={styles.inputContainer}>
         <input
           disabled={disabled}
-          className={clsx(styles.input, errors)}
+          className={clsx(styles.input)}
           style={{ ...classes.input }}
           aria-invalid={showError ? 'true' : 'false'}
           type={'number'}
@@ -326,14 +326,14 @@ const Unit = ({
         <div
           className={clsx(
             styles.pseudoInputContainer,
-            errors && styles.inputError,
+            showError && styles.inputError,
             isSelectDisabled && disabled && styles.disableBackground,
           )}
         >
           <div
             className={clsx(
               styles.verticleDivider,
-              errors && styles.inputError,
+              showError && styles.inputError,
               isSelectDisabled && styles.none,
             )}
             style={{ width: `${reactSelectWidth}px` }}
@@ -343,6 +343,7 @@ const Unit = ({
       <input
         className={styles.hiddenInput}
         defaultValue={defaultValue || hookFormValue || ''}
+        type={'number'}
         {...register(name, {
           required: required && t('common:REQUIRED'),
           valueAsNumber: true,
@@ -351,7 +352,7 @@ const Unit = ({
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
-        <Error style={{ position: 'relative', ...classes.errors }}>{errors?.message}</Error>
+        <Error style={{ position: 'relative', ...classes.errors }}>{error?.message}</Error>
       ) : null}
     </div>
   );
@@ -362,7 +363,6 @@ Unit.propTypes = {
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,
-  errors: PropTypes.object,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,

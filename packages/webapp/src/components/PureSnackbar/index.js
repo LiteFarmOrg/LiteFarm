@@ -5,7 +5,7 @@ import { ReactComponent as Cross } from '../../assets/images/map/cross.svg';
 import { ReactComponent as Checkmark } from '../../assets/images/map/checkmark.svg';
 import clsx from 'clsx';
 import ProgressBar from '../Map/ProgressBar';
-import { VscWarning } from 'react-icons/all';
+import { VscWarning } from 'react-icons/vsc';
 
 function Icon({ type = 'success' }) {
   if (type === 'error') return <VscWarning className={styles.errorIcon} />;

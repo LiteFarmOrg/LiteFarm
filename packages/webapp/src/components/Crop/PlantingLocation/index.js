@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker';
@@ -34,6 +34,12 @@ export default function PurePlantingLocation({
 
   const { needs_transplant } = persistedFormData;
 
+  const [pinMode, setPinMode] = useState(false);
+
+  const handlePinMode = () => {
+    pinMode ? setPinMode(false) : setPinMode(true);
+  };
+
   return (
     <>
       <Layout
@@ -41,14 +47,6 @@ export default function PurePlantingLocation({
           <>
             <Button disabled={!selectedLocationId} onClick={onContinue} fullLength>
               {t('common:CONTINUE')}
-            </Button>
-            <Button color={'secondary'} fullLength>
-              <LocationPin></LocationPin>
-              {t('MANAGEMENT_PLAN.DROP_PIN')}
-            </Button>
-            <Button color={'secondary'} fullLength>
-              <Cross />
-              {t('MANAGEMENT_PLAN.REMOVE_PIN')}
             </Button>
           </>
         }
@@ -77,6 +75,29 @@ export default function PurePlantingLocation({
         <div>
           <div className={styles.shown_label}>{t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}</div>
         </div>
+
+        {pinMode && (
+          <Button
+            color={'secondary'}
+            style={{ marginBottom: '25px' }}
+            onClick={handlePinMode}
+            fullLength
+          >
+            <Cross />
+            {t('MANAGEMENT_PLAN.REMOVE_PIN')}
+          </Button>
+        )}
+        {!pinMode && (
+          <Button
+            color={'secondary'}
+            style={{ marginBottom: '25px' }}
+            onClick={handlePinMode}
+            fullLength
+          >
+            <LocationPin />
+            {t('MANAGEMENT_PLAN.DROP_PIN')}
+          </Button>
+        )}
       </Layout>
     </>
   );

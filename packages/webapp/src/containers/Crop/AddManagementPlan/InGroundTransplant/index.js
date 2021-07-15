@@ -4,22 +4,11 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 
 function InGroundTransplant({ history, match }) {
 
-  const onContinue = () => {
-
-  };
-
-  const onCancel = () => {
-  }
-
-  const onGoBack = () => {
-  }
-
   return (
     <HookFormPersistProvider>
       <PureInGroundTransplant
-        onContinue={onContinue}
-        onCancel={onCancel}
-        onGoBack={onGoBack}
+       history={history}
+       match={match}
       />
     </HookFormPersistProvider>
   );

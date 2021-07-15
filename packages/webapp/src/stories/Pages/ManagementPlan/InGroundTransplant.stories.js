@@ -14,9 +14,9 @@ const Template = (args) => <PureInGroundTransplant {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   useHookFormPersist: () => ({}),
-  onGoBack: () => {},
-  onCancel: () => {},
   persistedFormData: {},
+  history: {},
+  match: {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

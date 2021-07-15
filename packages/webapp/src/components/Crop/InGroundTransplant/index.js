@@ -15,16 +15,10 @@ import { ReactComponent as Monocrop } from '../../../assets/images/plantingMetho
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 
-const BROADCAST = 'BROADCAST';
 const CONTAINER = 'CONTAINER';
 const BEDS = 'BEDS';
 const ROWS = 'ROWS';
 const images = {
-  [BROADCAST]: [
-    `${DO_CDN_URL}/planting_method/Broadcast_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_3.jpg`,
-  ],
   [CONTAINER]: [
     `${DO_CDN_URL}/planting_method/Individual_1.jpg`,
     `${DO_CDN_URL}/planting_method/Individual_2.jpg`,
@@ -67,6 +61,13 @@ export default function PureInGroundTransplant({
     shouldUnregister: true,
   });
 
+  const pathsToPersist = [CONTAINER, BEDS, ROWS].map(
+    (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
+  );
+  pathsToPersist.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
+
+  useHookFormPersist([...pathsToPersist], getValues);
+
   const PLANTING_TYPE = 'planting_type';
   const planting_type = watch(PLANTING_TYPE);
 
@@ -78,6 +79,9 @@ export default function PureInGroundTransplant({
   const dismissModal = () => setSelectedImage({});
 
   const disabled = !isValid;
+
+  const seed_type = persistedFormData.seed_type === 'seed' ? 'seeding' : 'planting';
+
 
   return (
     <Form
@@ -112,7 +116,7 @@ export default function PureInGroundTransplant({
         <>
           <Main
             style={{ marginBottom: '18px' }}
-            tooltipContent={t('MANAGEMENT_PLAN.KNOW_HOW_IS_CROP_PLANTED_INFO')}
+            tooltipContent={t('MANAGEMENT_PLAN.KNOW_HOW_IS_CROP_PLANTED_INFO', {seed_type})}
           >
             {t('MANAGEMENT_PLAN.WHAT_WAS_PLANTING_METHOD')}
           </Main>
@@ -129,8 +133,7 @@ export default function PureInGroundTransplant({
                 {
                   label: t('MANAGEMENT_PLAN.INDIVIDUAL_CONTAINER'),
                   value: CONTAINER,
-                },
-                { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
+                }
               ]}
               required
             />

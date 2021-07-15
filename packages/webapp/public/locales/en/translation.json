@@ -917,7 +917,8 @@
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
-    "PLAN_AND_ID_plural": "MISSING"
+    "PLAN_AND_ID_plural": "MISSING",
+    "KNOW_HOW_IS_CROP_PLANTED_INFO": "Selecting the right {{seed_type}} method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

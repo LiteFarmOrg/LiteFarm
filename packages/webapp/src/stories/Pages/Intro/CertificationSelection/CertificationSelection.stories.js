@@ -1,24 +1,22 @@
 import React from 'react';
-import CertificationSelection from '../../../../components/CertificationSelection';
+import { PureCertificationSelection } from '../../../../components/OrganicCertifierSurvey/CertificationSelection/PureCertificationSelection';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
-  title: 'Form/Intro/CertificationSelection',
+  title: 'Form/Intro/PureCertificationSelection',
   decorators: decorators,
-  component: CertificationSelection,
+  component: PureCertificationSelection,
 };
 
-const Template = (args) => <CertificationSelection {...args} />;
+const Template = (args) => <PureCertificationSelection {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  certification: {
-    certificationName: 'Participatory Guarantee System',
+  persistedFormData: {
     certification_id: 2,
-    requestedCertification: null,
   },
-  allSupportedCertificationTypes: [
+  certifications: [
     {
       certification_id: 1,
       certification_type: 'Organic',
@@ -30,9 +28,6 @@ Primary.args = {
       certification_translation_key: 'PGS',
     },
   ],
-  selectedCertification: () => {},
-  dispatch: () => {},
-  onGoBack: () => {},
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

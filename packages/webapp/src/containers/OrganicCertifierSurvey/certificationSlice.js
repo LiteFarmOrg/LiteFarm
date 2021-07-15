@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../../util';
 import { certifierSurveySelector } from './slice';
+import { pick } from '../../util/pick';
 
 const certificationProperties = [
   'certification_id',
@@ -49,7 +49,11 @@ const certificationSelectors = certificationAdapter.getSelectors(
   (state) => state.entitiesReducer[slice.name],
 );
 export const certificationEntitiesSelector = certificationSelectors.selectEntities;
-
+export const certificationByCertificationIdSelector = (certification_id) =>
+  createSelector(
+    [certificationEntitiesSelector],
+    (certificationEntities) => certificationEntities[certification_id],
+  );
 export const certificationsSelector = certificationSelectors.selectAll;
 
 export const certificationSelector = createSelector(

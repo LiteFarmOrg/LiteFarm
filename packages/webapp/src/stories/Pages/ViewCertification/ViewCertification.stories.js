@@ -1,9 +1,9 @@
 import React from 'react';
 import decorators from '../config/decorators';
-import PureViewNotInterestedInCertification from '../../../components/ViewCertification/PureViewNotInterestedInCertification';
+import PureViewNotInterestedInCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewNotInterestedInCertification';
 import { chromaticSmallScreen } from '../config/chromatic';
-import PureViewSupportedCertification from '../../../components/ViewCertification/PureViewSupportedCertification';
-import PureViewUnsupportedCertification from '../../../components/ViewCertification/PureViewUnsupportedCertification';
+import PureViewSupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewSupportedCertification';
+import PureViewUnsupportedCertification from '../../../components/OrganicCertifierSurvey/ViewCertification/PureViewUnsupportedCertification';
 
 export default {
   title: 'Page/ViewCertification',

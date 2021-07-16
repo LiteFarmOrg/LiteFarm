@@ -22,14 +22,14 @@ PlantingLocationPage.args = {
   persistedPath: [],
 };
 
-export const PlantingLocationWild = Template.bind({});
-PlantingLocationWild.args = {
+export const PlantingLocationPin = Template.bind({});
+PlantingLocationPin.args = {
   selectedLocationId: {},
   onContinue: () => {},
   onGoBack: () => {},
   onCancel: () => {},
   setLocationId: () => {},
   useHookFormPersist: () => {},
-  persistedFormData: { wild_crop: 'true' },
+  persistedFormData: { wild_crop: 'true', in_ground: 'true' },
   persistedPath: [],
 };

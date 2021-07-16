@@ -11,7 +11,7 @@ import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
 import MapPin from '../../assets/images/map/map_pin.svg';
 
-const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
+const LocationPicker = ({ className, setLocationId, selectedLocationId, canUsePin }) => {
   const { grid_points } = useSelector(userFarmSelector);
 
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
@@ -52,15 +52,18 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   };
 
   const handleGoogleMapApi = (map, maps) => {
-    map.addListener('click', (e) => {
-      placeMarker(e.latLng, map);
-    });
-    function placeMarker(latLng, map) {
-      new maps.Marker({
-        icon: MapPin,
-        position: latLng,
-        map: map,
+    if (canUsePin) {
+      map.addListener('click', (e) => {
+        placeMarker(e.latLng, map);
       });
+
+      function placeMarker(latLng, map) {
+        new maps.Marker({
+          icon: MapPin,
+          position: latLng,
+          map: map,
+        });
+      }
     }
 
     maps.Polygon.prototype.getPolygonBounds = function () {
@@ -115,7 +118,7 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
-      ></GoogleMap>
+      />
     </div>
   );
 };

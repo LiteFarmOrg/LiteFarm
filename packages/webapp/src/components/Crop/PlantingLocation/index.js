@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker';
@@ -32,12 +32,17 @@ export default function PurePlantingLocation({
 
   useHookFormPersist(persistedPath, getValues);
 
-  const { needs_transplant } = persistedFormData;
-
   const [pinMode, setPinMode] = useState(false);
+
+  const [canUsePin, setCanUsePin] = useState(
+    persistedFormData.wild_crop && persistedFormData.in_ground,
+  );
+
+  const { needs_transplant } = persistedFormData;
 
   const handlePinMode = () => {
     pinMode ? setPinMode(false) : setPinMode(true);
+    setCanUsePin(persistedFormData.wild_crop && persistedFormData.in_ground && pinMode);
   };
 
   return (
@@ -67,11 +72,14 @@ export default function PurePlantingLocation({
             ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION')
             : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
         </div>
+
         <LocationPicker
           className={styles.mapContainer}
           setLocationId={setLocationId}
           selectedLocationId={selectedLocationId}
+          canUsePin={canUsePin}
         />
+
         <div>
           <div className={styles.shown_label}>{t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}</div>
         </div>

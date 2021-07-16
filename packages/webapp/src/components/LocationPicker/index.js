@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -11,10 +11,42 @@ import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
 import MapPin from '../../assets/images/map/map_pin.svg';
 
-const LocationPicker = ({ className, setLocationId, selectedLocationId, canUsePin }) => {
-  const { grid_points } = useSelector(userFarmSelector);
+const LocationPicker = ({
+  className,
+  setLocationId,
+  selectedLocationId,
+  canUsePin,
+  handleCanUsePin,
+}) => {
+  let currentlySelectedMarker = null;
 
+  const { grid_points } = useSelector(userFarmSelector);
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
+
+  console.log('canUsePin in LocationPicker: ' + canUsePin);
+  function placeMarker(latLng, map, maps) {
+    currentlySelectedMarker = new maps.Marker({
+      icon: MapPin,
+      position: latLng,
+      map: map,
+    });
+  }
+
+  const drawPinIfOnPinMode = (latLng, map, maps) => {
+    console.log('canUsePin in drawPinIfOnPinMode: ' + canUsePin);
+    if (canUsePin) {
+      placeMarker(latLng, map, maps); // persist latLng value in persistedFormData
+      handleCanUsePin(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!canUsePin) {
+      // currentlySelectedMarker !== undefined
+      // functionality so currentlySelectedMarker disappears
+      currentlySelectedMarker = null;
+    }
+  }, [canUsePin]);
 
   const getMapOptions = (maps) => {
     return {
@@ -52,19 +84,25 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId, canUsePi
   };
 
   const handleGoogleMapApi = (map, maps) => {
-    if (canUsePin) {
-      map.addListener('click', (e) => {
-        placeMarker(e.latLng, map);
-      });
+    console.log('canUsePin in handleGoogleMapApi: ' + canUsePin);
+    map.addListener('click', (e) => {
+      console.log('clicked');
+      drawPinIfOnPinMode(e.latLng, map, maps);
+    });
 
-      function placeMarker(latLng, map) {
-        new maps.Marker({
-          icon: MapPin,
-          position: latLng,
-          map: map,
-        });
-      }
-    }
+    //   console.log(canUsePin);
+    //   map.addListener('click', (e) => {
+    //     drawPinIfOnPinMode(e.latLng, map)
+    //     placeMarker(e.latLng, map);
+    //   });
+    //
+    //   function placeMarker(latLng, map) {
+    //     new maps.Marker({
+    //       icon: MapPin,
+    //       position: latLng,
+    //       map: map,
+    //     });
+    //   }
 
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
@@ -106,7 +144,6 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId, canUsePi
   return (
     <div className={clsx(className)}>
       <GoogleMap
-        onClick={console.log('hello')}
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{
           key: GMAPS_API_KEY,

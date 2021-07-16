@@ -30,23 +30,24 @@ export default function PurePlantingLocation({
     shouldUnregister: true,
   });
 
+  const { needs_transplant } = persistedFormData;
   useHookFormPersist(persistedPath, getValues);
 
   const [pinMode, setPinMode] = useState(false);
 
   const [canUsePin, setCanUsePin] = useState(
-    persistedFormData.wild_crop && persistedFormData.in_ground,
+    persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
-
-  const { needs_transplant } = persistedFormData;
 
   const handlePinMode = () => {
     pinMode ? setPinMode(false) : setPinMode(true);
-    setCanUsePin(persistedFormData.wild_crop && persistedFormData.in_ground && pinMode);
+    setCanUsePin(persistedFormData.wild_crop && persistedFormData.in_ground && !pinMode);
   };
 
   return (
     <>
+      {console.log('pinMode in PlantingLocation: ' + pinMode)}
+      {console.log('canUsePin in PlantingLocation: ' + canUsePin)}
       <Layout
         buttonGroup={
           <>
@@ -78,6 +79,7 @@ export default function PurePlantingLocation({
           setLocationId={setLocationId}
           selectedLocationId={selectedLocationId}
           canUsePin={canUsePin}
+          handleCanUsePin={setCanUsePin}
         />
 
         <div>

@@ -881,6 +881,7 @@
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
+    "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nombre del plan de manejo",
@@ -914,10 +915,21 @@
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "MISSING",
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
+      },
+      "TITLE": {
+        "PLANTING": "MISSING",
+        "SEEDING": "MISSING",
+        "TEXT": "MISSING"
+      }
+    },
     "WHAT_IS_AGE": "MISSING",
     "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
-    "NEXT_HARVEST": "MISSING"
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",

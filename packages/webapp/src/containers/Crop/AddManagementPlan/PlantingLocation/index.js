@@ -7,6 +7,7 @@ import {
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
+import TransplantSpotlight from './TransplantSpotlight';
 
 export default function PlantingLocation({ history, match }) {
   const isTransplantPage =
@@ -25,14 +26,14 @@ export default function PlantingLocation({ history, match }) {
 
   const persistedPath = isTransplantPage
     ? [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-    ]
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+      ]
     : [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-      `/crop/${variety_id}/add_management_plan/planting_date`,
-    ];
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+        `/crop/${variety_id}/add_management_plan/planting_date`,
+      ];
 
   if (isWildCrop && !isTransplantPage) {
     persistedPath.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
@@ -96,6 +97,9 @@ export default function PlantingLocation({ history, match }) {
         transplant={isTransplantPage}
         progress={progress}
       />
+      {persistedFormData.needs_transplant && (
+        <TransplantSpotlight seedingType={persistedFormData.seeding_type} />
+      )}
     </>
   );
 }

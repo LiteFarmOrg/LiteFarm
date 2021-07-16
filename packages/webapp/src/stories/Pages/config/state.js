@@ -10366,18 +10366,6 @@ export default {
       formData: {},
       shouldUpdateFormData: true,
     },
-    organicCertifierSurveyReducer: {
-      allCertificationTypes: [],
-      certificationName: null,
-      certification_id: null,
-      requestedCertification: null,
-      finishedSelectingCertificationType: false,
-      allCertifierTypes: [],
-      certifierName: null,
-      certifierID: null,
-      requestedCertifier: null,
-      loadSummary: false,
-    },
   },
   baseReducer: {},
   logReducer: {

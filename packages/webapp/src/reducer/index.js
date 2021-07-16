@@ -51,7 +51,6 @@ import cropVarietyReducer from '../containers/cropVarietySlice';
 import managementPlanReducer from '../containers/managementPlanSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
-import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
@@ -179,7 +178,6 @@ const tempStateReducer = combineReducers({
   logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,
-  organicCertifierSurveyReducer,
   filterReducer,
   snackbarReducer,
 });

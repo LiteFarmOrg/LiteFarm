@@ -1,27 +1,34 @@
-import Form from '../Form';
-import Button from '../Form/Button';
-import { Label, Main } from '../Typography';
+import Form from '../../Form';
+import Button from '../../Form/Button';
+import { Label, Main } from '../../Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PureWarningBox from '../WarningBox';
-import Infoi from '../Tooltip/Infoi';
+import PureWarningBox from '../../WarningBox';
 import { useForm } from 'react-hook-form';
-import RadioGroup from '../Form/RadioGroup';
-import PageTitle from '../PageTitle/v2';
+import RadioGroup from '../../Form/RadioGroup';
+import PageTitle from '../../PageTitle/v2';
 
-export default function PureInterestedOrganic({ onSubmit, onGoBack, defaultValues }) {
+export function PureInterestedOrganic({
+  onSubmit,
+  onGoBack,
+  survey = {},
+  persistedFormData,
+  useHookFormPersist,
+  persistedPathNames,
+}) {
   const { t } = useTranslation(['translation', 'common']);
   const {
     handleSubmit,
     control,
+    getValues,
     formState: { isValid },
-  } = useForm({ mode: 'onChange', defaultValues });
+  } = useForm({ mode: 'onChange', defaultValues: { ...survey, ...persistedFormData } });
+  useHookFormPersist?.(persistedPathNames, getValues);
   const INTERESTED = 'interested';
   const disabled = !isValid;
   const title = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.TITLE');
   const paragraph = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.PARAGRAPH');
-  const underlined = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY');
   const content = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.WHY_ANSWER');
   return (
     <Form
@@ -38,9 +45,8 @@ export default function PureInterestedOrganic({ onSubmit, onGoBack, defaultValue
       <PureWarningBox style={{ marginBottom: '24px' }}>
         <Label>{t('CERTIFICATION.WARNING')}</Label>
       </PureWarningBox>
-      <Main style={{ marginBottom: '24px' }}>
-        {paragraph}{' '}
-        <Infoi placement={'bottom'} content={content} style={{ transform: 'translateY(2px)' }} />{' '}
+      <Main style={{ marginBottom: '24px' }} tooltipContent={content}>
+        {paragraph}
       </Main>
       <RadioGroup hookFormControl={control} name={INTERESTED} required />
     </Form>
@@ -50,4 +56,16 @@ export default function PureInterestedOrganic({ onSubmit, onGoBack, defaultValue
 PureInterestedOrganic.prototype = {
   onSubmit: PropTypes.func,
   onGoBack: PropTypes.func,
+  survey: PropTypes.shape({
+    certification_id: PropTypes.number,
+    certifier_id: PropTypes.number,
+    farm_id: PropTypes.string,
+    interested: PropTypes.bool,
+    requested_certification: PropTypes.string,
+    requested_certifier: PropTypes.string,
+    survey_id: PropTypes.number,
+  }),
+  persistedFormData: PropTypes.object,
+  useHookFormPersist: PropTypes.func,
+  persistedPathNames: PropTypes.arrayOf(PropTypes.string),
 };

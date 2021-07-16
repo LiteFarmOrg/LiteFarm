@@ -3,7 +3,7 @@ import React from 'react';
 import { Info, Semibold } from '../../../Typography';
 import PropTypes from 'prop-types';
 import { Modal } from '../../index';
-import { VscWarning } from 'react-icons/all';
+import { VscWarning } from 'react-icons/vsc';
 import { colors } from '../../../../assets/theme';
 
 export default function ModalComponent({

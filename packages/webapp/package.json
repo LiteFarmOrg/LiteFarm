@@ -41,9 +41,9 @@
     "react-dom": "^17.0.2",
     "react-floater": "^0.7.2",
     "react-google-login": "^5.1.25",
-    "react-hook-form": "^7.9.0",
+    "react-hook-form": "^7.11.0",
     "react-i18next": "^11.8.5",
-    "react-icons": "^3.11.0",
+    "react-icons": "^4.2.0",
     "react-joyride": "^2.2.1",
     "react-load-script": "0.0.6",
     "react-markdown": "^5.0.2",
@@ -91,37 +91,12 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
     ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/config/jest/setup.js"
-    ],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
+      "<rootDir>/src/stories/**/?(*.)(spec|test).{js,jsx,mjs}"
     ],
-    "verbose": true,
-    "testURL": "http://localhost/",
-    "transform": {
-      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
+    "transform": {},
     "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node",
-      "mjs"
+      "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
     ]
   },
   "eslintConfig": {

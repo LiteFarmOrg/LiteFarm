@@ -12,11 +12,10 @@ export default function TransplantSpotlight({ seedingType }) {
   const dispatch = useDispatch();
   const { transplant } = useSelector(showedSpotlightSelector);
   const callback = (data) => {
-    console.log({ data });
-    // const { lifecycle } = data;
-    // if (lifecycle === LIFECYCLE.COMPLETE) {
-    //   dispatch(setSpotlightToShown(data.step.flag));
-    // }
+    const { lifecycle } = data;
+    if (lifecycle === LIFECYCLE.COMPLETE) {
+      dispatch(setSpotlightToShown('transplant'));
+    }
   };
 
   const showSpotlight = !transplant;
@@ -49,7 +48,6 @@ export default function TransplantSpotlight({ seedingType }) {
               placement: 'center',
               disableCloseOnEsc: true,
               buttonText: t('common:GOT_IT'),
-              flag: 'compliance_docs_and_certification',
               icon: <PlantIcon />,
             },
           ]}

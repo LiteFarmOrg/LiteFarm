@@ -14,7 +14,7 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   const { grid_points } = useSelector(userFarmSelector);
 
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
-  
+
   const getMapOptions = (maps) => {
     return {
       styles: [
@@ -51,6 +51,16 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   };
 
   const handleGoogleMapApi = (map, maps) => {
+    map.addListener('click', (e) => {
+      placeMarker(e.latLng, map);
+    });
+    function placeMarker(latLng, map) {
+      new maps.Marker({
+        position: latLng,
+        map: map,
+      });
+    }
+
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -91,6 +101,7 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   return (
     <div className={clsx(className)}>
       <GoogleMap
+        onClick={console.log('hello')}
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{
           key: GMAPS_API_KEY,

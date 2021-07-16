@@ -5,6 +5,7 @@ import { showedSpotlightSelector } from '../../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../Map/saga';
 import React, { useState } from 'react';
 import { LIFECYCLE } from 'react-joyride';
+import { ReactComponent as PlantIcon } from '../../../../assets/images/managementPlans/plant.svg';
 
 export default function TransplantSpotlight({ seedingType }) {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ export default function TransplantSpotlight({ seedingType }) {
               disableCloseOnEsc: true,
               buttonText: t('common:GOT_IT'),
               flag: 'compliance_docs_and_certification',
+              icon: <PlantIcon />,
             },
           ]}
           callback={callback}

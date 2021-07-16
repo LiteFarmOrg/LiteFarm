@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function JoyrideTooltip({
-  step: { title, children, contents, isOrdered, list, buttonText, style },
+  step: { title, children, contents, isOrdered, list, buttonText, style, icon },
   continuous,
   tooltipProps,
   primaryProps,
@@ -42,8 +42,11 @@ export default function JoyrideTooltip({
           style={{
             color: colors.teal700,
             marginBottom: '16px',
+            display: 'inline-flex',
+            gap: '8px',
           }}
         >
+          {icon && icon}
           {title}
         </Semibold>
       )}

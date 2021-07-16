@@ -9,6 +9,7 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
+import MapPin from '../../assets/images/map/map_pin.svg';
 
 const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   const { grid_points } = useSelector(userFarmSelector);
@@ -56,6 +57,7 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
     });
     function placeMarker(latLng, map) {
       new maps.Marker({
+        icon: MapPin,
         position: latLng,
         map: map,
       });
@@ -113,7 +115,7 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
-      />
+      ></GoogleMap>
     </div>
   );
 };

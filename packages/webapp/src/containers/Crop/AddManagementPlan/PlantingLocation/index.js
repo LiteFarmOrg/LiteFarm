@@ -22,14 +22,14 @@ export default function PlantingLocation({ history, match }) {
   const isWildCrop = Boolean(persistedFormData.wild_crop);
   const persistedPath = isTransplantPage
     ? [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-    ]
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+      ]
     : [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-      `/crop/${variety_id}/add_management_plan/planting_date`,
-    ];
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+        `/crop/${variety_id}/add_management_plan/planting_date`,
+      ];
 
   if (isWildCrop && !isTransplantPage) {
     persistedPath.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
@@ -68,8 +68,6 @@ export default function PlantingLocation({ history, match }) {
     history.push(`/crop/${variety_id}/management`);
   };
 
-  const progress = isTransplantPage ? 55 : 37.5;
-
   return (
     <>
       <PurePlantingLocation
@@ -82,7 +80,6 @@ export default function PlantingLocation({ history, match }) {
         persistedPath={persistedPath}
         persistedFormData={persistedFormData}
         transplant={isTransplantPage}
-        progress={progress}
       />
     </>
   );

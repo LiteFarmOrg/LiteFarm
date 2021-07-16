@@ -9,7 +9,6 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
-import { ReactComponent as MapPin } from '../../../assets/images/map/map_pin.svg';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -21,7 +20,6 @@ export default function PurePlantingLocation({
   useHookFormPersist,
   persistedPath,
   transplant,
-  progress,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -38,6 +36,8 @@ export default function PurePlantingLocation({
   const [canUsePin, setCanUsePin] = useState(
     persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
+
+  console.log(persistedFormData);
 
   const handlePinMode = () => {
     pinMode ? setPinMode(false) : setPinMode(true);
@@ -62,16 +62,24 @@ export default function PurePlantingLocation({
           onCancel={onCancel}
           cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
           title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-          value={progress}
+          value={50}
           style={{ marginBottom: '24px' }}
         />
 
         <div className={styles.planting_label}>
-          {transplant
-            ? t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION')
-            : needs_transplant
-            ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION')
+          {persistedFormData.seeding_type === 'SEED'
+            ? t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION')
+            : persistedFormData.seeding_type === 'SEEDLING_OR_PLANTING_STOCK'
+            ? t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION')
+            : persistedFormData.in_ground === true
+            ? t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION')
             : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
+          {/*{transplant*/}
+          {/*  ? t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION')*/}
+          {/*  : needs_transplant*/}
+          {/*  ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION')*/}
+          {/*  : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')*/}
+          {/*}*/}
         </div>
 
         <LocationPicker

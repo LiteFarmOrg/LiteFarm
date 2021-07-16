@@ -72,7 +72,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Você planeja aplicar para uma ou renovar uma certificação nesta temporada?",
       "TITLE": "Interessado(a) em certificações?",
-      "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
@@ -882,6 +881,7 @@
     "MANAGEMENT_SPOTLIGHT_2": "Visualize e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
+    "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
@@ -908,6 +908,9 @@
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
+    "SELECT_A_PLANTING_LOCATION": "MISSING",
+    "SELECT_A_SEEDING_LOCATION": "MISSING",
+    "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
     "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
@@ -918,8 +921,7 @@
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "WHAT_IS_AGE": "MISSING",
     "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
-    "NEXT_HARVEST": "MISSING"
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",

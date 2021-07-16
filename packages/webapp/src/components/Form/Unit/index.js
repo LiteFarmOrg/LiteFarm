@@ -125,6 +125,7 @@ const Unit = ({
   required,
   mode = 'onBlur',
   max = 1000000000,
+  integer = true,
   toolTipContent,
   ...props
 }) => {
@@ -137,6 +138,9 @@ const Unit = ({
   const [showError, setShowError] = useState();
   const { errors } = useFormState({ control });
   const error = get(errors, name);
+
+  console.log(control);
+
   useEffect(() => {
     setShowError(!!error && !disabled);
   }, [error]);
@@ -232,6 +236,8 @@ const Unit = ({
     } else if (e.target.value >= getMax()) {
       setVisibleInputValue(max);
       hookFormSetHiddenValue(getMax(), { shouldDirty: true });
+    } else if (!Number.isInteger(Number(e.target.value))) {
+      setShowError(true);
     } else {
       hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
         shouldDirty: true,

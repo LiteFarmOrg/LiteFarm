@@ -10305,6 +10305,7 @@ export default {
       introduce_map: true,
       documents: true,
       compliance_docs_and_certification: true,
+      transplant: true,
     },
   },
   persistedStateReducer: {

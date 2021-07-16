@@ -47,11 +47,9 @@ export default function PureInGroundTransplant({
   useHookFormPersist,
   persistedFormData,
   history,
-  match,
+  variety_id,
 }) {
   const { t } = useTranslation();
-
-  const variety_id = match?.params?.variety_id;
 
   const progress = 54;
 
@@ -189,7 +187,6 @@ export default function PureInGroundTransplant({
 
 PureInGroundTransplant.prototype = {
   history: PropTypes.object,
-  match: PropTypes.object,
   persistedFormData: PropTypes.func,
   useHookFormPersist: PropTypes.func,
 };

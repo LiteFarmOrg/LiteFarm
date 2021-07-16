@@ -4,11 +4,13 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 
 function InGroundTransplant({ history, match }) {
 
+  const variety_id = match?.params?.variety_id;
+
   return (
     <HookFormPersistProvider>
       <PureInGroundTransplant
        history={history}
-       match={match}
+       variety_id={variety_id}
       />
     </HookFormPersistProvider>
   );

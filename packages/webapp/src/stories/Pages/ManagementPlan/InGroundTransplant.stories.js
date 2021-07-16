@@ -16,7 +16,7 @@ Primary.args = {
   useHookFormPersist: () => ({}),
   persistedFormData: {},
   history: {},
-  match: {},
+  variety_id: '1',
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

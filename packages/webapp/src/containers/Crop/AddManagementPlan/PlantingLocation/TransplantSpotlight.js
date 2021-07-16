@@ -1,5 +1,5 @@
 import JoyrideWrapper from '../../../../components/JoyrideWrapper';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../Map/saga';
@@ -38,7 +38,13 @@ export default function TransplantSpotlight({ seedingType }) {
           steps={[
             {
               title: t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.TITLE.TEXT', { fill: titleFill }),
-              contents: [t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.TEXT', { fill: bodyFill })],
+              contents: [
+                <Trans i18nKey={'MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.TEXT'}>
+                  Please indicate where this crop will be initially{' '}
+                  <strong>{{ fill: bodyFill }}</strong>. We’ll ask about where you’ll transplant it
+                  to later.
+                </Trans>,
+              ],
               target: 'body',
               placement: 'center',
               disableCloseOnEsc: true,

@@ -920,7 +920,7 @@
       "BODY": {
         "PLANTED": "planted",
         "SEEDED": "seeded",
-        "TEXT": "Please indicate where this crop will be initially {{fill}}. We’ll ask about where you’ll transplant it to later."
+        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
       },
       "TITLE": {
         "PLANTING": "Planting",

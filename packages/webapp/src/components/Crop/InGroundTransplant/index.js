@@ -74,7 +74,7 @@ export default function PureInGroundTransplant({
   const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
     (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
   );
-  const submitPath = knows_how?  `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}` : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
+  const submitPath = knows_how?  `/crop/${variety_id}/add_management_plan/transplant_${planting_type?.toLowerCase()}` : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
 
   useHookFormPersist([...pathsToPersist, goBackPath], getValues);

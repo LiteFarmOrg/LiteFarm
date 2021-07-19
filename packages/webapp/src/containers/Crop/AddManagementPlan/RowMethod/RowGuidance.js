@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
-export default function BedPlan({ history, match }) {
+export default function RowGuidance({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const onContinuePath = `/crop/${variety_id}/add_management_plan/name`;
-  const onGoBackPath = `/crop/${variety_id}/add_management_plan/beds`;
+  const onGoBackPath = `/crop/${variety_id}/add_management_plan/rows`;
   const persistedPaths = [onContinuePath, onGoBackPath];
+
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
   };
@@ -19,6 +20,7 @@ export default function BedPlan({ history, match }) {
   const onBack = () => {
     history.push(onGoBackPath);
   };
+  
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
@@ -29,7 +31,7 @@ export default function BedPlan({ history, match }) {
         match={match}
         history={history}
         persistedPaths={persistedPaths}
-        isBed={true}
+        isBed={false}
       />
     </HookFormPersistProvider>
   );

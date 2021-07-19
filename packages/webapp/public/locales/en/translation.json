@@ -12,16 +12,20 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "Bed width",
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "WIDTH": "{{type}} width",
     "NOTES": "Planting notes",
     "PLANTING_DEPTH": "Planting depth",
-    "SPACE_BETWEEN": "Space between beds",
-    "SPECIFY_BEDS": "Specify beds",
-    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible."
+    "SPACE_BETWEEN": "Space between {{types}}",
+    "SPECIFY": "Specify {{types}}",
+    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
+    "BED": "Bed",
+    "ROW": "Row",
+    "BEDS": "beds",
+    "ROWS": "rows"
   },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
     "NUMBER_OF_ROWS": "# of rows in bed",

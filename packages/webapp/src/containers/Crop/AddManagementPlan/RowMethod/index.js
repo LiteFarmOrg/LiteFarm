@@ -11,8 +11,9 @@ export default function RowMethod({ history, match }) {
   const variety = useSelector(cropVarietySelector(variety_id));
 
   const goBackPath = history.location.state?.from === undefined ?  `/crop/${variety_id}/add_management_plan/planting_method` : history.location.state.from;
+  const continuePath = `/crop/${variety_id}/add_management_plan/row_guidance`;
 
-  const persistPath = [goBackPath];
+  const persistPath = [goBackPath, continuePath];
 
   const onGoBack = () => {
     history.push(goBackPath);
@@ -23,7 +24,7 @@ export default function RowMethod({ history, match }) {
   }
 
   const onContinue = () => {
-    history.push(`Go to LF-1474`);
+    history.push(continuePath);
   }
 
   return (

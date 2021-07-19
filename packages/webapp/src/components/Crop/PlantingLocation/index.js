@@ -28,7 +28,12 @@ export default function PurePlantingLocation({
     shouldUnregister: true,
   });
 
-  const { needs_transplant } = persistedFormData;
+  const { needs_transplant, seeding_type, in_ground } = persistedFormData;
+  let seeding_type_temp = seeding_type;
+  if (in_ground === true) {
+    seeding_type_temp = '';
+  }
+
   useHookFormPersist(persistedPath, getValues);
 
   const [pinMode, setPinMode] = useState(false);
@@ -67,11 +72,11 @@ export default function PurePlantingLocation({
         />
 
         <div className={styles.planting_label}>
-          {persistedFormData.seeding_type === 'SEED'
+          {seeding_type_temp === 'SEED'
             ? t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION')
-            : persistedFormData.seeding_type === 'SEEDLING_OR_PLANTING_STOCK'
+            : seeding_type_temp === 'SEEDLING_OR_PLANTING_STOCK'
             ? t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION')
-            : persistedFormData.in_ground === true
+            : in_ground === true
             ? t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION')
             : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
           {/*{transplant*/}

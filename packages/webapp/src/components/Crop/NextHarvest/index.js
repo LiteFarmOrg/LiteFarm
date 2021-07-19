@@ -78,7 +78,20 @@ export default function PureNextHarvest({
           style={{ marginBottom: '40px' }}
           type={'date'}
           label={t('common:DATE')}
-          hookFormRegister={register(NEXT_HARVEST_DATE, { required: true })}
+          hookFormRegister={register(NEXT_HARVEST_DATE, 
+            { 
+              required: true,
+              validate: {
+                noPastDate: (v) => {
+                  let now = new Date();
+                  let date = new Date(v);
+                  let n = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
+                  let d = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
+                  return d >= n;
+                }
+              }
+            }
+          )}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
         />
 

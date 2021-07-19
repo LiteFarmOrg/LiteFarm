@@ -47,6 +47,9 @@ export default function PureNextHarvest({
   const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
   const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;
 
+  const today = new Date();
+  const todayStr = today.toISOString().substring(0, 10);
+
   useHookFormPersist([submitPath, goBackPath], getValues);
 
   return (
@@ -81,18 +84,10 @@ export default function PureNextHarvest({
           hookFormRegister={register(NEXT_HARVEST_DATE, 
             { 
               required: true,
-              validate: {
-                noPastDate: (v) => {
-                  let now = new Date();
-                  let date = new Date(v);
-                  let n = `${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`;
-                  let d = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
-                  return d >= n;
-                }
-              }
             }
           )}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
+          minDate={todayStr}
         />
 
         <Unit

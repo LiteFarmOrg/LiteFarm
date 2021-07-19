@@ -32,6 +32,7 @@ const Input = ({
   showCross = true,
   onChange,
   onBlur,
+  minDate,
   hasLeaf,
   ...props
 }) => {
@@ -109,6 +110,7 @@ const Input = ({
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
+        min={inputType === 'date'? minDate : null}
         onKeyDown={onKeyDown}
         name={name}
         placeholder={isSearchBar && t('common:SEARCH')}

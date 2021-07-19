@@ -71,13 +71,10 @@ export default function PureInGroundTransplant({
   const KNOWS_HOW = 'knows_how_is_crop_planted';
   const knows_how = watch(KNOWS_HOW);
 
-  const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
-    (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
-  );
-  const submitPath = knows_how?  `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}` : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
+  const submitPath = knows_how?  `/crop/${variety_id}/add_management_plan/historical_${planting_type?.toLowerCase()}` : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
 
-  useHookFormPersist([...pathsToPersist, goBackPath], getValues);
+  useHookFormPersist([goBackPath, submitPath], getValues);
 
   const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});
   const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });
@@ -86,12 +83,7 @@ export default function PureInGroundTransplant({
   const disabled = !isValid;
   
   const onContinue = () => {
-    history.push({
-      pathname: submitPath,
-      state: {
-        from: `/crop/${variety_id}/add_management_plan/inground_transplant_method`
-      }
-    });
+    history.push(submitPath);
   }
 
   const onGoBack = () => {
@@ -99,7 +91,7 @@ export default function PureInGroundTransplant({
   }
 
   const onCancel = () => {
-    history?.push(`/crop/${variety_id}/management`);
+    history.push(`/crop/${variety_id}/management`);
   }
 
   return (

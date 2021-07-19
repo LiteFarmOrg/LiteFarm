@@ -9,7 +9,6 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
-import { ReactComponent as MapPin } from '../../../assets/images/map/map_pin.svg';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -22,6 +21,8 @@ export default function PurePlantingLocation({
   persistedPath,
   transplant,
   progress,
+  setPinLocation,
+  pinLocation
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -40,18 +41,17 @@ export default function PurePlantingLocation({
   );
 
   const handlePinMode = () => {
-    pinMode ? setPinMode(false) : setPinMode(true);
-    setCanUsePin(persistedFormData.wild_crop && persistedFormData.in_ground && !pinMode);
+    const currentPinMode = pinMode;
+    setPinMode(!currentPinMode);
+    setCanUsePin(!currentPinMode);
   };
 
   return (
     <>
-      {console.log('pinMode in PlantingLocation: ' + pinMode)}
-      {console.log('canUsePin in PlantingLocation: ' + canUsePin)}
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocationId} onClick={onContinue} fullLength>
+            <Button disabled={!selectedLocationId && !pinLocation} onClick={() => onContinue(pinLocation)} fullLength>
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -79,7 +79,8 @@ export default function PurePlantingLocation({
           setLocationId={setLocationId}
           selectedLocationId={selectedLocationId}
           canUsePin={canUsePin}
-          handleCanUsePin={setCanUsePin}
+          setPinLocation={setPinLocation}
+          currentPin={pinLocation}
         />
 
         <div>

@@ -36,6 +36,7 @@ const showedSpotlightController = {
           'crop_variety_detail',
           'documents',
           'compliance_docs_and_certification',
+          'transplant',
         ).findById(user_id);
         res.status(200).send(data);
       } catch (error) {

@@ -7,6 +7,7 @@ import {
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
+import TransplantSpotlight from './TransplantSpotlight';
 
 export default function PlantingLocation({ history, match }) {
   const isTransplantPage =
@@ -20,19 +21,26 @@ export default function PlantingLocation({ history, match }) {
   const variety_id = match.params.variety_id;
 
   const isWildCrop = Boolean(persistedFormData.wild_crop);
+  const isInGround = Boolean(persistedFormData.in_ground);
+  const isTransplant = Boolean(persistedFormData.needs_transplant);
+
   const persistedPath = isTransplantPage
     ? [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-    ]
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+      ]
     : [
-      `/crop/${variety_id}/add_management_plan/transplant_container`,
-      `/crop/${variety_id}/add_management_plan/planting_method`,
-      `/crop/${variety_id}/add_management_plan/planting_date`,
-    ];
+        `/crop/${variety_id}/add_management_plan/transplant_container`,
+        `/crop/${variety_id}/add_management_plan/planting_method`,
+        `/crop/${variety_id}/add_management_plan/planting_date`,
+      ];
 
   if (isWildCrop && !isTransplantPage) {
     persistedPath.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
+  }
+
+  if (isTransplant && isInGround) {
+    persistedPath.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
   }
 
   const dispatch = useDispatch();
@@ -41,9 +49,14 @@ export default function PlantingLocation({ history, match }) {
     if (isTransplantPage) {
       dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
       history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
-    } else if (persistedFormData.needs_transplant) {
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+    } else if (isTransplant) {
+      if (isInGround) {
+        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+      } else {
+        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+      }
     } else {
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
@@ -84,6 +97,9 @@ export default function PlantingLocation({ history, match }) {
         transplant={isTransplantPage}
         progress={progress}
       />
+      {persistedFormData.needs_transplant && (
+        <TransplantSpotlight seedingType={persistedFormData.seeding_type} />
+      )}
     </>
   );
 }

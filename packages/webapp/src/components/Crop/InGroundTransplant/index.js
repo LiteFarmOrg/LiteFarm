@@ -22,24 +22,24 @@ const BEDS = 'BEDS';
 const ROWS = 'ROWS';
 const images = {
   [BROADCAST]: [
-    `${DO_CDN_URL}/planting_method/Broadcast_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_1.webp`,
+    `${DO_CDN_URL}/planting_method/Broadcast_2.webp`,
+    `${DO_CDN_URL}/planting_method/Broadcast_3.webp`,
   ],
   [CONTAINER]: [
-    `${DO_CDN_URL}/planting_method/Individual_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Individual_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Individual_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Individual_1.webp`,
+    `${DO_CDN_URL}/planting_method/Individual_2.webp`,
+    `${DO_CDN_URL}/planting_method/Individual_3.webp`,
   ],
   [BEDS]: [
-    `${DO_CDN_URL}/planting_method/Bed_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Bed_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Bed_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Bed_1.webp`,
+    `${DO_CDN_URL}/planting_method/Bed_2.webp`,
+    `${DO_CDN_URL}/planting_method/Bed_3.webp`,
   ],
   [ROWS]: [
-    `${DO_CDN_URL}/planting_method/Rows_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Rows_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Rows_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Rows_1.webp`,
+    `${DO_CDN_URL}/planting_method/Rows_2.webp`,
+    `${DO_CDN_URL}/planting_method/Rows_3.webp`,
   ],
 };
 
@@ -74,7 +74,9 @@ export default function PureInGroundTransplant({
   const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
     (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,
   );
-  const submitPath = knows_how?  `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}` : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
+  const submitPath = knows_how
+    ? `/crop/${variety_id}/add_management_plan/${planting_type?.toLowerCase()}`
+    : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
 
   useHookFormPersist([...pathsToPersist, goBackPath], getValues);
@@ -84,23 +86,23 @@ export default function PureInGroundTransplant({
   const dismissModal = () => setSelectedImage({});
 
   const disabled = !isValid;
-  
+
   const onContinue = () => {
     history.push({
       pathname: submitPath,
       state: {
-        from: `/crop/${variety_id}/add_management_plan/inground_transplant_method`
-      }
+        from: `/crop/${variety_id}/add_management_plan/inground_transplant_method`,
+      },
     });
-  }
+  };
 
   const onGoBack = () => {
     history.push(goBackPath);
-  }
+  };
 
   const onCancel = () => {
     history?.push(`/crop/${variety_id}/management`);
-  }
+  };
 
   return (
     <Form
@@ -125,11 +127,7 @@ export default function PureInGroundTransplant({
         <Label style={{ marginBottom: '18px' }}>
           {t('MANAGEMENT_PLAN.KNOW_HOW_IS_CROP_PLANTED')}
         </Label>
-        <RadioGroup
-          hookFormControl={control}
-          name={KNOWS_HOW}
-          required
-        />
+        <RadioGroup hookFormControl={control} name={KNOWS_HOW} required />
       </div>
       {knows_how && (
         <>

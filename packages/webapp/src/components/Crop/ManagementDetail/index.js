@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import { Label, Underlined, AddLink } from '../../Typography';
 import Layout from '../../Layout';
-import Input from '../../Form/Input';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
+import Card from '../../Card';
 import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
 
 export default function PureManagementDetail({
@@ -19,6 +19,10 @@ export default function PureManagementDetail({
 }) {
 
   const { t } = useTranslation();
+
+  const title = plan.name;
+
+  const notes = plan.notes;
 
   return (
     <Layout
@@ -46,7 +50,7 @@ export default function PureManagementDetail({
           className={styles.title}
           style={{ marginTop: '24px' }}
         >
-          {'Plan 1'}
+          {title}
         </Label>
         {isAdmin && (
           <div>
@@ -61,19 +65,33 @@ export default function PureManagementDetail({
         )}
       </div>
 
-      <Input
-        style={{ marginTop: '24px' }}
-        label={t('MANAGEMENT_DETAIL.PLAN_NOTES')}
-        type={'text'}
-        disabled={true}
-      />
-
-      <Label
-        className={styles.subtitle}
-        style={{ marginTop: '32px' }}
-      >
-        {t('MANAGEMENT_DETAIL.ASSOCIATED_TASKS')}
-      </Label>
+      {notes.length > 0 && (
+        <>
+          <Label
+            style={{ marginTop: '24px' }}
+          >
+            {t('MANAGEMENT_DETAIL.PLAN_NOTES')}
+          </Label>
+          <Card
+            className={styles.notes}
+            color={'info'}
+            style={{ marginTop: '4px' }}
+          >
+            <Label
+              className={styles.notescontent}
+              style={{ marginTop: '14px', marginLeft: '8px' }}
+            >
+              {notes}
+            </Label>
+          </Card>
+          <Label
+            className={styles.subtitle}
+            style={{ marginTop: '32px' }}
+          >
+            {t('MANAGEMENT_DETAIL.ASSOCIATED_TASKS')}
+          </Label>
+        </>
+      )}
 
       {isAdmin && (
         <AddLink

@@ -29,6 +29,26 @@
 }
 
 .pencil {
-    width: 15.06px;
-    height: 15.02px;
+  width: 15.06px;
+  height: 15.02px;
+}
+
+.notes {
+  width: 312px;
+  height: 48px;
+  left: 0px;
+  top: 20px;
+  background: #FAFAFD;
+  border: 1px solid #D4DAE3;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.notescontent {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--grey900);
+  font-size: 16px;
+  line-height: 20px;
+  font-family: 'Open Sans', 'SansSerif', serif;
 }

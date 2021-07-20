@@ -23,9 +23,10 @@ const PureCertificationSurveyPage = ({
   certifier,
   requested_certifier,
   persistedFormData,
+  onSurveyComplete,
 }) => {
   const { t } = useTranslation();
-  const [submissionId, setSubmissionId] = useState(persistedFormData?.submissionId);
+  const [submissionId, setSubmissionId] = useState(persistedFormData?.submission_id);
 
   const persistedPath = ['/certification/report_period'];
   useHookFormPersist(persistedPath, () => ({}));
@@ -40,8 +41,9 @@ const PureCertificationSurveyPage = ({
       // console.log('Hello World?', data);
       const { type, payload } = event.data;
       if (type === 'SUBMISSION_RESULT_SUCCESS_CLOSE') {
-        setSubmissionId('60df45608b55990001f24afd');
-        // setSubmissionId(payload.submissionId);
+        // setSubmissionId('60df45608b55990001f24afd');
+        setSubmissionId(payload.submissionId);
+        onSurveyComplete(payload.submissionId);
       }
     };
 

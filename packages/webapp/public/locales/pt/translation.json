@@ -12,16 +12,7 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
-  },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
     "LENGTH_OF_BED": "MISSING",
     "NUMBER_0F_BEDS": "MISSING",
     "NUMBER_OF_ROWS": "MISSING",
@@ -72,7 +63,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Você planeja aplicar para uma ou renovar uma certificação nesta temporada?",
       "TITLE": "Interessado(a) em certificações?",
-      "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
@@ -876,6 +866,7 @@
     "IN_GROUND": "No solo",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
+    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "MISSING",
     "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
@@ -911,6 +902,7 @@
     "SEEDLING_AGE_INFO": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
     "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "TERMINATION": "Terminação",
@@ -920,8 +912,7 @@
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
-        "SEEDED": "MISSING",
-        "TEXT": "MISSING"
+        "SEEDED": "MISSING"
       },
       "TITLE": {
         "PLANTING": "MISSING",
@@ -930,11 +921,10 @@
       }
     },
     "WHAT_IS_AGE": "MISSING",
-    "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING"
+    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WILD_CROP": "MISSING",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -972,6 +962,19 @@
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
     "TITLE": "Link enviado"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "BED": "MISSING",
+    "BEDS": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "ROW": "MISSING",
+    "ROWS": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY": "MISSING",
+    "TOOLTIP": "MISSING",
+    "WIDTH": "MISSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1266,5 +1269,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selecione o ano"
+  },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
   }
 }

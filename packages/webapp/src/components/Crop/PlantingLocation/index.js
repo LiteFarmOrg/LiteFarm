@@ -9,6 +9,8 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
+import Checkbox from '../../Form/Checkbox';
+import { useDispatch } from 'react-redux';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -44,6 +46,11 @@ export default function PurePlantingLocation({
     const currentPinMode = pinMode;
     setPinMode(!currentPinMode);
     setCanUsePin(!currentPinMode);
+  };
+
+  const dispatch = useDispatch();
+  const onSelectCheckbox = () => {
+    dispatch(setLocationId(selectedLocationId));
   };
 
   return (
@@ -112,6 +119,14 @@ export default function PurePlantingLocation({
             <LocationPin />
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
+        )}
+
+        {needs_transplant === true && (
+          <Checkbox
+            label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}
+            style={{ paddingBottom: '25px' }}
+            onChange={onSelectCheckbox}
+          />
         )}
       </Layout>
     </>

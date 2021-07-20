@@ -44,8 +44,6 @@ export default function PurePlantingLocation({
 
   return (
     <>
-      {console.log('pinMode in PlantingLocation: ' + pinMode)}
-      {console.log('canUsePin in PlantingLocation: ' + canUsePin)}
       <Layout
         buttonGroup={
           <>
@@ -113,14 +111,6 @@ export default function PurePlantingLocation({
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
         )}
-
-        {/*<Checkbox hookFormRegister={register(SELECTED_STARTING_LOCATION)}*/}
-        {/*          label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}*/}
-        {/*          classes={{ container: { paddingBottom: '42px' } }}/>*/}
-
-        {/*{in_ground === false && needs_transplant === true && selectedLocationId !== null && (*/}
-
-        {/*)}*/}
       </Layout>
     </>
   );

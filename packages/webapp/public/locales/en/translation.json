@@ -12,19 +12,6 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
-  "PLAN_GUIDANCE": {
-    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
-    "WIDTH": "{{type}} width",
-    "NOTES": "Planting notes",
-    "PLANTING_DEPTH": "Planting depth",
-    "SPACE_BETWEEN": "Space between {{types}}",
-    "SPECIFY": "Specify {{types}}",
-    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
-    "BED": "Bed",
-    "ROW": "Row",
-    "BEDS": "beds",
-    "ROWS": "rows"
-  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
@@ -880,6 +867,7 @@
     "IN_GROUND": "In ground",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
     "MANAGEMENT_PLAN_FLOW": "management plan",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
@@ -917,18 +905,15 @@
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
-    "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
-        "SEEDED": "seeded",
-        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
+        "SEEDED": "seeded"
       },
       "TITLE": {
         "PLANTING": "Planting",
@@ -937,12 +922,11 @@
       }
     },
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?",
-    "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
-
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -980,6 +964,19 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "BED": "Bed",
+    "BEDS": "beds",
+    "NOTES": "Planting notes",
+    "PLANTING_DEPTH": "Planting depth",
+    "ROW": "Row",
+    "ROWS": "rows",
+    "SPACE_BETWEEN": "Space between {{types}}",
+    "SPECIFY": "Specify {{types}}",
+    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
+    "WIDTH": "{{type}} width"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",

@@ -933,7 +933,7 @@
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?", 
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
   },

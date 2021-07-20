@@ -22,7 +22,7 @@ export default function PurePlantingLocation({
   transplant,
   progress,
   setPinLocation,
-  pinLocation
+  pinLocation,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -51,7 +51,11 @@ export default function PurePlantingLocation({
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocationId && !pinLocation} onClick={() => onContinue(pinLocation)} fullLength>
+            <Button
+              disabled={!selectedLocationId && !pinLocation}
+              onClick={() => onContinue(pinLocation)}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </>

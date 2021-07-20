@@ -10,11 +10,6 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
 
-import Checkbox from '../../Inputs/Checkbox';
-import register from '../../../registerServiceWorker';
-import { cloneObject } from '../../../util';
-
-
 export default function PurePlantingLocation({
   selectedLocationId,
   onContinue,
@@ -29,7 +24,6 @@ export default function PurePlantingLocation({
   progress,
   setPinLocation,
   pinLocation,
-
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -38,16 +32,11 @@ export default function PurePlantingLocation({
     shouldUnregister: true,
   });
 
-
-  const SELECTED_STARTING_LOCATION = 'selected_starting_location';
-  const selected_starting_location = watch(SELECTED_STARTING_LOCATION);
-
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
   let seeding_type_temp = seeding_type;
   if (in_ground === true) {
     seeding_type_temp = '';
   }
-
 
   useHookFormPersist(persistedPath, getValues);
 
@@ -57,18 +46,14 @@ export default function PurePlantingLocation({
     persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
 
-
   const handlePinMode = () => {
     const currentPinMode = pinMode;
     setPinMode(!currentPinMode);
     setCanUsePin(!currentPinMode);
-
   };
 
   return (
     <>
-      {console.log('pinMode in PlantingLocation: ' + pinMode)}
-      {console.log('canUsePin in PlantingLocation: ' + canUsePin)}
       <Layout
         buttonGroup={
           <>
@@ -108,7 +93,6 @@ export default function PurePlantingLocation({
           canUsePin={canUsePin}
           setPinLocation={setPinLocation}
           currentPin={pinLocation}
-
         />
 
         <div>
@@ -137,16 +121,6 @@ export default function PurePlantingLocation({
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
         )}
-
-
-        {/*<Checkbox hookFormRegister={register(SELECTED_STARTING_LOCATION)}*/}
-        {/*          label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}*/}
-        {/*          classes={{ container: { paddingBottom: '42px' } }}/>*/}
-
-        {/*{in_ground === false && needs_transplant === true && selectedLocationId !== null && (*/}
-
-        {/*)}*/}
-
       </Layout>
     </>
   );

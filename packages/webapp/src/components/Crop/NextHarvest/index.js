@@ -20,7 +20,6 @@ export default function PureNextHarvest({
   useHookFormPersist,
   variety,
 }) {
-
   const { t } = useTranslation();
 
   const {
@@ -47,6 +46,9 @@ export default function PureNextHarvest({
   const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
   const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;
 
+  const today = new Date();
+  const todayStr = today.toISOString().substring(0, 10);
+
   useHookFormPersist([submitPath, goBackPath], getValues);
 
   return (
@@ -70,16 +72,17 @@ export default function PureNextHarvest({
       />
 
       <div>
-        <Label style={{ marginBottom: '24px' }}>
-          {t('MANAGEMENT_PLAN.NEXT_HARVEST')}
-        </Label>
+        <Label style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.NEXT_HARVEST')}</Label>
 
         <Input
           style={{ marginBottom: '40px' }}
           type={'date'}
           label={t('common:DATE')}
-          hookFormRegister={register(NEXT_HARVEST_DATE, { required: true })}
+          hookFormRegister={register(NEXT_HARVEST_DATE, {
+            required: true,
+          })}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
+          minDate={todayStr}
         />
 
         <Unit

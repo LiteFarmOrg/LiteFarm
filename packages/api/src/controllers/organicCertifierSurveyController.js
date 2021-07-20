@@ -128,10 +128,16 @@ const organicCertifierSurveyController = {
           message: 'Bad request. Missing properties',
         })
       }
-      const documents = await documentModel.query().withGraphJoined('files').whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true }).andWhere({ farm_id });
+      const documents = await documentModel.query().debug()
+        .withGraphJoined('files')
+        .where((builder) => {
+          builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true })
+        }).andWhere({ farm_id })
       const user_id = req.user.user_id;
-      const files = documents.map(({ files }) => files.map(({ url, file_name }) => ({ url, file_name }))).reduce((a, b) => a.concat(b), []);
-      const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated, 
+      const files = documents.map(({ files, name }) => files.map(({ url, file_name }, i) => ({
+        url, file_name: i !== 0 ? `${name}-${file_name}`: `${name}.${file_name.split('.').pop()}`,
+      }))).reduce((a, b) => a.concat(b), []);
+      const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated,
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
             cp.genetically_engineered
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id

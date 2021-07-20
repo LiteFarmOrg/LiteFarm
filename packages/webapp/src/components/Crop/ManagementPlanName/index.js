@@ -20,7 +20,14 @@ export default function PureManagementPlanName({
 }) {
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/${persistedFormData?.planting_type?.toLowerCase()}`;
+  const goBackPaths = {
+    rows: 'row_guidance',
+    bed_plan: 'beds_guidance',
+    container: 'container',
+    broadcast: 'broadcast'
+  };
+
+  const goBackPath = `/crop/${variety_id}/add_management_plan/${goBackPaths[persistedFormData?.planting_type?.toLowerCase()]}`;
   const NAME = 'name';
   const NOTES = 'notes';
 

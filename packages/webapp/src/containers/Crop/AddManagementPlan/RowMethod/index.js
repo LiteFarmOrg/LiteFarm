@@ -9,9 +9,10 @@ export default function RowMethod({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
+  const continuePath = `/crop/${variety_id}/add_management_plan/row_guidance`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/planting_method`;
 
-  const persistPath = [goBackPath];
+  const persistPath = [goBackPath, continuePath];
 
   const onGoBack = () => {
     history.push(goBackPath);
@@ -22,8 +23,8 @@ export default function RowMethod({ history, match }) {
   };
 
   const onContinue = () => {
-    history.push(`Go to LF-1474`);
-  };
+    history.push(continuePath);
+  }
 
   return (
     <HookFormPersistProvider>

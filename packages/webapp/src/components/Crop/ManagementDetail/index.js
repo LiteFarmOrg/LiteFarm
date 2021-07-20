@@ -15,13 +15,14 @@ export default function PureManagementDetail({
   onBack,
   variety,
   plan,
+  isAdmin,
 }) {
 
   const { t } = useTranslation();
 
   return (
     <Layout
-      buttonGroup={
+      buttonGroup={isAdmin && (
         <>
           <Button fullLength onClick={onCopy}>
             {t('common:MARK_COMPLETED')}
@@ -30,7 +31,7 @@ export default function PureManagementDetail({
             {t('common:COPY')}
           </Button>
         </>
-      }
+      )}
     >
       <CropHeader
         onBackClick={onBack}
@@ -47,15 +48,17 @@ export default function PureManagementDetail({
         >
           {'Plan 1'}
         </Label>
-        <div>
-          <Pencil
-            className={styles.pencil}
-            style={{ marginRight: '5px' }}
-          />
-          <Underlined onClick={() => {console.log('Go to edit page')}}>
-            {t('MANAGEMENT_DETAIL.EDIT_PLAN')}
-          </Underlined>
-        </div>
+        {isAdmin && (
+          <div>
+            <Pencil
+              className={styles.pencil}
+              style={{ marginRight: '5px' }}
+            />
+            <Underlined onClick={() => { console.log('Go to edit page') }}>
+              {t('MANAGEMENT_DETAIL.EDIT_PLAN')}
+            </Underlined>
+          </div>
+        )}
       </div>
 
       <Input
@@ -64,40 +67,43 @@ export default function PureManagementDetail({
         type={'text'}
         disabled={true}
       />
-      
-      <Label 
+
+      <Label
         className={styles.subtitle}
         style={{ marginTop: '32px' }}
       >
         {t('MANAGEMENT_DETAIL.ASSOCIATED_TASKS')}
       </Label>
 
-      <AddLink
-        style={{ marginTop: '16px' }}
-        onClick={() => {console.log('Go to add task page')}}
-      >
-        {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
-      </AddLink>
+      {isAdmin && (
+        <AddLink
+          style={{ marginTop: '16px' }}
+          onClick={() => { console.log('Go to add task page') }}
+        >
+          {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
+        </AddLink>
+      )}
 
       {
         // TODO - Add task list
       }
 
-      <div 
-        className={styles.abandonwrapper}
-        style={{ marginTop: '24px' }}
-      >
-        <Label>
-          {t('MANAGEMENT_DETAIL.FAILED_CROP')}
-        </Label>
-        <AddLink
-          style={{ marginLeft: '6px' }}
-          onClick={() => {console.log('Go to abandon page')}}
+      {isAdmin && (
+        <div
+          className={styles.abandonwrapper}
+          style={{ marginTop: '24px' }}
         >
-          {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
-        </AddLink>
-      </div>
-
+          <Label>
+            {t('MANAGEMENT_DETAIL.FAILED_CROP')}
+          </Label>
+          <AddLink
+            style={{ marginLeft: '6px' }}
+            onClick={() => { console.log('Go to abandon page') }}
+          >
+            {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
+          </AddLink>
+        </div>
+      )}
     </Layout>
   )
 }
@@ -107,4 +113,5 @@ PureManagementDetail.prototype = {
   onCopy: PropTypes.func,
   onCompleted: PropTypes.func,
   plan: PropTypes.object,
+  isAdmin: PropTypes.bool,
 };

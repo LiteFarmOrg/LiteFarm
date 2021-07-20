@@ -21,7 +21,8 @@ Primary.args = {
     crop_variety_name: "Variety",
     crop_variety_photo_url: '',
     supplier: 'Supplier',
-  }
+  },
+  isAdmin: true,
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

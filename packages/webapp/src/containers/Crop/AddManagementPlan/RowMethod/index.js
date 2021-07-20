@@ -10,7 +10,7 @@ export default function RowMethod({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const goBackPath = history.location.state?.from === undefined ?  `/crop/${variety_id}/add_management_plan/planting_method` : history.location.state.from;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/planting_method`;
 
   const persistPath = [goBackPath];
 

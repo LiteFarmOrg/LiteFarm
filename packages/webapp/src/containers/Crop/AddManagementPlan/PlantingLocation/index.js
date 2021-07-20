@@ -65,15 +65,21 @@ export default function PlantingLocation({ history, match }) {
 
   const onGoBack = () => {
     if (isTransplantPage) {
-      history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
-      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+      console.log(isInGround);
+      if (isInGround) {
+        dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+      } else {
+        dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+      }
     } else {
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       if (isWildCrop) {
         history.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
       } else {
         history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
       }
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
     }
   };
 

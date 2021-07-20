@@ -137,6 +137,7 @@ const Unit = ({
   const [showError, setShowError] = useState();
   const { errors } = useFormState({ control });
   const error = get(errors, name);
+
   useEffect(() => {
     setShowError(!!error && !disabled);
   }, [error]);

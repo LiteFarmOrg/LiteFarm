@@ -883,6 +883,7 @@
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
+    "NEXT_HARVEST": "When do you expect your next harvest?",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Management plan name",
@@ -917,10 +918,24 @@
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "planted",
+        "SEEDED": "seeded",
+        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
+      },
+      "TITLE": {
+        "PLANTING": "Planting",
+        "SEEDING": "Seeding",
+        "TEXT": "{{fill}} location"
+      }
+    },
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "PLAN_AND_ID_plural": "MISSING",
-    "NEXT_HARVEST": "When do you expect your next harvest?"
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?", 
+    "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

@@ -10,10 +10,12 @@ export default function RowMethod({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const persistPath = [`/crop/${variety_id}/add_management_plan/planting_method`];
+  const goBackPath = `/crop/${variety_id}/add_management_plan/planting_method`;
+
+  const persistPath = [goBackPath];
 
   const onGoBack = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+    history.push(goBackPath);
   }
 
   const onCancel = () => {

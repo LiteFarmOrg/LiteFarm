@@ -10,6 +10,8 @@ export default function BedPlan({ history, match }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietyByID(match.params.variety_id));
 
+  const goBackPath =  `/crop/${variety_id}/add_management_plan/planting_method`;
+
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
   };
@@ -19,7 +21,7 @@ export default function BedPlan({ history, match }) {
   };
 
   const onBack = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+    history.push(goBackPath);
   };
 
   return (

@@ -25,7 +25,7 @@ const PureCertificationSurveyPage = ({
   persistedFormData,
 }) => {
   const { t } = useTranslation();
-  const [submissionId, setSubmissionId] = useState(undefined);
+  const [submissionId, setSubmissionId] = useState(persistedFormData?.submissionId);
 
   const persistedPath = ['/certification/report_period'];
   useHookFormPersist(persistedPath, () => ({}));
@@ -35,10 +35,14 @@ const PureCertificationSurveyPage = ({
   useEffect(() => {
     const handler = (event) => {
       // console.log(event);
-      if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
-      const data = JSON.parse(event.data);
-      console.log('Hello World?', data);
-      setSubmissionId('60df45608b55990001f24afd');
+      // if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
+      // const data = JSON.parse(event.data);
+      // console.log('Hello World?', data);
+      const { type, payload } = event.data;
+      if (type === 'SUBMISSION_RESULT_SUCCESS_CLOSE') {
+        setSubmissionId('60df45608b55990001f24afd');
+        // setSubmissionId(payload.submissionId);
+      }
     };
 
     window.addEventListener('message', handler);
@@ -81,19 +85,33 @@ const PureCertificationSurveyPage = ({
           requested_certifier={requested_certifier}
           hasQuestions={hasQuestions}
           certifier_acronym={certifier_acronym}
+          submissionId={submissionId}
+          email={persistedFormData.email}
         />
       </Layout>
     </>
   );
 };
 
-const SurveyBody = ({ requested_certifier, hasQuestions, certifier_acronym }) => {
+const SurveyBody = ({
+  requested_certifier,
+  hasQuestions,
+  certifier_acronym,
+  submissionId,
+  email,
+}) => {
   if (requested_certifier) {
     return <UnregisteredCertifierSurvey />;
   } else {
     if (hasQuestions) {
       // TODO: this is hard coded for the purpose of proof-of-concept
-      return <RegisteredCertifierQuestionsSurvey certiferAcronym={certifier_acronym} />;
+      return (
+        <RegisteredCertifierQuestionsSurvey
+          certiferAcronym={certifier_acronym}
+          submissionId={submissionId}
+          email={email}
+        />
+      );
     } else {
       return <RegisteredCertifierNoQuestionsSurvey />;
     }

@@ -90,6 +90,7 @@
     "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
+    "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
     "FROM": "From",
     "GOOD_NEWS": "Good news!",

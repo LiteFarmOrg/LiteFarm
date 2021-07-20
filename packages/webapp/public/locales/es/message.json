@@ -104,6 +104,7 @@
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
+      "CREATE": "MISSING",
       "UPDATE": "MISSING"
     }
   },

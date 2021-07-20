@@ -9,8 +9,8 @@ function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  // For showcase
-  const plan = useSelector(managementPlanSelectorById(1));
+  const plan_id = match.params.management_plan_id;
+  const plan = useSelector(managementPlanSelectorById(plan_id));
 
   const isAdmin = useSelector(isAdminSelector);
 

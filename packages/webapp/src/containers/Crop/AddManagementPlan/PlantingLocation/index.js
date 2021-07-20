@@ -49,7 +49,10 @@ export default function PlantingLocation({ history, match }) {
   const dispatch = useDispatch();
 
   const onContinue = (data) => {
-    if (isWildCrop && !isTransplant) {
+    if (isTransplantPage) {
+      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+    } else if (isWildCrop && !isTransplant) {
       pinLocation
         ? setWildCropLocation(pinLocation)
         : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
@@ -61,9 +64,12 @@ export default function PlantingLocation({ history, match }) {
         : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       history.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
-    } else {
+    } else if (isInGround && isTransplant) {
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+    } else {
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
     }
   };
 

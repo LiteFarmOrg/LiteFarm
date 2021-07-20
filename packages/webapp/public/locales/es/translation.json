@@ -12,16 +12,7 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
-  },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
     "LENGTH_OF_BED": "MISSING",
     "NUMBER_0F_BEDS": "MISSING",
     "NUMBER_OF_ROWS": "MISSING",
@@ -875,6 +866,7 @@
     "IN_GROUND": "En el suelo",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
+    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "LOCATION_SUBTEXT": "Solo se muestran las ubicaciones que pueden producir cultivos.",
     "MANAGEMENT_PLAN_FLOW": "MISSING",
     "MANAGEMENT_SPOTLIGHT_1": "Crea nuevos planes para este cultivo",
@@ -912,18 +904,15 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
-    "SELECT_STARTING_LOCATION": "¿Dónde está su lugar de siembra?",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
     "TERMINATION": "Terminar",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
-    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
-        "SEEDED": "MISSING",
-        "TEXT": "MISSING"
+        "SEEDED": "MISSING"
       },
       "TITLE": {
         "PLANTING": "MISSING",
@@ -932,12 +921,11 @@
       }
     },
     "WHAT_IS_AGE": "MISSING",
-    "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING"
-
+    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WILD_CROP": "MISSING",
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -975,6 +963,19 @@
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "BED": "MISSING",
+    "BEDS": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "ROW": "MISSING",
+    "ROWS": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY": "MISSING",
+    "TOOLTIP": "MISSING",
+    "WIDTH": "MISSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1269,5 +1270,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
   }
 }

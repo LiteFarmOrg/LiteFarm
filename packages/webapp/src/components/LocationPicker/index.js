@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -9,12 +9,52 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
+import MapPin from '../../assets/images/map/map_pin.svg';
 
-const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
+const LocationPicker = ({
+  className,
+  setLocationId,
+  selectedLocationId,
+  canUsePin,
+  setPinLocation,
+  currentPin
+}) => {
+  const [selectedLocation, setSelectedLocation] = useState(currentPin);
+  const [selectedPin, setSelectedPin] = useState(null);
+  const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
-
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
-  
+
+  function placeMarker(latLng, map, maps) {
+    setSelectedPin(new maps.Marker({
+      icon: MapPin,
+      position: latLng,
+      map: map,
+    }));
+  }
+
+  const drawPinIfOnPinMode = (latLng, map, maps) => {
+    if (canUsePin) {
+      selectedPin?.setMap(null);
+      placeMarker(latLng, map, maps);
+    }
+  };
+
+  useEffect(() => {
+    if (innerMap && canUsePin) {
+      drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
+    }
+    if(!canUsePin) {
+      selectedPin?.setMap(null);
+      setSelectedPin(null);
+      setSelectedLocation(null);
+    }
+  }, [innerMap, selectedLocation, canUsePin]);
+
+  useEffect(() => {
+    setPinLocation(selectedLocation);
+  }, [selectedLocation]);
+
   const getMapOptions = (maps) => {
     return {
       styles: [
@@ -51,6 +91,11 @@ const LocationPicker = ({ className, setLocationId, selectedLocationId }) => {
   };
 
   const handleGoogleMapApi = (map, maps) => {
+    setInnerMap({ map, maps });
+    map.addListener('click', (e) => {
+      setSelectedLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    });
+
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {

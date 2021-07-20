@@ -25,12 +25,12 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
     const fileNames = files.map(({ url, file_name }) => ({
       oldName: url.split('/').pop(),
       newName: file_name,
-    }))
+    }));
     Promise.all(fileNames.map(({ oldName, newName }) => {
       const directory = path.join(process.env.EXPORT_WD, 'temp', farm_id);
       return fs.stat(path.join(directory, oldName)).then(() =>
         fs.rename(path.join(directory, oldName), path.join(directory, newName)),
-      )
+      ).catch(e => console.log('Could not find file', newName));
     })).then(() => {
       done();
       nextQueue.add(job.data, { removeOnComplete: true });

@@ -90,7 +90,6 @@ export default function PureNextHarvest({
           label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
           name={ESTIMATED_YIELD}
           displayUnitName={ESTIMATED_YIELD_UNIT}
-          errors={errors[ESTIMATED_YIELD]}
           unitType={seedYield}
           system={system}
           hookFormSetValue={setValue}

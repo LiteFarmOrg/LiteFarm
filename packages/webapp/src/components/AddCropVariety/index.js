@@ -35,7 +35,7 @@ export default function PureAddCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         crop.crop_photo_url ||
-        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
+        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v1/default.webp`,
       ...persistedFormData,
     },
   });

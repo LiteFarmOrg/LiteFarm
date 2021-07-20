@@ -230,7 +230,7 @@ const Unit = ({
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
-    } else if (e.target.value >= getMax()) {
+    } else if (e.target.value >= getMax() && error?.type === 'max') {
       setVisibleInputValue(max);
       hookFormSetHiddenValue(getMax(), { shouldDirty: true });
     } else {

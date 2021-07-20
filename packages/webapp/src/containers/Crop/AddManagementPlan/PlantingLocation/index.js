@@ -103,7 +103,7 @@ export default function PlantingLocation({ history, match }) {
         persistedPath={persistedPath}
         persistedFormData={persistedFormData}
         transplant={isTransplantPage}
-        progress={progress}
+        //progress={progress}
         setPinLocation={setPinLocation}
         pinLocation={pinLocation}
       />

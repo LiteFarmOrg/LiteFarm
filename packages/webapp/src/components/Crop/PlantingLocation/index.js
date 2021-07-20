@@ -9,9 +9,11 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
+
 import Checkbox from '../../Inputs/Checkbox';
 import register from '../../../registerServiceWorker';
 import { cloneObject } from '../../../util';
+
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -23,6 +25,11 @@ export default function PurePlantingLocation({
   useHookFormPersist,
   persistedPath,
   transplant,
+
+  progress,
+  setPinLocation,
+  pinLocation
+
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -30,6 +37,7 @@ export default function PurePlantingLocation({
     mode: 'onChange',
     shouldUnregister: true,
   });
+
 
   const SELECTED_STARTING_LOCATION = 'selected_starting_location';
   const selected_starting_location = watch(SELECTED_STARTING_LOCATION);
@@ -40,6 +48,7 @@ export default function PurePlantingLocation({
     seeding_type_temp = '';
   }
 
+
   useHookFormPersist(persistedPath, getValues);
 
   const [pinMode, setPinMode] = useState(false);
@@ -48,11 +57,12 @@ export default function PurePlantingLocation({
     persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
 
-  console.log(persistedFormData);
 
   const handlePinMode = () => {
-    pinMode ? setPinMode(false) : setPinMode(true);
-    setCanUsePin(persistedFormData.wild_crop && persistedFormData.in_ground && !pinMode);
+    const currentPinMode = pinMode;
+    setPinMode(!currentPinMode);
+    setCanUsePin(!currentPinMode);
+
   };
 
   return (
@@ -62,7 +72,9 @@ export default function PurePlantingLocation({
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocationId} onClick={onContinue} fullLength>
+
+            <Button disabled={!selectedLocationId && !pinLocation} onClick={() => onContinue(pinLocation)} fullLength>
+
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -92,7 +104,9 @@ export default function PurePlantingLocation({
           setLocationId={setLocationId}
           selectedLocationId={selectedLocationId}
           canUsePin={canUsePin}
-          handleCanUsePin={setCanUsePin}
+          setPinLocation={setPinLocation}
+          currentPin={pinLocation}
+
         />
 
         <div>
@@ -122,6 +136,7 @@ export default function PurePlantingLocation({
           </Button>
         )}
 
+
         {/*<Checkbox hookFormRegister={register(SELECTED_STARTING_LOCATION)}*/}
         {/*          label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}*/}
         {/*          classes={{ container: { paddingBottom: '42px' } }}/>*/}
@@ -129,6 +144,7 @@ export default function PurePlantingLocation({
         {/*{in_ground === false && needs_transplant === true && selectedLocationId !== null && (*/}
 
         {/*)}*/}
+
       </Layout>
     </>
   );

@@ -3,6 +3,8 @@ import {
   hookFormPersistSelector,
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
+  setWildCropLocation,
+  resetWildCropLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +20,7 @@ export default function PlantingLocation({ history, match }) {
       ? persistedFormData?.transplant_container?.location_id
       : persistedFormData?.location_id,
   );
+  const [pinLocation, setPinLocation] = useState(persistedFormData?.pinLocation);
   const variety_id = match.params.variety_id;
 
   const isWildCrop = Boolean(persistedFormData.wild_crop);
@@ -46,20 +49,21 @@ export default function PlantingLocation({ history, match }) {
   const dispatch = useDispatch();
 
   const onContinue = (data) => {
-    if (isTransplantPage) {
-      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
-    } else if (isTransplant) {
-      if (isInGround) {
-        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
-      } else {
-        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
-      }
+    if (isWildCrop && !isTransplant) {
+      pinLocation
+        ? setWildCropLocation(pinLocation)
+        : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`crop/${variety_id}/add_management_plan/name`);
+    } else if (isWildCrop && isTransplant) {
+      pinLocation
+        ? setWildCropLocation(pinLocation)
+        : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
     } else {
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+      history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
     }
   };
 
@@ -99,6 +103,9 @@ export default function PlantingLocation({ history, match }) {
         persistedPath={persistedPath}
         persistedFormData={persistedFormData}
         transplant={isTransplantPage}
+        progress={progress}
+        setPinLocation={setPinLocation}
+        pinLocation={pinLocation}
       />
       {persistedFormData.needs_transplant && (
         <TransplantSpotlight seedingType={persistedFormData.seeding_type} />

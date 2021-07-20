@@ -16,37 +16,46 @@ const LocationPicker = ({
   setLocationId,
   selectedLocationId,
   canUsePin,
-  handleCanUsePin,
+  setPinLocation,
+  currentPin
 }) => {
-  let currentlySelectedMarker = null;
-
+  const [selectedLocation, setSelectedLocation] = useState(currentPin);
+  const [selectedPin, setSelectedPin] = useState(null);
+  const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
 
-  console.log('canUsePin in LocationPicker: ' + canUsePin);
   function placeMarker(latLng, map, maps) {
-    currentlySelectedMarker = new maps.Marker({
+    setSelectedPin(new maps.Marker({
       icon: MapPin,
       position: latLng,
       map: map,
-    });
+    }));
   }
 
   const drawPinIfOnPinMode = (latLng, map, maps) => {
-    console.log('canUsePin in drawPinIfOnPinMode: ' + canUsePin);
     if (canUsePin) {
-      placeMarker(latLng, map, maps); // persist latLng value in persistedFormData
-      handleCanUsePin(false);
+      selectedPin?.setMap(null);
+      placeMarker(latLng, map, maps);
     }
   };
 
   useEffect(() => {
-    if (!canUsePin) {
-      // currentlySelectedMarker !== undefined
-      // functionality so currentlySelectedMarker disappears
-      currentlySelectedMarker = null;
+
+    if (innerMap && canUsePin) {
+      drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
     }
-  }, [canUsePin]);
+    if(!canUsePin) {
+      selectedPin?.setMap(null);
+      setSelectedPin(null);
+      setSelectedLocation(null);
+    }
+  }, [innerMap, selectedLocation, canUsePin]);
+
+  useEffect(() => {
+    setPinLocation(selectedLocation);
+  }, [selectedLocation]);
+
 
   const getMapOptions = (maps) => {
     return {
@@ -84,25 +93,11 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
-    console.log('canUsePin in handleGoogleMapApi: ' + canUsePin);
-    map.addListener('click', (e) => {
-      console.log('clicked');
-      drawPinIfOnPinMode(e.latLng, map, maps);
-    });
 
-    //   console.log(canUsePin);
-    //   map.addListener('click', (e) => {
-    //     drawPinIfOnPinMode(e.latLng, map)
-    //     placeMarker(e.latLng, map);
-    //   });
-    //
-    //   function placeMarker(latLng, map) {
-    //     new maps.Marker({
-    //       icon: MapPin,
-    //       position: latLng,
-    //       map: map,
-    //     });
-    //   }
+    setInnerMap({ map, maps });
+    map.addListener('click', (e) => {
+      setSelectedLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    });
 
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();

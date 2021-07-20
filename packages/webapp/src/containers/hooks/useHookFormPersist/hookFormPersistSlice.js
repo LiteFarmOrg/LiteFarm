@@ -99,6 +99,8 @@ const hookFormPersistSlice = createSlice({
     setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
       !state.formData.transplant_container && (state.formData.transplant_container = {});
       state.formData.transplant_container.location_id = location_id;
+      state?.formData?.farm?.default_initial_location_id &&
+        (state.formData.farm.default_initial_location_id = location_id);
     },
     setWildCropLocation: (state, { payload }) => {
       state.formData.wild_crop_location = payload;

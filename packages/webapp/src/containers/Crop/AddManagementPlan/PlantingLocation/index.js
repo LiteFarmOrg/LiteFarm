@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
   hookFormPersistSelector,
+  setDefaultInitialLocation,
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
-  resetWildCropLocation,
-  setDefaultInitialLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,7 @@ export default function PlantingLocation({ history, match }) {
   const isTransplantPage =
     match?.path === '/crop/:variety_id/add_management_plan/choose_transplant_location';
   const persistedFormData = useSelector(hookFormPersistSelector);
+
   const [selectedLocationId, setLocationId] = useState(
     isTransplantPage
       ? persistedFormData?.transplant_container?.location_id
@@ -48,7 +48,7 @@ export default function PlantingLocation({ history, match }) {
   }
 
   const dispatch = useDispatch();
-
+  //TODO: remove [selectedLocationId, setLocationId] and use state from persistedHookForm instead
   const onContinue = (data) => {
     if (isTransplantPage) {
       dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
@@ -103,7 +103,6 @@ export default function PlantingLocation({ history, match }) {
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
 
   const onSelectCheckbox = (e) => {
-    console.log(e?.target?.checked);
     if (!e?.target?.checked) {
       dispatch(setDefaultInitialLocation(undefined));
     } else {

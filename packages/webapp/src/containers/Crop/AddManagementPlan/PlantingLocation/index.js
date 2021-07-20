@@ -4,7 +4,7 @@ import {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
-  resetWildCropLocation
+  resetWildCropLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,24 +48,36 @@ export default function PlantingLocation({ history, match }) {
 
   const dispatch = useDispatch();
 
+  // const onContinue = (data) => {
+  //   dispatch(resetWildCropLocation());
+  //   if (isWildCrop) {
+  //     dispatch(setWildCropLocation(pinLocation));
+  //   } else if(isTransplantPage) {
+  //     dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
+  //     history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+  //   } else if (isTransplant) {
+  //     if (isInGround) {
+  //       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+  //       history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+  //     } else {
+  //       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+  //       history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+  //     }
+  //   } else {
+  //     dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+  //     history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+  //   }
+  // };
+
   const onContinue = (data) => {
-    dispatch(resetWildCropLocation());
-    if (isWildCrop) {
-      dispatch(setWildCropLocation(pinLocation));
-    } else if(isTransplantPage) {
-      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
-    } else if (isTransplant) {
-      if (isInGround) {
-        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
-      } else {
-        dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
-      }
-    } else {
+    if (isWildCrop && !isTransplant) {
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+      history.push(`crop/${variety_id}/add_management_plan/name`);
+    } else if (isWildCrop && isTransplant) {
+      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
+    } else {
+      history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
     }
   };
 

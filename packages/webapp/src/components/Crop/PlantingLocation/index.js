@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker';
@@ -122,7 +122,6 @@ export default function PurePlantingLocation({
             style={{ paddingBottom: '25px' }}
             checked={!!persistedFormData?.farm?.default_initial_location_id}
             onChange={(e) => {
-              console.log('1', e?.target?.checked);
               onSelectCheckbox(e);
             }}
           />

@@ -9,6 +9,9 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
+import Checkbox from '../../Inputs/Checkbox';
+import register from '../../../registerServiceWorker';
+import { cloneObject } from '../../../util';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -23,10 +26,13 @@ export default function PurePlantingLocation({
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
-  const { getValues } = useForm({
+  const { getValues, watch } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
   });
+
+  const SELECTED_STARTING_LOCATION = 'selected_starting_location';
+  const selected_starting_location = watch(SELECTED_STARTING_LOCATION);
 
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
   let seeding_type_temp = seeding_type;
@@ -79,12 +85,6 @@ export default function PurePlantingLocation({
             : in_ground === true
             ? t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION')
             : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
-          {/*{transplant*/}
-          {/*  ? t('MANAGEMENT_PLAN.TRANSPLANT_LOCATION')*/}
-          {/*  : needs_transplant*/}
-          {/*  ? t('MANAGEMENT_PLAN.SELECT_STARTING_LOCATION')*/}
-          {/*  : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')*/}
-          {/*}*/}
         </div>
 
         <LocationPicker
@@ -121,6 +121,14 @@ export default function PurePlantingLocation({
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
         )}
+
+        {/*<Checkbox hookFormRegister={register(SELECTED_STARTING_LOCATION)}*/}
+        {/*          label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}*/}
+        {/*          classes={{ container: { paddingBottom: '42px' } }}/>*/}
+
+        {/*{in_ground === false && needs_transplant === true && selectedLocationId !== null && (*/}
+
+        {/*)}*/}
       </Layout>
     </>
   );

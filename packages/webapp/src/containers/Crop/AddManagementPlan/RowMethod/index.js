@@ -5,7 +5,6 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
 
 export default function RowMethod({ history, match }) {
-
   const system = useSelector(measurementSelector);
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
@@ -17,11 +16,11 @@ export default function RowMethod({ history, match }) {
 
   const onGoBack = () => {
     history.push(goBackPath);
-  }
+  };
 
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
-  }
+  };
 
   const onContinue = () => {
     history.push(continuePath);

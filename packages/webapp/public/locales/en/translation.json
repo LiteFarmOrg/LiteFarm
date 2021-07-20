@@ -871,6 +871,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
+    "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
@@ -901,6 +902,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",
@@ -935,7 +937,7 @@
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?", 
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
   },

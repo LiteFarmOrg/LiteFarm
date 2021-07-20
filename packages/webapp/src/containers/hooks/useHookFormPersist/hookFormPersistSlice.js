@@ -118,6 +118,13 @@ const hookFormPersistSlice = createSlice({
     setInterested: (state, { payload: interested }) => {
       state.formData.interested = interested;
     },
+
+    setDefaultInitialLocation: (state, { payload: location_id }) => {
+      if (!state.formData.farm) {
+        state.formData.farm = {};
+      }
+      state.formData.farm.default_initial_location_id = location_id;
+    },
   },
 });
 
@@ -139,6 +146,7 @@ export const {
   setCertifierId,
   setInterested,
   resetWildCropLocation,
+  setDefaultInitialLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

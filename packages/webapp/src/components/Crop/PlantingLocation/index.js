@@ -24,6 +24,7 @@ export default function PurePlantingLocation({
   progress,
   setPinLocation,
   pinLocation,
+  onSelectCheckbox,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -45,11 +46,6 @@ export default function PurePlantingLocation({
     const currentPinMode = pinMode;
     setPinMode(!currentPinMode);
     setCanUsePin(!currentPinMode);
-  };
-
-  const dispatch = useDispatch();
-  const onSelectCheckbox = () => {
-    dispatch(setLocationId(selectedLocationId));
   };
 
   return (
@@ -124,7 +120,11 @@ export default function PurePlantingLocation({
           <Checkbox
             label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}
             style={{ paddingBottom: '25px' }}
-            onChange={onSelectCheckbox}
+            checked={!!persistedFormData?.farm?.default_initial_location_id}
+            onChange={(e) => {
+              console.log('1', e?.target?.checked);
+              onSelectCheckbox(e);
+            }}
           />
         )}
       </Layout>

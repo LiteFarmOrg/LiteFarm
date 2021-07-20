@@ -5,6 +5,7 @@ import {
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
   resetWildCropLocation,
+  setDefaultInitialLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -125,6 +126,7 @@ export default function PlantingLocation({ history, match }) {
         progress={progress}
         setPinLocation={setPinLocation}
         pinLocation={pinLocation}
+        onSelectCheckbox={onSelectCheckbox}
       />
       {needs_transplant && !in_ground && <TransplantSpotlight seedingType={seeding_type} />}
     </>

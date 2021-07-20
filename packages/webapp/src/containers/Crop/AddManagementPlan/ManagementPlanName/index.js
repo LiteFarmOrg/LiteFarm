@@ -67,6 +67,7 @@ const formatManagementPlanFormData = (formData) => {
       ? getTransplantContainer(data?.transplant_container)
       : undefined,
   };
+  console.log(reqBody);
   return reqBody;
 };
 

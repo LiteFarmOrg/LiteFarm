@@ -100,10 +100,10 @@ const hookFormPersistSlice = createSlice({
       !state.formData.transplant_container && (state.formData.transplant_container = {});
       state.formData.transplant_container.location_id = location_id;
     },
-    setWildCropLocation: (state, { payload })  => {
+    setWildCropLocation: (state, { payload }) => {
       state.formData.wild_crop_location = payload;
     },
-    resetWildCropLocation : (state) => {
+    resetWildCropLocation: (state) => {
       state.formData.wild_crop_location = null;
     },
     uploadFileSuccess: onUploadFileSuccess,
@@ -138,7 +138,7 @@ export const {
   initEditDocument,
   setCertifierId,
   setInterested,
-  resetWildCropLocation
+  resetWildCropLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

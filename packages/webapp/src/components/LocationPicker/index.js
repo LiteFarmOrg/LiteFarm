@@ -17,7 +17,7 @@ const LocationPicker = ({
   selectedLocationId,
   canUsePin,
   setPinLocation,
-  currentPin
+  currentPin,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(currentPin);
   const [selectedPin, setSelectedPin] = useState(null);
@@ -26,11 +26,13 @@ const LocationPicker = ({
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
 
   function placeMarker(latLng, map, maps) {
-    setSelectedPin(new maps.Marker({
-      icon: MapPin,
-      position: latLng,
-      map: map,
-    }));
+    setSelectedPin(
+      new maps.Marker({
+        icon: MapPin,
+        position: latLng,
+        map: map,
+      }),
+    );
   }
 
   const drawPinIfOnPinMode = (latLng, map, maps) => {
@@ -45,7 +47,7 @@ const LocationPicker = ({
     if (innerMap && canUsePin) {
       drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
     }
-    if(!canUsePin) {
+    if (!canUsePin) {
       selectedPin?.setMap(null);
       setSelectedPin(null);
       setSelectedLocation(null);

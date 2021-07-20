@@ -106,7 +106,7 @@ export default function PureTransplant({
             <RadioGroup
               hookFormControl={control}
               name={COVER}
-              required={!!isCoverCrop}
+              required={!isCoverCrop}
               radios={[
                 {
                   label: t('MANAGEMENT_PLAN.AS_COVER_CROP'),

@@ -93,6 +93,8 @@ export default function PlantingLocation({ history, match }) {
 
   const progress = isTransplantPage ? 55 : 37.5;
 
+  const { needs_transplant, seeding_type, in_ground } = persistedFormData;
+
   return (
     <>
       <PurePlantingLocation
@@ -109,9 +111,7 @@ export default function PlantingLocation({ history, match }) {
         setPinLocation={setPinLocation}
         pinLocation={pinLocation}
       />
-      {persistedFormData.needs_transplant && (
-        <TransplantSpotlight seedingType={persistedFormData.seeding_type} />
-      )}
+      {needs_transplant && !in_ground && <TransplantSpotlight seedingType={seeding_type} />}
     </>
   );
 }

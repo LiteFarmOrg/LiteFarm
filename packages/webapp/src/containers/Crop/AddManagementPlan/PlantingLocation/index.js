@@ -4,7 +4,6 @@ import {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
-  resetWildCropLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -100,7 +99,7 @@ export default function PlantingLocation({ history, match }) {
   const progress = isTransplantPage ? 55 : 37.5;
 
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
-
+  useHookFormPersist(persistedPath, () => ({}));
   return (
     <>
       <PurePlantingLocation
@@ -110,7 +109,6 @@ export default function PlantingLocation({ history, match }) {
         onCancel={onCancel}
         setLocationId={setLocationId}
         useHookFormPersist={useHookFormPersist}
-        persistedPath={persistedPath}
         persistedFormData={persistedFormData}
         transplant={isTransplantPage}
         progress={progress}

@@ -935,6 +935,14 @@
     "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
   },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "Edit plan",
+    "ASSOCIATED_TASKS": "Associated tasks",
+    "ADD_A_TASK": "Add a task",
+    "FAILED_CROP": "Failed crop?",
+    "ABANDON_PLAN": "Abandon this management plan",
+    "PLAN_NOTES": "Plan notes"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",

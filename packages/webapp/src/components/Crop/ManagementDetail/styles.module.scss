@@ -1,0 +1,34 @@
+.title {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--grey900);
+  font-size: 20px;
+  line-height: 24px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.titlewrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.subtitle {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--grey900);
+  font-size: 16px;
+  line-height: 20px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.abandonwrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.pencil {
+    width: 15.06px;
+    height: 15.02px;
+}

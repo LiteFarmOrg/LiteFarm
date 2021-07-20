@@ -10,7 +10,6 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
 import Checkbox from '../../Form/Checkbox';
-import { useDispatch } from 'react-redux';
 
 export default function PurePlantingLocation({
   selectedLocationId,

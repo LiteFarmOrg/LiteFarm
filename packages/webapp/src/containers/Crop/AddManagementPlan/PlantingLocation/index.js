@@ -101,6 +101,15 @@ export default function PlantingLocation({ history, match }) {
 
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
 
+  const onSelectCheckbox = (e) => {
+    console.log(e?.target?.checked);
+    if (!e?.target?.checked) {
+      dispatch(setDefaultInitialLocation(undefined));
+    } else {
+      dispatch(setDefaultInitialLocation(selectedLocationId));
+    }
+  };
+
   return (
     <>
       <PurePlantingLocation

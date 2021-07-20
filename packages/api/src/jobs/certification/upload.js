@@ -1,4 +1,6 @@
-const { spawn }= require('child_process')
+const { spawn }= require('child_process');
+const fs = require('fs');
+const path = require('path');
 const bucketNames = {
   production: 'litefarm-app-secret',
   integration: 'litefarm-beta-secret',
@@ -21,6 +23,9 @@ module.exports = (emailQueue) => (job, done) => {
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
     done();
     emailQueue.add({ ...job.data, file: fileIdentifier }, { removeOnComplete: true });
+    fs.rmdir(path.join(process.env.EXPORT_WD, 'temp', farm_id), { recursive: true }, (err) => {
+      if(!err) console.log('deleted temp folder', farm_id);
+    })
   }, ()=> {
     done();
     emailQueue.add({ fail: true, email }, { removeOnComplete: true });

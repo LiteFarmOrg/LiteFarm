@@ -177,6 +177,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Cosechar",
+    "PLANT": "MISSING",
     "SEED": "Sembrar",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Trasplantar"
@@ -855,6 +856,8 @@
     "COVER_INFO": "La selección de un cultivo de cobertura creará una tarea de trabajo de campo para terminar el cultivo de cobertura al final de la temporada. En su lugar, seleccionar para la cosecha creará una tarea de cosecha.",
     "COVER_OR_HARVEST": "¿Se está cultivando como cultivo de cobertura o para la cosecha?",
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
+    "DAYS_TO_HARVEST": "MISSING",
+    "DAYS_TO_TERMINATION": "MISSING",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
@@ -865,6 +868,7 @@
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
+    "HARVEST_DATE": "MISSING",
     "IN_GROUND": "En el suelo",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
@@ -898,6 +902,7 @@
       "TOTAL_LENGTH": "MISSING"
     },
     "ROWS": "Hilera",
+    "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
@@ -909,12 +914,16 @@
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
     "TERMINATION": "Terminar",
+    "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
+    "TRANSPLANT_DATE": "MISSING",
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
-        "SEEDED": "MISSING"
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
       },
       "TITLE": {
         "PLANTING": "MISSING",
@@ -923,11 +932,19 @@
       }
     },
     "WHAT_IS_AGE": "MISSING",
-    "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WILD_CROP": "MISSING",
+    "PLAN_AND_ID_plural": "MISSING",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
+  },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "ABANDON_PLAN": "MISSING",
+    "PLAN_NOTES": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",

@@ -44,5 +44,7 @@
   "SUBMITTING": "Submitting...",
   "TO": "to",
   "UPDATE": "Update",
-  "YES": "Yes"
+  "YES": "Yes",
+  "MARK_COMPLETED": "Mark completed",
+  "COPY": "Copy plan"
 }

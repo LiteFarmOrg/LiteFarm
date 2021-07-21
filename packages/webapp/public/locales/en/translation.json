@@ -72,7 +72,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
-      "WHY": "Why are we asking this?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
     "REQUEST_CERTIFIER": {
@@ -186,8 +185,8 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinate",
     "HARVEST": "Harvest",
-    "SEED": "Seed",
     "PLANT": "Plant",
+    "SEED": "Seed",
     "TERMINATE": "Terminate",
     "TRANSPLANT": "Transplant"
   },
@@ -865,8 +864,8 @@
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
     "DAYS_FROM_SEEDING": "Days from seed to:",
-    "DAYS_TO_TERMINATION": "Days to termination:",
     "DAYS_TO_HARVEST": "Days to next harvest:",
+    "DAYS_TO_TERMINATION": "Days to termination:",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
@@ -876,9 +875,11 @@
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
+    "HARVEST_DATE": "When do you expect your next harvest?",
     "IN_GROUND": "In ground",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
     "MANAGEMENT_PLAN_FLOW": "management plan",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
@@ -894,10 +895,6 @@
     "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
-    "TRANSPLANT_DATE": "What is your transplant date?",
-    "HARVEST_DATE": "When do you expect your next harvest?",
-    "TERMINATION_DATE": "When will you terminate this crop?",
-    "SEED_DATE": "What is your seeding date?",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
@@ -911,6 +908,7 @@
       "TOTAL_LENGTH": "Total length of rows"
     },
     "ROWS": "Rows",
+    "SEED_DATE": "What is your seeding date?",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What age is the the seedling or planting stock?",
@@ -920,14 +918,15 @@
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",
+    "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
+    "TRANSPLANT_DATE": "What is your transplant date?",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
-        "SEEDED": "seeded",
-        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
+        "SEEDED": "seeded"
       },
       "TITLE": {
         "PLANTING": "Planting",
@@ -936,11 +935,10 @@
       }
     },
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?",
-    "PLAN_AND_ID_plural": "MISSING",
-    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?", 
     "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights."
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

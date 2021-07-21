@@ -21,7 +21,7 @@ const pdfFn = require('./certification/pdf');
 const emailFn = require('./certification/email');
 
 retrieveQueue.process(retrieveFn(excelQueue, emailQueue));
-excelQueue.process(excelFn(pdfQueue, emailQueue));
+excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));
 pdfQueue.process(pdfFn(zipQueue, emailQueue));
 zipQueue.process(zipFn(uploadQueue));
 uploadQueue.process(uploadFn(emailQueue));

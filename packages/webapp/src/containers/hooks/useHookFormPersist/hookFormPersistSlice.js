@@ -99,6 +99,8 @@ const hookFormPersistSlice = createSlice({
     setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
       !state.formData.transplant_container && (state.formData.transplant_container = {});
       state.formData.transplant_container.location_id = location_id;
+      state?.formData?.farm?.default_initial_location_id &&
+        (state.formData.farm.default_initial_location_id = location_id);
     },
     setWildCropLocation: (state, { payload }) => {
       state.formData.wild_crop_location = payload;
@@ -121,6 +123,13 @@ const hookFormPersistSlice = createSlice({
     setInterested: (state, { payload: interested }) => {
       state.formData.interested = interested;
     },
+
+    setDefaultInitialLocation: (state, { payload: location_id }) => {
+      if (!state.formData.farm) {
+        state.formData.farm = {};
+      }
+      state.formData.farm.default_initial_location_id = location_id;
+    },
   },
 });
 
@@ -136,13 +145,14 @@ export const {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
-  resetWildCropLocation,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,
   setCertifierId,
   setInterested,
+  setDefaultInitialLocation,
+  resetWildCropLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

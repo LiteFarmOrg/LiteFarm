@@ -914,6 +914,8 @@
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
+    "SELECT_STARTING_LOCATION": "Where is your starting location?",
+    "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",

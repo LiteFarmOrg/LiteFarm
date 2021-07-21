@@ -60,8 +60,8 @@ export default function PureInGroundTransplant({
     control,
     formState: { isValid },
   } = useForm({
-    mode: 'onChange',
     shouldUnregister: false,
+    mode: 'onChange',
     defaultValues: cloneObject(persistedFormData),
   });
 
@@ -145,6 +145,7 @@ export default function PureInGroundTransplant({
                 },
                 { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
               ]}
+              shouldUnregister={false}
               required
             />
             <div className={styles.radioIconsContainer}>

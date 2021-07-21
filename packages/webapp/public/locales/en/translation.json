@@ -996,7 +996,8 @@
     "SPACE_BETWEEN": "Space between {{types}}",
     "SPECIFY": "Specify {{types}}",
     "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
-    "WIDTH": "{{type}} width"
+    "WIDTH": "{{type}} width",
+    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",

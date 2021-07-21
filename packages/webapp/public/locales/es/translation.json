@@ -938,6 +938,14 @@
     "PLAN_AND_ID_plural": "MISSING",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
   },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "ABANDON_PLAN": "MISSING",
+    "PLAN_NOTES": "MISSING"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
     "FARM_INFO": "Información de la finca",

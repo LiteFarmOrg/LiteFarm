@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
+import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
 
-const RegisteredCertifierNoQuestionsSurvey = () => {
+const RegisteredCertifierNoQuestionsSurvey = ({ email }) => {
   const { t } = useTranslation();
 
   return (
@@ -20,9 +21,21 @@ const RegisteredCertifierNoQuestionsSurvey = () => {
         {t('CERTIFICATIONS.GOOD_NEWS')}
       </Semibold>
 
+      <PostSurveySplash
+        style={{
+          height: '27.3vh',
+          margin: '1vh 0 5vh 0',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      />
+
       <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
         {t('CERTIFICATIONS.HAVE_ALL_INFO')}
       </Main>
+
+      <Semibold>{email}</Semibold>
     </>
   );
 };

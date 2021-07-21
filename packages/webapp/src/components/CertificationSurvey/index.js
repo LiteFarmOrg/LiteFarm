@@ -93,7 +93,7 @@ const PureCertificationSurveyPage = ({
 
 const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email }) => {
   if (requested_certifier) {
-    return <UnregisteredCertifierSurvey />;
+    return <UnregisteredCertifierSurvey email={email} />;
   } else {
     if (surveyId) {
       // TODO: this is hard coded for the purpose of proof-of-concept
@@ -106,7 +106,7 @@ const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissi
         />
       );
     } else {
-      return <RegisteredCertifierNoQuestionsSurvey />;
+      return <RegisteredCertifierNoQuestionsSurvey email={email} />;
     }
   }
 };

@@ -79,7 +79,6 @@ function PurePlanGuidance({
         })}
         style={{ paddingBottom: '40px' }}
         optional={true}
-        max={SPECIFY_LIMIT}
         errors={getInputErrors(errors, SPECIFY)}
       />
 

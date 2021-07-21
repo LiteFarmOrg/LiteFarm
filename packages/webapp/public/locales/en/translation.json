@@ -85,16 +85,18 @@
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
     "EMAIL": "Email",
     "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
+    "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
     "FROM": "From",
     "GOOD_NEWS": "Good news!",
-    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
+    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
@@ -176,6 +178,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinate",
     "HARVEST": "Harvest",
+    "PLANT": "Plant",
     "SEED": "Seed",
     "TERMINATE": "Terminate",
     "TRANSPLANT": "Transplant"
@@ -854,6 +857,8 @@
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
     "DAYS_FROM_SEEDING": "Days from seed to:",
+    "DAYS_TO_HARVEST": "Days to next harvest:",
+    "DAYS_TO_TERMINATION": "Days to termination:",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
@@ -864,6 +869,7 @@
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
+    "HARVEST_DATE": "When do you expect your next harvest?",
     "IN_GROUND": "In ground",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
@@ -897,6 +903,7 @@
       "TOTAL_LENGTH": "Total length of rows"
     },
     "ROWS": "Rows",
+    "SEED_DATE": "What is your seeding date?",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What age is the the seedling or planting stock?",
@@ -910,12 +917,16 @@
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",
+    "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
+    "TRANSPLANT_DATE": "What is your transplant date?",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
-        "SEEDED": "seeded"
+        "SEEDED": "seeded",
+        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
       },
       "TITLE": {
         "PLANTING": "Planting",
@@ -927,8 +938,15 @@
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WILD_CROP": "Are you harvesting a wild crop?",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "PLAN_AND_ID_plural": "MISSING"
+  },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "Edit plan",
+    "ASSOCIATED_TASKS": "Associated tasks",
+    "ADD_A_TASK": "Add a task",
+    "FAILED_CROP": "Failed crop?",
+    "ABANDON_PLAN": "Abandon this management plan",
+    "PLAN_NOTES": "Plan notes"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

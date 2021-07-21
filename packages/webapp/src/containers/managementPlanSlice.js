@@ -282,6 +282,8 @@ export const plannedManagementPlansByLocationIdSelector = (location_id) =>
 
 export const managementPlanSelector = managementPlanSelectors.selectById;
 
+export const managementPlanSelectorById = (management_plan_id) => (state) => managementPlanSelectors.selectById(state, management_plan_id);
+
 export const managementPlanStatusSelector = createSelector(
   [managementPlanReducerSelector],
   ({ loading, error, loaded }) => {

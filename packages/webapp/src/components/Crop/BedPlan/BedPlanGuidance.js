@@ -75,6 +75,7 @@ function PurePlanGuidance({
         hookFormRegister={register(SPECIFY)}
         style={{ paddingBottom: '40px' }}
         optional={true}
+        max={40}
       />
 
       <Unit
@@ -82,7 +83,6 @@ function PurePlanGuidance({
         label={t('PLAN_GUIDANCE.PLANTING_DEPTH')}
         name={PLANTING_DEPTH}
         displayUnitName={PLANTING_DEPTH_UNIT}
-        errors={errors[PLANTING_DEPTH]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}
@@ -97,7 +97,6 @@ function PurePlanGuidance({
         label={t('PLAN_GUIDANCE.WIDTH', { type: TYPE })}
         name={WIDTH}
         displayUnitName={WIDTH_UNIT}
-        errors={errors[WIDTH]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}
@@ -112,7 +111,6 @@ function PurePlanGuidance({
         label={t('PLAN_GUIDANCE.SPACE_BETWEEN', { types: TYPES })}
         name={SPACING}
         displayUnitName={SPACING_UNIT}
-        errors={errors[SPACING]}
         unitType={container_planting_depth}
         system={system}
         hookFormSetValue={setValue}

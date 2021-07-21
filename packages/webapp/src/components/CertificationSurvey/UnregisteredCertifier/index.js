@@ -4,7 +4,7 @@ import { Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
 import { VscWarning } from 'react-icons/all';
 
-const UnregisteredCertifierSurvey = () => {
+const UnregisteredCertifierSurvey = ({ email }) => {
   const { t } = useTranslation();
 
   return (
@@ -25,6 +25,8 @@ const UnregisteredCertifierSurvey = () => {
       <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
         {t('CERTIFICATIONS.COULD_NOT_CONTACT_CERTIFIER')}
       </Main>
+
+      <Semibold>{email}</Semibold>
     </>
   );
 };

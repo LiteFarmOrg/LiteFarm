@@ -108,6 +108,9 @@ const hookFormPersistSlice = createSlice({
     resetWildCropLocation: (state) => {
       state.formData.wild_crop_location = null;
     },
+    setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
+      state.formData.submission_id = submission_id;
+    },
     uploadFileSuccess: onUploadFileSuccess,
     deleteUploadedFile: onDeleteUploadedFile,
     initEditDocument: (state, { payload: files }) => {
@@ -142,6 +145,8 @@ export const {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
+  resetWildCropLocation,
+  setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,

@@ -41,9 +41,6 @@ export default function PurePlantingLocation({
     setCanUsePin(!currentPinMode);
   };
 
-  console.log(persistedFormData);
-  console.log(selectedLocationId);
-
   return (
     <>
       <Layout

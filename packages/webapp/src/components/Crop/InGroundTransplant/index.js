@@ -82,7 +82,7 @@ export default function PureInGroundTransplant({
   const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });
   const dismissModal = () => setSelectedImage({});
 
-  const disabled = !isValid;
+  const disabled = !isValid || (knows_how && !planting_type);
 
   const onContinue = () => {
     history.push(submitPath);
@@ -121,7 +121,7 @@ export default function PureInGroundTransplant({
         </Main>
         <RadioGroup hookFormControl={control} name={KNOWS_HOW} required />
       </div>
-      {knows_how && (
+      {knows_how === true && (
         <>
           <Main
             style={{ marginBottom: '18px' }}
@@ -145,8 +145,8 @@ export default function PureInGroundTransplant({
                 },
                 { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
               ]}
+              required
               shouldUnregister={false}
-              required={knows_how}
             />
             <div className={styles.radioIconsContainer}>
               <Rows />

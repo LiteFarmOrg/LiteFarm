@@ -58,6 +58,7 @@ export default function PurePlantingDate({
 
   const subtitleMap = {
     seed_date: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
+    planting_date: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
     transplant_date: isCoverCrop ? t('MANAGEMENT_PLAN.DAYS_TO_TERMINATION') : t('MANAGEMENT_PLAN.DAYS_TO_HARVEST')
   }
   const {
@@ -177,14 +178,14 @@ export default function PurePlantingDate({
       <Input
         style={{ marginBottom: '40px' }}
         type={'date'}
-        label={t('common:DATE')}
+        label={seedIsMain ? t('MANAGEMENT_PLAN.SEEDING_DATE') : seedlingIsMain? t('MANAGEMENT_PLAN.PLANTING_DATE_LABEL') : t('common:DATE')}
         hookFormRegister={register(MAIN_DATE, { required: true })}
         errors={errors[MAIN_DATE] && t('common:REQUIRED')}
       />
 
       { (!harvestIsMain && !coverIsMain) &&
         <Main style={{ marginBottom: '24px' }} tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}>
-          {subtitleMap[MAIN_DATE]}
+          { subtitleMap[MAIN_DATE] }
         </Main>
       }
       { MAIN_DATE === SEED_DATE &&

@@ -7,7 +7,7 @@ import { Info, Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
 import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
 
-const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, submissionId, email }) => {
+const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, surveyId, submissionId, email }) => {
   const { t } = useTranslation();
 
   return (
@@ -30,16 +30,12 @@ const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, submissionId, ema
 
       <Info style={{ marginBottom: '24px' }}>{t('CERTIFICATIONS.NOTE_CANNOT_RESUBMIT')}</Info>
 
-      {submissionId ? <PostSurveyBody email={email} /> : <PreSurveyBody />}
+      {submissionId ? <PostSurveyBody email={email} /> : <PreSurveyBody surveyId={surveyId} />}
     </>
   );
 };
 
-const PreSurveyBody = () => {
-  const { t } = useTranslation();
-
-  const surveyId = '60f615459a6b1c00012ee41e';
-
+const PreSurveyBody = ({ surveyId }) => {
   return (
     <iframe
       title="temp iframe title"

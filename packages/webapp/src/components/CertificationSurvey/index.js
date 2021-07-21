@@ -11,10 +11,7 @@ import { colors } from '../../assets/theme';
 import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
-import CancelFlowModal from '../Modals/CancelFlowModal';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
-
-const certifiersWithQuestions = ['FVOPA'];
 
 const PureCertificationSurveyPage = ({
   onExport,
@@ -53,8 +50,7 @@ const PureCertificationSurveyPage = ({
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  const { certifier_acronym } = certifier ?? {};
-  const hasQuestions = certifiersWithQuestions.includes(certifier_acronym);
+  const { certifier_acronym, survey_id } = certifier ?? {};
 
   return (
     <>
@@ -68,7 +64,7 @@ const PureCertificationSurveyPage = ({
                 submission_id: submissionId,
               })
             }
-            disabled={hasQuestions && !submissionId}
+            disabled={survey_id && !submissionId}
           >
             {t('CERTIFICATIONS.EXPORT')}
           </Button>
@@ -85,8 +81,8 @@ const PureCertificationSurveyPage = ({
 
         <SurveyBody
           requested_certifier={requested_certifier}
-          hasQuestions={hasQuestions}
           certifier_acronym={certifier_acronym}
+          surveyId={survey_id}
           submissionId={submissionId}
           email={persistedFormData.email}
         />
@@ -95,21 +91,16 @@ const PureCertificationSurveyPage = ({
   );
 };
 
-const SurveyBody = ({
-  requested_certifier,
-  hasQuestions,
-  certifier_acronym,
-  submissionId,
-  email,
-}) => {
+const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email }) => {
   if (requested_certifier) {
     return <UnregisteredCertifierSurvey />;
   } else {
-    if (hasQuestions) {
+    if (surveyId) {
       // TODO: this is hard coded for the purpose of proof-of-concept
       return (
         <RegisteredCertifierQuestionsSurvey
           certiferAcronym={certifier_acronym}
+          surveyId={surveyId}
           submissionId={submissionId}
           email={email}
         />

@@ -74,7 +74,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
+        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -121,7 +121,7 @@ const organicCertifierSurveyController = {
 
   triggerExport() {
     return async (req, res) => {
-      const { farm_id, from_date, to_date, email } = req.body;
+      const { farm_id, from_date, to_date, email, submission_id } = req.body;
       const invalid = [farm_id, from_date, to_date, email].some(property => !property)
       if(invalid) {
         return res.status(400).json({
@@ -149,7 +149,7 @@ const organicCertifierSurveyController = {
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,
         files, farm_id, email, first_name, farm_name,
-        from_date, to_date, submission: '60e455b2fdef070001d06b6c' };
+        from_date, to_date, submission: submission_id };
       res.status(200).json({ message: 'Processing', records: records.rows });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })

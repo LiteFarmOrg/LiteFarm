@@ -36,6 +36,21 @@
   text-align: center;
 }
 
+.targetDateFont {
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  color: white;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 2px;
+}
+
 .calendarBox {
   border: 1px solid #D4DAE3;
   border-radius: 4px;
@@ -55,6 +70,14 @@
   border: 1px solid #028577;
   border-radius: 4px;
   width: 60px;
+  min-height: 24px;
+  margin: 16px auto 16px auto;
+}
+
+.monthBox {
+  border: 1px solid #028577;
+  border-radius: 4px;
+  width: 100px;
   min-height: 24px;
   margin: 16px auto 16px auto;
 }

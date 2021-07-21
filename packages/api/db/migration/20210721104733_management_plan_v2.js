@@ -81,7 +81,7 @@ exports.up = async function(knex) {
     t.boolean('for_cover');
     t.boolean('is_wild');
     t.integer('crop_age');
-    t.enu('crop_age_unit', ['week', 'month', 'year', 'd']);
+    t.enu('crop_age_unit', ['week', 'month', 'year']);
   });
 
   const managementPlans = await knex('management_plan');
@@ -91,14 +91,53 @@ exports.up = async function(knex) {
     });
   }
 
+  await knex.schema.alterTable('management_plan', (t) => {
+    t.dropColumn('seed_date');
+    t.dropColumn('germination_date');
+    t.dropColumn('germination_days');
+    t.dropColumn('transplant_date');
+    t.dropColumn('transplant_days');
+    t.dropColumn('harvest_date');
+    t.dropColumn('harvest_days');
+    t.dropColumn('termination_date');
+    t.dropColumn('termination_days');
+    t.dropColumn('needs_transplant');
+    t.dropColumn('for_cover');
+    t.dropColumn('status');
+    t.text('notes').alter();
+  });
 
-  // await knex.schema.alterTable('crop_management_plan', (t) => {
-  //   t.dropColumn('planting_type');
-  //   t.dropColumn('location_id');
-  //   t.dropColumn('estimated_revenue');
-  //   t.dropColumn('estimated_yield');
-  //   t.dropColumn('estimated_yield_unit');
-  // });
+  await knex.schema.alterTable('crop_management_plan', (t) => {
+    t.dropColumn('planting_type');
+    t.dropColumn('location_id');
+    t.dropColumn('estimated_revenue');
+    t.dropColumn('estimated_yield');
+    t.dropColumn('estimated_yield_unit');
+    t.dropColumn('notes');
+  });
+
+
+  await knex.schema.alterTable('farm', t => {
+    t.uuid('default_initial_location_id').references('location_id').inTable('location');
+  });
+
+  await knex.schema.renameTable('container', 'container_method');
+  await knex.schema.renameTable('broadcast', 'broadcast_method');
+  await knex.schema.renameTable('bed', 'bed_method');
+  await knex.schema.renameTable('row', 'row_method');
+
+  await knex.schema.alterTable('container_method', (t) => {
+    t.boolean('is_final_planting_method').primary().defaultTo(true);
+  });
+  await knex.schema.alterTable('broadcast_method', (t) => {
+    t.boolean('is_final_planting_method').primary().defaultTo(true);
+  });
+  await knex.schema.alterTable('bed_method', (t) => {
+    t.boolean('is_final_planting_method').primary().defaultTo(true);
+  });
+  await knex.schema.alterTable('row_method', (t) => {
+    t.boolean('is_final_planting_method').primary().defaultTo(true);
+  });
 
 
 };

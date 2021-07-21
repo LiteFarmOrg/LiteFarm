@@ -10,6 +10,7 @@ import { Label } from '../../Typography';
 import Input from '../../Form/Input';
 import { seedYield } from '../../../util/unit';
 import { cloneObject } from '../../../util';
+import styles from './styles.module.scss';
 
 export default function PureNextHarvest({
   onCancel,
@@ -72,7 +73,7 @@ export default function PureNextHarvest({
       />
 
       <div>
-        <Label style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.NEXT_HARVEST')}</Label>
+        <Label className={styles.label} style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.NEXT_HARVEST')}</Label>
 
         <Input
           style={{ marginBottom: '40px' }}
@@ -90,7 +91,6 @@ export default function PureNextHarvest({
           label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
           name={ESTIMATED_YIELD}
           displayUnitName={ESTIMATED_YIELD_UNIT}
-          errors={errors[ESTIMATED_YIELD]}
           unitType={seedYield}
           system={system}
           hookFormSetValue={setValue}

@@ -889,6 +889,7 @@
     "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
+    "PLANTING_DATE_LABEL": "Planting date",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
@@ -905,6 +906,7 @@
     "ROWS": "Rows",
     "SEED_DATE": "What is your seeding date?",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SEEDING_DATE": "Seeding date",
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What age is the the seedling or planting stock?",
     "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
@@ -912,6 +914,8 @@
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
+    "SELECT_STARTING_LOCATION": "Where is your starting location?",
+    "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",
@@ -994,7 +998,8 @@
     "SPACE_BETWEEN": "Space between {{types}}",
     "SPECIFY": "Specify {{types}}",
     "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
-    "WIDTH": "{{type}} width"
+    "WIDTH": "{{type}} width",
+    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",

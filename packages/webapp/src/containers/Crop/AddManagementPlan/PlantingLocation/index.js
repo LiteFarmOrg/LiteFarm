@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   hookFormPersistSelector,
+  setDefaultInitialLocation,
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
@@ -14,6 +15,7 @@ export default function PlantingLocation({ history, match }) {
   const isTransplantPage =
     match?.path === '/crop/:variety_id/add_management_plan/choose_transplant_location';
   const persistedFormData = useSelector(hookFormPersistSelector);
+
   const [selectedLocationId, setLocationId] = useState(
     isTransplantPage
       ? persistedFormData?.transplant_container?.location_id
@@ -46,7 +48,7 @@ export default function PlantingLocation({ history, match }) {
   }
 
   const dispatch = useDispatch();
-
+  //TODO: remove [selectedLocationId, setLocationId] and use state from persistedHookForm instead
   const onContinue = (data) => {
     if (isTransplantPage) {
       dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
@@ -56,7 +58,7 @@ export default function PlantingLocation({ history, match }) {
         ? setWildCropLocation(pinLocation)
         : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`crop/${variety_id}/add_management_plan/name`);
+      history.push(`/crop/${variety_id}/add_management_plan/name`);
     } else if (isWildCrop && isTransplant) {
       pinLocation
         ? setWildCropLocation(pinLocation)
@@ -96,10 +98,20 @@ export default function PlantingLocation({ history, match }) {
     history.push(`/crop/${variety_id}/management`);
   };
 
-  const progress = isTransplantPage ? 55 : 37.5;
+  const progress = isTransplantPage ? 50 : 37.5;
 
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
+
+  const onSelectCheckbox = (e) => {
+    if (!e?.target?.checked) {
+      dispatch(setDefaultInitialLocation(undefined));
+    } else {
+      dispatch(setDefaultInitialLocation(selectedLocationId));
+    }
+  };
+
   useHookFormPersist(persistedPath, () => ({}));
+
   return (
     <>
       <PurePlantingLocation
@@ -114,6 +126,7 @@ export default function PlantingLocation({ history, match }) {
         progress={progress}
         setPinLocation={setPinLocation}
         pinLocation={pinLocation}
+        onSelectCheckbox={onSelectCheckbox}
       />
       {needs_transplant && !in_ground && <TransplantSpotlight seedingType={seeding_type} />}
     </>

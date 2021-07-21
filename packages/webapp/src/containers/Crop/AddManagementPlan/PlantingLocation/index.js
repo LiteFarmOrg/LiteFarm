@@ -58,7 +58,7 @@ export default function PlantingLocation({ history, match }) {
         ? setWildCropLocation(pinLocation)
         : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
       dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`crop/${variety_id}/add_management_plan/name`);
+      history.push(`/crop/${variety_id}/add_management_plan/name`);
     } else if (isWildCrop && isTransplant) {
       pinLocation
         ? setWildCropLocation(pinLocation)

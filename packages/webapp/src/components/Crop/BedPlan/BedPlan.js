@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -62,14 +62,10 @@ function PureBedPlan({
   useHookFormPersist(persistedPaths, getValues);
 
   useEffect(() => {
-    //let { average_seed_weight = 0, yield_per_plant = crop_variety.yield_per_plant} = crop_variety;
-    const yield_per_plant = crop_variety.yield_per_plant ? crop_variety.yield_per_plant : 10;
-    const average_seed_weight = crop_variety.average_seed_weight
-      ? crop_variety.average_seed_weight
-      : 0.1;
-    // let yield_per_plant = 2;
-    // let average_seed_weight = 3;
-
+    const yield_per_plant = crop_variety.yield_per_plant; // ? crop_variety.yield_per_plant : 10;
+    const average_seed_weight = crop_variety.average_seed_weight;
+    // ? crop_variety.average_seed_weight
+    // : 0.1;
     const estimated_yield =
       ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) * yield_per_plant;
 
@@ -122,13 +118,12 @@ function PureBedPlan({
           hookFormRegister={register(NUMBER_OF_BEDS, {
             required: true,
             valueAsNumber: true,
-            min: 1,
-            max: 999,
           })}
           type={'number'}
           style={{ paddingBottom: '5px', flexGrow: 1 }}
           onKeyDown={integerOnKeyDown}
-          errors={getErrorMessage(errors?.BedPlan?.number_of_beds, 1, 999)}
+          max={999}
+          errors={getInputErrors(errors, NUMBER_OF_BEDS)}
         />
 
         <Input
@@ -136,12 +131,12 @@ function PureBedPlan({
           hookFormRegister={register(NUMBER_OF_ROWS_IN_BED, {
             required: true,
             valueAsNumber: true,
-            min: 1,
-            max: 999,
           })}
           type={'number'}
           style={{ paddingBottom: '5px', paddingLeft: '20px', flexGrow: 1 }}
           onKeyDown={integerOnKeyDown}
+          max={999}
+          errors={getInputErrors(errors, NUMBER_OF_ROWS_IN_BED)}
         />
       </div>
 

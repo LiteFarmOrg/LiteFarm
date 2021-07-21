@@ -922,7 +922,8 @@
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
-        "SEEDED": "MISSING"
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
       },
       "TITLE": {
         "PLANTING": "MISSING",
@@ -931,10 +932,10 @@
       }
     },
     "WHAT_IS_AGE": "MISSING",
-    "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WILD_CROP": "MISSING",
+    "PLAN_AND_ID_plural": "MISSING",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
   },
   "MY_FARM": {

@@ -923,7 +923,8 @@
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
-        "SEEDED": "seeded"
+        "SEEDED": "seeded",
+        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
       },
       "TITLE": {
         "PLANTING": "Planting",

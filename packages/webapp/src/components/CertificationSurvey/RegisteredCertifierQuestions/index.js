@@ -3,10 +3,11 @@ import styles from '../styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Main, Semibold } from '../../Typography';
+import { Info, Main, Semibold } from '../../Typography';
 import { colors } from '../../../assets/theme';
+import { ReactComponent as PostSurveySplash } from '../../../assets/images/certification/CompleteSurveySplash.svg';
 
-const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym }) => {
+const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym, surveyId, submissionId, email }) => {
   const { t } = useTranslation();
 
   return (
@@ -23,39 +24,47 @@ const RegisteredCertifierQuestionsSurvey = ({ certiferAcronym }) => {
         {`${t('CERTIFICATIONS.ORGANIC_CERTIFICATION_FROM')} ${certiferAcronym}`}
       </Semibold>
 
-      <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
+      <Main style={{ marginBottom: '16px', lineHeight: '20px' }}>
         {t('CERTIFICATIONS.WOULD_LIKE_ANSWERS')}
       </Main>
 
-      <iframe
-        title="temp iframe title"
-        // src="https://app.surveystack.io/surveys/60da1692e5a5180001008566"
-        srcDoc={`
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <script>
-              console.log("hello world from an iframe!");
-              setTimeout(() => {
-                window.top.postMessage(
-                  JSON.stringify({
-                    error: false,
-                    message: "Hello World"
-                  }),
-                  '*'
-                );
-              }, 5000);
-              </script>
-            </head>
-            <body>
-              <h1>This is a sample survey</h1>
-              <h2>Please wait 5 seconds for a demo submission (export button will be enabled)</h2>
-            </body>
-          </html>
-        `}
-        className={styles.surveyFrame}
-      />
+      <Info style={{ marginBottom: '24px' }}>{t('CERTIFICATIONS.NOTE_CANNOT_RESUBMIT')}</Info>
+
+      {submissionId ? <PostSurveyBody email={email} /> : <PreSurveyBody surveyId={surveyId} />}
     </>
+  );
+};
+
+const PreSurveyBody = ({ surveyId }) => {
+  return (
+    <iframe
+      title="temp iframe title"
+      src={`https://app.surveystack.io/surveys/${surveyId}?minimal_ui=true`}
+      className={styles.surveyFrame}
+    />
+  );
+};
+
+const PostSurveyBody = ({ email }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className={clsx(styles.surveyFrame, styles.iframeBorder)}>
+      <PostSurveySplash
+        style={{
+          height: '27.3vh',
+          margin: '1vh 0 5vh 0',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      />
+      <Main style={{ marginBottom: '24px', lineHeight: '20px' }}>
+        {t('CERTIFICATIONS.FILES_ARE_READY')}
+      </Main>
+
+      <Semibold>{email}</Semibold>
+    </div>
   );
 };
 

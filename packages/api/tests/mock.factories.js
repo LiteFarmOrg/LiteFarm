@@ -549,8 +549,13 @@ function fakeRows(defaultData = {}) {
     row_length: same_length? faker.random.number(10000) : null,
     plant_spacing: faker.random.number(10000),
     total_rows_length: same_length? null : faker.random.number(10000),
+    specify_rows: faker.lorem.words(),
+    planting_depth: faker.random.number(10000),
+    row_width: faker.random.number(10000),
+    row_spacing: faker.random.number(10000),
     estimated_yield: faker.random.number(10000),
     estimated_seeds: faker.random.number(10000),
+    planting_notes: faker.lorem.words(),
     ...defaultData
   }
 }

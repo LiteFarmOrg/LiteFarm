@@ -20,7 +20,6 @@ export default function PureNextHarvest({
   useHookFormPersist,
   variety,
 }) {
-
   const { t } = useTranslation();
 
   const {
@@ -73,19 +72,15 @@ export default function PureNextHarvest({
       />
 
       <div>
-        <Label style={{ marginBottom: '24px' }}>
-          {t('MANAGEMENT_PLAN.NEXT_HARVEST')}
-        </Label>
+        <Label style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.NEXT_HARVEST')}</Label>
 
         <Input
           style={{ marginBottom: '40px' }}
           type={'date'}
           label={t('common:DATE')}
-          hookFormRegister={register(NEXT_HARVEST_DATE, 
-            { 
-              required: true,
-            }
-          )}
+          hookFormRegister={register(NEXT_HARVEST_DATE, {
+            required: true,
+          })}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
           minDate={todayStr}
         />

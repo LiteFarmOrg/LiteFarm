@@ -39,7 +39,7 @@ export default function TransplantSpotlight({ seedingType }) {
               title: t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.TITLE.TEXT', { fill: titleFill }),
               contents: [
                 <Trans i18nKey={'MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.TEXT'}>
-                  Please indicate where this crop will be initially{' '}
+                  Please indicate where this crop will be initially
                   <strong>{{ fill: bodyFill }}</strong>. We’ll ask about where you’ll transplant it
                   to later.
                 </Trans>,

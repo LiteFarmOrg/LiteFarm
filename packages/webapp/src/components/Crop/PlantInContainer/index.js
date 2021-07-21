@@ -30,7 +30,7 @@ export default function PurePlantInContainer({
     isTransplant ? 'choose_transplant_location' : 'name'
   }`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_planting_location' :  'planting_method'
+    isTransplant ? 'choose_planting_location' : 'planting_method'
   }`;
 
   const IN_GROUND = namePrefix + 'in_ground';

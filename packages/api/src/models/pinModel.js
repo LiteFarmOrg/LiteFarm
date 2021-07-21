@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class Certifier extends Model {
+class Pin extends Model {
   static get tableName() {
-    return 'certifiers';
+    return 'pin';
   }
 
   static get idColumn() {
-    return 'certifier_id';
+    return 'location_id';
   }
 
   static get jsonSchema() {
@@ -29,12 +29,7 @@ class Certifier extends Model {
       type: 'object',
       required: ['location_id'],
       properties: {
-        certifier_id: { type: 'integer' },
-        certification_id: { type: 'integer' },
-        certifier_name: { type: 'string' },
-        certifier_acronym: { type: 'string' },
-        supported: { type: 'boolean' },
-        survey_id: { type: 'string' },
+        location_id: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -43,16 +38,8 @@ class Certifier extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-        certifications: {
-            modelClass: require('./certificationModel'),
-            relation: Model.BelongsToOneRelation,
-            join: {
-              from: 'certifierModel.certification_id',
-              to: 'certificationModel.certification_id',
-            },
-        }
     };
   }
 }
 
-module.exports = Certifier;
+module.exports = Pin;

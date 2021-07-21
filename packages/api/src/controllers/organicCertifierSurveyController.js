@@ -74,7 +74,7 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
+        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -121,17 +121,21 @@ const organicCertifierSurveyController = {
 
   triggerExport() {
     return async (req, res) => {
-      const { farm_id, from_date, to_date, email } = req.body;
+      const { farm_id, from_date, to_date, email, submission_id } = req.body;
       const invalid = [farm_id, from_date, to_date, email].some(property => !property)
       if(invalid) {
         return res.status(400).json({
           message: 'Bad request. Missing properties',
         })
       }
-      const documents = await documentModel.query().withGraphJoined('files').whereBetween('valid_until', [from_date, to_date]).andWhere({ farm_id }).orWhere({ no_expiration: true });
+      const documents = await documentModel.query().debug()
+        .withGraphJoined('files')
+        .where((builder) => {
+          builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true })
+        }).andWhere({ farm_id })
       const user_id = req.user.user_id;
       const files = documents.map(({ files, name }) => files.map(({ url, file_name }, i) => ({
-        url, file_name: i !== 0 ? `${name}-${file_name}`: `${name}${file_name.split('.').pop()}`,
+        url, file_name: i !== 0 ? `${name}-${file_name}`: `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
       const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated,
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
@@ -145,7 +149,7 @@ const organicCertifierSurveyController = {
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,
         files, farm_id, email, first_name, farm_name,
-        from_date, to_date, submission: '60e455b2fdef070001d06b6c' };
+        from_date, to_date, submission: submission_id };
       res.status(200).json({ message: 'Processing', records: records.rows });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true })

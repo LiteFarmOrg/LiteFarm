@@ -60,7 +60,8 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
       header,
     );
     yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
-    history.push(`/crop/${managementPlan.crop_variety_id}/management`);
+    const management_plan_id = [result.data][0].management_plan_id;
+    history.push(`/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`);
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST')));
   } catch (e) {
     console.log('failed to add managementPlan to database');

@@ -11,10 +11,7 @@ import { colors } from '../../assets/theme';
 import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
-import CancelFlowModal from '../Modals/CancelFlowModal';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
-
-const certifiersWithQuestions = ['FVOPA'];
 
 const PureCertificationSurveyPage = ({
   onExport,
@@ -23,9 +20,10 @@ const PureCertificationSurveyPage = ({
   certifier,
   requested_certifier,
   persistedFormData,
+  onSurveyComplete,
 }) => {
   const { t } = useTranslation();
-  const [submissionId, setSubmissionId] = useState(undefined);
+  const [submissionId, setSubmissionId] = useState(persistedFormData?.submission_id);
 
   const persistedPath = ['/certification/report_period'];
   useHookFormPersist(persistedPath, () => ({}));
@@ -35,10 +33,15 @@ const PureCertificationSurveyPage = ({
   useEffect(() => {
     const handler = (event) => {
       // console.log(event);
-      if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
-      const data = JSON.parse(event.data);
-      console.log('Hello World?', data);
-      setSubmissionId('60df45608b55990001f24afd');
+      // if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
+      // const data = JSON.parse(event.data);
+      // console.log('Hello World?', data);
+      const { type, payload } = event.data;
+      if (type === 'SUBMISSION_RESULT_SUCCESS_CLOSE') {
+        // setSubmissionId('60df45608b55990001f24afd');
+        setSubmissionId(payload.submissionId);
+        onSurveyComplete(payload.submissionId);
+      }
     };
 
     window.addEventListener('message', handler);
@@ -47,8 +50,7 @@ const PureCertificationSurveyPage = ({
     return () => window.removeEventListener('message', handler);
   }, []);
 
-  const { certifier_acronym } = certifier ?? {};
-  const hasQuestions = certifiersWithQuestions.includes(certifier_acronym);
+  const { certifier_acronym, survey_id } = certifier ?? {};
 
   return (
     <>
@@ -62,7 +64,7 @@ const PureCertificationSurveyPage = ({
                 submission_id: submissionId,
               })
             }
-            disabled={hasQuestions && !submissionId}
+            disabled={survey_id && !submissionId}
           >
             {t('CERTIFICATIONS.EXPORT')}
           </Button>
@@ -79,23 +81,32 @@ const PureCertificationSurveyPage = ({
 
         <SurveyBody
           requested_certifier={requested_certifier}
-          hasQuestions={hasQuestions}
           certifier_acronym={certifier_acronym}
+          surveyId={survey_id}
+          submissionId={submissionId}
+          email={persistedFormData.email}
         />
       </Layout>
     </>
   );
 };
 
-const SurveyBody = ({ requested_certifier, hasQuestions, certifier_acronym }) => {
+const SurveyBody = ({ requested_certifier, certifier_acronym, surveyId, submissionId, email }) => {
   if (requested_certifier) {
-    return <UnregisteredCertifierSurvey />;
+    return <UnregisteredCertifierSurvey email={email} />;
   } else {
-    if (hasQuestions) {
+    if (surveyId) {
       // TODO: this is hard coded for the purpose of proof-of-concept
-      return <RegisteredCertifierQuestionsSurvey certiferAcronym={certifier_acronym} />;
+      return (
+        <RegisteredCertifierQuestionsSurvey
+          certiferAcronym={certifier_acronym}
+          surveyId={surveyId}
+          submissionId={submissionId}
+          email={email}
+        />
+      );
     } else {
-      return <RegisteredCertifierNoQuestionsSurvey />;
+      return <RegisteredCertifierNoQuestionsSurvey email={email} />;
     }
   }
 };

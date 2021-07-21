@@ -104,6 +104,7 @@
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
+      "CREATE": "Failed to create certification.",
       "UPDATE": "Failed to update certification!"
     }
   },

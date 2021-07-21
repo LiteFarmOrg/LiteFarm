@@ -43,6 +43,7 @@ const LocationPicker = ({
   };
 
   useEffect(() => {
+
     if (innerMap && canUsePin) {
       drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
     }
@@ -56,6 +57,7 @@ const LocationPicker = ({
   useEffect(() => {
     setPinLocation(selectedLocation);
   }, [selectedLocation]);
+
 
   const getMapOptions = (maps) => {
     return {
@@ -93,6 +95,7 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
+
     setInnerMap({ map, maps });
     map.addListener('click', (e) => {
       setSelectedLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });

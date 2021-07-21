@@ -96,7 +96,7 @@ export default function PureRowMethod({
     } else {
       setShowEstimatedValue(false);
     }
-  }, [num_of_rows, length_of_row, total_length, plant_spacing]);
+  }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
 
   return (
     <Form
@@ -156,23 +156,25 @@ export default function PureRowMethod({
               </div>
             </>
           )}
-          <HideForm style={{ paddingBottom: '40px' }} shouldHide={same_length}>
-            <Unit
-              register={register}
-              label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
-              name={TOTAL_LENGTH}
-              displayUnitName={TOTAL_LENGTH_UNIT}
-              errors={errors[TOTAL_LENGTH]}
-              unitType={container_plant_spacing}
-              system={system}
-              hookFormSetValue={setValue}
-              hookFormGetValue={getValues}
-              hookFromWatch={watch}
-              control={control}
-              required
-              style={{ flexGrow: 1 }}
-            />
-          </HideForm>
+          {!same_length && (
+            <div style={{ marginBottom: '40px' }}>
+              <Unit
+                register={register}
+                label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
+                name={TOTAL_LENGTH}
+                displayUnitName={TOTAL_LENGTH_UNIT}
+                errors={errors[TOTAL_LENGTH]}
+                unitType={container_plant_spacing}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFromWatch={watch}
+                control={control}
+                required
+                style={{ flexGrow: 1 }}
+              />
+            </div>
+          )}
           <div>
             <Unit
               style={{ paddingLeft: '16px' }}

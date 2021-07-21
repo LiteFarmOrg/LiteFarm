@@ -177,6 +177,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Colher",
+    "PLANT": "MISSING",
     "SEED": "Semear",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Transplantar"
@@ -855,6 +856,8 @@
     "COVER_INFO": "A seleção da cultura de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
+    "DAYS_TO_HARVEST": "MISSING",
+    "DAYS_TO_TERMINATION": "MISSING",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
     "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
@@ -865,6 +868,7 @@
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
+    "HARVEST_DATE": "MISSING",
     "IN_GROUND": "No solo",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
@@ -898,6 +902,7 @@
       "TOTAL_LENGTH": "MISSING"
     },
     "ROWS": "Linhas",
+    "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
@@ -909,8 +914,11 @@
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "TERMINATION": "Terminação",
+    "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Transplantar",
+    "TRANSPLANT_DATE": "MISSING",
+    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
@@ -927,7 +935,6 @@
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
-    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {

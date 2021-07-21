@@ -10,6 +10,9 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
+import { seedingType } from '../PlantedAlready/constants';
+import FullMonthCalendarView from '../../MonthCalendar';
+import { getDateInputFormat } from '../../LocationDetailLayout/utils';
 
 export default function PurePlantingDate({
   useHookFormPersist,
@@ -21,8 +24,8 @@ export default function PurePlantingDate({
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/needs_transplant`;
-
   const SEED_DATE = 'seed_date';
+  const PLANTING_DATE = 'planting_date';
   const GERMINATION_DATE = 'germination_date';
   const HARVEST_DATE = 'harvest_date';
   const TERMINATION_DATE = 'termination_date';
@@ -31,6 +34,32 @@ export default function PurePlantingDate({
   const HARVEST_DAYS = 'harvest_days';
   const TRANSPLANT_DAYS = 'transplant_days';
   const TERMINATION_DAYS = 'termination_days';
+  const isWildCrop = Boolean(persistedFormData.wild_crop);
+  const isInGround = Boolean(persistedFormData.in_ground);
+  const isTransplant = Boolean(persistedFormData.needs_transplant);
+  const isCoverCrop = Boolean(persistedFormData.for_cover);
+  const seedIsMain = !isInGround && persistedFormData?.seeding_type === seedingType.SEED;
+  const seedlingIsMain = !isInGround && persistedFormData?.seeding_type === seedingType.SEEDLING;
+  const transplantIsMain = isInGround && isTransplant && !isWildCrop;
+  const harvestIsMain = isInGround && !isTransplant && !isWildCrop && !isCoverCrop;
+  const coverIsMain = isInGround && !isTransplant && !isWildCrop && isCoverCrop;
+  const MAIN_DATE = seedIsMain ? SEED_DATE :
+    seedlingIsMain ? PLANTING_DATE :
+    transplantIsMain ? TRANSPLANT_DATE :
+    harvestIsMain ? HARVEST_DATE :
+    coverIsMain ? TERMINATION_DATE : SEED_DATE;
+  const titleMap = {
+    seed_date: t('MANAGEMENT_PLAN.SEED_DATE'),
+    planting_date: t('MANAGEMENT_PLAN.PLANTING_DATE'),
+    transplant_date: t('MANAGEMENT_PLAN.TRANSPLANT_DATE'),
+    harvest_date: t('MANAGEMENT_PLAN.HARVEST_DATE'),
+    termination_date: t('MANAGEMENT_PLAN.TERMINATION_DATE')
+  }
+
+  const subtitleMap = {
+    seed_date: t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING'),
+    transplant_date: isCoverCrop ? t('MANAGEMENT_PLAN.DAYS_TO_TERMINATION') : t('MANAGEMENT_PLAN.DAYS_TO_HARVEST')
+  }
   const {
     register,
     handleSubmit,
@@ -63,6 +92,8 @@ export default function PurePlantingDate({
   };
 
   const seed_date = watch(SEED_DATE);
+  const planting_date = watch(PLANTING_DATE);
+  const main_date = watch(MAIN_DATE);
   const germination_date = watch(GERMINATION_DATE);
   const harvest_date = watch(HARVEST_DATE);
   const transplant_date = watch(TRANSPLANT_DATE);
@@ -82,6 +113,13 @@ export default function PurePlantingDate({
     } else {
       setValue(TERMINATION_DATE, undefined);
       setValue(TERMINATION_DAYS, undefined);
+    }
+    if(!seedIsMain) {
+      setValue(GERMINATION_DATE, undefined);
+      setValue(SEED_DATE, undefined);
+      setValue(GERMINATION_DAYS, undefined);
+    }else {
+      setValue(PLANTING_DATE, undefined);
     }
   }, []);
 
@@ -134,39 +172,43 @@ export default function PurePlantingDate({
         value={25}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.PLANTING_DATE')}</Main>
+      <Main style={{ marginBottom: '24px' }}>{titleMap[MAIN_DATE]}</Main>
 
       <Input
         style={{ marginBottom: '40px' }}
         type={'date'}
         label={t('common:DATE')}
-        hookFormRegister={register(SEED_DATE, { required: true })}
-        errors={errors[SEED_DATE] && t('common:REQUIRED')}
+        hookFormRegister={register(MAIN_DATE, { required: true })}
+        errors={errors[MAIN_DATE] && t('common:REQUIRED')}
       />
 
-      <Main style={{ marginBottom: '24px' }} tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}>
-        {t('MANAGEMENT_PLAN.DAYS_FROM_SEEDING')}
-      </Main>
-      <InputDuration
-        style={{ marginBottom: '40px' }}
-        startDate={seed_date}
-        hookFormWatch={watch}
-        hookFormRegister={register(GERMINATION_DAYS, {
-          required: true,
-          valueAsNumber: true,
-          max: germinationDaysMax,
-          min: min + 1,
-        })}
-        max={germinationDaysMax}
-        label={t('MANAGEMENT_PLAN.GERMINATION')}
-        hookFormSetValue={setValue}
-        dateName={GERMINATION_DATE}
-        errors={getErrorMessage(errors[GERMINATION_DAYS], min, germinationDaysMax + 1)}
-      />
-      {!!persistedFormData.needs_transplant && (
+      { (!harvestIsMain && !coverIsMain) &&
+        <Main style={{ marginBottom: '24px' }} tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}>
+          {subtitleMap[MAIN_DATE]}
+        </Main>
+      }
+      { MAIN_DATE === SEED_DATE &&
         <InputDuration
           style={{ marginBottom: '40px' }}
-          startDate={seed_date}
+          startDate={main_date}
+          hookFormWatch={watch}
+          hookFormRegister={register(GERMINATION_DAYS, {
+            required: true,
+            valueAsNumber: true,
+            max: germinationDaysMax,
+            min: min + 1,
+          })}
+          max={germinationDaysMax}
+          label={t('MANAGEMENT_PLAN.GERMINATION')}
+          hookFormSetValue={setValue}
+          dateName={GERMINATION_DATE}
+          errors={getErrorMessage(errors[GERMINATION_DAYS], min, germinationDaysMax + 1)}
+        />
+      }
+      {!!persistedFormData.needs_transplant && !transplantIsMain &&  (
+        <InputDuration
+          style={{ marginBottom: '40px' }}
+          startDate={main_date}
           hookFormWatch={watch}
           hookFormRegister={register(TRANSPLANT_DAYS, {
             required: true,
@@ -185,35 +227,46 @@ export default function PurePlantingDate({
           )}
         />
       )}
-      <InputDuration
-        style={{ marginBottom: '16px' }}
-        startDate={seed_date}
-        hookFormWatch={watch}
-        hookFormRegister={register(persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS, {
-          required: true,
-          valueAsNumber: true,
-          max: harvestDaysMax,
-          min: harvestDaysMin + 1,
-        })}
-        max={harvestDaysMax}
-        label={
-          persistedFormData.for_cover
-            ? t('MANAGEMENT_PLAN.TERMINATION')
-            : t('MANAGEMENT_PLAN.HARVEST')
-        }
-        hookFormSetValue={setValue}
-        dateName={persistedFormData.for_cover ? TERMINATION_DATE : HARVEST_DATE}
-        errors={getErrorMessage(
-          errors[persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS],
-          harvestDaysMin,
-          harvestDaysMax + 1,
-        )}
-      />
-      {seed_date && (
+      {
+        !harvestIsMain && !coverIsMain &&
+        <InputDuration
+          style={{ marginBottom: '16px' }}
+          startDate={main_date}
+          hookFormWatch={watch}
+          hookFormRegister={register(persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS, {
+            required: true,
+            valueAsNumber: true,
+            max: harvestDaysMax,
+            min: harvestDaysMin + 1,
+          })}
+          max={harvestDaysMax}
+          label={
+            persistedFormData.for_cover
+              ? t('MANAGEMENT_PLAN.TERMINATION')
+              : t('MANAGEMENT_PLAN.HARVEST')
+          }
+          hookFormSetValue={setValue}
+          dateName={persistedFormData.for_cover ? TERMINATION_DATE : HARVEST_DATE}
+          errors={getErrorMessage(
+            errors[persistedFormData.for_cover ? TERMINATION_DAYS : HARVEST_DAYS],
+            harvestDaysMin,
+            harvestDaysMax + 1,
+          )}
+        />
+      }
+      {main_date && !harvestIsMain && !coverIsMain && (
         <FullYearCalendarView
-          {...{ seed_date, germination_date, transplant_date, termination_date, harvest_date }}
+          {...{ seed_date, germination_date, transplant_date, termination_date, harvest_date, initial: MAIN_DATE, planting_date}}
         />
       )}
+      {
+        (harvestIsMain || coverIsMain) && ((harvestIsMain && harvest_date) || (coverIsMain && termination_date)) &&  (
+          <FullMonthCalendarView
+            date={harvestIsMain ? getDateInputFormat(harvest_date) : getDateInputFormat(termination_date)}
+            stage={MAIN_DATE}
+          />
+        )
+      }
     </Form>
   );
 }

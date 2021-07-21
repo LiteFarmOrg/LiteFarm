@@ -30,6 +30,9 @@ export default function TransplantSpotlight({ seedingType }) {
       ? t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.PLANTED')
       : t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.SEEDED');
 
+  // this is an unused variable, but it is required for the translation to work
+  const spotlightText = t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.TEXT');
+
   return (
     <>
       {showSpotlight && (

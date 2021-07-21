@@ -18,9 +18,6 @@ function ManagementDetail({ history, match }) {
     history.push(`/crop/${variety_id}/management`);
   }
 
-  const onCopy = () => {
-  }
-
   const onCompleted = () => {
     console.log("Go to LF-1645");
   }
@@ -28,7 +25,6 @@ function ManagementDetail({ history, match }) {
   return (
     <PureManagementDetail 
       onBack={onBack}
-      onCopy={onCopy}
       onCompleted={onCompleted}
       isAdmin={isAdmin}
       variety={variety}

@@ -145,15 +145,14 @@ export const {
   setPlantingLocationIdManagementPlanFormData,
   setTransplantContainerLocationIdManagementPlanFormData,
   setWildCropLocation,
-  resetWildCropLocation,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,
   setCertifierId,
   setInterested,
-  resetWildCropLocation,
   setDefaultInitialLocation,
+  resetWildCropLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

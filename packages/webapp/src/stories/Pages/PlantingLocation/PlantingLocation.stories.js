@@ -12,12 +12,24 @@ const Template = (args) => <PurePlantingLocation {...args} />;
 
 export const PlantingLocationPage = Template.bind({});
 PlantingLocationPage.args = {
-  selectedLocation: {},
+  selectedLocationId: {},
   onContinue: () => {},
   onGoBack: () => {},
   onCancel: () => {},
-  setSelectedLocation: () => {},
+  setLocationId: () => {},
   useHookFormPersist: () => {},
-  persistedFormData: { needs_tranplant: 'true' },
+  persistedFormData: { needs_transplant: 'true' },
+  persistedPath: [],
+};
+
+export const PlantingLocationPin = Template.bind({});
+PlantingLocationPin.args = {
+  selectedLocationId: {},
+  onContinue: () => {},
+  onGoBack: () => {},
+  onCancel: () => {},
+  setLocationId: () => {},
+  useHookFormPersist: () => {},
+  persistedFormData: { wild_crop: 'true', in_ground: 'true' },
   persistedPath: [],
 };

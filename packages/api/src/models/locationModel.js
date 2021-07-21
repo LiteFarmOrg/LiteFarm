@@ -154,6 +154,14 @@ class Location extends baseModel {
           to: 'residence.location_id',
         },
       },
+      pin: {
+        modelClass: require('./pinModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'pin.location_id',
+        },
+      },
       water_valve: {
         modelClass: require('./waterValveModel'),
         relation: Model.HasOneRelation,

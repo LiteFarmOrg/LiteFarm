@@ -12,16 +12,7 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "Bed width",
-    "NOTES": "Planting notes",
-    "PLANTING_DEPTH": "Planting depth",
-    "SPACE_BETWEEN": "Space between beds",
-    "SPECIFY_BEDS": "Specify beds",
-    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible."
-  },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
     "NUMBER_OF_ROWS": "# of rows in bed",
@@ -94,16 +85,18 @@
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
     "EMAIL": "Email",
     "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
+    "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
     "FROM": "From",
     "GOOD_NEWS": "Good news!",
-    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
+    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
@@ -869,6 +862,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
+    "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
@@ -901,6 +895,7 @@
     "PLANTING_NOTE": "Planting notes",
     "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",
@@ -913,8 +908,10 @@
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What age is the the seedling or planting stock?",
     "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
+    "SELECT_A_PLANTING_LOCATION": "Select a planting location",
+    "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
+    "SELECT_CURRENT_LOCATION": "Select the crop's current location",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
-    "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
     "TERMINATION": "Termination",
@@ -935,7 +932,7 @@
       }
     },
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WHAT_WAS_PLANTING_METHOD": "What was your planting method?",
+    "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "PLAN_AND_ID_plural": "MISSING"
@@ -976,6 +973,19 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "BED": "Bed",
+    "BEDS": "beds",
+    "NOTES": "Planting notes",
+    "PLANTING_DEPTH": "Planting depth",
+    "ROW": "Row",
+    "ROWS": "rows",
+    "SPACE_BETWEEN": "Space between {{types}}",
+    "SPECIFY": "Specify {{types}}",
+    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
+    "WIDTH": "{{type}} width"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",

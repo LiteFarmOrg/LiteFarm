@@ -97,7 +97,7 @@ function FullMonthCalendarView({
         </div>
       </div>
     </>
-  );// 08-30-2021
+  );
 }
 
 FullMonthCalendarView.prototype = {

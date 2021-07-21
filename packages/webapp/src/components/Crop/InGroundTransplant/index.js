@@ -2,7 +2,7 @@ import Button from '../../Form/Button';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../../Typography';
+import { Main } from '../../Typography';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -116,9 +116,9 @@ export default function PureInGroundTransplant({
         }}
       />
       <div>
-        <Label style={{ marginBottom: '18px' }}>
+        <Main style={{ marginBottom: '18px' }}>
           {t('MANAGEMENT_PLAN.KNOW_HOW_IS_CROP_PLANTED')}
-        </Label>
+        </Main>
         <RadioGroup hookFormControl={control} name={KNOWS_HOW} required />
       </div>
       {knows_how && (
@@ -146,7 +146,7 @@ export default function PureInGroundTransplant({
                 { label: t('MANAGEMENT_PLAN.BROADCAST'), value: BROADCAST },
               ]}
               shouldUnregister={false}
-              required
+              required={knows_how}
             />
             <div className={styles.radioIconsContainer}>
               <Rows />

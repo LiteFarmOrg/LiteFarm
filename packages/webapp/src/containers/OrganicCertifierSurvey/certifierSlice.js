@@ -16,6 +16,7 @@ const certifierProperties = [
   'certifier_name',
   'country_id',
   'certifier_country_id',
+  'survey_id',
 ];
 
 const getCertifier = (certifier) => {

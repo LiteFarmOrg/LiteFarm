@@ -900,6 +900,9 @@
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
+    "SELECT_A_PLANTING_LOCATION": "MISSING",
+    "SELECT_A_SEEDING_LOCATION": "MISSING",
+    "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
     "SELECT_STARTING_LOCATION": "¿Dónde está su lugar de siembra?",
     "SELECTED_STARTING_LOCATION": "MISSING",
@@ -908,7 +911,6 @@
     "TERMINATION": "Terminar",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
-    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
@@ -924,6 +926,7 @@
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {

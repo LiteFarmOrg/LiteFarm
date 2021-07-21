@@ -110,6 +110,8 @@ export default function PlantingLocation({ history, match }) {
     }
   };
 
+  useHookFormPersist(persistedPath, () => ({}));
+
   return (
     <>
       <PurePlantingLocation
@@ -119,7 +121,6 @@ export default function PlantingLocation({ history, match }) {
         onCancel={onCancel}
         setLocationId={setLocationId}
         useHookFormPersist={useHookFormPersist}
-        persistedPath={persistedPath}
         persistedFormData={persistedFormData}
         transplant={isTransplantPage}
         progress={progress}

@@ -98,7 +98,7 @@ export default function PlantingLocation({ history, match }) {
     history.push(`/crop/${variety_id}/management`);
   };
 
-  const progress = isTransplantPage ? 55 : 37.5;
+  const progress = isTransplantPage ? 50 : 37.5;
 
   const { needs_transplant, seeding_type, in_ground } = persistedFormData;
 

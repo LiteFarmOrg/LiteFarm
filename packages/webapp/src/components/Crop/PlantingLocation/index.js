@@ -18,7 +18,6 @@ export default function PurePlantingLocation({
   setLocationId,
   persistedFormData,
   transplant,
-
   progress,
   setPinLocation,
   pinLocation,
@@ -31,9 +30,7 @@ export default function PurePlantingLocation({
   if (in_ground === true) {
     seeding_type_temp = '';
   }
-
   const [pinMode, setPinMode] = useState(false);
-
   const [canUsePin, setCanUsePin] = useState(
     persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
@@ -43,6 +40,9 @@ export default function PurePlantingLocation({
     setPinMode(!currentPinMode);
     setCanUsePin(!currentPinMode);
   };
+
+  console.log(persistedFormData);
+  console.log(selectedLocationId);
 
   return (
     <>
@@ -114,7 +114,7 @@ export default function PurePlantingLocation({
           </Button>
         )}
 
-        {needs_transplant === true && (
+        {needs_transplant === true && selectedLocationId !== undefined && (
           <Checkbox
             label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}
             style={{ paddingBottom: '25px' }}

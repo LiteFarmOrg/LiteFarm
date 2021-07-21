@@ -114,12 +114,12 @@ export default function PureManagementDetail({
           <Label>
             {t('MANAGEMENT_DETAIL.FAILED_CROP')}
           </Label>
-          <AddLink
+          <Underlined
             style={{ marginLeft: '6px' }}
             onClick={() => { console.log('Go to abandon page') }}
           >
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
-          </AddLink>
+          </Underlined>
         </div>
       )}
     </Layout>

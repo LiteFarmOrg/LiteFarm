@@ -938,6 +938,14 @@
     "WILD_CROP": "Are you harvesting a wild crop?",
     "PLAN_AND_ID_plural": "MISSING"
   },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "Edit plan",
+    "ASSOCIATED_TASKS": "Associated tasks",
+    "ADD_A_TASK": "Add a task",
+    "FAILED_CROP": "Failed crop?",
+    "ABANDON_PLAN": "Abandon this management plan",
+    "PLAN_NOTES": "Plan notes"
+  },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
     "FARM_INFO": "Farm info",

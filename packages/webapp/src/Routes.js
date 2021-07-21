@@ -282,6 +282,8 @@ const ViewCertification = React.lazy(() =>
 const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
 const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
+const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
+
 const Routes = () => {
   useScrollToTop();
   useReduxSnackbar();
@@ -459,7 +461,7 @@ const Routes = () => {
               exact
               component={ManagementPlanName}
             />
-
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
@@ -686,6 +688,7 @@ const Routes = () => {
               exact
               component={PlantInContainer}
             />
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
             <Route path="/crop/:variety_id/add_management_plan/rows" exact component={RowMethod} />
             <Route path="/crop/:variety_id/add_management_plan/row_guidance" exact component={RowMethodGuidance} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
@@ -851,6 +854,7 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route

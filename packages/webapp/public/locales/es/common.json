@@ -44,5 +44,7 @@
   "SUBMITTING": "Submitting...",
   "TO": "Para",
   "UPDATE": "Actualizar",
-  "YES": "Si"
+  "YES": "Si",
+  "MARK_COMPLETED": "MISSING",
+  "COPY": "MISSING"
 }

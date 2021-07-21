@@ -914,7 +914,8 @@
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
-        "SEEDED": "MISSING"
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
       },
       "TITLE": {
         "PLANTING": "MISSING",

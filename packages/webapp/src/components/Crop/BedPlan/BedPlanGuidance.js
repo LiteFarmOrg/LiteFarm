@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -48,6 +48,8 @@ function PurePlanGuidance({
   const TYPE = isBed? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
   const TYPES = isBed? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
 
+  const SPECIFY_LIMIT = 40;
+
   useHookFormPersist(persistedPaths, getValues);
 
   return (
@@ -72,10 +74,12 @@ function PurePlanGuidance({
       <Input
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
-        hookFormRegister={register(SPECIFY)}
+        hookFormRegister={register(SPECIFY, {
+          maxLength: {value: SPECIFY_LIMIT, message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT })},
+        })}
         style={{ paddingBottom: '40px' }}
         optional={true}
-        max={40}
+        errors={getInputErrors(errors, SPECIFY)}
       />
 
       <Unit

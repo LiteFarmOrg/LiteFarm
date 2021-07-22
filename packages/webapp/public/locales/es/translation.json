@@ -12,9 +12,18 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "Ancho de la cama",
+    "NOTES": "Notas de plantación",
+    "PLANTING_DEPTH": "Profundidad de plantación",
+    "SPACE_BETWEEN": "Espacio entre camas",
+    "SPECIFY_BEDS": "Especificar camas",
+    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo."
+  },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "MISSING",
-    "NUMBER_0F_BEDS": "MISSING",
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "LENGTH_OF_BED": "Largo de camas",
+    "NUMBER_0F_BEDS": "# de camas",
     "NUMBER_OF_ROWS": "MISSING",
     "PLANT_SPACING": "MISSING",
     "PLANTING_DETAILS": "MISSING"

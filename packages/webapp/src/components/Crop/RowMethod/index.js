@@ -114,7 +114,6 @@ export default function PureRowMethod({
         value={progress}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
-        cancelModalTitle
       />
       <Main style={{ paddingBottom: '24px' }}>{t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}</Main>
       <div>

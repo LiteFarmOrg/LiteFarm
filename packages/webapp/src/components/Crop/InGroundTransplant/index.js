@@ -83,7 +83,7 @@ export default function PureInGroundTransplant({
   const dismissModal = () => setSelectedImage({});
 
   const disabled = (knows_how === undefined) || (knows_how && planting_type === undefined);
-  
+
   const onContinue = () => {
     history.push(submitPath);
   };
@@ -121,7 +121,7 @@ export default function PureInGroundTransplant({
         </Main>
         <RadioGroup hookFormControl={control} name={KNOWS_HOW} required />
       </div>
-      {knows_how === true && (
+      {knows_how && (
         <>
           <Main
             style={{ marginBottom: '18px' }}

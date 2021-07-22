@@ -10,7 +10,6 @@ import Card from '../../Card';
 import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
 
 export default function PureManagementDetail({
-  onCopy,
   onCompleted,
   onBack,
   variety,
@@ -28,11 +27,8 @@ export default function PureManagementDetail({
     <Layout
       buttonGroup={isAdmin && (
         <>
-          <Button fullLength onClick={onCopy}>
+          <Button fullLength onClick={onCompleted}>
             {t('common:MARK_COMPLETED')}
-          </Button>
-          <Button color={'secondary'} onClick={onCompleted} fullLength>
-            {t('common:COPY')}
           </Button>
         </>
       )}
@@ -114,12 +110,12 @@ export default function PureManagementDetail({
           <Label>
             {t('MANAGEMENT_DETAIL.FAILED_CROP')}
           </Label>
-          <AddLink
+          <Underlined
             style={{ marginLeft: '6px' }}
             onClick={() => { console.log('Go to abandon page') }}
           >
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
-          </AddLink>
+          </Underlined>
         </div>
       )}
     </Layout>
@@ -128,7 +124,6 @@ export default function PureManagementDetail({
 
 PureManagementDetail.prototype = {
   onBack: PropTypes.func,
-  onCopy: PropTypes.func,
   onCompleted: PropTypes.func,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,

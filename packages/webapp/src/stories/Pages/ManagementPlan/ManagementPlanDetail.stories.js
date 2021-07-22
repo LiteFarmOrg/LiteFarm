@@ -14,7 +14,6 @@ const Template = (args) => <PureManagementDetail {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   onBack: () => {},
-  onCopy: () => {},
   onCompleted: () => {},
   variety: {
     crop_translation_key: "Crop",

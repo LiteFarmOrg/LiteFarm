@@ -82,8 +82,8 @@ export default function PureInGroundTransplant({
   const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });
   const dismissModal = () => setSelectedImage({});
 
-  const disabled = !isValid || (knows_how && !planting_type);
-
+  const disabled = (knows_how === undefined) || (knows_how && planting_type === undefined);
+  
   const onContinue = () => {
     history.push(submitPath);
   };

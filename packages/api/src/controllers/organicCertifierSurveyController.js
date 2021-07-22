@@ -134,8 +134,8 @@ const organicCertifierSurveyController = {
           builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true })
         }).andWhere({ farm_id })
       const user_id = req.user.user_id;
-      const files = documents.map(({ files, name }) => files.map(({ url, file_name }, i) => ({
-        url, file_name: i !== 0 ? `${name}-${file_name}`: `${name}.${file_name.split('.').pop()}`,
+      const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
+        url, file_name: files.length > 1 ? `${name}-${file_name}`: `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
       const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated,
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
@@ -152,7 +152,7 @@ const organicCertifierSurveyController = {
         from_date, to_date, submission: submission_id };
       res.status(200).json({ message: 'Processing', records: records.rows });
       const retrieveQueue = new Queue('retrieve', redisConf);
-      retrieveQueue.add(body, { removeOnComplete: true })
+      retrieveQueue.add(body, { removeOnComplete: true });
     }
   },
 

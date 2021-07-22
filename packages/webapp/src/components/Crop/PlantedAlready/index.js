@@ -9,6 +9,7 @@ import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
 import { crop_age } from '../../../util/unit';
+import { seedingType } from './constants'
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 
@@ -115,11 +116,11 @@ export default function PurePlantedAlready({
                 radios={[
                   {
                     label: t('CROP_MANAGEMENT.SEED'),
-                    value: 'SEED',
+                    value: seedingType.SEED,
                   },
                   {
                     label: t('MANAGEMENT_PLAN.SEEDLING'),
-                    value: 'SEEDLING_OR_PLANTING_STOCK',
+                    value: seedingType.SEEDLING,
                   },
                 ]}
                 required
@@ -143,7 +144,6 @@ export default function PurePlantedAlready({
                       system={system}
                       hookFormSetValue={setValue}
                       hookFormGetValue={getValues}
-                      hookFormSetError={setError}
                       hookFromWatch={watch}
                       control={control}
                       max={MAX_AGE}
@@ -171,7 +171,6 @@ export default function PurePlantedAlready({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   max={MAX_AGE}

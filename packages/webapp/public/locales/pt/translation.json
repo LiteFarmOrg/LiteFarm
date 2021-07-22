@@ -12,16 +12,7 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
-  },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
     "LENGTH_OF_BED": "MISSING",
     "NUMBER_0F_BEDS": "MISSING",
     "NUMBER_OF_ROWS": "MISSING",
@@ -72,7 +63,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Você planeja aplicar para uma ou renovar uma certificação nesta temporada?",
       "TITLE": "Interessado(a) em certificações?",
-      "WHY": "Porque estamos perguntando isto?",
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "REQUEST_CERTIFIER": {
@@ -100,11 +90,13 @@
     "EMAIL_ERROR": "MISSING",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
+    "FILES_ARE_READY": "MISSING",
     "FLOW_TITLE": "MISSING",
     "FROM": "From",
     "GOOD_NEWS": "Good news!",
     "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "NOTE_CANNOT_RESUBMIT": "MISSING",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "TO": "To",
@@ -185,6 +177,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Colher",
+    "PLANT": "MISSING",
     "SEED": "Semear",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Transplantar"
@@ -863,24 +856,30 @@
     "COVER_INFO": "A seleção da cultura de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
+    "DAYS_TO_HARVEST": "MISSING",
+    "DAYS_TO_TERMINATION": "MISSING",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
     "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
+    "DROP_PIN": "MISSING",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
+    "HARVEST_DATE": "MISSING",
     "IN_GROUND": "No solo",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
+    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "MISSING",
     "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
     "MANAGEMENT_SPOTLIGHT_2": "Visualize e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
+    "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
@@ -895,6 +894,7 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
+    "REMOVE_PIN": "MISSING",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "MISSING",
       "NUMBER_OF_ROWS": "MISSING",
@@ -902,21 +902,50 @@
       "TOTAL_LENGTH": "MISSING"
     },
     "ROWS": "Linhas",
+    "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
+    "SELECT_A_PLANTING_LOCATION": "MISSING",
+    "SELECT_A_SEEDING_LOCATION": "MISSING",
+    "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
     "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "TERMINATION": "Terminação",
+    "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Transplantar",
+    "TRANSPLANT_DATE": "MISSING",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "MISSING",
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
+      },
+      "TITLE": {
+        "PLANTING": "MISSING",
+        "SEEDING": "MISSING",
+        "TEXT": "MISSING"
+      }
+    },
     "WHAT_IS_AGE": "MISSING",
+    "WHAT_WAS_PLANTING_METHOD": "MISSING",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
     "PLAN_AND_ID_plural": "MISSING"
+  },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "ABANDON_PLAN": "MISSING",
+    "PLAN_NOTES": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -954,6 +983,21 @@
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
     "TITLE": "Link enviado"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "BED": "MISSING",
+    "BEDS": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "ROW": "MISSING",
+    "ROWS": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY": "MISSING",
+    "TOOLTIP": "MISSING",
+    "WIDTH": "MISSING",
+    "WORD_LIMIT": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1248,5 +1292,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Selecione o ano"
+  },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
   }
 }

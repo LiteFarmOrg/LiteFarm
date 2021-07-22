@@ -1,4 +1,4 @@
-import PureBedPlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidance';
+import PurePlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidance';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -21,7 +21,7 @@ export default function BedPlan({ history, match }) {
   };
   return (
     <HookFormPersistProvider>
-      <PureBedPlanGuidance
+      <PurePlanGuidance
         onCancel={onCancel}
         handleContinue={onContinue}
         onGoBack={onBack}
@@ -29,6 +29,7 @@ export default function BedPlan({ history, match }) {
         match={match}
         history={history}
         persistedPaths={persistedPaths}
+        isBed={true}
       />
     </HookFormPersistProvider>
   );

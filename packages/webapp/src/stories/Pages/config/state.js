@@ -10305,6 +10305,7 @@ export default {
       introduce_map: true,
       documents: true,
       compliance_docs_and_certification: true,
+      transplant: true,
     },
   },
   persistedStateReducer: {
@@ -10364,18 +10365,6 @@ export default {
     hookFormPersistReducer: {
       formData: {},
       shouldUpdateFormData: true,
-    },
-    organicCertifierSurveyReducer: {
-      allCertificationTypes: [],
-      certificationName: null,
-      certification_id: null,
-      requestedCertification: null,
-      finishedSelectingCertificationType: false,
-      allCertifierTypes: [],
-      certifierName: null,
-      certifierID: null,
-      requestedCertifier: null,
-      loadSummary: false,
     },
   },
   baseReducer: {},

@@ -212,6 +212,9 @@ const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
 const PlantingLocation = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantingLocation'),
 );
+const InGroundTransplant = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/InGroundTransplant'),
+);
 const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
 const PlantingDate = React.lazy(() => import('./containers/Crop/AddManagementPlan/PlantingDate'));
 const PlantingMethod = React.lazy(() =>
@@ -230,12 +233,15 @@ const BedPlanGuidance = React.lazy(() =>
 const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
-const RowMethod = React.lazy(() => 
-  import('./containers/Crop/AddManagementPlan/RowMethod'),
-);
+const RowMethod = React.lazy(() => import('./containers/Crop/AddManagementPlan/RowMethod'));
+const RowMethodGuidance = React.lazy(() => import('./containers/Crop/AddManagementPlan/RowMethod/RowGuidance'));
 
 const PlantedAlready = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantedAlready'),
+);
+
+const NextHarvest = React.lazy(() =>
+import('./containers/Crop/AddManagementPlan/NextHarvest'),
 );
 
 const Documents = React.lazy(() => import('./containers/Documents'));
@@ -253,11 +259,11 @@ const InterestedOrganic = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/CertificationSelection'),
+  import('./containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'),
 );
 
 const CertifierSelectionMenu = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'),
 );
 
 const SetCertificationSummary = React.lazy(() =>
@@ -267,7 +273,7 @@ const SetCertificationSummary = React.lazy(() =>
 );
 
 const RequestCertifier = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/RequestCertifier'),
+  import('./containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
 );
 const ViewCertification = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
@@ -275,6 +281,8 @@ const ViewCertification = React.lazy(() =>
 
 const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
 const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
+
+const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
 
 const Routes = () => {
   useScrollToTop();
@@ -295,9 +303,18 @@ const Routes = () => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
+  let {
+    step_five,
+    has_consent,
+    role_id,
+    status,
+    step_one,
+    farm_id,
+    step_three,
+    step_four,
+  } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const hasFinishedOnBoardingFlow = step_five;
+  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
@@ -386,6 +403,11 @@ const Routes = () => {
               exact
               component={Transplant}
             />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/next_harvest"
+              exact
+              component={NextHarvest}
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/planting_date"
               exact
@@ -405,6 +427,11 @@ const Routes = () => {
               path="/crop/:variety_id/add_management_plan/planting_method"
               exact
               component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/inground_transplant_method"
+              exact
+              component={InGroundTransplant}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/broadcast"
@@ -427,17 +454,14 @@ const Routes = () => {
               exact
               component={BedPlanGuidance}
             />
-            <Route
-              path="/crop/:variety_id/add_management_plan/rows"
-              exact
-              component={RowMethod}
-            />
+            <Route path="/crop/:variety_id/add_management_plan/rows" exact component={RowMethod} />
+            <Route path="/crop/:variety_id/add_management_plan/row_guidance" exact component={RowMethodGuidance} />
             <Route
               path="/crop/:variety_id/add_management_plan/name"
               exact
               component={ManagementPlanName}
             />
-
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
@@ -634,6 +658,11 @@ const Routes = () => {
               exact
               component={Transplant}
             />
+            <Route 
+              path="/crop/:variety_id/add_management_plan/next_harvest"
+              exact
+              component={NextHarvest}
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/planting_date"
               exact
@@ -659,11 +688,9 @@ const Routes = () => {
               exact
               component={PlantInContainer}
             />
-            <Route
-              path="/crop/:variety_id/add_management_plan/rows"
-              exact
-              component={RowMethod}
-            />
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
+            <Route path="/crop/:variety_id/add_management_plan/rows" exact component={RowMethod} />
+            <Route path="/crop/:variety_id/add_management_plan/row_guidance" exact component={RowMethodGuidance} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
             <Route path="/crop/:variety_id/detail" component={CropDetail} />
@@ -762,6 +789,11 @@ const Routes = () => {
               exact
               component={PlantingLocation}
             />
+            <Route
+              path="/crop/:variety_id/add_management_plan/inground_transplant_method"
+              exact
+              component={InGroundTransplant}
+            />
             <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
@@ -822,6 +854,7 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route

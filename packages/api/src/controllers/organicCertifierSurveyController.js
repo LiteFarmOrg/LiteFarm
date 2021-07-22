@@ -17,6 +17,7 @@ const organicCertifierSurveyModel = require('../models/organicCertifierSurveyMod
 const certificationModel = require('../models/certificationModel');
 const certifierModel = require('../models/certifierModel');
 const userModel = require('../models/userModel');
+const farmModel = require('../models/farmModel');
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
@@ -72,8 +73,8 @@ const organicCertifierSurveyController = {
   getAllSupportedCertifiers() {
     return async (req, res) => {
       try {
-        const { farm_id, certification_id } = req.params;
-        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id).andWhere('certifiers.certification_id', certification_id);
+        const { farm_id } = req.params;
+        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -103,76 +104,15 @@ const organicCertifierSurveyController = {
     };
   },
 
-  patchCertifiers() {
+  putOrganicCertifierSurvey() {
     return async (req, res) => {
-      const survey_id = req.params.survey_id;
       try {
         const user_id = req.user.user_id;
-        const certifiers = req.body.certifiers || [];
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certifiers });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  patchRequestedCertifiers() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const requested_certifier = req.body.data.requested_certifier || null;
-        const certifier_id = req.body.data.certifier_id || null;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({
-          requested_certifier,
-          certifier_id,
-        });
-        res.sendStatus(200);
+        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(req.body.survey_id).update(req.body).returning('*');
+        return res.status(200).send(result);
       } catch (error) {
         console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  patchRequestedCertification() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const requested_certification = req.body.data.requested_certification || null;
-        const certification_id = req.body.data.certification_id || null;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({
-          certification_id,
-          requested_certification,
-        });
-
-        res.sendStatus(200);
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-
-  patchInterested() {
-    return async (req, res) => {
-      const survey_id = req.params.survey_id;
-      try {
-        const user_id = req.user.user_id;
-        const interested = req.body.interested;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ interested });
-        res.sendStatus(200);
-      } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }
@@ -181,29 +121,38 @@ const organicCertifierSurveyController = {
 
   triggerExport() {
     return async (req, res) => {
-      const { farm_id, from_date, to_date, email } = req.body;
+      const { farm_id, from_date, to_date, email, submission_id } = req.body;
       const invalid = [farm_id, from_date, to_date, email].some(property => !property)
       if(invalid) {
         return res.status(400).json({
           message: 'Bad request. Missing properties',
         })
       }
-      const documents = await documentModel.query().withGraphJoined('files').whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true }).andWhere({ farm_id });
+      const documents = await documentModel.query().debug()
+        .withGraphJoined('files')
+        .where((builder) => {
+          builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true })
+        }).andWhere({ farm_id })
       const user_id = req.user.user_id;
-      const files = documents.map(({ files }) => files.map(({ url }) => url)).reduce((a, b) => a.concat(b), []);
-      const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated, 
+      const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
+        url, file_name: files.length > 1 ? `${name}-${file_name}`: `${name}.${file_name.split('.').pop()}`,
+      }))).reduce((a, b) => a.concat(b), []);
+      const records = await knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated,
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
-            cp.genetically_engineered, f.farm_name || ' / ' || mp.name || ' / ' || mp.seed_date  as notes
+            cp.genetically_engineered
             FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id JOIN farm f ON cp.farm_id = f.farm_id
-            WHERE ( mp.seed_date BETWEEN ? AND ? ) AND cp.organic IS NOT NULL AND cp.farm_id  = ?`, [from_date, to_date, farm_id]);
+            WHERE (mp.completed_date IS NULL OR mp.completed_date > :from_date::date)
+            AND (mp.abandoned_date IS NULL OR mp.abandoned_date > :from_date::date)
+            AND mp.start_date IS NOT NULL AND mp.start_date < :to_date::date
+            AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id });
       const { first_name } = await userModel.query().where({ user_id }).first();
+      const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const body = { records: records.rows,
-        files, farm_id, email, first_name,
-        from_date, to_date,
-        submission: '60e455b2fdef070001d06b6c' };
-      res.status(200).json({ message: 'Processing' });
+        files, farm_id, email, first_name, farm_name,
+        from_date, to_date, submission: submission_id };
+      res.status(200).json({ message: 'Processing', records: records.rows });
       const retrieveQueue = new Queue('retrieve', redisConf);
-      retrieveQueue.add(body, { removeOnComplete: true })
+      retrieveQueue.add(body, { removeOnComplete: true });
     }
   },
 

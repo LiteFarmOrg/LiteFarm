@@ -72,7 +72,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Planea conseguir o renovar certificación orgánica esta temporada?",
       "TITLE": "Estas interesado en certificaciones?",
-      "WHY": "Por qué nosotros preguntamos ésto?",
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "REQUEST_CERTIFIER": {
@@ -100,11 +99,13 @@
     "EMAIL_ERROR": "MISSING",
     "EXPORT": "MISSING",
     "EXPORT_DOCS": "MISSING",
+    "FILES_ARE_READY": "MISSING",
     "FLOW_TITLE": "MISSING",
     "FROM": "MISSING",
     "GOOD_NEWS": "MISSING",
     "HAVE_ALL_INFO": "MISSING",
     "NEXT_WE_WILL_CHECK": "MISSING",
+    "NOTE_CANNOT_RESUBMIT": "MISSING",
     "ORGANIC_CERTIFICATION_FROM": "MISSING",
     "SELECT_REPORTING_PERIOD": "MISSING",
     "TO": "MISSING",
@@ -185,6 +186,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Cosechar",
+    "PLANT": "MISSING",
     "SEED": "Sembrar",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Trasplantar"
@@ -863,24 +865,30 @@
     "COVER_INFO": "La selección de un cultivo de cobertura creará una tarea de trabajo de campo para terminar el cultivo de cobertura al final de la temporada. En su lugar, seleccionar para la cosecha creará una tarea de cosecha.",
     "COVER_OR_HARVEST": "¿Se está cultivando como cultivo de cobertura o para la cosecha?",
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
+    "DAYS_TO_HARVEST": "MISSING",
+    "DAYS_TO_TERMINATION": "MISSING",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
+    "DROP_PIN": "MISSING",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
+    "HARVEST_DATE": "MISSING",
     "IN_GROUND": "En el suelo",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
+    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
     "LOCATION_SUBTEXT": "Solo se muestran las ubicaciones que pueden producir cultivos.",
     "MANAGEMENT_PLAN_FLOW": "MISSING",
     "MANAGEMENT_SPOTLIGHT_1": "Crea nuevos planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
+    "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nombre del plan de manejo",
@@ -895,6 +903,7 @@
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
+    "REMOVE_PIN": "MISSING",
     "ROW_METHOD": {
       "LENGTH_OF_ROW": "MISSING",
       "NUMBER_OF_ROWS": "MISSING",
@@ -902,21 +911,51 @@
       "TOTAL_LENGTH": "MISSING"
     },
     "ROWS": "Hilera",
+    "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
+    "SELECT_A_PLANTING_LOCATION": "MISSING",
+    "SELECT_A_SEEDING_LOCATION": "MISSING",
+    "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
     "SELECT_STARTING_LOCATION": "¿Dónde está su lugar de siembra?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
     "TERMINATION": "Terminar",
+    "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
+    "TRANSPLANT_DATE": "MISSING",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "MISSING",
+        "SEEDED": "MISSING",
+        "TEXT": "MISSING"
+      },
+      "TITLE": {
+        "PLANTING": "MISSING",
+        "SEEDING": "MISSING",
+        "TEXT": "MISSING"
+      }
+    },
     "WHAT_IS_AGE": "MISSING",
+    "WHAT_WAS_PLANTING_METHOD": "MISSING",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING"
+    "PLAN_AND_ID_plural": "MISSING",
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
+  },
+  "MANAGEMENT_DETAIL": {
+    "EDIT_PLAN": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "ABANDON_PLAN": "MISSING",
+    "PLAN_NOTES": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -954,6 +993,21 @@
     "NEW_ACCOUNT_BUTTON": "Actualización",
     "NEW_ACCOUNT_TITLE": "Ajuste su nueva contraseña",
     "TITLE": "Enlace enviado"
+  },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "BED": "MISSING",
+    "BEDS": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "ROW": "MISSING",
+    "ROWS": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY": "MISSING",
+    "TOOLTIP": "MISSING",
+    "WIDTH": "MISSING",
+    "WORD_LIMIT": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1248,5 +1302,13 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
+  },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "MISSING",
+    "NOTES": "MISSING",
+    "PLANTING_DEPTH": "MISSING",
+    "SPACE_BETWEEN": "MISSING",
+    "SPECIFY_BEDS": "MISSING",
+    "TOOLTIP": "MISSING"
   }
 }

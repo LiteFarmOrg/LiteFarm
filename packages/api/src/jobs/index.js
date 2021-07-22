@@ -21,9 +21,9 @@ const pdfFn = require('./certification/pdf');
 const emailFn = require('./certification/email');
 
 retrieveQueue.process(retrieveFn(excelQueue, emailQueue));
-excelQueue.process(excelFn(pdfQueue, emailQueue));
+excelQueue.process(excelFn(pdfQueue, zipQueue, emailQueue));
 pdfQueue.process(pdfFn(zipQueue, emailQueue));
-zipQueue.process(zipFn(uploadQueue));
+zipQueue.process(zipFn(uploadQueue, emailQueue));
 uploadQueue.process(uploadFn(emailQueue));
 emailQueue.process(emailFn);
 
@@ -34,6 +34,7 @@ pdfQueue.on('error', (e) => console.error(e));
 emailQueue.on('error', (e) => console.error(e));
 uploadQueue.on('error', (e) => console.error(e));
 zipQueue.on('error', (e) => console.error(e));
+
 
 module.exports = {
   zipQueue, emailQueue, excelQueue, pdfQueue,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -96,7 +96,7 @@ export default function PureRowMethod({
     } else {
       setShowEstimatedValue(false);
     }
-  }, [num_of_rows, length_of_row, total_length, plant_spacing]);
+  }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
 
   return (
     <Form
@@ -114,7 +114,6 @@ export default function PureRowMethod({
         value={progress}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
-        cancelModalTitle
       />
       <Main style={{ paddingBottom: '24px' }}>{t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}</Main>
       <div>
@@ -135,6 +134,7 @@ export default function PureRowMethod({
                   type={'number'}
                   onKeyDown={integerOnKeyDown}
                   max={999}
+                  errors={getInputErrors(errors, NUMBER_OF_ROWS)}
                 />
                 <Unit
                   style={{ paddingLeft: '16px' }}
@@ -147,7 +147,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required
@@ -156,24 +155,25 @@ export default function PureRowMethod({
               </div>
             </>
           )}
-          <HideForm style={{ paddingBottom: '40px' }} shouldHide={same_length}>
-            <Unit
-              register={register}
-              label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
-              name={TOTAL_LENGTH}
-              displayUnitName={TOTAL_LENGTH_UNIT}
-              errors={errors[TOTAL_LENGTH]}
-              unitType={container_plant_spacing}
-              system={system}
-              hookFormSetValue={setValue}
-              hookFormGetValue={getValues}
-              hookFormSetError={setError}
-              hookFromWatch={watch}
-              control={control}
-              required
-              style={{ flexGrow: 1 }}
-            />
-          </HideForm>
+          {!same_length && (
+            <div style={{ marginBottom: '40px' }}>
+              <Unit
+                register={register}
+                label={t('MANAGEMENT_PLAN.ROW_METHOD.TOTAL_LENGTH')}
+                name={TOTAL_LENGTH}
+                displayUnitName={TOTAL_LENGTH_UNIT}
+                errors={errors[TOTAL_LENGTH]}
+                unitType={container_plant_spacing}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFromWatch={watch}
+                control={control}
+                required
+                style={{ flexGrow: 1 }}
+              />
+            </div>
+          )}
           <div>
             <Unit
               style={{ paddingLeft: '16px' }}
@@ -186,7 +186,6 @@ export default function PureRowMethod({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -206,7 +205,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required
@@ -222,7 +220,6 @@ export default function PureRowMethod({
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
-                  hookFormSetError={setError}
                   hookFromWatch={watch}
                   control={control}
                   required

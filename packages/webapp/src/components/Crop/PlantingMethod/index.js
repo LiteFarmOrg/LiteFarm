@@ -23,24 +23,24 @@ const BEDS = 'BEDS';
 const ROWS = 'ROWS';
 const images = {
   [BROADCAST]: [
-    `${DO_CDN_URL}/planting_method/Broadcast_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Broadcast_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Broadcast_1.webp`,
+    `${DO_CDN_URL}/planting_method/Broadcast_2.webp`,
+    `${DO_CDN_URL}/planting_method/Broadcast_3.webp`,
   ],
   [CONTAINER]: [
-    `${DO_CDN_URL}/planting_method/Individual_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Individual_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Individual_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Individual_1.webp`,
+    `${DO_CDN_URL}/planting_method/Individual_2.webp`,
+    `${DO_CDN_URL}/planting_method/Individual_3.webp`,
   ],
   [BEDS]: [
-    `${DO_CDN_URL}/planting_method/Bed_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Bed_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Bed_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Bed_1.webp`,
+    `${DO_CDN_URL}/planting_method/Bed_2.webp`,
+    `${DO_CDN_URL}/planting_method/Bed_3.webp`,
   ],
   [ROWS]: [
-    `${DO_CDN_URL}/planting_method/Rows_1.jpg`,
-    `${DO_CDN_URL}/planting_method/Rows_2.jpg`,
-    `${DO_CDN_URL}/planting_method/Rows_3.jpg`,
+    `${DO_CDN_URL}/planting_method/Rows_1.webp`,
+    `${DO_CDN_URL}/planting_method/Rows_2.webp`,
+    `${DO_CDN_URL}/planting_method/Rows_3.webp`,
   ],
 };
 

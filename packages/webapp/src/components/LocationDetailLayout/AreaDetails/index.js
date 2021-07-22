@@ -82,7 +82,6 @@ export default function AreaDetails({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           required
@@ -101,7 +100,6 @@ export default function AreaDetails({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required

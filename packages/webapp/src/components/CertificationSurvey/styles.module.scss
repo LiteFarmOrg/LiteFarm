@@ -2,3 +2,9 @@
   flex-grow: 1;
   margin-bottom: 24px;
 }
+
+.iframeBorder {
+  border: 2px inset;
+  padding: 24px;
+  background-color: var(--grey100);
+}

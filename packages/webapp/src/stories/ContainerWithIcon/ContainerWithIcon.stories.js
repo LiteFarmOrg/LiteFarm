@@ -18,7 +18,7 @@ Image.args = {
     console.log('delete');
   },
   children: (
-    <img src={`https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/blueberry.jpg`} />
+    <img src={`https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp`} />
   ),
 };
 

@@ -8,6 +8,7 @@ import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
+import Checkbox from '../../Form/Checkbox';
 
 export default function PurePlantingLocation({
   selectedLocationId,
@@ -17,10 +18,10 @@ export default function PurePlantingLocation({
   setLocationId,
   persistedFormData,
   transplant,
-
   progress,
   setPinLocation,
   pinLocation,
+  onSelectCheckbox,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
@@ -29,9 +30,7 @@ export default function PurePlantingLocation({
   if (in_ground === true) {
     seeding_type_temp = '';
   }
-
   const [pinMode, setPinMode] = useState(false);
-
   const [canUsePin, setCanUsePin] = useState(
     persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
   );
@@ -110,6 +109,17 @@ export default function PurePlantingLocation({
             <LocationPin />
             {t('MANAGEMENT_PLAN.DROP_PIN')}
           </Button>
+        )}
+
+        {needs_transplant === true && selectedLocationId !== undefined && (
+          <Checkbox
+            label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}
+            style={{ paddingBottom: '25px' }}
+            checked={!!persistedFormData?.farm?.default_initial_location_id}
+            onChange={(e) => {
+              onSelectCheckbox(e);
+            }}
+          />
         )}
       </Layout>
     </>

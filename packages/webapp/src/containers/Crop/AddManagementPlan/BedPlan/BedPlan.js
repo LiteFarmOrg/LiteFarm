@@ -17,7 +17,8 @@ export default function BedPlan({ history, match }) {
   };
 
   const onContinue = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/beds_guidance`);
+    //history.push(`/crop/${variety_id}/add_management_plan/beds_guidance`);
+    history.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
   };
 
   const onBack = () => {

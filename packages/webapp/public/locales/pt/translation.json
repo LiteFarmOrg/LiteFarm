@@ -911,6 +911,8 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
+    "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "TERMINATION": "Terminação",
@@ -993,7 +995,8 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY": "MISSING",
     "TOOLTIP": "MISSING",
-    "WIDTH": "MISSING"
+    "WIDTH": "MISSING",
+    "WORD_LIMIT": "MISSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",

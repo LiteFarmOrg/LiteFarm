@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -36,17 +36,19 @@ function PurePlanGuidance({
     mode: 'onBlur',
   });
 
-  const SPECIFY = isBed? 'beds.specify_beds' : 'rows.specify_rows';
-  const PLANTING_DEPTH = isBed? 'beds.planting_depth' : 'rows.planting_depth';
-  const PLANTING_DEPTH_UNIT = isBed? 'beds.planting_depth_unit' : 'rows.planting_depth_unit';
-  const WIDTH = isBed? 'beds.bed_width' : 'rows.row_width';
-  const WIDTH_UNIT = isBed? 'beds.bed_width_unit' : 'rows.row_width_unit';
-  const SPACING = isBed? 'beds.bed_spacing' : 'rows.row_spacing';
-  const SPACING_UNIT = isBed? 'beds.bed_spacing_unit' : 'rows.row_spacing_unit';
-  const PLANTING_NOTES = isBed? 'beds.planting_notes' : 'rows.planting_notes';
+  const SPECIFY = isBed ? 'beds.specify_beds' : 'rows.specify_rows';
+  const PLANTING_DEPTH = isBed ? 'beds.planting_depth' : 'rows.planting_depth';
+  const PLANTING_DEPTH_UNIT = isBed ? 'beds.planting_depth_unit' : 'rows.planting_depth_unit';
+  const WIDTH = isBed ? 'beds.bed_width' : 'rows.row_width';
+  const WIDTH_UNIT = isBed ? 'beds.bed_width_unit' : 'rows.row_width_unit';
+  const SPACING = isBed ? 'beds.bed_spacing' : 'rows.row_spacing';
+  const SPACING_UNIT = isBed ? 'beds.bed_spacing_unit' : 'rows.row_spacing_unit';
+  const PLANTING_NOTES = isBed ? 'beds.planting_notes' : 'rows.planting_notes';
 
-  const TYPE = isBed? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
-  const TYPES = isBed? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
+  const TYPE = isBed ? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
+  const TYPES = isBed ? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
+
+  const SPECIFY_LIMIT = 40;
 
   useHookFormPersist(persistedPaths, getValues);
 
@@ -72,10 +74,15 @@ function PurePlanGuidance({
       <Input
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
-        hookFormRegister={register(SPECIFY)}
+        hookFormRegister={register(SPECIFY, {
+          maxLength: {
+            value: SPECIFY_LIMIT,
+            message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT }),
+          },
+        })}
         style={{ paddingBottom: '40px' }}
         optional={true}
-        max={40}
+        errors={getInputErrors(errors, SPECIFY)}
       />
 
       <Unit

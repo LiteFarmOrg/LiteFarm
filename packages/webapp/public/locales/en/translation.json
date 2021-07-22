@@ -875,7 +875,7 @@
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
-    "MANAGEMENT_PLAN_FLOW": "management plan",
+    "MANAGEMENT_PLAN_FLOW": "management plan creation",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
@@ -999,7 +999,8 @@
     "SPECIFY": "Specify {{types}}",
     "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
     "WIDTH": "{{type}} width",
-    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
+    "WORD_LIMIT": "Only {{limit}} characters can be displayed",
+    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",

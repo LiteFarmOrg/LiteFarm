@@ -33,20 +33,20 @@ function PurePlanGuidance({
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
-    mode: 'onBlur',
+    mode: 'onChange',
   });
 
-  const SPECIFY = isBed? 'beds.specify_beds' : 'rows.specify_rows';
-  const PLANTING_DEPTH = isBed? 'beds.planting_depth' : 'rows.planting_depth';
-  const PLANTING_DEPTH_UNIT = isBed? 'beds.planting_depth_unit' : 'rows.planting_depth_unit';
-  const WIDTH = isBed? 'beds.bed_width' : 'rows.row_width';
-  const WIDTH_UNIT = isBed? 'beds.bed_width_unit' : 'rows.row_width_unit';
-  const SPACING = isBed? 'beds.bed_spacing' : 'rows.row_spacing';
-  const SPACING_UNIT = isBed? 'beds.bed_spacing_unit' : 'rows.row_spacing_unit';
-  const PLANTING_NOTES = isBed? 'beds.planting_notes' : 'rows.planting_notes';
+  const SPECIFY = isBed ? 'beds.specify_beds' : 'rows.specify_rows';
+  const PLANTING_DEPTH = isBed ? 'beds.planting_depth' : 'rows.planting_depth';
+  const PLANTING_DEPTH_UNIT = isBed ? 'beds.planting_depth_unit' : 'rows.planting_depth_unit';
+  const WIDTH = isBed ? 'beds.bed_width' : 'rows.row_width';
+  const WIDTH_UNIT = isBed ? 'beds.bed_width_unit' : 'rows.row_width_unit';
+  const SPACING = isBed ? 'beds.bed_spacing' : 'rows.row_spacing';
+  const SPACING_UNIT = isBed ? 'beds.bed_spacing_unit' : 'rows.row_spacing_unit';
+  const PLANTING_NOTES = isBed ? 'beds.planting_notes' : 'rows.planting_notes';
 
-  const TYPE = isBed? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
-  const TYPES = isBed? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
+  const TYPE = isBed ? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
+  const TYPES = isBed ? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
 
   const SPECIFY_LIMIT = 40;
 
@@ -75,54 +75,62 @@ function PurePlanGuidance({
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
         hookFormRegister={register(SPECIFY, {
-          maxLength: {value: SPECIFY_LIMIT, message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT })},
+          maxLength: { value: SPECIFY_LIMIT, message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT }) },
         })}
         style={{ paddingBottom: '40px' }}
         optional={true}
+        placeholder={t('PLAN_GUIDANCE.SPECIFY_PLACEHOLDER', { types: TYPES })}
         errors={getInputErrors(errors, SPECIFY)}
       />
 
-      <Unit
-        register={register}
-        label={t('PLAN_GUIDANCE.PLANTING_DEPTH')}
-        name={PLANTING_DEPTH}
-        displayUnitName={PLANTING_DEPTH_UNIT}
-        unitType={container_planting_depth}
-        system={system}
-        hookFormSetValue={setValue}
-        hookFormGetValue={getValues}
-        hookFromWatch={watch}
-        control={control}
-        optional={true}
-      />
+      <div style={{ marginBottom: '40px' }}>
+        <Unit
+          register={register}
+          label={t('PLAN_GUIDANCE.PLANTING_DEPTH')}
+          name={PLANTING_DEPTH}
+          displayUnitName={PLANTING_DEPTH_UNIT}
+          unitType={container_planting_depth}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          optional={true}
+        />
+      </div>
 
-      <Unit
-        register={register}
-        label={t('PLAN_GUIDANCE.WIDTH', { type: TYPE })}
-        name={WIDTH}
-        displayUnitName={WIDTH_UNIT}
-        unitType={container_planting_depth}
-        system={system}
-        hookFormSetValue={setValue}
-        hookFormGetValue={getValues}
-        hookFromWatch={watch}
-        control={control}
-        optional={true}
-      />
 
-      <Unit
-        register={register}
-        label={t('PLAN_GUIDANCE.SPACE_BETWEEN', { types: TYPES })}
-        name={SPACING}
-        displayUnitName={SPACING_UNIT}
-        unitType={container_planting_depth}
-        system={system}
-        hookFormSetValue={setValue}
-        hookFormGetValue={getValues}
-        hookFromWatch={watch}
-        control={control}
-        optional={true}
-      />
+      <div style={{ marginBottom: '40px' }}>
+        <Unit
+          register={register}
+          label={t('PLAN_GUIDANCE.WIDTH', { type: TYPE })}
+          name={WIDTH}
+          displayUnitName={WIDTH_UNIT}
+          unitType={container_planting_depth}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          optional={true}
+        />
+      </div>
+
+      <div style={{ marginBottom: '40px' }}>
+        <Unit
+          register={register}
+          label={t('PLAN_GUIDANCE.SPACE_BETWEEN', { types: TYPES })}
+          name={SPACING}
+          displayUnitName={SPACING_UNIT}
+          unitType={container_planting_depth}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          optional={true}
+        />
+      </div>
 
       <Input
         label={t('PLAN_GUIDANCE.NOTES')}

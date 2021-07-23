@@ -5,11 +5,13 @@ import Button from '../../Form/Button';
 import { PureSnackbar } from '../../PureSnackbar';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
+import ReactSelect from '../../Form/ReactSelect';
+import { useSelector } from 'react-redux';
 
-const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError }) => {
+const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, userFarmOptions }) => {
   const { t } = useTranslation();
 
   const {
@@ -22,7 +24,7 @@ const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError }) =
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: {},
+    defaultValues: { assignee: userFarmOptions.length === 1 ? userFarmOptions[0] : undefined },
   });
 
   return (
@@ -47,6 +49,20 @@ const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError }) =
         />
 
         <Main className={styles.mainText}>{t('ADD_TASK.DO_YOU_WANT_TO_ASSIGN')}</Main>
+
+        <Controller
+          control={control}
+          name={'assignee'}
+          render={({ field }) => (
+            <ReactSelect
+              options={userFarmOptions}
+              label={t('ADD_TASK.ASSIGNEE')}
+              optional={true}
+              {...field}
+            />
+          )}
+          rules={{ required: true }}
+        />
       </Form>
     </>
   );

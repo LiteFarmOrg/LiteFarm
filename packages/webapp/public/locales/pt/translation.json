@@ -14,6 +14,7 @@
   },
   "ADD_TASK": {
     "ADD_A_TASK": "MISSING",
+    "ASSIGNEE": "MISSING",
     "CANCEL": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING"
   },

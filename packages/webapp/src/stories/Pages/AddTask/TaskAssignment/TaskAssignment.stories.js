@@ -8,6 +8,16 @@ export default {
   decorators: decorators,
   component: PureTaskAssignment,
 };
+const userFarmOptions = [
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' },
+  { label: 'Strawberry', value: 'strawberry' },
+  { label: 'Kiwi', value: 'kiwi' },
+  { label: 'Mango', value: 'mango' },
+  { label: 'Banana Apple', value: 'bananaapple' },
+];
+
+const oneUser = [{ label: 'Apple', value: 'apple' }];
 
 const Template = (args) => <PureTaskAssignment {...args} />;
 
@@ -18,4 +28,15 @@ TaskAssignment.args = {
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
+  userFarmOptions: userFarmOptions,
+};
+
+export const TaskAssignmentDefault = Template.bind({});
+
+TaskAssignmentDefault.args = {
+  onSubmit: () => console.log('onSave called'),
+  handleGoBack: () => console.log('handleGoBack called'),
+  handleCancel: () => console.log('handleCancel called'),
+  onError: () => console.log('onError called'),
+  userFarmOptions: oneUser,
 };

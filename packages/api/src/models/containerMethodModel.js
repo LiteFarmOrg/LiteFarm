@@ -16,36 +16,31 @@
 const Model = require('objection').Model;
 
 
-class ContainerModel extends Model {
+class ContainerMethodModel extends Model {
   static get tableName() {
-    return 'container';
+    return 'container_method';
   }
 
   static get idColumn() {
-    return 'management_plan_id';
+    return 'planting_method_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'in_ground'],
+      required: ['planting_method_id', 'in_ground', 'planting_depth'],
       properties: {
-        management_plan_id: { type: 'number' },
+        planting_method_id: { type: 'number' },
         in_ground: { type: 'boolean' },
-
         plant_spacing: { type: ['number', null] },
-        plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
         total_plants: { type: ['integer', null] },
         number_of_containers: { type: ['integer', null] },
         plants_per_container: { type: ['integer', null] },
         planting_depth: { type: ['number', null] },
-        planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
-
+        planting_depth_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },
         planting_soil: { type: ['string', null] },
-
         container_type: { type: ['string', null] },
-
-
       },
       additionalProperties: false,
     };
@@ -56,4 +51,4 @@ class ContainerModel extends Model {
   }
 }
 
-module.exports = ContainerModel;
+module.exports = ContainerMethodModel;

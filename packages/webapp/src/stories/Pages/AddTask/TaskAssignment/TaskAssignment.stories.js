@@ -35,19 +35,26 @@ const oneUser = [{ label: 'Apple', value: 'apple' }];
 const Template = (args) => <PureTaskAssignment {...args} />;
 
 export const TaskAssignment = Template.bind({});
-
 TaskAssignment.args = {
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   userFarmOptions: userFarmOptions,
+};
+
+export const TaskAssignmentFarmWorker = Template.bind({});
+TaskAssignmentFarmWorker.args = {
+  onSubmit: () => console.log('onSave called'),
+  handleGoBack: () => console.log('handleGoBack called'),
+  handleCancel: () => console.log('handleCancel called'),
+  onError: () => console.log('onError called'),
+  userFarmOptions: oneUser,
   isFarmWorker: true,
 };
 
-export const TaskAssignmentDefault = Template.bind({});
-
-TaskAssignmentDefault.args = {
+export const TaskAssignmentOneUser = Template.bind({});
+TaskAssignmentOneUser.args = {
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
   handleCancel: () => console.log('handleCancel called'),
@@ -56,7 +63,6 @@ TaskAssignmentDefault.args = {
 };
 
 export const TaskAssignmentMoreThanEightUsers = Template.bind({});
-
 TaskAssignmentMoreThanEightUsers.args = {
   onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),

@@ -6,10 +6,11 @@ import { PureSnackbar } from '../../PureSnackbar';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { useForm, Controller } from 'react-hook-form';
-import { Main } from '../../Typography';
+import { Main, Label } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
+import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 
 const PureTaskAssignment = ({
   onSubmit,
@@ -20,7 +21,6 @@ const PureTaskAssignment = ({
   isFarmWorker,
 }) => {
   const { t } = useTranslation();
-
   const {
     register,
     handleSubmit,
@@ -36,6 +36,16 @@ const PureTaskAssignment = ({
       override_hourly_wage: false,
     },
   });
+
+  const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
+  const override = watch(OVERRIDE_HOURLY_WAGE);
+  const WAGE_OVERRIDE = 'wage_override';
+  const wage_override = watch(WAGE_OVERRIDE);
+  const handleChange = (selected) => {
+    setSelected(selected);
+  };
+
+  const [selected, setSelected] = useState(null);
 
   return (
     <>
@@ -65,6 +75,8 @@ const PureTaskAssignment = ({
           name={'assignee'}
           render={({ field }) => (
             <ReactSelect
+              value={selected}
+              onChange={() => handleChange(selected)}
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
               optional={true}
@@ -83,7 +95,7 @@ const PureTaskAssignment = ({
             <RadioGroup
               hookFormControl={control}
               style={{ marginBottom: '16px' }}
-              name={'override_hourly_wage'}
+              name={OVERRIDE_HOURLY_WAGE}
               radios={[
                 {
                   label: t('LOG_DETAIL.YES'),
@@ -99,6 +111,24 @@ const PureTaskAssignment = ({
             />
           </>
         )}
+
+        {override && (
+          <div>
+            <Main>{t('ADD_TASK.WAGE_OVERRIDE')}</Main>
+            <Input
+              hookFormRegister={register(WAGE_OVERRIDE, {
+                required: true,
+                valueAsNumber: true,
+              })}
+              type={'number'}
+              onKeyDown={integerOnKeyDown}
+              max={100000000}
+              errors={getInputErrors(errors, WAGE_OVERRIDE)}
+            />
+          </div>
+        )}
+
+        <Main>`${selected}`</Main>
       </Form>
     </>
   );

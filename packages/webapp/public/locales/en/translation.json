@@ -17,7 +17,8 @@
     "ASSIGNEE": "Assignee",
     "CANCEL": "add task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
-    "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?"
+    "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "WAGE_OVERRIDE": "Wage override"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

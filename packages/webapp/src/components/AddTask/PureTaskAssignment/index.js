@@ -41,11 +41,13 @@ const PureTaskAssignment = ({
   const override = watch(OVERRIDE_HOURLY_WAGE);
   const WAGE_OVERRIDE = 'wage_override';
   const wage_override = watch(WAGE_OVERRIDE);
-  const handleChange = (selected) => {
-    setSelected(selected);
-  };
 
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState('Strawberry');
+
+  const handleChange = (value) => {
+    console.log(value);
+    setSelected(value);
+  };
 
   return (
     <>
@@ -75,8 +77,7 @@ const PureTaskAssignment = ({
           name={'assignee'}
           render={({ field }) => (
             <ReactSelect
-              value={selected}
-              onChange={() => handleChange(selected)}
+              onChange={(e) => setSelected('changed')}
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
               optional={true}
@@ -127,6 +128,8 @@ const PureTaskAssignment = ({
             />
           </div>
         )}
+
+        {selected}
 
         <Main>{`${selected}`}</Main>
       </Form>

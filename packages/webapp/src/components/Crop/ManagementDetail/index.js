@@ -9,14 +9,7 @@ import styles from './styles.module.scss';
 import Card from '../../Card';
 import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
 
-export default function PureManagementDetail({
-  onCompleted,
-  onBack,
-  variety,
-  plan,
-  isAdmin,
-}) {
-
+export default function PureManagementDetail({ onCompleted, onBack, variety, plan, isAdmin }) {
   const { t } = useTranslation();
 
   const title = plan.name;
@@ -25,13 +18,15 @@ export default function PureManagementDetail({
 
   return (
     <Layout
-      buttonGroup={isAdmin && (
-        <>
-          <Button fullLength onClick={onCompleted}>
-            {t('common:MARK_COMPLETED')}
-          </Button>
-        </>
-      )}
+      buttonGroup={
+        isAdmin && (
+          <>
+            <Button fullLength onClick={onCompleted}>
+              {t('common:MARK_COMPLETED')}
+            </Button>
+          </>
+        )
+      }
     >
       <CropHeader
         onBackClick={onBack}
@@ -42,19 +37,17 @@ export default function PureManagementDetail({
       />
 
       <div className={styles.titlewrapper}>
-        <Label
-          className={styles.title}
-          style={{ marginTop: '24px' }}
-        >
+        <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
         {isAdmin && (
           <div>
-            <Pencil
-              className={styles.pencil}
-              style={{ marginRight: '5px' }}
-            />
-            <Underlined onClick={() => { console.log('Go to edit page') }}>
+            <Pencil className={styles.pencil} style={{ marginRight: '5px' }} />
+            <Underlined
+              onClick={() => {
+                console.log('Go to edit page');
+              }}
+            >
               {t('MANAGEMENT_DETAIL.EDIT_PLAN')}
             </Underlined>
           </div>
@@ -63,27 +56,13 @@ export default function PureManagementDetail({
 
       {notes.length > 0 && (
         <>
-          <Label
-            style={{ marginTop: '24px' }}
-          >
-            {t('MANAGEMENT_DETAIL.PLAN_NOTES')}
-          </Label>
-          <Card
-            className={styles.notes}
-            color={'info'}
-            style={{ marginTop: '4px' }}
-          >
-            <Label
-              className={styles.notescontent}
-              style={{ marginTop: '14px', marginLeft: '8px' }}
-            >
+          <Label style={{ marginTop: '24px' }}>{t('MANAGEMENT_DETAIL.PLAN_NOTES')}</Label>
+          <Card className={styles.notes} color={'info'} style={{ marginTop: '4px' }}>
+            <Label className={styles.notescontent} style={{ marginTop: '14px', marginLeft: '8px' }}>
               {notes}
             </Label>
           </Card>
-          <Label
-            className={styles.subtitle}
-            style={{ marginTop: '32px' }}
-          >
+          <Label className={styles.subtitle} style={{ marginTop: '32px' }}>
             {t('MANAGEMENT_DETAIL.ASSOCIATED_TASKS')}
           </Label>
         </>
@@ -92,7 +71,9 @@ export default function PureManagementDetail({
       {isAdmin && (
         <AddLink
           style={{ marginTop: '16px' }}
-          onClick={() => { console.log('Go to add task page') }}
+          onClick={() => {
+            console.log('Go to add task page');
+          }}
         >
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>
@@ -103,23 +84,20 @@ export default function PureManagementDetail({
       }
 
       {isAdmin && (
-        <div
-          className={styles.abandonwrapper}
-          style={{ marginTop: '24px' }}
-        >
-          <Label>
-            {t('MANAGEMENT_DETAIL.FAILED_CROP')}
-          </Label>
+        <div className={styles.abandonwrapper} style={{ marginTop: '24px' }}>
+          <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
           <Underlined
             style={{ marginLeft: '6px' }}
-            onClick={() => { console.log('Go to abandon page') }}
+            onClick={() => {
+              console.log('Go to abandon page');
+            }}
           >
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
           </Underlined>
         </div>
       )}
     </Layout>
-  )
+  );
 }
 
 PureManagementDetail.prototype = {

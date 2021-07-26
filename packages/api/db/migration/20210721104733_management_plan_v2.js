@@ -36,14 +36,7 @@ exports.up = async function(knex) {
     estimated_seeds_unit: 'kg',
     estimated_yield_unit: 'kg',
   }, plantingMethodProperties)));
-  // for (const container of containers) {
-  //   knex('planting_method').insert({
-  //     planting_method: 'CONTAINER_METHOD',
-  //     is_final_planting_method: true,
-  //     ...container,
-  //     notes: container.planting_notes || container.notes,
-  //   });
-  // }
+
   const beds = await knex('beds').join('crop_management_plan', 'beds.management_plan_id', 'crop_management_plan.management_plan_id');
   await knex.batchInsert('planting_method', beds.map(bed => lodash.pick({
     planting_method: 'BED_METHOD',
@@ -54,15 +47,6 @@ exports.up = async function(knex) {
     estimated_yield_unit: 'kg',
   }, plantingMethodProperties)));
 
-  // for (const bed of beds) {
-  //   knex('final_planting_method').insert({
-  //     planting_method: 'BED_METHOD',
-  //     is_final_planting_method: true,
-  //     ...bed,
-  //     notes: bed.planting_notes || bed.notes,
-  //   });
-  // }
-
   const rows = await knex('rows').join('crop_management_plan', 'rows.management_plan_id', 'crop_management_plan.management_plan_id');
   await knex.batchInsert('planting_method', rows.map(row => lodash.pick({
     planting_method: 'ROW_METHOD',
@@ -72,14 +56,6 @@ exports.up = async function(knex) {
     estimated_seeds_unit: 'kg',
     estimated_yield_unit: 'kg',
   }, plantingMethodProperties)));
-  // for (const row of rows) {
-  //   knex('final_planting_method').insert({
-  //     planting_method: 'ROW_METHOD',
-  //     is_final_planting_method: true,
-  //     ...row,
-  //     notes: row.planting_notes || row.notes,
-  //   });
-  // }
 
   const broadcasts = await knex('broadcast').join('crop_management_plan', 'broadcast.management_plan_id', 'crop_management_plan.management_plan_id');
   await knex.batchInsert('planting_method', broadcasts.map(broadcast => lodash.pick({
@@ -101,14 +77,6 @@ exports.up = async function(knex) {
       await knex('broadcast').where('management_plan_id', broadcast.management_plan_id).update('percentage_planted', broadcast.area_used / total_area);
     }
   }
-  // for (const broadcast of broadcasts) {
-  //   knex('final_planting_method').insert({
-  //     planting_method: 'BROADCAST_METHOD',
-  //     is_final_planting_method: true,
-  //     ...broadcast,
-  //     notes: broadcast.planting_notes || broadcast.notes,
-  //   });
-  // }
 
   const transplantContainers = await knex('transplant_container');
   await knex.batchInsert('planting_method', transplantContainers.map(transplantContainer => lodash.pick({
@@ -119,14 +87,6 @@ exports.up = async function(knex) {
     estimated_seeds_unit: 'kg',
     estimated_yield_unit: 'kg',
   }, plantingMethodProperties)));
-  // for (const transplantContainer of transplantContainers) {
-  //   knex('initial_planting_method').insert({
-  //     planting_method: 'CONTAINER_METHOD',
-  //     is_final_planting_method: false,
-  //     ...transplantContainer,
-  //     notes: transplantContainer.planting_notes || transplantContainer.notes,
-  //   });
-  // }
 
   await knex.schema.alterTable('crop_management_plan', (t) => {
     t.date('seed_date');

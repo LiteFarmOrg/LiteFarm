@@ -42,6 +42,7 @@ TaskAssignment.args = {
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   userFarmOptions: userFarmOptions,
+  isFarmWorker: true,
 };
 
 export const TaskAssignmentDefault = Template.bind({});

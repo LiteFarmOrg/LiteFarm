@@ -10,9 +10,15 @@ import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
-import Radio from '../../Form/Radio';
 
-const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, userFarmOptions }) => {
+const PureTaskAssignment = ({
+  onSubmit,
+  handleGoBack,
+  handleCancel,
+  onError,
+  userFarmOptions,
+  isFarmWorker,
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -68,27 +74,31 @@ const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, use
           rules={{ required: true }}
         />
 
-        <Main className={styles.mainText} style={{ paddingTop: '35px' }}>
-          {t('ADD_TASK.DO_YOU_NEED_TO_OVERRIDE')}
-        </Main>
+        {!isFarmWorker && (
+          <>
+            <Main className={styles.mainText} style={{ paddingTop: '35px' }}>
+              {t('ADD_TASK.DO_YOU_NEED_TO_OVERRIDE')}
+            </Main>
 
-        <RadioGroup
-          hookFormControl={control}
-          style={{ marginBottom: '16px' }}
-          name={'override_hourly_wage'}
-          radios={[
-            {
-              label: t('LOG_DETAIL.YES'),
-              value: true,
-            },
-            {
-              label: t('LOG_DETAIL.NO'),
-              value: false,
-              defaultChecked: true,
-            },
-          ]}
-          required
-        />
+            <RadioGroup
+              hookFormControl={control}
+              style={{ marginBottom: '16px' }}
+              name={'override_hourly_wage'}
+              radios={[
+                {
+                  label: t('LOG_DETAIL.YES'),
+                  value: true,
+                },
+                {
+                  label: t('LOG_DETAIL.NO'),
+                  value: false,
+                  defaultChecked: true,
+                },
+              ]}
+              required
+            />
+          </>
+        )}
       </Form>
     </>
   );

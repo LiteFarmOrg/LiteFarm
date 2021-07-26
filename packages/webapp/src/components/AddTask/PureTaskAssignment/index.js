@@ -128,7 +128,7 @@ const PureTaskAssignment = ({
           </div>
         )}
 
-        <Main>`${selected}`</Main>
+        <Main>{`${selected}`}</Main>
       </Form>
     </>
   );

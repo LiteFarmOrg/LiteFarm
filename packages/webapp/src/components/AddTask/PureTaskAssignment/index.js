@@ -9,7 +9,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
-import { useSelector } from 'react-redux';
+import RadioGroup from '../../Form/RadioGroup';
+import Radio from '../../Form/Radio';
 
 const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, userFarmOptions }) => {
   const { t } = useTranslation();
@@ -24,7 +25,10 @@ const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, use
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { assignee: userFarmOptions.length === 1 ? userFarmOptions[0] : undefined },
+    defaultValues: {
+      assignee: userFarmOptions.length === 1 ? userFarmOptions[0] : undefined,
+      override_hourly_wage: false,
+    },
   });
 
   return (
@@ -62,6 +66,28 @@ const PureTaskAssignment = ({ onSubmit, handleGoBack, handleCancel, onError, use
             />
           )}
           rules={{ required: true }}
+        />
+
+        <Main className={styles.mainText} style={{ paddingTop: '35px' }}>
+          {t('ADD_TASK.DO_YOU_NEED_TO_OVERRIDE')}
+        </Main>
+
+        <RadioGroup
+          hookFormControl={control}
+          style={{ marginBottom: '16px' }}
+          name={'override_hourly_wage'}
+          radios={[
+            {
+              label: t('LOG_DETAIL.YES'),
+              value: true,
+            },
+            {
+              label: t('LOG_DETAIL.NO'),
+              value: false,
+              defaultChecked: true,
+            },
+          ]}
+          required
         />
       </Form>
     </>

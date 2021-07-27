@@ -14,14 +14,18 @@ export default function TaskQuickAssignModal({ dismissModal }) {
   const { t } = useTranslation();
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
-  const isAdmin =false; //user.is_admin;
-  const [worker, setWorker] = useState(null);
-  const [assignAll, setAssignAll] = useState(false);
+  const isAdmin = user.is_admin;
+  const assigned = true;
 
   let workerOptions = isAdmin? users.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
     value: user_id,
   })) : [{label: `${user.first_name} ${user.last_name}`, value: user.user_id}];
+
+  const assigned_worker = workerOptions[0];
+
+  const [worker, setWorker] = useState(assigned? assigned_worker : null);
+  const [assignAll, setAssignAll] = useState(false);
 
   workerOptions.unshift({label: 'Unassigned', value: null});
 
@@ -50,10 +54,10 @@ export default function TaskQuickAssignModal({ dismissModal }) {
       icon={<Person />}
     >
       <ReactSelect
+        defaultValue={workerOptions[1]}
         label={t('TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}
-        value={worker}
         style={{ marginBottom: '24px' }}
         isSearchable
       />

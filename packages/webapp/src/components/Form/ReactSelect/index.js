@@ -117,7 +117,7 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, isSearchable, ...props },
+    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, isSearchable, defaultValue, ...props },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -162,6 +162,7 @@ const ReactSelect = React.forwardRef(
           }}
           isSearchable={options?.length > 8 || isSearchable}
           inputRef={ref}
+          defaultValue={defaultValue}
           {...props}
         />
       </div>

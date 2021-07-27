@@ -1303,12 +1303,8 @@
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
+  "TASK": {
+    "SELECT_DATE": "MISSING",
+    "ADD_TASK_FLOW": "MISSING"
   }
 }

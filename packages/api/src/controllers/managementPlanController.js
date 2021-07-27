@@ -144,7 +144,7 @@ const managementPlanController = {
   },
 };
 
-const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[beds, container, broadcast], transplant_container]';
+const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[planting_methods.[bed_method, container_method, broadcast_method, row_method]]]';
 
 const removeCropVarietyFromManagementPlan = (managementPlan) => {
   !managementPlan.transplant_container && delete managementPlan.transplant_container;

@@ -53,6 +53,14 @@ class CropManagementPlanModel extends Model {
 
   static get relationMappings() {
     return {
+      planting_methods: {
+        modelClass: require('./plantingMethodModel'),
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'crop_management_plan.management_plan_id',
+          to: 'planting_method.management_plan_id',
+        },
+      },
     };
   }
 }

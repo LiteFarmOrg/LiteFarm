@@ -60,11 +60,11 @@ async function tableCleanup(knex) {
     DELETE FROM "sale";
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
-    DELETE FROM "broadcast";
-    DELETE FROM "container";
-    DELETE FROM "rows";
-    DELETE FROM "beds";
-    DELETE FROM "transplant_container";
+    DELETE FROM "broadcast_method";
+    DELETE FROM "container_method";
+    DELETE FROM "row_method";
+    DELETE FROM "bed_method";
+    DELETE FROM "planting_method";
     DELETE FROM "crop_management_plan";
     DELETE FROM "management_plan";
     DELETE FROM "crop_variety";

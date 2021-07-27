@@ -442,32 +442,33 @@ async function crop_management_planFactory({
     bed_method: fakeBedMethod(),
     broadcast_method: fakeBroadcastMethod(),
   }],
-}) {
-  const [field, managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
+} = {}) {
+  const [{ location_id }, managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
   const [{ management_plan_id }] = managementPlan;
   const { needs_transplant } = cropManagementPlan;
-  const promisedCropManagementPlan = [{ management_plan_id, ...cropManagementPlan }];
-  needs_transplant && await planting_methodFactory({
-    promisedFarm,
-    promisedLocation,
-    promisedCrop,
-    promisedField: [field],
-    promisedCropVariety,
-    promisedManagementPlan,
-    promisedCropManagementPlan,
-  }, plantingMethods[1]);
-  await planting_methodFactory({
-    promisedFarm,
-    promisedLocation,
-    promisedCrop,
-    promisedField: [field],
-    promisedCropVariety,
-    promisedManagementPlan,
-    promisedCropManagementPlan,
-  }, plantingMethods[0]);
+  needs_transplant && await insertPlantingMethod({
+    ...plantingMethods[1],
+    planting_method: { ...plantingMethods[1].planting_method, management_plan_id, location_id },
+  });
+  await insertPlantingMethod({
+    ...plantingMethods[0],
+    planting_method: { ...plantingMethods[0].planting_method, management_plan_id, location_id },
+  });
   return knex('crop_management_plan').insert({
-    location_id, management_plan_id, ...cropManagementPlan,
+    management_plan_id, ...cropManagementPlan,
   }).returning('*');
+}
+
+async function insertPlantingMethod(plantingMethod = {
+  planting_method: {},
+  row_method: {},
+  container_method: {},
+  bed_method: {},
+  broadcast_method: {},
+}) {
+  const [{ planting_method_id }] = await knex('planting_method').insert(plantingMethod.planting_method).returning('*');
+  const planting_method = plantingMethod.planting_method.planting_method.toLowerCase();
+  await knex(planting_method).insert({ ...plantingMethod[planting_method], planting_method_id });
 }
 
 function fakeCropManagementPlan(defaultData = {}) {
@@ -504,26 +505,40 @@ async function planting_methodFactory({
     promisedCrop,
   }),
 } = {}, {
-  planting_method = fakePlantingMethod({ is_final_planting_method: true }),
+  planting_method = fakePlantingMethod(),
   row_method = planting_method.planting_method.toLowerCase() === 'row_method' ? fakeRowMethod() : undefined,
   container_method = planting_method.planting_method.toLowerCase() === 'container_method' ? fakeContainerMethod() : undefined,
   bed_method = planting_method.planting_method.toLowerCase() === 'bed_method' ? fakeBedMethod() : undefined,
   broadcast_method = planting_method.planting_method.toLowerCase() === 'broadcast_method' ? fakeBroadcastMethod() : undefined,
 } = {}) {
-  const [field, managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
-  const [{ location_id }] = field;
-  const [{ management_plan_id }] = managementPlan;
-
-  return knex('planting_method').insert({
-    location_id, management_plan_id, ...cropManagementPlan,
-  }).returning('*');
+  const [{ management_plan_id }] = await crop_management_planFactory({
+    promisedFarm,
+    promisedLocation,
+    promisedField,
+    promisedCropVariety,
+    promisedCrop,
+    promisedManagementPlan,
+  }, {
+    cropManagementPlan: { ...fakeCropManagementPlan(), needs_transplant: false },
+    plantingMethods: [{
+      planting_method: { ...planting_method, is_final_planting_method: true },
+      row_method,
+      bed_method,
+      container_method,
+      broadcast_method,
+    }],
+  });
+  return knex('planting_method').where({ management_plan_id, is_final_planting_method: true });
 }
 
 function fakePlantingMethod(defaultData = {}) {
   return {
-    planting_type: faker.random.arrayElement(['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']),
-    estimated_revenue: faker.random.number(10000),
+    is_final_planting_method: faker.random.boolean(),
+    planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
+    is_planting_method_known: true,
+    estimated_seeds: faker.random.number(10000),
     estimated_yield: faker.random.number(10000),
+    notes: faker.lorem.words(),
     ...defaultData,
   };
 }
@@ -542,21 +557,26 @@ async function container_methodFactory({
     promisedCropVariety,
     promisedCrop,
   }),
-  promisedCropManagementPlan = crop_management_planFactory({
-    promisedManagementPlan,
+} = {}, {
+  planting_method = fakePlantingMethod({ planting_method: 'CONTAINER_METHOD' }),
+  container_method = fakeContainerMethod(),
+} = {}) {
+  const [{ management_plan_id }] = await crop_management_planFactory({
     promisedFarm,
     promisedLocation,
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }, { ...fakeCropManagementPlan(), planting_type: 'CONTAINER' }),
-} = {}, container = fakeContainerMethod()) {
-  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
-  const [{ management_plan_id }] = cropManagementPlan;
-  return knex('container').insert({
+    promisedManagementPlan,
+  }, {
+    cropManagementPlan: { ...fakeCropManagementPlan(), needs_transplant: false },
+    plantingMethods: [{ planting_method: { ...planting_method, is_final_planting_method: true }, container_method }],
+  });
+  const { planting_method_id } = await knex('planting_method').where({
     management_plan_id,
-    ...container,
-  }).returning('*');
+    is_final_planting_method: true,
+  }).first();
+  return knex('container_method').where({ planting_method_id });
 }
 
 function fakeContainerMethod(defaultData = {}) {
@@ -587,21 +607,26 @@ async function broadcast_methodFactory({
     promisedCropVariety,
     promisedCrop,
   }),
-  promisedCropManagementPlan = crop_management_planFactory({
-    promisedManagementPlan,
+} = {}, {
+  planting_method = fakePlantingMethod({ planting_method: 'BROADCAST_METHOD' }),
+  broadcast_method = fakeBroadcastMethod(),
+} = {}) {
+  const [{ management_plan_id }] = await crop_management_planFactory({
     promisedFarm,
     promisedLocation,
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }, { ...fakeCropManagementPlan(), planting_type: 'BROADCAST' }),
-} = {}, broadcast = fakeBroadcastMethod()) {
-  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
-  const [{ management_plan_id }] = cropManagementPlan;
-  return knex('broadcast').insert({
+    promisedManagementPlan,
+  }, {
+    cropManagementPlan: { ...fakeCropManagementPlan(), needs_transplant: false },
+    plantingMethods: [{ planting_method: { ...planting_method, is_final_planting_method: true }, broadcast_method }],
+  });
+  const { planting_method_id } = await knex('planting_method').where({
     management_plan_id,
-    ...broadcast,
-  }).returning('*');
+    is_final_planting_method: true,
+  }).first();
+  return knex('broadcast_method').where({ planting_method_id });
 }
 
 function fakeBroadcastMethod(defaultData = {}) {
@@ -609,7 +634,6 @@ function fakeBroadcastMethod(defaultData = {}) {
     percentage_planted: faker.random.number(10),
     area_used: faker.random.number(10000),
     seeding_rate: faker.random.number(10000),
-    required_seeds: faker.random.number(10000),
     ...defaultData,
   };
 }
@@ -627,21 +651,26 @@ async function row_methodFactory({
     promisedCropVariety,
     promisedCrop,
   }),
-  promisedCropManagementPlan = crop_management_planFactory({
-    promisedManagementPlan,
+} = {}, {
+  planting_method = fakePlantingMethod({ planting_method: 'ROW_METHOD' }),
+  row_method = fakeRowMethod(),
+} = {}) {
+  const [{ management_plan_id }] = await crop_management_planFactory({
     promisedFarm,
     promisedLocation,
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }, { ...fakeCropManagementPlan(), planting_type: 'BROADCAST' }),
-} = {}, broadcast = fakeBroadcastMethod()) {
-  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
-  const [{ management_plan_id }] = cropManagementPlan;
-  return knex('broadcast').insert({
+    promisedManagementPlan,
+  }, {
+    cropManagementPlan: { ...fakeCropManagementPlan(), needs_transplant: false },
+    plantingMethods: [{ planting_method: { ...planting_method, is_final_planting_method: true }, row_method }],
+  });
+  const { planting_method_id } = await knex('planting_method').where({
     management_plan_id,
-    ...broadcast,
-  }).returning('*');
+    is_final_planting_method: true,
+  }).first();
+  return knex('row_method').where({ planting_method_id });
 }
 
 function fakeRowMethod(defaultData = {}) {
@@ -656,9 +685,6 @@ function fakeRowMethod(defaultData = {}) {
     planting_depth: faker.random.number(10000),
     row_width: faker.random.number(10000),
     row_spacing: faker.random.number(10000),
-    estimated_yield: faker.random.number(10000),
-    estimated_seeds: faker.random.number(10000),
-    planting_notes: faker.lorem.words(),
     ...defaultData,
   };
 }
@@ -676,38 +702,38 @@ async function bed_methodFactory({
     promisedCropVariety,
     promisedCrop,
   }),
-  promisedCropManagementPlan = crop_management_planFactory({
-    promisedManagementPlan,
+} = {}, {
+  planting_method = fakePlantingMethod({ planting_method: 'BED_METHOD' }),
+  bed_method = fakeBedMethod(),
+} = {}) {
+  const [{ management_plan_id }] = await crop_management_planFactory({
     promisedFarm,
     promisedLocation,
     promisedField,
     promisedCropVariety,
     promisedCrop,
-  }, { ...fakeCropManagementPlan(), planting_type: 'BROADCAST' }),
-} = {}, broadcast = fakeBroadcastMethod()) {
-  const [cropManagementPlan] = await Promise.all([promisedCropManagementPlan]);
-  const [{ management_plan_id }] = cropManagementPlan;
-  return knex('broadcast').insert({
+    promisedManagementPlan,
+  }, {
+    cropManagementPlan: { ...fakeCropManagementPlan(), needs_transplant: false },
+    plantingMethods: [{ planting_method: { ...planting_method, is_final_planting_method: true }, bed_method }],
+  });
+  const { planting_method_id } = await knex('planting_method').where({
     management_plan_id,
-    ...broadcast,
-  }).returning('*');
+    is_final_planting_method: true,
+  }).first();
+  return knex('bed_method').where({ planting_method_id });
 }
 
 function fakeBedMethod(defaultData = {}) {
-  const same_length = faker.random.boolean();
   return {
-    same_length: same_length,
-    number_of_rows: same_length ? faker.random.number(999) : null,
-    row_length: same_length ? faker.random.number(10000) : null,
-    plant_spacing: faker.random.number(10000),
-    total_rows_length: same_length ? null : faker.random.number(10000),
-    specify_rows: faker.lorem.words(),
-    planting_depth: faker.random.number(10000),
-    row_width: faker.random.number(10000),
-    row_spacing: faker.random.number(10000),
-    estimated_yield: faker.random.number(10000),
-    estimated_seeds: faker.random.number(10000),
-    planting_notes: faker.lorem.words(),
+    number_of_beds: faker.random.number(1000),
+    number_of_rows_in_bed: faker.random.number(1000),
+    plant_spacing: faker.random.number(1000),
+    bed_length: faker.random.number(1000),
+    planting_depth: faker.random.number(1000),
+    bed_width: faker.random.number(1000),
+    bed_spacing: faker.random.number(1000),
+    specify_beds: `1-${faker.random.number(1000)}`,
     ...defaultData,
   };
 }
@@ -1263,14 +1289,6 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
   }).returning('*');
 }
 
-// async function allSupportedCertificationsFactory() {
-//   return knex('certifications').returning('*');
-// }
-
-async function allSupportedCertifiersFactory() {
-  return knex('certifiers').returning('*');
-}
-
 async function barnFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
@@ -1500,9 +1518,11 @@ module.exports = {
   cropFactory, fakeCrop,
   management_planFactory, fakeManagementPlan,
   crop_management_planFactory, fakeCropManagementPlan,
+  planting_methodFactory, fakePlantingMethod,
   container_methodFactory, fakeContainerMethod,
   broadcast_methodFactory, fakeBroadcastMethod,
-  fakeRows,
+  row_methodFactory, fakeRowMethod,
+  bed_methodFactory, fakeBedMethod,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
@@ -1555,6 +1575,4 @@ module.exports = {
   fakeCropVariety,
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
-  // allSupportedCertificationsFactory,
-  // allSupportedCertifiersFactory,
 };

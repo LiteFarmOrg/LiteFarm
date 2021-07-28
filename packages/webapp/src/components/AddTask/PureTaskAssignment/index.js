@@ -45,11 +45,6 @@ const PureTaskAssignment = ({
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
 
-  // const overrideWage = () => {
-  //   wage_override = currently_assigned.wage.amount;
-  //   console.log("hello");
-  // }
-
   return (
     <>
       <Form

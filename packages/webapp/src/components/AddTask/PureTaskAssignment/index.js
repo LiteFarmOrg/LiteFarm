@@ -54,7 +54,7 @@ const PureTaskAssignment = ({
       <Form
         buttonGroup={
           <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-            <Button color={'primary'} fullLength>
+            <Button color={'primary'} disabled={override && !isValid} fullLength>
               {t('common:SAVE')}
             </Button>
           </div>

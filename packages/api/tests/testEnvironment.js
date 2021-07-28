@@ -45,7 +45,7 @@ async function tableCleanup(knex) {
     DELETE FROM "harvestUse";
     DELETE FROM "harvest_task";
     DELETE FROM "harvestUseType";
-    DELETE FROM "irrigationLog";
+    DELETE FROM "irrigation_task";
     DELETE FROM "management_tasks";
     DELETE FROM "scouting_task";
     DELETE FROM "pest_control_task";

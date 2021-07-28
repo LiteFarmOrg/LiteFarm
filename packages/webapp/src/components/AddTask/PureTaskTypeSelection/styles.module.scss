@@ -1,0 +1,42 @@
+
+.typeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8f0eb;
+  box-shadow: 0 2px 10px #ededed;
+  border-radius: 4px;
+  width: 24.4vw;
+  height: 24.4vw;
+  text-align: center;
+
+
+  svg {
+    width: 13.3vw;
+    height: 13.3vw;
+    margin-bottom: 4px;
+  }
+
+  font-size: 3.3vw;
+  line-height: 4.4vw;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+
+}
+
+  .tileContainer {
+    display: inline-flex;
+    flex-flow: row wrap;
+    row-gap: 6.6vw;
+    justify-content: space-between;
+  }
+
+.logContainer {
+  width: 100%;
+  max-width: 1024px;
+  height: 100vh;
+  padding: 24px 24px 0 24px;
+  display: flex;
+  flex-direction: column;
+}

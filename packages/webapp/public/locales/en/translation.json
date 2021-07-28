@@ -16,9 +16,12 @@
     "ADD_A_TASK": "Add a task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "add task",
+    "CREATE_CUSTOM_TASK": "Create a custom task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
-    "WAGE_OVERRIDE": "Wage override"
+    "SELECT_TASK_TYPE": "Select task type",
+    "WAGE_OVERRIDE": "Wage override",
+    "COLLECT_SOIL_SAMPLE": "Collect soil sample"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

@@ -34,7 +34,7 @@ const PureTaskAssignment = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      assignee: userFarmOptions.length === 1 ? userFarmOptions[0] : undefined,
+      assignee: userFarmOptions.length === 2 ? userFarmOptions[1] : userFarmOptions[0],
       override_hourly_wage: false,
     },
   });
@@ -76,7 +76,7 @@ const PureTaskAssignment = ({
               //onChange={overrideWage}
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
-              optional={true}
+              required={true}
               {...field}
             />
           )}

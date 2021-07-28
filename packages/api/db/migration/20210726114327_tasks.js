@@ -17,7 +17,7 @@ const moodToHappiness = { 'happy': 4, 'neutral': 3, 'very happy': 5, 'sad': 2, '
 const shiftTaskToTaskTable = {
   1: 'field_work_task',
   2: 'transport_task',
-  3: 'sales_task',
+  3: 'sale_task',
   4: 'social_task',
   5: 'plant_task',
   6: 'fertilizer_task',
@@ -57,12 +57,11 @@ exports.up = async function(knex) {
     t.integer('type').references('task_id').inTable('taskType').defaultTo(1000000);
     t.enu('status', ['PLANNED', 'LATE', 'FOR_REVIEW', 'COMPLETED', 'ABANDONED']).defaultTo('PLANNED');
     t.renameColumn('user_id', 'owner');
-    t.uuid('assignee').references('user_id').inTable('users');
+    t.string('assignee').references('user_id').inTable('users');
     t.jsonb('coordinates');
     t.float('duration');
     t.float('wage_at_moment');
     t.integer('happiness').unsigned();
-    t.text('notes');
     t.text('completion_notes');
   });
   Object.keys(newTableNames).map(async (k) => {
@@ -106,11 +105,15 @@ exports.up = async function(knex) {
     const assignee  = user_id;
     const type = task_id === 1 ? 9 : task_id;
     const due_date = shift_date;
-    const resultingTask =  await knex('task').insert({ happiness, owner, assignee, type, due_date, duration, wage_at_moment }).returning('*');
-    location_id !== null ? await knex('location_tasks').insert({ task_id: resultingTask.task_id, location_id }):
-      await knex('management_tasks').insert({ task_id: resultingTask.task_id, management_plan_id  });
-    task_id !== 11 ? await  knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask }) :
-      await knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask, quantity_kg: 0, type: 'systemicSpray' });
+    try {
+      const [resultingTask] =  await knex('task').insert({ happiness, owner, assignee, type, due_date, duration, wage_at_moment }).returning('*');
+      location_id !== null ? await knex('location_tasks').insert({ task_id: resultingTask.task_id, location_id }):
+        await knex('management_tasks').insert({ task_id: resultingTask.task_id, management_plan_id  });
+      task_id < 11? await  knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id }) :
+        task_id === 11 ? await knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id, quantity_kg: 0, type: 'systemicSpray' }) : null;
+    } catch (e) {
+      e.code !== '25P02' && console.log(e);
+    }
   });
   await knex('task').update({ status: 'COMPLETED' });
 };

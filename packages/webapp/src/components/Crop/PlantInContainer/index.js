@@ -12,6 +12,7 @@ import Unit from '../../Form/Unit';
 import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
+import { isNonNegativeNumber } from '../../Form/validations';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -80,11 +81,10 @@ export default function PurePlantInContainer({
   const total_plants = watch(TOTAL_PLANTS);
   const plant_spacing = watch(PLANT_SPACING);
 
-  const isValidNumberInput = (number) => number === 0 || number > 0;
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
-    if (in_ground && isValidNumberInput(total_plants) && isValidNumberInput(plant_spacing)) {
+    if (in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing)) {
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
@@ -92,8 +92,8 @@ export default function PurePlantInContainer({
       setShowEstimatedValue(true);
     } else if (
       !in_ground &&
-      isValidNumberInput(number_of_container) &&
-      isValidNumberInput(plants_per_container)
+      isNonNegativeNumber(number_of_container) &&
+      isNonNegativeNumber(plants_per_container)
     ) {
       const required_seeds = number_of_container * plants_per_container * average_seed_weight;
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;

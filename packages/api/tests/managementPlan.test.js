@@ -74,17 +74,6 @@ describe('ManagementPlan Tests', () => {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
 
-  function fakeManagementPlan(cropVariety) {
-    const managementPlan = mocks.fakeManagementPlan();
-    const area_used = managementPlan.area_used < field.figure.area.total_area ? managementPlan.area_used : field.figure.area.total_area;
-    return ({
-      ...managementPlan,
-      crop_variety_id: cropVariety.crop_variety_id,
-      location_id: field.location_id,
-      area_used,
-    });
-  }
-
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
@@ -129,16 +118,25 @@ describe('ManagementPlan Tests', () => {
         user_added: true,
       });
       [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
-      [transplantManagementPlan] = await mocks.management_planFactory({
+      [transplantManagementPlan] = await mocks.crop_management_planFactory({
         promisedField: [field],
         promisedCropVariety: [cropVariety],
-      }, { ...mocks.fakeManagementPlan(), needs_transplant: true });
-      [seedManagementPlan] = await mocks.management_planFactory({
+      }, {
+        cropManagementPlan: {
+          ...mocks.fakeCropManagementPlan(),
+          needs_transplant: true,
+        },
+      });
+      [seedManagementPlan] = await mocks.crop_management_planFactory({
         promisedField: [field],
         promisedCropVariety: [cropVariety],
-      }, { ...mocks.fakeManagementPlan(), needs_transplant: false });
-      await mocks.broadcastFactory({ promisedField: [field], promisedManagementPlan: [seedManagementPlan] });
-      await mocks.containerFactory({ promisedField: [field], promisedManagementPlan: [transplantManagementPlan] });
+      }, {
+        cropManagementPlan: {
+          ...mocks.fakeCropManagementPlan(),
+          needs_transplant: false,
+        },
+      });
+
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
 
@@ -156,13 +154,13 @@ describe('ManagementPlan Tests', () => {
       const assetManagementPlans = (res, count) => {
         for (const management_plan of res.body) {
           expect(res.body.length).toBe(count);
-          expect(['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS']).toContain(management_plan.crop_management_plan.planting_type);
-          if (management_plan.crop_management_plan.planting_type === 'BROADCAST') {
-            expect(management_plan.crop_management_plan.broadcast.management_plan_id).toBe(seedManagementPlan.management_plan_id);
-            expect(management_plan.transplant_container).toBeUndefined();
-          } else if (management_plan.crop_management_plan.planting_type === 'CONTAINER') {
-            expect(management_plan.crop_management_plan.container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
-            expect(management_plan.transplant_container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
+          expect(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']).toContain(management_plan.crop_management_plan.planting_management_plans[0].planting_method);
+          if (management_plan.crop_management_plan.planting_method === 'BROADCAST_METHOD') {
+            expect(management_plan.crop_management_plan.planting_management_plans[0].management_plan_id).toBe(seedManagementPlan.management_plan_id);
+            expect(management_plan.crop_management_plan.planting_management_plans[1]).toBeUndefined();
+          } else if (management_plan.crop_management_plan.planting_type === 'CONTAINER_METHOD') {
+            expect(management_plan.crop_management_plan.planting_management_plans[0].management_plan_id).toBe(seedManagementPlan.management_plan_id);
+            expect(management_plan.crop_management_plan.planting_management_plans[1]?.management_plan_id).toBe(seedManagementPlan.management_plan_id);
           }
         }
       };
@@ -185,7 +183,7 @@ describe('ManagementPlan Tests', () => {
       test('Workers should get managementPlan by id', async (done) => {
         getRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body.transplant_container.management_plan_id).toBe(transplantManagementPlan.management_plan_id);
+          expect(res.body.crop_management_plan.planting_management_plans[1].management_plan_id).toBe(transplantManagementPlan.management_plan_id);
           done();
         });
       });

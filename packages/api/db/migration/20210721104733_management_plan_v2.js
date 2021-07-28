@@ -1,5 +1,5 @@
 const lodash = require('lodash');
-const plantingMethodModel = require('../../src/models/plantingMethodModel');
+const plantingMethodModel = require('../../src/models/plantingManagementPlanModel');
 const cropManagementPlanModel = require('../../src/models/cropManagementPlanModel');
 const bedMethodModel = require('../../src/models/bedMethodModel');
 const broadcastMethodModel = require('../../src/models/broadcastMethodModel');
@@ -10,11 +10,11 @@ exports.up = async function(knex) {
     t.uuid('default_initial_location_id').references('location_id').inTable('location');
   });
 
-  await knex.schema.createTable('planting_method', t => {
-    t.uuid('planting_method_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+  await knex.schema.createTable('planting_management_plan', t => {
+    t.uuid('planting_management_plan_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     t.integer('management_plan_id').references('management_plan_id').inTable('management_plan').notNullable();
-    t.boolean('is_final_planting_method').defaultTo(true).notNullable();
-    t.unique(['management_plan_id', 'is_final_planting_method']);
+    t.boolean('is_final_planting_management_plan').defaultTo(true).notNullable();
+    t.unique(['management_plan_id', 'is_final_planting_management_plan']);
     t.enu('planting_method', ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']);
     t.boolean('is_planting_method_known');
     t.decimal('estimated_seeds', 36, 12);
@@ -28,9 +28,9 @@ exports.up = async function(knex) {
   const plantingMethodProperties = Object.keys(plantingMethodModel.jsonSchema.properties);
 
   const containers = await knex('container').join('crop_management_plan', 'container.management_plan_id', 'crop_management_plan.management_plan_id');
-  await knex.batchInsert('planting_method', containers.map(container => lodash.pick({
+  await knex.batchInsert('planting_management_plan', containers.map(container => lodash.pick({
     planting_method: 'CONTAINER_METHOD',
-    is_final_planting_method: true,
+    is_final_planting_management_plan: true,
     ...container,
     notes: container.planting_notes || container.notes,
     estimated_seeds_unit: 'kg',
@@ -38,9 +38,9 @@ exports.up = async function(knex) {
   }, plantingMethodProperties)));
 
   const beds = await knex('beds').join('crop_management_plan', 'beds.management_plan_id', 'crop_management_plan.management_plan_id');
-  await knex.batchInsert('planting_method', beds.map(bed => lodash.pick({
+  await knex.batchInsert('planting_management_plan', beds.map(bed => lodash.pick({
     planting_method: 'BED_METHOD',
-    is_final_planting_method: true,
+    is_final_planting_management_plan: true,
     ...bed,
     notes: bed.planting_notes || bed.notes,
     estimated_seeds_unit: 'kg',
@@ -48,9 +48,9 @@ exports.up = async function(knex) {
   }, plantingMethodProperties)));
 
   const rows = await knex('rows').join('crop_management_plan', 'rows.management_plan_id', 'crop_management_plan.management_plan_id');
-  await knex.batchInsert('planting_method', rows.map(row => lodash.pick({
+  await knex.batchInsert('planting_management_plan', rows.map(row => lodash.pick({
     planting_method: 'ROW_METHOD',
-    is_final_planting_method: true,
+    is_final_planting_management_plan: true,
     ...row,
     notes: row.planting_notes || row.notes,
     estimated_seeds_unit: 'kg',
@@ -58,9 +58,9 @@ exports.up = async function(knex) {
   }, plantingMethodProperties)));
 
   const broadcasts = await knex('broadcast').join('crop_management_plan', 'broadcast.management_plan_id', 'crop_management_plan.management_plan_id');
-  await knex.batchInsert('planting_method', broadcasts.map(broadcast => lodash.pick({
+  await knex.batchInsert('planting_management_plan', broadcasts.map(broadcast => lodash.pick({
     planting_method: 'BROADCAST_METHOD',
-    is_final_planting_method: true,
+    is_final_planting_management_plan: true,
     ...broadcast,
     notes: broadcast.planting_notes || broadcast.notes,
     estimated_seeds_unit: 'kg',
@@ -79,9 +79,9 @@ exports.up = async function(knex) {
   }
 
   const transplantContainers = await knex('transplant_container');
-  await knex.batchInsert('planting_method', transplantContainers.map(transplantContainer => lodash.pick({
+  await knex.batchInsert('planting_management_plan', transplantContainers.map(transplantContainer => lodash.pick({
     planting_method: 'CONTAINER_METHOD',
-    is_final_planting_method: false,
+    is_final_planting_management_plan: false,
     ...transplantContainer,
     notes: transplantContainer.planting_notes || transplantContainer.notes,
     estimated_seeds_unit: 'kg',
@@ -124,6 +124,10 @@ exports.up = async function(knex) {
     t.dropColumn('needs_transplant');
     t.dropColumn('for_cover');
     t.dropColumn('status');
+    t.dropColumn('completed_date');
+    t.dropColumn('abandoned_date');
+    t.date('complete_date');
+    t.date('abandon_date');
     t.text('notes').alter();
   });
 
@@ -136,7 +140,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('container_method', (t) => {
-    t.uuid('planting_method_id').primary().references('planting_method_id').inTable('planting_method');
+    t.uuid('planting_management_plan_id').primary().references('planting_management_plan_id').inTable('planting_management_plan');
     t.boolean('in_ground').notNullable();
     t.decimal('plant_spacing', 36, 12);
     t.enu('plant_spacing_unit', ['cm', 'm', 'in', 'ft']).defaultTo('cm');
@@ -150,7 +154,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('broadcast_method', (t) => {
-    t.uuid('planting_method_id').primary().references('planting_method_id').inTable('planting_method');
+    t.uuid('planting_management_plan_id').primary().references('planting_management_plan_id').inTable('planting_management_plan');
     t.decimal('percentage_planted', 15, 12).notNullable();
     t.decimal('area_used', 36, 12).notNullable();
     t.enu('area_used_unit', ['m2', 'ha', 'ft2', 'ac']).defaultTo('m2').notNullable();
@@ -158,7 +162,7 @@ exports.up = async function(knex) {
     t.decimal('seeding_rate', 36, 12).notNullable();
   });
   await knex.schema.createTable('bed_method', (t) => {
-    t.uuid('planting_method_id').primary().references('planting_method_id').inTable('planting_method');
+    t.uuid('planting_management_plan_id').primary().references('planting_management_plan_id').inTable('planting_management_plan');
     t.integer('number_of_beds').notNullable();
     t.integer('number_of_rows_in_bed').notNullable();
     t.decimal('plant_spacing', 36, 12).notNullable();
@@ -174,7 +178,7 @@ exports.up = async function(knex) {
     t.string('specify_beds');
   });
   await knex.schema.createTable('row_method', (t) => {
-    t.uuid('planting_method_id').primary().references('planting_method_id').inTable('planting_method');
+    t.uuid('planting_management_plan_id').primary().references('planting_management_plan_id').inTable('planting_management_plan');
     t.boolean('same_length').notNullable();
     t.integer('number_of_rows');
     t.decimal('row_length', 36, 12);
@@ -192,7 +196,7 @@ exports.up = async function(knex) {
     t.enu('row_spacing_unit', ['cm', 'm', 'in', 'ft']).defaultTo('cm');
   });
 
-  const plantingMethods = await knex('planting_method');
+  const plantingManagementPlans = await knex('planting_management_plan');
 
   const plantingMethodTableNameMap = {
     'CONTAINER_METHOD': 'container',
@@ -240,19 +244,19 @@ exports.up = async function(knex) {
     return plantingMethodPickerMap[planting_method](result);
   };
 
-  for (const plantingMethod of plantingMethods) {
-    if (plantingMethod.is_final_planting_method) {
-      const deprecatedMethod = await knex(plantingMethodTableNameMap[plantingMethod.planting_method]).where('management_plan_id', plantingMethod.management_plan_id).first();
+  for (const plantingManagementPlan of plantingManagementPlans) {
+    if (plantingManagementPlan.is_final_planting_management_plan) {
+      const deprecatedMethod = await knex(plantingMethodTableNameMap[plantingManagementPlan.planting_method]).where('management_plan_id', plantingManagementPlan.management_plan_id).first();
 
-      await knex(plantingMethod.planting_method.toLowerCase()).insert({
-        planting_method_id: plantingMethod.planting_method_id,
-        ...getFixedDeprecatedMethod(deprecatedMethod, plantingMethod.planting_method),
+      await knex(plantingManagementPlan.planting_method.toLowerCase()).insert({
+        planting_management_plan_id: plantingManagementPlan.planting_management_plan_id,
+        ...getFixedDeprecatedMethod(deprecatedMethod, plantingManagementPlan.planting_method),
       });
     } else {
-      const deprecatedMethod = await knex('transplant_container').where('management_plan_id', plantingMethod.management_plan_id).first();
-      await knex(plantingMethod.planting_method.toLowerCase()).insert({
-        planting_method_id: plantingMethod.planting_method_id,
-        ...getFixedDeprecatedMethod(deprecatedMethod, plantingMethod.planting_method),
+      const deprecatedMethod = await knex('transplant_container').where('management_plan_id', plantingManagementPlan.management_plan_id).first();
+      await knex(plantingManagementPlan.planting_method.toLowerCase()).insert({
+        planting_management_plan_id: plantingManagementPlan.planting_management_plan_id,
+        ...getFixedDeprecatedMethod(deprecatedMethod, plantingManagementPlan.planting_method),
       });
     }
   }

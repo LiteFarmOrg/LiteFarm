@@ -23,7 +23,7 @@ const managementPlanController = {
       try {
         const result = await managementPlanModel.transaction(async trx => {
           return await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
-            req.body, { noUpdate: true, noDelete: true, noInsert: ['location'] });
+            req.body, { noUpdate: true, noDelete: true, noInsert: ['location', 'crop_variety'] });
         });
         return res.status(201).send(result);
       } catch (error) {
@@ -144,7 +144,7 @@ const managementPlanController = {
   },
 };
 
-const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[planting_methods.[bed_method, container_method, broadcast_method, row_method]]]';
+const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
 
 const removeCropVarietyFromManagementPlan = (managementPlan) => {
   !managementPlan.transplant_container && delete managementPlan.transplant_container;

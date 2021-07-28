@@ -22,15 +22,15 @@ class BroadcastMethodModel extends Model {
   }
 
   static get idColumn() {
-    return 'planting_method_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['planting_method_id', 'percentage_planted', 'area_used', 'area_used_unit', 'seeding_rate'],
+      required: ['planting_management_plan_id', 'percentage_planted', 'area_used', 'seeding_rate'],
       properties: {
-        planting_method_id: { type: 'number' },
+        planting_management_plan_id: { type: 'string' },
         percentage_planted: { type: 'number' },
         area_used: { type: 'number' },
         area_used_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },

@@ -6,15 +6,15 @@ class BedMethodModel extends Model {
   }
 
   static get idColumn() {
-    return 'planting_method_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['planting_method_id', 'number_of_beds', 'number_of_rows_in_bed', 'plant_spacing', 'plant_spacing_unit', 'length_of_bed', 'length_of_bed_unit'],
+      required: ['planting_management_plan_id', 'number_of_beds', 'number_of_rows_in_bed', 'plant_spacing', 'length_of_bed'],
       properties: {
-        planting_method_id: { type: 'integer' },
+        planting_management_plan_id: { type: 'integer' },
         number_of_beds: { type: 'integer' },
         number_of_rows_in_bed: { type: 'integer' },
         plant_spacing: { type: 'number' },

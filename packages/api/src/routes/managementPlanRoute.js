@@ -30,15 +30,8 @@ router.get('/farm/date/:farm_id/:date', hasFarmAccess({ params: 'farm_id' }), ch
 
 router.get('/expired/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:management_plan']), managementPlanController.getExpiredManagementPlans());
 
-router.post('/broadcast', hasFarmAccess({ body: 'crop_management_plan' }),
-  validateManagementPlanArea('broadcast'), modelMapping.broadcast,
-  checkScope(['add:management_plan']), managementPlanController.addManagementPlan())
-
-router.post('/container', hasFarmAccess({ body: 'crop_management_plan' }),
-  modelMapping.container, checkScope(['add:management_plan']), managementPlanController.addManagementPlan())
-
-router.post('/rows', hasFarmAccess({body: 'crop_management_plan' }),
-  modelMapping.rows, checkScope(['add:management_plan']), managementPlanController.addManagementPlan())
+router.post('', hasFarmAccess({ body: 'crop_management_plan' }),
+  checkScope(['add:management_plan']), managementPlanController.addManagementPlan());
 
 router.put('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['edit:management_plan']), validateManagementPlanArea, validateLocationId, managementPlanController.updateManagementPlan());
 

@@ -64,7 +64,7 @@ async function tableCleanup(knex) {
     DELETE FROM "container_method";
     DELETE FROM "row_method";
     DELETE FROM "bed_method";
-    DELETE FROM "planting_method";
+    DELETE FROM "planting_management_plan";
     DELETE FROM "crop_management_plan";
     DELETE FROM "management_plan";
     DELETE FROM "crop_variety";

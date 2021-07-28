@@ -31,12 +31,12 @@ class CropManagementPlanModel extends Model {
       required: ['management_plan_id', 'already_in_ground', 'needs_transplant'],
       properties: {
         management_plan_id: { type: 'integer' },
-        seed_date: { type: ['date', null] },
-        plant_date: { type: ['date', null] },
-        germination_date: { type: ['date', null] },
-        transplant_date: { type: ['date', null] },
-        harvest_date: { type: ['date', null] },
-        termination_date: { type: ['date', null] },
+        seed_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        plant_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        germination_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        transplant_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        harvest_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        termination_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
         already_in_ground: { type: 'boolean' },
         is_seed: { type: ['boolean', null] },
         needs_transplant: { type: 'boolean' },
@@ -53,12 +53,12 @@ class CropManagementPlanModel extends Model {
 
   static get relationMappings() {
     return {
-      planting_methods: {
-        modelClass: require('./plantingMethodModel'),
+      planting_management_plans: {
+        modelClass: require('./plantingManagementPlanModel'),
         relation: Model.HasManyRelation,
         join: {
           from: 'crop_management_plan.management_plan_id',
-          to: 'planting_method.management_plan_id',
+          to: 'planting_management_plan.management_plan_id',
         },
       },
     };

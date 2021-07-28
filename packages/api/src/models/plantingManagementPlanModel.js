@@ -16,23 +16,23 @@
 const Model = require('objection').Model;
 
 
-class plantingMethodModel extends Model {
+class plantingManagementPlanModel extends Model {
   static get tableName() {
-    return 'planting_method';
+    return 'planting_management_plan';
   }
 
   static get idColumn() {
-    return 'planting_method_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'is_final_planting_method'],
+      required: ['management_plan_id', 'is_final_planting_management_plan'],
       properties: {
-        planting_method_id: { type: 'string' },
+        planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
-        is_final_planting_method: { type: 'boolean' },
+        is_final_planting_management_plan: { type: 'boolean' },
         planting_method: {
           type: ['string', null],
           enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],
@@ -64,44 +64,44 @@ class plantingMethodModel extends Model {
         relation: Model.HasOneRelation,
         modelClass: require('./locationModel.js'),
         join: {
-          from: 'planting_method.location_id',
+          from: 'planting_management_plan.location_id',
           to: 'location.location_id',
         },
       },
-      broadcast: {
+      broadcast_method: {
         modelClass: require('./broadcastMethodModel'),
         relation: Model.HasOneRelation,
         join: {
-          from: 'planting_method.planting_method_id',
-          to: 'broadcast_method.planting_method_id',
+          from: 'planting_management_plan.planting_management_plan_id',
+          to: 'broadcast_method.planting_management_plan_id',
         },
       },
-      container: {
+      container_method: {
         modelClass: require('./containerMethodModel'),
         relation: Model.HasOneRelation,
         join: {
-          from: 'planting_method.planting_method_id',
-          to: 'container_method.planting_method_id',
+          from: 'planting_management_plan.planting_management_plan_id',
+          to: 'container_method.planting_management_plan_id',
         },
       },
-      beds: {
+      bed_method: {
         modelClass: require('./bedMethodModel'),
         relation: Model.HasOneRelation,
         join: {
-          from: 'planting_method.planting_method_id',
-          to: 'bed_method.planting_method_id',
+          from: 'planting_management_plan.planting_management_plan_id',
+          to: 'bed_method.planting_management_plan_id',
         },
       },
-      rows: {
+      row_method: {
         modelClass: require('./rowMethodModel'),
         relation: Model.HasOneRelation,
         join: {
-          from: 'planting_method.planting_method_id',
-          to: 'row_method.planting_method_id',
+          from: 'planting_management_plan.planting_management_plan_id',
+          to: 'row_method.planting_management_plan_id',
         },
       },
     };
   }
 }
 
-module.exports = plantingMethodModel;
+module.exports = plantingManagementPlanModel;

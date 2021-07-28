@@ -22,15 +22,15 @@ class ContainerMethodModel extends Model {
   }
 
   static get idColumn() {
-    return 'planting_method_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['planting_method_id', 'in_ground', 'planting_depth'],
+      required: ['planting_management_plan_id', 'in_ground', 'planting_depth'],
       properties: {
-        planting_method_id: { type: 'number' },
+        planting_management_plan_id: { type: 'string' },
         in_ground: { type: 'boolean' },
         plant_spacing: { type: ['number', null] },
         plant_spacing_unit: { type: 'string', enum: ['cm', 'm', 'in', 'ft'] },

@@ -6,15 +6,15 @@ class RowMethodModel extends Model {
   }
 
   static get idColumn() {
-    return 'planting_method_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['planting_method_id', 'same_length', 'plant_spacing'],
+      required: ['planting_management_plan_id', 'same_length', 'plant_spacing'],
       properties: {
-        planting_method_id: { type: 'number' },
+        planting_management_plan_id: { type: 'string' },
         same_length: { type: 'boolean' },
         number_of_rows: { type: ['integer', null] },
         row_length: { type: ['number', null] },

@@ -24,7 +24,7 @@ const entitiesGetters = {
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
-  document_id: fromDocument
+  document_id: fromDocument,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -62,7 +62,7 @@ async function fromTask(taskId) {
   return knex('taskType').where({ task_id: taskId }).first();
 }
 
-async function fromDocument(document_id){
+async function fromDocument(document_id) {
   return await knex('document').where({ document_id }).first();
 }
 
@@ -77,8 +77,17 @@ async function fromPesticide(pesticideId) {
 async function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
-function fromCropManagement(cropPlan){
-  return fromLocation(cropPlan.location_id);
+
+async function fromCropManagement(crop_management_plan) {
+  const locations = await knex('location').whereIn('location_id', crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id));
+  const farm_id = locations.reduce((farm_id, location) => {
+    if (farm_id) {
+      return farm_id === location.farm_id ? location.farm_id : undefined;
+    } else {
+      return location.farm_id;
+    }
+  }, undefined);
+  return { farm_id };
 }
 
 async function fromDisease(disease_id) {

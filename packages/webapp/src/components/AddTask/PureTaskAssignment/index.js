@@ -20,6 +20,7 @@ const PureTaskAssignment = ({
   userFarmOptions,
   wageData,
   isFarmWorker,
+  currencySymbol,
 }) => {
   const { t } = useTranslation();
   const {
@@ -115,17 +116,25 @@ const PureTaskAssignment = ({
 
         {override && (
           <div>
-            <Main>{t('ADD_TASK.WAGE_OVERRIDE')}</Main>
-            <Input
-              hookFormRegister={register(WAGE_OVERRIDE, {
-                required: true,
-                valueAsNumber: true,
-              })}
-              type={'number'}
-              onKeyDown={integerOnKeyDown}
-              max={100000000}
-              errors={getInputErrors(errors, WAGE_OVERRIDE)}
-            />
+            <Main style={{ paddingBottom: '15px' }}>
+              {t('ADD_TASK.WAGE_OVERRIDE') + ' ' + '(' + currencySymbol + ')'}
+            </Main>
+            <div style={{ display: 'table' }}>
+              <Input
+                hookFormRegister={register(WAGE_OVERRIDE, {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+                type={'number'}
+                onKeyDown={integerOnKeyDown}
+                max={100000000}
+                errors={getInputErrors(errors, WAGE_OVERRIDE)}
+                style={{ display: 'table-cell', width: '100%' }}
+              />
+              <Label style={{ display: 'table-cell', width: '100%', fontSize: '16px' }}>
+                {'/hr'}
+              </Label>
+            </div>
           </div>
         )}
 

@@ -1,6 +1,8 @@
 import PureTaskAssignment from '../../../components/AddTask/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 
 function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector); // all user farm data - farm data and user data for each farm
@@ -10,6 +12,8 @@ function TaskManagement({ history, match }) {
   const userData = Object.values(users); // list of data for each user ie: 0 = data for 1st user, 1 = data for 2nd user, etc...
   let options = [];
   let wage_data = [];
+  const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
+
   const worker = users[userFarm.user_id];
   // console.log(worker);
   // console.log(userFarm);
@@ -21,7 +25,11 @@ function TaskManagement({ history, match }) {
   if (userFarm.role_id === 3) {
     let obj = { label: worker.first_name + ' ' + worker.last_name, value: worker.user_id };
     let wageObj = {
-      [worker.user_id]: { currency: worker.units.currency, hourly_wage: worker.wage.amount },
+      [worker.user_id]: {
+        currency: worker.units.currency,
+        hourly_wage: worker.wage.amount,
+        currencySymbol: currencySymbol,
+      },
     };
     options.push(obj);
     wage_data.push(wageObj);
@@ -42,6 +50,7 @@ function TaskManagement({ history, match }) {
         [userData[i].user_id]: {
           currency: userData[i].units.currency,
           hourly_wage: userData[i].wage.amount,
+          currencySymbol: currencySymbol,
         },
       };
       wage_data.push(wageObj);
@@ -81,6 +90,7 @@ function TaskManagement({ history, match }) {
       userFarmOptions={options}
       wageData={wage_data}
       isFarmWorker={isFarmWorker}
+      currencySymbol={currencySymbol}
     />
   );
 }

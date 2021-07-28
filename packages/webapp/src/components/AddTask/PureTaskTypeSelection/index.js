@@ -39,7 +39,7 @@ const PureTaskTypeSelection = ({ onSubmit, handleGoBack, handleCancel }) => {
           value={14}
         />
 
-        <Main>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
+        <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
         <div className={styles.tileContainer}>
           <div onClick={() => {}}>

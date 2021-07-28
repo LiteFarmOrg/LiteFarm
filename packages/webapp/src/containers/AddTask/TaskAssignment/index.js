@@ -70,7 +70,7 @@ function TaskManagement({ history, match }) {
   const onError = () => {
     console.log('onError called');
   };
-  const isFarmWorker = false;
+  const isFarmWorker = userFarm.role_id === 3;
 
   return (
     <PureTaskAssignment

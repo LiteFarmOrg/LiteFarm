@@ -41,8 +41,13 @@ const PureTaskAssignment = ({
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const override = watch(OVERRIDE_HOURLY_WAGE);
   const WAGE_OVERRIDE = 'wage_override';
-  const wage_override = watch(WAGE_OVERRIDE);
+  let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
+
+  // const overrideWage = () => {
+  //   wage_override = currently_assigned.wage.amount;
+  //   console.log("hello");
+  // }
 
   return (
     <>
@@ -72,6 +77,7 @@ const PureTaskAssignment = ({
           name={'assignee'}
           render={({ field }) => (
             <ReactSelect
+              //onChange={overrideWage}
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
               optional={true}

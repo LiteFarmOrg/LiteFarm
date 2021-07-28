@@ -859,6 +859,7 @@ const Routes = () => {
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path={'/export/:id'} exact component={ExportDownload} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -948,6 +949,7 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

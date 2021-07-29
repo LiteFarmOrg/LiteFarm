@@ -675,57 +675,56 @@ function fakeFertilizer(defaultData = {}) {
   };
 }
 
-async function activityLogFactory({ promisedUser = usersFactory() } = {}, activityLog = fakeActivityLog()) {
-  const [user] = await Promise.all([promisedUser]);
+async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {}, task = fakeTask() ) {
+  const [user, taskType] = await Promise.all([promisedUser, promisedTaskType]);
   const [{ user_id }] = user;
+  const [{ task_type_id }] = taskType;
   const base = baseProperties(user_id);
-  return knex('activityLog').insert({ user_id, ...base, ...activityLog }).returning('*');
+  return knex('task').insert({ type: task_type_id, owner_user_id: user_id, ...base, ...task }).returning('*');
 
 }
 
-function fakeActivityLog(defaultData = {}) {
+function fakeTask(defaultData = {}) {
   return {
-    activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
-      'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']),
-    date: faker.date.future(),
+    due_date:faker.date.future(),
     notes: faker.lorem.words(),
     ...defaultData
   };
 }
 
-async function fertilizerLogFactory({
-  promisedActivityLog = activityLogFactory(),
+async function fertilizer_taskFactory({
+  promisedTask = taskFactory(),
   promisedFertilizer = fertilizerFactory(),
-} = {}, fertilizerLog = fakeFertilizerLog()) {
-  const [activityLog, fertilizer] = await Promise.all([promisedActivityLog, promisedFertilizer]);
-  const [{ activity_id }] = activityLog;
+} = {}, fertilizer_task = fakeFertilizerTask()) {
+  const [activityLog, fertilizer] = await Promise.all([promisedTask, promisedFertilizer]);
+  const [{ task_id }] = activityLog;
   const [{ fertilizer_id }] = fertilizer;
-  return knex('fertilizerLog').insert({ activity_id, fertilizer_id, ...fertilizerLog }).returning('*');
+  return knex('fertilizer_task').insert({ task_id, fertilizer_id, ...fertilizer_task }).returning('*');
 }
 
-function fakeFertilizerLog(defaultData = {}) {
+function fakeFertilizerTask(defaultData = {}) {
   return { quantity_kg: faker.random.number(), ...defaultData };
 
 }
 
-async function activityCropsFactory({
-  promisedActivityLog = activityLogFactory(),
+async function management_tasksFactory({
+  promisedTask = taskFactory(),
   promisedManagementPlan = management_planFactory(),
 } = {}) {
-  const [activityLog, managementPlan] = await Promise.all([promisedActivityLog, promisedManagementPlan]);
-  const [{ activity_id }] = activityLog;
+  const [task, managementPlan] = await Promise.all([promisedTask, promisedManagementPlan]);
+  const [{ task_id }] = task;
   const [{ management_plan_id }] = managementPlan;
-  return knex('activityCrops').insert({ activity_id, management_plan_id }).returning('*');
+  return knex('management_tasks').insert({ task_id, management_plan_id }).returning('*');
 }
 
-async function activityFieldsFactory({
-  promisedActivityLog = activityLogFactory(),
+async function location_tasksFactory({
+  promisedTask = taskFactory(),
   promisedField = fieldFactory(),
 } = {}) {
-  const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
-  const [{ activity_id }] = activityLog;
+  const [activityLog, field] = await Promise.all([promisedTask, promisedField]);
+  const [{ task_id }] = activityLog;
   const [{ location_id }] = field;
-  return knex('activityFields').insert({ activity_id, location_id }).returning('*');
+  return knex('location_tasks').insert({ task_id, location_id }).returning('*');
 }
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
@@ -754,12 +753,12 @@ function fakeTaskType(defaultData = {}) {
   };
 }
 
-async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType = fakeTaskType()) {
+async function task_typeFactory({ promisedFarm = farmFactory() } = {}, taskType = fakeTaskType()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
+  return knex('task_type').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
 async function harvestUseTypeFactory({ promisedFarm = farmFactory() } = {}, harvestUseType = fakeHarvestUseType()) {
@@ -819,23 +818,23 @@ function fakeDisease(defaultData = {}) {
 }
 
 
-async function pestControlLogFactory({
-  promisedActivity = activityLogFactory(),
+async function pest_control_taskFactory({
+  promisedTask = taskFactory(),
   promisedPesticide = pesticideFactory(), promisedDisease = diseaseFactory(),
-} = {}, pestLog = fakePestControlLog()) {
-  const [activity, pesticide, disease] = await Promise.all([promisedActivity, promisedPesticide, promisedDisease]);
-  const [{ activity_id }] = activity;
+} = {}, pestTask = fakePestControlTask()) {
+  const [activity, pesticide, disease] = await Promise.all([promisedTask, promisedPesticide, promisedDisease]);
+  const [{ task_id }] = activity;
   const [{ pesticide_id }] = pesticide;
   const [{ disease_id }] = disease;
-  return knex('pestControlLog').insert({
-    activity_id,
+  return knex('pest_control_task').insert({
+    task_id,
     pesticide_id,
-    target_disease_id: disease_id, ...pestLog,
+    target_disease_id: disease_id, ...pestTask,
   }).returning('*');
 
 }
 
-function fakePestControlLog(defaultData = {}) {
+function fakePestControlTask(defaultData = {}) {
   return {
     quantity_kg: faker.random.number(2000),
     type: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
@@ -843,13 +842,13 @@ function fakePestControlLog(defaultData = {}) {
   };
 }
 
-async function harvestLogFactory({ promisedActivity = activityLogFactory() } = {}, harvestLog = fakeHarvestLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('harvestLog').insert({ activity_id, ...harvestLog }).returning('*');
+async function harvest_taskFactory({ promisedTask = taskFactory() } = {}, harvestLog = fakeHarvestTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('harvest_task').insert({ task_id, ...harvestLog }).returning('*');
 }
 
-function fakeHarvestLog(defaultData = {}) {
+function fakeHarvestTask(defaultData = {}) {
   return {
     quantity_kg: faker.random.number(1000),
     ...defaultData
@@ -857,27 +856,27 @@ function fakeHarvestLog(defaultData = {}) {
 }
 
 async function harvestUseFactory({
-    promisedHarvestLog = harvestLogFactory(),
+    promisedHarvestLog = harvest_taskFactory(),
     promisedHarvestUseType = harvestUseTypeFactory(),
     promisedManagementPlan = management_planFactory(),
   } = {},
   harvestUse = fakeHarvestUse()) {
   const [harvestLog, harvestUseType, managementPlan] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
-  const [{ activity_id }] = harvestLog;
+  const [{ task_id }] = harvestLog;
   const [{ management_plan_id }] = managementPlan;
-  await knex('activityCrops').insert({ activity_id, management_plan_id });
-  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse }).returning('*');
+  await knex('management_tasks').insert({ task_id, management_plan_id });
+  return knex('harvestUse').insert({ task_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 
-async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, seedLog = fakeSeedLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('seedLog').insert({ activity_id, ...seedLog }).returning('*');
+async function plant_taskFactory({ promisedTask = taskFactory() } = {}, plant_task = fakePlantTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('plant_task').insert({ task_id, ...plant_task }).returning('*');
 }
 
 
-function fakeSeedLog(defaultData = {}) {
+function fakePlantTask(defaultData = {}) {
   return {
     space_depth_cm: faker.random.number(1000),
     space_length_cm: faker.random.number(1000),
@@ -887,26 +886,26 @@ function fakeSeedLog(defaultData = {}) {
   };
 }
 
-async function fieldWorkLogFactory({ promisedActivity = activityLogFactory() } = {}, fieldWorkLog = fakeFieldWorkLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('fieldWorkLog').insert({ activity_id, ...fieldWorkLog }).returning('*');
+async function field_work_taskFactory({ promisedTask = taskFactory() } = {}, field_work_task = fakeFieldWorkTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('field_work_task').insert({ task_id, ...field_work_task }).returning('*');
 }
 
-function fakeFieldWorkLog(defaultData = {}) {
+function fakeFieldWorkTask(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']),
     ...defaultData
   };
 }
 
-async function soilDataLogFactory({ promisedActivity = activityLogFactory() } = {}, soilDataLog = fakeSoilDataLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('soilDataLog').insert({ activity_id, ...soilDataLog }).returning('*');
+async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task = fakeSoilTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('soil_task').insert({ task_id, ...soil_task }).returning('*');
 }
 
-function fakeSoilDataLog(defaultData = {}) {
+function fakeSoilTask(defaultData = {}) {
   return {
     texture: faker.random.arrayElement(['sand', 'loamySand', 'sandyLoam', 'loam', 'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam', 'sandyClay', 'siltyClay', 'clay']),
     k: faker.random.number(1000),
@@ -934,13 +933,13 @@ function fakeSoilDataLog(defaultData = {}) {
   };
 }
 
-async function irrigationLogFactory({ promisedActivity = activityLogFactory() } = {}, irrigationLog = fakeIrrigationLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('irrigationLog').insert({ activity_id, ...irrigationLog }).returning('*');
+async function irrigation_taskFactory({ promisedTask = taskFactory() } = {}, irrigationTask = fakeIrrigationTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('irrigation_task').insert({ task_id, ...irrigationTask }).returning('*');
 }
 
-function fakeIrrigationLog(defaultData = {}) {
+function fakeIrrigationTask(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     hours: faker.random.number(10),
@@ -949,13 +948,13 @@ function fakeIrrigationLog(defaultData = {}) {
   };
 }
 
-async function scoutingLogFactory({ promisedActivity = activityLogFactory() } = {}, scoutingLog = fakeScoutingLog()) {
-  const [activity] = await Promise.all([promisedActivity]);
-  const [{ activity_id }] = activity;
-  return knex('scoutingLog').insert({ activity_id, ...scoutingLog }).returning('*');
+async function scouting_taskFactory({ promisedTask = taskFactory() } = {}, scouting_task = fakeScoutingTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('scouting_task').insert({ task_id, ...scouting_task }).returning('*');
 }
 
-function fakeScoutingLog(defaultData = {}) {
+function fakeScoutingTask(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
     ...defaultData
@@ -982,20 +981,20 @@ async function shiftTaskFactory({
   promisedShift = shiftFactory(),
   promisedManagementPlan = management_planFactory(),
   promisedLocation = locationFactory(),
-  promisedTaskType = taskTypeFactory(),
+  promisedTaskType = task_typeFactory(),
   promisedUser = usersFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
   const [shift, managementPlan, field, task, user] = await Promise.all([promisedShift, promisedManagementPlan, promisedLocation, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ management_plan_id }] = managementPlan;
   const [{ location_id }] = field;
-  const [{ task_id }] = task;
+  const [{ task_type_id }] = task;
   const [{ user_id }] = user;
   return knex('shiftTask').insert({
     shift_id,
     location_id,
     management_plan_id,
-    task_id, ...shiftTask, ...baseProperties(user_id),
+    task_id: task_type_id, ...shiftTask, ...baseProperties(user_id),
   }).returning('*');
 }
 
@@ -1392,25 +1391,25 @@ module.exports = {
   broadcastFactory, fakeBroadcast,
   fakeRows,
   fertilizerFactory, fakeFertilizer,
-  activityLogFactory, fakeActivityLog,
+  taskFactory, fakeTask,
   harvestUseTypeFactory, fakeHarvestUseType,
   createDefaultState,
   harvestUseFactory, fakeHarvestUse,
-  fertilizerLogFactory, fakeFertilizerLog,
+  fertilizer_taskFactory, fakeFertilizerTask,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,
-  pestControlLogFactory, fakePestControlLog,
-  harvestLogFactory, fakeHarvestLog,
-  seedLogFactory, fakeSeedLog,
-  fieldWorkLogFactory, fakeFieldWorkLog,
-  soilDataLogFactory, fakeSoilDataLog,
-  irrigationLogFactory, fakeIrrigationLog,
-  scoutingLogFactory, fakeScoutingLog,
+  pest_control_taskFactory, fakePestControlTask,
+  harvest_taskFactory, fakeHarvestTask,
+  plant_taskFactory, fakePlantTask,
+  field_work_taskFactory, fakeFieldWorkTask,
+  soil_taskFactory, fakeScoutingTask,
+  irrigation_taskFactory, fakeIrrigationTask,
+  scouting_taskFactory, fakeScoutingTask,
   shiftFactory, fakeShift,
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
   locationFactory, fakeLocation,
-  fakeTaskType, taskTypeFactory,
+  fakeTaskType, task_typeFactory,
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance,
@@ -1421,7 +1420,7 @@ module.exports = {
   fakeFence, fenceFactory,
   fakeArea, areaFactory,
   fakeLine, lineFactory,
-  activityCropsFactory, activityFieldsFactory,
+  management_tasksFactory, location_tasksFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,
   fakePriceInsightForTests,

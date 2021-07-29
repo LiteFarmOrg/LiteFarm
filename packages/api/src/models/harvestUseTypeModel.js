@@ -46,20 +46,20 @@ class HarvestUseType extends Model {
     // Import models here to prevent require loops.
     return {
 
-      harvestLog: {
+      harvestTask: {
 
-        modelClass: require('./harvestLogModel'),
+        modelClass: require('./harvestTaskModel'),
         relation: Model.ManyToManyRelation,
 
         join: {
           from: 'harvestUseType.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.activity_id',
+            from: 'harvestUse.task_id',
             to: 'harvestUse.harvest_use_type_id',
           },
 
-          to: 'harvestLog.activity_id',
+          to: 'harvest_task.task_id',
         },
 
       },

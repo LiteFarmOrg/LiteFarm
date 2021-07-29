@@ -107,14 +107,14 @@ class ManagementPlan extends baseModel {
         },
       },
 
-      activityLog: {
+      task: {
         relation: Model.ManyToManyRelation,
-        modelClass: require('./activityLogModel.js'),
+        modelClass: require('./taskModel.js'),
         join: {
-          to: 'activityLog.activity_id',
+          to: 'task.task_id',
           through: {
-            from: 'activityCrops.activity_id',
-            to: 'activityCrops.management_plan_id',
+            from: 'management_tasks.task_id',
+            to: 'management_tasks.management_plan_id',
           },
           from: 'management_plan.management_plan_id',
         },

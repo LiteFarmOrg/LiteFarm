@@ -105,15 +105,11 @@ exports.up = async function(knex) {
     const assignee  = user_id;
     const type = task_id === 1 ? 9 : task_id;
     const due_date = shift_date;
-    try {
-      const [resultingTask] =  await knex('task').insert({ happiness, owner, assignee, type, due_date, duration, wage_at_moment }).returning('*');
-      location_id !== null ? await knex('location_tasks').insert({ task_id: resultingTask.task_id, location_id }):
-        await knex('management_tasks').insert({ task_id: resultingTask.task_id, management_plan_id  });
-      task_id < 11? await  knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id }) :
-        task_id === 11 ? await knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id, quantity_kg: 0, type: 'systemicSpray' }) : null;
-    } catch (e) {
-      e.code !== '25P02' && console.log(e);
-    }
+    const [resultingTask] =  await knex('task').insert({ happiness, owner, assignee, type, due_date, duration, wage_at_moment }).returning('*');
+    location_id !== null ? await knex('location_tasks').insert({ task_id: resultingTask.task_id, location_id }):
+      await knex('management_tasks').insert({ task_id: resultingTask.task_id, management_plan_id  });
+    task_id < 11? await  knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id }) :
+      task_id === 11 ? await knex(shiftTaskToTaskTable[task_id]).insert({ task_id: resultingTask.task_id, quantity_kg: 0, type: 'systemicSpray' }) : null;
   });
   await knex('task').update({ status: 'COMPLETED' });
 };

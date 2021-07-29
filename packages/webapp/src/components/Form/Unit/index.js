@@ -215,11 +215,13 @@ const Unit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
-      hookFormSetValue(name, value, {
-        shouldValidate,
-        shouldDirty,
-      });
-      shouldClearError && setShowError(false);
+      setTimeout(() => {
+        hookFormSetValue(name, value, {
+          shouldValidate,
+          shouldDirty,
+        });
+        shouldClearError && setShowError(false);
+      }, 0);
     },
     [name],
   );

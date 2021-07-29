@@ -73,7 +73,9 @@ export default function PureNextHarvest({
       />
 
       <div>
-        <Label className={styles.label} style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.NEXT_HARVEST')}</Label>
+        <Label className={styles.label} style={{ marginBottom: '24px' }}>
+          {t('MANAGEMENT_PLAN.NEXT_HARVEST')}
+        </Label>
 
         <Input
           style={{ marginBottom: '40px' }}

@@ -75,7 +75,10 @@ function PurePlanGuidance({
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
         hookFormRegister={register(SPECIFY, {
-          maxLength: { value: SPECIFY_LIMIT, message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT }) },
+          maxLength: {
+            value: SPECIFY_LIMIT,
+            message: t('PLAN_GUIDANCE.WORD_LIMIT', { limit: SPECIFY_LIMIT }),
+          },
         })}
         style={{ paddingBottom: '40px' }}
         optional={true}
@@ -98,7 +101,6 @@ function PurePlanGuidance({
           optional={true}
         />
       </div>
-
 
       <div style={{ marginBottom: '40px' }}>
         <Unit

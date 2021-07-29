@@ -9,7 +9,9 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
+import useMapAssetRenderer from '../../containers/Map/useMapAssetRenderer';
 import MapPin from '../../assets/images/map/map_pin.svg';
+import LocationSelectionModal from '../../containers/Map/LocationSelectionModal';
 
 const LocationPicker = ({
   className,
@@ -24,6 +26,7 @@ const LocationPicker = ({
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
+  const { drawAssets } = useMapAssetRenderer({ isClickable: true });
 
   function placeMarker(latLng, map, maps) {
     setSelectedPin(
@@ -135,25 +138,29 @@ const LocationPicker = ({
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    drawLocations(map, maps, mapBounds, selectedLocationId);
+    //drawLocations(map, maps, mapBounds, selectedLocationId);
+    drawAssets(map, maps, mapBounds);
   };
 
   return (
-    <div className={clsx(className)}>
-      <GoogleMap
-        style={{ flexGrow: 1 }}
-        bootstrapURLKeys={{
-          key: GMAPS_API_KEY,
-          libraries: ['drawing', 'geometry', 'places'],
-          language: localStorage.getItem('litefarm_lang'),
-        }}
-        defaultCenter={grid_points}
-        defaultZoom={DEFAULT_ZOOM}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-        options={getMapOptions}
-      />
-    </div>
+    <>
+      <div className={clsx(className)}>
+        <GoogleMap
+          style={{ flexGrow: 1 }}
+          bootstrapURLKeys={{
+            key: GMAPS_API_KEY,
+            libraries: ['drawing', 'geometry', 'places'],
+            language: localStorage.getItem('litefarm_lang'),
+          }}
+          defaultCenter={grid_points}
+          defaultZoom={DEFAULT_ZOOM}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+          options={getMapOptions}
+        />
+      </div>
+      <LocationSelectionModal/>
+    </>
   );
 };
 

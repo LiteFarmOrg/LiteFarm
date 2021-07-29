@@ -21,6 +21,8 @@ const PureTaskAssignment = ({
   wageData,
   isFarmWorker,
   currencySymbol,
+  useHookFormPersist,
+  persistPaths
 }) => {
   const { t } = useTranslation();
   const {
@@ -38,6 +40,9 @@ const PureTaskAssignment = ({
       override_hourly_wage: false,
     },
   });
+
+  useHookFormPersist(persistPaths, getValues);
+
 
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const override = watch(OVERRIDE_HOURLY_WAGE);

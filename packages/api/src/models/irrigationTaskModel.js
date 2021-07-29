@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fertilizerLogModel.js) is part of LiteFarm.
+ *  This file (irrigationLogModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class FertilizerLogModel extends Model {
+class IrrigationTaskModel extends Model {
   static get tableName() {
-    return 'fertilizerLog';
+    return 'irrigation_task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,12 +29,21 @@ class FertilizerLogModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['fertilizer_id', 'quantity_kg'],
+      required: ['type'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        fertilizer_id: { type: 'integer', minimum: 0 },
-        quantity_kg: { type: 'float' },
+        task_id: { type: 'integer' },
+        type: {
+          type: 'string',
+          enum:['sprinkler', 'drip', 'subsurface', 'flood'],
+
+        },
+        'flow_rate_l/min': {
+          type: 'float',
+        },
+        hours: {
+          type: 'float',
+        },
       },
       additionalProperties: false,
     };
@@ -43,15 +52,15 @@ class FertilizerLogModel extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      activityLog: {
+      task: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./activityLogModel'),
+        modelClass: require('./taskModel'),
         join: {
-          from: 'fertilizerLog.activity_id',
-          to: 'activityLog.activity_id',
+          from: 'irrigation_task.task_id',
+          to: 'task.task_id',
         },
 
       },
@@ -60,4 +69,4 @@ class FertilizerLogModel extends Model {
   }
 }
 
-module.exports = FertilizerLogModel;
+module.exports = IrrigationTaskModel;

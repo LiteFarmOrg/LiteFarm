@@ -95,7 +95,7 @@ async function tableCleanup(knex) {
     DELETE FROM "farmExpenseType";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
-    DELETE FROM "taskType";
+    DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
     DELETE FROM "userFarm";
     DELETE FROM "waterBalanceSchedule";

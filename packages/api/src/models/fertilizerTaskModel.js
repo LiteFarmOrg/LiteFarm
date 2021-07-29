@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (scoutingLogModel.js) is part of LiteFarm.
+ *  This file (fertilizerLogModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class ScoutingLog extends Model {
+class FertilizerTaskModel extends Model {
   static get tableName() {
-    return 'scoutingLog';
+    return 'fertilizer_task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,17 +29,35 @@ class ScoutingLog extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
+      required: ['fertilizer_id', 'quantity_kg'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum:['harvest', 'pest', 'disease', 'weed', 'other'],
-        },
+        task_id: { type: 'integer' },
+        fertilizer_id: { type: 'integer', minimum: 0 },
+        quantity_kg: { type: 'float' },
       },
       additionalProperties: false,
     };
   }
+
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {
+      task: {
+        relation: Model.BelongsToOneRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: require('./taskModel'),
+        join: {
+          from: 'fertilizer_task.task_id',
+          to: 'task.task_id',
+        },
+
+      },
+
+    };
+  }
 }
 
-module.exports = ScoutingLog;
+module.exports = FertilizerTaskModel;

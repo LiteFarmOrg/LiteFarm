@@ -61,7 +61,7 @@ const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
@@ -162,7 +162,7 @@ if (environment === 'development' || environment === 'production' || environment
 
   nitrogenBalanceScheduler.registerDailyJob();
 
-  farmDataScheduler.registerJob();
+  // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
   console.log('LiteFarm Water Balance Scheduler Enabled');
 }

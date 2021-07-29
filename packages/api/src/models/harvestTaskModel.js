@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldWorkLogModel.js) is part of LiteFarm.
+ *  This file (harvestLogModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class FieldWorkLog extends Model {
+class HarvestTaskModel extends Model {
   static get tableName() {
-    return 'fieldWorkLog';
+    return 'harvest_task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,13 +29,10 @@ class FieldWorkLog extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
+      required: ['quantity_kg'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        type: {
-          type: 'string',
-          enum:['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'],
-        },
+        quantity_kg: { type: 'float' },
       },
       additionalProperties: false,
     };
@@ -44,15 +41,30 @@ class FieldWorkLog extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      activityLog: {
+      task: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./activityLogModel'),
+        modelClass: require('./taskModel'),
         join: {
-          from: 'fieldWorkLog.activity_id',
-          to: 'activityLog.activity_id',
+          from: 'harvest_task.task_id',
+          to: 'task.task_id',
+        },
+
+      },
+
+      harvestUseType:{
+        modelClass:require('./harvestUseTypeModel'),
+        relation:Model.ManyToManyRelation,
+        join:{
+          from: 'harvest_task.task_id',
+          through: {
+            modelClass: require('./harvestUseModel'),
+            from: 'harvestUse.task_id',
+            to: 'harvestUse.harvest_use_type_id',
+          },
+          to: 'harvestUseType.harvest_use_type_id',
         },
 
       },
@@ -61,4 +73,4 @@ class FieldWorkLog extends Model {
   }
 }
 
-module.exports = FieldWorkLog;
+module.exports = HarvestTaskModel;

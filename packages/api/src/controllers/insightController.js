@@ -38,8 +38,8 @@ const insightController = {
         const harvestData = await knex.raw(
           `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
                 FROM "harvestUse" hu 
-                JOIN "activityLog" al ON hu.activity_id = al.activity_id
-                JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
+                JOIN "task" al ON hu.task_id = al.task_id
+                JOIN "management_tasks" ac ON hu.task_id = ac.task_id 
                 JOIN "management_plan" mp ON mp.management_plan_id = ac.management_plan_id
                 JOIN "location" ON mp.location_id = location.location_id
                 JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
@@ -103,12 +103,12 @@ const insightController = {
           JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
-            and al.activity_id = sdl.activity_id
+            and al.task_id = sdl.task_id
             and al.deleted = false
-            and af.activity_id = sdl.activity_id
+            and af.task_id = sdl.task_id
             and figure.location_id = location.location_id
           ) table_2 ON table_2.location_id = l.location_id
           WHERE l.farm_id = ?
@@ -137,12 +137,12 @@ const insightController = {
           JOIN "line" on line.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "activityLog" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
-            and al.activity_id = sdl.activity_id
+            and al.task_id = sdl.task_id
             and al.deleted = false
-            and af.activity_id = sdl.activity_id
+            and af.task_id = sdl.task_id
             and figure.location_id = location.location_id
           ) table_2 ON table_2.location_id = l.location_id
           WHERE l.farm_id = ?

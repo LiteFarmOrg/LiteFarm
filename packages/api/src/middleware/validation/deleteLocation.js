@@ -14,7 +14,7 @@
  */
 
 const managementPlanModel = require('../../models/managementPlanModel');
-const activityLogModel = require('../../models/activityLogModel');
+const activityLogModel = require('../../models/taskModel');
 const shiftTaskModel = require('../../models/shiftTaskModel');
 const { raw } = require('objection');
 

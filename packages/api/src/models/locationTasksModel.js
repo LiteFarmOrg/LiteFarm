@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (plantingLogModel.js) is part of LiteFarm.
+ *  This file (activityFieldsModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,35 +15,27 @@
 
 const Model = require('objection').Model;
 
-class PlantingLog extends Model {
+class LocationTaskModel extends Model {
   static get tableName() {
-    return 'plantingLog';
+    return 'location_tasks';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
+
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['activity_id'],
+      required: ['location_id'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        type: { type: 'string' },
-        space_depth: { type: 'integer' },
-        space_length: { type: 'integer' },
-        space_width: { type: 'integer' },
-        rate: { type: 'integer' },
-        space_unit: { type: 'string' },
-        rate_unit: { type: 'integer' },
+        task_id: { type: 'integer' },
+        location_id: { type: 'string' },
+        additionalProperties: false,
       },
-      additionalProperties: false,
     };
   }
 }
 
-module.exports = PlantingLog;
+module.exports = LocationTaskModel;

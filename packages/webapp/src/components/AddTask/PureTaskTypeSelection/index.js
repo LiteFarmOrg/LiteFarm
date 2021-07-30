@@ -21,10 +21,20 @@ import { ReactComponent as SocialEvent } from '../../../assets/images/AddTask/So
 import { ReactComponent as SoilAmendment } from '../../../assets/images/AddTask/Soil Amendment.svg';
 import { ReactComponent as Transplant } from '../../../assets/images/AddTask/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/AddTask/Wash _ Pack.svg';
+import { useForm } from 'react-hook-form';
 
-const PureTaskTypeSelection = ({ onTileClick, onCustomTask, handleGoBack, handleCancel }) => {
-  // prob have to define handleGoBack here as there are 2 paths that lead to this page
+const PureTaskTypeSelection = ({ onCustomTask, handleGoBack, handleCancel }) => {
   const { t } = useTranslation();
+
+  const { watch } = useForm({
+    selected_task: null,
+  });
+
+  const SELECTED_TASK = watch('selected_task');
+
+  const onTileClick = () => {
+    // history.push ...
+  };
 
   return (
     <>

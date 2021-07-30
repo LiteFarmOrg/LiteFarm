@@ -24,7 +24,8 @@ const entitiesGetters = {
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
-  document_id: fromDocument
+  document_id: fromDocument,
+  task_id: fromTaskId,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -58,8 +59,20 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
 };
 
-async function fromTask(taskId) {
-  return knex('taskType').where({ task_id: taskId }).first();
+async function fromTaskId(taskId) {
+  const userFarm = await userFarmModel.query()
+  .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+  .join('location', 'userFarm.farm_id', 'location.farm_id')
+  .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
+  .skipUndefined()
+  .where('location_tasks.task_id', taskId)
+  .first();
+  if (!userFarm) return {};
+  return userFarm;
+}
+
+async function fromTask(taskTypeId) {
+  return knex('task_type').where({ task_type_id: taskTypeId }).first();
 }
 
 async function fromDocument(document_id){

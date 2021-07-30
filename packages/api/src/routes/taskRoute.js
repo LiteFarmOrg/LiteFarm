@@ -19,10 +19,10 @@ const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 const taskController = require('../controllers/taskController');
 
-router.patch('/assign/:task_id', hasFarmAccess({ params: 'farm_id' }),
+router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignTask());
 
-router.patch('/assign_all_tasks_on_date', hasFarmAccess({ params: 'farm_id' }),
+router.patch('/assign_all_tasks_on_date/', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignAllTasksOnDate());
 
 

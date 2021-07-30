@@ -6,6 +6,7 @@ import {
 } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
+import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 
 function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
@@ -24,14 +25,19 @@ function ManagementDetail({ history, match }) {
     console.log('Go to LF-1645');
   };
 
+  const showSpotlight = history.location.state?.fromCreation;
+
   return (
-    <PureManagementDetail
-      onBack={onBack}
-      onCompleted={onCompleted}
-      isAdmin={isAdmin}
-      variety={variety}
-      plan={plan}
-    />
+    <>
+      <PureManagementDetail
+        onBack={onBack}
+        onCompleted={onCompleted}
+        isAdmin={isAdmin}
+        variety={variety}
+        plan={plan}
+      />
+      {showSpotlight && <FirstManagementPlanSpotlight />}
+    </>
   );
 }
 

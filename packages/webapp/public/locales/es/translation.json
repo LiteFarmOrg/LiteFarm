@@ -881,6 +881,10 @@
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
@@ -1302,12 +1306,8 @@
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
+  "TASK": {
+    "SELECT_DATE": "MISSING",
+    "ADD_TASK_FLOW": "MISSING"
   }
 }

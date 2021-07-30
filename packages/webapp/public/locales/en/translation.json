@@ -882,6 +882,10 @@
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
+      "TITLE": "Congrats! You’ve made your first management plan!"
+    },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
@@ -1302,5 +1306,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "TASK": {
+    "SELECT_DATE": "Select the task date",
+    "ADD_TASK_FLOW": "task creation"
   }
 }

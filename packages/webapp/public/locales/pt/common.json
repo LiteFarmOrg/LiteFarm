@@ -21,6 +21,7 @@
   "HOURS": "Horas",
   "LOADING": "Carregando...",
   "LOCATION": "Local",
+  "MARK_COMPLETED": "MISSING",
   "MAX_ERROR": "Insira um valor menor que {{value}}",
   "MIN_ERROR": "Insira um valor maior que {{value}}",
   "NAME": "Nome",
@@ -44,6 +45,5 @@
   "SUBMITTING": "Enviando...",
   "TO": "Para",
   "UPDATE": "Atualizar",
-  "YES": "Sim",
-  "MARK_COMPLETED": "MISSING"
+  "YES": "Sim"
 }

@@ -10306,6 +10306,7 @@ export default {
       documents: true,
       compliance_docs_and_certification: true,
       transplant: true,
+      management_plan_creation: true,
     },
   },
   persistedStateReducer: {

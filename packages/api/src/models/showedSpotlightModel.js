@@ -59,6 +59,8 @@ class ShowedSpotlight extends Model {
         compliance_docs_and_certification_end: { type: ['string', 'null'] },
         transplant: { type: 'boolean' },
         transplant_end: { type: ['string', 'null'] },
+        management_plan_creation: { type: 'boolean' },
+        management_plan_creation_end: { type: ['string', 'null'] },
       },
     };
   }

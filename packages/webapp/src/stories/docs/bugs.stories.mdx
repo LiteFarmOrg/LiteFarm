@@ -100,23 +100,24 @@ export default [
     }
   }, [props.disabled]);
 ```
-### Hookform trigger does not update errors properly when there is a required RadioGroup after triggered input field
+### Hookform useFormState.errors does not trigger rerendering properly when there are consecutive unit component (bed method)
 
-[github discussion](https://github.com/react-hook-form/react-hook-form/discussions/5843)
+[comment]  <> ([github discussion]&#40;https://github.com/react-hook-form/react-hook-form/discussions/5843&#41;)
 
-###### Walk around: trigger validation twice
+###### Walk around: delay setValue
 ```js
-  const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
-      hookFormSetValue(name, newHookFormValue, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
-      //TODO: wait for hookform fix
+  const hookFormSetHiddenValue = useCallback(
+    (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
       setTimeout(()=>{
-        hookFormSetValue(name, newHookFormValue, {
-          shouldValidate: true
+        hookFormSetValue(name, value, {
+          shouldValidate,
+          shouldDirty,
         });
-      },1);
+        shouldClearError && setShowError(false);
+      },0);
+    },
+    [name],
+  );
 ```
 
 ### Frontend tests won't compile when react-icons are imported from 'react-icons/all'

@@ -205,7 +205,7 @@ describe('Location tests', () => {
     })
   });
 
-  describe('DELETE /location ', () => {
+  xdescribe('DELETE /location ', () => {
     test('should delete field', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);

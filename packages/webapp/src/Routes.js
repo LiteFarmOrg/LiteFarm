@@ -287,9 +287,6 @@ const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDe
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
 const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
 const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
-
-const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
-
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 
 const Routes = () => {

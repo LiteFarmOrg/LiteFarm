@@ -6,7 +6,7 @@ function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
 
   const onCustomTask = () => {
-    history.push('/tasks/:management_plan_id/add_task/task_date');
+    console.log('Go to LF-1747 custom task creation page');
   };
 
   const handleGoBack = () => {
@@ -19,9 +19,11 @@ function TaskTypeSelection({ history, match }) {
 
   return (
     <PureTaskTypeSelection
+      history={history}
       onCustomTask={onCustomTask}
       handleCancel={handleCancel}
       handleGoBack={handleGoBack}
+      persistedPaths={[]}
     />
   );
 }

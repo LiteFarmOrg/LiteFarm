@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -22,18 +22,28 @@ import { ReactComponent as SoilAmendment } from '../../../assets/images/AddTask/
 import { ReactComponent as Transplant } from '../../../assets/images/AddTask/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/AddTask/Wash _ Pack.svg';
 import { useForm } from 'react-hook-form';
+import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
 
-const PureTaskTypeSelection = ({ onCustomTask, handleGoBack, handleCancel }) => {
+const PureTaskTypeSelection = ({
+  onCustomTask,
+  handleGoBack,
+  handleCancel,
+  history,
+  persistedPaths,
+}) => {
   const { t } = useTranslation();
 
-  const { watch } = useForm({
-    selected_task: null,
+  const { watch, getValues } = useForm({
+    mode: 'onChange',
   });
 
-  const SELECTED_TASK = watch('selected_task');
+  useHookFormPersist(persistedPaths, getValues);
+  const [selectedTask, setSelectedTask] = useState('');
 
-  const onTileClick = () => {
-    // history.push ...
+  const onTileClick = (task) => {
+    setSelectedTask(task);
+    console.log(selectedTask);
+    history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   return (
@@ -51,112 +61,192 @@ const PureTaskTypeSelection = ({ onCustomTask, handleGoBack, handleCancel }) => 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
         <div className={styles.tileContainer}>
-          <div onClick={onTileClick}>
+          <div
+            id={'collect_soil_sample'}
+            onClick={() => {
+              onTileClick('collect_soil_sample');
+            }}
+          >
             <div className={styles.typeContainer}>
               <CollectSoilSample />
               <div>{t('ADD_TASK.COLLECT_SOIL_SAMPLE')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'fertilize'}
+            onClick={() => {
+              onTileClick('fertilize');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Fertilize />
               <div>{t('ADD_TASK.FERTILIZE')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'field_work'}
+            onClick={() => {
+              onTileClick('field_work');
+            }}
+          >
             <div className={styles.typeContainer}>
               <FieldWork />
               <div>{t('ADD_TASK.FIELD_WORK')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'harvest'}
+            onClick={() => {
+              onTileClick('harvest');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Harvest />
               <div>{t('ADD_TASK.HARVEST')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'irrigate'}
+            onClick={() => {
+              onTileClick('irrigate');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Irrigate />
               <div>{t('ADD_TASK.IRRIGATE')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'maintenance'}
+            onClick={() => {
+              onTileClick('maintenance');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Maintenance />
               <div>{t('ADD_TASK.MAINTENANCE')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'pest_control'}
+            onClick={() => {
+              onTileClick('pest_control');
+            }}
+          >
             <div className={styles.typeContainer}>
               <PestControl />
               <div>{t('ADD_TASK.PEST_CONTROL')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'plant'}
+            onClick={() => {
+              onTileClick('plant');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Plant />
               <div>{t('ADD_TASK.PLANT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'record_soil_sample'}
+            onClick={() => {
+              onTileClick('record_soil_sample');
+            }}
+          >
             <div className={styles.typeContainer}>
               <RecordSoilSample />
               <div>{t('ADD_TASK.RECORD_SOIL_SAMPLE')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'sales'}
+            onClick={() => {
+              onTileClick('sales');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Sales />
               <div>{t('ADD_TASK.SALES')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'scout'}
+            onClick={() => {
+              onTileClick('scout');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Scout />
               <div>{t('ADD_TASK.SCOUT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'social_event'}
+            onClick={() => {
+              onTileClick('social_event');
+            }}
+          >
             <div className={styles.typeContainer}>
               <SocialEvent />
               <div>{t('ADD_TASK.SOCIAL_EVENT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'soil_amendment'}
+            onClick={() => {
+              onTileClick('soil_amendment');
+            }}
+          >
             <div className={styles.typeContainer}>
               <SoilAmendment />
               <div>{t('ADD_TASK.SOIL_AMENDMENT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'transplant'}
+            onClick={() => {
+              onTileClick('transplant');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Transplant />
               <div>{t('ADD_TASK.TRANSPLANT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'transport'}
+            onClick={() => {
+              onTileClick('transport');
+            }}
+          >
             <div className={styles.typeContainer}>
               <Transport />
               <div>{t('ADD_TASK.TRANSPORT')}</div>
             </div>
           </div>
 
-          <div onClick={onTileClick}>
+          <div
+            id={'wash_and_pack'}
+            onClick={() => {
+              onTileClick('wash_and_pack');
+            }}
+          >
             <div className={styles.typeContainer}>
               <WashAndPack />
               <div>{t('ADD_TASK.WASH_AND_PACK')}</div>

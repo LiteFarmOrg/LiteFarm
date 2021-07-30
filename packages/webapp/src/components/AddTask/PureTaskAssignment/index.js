@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
@@ -21,6 +21,8 @@ const PureTaskAssignment = ({
   wageData,
   isFarmWorker,
   currencySymbol,
+  useHookFormPersist,
+  persistPaths,
 }) => {
   const { t } = useTranslation();
   const {
@@ -29,6 +31,7 @@ const PureTaskAssignment = ({
     getValues,
     watch,
     control,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -39,11 +42,24 @@ const PureTaskAssignment = ({
     },
   });
 
+  useHookFormPersist(persistPaths, getValues);
+
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const override = watch(OVERRIDE_HOURLY_WAGE);
   const WAGE_OVERRIDE = 'wage_override';
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
+
+  useEffect(() => {
+    const currentlyAssignedUserId = currently_assigned?.value;
+    const indexOfCurrentlyAssigned = userFarmOptions.indexOf(currently_assigned);
+    const wageDataOfCurrentlyAssigned = wageData[indexOfCurrentlyAssigned][currentlyAssignedUserId];
+    const hourlyWageOfCurrentlyAssigned =
+      typeof wageDataOfCurrentlyAssigned === 'undefined'
+        ? 0
+        : wageDataOfCurrentlyAssigned.hourly_wage;
+    setValue(WAGE_OVERRIDE, hourlyWageOfCurrentlyAssigned);
+  }, [currently_assigned]);
 
   return (
     <>
@@ -73,7 +89,6 @@ const PureTaskAssignment = ({
           name={'assignee'}
           render={({ field }) => (
             <ReactSelect
-              //onChange={overrideWage}
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
               required={true}
@@ -117,7 +132,7 @@ const PureTaskAssignment = ({
             <div style={{ display: 'table' }}>
               <Input
                 hookFormRegister={register(WAGE_OVERRIDE, {
-                  required: true,
+                  required: false,
                   valueAsNumber: true,
                 })}
                 type={'number'}
@@ -125,6 +140,8 @@ const PureTaskAssignment = ({
                 max={100000000}
                 errors={getInputErrors(errors, WAGE_OVERRIDE)}
                 style={{ display: 'table-cell', width: '100%' }}
+                name={WAGE_OVERRIDE}
+                hookFormSetValue={setValue}
               />
               <Label style={{ display: 'table-cell', width: '100%', fontSize: '16px' }}>
                 {'/hr'}
@@ -132,9 +149,6 @@ const PureTaskAssignment = ({
             </div>
           </div>
         )}
-
-        {currently_assigned?.label}
-        {currently_assigned?.value}
       </Form>
     </>
   );

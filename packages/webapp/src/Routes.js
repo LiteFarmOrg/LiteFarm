@@ -292,6 +292,9 @@ const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskType
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 
 
+const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
+
+
 const Routes = () => {
   useScrollToTop();
   useReduxSnackbar();

@@ -16,7 +16,12 @@
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
-import { axios, getHeader, getManagementPlanAndPlantingMethodSuccess } from '../../../saga';
+import {
+  axios,
+  getHeader,
+  getManagementPlanAndPlantingMethodSuccess,
+  getManagementPlanAndPlantingMethodSuccessSaga
+} from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -59,7 +64,7 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
       managementPlan,
       header,
     );
-    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [result.data] });
     const management_plan_id = [result.data][0].management_plan_id;
     history.push(
       `/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`,

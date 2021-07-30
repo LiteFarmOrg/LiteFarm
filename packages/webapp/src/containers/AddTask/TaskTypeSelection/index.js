@@ -5,12 +5,16 @@ import { userFarmSelector } from '../../userFarmSlice';
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
 
-  const onSubmit = () => {
-    console.log('onSubmit called');
+  const onTileClick = () => {
+    console.log('onTileClick called');
+  };
+
+  const onCustomTask = () => {
+    history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   const handleGoBack = () => {
-    console.log('go back called');
+    history.goBack();
   };
 
   const handleCancel = () => {
@@ -19,7 +23,8 @@ function TaskTypeSelection({ history, match }) {
 
   return (
     <PureTaskTypeSelection
-      onSubmit={onSubmit}
+      onTileClick={onTileClick}
+      onCustomTask={onCustomTask}
       handleCancel={handleCancel}
       handleGoBack={handleGoBack}
     />

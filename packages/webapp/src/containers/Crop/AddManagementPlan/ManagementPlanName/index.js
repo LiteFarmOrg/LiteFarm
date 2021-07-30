@@ -5,15 +5,15 @@ import {
   getManagementPlan,
   managementPlansByCropVarietyIdSelector,
 } from '../../../managementPlanSlice';
-import { broadcastProperties, cropManagementPlanProperties } from '../../../broadcastSlice';
-import { containerProperties } from '../../../containerSlice';
-import { bedProperties } from '../../../bedsSlice';
-import { rowProperties } from '../../../rowsSlice';
+import { broadcastMethodProperties } from '../../../broadcastMethodSlice';
+import { containerMethodProperties } from '../../../containerMethodSlice';
+import { bedMethodProperties } from '../../../bedMethodSlice';
+import { rowProperties } from '../../../rowMethodSlice';
 import { postManagementPlan } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { getTransplantContainer } from '../../../transplantContainerSlice';
 import { pick } from '../../../../util/pick';
+import { cropManagementPlanProperties } from '../../../cropManagementPlanSlice';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -63,17 +63,14 @@ const formatManagementPlanFormData = (formData) => {
       ...pick(plantingMethodAndCropManagementPlan, cropManagementPlanProperties),
       [planting_type.toLowerCase()]: plantingMethod,
     },
-    transplant_container: data.needs_transplant
-      ? getTransplantContainer(data?.transplant_container)
-      : undefined,
   };
   console.log(reqBody);
   return reqBody;
 };
 
 const plantingTypePropertiesMap = {
-  BROADCAST: broadcastProperties,
-  CONTAINER: containerProperties,
-  BEDS: bedProperties,
-  ROWS: rowProperties,
+  BROADCAST_METHOD: broadcastMethodProperties,
+  CONTAINER_METHOD: containerMethodProperties,
+  BED_METHOD: bedMethodProperties,
+  ROW_METHOD: rowProperties,
 };

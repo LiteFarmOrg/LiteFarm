@@ -48,18 +48,20 @@ import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
-import managementPlanReducer from '../containers/managementPlanSlice';
+
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import filterReducer from '../containers/filterSlice';
-import transplantContainerReducer from '../containers/transplantContainerSlice';
-import containerReducer from '../containers/containerSlice';
-import bedsReducer from '../containers/bedsSlice';
-import rowsReducer from '../containers/rowsSlice';
-import broadcastReducer from '../containers/broadcastSlice';
+import managementPlanReducer from '../containers/managementPlanSlice';
+import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
+import plantingManagementPlanReducer from '../containers/plantingManagementPlanSlice';
+import containerMethodReducer from '../containers/containerMethodSlice';
+import bedMethodReducer from '../containers/bedMethodSlice';
+import rowMethodReducer from '../containers/rowMethodSlice';
+import broadcastMethodReducer from '../containers/broadcastMethodSlice';
 import documentReducer from '../containers/documentSlice';
 import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
@@ -139,7 +141,6 @@ const entitiesReducer = combineReducers({
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
-  managementPlanReducer,
   weatherReducer,
   barnReducer,
   ceremonialReducer,
@@ -156,11 +157,13 @@ const entitiesReducer = combineReducers({
   gateReducer,
   waterValveReducer,
   showedSpotlightReducer,
-  transplantContainerReducer,
-  containerReducer,
-  bedsReducer,
-  rowsReducer,
-  broadcastReducer,
+  managementPlanReducer,
+  cropManagementPlanReducer,
+  plantingManagementPlanReducer,
+  containerMethodReducer,
+  bedMethodReducer,
+  rowMethodReducer,
+  broadcastMethodReducer,
   documentReducer,
   certifierReducer,
   certificationReducer,

@@ -16,13 +16,13 @@
 const Model = require('objection').Model;
 const lodash = require('lodash');
 
-class PestControlLog extends Model {
+class PestControlTask extends Model {
   static get tableName() {
-    return 'pestControlLog';
+    return 'pest_control_task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
 
   $parseJson(json, opt) {
@@ -38,7 +38,7 @@ class PestControlLog extends Model {
       required: ['pesticide_id', 'quantity_kg', 'target_disease_id', 'type'],
 
       properties: {
-        activity_id: { type: 'integer' },
+        task_id: { type: 'integer' },
         pesticide_id: { type: 'integer' },
         quantity_kg: { type: 'number' },
         type: {
@@ -52,4 +52,4 @@ class PestControlLog extends Model {
   }
 }
 
-module.exports = PestControlLog;
+module.exports = PestControlTask;

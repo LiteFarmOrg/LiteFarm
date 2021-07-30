@@ -215,11 +215,13 @@ const Unit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
-      hookFormSetValue(name, value, {
-        shouldValidate,
-        shouldDirty,
-      });
-      shouldClearError && setShowError(false);
+      setTimeout(() => {
+        hookFormSetValue(name, value, {
+          shouldValidate,
+          shouldDirty,
+        });
+        shouldClearError && setShowError(false);
+      }, 0);
     },
     [name],
   );
@@ -230,9 +232,6 @@ const Unit = ({
     } else if (e.target.value === '') {
       hookFormSetValue(name, '', { shouldValidate: true });
       setVisibleInputValue('');
-    } else if (e.target.value >= getMax() && error?.type === 'max') {
-      setVisibleInputValue(max);
-      hookFormSetHiddenValue(getMax(), { shouldDirty: true });
     } else {
       hookFormSetHiddenValue(convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
         shouldDirty: true,

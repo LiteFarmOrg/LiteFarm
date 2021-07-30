@@ -865,6 +865,10 @@
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
@@ -911,6 +915,8 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
+    "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "TERMINATION": "Terminação",
@@ -993,7 +999,9 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY": "MISSING",
     "TOOLTIP": "MISSING",
-    "WIDTH": "MISSING"
+    "WIDTH": "MISSING",
+    "WORD_LIMIT": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1296,5 +1304,9 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY_BEDS": "MISSING",
     "TOOLTIP": "MISSING"
+  },
+  "TASK": {
+    "SELECT_DATE": "MISSING",
+    "ADD_TASK_FLOW": "MISSING"
   }
 }

@@ -3,7 +3,7 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
   console.log('STEP 4 > ZIP', job.id);
   const { farm_id, email } = job.data;
   const zipProcess = spawn('zip',
-    ['-r', `${farm_id}.zip`, `temp/${farm_id}`], { cwd: process.env.EXPORT_WD });
+    ['-r', '-j', `${farm_id}.zip`, `temp/${farm_id}`], { cwd: process.env.EXPORT_WD });
   zipProcess.on('exit', childProcessExitCheck(() => {
     done();
     nextQueue.add(job.data, { removeOnComplete: true });

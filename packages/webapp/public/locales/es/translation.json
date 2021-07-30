@@ -12,9 +12,18 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
+  "BED_PLAN_GUIDANCE": {
+    "BED_WIDTH": "Ancho de la cama",
+    "NOTES": "Notas de plantación",
+    "PLANTING_DEPTH": "Profundidad de plantación",
+    "SPACE_BETWEEN": "Espacio entre camas",
+    "SPECIFY_BEDS": "Especificar camas",
+    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo."
+  },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "MISSING",
-    "NUMBER_0F_BEDS": "MISSING",
+    "ADDITIONAL_GUIDANCE": "MISSING",
+    "LENGTH_OF_BED": "Largo de camas",
+    "NUMBER_0F_BEDS": "# de camas",
     "NUMBER_OF_ROWS": "MISSING",
     "PLANT_SPACING": "MISSING",
     "PLANTING_DETAILS": "MISSING"
@@ -865,6 +874,10 @@
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
@@ -911,6 +924,8 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
+    "SELECT_STARTING_LOCATION": "¿Dónde está su lugar de siembra?",
+    "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
     "TERMINATION": "Terminar",
@@ -994,7 +1009,9 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY": "MISSING",
     "TOOLTIP": "MISSING",
-    "WIDTH": "MISSING"
+    "WIDTH": "MISSING",
+    "WORD_LIMIT": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1290,12 +1307,8 @@
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
+  "TASK": {
+    "SELECT_DATE": "MISSING",
+    "ADD_TASK_FLOW": "MISSING"
   }
 }

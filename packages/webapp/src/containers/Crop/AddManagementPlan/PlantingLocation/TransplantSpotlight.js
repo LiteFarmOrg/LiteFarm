@@ -20,7 +20,6 @@ export default function TransplantSpotlight({ seedingType }) {
 
   const showSpotlight = !transplant;
 
-  console.log(seedingType);
   const titleFill =
     seedingType === 'SEEDLING_OR_PLANTING_STOCK'
       ? t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.TITLE.PLANTING')

@@ -9,7 +9,6 @@ import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
 import { crop_age } from '../../../util/unit';
-import { seedingType } from './constants'
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 
@@ -43,18 +42,20 @@ export default function PurePlantedAlready({
 
   const progress = 12.5;
 
-  const IN_GROUND = 'in_ground';
-  const AGE = 'age';
-  const SEEDLING_AGE = 'seedling_age';
-  const SEEDLING_AGE_UNIT = 'seedling_age_unit';
-  const AGE_UNIT = 'age_unit';
-  const SEEDING_TYPE = 'seeding_type';
-  const WILD_CROP = 'wild_crop';
+  const IN_GROUND = 'crop_management_plan.already_in_ground';
+  const AGE = 'crop_management_plan.crop_age';
+  const AGE_UNIT = 'crop_management_plan.crop_age_unit';
+  //TODO: remove duplicate
+  const SEEDLING_AGE = AGE;
+  const SEEDLING_AGE_UNIT = AGE_UNIT;
+
+  const IS_SEED = 'crop_management_plan.is_seed';
+  const WILD_CROP = 'crop_management_plan.is_wild';
 
   const MAX_AGE = 999;
 
   const in_ground = watch(IN_GROUND);
-  const seeding_type = watch(SEEDING_TYPE);
+  const is_seed = watch(IS_SEED);
   const wild_crop = watch(WILD_CROP);
 
   const disabled = !isValid || (in_ground === true && wild_crop !== true && wild_crop !== false);
@@ -112,21 +113,21 @@ export default function PurePlantedAlready({
               <RadioGroup
                 style={{ marginBottom: '32px' }}
                 hookFormControl={control}
-                name={SEEDING_TYPE}
+                name={IS_SEED}
                 radios={[
                   {
                     label: t('CROP_MANAGEMENT.SEED'),
-                    value: seedingType.SEED,
+                    value: true,
                   },
                   {
                     label: t('MANAGEMENT_PLAN.SEEDLING'),
-                    value: seedingType.SEEDLING,
+                    value: false,
                   },
                 ]}
                 required
                 shouldUnregister={false}
               />
-              {seeding_type === 'SEEDLING_OR_PLANTING_STOCK' && (
+              {is_seed === false && (
                 <>
                   <div>
                     <Label className={styles.label} style={{ marginBottom: '23px' }}>

@@ -15,6 +15,7 @@ export default function BedPlan({ history, match }) {
   const onContinue = () => {
     history.push(onContinuePath);
   };
+  const isInitialPlantingManagementPlan = match?.path.includes('historical');
 
   const onBack = () => {
     history.push(onGoBackPath);

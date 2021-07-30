@@ -27,8 +27,8 @@ export default function PureTransplant({
     : (submitPath = `/crop/${variety_id}/add_management_plan/planting_date`);
 
   const progress = 29;
-  const TRANSPLANT = 'needs_transplant';
-  const COVER = 'for_cover';
+  const TRANSPLANT = 'crop_management_plan.needs_transplant';
+  const COVER = 'crop_management_plan.for_cover';
 
   let defaultTransplantValue;
   if (persistedFormData.in_ground) {

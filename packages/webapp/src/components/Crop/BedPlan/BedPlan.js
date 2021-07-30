@@ -24,6 +24,7 @@ function PureBedPlan({
   useHookFormPersist,
   persistedFormData,
   persistedPaths,
+  isInitialPlantingManagementPlan,
 }) {
   const { t } = useTranslation();
   const {
@@ -41,18 +42,22 @@ function PureBedPlan({
     mode: 'onChange',
   });
   useHookFormPersist(persistedPaths, getValues);
+  //TODO: getPrefix()
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isInitialPlantingManagementPlan ? 'initial' : 'final'
+  }`;
 
-  const NUMBER_OF_BEDS = 'beds.number_of_beds';
-  const NUMBER_OF_ROWS_IN_BED = 'beds.number_of_rows_in_bed';
-  const PLANT_SPACING_UNIT = 'beds.plant_spacing_unit';
-  const PLANT_SPACING = 'beds.plant_spacing';
-  const LENGTH_OF_BED_UNIT = 'beds.length_of_bed_unit';
-  const LENGTH_OF_BED = 'beds.length_of_bed';
+  const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
+  const NUMBER_OF_ROWS_IN_BED = `${prefix}.bed_method.number_of_rows_in_bed`;
+  const PLANT_SPACING_UNIT = `${prefix}.bed_method.plant_spacing_unit`;
+  const PLANT_SPACING = `${prefix}.bed_method.plant_spacing`;
+  const LENGTH_OF_BED_UNIT = `${prefix}.bed_method.length_of_bed_unit`;
+  const LENGTH_OF_BED = `${prefix}.bed_method.length_of_bed`;
 
-  const ESTIMATED_SEED = 'required_seeds';
-  const ESTIMATED_SEED_UNIT = 'required_seeds_unit';
-  const ESTIMATED_YIELD = 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
+  const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
+  const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
+  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);

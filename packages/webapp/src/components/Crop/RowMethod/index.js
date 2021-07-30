@@ -12,7 +12,6 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
-import { HideForm } from '../../HideForm/HideForm';
 
 export default function PureRowMethod({
   onGoBack,
@@ -23,6 +22,7 @@ export default function PureRowMethod({
   useHookFormPersist,
   persistedFormData,
   persistPath,
+  isInitialPlantingManagementPlan,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -44,20 +44,22 @@ export default function PureRowMethod({
 
   const progress = 75;
 
-  const row_prefix = 'rows.';
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isInitialPlantingManagementPlan ? 'initial' : 'final'
+  }`;
 
-  const SAME_LENGTH = row_prefix + 'same_length';
-  const NUMBER_OF_ROWS = row_prefix + 'number_of_rows';
-  const LENGTH_OF_ROW = row_prefix + 'row_length';
-  const LENGTH_OF_ROW_UNIT = row_prefix + 'row_length_unit';
-  const PLANT_SPACING = row_prefix + 'plant_spacing';
-  const PLANT_SPACING_UNIT = row_prefix + 'plant_spacing_unit';
-  const TOTAL_LENGTH = row_prefix + 'total_rows_length';
-  const TOTAL_LENGTH_UNIT = row_prefix + 'total_rows_length_unit';
-  const ESTIMATED_SEED = row_prefix + 'estimated_seeds';
-  const ESTIMATED_SEED_UNIT = row_prefix + 'estimated_seeds_unit';
-  const ESTIMATED_YIELD = row_prefix + 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = row_prefix + 'estimated_yield_unit';
+  const SAME_LENGTH = `${prefix}.row_method.same_length`;
+  const NUMBER_OF_ROWS = `${prefix}.row_method.number_of_rows`;
+  const LENGTH_OF_ROW = `${prefix}.row_method.row_length`;
+  const LENGTH_OF_ROW_UNIT = `${prefix}.row_method.row_length_unit`;
+  const PLANT_SPACING = `${prefix}.row_method.plant_spacing`;
+  const PLANT_SPACING_UNIT = `${prefix}.row_method.plant_spacing_unit`;
+  const TOTAL_LENGTH = `${prefix}.row_method.total_rows_length`;
+  const TOTAL_LENGTH_UNIT = `${prefix}.row_method.total_rows_length_unit`;
+  const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
+  const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
+  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
 
   const same_length = watch(SAME_LENGTH);
   const num_of_rows = watch(NUMBER_OF_ROWS);

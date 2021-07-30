@@ -17,10 +17,10 @@ import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 import { cloneObject } from '../../../util';
 
-const BROADCAST = 'BROADCAST';
-const CONTAINER = 'CONTAINER';
-const BEDS = 'BEDS';
-const ROWS = 'ROWS';
+const BROADCAST = 'BROADCAST_METHOD';
+const CONTAINER = 'CONTAINER_METHOD';
+const BEDS = 'BED_METHOD';
+const ROWS = 'ROW_METHOD';
 const images = {
   [BROADCAST]: [
     `${DO_CDN_URL}/planting_method/Broadcast_1.webp`,
@@ -69,7 +69,7 @@ export default function PurePlantingMethod({
   });
   const namePrefix = 'crop_management_plan.';
 
-  const PLANTING_TYPE = 'planting_type';
+  const PLANTING_TYPE = 'crop_management_plan.planting_management_plans.final.planting_method';
   const planting_type = watch(PLANTING_TYPE);
   const pathsToPersist = [BROADCAST, CONTAINER, BEDS, ROWS].map(
     (plantingType) => `/crop/${variety_id}/add_management_plan/${plantingType?.toLowerCase()}`,

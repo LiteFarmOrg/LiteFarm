@@ -218,11 +218,11 @@ exports.up = async function(knex) {
       const { bed_num, bed_width, bed_length } = deprecatedMethod.bed_config;
       return lodash.pick({
         ...deprecatedMethod,
-        number_of_beds: bed_num,
+        number_of_beds: (isNaN(bed_num) || !bed_num) ? 1 : Math.ceil(Number(bed_num)),
         number_of_rows_in_bed: 1,
         plant_spacing: 0.1,
-        bed_width,
-        bed_length,
+        bed_width: bed_width || 0,
+        bed_length: bed_length || 0,
       }, Object.keys(bedMethodModel.jsonSchema.properties));
     },
     'ROW_METHOD': deprecatedMethod => lodash.pick(deprecatedMethod, Object.keys(rowMethodModel.jsonSchema.properties)),

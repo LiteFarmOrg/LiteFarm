@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
-import {
-  getManagementPlan,
-  managementPlansByCropVarietyIdSelector,
-} from '../../../managementPlanSlice';
+import { managementPlansByCropVarietyIdSelector } from '../../../managementPlanSlice';
 import { broadcastMethodProperties } from '../../../broadcastMethodSlice';
 import { containerMethodProperties } from '../../../containerMethodSlice';
 import { bedMethodProperties } from '../../../bedMethodSlice';
@@ -12,8 +9,6 @@ import { rowProperties } from '../../../rowMethodSlice';
 import { postManagementPlan } from './saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { pick } from '../../../../util/pick';
-import { cropManagementPlanProperties } from '../../../cropManagementPlanSlice';
 
 export default function ManagementPlanName({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -49,23 +44,15 @@ export default function ManagementPlanName({ history, match }) {
 
 const formatManagementPlanFormData = (formData) => {
   const data = getProcessedFormData(formData);
-  const planting_type = data.planting_type;
-  const plantingMethodAndCropManagementPlan = data[data.planting_type.toLowerCase()];
-  const plantingMethod = pick(
-    plantingMethodAndCropManagementPlan,
-    plantingTypePropertiesMap[planting_type],
-  );
-  const reqBody = {
-    ...getManagementPlan(data),
-    crop_management_plan: {
-      planting_type,
-      location_id: data.location_id,
-      ...pick(plantingMethodAndCropManagementPlan, cropManagementPlanProperties),
-      [planting_type.toLowerCase()]: plantingMethod,
-    },
-  };
-  console.log(reqBody);
-  return reqBody;
+
+  data.crop_management_plan.planting_management_plans = Object.keys(
+    data.crop_management_plan.planting_management_plans,
+  ).map((key) => ({
+    ...data.crop_management_plan.planting_management_plans[key],
+    is_final_planting_management_plan: key === 'final',
+  }));
+  console.log(data);
+  return data;
 };
 
 const plantingTypePropertiesMap = {

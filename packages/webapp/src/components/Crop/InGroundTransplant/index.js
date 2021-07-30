@@ -16,10 +16,10 @@ import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 import { cloneObject } from '../../../util';
 
-const BROADCAST = 'BROADCAST';
-const CONTAINER = 'CONTAINER';
-const BEDS = 'BEDS';
-const ROWS = 'ROWS';
+const BROADCAST = 'BROADCAST_METHOD';
+const CONTAINER = 'CONTAINER_METHOD';
+const BEDS = 'BED_METHOD';
+const ROWS = 'ROW_METHOD';
 const images = {
   [BROADCAST]: [
     `${DO_CDN_URL}/planting_method/Broadcast_1.webp`,
@@ -42,7 +42,7 @@ const images = {
     `${DO_CDN_URL}/planting_method/Rows_3.webp`,
   ],
 };
-
+//TODO deprecate
 export default function PureInGroundTransplant({
   useHookFormPersist,
   persistedFormData,
@@ -65,10 +65,11 @@ export default function PureInGroundTransplant({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  const PLANTING_TYPE = 'planting_type';
+  const PLANTING_TYPE = 'crop_management_plan.planting_management_plans.initial.planting_method';
   const planting_type = watch(PLANTING_TYPE);
 
-  const KNOWS_HOW = 'knows_how_is_crop_planted';
+  const KNOWS_HOW =
+    'crop_management_plan.planting_management_plans.initial.is_planting_method_known';
   const knows_how = watch(KNOWS_HOW);
 
   const submitPath = knows_how

@@ -40,9 +40,10 @@ export default function PureNextHarvest({
 
   const progress = 32;
 
-  const NEXT_HARVEST_DATE = 'next_harvest_date';
-  const ESTIMATED_YIELD = 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
+  const NEXT_HARVEST_DATE = 'crop_management_plan.harvest_date';
+  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
+  const ESTIMATED_YIELD_UNIT =
+    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
   const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
   const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;

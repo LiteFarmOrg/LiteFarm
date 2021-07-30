@@ -94,19 +94,35 @@ const hookFormPersistSlice = createSlice({
       state.formData = formData;
     },
     setPlantingLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      state.formData.location_id = location_id;
+      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
+      !state.formData.crop_management_plan.planting_management_plans &&
+        (state.formData.planting_management_plans = {});
+      !state.formData.crop_management_plan.planting_management_plans.final &&
+        (state.formData.planting_management_plans.final = {});
+      state.formData.crop_management_plan.planting_management_plans.final.location_id = location_id;
     },
     setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      !state.formData.transplant_container && (state.formData.transplant_container = {});
-      state.formData.transplant_container.location_id = location_id;
+      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
+      !state.formData.crop_management_plan.planting_management_plans &&
+        (state.formData.planting_management_plans = {});
+      !state.formData.crop_management_plan.planting_management_plans.initial &&
+        (state.formData.planting_management_plans.initial = {});
+      state.formData.crop_management_plan.planting_management_plans.initial.location_id = location_id;
       state?.formData?.farm?.default_initial_location_id &&
         (state.formData.farm.default_initial_location_id = location_id);
     },
     setWildCropLocation: (state, { payload }) => {
-      state.formData.wild_crop_location = payload;
+      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
+      !state.formData.crop_management_plan.planting_management_plans &&
+        (state.formData.planting_management_plans = {});
+      !state.formData.crop_management_plan.planting_management_plans.final &&
+        (state.formData.planting_management_plans.final = {});
+      state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate = payload;
     },
     resetWildCropLocation: (state) => {
-      state.formData.wild_crop_location = null;
+      if (state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate) {
+        delete state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate;
+      }
     },
     setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
       state.formData.submission_id = submission_id;

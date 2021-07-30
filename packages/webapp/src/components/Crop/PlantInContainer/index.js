@@ -21,34 +21,36 @@ export default function PurePlantInContainer({
   match,
   history,
   crop_variety,
+  isInitialPlantingManagementPlan,
 }) {
-  const isTransplant = match?.path === '/crop/:variety_id/add_management_plan/transplant_container';
-  const namePrefix = isTransplant ? 'transplant_container.' : 'container.';
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isInitialPlantingManagementPlan ? 'initial' : 'final'
+  }`;
 
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_transplant_location' : 'name'
+    isInitialPlantingManagementPlan ? 'choose_transplant_location' : 'name'
   }`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isTransplant ? 'choose_planting_location' : 'planting_method'
+    isInitialPlantingManagementPlan ? 'choose_planting_location' : 'planting_method'
   }`;
 
-  const IN_GROUND = namePrefix + 'in_ground';
-  const NUMBER_OF_CONTAINERS = namePrefix + 'number_of_containers';
-  const PLANTS_PER_CONTAINER = namePrefix + 'plants_per_container';
-  const PLANT_SPACING = namePrefix + 'plant_spacing';
-  const PLANT_SPACING_UNIT = namePrefix + 'plant_spacing_unit';
-  const TOTAL_PLANTS = namePrefix + 'total_plants';
-  const PLANTING_DEPTH = namePrefix + 'planting_depth';
-  const PLANTING_DEPTH_UNIT = namePrefix + 'planting_depth_unit';
-  const PLANTING_SOIL = namePrefix + 'planting_soil';
-  const CONTAINER_TYPE = namePrefix + 'container_type';
-  const ESTIMATED_YIELD = namePrefix + 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = namePrefix + 'estimated_yield_unit';
-  const ESTIMATED_SEED = namePrefix + 'required_seeds';
-  const ESTIMATED_SEED_UNIT = namePrefix + 'required_seeds_unit';
-  const NOTES = namePrefix + 'notes';
+  const IN_GROUND = `${prefix}.container_method.in_ground`;
+  const NUMBER_OF_CONTAINERS = `${prefix}.container_method.number_of_containers`;
+  const PLANTS_PER_CONTAINER = `${prefix}.container_method.plants_per_container`;
+  const PLANT_SPACING = `${prefix}.container_method.plant_spacing`;
+  const PLANT_SPACING_UNIT = `${prefix}.container_method.plant_spacing_unit`;
+  const TOTAL_PLANTS = `${prefix}.container_method.total_plants`;
+  const PLANTING_DEPTH = `${prefix}.container_method.planting_depth`;
+  const PLANTING_DEPTH_UNIT = `${prefix}.container_method.planting_depth_unit`;
+  const PLANTING_SOIL = `${prefix}.container_method.planting_soil`;
+  const CONTAINER_TYPE = `${prefix}.container_method.container_type`;
+  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
+  const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
+  const NOTES = `${prefix}.notes`;
   const {
     register,
     handleSubmit,
@@ -121,7 +123,7 @@ export default function PurePlantInContainer({
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={isTransplant ? 50 : 75}
+        value={isInitialPlantingManagementPlan ? 50 : 75}
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}</Main>
@@ -229,7 +231,7 @@ export default function PurePlantInContainer({
               />
             </>
           )}
-          {!isTransplant && showEstimatedValue && (
+          {!isInitialPlantingManagementPlan && showEstimatedValue && (
             <div className={styles.row}>
               <Unit
                 register={register}

@@ -12,10 +12,10 @@ export default function RowGuidance({ history, match }) {
   const onContinuePath = `/crop/${variety_id}/add_management_plan/name`;
   const onGoBackPath = `/crop/${variety_id}/add_management_plan/rows`;
   const persistedPaths = [onContinuePath, onGoBackPath];
-  
+  const isInitialPlantingManagementPlan = match?.path.includes('historical');
+
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
   };
@@ -26,7 +26,7 @@ export default function RowGuidance({ history, match }) {
   const onBack = () => {
     history.push(onGoBackPath);
   };
-  
+
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance

@@ -21,7 +21,7 @@ const { raw } = require('objection');
 async function validateLocationDependency(req, res, next) {
 
   const location_id = req?.params?.location_id;
-  const managementPlans = await managementPlanModel.query().whereNotDeleted().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').where('crop_management_plan.location_id', location_id).andWhere(raw('harvest_date >= now()'));
+  const managementPlans = await managementPlanModel.query().whereNotDeleted().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').where('crop_management_plan.location_id', location_id).whereNull('complete_date').whereNull('abandon_date');
   if (managementPlans.length) {
     return res.status(400).send('Location cannot be deleted when it has a managementPlan');
   }

@@ -24,6 +24,7 @@ function PureBroadcastPlan({
   persistedPaths,
   locationSize,
   yieldPerArea,
+  isInitialPlantingManagementPlan,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -46,21 +47,25 @@ function PureBroadcastPlan({
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
-  const PERCENTAGE_PLANTED = 'broadcast.percentage_planted';
-  const SEEDING_RATE = 'broadcast.seeding_rate';
-  const AREA_USED = 'broadcast.area_used';
-  const AREA_USED_UNIT = 'broadcast.area_used_unit';
-  const ESTIMATED_YIELD = 'broadcast.estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'broadcast.estimated_yield_unit';
-  const ESTIMATED_SEED = 'broadcast.required_seeds';
-  const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
-  const NOTES = 'broadcast.notes';
+
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isInitialPlantingManagementPlan ? 'initial' : 'final'
+  }`;
+  const PERCENTAGE_PLANTED = `${prefix}.broadcast_method.percentage_planted`;
+  const SEEDING_RATE = `${prefix}.broadcast_method.seeding_rate`;
+  const AREA_USED = `${prefix}.broadcast_method.area_used`;
+  const AREA_USED_UNIT = `${prefix}.broadcast_method.area_used_unit`;
+  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
+  const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
+  const NOTES = `${prefix}.notes`;
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
-  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  const seedingRateForm = watch(SEEDING_RATE, persistedFormData?.broadcast?.seeding_rate);
+  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED);
+  const seedingRateForm = watch(SEEDING_RATE);
   const areaUsed = watch(AREA_USED);
-  const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
+  const areaUsedUnit = watch(AREA_USED_UNIT);
 
   useHookFormPersist(persistedPaths, getValues);
 

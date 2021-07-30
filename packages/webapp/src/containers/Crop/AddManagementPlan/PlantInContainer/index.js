@@ -7,6 +7,9 @@ import { cropVarietyByID } from '../../../cropVarietySlice';
 export default function PlantInContainer({ history, match }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietyByID(match.params.variety_id));
+  const isInitialPlantingManagementPlan =
+    match?.path === '/crop/:variety_id/add_management_plan/transplant_container';
+
   return (
     <HookFormPersistProvider>
       <PurePlantInContainer
@@ -14,6 +17,7 @@ export default function PlantInContainer({ history, match }) {
         history={history}
         system={system}
         crop_variety={crop_variety}
+        isInitialPlantingManagementPlan={isInitialPlantingManagementPlan}
       />
     </HookFormPersistProvider>
   );

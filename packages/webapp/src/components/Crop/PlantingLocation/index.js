@@ -25,14 +25,18 @@ export default function PurePlantingLocation({
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
 
-  const { needs_transplant, seeding_type, in_ground } = persistedFormData;
-  let seeding_type_temp = seeding_type;
-  if (in_ground === true) {
-    seeding_type_temp = '';
+  const {
+    crop_management_plan: { needs_transplant, is_seed, already_in_ground },
+  } = persistedFormData;
+  let is_seed_temp = is_seed;
+  if (already_in_ground === true) {
+    is_seed_temp = undefined;
   }
   const [pinMode, setPinMode] = useState(false);
   const [canUsePin, setCanUsePin] = useState(
-    persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
+    persistedFormData.crop_management_plan.is_wild &&
+      persistedFormData.crop_management_plan.already_in_ground &&
+      pinMode,
   );
 
   const handlePinMode = () => {
@@ -66,11 +70,11 @@ export default function PurePlantingLocation({
         />
 
         <div className={styles.planting_label}>
-          {seeding_type_temp === 'SEED'
+          {is_seed_temp === true
             ? t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION')
-            : seeding_type_temp === 'SEEDLING_OR_PLANTING_STOCK'
+            : is_seed_temp === false
             ? t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION')
-            : in_ground === true
+            : already_in_ground === true
             ? t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION')
             : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
         </div>

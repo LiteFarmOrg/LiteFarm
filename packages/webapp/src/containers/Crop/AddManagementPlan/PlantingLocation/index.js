@@ -18,15 +18,17 @@ export default function PlantingLocation({ history, match }) {
 
   const [selectedLocationId, setLocationId] = useState(
     isTransplantPage
-      ? persistedFormData?.transplant_container?.location_id
-      : persistedFormData?.location_id,
+      ? persistedFormData?.crop_management_plan?.planting_management_plans?.initial?.location_id
+      : persistedFormData?.crop_management_plan?.planting_management_plans?.final?.location_id,
   );
-  const [pinLocation, setPinLocation] = useState(persistedFormData?.pinLocation);
+  const [pinLocation, setPinLocation] = useState(
+    persistedFormData?.crop_management_plan?.planting_management_plans?.final?.pin_coordinate,
+  );
   const variety_id = match.params.variety_id;
 
-  const isWildCrop = Boolean(persistedFormData.wild_crop);
-  const isInGround = Boolean(persistedFormData.in_ground);
-  const isTransplant = Boolean(persistedFormData.needs_transplant);
+  const isWildCrop = Boolean(persistedFormData?.crop_management_plan.is_wild);
+  const isInGround = Boolean(persistedFormData?.crop_management_plan.already_in_ground);
+  const isTransplant = Boolean(persistedFormData?.crop_management_plan.needs_transplant);
 
   const persistedPath = isTransplantPage
     ? [
@@ -100,7 +102,9 @@ export default function PlantingLocation({ history, match }) {
 
   const progress = isTransplantPage ? 50 : 37.5;
 
-  const { needs_transplant, seeding_type, in_ground } = persistedFormData;
+  const {
+    crop_management_plan: { needs_transplant, is_seed, already_in_ground },
+  } = persistedFormData;
 
   const onSelectCheckbox = (e) => {
     if (!e?.target?.checked) {
@@ -128,7 +132,7 @@ export default function PlantingLocation({ history, match }) {
         pinLocation={pinLocation}
         onSelectCheckbox={onSelectCheckbox}
       />
-      {needs_transplant && !in_ground && <TransplantSpotlight seedingType={seeding_type} />}
+      {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}
     </>
   );
 }

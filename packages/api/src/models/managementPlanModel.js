@@ -35,23 +35,10 @@ class ManagementPlan extends baseModel {
 
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
-    this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-    this.germination_date = this.getDate(this.seed_date, this.germination_days);
-    this.termination_date = this.getDate(this.seed_date, this.termination_days);
-    this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    // throw new Error('Need to properly set dates');
   }
 
   async $beforeUpdate(opt, context) {
     await super.$beforeUpdate(opt, context);
-    // TODO: if seed_date/transplant_days/germination_days/termination_days/harvest_days exist reset dates
-    if (Object.keys(this) > 3 || !this.deleted) {
-      this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-      this.germination_date = this.getDate(this.seed_date, this.germination_days);
-      this.termination_date = this.getDate(this.seed_date, this.termination_days);
-      this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-      throw new Error('Need to properly set dates');
-    }
   }
 
   static get jsonSchema() {

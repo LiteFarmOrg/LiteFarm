@@ -50,18 +50,16 @@ const PureTaskAssignment = ({
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
 
-  const currentlyAssignedUserId = currently_assigned?.value;
-  const indexOfCurrentlyAssigned = userFarmOptions.indexOf(currently_assigned);
-  const wageDataOfCurrentlyAssigned = wageData[indexOfCurrentlyAssigned][currentlyAssignedUserId];
-  //const hourlyWageOfCurrentlyAssigned = typeof wageDataOfCurrentlyAssigned === 'undefined' ? 0 : wageDataOfCurrentlyAssigned.hourly_wage;
-
   useEffect(() => {
+    const currentlyAssignedUserId = currently_assigned?.value;
+    const indexOfCurrentlyAssigned = userFarmOptions.indexOf(currently_assigned);
+    const wageDataOfCurrentlyAssigned = wageData[indexOfCurrentlyAssigned][currentlyAssignedUserId];
     const hourlyWageOfCurrentlyAssigned =
       typeof wageDataOfCurrentlyAssigned === 'undefined'
         ? 0
         : wageDataOfCurrentlyAssigned.hourly_wage;
     setValue(WAGE_OVERRIDE, hourlyWageOfCurrentlyAssigned);
-  }, [wageDataOfCurrentlyAssigned]);
+  }, [currently_assigned]);
 
   return (
     <>

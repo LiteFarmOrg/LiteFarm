@@ -30,10 +30,12 @@ const PureTaskTypeSelection = ({
   handleCancel,
   history,
   persistedPaths,
+  persistedFormData,
+  onContinue,
 }) => {
   const { t } = useTranslation();
 
-  const { watch, getValues } = useForm({
+  const { watch, getValues, handleSubmit } = useForm({
     mode: 'onChange',
   });
 
@@ -42,8 +44,8 @@ const PureTaskTypeSelection = ({
 
   const onTileClick = (task) => {
     setSelectedTask(task);
-    console.log(selectedTask);
-    history.push('/tasks/:management_plan_id/add_task/task_date');
+    handleSubmit(onContinue);
+    console.log(persistedFormData);
   };
 
   return (

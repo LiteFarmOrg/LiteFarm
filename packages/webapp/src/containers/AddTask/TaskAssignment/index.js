@@ -54,12 +54,9 @@ function TaskManagement({ history, match }) {
       }
     }
     setOptions(options.concat(innerOptions));
-    // setOptions([{ label: 'Unassigned', value: null }].concat(innerOptions))
-    //setWageData(wage_data);
     setWageData(wageData.concat(wage_data));
   }, []);
 
-  //console.log(wageData);
   const onSubmit = () => {
     console.log('onSave called'); // todo: when POST is done
   };
@@ -74,20 +71,6 @@ function TaskManagement({ history, match }) {
   const onError = () => {
     console.log('onError called');
   };
-  // console.log('wageData')
-  // console.log(wageData);
-  // console.log('options')
-  // console.log(options);
-  //
-  //
-  // console.log('wageData length')
-  // console.log(wageData.length)
-  // console.log('options length')
-  // console.log(options.length);
-
-  // const optValues = Object.values(options);
-  // console.log('optvalues');
-  // console.log(optValues);
 
   return (
     <HookFormPersistProvider>

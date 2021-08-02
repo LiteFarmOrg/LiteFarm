@@ -15,7 +15,7 @@
   "ADD_TASK": {
     "ADD_A_TASK": "Add a task",
     "ASSIGNEE": "Assignee",
-    "CANCEL": "add task",
+    "CANCEL": "task creation",
     "COLLECT_SOIL_SAMPLE": "Collect soil sample",
     "CREATE_CUSTOM_TASK": "Create a custom task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
@@ -33,6 +33,7 @@
     "SELECT_TASK_TYPE": "Select task type",
     "SOCIAL_EVENT": "Social event",
     "SOIL_AMENDMENT": "Soil amendment",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
     "TRANSPLANT": "Transplant",
     "TRANSPORT": "Transport",
     "WAGE_OVERRIDE": "Wage override",
@@ -1307,6 +1308,10 @@
     "PREVIOUS_TEXT": "Previous",
     "ROWS_TEXT": "rows"
   },
+  "TASK": {
+    "ADD_TASK_FLOW": "task creation",
+    "SELECT_DATE": "Select the task date"
+  },
   "UNIT": {
     "TIME": {
       "MONTH": "months",
@@ -1324,9 +1329,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "TASK": {
-    "SELECT_DATE": "Select the task date",
-    "ADD_TASK_FLOW": "task creation"
   }
 }

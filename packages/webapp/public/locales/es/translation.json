@@ -33,6 +33,7 @@
     "SELECT_TASK_TYPE": "MISSING",
     "SOCIAL_EVENT": "MISSING",
     "SOIL_AMENDMENT": "MISSING",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
     "TRANSPLANT": "MISSING",
     "TRANSPORT": "MISSING",
     "WAGE_OVERRIDE": "MISSING",
@@ -1306,6 +1307,10 @@
     "PREVIOUS_TEXT": "Previa",
     "ROWS_TEXT": "filas"
   },
+  "TASK": {
+    "ADD_TASK_FLOW": "MISSING",
+    "SELECT_DATE": "MISSING"
+  },
   "UNIT": {
     "TIME": {
       "MONTH": "MISSING",
@@ -1323,9 +1328,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
-  },
-  "TASK": {
-    "SELECT_DATE": "MISSING",
-    "ADD_TASK_FLOW": "MISSING"
   }
 }

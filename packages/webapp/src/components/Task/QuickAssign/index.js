@@ -4,35 +4,56 @@ import ModalComponent from '../../Modals/ModalComponent/v2';
 import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import ReactSelect from '../../Form/ReactSelect';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import Checkbox from '../../Form/Checkbox';
 import { ReactComponent as Person } from '../../../assets/images/task/Person.svg';
+import { assignTask, assignTasksOnDate } from '../../../containers/Task/saga';
+import { isAdminSelector } from '../../../containers/userFarmSlice';
 
-export default function TaskQuickAssignModal({ dismissModal }) {
+export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, isAssigned }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
-  const isAdmin = user.is_admin;
+  const isAdmin = useSelector(isAdminSelector);
   const assigned = true;
 
-  let workerOptions = isAdmin? users.map(({ first_name, last_name, user_id }) => ({
+  let workerOptions = isAdmin ? users.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
     value: user_id,
-  })) : [{label: `${user.first_name} ${user.last_name}`, value: user.user_id}];
+  })) : [{ label: `${user.first_name} ${user.last_name}`, value: user.user_id }];
 
   const assigned_worker = workerOptions[0];
 
-  const [worker, setWorker] = useState(assigned? assigned_worker : null);
+  const [worker, setWorker] = useState(assigned ? assigned_worker : null);
   const [assignAll, setAssignAll] = useState(false);
 
-  workerOptions.unshift({label: 'Unassigned', value: null});
+  workerOptions.unshift({ label: 'Unassigned', value: 'null' });
+
+  let d = new Date('2021-06-26 07:00:00');
+  d.setUTCHours(7, 0, 0);
 
   const onAssign = () => {
     console.log(worker);
     console.log(assignAll);
+    if (assignAll) {
+      dispatch(assignTasksOnDate({ 
+        date: d,
+        assignee_user_id: worker.value,
+        is_admin: isAdmin,
+      }));
+    } else {
+      dispatch(assignTask({
+        task_id: '3',
+        assignee_user_id: worker.value,
+        is_admin: isAdmin,
+      }));
+    }
+    dismissModal();
   }
+
 
   const disabled = worker === null;
 

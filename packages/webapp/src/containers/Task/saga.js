@@ -27,8 +27,27 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id, is_admin
   }
 }
 
-export const assignTasksOnDate = createAction('assignTask');
+export const assignTasksOnDate = createAction('assignTaskOnDateSaga');
+
+export function* assignTaskOnDateSaga({ payload: { date, assignee_user_id, is_admin } }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.patch,
+      `${taskUrl}/assign_all_tasks_on_date/`,
+      { assignee_user_id: assignee_user_id, is_admin: is_admin, date: date },
+      header
+    );
+    yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:ASSIGN_TASK.ERROR')));
+  }
+}
 
 export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
+  yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
 }

@@ -8,7 +8,6 @@ jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 const moment = require('moment');
-const { test } = require('../knexfile');
 
 
 describe('Task tests', () => {
@@ -23,9 +22,19 @@ describe('Task tests', () => {
   })
 
   function assignTaskRequest({user_id, farm_id}, {assignee_user_id, is_admin}, task_id, callback) {
-    chai.request(server).patch(`/task/assign/${farm_id}/${task_id}`)
+    chai.request(server).patch(`/task/assign/${task_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
+      .set('assignee_user_id', assignee_user_id)
+      .set('is_admin', is_admin)
+      .end(callback);
+  }
+
+  function assignAllTasksOnDateRequest({user_id, farm_id}, {date, assignee_user_id, is_admin}, callback) {
+    chai.request(server).patch(`/task/assign_all_tasks_on_date`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .set('date', date)
       .set('assignee_user_id', assignee_user_id)
       .set('is_admin', is_admin)
       .end(callback);
@@ -45,8 +54,13 @@ describe('Task tests', () => {
   describe('PATCH Assginee tests', () => {
     test('Owners should be able to assign person to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-      const [{ task_id }] = await mocks.taskFactory({ promisedFarm: [{ farm_id }] });
-
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
+      const [{ location_id }] = await mocks.fieldFactory({promisedFarm: [{ farm_id }]});
+      await mocks.location_tasksFactory({promisedTask: [{ task_id }] , promisedField: [{ location_id }]});
+      assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id, is_admin: true }, task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
     });
   });
 });

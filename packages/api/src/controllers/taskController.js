@@ -23,10 +23,19 @@ const taskController = {
 
   assignAllTasksOnDate() {
     return async (req, res, next) => {
-
-      return res.status(400).json({
-        message: 'Not implemented yet'
-      });
+      try {
+        const { user_id } = req.headers;
+        const { assignee_user_id, is_admin, date } = req.body;
+        if (!is_admin && user_id !== assignee_user_id) {
+          return res.status(403).send('Not authorized to assign other people for this task');
+        }
+        const result = await TaskModel.query().context(req.user).patch({assignee_user_id: assignee_user_id})
+        .where('due_date', '=', date);
+        //.where('assignee_user_id', '=', null);
+        return result ? res.sendStatus(200) : res.status(404).send('Tasks not found');
+      } catch (error) {
+        return res.status(400).json({ error });
+      }
     }
   },
 }

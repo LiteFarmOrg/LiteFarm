@@ -21,6 +21,7 @@ const PureTaskAssignment = ({
   currencySymbol,
   useHookFormPersist,
   persistPaths,
+  persistedFormData,
 }) => {
   const { t } = useTranslation();
   const {

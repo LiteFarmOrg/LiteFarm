@@ -2,10 +2,11 @@ import React from 'react';
 import Form from '../../../components/Form';
 import MultiStepPageTitle from '../../../components/PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
+import { Label, Main } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
+import Infoi from '../../Tooltip/Infoi';
 
 const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError }) => {
   const { t } = useTranslation();
@@ -45,7 +46,10 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError }) => {
         <Main>{t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') + ' (task_type)'}</Main>
 
         <Input
-          style={{ paddingTop: '15px' }}
+          toolTipContent={t('ADD_TASK.SEARCH_INFOI')}
+          label={t('LOG_COMMON.NOTES')}
+          optional={true}
+          style={{ paddingTop: '20px' }}
           hookFormRegister={register(TASK_NOTES, {
             required: false,
             valueAsNumber: false,

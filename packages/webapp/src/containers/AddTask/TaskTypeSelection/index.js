@@ -11,7 +11,8 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const onContinue = () => {
-    history.push(`/tasks/add_task/task_date`);
+    //history.push(`/tasks/add_task/task_date`);
+    history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   const handleGoBack = () => {
@@ -31,7 +32,8 @@ function TaskTypeSelection({ history, match }) {
         onCustomTask={onCustomTask}
         handleCancel={handleCancel}
         handleGoBack={handleGoBack}
-        persistedPaths={[`/tasks/add_task/task_date`]}
+        //persistedPaths={[`/tasks/add_task/task_date`]}
+        persistedPaths={['/tasks/:management_plan_id/add_task/task_date']}
         onContinue={onContinue}
         onError={onError}
       />

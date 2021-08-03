@@ -48,7 +48,8 @@ const PureTaskTypeSelection = ({
 
   const onTileClick = (task) => {
     setValue(TASK_TYPE, task);
-    handleSubmit(onContinue, onError);
+    //handleSubmit(onContinue, onError);
+    onContinue();
     //history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 

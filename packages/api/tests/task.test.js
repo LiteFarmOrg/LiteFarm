@@ -108,6 +108,9 @@ describe('Task tests', () => {
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
             expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+            const specificTask = await knex(type).where({ task_id });
+            expect(specificTask.length).toBe(1);
+            expect(specificTask[0].task_id).toBe(task_id)
             done();
           });
         });
@@ -134,6 +137,11 @@ describe('Task tests', () => {
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
             expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+            const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id });
+            expect(isTaskRelatedToManagementPlans.length).toBe(1);
+            const specificTask = await knex(type).where({ task_id });
+            expect(specificTask.length).toBe(1);
+            expect(specificTask[0].task_id).toBe(task_id)
             done();
           });
         });

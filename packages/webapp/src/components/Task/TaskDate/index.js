@@ -34,7 +34,6 @@ export default function PureTaskDate({
 
   // TODO - Add real paths
   const persistedPath = ['LF-1564', 'LF-1567'];
-  console.log(persistedFormData); //!!!
   useHookFormPersist(persistedPath, getValues);
 
   const TASK_DATE = 'task_date';

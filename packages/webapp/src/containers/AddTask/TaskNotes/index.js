@@ -1,4 +1,5 @@
 import PureTaskNotes from '../../../components/AddTask/PureTaskNotes';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function TaskNotes({ history, match }) {
   const handleGoBack = () => {
@@ -17,12 +18,14 @@ function TaskNotes({ history, match }) {
   const onError = () => {};
 
   return (
-    <PureTaskNotes
-      handleCancel={handleCancel}
-      handleGoBack={handleGoBack}
-      onError={onError}
-      onSubmit={onSubmit}
-    />
+    <HookFormPersistProvider>
+      <PureTaskNotes
+        handleCancel={handleCancel}
+        handleGoBack={handleGoBack}
+        onError={onError}
+        onSubmit={onSubmit}
+      />
+    </HookFormPersistProvider>
   );
 }
 

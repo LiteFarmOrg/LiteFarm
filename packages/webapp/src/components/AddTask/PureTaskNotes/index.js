@@ -2,13 +2,12 @@ import React from 'react';
 import Form from '../../../components/Form';
 import MultiStepPageTitle from '../../../components/PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../../Typography';
+import { Main } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
-import Infoi from '../../Tooltip/Infoi';
 
-const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError }) => {
+const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persistedFormData }) => {
   const { t } = useTranslation();
 
   const {
@@ -21,6 +20,9 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError }) => {
 
   const TASK_NOTES = 'task_notes';
   let task_notes = watch(TASK_NOTES);
+
+  const task = persistedFormData.task_type.toUpperCase();
+  console.log(task);
 
   return (
     <>
@@ -43,7 +45,13 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError }) => {
           value={71}
         />
 
-        <Main>{t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') + ' (task_type)'}</Main>
+        <Main>
+          {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
+            ' ' +
+            t(`ADD_TASK.${task}`) +
+            ' ' +
+            t('ADD_TASK.TASK')}
+        </Main>
 
         <Input
           toolTipContent={t('ADD_TASK.SEARCH_INFOI')}

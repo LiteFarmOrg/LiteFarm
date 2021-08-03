@@ -34,6 +34,7 @@
     "SELECT_TASK_TYPE": "MISSING",
     "SOCIAL_EVENT": "MISSING",
     "SOIL_AMENDMENT": "MISSING",
+    "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
     "TRANSPLANT": "MISSING",
     "TRANSPORT": "MISSING",
@@ -1284,9 +1285,8 @@
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
-    "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos"
+    "TASKS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Activo",

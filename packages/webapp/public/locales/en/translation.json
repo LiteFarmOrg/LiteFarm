@@ -34,6 +34,7 @@
     "SELECT_TASK_TYPE": "Select task type",
     "SOCIAL_EVENT": "Social event",
     "SOIL_AMENDMENT": "Soil amendment",
+    "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
     "TRANSPLANT": "Transplant",
     "TRANSPORT": "Transport",
@@ -1283,12 +1284,10 @@
   "SLIDE_MENU": {
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",
-    "TASKS": "Tasks",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
-    "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts"
+    "TASKS": "Tasks"
   },
   "STATUS": {
     "ACTIVE": "Active",

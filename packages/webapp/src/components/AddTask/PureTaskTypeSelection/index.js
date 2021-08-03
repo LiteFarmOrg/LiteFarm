@@ -33,6 +33,7 @@ const PureTaskTypeSelection = ({
   persistedFormData,
   useHookFormPersist,
   onContinue,
+  onError,
 }) => {
   const { t } = useTranslation();
 
@@ -47,7 +48,7 @@ const PureTaskTypeSelection = ({
 
   const onTileClick = (task) => {
     setValue(TASK_TYPE, task);
-    handleSubmit(onContinue);
+    handleSubmit(onContinue, onError);
   };
 
   return (

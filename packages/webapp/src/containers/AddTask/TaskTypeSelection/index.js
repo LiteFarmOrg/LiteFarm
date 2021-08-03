@@ -22,6 +22,8 @@ function TaskTypeSelection({ history, match }) {
     console.log('cancel called');
   };
 
+  const onError = () => {};
+
   return (
     <HookFormPersistProvider>
       <PureTaskTypeSelection
@@ -31,6 +33,7 @@ function TaskTypeSelection({ history, match }) {
         handleGoBack={handleGoBack}
         persistedPaths={[`/tasks/add_task/task_date`]}
         onContinue={onContinue}
+        onError={onError}
       />
     </HookFormPersistProvider>
   );

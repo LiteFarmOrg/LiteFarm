@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (activityLogModel.js) is part of LiteFarm.
+ *  This file (taskModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,14 +16,13 @@
 const Model = require('objection').Model;
 const BaseModel = require('./baseModel');
 
-// const FertilizerLogModel = require('./fertilizerLogModel');
-class activityLogModel extends BaseModel {
+class TaskModel extends BaseModel {
   static get tableName() {
-    return 'activityLog';
+    return 'task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -32,18 +31,25 @@ class activityLogModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['activity_kind', 'date'],
+      required: ['task_id', 'due_date', 'type'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        activity_kind: {
-          type: 'string',
-          enum: ['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'],
-        },
-        date: { type: 'date-time' },
+        task_id: { type: 'integer' },
+        type: { type: 'integer' },
+        due_date: { type: 'date-time' },
         notes: { type: 'string' },
-        action_needed: { type: 'boolean' },
-        user_id: { type: 'string' },
+        completion_notes: { type: 'string' },
+        owner_user_id: { type: 'string' },
+        assignee_user_id: { type: 'string' },
+        coordinates: { type: 'object' },
+        duration: { type: 'number' },
+        wage_at_moment: { type: 'number' },
+        happiness: { type: 'integer' },
+        planned_time: { type: 'date-time' },
+        completed_time: { type: 'date-time' },
+        late_time: { type: 'date-time' },
+        for_review_time: { type: 'date-time' },
+        abandoned_time: { type: 'date-time' },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -53,81 +59,81 @@ class activityLogModel extends BaseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fertilizerLog: {
+      fertilizer_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./fertilizerLogModel'),
+        modelClass: require('./fertilizerTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'fertilizerLog.activity_id',
+          from: 'task.task_id',
+          to: 'fertilizer_task.task_id',
         },
       },
-      pestControlLog: {
+      pest_control_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./pestControlLogModel'),
+        modelClass: require('./pestControlTask'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'pestControlLog.activity_id',
+          from: 'task.task_id',
+          to: 'pest_control_task.task_id',
         },
       },
-      irrigationLog: {
+      irrigation_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./irrigationLogModel'),
+        modelClass: require('./irrigationTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'irrigationLog.activity_id',
+          from: 'task.task_id',
+          to: 'irrigation_task.task_id',
         },
       },
-      scoutingLog: {
+      scouting_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./scoutingLogModel'),
+        modelClass: require('./scoutingTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'scoutingLog.activity_id',
+          from: 'task.task_id',
+          to: 'scouting_task.task_id',
         },
       },
-      soilDataLog: {
+      soil_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./soilDataLogModel'),
+        modelClass: require('./soilTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'soilDataLog.activity_id',
+          from: 'task.task_id',
+          to: 'soil_task.task_id',
         },
       },
-      fieldWorkLog: {
+      field_work_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./fieldWorkLogModel'),
+        modelClass: require('./fieldWorkTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'fieldWorkLog.activity_id',
+          from: 'task.task_id',
+          to: 'field_work_task.task_id',
         },
       },
-      harvestLog: {
+      harvest_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./harvestLogModel'),
+        modelClass: require('./harvestTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'harvestLog.activity_id',
+          from: 'task.task_id',
+          to: 'harvest_task.task_id',
         },
       },
       harvestUse: {
@@ -137,32 +143,32 @@ class activityLogModel extends BaseModel {
         // to a module that exports one.
         modelClass: require('./harvestUseModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'harvestUse.activity_id',
+          from: 'task.task_id',
+          to: 'harvestUse.task_id',
         },
       },
-      seedLog: {
+      plant_task: {
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./seedLogModel'),
+        modelClass: require('./plantTaskModel'),
         join: {
-          from: 'activityLog.activity_id',
-          to: 'seedLog.activity_id',
+          from: 'task.task_id',
+          to: 'plant_task.task_id',
         },
       },
       managementPlan: {
         modelClass: require('./managementPlanModel'),
         relation: Model.ManyToManyRelation,
         join: {
-          from: 'activityLog.activity_id',
+          from: 'task.task_id',
           through: {
-            modelClass: require('./activityCropsModel'),
-            from: 'activityCrops.activity_id',
-            to: 'activityCrops.management_plan_id',
+            modelClass: require('./managementTasksModel'),
+            from: 'management_tasks.task_id',
+            to: 'management_tasks.management_plan_id',
           },
-          to: 'managementPlan.management_plan_id',
+          to: 'management_plan.management_plan_id',
         },
 
       },
@@ -170,11 +176,11 @@ class activityLogModel extends BaseModel {
         modelClass: require('./locationModel'),
         relation: Model.ManyToManyRelation,
         join: {
-          from: 'activityLog.activity_id',
+          from: 'task.task_id',
           through: {
-            modelClass: require('./activityFieldsModel'),
-            from: 'activityFields.activity_id',
-            to: 'activityFields.location_id',
+            modelClass: require('./locationTasksModel'),
+            from: 'location_tasks.task_id',
+            to: 'location_tasks.location_id',
           },
           to: 'location.location_id',
         },
@@ -183,4 +189,4 @@ class activityLogModel extends BaseModel {
   }
 }
 
-module.exports = activityLogModel;
+module.exports = TaskModel;

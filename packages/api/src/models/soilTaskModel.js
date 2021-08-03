@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class SoilDataLog extends Model {
+class SoilTaskModel extends Model {
   static get tableName() {
-    return 'soilDataLog';
+    return 'soil_task';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'task_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -31,7 +31,7 @@ class SoilDataLog extends Model {
       type: 'object',
 
       properties: {
-        activity_id: { type: 'integer' },
+        task_id: { type: 'integer' },
         start_depth: { type: 'integer' },
         end_depth: { type: 'integer' },
         depth_cm: { type: 'string' },
@@ -66,15 +66,15 @@ class SoilDataLog extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      activityLog: {
+      task: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./activityLogModel'),
+        modelClass: require('./taskModel'),
         join: {
-          from: 'soilDataLog.activity_id',
-          to: 'activityLog.activity_id',
+          from: 'soil_task.task_id',
+          to: 'task.task_id',
         },
 
       },
@@ -83,4 +83,4 @@ class SoilDataLog extends Model {
   }
 }
 
-module.exports = SoilDataLog;
+module.exports = SoilTaskModel;

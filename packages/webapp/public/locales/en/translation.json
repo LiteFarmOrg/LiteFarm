@@ -12,6 +12,14 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "ADD_TASK": {
+    "ADD_A_TASK": "Add a task",
+    "ASSIGNEE": "Assignee",
+    "CANCEL": "add task",
+    "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
+    "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "WAGE_OVERRIDE": "Wage override"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
     "NUMBER_0F_BEDS": "# of beds",
@@ -845,6 +853,14 @@
     "TITLE": "Soil Data Log",
     "TOTAL_CARBON": "Total Carbon"
   },
+  "MANAGEMENT_DETAIL": {
+    "ABANDON_PLAN": "Abandon this management plan",
+    "ADD_A_TASK": "Add a task",
+    "ASSOCIATED_TASKS": "Associated tasks",
+    "EDIT_PLAN": "Edit plan",
+    "FAILED_CROP": "Failed crop?",
+    "PLAN_NOTES": "Plan notes"
+  },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
     "AGE": "Age",
@@ -866,6 +882,10 @@
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
+      "TITLE": "Congrats! You’ve made your first management plan!"
+    },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
@@ -914,7 +934,6 @@
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
     "SELECT_PLANTING_LOCATION": "Where is your planting location?",
-    "SELECT_STARTING_LOCATION": "Where is your starting location?",
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
@@ -923,7 +942,6 @@
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_DATE": "What is your transplant date?",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "planted",
@@ -940,15 +958,8 @@
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "WILD_CROP": "Are you harvesting a wild crop?",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "PLAN_AND_ID_plural": "MISSING"
-  },
-  "MANAGEMENT_DETAIL": {
-    "EDIT_PLAN": "Edit plan",
-    "ASSOCIATED_TASKS": "Associated tasks",
-    "ADD_A_TASK": "Add a task",
-    "FAILED_CROP": "Failed crop?",
-    "ABANDON_PLAN": "Abandon this management plan",
-    "PLAN_NOTES": "Plan notes"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -997,10 +1008,10 @@
     "ROWS": "rows",
     "SPACE_BETWEEN": "Space between {{types}}",
     "SPECIFY": "Specify {{types}}",
+    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
     "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
     "WIDTH": "{{type}} width",
-    "WORD_LIMIT": "Only {{limit}} characters can be displayed",
-    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4"
+    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",
@@ -1252,6 +1263,7 @@
   "SLIDE_MENU": {
     "CROPS": "Crops",
     "DOCUMENTS": "Documents",
+    "TASKS": "Tasks",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
@@ -1295,5 +1307,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "TASK": {
+    "SELECT_DATE": "Select the task date",
+    "ADD_TASK_FLOW": "task creation"
   }
 }

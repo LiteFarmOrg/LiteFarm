@@ -12,6 +12,14 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
+  "ADD_TASK": {
+    "ADD_A_TASK": "MISSING",
+    "ASSIGNEE": "MISSING",
+    "CANCEL": "MISSING",
+    "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
+    "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "WAGE_OVERRIDE": "MISSING"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "MISSING",
     "NUMBER_0F_BEDS": "MISSING",
@@ -844,6 +852,14 @@
     "TITLE": "Registro de dados do solo",
     "TOTAL_CARBON": "Carbono Total"
   },
+  "MANAGEMENT_DETAIL": {
+    "ABANDON_PLAN": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "EDIT_PLAN": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "PLAN_NOTES": "MISSING"
+  },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de manejo",
     "AGE": "MISSING",
@@ -865,6 +881,10 @@
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
@@ -888,6 +908,7 @@
     "PLANTED_ALREADY": "MISSING",
     "PLANTING": "MISSING",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
+    "PLANTING_DATE_LABEL": "MISSING",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
@@ -904,6 +925,7 @@
     "ROWS": "Linhas",
     "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
+    "SEEDING_DATE": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
@@ -911,7 +933,6 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
-    "SELECT_STARTING_LOCATION": "Onde é o seu local de partida?",
     "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
@@ -920,7 +941,6 @@
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_DATE": "MISSING",
-    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
@@ -937,15 +957,8 @@
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
+    "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": "MISSING"
-  },
-  "MANAGEMENT_DETAIL": {
-    "EDIT_PLAN": "MISSING",
-    "ASSOCIATED_TASKS": "MISSING",
-    "ADD_A_TASK": "MISSING",
-    "FAILED_CROP": "MISSING",
-    "ABANDON_PLAN": "MISSING",
-    "PLAN_NOTES": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -994,10 +1007,10 @@
     "ROWS": "MISSING",
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING",
     "TOOLTIP": "MISSING",
     "WIDTH": "MISSING",
-    "WORD_LIMIT": "MISSING",
-    "SPECIFY_PLACEHOLDER": "MSSING"
+    "WORD_LIMIT": "MISSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1300,5 +1313,9 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY_BEDS": "MISSING",
     "TOOLTIP": "MISSING"
+  },
+  "TASK": {
+    "SELECT_DATE": "MISSING",
+    "ADD_TASK_FLOW": "MISSING"
   }
 }

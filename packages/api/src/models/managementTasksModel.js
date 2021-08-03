@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (harvestActivityCrop.js) is part of LiteFarm.
+ *  This file (activityCropsModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,32 +15,27 @@
 
 const Model = require('objection').Model;
 
-class Bed extends Model {
+class ManagementTasksModel extends Model {
   static get tableName() {
-    return 'activityCrops';
+    return 'management_tasks';
+  }
+
+  static get idColumn() {
+    return 'task_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['activity_id', 'farm_crop_id', 'quantity'],
+      required: ['management_plan_id'],
 
       properties: {
-        activity_id: { type: 'integer' },
-        farm_crop_id: { type: 'integer' },
-        quantity: {
-          type: 'float',
-          minimum:0.01,
-        },
-        quantity_unit: {
-          type:'string',
-          enu:['lb', 'kg'],
-        },
+        task_id: { type: 'integer' },
+        management_plan_id: { type: 'integer' },
       },
       additionalProperties: false,
     };
   }
-
 }
 
-module.exports = Bed;
+module.exports = ManagementTasksModel;

@@ -17,6 +17,7 @@ const express = require('express');
 const router = express.Router();
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
+const { modelMapping } = require('../middleware/validation/task');
 const taskController = require('../controllers/taskController');
 
 router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
@@ -25,5 +26,28 @@ router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
 router.patch('/assign_all_tasks_on_date/', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignAllTasksOnDate());
 
+router.post('/fertilizer_task', modelMapping['fertilizer_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('fertilizer_task'));
+
+router.post('/pest_control_task', modelMapping['pest_control_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('pest_control_task'));
+
+router.post('/irrigation_task', modelMapping['irrigation_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('irrigation_task'));
+
+router.post('/scouting_task', modelMapping['scouting_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('scouting_task'));
+
+router.post('/soil_task', modelMapping['soil_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('soil_task'));
+
+router.post('/field_work_task', modelMapping['field_work_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('field_work_task'));
+
+router.post('/harvest_task', modelMapping['harvest_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('harvest_task'));
+
+router.post('/plant_task', modelMapping['plant_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('plant_task'));
 
 module.exports = router;

@@ -75,8 +75,8 @@ async function fromTask(taskTypeId) {
   return knex('task_type').where({ task_type_id: taskTypeId }).first();
 }
 
-async function fromDocument(document_id){
-  return await knex('document').where({ document_id }).first();
+async function fromDocument(document_id) {
+  return  knex('document').where({ document_id }).first();
 }
 
 async function fromShift(shiftId) {
@@ -90,7 +90,8 @@ async function fromPesticide(pesticideId) {
 async function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
-function fromCropManagement(cropPlan){
+
+function fromCropManagement(cropPlan) {
   return fromLocation(cropPlan.location_id);
 }
 
@@ -191,35 +192,36 @@ async function fromActivity(req) {
 }
 
 async function fromManagementPlan(managementPlanId) {
-  return await knex('management_plan').where('management_plan_id', managementPlanId).join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
+  return knex('management_plan').where('management_plan_id', managementPlanId)
+    .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
 }
 
 async function fromCropVariety(crop_variety_id) {
-  return await knex('crop_variety').where({ crop_variety_id }).first();
+  return knex('crop_variety').where({ crop_variety_id }).first();
 }
 
 async function fromYield(yieldId) {
-  return await knex('yield').where({ yield_id: yieldId }).first();
+  return knex('yield').where({ yield_id: yieldId }).first();
 }
 
 async function fromPrice(priceId) {
-  return await knex('price').where({ price_id: priceId }).first();
+  return knex('price').where({ price_id: priceId }).first();
 }
 
 async function fromFarmExpense(farm_expense_id) {
-  return await knex('farmExpense').where({ farm_expense_id }).first();
+  return knex('farmExpense').where({ farm_expense_id }).first();
 }
 
 async function fromFarmExpenseType(expense_type_id) {
-  return await knex('farmExpenseType').where({ expense_type_id }).first();
+  return knex('farmExpenseType').where({ expense_type_id }).first();
 }
 
 async function fromSale(sale_id) {
-  return await knex('sale').where({ sale_id }).first();
+  return knex('sale').where({ sale_id }).first();
 }
 
 async function fromOrganicCertifierSurvey(survey_id) {
-  return await knex('organicCertifierSurvey').where({ survey_id }).first();
+  return knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
 function sameFarm(object, farm) {

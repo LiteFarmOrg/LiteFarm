@@ -2,18 +2,16 @@ import PureTaskTypeSelection from '../../../components/AddTask/PureTaskTypeSelec
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
-  const persistedFormData = useSelector(hookFormPersistSelector);
 
   const onCustomTask = () => {
     console.log('Go to LF-1747 custom task creation page');
   };
 
   const onContinue = () => {
-    history.push('/tasks/:management_plan_id/add_task/task_date');
+    history.push(`/tasks/add_task/task_assignment`);
   };
 
   const handleGoBack = () => {
@@ -31,9 +29,8 @@ function TaskTypeSelection({ history, match }) {
         onCustomTask={onCustomTask}
         handleCancel={handleCancel}
         handleGoBack={handleGoBack}
-        persistedPaths={[]}
+        persistedPaths={[`/tasks/add_task/task_date`]}
         onContinue={onContinue}
-        persistedFormData={persistedFormData}
       />
     </HookFormPersistProvider>
   );

@@ -1,3 +1,11 @@
+.logContainer {
+  width: 100%;
+  max-width: 1024px;
+  height: 100vh;
+  padding: 24px 24px 0 24px;
+  display: flex;
+  flex-direction: column;
+}
 
 .typeContainer {
   display: flex;
@@ -25,18 +33,94 @@
 
 }
 
+.typeContainer:hover, .typeContainer:active {
+  border-color: var(--teal700);
+  background-color: var(--green100);
+  color: var(--teal900);
+
+}
+
+.typeContainerSelected {
+  border-color: var(--teal700);
+  background-color: var(--green100);
+  color: var(--teal900);
+
+}
+
+.tileContainer {
+  display: inline-flex;
+  flex-flow: row wrap;
+  row-gap: 6.6vw;
+  justify-content: space-between;
+}
+
+@media only screen and (min-width: 480px) {
   .tileContainer {
-    display: inline-flex;
-    flex-flow: row wrap;
-    row-gap: 6.6vw;
-    justify-content: space-between;
+
+    row-gap: 5.2vw;
+  }
+  .typeContainer {
+    width: 19.06vw;
+    height: 19.06vw;
+
+    svg {
+      width: 10.4vw;
+      height: 10.4vw;
+    }
+
+    font-size: 2.6vw;
+    line-height: 3.47vw;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .tileContainer {
+    justify-content: flex-start;
+
+    --emptySpace: calc(100% - 472px);
+    --gap: calc(var(--emptySpace) / 3);
+    column-gap: var(--gap);
+    row-gap: 24px;
   }
 
-.logContainer {
-  width: 100%;
-  max-width: 1024px;
-  height: 100vh;
-  padding: 24px 24px 0 24px;
-  display: flex;
-  flex-direction: column;
+  .typeContainer {
+    width: 118px;
+    height: 118px;
+
+    svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+
 }
+
+@media only screen and (min-width: 734px) {
+  .tileContainer {
+    --emptySpace: calc(100% - 590px);
+    --gap: calc(var(--emptySpace) / 4);
+    column-gap: var(--gap);
+  }
+}
+
+
+@media only screen and (min-width: 876px) {
+  .tileContainer {
+    --emptySpace: calc(100% - 708px);
+    --gap: calc(var(--emptySpace) / 5);
+    column-gap: var(--gap);
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .tileContainer {
+    gap: 25px
+  }
+}
+
+

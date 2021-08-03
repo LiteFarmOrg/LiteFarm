@@ -58,7 +58,7 @@ describe('Task tests', () => {
     done();
   });
 
-  describe('PATCH Assginee tests', () => {
+  xdescribe('PATCH Assginee tests', () => {
     test('Owners should be able to assign person to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ task_id }] = await mocks.taskFactory({ promisedFarm: [{ farm_id }] });

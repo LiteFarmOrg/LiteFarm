@@ -11,7 +11,7 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const onContinue = () => {
-    history.push(`/tasks/add_task/task_assignment`);
+    history.push(`/tasks/add_task/task_date`);
   };
 
   const handleGoBack = () => {

@@ -22,7 +22,7 @@ import { ReactComponent as SoilAmendment } from '../../../assets/images/AddTask/
 import { ReactComponent as Transplant } from '../../../assets/images/AddTask/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/AddTask/Wash _ Pack.svg';
 import { useForm } from 'react-hook-form';
-import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
+import clsx from 'clsx';
 
 const PureTaskTypeSelection = ({
   onCustomTask,
@@ -30,20 +30,26 @@ const PureTaskTypeSelection = ({
   handleCancel,
   history,
   persistedPaths,
+  persistedFormData,
+  useHookFormPersist,
+  onContinue,
+  onError,
 }) => {
   const { t } = useTranslation();
 
-  const { watch, getValues } = useForm({
+  const { watch, getValues, handleSubmit, register, setValue } = useForm({
     mode: 'onChange',
   });
 
   useHookFormPersist(persistedPaths, getValues);
-  const [selectedTask, setSelectedTask] = useState('');
+  const TASK_TYPE = 'task_type';
+  register(TASK_TYPE, { required: true });
+  const selected_task_type = watch(TASK_TYPE);
 
   const onTileClick = (task) => {
-    setSelectedTask(task);
-    console.log(selectedTask);
-    history.push('/tasks/:management_plan_id/add_task/task_date');
+    setValue(TASK_TYPE, task);
+    handleSubmit(onContinue, onError);
+    //history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   return (
@@ -67,7 +73,12 @@ const PureTaskTypeSelection = ({
               onTileClick('collect_soil_sample');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'collect_soil_sample' && styles.typeContainerSelected,
+              )}
+            >
               <CollectSoilSample />
               <div>{t('ADD_TASK.COLLECT_SOIL_SAMPLE')}</div>
             </div>
@@ -79,7 +90,12 @@ const PureTaskTypeSelection = ({
               onTileClick('fertilize');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'fertilize' && styles.typeContainerSelected,
+              )}
+            >
               <Fertilize />
               <div>{t('ADD_TASK.FERTILIZE')}</div>
             </div>
@@ -91,7 +107,12 @@ const PureTaskTypeSelection = ({
               onTileClick('field_work');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'field_work' && styles.typeContainerSelected,
+              )}
+            >
               <FieldWork />
               <div>{t('ADD_TASK.FIELD_WORK')}</div>
             </div>
@@ -103,7 +124,12 @@ const PureTaskTypeSelection = ({
               onTileClick('harvest');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'harvest' && styles.typeContainerSelected,
+              )}
+            >
               <Harvest />
               <div>{t('ADD_TASK.HARVEST')}</div>
             </div>
@@ -115,7 +141,12 @@ const PureTaskTypeSelection = ({
               onTileClick('irrigate');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'irrigate' && styles.typeContainerSelected,
+              )}
+            >
               <Irrigate />
               <div>{t('ADD_TASK.IRRIGATE')}</div>
             </div>
@@ -127,7 +158,12 @@ const PureTaskTypeSelection = ({
               onTileClick('maintenance');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'maintenance' && styles.typeContainerSelected,
+              )}
+            >
               <Maintenance />
               <div>{t('ADD_TASK.MAINTENANCE')}</div>
             </div>
@@ -139,7 +175,12 @@ const PureTaskTypeSelection = ({
               onTileClick('pest_control');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'pest_control' && styles.typeContainerSelected,
+              )}
+            >
               <PestControl />
               <div>{t('ADD_TASK.PEST_CONTROL')}</div>
             </div>
@@ -151,7 +192,12 @@ const PureTaskTypeSelection = ({
               onTileClick('plant');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'plant' && styles.typeContainerSelected,
+              )}
+            >
               <Plant />
               <div>{t('ADD_TASK.PLANT')}</div>
             </div>
@@ -163,7 +209,12 @@ const PureTaskTypeSelection = ({
               onTileClick('record_soil_sample');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'record_soil_sample' && styles.typeContainerSelected,
+              )}
+            >
               <RecordSoilSample />
               <div>{t('ADD_TASK.RECORD_SOIL_SAMPLE')}</div>
             </div>
@@ -175,7 +226,12 @@ const PureTaskTypeSelection = ({
               onTileClick('sales');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'sales' && styles.typeContainerSelected,
+              )}
+            >
               <Sales />
               <div>{t('ADD_TASK.SALES')}</div>
             </div>
@@ -187,7 +243,12 @@ const PureTaskTypeSelection = ({
               onTileClick('scout');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'scout' && styles.typeContainerSelected,
+              )}
+            >
               <Scout />
               <div>{t('ADD_TASK.SCOUT')}</div>
             </div>
@@ -199,7 +260,12 @@ const PureTaskTypeSelection = ({
               onTileClick('social_event');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'social_event' && styles.typeContainerSelected,
+              )}
+            >
               <SocialEvent />
               <div>{t('ADD_TASK.SOCIAL_EVENT')}</div>
             </div>
@@ -211,7 +277,12 @@ const PureTaskTypeSelection = ({
               onTileClick('soil_amendment');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'soil_amendment' && styles.typeContainerSelected,
+              )}
+            >
               <SoilAmendment />
               <div>{t('ADD_TASK.SOIL_AMENDMENT')}</div>
             </div>
@@ -223,7 +294,12 @@ const PureTaskTypeSelection = ({
               onTileClick('transplant');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'transplant' && styles.typeContainerSelected,
+              )}
+            >
               <Transplant />
               <div>{t('ADD_TASK.TRANSPLANT')}</div>
             </div>
@@ -235,7 +311,12 @@ const PureTaskTypeSelection = ({
               onTileClick('transport');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'transport' && styles.typeContainerSelected,
+              )}
+            >
               <Transport />
               <div>{t('ADD_TASK.TRANSPORT')}</div>
             </div>
@@ -247,7 +328,12 @@ const PureTaskTypeSelection = ({
               onTileClick('wash_and_pack');
             }}
           >
-            <div className={styles.typeContainer}>
+            <div
+              className={clsx(
+                styles.typeContainer,
+                selected_task_type === 'wash_and_pack' && styles.typeContainerSelected,
+              )}
+            >
               <WashAndPack />
               <div>{t('ADD_TASK.WASH_AND_PACK')}</div>
             </div>

@@ -19,36 +19,33 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const assigned = true;
+  const self = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
 
   let workerOptions = isAdmin ? users.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
     value: user_id,
-  })) : [{ label: `${user.first_name} ${user.last_name}`, value: user.user_id }];
+  })) : [self];
 
   const assigned_worker = workerOptions[0];
 
   const [worker, setWorker] = useState(assigned ? assigned_worker : null);
   const [assignAll, setAssignAll] = useState(false);
 
-  workerOptions.unshift({ label: 'Unassigned', value: 'null' });
-
-  let d = new Date('2021-06-26 07:00:00');
-  d.setUTCHours(7, 0, 0);
+  workerOptions.unshift({ label: 'Unassigned', value: null });
 
   const onAssign = () => {
     console.log(worker);
     console.log(assignAll);
     if (assignAll) {
-      dispatch(assignTasksOnDate({ 
-        date: d,
+      dispatch(assignTasksOnDate({
+        task_id: taskId, 
+        date: dueDate,
         assignee_user_id: worker.value,
-        is_admin: isAdmin,
       }));
     } else {
       dispatch(assignTask({
-        task_id: '3',
+        task_id: taskId,
         assignee_user_id: worker.value,
-        is_admin: isAdmin,
       }));
     }
     dismissModal();
@@ -75,7 +72,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       icon={<Person />}
     >
       <ReactSelect
-        defaultValue={workerOptions[1]}
+        defaultValue={ isAssigned ? workerOptions[0] : self}
         label={t('TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}

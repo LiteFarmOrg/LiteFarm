@@ -22,7 +22,7 @@ const taskController = require('../controllers/taskController');
 router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignTask());
 
-router.patch('/assign_all_tasks_on_date/', hasFarmAccess({ params: 'task_id' }),
+router.patch('/assign_all_tasks_on_date/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignAllTasksOnDate());
 
 

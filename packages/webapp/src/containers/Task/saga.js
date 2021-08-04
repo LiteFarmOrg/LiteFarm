@@ -9,7 +9,7 @@ import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackb
 
 export const assignTask = createAction('assignTaskSaga');
 
-export function* assignTaskSaga({ payload: { task_id, assignee_user_id, is_admin } }) {
+export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -17,7 +17,7 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id, is_admin
     const result = yield call(
       axios.patch,
       `${taskUrl}/assign/${task_id}`,
-      { assignee_user_id: assignee_user_id, is_admin: is_admin },
+      { assignee_user_id: assignee_user_id },
       header
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
@@ -29,15 +29,15 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id, is_admin
 
 export const assignTasksOnDate = createAction('assignTaskOnDateSaga');
 
-export function* assignTaskOnDateSaga({ payload: { date, assignee_user_id, is_admin } }) {
+export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_id } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(
       axios.patch,
-      `${taskUrl}/assign_all_tasks_on_date/`,
-      { assignee_user_id: assignee_user_id, is_admin: is_admin, date: date },
+      `${taskUrl}/assign_all_tasks_on_date/${task_id}`,
+      { assignee_user_id: assignee_user_id, date: date },
       header
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));

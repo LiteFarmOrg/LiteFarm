@@ -6,6 +6,7 @@ import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { getTasksSuccess } from '../taskSlice';
 
 export const assignTask = createAction('assignTaskSaga');
 
@@ -47,7 +48,28 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
   }
 }
 
+export const getTasks = createAction('getTasksSaga');
+
+export function* getTasksSaga() {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    console.log('GET TASKS');
+    const result = yield call(
+      axios.get,
+      `${taskUrl}/${farm_id}`,
+      header
+    );
+    console.log(result);
+    yield put(getTasksSuccess(result.data))
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
+  yield takeLeading(getTasks.type, getTasksSaga);
 }

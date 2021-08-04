@@ -40,6 +40,7 @@ export const getTask = (obj) => {
 // };
 //
 const addManyTasks = (state, { payload: tasks }) => {
+  console.log(tasks);
   state.loading = false;
   state.error = null;
   state.loaded = true;
@@ -54,7 +55,7 @@ const taskAdapter = createEntityAdapter({
 });
 
 const taskSlice = createSlice({
-  name: 'managementPlanReducer',
+  name: 'taskReducer',
   initialState: taskAdapter.getInitialState({
     loading: false,
     error: undefined,
@@ -82,3 +83,5 @@ const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
+
+export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

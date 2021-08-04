@@ -123,6 +123,14 @@ class TaskModel extends BaseModel {
           to: 'harvestUse.task_id',
         },
       },
+      taskType: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./taskTypeModel'),
+        join: {
+          from: 'task.type',
+          to: 'task_type.task_type_id',
+        },
+      },
       plant_task: {
         relation: Model.HasOneRelation,
         modelClass: require('./plantTaskModel'),

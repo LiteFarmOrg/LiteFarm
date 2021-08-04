@@ -29,9 +29,10 @@ class HarvestTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['quantity_kg'],
+      required: ['task_id', 'quantity_kg'],
 
       properties: {
+        task_id: { type: 'integer' },
         quantity_kg: { type: 'float' },
       },
       additionalProperties: false,

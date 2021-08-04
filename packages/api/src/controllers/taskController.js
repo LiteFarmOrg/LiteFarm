@@ -76,7 +76,7 @@ const taskController = {
           .where('userFarm.farm_id', farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().withGraphFetched(`
-          [locations, managementPlans]
+          [locations, managementPlans, taskType]
         `).whereIn('task_id', taskIds);
         if (graphTasks) {
           res.status(200).send(graphTasks);

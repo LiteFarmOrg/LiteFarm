@@ -486,12 +486,12 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
 
     yield all([
       ...tasks,
-      put(getLogs()),
-      put(getAllShifts()),
+      // put(getLogs()),
+      // put(getAllShifts()),
       put(getSales()),
       put(getExpense()),
-      put(resetLogFilter()),
-      put(resetShiftFilter()),
+      // put(resetLogFilter()),
+      // put(resetShiftFilter()),
     ]);
 
     const {

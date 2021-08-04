@@ -12,16 +12,36 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "Ancho de la cama",
-    "NOTES": "Notas de plantación",
-    "PLANTING_DEPTH": "Profundidad de plantación",
-    "SPACE_BETWEEN": "Espacio entre camas",
-    "SPECIFY_BEDS": "Especificar camas",
-    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo."
+  "ADD_TASK": {
+    "ADD_A_TASK": "MISSING",
+    "ASSIGNEE": "MISSING",
+    "CANCEL": "MISSING",
+    "COLLECT_SOIL_SAMPLE": "MISSING",
+    "CREATE_CUSTOM_TASK": "MISSING",
+    "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
+    "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "FERTILIZE": "MISSING",
+    "FIELD_WORK": "MISSING",
+    "HARVEST": "MISSING",
+    "IRRIGATE": "MISSING",
+    "MAINTENANCE": "MISSING",
+    "PEST_CONTROL": "MISSING",
+    "PLANT": "MISSING",
+    "RECORD_SOIL_SAMPLE": "MISSING",
+    "SALES": "MISSING",
+    "SCOUT": "MISSING",
+    "SEARCH_INFOI": "MISSING",
+    "SELECT_TASK_TYPE": "MISSING",
+    "SOCIAL_EVENT": "MISSING",
+    "SOIL_AMENDMENT": "MISSING",
+    "TASK": "MISSING",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
+    "TRANSPLANT": "MISSING",
+    "TRANSPORT": "MISSING",
+    "WAGE_OVERRIDE": "MISSING",
+    "WASH_AND_PACK": "MISSING"
   },
   "BED_PLAN": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
     "LENGTH_OF_BED": "Largo de camas",
     "NUMBER_0F_BEDS": "# de camas",
     "NUMBER_OF_ROWS": "MISSING",
@@ -853,6 +873,14 @@
     "TITLE": "Registro de informacion del suelo",
     "TOTAL_CARBON": "Carbón total"
   },
+  "MANAGEMENT_DETAIL": {
+    "ABANDON_PLAN": "MISSING",
+    "ADD_A_TASK": "MISSING",
+    "ASSOCIATED_TASKS": "MISSING",
+    "EDIT_PLAN": "MISSING",
+    "FAILED_CROP": "MISSING",
+    "PLAN_NOTES": "MISSING"
+  },
   "MANAGEMENT_PLAN": {
     "ADD_MANAGEMENT_PLAN": "Agregar plan de manejo",
     "AGE": "MISSING",
@@ -874,6 +902,10 @@
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
@@ -897,6 +929,7 @@
     "PLANTED_ALREADY": "MISSING",
     "PLANTING": "MISSING",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
+    "PLANTING_DATE_LABEL": "MISSING",
     "PLANTING_DEPTH": "Profundidad de siembra",
     "PLANTING_METHOD": "¿Cuál es tu método de plantación?",
     "PLANTING_METHOD_TOOLTIP": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
@@ -913,6 +946,7 @@
     "ROWS": "Hilera",
     "SEED_DATE": "MISSING",
     "SEED_OR_SEEDLING": "MISSING",
+    "SEEDING_DATE": "MISSING",
     "SEEDLING": "MISSING",
     "SEEDLING_AGE": "MISSING",
     "SEEDLING_AGE_INFO": "MISSING",
@@ -920,7 +954,6 @@
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
     "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
-    "SELECT_STARTING_LOCATION": "¿Dónde está su lugar de siembra?",
     "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
@@ -929,7 +962,6 @@
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_DATE": "MISSING",
-    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "MISSING",
@@ -946,16 +978,8 @@
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "WILD_CROP": "MISSING",
-    "PLAN_AND_ID_plural": "MISSING",
-    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
-  },
-  "MANAGEMENT_DETAIL": {
-    "EDIT_PLAN": "MISSING",
-    "ASSOCIATED_TASKS": "MISSING",
-    "ADD_A_TASK": "MISSING",
-    "FAILED_CROP": "MISSING",
-    "ABANDON_PLAN": "MISSING",
-    "PLAN_NOTES": "MISSING"
+    "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "MISSING",
@@ -1004,10 +1028,10 @@
     "ROWS": "MISSING",
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY": "MISSING",
+    "SPECIFY_PLACEHOLDER": "MSSING",
     "TOOLTIP": "MISSING",
     "WIDTH": "MISSING",
-    "WORD_LIMIT": "MISSING",
-    "SPECIFY_PLACEHOLDER": "MSSING"
+    "WORD_LIMIT": "MISSING"
   },
   "PREPARING_EXPORT": {
     "MESSAGE": "MISSING",
@@ -1261,9 +1285,8 @@
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
-    "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos"
+    "TASKS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Activo",
@@ -1285,6 +1308,10 @@
     "PREVIOUS_TEXT": "Previa",
     "ROWS_TEXT": "filas"
   },
+  "TASK": {
+    "ADD_TASK_FLOW": "MISSING",
+    "SELECT_DATE": "MISSING"
+  },
   "UNIT": {
     "TIME": {
       "MONTH": "MISSING",
@@ -1302,13 +1329,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
-  },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY_BEDS": "MISSING",
-    "TOOLTIP": "MISSING"
   }
 }

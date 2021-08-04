@@ -21,6 +21,7 @@
   "HOURS": "Hours",
   "LOADING": "Loading...",
   "LOCATION": "Location",
+  "MARK_COMPLETED": "Mark completed",
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
   "NAME": "Name",
@@ -44,6 +45,5 @@
   "SUBMITTING": "Submitting...",
   "TO": "to",
   "UPDATE": "Update",
-  "YES": "Yes",
-  "MARK_COMPLETED": "Mark completed"
+  "YES": "Yes"
 }

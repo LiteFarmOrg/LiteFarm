@@ -71,7 +71,7 @@ const taskController = {
         const tasks = await TaskModel.query().select('task.task_id').whereNotDeleted()
           .distinct('task.task_id')
           .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-          .join('location', 'location.location_id', 'location_tasks.location_id')
+          .join('location', 'location.location_iwd', 'location_tasks.location_id')
           .join('userFarm', 'userFarm.farm_id', '=', 'location.farm_id')
           .where('userFarm.farm_id', farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);

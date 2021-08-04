@@ -5,7 +5,6 @@ import MainDocumentView from '../../../components/Documents/Main';
 import { documentSelector } from '../../documentSlice';
 import ArchiveDocumentModal from '../../../components/Modals/ArchiveDocumentModal';
 import { archiveDocument } from '../saga';
-import TaskQuickAssignModal from '../../../components/Task/QuickAssign';
 
 export default function MainDocument({ history, match }) {
   const { document_id } = match.params;
@@ -34,13 +33,9 @@ export default function MainDocument({ history, match }) {
         document={document}
       />
       {showArchiveModal && (
-        // TODO - For testing only
-        // <ArchiveDocumentModal
-        //   dismissModal={() => setShowArchiveModal(false)}
-        //   onArchive={onRetire}
-        // />
-        <TaskQuickAssignModal
+        <ArchiveDocumentModal
           dismissModal={() => setShowArchiveModal(false)}
+          onArchive={onRetire}
         />
       )}
     </>

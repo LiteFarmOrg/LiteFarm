@@ -40,7 +40,7 @@ class TaskModel extends BaseModel {
         notes: { type: 'string' },
         completion_notes: { type: 'string' },
         owner_user_id: { type: 'string' },
-        assignee_user_id: { type: 'string' },
+        assignee_user_id: { type: ['string', null] },
         coordinates: { type: 'object' },
         duration: { type: 'number' },
         wage_at_moment: { type: 'number' },

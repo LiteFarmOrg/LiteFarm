@@ -871,6 +871,7 @@
     "CONTAINER_TYPE": "Tipo de recipiente",
     "COVER_INFO": "A seleção da cultura de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
+    "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
     "DAYS_TO_HARVEST": "MISSING",
     "DAYS_TO_TERMINATION": "MISSING",
@@ -909,6 +910,8 @@
     "PLANTING": "MISSING",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DATE_LABEL": "MISSING",
+    "PLANTING_DATE_MAX_ERROR": "MISSING",
+    "PLANTING_DATE_MIN_ERROR": "MISSING",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
@@ -1288,8 +1291,13 @@
     "PREVIOUS_TEXT": "Anterior",
     "ROWS_TEXT": "linhas"
   },
+  "TASK": {
+    "ADD_TASK_FLOW": "MISSING",
+    "SELECT_DATE": "MISSING"
+  },
   "UNIT": {
     "TIME": {
+      "DAY": "MISSING",
       "MONTH": "MISSING",
       "WEEK": "MISSING",
       "YEAR": "MISSING"
@@ -1313,9 +1321,5 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY_BEDS": "MISSING",
     "TOOLTIP": "MISSING"
-  },
-  "TASK": {
-    "SELECT_DATE": "MISSING",
-    "ADD_TASK_FLOW": "MISSING"
   }
 }

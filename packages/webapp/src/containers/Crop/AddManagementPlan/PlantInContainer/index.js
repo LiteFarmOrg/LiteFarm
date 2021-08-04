@@ -8,7 +8,7 @@ export default function PlantInContainer({ history, match }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietyByID(match.params.variety_id));
   const isInitialPlantingManagementPlan =
-    match?.path === '/crop/:variety_id/add_management_plan/transplant_container';
+    match?.path === '/crop/:variety_id/add_management_plan/initial_container_method_method';
 
   return (
     <HookFormPersistProvider>

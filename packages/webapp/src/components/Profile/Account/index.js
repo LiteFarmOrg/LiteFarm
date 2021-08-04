@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
-import { getLanguageFromLocalStorage } from '../../../util';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 export default function PureAccount({ userFarm, onSubmit }) {
   const getDefaultValues = () => {

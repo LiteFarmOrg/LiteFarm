@@ -67,7 +67,7 @@ function PureBroadcastPlan({
   const areaUsed = watch(AREA_USED);
   const areaUsedUnit = watch(AREA_USED_UNIT);
 
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues, persistedPaths);
 
   const getErrorMessage = (error, min, max) => {
     if (error?.type === 'required') return t('common:REQUIRED');

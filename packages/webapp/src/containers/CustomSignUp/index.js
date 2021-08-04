@@ -18,7 +18,8 @@ import {
   ENTER_PASSWORD_PAGE,
   inlineErrors,
 } from './constants';
-import { getLanguageFromLocalStorage, isChrome } from '../../util';
+import { isChrome } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));

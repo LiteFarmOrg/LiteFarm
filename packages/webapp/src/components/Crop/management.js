@@ -5,7 +5,7 @@ import React from 'react';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
-function PureCropManagement({ history, match, onBack, variety }) {
+function PureCropManagement({ history, match, onBack, variety, onAddManagementPlan }) {
   const { t } = useTranslation();
   return (
     <Layout>
@@ -26,14 +26,7 @@ function PureCropManagement({ history, match, onBack, variety }) {
         ]}
       />
       <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
-      <AddLink
-        onClick={() => {
-          history.push(`/crop/${match.params.variety_id}/add_management_plan/planted_already`);
-        }}
-      >
-        {' '}
-        {t('CROP_DETAIL.ADD_PLAN')}
-      </AddLink>
+      <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>
     </Layout>
   );
 }

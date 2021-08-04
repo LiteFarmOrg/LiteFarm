@@ -74,10 +74,10 @@ export default function PureInGroundTransplant({
 
   const submitPath = knows_how
     ? `/crop/${variety_id}/add_management_plan/historical_${planting_type?.toLowerCase()}`
-    : `/crop/${variety_id}/add_management_plan/choose_transplant_location`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_planting_location`;
+    : `/crop/${variety_id}/add_management_plan/choose_final_planting_location`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_initial_planting_location`;
 
-  useHookFormPersist([goBackPath, submitPath], getValues);
+  useHookFormPersist(getValues);
 
   const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});
   const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });

@@ -4,12 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
-import {
-  expenseDetailDateSelector,
-  expenseSelector,
-  expenseToDetailSelector,
-  expenseTypeSelector,
-} from '../selectors';
+import { expenseSelector, expenseToDetailSelector, expenseTypeSelector } from '../selectors';
 import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -18,7 +13,7 @@ import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
-import { getLanguageFromLocalStorage } from '../../../util';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 class ExpenseDetail extends Component {
   constructor(props) {

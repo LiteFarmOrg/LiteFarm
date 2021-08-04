@@ -1,11 +1,9 @@
 import Input, { integerOnKeyDown } from '../Input';
 import { Semibold } from '../../Typography';
 import styles from './styles.module.scss';
-import moment from 'moment';
 import { useEffect, useMemo } from 'react';
-import { getLanguageFromLocalStorage } from '../../../util';
 import PropTypes from 'prop-types';
-import { getDateInputFormat } from '../../LocationDetailLayout/utils';
+import { addDaysToDate, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 
 export default function InputDuration({
   label,
@@ -23,10 +21,9 @@ export default function InputDuration({
   const duration = hookFormWatch(hookFormRegister?.name);
   const date = useMemo(() => {
     const maxDuration = max || 999;
-    return moment(startDate)
-      .add(duration > maxDuration ? maxDuration : duration, 'days')
-      .locale(getLanguageFromLocalStorage())
-      .format('MMMM DD, YYYY');
+    return getLocalizedDateString(
+      addDaysToDate(startDate, duration > maxDuration ? maxDuration : duration),
+    );
   }, [duration, startDate]);
   useEffect(() => {
     hookFormSetValue &&
@@ -34,6 +31,7 @@ export default function InputDuration({
       date &&
       hookFormSetValue(dateName, duration ? getDateInputFormat(date) : null);
   }, [date, duration]);
+
   return (
     <div style={style} className={styles.container}>
       <Input

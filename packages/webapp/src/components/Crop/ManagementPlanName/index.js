@@ -22,12 +22,14 @@ export default function PureManagementPlanName({
   const variety_id = match?.params?.variety_id;
   const goBackPaths = {
     rows: 'row_guidance',
-    bed_plan: 'beds_guidance',
-    container: 'container',
-    broadcast: 'broadcast'
+    bed_plan: 'bed_guidance',
+    container: 'container_method',
+    broadcast: 'broadcast_method',
   };
 
-  const goBackPath = `/crop/${variety_id}/add_management_plan/${goBackPaths[persistedFormData?.planting_type?.toLowerCase()]}`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/${
+    goBackPaths[persistedFormData?.planting_type?.toLowerCase()]
+  }`;
   const NAME = 'name';
   const NOTES = 'notes';
 
@@ -45,7 +47,7 @@ export default function PureManagementPlanName({
       ...cloneObject(persistedFormData),
     },
   });
-  useHookFormPersist([goBackPath], getValues);
+  useHookFormPersist(getValues);
   const onGoBack = () => {
     history?.push(goBackPath);
   };

@@ -117,9 +117,4 @@ export const isChrome = () => {
   return isChrome;
 };
 
-export const getLanguageFromLocalStorage = () => {
-  const selectedLanguage = localStorage.getItem('litefarm_lang');
-  return selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
-};
-
 export const cloneObject = (obj) => JSON.parse(JSON.stringify(obj));

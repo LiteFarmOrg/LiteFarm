@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { getDateInputFormat } from '../components/LocationDetailLayout/utils';
 import { VALID_ON } from './Filter/constants';
+import { getDateInputFormat } from '../util/moment';
 
 const initialCropCatalogueFilter = {
   STATUS: {},

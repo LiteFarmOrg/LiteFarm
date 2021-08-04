@@ -96,7 +96,7 @@ function PureDocumentDetailView({
 
   const {
     persistedData: { uploadedFiles },
-  } = useHookFormPersist(persistedPath, getValues);
+  } = useHookFormPersist(getValues, persistedPath);
   const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
   const onFileUpdateEnd = () => {
     setIsFilesUpdated(true);

@@ -1,5 +1,5 @@
 import React from 'react';
-import PureNextHarvest from '../../../components/Crop/NextHarvest';
+import PureNextHarvest from '../../../components/Crop/PlantingDate/NextHarvest';
 import decorators from '../config/decorators';
 
 export default {
@@ -12,10 +12,10 @@ const Template = (args) => <PureNextHarvest {...args} />;
 
 export const Management = Template.bind({});
 Management.args = {
-  onGoBack: () => { },
-  onContinue: () => { },
-  onCancel: () => { },
-  useHookFormPersist: () => { },
+  onGoBack: () => {},
+  onContinue: () => {},
+  onCancel: () => {},
+  useHookFormPersist: () => {},
   persistedFormData: {},
   system: 'metric',
 };

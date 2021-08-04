@@ -10,7 +10,7 @@ export default function RowMethod({ history, match }) {
   const variety = useSelector(cropVarietySelector(variety_id));
 
   const continuePath = `/crop/${variety_id}/add_management_plan/row_guidance`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/planting_method`;
+  const goBackPath = `/crop/${variety_id}/add_management_plan/final_planting_method`;
 
   const persistPath = [goBackPath, continuePath];
 
@@ -24,7 +24,7 @@ export default function RowMethod({ history, match }) {
 
   const onContinue = () => {
     history.push(continuePath);
-  }
+  };
 
   return (
     <HookFormPersistProvider>

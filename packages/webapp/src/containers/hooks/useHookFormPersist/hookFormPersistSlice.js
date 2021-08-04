@@ -2,15 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
 import { getUnitOptionMap } from '../../../components/Form/Unit';
 import { cloneObject } from '../../../util';
+import { createSelector } from 'reselect';
 
 export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
+  persistedPaths: [],
 };
 
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
+  persistedPaths: [],
 };
 
 const getCorrectedPayload = (payload) => {
@@ -59,6 +62,9 @@ const hookFormPersistSlice = createSlice({
       state.shouldUpdateFormData = true;
       state.formData = payload;
     },
+    setPersistedPaths: (state, { payload: persistedPaths }) => {
+      state.persistedPaths = persistedPaths;
+    },
     //Prevent useHookPersistUnMount from updating formData after reset
     resetAndLockFormData: (state) => resetState,
     resetAndUnLockFormData: (state) => initialState,
@@ -93,20 +99,20 @@ const hookFormPersistSlice = createSlice({
       ];
       state.formData = formData;
     },
-    setPlantingLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
+    setFinalLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
       !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
       !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.planting_management_plans = {});
+        (state.formData.crop_management_plan.planting_management_plans = {});
       !state.formData.crop_management_plan.planting_management_plans.final &&
-        (state.formData.planting_management_plans.final = {});
+        (state.formData.crop_management_plan.planting_management_plans.final = {});
       state.formData.crop_management_plan.planting_management_plans.final.location_id = location_id;
     },
-    setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
+    setInitialLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
       !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
       !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.planting_management_plans = {});
+        (state.formData.crop_management_plan.planting_management_plans = {});
       !state.formData.crop_management_plan.planting_management_plans.initial &&
-        (state.formData.planting_management_plans.initial = {});
+        (state.formData.crop_management_plan.planting_management_plans.initial = {});
       state.formData.crop_management_plan.planting_management_plans.initial.location_id = location_id;
       state?.formData?.farm?.default_initial_location_id &&
         (state.formData.farm.default_initial_location_id = location_id);
@@ -114,9 +120,9 @@ const hookFormPersistSlice = createSlice({
     setWildCropLocation: (state, { payload }) => {
       !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
       !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.planting_management_plans = {});
+        (state.formData.crop_management_plan.planting_management_plans = {});
       !state.formData.crop_management_plan.planting_management_plans.final &&
-        (state.formData.planting_management_plans.final = {});
+        (state.formData.crop_management_plan.planting_management_plans.final = {});
       state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate = payload;
     },
     resetWildCropLocation: (state) => {
@@ -152,14 +158,15 @@ const hookFormPersistSlice = createSlice({
 export const {
   upsertFormData,
   setFormData,
+  setPersistedPaths,
   resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
   setAreaDetailFormData,
   setLineDetailFormData,
   setPointDetailFormData,
-  setPlantingLocationIdManagementPlanFormData,
-  setTransplantContainerLocationIdManagementPlanFormData,
+  setFinalLocationIdManagementPlanFormData,
+  setInitialLocationIdManagementPlanFormData,
   setWildCropLocation,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
@@ -171,5 +178,11 @@ export const {
   resetWildCropLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
+const hookFormPersistReducerSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name];
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
+export const hookFormPersistedPathsSetSelector = createSelector(
+  [hookFormPersistReducerSelector],
+  (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),
+);

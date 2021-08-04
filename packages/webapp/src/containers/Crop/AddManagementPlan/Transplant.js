@@ -7,14 +7,12 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function TransplantForm({ history, match }) {
   const variety_id = match.params.variety_id;
 
-  const variety = useSelector(cropVarietySelector(variety_id));
-
-  const isCoverCrop = variety.can_be_cover_crop;
+  const { can_be_cover_crop } = useSelector(cropVarietySelector(variety_id));
 
   return (
     <HookFormPersistProvider>
       <PureTransplant
-        isCoverCrop={isCoverCrop}
+        can_be_cover_crop={can_be_cover_crop}
         onGoBack={() => {
           history.push(`/crop/${variety_id}/add_management_plan/planted_already`);
         }}

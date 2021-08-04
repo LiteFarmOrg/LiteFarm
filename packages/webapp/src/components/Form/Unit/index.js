@@ -6,7 +6,7 @@ import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../locales/i18n';
-import { numberOnKeyDown, preventNumberScrolling } from '../Input';
+import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
@@ -35,6 +35,7 @@ export const getUnitOptionMap = () => ({
   oz: { label: 'oz', value: 'oz' },
   lb: { label: 'lb', value: 'lb' },
   t: { label: 't', value: 't' },
+  d: { label: i18n.t('UNIT.TIME.DAY'), value: 'd' },
   year: { label: i18n.t('UNIT.TIME.YEAR'), value: 'year' },
   week: { label: i18n.t('UNIT.TIME.WEEK'), value: 'week' },
   month: { label: i18n.t('UNIT.TIME.MONTH'), value: 'month' },
@@ -42,6 +43,14 @@ export const getUnitOptionMap = () => ({
 
 const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
+};
+const getOnKeyDown = (measure) => {
+  switch (measure) {
+    case 'time':
+      return integerOnKeyDown;
+    default:
+      return numberOnKeyDown;
+  }
 };
 
 const DEFAULT_REACT_SELECT_WIDTH = 61;
@@ -181,7 +190,7 @@ const Unit = ({
 
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
   useEffect(() => {
-    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system) {
+    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }
   }, [hookFormUnit]);
@@ -297,7 +306,7 @@ const Unit = ({
           type={'number'}
           value={visibleInputValue}
           size={1}
-          onKeyDown={numberOnKeyDown}
+          onKeyDown={getOnKeyDown(measure)}
           onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}

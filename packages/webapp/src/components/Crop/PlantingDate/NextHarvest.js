@@ -13,13 +13,11 @@ import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
 
 export default function PureNextHarvest({
-  onCancel,
-  onGoBack,
-  onContinue,
   system,
   persistedFormData,
   useHookFormPersist,
-  variety,
+  variety_id,
+  history,
 }) {
   const { t } = useTranslation();
 
@@ -45,13 +43,20 @@ export default function PureNextHarvest({
   const ESTIMATED_YIELD_UNIT =
     'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
-  const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
-  const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;
+  const onCancel = () => {
+    history.push(`/crop/${variety_id}/management`);
+  };
+  const onGoBack = () => {
+    history.push(`/crop/${variety_id}/add_management_plan/needs_transplant`);
+  };
+  const onContinue = () => {
+    history.push(`/crop/${variety_id}/add_management_plan/choose_initial_planting_location`);
+  };
 
   const today = new Date();
   const todayStr = today.toISOString().substring(0, 10);
 
-  useHookFormPersist([submitPath, goBackPath], getValues);
+  useHookFormPersist(getValues);
 
   return (
     <Form
@@ -116,5 +121,5 @@ PureNextHarvest.prototype = {
   system: PropTypes.string,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  variety: PropTypes.string,
+  variety_id: PropTypes.string,
 };

@@ -40,7 +40,7 @@ export default function PureRowMethod({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist(persistPath, getValues);
+  useHookFormPersist(getValues);
 
   const progress = 75;
 

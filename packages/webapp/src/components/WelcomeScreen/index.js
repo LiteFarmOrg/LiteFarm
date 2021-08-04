@@ -6,7 +6,7 @@ import { ReactComponent as SignupPortuguese } from '../../assets/images/signUp/s
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { getLanguageFromLocalStorage } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function PureWelcomeScreen({ onClick }) {
   const { t } = useTranslation();

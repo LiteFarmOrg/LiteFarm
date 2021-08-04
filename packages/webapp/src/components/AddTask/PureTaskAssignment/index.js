@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import { PureSnackbar } from '../../PureSnackbar';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { useForm, Controller } from 'react-hook-form';
-import { Main, Label } from '../../Typography';
+import { Controller, useForm } from 'react-hook-form';
+import { Label, Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
@@ -42,7 +40,7 @@ const PureTaskAssignment = ({
     },
   });
 
-  useHookFormPersist(persistPaths, getValues);
+  useHookFormPersist(getValues, persistPaths);
 
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const override = watch(OVERRIDE_HOURLY_WAGE);

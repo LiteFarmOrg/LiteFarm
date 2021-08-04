@@ -30,10 +30,10 @@ export default function PurePlantInContainer({
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
   const submitPath = `/crop/${variety_id}/add_management_plan/${
-    isInitialPlantingManagementPlan ? 'choose_transplant_location' : 'name'
+    isInitialPlantingManagementPlan ? 'choose_final_planting_location' : 'name'
   }`;
   const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isInitialPlantingManagementPlan ? 'choose_planting_location' : 'planting_method'
+    isInitialPlantingManagementPlan ? 'choose_initial_planting_location' : 'planting_method'
   }`;
 
   const IN_GROUND = `${prefix}.container_method.in_ground`;
@@ -65,7 +65,7 @@ export default function PurePlantInContainer({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
-  useHookFormPersist([submitPath, goBackPath], getValues);
+  useHookFormPersist(getValues);
   const onSubmit = () => {
     history?.push(submitPath);
   };

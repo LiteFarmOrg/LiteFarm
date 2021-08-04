@@ -66,7 +66,7 @@ function PurePlanGuidance({
 
   const SPECIFY_LIMIT = 40;
 
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues, persistedPaths);
 
   return (
     <Form

@@ -871,6 +871,7 @@
     "CONTAINER_TYPE": "Tipo de maceta",
     "COVER_INFO": "La selección de un cultivo de cobertura creará una tarea de trabajo de campo para terminar el cultivo de cobertura al final de la temporada. En su lugar, seleccionar para la cosecha creará una tarea de cosecha.",
     "COVER_OR_HARVEST": "¿Se está cultivando como cultivo de cobertura o para la cosecha?",
+    "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "MISSING",
     "DAYS_TO_TERMINATION": "MISSING",
@@ -909,6 +910,8 @@
     "PLANTING": "MISSING",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
     "PLANTING_DATE_LABEL": "MISSING",
+    "PLANTING_DATE_MAX_ERROR": "MISSING",
+    "PLANTING_DATE_MIN_ERROR": "MISSING",
     "PLANTING_DEPTH": "Profundidad de siembra",
     "PLANTING_METHOD": "¿Cuál es tu método de plantación?",
     "PLANTING_METHOD_TOOLTIP": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
@@ -1288,8 +1291,13 @@
     "PREVIOUS_TEXT": "Previa",
     "ROWS_TEXT": "filas"
   },
+  "TASK": {
+    "ADD_TASK_FLOW": "MISSING",
+    "SELECT_DATE": "MISSING"
+  },
   "UNIT": {
     "TIME": {
+      "DAY": "MISSING",
       "MONTH": "MISSING",
       "WEEK": "MISSING",
       "YEAR": "MISSING"
@@ -1305,9 +1313,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
-  },
-  "TASK": {
-    "SELECT_DATE": "MISSING",
-    "ADD_TASK_FLOW": "MISSING"
   }
 }

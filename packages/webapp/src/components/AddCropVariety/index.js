@@ -41,7 +41,7 @@ export default function PureAddCropVariety({
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`, '/crop/new'];
 
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
 
   const VARIETY = 'crop_variety_name';
   const SUPPLIER = 'supplier';

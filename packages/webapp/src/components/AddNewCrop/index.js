@@ -51,7 +51,7 @@ export default function PureAddNewCrop({
     defaultValues: { ...persistedFormData },
   });
   const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [

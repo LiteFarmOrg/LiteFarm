@@ -12,7 +12,7 @@ import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import spanishOwnerConsent from './locales/es/Owner.Consent.md';
 import spanishWorkerConsent from './locales/es/Worker.Consent.md';
-import { getLanguageFromLocalStorage } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const languageConsent = {
   en: { worker: englishWorkerConsent, owner: englishOwnerConsent },

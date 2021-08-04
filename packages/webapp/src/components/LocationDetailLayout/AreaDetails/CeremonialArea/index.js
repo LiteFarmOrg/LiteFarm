@@ -42,7 +42,7 @@ export default function PureCeremonialArea({
   });
   const {
     persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;

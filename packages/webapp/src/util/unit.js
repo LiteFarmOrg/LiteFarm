@@ -1,4 +1,5 @@
 import convert from 'convert-units';
+import { getUnitOptionMap } from '../components/Form/Unit';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';
@@ -8,7 +9,7 @@ const databaseUnit = {
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
-  time: 'week',
+  time: 'd',
 };
 
 export const area_total_area = {
@@ -125,14 +126,14 @@ export const container_plant_spacing = {
 
 export const crop_age = {
   metric: {
-    units: ['week', 'month', 'year'],
+    units: ['d', 'week', 'month', 'year'],
     defaultUnit: 'week',
-    breakpoints: [4.28, 52.14],
+    breakpoints: [7, 30, 365],
   },
   imperial: {
-    units: ['week', 'month', 'year'],
+    units: ['d', 'week', 'month', 'year'],
     defaultUnit: 'week',
-    breakpoints: [4.28, 52.14],
+    breakpoints: [7, 30, 365],
   },
   databaseUnit: databaseUnit.time,
 };
@@ -254,3 +255,10 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
 };
 
 export const roundToTwoDecimal = (number) => Math.round(number * 100) / 100;
+
+export const getDurationInDaysDefaultUnit = (days) => {
+  if (days % 365 === 0 && days > 365) return getUnitOptionMap()['year'];
+  if (days % 30 === 0 && days > 30) return getUnitOptionMap()['month'];
+  if (days % 7 === 0 && days > 7) return getUnitOptionMap()['week'];
+  return getUnitOptionMap()['d'];
+};

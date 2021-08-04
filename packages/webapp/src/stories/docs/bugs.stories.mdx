@@ -129,3 +129,24 @@ export default [
 ```js
 import { IoLogoAndroid } from "react-icons/io5"
 ```
+
+### Hookform controlled component with shouldUnregister:false is not validated properly onMount
+
+###### Walk around: force validation when component is mounted
+
+```js
+ function RadioGroup({hookFormControl, name}){
+    const validate = (value) => (required ? value !== undefined && value !== null : true);
+    const { field } = useController({
+    name,
+    control: hookFormControl,
+    rules: { validate },
+    shouldUnregister: false,
+  });
+  //TODO: create issue on HookForm
+  useEffect(()=>{
+    field.onChange(field.value);
+  },[]);
+ }
+```
+

@@ -10,7 +10,6 @@ import PureDocumentTileContainer from './DocumentTile/DocumentTileContainer';
 import useDocumentTileGap from './DocumentTile/useDocumentTileGap';
 import { getDocuments } from '../saga';
 import { expiredDocumentSelector, validDocumentSelector } from '../documentSlice';
-import { getLanguageFromLocalStorage } from '../../util';
 import { useFilterDocuments, useSortByName, useStringFilteredDocuments } from './util';
 import moment from 'moment';
 import DocumentsSpotlight from './DocumentsSpotlight';
@@ -19,6 +18,7 @@ import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import DocumentsFilterPage from '../Filter/Documents';
 import { documentsFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {
   hookFormPersistSelector,
   setDefaultInitialLocation,
-  setPlantingLocationIdManagementPlanFormData,
-  setTransplantContainerLocationIdManagementPlanFormData,
+  setFinalLocationIdManagementPlanFormData,
+  setInitialLocationIdManagementPlanFormData,
   setWildCropLocation,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
@@ -12,14 +12,14 @@ import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import TransplantSpotlight from './TransplantSpotlight';
 
 export default function PlantingLocation({ history, match }) {
-  const isTransplantPage =
-    match?.path === '/crop/:variety_id/add_management_plan/choose_transplant_location';
+  const isFinalLocationPage =
+    match?.path === '/crop/:variety_id/add_management_plan/choose_final_planting_location';
   const persistedFormData = useSelector(hookFormPersistSelector);
 
   const [selectedLocationId, setLocationId] = useState(
-    isTransplantPage
-      ? persistedFormData?.crop_management_plan?.planting_management_plans?.initial?.location_id
-      : persistedFormData?.crop_management_plan?.planting_management_plans?.final?.location_id,
+    isFinalLocationPage
+      ? persistedFormData?.crop_management_plan?.planting_management_plans?.final?.location_id
+      : persistedFormData?.crop_management_plan?.planting_management_plans?.initial?.location_id,
   );
   const [pinLocation, setPinLocation] = useState(
     persistedFormData?.crop_management_plan?.planting_management_plans?.final?.pin_coordinate,
@@ -30,68 +30,48 @@ export default function PlantingLocation({ history, match }) {
   const isInGround = Boolean(persistedFormData?.crop_management_plan.already_in_ground);
   const isTransplant = Boolean(persistedFormData?.crop_management_plan.needs_transplant);
 
-  const persistedPath = isTransplantPage
-    ? [
-        `/crop/${variety_id}/add_management_plan/transplant_container`,
-        `/crop/${variety_id}/add_management_plan/planting_method`,
-      ]
-    : [
-        `/crop/${variety_id}/add_management_plan/transplant_container`,
-        `/crop/${variety_id}/add_management_plan/planting_method`,
-        `/crop/${variety_id}/add_management_plan/planting_date`,
-      ];
-
-  if (isWildCrop && !isTransplantPage) {
-    persistedPath.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
-  }
-
-  if (isTransplant && isInGround) {
-    persistedPath.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
-  }
-
   const dispatch = useDispatch();
   //TODO: remove [selectedLocationId, setLocationId] and use state from persistedHookForm instead
   const onContinue = (data) => {
-    if (isTransplantPage) {
-      dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+    if (!isFinalLocationPage) {
+      dispatch(setInitialLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/final_planting_method`);
     } else if (isWildCrop && !isTransplant) {
       pinLocation
         ? setWildCropLocation(pinLocation)
-        : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+        : dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
+      dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
       history.push(`/crop/${variety_id}/add_management_plan/name`);
     } else if (isWildCrop && isTransplant) {
       pinLocation
         ? setWildCropLocation(pinLocation)
-        : dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/choose_transplant_location`);
+        : dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
+      dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/choose_final_planting_location`);
     } else if (isInGround && isTransplant) {
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+      dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/initial_planting_method`);
     } else {
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
-      history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
+      dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
+      history.push(`/crop/${variety_id}/add_management_plan/final_planting_method`);
     }
   };
 
   const onGoBack = () => {
-    if (isTransplantPage) {
-      console.log(isInGround);
+    if (!isFinalLocationPage) {
       if (isInGround) {
-        dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/inground_transplant_method`);
+        dispatch(setInitialLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/initial_planting_method`);
       } else {
-        dispatch(setTransplantContainerLocationIdManagementPlanFormData(selectedLocationId));
-        history.push(`/crop/${variety_id}/add_management_plan/transplant_container`);
+        dispatch(setInitialLocationIdManagementPlanFormData(selectedLocationId));
+        history.push(`/crop/${variety_id}/add_management_plan/initial_container_method`);
       }
     } else {
-      dispatch(setPlantingLocationIdManagementPlanFormData(selectedLocationId));
+      dispatch(setFinalLocationIdManagementPlanFormData(selectedLocationId));
       if (isWildCrop) {
         history.push(`/crop/${variety_id}/add_management_plan/next_harvest`);
       } else {
-        history.push(`/crop/${variety_id}/add_management_plan/planting_date`);
+        history.push(`/crop/${variety_id}/add_management_plan/plant_date`);
       }
     }
   };
@@ -100,7 +80,7 @@ export default function PlantingLocation({ history, match }) {
     history.push(`/crop/${variety_id}/management`);
   };
 
-  const progress = isTransplantPage ? 50 : 37.5;
+  const progress = isFinalLocationPage ? 50 : 37.5;
 
   const {
     crop_management_plan: { needs_transplant, is_seed, already_in_ground },
@@ -114,7 +94,7 @@ export default function PlantingLocation({ history, match }) {
     }
   };
 
-  useHookFormPersist(persistedPath, () => ({}));
+  useHookFormPersist(() => ({}));
 
   return (
     <>
@@ -126,7 +106,7 @@ export default function PlantingLocation({ history, match }) {
         setLocationId={setLocationId}
         useHookFormPersist={useHookFormPersist}
         persistedFormData={persistedFormData}
-        transplant={isTransplantPage}
+        transplant={isFinalLocationPage}
         progress={progress}
         setPinLocation={setPinLocation}
         pinLocation={pinLocation}

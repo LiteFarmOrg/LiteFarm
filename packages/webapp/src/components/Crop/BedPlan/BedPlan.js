@@ -23,7 +23,6 @@ function PureBedPlan({
   crop_variety,
   useHookFormPersist,
   persistedFormData,
-  persistedPaths,
   isInitialPlantingManagementPlan,
 }) {
   const { t } = useTranslation();
@@ -41,7 +40,7 @@ function PureBedPlan({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues);
   //TODO: getPrefix()
   const prefix = `crop_management_plan.planting_management_plans.${
     isInitialPlantingManagementPlan ? 'initial' : 'final'

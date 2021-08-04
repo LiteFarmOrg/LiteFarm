@@ -38,6 +38,13 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function getTasksRequest({user_id, farm_id}, callback) {
+    chai.request(server).get(`/task/${farm_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -179,6 +186,44 @@ describe('Task tests', () => {
       });
     });
 
+    describe('GET tasks', () => {
+
+      test('should get all tasks for a farm ', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        const tasks = await Promise.all([...Array(10)].map(async () => {
+          const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }]});
+          const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }]});
+          const [{ management_plan_id }] = await mocks.management_planFactory({ promisedFarm: [{ farm_id }], promisedLocation: [{location_id}] });
+          const [{ task_id }] = await mocks.taskFactory({promisedUser: [{ user_id }], promisedTaskType: [{task_type_id}]});
+          await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }]});
+          await mocks.management_tasksFactory({ promisedTask: [{ task_id }], promisedManagementPlan: [{ management_plan_id }]});
+        }));
+        getTasksRequest({farm_id, user_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(10);
+          done();
+        })
+      })
+
+      test('should get all tasks that are related to a farm, but not from different farms of that user', async (done) => {
+        const [firstUserFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        const [secondUserFarmWithSameUser] = await mocks.userFarmFactory({ promisedUser: [{ user_id: firstUserFarm.user_id }]}, fakeUserFarm(1));
+        await Promise.all([...Array(20)].map(async (_, i) => {
+          const innerFarmId = i > 9 ? firstUserFarm.farm_id : secondUserFarmWithSameUser.farm_id;
+          const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id: innerFarmId }]});
+          const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id: innerFarmId }]});
+          const [{ management_plan_id }] = await mocks.management_planFactory({ promisedFarm: [{ farm_id: innerFarmId }], promisedLocation: [{location_id}] });
+          const [{ task_id }] = await mocks.taskFactory({promisedUser: [{ user_id: firstUserFarm.user_id }], promisedTaskType: [{task_type_id}]});
+          await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }]});
+          await mocks.management_tasksFactory({ promisedTask: [{ task_id }], promisedManagementPlan: [{ management_plan_id }]});
+        }));
+        getTasksRequest({farm_id: firstUserFarm.farm_id, user_id: firstUserFarm.user_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(10);
+          done();
+        })
+      });
+    });
   })
 });
 

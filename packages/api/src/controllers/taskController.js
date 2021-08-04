@@ -47,8 +47,31 @@ const taskController = {
         return res.status(400).send({ error });
       }
     }
-  }
+  },
 
+  getTasksByFarmId() {
+    return async (req, res, next) => {
+      const { farm_id } = req.params;
+      try {
+        const tasks = await TaskModel.query().select('task.task_id').whereNotDeleted()
+          .distinct('task.task_id')
+          .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+          .join('location', 'location.location_id', 'location_tasks.location_id')
+          .join('userFarm', 'userFarm.farm_id', '=', 'location.farm_id')
+          .where('userFarm.farm_id', farm_id);
+        const taskIds = tasks.map(({ task_id }) => task_id);
+        const graphTasks = await TaskModel.query().withGraphFetched(`
+          [locations, managementPlans]
+        `).whereIn('task_id', taskIds);
+        if(graphTasks) {
+          res.status(200).send(graphTasks);
+        }
+      } catch(error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  },
 }
 
 function getNonModifiable(asset) {

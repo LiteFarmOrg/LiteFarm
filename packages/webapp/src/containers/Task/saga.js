@@ -55,13 +55,11 @@ export function* getTasksSaga() {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    console.log('GET TASKS');
     const result = yield call(
       axios.get,
       `${taskUrl}/${farm_id}`,
       header
     );
-    console.log(result);
     yield put(getTasksSuccess(result.data))
   } catch (e) {
     console.log(e);

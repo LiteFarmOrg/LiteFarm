@@ -27,18 +27,6 @@ export const getTask = (obj) => {
   ]);
 };
 
-// const addOneManagementPlan = (state, { payload }) => {
-//   state.loading = false;
-//   state.error = null;
-//   managementPlanAdapter.upsertOne(state, getManagementPlan(payload));
-// };
-//
-// const updateOneManagementPlan = (state, { payload }) => {
-//   state.loading = false;
-//   state.error = null;
-//   managementPlanAdapter.upsertOne(state, getManagementPlan(payload));
-// };
-//
 const addManyTasks = (state, { payload: tasks }) => {
   console.log(tasks);
   state.loading = false;

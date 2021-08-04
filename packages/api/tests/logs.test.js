@@ -146,7 +146,7 @@ xdescribe('Log Tests', () => {
 
     describe('FertilizerLog tests', () => {
       let fertilizerLog;
-      let activityLog;
+      let task;
       let activityCropLog;
       let activityFieldLog;
       let crop;
@@ -164,20 +164,19 @@ xdescribe('Log Tests', () => {
           promisedCropVariety: [cropVariety],
           promisedField: [field],
         });
-        [activityLog] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
-          ...mocks.fakeActivityLog(),
-          activity_kind: 'fertilizing',
+        [task] = await mocks.taskFactory({ promisedUser: [owner] }, {
+          ...mocks.fakeTask(),
         });
-        [fertilizerLog] = await mocks.fertilizerLogFactory({
-          promisedActivityLog: [activityLog],
+        [fertilizerLog] = await mocks.fertilizer_taskFactory({
+          promisedTask: [task],
           promisedFertilizer: [fertilizer],
         });
-        [activityCropLog] = await mocks.activityCropsFactory({
-          promisedActivityLog: [activityLog],
+        [activityCropLog] = await mocks.management_tasksFactory({
+          promisedTask: [task],
           promisedManagementPlan: [managementPlan],
         });
-        [activityFieldLog] = await mocks.activityFieldsFactory({
-          promisedActivityLog: [activityLog],
+        [activityFieldLog] = await mocks.location_tasksFactory({
+          promisedTask: [task],
           promisedField: [field],
         });
       });

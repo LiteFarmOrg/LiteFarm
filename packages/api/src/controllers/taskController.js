@@ -30,9 +30,9 @@ const taskController = {
         if (!adminRoles.includes(req.role) && user_id !== assignee_user_id) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
-        const result = await TaskModel.query().context(req.user).patch({assignee_user_id: assignee_user_id})
-        .where('due_date', date)
-        .where('assignee_user_id', null);
+        const result = await TaskModel.query().context(req.user).patch({ assignee_user_id: assignee_user_id })
+          .where('due_date', date)
+          .where('assignee_user_id', null);
         return result ? res.sendStatus(200) : res.status(404).send('Tasks not found');
       } catch (error) {
         return res.status(400).json({ error });
@@ -49,10 +49,15 @@ const taskController = {
         // after the validation middleware.
         const result = await TaskModel.transaction(async trx =>
           await TaskModel.query(trx).context({ user_id: req.user.user_id })
-            .upsertGraph(req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable, relate: ['locations', 'managementPlans'] })
+            .upsertGraph(req.body, {
+              noUpdate: true,
+              noDelete: true,
+              noInsert: nonModifiable,
+              relate: ['locations', 'managementPlans']
+            }),
         );
         return res.status(200).send(result);
-      } catch(error) {
+      } catch (error) {
         console.log(error);
         return res.status(400).send({ error });
       }
@@ -73,10 +78,10 @@ const taskController = {
         const graphTasks = await TaskModel.query().withGraphFetched(`
           [locations, managementPlans]
         `).whereIn('task_id', taskIds);
-        if(graphTasks) {
+        if (graphTasks) {
           res.status(200).send(graphTasks);
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
         return res.status(400).send({ error });
 
@@ -87,7 +92,7 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
-  return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
 }
 
 

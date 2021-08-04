@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import { PureSnackbar } from '../../PureSnackbar';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { useForm, Controller } from 'react-hook-form';
@@ -23,6 +21,7 @@ const PureTaskAssignment = ({
   currencySymbol,
   useHookFormPersist,
   persistPaths,
+  persistedFormData,
 }) => {
   const { t } = useTranslation();
   const {

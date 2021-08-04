@@ -57,7 +57,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
   return (
     <ModalComponent
       dismissModal={dismissModal}
-      title={t('TASK.ASSIGN_TASK')}
+      title={t('ADD_TASK.ASSIGN_TASK')}
       buttonGroup={
         <>
           <Button onClick={dismissModal} className={styles.button} color="secondary" sm>
@@ -73,14 +73,14 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
     >
       <ReactSelect
         defaultValue={ isAssigned ? workerOptions[0] : self}
-        label={t('TASK.ASSIGNEE')}
+        label={t('ADD_TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}
         style={{ marginBottom: '24px' }}
         isSearchable
       />
       <Checkbox
-        label={t('TASK.ASSIGN_ALL_TO_PERSON')}
+        label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
         onChange={() => setAssignAll(!assignAll)}
       />
     </ModalComponent>

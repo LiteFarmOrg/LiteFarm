@@ -26,8 +26,7 @@ describe('Task tests', () => {
     chai.request(server).patch(`/task/assign/${task_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .set('assignee_user_id', assignee_user_id)
-      .set('is_admin', is_admin)
+      .send(data)
       .end(callback);
   }
 

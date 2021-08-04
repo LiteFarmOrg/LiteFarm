@@ -1,7 +1,7 @@
 const TaskModel = require('../models/taskModel');
 
 const { typesOfTask } = require('./../middleware/validation/task')
-const adminRoles = [1,2,5];
+const adminRoles = [1, 2, 5];
 
 const taskController = {
 
@@ -14,9 +14,7 @@ const taskController = {
         if (!adminRoles.includes(req.role) && user_id !== assignee_user_id) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
-        const result = await TaskModel.query().context(req.user).findById(task_id).patch(
-          {assignee_user_id: assignee_user_id}
-        );
+        const result = await TaskModel.query().context(req.user).findById(task_id).patch({ assignee_user_id });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
         return res.status(400).json({ error });

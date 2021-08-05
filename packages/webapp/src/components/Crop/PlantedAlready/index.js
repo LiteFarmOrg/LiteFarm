@@ -12,11 +12,10 @@ import { crop_age, getDurationInDaysDefaultUnit } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { getDateDifference, getDateInputFormat } from '../../../util/moment';
+import { getPlantedAlreadyPaths } from '../addManagementPlanPath';
 
 export default function PurePlantedAlready({
-  onSubmit,
-  onGoBack,
-  onCancel,
+  history,
   useHookFormPersist,
   persistedFormData,
   system,
@@ -66,7 +65,11 @@ export default function PurePlantedAlready({
     }
   }, []);
 
-  const onSubmitSuccess = () => {
+  const { goBackPath, submitPath, cancelPath } = getPlantedAlreadyPaths(
+    cropVariety.crop_variety_id,
+  );
+
+  const onSubmit = () => {
     const age = getValues(AGE);
     if ((already_in_ground || !is_seed) && age !== get(persistedFormData, AGE)) {
       const SEED_DATE = 'crop_management_plan.seed_date';
@@ -96,8 +99,10 @@ export default function PurePlantedAlready({
     } else if (!cropVariety.can_be_cover_crop) {
       setValue(FOR_COVER, false);
     }
-    onSubmit();
+    history.push(submitPath);
   };
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   const already_in_ground = watch(ALREADY_IN_GROUND);
   const is_seed = watch(IS_SEED);
@@ -111,7 +116,7 @@ export default function PurePlantedAlready({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmitSuccess)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}

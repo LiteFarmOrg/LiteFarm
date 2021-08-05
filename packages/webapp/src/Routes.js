@@ -432,38 +432,34 @@ const Routes = () => {
               exact
               component={InGroundTransplant}
             />
+
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
+              exact
+              component={PlantBroadcast}
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/initial_container_method"
               exact
               component={PlantInContainer}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_broadcast_method"
-              exact
-              component={PlantBroadcast}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/historical_container_method"
-              exact
-              component={PlantInContainer}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/historical_bed_method"
+              path="/crop/:variety_id/add_management_plan/initial_bed_method"
               exact
               component={BedPlan}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_bed_guidance"
+              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
               exact
               component={BedPlanGuidance}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_row_method"
+              path="/crop/:variety_id/add_management_plan/initial_row_method"
               exact
               component={RowMethod}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_row_guidance"
+              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
               exact
               component={RowMethodGuidance}
             />
@@ -723,37 +719,32 @@ const Routes = () => {
             />
 
             <Route
+              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
+              exact
+              component={PlantBroadcast}
+            />
+            <Route
               path="/crop/:variety_id/add_management_plan/initial_container_method"
               exact
               component={PlantInContainer}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_broadcast_method"
-              exact
-              component={PlantBroadcast}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/historical_container_method"
-              exact
-              component={PlantInContainer}
-            />
-            <Route
-              path="/crop/:variety_id/add_management_plan/historical_bed_method"
+              path="/crop/:variety_id/add_management_plan/initial_bed_method"
               exact
               component={BedPlan}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_bed_guidance"
+              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
               exact
               component={BedPlanGuidance}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_row_method"
+              path="/crop/:variety_id/add_management_plan/initial_row_method"
               exact
               component={RowMethod}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/historical_row_guidance"
+              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
               exact
               component={RowMethodGuidance}
             />

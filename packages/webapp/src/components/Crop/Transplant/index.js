@@ -8,24 +8,16 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
+import { getTransplantPaths } from '../addManagementPlanPath';
 
 export default function PureTransplant({
   can_be_cover_crop,
-  onCancel,
-  onGoBack,
   useHookFormPersist,
   persistedFormData,
   match,
   history,
 }) {
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
-  let submitPath = `/crop/${variety_id}/add_management_plan/plant_date`;
-
-  persistedFormData.wild_crop && persistedFormData.in_ground
-    ? (submitPath = `/crop/${variety_id}/add_management_plan/next_harvest`)
-    : (submitPath = `/crop/${variety_id}/add_management_plan/plant_date`);
 
   const progress = 29;
   const TRANSPLANT = 'crop_management_plan.needs_transplant';
@@ -43,9 +35,14 @@ export default function PureTransplant({
   });
 
   useHookFormPersist(getValues);
+
+  const variety_id = match?.params?.variety_id;
+  const { goBackPath, submitPath, cancelPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
     history?.push(submitPath);
   };
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   const disabled = !isValid;
 

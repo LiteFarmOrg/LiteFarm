@@ -10,9 +10,10 @@ import {
 
 function CropManagement({ history, match }) {
   const dispatch = useDispatch();
-  const selectedVariety = useSelector(cropVarietySelector(match.params.variety_id));
+  const variety_id = match.params.variety_id;
+  const selectedVariety = useSelector(cropVarietySelector(variety_id));
   const currentManagementPlans = useSelector(
-    currentAndPlannedManagementPlansByCropVarietySelector(match.params.variety_id),
+    currentAndPlannedManagementPlansByCropVarietySelector(variety_id),
   );
   const goBack = () => {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
@@ -36,31 +37,30 @@ function CropManagement({ history, match }) {
     );
     dispatch(
       setPersistedPaths([
-        `/crop/${match.params.variety_id}/add_management_plan/planted_already`,
-        `/crop/${match.params.variety_id}/add_management_plan/needs_transplant`,
-        `/crop/${match.params.variety_id}/add_management_plan/next_harvest`,
-        `/crop/${match.params.variety_id}/add_management_plan/plant_date`,
-        `/crop/${match.params.variety_id}/add_management_plan/choose_initial_planting_location`,
-        `/crop/${match.params.variety_id}/add_management_plan/choose_final_planting_location`,
-        `/crop/${match.params.variety_id}/add_management_plan/final_planting_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/initial_planting_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/initial_container_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_broadcast_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_container_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_bed_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_bed_guidance`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_row_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/historical_row_guidance`,
-        `/crop/${match.params.variety_id}/add_management_plan/broadcast_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/container_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/bed_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/bed_guidance`,
-        `/crop/${match.params.variety_id}/add_management_plan/row_method`,
-        `/crop/${match.params.variety_id}/add_management_plan/row_guidance`,
-        `/crop/${match.params.variety_id}/add_management_plan/name`,
+        `/crop/${variety_id}/add_management_plan/planted_already`,
+        `/crop/${variety_id}/add_management_plan/needs_transplant`,
+        `/crop/${variety_id}/add_management_plan/next_harvest`,
+        `/crop/${variety_id}/add_management_plan/plant_date`,
+        `/crop/${variety_id}/add_management_plan/choose_initial_planting_location`,
+        `/crop/${variety_id}/add_management_plan/choose_final_planting_location`,
+        `/crop/${variety_id}/add_management_plan/final_planting_method`,
+        `/crop/${variety_id}/add_management_plan/initial_planting_method`,
+        `/crop/${variety_id}/add_management_plan/initial_broadcast_method`,
+        `/crop/${variety_id}/add_management_plan/initial_container_method`,
+        `/crop/${variety_id}/add_management_plan/initial_bed_method`,
+        `/crop/${variety_id}/add_management_plan/initial_bed_guidance`,
+        `/crop/${variety_id}/add_management_plan/initial_row_method`,
+        `/crop/${variety_id}/add_management_plan/initial_row_guidance`,
+        `/crop/${variety_id}/add_management_plan/broadcast_method`,
+        `/crop/${variety_id}/add_management_plan/container_method`,
+        `/crop/${variety_id}/add_management_plan/bed_method`,
+        `/crop/${variety_id}/add_management_plan/bed_guidance`,
+        `/crop/${variety_id}/add_management_plan/row_method`,
+        `/crop/${variety_id}/add_management_plan/row_guidance`,
+        `/crop/${variety_id}/add_management_plan/name`,
       ]),
     );
-    history.push(`/crop/${match.params.variety_id}/add_management_plan/planted_already`);
+    history.push(`/crop/${variety_id}/add_management_plan/planted_already`);
   };
   return (
     <>

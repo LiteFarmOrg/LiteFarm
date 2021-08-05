@@ -12,7 +12,7 @@ import Checkbox from '../../Form/Checkbox';
 
 export default function PurePlantingLocation({
   selectedLocationId,
-  onContinue,
+  onSubmit,
   onGoBack,
   onCancel,
   setLocationId,
@@ -52,7 +52,7 @@ export default function PurePlantingLocation({
           <>
             <Button
               disabled={!selectedLocationId && !pinLocation}
-              onClick={() => onContinue(pinLocation)}
+              onClick={() => onSubmit(pinLocation)}
               fullLength
             >
               {t('common:CONTINUE')}

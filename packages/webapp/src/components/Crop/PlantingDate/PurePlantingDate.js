@@ -17,6 +17,7 @@ import {
   getLocalizedDateString,
 } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
+import { getPlantingDatePaths } from '../addManagementPlanPath';
 
 export default function PurePlantingDate({
   useHookFormPersist,
@@ -25,19 +26,6 @@ export default function PurePlantingDate({
   history,
 }) {
   const { t } = useTranslation();
-
-  const submitPath = `/crop/${variety_id}/add_management_plan/choose_initial_planting_location`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/needs_transplant`;
-  const onSubmit = () => {
-    history?.push(submitPath);
-  };
-  const onError = () => {};
-  const onGoBack = () => {
-    history?.push(goBackPath);
-  };
-  const onCancel = () => {
-    history?.push(`/crop/${variety_id}/management`);
-  };
 
   const SEED_DATE = 'crop_management_plan.seed_date';
   const PLANT_DATE = 'crop_management_plan.plant_date';
@@ -230,6 +218,13 @@ export default function PurePlantingDate({
     if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
     if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
   };
+
+  const { goBackPath, submitPath, cancelPath } = getPlantingDatePaths(variety_id);
+  const onSubmit = () => history?.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
+  const onError = () => {};
 
   const disabled = !isValid;
 

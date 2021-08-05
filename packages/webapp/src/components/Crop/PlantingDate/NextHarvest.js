@@ -11,6 +11,7 @@ import Input from '../../Form/Input';
 import { seedYield } from '../../../util/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
+import { getNextHarvestPaths } from '../addManagementPlanPath';
 
 export default function PureNextHarvest({
   system,
@@ -35,6 +36,7 @@ export default function PureNextHarvest({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
+  useHookFormPersist(getValues);
 
   const progress = 32;
 
@@ -43,20 +45,13 @@ export default function PureNextHarvest({
   const ESTIMATED_YIELD_UNIT =
     'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
-  const onCancel = () => {
-    history.push(`/crop/${variety_id}/management`);
-  };
-  const onGoBack = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/needs_transplant`);
-  };
-  const onContinue = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/choose_initial_planting_location`);
-  };
+  const { goBackPath, submitPath, cancelPath } = getNextHarvestPaths(variety_id);
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   const today = new Date();
   const todayStr = today.toISOString().substring(0, 10);
-
-  useHookFormPersist(getValues);
 
   return (
     <Form
@@ -65,7 +60,7 @@ export default function PureNextHarvest({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}

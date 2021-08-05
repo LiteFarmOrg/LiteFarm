@@ -1,4 +1,8 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",

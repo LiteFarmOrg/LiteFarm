@@ -426,6 +426,7 @@ const useMapAssetRenderer = ({
       isAreaLine(type) ? linePolygon : polyline,
       'click',
       function (mapsMouseEvent) {
+        selectLine(this, line, polyline, linePolygon);
         handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       },
     );
@@ -489,10 +490,10 @@ const useMapAssetRenderer = ({
     });
   };
 
-  const resetAreaStyles = (p, areaColor, marker, markerColor, area) => {
+  const resetAreaStyles = (p, areaColor, marker, markerColor, area, selected) => {
     p.setOptions({
       fillColor: areaColor,
-      fillOpacity: 0.5,
+      fillOpacity: selected? 1.0 : 0.5,
     });
     marker.setOptions({
       label: {
@@ -501,6 +502,13 @@ const useMapAssetRenderer = ({
         fontSize: '16px',
         className: styles.mapLabel,
       }
+    });
+  }
+
+  const resetLineStyles = (p, lineColor, selected) => {
+    p.setOptions({
+      fillColor: lineColor,
+      fillOpacity: selected? 1.0 : 0.5,
     });
   }
 
@@ -524,11 +532,11 @@ const useMapAssetRenderer = ({
 
     if (multipileLocations) {
       if (selectedLocationsMapRef.current[area.location_id]) {
-        resetAreaStyles(p, areaStyles[area.type].colour, marker, 'white', area);
+        resetAreaStyles(p, areaStyles[area.type].colour, marker, 'white', area, false);
         removeLocation(area.location_id);
         //console.log(selectedLocationsMapRef.current);
       } else {
-        resetAreaStyles(p, areaStyles[area.type].selectedColour, marker, '#282B36', area);
+        resetAreaStyles(p, areaStyles[area.type].selectedColour, marker, '#282B36', area, true);
         addLocation(area.location_id);
         //console.log(selectedLocationsMapRef.current);
       }
@@ -546,7 +554,51 @@ const useMapAssetRenderer = ({
         asset: 'area',
         locationId: area.location_id,
       });
-      resetAreaStyles(p, areaStyles[area.type].selectedColour, marker, '#282B36', area);
+      resetAreaStyles(p, areaStyles[area.type].selectedColour, marker, '#282B36', area, true);
+    }
+  };
+
+  const selectLine = (p, line, polyline, polygon) => {
+    if (!multipileLocations && selectedLocationRef.current) {
+      if (selectedLocationRef.current.asset === 'line') {
+        resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+      } else {
+        resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+        selectedLocationRef.current.marker.setOptions({
+          label: {
+            text: selectedLocationRef.current.area.name,
+            color: 'white',
+            fontSize: '16px',
+            className: styles.mapLabel,
+          }
+        });
+      }
+    }
+
+    if (multipileLocations) {
+      if (selectedLocationsMapRef.current[line.location_id]) {
+        resetLineStyles(p, lineStyles[line.type].colour, false);
+        removeLocation(line.location_id);
+        //console.log(selectedLocationsMapRef.current);
+      } else {
+        resetLineStyles(p, lineStyles[line.type].selectedColour, true);
+        addLocation(line.location_id);
+        //console.log(selectedLocationsMapRef.current);
+      }
+    } else {
+      if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {
+        setSelectedLocation(null);
+        return;
+      }
+  
+      setSelectedLocation({
+        line,
+        polygon,
+        asset: 'line',
+        locationId: line.location_id,
+      });
+  
+      resetLineStyles(p, lineStyles[line.type].selectedColour, true);
     }
   };
 

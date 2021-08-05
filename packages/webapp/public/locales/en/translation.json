@@ -20,6 +20,8 @@
     "CREATE_CUSTOM_TASK": "Create a custom task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "ASSIGN_TASK": "Assign task",
+    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "FERTILIZE": "Fertilize",
     "FIELD_WORK": "Field work",
     "HARVEST": "Harvest",

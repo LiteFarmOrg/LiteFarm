@@ -117,7 +117,20 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, ...props },
+    {
+      label,
+      optional,
+      placeholder,
+      options,
+      toolTipContent,
+      icon,
+      style,
+      autoOpen,
+      components,
+      isSearchable,
+      defaultValue,
+      ...props
+    },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -131,14 +144,13 @@ const ReactSelect = React.forwardRef(
               height: '20px',
             }}
           >
-            <Label>{label}
-            {
-              optional && (
+            <Label>
+              {label}
+              {optional && (
                 <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                   {t('common:OPTIONAL')}
                 </Label>
-              )
-            }
+              )}
             </Label>
             {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
             {icon && <span className={styles.icon}>{icon}</span>}
@@ -160,8 +172,9 @@ const ReactSelect = React.forwardRef(
             ),
             ...components,
           }}
-          isSearchable={options?.length > 8}
+          isSearchable={options?.length > 8 || isSearchable}
           inputRef={ref}
+          defaultValue={defaultValue}
           {...props}
         />
       </div>

@@ -389,7 +389,6 @@ function fakeExpense(defaultData = {}) {
 async function management_planFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
-  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
 } = {}, managementPlan = fakeManagementPlan()) {
@@ -686,7 +685,7 @@ async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = t
 
 function fakeTask(defaultData = {}) {
   return {
-    due_date:faker.date.future(),
+    due_date: faker.date.future(),
     notes: faker.lorem.words(),
     ...defaultData
   };
@@ -704,7 +703,6 @@ async function fertilizer_taskFactory({
 
 function fakeFertilizerTask(defaultData = {}) {
   return { quantity_kg: faker.random.number(), ...defaultData };
-
 }
 
 async function management_tasksFactory({
@@ -1402,7 +1400,7 @@ module.exports = {
   harvest_taskFactory, fakeHarvestTask,
   plant_taskFactory, fakePlantTask,
   field_work_taskFactory, fakeFieldWorkTask,
-  soil_taskFactory, fakeScoutingTask,
+  soil_taskFactory, fakeSoilTask,
   irrigation_taskFactory, fakeIrrigationTask,
   scouting_taskFactory, fakeScoutingTask,
   shiftFactory, fakeShift,

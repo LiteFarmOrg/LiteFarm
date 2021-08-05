@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
-import { getTransplantPaths } from '../addManagementPlanPath';
+import { getTransplantPaths } from '../getAddManagementPlanPath';
 
 export default function PureTransplant({
   can_be_cover_crop,

@@ -12,7 +12,7 @@ import { crop_age, getDurationInDaysDefaultUnit } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { getDateDifference, getDateInputFormat } from '../../../util/moment';
-import { getPlantedAlreadyPaths } from '../addManagementPlanPath';
+import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantedAlready({
   history,

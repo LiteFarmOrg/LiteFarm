@@ -7,7 +7,7 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
 import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import TransplantSpotlight from './TransplantSpotlight';
-import { getNextHarvestPaths } from '../../../../components/Crop/addManagementPlanPath';
+import { getNextHarvestPaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
 export default function PlantingLocation({ history, match }) {
   const isFinalLocationPage =

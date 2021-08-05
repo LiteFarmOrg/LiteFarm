@@ -17,13 +17,16 @@ import {
   getLocalizedDateString,
 } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
-import { getPlantingDatePaths } from '../addManagementPlanPath';
+import { getPlantingDatePaths } from '../getAddManagementPlanPath';
+import Unit from '../../Form/Unit';
+import { seedYield } from '../../../util/unit';
 
 export default function PurePlantingDate({
   useHookFormPersist,
   persistedFormData,
   variety_id,
   history,
+  system,
 }) {
   const { t } = useTranslation();
 
@@ -37,6 +40,9 @@ export default function PurePlantingDate({
   const HARVEST_DAYS = 'crop_management_plan.harvest_days';
   const TRANSPLANT_DAYS = 'crop_management_plan.transplant_days';
   const TERMINATION_DAYS = 'crop_management_plan.termination_days';
+  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
+  const ESTIMATED_YIELD_UNIT =
+    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
   const {
     already_in_ground,
@@ -46,13 +52,19 @@ export default function PurePlantingDate({
     is_seed,
   } = persistedFormData.crop_management_plan;
 
-  const { harvestIsMain, coverIsMain, transplantIsMain, seedIsMain, plantingIsMain } = useMemo(
+  const {
+    harvestIsMain,
+    terminationIsMain,
+    transplantIsMain,
+    seedIsMain,
+    plantingIsMain,
+  } = useMemo(
     () => ({
       seedIsMain: !already_in_ground && is_seed,
       plantingIsMain: !already_in_ground && !is_seed,
-      transplantIsMain: already_in_ground && needs_transplant && !is_wild,
+      transplantIsMain: already_in_ground && needs_transplant,
       harvestIsMain: already_in_ground && !needs_transplant && !is_wild && !for_cover,
-      coverIsMain: already_in_ground && !needs_transplant && !is_wild && for_cover,
+      terminationIsMain: already_in_ground && !needs_transplant && !is_wild && for_cover,
     }),
     [],
   );
@@ -67,7 +79,7 @@ export default function PurePlantingDate({
         ? TRANSPLANT_DATE
         : harvestIsMain
         ? HARVEST_DATE
-        : coverIsMain
+        : terminationIsMain
         ? TERMINATION_DATE
         : SEED_DATE,
     [],
@@ -112,13 +124,15 @@ export default function PurePlantingDate({
     showHarvestTerminationOffset,
     showHarvestOffset,
     showTerminationOffset,
+    showEstimatedYield,
   } = useMemo(
     () => ({
       showGerminationOffset: !already_in_ground && (is_seed || (!for_cover && needs_transplant)),
       showTransplantOffset: needs_transplant && !transplantIsMain,
-      showHarvestTerminationOffset: !harvestIsMain && !coverIsMain,
-      showHarvestOffset: !for_cover && !harvestIsMain && !coverIsMain,
-      showTerminationOffset: for_cover && !harvestIsMain && !coverIsMain,
+      showHarvestTerminationOffset: !harvestIsMain && !terminationIsMain,
+      showHarvestOffset: !for_cover && !harvestIsMain && !terminationIsMain,
+      showTerminationOffset: for_cover && !harvestIsMain && !terminationIsMain,
+      showEstimatedYield: already_in_ground && is_wild && needs_transplant,
     }),
     [],
   );
@@ -130,6 +144,7 @@ export default function PurePlantingDate({
     setValue,
     watch,
     trigger,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -149,12 +164,7 @@ export default function PurePlantingDate({
   const transplant_days = watch(TRANSPLANT_DAYS);
   const harvest_days = watch(HARVEST_DAYS);
   const termination_days = watch(TERMINATION_DAYS);
-  const getStartDate = () => {
-    if (plantingIsMain && seed_date) {
-      return seed_date;
-    }
-    return main_date;
-  };
+  const startDate = plantingIsMain && seed_date ? seed_date : main_date;
 
   const min = useMemo(() => {
     return plantingIsMain && seed_date ? getDateDifference(seed_date, plant_date) : 0;
@@ -219,8 +229,11 @@ export default function PurePlantingDate({
     if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
   };
 
-  const { goBackPath, submitPath, cancelPath } = getPlantingDatePaths(variety_id);
-  const onSubmit = () => history?.push(submitPath);
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getPlantingDatePaths(variety_id, persistedFormData),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
 
@@ -255,7 +268,7 @@ export default function PurePlantingDate({
         errors={getInputErrors(errors, MAIN_DATE)}
       />
 
-      {!harvestIsMain && !coverIsMain && (
+      {!harvestIsMain && !terminationIsMain && (
         <Main
           style={{ marginBottom: '24px' }}
           tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}
@@ -266,7 +279,7 @@ export default function PurePlantingDate({
       {showGerminationOffset && (
         <InputDuration
           style={{ marginBottom: '40px' }}
-          startDate={getStartDate()}
+          startDate={startDate}
           hookFormWatch={watch}
           hookFormRegister={register(GERMINATION_DAYS, {
             required: true,
@@ -284,7 +297,7 @@ export default function PurePlantingDate({
       {showTransplantOffset && (
         <InputDuration
           style={{ marginBottom: '40px' }}
-          startDate={getStartDate()}
+          startDate={startDate}
           hookFormWatch={watch}
           hookFormRegister={register(TRANSPLANT_DAYS, {
             required: true,
@@ -306,7 +319,7 @@ export default function PurePlantingDate({
       {showHarvestTerminationOffset && (
         <InputDuration
           style={{ marginBottom: '16px' }}
-          startDate={getStartDate()}
+          startDate={startDate}
           hookFormWatch={watch}
           hookFormRegister={register(showTerminationOffset ? TERMINATION_DAYS : HARVEST_DAYS, {
             required: true,
@@ -327,7 +340,24 @@ export default function PurePlantingDate({
           )}
         />
       )}
-      {main_date && !harvestIsMain && !coverIsMain && (
+      {showEstimatedYield && (
+        <Unit
+          register={register}
+          label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+          name={ESTIMATED_YIELD}
+          displayUnitName={ESTIMATED_YIELD_UNIT}
+          unitType={seedYield}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          hookFromWatch={watch}
+          control={control}
+          max={999}
+          optional
+          style={{ paddingBottom: '16px', paddingTop: '24px' }}
+        />
+      )}
+      {main_date && !harvestIsMain && !terminationIsMain && (
         <FullYearCalendarView
           {...{
             seed_date: [PLANT_DATE, SEED_DATE].includes(MAIN_DATE) ? seed_date : undefined,
@@ -341,7 +371,7 @@ export default function PurePlantingDate({
           }}
         />
       )}
-      {((harvestIsMain && harvest_date) || (coverIsMain && termination_date)) && (
+      {((harvestIsMain && harvest_date) || (terminationIsMain && termination_date)) && (
         <FullMonthCalendarView
           date={
             harvestIsMain ? getDateInputFormat(harvest_date) : getDateInputFormat(termination_date)

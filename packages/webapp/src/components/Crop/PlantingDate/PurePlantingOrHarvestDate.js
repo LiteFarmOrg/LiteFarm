@@ -17,8 +17,8 @@ export default function PurePlantingOrHarvestDate({
     variety_id,
     history,
   };
-  const { already_in_ground, is_wild } = persistedFormData.crop_management_plan;
-  const showNextHarvestPage = already_in_ground && is_wild;
+  const { already_in_ground, is_wild, needs_transplant } = persistedFormData.crop_management_plan;
+  const showNextHarvestPage = already_in_ground && is_wild && !needs_transplant;
   return showNextHarvestPage ? <PureNextHarvest {...props} /> : <PurePlantingDate {...props} />;
 }
 

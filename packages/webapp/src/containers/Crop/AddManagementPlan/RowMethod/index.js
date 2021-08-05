@@ -3,6 +3,7 @@ import PureRowMethod from '../../../../components/Crop/RowMethod';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropVarietySelector } from '../../../cropVarietySlice';
+import { finalPlantingMethodPath } from '../../../../components/Crop/addManagementPlanPaths';
 
 export default function RowMethod({ history, match }) {
   const system = useSelector(measurementSelector);
@@ -10,7 +11,7 @@ export default function RowMethod({ history, match }) {
   const variety = useSelector(cropVarietySelector(variety_id));
 
   const continuePath = `/crop/${variety_id}/add_management_plan/row_guidance`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/final_planting_method`;
+  const goBackPath = finalPlantingMethodPath(variety_id);
 
   const persistPath = [goBackPath, continuePath];
 

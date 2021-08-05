@@ -2,11 +2,12 @@ import PurePlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidanc
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { addManagementPlanNamePath } from '../../../../components/Crop/addManagementPlanPaths';
 
 export default function BedPlan({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
-  const onContinuePath = `/crop/${variety_id}/add_management_plan/name`;
+  const onContinuePath = addManagementPlanNamePath(variety_id);
   const onGoBackPath = `/crop/${variety_id}/add_management_plan/beds`;
   const persistedPaths = [onContinuePath, onGoBackPath];
   const onCancel = () => {

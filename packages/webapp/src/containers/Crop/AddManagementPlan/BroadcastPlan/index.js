@@ -6,6 +6,10 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../../locationSlice';
 import { cropVarietyByID } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import {
+  addManagementPlanNamePath,
+  finalPlantingMethodPath,
+} from '../../../../components/Crop/addManagementPlanPaths';
 
 function BroadcastPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -15,14 +19,14 @@ function BroadcastPlan({ history, match }) {
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
   const variety_id = match.params.variety_id;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/final_planting_method`;
-  const persistedPaths = [`/crop/${variety_id}/add_management_plan/name`, goBackPath];
+  const goBackPath = finalPlantingMethodPath(variety_id);
+
   const onCancel = () => {
     history.push(`/crop/${variety_id}/management`);
   };
 
   const onContinue = () => {
-    history.push(persistedPaths[0]);
+    history.push(addManagementPlanNamePath(variety_id));
   };
 
   const onBack = () => {
@@ -36,7 +40,6 @@ function BroadcastPlan({ history, match }) {
         handleContinue={onContinue}
         onGoBack={onBack}
         system={system}
-        persistedPaths={persistedPaths}
         locationSize={location.total_area}
         yieldPerArea={yieldPerArea}
       />

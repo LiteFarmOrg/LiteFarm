@@ -15,6 +15,7 @@ import { ReactComponent as Monocrop } from '../../../assets/images/plantingMetho
 import { DO_CDN_URL } from '../../../util/constants';
 import ImageModal from '../../Modals/ImageModal';
 import { cloneObject } from '../../../util';
+import { finalLocationPath, initialLocationPath } from '../addManagementPlanPaths';
 
 const BROADCAST = 'BROADCAST_METHOD';
 const CONTAINER = 'CONTAINER_METHOD';
@@ -74,8 +75,8 @@ export default function PureInGroundTransplant({
 
   const submitPath = knows_how
     ? `/crop/${variety_id}/add_management_plan/historical_${planting_type?.toLowerCase()}`
-    : `/crop/${variety_id}/add_management_plan/choose_final_planting_location`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/choose_initial_planting_location`;
+    : finalLocationPath(variety_id);
+  const goBackPath = initialLocationPath(variety_id);
 
   useHookFormPersist(getValues);
 

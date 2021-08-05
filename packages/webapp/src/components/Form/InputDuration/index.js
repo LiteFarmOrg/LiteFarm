@@ -1,7 +1,7 @@
 import Input, { integerOnKeyDown } from '../Input';
 import { Semibold } from '../../Typography';
 import styles from './styles.module.scss';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { addDaysToDate, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 
@@ -19,18 +19,14 @@ export default function InputDuration({
   ...props
 }) {
   const duration = hookFormWatch(hookFormRegister?.name);
-  const date = useMemo(() => {
+  const date = hookFormWatch(dateName);
+  useEffect(() => {
     const maxDuration = max || 999;
-    return getLocalizedDateString(
+    const newDate = getLocalizedDateString(
       addDaysToDate(startDate, duration > maxDuration ? maxDuration : duration),
     );
+    setTimeout(() => hookFormSetValue(dateName, duration ? getDateInputFormat(newDate) : null), 0);
   }, [duration, startDate]);
-  useEffect(() => {
-    hookFormSetValue &&
-      dateName &&
-      date &&
-      hookFormSetValue(dateName, duration ? getDateInputFormat(date) : null);
-  }, [date, duration]);
 
   return (
     <div style={style} className={styles.container}>

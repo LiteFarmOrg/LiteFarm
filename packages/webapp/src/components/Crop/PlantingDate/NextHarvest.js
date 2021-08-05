@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -11,7 +11,7 @@ import Input from '../../Form/Input';
 import { seedYield } from '../../../util/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
-import { getNextHarvestPaths } from '../addManagementPlanPath';
+import { getNextHarvestPaths } from '../getAddManagementPlanPath';
 
 export default function PureNextHarvest({
   system,
@@ -45,10 +45,15 @@ export default function PureNextHarvest({
   const ESTIMATED_YIELD_UNIT =
     'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
-  const { goBackPath, submitPath, cancelPath } = getNextHarvestPaths(variety_id);
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getNextHarvestPaths(variety_id, persistedFormData),
+    [],
+  );
   const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
+
+  const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 
   const today = new Date();
   const todayStr = today.toISOString().substring(0, 10);
@@ -88,22 +93,22 @@ export default function PureNextHarvest({
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
           minDate={todayStr}
         />
-
-        <Unit
-          register={register}
-          label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-          name={ESTIMATED_YIELD}
-          displayUnitName={ESTIMATED_YIELD_UNIT}
-          unitType={seedYield}
-          system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFormSetError={setError}
-          hookFromWatch={watch}
-          control={control}
-          max={999}
-          optional
-        />
+        {showEstimatedYield && (
+          <Unit
+            register={register}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+            name={ESTIMATED_YIELD}
+            displayUnitName={ESTIMATED_YIELD_UNIT}
+            unitType={seedYield}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFromWatch={watch}
+            control={control}
+            max={999}
+            optional
+          />
+        )}
       </div>
     </Form>
   );

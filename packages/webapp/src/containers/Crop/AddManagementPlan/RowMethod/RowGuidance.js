@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { addManagementPlanNamePath } from '../../../../components/Crop/addManagementPlanPaths';
 
 export default function RowGuidance({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
 
   // TODO - add path for LF-1586
-  const onContinuePath = `/crop/${variety_id}/add_management_plan/name`;
+  const onContinuePath = addManagementPlanNamePath(variety_id);
   const onGoBackPath = `/crop/${variety_id}/add_management_plan/row_method`;
   const persistedPaths = [onContinuePath, onGoBackPath];
   const isInitialPlantingManagementPlan = match?.path.includes('historical');

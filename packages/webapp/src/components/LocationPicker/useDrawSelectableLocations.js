@@ -11,6 +11,8 @@ import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 const useDrawSelectableLocations = (setLocationId) => {
   const cropLocations = useSelector(cropLocationsSelector);
 
+  const s = [];
+
   const assetFunctionMap = (assetType) => {
     return !!isArea(assetType) ? drawArea : drawLine;
   };
@@ -124,6 +126,7 @@ const useDrawSelectableLocations = (setLocationId) => {
     polygon.setMap(map);
     polyline.setMap(map);
     marker.setMap(map);
+    s.push(polygon);
   };
 
   // Draw a line
@@ -198,6 +201,8 @@ const useDrawSelectableLocations = (setLocationId) => {
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
+        console.log(s);
+        console.log(selectedLocationRef);
         if (selectedLocationRef.current.asset === 'line') {
           resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
         } else {

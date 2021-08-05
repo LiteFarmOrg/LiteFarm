@@ -26,7 +26,12 @@ const LocationPicker = ({
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
-  const { drawAssets } = useMapAssetRenderer({ isClickable: true });
+  const { drawAssets } = useMapAssetRenderer({ 
+    isClickable: true, 
+    onlyCrop: true, 
+    setLocationId: setLocationId,
+    multipileLocations: true,
+  });
 
   function placeMarker(latLng, map, maps) {
     setSelectedPin(

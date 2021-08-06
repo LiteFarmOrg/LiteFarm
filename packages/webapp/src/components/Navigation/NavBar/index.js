@@ -6,7 +6,7 @@ import PureProfileFloater from '../../ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
-import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
+import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import PureMyFarmFloater from '../../MyFarmFloater';
@@ -137,8 +137,7 @@ export default function PureNavBar({
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
-  const notificationButtonOnClick = () =>
-    setOpenFloater(isNotificationFloaterOpen ? null : NOTIFICATION);
+  const taskIconClick = () => {}; // <-- route to LF1748
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
@@ -325,11 +324,11 @@ export default function PureNavBar({
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStep"
-                onClick={notificationButtonOnClick}
+                onClick={taskIconClick}
                 className={classes.iconButton}
                 classes={{ root: classes.notificationButton }}
               >
-                <NotifIcon />
+                <TaskIcon />
               </IconButton>
             </PureNotificationFloater>
 

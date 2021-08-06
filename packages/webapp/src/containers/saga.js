@@ -121,6 +121,7 @@ import {
   onLoadingDocumentStart,
 } from './documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
+import { getTasks } from './Task/saga';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -482,16 +483,17 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       put(getManagementPlans()),
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
+      put(getTasks()),
     ];
 
     yield all([
       ...tasks,
-      put(getLogs()),
-      put(getAllShifts()),
+      // put(getLogs()),
+      // put(getAllShifts()),
       put(getSales()),
       put(getExpense()),
-      put(resetLogFilter()),
-      put(resetShiftFilter()),
+      // put(resetLogFilter()),
+      // put(resetShiftFilter()),
     ]);
 
     const {

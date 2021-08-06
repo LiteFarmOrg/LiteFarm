@@ -62,6 +62,7 @@ const apiConfig = {
   loginUrl: `${URI}/login`,
   resetPasswordUrl: `${URI}/password_reset`,
   spotlightUrl: `${URI}/showed_spotlight`,
+  taskUrl: `${URI}/task`,
   url: URI,
 };
 

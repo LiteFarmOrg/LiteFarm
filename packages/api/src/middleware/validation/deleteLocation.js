@@ -14,8 +14,7 @@
  */
 
 const managementPlanModel = require('../../models/managementPlanModel');
-const activityLogModel = require('../../models/taskModel');
-const shiftTaskModel = require('../../models/shiftTaskModel');
+const taskModel = require('../../models/taskModel');
 const { raw } = require('objection');
 
 async function validateLocationDependency(req, res, next) {
@@ -25,16 +24,15 @@ async function validateLocationDependency(req, res, next) {
   if (managementPlans.length) {
     return res.status(400).send('Location cannot be deleted when it has a managementPlan');
   }
-  const activityLogs = await activityLogModel.query().whereNotDeleted().join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id').where('activityFields.location_id', location_id).andWhere('activityLog.date', '>=', 'NOW()');
+  const activityLogs = await taskModel.query().whereNotDeleted().join('location_tasks', 'location_tasks.task_id', 'task.task_id').where('location_tasks.location_id', location_id).andWhere('task.due_date', '>=', 'NOW()');
   if (activityLogs.length) {
-    return res.status(400).send('Location cannot be deleted when it is referenced by log');
-  }
-  const locationShifts = await shiftTaskModel.query().join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where({ location_id }).andWhere(raw('shift_date >= CURRENT_DATE'));
-  if (locationShifts.length) {
-    return res.status(400).send('Location cannot be deleted when it has pending shifts');
+    return res.status(400).send('Location cannot be deleted when it is referenced by a task');
   }
 
-  const managementPlanShifts = await shiftTaskModel.query().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'shiftTask.management_plan_id').join('shift', 'shift.shift_id', 'shiftTask.shift_id').whereNotDeleted().where('crop_management_plan.location_id', location_id).andWhere(raw('shift_date >= CURRENT_DATE'));
+  const managementPlanShifts = await taskModel.query()
+    .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
+    .join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_tasks.management_plan_id')
+    .whereNotDeleted().where('crop_management_plan.location_id', location_id).andWhere(raw('task.due_date >= CURRENT_DATE'));
   if (managementPlanShifts.length) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }

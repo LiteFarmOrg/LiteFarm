@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PureSelectionHandler({ locations, history }) {
+export default function PureSelectionHandler({ locations, history, selectingOnly }) {
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -47,12 +47,16 @@ export default function PureSelectionHandler({ locations, history }) {
       : history.push(`/${location.type}/${location.id}/details`);
   };
 
+  const makeSelection = (location) => {
+    console.log('make selection', location);
+  };
+
   return locations.map((location, idx) => {
     const { type, asset, name } = { ...location };
     let icon = imgMapping(asset, type);
 
     return (
-      <div key={idx} onClick={() => loadEditView(location)} className={classes.container}>
+      <div key={idx} onClick={() => selectingOnly ? makeSelection(location) : loadEditView(location)} className={classes.container}>
         <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
         <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
       </div>
@@ -63,4 +67,5 @@ export default function PureSelectionHandler({ locations, history }) {
 PureSelectionHandler.prototype = {
   locations: PropTypes.array,
   history: PropTypes.func,
+  selectingOnly: PropTypes.bool,
 };

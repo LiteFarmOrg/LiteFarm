@@ -9,7 +9,7 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
-import useMapAssetRenderer from '../../containers/Map/useMapAssetRenderer';
+import useMapSelectionRenderer from '../../containers/Map/useMapSelectionRenderer';
 import MapPin from '../../assets/images/map/map_pin.svg';
 import LocationSelectionModal from '../../containers/Map/LocationSelectionModal';
 
@@ -28,8 +28,8 @@ const LocationPicker = ({
   const [selectedPin, setSelectedPin] = useState(null);
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
-  const { drawLocations } = useDrawSelectableLocations(setLocationId);
-  const { drawAssets } = useMapAssetRenderer({ 
+  //const { drawLocations } = useDrawSelectableLocations(setLocationId);
+  const { drawAssets } = useMapSelectionRenderer({ 
     isClickable: true, 
     isSelectable: true,
     onlyCrop: true, 
@@ -169,7 +169,9 @@ const LocationPicker = ({
           options={getMapOptions}
         />
       </div>
-      <LocationSelectionModal/>
+      <LocationSelectionModal
+        selectingOnly={true}
+      />
     </>
   );
 };

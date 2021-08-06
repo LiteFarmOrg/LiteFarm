@@ -130,6 +130,9 @@ const hookFormPersistSlice = createSlice({
       }
       state.formData.farm.default_initial_location_id = location_id;
     },
+    setTaskLocations: (state, { payload: task_locations }) => {
+      state.formData.task_locations = task_locations;
+    },
   },
 });
 
@@ -153,6 +156,7 @@ export const {
   setInterested,
   setDefaultInitialLocation,
   resetWildCropLocation,
+  setTaskLocations,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

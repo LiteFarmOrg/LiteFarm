@@ -2,8 +2,8 @@ import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { mapFilterSettingSelector} from './mapFilterSettingSlice';
-import { lineSelector, pointSelector, sortedAreaSelector } from '../locationSlice';
+import { mapFilterSettingSelector, onlyCropEnabledLocations } from './mapFilterSettingSlice';
+import { lineSelector, pointSelector, sortedAreaSelector, cropLocationsSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -14,15 +14,21 @@ import {
   locationEnum,
   polygonPath,
 } from './constants';
-import useSelectionHandler from './useSelectionHandler';
+import useLocationsSelectionHandler from './useLocationsSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
-const useMapAssetRenderer = ({
+const useMapSelectionRenderer = ({
   isClickable,
+  isSelectable = false,
+  onlyCrop = false,
+  setLocationId = () => {},
+  multipleLocations = false,
+  setMultipleLocationIds = () => {},
 }) => {
-  const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
-  const filterSettings = useSelector(mapFilterSettingSelector);
+  const cropOnlyFilters = useSelector(onlyCropEnabledLocations);
+  const usualFilters = useSelector(mapFilterSettingSelector);
+  const filterSettings = cropOnlyFilters;//onlyCrop ? cropOnlyFilters : usualFilters;
   const initAssetGeometriesState = () => {
     const nextAssetGeometries = {};
     for (const key in filterSettings) {
@@ -32,45 +38,67 @@ const useMapAssetRenderer = ({
   };
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
-  //TODO get prev filter state from redux
-  const [prevFilterState, setPrevFilterState] = useState(filterSettings);
-  useEffect(() => {
-    for (const key in filterSettings) {
-      const isPointVisible = (locationType) => {
-        if (isArea(locationType) && !filterSettings?.label) {
-          return false;
-        }
-        return filterSettings?.[locationType];
-      };
-      if (prevFilterState?.[key] !== filterSettings?.[key]) {
-        for (const assetGeometry of assetGeometries?.[key] || []) {
-          assetGeometry?.polygon?.setOptions({ visible: filterSettings?.[key] });
-          assetGeometry?.polyline?.setOptions({ visible: filterSettings?.[key] });
-          assetGeometry?.marker?.setOptions({ visible: isPointVisible(key) });
-        }
-      }
-    }
-    setPrevFilterState(filterSettings);
-  }, [filterSettings]);
 
-  useEffect(() => {
-    for (const areaLocationType of getAreaLocationTypes()) {
-      for (const assetGeometry of assetGeometries?.[areaLocationType] || []) {
-        filterSettings?.[areaLocationType] &&
-          assetGeometry?.marker?.setOptions({ visible: filterSettings?.label });
-      }
-    }
-  }, [filterSettings?.label]);
 
-  useEffect(() => {
-    for (const key in filterSettings) {
-      for (const assetGeometry of assetGeometries?.[key] || []) {
-        assetGeometry?.polygon?.setOptions({ clickable: isClickable });
-        assetGeometry?.polyline?.setOptions({ clickable: isClickable });
-        assetGeometry?.marker?.setOptions({ clickable: isClickable });
+  /* For selecting locations */
+  const [selectedLocation, _setSelectedLocation] = useState(null);
+  const selectedLocationRef = useRef(selectedLocation);
+  const setSelectedLocation = (data) => {
+    selectedLocationRef.current = data;
+    _setSelectedLocation(data);
+    setLocationId(data?.locationId);
+  };
+
+  const cropLocations = useSelector(cropLocationsSelector);
+  const initSelectableLocations = () => {
+    let res = {};
+    for (let location of cropLocations) {
+      res[location.location_id] = false;
+    }
+    return res;
+  };
+  const [selectedLocationsMap, _setSelectedLocationsMap] = useState(initSelectableLocations());
+  const selectedLocationsMapRef = useRef(selectedLocationsMap);
+  const addLocation = (location_id) => {
+    _setSelectedLocationsMap(selectedLocationsMap => {
+      selectedLocationsMap[location_id] = true;
+      return selectedLocationsMap;
+    });
+    console.log(selectedLocationsMap);
+    let currentLocations = [];
+    for (let location_id in selectedLocationsMapRef.current) {
+      if (selectedLocationsMapRef.current[location_id]) {
+        console.log(location_id);
+        currentLocations.push(location_id);
       }
     }
-  }, [isClickable]);
+    setMultipleLocationIds(currentLocations);
+  };
+  const removeLocation = (location_id) => {
+    _setSelectedLocationsMap(selectedLocationsMap => {
+      selectedLocationsMap[location_id] = false;
+      return selectedLocationsMap;
+    });
+    let currentLocations = [];
+    for (let location_id in selectedLocationsMapRef.current) {
+      if (selectedLocationsMapRef.current[location_id]) {
+        currentLocations.push(location_id);
+      }
+    }
+    setMultipleLocationIds(currentLocations);
+  };
+  /**/
+
+  const { handleSelection, dismissSelectionModal, selectArea } = useLocationsSelectionHandler(
+    isSelectable, 
+    multipleLocations, 
+    selectedLocationRef, 
+    selectedLocationsMapRef,
+    removeLocation,
+    addLocation,
+    setSelectedLocation,
+    assetGeometries
+  );
 
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
@@ -154,7 +182,7 @@ const useMapAssetRenderer = ({
     markerClusterRef.current = markerCluster;
   };
 
-  const drawAssets = (map, maps, mapBounds, selectedLocationId = false, selectedLocationIds = false) => {
+  const drawAssets = (map, maps, mapBounds, selectedLocationId = false, selectedLocationIds = false ) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
     });
@@ -229,10 +257,14 @@ const useMapAssetRenderer = ({
     polygon.setMap(map);
 
     maps.event.addListener(polygon, 'mouseover', function () {
-      this.setOptions({ fillOpacity: 0.8 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.8 });
+      }
     });
     maps.event.addListener(polygon, 'mouseout', function () {
-      this.setOptions({ fillOpacity: 0.5 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.5 });
+      }
     });
 
     // draw dotted outline
@@ -288,12 +320,45 @@ const useMapAssetRenderer = ({
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
 
+      if (isSelectable) {
+      selectArea(this, marker, area, polyline, polygon);
+      }
+      console.log(marker);
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
     marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
+
+    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === area.location_id) || 
+      (multipleLocations &&  selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(area.location_id)))) {
+      polygon.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      marker.setOptions({
+        label: {
+          text: name,
+          color: '#282B36',
+          fontSize: '16px',
+          className: styles.mapLabel,
+        }
+      });
+
+      if (multipleLocations) {
+        addLocation(area.location_id);
+      } else {
+        setSelectedLocation({
+          area,
+          polygon,
+          polyline,
+          marker,
+          asset: 'area',
+          locationId: area.location_id,
+        });   
+      }
+    }
 
     return {
       polygon,
@@ -392,9 +457,31 @@ const useMapAssetRenderer = ({
       isAreaLine(type) ? linePolygon : polyline,
       'click',
       function (mapsMouseEvent) {
+        // if (isSelectable) {
+        // selectLine(this, line, polyline, linePolygon);
+        // }
         handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       },
     );
+
+    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === line.location_id) ||
+      (multipleLocations && selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(line.location_id)))) {
+      linePolygon.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      
+      if (multipleLocations) {
+        addLocation(line.location_id);
+      } else {
+        setSelectedLocation({
+          line,
+          polygon: linePolygon,
+          asset: 'line',
+          locationId: line.location_id,
+        });
+      }
+    }
 
     return {
       ...asset,
@@ -450,4 +537,4 @@ const useMapAssetRenderer = ({
   return { drawAssets, drawArea, drawPoint, drawLine };
 };
 
-export default useMapAssetRenderer;
+export default useMapSelectionRenderer;

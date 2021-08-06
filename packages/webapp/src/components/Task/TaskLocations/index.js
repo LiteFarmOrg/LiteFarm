@@ -25,7 +25,7 @@ export default function PureTaskLocations({
         buttonGroup={
           <>
             <Button
-              disabled={taskLocations.length === 0}
+              disabled={!taskLocations || taskLocations.length === 0}
               onClick={onContinue}
               fullLength
             >

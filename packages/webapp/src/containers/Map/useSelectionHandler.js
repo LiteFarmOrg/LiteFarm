@@ -37,14 +37,13 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        console.log(overlappedLocations);
-        // containsCrops(overlappedLocations.area[0].type)
-        //   ? history.push(
-        //       `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
-        //     )
-        //   : history.push(
-        //       `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
-        //     );
+        containsCrops(overlappedLocations.area[0].type)
+          ? history.push(
+            `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
+          )
+          : history.push(
+            `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+          );
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&

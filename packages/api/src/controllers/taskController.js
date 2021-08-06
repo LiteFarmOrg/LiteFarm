@@ -47,13 +47,15 @@ const taskController = {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
+        const data = req.body;
+        data.planned_time = data.due_date;
         const result = await TaskModel.transaction(async trx =>
           await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph(req.body, {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: ['locations', 'managementPlans']
+              relate: ['locations', 'managementPlans'],
             }),
         );
         return res.status(200).send(result);

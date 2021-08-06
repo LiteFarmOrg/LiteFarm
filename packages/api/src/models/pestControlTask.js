@@ -35,17 +35,21 @@ class PestControlTask extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['pesticide_id', 'quantity_kg', 'target_disease_id', 'type'],
+      required: ['amount', 'product_id', 'control_method'],
 
       properties: {
         task_id: { type: 'integer' },
-        pesticide_id: { type: 'integer' },
-        quantity_kg: { type: 'number' },
-        type: {
+        product_id: { type: 'integer' },
+        amount: { type: 'number' },
+        amount_unit: { type: 'string', enum: ['g', 'lb', 'kg', 'oz', 'l', 'gal', 'ml'] },
+        other_method: { type: 'string' },
+        pest_target: { type: 'string' },
+        control_method: {
           type: 'string',
-          enum: ['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment'],
+          enum: ['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment',
+            'flameWeeding', 'mulching', 'pruning', 'traps', 'other',
+          ],
         },
-        target_disease_id: { type: 'integer' },
       },
       additionalProperties: false,
     };

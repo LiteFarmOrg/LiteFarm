@@ -1,5 +1,5 @@
 const typesOfTask = [
-  'fertilizer_task',
+  'soil_amendment_task',
   'pest_control_task',
   'irrigation_task',
   'scouting_task',
@@ -11,7 +11,7 @@ const typesOfTask = [
 
 
 const modelMapping = {
-  fertilizer_task: modelValidation('fertilizer_task'),
+  soil_amendment_task: modelValidation('soil_amendment_task'),
   pest_control_task: modelValidation('pest_control_task'),
   irrigation_task: modelValidation('irrigation_task'),
   scouting_task: modelValidation('scouting_task'),

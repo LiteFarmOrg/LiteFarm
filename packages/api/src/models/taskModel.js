@@ -59,12 +59,12 @@ class TaskModel extends BaseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fertilizer_task: {
+      soil_amendment_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./fertilizerTaskModel'),
+        modelClass: require('./soilAmendmentTaskModel'),
         join: {
           from: 'task.task_id',
-          to: 'fertilizer_task.task_id',
+          to: 'soil_amendment_task.task_id',
         },
       },
       pest_control_task: {

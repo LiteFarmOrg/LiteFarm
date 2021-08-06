@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class FertilizerTaskModel extends Model {
+class SoilAmendmentTaskModel extends Model {
   static get tableName() {
-    return 'fertilizer_task';
+    return 'soil_amendment_task';
   }
 
   static get idColumn() {
@@ -29,12 +29,14 @@ class FertilizerTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['fertilizer_id', 'quantity_kg'],
+      required: ['product_id', 'amount'],
 
       properties: {
         task_id: { type: 'integer' },
-        fertilizer_id: { type: 'integer', minimum: 0 },
-        quantity_kg: { type: 'float' },
+        purpose: { type: 'string', enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'] },
+        other_purpose: { type: 'string' },
+        product_id: { type: 'integer', minimum: 0 },
+        amount: { type: 'float' },
       },
       additionalProperties: false,
     };
@@ -50,7 +52,7 @@ class FertilizerTaskModel extends Model {
         // to a module that exports one.
         modelClass: require('./taskModel'),
         join: {
-          from: 'fertilizer_task.task_id',
+          from: 'soil_amendment_task.task_id',
           to: 'task.task_id',
         },
 
@@ -60,4 +62,4 @@ class FertilizerTaskModel extends Model {
   }
 }
 
-module.exports = FertilizerTaskModel;
+module.exports = SoilAmendmentTaskModel;

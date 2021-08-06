@@ -4,10 +4,15 @@ exports.up = async function(knex) {
   await knex.schema.createTable('product', (t) => {
     t.increments('product_id');
     t.string('name').notNullable();
+    t.string('product_translation_key');
     t.string('supplier');
     t.boolean('on_permitted_substances_list');
     t.enu('type', ['soil_amendment', 'pest_control', 'cleaner'])
     t.uuid('farm_id').references('farm_id').inTable('farm');
+    t.string('created_by_user_id').references('user_id').inTable('users').defaultTo('1');
+    t.string('updated_by_user_id').references('user_id').inTable('users').defaultTo('1');
+    t.dateTime('created_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
+    t.dateTime('updated_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
   });
   await knex.raw('ALTER TABLE fertilizer_task DROP CONSTRAINT fertilizerlog_fertilizer_id_foreign');
   await knex.schema.renameTable('fertilizer_task', 'soil_amendment_task');

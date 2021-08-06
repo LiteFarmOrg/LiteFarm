@@ -487,7 +487,7 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
+              path="/add_task/task_date"
               exact
               component={TaskDate}
             />
@@ -730,7 +730,7 @@ const Routes = () => {
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
+              path="/add_task/task_date"
               exact
               component={TaskDate}
             />
@@ -903,7 +903,7 @@ const Routes = () => {
               component={ManagementDetail}
             />
             <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
+              path="/add_task/task_date"
               exact
               component={TaskDate}
             />

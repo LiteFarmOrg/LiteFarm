@@ -1339,9 +1339,5 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY_BEDS": "MISSING",
     "TOOLTIP": "MISSING"
-  },
-  "TASK": {
-    "SELECT_DATE": "MISSING",
-    "ADD_TASK_FLOW": "MISSING"
   }
 }

@@ -205,7 +205,7 @@ describe('Location tests', () => {
     })
   });
 
-  xdescribe('DELETE /location ', () => {
+  describe('DELETE /location ', () => {
     test('should delete field', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
@@ -245,11 +245,11 @@ describe('Location tests', () => {
       });
     });
 
-    test('Delete should return 400 when field is referenced by log', async (done) => {
+    test('Delete should return 400 when field is referenced by task', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.activityFieldsFactory({
-        promisedActivityLog: mocks.activityLogFactory({ user_id }),
+      await mocks.location_tasksFactory({
+        promisedActivityLog: mocks.taskFactory({ user_id }),
         promisedField: [field1],
       });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
@@ -258,24 +258,7 @@ describe('Location tests', () => {
       });
     });
 
-    test('should return 400 when field is referenced in shift', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      const shiftData = mocks.fakeShift();
-      const today = new Date();
-      today.setDate(today.getDate() + 1 );
-      shiftData.shift_date = today;
-      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
-      await mocks.shiftTaskFactory({
-        promisedLocation: [{ location_id: field1.location_id }],
-        promisedShift: [shift],
-      });
-      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
-    })
-    test('should return 400 when expired managementPlan is referenced in shift', async (done) => {
+    test('should return 400 when expired managementPlan is referenced in task', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const fakeManagementPlan = mocks.fakeManagementPlan();
@@ -285,16 +268,15 @@ describe('Location tests', () => {
           harvest_date: fakeManagementPlan.seed_date,
         }), promisedField: [field1],
       });
-      const shiftData = mocks.fakeShift();
+      const taskData = mocks.fakeTask();
       const today = new Date();
       today.setDate(today.getDate() + 1);
-      shiftData.shift_date = today;
-      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
-      await mocks.shiftTaskFactory({
+      taskData.due_date = today;
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, taskData);
+      await mocks.management_tasksFactory({
         promisedManagementPlan: [managementPlan1],
-        promisedLocation: [{}],
-        promisedShift: [shift],
-      }, { ...mocks.fakeShiftTask(), is_location: false });
+        promisedTask: [{task_id: task.task_id}],
+      });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();

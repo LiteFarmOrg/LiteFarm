@@ -27,7 +27,7 @@ export default function PureTaskDate({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: {...persistedFormData},
+    defaultValues: { ...persistedFormData },
   });
 
   const progress = 28;
@@ -59,9 +59,7 @@ export default function PureTaskDate({
         value={progress}
       />
 
-      <Label style={{ marginBottom: '16px' }}>
-        {t('TASK.SELECT_DATE')}
-      </Label>
+      <Label style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Label>
 
       <Input
         type={'date'}
@@ -71,7 +69,6 @@ export default function PureTaskDate({
         })}
         errors={errors[TASK_DATE] && t('common:REQUIRED')}
       />
-
     </Form>
   );
 }

@@ -16,9 +16,32 @@
     "ADD_A_TASK": "MISSING",
     "ASSIGNEE": "MISSING",
     "CANCEL": "MISSING",
+    "COLLECT_SOIL_SAMPLE": "MISSING",
+    "CREATE_CUSTOM_TASK": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
-    "WAGE_OVERRIDE": "MISSING"
+    "ASSIGN_TASK": "MISSING",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
+    "FERTILIZE": "MISSING",
+    "FIELD_WORK": "MISSING",
+    "HARVEST": "MISSING",
+    "IRRIGATE": "MISSING",
+    "MAINTENANCE": "MISSING",
+    "PEST_CONTROL": "MISSING",
+    "PLANT": "MISSING",
+    "RECORD_SOIL_SAMPLE": "MISSING",
+    "SALES": "MISSING",
+    "SCOUT": "MISSING",
+    "SEARCH_INFOI": "MISSING",
+    "SELECT_TASK_TYPE": "MISSING",
+    "SOCIAL_EVENT": "MISSING",
+    "SOIL_AMENDMENT": "MISSING",
+    "TASK": "MISSING",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
+    "TRANSPLANT": "MISSING",
+    "TRANSPORT": "MISSING",
+    "WAGE_OVERRIDE": "MISSING",
+    "WASH_AND_PACK": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "MISSING",
@@ -1264,9 +1287,8 @@
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
-    "LOGS": "Registros",
     "MANAGE": "Administrar",
-    "SHIFTS": "Turnos"
+    "TASKS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Ativo",
@@ -1287,6 +1309,10 @@
     "PAGE_TEXT": "Página",
     "PREVIOUS_TEXT": "Anterior",
     "ROWS_TEXT": "linhas"
+  },
+  "TASK": {
+    "ADD_TASK_FLOW": "MISSING",
+    "SELECT_DATE": "MISSING"
   },
   "UNIT": {
     "TIME": {
@@ -1313,9 +1339,5 @@
     "SPACE_BETWEEN": "MISSING",
     "SPECIFY_BEDS": "MISSING",
     "TOOLTIP": "MISSING"
-  },
-  "TASK": {
-    "SELECT_DATE": "MISSING",
-    "ADD_TASK_FLOW": "MISSING"
   }
 }

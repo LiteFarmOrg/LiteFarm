@@ -284,13 +284,11 @@ const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
 const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
 
-
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
 const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
-
+const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
-
 
 const Routes = () => {
   useScrollToTop();
@@ -464,6 +462,7 @@ const Routes = () => {
             />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/crop/:variety_id/add_management_plan/rows" exact component={RowMethod} />
             <Route
               path="/crop/:variety_id/add_management_plan/row_guidance"
@@ -870,6 +869,8 @@ const Routes = () => {
             <Route path={'/export/:id'} exact component={ExportDownload} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -966,6 +967,8 @@ const Routes = () => {
             <Route path="/help" exact component={HelpRequest} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

@@ -31,7 +31,7 @@ class TaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['task_id', 'due_date', 'type'],
+      required: ['due_date', 'type'],
 
       properties: {
         task_id: { type: 'integer' },
@@ -40,7 +40,7 @@ class TaskModel extends BaseModel {
         notes: { type: 'string' },
         completion_notes: { type: 'string' },
         owner_user_id: { type: 'string' },
-        assignee_user_id: { type: 'string' },
+        assignee_user_id: { type: ['string', null] },
         coordinates: { type: 'object' },
         duration: { type: 'number' },
         wage_at_moment: { type: 'number' },
@@ -61,9 +61,6 @@ class TaskModel extends BaseModel {
     return {
       fertilizer_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./fertilizerTaskModel'),
         join: {
           from: 'task.task_id',
@@ -72,9 +69,6 @@ class TaskModel extends BaseModel {
       },
       pest_control_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./pestControlTask'),
         join: {
           from: 'task.task_id',
@@ -83,9 +77,6 @@ class TaskModel extends BaseModel {
       },
       irrigation_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./irrigationTaskModel'),
         join: {
           from: 'task.task_id',
@@ -94,9 +85,6 @@ class TaskModel extends BaseModel {
       },
       scouting_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./scoutingTaskModel'),
         join: {
           from: 'task.task_id',
@@ -105,9 +93,6 @@ class TaskModel extends BaseModel {
       },
       soil_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./soilTaskModel'),
         join: {
           from: 'task.task_id',
@@ -116,9 +101,6 @@ class TaskModel extends BaseModel {
       },
       field_work_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./fieldWorkTaskModel'),
         join: {
           from: 'task.task_id',
@@ -127,9 +109,6 @@ class TaskModel extends BaseModel {
       },
       harvest_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./harvestTaskModel'),
         join: {
           from: 'task.task_id',
@@ -138,27 +117,29 @@ class TaskModel extends BaseModel {
       },
       harvestUse: {
         relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./harvestUseModel'),
         join: {
           from: 'task.task_id',
           to: 'harvestUse.task_id',
         },
       },
+      taskType: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./taskTypeModel'),
+        join: {
+          from: 'task.type',
+          to: 'task_type.task_type_id',
+        },
+      },
       plant_task: {
         relation: Model.HasOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./plantTaskModel'),
         join: {
           from: 'task.task_id',
           to: 'plant_task.task_id',
         },
       },
-      managementPlan: {
+      managementPlans: {
         modelClass: require('./managementPlanModel'),
         relation: Model.ManyToManyRelation,
         join: {
@@ -172,7 +153,7 @@ class TaskModel extends BaseModel {
         },
 
       },
-      location: {
+      locations: {
         modelClass: require('./locationModel'),
         relation: Model.ManyToManyRelation,
         join: {

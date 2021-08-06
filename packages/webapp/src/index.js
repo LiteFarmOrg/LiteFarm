@@ -76,6 +76,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
 import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
+import taskSaga from './containers/Task/saga';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -179,6 +180,7 @@ sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(cropVarietyImageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
+sagaMiddleware.run(taskSaga);
 
 const persistor = persistStore(store);
 

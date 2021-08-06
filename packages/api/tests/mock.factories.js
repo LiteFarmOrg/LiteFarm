@@ -687,6 +687,7 @@ function fakeTask(defaultData = {}) {
   return {
     due_date: faker.date.future(),
     notes: faker.lorem.words(),
+    happiness: faker.random.arrayElement([0, 1, 2, 3, 4, 5]),
     ...defaultData
   };
 }

@@ -58,7 +58,8 @@ describe('Task tests', () => {
 
 
   async function userFarmTaskGenerator(linkPlan = true) {
-    const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+    const userFarm = {...fakeUserFarm(1), wage: { type:'', amount: 30}};
+    const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
     const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }]});
     const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }]});
     const [{ management_plan_id }] = linkPlan ? await mocks.management_planFactory({ promisedFarm: [{ farm_id }],
@@ -78,13 +79,15 @@ describe('Task tests', () => {
 
   describe('PATCH Assginee tests', () => {
     test('Owners should be able to assign person to task', async (done) => {
-      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const userFarm = {...fakeUserFarm(1), wage: { type:'', amount: 30}};
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id }, task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task_id);
+        expect(updated_task.wage_at_moment).toBe(30);
         expect(updated_task.assignee_user_id).toBe(user_id);
         done();
       });
@@ -194,7 +197,7 @@ describe('Task tests', () => {
       const task_2_id = task_2.task_id;
       await mocks.location_tasksFactory({ promisedTask: [task_1], promisedField: [location_1] });
       await mocks.location_tasksFactory({ promisedTask: [task_2], promisedField: [location_2] });
-      assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: user_id, date: date }, task_1_id, async (err, res) => {
+      assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: user_id, date }, task_1_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task_1 = await getTask(task_1_id);
         const updated_task_2 = await getTask(task_2_id);
@@ -269,6 +272,7 @@ describe('Task tests', () => {
               [type]: { ...fakeTaskData[type]() },
               type: task_type_id,
               owner_user_id: user_id,
+              assignee_user_id: user_id,
             }),
             locations: [{ location_id } ],
             managementPlans: [],
@@ -279,6 +283,7 @@ describe('Task tests', () => {
             const { task_id } = res.body;
             const createdTask = await knex('task').where({ task_id }).first();
             expect(createdTask).toBeDefined();
+            expect(createdTask.wage_at_moment).toBe(30);
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
             expect(isTaskRelatedToLocation.task_id).toBe(task_id);
@@ -321,7 +326,7 @@ describe('Task tests', () => {
         });
       });
 
-      test('should create a task (i.e fertilizer)  with multiple management plans', async (done) => {
+      test('should create a task (i.e soilamendment)  with multiple management plans', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement  = await Promise.all([...Array(3)].map(async () =>
           mocks.management_planFactory({ promisedFarm: [{ farm_id }],

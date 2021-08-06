@@ -2,36 +2,20 @@ import PurePlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidanc
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { addManagementPlanNamePath } from '../../../../components/Crop/addManagementPlanPaths';
 
 export default function BedPlan({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
-  const onContinuePath = addManagementPlanNamePath(variety_id);
-  const onGoBackPath = `/crop/${variety_id}/add_management_plan/beds`;
-  const persistedPaths = [onContinuePath, onGoBackPath];
-  const onCancel = () => {
-    history.push(`/crop/${variety_id}/management`);
-  };
-  const onContinue = () => {
-    history.push(onContinuePath);
-  };
-  const isInitialPlantingManagementPlan = match?.path.includes('historical');
+  const isFinalPage = match?.path.includes('final');
 
-  const onBack = () => {
-    history.push(onGoBackPath);
-  };
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
-        onCancel={onCancel}
-        handleContinue={onContinue}
-        onGoBack={onBack}
         system={system}
-        match={match}
         history={history}
-        persistedPaths={persistedPaths}
         isBed={true}
+        variety_id={variety_id}
+        isFinalPage={isFinalPage}
       />
     </HookFormPersistProvider>
   );

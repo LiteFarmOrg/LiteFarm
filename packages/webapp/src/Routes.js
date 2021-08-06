@@ -212,9 +212,6 @@ const AddNewCrop = React.lazy(() => import('./containers/AddNewCrop'));
 const PlantingLocation = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantingLocation'),
 );
-const InGroundTransplant = React.lazy(() =>
-  import('./containers/Crop/AddManagementPlan/InGroundTransplant'),
-);
 const Transplant = React.lazy(() => import('./containers/Crop/AddManagementPlan/Transplant'));
 const PlantingDate = React.lazy(() => import('./containers/Crop/AddManagementPlan/PlantingDate'));
 const PlantingMethod = React.lazy(() =>
@@ -430,7 +427,7 @@ const Routes = () => {
             <Route
               path="/crop/:variety_id/add_management_plan/initial_planting_method"
               exact
-              component={InGroundTransplant}
+              component={PlantingMethod}
             />
 
             <Route
@@ -888,7 +885,7 @@ const Routes = () => {
             <Route
               path="/crop/:variety_id/add_management_plan/initial_planting_method"
               exact
-              component={InGroundTransplant}
+              component={Transplant}
             />
             <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}

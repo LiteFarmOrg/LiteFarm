@@ -6,40 +6,23 @@ import { measurementSelector } from '../../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../../locationSlice';
 import { cropVarietyByID } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import {
-  addManagementPlanNamePath,
-  finalPlantingMethodPath,
-} from '../../../../components/Crop/addManagementPlanPaths';
 
 function BroadcastPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const location = useSelector(cropLocationByIdSelector(persistedFormData.location_id));
-  const varietyId = match.params.variety_id;
-  const cropVariety = useSelector(cropVarietyByID(varietyId));
+  const variety_id = match.params.variety_id;
+  const cropVariety = useSelector(cropVarietyByID(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
-  const variety_id = match.params.variety_id;
-  const goBackPath = finalPlantingMethodPath(variety_id);
-
-  const onCancel = () => {
-    history.push(`/crop/${variety_id}/management`);
-  };
-
-  const onContinue = () => {
-    history.push(addManagementPlanNamePath(variety_id));
-  };
-
-  const onBack = () => {
-    history.push(goBackPath);
-  };
+  const isFinalPage = match?.path.includes('final');
 
   return (
     <HookFormPersistProvider>
       <PureBroadcastPlan
-        onCancel={onCancel}
-        handleContinue={onContinue}
-        onGoBack={onBack}
         system={system}
+        variety_id={variety_id}
+        history={history}
+        isFinalPage={isFinalPage}
         locationSize={location.total_area}
         yieldPerArea={yieldPerArea}
       />

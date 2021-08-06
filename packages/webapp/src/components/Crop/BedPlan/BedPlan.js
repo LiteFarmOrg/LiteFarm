@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -12,12 +12,9 @@ import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
+import { getBedMethodPaths } from '../getAddManagementPlanPath';
 
 function PureBedPlan({
-  onGoBack,
-  onCancel,
-  handleContinue,
-  match,
   history,
   system,
   crop_variety,
@@ -93,6 +90,14 @@ function PureBedPlan({
     }
   }, [number_of_beds, number_of_rows_in_bed, length_of_bed, plant_spacing]);
 
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getBedMethodPaths(crop_variety.crop_variety_id, !isInitialPlantingManagementPlan),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
   return (
     <Form
       buttonGroup={
@@ -100,7 +105,7 @@ function PureBedPlan({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}

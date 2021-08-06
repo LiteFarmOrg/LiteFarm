@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -13,6 +13,7 @@ import { container_plant_spacing, container_planting_depth, seedYield } from '..
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
+import { getContainerMethodPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -21,20 +22,14 @@ export default function PurePlantInContainer({
   match,
   history,
   crop_variety,
-  isInitialPlantingManagementPlan,
+  isFinalPage,
 }) {
   const prefix = `crop_management_plan.planting_management_plans.${
-    isInitialPlantingManagementPlan ? 'initial' : 'final'
+    isFinalPage ? 'final' : 'initial'
   }`;
 
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
-  const submitPath = `/crop/${variety_id}/add_management_plan/${
-    isInitialPlantingManagementPlan ? 'choose_final_planting_location' : 'name'
-  }`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isInitialPlantingManagementPlan ? 'choose_initial_planting_location' : 'planting_method'
-  }`;
 
   const IN_GROUND = `${prefix}.container_method.in_ground`;
   const NUMBER_OF_CONTAINERS = `${prefix}.container_method.number_of_containers`;
@@ -66,16 +61,17 @@ export default function PurePlantInContainer({
     defaultValues: cloneObject(persistedFormData),
   });
   useHookFormPersist(getValues);
-  const onSubmit = () => {
-    history?.push(submitPath);
-  };
+
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getContainerMethodPaths(variety_id, persistedFormData, isFinalPage),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
   const onError = () => {};
-  const onGoBack = () => {
-    history?.push(goBackPath);
-  };
-  const onCancel = () => {
-    history?.push(`/crop/${variety_id}/management`);
-  };
+
+  console.log({ goBackPath, submitPath, cancelPath, isFinalPage });
 
   const in_ground = watch(IN_GROUND);
   const number_of_container = watch(NUMBER_OF_CONTAINERS);
@@ -123,7 +119,7 @@ export default function PurePlantInContainer({
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={isInitialPlantingManagementPlan ? 50 : 75}
+        value={isFinalPage ? 75 : 50}
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}</Main>
@@ -150,7 +146,6 @@ export default function PurePlantInContainer({
                   required: true,
                   valueAsNumber: true,
                 })}
-                style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
@@ -161,7 +156,6 @@ export default function PurePlantInContainer({
                   required: true,
                   valueAsNumber: true,
                 })}
-                style={{ flexGrow: 1 }}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, PLANTS_PER_CONTAINER)}
@@ -193,7 +187,6 @@ export default function PurePlantInContainer({
               hookFromWatch={watch}
               control={control}
               optional
-              style={{ flexGrow: 1 }}
             />
             {in_ground && (
               <Unit
@@ -209,7 +202,6 @@ export default function PurePlantInContainer({
                 hookFromWatch={watch}
                 control={control}
                 required
-                style={{ flexGrow: 1 }}
               />
             )}
           </div>
@@ -231,7 +223,7 @@ export default function PurePlantInContainer({
               />
             </>
           )}
-          {!isInitialPlantingManagementPlan && showEstimatedValue && (
+          {showEstimatedValue && (
             <div className={styles.row}>
               <Unit
                 register={register}
@@ -245,8 +237,8 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required
-                style={{ flexGrow: 1 }}
+                required={isFinalPage}
+                optional={!isFinalPage}
               />
               <Unit
                 register={register}
@@ -260,8 +252,8 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required
-                style={{ flexGrow: 1 }}
+                required={isFinalPage}
+                optional={!isFinalPage}
               />
             </div>
           )}

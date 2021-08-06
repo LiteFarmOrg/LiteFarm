@@ -132,7 +132,6 @@ export default function PureRowMethod({
                     required: true,
                     valueAsNumber: true,
                   })}
-                  style={{ flexGrow: 1 }}
                   type={'number'}
                   onKeyDown={integerOnKeyDown}
                   max={999}
@@ -152,7 +151,6 @@ export default function PureRowMethod({
                   hookFromWatch={watch}
                   control={control}
                   required
-                  style={{ flexGrow: 1 }}
                 />
               </div>
             </>
@@ -172,7 +170,6 @@ export default function PureRowMethod({
                 hookFromWatch={watch}
                 control={control}
                 required
-                style={{ flexGrow: 1 }}
               />
             </div>
           )}
@@ -191,7 +188,6 @@ export default function PureRowMethod({
               hookFromWatch={watch}
               control={control}
               required
-              style={{ flexGrow: 1 }}
             />
           </div>
           {showEstimatedValue && (
@@ -210,7 +206,6 @@ export default function PureRowMethod({
                   hookFromWatch={watch}
                   control={control}
                   required
-                  style={{ flexGrow: 1 }}
                 />
                 <Unit
                   register={register}
@@ -225,7 +220,6 @@ export default function PureRowMethod({
                   hookFromWatch={watch}
                   control={control}
                   required
-                  style={{ flexGrow: 1 }}
                 />
               </div>
             </>

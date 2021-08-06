@@ -18,6 +18,7 @@ import ImageModal from '../../Modals/ImageModal';
 import { cloneObject } from '../../../util';
 import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/unit';
+import { getPlantingMethodPaths } from '../getAddManagementPlanPath';
 
 const BROADCAST = 'BROADCAST_METHOD';
 const CONTAINER = 'CONTAINER_METHOD';
@@ -102,21 +103,40 @@ export default function PurePlantingMethod({
   const IS_PLANTING_METHOD_KNOWN = `crop_management_plan.planting_management_plans.${plantingMethodPrefix}.is_planting_method_known`;
   const is_planting_method_known = watch(IS_PLANTING_METHOD_KNOWN);
 
-  const submitPath = `/crop/${variety_id}/add_management_plan/${planting_method?.toLowerCase()}`;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/${
-    isFinalPlantingMethod ? 'choose_final_planting_location' : 'choose_initial_planting_location'
-  }`;
   useHookFormPersist(getValues);
-  const onSubmit = () => {
-    history?.push(submitPath);
-  };
+
   const onError = () => {};
-  const onGoBack = () => {
-    history?.push(goBackPath);
-  };
-  const onCancel = () => {
-    history?.push(`/crop/${variety_id}/management`);
-  };
+
+  const onSubmit = () =>
+    history.push(
+      getPlantingMethodPaths(
+        variety_id,
+        persistedFormData,
+        isFinalPlantingMethod,
+        planting_method,
+        is_planting_method_known,
+      ).submitPath,
+    );
+  const onGoBack = () =>
+    history.push(
+      getPlantingMethodPaths(
+        variety_id,
+        persistedFormData,
+        isFinalPlantingMethod,
+        planting_method,
+        is_planting_method_known,
+      ).goBackPath,
+    );
+  const onCancel = () =>
+    history.push(
+      getPlantingMethodPaths(
+        variety_id,
+        persistedFormData,
+        isFinalPlantingMethod,
+        planting_method,
+        is_planting_method_known,
+      ).cancelPath,
+    );
 
   const disabled = !isValid;
   const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -9,18 +9,16 @@ import { container_planting_depth } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
+import { getBedGuidancePaths, getRowGuidancePaths } from '../getAddManagementPlanPath';
 
 function PurePlanGuidance({
-  onGoBack,
-  onCancel,
   system,
-  handleContinue,
   persistedFormData,
   useHookFormPersist,
-  persistedPaths,
   isBed,
-  isInitialPlantingManagementPlan,
-  match,
+  variety_id,
+  isFinalPage,
+  history,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -30,16 +28,16 @@ function PurePlanGuidance({
     watch,
     control,
     setValue,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
     mode: 'onChange',
   });
+  useHookFormPersist(getValues);
 
   const prefix = `crop_management_plan.planting_management_plans.${
-    isInitialPlantingManagementPlan ? 'initial' : 'final'
+    isFinalPage ? 'final' : 'initial'
   }`;
 
   const SPECIFY = `${prefix}.${isBed ? `bed_method.specify_beds` : `row_method.specify_rows`}`;
@@ -66,7 +64,16 @@ function PurePlanGuidance({
 
   const SPECIFY_LIMIT = 40;
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () =>
+      isBed
+        ? getBedGuidancePaths(variety_id, isFinalPage)
+        : getRowGuidancePaths(variety_id, isFinalPage),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   return (
     <Form
@@ -75,7 +82,7 @@ function PurePlanGuidance({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}

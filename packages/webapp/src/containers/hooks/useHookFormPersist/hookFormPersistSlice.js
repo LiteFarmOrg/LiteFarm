@@ -99,37 +99,7 @@ const hookFormPersistSlice = createSlice({
       ];
       state.formData = formData;
     },
-    setFinalLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
-      !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.crop_management_plan.planting_management_plans = {});
-      !state.formData.crop_management_plan.planting_management_plans.final &&
-        (state.formData.crop_management_plan.planting_management_plans.final = {});
-      state.formData.crop_management_plan.planting_management_plans.final.location_id = location_id;
-    },
-    setInitialLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
-      !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.crop_management_plan.planting_management_plans = {});
-      !state.formData.crop_management_plan.planting_management_plans.initial &&
-        (state.formData.crop_management_plan.planting_management_plans.initial = {});
-      state.formData.crop_management_plan.planting_management_plans.initial.location_id = location_id;
-      state?.formData?.farm?.default_initial_location_id &&
-        (state.formData.farm.default_initial_location_id = location_id);
-    },
-    setWildCropLocation: (state, { payload }) => {
-      !state.formData.crop_management_plan && (state.formData.crop_management_plan = {});
-      !state.formData.crop_management_plan.planting_management_plans &&
-        (state.formData.crop_management_plan.planting_management_plans = {});
-      !state.formData.crop_management_plan.planting_management_plans.final &&
-        (state.formData.crop_management_plan.planting_management_plans.final = {});
-      state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate = payload;
-    },
-    resetWildCropLocation: (state) => {
-      if (state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate) {
-        delete state.formData.crop_management_plan.planting_management_plans.final.pin_coordinate;
-      }
-    },
+
     setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
       state.formData.submission_id = submission_id;
     },
@@ -145,13 +115,6 @@ const hookFormPersistSlice = createSlice({
     setInterested: (state, { payload: interested }) => {
       state.formData.interested = interested;
     },
-
-    setDefaultInitialLocation: (state, { payload: location_id }) => {
-      if (!state.formData.farm) {
-        state.formData.farm = {};
-      }
-      state.formData.farm.default_initial_location_id = location_id;
-    },
   },
 });
 
@@ -165,17 +128,12 @@ export const {
   setAreaDetailFormData,
   setLineDetailFormData,
   setPointDetailFormData,
-  setFinalLocationIdManagementPlanFormData,
-  setInitialLocationIdManagementPlanFormData,
-  setWildCropLocation,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,
   setCertifierId,
   setInterested,
-  setDefaultInitialLocation,
-  resetWildCropLocation,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>

@@ -22,10 +22,18 @@ export default function InputDuration({
   const date = hookFormWatch(dateName);
   useEffect(() => {
     const maxDuration = max || 999;
-    const newDate = getLocalizedDateString(
-      addDaysToDate(startDate, duration > maxDuration ? maxDuration : duration),
+    setTimeout(
+      () =>
+        hookFormSetValue(
+          dateName,
+          duration
+            ? getDateInputFormat(
+                addDaysToDate(startDate, duration > maxDuration ? maxDuration : duration),
+              )
+            : null,
+        ),
+      0,
     );
-    setTimeout(() => hookFormSetValue(dateName, duration ? getDateInputFormat(newDate) : null), 0);
   }, [duration, startDate]);
 
   return (
@@ -43,7 +51,7 @@ export default function InputDuration({
       />
       <div className={styles.dateContainer}>
         {!errors && !!startDate && !isNaN(duration) && duration !== '' && (
-          <Semibold>{date}</Semibold>
+          <Semibold>{getLocalizedDateString(date)}</Semibold>
         )}
       </div>
     </div>

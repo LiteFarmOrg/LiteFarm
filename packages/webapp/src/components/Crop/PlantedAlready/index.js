@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -65,8 +65,9 @@ export default function PurePlantedAlready({
     }
   }, []);
 
-  const { goBackPath, submitPath, cancelPath } = getPlantedAlreadyPaths(
-    cropVariety.crop_variety_id,
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getPlantedAlreadyPaths(cropVariety.crop_variety_id),
+    [],
   );
 
   const onSubmit = () => {

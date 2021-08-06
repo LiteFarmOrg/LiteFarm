@@ -24,7 +24,7 @@ import {
 export const cancelAddManagementPlanPath = (variety_id) => `/crop/${variety_id}/management`;
 
 export const getPlantedAlreadyPaths = (variety_id) => ({
-  goBackPath: `/crop/${variety_id}/management`,
+  goBackPath: cancelAddManagementPlanPath(variety_id),
   submitPath: needsTransplantPath(variety_id),
   cancelPath: cancelAddManagementPlanPath(variety_id),
 });
@@ -111,7 +111,15 @@ export const getPlantingLocationPaths = (variety_id, persistedFormData, isFinalL
     cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
-
+/**
+ *
+ * @param {string} variety_id
+ * @param persistedFormData
+ * @param {boolean} isFinalPlantingMethodPage
+ * @param {string} planting_method
+ * @param {boolean} is_planting_method_known
+ * @return {{goBackPath: string, submitPath: string, cancelPath: string}}
+ */
 export const getPlantingMethodPaths = (
   variety_id,
   persistedFormData,

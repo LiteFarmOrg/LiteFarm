@@ -693,9 +693,11 @@ function fakeTask(defaultData = {}) {
 
 async function productFactory({ promisedFarm = farmFactory() } = {},
                               product = fakeProduct()){
-  const [farm] = await Promise.all([promisedFarm]);
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
-  return knex('product').insert({...product, farm_id}).returning('*');
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('product').insert({...product, ...base, farm_id}).returning('*');
 }
 
 function fakeProduct(defaultData = {}){

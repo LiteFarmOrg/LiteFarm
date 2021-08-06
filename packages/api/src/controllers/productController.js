@@ -33,6 +33,7 @@ const productController = {
         }
       } catch (error) {
         //handle more exceptions
+        console.log(error);
         res.status(400).json({
           error,
         });

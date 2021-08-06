@@ -11,6 +11,7 @@ exports.up = async function(knex) {
     t.uuid('farm_id').references('farm_id').inTable('farm');
     t.string('created_by_user_id').references('user_id').inTable('users').defaultTo('1');
     t.string('updated_by_user_id').references('user_id').inTable('users').defaultTo('1');
+    t.boolean('deleted').defaultTo(false);
     t.dateTime('created_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
     t.dateTime('updated_at').defaultTo(new Date('2000/1/1').toISOString()).notNullable();
   });

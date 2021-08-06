@@ -20,8 +20,8 @@ const productController = require('./../controllers/productController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 // Get the crop on a bed
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), productController.getProductsByFarm());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), productController.getProductsByFarm());
 
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['get:prices']), productController.addProduct());
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:product']), productController.addProduct());
 
 module.exports = router;

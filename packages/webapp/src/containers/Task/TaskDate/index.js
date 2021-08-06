@@ -9,7 +9,7 @@ function TaskDate({ history, match }) {
   }
 
   const onContinue = () => {
-    console.log('Go to LF-1567 Task locations');
+    history.push('/add_task/task_locations');
   }
 
   const onCancel = () => {

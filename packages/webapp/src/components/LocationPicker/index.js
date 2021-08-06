@@ -20,6 +20,9 @@ const LocationPicker = ({
   canUsePin,
   setPinLocation,
   currentPin,
+  canSelectMultipleLocations,
+  setLocationIds,
+  selectedLocationIds,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(currentPin);
   const [selectedPin, setSelectedPin] = useState(null);
@@ -28,9 +31,11 @@ const LocationPicker = ({
   const { drawLocations } = useDrawSelectableLocations(setLocationId);
   const { drawAssets } = useMapAssetRenderer({ 
     isClickable: true, 
+    isSelectable: true,
     onlyCrop: true, 
     setLocationId: setLocationId,
-    multipileLocations: true,
+    multipleLocations: canSelectMultipleLocations,
+    setMultipleLocationIds: setLocationIds,
   });
 
   function placeMarker(latLng, map, maps) {
@@ -144,7 +149,7 @@ const LocationPicker = ({
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
     //drawLocations(map, maps, mapBounds, selectedLocationId);
-    drawAssets(map, maps, mapBounds);
+    drawAssets(map, maps, mapBounds, selectedLocationId, selectedLocationIds);
   };
 
   return (
@@ -173,6 +178,7 @@ LocationPicker.prototype = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationId: PropTypes.string,
+  canSelectMultipleLocations: PropTypes.bool,
 };
 
 export default LocationPicker;

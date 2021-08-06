@@ -19,9 +19,11 @@ import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 const useMapAssetRenderer = ({
   isClickable,
+  isSelectable = false,
   onlyCrop = false,
-  setLocationId,
-  multipileLocations = false,
+  setLocationId = () => {},
+  multipleLocations = false,
+  setMultipleLocationIds = () => {},
 }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
@@ -36,6 +38,10 @@ const useMapAssetRenderer = ({
     return nextAssetGeometries;
   };
 
+  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
+
+
+  /* For selecting locations */
   const [selectedLocation, _setSelectedLocation] = useState(null);
   const selectedLocationRef = useRef(selectedLocation);
   const setSelectedLocation = (data) => {
@@ -43,8 +49,6 @@ const useMapAssetRenderer = ({
     _setSelectedLocation(data);
     setLocationId(data?.locationId);
   };
-
-  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
 
   const cropLocations = useSelector(cropLocationsSelector);
   const initSelectableLocations = () => {
@@ -61,13 +65,28 @@ const useMapAssetRenderer = ({
       selectedLocationsMap[location_id] = true;
       return selectedLocationsMap;
     });
+    let currentLocations = [];
+    for (let location_id in selectedLocationsMapRef.current) {
+      if (selectedLocationsMapRef.current[location_id]) {
+        currentLocations.push(location_id);
+      }
+    }
+    setMultipleLocationIds(currentLocations);
   };
   const removeLocation = (location_id) => {
     _setSelectedLocationsMap(selectedLocationsMap => {
       selectedLocationsMap[location_id] = false;
       return selectedLocationsMap;
     });
+    let currentLocations = [];
+    for (let location_id in selectedLocationsMapRef.current) {
+      if (selectedLocationsMapRef.current[location_id]) {
+        currentLocations.push(location_id);
+      }
+    }
+    setMultipleLocationIds(currentLocations);
   };
+  /**/
 
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
@@ -191,7 +210,7 @@ const useMapAssetRenderer = ({
     markerClusterRef.current = markerCluster;
   };
 
-  const drawAssets = (map, maps, mapBounds) => {
+  const drawAssets = (map, maps, mapBounds, selectedLocationId = false, selectedLocationIds = false ) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
     });
@@ -222,6 +241,8 @@ const useMapAssetRenderer = ({
               mapBounds,
               location,
               filterSettings?.[locationType],
+              selectedLocationId,
+              selectedLocationIds,
             ),
           );
         })
@@ -232,6 +253,8 @@ const useMapAssetRenderer = ({
             mapBounds,
             assets[idx].type !== undefined ? assets[idx] : assets['buffer_zone'][0],
             filterSettings?.[locationType],
+            selectedLocationId,
+            selectedLocationIds,
           ),
         );
     });
@@ -245,9 +268,9 @@ const useMapAssetRenderer = ({
   };
 
   // Draw an area
-  const drawArea = (map, maps, mapBounds, area, isVisible) => {
+  const drawArea = (map, maps, mapBounds, area, isVisible, selectedLocationId, selectedLocationIds) => {
     const { grid_points: points, name, type } = area;
-    const { colour, dashScale, dashLength } = areaStyles[type];
+    const { colour, dashScale, dashLength, selectedColour } = areaStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -262,10 +285,14 @@ const useMapAssetRenderer = ({
     polygon.setMap(map);
 
     maps.event.addListener(polygon, 'mouseover', function () {
-      this.setOptions({ fillOpacity: 0.8 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.8 });
+      }
     });
     maps.event.addListener(polygon, 'mouseout', function () {
-      this.setOptions({ fillOpacity: 0.5 });
+      if (this.fillOpacity !== 1.0) {
+        this.setOptions({ fillOpacity: 0.5 });
+      }
     });
 
     // draw dotted outline
@@ -321,7 +348,9 @@ const useMapAssetRenderer = ({
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
 
+      if (isSelectable) {
       selectArea(this, marker, area, polyline, polygon);
+      }
 
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
@@ -329,6 +358,36 @@ const useMapAssetRenderer = ({
     marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
+
+    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === area.location_id) || 
+      (multipleLocations &&  selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(area.location_id)))) {
+      polygon.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      marker.setOptions({
+        label: {
+          text: name,
+          color: '#282B36',
+          fontSize: '16px',
+          className: styles.mapLabel,
+        }
+      });
+
+      if (multipleLocations) {
+        addLocation(area.location_id);
+      } else {
+        setSelectedLocation({
+          area,
+          polygon,
+          polyline,
+          marker,
+          asset: 'area',
+          locationId: area.location_id,
+        });   
+      }
+    }
+
     return {
       polygon,
       polyline,
@@ -341,12 +400,12 @@ const useMapAssetRenderer = ({
   };
 
   // Draw a line
-  const drawLine = (map, maps, mapBounds, line, isVisible) => {
+  const drawLine = (map, maps, mapBounds, line, isVisible, selectedLocationId, selectedLocationIds) => {
     const { line_points: points, name, type, width } = line;
     let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
-    const { colour, dashScale, dashLength } = lineStyles[type];
+    const { colour, dashScale, dashLength, selectedColour } = lineStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -426,10 +485,31 @@ const useMapAssetRenderer = ({
       isAreaLine(type) ? linePolygon : polyline,
       'click',
       function (mapsMouseEvent) {
+        if (isSelectable) {
         selectLine(this, line, polyline, linePolygon);
+        }
         handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       },
     );
+
+    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === line.location_id) ||
+      (multipleLocations && selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(line.location_id)))) {
+      linePolygon.setOptions({
+        fillColor: selectedColour,
+        fillOpacity: 1.0,
+      });
+      
+      if (multipleLocations) {
+        addLocation(line.location_id);
+      } else {
+        setSelectedLocation({
+          line,
+          polygon: linePolygon,
+          asset: 'line',
+          locationId: line.location_id,
+        });
+      }
+    }
 
     return {
       ...asset,
@@ -514,7 +594,7 @@ const useMapAssetRenderer = ({
 
   const selectArea = (p, marker, area, polyline, polygon) => {
 
-    if (!multipileLocations && selectedLocationRef.current) {
+    if (!multipleLocations && selectedLocationRef.current) {
       if (selectedLocationRef.current.asset === 'line') {
         resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
       } else {
@@ -530,15 +610,13 @@ const useMapAssetRenderer = ({
       }
     }
 
-    if (multipileLocations) {
+    if (multipleLocations) {
       if (selectedLocationsMapRef.current[area.location_id]) {
         resetAreaStyles(p, areaStyles[area.type].colour, marker, 'white', area, false);
         removeLocation(area.location_id);
-        //console.log(selectedLocationsMapRef.current);
       } else {
         resetAreaStyles(p, areaStyles[area.type].selectedColour, marker, '#282B36', area, true);
         addLocation(area.location_id);
-        //console.log(selectedLocationsMapRef.current);
       }
     } else {
       if (selectedLocationRef.current && selectedLocationRef.current.locationId === area.location_id) {
@@ -559,7 +637,7 @@ const useMapAssetRenderer = ({
   };
 
   const selectLine = (p, line, polyline, polygon) => {
-    if (!multipileLocations && selectedLocationRef.current) {
+    if (!multipleLocations && selectedLocationRef.current) {
       if (selectedLocationRef.current.asset === 'line') {
         resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
       } else {
@@ -575,15 +653,13 @@ const useMapAssetRenderer = ({
       }
     }
 
-    if (multipileLocations) {
+    if (multipleLocations) {
       if (selectedLocationsMapRef.current[line.location_id]) {
         resetLineStyles(p, lineStyles[line.type].colour, false);
-        removeLocation(line.location_id);
-        //console.log(selectedLocationsMapRef.current);
+        removeLocation(line.location_id); 
       } else {
         resetLineStyles(p, lineStyles[line.type].selectedColour, true);
         addLocation(line.location_id);
-        //console.log(selectedLocationsMapRef.current);
       }
     } else {
       if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {

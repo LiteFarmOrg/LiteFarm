@@ -922,6 +922,7 @@
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "Were your rows all the same length?",
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",
       "SAME_LENGTH": "Are your rows all the same length?",

@@ -921,6 +921,7 @@
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
     "REMOVE_PIN": "MISSING",
     "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "MISSING",
       "LENGTH_OF_ROW": "MISSING",
       "NUMBER_OF_ROWS": "MISSING",
       "SAME_LENGTH": "MISSING",

@@ -36,7 +36,7 @@ export default function PureRowMethod({
     mode: 'onChange',
     defaultValues: cloneObject(persistedFormData),
   });
-
+  console.log(watch());
   useHookFormPersist(getValues);
 
   const prefix = `crop_management_plan.planting_management_plans.${
@@ -120,7 +120,11 @@ export default function PureRowMethod({
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ paddingBottom: '24px' }}>{t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}</Main>
+      <Main style={{ paddingBottom: '24px' }}>
+        {isFinalPage
+          ? t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')
+          : t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')}
+      </Main>
       <div>
         <RadioGroup hookFormControl={control} name={SAME_LENGTH} required />
       </div>
@@ -206,7 +210,7 @@ export default function PureRowMethod({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
-                  required
+                  required={isFinalPage}
                 />
                 <Unit
                   register={register}

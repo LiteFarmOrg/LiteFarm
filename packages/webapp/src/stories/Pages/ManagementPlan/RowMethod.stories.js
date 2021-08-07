@@ -29,3 +29,54 @@ Primary.args = {
 Primary.parameters = {
   ...chromaticSmallScreen,
 };
+
+export const FinalSameLength = Template.bind({});
+FinalSameLength.args = {
+  history: {},
+  system: 'metric',
+  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  useHookFormPersist: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      planting_management_plans: {
+        final: {
+          row_method: {
+            same_length: true,
+            number_of_rows: 10,
+            row_length: 10,
+            plant_spacing: 10,
+          },
+        },
+      },
+    },
+  },
+  isFinalPage: true,
+};
+FinalSameLength.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const InitialDifferentLength = Template.bind({});
+InitialDifferentLength.args = {
+  history: {},
+  system: 'metric',
+  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  useHookFormPersist: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      planting_management_plans: {
+        initial: {
+          row_method: {
+            same_length: false,
+            total_rows_length: 10,
+            plant_spacing: 10,
+          },
+        },
+      },
+    },
+  },
+  isFinalPage: false,
+};
+InitialDifferentLength.parameters = {
+  ...chromaticSmallScreen,
+};

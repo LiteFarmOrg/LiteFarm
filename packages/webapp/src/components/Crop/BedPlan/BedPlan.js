@@ -20,7 +20,7 @@ function PureBedPlan({
   crop_variety,
   useHookFormPersist,
   persistedFormData,
-  isInitialPlantingManagementPlan,
+  isFinalPage,
 }) {
   const { t } = useTranslation();
   const {
@@ -40,7 +40,7 @@ function PureBedPlan({
   useHookFormPersist(getValues);
   //TODO: getPrefix()
   const prefix = `crop_management_plan.planting_management_plans.${
-    isInitialPlantingManagementPlan ? 'initial' : 'final'
+    isFinalPage ? 'final' : 'initial'
   }`;
 
   const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
@@ -91,7 +91,7 @@ function PureBedPlan({
   }, [number_of_beds, number_of_rows_in_bed, length_of_bed, plant_spacing]);
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getBedMethodPaths(crop_variety.crop_variety_id, !isInitialPlantingManagementPlan),
+    () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],
   );
   const onSubmit = () => history.push(submitPath);
@@ -111,7 +111,7 @@ function PureBedPlan({
         onGoBack={onGoBack}
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={55}
+        value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
@@ -186,7 +186,7 @@ function PureBedPlan({
             hookFormGetValue={getValues}
             hookFromWatch={watch}
             control={control}
-            required
+            required={isFinalPage}
           />
           <Unit
             register={register}

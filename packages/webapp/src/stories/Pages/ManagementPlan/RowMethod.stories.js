@@ -12,21 +12,20 @@ export default {
 const Template = (args) => <PureRowMethod {...args} />;
 
 export const Primary = Template.bind({});
-
 Primary.args = {
-  useHookFormPersist: () => ({}),
-  onGoBack: () => {},
-  onCancel: () => {},
-  onContinue: () => {},
+  history: {},
   system: 'metric',
-  variety: {
-    average_seed_weight: 1,
-    yield_per_plant: 2
+  variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  useHookFormPersist: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      planting_management_plans: {
+        final: {},
+      },
+    },
   },
-  persistedFormData: {},
-  persistPath: [],
+  isFinalPage: true,
 };
-
 Primary.parameters = {
   ...chromaticSmallScreen,
 };

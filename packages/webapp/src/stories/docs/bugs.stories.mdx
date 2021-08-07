@@ -102,9 +102,10 @@ export default [
 ```
 ### Hookform useFormState.errors does not trigger rerendering properly when there are consecutive unit component (bed method)
 
-[comment]  <> ([github discussion]&#40;https://github.com/react-hook-form/react-hook-form/discussions/5843&#41;)
+[github discussion](https://github.com/react-hook-form/react-hook-form/discussions/5843&#41)
 
 ###### Walk around: delay setValue
+
 ```js
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
@@ -119,6 +120,18 @@ export default [
     [name],
   );
 ```
+
+###### Walk around: force validation on unit component mount. Set show error to false when input is not dirty;
+```js
+  const [isDirty, setDirty] = useState();
+  useEffect(() => {
+    setShowError(!!error && !disabled && isDirty);
+  }, [error]);
+  useEffect(()=>{
+    hookFormSetHiddenValue(hookFormValue, {shouldValidate: true, shouldDirty: false});
+  },[]);
+```
+
 
 ### Frontend tests won't compile when react-icons are imported from 'react-icons/all'
 

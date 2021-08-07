@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -12,17 +12,15 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
+import { getRowMethodPaths } from '../getAddManagementPlanPath';
 
 export default function PureRowMethod({
-  onGoBack,
-  onCancel,
-  onContinue,
   system,
   variety,
   useHookFormPersist,
   persistedFormData,
-  persistPath,
-  isInitialPlantingManagementPlan,
+  isFinalPage,
+  history,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -32,7 +30,6 @@ export default function PureRowMethod({
     watch,
     control,
     setValue,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     shouldUnregister: false,
@@ -42,10 +39,8 @@ export default function PureRowMethod({
 
   useHookFormPersist(getValues);
 
-  const progress = 75;
-
   const prefix = `crop_management_plan.planting_management_plans.${
-    isInitialPlantingManagementPlan ? 'initial' : 'final'
+    isFinalPage ? 'final' : 'initial'
   }`;
 
   const SAME_LENGTH = `${prefix}.row_method.same_length`;
@@ -100,6 +95,14 @@ export default function PureRowMethod({
     }
   }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
 
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getRowMethodPaths(variety.crop_variety_id, isFinalPage),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
   return (
     <Form
       buttonGroup={
@@ -107,13 +110,13 @@ export default function PureRowMethod({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={progress}
+        value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
@@ -138,7 +141,6 @@ export default function PureRowMethod({
                   errors={getInputErrors(errors, NUMBER_OF_ROWS)}
                 />
                 <Unit
-                  style={{ paddingLeft: '16px' }}
                   register={register}
                   label={t('MANAGEMENT_PLAN.ROW_METHOD.LENGTH_OF_ROW')}
                   name={LENGTH_OF_ROW}
@@ -175,7 +177,6 @@ export default function PureRowMethod({
           )}
           <div>
             <Unit
-              style={{ paddingLeft: '16px' }}
               register={register}
               label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
               name={PLANT_SPACING}
@@ -231,12 +232,10 @@ export default function PureRowMethod({
 }
 
 PureRowMethod.prototype = {
-  onGoBack: PropTypes.func,
-  onCancel: PropTypes.func,
-  onContinue: PropTypes.func,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
-  persistPath: PropTypes.array,
+  isFinalPage: PropTypes.bool,
+  history: PropTypes.object,
 };

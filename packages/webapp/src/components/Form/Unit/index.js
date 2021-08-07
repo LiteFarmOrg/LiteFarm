@@ -144,11 +144,12 @@ const Unit = ({
   };
 
   const [showError, setShowError] = useState();
+  const [isDirty, setDirty] = useState();
   const { errors } = useFormState({ control });
   const error = get(errors, name);
 
   useEffect(() => {
-    setShowError(!!error && !disabled);
+    setShowError(!!error && !disabled && isDirty);
   }, [error]);
 
   const {
@@ -205,6 +206,10 @@ const Unit = ({
   const hookFormValue = hookFromWatch(name, defaultValue);
 
   useEffect(() => {
+    hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
+  }, []);
+
+  useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
@@ -220,10 +225,10 @@ const Unit = ({
   };
 
   const hookFormSetHiddenValue = useCallback(
-    (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
+    (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
       setTimeout(() => {
         hookFormSetValue(name, value, {
-          shouldValidate,
+          shouldValidate: !shouldClearError && shouldValidate,
           shouldDirty,
         });
         shouldClearError && setShowError(false);
@@ -243,6 +248,7 @@ const Unit = ({
         shouldDirty: true,
       });
     }
+    if (!isDirty) setDirty(true);
   };
   useEffect(() => {
     if (databaseUnit && hookFormUnit) {
@@ -318,6 +324,7 @@ const Unit = ({
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
+                if (!isDirty) setDirty(true);
               }}
               value={value}
               inputRef={ref}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -8,8 +8,12 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
-import useDrawSelectableLocations from './useDrawSelectableLocations';
 import MapPin from '../../assets/images/map/map_pin.svg';
+import {
+  DEFAULT_POLYGON_OPACITY,
+  drawCropLocation,
+  SELECTED_POLYGON_OPACITY,
+} from './drawLocations';
 
 const LocationPicker = ({
   className,
@@ -18,46 +22,111 @@ const LocationPicker = ({
   canUsePin,
   setPinLocation,
   currentPin,
+  cropLocations,
 }) => {
-  const [selectedLocation, setSelectedLocation] = useState(currentPin);
-  const [selectedPin, setSelectedPin] = useState(null);
-  const [innerMap, setInnerMap] = useState(null);
+  const pinMarkerRef = useRef();
+  const geometriesRef = useRef({});
+  const selectedGeometryRef = useRef();
   const { grid_points } = useSelector(userFarmSelector);
-  const { drawLocations } = useDrawSelectableLocations(setLocationId);
 
-  function placeMarker(latLng, map, maps) {
-    setSelectedPin(
-      new maps.Marker({
-        icon: MapPin,
-        position: latLng,
-        map: map,
-      }),
-    );
+  const setLocationIdRef = useRef();
+  useEffect(() => {
+    setLocationIdRef.current = setLocationId;
+  }, [setLocationId]);
+
+  const setPinLocationRef = useRef();
+  useEffect(() => {
+    setPinLocationRef.current = setPinLocation;
+  }, [setPinLocation]);
+
+  useEffect(() => {
+    if (pinMarkerRef.current) {
+      pinMarkerRef.current.canUsePin = canUsePin;
+      pinMarkerRef.current.setOptions({ visible: canUsePin && !!currentPin });
+      currentPin && pinMarkerRef.current.setOptions({ position: currentPin });
+      !canUsePin && setPinLocation(null);
+    }
+    for (const location_id in geometriesRef.current) {
+      const { polygon } = geometriesRef.current[location_id];
+      polygon.setOptions({ clickable: !canUsePin });
+    }
+  }, [canUsePin]);
+
+  useEffect(() => {
+    if (
+      geometriesRef.current[selectedLocationId] &&
+      selectedGeometryRef.current?.location.location_id !== selectedLocationId
+    ) {
+      onSelectGeometry(geometriesRef.current[selectedLocationId]);
+    } else if (!selectedLocationId) {
+      deselectLocationAndResetGeometryStyle();
+    }
+  }, [selectedLocationId]);
+
+  function mapOnClick(latLng) {
+    if (pinMarkerRef.current?.canUsePin) {
+      pinMarkerRef.current?.setOptions({ position: latLng, visible: true });
+      setPinLocationRef.current(latLng);
+      deselectLocationAndResetGeometryStyle();
+    }
   }
 
-  const drawPinIfOnPinMode = (latLng, map, maps) => {
-    if (canUsePin) {
-      selectedPin?.setMap(null);
-      placeMarker(latLng, map, maps);
+  const drawLocations = (map, maps, mapBounds) => {
+    cropLocations.forEach((location) => {
+      const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
+      assetGeometry.polygon.setOptions({ clickable: !canUsePin });
+      geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
+      if (assetGeometry.location.location_id === selectedLocationId) {
+        setSelectedGeometryStyle(assetGeometry);
+      }
+      maps.event.addListener(assetGeometry.polygon, 'mouseover', function () {
+        if (this.fillOpacity !== 1.0) {
+          this.setOptions({ fillOpacity: 0.8 });
+        }
+      });
+      maps.event.addListener(assetGeometry.polygon, 'mouseout', function () {
+        if (this.fillOpacity !== 1.0) {
+          this.setOptions({ fillOpacity: 0.5 });
+        }
+      });
+      maps.event.addListener(assetGeometry.polygon, 'click', () => onSelectGeometry(assetGeometry));
+    });
+    cropLocations.length > 0 && map.fitBounds(mapBounds);
+  };
+
+  const onSelectGeometry = (assetGeometry) => {
+    if (assetGeometry.location.location_id !== selectedGeometryRef.current?.location.location_id) {
+      deselectLocationAndResetGeometryStyle();
+      setSelectedGeometryStyle(assetGeometry);
+      setLocationIdRef.current?.(assetGeometry.location.location_id);
+    } else {
+      deselectLocationAndResetGeometryStyle();
     }
   };
 
-  useEffect(() => {
+  const setSelectedGeometryStyle = (assetGeometry) => {
+    selectedGeometryRef.current = assetGeometry;
+    assetGeometry?.marker?.setOptions({
+      label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
+    });
+    assetGeometry.polygon.setOptions({
+      fillColor: assetGeometry.styles.selectedColour,
+      fillOpacity: SELECTED_POLYGON_OPACITY,
+    });
+  };
 
-    if (innerMap && canUsePin) {
-      drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
-    }
-    if (!canUsePin) {
-      selectedPin?.setMap(null);
-      setSelectedPin(null);
-      setSelectedLocation(null);
-    }
-  }, [innerMap, selectedLocation, canUsePin]);
-
-  useEffect(() => {
-    setPinLocation(selectedLocation);
-  }, [selectedLocation]);
-
+  const deselectLocationAndResetGeometryStyle = () => {
+    const assetGeometry = selectedGeometryRef.current;
+    assetGeometry?.marker?.setOptions({
+      label: { ...(assetGeometry?.marker?.label || {}), color: 'white' },
+    });
+    assetGeometry?.polygon?.setOptions({
+      fillColor: assetGeometry.styles.colour,
+      fillOpacity: DEFAULT_POLYGON_OPACITY,
+    });
+    selectedGeometryRef.current = undefined;
+    setLocationIdRef.current?.(null);
+  };
 
   const getMapOptions = (maps) => {
     return {
@@ -95,29 +164,33 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
-
-    setInnerMap({ map, maps });
+    const mapBounds = new maps.LatLngBounds();
+    pinMarkerRef.current = new maps.Marker({
+      icon: MapPin,
+      position: currentPin || map.getCenter().toJSON(),
+      map: map,
+      visible: !!currentPin,
+      canUsePin,
+    });
+    currentPin && mapBounds.extend(currentPin);
     map.addListener('click', (e) => {
-      setSelectedLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+      mapOnClick(e.latLng.toJSON());
     });
 
-    maps.Polygon.prototype.getPolygonBounds = function () {
-      var bounds = new maps.LatLngBounds();
-      this.getPath().forEach(function (element, index) {
-        bounds.extend(element);
-      });
-      return bounds;
-    };
+    //TODO: move to mapUtil.polygonGetAveragePoint
     maps.Polygon.prototype.getAveragePoint = function () {
       const latLngArray = this.getPath().getArray();
-      let latSum = 0;
-      let lngSum = 0;
-      for (const latLng of latLngArray) {
-        latSum += latLng.lat();
-        lngSum += latLng.lng();
-      }
+      const { latSum, lngSum } = latLngArray.reduce(
+        (latLngSum, latLng) => {
+          latLngSum.latSum += latLng.lat();
+          latLngSum.lngSum += latLng.lng();
+          return latLngSum;
+        },
+        { latSum: 0, lngSum: 0 },
+      );
       return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
     };
+
     const zoomControlDiv = document.createElement('div');
     ReactDOM.render(
       <CustomZoom
@@ -134,8 +207,7 @@ const LocationPicker = ({
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map
-    let mapBounds = new maps.LatLngBounds();
-    drawLocations(map, maps, mapBounds, selectedLocationId);
+    drawLocations(map, maps, mapBounds);
   };
 
   return (

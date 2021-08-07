@@ -1,5 +1,5 @@
 import styles from './styles.module.scss';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
 import LocationPicker from '../../LocationPicker';
@@ -19,6 +19,7 @@ export default function PurePlantingLocation({
   isFinalLocationPage,
   variety_id,
   history,
+  cropLocations,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -67,7 +68,10 @@ export default function PurePlantingLocation({
     }
   }, []);
 
-  const [pinToggle, setPinToggle] = useState(false);
+  const [pinToggle, setPinToggle] = useState(!!pinCoordinate);
+  useEffect(() => {
+    setPinToggle(!!pinCoordinate);
+  }, [showPinButton]);
 
   const handlePinMode = () => {
     setPinToggle((pinToggle) => !pinToggle);
@@ -115,6 +119,7 @@ export default function PurePlantingLocation({
           canUsePin={pinToggle}
           setPinLocation={setPinLocation}
           currentPin={pinCoordinate}
+          cropLocations={cropLocations}
         />
 
         <div>
@@ -163,4 +168,5 @@ PurePlantingLocation.prototype = {
   isFinalLocationPage: PropTypes.bool,
   variety_id: PropTypes.string,
   history: PropTypes.object,
+  cropLocations: PropTypes.object,
 };

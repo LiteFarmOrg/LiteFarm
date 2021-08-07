@@ -96,7 +96,7 @@ const LocationPicker = ({
 
   const onSelectGeometry = (assetGeometry) => {
     if (assetGeometry.location.location_id !== selectedGeometryRef.current?.location.location_id) {
-      deselectLocationAndResetGeometryStyle();
+      resetGeometryStyle();
       setSelectedGeometryStyle(assetGeometry);
       setLocationIdRef.current?.(assetGeometry.location.location_id);
     } else {
@@ -115,7 +115,7 @@ const LocationPicker = ({
     });
   };
 
-  const deselectLocationAndResetGeometryStyle = () => {
+  const resetGeometryStyle = () => {
     const assetGeometry = selectedGeometryRef.current;
     assetGeometry?.marker?.setOptions({
       label: { ...(assetGeometry?.marker?.label || {}), color: 'white' },
@@ -125,6 +125,10 @@ const LocationPicker = ({
       fillOpacity: DEFAULT_POLYGON_OPACITY,
     });
     selectedGeometryRef.current = undefined;
+  };
+
+  const deselectLocationAndResetGeometryStyle = () => {
+    resetGeometryStyle();
     setLocationIdRef.current?.(null);
   };
 

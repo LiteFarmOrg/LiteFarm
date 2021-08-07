@@ -49,6 +49,7 @@ export default function PurePlantingLocation({
       setValue(DEFAULT_INITIAL_LOCATION_ID, location_id);
     }
   };
+
   const setPinLocation = (coordinate) => setValue(PIN_COORDINATE, coordinate);
   const defaultLocationCheckboxOnChange = () => {
     if (defaultInitialLocationId) {

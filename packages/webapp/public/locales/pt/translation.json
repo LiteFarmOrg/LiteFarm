@@ -29,6 +29,7 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
+    "HISTORICAL_PERCENTAGE_LOCATION": "MISSING",
     "LOCATION_SIZE": "Tamanho da localização",
     "PERCENTAGE_LABEL": "% da localização",
     "PERCENTAGE_LOCATION": "Que porcentagem do local você está plantando?",

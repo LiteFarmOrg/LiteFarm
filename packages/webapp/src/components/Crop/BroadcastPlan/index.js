@@ -132,11 +132,15 @@ function PureBroadcastPlan({
         onGoBack={onGoBack}
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={75}
+        value={isFinalPage ? 75 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
+      <Main style={{ paddingBottom: '24px' }}>
+        {isFinalPage
+          ? t('BROADCAST_PLAN.PERCENTAGE_LOCATION')
+          : t('BROADCAST_PLAN.HISTORICAL_PERCENTAGE_LOCATION')}
+      </Main>
       <Input
         hookFormRegister={register(PERCENTAGE_PLANTED, {
           required: true,
@@ -200,7 +204,7 @@ function PureBroadcastPlan({
       />
 
       {areaUsed > 0 && seedingRateForm > 0 && (
-        <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>
+        <div className={clsx(styles.row)} style={{ columnGap: '16px' }}>
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -213,8 +217,7 @@ function PureBroadcastPlan({
             hookFormGetValue={getValues}
             hookFromWatch={watch}
             control={control}
-            required
-            style={{ flex: '1 1 0px' }}
+            required={isFinalPage}
           />
           <Unit
             register={register}
@@ -228,8 +231,7 @@ function PureBroadcastPlan({
             hookFormGetValue={getValues}
             hookFromWatch={watch}
             control={control}
-            required
-            style={{ flex: '1 1 0px' }}
+            required={isFinalPage}
           />
         </div>
       )}

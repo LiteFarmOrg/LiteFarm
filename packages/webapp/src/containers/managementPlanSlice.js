@@ -241,6 +241,20 @@ export const cropVarietiesWithoutManagementPlanSelector = createSelector(
   },
 );
 
+export const cropNameByManagementPlanSelector = createSelector(
+  [managementPlansSelector, cropVarietiesSelector],
+  (managementPlans, cropVarieties) => {
+    const managementPlanIdToCropNameDict = {};
+    for (const managementPlan of managementPlans) {
+      const { crop_common_name } = cropVarieties.find(
+        ({ crop_variety_id }) => crop_variety_id === managementPlan.crop_variety_id,
+      );
+      managementPlanIdToCropNameDict[managementPlan.management_plan_id] = crop_common_name;
+    }
+    return managementPlanIdToCropNameDict;
+  },
+);
+
 export const managementPlansByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, managementPlansSelector], (location_id, managementPlans) =>
     managementPlans.filter((managementPlan) => managementPlan.location_id === location_id),
@@ -282,7 +296,8 @@ export const plannedManagementPlansByLocationIdSelector = (location_id) =>
 
 export const managementPlanSelector = managementPlanSelectors.selectById;
 
-export const managementPlanSelectorById = (management_plan_id) => (state) => managementPlanSelectors.selectById(state, management_plan_id);
+export const managementPlanSelectorById = (management_plan_id) => (state) =>
+  managementPlanSelectors.selectById(state, management_plan_id);
 
 export const managementPlanStatusSelector = createSelector(
   [managementPlanReducerSelector],

@@ -1,0 +1,44 @@
+.card {
+  display: flex;
+  flex-direction: row;
+  min-height: 98px;
+  min-width: 312px;
+  // justify-content: space-between;
+  padding: 16px;
+}
+
+.cardContainer {
+  padding: 0;
+}
+
+.icon {
+  background-color: orange;
+  height: 32px;
+  width: 32px;
+  margin-right: 16px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  background-color: palegreen;
+}
+
+.subMain {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  // color:
+}
+
+.dateUserContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.statusLabel {
+  display: flex;
+  right: 0;
+  position: absolute;
+  flex-direction: column;
+}

@@ -185,10 +185,10 @@ const Unit = ({
           measure,
           reactSelectWidth,
         };
-  }, [unitType, defaultValue, system, defaultValueUnit, to]);
+  }, []);
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
-  const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
+  const hookFormUnit = hookFromWatch(displayUnitName, {})?.value;
   useEffect(() => {
     if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
@@ -196,27 +196,24 @@ const Unit = ({
   }, [hookFormUnit]);
 
   useEffect(() => {
+    if (!hookFormGetValue(displayUnitName)) {
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
+    }
+  }, []);
+
+  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
+  const hookFormValue = hookFromWatch(name, defaultValue);
+
+  useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
+      //Trigger validation
       (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
     }
   }, [hookFormUnit]);
 
-  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
-  useEffect(() => {
-    if (!hookFormGetValue(displayUnitName)) {
-      for (const option of options) {
-        if (option.value === displayUnit) {
-          hookFormSetValue(displayUnitName, option);
-          break;
-        }
-      }
-    }
-  }, []);
-
-  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

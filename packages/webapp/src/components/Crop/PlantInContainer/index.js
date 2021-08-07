@@ -19,17 +19,23 @@ export default function PurePlantInContainer({
   useHookFormPersist,
   persistedFormData,
   system,
-  match,
   history,
   crop_variety,
   isFinalPage,
 }) {
+  const isHistorical = persistedFormData.crop_management_plan.already_in_ground && !isFinalPage;
+  const progress = useMemo(() => {
+    if (isHistorical) return 55;
+    if (isFinalPage) return 75;
+    return 50;
+  }, []);
+
   const prefix = `crop_management_plan.planting_management_plans.${
     isFinalPage ? 'final' : 'initial'
   }`;
 
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
+  const variety_id = crop_variety.crop_variety_id;
 
   const IN_GROUND = `${prefix}.container_method.in_ground`;
   const NUMBER_OF_CONTAINERS = `${prefix}.container_method.number_of_containers`;
@@ -53,7 +59,6 @@ export default function PurePlantInContainer({
     watch,
     control,
     setValue,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -70,8 +75,6 @@ export default function PurePlantInContainer({
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
   const onError = () => {};
-
-  console.log({ goBackPath, submitPath, cancelPath, isFinalPage });
 
   const in_ground = watch(IN_GROUND);
   const number_of_container = watch(NUMBER_OF_CONTAINERS);
@@ -119,10 +122,14 @@ export default function PurePlantInContainer({
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={isFinalPage ? 75 : 50}
+        value={progress}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ marginBottom: '24px' }}>{t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}</Main>
+      <Main style={{ marginBottom: '24px' }}>
+        {isHistorical
+          ? t('MANAGEMENT_PLAN.HISTORICAL_CONTAINER_OR_IN_GROUND')
+          : t('MANAGEMENT_PLAN.CONTAINER_OR_IN_GROUND')}
+      </Main>
       <RadioGroup
         hookFormControl={control}
         name={IN_GROUND}
@@ -237,8 +244,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage}
-                optional={!isFinalPage}
+                required={isFinalPage || (isHistorical && !in_ground)}
               />
               <Unit
                 register={register}
@@ -252,8 +258,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage}
-                optional={!isFinalPage}
+                required={isFinalPage || isHistorical}
               />
             </div>
           )}
@@ -271,7 +276,6 @@ export default function PurePlantInContainer({
 
 PurePlantInContainer.prototype = {
   history: PropTypes.object,
-  match: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   crop_variety: PropTypes.object,

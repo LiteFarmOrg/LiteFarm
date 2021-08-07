@@ -41,6 +41,7 @@ function CropManagement({ history, match }) {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
+    const estimated_yield_unit = { value: 'kg', label: 'kg' };
     dispatch(
       setFormData({
         crop_management_plan: {
@@ -51,8 +52,8 @@ function CropManagement({ history, match }) {
           harvest_days: selectedVariety.harvest_days,
           termination_days: selectedVariety.termination_days,
           planting_management_plans: {
-            final: { estimated_yield_unit: 'kg' },
-            initial: { estimated_yield_unit: 'kg' },
+            final: { estimated_yield_unit },
+            initial: { estimated_yield_unit },
           },
         },
       }),

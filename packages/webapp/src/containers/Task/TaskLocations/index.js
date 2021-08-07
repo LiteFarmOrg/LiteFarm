@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
   hookFormPersistSelector,
-  setWildCropLocation,
-  setTransplantContainerLocationIdManagementPlanFormData,
-  setTaskLocations,
+  setTaskLocationsData,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +13,9 @@ export default function TaskLocations({ history }) {
 
   const persistedPath = ['/tasks/1/add_task/task_date'];
 
-  const [taskLocations, setTaskLocations] = useState([]);
+  console.log('persistedFormData', persistedFormData);
+
+  const [taskLocations, setTaskLocations] = useState(persistedFormData?.task_locations);
 
   console.log(taskLocations);
  
@@ -26,7 +26,7 @@ export default function TaskLocations({ history }) {
   }
 
   const onGoBack = () => {
-    //dispatch(setTaskLocations(taskLocations));
+    dispatch(setTaskLocationsData(taskLocations));
     history.push('/tasks/1/add_task/task_date');
   };
 

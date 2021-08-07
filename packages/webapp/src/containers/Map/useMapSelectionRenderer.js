@@ -2,8 +2,8 @@ import styles, { defaultColour } from './styles.module.scss';
 import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { mapFilterSettingSelector, onlyCropEnabledLocations } from './mapFilterSettingSlice';
-import { lineSelector, pointSelector, sortedAreaSelector, cropLocationsSelector } from '../locationSlice';
+import { mapFilterSettingSelector, onlyCropEnabledLocations, allLocations } from './mapFilterSettingSlice';
+import { lineSelector, pointSelector, sortedAreaSelector, cropLocationsSelector, locationsSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
   getAreaLocationTypes,
@@ -17,9 +17,10 @@ import {
 import useLocationsSelectionHandler from './useLocationsSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
+
 const useMapSelectionRenderer = ({
   isClickable,
-  isSelectable = false,
+  isSelectable = true,
   onlyCrop = false,
   setLocationId = () => {},
   multipleLocations = false,
@@ -27,8 +28,8 @@ const useMapSelectionRenderer = ({
 }) => {
   const dispatch = useDispatch();
   const cropOnlyFilters = useSelector(onlyCropEnabledLocations);
-  const usualFilters = useSelector(mapFilterSettingSelector);
-  const filterSettings = cropOnlyFilters;//onlyCrop ? cropOnlyFilters : usualFilters;
+  const usualFilters = useSelector(allLocations);
+  const filterSettings = onlyCrop ? cropOnlyFilters : usualFilters;
   const initAssetGeometriesState = () => {
     const nextAssetGeometries = {};
     for (const key in filterSettings) {
@@ -50,9 +51,11 @@ const useMapSelectionRenderer = ({
   };
 
   const cropLocations = useSelector(cropLocationsSelector);
+  const defaultLocations = useSelector(locationsSelector);
   const initSelectableLocations = () => {
+    let locations = onlyCrop? cropLocations : defaultLocations;
     let res = {};
-    for (let location of cropLocations) {
+    for (let location of locations) {
       res[location.location_id] = false;
     }
     return res;
@@ -60,39 +63,52 @@ const useMapSelectionRenderer = ({
   const [selectedLocationsMap, _setSelectedLocationsMap] = useState(initSelectableLocations());
   const selectedLocationsMapRef = useRef(selectedLocationsMap);
   const addLocation = (location_id) => {
-    _setSelectedLocationsMap(selectedLocationsMap => {
-      selectedLocationsMap[location_id] = true;
-      return selectedLocationsMap;
-    });
-    console.log(selectedLocationsMap);
-    let currentLocations = [];
-    for (let location_id in selectedLocationsMapRef.current) {
-      if (selectedLocationsMapRef.current[location_id]) {
-        console.log(location_id);
-        currentLocations.push(location_id);
-      }
-    }
-    setMultipleLocationIds(currentLocations);
+    // _setSelectedLocationsMap(selectedLocationsMap => {
+    //   selectedLocationsMap[location_id] = true;
+    //   return selectedLocationsMap;
+    // });
+    _setSelectedLocationsMap({...selectedLocationsMap, [location_id]: true});
+    // selectedLocationsMapRef.current = selectedLocationsMap;
+    // console.log(selectedLocationsMapRef.current);
+    // let currentLocations = Object.keys(selectedLocationsMapRef.current).filter((k) => selectedLocationsMapRef.current[k])
+    // debugger;
+    // // let currentLocations = [];
+    // // for (let location_id in selectedLocationsMapRef.current) {
+    // //   if (selectedLocationsMapRef.current[location_id]) {
+    // //     console.log(location_id);
+    // //     currentLocations.push(location_id);
+    // //   }
+    // // }
+    //console.log(currentLocations);
+    //setMultipleLocationIds(currentLocations);
   };
   const removeLocation = (location_id) => {
-    _setSelectedLocationsMap(selectedLocationsMap => {
-      selectedLocationsMap[location_id] = false;
-      return selectedLocationsMap;
-    });
-    let currentLocations = [];
-    for (let location_id in selectedLocationsMapRef.current) {
-      if (selectedLocationsMapRef.current[location_id]) {
-        currentLocations.push(location_id);
-      }
-    }
-    setMultipleLocationIds(currentLocations);
+    // _setSelectedLocationsMap(selectedLocationsMap => {
+    //   selectedLocationsMap[location_id] = false;
+    //   return selectedLocationsMap;
+    // });
+    _setSelectedLocationsMap({...selectedLocationsMap, [location_id]: false});
+    // selectedLocationsMapRef.current = selectedLocationsMap;
+    // let currentLocations = [];
+    // for (let location_id in selectedLocationsMapRef.current) {
+    //   if (selectedLocationsMapRef.current[location_id]) {
+    //     currentLocations.push(location_id);
+    //   }
+    // }
+    //setMultipleLocationIds(currentLocations);
   };
   /**/
 
-  const { handleSelection, dismissSelectionModal, selectArea } = useLocationsSelectionHandler(
+  useEffect(() => {
+    let selectedLocations = Object.keys(selectedLocationsMap).filter((k) => selectedLocationsMap[k])
+    setMultipleLocationIds(selectedLocations);
+  }, [selectedLocationsMap])
+
+  const { handleSelection, dismissSelectionModal, selectArea, selectPoint, selectLine } = useLocationsSelectionHandler(
     isSelectable, 
     multipleLocations, 
     selectedLocationRef, 
+    selectedLocationsMap,
     selectedLocationsMapRef,
     removeLocation,
     addLocation,
@@ -319,11 +335,6 @@ const useMapSelectionRenderer = ({
 
       dispatch(setPosition(latlng));
       dispatch(setZoomLevel(map.getZoom()));
-
-      if (isSelectable) {
-      selectArea(this, marker, area, polyline, polygon);
-      }
-      console.log(marker);
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
@@ -331,8 +342,8 @@ const useMapSelectionRenderer = ({
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
 
-    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === area.location_id) || 
-      (multipleLocations &&  selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(area.location_id)))) {
+    if ((selectedLocationId !== undefined && selectedLocationId === area.location_id) || 
+      (multipleLocations &&  selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(area.location_id))) {
       polygon.setOptions({
         fillColor: selectedColour,
         fillOpacity: 1.0,
@@ -457,14 +468,11 @@ const useMapSelectionRenderer = ({
       isAreaLine(type) ? linePolygon : polyline,
       'click',
       function (mapsMouseEvent) {
-        // if (isSelectable) {
-        // selectLine(this, line, polyline, linePolygon);
-        // }
         handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
       },
     );
 
-    if ((isSelectable) && ((selectedLocationId !== undefined && selectedLocationId === line.location_id) ||
+    if (isAreaLine(type) && ((selectedLocationId !== undefined && selectedLocationId === line.location_id) ||
       (multipleLocations && selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(line.location_id)))) {
       linePolygon.setOptions({
         fillColor: selectedColour,
@@ -510,10 +518,14 @@ const useMapSelectionRenderer = ({
     marker.setMap(map);
 
     maps.event.addListener(marker, 'mouseover', function () {
-      this.setOptions({ icon: hoverIcons[type] });
+      if (!selectedLocationsMapRef[point.location_id]) {
+        this.setOptions({ icon: hoverIcons[type] });
+      }
     });
     maps.event.addListener(marker, 'mouseout', function () {
-      this.setOptions({ icon: icons[type] });
+      if (!selectedLocationsMapRef[point.location_id]) {
+        this.setOptions({ icon: icons[type] });
+      }
     });
 
     // Event listener for point click

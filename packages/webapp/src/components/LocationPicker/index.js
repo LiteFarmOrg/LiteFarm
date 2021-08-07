@@ -23,6 +23,7 @@ const LocationPicker = ({
   canSelectMultipleLocations,
   setLocationIds,
   selectedLocationIds,
+  onlyCrop,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(currentPin);
   const [selectedPin, setSelectedPin] = useState(null);
@@ -32,7 +33,7 @@ const LocationPicker = ({
   const { drawAssets } = useMapSelectionRenderer({ 
     isClickable: true, 
     isSelectable: true,
-    onlyCrop: true, 
+    onlyCrop: onlyCrop, 
     setLocationId: setLocationId,
     multipleLocations: canSelectMultipleLocations,
     setMultipleLocationIds: setLocationIds,

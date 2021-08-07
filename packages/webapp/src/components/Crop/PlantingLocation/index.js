@@ -83,6 +83,7 @@ export default function PurePlantingLocation({
           setPinLocation={setPinLocation}
           currentPin={pinLocation}
           canSelectMultipleLocations={false}
+          onlyCrop={true}
         />
 
         <div>

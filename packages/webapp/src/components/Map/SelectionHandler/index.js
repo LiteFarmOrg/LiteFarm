@@ -4,6 +4,8 @@ import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
+import { useDispatch } from 'react-redux';
+import { setSelected } from '../../../containers/mapSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PureSelectionHandler({ locations, history, selectingOnly }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -48,7 +51,7 @@ export default function PureSelectionHandler({ locations, history, selectingOnly
   };
 
   const makeSelection = (location) => {
-    console.log('make selection', location);
+    dispatch(setSelected(location));
   };
 
   return locations.map((location, idx) => {

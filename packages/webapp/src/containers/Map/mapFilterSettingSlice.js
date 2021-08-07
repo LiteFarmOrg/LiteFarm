@@ -98,3 +98,12 @@ export const onlyCropEnabledLocations =  createSelector(
     return filters;
   }
 );
+
+export const allLocations =  createSelector(
+  [loginSelector],
+  ({ farm_id })  => {
+    let filters = { ... initialState}; 
+    filters.farm_id = farm_id;
+    return filters;
+  }
+);

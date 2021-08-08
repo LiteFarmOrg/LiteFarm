@@ -20,7 +20,7 @@ const ExceptionHandler = require('../LiteFarmUtility/exceptionHandler');
 const lodash = require('lodash');
 
 const TaskModel = require('../models/taskModel');
-const FertilizerTaskModel = require('../models/fertilizerTaskModel');
+const FertilizerTaskModel = require('../models/soilAmendmentTaskModel');
 const PestControlTaskModel = require('../models/pestControlTask');
 const ScoutingTaskModel = require('../models/scoutingTaskModel');
 const IrrigationTaskModel = require('../models/irrigationTaskModel');

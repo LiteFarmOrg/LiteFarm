@@ -50,6 +50,7 @@ import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import managementPlanReducer from '../containers/managementPlanSlice';
 import taskReducer from '../containers/taskSlice';
+import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
@@ -166,6 +167,7 @@ const entitiesReducer = combineReducers({
   certifierReducer,
   certificationReducer,
   taskReducer,
+  productReducer
 });
 
 const persistedStateReducer = combineReducers({

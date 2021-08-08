@@ -15,10 +15,10 @@ export default function PureTaskLocations({
   onGoBack,
   onCancel,
   persistedFormData,
+  storedLocations,
 }) {
   const { t } = useTranslation();
   const progress = 43;
-
   return (
     <>
       <Layout
@@ -52,6 +52,7 @@ export default function PureTaskLocations({
           canSelectMultipleLocations={true}
           setLocationIds={setTaskLocations}
           selectedLocationIds={taskLocations}
+          storedLocations={storedLocations}
         />
       </Layout>
     </>

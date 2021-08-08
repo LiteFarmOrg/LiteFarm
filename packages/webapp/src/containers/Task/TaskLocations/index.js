@@ -13,9 +13,11 @@ export default function TaskLocations({ history }) {
 
   const persistedPath = ['/tasks/1/add_task/task_date'];
 
-  console.log('persistedFormData', persistedFormData);
-
-  const [taskLocations, setTaskLocations] = useState(persistedFormData?.task_locations);
+  let task_locations = persistedFormData.task_locations;
+  if (task_locations === undefined) {
+    task_locations = [];
+  }
+  const [taskLocations, setTaskLocations] = useState([]);
 
   console.log(taskLocations);
  
@@ -40,6 +42,7 @@ export default function TaskLocations({ history }) {
       onGoBack={onGoBack}
       setTaskLocations={setTaskLocations}
       taskLocations={taskLocations}
+      storedLocations={task_locations}
     />
   );
 }

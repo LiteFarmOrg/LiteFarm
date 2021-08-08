@@ -23,6 +23,7 @@ const LocationPicker = ({
   canSelectMultipleLocations,
   setLocationIds,
   selectedLocationIds,
+  storedLocations,
   onlyCrop,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(currentPin);
@@ -37,6 +38,8 @@ const LocationPicker = ({
     setLocationId: setLocationId,
     multipleLocations: canSelectMultipleLocations,
     setMultipleLocationIds: setLocationIds,
+    selectedLocationIds: selectedLocationIds,
+    storedLocations: storedLocations,
   });
 
   function placeMarker(latLng, map, maps) {
@@ -150,7 +153,7 @@ const LocationPicker = ({
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
     //drawLocations(map, maps, mapBounds, selectedLocationId);
-    drawAssets(map, maps, mapBounds, selectedLocationId, selectedLocationIds);
+    drawAssets(map, maps, mapBounds, selectedLocationId);
   };
 
   return (

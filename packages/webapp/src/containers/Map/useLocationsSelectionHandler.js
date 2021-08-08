@@ -4,7 +4,7 @@ import { canShowSelection, canShowSelectionSelector, locations, setSelectedSelec
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneObject } from '../../util';
 import styles from './styles.module.scss';
-import { areaStyles, lineStyles, activeIcons, hoverIcons, icons } from './mapStyles';
+import { areaStyles, lineStyles, activeIcons, icons } from './mapStyles';
 
 
 const useLocationsSelectionHandler = (
@@ -53,7 +53,7 @@ const useLocationsSelectionHandler = (
         }
       } else if (selected.asset === 'point') {
         let p = overlappedLocations.assets.point[overlappedLocations.point[0].id];
-        selectPoint(p.marker, p.type, p.point);
+        selectPoint(p.marker, p.point);
       }
     }
   }, [selected]);
@@ -94,7 +94,7 @@ const useLocationsSelectionHandler = (
       } else {
         if (overlappedLocations.point.length === 1) {
           let p = overlappedLocations.assets.point[overlappedLocations.point[0].id];
-          selectPoint(p.marker, p.type, p.point);
+          selectPoint(p.marker, p.point);
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
@@ -229,7 +229,8 @@ const useLocationsSelectionHandler = (
   }
 
   const resetPointStyles = (marker, type, selected) => {
-    marker.setOptions({ icon: selected ? activeIcons[type] : icons[type] });
+    let icon = selected ? activeIcons[type] : icons[type];
+    marker.setOptions({ icon: icon });
   }
 
   const resetLineStyles = (polyline, selected) => {
@@ -343,12 +344,12 @@ const useLocationsSelectionHandler = (
   };
 
 
-  const selectPoint = (marker, type, point) => {
+  const selectPoint = (marker, point) => {
     if (selectedLocationsMapRef[point.location_id]) {
-      resetPointStyles(marker, type, false);
+      resetPointStyles(marker, point.type, false);
       removeLocation(point.location_id);
     } else {
-      resetPointStyles(marker, type, true);
+      resetPointStyles(marker, point.type, true);
       addLocation(point.location_id);
     }
   }

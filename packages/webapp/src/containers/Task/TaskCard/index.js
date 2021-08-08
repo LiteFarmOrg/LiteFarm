@@ -17,7 +17,7 @@ import { getNameFromUserIdSelector } from '../../userFarmSlice';
 // not current && not selected -> teal 900
 // not current && selected -> teal 900
 
-const TaskCard = ({ color = 'secondary', task, onClick, className, style, ...props }) => {
+const TaskCard = ({ task, onClick, className, style, ...props }) => {
   const { t } = useTranslation();
 
   const {
@@ -25,9 +25,8 @@ const TaskCard = ({ color = 'secondary', task, onClick, className, style, ...pro
     assignee_user_id,
     abandoned_time,
     completed_time,
-    late_time,
-    planned_time,
-    for_review_time,
+    // planned_time, aka initial due date
+    // for_review_time,
     due_date,
     // coordinates,
     type: taskType,
@@ -45,10 +44,17 @@ const TaskCard = ({ color = 'secondary', task, onClick, className, style, ...pro
     return managementPlanIdToCropNameDict[mp.management_plan_id];
   });
 
-  // console.log({crops});
+  console.log({ crops });
+
+  let status;
+  if (completed_time) status = 'completed';
+  else if (abandoned_time) status = 'abandoned';
+  else if (new Date(due_date) > Date.now()) status = 'planned';
+  else status = 'late';
 
   return (
     <PureTaskCard
+      status={status}
       crops={crops}
       locations={locations}
       dueDate={due_date}

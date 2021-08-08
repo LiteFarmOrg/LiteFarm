@@ -16,9 +16,15 @@ import { useTranslation } from 'react-i18next';
 // not current && not selected -> teal 900
 // not current && selected -> teal 900
 
+const cardColor = {
+  planned: 'taskCurrent',
+  late: 'taskCurrent',
+  completed: 'taskMarked',
+  abandoned: 'taskMarked',
+};
+
 const PureTaskCard = ({
-  color = 'secondary',
-  task,
+  status,
   locations,
   crops,
   dueDate,
@@ -31,21 +37,20 @@ const PureTaskCard = ({
   const tempCrop = 'Carrot';
   if (!locations.length) console.error('Task should be associated with at least one location');
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
+  const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : crops[0]; // TODO: make this use translation key
   const dateText = new Date(dueDate).toDateString().slice(4);
 
   return (
     <div className={styles.cardContainer}>
-      {true && (
-        <div className={styles.statusLabel}>
-          <StatusLabel status={'planned'} />
-        </div>
-      )}
+      <div className={styles.statusLabel}>
+        <StatusLabel status={status} />
+      </div>
       <Card
-        color={color}
+        color={cardColor[status]}
         onClick={onClick}
         className={styles.card}
         style={{
-          cursor: color === 'secondary' ? 'pointer' : 'default',
+          // cursor: color === 'secondary' ? 'pointer' : 'default',
           ...style,
         }}
         {...props}
@@ -62,7 +67,7 @@ const PureTaskCard = ({
             {assignee ? (
               <div className={styles.iconTextContainer}>
                 <div className={clsx(styles.firstInitial, styles.icon)}>
-                  {assignee.first_name.charAt(0)}
+                  {assignee.first_name.toUpperCase().charAt(0)}
                 </div>
                 <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>
               </div>

@@ -11,17 +11,7 @@ function TransplantForm({ history, match }) {
 
   return (
     <HookFormPersistProvider>
-      <PureTransplant
-        can_be_cover_crop={can_be_cover_crop}
-        onGoBack={() => {
-          history.push(`/crop/${variety_id}/add_management_plan/planted_already`);
-        }}
-        onCancel={() => {
-          history.push(`/crop/${variety_id}/management`);
-        }}
-        match={match}
-        history={history}
-      />
+      <PureTransplant can_be_cover_crop={can_be_cover_crop} match={match} history={history} />
     </HookFormPersistProvider>
   );
 }

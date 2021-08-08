@@ -38,7 +38,7 @@ export default function PureNextHarvest({
   });
   useHookFormPersist(getValues);
 
-  const progress = 32;
+  const progress = 37.5;
 
   const NEXT_HARVEST_DATE = 'crop_management_plan.harvest_date';
   const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';

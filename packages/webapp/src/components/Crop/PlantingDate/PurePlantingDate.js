@@ -255,7 +255,7 @@ export default function PurePlantingDate({
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        value={25}
+        value={37.5}
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ marginBottom: '24px' }}>{dateTitle}</Main>

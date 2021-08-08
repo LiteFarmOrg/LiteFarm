@@ -9,12 +9,18 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 
 function BroadcastPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const location = useSelector(cropLocationByIdSelector(persistedFormData.location_id));
   const variety_id = match.params.variety_id;
   const cropVariety = useSelector(cropVarietyByID(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
-  const isFinalPage = match?.path.includes('final');
+  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/broadcast_method';
+  const location = useSelector(
+    cropLocationByIdSelector(
+      persistedFormData.crop_management_plan.planting_management_plans[
+        isFinalPage ? 'final' : 'initial'
+      ].location_id,
+    ),
+  );
 
   return (
     <HookFormPersistProvider>

@@ -32,7 +32,12 @@ export default function PurePlantingLocation({
     crop_management_plan: { needs_transplant, is_seed, is_wild, already_in_ground },
   } = persistedFormData;
   const showInitialLocationCheckbox = !isFinalLocationPage;
-  const showPinButton = is_wild && (!isFinalLocationPage || !needs_transplant);
+  const showPinButton = already_in_ground && is_wild && (!isFinalLocationPage || !needs_transplant);
+  useEffect(() => {
+    if (!already_in_ground || !is_wild) {
+      setPinLocation(undefined);
+    }
+  }, []);
 
   const locationPrefix = isFinalLocationPage ? 'final' : 'initial';
   const LOCATION_ID = `crop_management_plan.planting_management_plans.${locationPrefix}.location_id`;
@@ -73,9 +78,9 @@ export default function PurePlantingLocation({
     }
   }, [needs_transplant, isFinalLocationPage]);
 
-  const [pinToggle, setPinToggle] = useState(!!pinCoordinate);
+  const [pinToggle, setPinToggle] = useState(!!pinCoordinate && showPinButton);
   useEffect(() => {
-    setPinToggle(!!pinCoordinate);
+    setPinToggle(!!pinCoordinate && showPinButton);
   }, [showPinButton]);
 
   const handlePinMode = () => {
@@ -111,13 +116,7 @@ export default function PurePlantingLocation({
           onCancel={onCancel}
           cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
           title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-          value={
-            isFinalLocationPage
-              ? persistedFormData.crop_management_plan.already_in_ground
-                ? 60
-                : 50
-              : 37.5
-          }
+          value={isFinalLocationPage ? 60 : 37.5}
           style={{ marginBottom: '24px' }}
         />
 

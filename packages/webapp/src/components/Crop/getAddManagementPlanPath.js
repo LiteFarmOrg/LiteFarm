@@ -55,7 +55,8 @@ export const getNextHarvestPaths = getPlantingDatePaths;
 export const getPrevTransplantLocationPath = (variety_id, persistedFormData) => {
   if (
     !persistedFormData.crop_management_plan?.planting_management_plans?.initial
-      ?.is_planting_method_known
+      ?.is_planting_method_known &&
+    persistedFormData.crop_management_plan?.already_in_ground
   ) {
     return initialPlantingMethodPath(variety_id);
   } else {

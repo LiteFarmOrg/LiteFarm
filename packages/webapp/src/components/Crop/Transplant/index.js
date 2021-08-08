@@ -19,7 +19,7 @@ export default function PureTransplant({
 }) {
   const { t } = useTranslation();
 
-  const progress = 29;
+  const progress = 25;
   const TRANSPLANT = 'crop_management_plan.needs_transplant';
   const FOR_COVER = 'crop_management_plan.for_cover';
 

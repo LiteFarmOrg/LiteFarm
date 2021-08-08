@@ -60,14 +60,18 @@ export default function PurePlantingLocation({
   };
 
   const plantingLabel = useMemo(() => {
-    if (already_in_ground) {
+    if (needs_transplant && isFinalLocationPage) {
+      return t('MANAGEMENT_PLAN.WHERE_TRANSPLANT_LOCATION');
+    } else if (already_in_ground && (!needs_transplant || !isFinalLocationPage)) {
       return t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION');
+    } else if (needs_transplant && !isFinalLocationPage) {
+      return t('MANAGEMENT_PLAN.WHERE_START_LOCATION');
     } else if (is_seed) {
       return t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION');
     } else {
       return t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION');
     }
-  }, []);
+  }, [needs_transplant, isFinalLocationPage]);
 
   const [pinToggle, setPinToggle] = useState(!!pinCoordinate);
   useEffect(() => {
@@ -107,7 +111,13 @@ export default function PurePlantingLocation({
           onCancel={onCancel}
           cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
           title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-          value={isFinalLocationPage ? 50 : 37.5}
+          value={
+            isFinalLocationPage
+              ? persistedFormData.crop_management_plan.already_in_ground
+                ? 60
+                : 50
+              : 37.5
+          }
           style={{ marginBottom: '24px' }}
         />
 

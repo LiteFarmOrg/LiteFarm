@@ -11,7 +11,7 @@
   padding: 0;
 }
 
-.icon {
+.taskIcon {
   background-color: orange;
   height: 32px;
   width: 32px;
@@ -21,7 +21,6 @@
 .info {
   display: flex;
   flex-direction: column;
-  background-color: palegreen;
 }
 
 .subMain {
@@ -29,11 +28,21 @@
   line-height: 16px;
   font-weight: 600;
   // color:
+  margin-bottom: 4px;
 }
 
 .dateUserContainer {
   display: flex;
   flex-direction: row;
+  gap: 8px;
+}
+
+.iconTextContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  border-bottom: 1px solid var(--teal700);
 }
 
 .statusLabel {
@@ -41,4 +50,19 @@
   right: 0;
   position: absolute;
   flex-direction: column;
+}
+
+.firstInitial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin: 2px;
+  background-color: var(--blue700);
+  color: white;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 7px;
 }

@@ -26,8 +26,16 @@ Primary.args = {
   },
 };
 
-// export const Secondary = Template.bind({});
-// Secondary.args = {
-//   color: 'secondary',
-//   children: 'Secondary',
-// };
+export const Unassigned = Template.bind({});
+Unassigned.args = {
+  color: 'primary',
+  locations: [
+    {
+      farm_id: '1',
+      location_id: '1',
+      name: 'Location 1',
+    },
+  ],
+  dueDate: '2021-04-20T16:22:41.108Z',
+  assignee: null,
+};

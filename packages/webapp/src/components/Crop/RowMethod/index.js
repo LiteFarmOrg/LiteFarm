@@ -36,7 +36,7 @@ export default function PureRowMethod({
     mode: 'onChange',
     defaultValues: cloneObject(persistedFormData),
   });
-  console.log(watch());
+
   useHookFormPersist(getValues);
 
   const prefix = `crop_management_plan.planting_management_plans.${

@@ -44,14 +44,14 @@ export default function ManagementPlanName({ history, match }) {
 
 const formatManagementPlanFormData = (formData) => {
   const data = getProcessedFormData(formData);
-
-  data.crop_management_plan.planting_management_plans = Object.keys(
-    data.crop_management_plan.planting_management_plans,
-  ).map((key) => ({
-    ...data.crop_management_plan.planting_management_plans[key],
-    is_final_planting_management_plan: key === 'final',
-  }));
   console.log(data);
+  // data.crop_management_plan.planting_management_plans = Object.keys(
+  //   data.crop_management_plan.planting_management_plans,
+  // ).map((key) => ({
+  //   ...data.crop_management_plan.planting_management_plans[key],
+  //   is_final_planting_management_plan: key === 'final',
+  // }));
+  // console.log(data);
   return data;
 };
 

@@ -6,7 +6,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 export default function BedPlan({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
-  const isFinalPage = match?.path.includes('final');
+  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/bed_guidance';
 
   return (
     <HookFormPersistProvider>

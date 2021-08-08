@@ -2,43 +2,20 @@ import PurePlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidanc
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { addManagementPlanNamePath } from '../../../../components/Crop/addManagementPlanPaths';
 
 export default function RowGuidance({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
-
-  // TODO - add path for LF-1586
-  const onContinuePath = addManagementPlanNamePath(variety_id);
-  const onGoBackPath = `/crop/${variety_id}/add_management_plan/row_method`;
-  const persistedPaths = [onContinuePath, onGoBackPath];
-  const isInitialPlantingManagementPlan = match?.path.includes('historical');
-
-  const persistedFormData = useSelector(hookFormPersistSelector);
-
-  const onCancel = () => {
-    history.push(`/crop/${variety_id}/management`);
-  };
-  const onContinue = () => {
-    history.push(onContinuePath);
-  };
-
-  const onBack = () => {
-    history.push(onGoBackPath);
-  };
+  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/row_guidance';
 
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
-        onCancel={onCancel}
-        handleContinue={onContinue}
-        onGoBack={onBack}
         system={system}
-        match={match}
         history={history}
-        persistedPaths={persistedPaths}
         isBed={false}
+        isFinalPage={isFinalPage}
+        variety_id={variety_id}
       />
     </HookFormPersistProvider>
   );

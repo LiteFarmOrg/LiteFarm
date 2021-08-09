@@ -4,6 +4,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function TaskNotes({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
+
   const persistedPaths = [goBackPath, continuePath];
   const handleGoBack = () => {
     history.push('/add_task/task_locations');

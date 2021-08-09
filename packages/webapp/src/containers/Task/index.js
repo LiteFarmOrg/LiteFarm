@@ -1,16 +1,14 @@
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
-import { AddLink, Semibold, Text } from '../../components/Typography';
+import { AddLink } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { cropsSelector } from '../cropSlice';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
 import { isAdminSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-// import ActiveFilterBox from '../../components/ActiveFilterBox';
-import { taskReducerSelector, taskEntitiesSelector } from '../taskSlice';
+import { taskEntitiesSelector } from '../taskSlice';
 import { getTasks } from './saga';
 import TaskCard from './TaskCard';
 import StateTab from '../../components/RouterTab/StateTab';
@@ -22,7 +20,7 @@ export default function TaskPage({ history }) {
   const tasks = useSelector(taskEntitiesSelector);
   const dispatch = useDispatch();
 
-  const defaultTab = TODO;
+  const defaultTab = TODO; // TODO: make this depend on tab conditions
   const [activeTab, setTab] = useState(defaultTab);
 
   useEffect(() => {

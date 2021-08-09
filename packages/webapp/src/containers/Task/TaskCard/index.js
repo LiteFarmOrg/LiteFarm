@@ -1,21 +1,12 @@
 import React from 'react';
-// import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-// temp
-import { taskReducerSelector } from '../../../containers/taskSlice';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureTaskCard from '../../../components/TaskCard';
-import { useMemo } from 'react';
 import { cropTranslationKeyByManagementPlanSelector } from '../../managementPlanSlice';
 import { getNameFromUserIdSelector } from '../../userFarmSlice';
-
-// current && not selected -> grey 900
-// current && selected -> teal 900
-// not current && not selected -> teal 900
-// not current && selected -> teal 900
 
 const TaskCard = ({ task, onClick, className, style, ...props }) => {
   const { t } = useTranslation();
@@ -28,7 +19,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
     // planned_time, aka initial due date
     // for_review_time,
     due_date,
-    // coordinates,
+    // coordinates, (TODO: for pin drop)
     taskType: taskTypeArr,
     locations,
     managementPlans,
@@ -73,7 +64,3 @@ TaskCard.propTypes = {
 };
 
 export default TaskCard;
-
-const useGetCropName = (managementPlans) => {
-  return managementPlans;
-};

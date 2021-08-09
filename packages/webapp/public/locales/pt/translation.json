@@ -1320,6 +1320,13 @@
     },
     "PAGE_TITLE": "MISSING",
     "SELECT_DATE": "MISSING",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "COMPLETED": "MISSING",
+      "FOR_REVIEW": "MISSING",
+      "LATE": "MISSING",
+      "PLANNED": "MISSING"
+    },
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",

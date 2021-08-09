@@ -1321,6 +1321,13 @@
     },
     "PAGE_TITLE": "Tasks",
     "SELECT_DATE": "Select the task date",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "COMPLETED": "Completed",
+      "FOR_REVIEW": "For Review",
+      "LATE": "Late",
+      "PLANNED": "Planned"
+    },
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",

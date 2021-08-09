@@ -302,15 +302,11 @@ const useLocationsSelectionHandler = (
 
     if (multipleLocations) {
       if (selectedLocationsMapRef[line.location_id]) {
-        debugger;
         resetAreaLineStyles(p, lineStyles[line.type].colour, false);
         removeLocation(line.location_id);
       } else {
         resetAreaLineStyles(p, lineStyles[line.type].selectedColour, true);
         addLocation(line.location_id);
-        console.log(line.location_id);
-        console.log(selectedLocationsMapRef);
-        debugger;
       }
     } else {
       if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {
@@ -331,15 +327,11 @@ const useLocationsSelectionHandler = (
 
   const selectLine = (polyline, line) => {
     if (selectedLocationsMapRef[line.location_id]) {
-      debugger;
       resetLineStyles(polyline, false);
       removeLocation(line.location_id);
     } else {
       resetLineStyles(polyline, true);
       addLocation(line.location_id);
-      console.log(line.location_id);
-      console.log(selectedLocationsMapRef);
-      debugger;
     }
   };
 

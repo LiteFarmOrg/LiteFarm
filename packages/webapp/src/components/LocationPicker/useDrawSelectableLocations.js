@@ -198,7 +198,6 @@ const useDrawSelectableLocations = (setLocationId) => {
     });
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
-        console.log(selectedLocationRef);
         if (selectedLocationRef.current.asset === 'line') {
           resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
         } else {

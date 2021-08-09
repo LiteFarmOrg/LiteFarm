@@ -19,8 +19,6 @@ export default function TaskLocations({ history }) {
   }
   const [taskLocations, setTaskLocations] = useState([]);
 
-  console.log(taskLocations);
- 
   const onCancel = () => {
   }
 

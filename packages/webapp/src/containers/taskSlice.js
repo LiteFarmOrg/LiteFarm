@@ -11,6 +11,7 @@ export const getTask = (obj) => {
     'notes',
     'completion_notes',
     'owner_user_id',
+    'taskType',
     'type',
     'assignee_user_id',
     'coordinates',

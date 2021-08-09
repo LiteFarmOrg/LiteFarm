@@ -31,6 +31,7 @@ const activeCardColor = {
 };
 
 const PureTaskCard = ({
+  taskType,
   status,
   locations,
   crops,
@@ -65,7 +66,9 @@ const PureTaskCard = ({
       >
         <div className={styles.taskIcon}></div>
         <div className={styles.info}>
-          <Main style={{ fontWeight: '600', marginBottom: '4px' }}>{'Transplant'}</Main>
+          <Main style={{ fontWeight: '600', marginBottom: '4px' }}>
+            {t(`task:${taskType.task_translation_key}`)}
+          </Main>
           <div className={styles.subMain}>{`${locationText} | ${cropText}`}</div>
           <div className={styles.dateUserContainer}>
             <div className={styles.iconTextContainer}>

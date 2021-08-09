@@ -29,10 +29,11 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
     // for_review_time,
     due_date,
     // coordinates,
-    type: taskType,
+    taskType: taskTypeArr,
     locations,
     managementPlans,
   } = task;
+  const [taskType] = taskTypeArr;
 
   const managementPlanIdToCropNameDict = useSelector(cropNameByManagementPlanSelector);
   const assignee = useSelector(getNameFromUserIdSelector(assignee_user_id));
@@ -49,6 +50,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
 
   return (
     <PureTaskCard
+      taskType={taskType}
       status={status}
       crops={crops}
       locations={locations}

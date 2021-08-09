@@ -10,6 +10,10 @@ export default {
 
 const Template = (args) => <PureTaskCard {...args} />;
 const templateData = {
+  taskType: {
+    task_name: 'Transport',
+    task_translation_key: 'TRANSPORT',
+  },
   status: 'planned',
   locations: [
     {

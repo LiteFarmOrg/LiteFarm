@@ -30,7 +30,6 @@ const LocationPicker = ({
   const [selectedPin, setSelectedPin] = useState(null);
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
-  //const { drawLocations } = useDrawSelectableLocations(setLocationId);
   const { drawAssets } = useMapSelectionRenderer({ 
     isClickable: true, 
     isSelectable: true,
@@ -152,7 +151,6 @@ const LocationPicker = ({
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    //drawLocations(map, maps, mapBounds, selectedLocationId);
     drawAssets(map, maps, mapBounds, selectedLocationId);
   };
 

@@ -514,6 +514,13 @@ const useMapSelectionRenderer = ({
       handleSelection(mapsMouseEvent.latLng, assetGeometries, maps, true);
     });
 
+    if (multipleLocations && selectedLocationIds !== undefined && selectedLocationIds.length > 0 && selectedLocationIds.includes(point.location_id)) {
+      addLocation(point.location_id);
+      marker.setOptions({
+        icon: activeIcons[type],
+      });
+    }
+
     marker.setOptions({ visible: isVisible });
     return {
       marker,

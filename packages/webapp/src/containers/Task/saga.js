@@ -43,8 +43,15 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
       { assignee_user_id: assignee_user_id, date: date },
       header,
     );
-    // TODO: update many tasks in store
-    // yield put(putTasksSuccess(result.data))
+    let modified_tasks = [];
+    for (let i = 0; i < result.data.length; i++) {
+      modified_tasks.push({
+        id: result.data[i],
+        changes: { assignee_user_id },
+      });
+    }
+    console.log(modified_tasks);
+    yield put(putTasksSuccess(modified_tasks));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);

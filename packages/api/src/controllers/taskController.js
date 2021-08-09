@@ -47,17 +47,26 @@ const taskController = {
         }
         const taskIds = tasks.map(({ task_id }) => task_id);
         let result;
+        let available_tasks;
         if (assignee_user_id === null) {
-          result = await TaskModel.query().context(req.user).patch({ assignee_user_id,  wage_at_moment: wage === 0 ? 0 : wage.amount })
+          available_tasks = await TaskModel.query().context(req.user)
+          .select('task_id')
           .where('due_date', date)
           .whereIn('task_id', taskIds);
-        } else {
+          available_tasks = available_tasks.map(({ task_id }) => task_id);
           result = await TaskModel.query().context(req.user).patch({ assignee_user_id,  wage_at_moment: wage === 0 ? 0 : wage.amount })
+          .whereIn('task_id', available_tasks);
+        } else {
+          available_tasks = await TaskModel.query().context(req.user)
+          .select('task_id')
           .where('due_date', date)
           .where('assignee_user_id', null)
           .whereIn('task_id', taskIds);
+          available_tasks = available_tasks.map(({ task_id }) => task_id);
+          result = await TaskModel.query().context(req.user).patch({ assignee_user_id,  wage_at_moment: wage === 0 ? 0 : wage.amount })
+          .whereIn('task_id', available_tasks);
         }
-        return result ? res.sendStatus(200) : res.status(404).send('Tasks not found');
+        return result ? res.status(200).send(available_tasks) : res.status(404).send('Tasks not found');
       } catch (error) {
         return res.status(400).json({ error });
       }

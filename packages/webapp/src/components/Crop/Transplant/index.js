@@ -27,6 +27,7 @@ export default function PureTransplant({
     handleSubmit,
     getValues,
     control,
+    setValue,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
@@ -39,6 +40,18 @@ export default function PureTransplant({
   const variety_id = match?.params?.variety_id;
   const { goBackPath, submitPath, cancelPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
+    const {
+      already_in_ground,
+      for_cover,
+      needs_transplant,
+      is_seed,
+    } = persistedFormData.crop_management_plan;
+    if (!already_in_ground && is_seed && !for_cover && needs_transplant) {
+      setValue(
+        'crop_management_plan.planting_management_plans.initial.planting_method',
+        'CONTAINER_METHOD',
+      );
+    }
     history?.push(submitPath);
   };
   const onGoBack = () => history.push(goBackPath);

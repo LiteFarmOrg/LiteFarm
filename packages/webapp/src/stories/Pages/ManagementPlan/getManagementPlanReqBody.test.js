@@ -1,6 +1,6 @@
 const formDataAndReqBody = [
   {
-    //seed harvest transplant
+    test_name: 'Seed | For Harvest | Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -118,13 +118,11 @@ const formDataAndReqBody = [
               row_length: 0.02,
               row_length_unit: 'cm',
             },
-            pin_coordinate: {
-              lat: 49.26890111920429,
-              lng: -123.18346522043763,
-            },
+            location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
           },
         },
         seed_date: '2021-08-09',
+        plant_date: '2021-08-10',
         germination_days: 5,
         transplant_days: 10,
         harvest_days: 20,
@@ -146,10 +144,66 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              container_method: {
+                number_of_containers: 2,
+                plants_per_container: 3,
+                planting_soil: '5',
+                container_type: '66',
+                in_ground: false,
+                planting_depth: 0.04,
+                planting_depth_unit: 'cm',
+              },
+              notes: '2',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: false,
+          already_in_ground: false,
+          transplant_date: '2021-08-19',
+          is_seed: true,
+          germination_date: '2021-08-14',
+          termination_date: '2021-09-02',
+          harvest_date: '2021-08-29',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seed cover transplant
+    test_name: 'Seed | Cover Crop | Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -294,10 +348,65 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              broadcast_method: {
+                percentage_planted: 3,
+                seeding_rate: 4,
+                area_used: 298.14,
+                area_used_unit: 'm2',
+              },
+              notes: '2',
+              estimated_seeds: 0.119256,
+              estimated_seeds_unit: 'kg',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              planting_method: 'BROADCAST_METHOD',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: true,
+          already_in_ground: false,
+          transplant_date: '2021-08-19',
+          is_seed: true,
+          germination_date: '2021-08-14',
+          termination_date: '2021-08-24',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+      farm: {
+        default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seed harvest no transplant
+    test_name: 'Seed | For Harvest | No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -442,10 +551,45 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: false,
+          already_in_ground: false,
+          is_seed: true,
+          germination_date: '2021-08-14',
+          harvest_date: '2021-08-29',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    // seed cover no transplant
+    test_name: 'Seed | For Harvest | No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -590,10 +734,45 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: true,
+          already_in_ground: false,
+          is_seed: true,
+          germination_date: '2021-08-14',
+          termination_date: '2021-08-24',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seedling harvest transplant
+    test_name: 'Seedling | For Harvest | Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -671,7 +850,7 @@ const formDataAndReqBody = [
               row_length: 0.02,
               row_length_unit: 'cm',
             },
-            planting_method: 'ROW_METHOD',
+            planting_method: 'BED_METHOD',
             broadcast_method: {
               percentage_planted: 3,
               seeding_rate: 4,
@@ -739,10 +918,76 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              bed_method: {
+                number_of_beds: 3,
+                number_of_rows_in_bed: 3,
+                length_of_bed: 0.06,
+                length_of_bed_unit: 'cm',
+                plant_spacing: 0.05,
+                plant_spacing_unit: 'cm',
+                specify_beds: '4',
+                planting_notes: '9',
+                planting_depth: 0.05,
+                planting_depth_unit: 'cm',
+                bed_width: 0.07,
+                bed_width_unit: 'cm',
+                bed_spacing: 0.08,
+                bed_spacing_unit: 'cm',
+              },
+              notes: '2',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              planting_method: 'BED_METHOD',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          plant_date: '2021-08-10',
+          needs_transplant: true,
+          for_cover: false,
+          already_in_ground: false,
+          transplant_date: '2021-08-19',
+          is_seed: false,
+          germination_date: '2021-08-14',
+          harvest_date: '2021-08-29',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+      farm: {
+        default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seedling cover transplant
+    test_name: 'Seedling | Cover Crop |Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -888,10 +1133,75 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              row_method: {
+                specify_rows: '2',
+                planting_notes: '6',
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                row_width: 0.04,
+                row_width_unit: 'cm',
+                row_spacing: 0.05,
+                row_spacing_unit: 'cm',
+                same_length: false,
+                total_rows_length: 0.04,
+                total_rows_length_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '2',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              planting_method: 'ROW_METHOD',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          plant_date: '2021-08-10',
+          needs_transplant: true,
+          for_cover: true,
+          already_in_ground: false,
+          transplant_date: '2021-08-19',
+          is_seed: false,
+          germination_date: '2021-08-14',
+          termination_date: '2021-08-24',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+      farm: {
+        default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seedling harvest no transplant
+    test_name: 'Seedling | For Harvest | No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1037,10 +1347,46 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          plant_date: '2021-08-10',
+          needs_transplant: false,
+          for_cover: false,
+          already_in_ground: false,
+          is_seed: false,
+          germination_date: '2021-08-14',
+          harvest_date: '2021-08-29',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //seedling cover no transplant
+    test_name: 'Seedling | Cover Crop |No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1186,10 +1532,46 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          plant_date: '2021-08-10',
+          needs_transplant: false,
+          for_cover: true,
+          already_in_ground: false,
+          is_seed: false,
+          germination_date: '2021-08-14',
+          termination_date: '2021-08-24',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Not Wild | Harvest | Transplant
+    test_name: 'In Ground | Not Wild | Harvest | Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1252,7 +1634,7 @@ const formDataAndReqBody = [
             is_planting_method_known: false,
             planting_method: 'ROW_METHOD',
             row_method: {
-              same_length: false,
+              same_length: true,
               total_rows_length: 0.04,
               total_rows_length_unit: 'cm',
               plant_spacing: 0.03,
@@ -1336,10 +1718,53 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              is_planting_method_known: false,
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: false,
+          already_in_ground: true,
+          transplant_date: '2021-08-19',
+          is_wild: false,
+          harvest_date: '2021-09-08',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+      farm: {
+        default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Not Wild | Cover Crop| Transplant
+    test_name: 'In Ground | Not Wild | Cover Crop| Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1486,10 +1911,74 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              row_method: {
+                specify_rows: '2',
+                planting_notes: '6',
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                row_width: 0.04,
+                row_width_unit: 'cm',
+                row_spacing: 0.05,
+                row_spacing_unit: 'cm',
+                same_length: false,
+                total_rows_length: 0.04,
+                total_rows_length_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '2',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              is_planting_method_known: true,
+              planting_method: 'ROW_METHOD',
+              location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: false,
+          already_in_ground: true,
+          transplant_date: '2021-08-19',
+          is_wild: false,
+          termination_date: '2021-09-03',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+      farm: {
+        default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Not Wild | Harvest | No Transplant
+    test_name: 'In Ground | Not Wild | Harvest | No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1637,10 +2126,33 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              is_planting_method_known: false,
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: false,
+          already_in_ground: true,
+          is_wild: false,
+          harvest_date: '2021-09-08',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Not Wild | Cover Crop | No Transplant
+    test_name: 'In Ground | Not Wild | Cover Crop | No Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1788,10 +2300,45 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              is_planting_method_known: true,
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: false,
+          already_in_ground: true,
+          is_wild: false,
+          termination_date: '2021-09-03',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Wild | For Harvest  |  Transplant
+    test_name: 'In Ground | Wild | For Harvest  |  Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -1940,10 +2487,54 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              pin_coordinate: {
+                lat: 49.26901312980895,
+                lng: -123.18247816752015,
+              },
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: false,
+          already_in_ground: true,
+          transplant_date: '2021-08-19',
+          is_wild: true,
+          harvest_date: '2021-09-08',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Wild | Cover Crop|  Transplant
+    test_name: 'In Ground | Wild | Cover Crop|  Transplant',
     form: {
       crop_management_plan: {
         planting_management_plans: {
@@ -2092,10 +2683,52 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              container_method: {
+                total_plants: 2,
+                in_ground: true,
+                planting_depth: 0.03,
+                planting_depth_unit: 'cm',
+                plant_spacing: 0.03,
+                plant_spacing_unit: 'cm',
+              },
+              notes: '3',
+              planting_method: 'CONTAINER_METHOD',
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              estimated_seeds: 0,
+              estimated_seeds_unit: 'kg',
+              is_final_planting_management_plan: true,
+            },
+            {
+              pin_coordinate: {
+                lat: 49.26901312980895,
+                lng: -123.18247816752015,
+              },
+              is_final_planting_management_plan: false,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: true,
+          for_cover: true,
+          already_in_ground: true,
+          transplant_date: '2021-08-19',
+          is_wild: true,
+          termination_date: '2021-09-03',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Wild | Cover Crop |  No Transplant
+    test_name: 'In Ground | Wild | Cover Crop |  No Transplant',
     form: {
       crop_management_plan: {
         harvest_date: '2021-09-08',
@@ -2244,10 +2877,30 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: true,
+          already_in_ground: true,
+          is_wild: true,
+          termination_date: '2021-09-03',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
   {
-    //In Ground | Wild | For Harvest  |  No Transplant
+    test_name: 'In Ground | Wild | For Harvest  |  No Transplant',
     form: {
       crop_management_plan: {
         harvest_date: '2021-09-08',
@@ -2399,7 +3052,32 @@ const formDataAndReqBody = [
       notes: '4',
       crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
     },
-    expected: {},
+    expected: {
+      management_plan: {
+        crop_management_plan: {
+          planting_management_plans: [
+            {
+              estimated_yield: 0,
+              estimated_yield_unit: 'kg',
+              pin_coordinate: {
+                lat: 49.26901312980895,
+                lng: -123.18247816752015,
+              },
+              is_final_planting_management_plan: true,
+            },
+          ],
+          seed_date: '2021-08-09',
+          needs_transplant: false,
+          for_cover: false,
+          already_in_ground: true,
+          is_wild: true,
+          harvest_date: '2021-09-08',
+        },
+        name: 'Plan 1',
+        notes: '4',
+        crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+      },
+    },
   },
 ];
 

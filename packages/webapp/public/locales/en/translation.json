@@ -1331,7 +1331,8 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "SELECT_TASK_LOCATIONS": "Select the task location(s)"
   },
   "UNIT": {
     "TIME": {

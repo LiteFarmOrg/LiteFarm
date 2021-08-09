@@ -2,6 +2,9 @@ import PureTaskNotes from '../../../components/AddTask/PureTaskNotes';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function TaskNotes({ history, match }) {
+  const continuePath = '/add_task/task_assignment';
+  const goBackPath = '/add_task/task_type_selection';
+  const persistedPaths = [goBackPath, continuePath];
   const handleGoBack = () => {
     // todo: need paths from LF-1567 and LF-1568
   };
@@ -24,6 +27,7 @@ function TaskNotes({ history, match }) {
         handleGoBack={handleGoBack}
         onError={onError}
         onSubmit={onSubmit}
+        persistedPaths={persistedPaths}
       />
     </HookFormPersistProvider>
   );

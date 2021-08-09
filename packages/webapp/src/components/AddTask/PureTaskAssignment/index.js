@@ -49,6 +49,8 @@ const PureTaskAssignment = ({
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
 
+  console.log(persistedFormData);
+
   useEffect(() => {
     const currentlyAssignedUserId = currently_assigned?.value;
     const indexOfCurrentlyAssigned = userFarmOptions.indexOf(currently_assigned);

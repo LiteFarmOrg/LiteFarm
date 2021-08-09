@@ -8,13 +8,10 @@ import StatusLabel from './StatusLabel';
 import { Main } from '../Typography';
 import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../assets/images/task/Unassigned.svg';
+import { ReactComponent as CustomIcon } from '../../assets/images/task/Custom.svg';
+import { ReactComponent as RecordSoilSample } from '../../assets/images/task/RecordSoilSample.svg';
 
 import { useTranslation } from 'react-i18next';
-
-// current && not selected -> grey 900
-// current && selected -> teal 900
-// not current && not selected -> teal 900
-// not current && selected -> teal 900
 
 const cardColor = {
   planned: 'taskCurrent',
@@ -28,6 +25,24 @@ const activeCardColor = {
   late: 'taskCurrentActive',
   completed: 'taskMarkedActive',
   abandoned: 'taskMarkedActive',
+};
+
+const iconDict = {
+  BED_PREPARATION: CustomIcon,
+  SALES: CustomIcon,
+  FERTILIZING: CustomIcon,
+  SCOUTING: CustomIcon,
+  HARVESTING: CustomIcon,
+  WASH_AND_PACK: CustomIcon,
+  PEST_CONTROL: CustomIcon,
+  OTHER: CustomIcon,
+  BREAK: CustomIcon,
+  SOIL_RESULTS: RecordSoilSample,
+  IRRIGATION: CustomIcon,
+  TRANSPORT: CustomIcon,
+  FIELD_WORK: CustomIcon,
+  PLANTING: CustomIcon,
+  SOCIAL: CustomIcon,
 };
 
 const PureTaskCard = ({
@@ -48,6 +63,7 @@ const PureTaskCard = ({
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
   const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : crops[0]; // TODO: make this use translation key
   const dateText = new Date(dueDate).toDateString().slice(4);
+  const TaskIcon = iconDict[taskType.task_translation_key];
 
   return (
     <div className={styles.cardContainer}>
@@ -64,7 +80,7 @@ const PureTaskCard = ({
         }}
         {...props}
       >
-        <div className={styles.taskIcon}></div>
+        <TaskIcon className={styles.taskIcon} />
         <div className={styles.info}>
           <Main style={{ fontWeight: '600', marginBottom: '4px' }}>
             {t(`task:${taskType.task_translation_key}`)}

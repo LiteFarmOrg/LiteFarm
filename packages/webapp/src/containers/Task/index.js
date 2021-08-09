@@ -1,12 +1,12 @@
 import Layout from '../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
-import { AddLink } from '../../components/Typography';
+import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
-import { isAdminSelector } from '../userFarmSlice';
+import { isAdminSelector, loginSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { taskEntitiesSelector } from '../taskSlice';
 import { getTasks } from './saga';
@@ -18,6 +18,7 @@ import TaskQuickAssignModal from '../../components/Task/QuickAssign';
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
+  const { user_id } = useSelector(loginSelector);
   const tasks = useSelector(taskEntitiesSelector);
   const dispatch = useDispatch();
 
@@ -42,7 +43,7 @@ export default function TaskPage({ history }) {
       case ALL:
         return tasks;
       case TODO:
-        return tasks.filter((task) => !task.completed_time && !task.abandoned_time);
+        return tasks.filter((task) => task.assignee_user_id === user_id);
       case UNASSIGNED:
         return tasks.filter((task) => !task.assignee_user_id);
       default:
@@ -76,16 +77,22 @@ export default function TaskPage({ history }) {
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: tasksToDisplay.length })}
         </div>
-        <AddLink onClick={() => history.push('/tasks/new')}>{t('TASK.ADD_TASK')}</AddLink>
+        <AddLink onClick={() => history.push('/add_task/task_type_selection')}>
+          {t('TASK.ADD_TASK')}
+        </AddLink>
       </div>
-      {tasksToDisplay.map((task) => (
-        <TaskCard
-          task={task}
-          key={task.task_id}
-          onClickAssignee={handleClickAssignee}
-          style={{ marginBottom: '14px' }}
-        />
-      ))}
+      {tasksToDisplay.length > 0 ? (
+        tasksToDisplay.map((task) => (
+          <TaskCard
+            task={task}
+            key={task.task_id}
+            onClickAssignee={handleClickAssignee}
+            style={{ marginBottom: '14px' }}
+          />
+        ))
+      ) : (
+        <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
+      )}
       {quickAssignInfo && (
         <TaskQuickAssignModal
           dismissModal={() => setQuickAssignInfo(null)}

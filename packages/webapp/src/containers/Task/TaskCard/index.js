@@ -35,7 +35,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
   } = task;
 
   const managementPlanIdToCropNameDict = useSelector(cropNameByManagementPlanSelector);
-  const assignee = useSelector(getNameFromUserIdSelector('assignee_user_id'));
+  const assignee = useSelector(getNameFromUserIdSelector(assignee_user_id));
 
   const crops = managementPlans.map((mp) => {
     return managementPlanIdToCropNameDict[mp.management_plan_id];

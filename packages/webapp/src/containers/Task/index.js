@@ -80,7 +80,7 @@ export default function TaskPage({ history }) {
         )}
       </div>
       {tasksToDisplay.map((task) => (
-        <TaskCard task={task} key={task.id} style={{ marginBottom: '14px' }} />
+        <TaskCard task={task} key={task.task_id} style={{ marginBottom: '14px' }} />
       ))}
     </Layout>
   );

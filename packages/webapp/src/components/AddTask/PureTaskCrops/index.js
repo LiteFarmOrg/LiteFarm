@@ -5,6 +5,9 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
+import PureCropTile from '../../CropTile';
+import CropStatusInfoBox from '../../CropCatalogue/CropStatusInfoBox';
+import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 
 const PureTaskCrops = ({ handleGoBack, handleCancel, onError, persistedFormData, onSubmit }) => {
   const { t } = useTranslation();
@@ -33,6 +36,8 @@ const PureTaskCrops = ({ handleGoBack, handleCancel, onError, persistedFormData,
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_CROPS')}</Main>
+
+        <PureCropTile></PureCropTile>
       </Form>
     </>
   );

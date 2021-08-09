@@ -75,7 +75,9 @@ export default function TaskPage({ history }) {
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: tasksToDisplay.length })}
         </div>
-        <div>{t('TASK.CREATE_A_TASK')}</div>
+        {isAdmin && (
+          <AddLink onClick={() => history.push('/tasks/new')}>{t('TASK.ADD_TASK')}</AddLink>
+        )}
       </div>
       {tasksToDisplay.map((task) => (
         <TaskCard task={task} key={task.id} />

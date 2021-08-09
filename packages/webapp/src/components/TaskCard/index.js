@@ -74,7 +74,7 @@ const PureTaskCard = ({
             ) : (
               <div className={styles.iconTextContainer}>
                 <UnassignedIcon className={styles.icon} />
-                <div>{t('TASK.CARD.UNASSIGNED')}</div>
+                <div>{t('TASK.UNASSIGNED')}</div>
               </div>
             )}
           </div>

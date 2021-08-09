@@ -18,8 +18,12 @@ const taskController = {
         const { farm_id } = await TaskModel.query().select('location.farm_id').whereNotDeleted()
           .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
           .join('location', 'location.location_id', 'location_tasks.location_id').where('task.task_id', task_id).first();
-        const { wage } = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
-        const result = await TaskModel.query().context(req.user).findById(task_id).patch({ assignee_user_id, wage_at_moment: wage.amount });
+        let wage = {amount: 0};
+        if (assignee_user_id !== null) {
+          let userFarm  = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
+          wage = userFarm.wage;
+        }
+        const result = await TaskModel.query().context(req.user).findById(task_id).patch({ assignee_user_id, wage_at_moment: wage === 0 ? 0 : wage.amount });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
         return res.status(400).json({ error });
@@ -36,13 +40,33 @@ const taskController = {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
         const tasks = await getTasksForFarm(farm_id);
-        const { wage } = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
+        let wage = {amount: 0};
+        if (assignee_user_id !== null) {
+          let userFarm  = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
+          wage = userFarm.wage;
+        }
         const taskIds = tasks.map(({ task_id }) => task_id);
-        const result = await TaskModel.query().context(req.user).patch({ assignee_user_id, wage_at_moment: wage.amount })
+        let result;
+        let available_tasks;
+        if (assignee_user_id === null) {
+          available_tasks = await TaskModel.query().context(req.user)
+          .select('task_id')
+          .where('due_date', date)
+          .whereIn('task_id', taskIds);
+          available_tasks = available_tasks.map(({ task_id }) => task_id);
+          result = await TaskModel.query().context(req.user).patch({ assignee_user_id,  wage_at_moment: wage === 0 ? 0 : wage.amount })
+          .whereIn('task_id', available_tasks);
+        } else {
+          available_tasks = await TaskModel.query().context(req.user)
+          .select('task_id')
           .where('due_date', date)
           .where('assignee_user_id', null)
           .whereIn('task_id', taskIds);
-        return result ? res.sendStatus(200) : res.status(404).send('Tasks not found');
+          available_tasks = available_tasks.map(({ task_id }) => task_id);
+          result = await TaskModel.query().context(req.user).patch({ assignee_user_id,  wage_at_moment: wage === 0 ? 0 : wage.amount })
+          .whereIn('task_id', available_tasks);
+        }
+        return result ? res.status(200).send(available_tasks) : res.status(404).send('Tasks not found');
       } catch (error) {
         return res.status(400).json({ error });
       }

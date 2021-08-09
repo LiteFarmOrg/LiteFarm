@@ -46,14 +46,13 @@ const updateOneTask = (state, { payload: task }) => {
   taskAdapter.updateOne(state, task);
 };
 
-// TODO: use this to update many tasks
 const updateManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
   taskAdapter.updateMany(
     state,
-    tasks.map((task) => getTask(task)),
+    tasks
   );
 };
 

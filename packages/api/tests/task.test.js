@@ -58,7 +58,8 @@ describe('Task tests', () => {
 
 
   async function userFarmTaskGenerator(linkPlan = true) {
-    const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+    const userFarm = {...fakeUserFarm(1), wage: { type:'', amount: 30}};
+    const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
     const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }]});
     const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }]});
     const [{ management_plan_id }] = linkPlan ? await mocks.management_planFactory({ promisedFarm: [{ farm_id }],
@@ -78,13 +79,15 @@ describe('Task tests', () => {
 
   describe('PATCH Assginee tests', () => {
     test('Owners should be able to assign person to task', async (done) => {
-      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const userFarm = {...fakeUserFarm(1), wage: { type:'', amount: 30}};
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id }, task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task_id);
+        expect(updated_task.wage_at_moment).toBe(30);
         expect(updated_task.assignee_user_id).toBe(user_id);
         done();
       });
@@ -153,7 +156,6 @@ describe('Task tests', () => {
       await mocks.location_tasksFactory({ promisedTask: [task_1], promisedField: [location_1] });
       await mocks.location_tasksFactory({ promisedTask: [task_2], promisedField: [location_2] });
       assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: user_id, date: date }, task_1_id, async (err, res) => {
-        console.log(res);
         expect(res.status).toBe(200);
         const updated_task_1 = await getTask(task_1_id);
         const updated_task_2 = await getTask(task_2_id);
@@ -195,7 +197,7 @@ describe('Task tests', () => {
       const task_2_id = task_2.task_id;
       await mocks.location_tasksFactory({ promisedTask: [task_1], promisedField: [location_1] });
       await mocks.location_tasksFactory({ promisedTask: [task_2], promisedField: [location_2] });
-      assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: user_id, date: date }, task_1_id, async (err, res) => {
+      assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: user_id, date }, task_1_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task_1 = await getTask(task_1_id);
         const updated_task_2 = await getTask(task_2_id);
@@ -247,15 +249,13 @@ describe('Task tests', () => {
   describe('POST Task' , () => {
 
     describe('creating types of tasks',  () => {
-      let fertilizer, pesticide, disease;
+      let product;
       beforeEach(async () => {
-         [{ fertilizer_id: fertilizer }] = await mocks.fertilizerFactory();
-         [{ pesticide_id: pesticide }] = await mocks.pesticideFactory();
-         [{ disease_id: disease }] = await mocks.diseaseFactory();
+         [{ product_id: product }] = await mocks.productFactory();
       });
       const fakeTaskData = {
-        fertilizer_task: () =>  mocks.fakeFertilizerTask({ fertilizer_id: fertilizer }),
-        pest_control_task: () => mocks.fakePestControlTask({ pesticide_id: pesticide, target_disease_id: disease }),
+        soil_amendment_task: () =>  mocks.fakeSoilAmendmentTask({ product_id: product }),
+        pest_control_task: () => mocks.fakePestControlTask({ product_id: product }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
         scouting_task: () => mocks.fakeScoutingTask(),
         soil_task: () => mocks.fakeSoilTask(),
@@ -272,6 +272,7 @@ describe('Task tests', () => {
               [type]: { ...fakeTaskData[type]() },
               type: task_type_id,
               owner_user_id: user_id,
+              assignee_user_id: user_id,
             }),
             locations: [{ location_id } ],
             managementPlans: [],
@@ -282,6 +283,7 @@ describe('Task tests', () => {
             const { task_id } = res.body;
             const createdTask = await knex('task').where({ task_id }).first();
             expect(createdTask).toBeDefined();
+            expect(createdTask.wage_at_moment).toBe(30);
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
             expect(isTaskRelatedToLocation.task_id).toBe(task_id);
@@ -324,7 +326,7 @@ describe('Task tests', () => {
         });
       });
 
-      test('should create a task (i.e fertilizer)  with multiple management plans', async (done) => {
+      test('should create a task (i.e soilamendment)  with multiple management plans', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement  = await Promise.all([...Array(3)].map(async () =>
           mocks.management_planFactory({ promisedFarm: [{ farm_id }],
@@ -333,7 +335,7 @@ describe('Task tests', () => {
         const managementPlans = promisedManagement.reduce((a,b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
         const data = {
           ...mocks.fakeTask({
-            fertilizer_task: { ...fakeTaskData.fertilizer_task() },
+            soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
             type: task_type_id,
             owner_user_id: user_id,
           }),
@@ -341,7 +343,7 @@ describe('Task tests', () => {
           managementPlans,
         }
 
-        postTaskRequest({ user_id, farm_id }, 'fertilizer_Task', data, async (err, res) => {
+        postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', data, async (err, res) => {
           expect(res.status).toBe(200);
           const { task_id } = res.body;
           const createdTask = await knex('task').where({ task_id }).first();

@@ -24,7 +24,7 @@ jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 
-const fertilizerLogModel = require('../src/models/fertilizerTaskModel');
+const fertilizerLogModel = require('../src/models/soilAmendmentTaskModel');
 const pestControlLogModel = require('../src/models/pestControlTask');
 const scoutingLogModel = require('../src/models/scoutingTaskModel');
 const irrigationLogModel = require('../src/models/irrigationTaskModel');

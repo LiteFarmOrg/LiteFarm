@@ -11,5 +11,11 @@
   "WASH_AND_PACK": "Wash and Pack",
   "PEST_CONTROL": "Pest Control",
   "OTHER": "Other",
-  "BREAK": "Break"
+  "BREAK": "Break",
+  "SOIL_RESULTS": "Soil Sample Results",
+  "IRRIGATION": "Irrigation",
+  "TRANSPORT": "Transport",
+  "FIELD_WORK": "Field Work",
+  "PLANTING": "Planting",
+  "SOCIAL": "Social"
 }

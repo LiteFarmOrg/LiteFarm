@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureTaskCard from '../../../components/TaskCard';
 import { useMemo } from 'react';
-import { cropNameByManagementPlanSelector } from '../../managementPlanSlice';
+import { cropTranslationKeyByManagementPlanSelector } from '../../managementPlanSlice';
 import { getNameFromUserIdSelector } from '../../userFarmSlice';
 
 // current && not selected -> grey 900
@@ -35,11 +35,13 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
   } = task;
   const [taskType] = taskTypeArr;
 
-  const managementPlanIdToCropNameDict = useSelector(cropNameByManagementPlanSelector);
+  const managementPlanIdToCropTranslationKeyDict = useSelector(
+    cropTranslationKeyByManagementPlanSelector,
+  );
   const assignee = useSelector(getNameFromUserIdSelector(assignee_user_id));
 
   const crops = managementPlans.map((mp) => {
-    return managementPlanIdToCropNameDict[mp.management_plan_id];
+    return managementPlanIdToCropTranslationKeyDict[mp.management_plan_id];
   });
 
   let status;

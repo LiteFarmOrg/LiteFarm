@@ -27,7 +27,7 @@ const templateData = {
     first_name: 'First',
     last_name: 'Last',
   },
-  crops: ['Carrot'],
+  crops: ['CARROT'],
   onClick: null,
   onClickAssignee: (e) => {
     e.stopPropagation();

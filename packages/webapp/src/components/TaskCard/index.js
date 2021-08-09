@@ -20,6 +20,8 @@ import { ReactComponent as Transport } from '../../assets/images/task/Transport.
 import { ReactComponent as FieldWork } from '../../assets/images/task/FieldWork.svg';
 import { ReactComponent as Plant } from '../../assets/images/task/Plant.svg';
 import { ReactComponent as SocialEvent } from '../../assets/images/task/SocialEvent.svg';
+import { ReactComponent as Clean } from '../../assets/images/task/Clean.svg';
+import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAmendment.svg';
 
 import { useTranslation } from 'react-i18next';
 import Rating from '../Rating';
@@ -39,22 +41,24 @@ const activeCardColor = {
 };
 
 const iconDict = {
-  BED_PREPARATION: CustomIcon, // TODO: replace
+  CLEANING: Clean, // for release
+  HARVESTING: Harvest, // for release
+  PEST_CONTROL: PestControl, // for release
+  PLANTING: Plant, // for release
+  FIELD_WORK: FieldWork, // for release
+  TRANSPLANT: Transplant, // for release
+  SOIL_AMENDMENT: SoilAmendment, // for release
+  BED_PREPARATION: CustomIcon,
   SALES: Sales,
-  FERTILIZING: Fertilize,
+  FERTILIZING: SoilAmendment, // soil amendment replaces fertilizing
   SCOUTING: Scout,
-  HARVESTING: Harvest,
   WASH_AND_PACK: WashAndPack,
-  PEST_CONTROL: PestControl,
-  OTHER: CustomIcon, // TODO: replace
-  BREAK: CustomIcon, // TODO: replace
+  OTHER: CustomIcon,
+  BREAK: CustomIcon,
   SOIL_RESULTS: RecordSoilSample,
   IRRIGATION: Irrigate,
   TRANSPORT: Transport,
-  FIELD_WORK: FieldWork,
-  PLANTING: Plant,
   SOCIAL: SocialEvent,
-  TRANSPLANT: Transplant, // TODO: check if in db
 };
 
 const PureTaskCard = ({

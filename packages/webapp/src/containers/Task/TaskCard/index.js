@@ -8,7 +8,7 @@ import PureTaskCard from '../../../components/TaskCard';
 import { cropTranslationKeyByManagementPlanSelector } from '../../managementPlanSlice';
 import { getNameFromUserIdSelector } from '../../userFarmSlice';
 
-const TaskCard = ({ task, onClick, className, style, ...props }) => {
+const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }) => {
   const { t } = useTranslation();
 
   const {
@@ -23,6 +23,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
     taskType: taskTypeArr,
     locations,
     managementPlans,
+    happiness,
   } = task;
   const [taskType] = taskTypeArr;
 
@@ -34,6 +35,11 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
   const crops = managementPlans.map((mp) => {
     return managementPlanIdToCropTranslationKeyDict[mp.management_plan_id];
   });
+
+  const handleClickAssignee = (e) => {
+    e.stopPropagation();
+    onClickAssignee(task_id, due_date, !!assignee);
+  };
 
   let status;
   if (completed_time) status = 'completed';
@@ -50,6 +56,8 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
       dueDate={due_date}
       assignee={assignee}
       style={style}
+      happiness={happiness}
+      onClickAssignee={handleClickAssignee}
     />
   );
 };

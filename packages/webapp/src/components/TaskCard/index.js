@@ -3,13 +3,24 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../Card';
-import { ReactComponent as EmailIcon } from '../../assets/images/chooseFarm/emailIcon.svg';
 import StatusLabel from './StatusLabel';
 import { Main } from '../Typography';
 import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../assets/images/task/Unassigned.svg';
 import { ReactComponent as CustomIcon } from '../../assets/images/task/Custom.svg';
 import { ReactComponent as RecordSoilSample } from '../../assets/images/task/RecordSoilSample.svg';
+import { ReactComponent as Sales } from '../../assets/images/task/Sales.svg';
+import { ReactComponent as Scout } from '../../assets/images/task/Scout.svg';
+import { ReactComponent as Fertilize } from '../../assets/images/task/Fertilize.svg';
+import { ReactComponent as WashAndPack } from '../../assets/images/task/WashAndPack.svg';
+import { ReactComponent as Transplant } from '../../assets/images/task/Transplant.svg';
+import { ReactComponent as Harvest } from '../../assets/images/task/Harvest.svg';
+import { ReactComponent as PestControl } from '../../assets/images/task/PestControl.svg';
+import { ReactComponent as Irrigate } from '../../assets/images/task/Irrigate.svg';
+import { ReactComponent as Transport } from '../../assets/images/task/Transport.svg';
+import { ReactComponent as FieldWork } from '../../assets/images/task/FieldWork.svg';
+import { ReactComponent as Plant } from '../../assets/images/task/Plant.svg';
+import { ReactComponent as SocialEvent } from '../../assets/images/task/SocialEvent.svg';
 
 import { useTranslation } from 'react-i18next';
 
@@ -28,21 +39,22 @@ const activeCardColor = {
 };
 
 const iconDict = {
-  BED_PREPARATION: CustomIcon,
-  SALES: CustomIcon,
-  FERTILIZING: CustomIcon,
-  SCOUTING: CustomIcon,
-  HARVESTING: CustomIcon,
-  WASH_AND_PACK: CustomIcon,
-  PEST_CONTROL: CustomIcon,
-  OTHER: CustomIcon,
-  BREAK: CustomIcon,
+  BED_PREPARATION: CustomIcon, // TODO: replace
+  SALES: Sales,
+  FERTILIZING: Fertilize,
+  SCOUTING: Scout,
+  HARVESTING: Harvest,
+  WASH_AND_PACK: WashAndPack,
+  PEST_CONTROL: PestControl,
+  OTHER: CustomIcon, // TODO: replace
+  BREAK: CustomIcon, // TODO: replace
   SOIL_RESULTS: RecordSoilSample,
-  IRRIGATION: CustomIcon,
-  TRANSPORT: CustomIcon,
-  FIELD_WORK: CustomIcon,
-  PLANTING: CustomIcon,
-  SOCIAL: CustomIcon,
+  IRRIGATION: Irrigate,
+  TRANSPORT: Transport,
+  FIELD_WORK: FieldWork,
+  PLANTING: Plant,
+  SOCIAL: SocialEvent,
+  TRANSPLANT: Transplant, // TODO: check if in db
 };
 
 const PureTaskCard = ({

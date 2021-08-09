@@ -6,7 +6,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
 
-  const continuePath = '/tasks/:management_plan_id/add_task/task_date';
+  const continuePath = '/add_task/task_date';
   const persistedPaths = [continuePath];
 
   const onCustomTask = () => {
@@ -14,9 +14,7 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const onContinue = () => {
-
     history.push(continuePath);
-
   };
 
   const handleGoBack = () => {
@@ -36,8 +34,7 @@ function TaskTypeSelection({ history, match }) {
         onCustomTask={onCustomTask}
         handleCancel={handleCancel}
         handleGoBack={handleGoBack}
-        persistedPaths={continuePath}
-
+        persistedPaths={persistedPaths}
         onContinue={onContinue}
         onError={onError}
       />

@@ -49,6 +49,8 @@ const PureTaskAssignment = ({
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
 
+  console.log(persistedFormData);
+
   useEffect(() => {
     const currentlyAssignedUserId = currently_assigned?.value;
     const indexOfCurrentlyAssigned = userFarmOptions.indexOf(currently_assigned);
@@ -131,7 +133,7 @@ const PureTaskAssignment = ({
             <div style={{ display: 'table' }}>
               <Input
                 hookFormRegister={register(WAGE_OVERRIDE, {
-                  required: false,
+                  required: true,
                   valueAsNumber: true,
                 })}
                 type={'number'}

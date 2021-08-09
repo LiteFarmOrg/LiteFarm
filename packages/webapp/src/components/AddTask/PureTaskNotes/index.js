@@ -7,7 +7,15 @@ import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
 
-const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persistedFormData }) => {
+const PureTaskNotes = ({
+  handleGoBack,
+  handleCancel,
+  onSubmit,
+  onError,
+  persistedFormData,
+  useHookFormPersist,
+  persistedPaths,
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -15,10 +23,13 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persiste
     watch,
     register,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = useForm({});
 
+  useHookFormPersist(persistedPaths, getValues);
   const TASK_NOTES = 'task_notes';
+  register(TASK_NOTES, { required: false });
   let task_notes = watch(TASK_NOTES);
 
   const task = persistedFormData.task_type.toUpperCase();

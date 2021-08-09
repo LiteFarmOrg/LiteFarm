@@ -43,7 +43,6 @@ const PureTaskCard = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const tempCrop = 'Carrot';
   if (!locations.length) console.error('Task should be associated with at least one location');
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
   const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : crops[0]; // TODO: make this use translation key
@@ -67,7 +66,7 @@ const PureTaskCard = ({
         <div className={styles.taskIcon}></div>
         <div className={styles.info}>
           <Main style={{ fontWeight: '600', marginBottom: '4px' }}>{'Transplant'}</Main>
-          <div className={styles.subMain}>{`${locationText} | ${tempCrop}`}</div>
+          <div className={styles.subMain}>{`${locationText} | ${cropText}`}</div>
           <div className={styles.dateUserContainer}>
             <div className={styles.iconTextContainer}>
               <CalendarIcon className={styles.icon} />

@@ -64,3 +64,10 @@ Multi.args = {
   defaultMenuIsOpen: true,
   isMulti: true,
 };
+export const Creatable = Template.bind({});
+Creatable.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  creatable: true
+};

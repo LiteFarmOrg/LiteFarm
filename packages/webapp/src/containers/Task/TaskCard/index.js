@@ -23,6 +23,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
     taskType: taskTypeArr,
     locations,
     managementPlans,
+    happiness,
   } = task;
   const [taskType] = taskTypeArr;
 
@@ -50,6 +51,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
       dueDate={due_date}
       assignee={assignee}
       style={style}
+      happiness={happiness}
     />
   );
 };

@@ -667,6 +667,7 @@ const Routes = () => {
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/tasks" exact component={Tasks} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
@@ -934,6 +935,8 @@ const Routes = () => {
               exact
               component={EditNaturalAreaForm}
             />
+            <Route path="/tasks" exact component={Tasks} />
+
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />

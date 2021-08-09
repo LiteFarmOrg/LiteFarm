@@ -39,6 +39,24 @@ const addManyTasks = (state, { payload: tasks }) => {
   );
 };
 
+const updateOneTask = (state, { payload: task }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateOne(state, task);
+};
+
+// TODO: use this to update many tasks
+const updateManyTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateMany(
+    state,
+    tasks.map((task) => getTask(task)),
+  );
+};
+
 const taskAdapter = createEntityAdapter({
   selectId: (task) => task.task_id,
 });
@@ -54,6 +72,8 @@ const taskSlice = createSlice({
     onLoadingTasksStart: onLoadingStart,
     onLoadingTasksFail: onLoadingFail,
     getTasksSuccess: addManyTasks,
+    putTaskSuccess: updateOneTask,
+    putTasksSuccess: updateManyTasks,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -61,6 +81,8 @@ export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   getTasksSuccess,
+  putTaskSuccess,
+  putTasksSuccess,
   deleteTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;

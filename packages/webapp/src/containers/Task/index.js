@@ -20,7 +20,7 @@ export default function TaskPage({ history }) {
   const tasks = useSelector(taskEntitiesSelector);
   const dispatch = useDispatch();
 
-  const defaultTab = TODO; // TODO: make this depend on tab conditions
+  const defaultTab = TODO;
   const [activeTab, setTab] = useState(defaultTab);
 
   useEffect(() => {
@@ -70,9 +70,7 @@ export default function TaskPage({ history }) {
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: tasksToDisplay.length })}
         </div>
-        {isAdmin && (
-          <AddLink onClick={() => history.push('/tasks/new')}>{t('TASK.ADD_TASK')}</AddLink>
-        )}
+        <AddLink onClick={() => history.push('/tasks/new')}>{t('TASK.ADD_TASK')}</AddLink>
       </div>
       {tasksToDisplay.map((task) => (
         <TaskCard task={task} key={task.task_id} style={{ marginBottom: '14px' }} />

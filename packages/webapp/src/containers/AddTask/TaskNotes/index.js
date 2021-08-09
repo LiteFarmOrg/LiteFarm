@@ -3,10 +3,10 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 
 function TaskNotes({ history, match }) {
   const continuePath = '/add_task/task_assignment';
-  const goBackPath = '/add_task/task_type_selection';
+  const goBackPath = '/add_task/task_locations';
   const persistedPaths = [goBackPath, continuePath];
   const handleGoBack = () => {
-    // todo: need paths from LF-1567 and LF-1568
+    history.push('/add_task/task_locations');
   };
 
   const handleCancel = () => {

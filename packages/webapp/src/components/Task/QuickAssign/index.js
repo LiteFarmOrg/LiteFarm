@@ -28,15 +28,18 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
 
   const assigned_worker = workerOptions[0];
 
-  const [worker, setWorker] = useState(assigned ? assigned_worker : null);
+  const unassigned = { label: 'Unassigned', value: null }
+
+  const [worker, setWorker] = useState(assigned ? unassigned : assigned_worker);
   const [assignAll, setAssignAll] = useState(false);
 
-  workerOptions.unshift({ label: 'Unassigned', value: null });
+  workerOptions.unshift(unassigned);
 
   const onAssign = () => {
     console.log(worker);
     console.log(assignAll);
     if (assignAll) {
+      console.log(worker.value);
       dispatch(assignTasksOnDate({
         task_id: taskId, 
         date: dueDate,
@@ -72,7 +75,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       icon={<Person />}
     >
       <ReactSelect
-        defaultValue={ isAssigned ? workerOptions[0] : self}
+        defaultValue={ isAssigned ? unassigned : self}
         label={t('ADD_TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}

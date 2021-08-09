@@ -133,7 +133,7 @@ const PureTaskAssignment = ({
             <div style={{ display: 'table' }}>
               <Input
                 hookFormRegister={register(WAGE_OVERRIDE, {
-                  required: false,
+                  required: true,
                   valueAsNumber: true,
                 })}
                 type={'number'}

@@ -43,7 +43,7 @@ export default function PureTaskLocations({
         />
 
         <Label style={{ marginTop: '24px', marginBottom: '24px' }}>
-          {t('ADD_TASK.SELECT_TASK_LOCATIONS')}
+          {t('TASK.SELECT_TASK_LOCATIONS')}
         </Label>
         <LocationPicker
           className={styles.mapContainer}

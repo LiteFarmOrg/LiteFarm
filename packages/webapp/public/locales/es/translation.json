@@ -1330,7 +1330,8 @@
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",
-    "UNASSIGNED": "MISSING"
+    "UNASSIGNED": "MISSING",
+    "SELECT_TASK_LOCATIONS": "MISSING"
   },
   "UNIT": {
     "TIME": {

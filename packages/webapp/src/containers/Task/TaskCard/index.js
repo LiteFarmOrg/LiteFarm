@@ -35,10 +35,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
   } = task;
 
   const managementPlanIdToCropNameDict = useSelector(cropNameByManagementPlanSelector);
-  const { first_name, last_name } = useSelector(getNameFromUserIdSelector('104942873090979111002'));
-
-  // console.log({task});
-  // console.log({first_name, last_name});
+  const assignee = useSelector(getNameFromUserIdSelector('assignee_user_id'));
 
   const crops = managementPlans.map((mp) => {
     return managementPlanIdToCropNameDict[mp.management_plan_id];
@@ -58,7 +55,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
       crops={crops}
       locations={locations}
       dueDate={due_date}
-      assignee={{ first_name, last_name }}
+      assignee={assignee}
     />
   );
 };

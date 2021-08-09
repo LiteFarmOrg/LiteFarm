@@ -9,7 +9,9 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useDrawSelectableLocations from './useDrawSelectableLocations';
+import useMapSelectionRenderer from '../../containers/Map/useMapSelectionRenderer';
 import MapPin from '../../assets/images/map/map_pin.svg';
+import LocationSelectionModal from '../../containers/Map/LocationSelectionModal';
 
 const LocationPicker = ({
   className,
@@ -18,12 +20,26 @@ const LocationPicker = ({
   canUsePin,
   setPinLocation,
   currentPin,
+  canSelectMultipleLocations,
+  setLocationIds,
+  selectedLocationIds,
+  storedLocations,
+  onlyCrop,
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(currentPin);
   const [selectedPin, setSelectedPin] = useState(null);
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
-  const { drawLocations } = useDrawSelectableLocations(setLocationId);
+  const { drawAssets } = useMapSelectionRenderer({ 
+    isClickable: true, 
+    isSelectable: true,
+    onlyCrop: onlyCrop, 
+    setLocationId: setLocationId,
+    multipleLocations: canSelectMultipleLocations,
+    setMultipleLocationIds: setLocationIds,
+    selectedLocationIds: selectedLocationIds,
+    storedLocations: storedLocations,
+  });
 
   function placeMarker(latLng, map, maps) {
     setSelectedPin(
@@ -135,25 +151,30 @@ const LocationPicker = ({
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-    drawLocations(map, maps, mapBounds, selectedLocationId);
+    drawAssets(map, maps, mapBounds, selectedLocationId);
   };
 
   return (
-    <div className={clsx(className)}>
-      <GoogleMap
-        style={{ flexGrow: 1 }}
-        bootstrapURLKeys={{
-          key: GMAPS_API_KEY,
-          libraries: ['drawing', 'geometry', 'places'],
-          language: localStorage.getItem('litefarm_lang'),
-        }}
-        defaultCenter={grid_points}
-        defaultZoom={DEFAULT_ZOOM}
-        yesIWantToUseGoogleMapApiInternals
-        onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-        options={getMapOptions}
+    <>
+      <div className={clsx(className)}>
+        <GoogleMap
+          style={{ flexGrow: 1 }}
+          bootstrapURLKeys={{
+            key: GMAPS_API_KEY,
+            libraries: ['drawing', 'geometry', 'places'],
+            language: localStorage.getItem('litefarm_lang'),
+          }}
+          defaultCenter={grid_points}
+          defaultZoom={DEFAULT_ZOOM}
+          yesIWantToUseGoogleMapApiInternals
+          onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+          options={getMapOptions}
+        />
+      </div>
+      <LocationSelectionModal
+        selectingOnly={true}
       />
-    </div>
+    </>
   );
 };
 
@@ -161,6 +182,7 @@ LocationPicker.prototype = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
   selectedLocationId: PropTypes.string,
+  canSelectMultipleLocations: PropTypes.bool,
 };
 
 export default LocationPicker;

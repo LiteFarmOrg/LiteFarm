@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
@@ -117,7 +118,19 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, isSearchable, defaultValue, ...props },
+    { label,
+      optional,
+      placeholder,
+      options,
+      toolTipContent,
+      icon,
+      style,
+      autoOpen,
+      components,
+      isSearchable,
+      defaultValue,
+      creatable = false,
+      ...props },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -144,27 +157,54 @@ const ReactSelect = React.forwardRef(
             {icon && <span className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}
-        <Select
-          customStyles
-          styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
-          placeholder={placeholder}
-          options={options}
-          components={{
-            ClearIndicator: ({ innerProps }) => (
-              <Underlined
-                {...innerProps}
-                style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
-              >
-                {t('REACT_SELECT.CLEAR_ALL')}
-              </Underlined>
-            ),
-            ...components,
-          }}
-          isSearchable={options?.length > 8 || isSearchable}
-          inputRef={ref}
-          defaultValue={defaultValue}
-          {...props}
-        />
+        {
+          creatable &&
+            <CreatableSelect
+              customStyles
+              styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+              placeholder={placeholder}
+              options={options}
+              components={{
+                ClearIndicator: ({ innerProps }) => (
+                  <Underlined
+                    {...innerProps}
+                    style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+                  >
+                    {t('REACT_SELECT.CLEAR_ALL')}
+                  </Underlined>
+                ),
+                ...components,
+              }}
+              isSearchable={options?.length > 8 || isSearchable}
+              inputRef={ref}
+              defaultValue={defaultValue}
+              {...props}
+            />
+        }
+        {
+          !creatable &&
+          <Select
+            customStyles
+            styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+            placeholder={placeholder}
+            options={options}
+            components={{
+              ClearIndicator: ({ innerProps }) => (
+                <Underlined
+                  {...innerProps}
+                  style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+                >
+                  {t('REACT_SELECT.CLEAR_ALL')}
+                </Underlined>
+              ),
+              ...components,
+            }}
+            isSearchable={options?.length > 8 || isSearchable}
+            inputRef={ref}
+            defaultValue={defaultValue}
+            {...props}
+          />
+        }
       </div>
     );
   },

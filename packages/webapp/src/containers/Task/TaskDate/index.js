@@ -5,11 +5,11 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function TaskDate({ history, match }) {
 
   const onGoBack = () => {
-    console.log('Go to LF-1564 task type selection');
+    history.push('/add_task/task_type_selection');
   }
 
   const onContinue = () => {
-    console.log('Go to LF-1567 Task locations');
+    history.push('/add_task/task_locations');
   }
 
   const onCancel = () => {

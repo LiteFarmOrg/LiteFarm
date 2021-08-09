@@ -14,7 +14,9 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const onContinue = () => {
+
     history.push(continuePath);
+
   };
 
   const handleGoBack = () => {
@@ -35,6 +37,7 @@ function TaskTypeSelection({ history, match }) {
         handleCancel={handleCancel}
         handleGoBack={handleGoBack}
         persistedPaths={continuePath}
+
         onContinue={onContinue}
         onError={onError}
       />

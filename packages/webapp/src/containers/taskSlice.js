@@ -11,6 +11,7 @@ export const getTask = (obj) => {
     'notes',
     'completion_notes',
     'owner_user_id',
+    'taskType',
     'type',
     'assignee_user_id',
     'coordinates',
@@ -23,7 +24,7 @@ export const getTask = (obj) => {
     'for_review_time',
     'abandoned_time',
     'locations',
-    'managementPlans'
+    'managementPlans',
   ]);
 };
 
@@ -35,6 +36,23 @@ const addManyTasks = (state, { payload: tasks }) => {
   taskAdapter.upsertMany(
     state,
     tasks.map((task) => getTask(task)),
+  );
+};
+
+const updateOneTask = (state, { payload: task }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateOne(state, task);
+};
+
+const updateManyTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateMany(
+    state,
+    tasks
   );
 };
 
@@ -53,6 +71,8 @@ const taskSlice = createSlice({
     onLoadingTasksStart: onLoadingStart,
     onLoadingTasksFail: onLoadingFail,
     getTasksSuccess: addManyTasks,
+    putTaskSuccess: updateOneTask,
+    putTasksSuccess: updateManyTasks,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -60,16 +80,20 @@ export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   getTasksSuccess,
+  putTaskSuccess,
+  putTasksSuccess,
   deleteTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
-export const taskReducerSelector = (state) =>
-  state.entitiesReducer[taskSlice.name];
+export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
 
-const taskSelectors = taskAdapter.getSelectors(
+export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
+export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, entities }) => {
+  return ids.map((id) => entities[id]);
+});
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

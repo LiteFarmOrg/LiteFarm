@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';

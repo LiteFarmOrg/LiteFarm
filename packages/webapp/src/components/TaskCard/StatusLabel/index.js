@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '4px',
+    padding: '4px 8px',
     minWidth: '47px',
     height: '24px',
     fontFamily: '"Open Sans"," SansSerif", serif',

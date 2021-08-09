@@ -13,6 +13,7 @@ import { getTasks } from './saga';
 import TaskCard from './TaskCard';
 import StateTab from '../../components/RouterTab/StateTab';
 import { ALL, TODO, UNASSIGNED } from './constants';
+import TaskQuickAssignModal from '../../components/Task/QuickAssign';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -22,6 +23,11 @@ export default function TaskPage({ history }) {
 
   const defaultTab = TODO;
   const [activeTab, setTab] = useState(defaultTab);
+  const [quickAssignInfo, setQuickAssignInfo] = useState(null);
+
+  const handleClickAssignee = (taskId, dueDate, isAssigned) => {
+    setQuickAssignInfo({ taskId, dueDate, isAssigned });
+  };
 
   useEffect(() => {
     dispatch(getTasks());
@@ -73,8 +79,21 @@ export default function TaskPage({ history }) {
         <AddLink onClick={() => history.push('/tasks/new')}>{t('TASK.ADD_TASK')}</AddLink>
       </div>
       {tasksToDisplay.map((task) => (
-        <TaskCard task={task} key={task.task_id} style={{ marginBottom: '14px' }} />
+        <TaskCard
+          task={task}
+          key={task.task_id}
+          onClickAssignee={handleClickAssignee}
+          style={{ marginBottom: '14px' }}
+        />
       ))}
+      {quickAssignInfo && (
+        <TaskQuickAssignModal
+          dismissModal={() => setQuickAssignInfo(null)}
+          taskId={quickAssignInfo.taskId}
+          dueDate={quickAssignInfo.dueDate}
+          isAssigned={quickAssignInfo.isAssigned}
+        />
+      )}
     </Layout>
   );
 }

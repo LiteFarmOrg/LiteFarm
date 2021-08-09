@@ -23,6 +23,13 @@ const cardColor = {
   abandoned: 'taskMarked',
 };
 
+const activeCardColor = {
+  planned: 'taskCurrentActive',
+  late: 'taskCurrentActive',
+  completed: 'taskMarkedActive',
+  abandoned: 'taskMarkedActive',
+};
+
 const PureTaskCard = ({
   status,
   locations,
@@ -30,7 +37,9 @@ const PureTaskCard = ({
   dueDate,
   assignee = null,
   style,
-  onClick,
+  onClick = null,
+  onClickAssignee,
+  selected,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -46,11 +55,11 @@ const PureTaskCard = ({
         <StatusLabel status={status} />
       </div>
       <Card
-        color={cardColor[status]}
+        color={selected ? activeCardColor[status] : cardColor[status]}
         onClick={onClick}
         className={styles.card}
         style={{
-          // cursor: color === 'secondary' ? 'pointer' : 'default',
+          cursor: onClick ? 'pointer' : 'default',
           ...style,
         }}
         {...props}
@@ -65,14 +74,22 @@ const PureTaskCard = ({
               <div>{dateText}</div>
             </div>
             {assignee ? (
-              <div className={styles.iconTextContainer}>
+              <div
+                className={styles.iconTextContainer}
+                onClick={onClickAssignee}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className={clsx(styles.firstInitial, styles.icon)}>
                   {assignee.first_name.toUpperCase().charAt(0)}
                 </div>
                 <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>
               </div>
             ) : (
-              <div className={styles.iconTextContainer}>
+              <div
+                className={clsx(styles.iconTextContainer, styles.unassigned)}
+                onClick={onClickAssignee}
+                style={{ cursor: 'pointer' }}
+              >
                 <UnassignedIcon className={styles.icon} />
                 <div>{t('TASK.UNASSIGNED')}</div>
               </div>

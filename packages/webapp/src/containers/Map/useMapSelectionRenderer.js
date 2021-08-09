@@ -6,7 +6,6 @@ import { onlyCropEnabledLocations, allLocations } from './mapFilterSettingSlice'
 import { lineSelector, pointSelector, sortedAreaSelector, cropLocationsSelector, locationsSelector } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import {
-  getAreaLocationTypes,
   isArea,
   isAreaLine,
   isLine,
@@ -69,39 +68,10 @@ const useMapSelectionRenderer = ({
   const [selectedLocationsMap, _setSelectedLocationsMap] = useState(initSelectableLocations());
   const selectedLocationsMapRef = useRef(selectedLocationsMap);
   const addLocation = (location_id) => {
-    // _setSelectedLocationsMap(selectedLocationsMap => {
-    //   selectedLocationsMap[location_id] = true;
-    //   return selectedLocationsMap;
-    // });
     _setSelectedLocationsMap({ ...selectedLocationsMap, [location_id]: true });
-    // selectedLocationsMapRef.current = selectedLocationsMap;
-    // console.log(selectedLocationsMapRef.current);
-    // let currentLocations = Object.keys(selectedLocationsMapRef.current).filter((k) => selectedLocationsMapRef.current[k])
-    // debugger;
-    // // let currentLocations = [];
-    // // for (let location_id in selectedLocationsMapRef.current) {
-    // //   if (selectedLocationsMapRef.current[location_id]) {
-    // //     console.log(location_id);
-    // //     currentLocations.push(location_id);
-    // //   }
-    // // }
-    //console.log(currentLocations);
-    //setMultipleLocationIds(currentLocations);
   };
   const removeLocation = (location_id) => {
-    // _setSelectedLocationsMap(selectedLocationsMap => {
-    //   selectedLocationsMap[location_id] = false;
-    //   return selectedLocationsMap;
-    // });
     _setSelectedLocationsMap({ ...selectedLocationsMap, [location_id]: false });
-    // selectedLocationsMapRef.current = selectedLocationsMap;
-    // let currentLocations = [];
-    // for (let location_id in selectedLocationsMapRef.current) {
-    //   if (selectedLocationsMapRef.current[location_id]) {
-    //     currentLocations.push(location_id);
-    //   }
-    // }
-    //setMultipleLocationIds(currentLocations);
   };
   /**/
 

@@ -14,14 +14,14 @@
   },
   "ADD_TASK": {
     "ADD_A_TASK": "Add a task",
+    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
     "COLLECT_SOIL_SAMPLE": "Collect soil sample",
     "CREATE_CUSTOM_TASK": "Create a custom task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
-    "ASSIGN_TASK": "Assign task",
-    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "FERTILIZE": "Fertilize",
     "FIELD_WORK": "Field work",
     "HARVEST": "Harvest",
@@ -1312,8 +1312,26 @@
     "ROWS_TEXT": "rows"
   },
   "TASK": {
+    "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
-    "SELECT_DATE": "Select the task date"
+    "ALL": "All",
+    "CARD": {
+      "MULTIPLE_CROPS": "Multiple crops",
+      "MULTIPLE_LOCATIONS": "Multiple locations"
+    },
+    "PAGE_TITLE": "Tasks",
+    "SELECT_DATE": "Select the task date",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "COMPLETED": "Completed",
+      "FOR_REVIEW": "For Review",
+      "LATE": "Late",
+      "PLANNED": "Planned"
+    },
+    "TASKS_COUNT": "{{count}} task",
+    "TASKS_COUNT_plural": "{{count}} tasks",
+    "TODO": "To do",
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

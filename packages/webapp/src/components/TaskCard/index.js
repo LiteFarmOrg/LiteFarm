@@ -38,7 +38,7 @@ const PureTaskCard = ({
   assignee = null,
   style,
   onClick = null,
-  onClickAssignee,
+  onClickAssignee = null,
   selected,
   ...props
 }) => {
@@ -76,7 +76,7 @@ const PureTaskCard = ({
               <div
                 className={styles.iconTextContainer}
                 onClick={onClickAssignee}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
               >
                 <div className={clsx(styles.firstInitial, styles.icon)}>
                   {assignee.first_name.toUpperCase().charAt(0)}
@@ -87,7 +87,7 @@ const PureTaskCard = ({
               <div
                 className={clsx(styles.iconTextContainer, styles.unassigned)}
                 onClick={onClickAssignee}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
               >
                 <UnassignedIcon className={styles.icon} />
                 <div>{t('TASK.UNASSIGNED')}</div>

@@ -20,7 +20,6 @@ export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const tasks = useSelector(taskEntitiesSelector);
-  console.log({ tasks });
   const dispatch = useDispatch();
 
   const defaultTab = TODO;
@@ -46,8 +45,6 @@ export default function TaskPage({ history }) {
         return [];
     }
   }, [tasks, activeTab]);
-
-  console.log({ tasksToDisplay });
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>

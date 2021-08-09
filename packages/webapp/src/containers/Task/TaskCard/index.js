@@ -41,8 +41,6 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
     return managementPlanIdToCropNameDict[mp.management_plan_id];
   });
 
-  console.log({ crops });
-
   let status;
   if (completed_time) status = 'completed';
   else if (abandoned_time) status = 'abandoned';

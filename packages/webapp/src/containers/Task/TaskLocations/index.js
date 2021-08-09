@@ -11,7 +11,7 @@ export default function TaskLocations({ history }) {
   const dispatch = useDispatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
 
-  const persistedPath = ['/tasks/1/add_task/task_date'];
+  const persistedPath = ['/add_task/task_date'];
 
   let task_locations = persistedFormData.task_locations;
   if (task_locations === undefined) {
@@ -25,11 +25,12 @@ export default function TaskLocations({ history }) {
   }
 
   const onContinue = () => {
+    console.log('Continue to LF-1568/Does it involve crops?');
   }
 
   const onGoBack = () => {
     dispatch(setTaskLocationsData(taskLocations));
-    history.push('/tasks/1/add_task/task_date');
+    history.push('/add_task/task_date');
   };
 
   useHookFormPersist(persistedPath, () => ({}));

@@ -28,8 +28,8 @@ router.patch('/assign_all_tasks_on_date/:task_id', hasFarmAccess({ params: 'task
 
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
 
-router.post('/fertilizer_task', modelMapping['fertilizer_task'],
-  hasFarmAccess({ body: 'locations' }), taskController.createTask('fertilizer_task'));
+router.post('/soil_amendment_task', modelMapping['soil_amendment_task'],
+  hasFarmAccess({ body: 'locations' }), taskController.createTask('soil_amendment_task'));
 
 router.post('/pest_control_task', modelMapping['pest_control_task'],
   hasFarmAccess({ body: 'locations' }), taskController.createTask('pest_control_task'));

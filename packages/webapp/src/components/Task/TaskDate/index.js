@@ -32,9 +32,7 @@ export default function PureTaskDate({
 
   const progress = 28;
 
-  // TODO - Add real paths
-  const persistedPath=['LF-1564', '/add_task/task_locations'];
-
+  const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
   useHookFormPersist(persistedPath, getValues);
 
   const TASK_DATE = 'task_date';

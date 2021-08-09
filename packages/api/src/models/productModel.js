@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fertilizerLogModel.js) is part of LiteFarm.
+ *  This file (productModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const baseModel = require('./baseModel');
 
-class FertilizerTaskModel extends Model {
+class ProductModel extends baseModel {
   static get tableName() {
-    return 'fertilizer_task';
+    return 'product';
   }
 
   static get idColumn() {
-    return 'task_id';
+    return 'product_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,35 +29,20 @@ class FertilizerTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['fertilizer_id', 'quantity_kg'],
-
+      required: ['name', 'farm_id'],
       properties: {
-        task_id: { type: 'integer' },
-        fertilizer_id: { type: 'integer', minimum: 0 },
-        quantity_kg: { type: 'float' },
+        product_id: { type: 'integer' },
+        name: { type: 'string' },
+        product_translation_key: { type: 'string' },
+        supplier: { type: 'string' },
+        on_permitted_substances_list: { type: 'boolean' },
+        type: { type: 'string', enu: ['soil_amendment', 'pest_control', 'cleaner'] },
+        farm_id: { type: 'string' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-      task: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./taskModel'),
-        join: {
-          from: 'fertilizer_task.task_id',
-          to: 'task.task_id',
-        },
-
-      },
-
-    };
-  }
 }
 
-module.exports = FertilizerTaskModel;
+module.exports = ProductModel;

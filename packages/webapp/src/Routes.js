@@ -289,6 +289,7 @@ const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
 const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
+const Tasks = React.lazy(() => import('./containers/Task'));
 
 const Routes = () => {
   useScrollToTop();
@@ -487,8 +488,13 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/tasks/:management_plan_id/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route
+              path="/add_task/task_date"
+              exact
+              component={TaskDate}
+            />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -727,8 +733,12 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route path="/tasks/:management_plan_id/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route
+              path="/add_task/task_date"
+              exact
+              component={TaskDate}
+            />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -891,10 +901,18 @@ const Routes = () => {
               exact
               component={ManagementDetail}
             />
-
-            <Route path="/crop/:variety_id/:management_plan_id/management_detail" exact component={ManagementDetail} />
-            <Route path="/tasks/:management_plan_id/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/management_detail"
+              exact
+              component={ManagementDetail}
+            />
+            <Route
+              path="/add_task/task_date"
+              exact
+              component={TaskDate}
+            />
+
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route

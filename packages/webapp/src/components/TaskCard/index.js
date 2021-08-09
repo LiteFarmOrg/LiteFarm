@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../Card';
 import StatusLabel from './StatusLabel';
-import { Main } from '../Typography';
 import { ReactComponent as CalendarIcon } from '../../assets/images/task/Calendar.svg';
 import { ReactComponent as UnassignedIcon } from '../../assets/images/task/Unassigned.svg';
 import { ReactComponent as CustomIcon } from '../../assets/images/task/Custom.svg';
@@ -94,9 +93,9 @@ const PureTaskCard = ({
       >
         <TaskIcon className={styles.taskIcon} />
         <div className={styles.info}>
-          <Main style={{ fontWeight: '600', marginBottom: '4px' }}>
+          <div className={styles.mainTypographySansColor}>
             {t(`task:${taskType.task_translation_key}`)}
-          </Main>
+          </div>
           <div className={styles.subMain}>{`${locationText} | ${cropText}`}</div>
           <div className={styles.dateUserContainer}>
             <div className={styles.iconTextContainer}>

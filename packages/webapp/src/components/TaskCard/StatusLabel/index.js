@@ -11,7 +11,6 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '4px 8px',
-    minWidth: '47px',
     height: '24px',
     fontFamily: '"Open Sans"," SansSerif", serif',
     color: 'white',
@@ -32,11 +31,6 @@ const useStyles = makeStyles({
   },
   abandoned: {
     backgroundColor: colors.grey600,
-  },
-  cropTile: {
-    minWidth: '24px',
-    height: '24px',
-    borderRadius: 0,
   },
 });
 

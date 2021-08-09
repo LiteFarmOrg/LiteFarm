@@ -56,6 +56,7 @@ const TaskCard = ({ task, onClick, className, style, ...props }) => {
       locations={locations}
       dueDate={due_date}
       assignee={assignee}
+      style={style}
     />
   );
 };

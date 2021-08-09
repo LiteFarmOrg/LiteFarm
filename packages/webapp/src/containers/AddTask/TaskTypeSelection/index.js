@@ -6,12 +6,15 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
 
+  const continuePath = '/add_task/task_date';
+  const persistedPaths = [continuePath];
+
   const onCustomTask = () => {
     console.log('Go to LF-1747 custom task creation page');
   };
 
   const onContinue = () => {
-    history.push(`/add_task/task_date`);
+    history.push(continuePath);
   };
 
   const handleGoBack = () => {
@@ -31,7 +34,7 @@ function TaskTypeSelection({ history, match }) {
         onCustomTask={onCustomTask}
         handleCancel={handleCancel}
         handleGoBack={handleGoBack}
-        persistedPaths={[`/add_task/task_date`]}
+        persistedPaths={persistedPaths}
         onContinue={onContinue}
         onError={onError}
       />

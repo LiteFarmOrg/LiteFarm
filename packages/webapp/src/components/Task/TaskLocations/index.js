@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
+import PropTypes from 'prop-types';
 
 export default function PureTaskLocations({
   setTaskLocations,

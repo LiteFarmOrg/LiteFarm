@@ -44,7 +44,7 @@ export default function OnboardingSetCertificationSummary({ history }) {
       : history.push(selectCertifierPath);
   };
 
-  useHookFormPersist([requestCertifierPath, selectCertifierPath, outroPath], () => ({}));
+  useHookFormPersist(() => ({}), [requestCertifierPath, selectCertifierPath, outroPath]);
   return (
     <PureSetCertificationSummary
       onSubmit={onSubmit}

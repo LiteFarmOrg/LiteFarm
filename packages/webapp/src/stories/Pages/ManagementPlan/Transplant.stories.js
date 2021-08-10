@@ -10,23 +10,26 @@ export default {
 
 const Template = (args) => <PureTransplant {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
-  persistedFormData: {},
+export const CanNotBeCoverCrop = Template.bind({});
+CanNotBeCoverCrop.args = {
+  persistedFormData: {
+    crop_management_plan: { needs_transplant: true },
+  },
   useHookFormPersist: () => {},
   onSubmit: (data) => {
     console.log(data);
   },
   onGoBack: () => {},
   onCancel: () => {},
+  can_be_cover_crop: false,
 };
 
 export const CoverCrop = Template.bind({});
 CoverCrop.args = {
   persistedFormData: {
-    for_cover: false,
+    crop_management_plan: { needs_transplant: false, for_cover: false },
   },
-  isCoverCrop: true,
+  can_be_cover_crop: true,
   useHookFormPersist: () => {},
   onSubmit: (data) => {
     console.log(data);

@@ -3,11 +3,11 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../Map/saga';
-import React, { useState } from 'react';
+import React from 'react';
 import { LIFECYCLE } from 'react-joyride';
 import { ReactComponent as PlantIcon } from '../../../../assets/images/managementPlans/plant.svg';
 
-export default function TransplantSpotlight({ seedingType }) {
+export default function TransplantSpotlight({ is_seed }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { transplant } = useSelector(showedSpotlightSelector);
@@ -21,11 +21,11 @@ export default function TransplantSpotlight({ seedingType }) {
   const showSpotlight = !transplant;
 
   const titleFill =
-    seedingType === 'SEEDLING_OR_PLANTING_STOCK'
+    is_seed === false
       ? t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.TITLE.PLANTING')
       : t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.TITLE.SEEDING');
   const bodyFill =
-    seedingType === 'SEEDLING_OR_PLANTING_STOCK'
+    is_seed === true
       ? t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.PLANTED')
       : t('MANAGEMENT_PLAN.TRANSPLANT_SPOTLIGHT.BODY.SEEDED');
 

@@ -7,55 +7,43 @@ import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
+import { cloneObject } from '../../../util';
+import { getTransplantPaths } from '../getAddManagementPlanPath';
 
 export default function PureTransplant({
-  isCoverCrop,
-  onCancel,
-  onGoBack,
+  can_be_cover_crop,
   useHookFormPersist,
   persistedFormData,
   match,
   history,
 }) {
   const { t } = useTranslation();
-  const variety_id = match?.params?.variety_id;
-  const goBackPath = `/crop/${variety_id}/add_management_plan/planted_already`;
-  let submitPath = `/crop/${variety_id}/add_management_plan/planting_date`;
 
-  persistedFormData.wild_crop && persistedFormData.in_ground
-    ? (submitPath = `/crop/${variety_id}/add_management_plan/next_harvest`)
-    : (submitPath = `/crop/${variety_id}/add_management_plan/planting_date`);
-
-  const progress = 29;
-  const TRANSPLANT = 'needs_transplant';
-  const COVER = 'for_cover';
-
-  let defaultTransplantValue;
-  if (persistedFormData.in_ground) {
-    defaultTransplantValue = false;
-  } else if (persistedFormData.seeding_type === 'SEEDLING_OR_PLANTING_STOCK') {
-    defaultTransplantValue = true;
-  }
+  const progress = 25;
+  const TRANSPLANT = 'crop_management_plan.needs_transplant';
+  const FOR_COVER = 'crop_management_plan.for_cover';
 
   const {
-    register,
     handleSubmit,
     getValues,
     control,
+    setValue,
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
-    shouldUnregister: true,
-    defaultValues:
-      isCoverCrop && !persistedFormData.hasOwnProperty(COVER)
-        ? { ...persistedFormData, for_cover: true, needs_transplant: defaultTransplantValue }
-        : { ...persistedFormData, needs_transplant: defaultTransplantValue },
+    shouldUnregister: false,
+    defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist([submitPath, goBackPath], getValues);
+  useHookFormPersist(getValues);
+
+  const variety_id = match?.params?.variety_id;
+  const { goBackPath, submitPath, cancelPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
     history?.push(submitPath);
   };
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   const disabled = !isValid;
 
@@ -78,55 +66,53 @@ export default function PureTransplant({
           marginBottom: '24px',
         }}
       />
-      <div>
-        <div style={{ marginBottom: '18px' }}>
-          <Label
-            style={{
-              paddingRight: '10px',
-              fontSize: '16px',
-              lineHeight: '20px',
-              display: 'inline-block',
-            }}
+
+      <Label
+        style={{
+          paddingRight: '10px',
+          fontSize: '16px',
+          lineHeight: '20px',
+          display: 'inline-block',
+          marginBottom: '18px',
+        }}
+      >
+        {t('MANAGEMENT_PLAN.IS_TRANSPLANT')}
+      </Label>
+
+      <RadioGroup hookFormControl={control} name={TRANSPLANT} required />
+
+      {can_be_cover_crop && (
+        <>
+          <Main
+            style={{ marginTop: '16px', marginBottom: '18px' }}
+            tooltipContent={t('MANAGEMENT_PLAN.COVER_INFO')}
           >
-            {t('MANAGEMENT_PLAN.IS_TRANSPLANT')}
-          </Label>
-        </div>
-        <RadioGroup hookFormControl={control} name={TRANSPLANT} required />
-      </div>
-      <div>
-        {!isCoverCrop && (
-          <>
-            <Main
-              style={{ marginTop: '16px', marginBottom: '18px' }}
-              tooltipContent={t('MANAGEMENT_PLAN.COVER_INFO')}
-            >
-              {' '}
-              {t('MANAGEMENT_PLAN.COVER_OR_HARVEST')}
-            </Main>
-            <RadioGroup
-              hookFormControl={control}
-              name={COVER}
-              required={!isCoverCrop}
-              radios={[
-                {
-                  label: t('MANAGEMENT_PLAN.AS_COVER_CROP'),
-                  value: true,
-                },
-                { label: t('MANAGEMENT_PLAN.FOR_HARVEST'), value: false },
-              ]}
-            />
-          </>
-        )}
-      </div>
+            {' '}
+            {t('MANAGEMENT_PLAN.COVER_OR_HARVEST')}
+          </Main>
+          <RadioGroup
+            hookFormControl={control}
+            name={FOR_COVER}
+            required={!can_be_cover_crop}
+            radios={[
+              {
+                label: t('MANAGEMENT_PLAN.AS_COVER_CROP'),
+                value: true,
+              },
+              { label: t('MANAGEMENT_PLAN.FOR_HARVEST'), value: false },
+            ]}
+          />
+        </>
+      )}
     </Form>
   );
 }
 
 PureTransplant.prototype = {
-  isCoverCrop: PropTypes.bool,
+  can_be_cover_crop: PropTypes.bool,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,
-  persistedFormData: PropTypes.func,
+  persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   match: PropTypes.object,
 };

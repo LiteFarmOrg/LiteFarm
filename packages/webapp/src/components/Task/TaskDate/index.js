@@ -31,7 +31,7 @@ export default function PureTaskDate({
   const progress = 28;
 
   const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
 
   const TASK_DATE = 'task_date';
 

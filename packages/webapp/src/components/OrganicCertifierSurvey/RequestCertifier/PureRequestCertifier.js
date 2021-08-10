@@ -30,7 +30,7 @@ export function PureRequestCertifier({
     mode: 'onChange',
     defaultValues: { ...survey, ...persistedFormData },
   });
-  useHookFormPersist?.(persistedPathNames, getValues);
+  useHookFormPersist?.(getValues, persistedPathNames);
 
   return (
     <Form

@@ -25,6 +25,7 @@ const entitiesGetters = {
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
   document_id: fromDocument,
+  default_initial_location_id: fromLocation,
   task_id: fromTaskId,
 };
 const userFarmModel = require('../../models/userFarmModel');
@@ -51,7 +52,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   }
 
   const { farm_id } = req.headers;
-  const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
+  const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
   // Is getting a seeded table and accessing community data. Go through.
   if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
@@ -91,8 +92,19 @@ function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
-function fromCropManagement(cropPlan) {
-  return fromLocation(cropPlan.location_id);
+async function fromCropManagement(crop_management_plan, next) {
+  const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id);
+  const hasLocationId = locationIds.reduce((hasLocationId, location_id) => hasLocationId || location_id, false);
+  if (!hasLocationId) return next();
+  const locations = await knex('location').whereIn('location_id', locationIds);
+  const farm_id = locations.reduce((farm_id, location) => {
+    if (farm_id) {
+      return farm_id === location.farm_id ? location.farm_id : undefined;
+    } else {
+      return location.farm_id;
+    }
+  }, undefined);
+  return { farm_id };
 }
 
 function fromDisease(disease_id) {

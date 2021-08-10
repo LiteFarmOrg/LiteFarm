@@ -99,28 +99,41 @@ import {
   onLoadingCropVarietyStart,
 } from './cropVarietySlice';
 import {
-  getBroadcastsSuccess,
-  onLoadingBroadcastFail,
-  onLoadingBroadcastStart,
-} from './broadcastSlice';
+  getBroadcastMethodsSuccess,
+  onLoadingBroadcastMethodFail,
+  onLoadingBroadcastMethodStart,
+} from './broadcastMethodSlice';
 import {
-  getContainersSuccess,
-  onLoadingContainerFail,
-  onLoadingContainerStart,
-} from './containerSlice';
-import { getBedsSuccess, onLoadingBedFail, onLoadingBedStart } from './bedsSlice';
-import { getRowsSuccess, onLoadingRowFail, onLoadingRowStart } from './rowsSlice';
+  getContainerMethodsSuccess,
+  onLoadingContainerMethodFail,
+  onLoadingContainerMethodStart,
+} from './containerMethodSlice';
 import {
-  getTransplantContainersSuccess,
-  onLoadingTransplantContainerFail,
-  onLoadingTransplantContainerStart,
-} from './transplantContainerSlice';
+  getBedMethodsSuccess,
+  onLoadingBedMethodFail,
+  onLoadingBedMethodStart,
+} from './bedMethodSlice';
+import {
+  getRowMethodsSuccess,
+  onLoadingRowMethodFail,
+  onLoadingRowMethodStart,
+} from './rowMethodSlice';
 import {
   getAllDocumentsSuccess,
   onLoadingDocumentFail,
   onLoadingDocumentStart,
 } from './documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
+import {
+  getCropManagementPlansSuccess,
+  onLoadingCropManagementPlanFail,
+  onLoadingCropManagementPlanStart,
+} from './cropManagementPlanSlice';
+import {
+  getPlantingManagementPlansSuccess,
+  onLoadingPlantingManagementPlanFail,
+  onLoadingPlantingManagementPlanStart,
+} from './plantingManagementPlanSlice';
 import { getTasks } from './Task/saga';
 
 const logUserInfoUrl = () => `${url}/userLog`;
@@ -344,19 +357,20 @@ export const onLoadingManagementPlanAndPlantingMethodStart = createAction(
 );
 
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
-  yield put(onLoadingBroadcastStart());
-  yield put(onLoadingBedStart());
-  yield put(onLoadingRowStart());
-  yield put(onLoadingContainerStart());
-  yield put(onLoadingTransplantContainerStart());
+  yield put(onLoadingBroadcastMethodStart());
+  yield put(onLoadingBedMethodStart());
+  yield put(onLoadingRowMethodStart());
+  yield put(onLoadingContainerMethodStart());
+  yield put(onLoadingPlantingManagementPlanStart());
+  yield put(onLoadingCropManagementPlanStart());
   yield put(onLoadingManagementPlanStart());
 }
 
-const plantingTypeActionMap = {
-  BROADCAST: { success: getBroadcastsSuccess, fail: onLoadingBroadcastFail },
-  CONTAINER: { success: getContainersSuccess, fail: onLoadingContainerFail },
-  BEDS: { success: getBedsSuccess, fail: onLoadingBedFail },
-  ROWS: { success: getRowsSuccess, fail: onLoadingRowFail },
+const plantingMethodActionMap = {
+  BROADCAST_METHOD: { success: getBroadcastMethodsSuccess, fail: onLoadingBroadcastMethodFail },
+  CONTAINER_METHOD: { success: getContainerMethodsSuccess, fail: onLoadingContainerMethodFail },
+  BED_METHOD: { success: getBedMethodsSuccess, fail: onLoadingBedMethodFail },
+  ROW_METHOD: { success: getRowMethodsSuccess, fail: onLoadingRowMethodFail },
 };
 
 export const getManagementPlanAndPlantingMethodSuccess = createAction(
@@ -365,38 +379,46 @@ export const getManagementPlanAndPlantingMethodSuccess = createAction(
 
 export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: managementPlans }) {
   yield put(getManagementPlansSuccess(managementPlans));
-  const plantingMethods = Object.keys(plantingTypeActionMap).reduce(
-    (map, plantingMethod) => Object.assign(map, { [plantingMethod]: [] }),
-    {},
+  yield put(
+    getCropManagementPlansSuccess(
+      managementPlans.map((managementPlan) => managementPlan.crop_management_plan),
+    ),
   );
-  const transplantContainers = [];
-  for (const managementPlan of managementPlans) {
-    const crop_management_plan = managementPlan.crop_management_plan;
-    plantingMethods[crop_management_plan.planting_type].push({
-      ...crop_management_plan,
-      ...crop_management_plan[crop_management_plan.planting_type.toLowerCase()],
-    });
-    if (managementPlan.transplant_container) {
-      transplantContainers.push(managementPlan.transplant_container);
-    }
-  }
-  for (const plantingTypePascal in plantingTypeActionMap) {
+  const plantingMethods = managementPlans.reduce(
+    (plantingMethods, managementPlan) => {
+      plantingMethods.PLANTING_MANAGEMENT_PLAN = [
+        ...plantingMethods.PLANTING_MANAGEMENT_PLAN,
+        ...managementPlan.crop_management_plan.planting_management_plans,
+      ];
+      for (const planting_management_plan of managementPlan.crop_management_plan
+        .planting_management_plans) {
+        planting_management_plan.planting_method &&
+          plantingMethods[planting_management_plan.planting_method].push(
+            planting_management_plan[planting_management_plan.planting_method.toLowerCase()],
+          );
+      }
+      return plantingMethods;
+    },
+    {
+      BROADCAST_METHOD: [],
+      CONTAINER_METHOD: [],
+      BED_METHOD: [],
+      ROW_METHOD: [],
+      PLANTING_MANAGEMENT_PLAN: [],
+    },
+  );
+  yield put(getPlantingManagementPlansSuccess(plantingMethods.PLANTING_MANAGEMENT_PLAN));
+  for (const planting_method in plantingMethodActionMap) {
     try {
-      if (plantingMethods[plantingTypePascal]?.length) {
+      if (plantingMethods[planting_method]?.length) {
         yield put(
-          plantingTypeActionMap[plantingTypePascal].success(plantingMethods[plantingTypePascal]),
+          plantingMethodActionMap[planting_method].success(plantingMethods[planting_method]),
         );
       }
     } catch (e) {
-      yield put(plantingTypeActionMap[plantingTypePascal].fail(e));
+      yield put(plantingMethodActionMap[planting_method].fail(e));
       console.log(e);
     }
-  }
-  try {
-    yield put(getTransplantContainersSuccess(transplantContainers));
-  } catch (e) {
-    yield put(onLoadingTransplantContainerFail(e));
-    console.log(e);
   }
 }
 
@@ -414,6 +436,8 @@ export function* getManagementPlansSaga() {
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));
+    yield put(onLoadingCropManagementPlanFail(e));
+    yield put(onLoadingPlantingManagementPlanFail(e));
     console.log('failed to fetch field crops from db');
   }
 }

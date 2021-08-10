@@ -23,7 +23,7 @@ const managementPlanController = {
       try {
         const result = await managementPlanModel.transaction(async trx => {
           return await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
-            req.body, { noUpdate: true, noDelete: true, noInsert: ['location'] });
+            req.body, { noUpdate: true, noDelete: true, noInsert: ['location', 'crop_variety'] });
         });
         return res.status(201).send(result);
       } catch (error) {
@@ -81,7 +81,7 @@ const managementPlanController = {
       try {
         const management_plan_id = req.params.management_plan_id;
         const managementPlan = await managementPlanModel.query().whereNotDeleted().findById(management_plan_id)
-          .withGraphFetched(planGraphFetchedQueryString);
+          .withGraphFetched(planGraphFetchedQueryString, graphJoinedOptions);
         return managementPlan ? res.status(200).send(removeCropVarietyFromManagementPlan(managementPlan)) : res.status(404).send('Field crop not found');
       } catch (error) {
         console.log(error);
@@ -97,7 +97,7 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(planGraphFetchedQueryString)
+          .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id);
         return managementPlans?.length ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
       } catch (error) {
@@ -115,7 +115,7 @@ const managementPlanController = {
         const farm_id = req.params.farm_id;
         const date = req.params.date;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(planGraphFetchedQueryString)
+          .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id)
           .andWhere('harvest_date', '>=', date);
 
@@ -133,7 +133,7 @@ const managementPlanController = {
       try {
         const farm_id = req.params.farm_id;
         const managementPlans = await managementPlanModel.query().whereNotDeleted()
-          .withGraphJoined(planGraphFetchedQueryString)
+          .withGraphJoined(planGraphFetchedQueryString, graphJoinedOptions)
           .where('crop_variety.farm_id', farm_id)
           .andWhere(raw('harvest_date < now()'));
         return managementPlans?.length ? res.status(200).send(removeCropVarietyFromManagementPlans(managementPlans)) : res.status(404).send('Field crop not found');
@@ -144,7 +144,14 @@ const managementPlanController = {
   },
 };
 
-const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[beds, container, broadcast], transplant_container]';
+const planGraphFetchedQueryString = '[crop_variety, crop_management_plan.[planting_management_plans.[bed_method, container_method, broadcast_method, row_method]]]';
+const graphJoinedOptions = {
+  aliases: {
+    crop_management_plan: 'cmp',
+    planting_management_plan: 'pmp',
+    planting_management_plans: 'pmps',
+  },
+};
 
 const removeCropVarietyFromManagementPlan = (managementPlan) => {
   !managementPlan.transplant_container && delete managementPlan.transplant_container;

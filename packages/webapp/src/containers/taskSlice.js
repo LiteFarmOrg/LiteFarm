@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
@@ -29,7 +29,6 @@ export const getTask = (obj) => {
 };
 
 const addManyTasks = (state, { payload: tasks }) => {
-  console.log(tasks);
   state.loading = false;
   state.error = null;
   state.loaded = true;
@@ -50,10 +49,7 @@ const updateManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  taskAdapter.updateMany(
-    state,
-    tasks
-  );
+  taskAdapter.updateMany(state, tasks);
 };
 
 const taskAdapter = createEntityAdapter({

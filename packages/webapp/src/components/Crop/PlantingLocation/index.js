@@ -1,56 +1,117 @@
 import styles from './styles.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
-import LocationPicker from '../../LocationPicker';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { ReactComponent as Cross } from '../../../assets/images/map/cross.svg';
 import { ReactComponent as LocationPin } from '../../../assets/images/map/location.svg';
 import Checkbox from '../../Form/Checkbox';
+import { useForm } from 'react-hook-form';
+import { cloneObject } from '../../../util';
+import { getPlantingLocationPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantingLocation({
-  selectedLocationId,
-  onContinue,
-  onGoBack,
-  onCancel,
-  setLocationId,
   persistedFormData,
-  transplant,
-  progress,
-  setPinLocation,
-  pinLocation,
-  onSelectCheckbox,
+  useHookFormPersist,
+  isFinalLocationPage,
+  variety_id,
+  history,
+  cropLocations,
+  default_initial_location_id,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const { getValues, watch, setValue } = useForm({
+    defaultValues: cloneObject(persistedFormData),
+    shouldUnregister: false,
+  });
+  useHookFormPersist(getValues);
 
-  const { needs_transplant, seeding_type, in_ground } = persistedFormData;
-  let seeding_type_temp = seeding_type;
-  if (in_ground === true) {
-    seeding_type_temp = '';
-  }
-  const [pinMode, setPinMode] = useState(false);
-  const [canUsePin, setCanUsePin] = useState(
-    persistedFormData.wild_crop && persistedFormData.in_ground && pinMode,
-  );
+  const {
+    crop_management_plan: { needs_transplant, is_seed, is_wild, already_in_ground },
+  } = persistedFormData;
+  const showInitialLocationCheckbox = !isFinalLocationPage;
+  const showPinButton = already_in_ground && is_wild && (!isFinalLocationPage || !needs_transplant);
+  useEffect(() => {
+    if (!already_in_ground || !is_wild) {
+      setPinLocation(undefined);
+    }
+  }, []);
+
+  const locationPrefix = isFinalLocationPage ? 'final' : 'initial';
+  const LOCATION_ID = `crop_management_plan.planting_management_plans.${locationPrefix}.location_id`;
+  const PIN_COORDINATE = `crop_management_plan.planting_management_plans.${locationPrefix}.pin_coordinate`;
+  const DEFAULT_INITIAL_LOCATION_ID = 'farm.default_initial_location_id';
+
+  const selectedLocationId = watch(LOCATION_ID);
+  const pinCoordinate = watch(PIN_COORDINATE);
+  const defaultInitialLocationId = watch(DEFAULT_INITIAL_LOCATION_ID);
+
+  const setLocationId = (location_id) => {
+    setValue(LOCATION_ID, location_id);
+    if (showInitialLocationCheckbox && defaultInitialLocationId) {
+      setValue(DEFAULT_INITIAL_LOCATION_ID, location_id);
+    }
+  };
+  useEffect(() => {
+    if (!(already_in_ground && is_wild) && !isFinalLocationPage && !selectedLocationId) {
+      setLocationId(default_initial_location_id);
+    }
+  }, []);
+
+  const setPinLocation = (coordinate) => setValue(PIN_COORDINATE, coordinate);
+  const defaultLocationCheckboxOnChange = () => {
+    if (defaultInitialLocationId) {
+      setValue(DEFAULT_INITIAL_LOCATION_ID, undefined);
+    } else {
+      setValue(DEFAULT_INITIAL_LOCATION_ID, selectedLocationId);
+    }
+  };
+
+  const plantingLabel = useMemo(() => {
+    if (needs_transplant && isFinalLocationPage) {
+      return t('MANAGEMENT_PLAN.WHERE_TRANSPLANT_LOCATION');
+    } else if (already_in_ground && (!needs_transplant || !isFinalLocationPage)) {
+      return t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION');
+    } else if (needs_transplant && !isFinalLocationPage) {
+      return t('MANAGEMENT_PLAN.WHERE_START_LOCATION');
+    } else if (is_seed) {
+      return t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION');
+    } else {
+      return t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION');
+    }
+  }, [needs_transplant, isFinalLocationPage]);
+
+  const [pinToggle, setPinToggle] = useState(!!pinCoordinate && showPinButton);
+  useEffect(() => {
+    setPinToggle(!!pinCoordinate && showPinButton);
+  }, [showPinButton]);
 
   const handlePinMode = () => {
-    const currentPinMode = pinMode;
-    setPinMode(!currentPinMode);
-    setCanUsePin(!currentPinMode);
+    setPinToggle((pinToggle) => !pinToggle);
   };
+
+  const onSubmit = () =>
+    history.push(
+      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
+    );
+  const onGoBack = () =>
+    history.push(
+      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).goBackPath,
+    );
+  const onCancel = () =>
+    history.push(
+      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).cancelPath,
+    );
 
   return (
     <>
       <Layout
         buttonGroup={
           <>
-            <Button
-              disabled={!selectedLocationId && !pinLocation}
-              onClick={() => onContinue(pinLocation)}
-              fullLength
-            >
+            <Button disabled={!selectedLocationId && !pinCoordinate} onClick={onSubmit} fullLength>
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -61,36 +122,27 @@ export default function PurePlantingLocation({
           onCancel={onCancel}
           cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
           title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-          value={50}
+          value={isFinalLocationPage ? 60 : 37.5}
           style={{ marginBottom: '24px' }}
         />
 
-        <div className={styles.planting_label}>
-          {seeding_type_temp === 'SEED'
-            ? t('MANAGEMENT_PLAN.SELECT_A_SEEDING_LOCATION')
-            : seeding_type_temp === 'SEEDLING_OR_PLANTING_STOCK'
-            ? t('MANAGEMENT_PLAN.SELECT_A_PLANTING_LOCATION')
-            : in_ground === true
-            ? t('MANAGEMENT_PLAN.SELECT_CURRENT_LOCATION')
-            : t('MANAGEMENT_PLAN.SELECT_PLANTING_LOCATION')}
-        </div>
+        <p className={styles.planting_label}>{plantingLabel}</p>
 
         <LocationPicker
           className={styles.mapContainer}
           setLocationId={setLocationId}
           selectedLocationId={selectedLocationId}
-          canUsePin={canUsePin}
+          canUsePin={pinToggle}
           setPinLocation={setPinLocation}
-          currentPin={pinLocation}
-          canSelectMultipleLocations={false}
-          onlyCrop={true}
+          currentPin={pinCoordinate}
+          cropLocations={cropLocations}
         />
 
         <div>
           <div className={styles.shown_label}>{t('MANAGEMENT_PLAN.LOCATION_SUBTEXT')}</div>
         </div>
 
-        {persistedFormData.wild_crop && pinMode && (
+        {showPinButton && pinToggle && (
           <Button
             color={'secondary'}
             style={{ marginBottom: '25px' }}
@@ -101,7 +153,7 @@ export default function PurePlantingLocation({
             {t('MANAGEMENT_PLAN.REMOVE_PIN')}
           </Button>
         )}
-        {persistedFormData.wild_crop && !pinMode && (
+        {showPinButton && !pinToggle && (
           <Button
             color={'secondary'}
             style={{ marginBottom: '25px' }}
@@ -113,14 +165,12 @@ export default function PurePlantingLocation({
           </Button>
         )}
 
-        {needs_transplant === true && selectedLocationId !== undefined && (
+        {showInitialLocationCheckbox && !!selectedLocationId && (
           <Checkbox
             label={t('MANAGEMENT_PLAN.SELECTED_STARTING_LOCATION')}
             style={{ paddingBottom: '25px' }}
-            checked={!!persistedFormData?.farm?.default_initial_location_id}
-            onChange={(e) => {
-              onSelectCheckbox(e);
-            }}
+            checked={!!defaultInitialLocationId}
+            onChange={defaultLocationCheckboxOnChange}
           />
         )}
       </Layout>
@@ -129,14 +179,10 @@ export default function PurePlantingLocation({
 }
 
 PurePlantingLocation.prototype = {
-  selectedLocationId: PropTypes.object,
-  onContinue: PropTypes.func,
-  onGoBack: PropTypes.func,
-  onCancel: PropTypes.func,
-  setLocationId: PropTypes.func,
-  persistedFormData: PropTypes.func,
+  persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  persistedPath: PropTypes.array,
-  transplant: PropTypes.bool,
-  progress: PropTypes.number,
+  isFinalLocationPage: PropTypes.bool,
+  variety_id: PropTypes.string,
+  history: PropTypes.object,
+  cropLocations: PropTypes.object,
 };

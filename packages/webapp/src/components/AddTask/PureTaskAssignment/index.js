@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { useForm, Controller } from 'react-hook-form';
-import { Main, Label } from '../../Typography';
+import { Controller, useForm } from 'react-hook-form';
+import { Label, Main } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
@@ -36,13 +36,19 @@ const PureTaskAssignment = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      assignee_user_id: persistedFormData.assignee_user_id ? persistedFormData.assignee_user_id : userFarmOptions.length === 2 ? userFarmOptions[1] : userFarmOptions[0],
-      override_hourly_wage: persistedFormData.override_hourly_wage ? persistedFormData.override_hourly_wage : false,
-      wage_at_moment: persistedFormData.wage_at_moment ? persistedFormData.wage_at_moment: null
+      assignee_user_id: persistedFormData.assignee_user_id
+        ? persistedFormData.assignee_user_id
+        : userFarmOptions.length === 2
+        ? userFarmOptions[1]
+        : userFarmOptions[0],
+      override_hourly_wage: persistedFormData.override_hourly_wage
+        ? persistedFormData.override_hourly_wage
+        : false,
+      wage_at_moment: persistedFormData.wage_at_moment ? persistedFormData.wage_at_moment : null,
     },
   });
 
-  useHookFormPersist(persistPaths, getValues);
+  useHookFormPersist(getValues, persistPaths);
 
   const OVERRIDE_HOURLY_WAGE = 'override_hourly_wage';
   const ASSIGNEE = 'assignee_user_id';
@@ -51,11 +57,14 @@ const PureTaskAssignment = ({
   let wage_at_moment = watch(WAGE_OVERRIDE);
   const currently_assigned = watch(ASSIGNEE);
 
-
   useEffect(() => {
     const currentlyAssignedUserId = currently_assigned?.value;
-    const wageDataOfCurrentlyAssigned = wageData.find((userWageObject) => !!userWageObject[currentlyAssignedUserId]);
-    const hourlyWageOfCurrentlyAssigned = typeof wageDataOfCurrentlyAssigned === 'undefined' ? 0
+    const wageDataOfCurrentlyAssigned = wageData.find(
+      (userWageObject) => !!userWageObject[currentlyAssignedUserId],
+    );
+    const hourlyWageOfCurrentlyAssigned =
+      typeof wageDataOfCurrentlyAssigned === 'undefined'
+        ? 0
         : wageDataOfCurrentlyAssigned[currentlyAssignedUserId].hourly_wage;
     setValue(WAGE_OVERRIDE, hourlyWageOfCurrentlyAssigned);
   }, [currently_assigned]);

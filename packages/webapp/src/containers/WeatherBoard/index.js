@@ -5,7 +5,7 @@ import { weatherSelector } from './weatherSlice';
 import { getWeather } from './saga';
 import utils from './utils';
 import { useTranslation } from 'react-i18next';
-import { getLanguageFromLocalStorage } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 export default function WeatherBoard() {
   const {

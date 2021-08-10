@@ -59,7 +59,11 @@ export default function PureSelectionHandler({ locations, history, selectingOnly
     let icon = imgMapping(asset, type);
 
     return (
-      <div key={idx} onClick={() => selectingOnly ? makeSelection(location) : loadEditView(location)} className={classes.container}>
+      <div
+        key={idx}
+        onClick={() => (selectingOnly ? makeSelection(location) : loadEditView(location))}
+        className={classes.container}
+      >
         <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
         <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
       </div>

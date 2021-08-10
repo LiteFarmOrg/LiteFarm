@@ -1,11 +1,15 @@
 import { containsCrops, isArea, isAreaLine, isLine, isPoint } from './constants';
 import { useEffect, useState } from 'react';
-import { canShowSelection, canShowSelectionSelector, locations, setSelectedSelector } from '../mapSlice';
+import {
+  canShowSelection,
+  canShowSelectionSelector,
+  locations,
+  setSelectedSelector,
+} from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { cloneObject } from '../../util';
 import styles from './styles.module.scss';
 import { areaStyles, lineStyles, activeIcons, icons } from './mapStyles';
-
 
 const useLocationsSelectionHandler = (
   selectingOnly,
@@ -39,7 +43,11 @@ const useLocationsSelectionHandler = (
   const selected = useSelector(setSelectedSelector);
 
   useEffect(() => {
-    if (overlappedLocations.area.length > 0 || overlappedLocations.line.length > 0 || overlappedLocations.point.length > 0) {
+    if (
+      overlappedLocations.area.length > 0 ||
+      overlappedLocations.line.length > 0 ||
+      overlappedLocations.point.length > 0
+    ) {
       if (selected.asset === 'area') {
         let a = overlappedLocations.assets.area[selected.id];
         selectArea(a.polygon, a.marker, a.area, a.polyline, a.polygon);
@@ -169,7 +177,11 @@ const useLocationsSelectionHandler = (
               });
               overLappedAssetsCopy.point[point.location_id] = {
                 marker: point.marker,
-                point: { name: point.location_name, location_id: point.location_id, type: point.type },
+                point: {
+                  name: point.location_name,
+                  location_id: point.location_id,
+                  type: point.type,
+                },
               };
             });
           } else {
@@ -183,7 +195,11 @@ const useLocationsSelectionHandler = (
                 });
                 overLappedAssetsCopy.point[point.location_id] = {
                   marker: point.marker,
-                  point: { name: point.location_name, location_id: point.location_id, type: point.type },
+                  point: {
+                    name: point.location_name,
+                    location_id: point.location_id,
+                    type: point.type,
+                  },
                 };
               }
             });
@@ -191,7 +207,10 @@ const useLocationsSelectionHandler = (
         }
       });
 
-      setOverlappedLocations({ ...cloneObject(overlappedLocationsCopy), assets: overLappedAssetsCopy });
+      setOverlappedLocations({
+        ...cloneObject(overlappedLocationsCopy),
+        assets: overLappedAssetsCopy,
+      });
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));
@@ -217,42 +236,47 @@ const useLocationsSelectionHandler = (
         color: markerColor,
         fontSize: '16px',
         className: styles.mapLabel,
-      }
+      },
     });
-  }
+  };
 
   const resetAreaLineStyles = (p, lineColor, selected) => {
     p.setOptions({
       fillColor: lineColor,
       fillOpacity: selected ? 1.0 : 0.5,
     });
-  }
+  };
 
   const resetPointStyles = (marker, type, selected) => {
     let icon = selected ? activeIcons[type] : icons[type];
     marker.setOptions({ icon: icon });
-  }
+  };
 
   const resetLineStyles = (polyline, selected) => {
     polyline.setOptions({
       fillOpacity: selected ? 1.0 : 0.5,
     });
-  }
+  };
 
   const selectArea = (p, marker, area, polyline, polygon) => {
-
     if (!multipleLocations && selectedLocationRef.current) {
       if (selectedLocationRef.current.asset === 'line') {
-        resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+        resetStyles(
+          lineStyles[selectedLocationRef.current.line.type].colour,
+          selectedLocationRef.current.polygon,
+        );
       } else {
-        resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+        resetStyles(
+          areaStyles[selectedLocationRef.current.area.type].colour,
+          selectedLocationRef.current.polygon,
+        );
         selectedLocationRef.current.marker.setOptions({
           label: {
             text: selectedLocationRef.current.area.name,
             color: 'white',
             fontSize: '16px',
             className: styles.mapLabel,
-          }
+          },
         });
       }
     }
@@ -266,7 +290,10 @@ const useLocationsSelectionHandler = (
         addLocation(area.location_id);
       }
     } else {
-      if (selectedLocationRef.current && selectedLocationRef.current.locationId === area.location_id) {
+      if (
+        selectedLocationRef.current &&
+        selectedLocationRef.current.locationId === area.location_id
+      ) {
         setSelectedLocation(null);
         return;
       }
@@ -286,16 +313,22 @@ const useLocationsSelectionHandler = (
   const selectAreaLine = (p, line, polyline, polygon) => {
     if (!multipleLocations && selectedLocationRef.current) {
       if (selectedLocationRef.current.asset === 'line') {
-        resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+        resetStyles(
+          lineStyles[selectedLocationRef.current.line.type].colour,
+          selectedLocationRef.current.polygon,
+        );
       } else {
-        resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+        resetStyles(
+          areaStyles[selectedLocationRef.current.area.type].colour,
+          selectedLocationRef.current.polygon,
+        );
         selectedLocationRef.current.marker.setOptions({
           label: {
             text: selectedLocationRef.current.area.name,
             color: 'white',
             fontSize: '16px',
             className: styles.mapLabel,
-          }
+          },
         });
       }
     }
@@ -309,7 +342,10 @@ const useLocationsSelectionHandler = (
         addLocation(line.location_id);
       }
     } else {
-      if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {
+      if (
+        selectedLocationRef.current &&
+        selectedLocationRef.current.locationId === line.location_id
+      ) {
         setSelectedLocation(null);
         return;
       }
@@ -335,7 +371,6 @@ const useLocationsSelectionHandler = (
     }
   };
 
-
   const selectPoint = (marker, point) => {
     if (selectedLocationsMapRef[point.location_id]) {
       resetPointStyles(marker, point.type, false);
@@ -344,8 +379,7 @@ const useLocationsSelectionHandler = (
       resetPointStyles(marker, point.type, true);
       addLocation(point.location_id);
     }
-  }
-
+  };
 
   const dismissSelectionModal = () => setDismissSelection(true);
 

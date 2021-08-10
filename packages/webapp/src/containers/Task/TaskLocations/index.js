@@ -21,19 +21,18 @@ export default function TaskLocations({ history }) {
 
   const onCancel = () => {
     history.push('/tasks');
-  }
+  };
 
   const onContinue = () => {
     console.log('Continue to LF-1568/Does it involve crops? or LF-1570');
-  }
+  };
 
   const onGoBack = () => {
     dispatch(setTaskLocationsData(taskLocations));
     history.push('/add_task/task_date');
   };
 
-  useHookFormPersist(persistedPath, () => ({}));
-
+  useHookFormPersist(() => ({}), persistedPath);
 
   return (
     <PureTaskLocations

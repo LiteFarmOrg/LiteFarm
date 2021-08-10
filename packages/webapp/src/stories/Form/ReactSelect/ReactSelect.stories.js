@@ -69,5 +69,5 @@ Creatable.args = {
   options: options,
   label: 'label',
   placeholder: 'placeholder',
-  creatable: true
+  creatable: true,
 };

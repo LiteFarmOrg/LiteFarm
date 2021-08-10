@@ -118,7 +118,8 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label,
+    {
+      label,
       optional,
       placeholder,
       options,
@@ -130,7 +131,8 @@ const ReactSelect = React.forwardRef(
       isSearchable,
       defaultValue,
       creatable = false,
-      ...props },
+      ...props
+    },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -144,46 +146,20 @@ const ReactSelect = React.forwardRef(
               height: '20px',
             }}
           >
-            <Label>{label}
-            {
-              optional && (
+            <Label>
+              {label}
+              {optional && (
                 <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                   {t('common:OPTIONAL')}
                 </Label>
-              )
-            }
+              )}
             </Label>
             {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
             {icon && <span className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}
-        {
-          creatable &&
-            <CreatableSelect
-              customStyles
-              styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
-              placeholder={placeholder}
-              options={options}
-              components={{
-                ClearIndicator: ({ innerProps }) => (
-                  <Underlined
-                    {...innerProps}
-                    style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
-                  >
-                    {t('REACT_SELECT.CLEAR_ALL')}
-                  </Underlined>
-                ),
-                ...components,
-              }}
-              isSearchable={options?.length > 8 || isSearchable}
-              inputRef={ref}
-              defaultValue={defaultValue}
-              {...props}
-            />
-        }
-        {
-          !creatable &&
-          <Select
+        {creatable && (
+          <CreatableSelect
             customStyles
             styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
             placeholder={placeholder}
@@ -192,7 +168,12 @@ const ReactSelect = React.forwardRef(
               ClearIndicator: ({ innerProps }) => (
                 <Underlined
                   {...innerProps}
-                  style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: '-20px',
+                    color: colors.brown700,
+                  }}
                 >
                   {t('REACT_SELECT.CLEAR_ALL')}
                 </Underlined>
@@ -204,7 +185,35 @@ const ReactSelect = React.forwardRef(
             defaultValue={defaultValue}
             {...props}
           />
-        }
+        )}
+        {!creatable && (
+          <Select
+            customStyles
+            styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+            placeholder={placeholder}
+            options={options}
+            components={{
+              ClearIndicator: ({ innerProps }) => (
+                <Underlined
+                  {...innerProps}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: '-20px',
+                    color: colors.brown700,
+                  }}
+                >
+                  {t('REACT_SELECT.CLEAR_ALL')}
+                </Underlined>
+              ),
+              ...components,
+            }}
+            isSearchable={options?.length > 8 || isSearchable}
+            inputRef={ref}
+            defaultValue={defaultValue}
+            {...props}
+          />
+        )}
       </div>
     );
   },

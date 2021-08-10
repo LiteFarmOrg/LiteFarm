@@ -39,11 +39,11 @@ const useSelectionHandler = () => {
       ) {
         containsCrops(overlappedLocations.area[0].type)
           ? history.push(
-            `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
-          )
+              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/crops`,
+            )
           : history.push(
-            `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
-          );
+              `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+            );
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&

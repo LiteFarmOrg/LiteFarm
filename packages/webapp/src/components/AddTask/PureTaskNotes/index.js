@@ -32,7 +32,7 @@ const PureTaskNotes = ({
     },
   });
 
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues, persistedPaths);
   const TASK_NOTES = 'task_notes';
   register(TASK_NOTES, { required: false });
   let task_notes = watch(TASK_NOTES);

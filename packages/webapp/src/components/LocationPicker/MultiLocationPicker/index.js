@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import CustomZoom from '../Map/CustomZoom';
-import CustomCompass from '../Map/CustomCompass';
+import CustomZoom from '../../Map/CustomZoom';
+import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../../containers/Map/constants';
 import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
-import useDrawSelectableLocations from './useDrawSelectableLocations';
-import useMapSelectionRenderer from '../../containers/Map/useMapSelectionRenderer';
-import MapPin from '../../assets/images/map/map_pin.svg';
-import LocationSelectionModal from '../../containers/Map/LocationSelectionModal';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import useMapSelectionRenderer from '../../../containers/Map/useMapSelectionRenderer';
+import MapPin from '../../../assets/images/map/map_pin.svg';
+import LocationSelectionModal from '../../../containers/Map/LocationSelectionModal';
 
 const LocationPicker = ({
   className,
@@ -30,10 +29,10 @@ const LocationPicker = ({
   const [selectedPin, setSelectedPin] = useState(null);
   const [innerMap, setInnerMap] = useState(null);
   const { grid_points } = useSelector(userFarmSelector);
-  const { drawAssets } = useMapSelectionRenderer({ 
-    isClickable: true, 
+  const { drawAssets } = useMapSelectionRenderer({
+    isClickable: true,
     isSelectable: true,
-    onlyCrop: onlyCrop, 
+    onlyCrop: onlyCrop,
     setLocationId: setLocationId,
     multipleLocations: canSelectMultipleLocations,
     setMultipleLocationIds: setLocationIds,
@@ -59,7 +58,6 @@ const LocationPicker = ({
   };
 
   useEffect(() => {
-
     if (innerMap && canUsePin) {
       drawPinIfOnPinMode(selectedLocation, innerMap.map, innerMap.maps);
     }
@@ -73,7 +71,6 @@ const LocationPicker = ({
   useEffect(() => {
     setPinLocation(selectedLocation);
   }, [selectedLocation]);
-
 
   const getMapOptions = (maps) => {
     return {
@@ -111,7 +108,6 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
-
     setInnerMap({ map, maps });
     map.addListener('click', (e) => {
       setSelectedLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
@@ -171,9 +167,7 @@ const LocationPicker = ({
           options={getMapOptions}
         />
       </div>
-      <LocationSelectionModal
-        selectingOnly={true}
-      />
+      <LocationSelectionModal selectingOnly={true} />
     </>
   );
 };

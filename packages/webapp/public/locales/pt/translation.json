@@ -53,6 +53,7 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
+    "HISTORICAL_PERCENTAGE_LOCATION": "MISSING",
     "LOCATION_SIZE": "Tamanho da localização",
     "PERCENTAGE_LABEL": "% da localização",
     "PERCENTAGE_LOCATION": "Que porcentagem do local você está plantando?",
@@ -895,6 +896,7 @@
     "CONTAINER_TYPE": "Tipo de recipiente",
     "COVER_INFO": "A seleção da cultura de cobertura criará uma tarefa de trabalho de campo para terminar o cultivo de cobertura no final da temporada. Selecionar para colheita criará uma tarefa de colheita em vez disso.",
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
+    "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
     "DAYS_TO_HARVEST": "MISSING",
     "DAYS_TO_TERMINATION": "MISSING",
@@ -913,6 +915,7 @@
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
     "HARVEST_DATE": "MISSING",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "No solo",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
@@ -933,6 +936,7 @@
     "PLANTING": "MISSING",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DATE_LABEL": "MISSING",
+    "PLANTING_DATE_MIN_ERROR": "MISSING",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
@@ -941,6 +945,7 @@
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
     "REMOVE_PIN": "MISSING",
     "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "MISSING",
       "LENGTH_OF_ROW": "MISSING",
       "NUMBER_OF_ROWS": "MISSING",
       "SAME_LENGTH": "MISSING",
@@ -956,7 +961,6 @@
     "SELECT_A_PLANTING_LOCATION": "MISSING",
     "SELECT_A_SEEDING_LOCATION": "MISSING",
     "SELECT_CURRENT_LOCATION": "MISSING",
-    "SELECT_PLANTING_LOCATION": "Onde fica o seu local de plantio?",
     "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
@@ -979,8 +983,10 @@
     },
     "WHAT_IS_AGE": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WHERE_START_LOCATION": "MISSING",
+    "WHERE_TRANSPLANT_LOCATION": "MISSING",
     "WILD_CROP": "MISSING",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": "MISSING"
   },
@@ -1337,6 +1343,7 @@
   },
   "UNIT": {
     "TIME": {
+      "DAY": "MISSING",
       "MONTH": "MISSING",
       "WEEK": "MISSING",
       "YEAR": "MISSING"

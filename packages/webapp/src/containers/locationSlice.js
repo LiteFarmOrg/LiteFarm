@@ -191,7 +191,19 @@ export const pointStatusSelector = createSelector(
     };
   },
 );
-
+/**
+ * {
+ *
+ * location_id: field,
+ *
+ * location_id: garden,
+ *
+ * location_id: greenhouse,
+ *
+ * location_id: buffer_zone
+ *
+ * }
+ */
 export const cropLocationEntitiesSelector = createSelector(
   [
     fieldEntitiesSelector,

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
-import { Main, Semibold } from '../Typography';
 import Layout from '../Layout';
-import { colors } from '../../assets/theme';
 import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
@@ -26,7 +22,7 @@ const PureCertificationSurveyPage = ({
   const [submissionId, setSubmissionId] = useState(persistedFormData?.submission_id);
 
   const persistedPath = ['/certification/report_period'];
-  useHookFormPersist(persistedPath, () => ({}));
+  useHookFormPersist(() => ({}), persistedPath);
 
   const progress = 67;
 

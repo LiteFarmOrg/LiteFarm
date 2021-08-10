@@ -1,11 +1,8 @@
-import { useRef } from 'react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  cropLocationsSelector,
-} from '../../containers/locationSlice';
-import { isArea, polygonPath } from '../../containers/Map/constants';
-import { areaStyles, lineStyles } from '../../containers/Map/mapStyles';
+import { cropLocationsSelector } from '../../../containers/locationSlice';
+import { isArea, polygonPath } from '../../../containers/Map/constants';
+import { areaStyles, lineStyles } from '../../../containers/Map/mapStyles';
 import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 
 const useDrawSelectableLocations = (setLocationId) => {
@@ -39,7 +36,6 @@ const useDrawSelectableLocations = (setLocationId) => {
     });
   };
 
-
   // Draw an area
   const drawArea = (map, maps, mapBounds, area, selectedLocationId) => {
     const { grid_points: points, name, type, location_id } = area;
@@ -55,7 +51,6 @@ const useDrawSelectableLocations = (setLocationId) => {
       fillColor: colour,
       fillOpacity: 0.5,
     });
-    
 
     // draw dotted outline
     let borderPoints = points.map((point) => ({
@@ -96,12 +91,14 @@ const useDrawSelectableLocations = (setLocationId) => {
       crossOnDrag: false,
       label: {
         text: name,
-        color: (selectedLocationId !== undefined && selectedLocationId === location_id)? 'black' : 'white',
+        color:
+          selectedLocationId !== undefined && selectedLocationId === location_id
+            ? 'black'
+            : 'white',
         fontSize: '16px',
         className: styles.mapLabel,
       },
     });
-   
 
     if (selectedLocationId !== undefined && selectedLocationId === location_id) {
       polygon.setOptions({
@@ -116,7 +113,7 @@ const useDrawSelectableLocations = (setLocationId) => {
         marker,
         asset: 'area',
         locationId: area.location_id,
-      }); 
+      });
     }
 
     setAreaListenersAndOptions(maps, area, polygon, polyline, marker);
@@ -156,26 +153,25 @@ const useDrawSelectableLocations = (setLocationId) => {
         },
       ],
     });
-    
-    
+
     const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
     const linePolygon = new maps.Polygon({
       paths: polyPath,
       ...lineStyles[type].polyStyles,
     });
-  
+
     if (selectedLocationId !== undefined && selectedLocationId === location_id) {
       linePolygon.setOptions({
         fillColor: selectedColour,
         fillOpacity: 1.0,
       });
-      
+
       setSelectedLocation({
         line,
         polygon: linePolygon,
         asset: 'line',
         locationId: line.location_id,
-      }); 
+      });
     }
 
     setLineListenersAndOptions(maps, line, linePolygon);
@@ -199,21 +195,30 @@ const useDrawSelectableLocations = (setLocationId) => {
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
         if (selectedLocationRef.current.asset === 'line') {
-          resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+          resetStyles(
+            lineStyles[selectedLocationRef.current.line.type].colour,
+            selectedLocationRef.current.polygon,
+          );
         } else {
-          resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+          resetStyles(
+            areaStyles[selectedLocationRef.current.area.type].colour,
+            selectedLocationRef.current.polygon,
+          );
           selectedLocationRef.current.marker.setOptions({
             label: {
               text: selectedLocationRef.current.area.name,
               color: 'white',
               fontSize: '16px',
               className: styles.mapLabel,
-            }
+            },
           });
         }
       }
 
-      if (selectedLocationRef.current && selectedLocationRef.current.locationId === area.location_id) {
+      if (
+        selectedLocationRef.current &&
+        selectedLocationRef.current.locationId === area.location_id
+      ) {
         setSelectedLocation(null);
         return;
       }
@@ -224,7 +229,7 @@ const useDrawSelectableLocations = (setLocationId) => {
         polyline,
         marker,
         asset: 'area',
-        locationId : area.location_id,
+        locationId: area.location_id,
       });
 
       this.setOptions({
@@ -247,7 +252,7 @@ const useDrawSelectableLocations = (setLocationId) => {
     maps.event.addListener(polygon, 'mouseover', function () {
       if (this.fillOpacity !== 1.0) {
         this.setOptions({ fillOpacity: 0.8 });
-      }  
+      }
     });
     maps.event.addListener(polygon, 'mouseout', function () {
       if (this.fillOpacity !== 1.0) {
@@ -257,21 +262,30 @@ const useDrawSelectableLocations = (setLocationId) => {
     maps.event.addListener(polygon, 'click', function () {
       if (selectedLocationRef.current) {
         if (selectedLocationRef.current.asset === 'line') {
-          resetStyles(lineStyles[selectedLocationRef.current.line.type].colour, selectedLocationRef.current.polygon);
+          resetStyles(
+            lineStyles[selectedLocationRef.current.line.type].colour,
+            selectedLocationRef.current.polygon,
+          );
         } else {
-          resetStyles(areaStyles[selectedLocationRef.current.area.type].colour, selectedLocationRef.current.polygon);
+          resetStyles(
+            areaStyles[selectedLocationRef.current.area.type].colour,
+            selectedLocationRef.current.polygon,
+          );
           selectedLocationRef.current.marker.setOptions({
             label: {
               text: selectedLocationRef.current.area.name,
               color: 'white',
               fontSize: '16px',
               className: styles.mapLabel,
-            }
+            },
           });
         }
       }
 
-      if (selectedLocationRef.current && selectedLocationRef.current.locationId === line.location_id) {
+      if (
+        selectedLocationRef.current &&
+        selectedLocationRef.current.locationId === line.location_id
+      ) {
         setSelectedLocation(null);
         return;
       }

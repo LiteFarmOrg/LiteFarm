@@ -21,12 +21,14 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
   const assigned = isAssigned;
   const self = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
 
-  let workerOptions = isAdmin ? users.map(({ first_name, last_name, user_id }) => ({
-    label: `${first_name} ${last_name}`,
-    value: user_id,
-  })) : [self];
+  let workerOptions = isAdmin
+    ? users.map(({ first_name, last_name, user_id }) => ({
+        label: `${first_name} ${last_name}`,
+        value: user_id,
+      }))
+    : [self];
 
-  const unassigned = { label: 'Unassigned', value: null }
+  const unassigned = { label: 'Unassigned', value: null };
 
   const [worker, setWorker] = useState(assigned ? unassigned : self);
   const [assignAll, setAssignAll] = useState(false);
@@ -35,20 +37,23 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
 
   const onAssign = () => {
     if (assignAll) {
-      dispatch(assignTasksOnDate({
-        task_id: taskId, 
-        date: dueDate,
-        assignee_user_id: worker.value,
-      }));
+      dispatch(
+        assignTasksOnDate({
+          task_id: taskId,
+          date: dueDate,
+          assignee_user_id: worker.value,
+        }),
+      );
     } else {
-      dispatch(assignTask({
-        task_id: taskId,
-        assignee_user_id: worker.value,
-      }));
+      dispatch(
+        assignTask({
+          task_id: taskId,
+          assignee_user_id: worker.value,
+        }),
+      );
     }
     dismissModal();
-  }
-
+  };
 
   const disabled = worker === null;
 
@@ -62,7 +67,13 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
             {t('common:CANCEL')}
           </Button>
 
-          <Button onClick={onAssign} disabled={disabled} className={styles.button} color="primary" sm>
+          <Button
+            onClick={onAssign}
+            disabled={disabled}
+            className={styles.button}
+            color="primary"
+            sm
+          >
             {t('common:UPDATE')}
           </Button>
         </>
@@ -70,7 +81,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       icon={<Person />}
     >
       <ReactSelect
-        defaultValue={ isAssigned ? unassigned : self}
+        defaultValue={isAssigned ? unassigned : self}
         label={t('ADD_TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}

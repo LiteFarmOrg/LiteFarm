@@ -24,7 +24,7 @@ export function PureInterestedOrganic({
     getValues,
     formState: { isValid },
   } = useForm({ mode: 'onChange', defaultValues: { ...survey, ...persistedFormData } });
-  useHookFormPersist?.(persistedPathNames, getValues);
+  useHookFormPersist?.(getValues, persistedPathNames);
   const INTERESTED = 'interested';
   const disabled = !isValid;
   const title = t('CERTIFICATION.INTERESTED_IN_CERTIFICATION.TITLE');

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -11,15 +11,14 @@ import Input from '../../Form/Input';
 import { seedYield } from '../../../util/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
+import { getNextHarvestPaths } from '../getAddManagementPlanPath';
 
 export default function PureNextHarvest({
-  onCancel,
-  onGoBack,
-  onContinue,
   system,
   persistedFormData,
   useHookFormPersist,
-  variety,
+  variety_id,
+  history,
 }) {
   const { t } = useTranslation();
 
@@ -37,20 +36,27 @@ export default function PureNextHarvest({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
+  useHookFormPersist(getValues);
 
-  const progress = 32;
+  const progress = 37.5;
 
-  const NEXT_HARVEST_DATE = 'next_harvest_date';
-  const ESTIMATED_YIELD = 'estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'estimated_yield_unit';
+  const NEXT_HARVEST_DATE = 'crop_management_plan.harvest_date';
+  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
+  const ESTIMATED_YIELD_UNIT =
+    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
-  const submitPath = `/crop/${variety}/add_management_plan/choose_planting_location`;
-  const goBackPath = `/crop/${variety}/add_management_plan/needs_transplant`;
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getNextHarvestPaths(variety_id, persistedFormData),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
+  const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 
   const today = new Date();
   const todayStr = today.toISOString().substring(0, 10);
-
-  useHookFormPersist([submitPath, goBackPath], getValues);
 
   return (
     <Form
@@ -59,7 +65,7 @@ export default function PureNextHarvest({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(onContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
@@ -87,22 +93,22 @@ export default function PureNextHarvest({
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
           minDate={todayStr}
         />
-
-        <Unit
-          register={register}
-          label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-          name={ESTIMATED_YIELD}
-          displayUnitName={ESTIMATED_YIELD_UNIT}
-          unitType={seedYield}
-          system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFormSetError={setError}
-          hookFromWatch={watch}
-          control={control}
-          max={999}
-          optional
-        />
+        {showEstimatedYield && (
+          <Unit
+            register={register}
+            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+            name={ESTIMATED_YIELD}
+            displayUnitName={ESTIMATED_YIELD_UNIT}
+            unitType={seedYield}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFromWatch={watch}
+            control={control}
+            max={999}
+            optional
+          />
+        )}
       </div>
     </Form>
   );
@@ -115,5 +121,5 @@ PureNextHarvest.prototype = {
   system: PropTypes.string,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  variety: PropTypes.string,
+  variety_id: PropTypes.string,
 };

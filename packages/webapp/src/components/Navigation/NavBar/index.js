@@ -23,10 +23,10 @@ import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
-import { getLanguageFromLocalStorage } from '../../../util';
 import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -137,7 +137,9 @@ export default function PureNavBar({
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
-  const taskIconClick = () => { history.push('/tasks') };
+  const taskIconClick = () => {
+    history.push('/tasks');
+  };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);

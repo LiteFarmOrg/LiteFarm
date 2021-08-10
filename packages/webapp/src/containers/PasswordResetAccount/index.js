@@ -5,7 +5,7 @@ import { resetPassword } from './saga';
 import jwt from 'jsonwebtoken';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
-import { getLanguageFromLocalStorage } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();

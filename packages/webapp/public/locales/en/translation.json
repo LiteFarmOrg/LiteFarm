@@ -53,6 +53,7 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
+    "HISTORICAL_PERCENTAGE_LOCATION": "What percent of the location did you plant?",
     "LOCATION_SIZE": "Location size",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
@@ -896,6 +897,7 @@
     "CONTAINER_TYPE": "Type of container",
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
+    "DAYS_FROM_PLANTING": "Days from planting to:",
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days to next harvest:",
     "DAYS_TO_TERMINATION": "Days to termination:",
@@ -914,6 +916,7 @@
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "Did you plant in a container or in the ground?",
     "IN_GROUND": "In ground",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
@@ -934,6 +937,7 @@
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
     "PLANTING_DATE_LABEL": "Planting date",
+    "PLANTING_DATE_MIN_ERROR": "Planting date must be later than {{min}}",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
@@ -942,6 +946,7 @@
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "Were your rows all the same length?",
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",
       "SAME_LENGTH": "Are your rows all the same length?",
@@ -957,7 +962,6 @@
     "SELECT_A_PLANTING_LOCATION": "Select a planting location",
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
-    "SELECT_PLANTING_LOCATION": "Where is your planting location?",
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
@@ -980,8 +984,10 @@
     },
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
+    "WHERE_START_LOCATION": "Where is your starting location?",
+    "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "TRANSPLANT_LOCATION": "Where will you transplant to?",
     "PLAN_AND_ID_plural": "MISSING"
   },
@@ -1338,6 +1344,7 @@
   },
   "UNIT": {
     "TIME": {
+      "DAY": "days",
       "MONTH": "months",
       "WEEK": "weeks",
       "YEAR": "years"

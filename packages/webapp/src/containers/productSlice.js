@@ -10,7 +10,7 @@ export const getProduct = (obj) => {
     'supplier',
     'on_permitted_substances_list',
     'type',
-    'farm_id'
+    'farm_id',
   ]);
 };
 
@@ -49,10 +49,8 @@ export const {
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
-export const productReducerSelector = (state) =>
-  state.entitiesReducer[taskSlice.name];
+export const productReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
 
 const productSelector = productAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
-

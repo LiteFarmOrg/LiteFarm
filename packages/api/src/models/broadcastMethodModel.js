@@ -16,28 +16,27 @@
 const Model = require('objection').Model;
 
 
-class BroadcastModel extends Model {
+class BroadcastMethodModel extends Model {
   static get tableName() {
-    return 'broadcast';
+    return 'broadcast_method';
   }
 
   static get idColumn() {
-    return 'management_plan_id';
+    return 'planting_management_plan_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'seeding_rate', 'area_used', 'required_seeds'],
+      required: ['planting_management_plan_id', 'percentage_planted', 'area_used', 'seeding_rate'],
       properties: {
-        management_plan_id: { type: 'number' },
+        planting_management_plan_id: { type: 'string' },
         percentage_planted: { type: 'number' },
         area_used: { type: 'number' },
         area_used_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
         seeding_rate: {
           type: 'number',
         },
-        required_seeds: { type: 'number' },
       },
       additionalProperties: false,
     };
@@ -48,4 +47,4 @@ class BroadcastModel extends Model {
   }
 }
 
-module.exports = BroadcastModel;
+module.exports = BroadcastMethodModel;

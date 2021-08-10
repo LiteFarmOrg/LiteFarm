@@ -1,17 +1,20 @@
 import PurePlantingMethod from '../../../../components/Crop/PlantingMethod';
 import { useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
+import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { measurementSelector } from '../../../userFarmSlice';
 
 export default function PlantingMethod({ history, match }) {
-  const persistedFormData = useSelector(hookFormPersistSelector);
-
+  const system = useSelector(measurementSelector);
+  const isFinalPlantingMethod =
+    match.path === '/crop/:variety_id/add_management_plan/final_planting_method';
   return (
-    <PurePlantingMethod
-      useHookFormPersist={useHookFormPersist}
-      persistedFormData={persistedFormData}
-      match={match}
-      history={history}
-    />
+    <HookFormPersistProvider>
+      <PurePlantingMethod
+        match={match}
+        history={history}
+        system={system}
+        isFinalPlantingMethod={isFinalPlantingMethod}
+      />
+    </HookFormPersistProvider>
   );
 }

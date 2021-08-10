@@ -30,7 +30,7 @@ export default function TaskLocations({ history }) {
     history.push('/add_task/task_date');
   };
 
-  useHookFormPersist(persistedPath, () => ({}));
+  useHookFormPersist(() => ({}), persistedPath);
 
   return (
     <PureTaskLocations

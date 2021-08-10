@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { AddLink, Main } from '../../Typography';
 import styles from './styles.module.scss';
 import { ReactComponent as CollectSoilSample } from '../../../assets/images/task/CollectSoilSample.svg';
-import { ReactComponent as Custom } from '../../../assets/images/task/Custom.svg';
 import { ReactComponent as Transport } from '../../../assets/images/task/Transport.svg';
 import { ReactComponent as Fertilize } from '../../../assets/images/task/Fertilize.svg';
 import { ReactComponent as FieldWork } from '../../../assets/images/task/FieldWork.svg';
@@ -41,7 +40,7 @@ const PureTaskTypeSelection = ({
     mode: 'onChange',
   });
 
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues, persistedPaths);
   const TASK_TYPE = 'task_type';
   register(TASK_TYPE, { required: true });
   const selected_task_type = watch(TASK_TYPE);

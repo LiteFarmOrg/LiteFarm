@@ -8,7 +8,7 @@ import { Main, Label } from '../../Typography';
 import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
-import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
+import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
 
 const PureTaskAssignment = ({
   onSubmit,
@@ -127,26 +127,21 @@ const PureTaskAssignment = ({
 
         {override && (
           <div>
-            <Main style={{ paddingBottom: '15px' }}>
-              {t('ADD_TASK.WAGE_OVERRIDE') + ' ' + '(' + currencySymbol + ')'}
-            </Main>
-            <div style={{ display: 'table' }}>
+            <Main style={{ paddingBottom: '15px' }}>{t('ADD_TASK.WAGE_OVERRIDE')}</Main>
+            <div>
               <Input
+                unit={currencySymbol + t('ADD_TASK.HR')}
                 hookFormRegister={register(WAGE_OVERRIDE, {
                   required: true,
                   valueAsNumber: true,
                 })}
                 type={'number'}
-                onKeyDown={integerOnKeyDown}
+                onKeyDown={numberOnKeyDown}
                 max={100000000}
                 errors={getInputErrors(errors, WAGE_OVERRIDE)}
-                style={{ display: 'table-cell', width: '100%' }}
                 name={WAGE_OVERRIDE}
                 hookFormSetValue={setValue}
               />
-              <Label style={{ display: 'table-cell', width: '100%', fontSize: '16px' }}>
-                {'/hr'}
-              </Label>
             </div>
           </div>
         )}

@@ -1,4 +1,8 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "Failed to assign tasks",
+    "SUCCESS": "Successfully assigned tasks"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",
@@ -156,9 +160,5 @@
       "REVOKE": "User access revoked!",
       "UPDATE": "Successfully updated user info!"
     }
-  },
-  "ASSIGN_TASK": {
-    "ERROR": "Failed to assign tasks",
-    "SUCCESS": "Successfully assigned tasks"
   }
 }

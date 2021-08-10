@@ -6,7 +6,7 @@ import LocationPicker from '../../LocationPicker';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { Label } from '../../Typography';
+import { Main } from '../../Typography';
 
 export default function PureTaskLocations({
   setTaskLocations,
@@ -14,7 +14,6 @@ export default function PureTaskLocations({
   onContinue,
   onGoBack,
   onCancel,
-  persistedFormData,
   storedLocations,
 }) {
   const { t } = useTranslation();
@@ -42,9 +41,9 @@ export default function PureTaskLocations({
           value={progress}
         />
 
-        <Label style={{ marginTop: '24px', marginBottom: '24px' }}>
+        <Main style={{ marginTop: '24px', marginBottom: '24px' }}>
           {t('TASK.SELECT_TASK_LOCATIONS')}
-        </Label>
+        </Main>
         <LocationPicker
           className={styles.mapContainer}
           canUsePin={false}
@@ -58,3 +57,12 @@ export default function PureTaskLocations({
     </>
   );
 }
+
+PureTaskLocations.prototype = {
+  setTaskLocations: PropTypes.func,
+  taskLocations: PropTypes.array,
+  onContinue: PropTypes.func,
+  onGoBack: PropTypes.func,
+  onCancel: PropTypes.func,
+  storedLocations: PropTypes.array,
+};

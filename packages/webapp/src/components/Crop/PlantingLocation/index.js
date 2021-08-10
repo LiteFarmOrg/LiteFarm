@@ -20,6 +20,7 @@ export default function PurePlantingLocation({
   variety_id,
   history,
   cropLocations,
+  default_initial_location_id,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -54,6 +55,11 @@ export default function PurePlantingLocation({
       setValue(DEFAULT_INITIAL_LOCATION_ID, location_id);
     }
   };
+  useEffect(() => {
+    if (!(already_in_ground && is_wild) && !isFinalLocationPage && !selectedLocationId) {
+      setLocationId(default_initial_location_id);
+    }
+  }, []);
 
   const setPinLocation = (coordinate) => setValue(PIN_COORDINATE, coordinate);
   const defaultLocationCheckboxOnChange = () => {

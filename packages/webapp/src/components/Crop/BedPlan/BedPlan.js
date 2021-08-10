@@ -47,8 +47,8 @@ function PureBedPlan({
   const NUMBER_OF_ROWS_IN_BED = `${prefix}.bed_method.number_of_rows_in_bed`;
   const PLANT_SPACING_UNIT = `${prefix}.bed_method.plant_spacing_unit`;
   const PLANT_SPACING = `${prefix}.bed_method.plant_spacing`;
-  const LENGTH_OF_BED_UNIT = `${prefix}.bed_method.length_of_bed_unit`;
-  const LENGTH_OF_BED = `${prefix}.bed_method.length_of_bed`;
+  const BED_LENGTH_UNIT = `${prefix}.bed_method.bed_length_unit`;
+  const BED_LENGTH = `${prefix}.bed_method.bed_length`;
 
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
@@ -57,7 +57,7 @@ function PureBedPlan({
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
-  const length_of_bed = watch(LENGTH_OF_BED);
+  const bed_length = watch(BED_LENGTH);
   const plant_spacing = watch(PLANT_SPACING);
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
@@ -66,21 +66,20 @@ function PureBedPlan({
     if (
       isNonNegativeNumber(number_of_beds) &&
       isNonNegativeNumber(number_of_rows_in_bed) &&
-      isNonNegativeNumber(length_of_bed) &&
+      isNonNegativeNumber(bed_length) &&
       isNonNegativeNumber(plant_spacing)
     ) {
       const yield_per_plant = crop_variety.yield_per_plant;
       const average_seed_weight = crop_variety.average_seed_weight;
 
       const estimated_yield =
-        ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) *
-        yield_per_plant;
+        ((number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing) * yield_per_plant;
 
       const estimated_seed_required_in_weight =
-        ((number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing) *
+        ((number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing) *
         average_seed_weight;
       const estimated_seed_required_in_seeds =
-        (number_of_beds * number_of_rows_in_bed * length_of_bed) / plant_spacing;
+        (number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing;
 
       setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
       setValue(ESTIMATED_YIELD, estimated_yield);
@@ -88,7 +87,7 @@ function PureBedPlan({
     } else {
       setShowEstimatedValue(false);
     }
-  }, [number_of_beds, number_of_rows_in_bed, length_of_bed, plant_spacing]);
+  }, [number_of_beds, number_of_rows_in_bed, bed_length, plant_spacing]);
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
     () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
@@ -147,8 +146,8 @@ function PureBedPlan({
         <Unit
           register={register}
           label={t('BED_PLAN.LENGTH_OF_BED')}
-          name={LENGTH_OF_BED}
-          displayUnitName={LENGTH_OF_BED_UNIT}
+          name={BED_LENGTH}
+          displayUnitName={BED_LENGTH_UNIT}
           unitType={container_planting_depth}
           system={system}
           hookFormSetValue={setValue}

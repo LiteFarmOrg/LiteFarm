@@ -55,9 +55,7 @@ function PurePlanGuidance({
   const SPACING_UNIT = `${prefix}.${
     isBed ? `bed_method.bed_spacing_unit` : `row_method.row_spacing_unit`
   }`;
-  const PLANTING_NOTES = `${prefix}.${
-    isBed ? `bed_method.planting_notes` : `row_method.planting_notes`
-  }`;
+  const PLANTING_NOTES = `${prefix}.notes`;
 
   const TYPE = isBed ? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
   const TYPES = isBed ? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];

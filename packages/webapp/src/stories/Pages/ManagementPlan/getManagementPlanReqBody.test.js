@@ -1,3 +1,9 @@
+import {
+  getDefaultLocationReqBody,
+  getPlantingManagementPlansReqBody,
+  getPlantingMethodReqBody,
+} from '../../../containers/Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
+
 const formDataAndReqBody = [
   {
     test_name: 'Seed | For Harvest | Transplant',
@@ -42,8 +48,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -87,8 +93,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -193,7 +199,6 @@ const formDataAndReqBody = [
           transplant_date: '2021-08-19',
           is_seed: true,
           germination_date: '2021-08-14',
-          termination_date: '2021-09-02',
           harvest_date: '2021-08-29',
         },
         name: 'Plan 1',
@@ -245,8 +250,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -291,8 +296,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -448,8 +453,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -494,8 +499,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -631,8 +636,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -677,8 +682,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -814,8 +819,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -834,7 +839,6 @@ const formDataAndReqBody = [
           initial: {
             row_method: {
               specify_rows: '2',
-              planting_notes: '6',
               planting_depth: 0.03,
               planting_depth_unit: 'cm',
               row_width: 0.04,
@@ -857,7 +861,7 @@ const formDataAndReqBody = [
               area_used: 298.14,
               area_used_unit: 'm2',
             },
-            notes: '2',
+            notes: '9',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
             estimated_yield: 0,
@@ -878,12 +882,11 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
-              planting_notes: '9',
               planting_depth: 0.05,
               planting_depth_unit: 'cm',
               bed_width: 0.07,
@@ -944,12 +947,11 @@ const formDataAndReqBody = [
               bed_method: {
                 number_of_beds: 3,
                 number_of_rows_in_bed: 3,
-                length_of_bed: 0.06,
-                length_of_bed_unit: 'cm',
+                bed_length: 0.06,
+                bed_length_unit: 'cm',
                 plant_spacing: 0.05,
                 plant_spacing_unit: 'cm',
                 specify_beds: '4',
-                planting_notes: '9',
                 planting_depth: 0.05,
                 planting_depth_unit: 'cm',
                 bed_width: 0.07,
@@ -957,7 +959,7 @@ const formDataAndReqBody = [
                 bed_spacing: 0.08,
                 bed_spacing_unit: 'cm',
               },
-              notes: '2',
+              notes: '9',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               estimated_yield: 0,
@@ -1029,8 +1031,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -1049,7 +1051,7 @@ const formDataAndReqBody = [
           initial: {
             row_method: {
               specify_rows: '2',
-              planting_notes: '6',
+
               planting_depth: 0.03,
               planting_depth_unit: 'cm',
               row_width: 0.04,
@@ -1072,7 +1074,7 @@ const formDataAndReqBody = [
               area_used: 298.14,
               area_used_unit: 'm2',
             },
-            notes: '2',
+            notes: '6',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
             estimated_yield: 0,
@@ -1093,8 +1095,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -1158,7 +1160,6 @@ const formDataAndReqBody = [
             {
               row_method: {
                 specify_rows: '2',
-                planting_notes: '6',
                 planting_depth: 0.03,
                 planting_depth_unit: 'cm',
                 row_width: 0.04,
@@ -1171,7 +1172,7 @@ const formDataAndReqBody = [
                 plant_spacing: 0.03,
                 plant_spacing_unit: 'cm',
               },
-              notes: '2',
+              notes: '6',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               estimated_yield: 0,
@@ -1188,7 +1189,6 @@ const formDataAndReqBody = [
           already_in_ground: false,
           transplant_date: '2021-08-19',
           is_seed: false,
-          germination_date: '2021-08-14',
           termination_date: '2021-08-24',
         },
         name: 'Plan 1',
@@ -1243,8 +1243,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -1307,8 +1307,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -1376,7 +1376,6 @@ const formDataAndReqBody = [
           for_cover: false,
           already_in_ground: false,
           is_seed: false,
-          germination_date: '2021-08-14',
           harvest_date: '2021-08-29',
         },
         name: 'Plan 1',
@@ -1428,8 +1427,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -1492,8 +1491,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -1561,7 +1560,6 @@ const formDataAndReqBody = [
           for_cover: true,
           already_in_ground: false,
           is_seed: false,
-          germination_date: '2021-08-14',
           termination_date: '2021-08-24',
         },
         name: 'Plan 1',
@@ -1613,8 +1611,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -1678,8 +1676,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -1806,8 +1804,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -1826,7 +1824,6 @@ const formDataAndReqBody = [
           initial: {
             row_method: {
               specify_rows: '2',
-              planting_notes: '6',
               planting_depth: 0.03,
               planting_depth_unit: 'cm',
               row_width: 0.04,
@@ -1850,7 +1847,7 @@ const formDataAndReqBody = [
               area_used: 298.14,
               area_used_unit: 'm2',
             },
-            notes: '2',
+            notes: '6',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
             estimated_yield: 0,
@@ -1871,8 +1868,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -1936,7 +1933,6 @@ const formDataAndReqBody = [
             {
               row_method: {
                 specify_rows: '2',
-                planting_notes: '6',
                 planting_depth: 0.03,
                 planting_depth_unit: 'cm',
                 row_width: 0.04,
@@ -1949,7 +1945,7 @@ const formDataAndReqBody = [
                 plant_spacing: 0.03,
                 plant_spacing_unit: 'cm',
               },
-              notes: '2',
+              notes: '6',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               estimated_yield: 0,
@@ -1962,7 +1958,7 @@ const formDataAndReqBody = [
           ],
           seed_date: '2021-08-09',
           needs_transplant: true,
-          for_cover: false,
+          for_cover: true,
           already_in_ground: true,
           transplant_date: '2021-08-19',
           is_wild: false,
@@ -2021,8 +2017,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -2086,8 +2082,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -2195,8 +2191,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -2260,8 +2256,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -2326,7 +2322,7 @@ const formDataAndReqBody = [
           ],
           seed_date: '2021-08-09',
           needs_transplant: false,
-          for_cover: false,
+          for_cover: true,
           already_in_ground: true,
           is_wild: false,
           termination_date: '2021-09-03',
@@ -2381,8 +2377,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -2445,8 +2441,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -2577,8 +2573,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -2641,8 +2637,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -2776,8 +2772,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -2840,8 +2836,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -2944,8 +2940,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 1,
               number_of_rows_in_bed: 2,
-              length_of_bed: 0.03,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.03,
+              bed_length_unit: 'cm',
               plant_spacing: 0.04,
               plant_spacing_unit: 'cm',
               specify_beds: '3',
@@ -3011,8 +3007,8 @@ const formDataAndReqBody = [
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
-              length_of_bed: 0.06,
-              length_of_bed_unit: 'cm',
+              bed_length: 0.06,
+              bed_length_unit: 'cm',
               plant_spacing: 0.05,
               plant_spacing_unit: 'cm',
               specify_beds: '4',
@@ -3060,8 +3056,8 @@ const formDataAndReqBody = [
               estimated_yield: 0,
               estimated_yield_unit: 'kg',
               pin_coordinate: {
-                lat: 49.26901312980895,
-                lng: -123.18247816752015,
+                lat: 49.26907963598517,
+                lng: -123.18239233683167,
               },
               is_final_planting_management_plan: true,
             },
@@ -3081,4 +3077,21 @@ const formDataAndReqBody = [
   },
 ];
 
-describe('add management plan path test', () => {});
+describe('add management plan path test', () => {
+  describe('getPlantingManagementPlansReqBody test', () => {
+    for (const { test_name, form, expected } of formDataAndReqBody) {
+      test(`${test_name} - test`, () => {
+        expect(getPlantingManagementPlansReqBody(form.crop_management_plan)).toEqual(
+          expected.management_plan.crop_management_plan.planting_management_plans,
+        );
+      });
+    }
+  });
+  describe('getDefaultLocationReqBody test', () => {
+    for (const { test_name, form, expected } of formDataAndReqBody) {
+      test(`${test_name} - test`, () => {
+        expect(getDefaultLocationReqBody(form)).toEqual(expected);
+      });
+    }
+  });
+});

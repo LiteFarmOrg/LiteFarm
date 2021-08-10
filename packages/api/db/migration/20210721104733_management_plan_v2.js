@@ -100,8 +100,6 @@ exports.up = async function(knex) {
     t.boolean('needs_transplant').notNullable().defaultTo(false);
     t.boolean('for_cover');
     t.boolean('is_wild');
-    t.integer('crop_age');
-    t.enu('crop_age_unit', ['week', 'month', 'year']);
   });
 
   const managementPlans = await knex('management_plan');

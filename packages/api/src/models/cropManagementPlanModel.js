@@ -42,8 +42,6 @@ class CropManagementPlanModel extends Model {
         needs_transplant: { type: 'boolean' },
         for_cover: { type: ['boolean', null] },
         is_wild: { type: ['boolean', null] },
-        crop_age: { type: ['integer', null] },
-        crop_age_unit: { type: ['string'], enum: ['week', 'month', 'year'] },
         //TODO: deprecate estimated_revenue
         estimated_revenue: { type: ['number', null] },
       },

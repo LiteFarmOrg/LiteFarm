@@ -43,7 +43,7 @@ Final.args = {
           bed_method: {
             number_of_beds: 10,
             number_of_rows_in_bed: 10,
-            length_of_bed: 10,
+            bed_length: 10,
             plant_spacing: 10,
           },
         },
@@ -69,7 +69,7 @@ Historical.args = {
           bed_method: {
             number_of_beds: 10,
             number_of_rows_in_bed: 10,
-            length_of_bed: 10,
+            bed_length: 10,
             plant_spacing: 10,
           },
         },

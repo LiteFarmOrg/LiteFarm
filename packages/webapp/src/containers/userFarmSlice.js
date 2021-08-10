@@ -150,9 +150,9 @@ const userFarmSlice = createSlice({
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
     },
-    patchFarmSuccess: (state, { payload: farm }) => {
-      const { farm_id, user_id } = farm;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
+    patchFarmSuccess: (state, { payload: userFarm }) => {
+      const { farm_id, user_id } = userFarm;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
     },
     acceptInvitationSuccess: (state, { payload: userFarm }) => {
       addUserFarm(state, { payload: userFarm });

@@ -11,8 +11,7 @@ function TaskNotes({ history, match }) {
   };
 
   const handleCancel = () => {
-    console.log('handleCancelled clicked');
-    // todo: need main task list page path from Brandon
+    history.push('/tasks')
   };
 
   const onSubmit = () => {

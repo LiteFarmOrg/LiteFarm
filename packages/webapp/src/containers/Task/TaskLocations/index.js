@@ -19,10 +19,12 @@ export default function TaskLocations({ history }) {
   }
   const [taskLocations, setTaskLocations] = useState([]);
 
-  const onCancel = () => {};
+  const onCancel = () => {
+    history.push('/tasks');
+  };
 
   const onContinue = () => {
-    console.log('Continue to LF-1568/Does it involve crops?');
+    console.log('Continue to LF-1568/Does it involve crops? or LF-1570');
   };
 
   const onGoBack = () => {

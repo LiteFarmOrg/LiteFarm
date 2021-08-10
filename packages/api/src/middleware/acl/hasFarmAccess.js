@@ -93,8 +93,8 @@ function fromNitrogenSchedule(nitrogenScheduleId) {
 }
 
 async function fromCropManagement(crop_management_plan, next) {
-  const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id);
-  const hasLocationId = locationIds.reduce((hasLocationId, location_id) => hasLocationId || location_id, false);
+  const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id).filter(location_id => location_id);
+  const hasLocationId = locationIds.length;
   if (!hasLocationId) return next();
   const locations = await knex('location').whereIn('location_id', locationIds);
   const farm_id = locations.reduce((farm_id, location) => {

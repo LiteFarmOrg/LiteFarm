@@ -115,9 +115,6 @@ export default function PureNextHarvest({
 }
 
 PureNextHarvest.prototype = {
-  onCancel: PropTypes.func,
-  onGoBack: PropTypes.func,
-  onContinue: PropTypes.func,
   system: PropTypes.string,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,

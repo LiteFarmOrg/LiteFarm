@@ -12,7 +12,7 @@ const taskController = {
         const { task_id } = req.params;
         const { user_id } = req.headers;
         const { assignee_user_id } = req.body;
-        if (!adminRoles.includes(req.role) && user_id !== assignee_user_id) {
+        if (!adminRoles.includes(req.role) && user_id !== assignee_user_id && assignee_user_id !== null) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
         const { farm_id } = await TaskModel.query().select('location.farm_id').whereNotDeleted()
@@ -39,7 +39,7 @@ const taskController = {
       try {
         const { user_id, farm_id } = req.headers;
         const { assignee_user_id, date } = req.body;
-        if (!adminRoles.includes(req.role) && user_id !== assignee_user_id) {
+        if (!adminRoles.includes(req.role) && user_id !== assignee_user_id && assignee_user_id !== null) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
         const tasks = await getTasksForFarm(farm_id);

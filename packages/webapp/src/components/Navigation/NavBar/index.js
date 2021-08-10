@@ -137,7 +137,7 @@ export default function PureNavBar({
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
-  const taskIconClick = () => {}; // <-- route to LF1748
+  const taskIconClick = () => { history.push('/tasks') };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);

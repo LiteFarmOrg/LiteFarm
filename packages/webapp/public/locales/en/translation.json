@@ -1319,8 +1319,10 @@
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
     },
+    "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "PAGE_TITLE": "Tasks",
     "SELECT_DATE": "Select the task date",
+    "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",

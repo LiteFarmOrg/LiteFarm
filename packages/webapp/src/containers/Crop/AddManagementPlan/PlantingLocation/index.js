@@ -18,15 +18,18 @@ export default function PlantingLocation({ history, match }) {
   } = useSelector(hookFormPersistSelector);
 
   return (
-    <HookFormPersistProvider>
-      <PurePlantingLocation
-        isFinalLocationPage={isFinalLocationPage}
-        variety_id={variety_id}
-        history={history}
-        cropLocations={cropLocations}
-        default_initial_location_id={default_initial_location_id}
-      />
+    <>
+      <HookFormPersistProvider>
+        <PurePlantingLocation
+          isFinalLocationPage={isFinalLocationPage}
+          variety_id={variety_id}
+          history={history}
+          cropLocations={cropLocations}
+          default_initial_location_id={default_initial_location_id}
+        />
+      </HookFormPersistProvider>
       {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}
-    </HookFormPersistProvider>
+    </>
   );
 }
+K;

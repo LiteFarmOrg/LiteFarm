@@ -4,6 +4,8 @@ import PurePlantingLocation from '../../../../components/Crop/PlantingLocation';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropLocationsSelector } from '../../../locationSlice';
 import { userFarmSelector } from '../../../userFarmSlice';
+import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import TransplantSpotlight from './TransplantSpotlight';
 
 export default function PlantingLocation({ history, match }) {
   const isFinalLocationPage =
@@ -11,6 +13,10 @@ export default function PlantingLocation({ history, match }) {
   const variety_id = match.params.variety_id;
   const cropLocations = useSelector(cropLocationsSelector);
   const { default_initial_location_id } = useSelector(userFarmSelector);
+  const {
+    crop_management_plan: { already_in_ground, is_wild, for_cover, needs_transplant, is_seed },
+  } = useSelector(hookFormPersistSelector);
+
   return (
     <HookFormPersistProvider>
       <PurePlantingLocation
@@ -20,7 +26,7 @@ export default function PlantingLocation({ history, match }) {
         cropLocations={cropLocations}
         default_initial_location_id={default_initial_location_id}
       />
-      {/*{needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}*/}
+      {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}
     </HookFormPersistProvider>
   );
 }

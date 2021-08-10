@@ -7,7 +7,8 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
-const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location')
+const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
+const faker = require('faker');
 
 const locations = {
   BARN: 'barn',
@@ -234,7 +235,7 @@ describe('Location tests', () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const expiredManagementPlan = mocks.fakeManagementPlan();
-      expiredManagementPlan.harvest_date = expiredManagementPlan.seed_date;
+      expiredManagementPlan.complete_date = faker.date.past();
       await mocks.crop_management_planFactory({
         promisedManagementPlan: mocks.management_planFactory({}, expiredManagementPlan),
         promisedField: [field1],
@@ -265,7 +266,6 @@ describe('Location tests', () => {
       const [managementPlan1] = await mocks.crop_management_planFactory({
         promisedManagementPlan: mocks.management_planFactory({}, {
           ...fakeManagementPlan,
-          harvest_date: fakeManagementPlan.seed_date,
         }), promisedField: [field1],
       });
       const taskData = mocks.fakeTask();

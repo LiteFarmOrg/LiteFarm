@@ -407,8 +407,6 @@ function fakeManagementPlan(defaultData = {}) { // seed date always in past, har
     name: faker.lorem.words(),
     notes: faker.lorem.words(),
     start_date: faker.date.past(),
-    complete_date: faker.date.future(),
-    abandon_date: faker.date.future(),
     ...defaultData,
   };
 }
@@ -442,7 +440,7 @@ async function crop_management_planFactory({
     broadcast_method: fakeBroadcastMethod(),
   }],
 } = {}) {
-  const [{ location_id }, managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
+  const [[{ location_id }], managementPlan] = await Promise.all([promisedField, promisedManagementPlan]);
   const [{ management_plan_id }] = managementPlan;
   const { needs_transplant } = cropManagementPlan;
   needs_transplant && await insertPlantingMethod({
@@ -492,8 +490,6 @@ function fakeCropManagementPlan(defaultData = {}) {
     needs_transplant: faker.random.boolean(),
     for_cover: faker.random.boolean(),
     is_wild: faker.random.boolean(),
-    crop_age: faker.random.number(50),
-    crop_age_unit: faker.random.arrayElement(['week', 'month', 'year']),
     ...defaultData,
   };
 }

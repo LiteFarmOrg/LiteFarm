@@ -13,14 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const managementPlanModel = require('../../models/managementPlanModel');
+const plantingManagementPlanModel = require('../../models/plantingManagementPlanModel');
 const taskModel = require('../../models/taskModel');
 const { raw } = require('objection');
 
 async function validateLocationDependency(req, res, next) {
 
   const location_id = req?.params?.location_id;
-  const managementPlans = await managementPlanModel.query().whereNotDeleted().join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_plan.management_plan_id').where('crop_management_plan.location_id', location_id).whereNull('complete_date').whereNull('abandon_date');
+  const managementPlans = await plantingManagementPlanModel.query()
+    .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
+    .where('planting_management_plan.location_id', location_id).where('management_plan.deleted', false).whereNull('complete_date').whereNull('abandon_date');
+
   if (managementPlans.length) {
     return res.status(400).send('Location cannot be deleted when it has a managementPlan');
   }
@@ -31,8 +34,8 @@ async function validateLocationDependency(req, res, next) {
 
   const managementPlanShifts = await taskModel.query()
     .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-    .join('crop_management_plan', 'crop_management_plan.management_plan_id', 'management_tasks.management_plan_id')
-    .whereNotDeleted().where('crop_management_plan.location_id', location_id).andWhere(raw('task.due_date >= CURRENT_DATE'));
+    .rightJoin('planting_management_plan', 'management_tasks.management_plan_id', 'planting_management_plan.management_plan_id')
+    .whereNotDeleted().where('planting_management_plan.location_id', location_id).andWhere(raw('task.due_date >= CURRENT_DATE'));
   if (managementPlanShifts.length) {
     return res.status(400).send('Location cannot be deleted when it has pending shifts');
   }

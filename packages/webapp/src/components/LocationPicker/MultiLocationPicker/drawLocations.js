@@ -1,6 +1,6 @@
-import { isArea, polygonPath } from '../../containers/Map/constants';
-import { areaStyles, lineStyles } from '../../containers/Map/mapStyles';
-import { defaultColour } from '../../containers/Map/styles.module.scss';
+import { isArea, polygonPath } from '../../../containers/Map/constants';
+import { areaStyles, lineStyles } from '../../../containers/Map/mapStyles';
+import { defaultColour } from '../../../containers/Map/styles.module.scss';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;

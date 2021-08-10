@@ -74,13 +74,13 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
   const planting_management_plans = [];
   if (!already_in_ground && is_seed && !for_cover && needs_transplant) {
     planting_management_plans.push({
-      ...pick(final, plantingManagementPlanPropertiesV0),
-      container_method: getContainerMethodReqBody(final.container_method),
-      is_final_planting_management_plan: true,
+      ...pick(initial, plantingManagementPlanPropertiesV0),
+      container_method: getContainerMethodReqBody(initial.container_method),
+      is_final_planting_management_plan: false,
       planting_method: 'CONTAINER_METHOD',
     });
     planting_management_plans.push(
-      getPlantingMethodReqBody(initial, { is_final_planting_management_plan: false }),
+      getPlantingMethodReqBody(final, { is_final_planting_management_plan: true }),
     );
   } else if (!already_in_ground) {
     planting_management_plans.push(

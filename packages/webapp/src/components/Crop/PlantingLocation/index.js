@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../Form/Button';
-import LocationPicker from '../../LocationPicker';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';

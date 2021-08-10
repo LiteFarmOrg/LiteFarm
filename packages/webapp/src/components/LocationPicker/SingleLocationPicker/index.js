@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import CustomZoom from '../Map/CustomZoom';
-import CustomCompass from '../Map/CustomCompass';
+import CustomZoom from '../../Map/CustomZoom';
+import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../../containers/Map/constants';
 import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
-import MapPin from '../../assets/images/map/map_pin.svg';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   DEFAULT_POLYGON_OPACITY,
   drawCropLocation,

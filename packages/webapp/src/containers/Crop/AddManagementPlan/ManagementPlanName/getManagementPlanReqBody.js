@@ -147,21 +147,6 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
 
 const getCropManagementPlanReqBody = (crop_management_plan) => {
   const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } = crop_management_plan;
-  const test = {
-    needs_transplant,
-    for_cover,
-    already_in_ground,
-    is_wild: already_in_ground ? is_wild : undefined,
-    is_seed: already_in_ground ? undefined : is_seed,
-    seed_date: crop_management_plan.seed_date,
-    plant_date: !already_in_ground && !is_seed ? crop_management_plan.plant_date : undefined,
-    transplant_date: needs_transplant ? crop_management_plan.transplant_date : undefined,
-    germination_date:
-      !already_in_ground && !is_seed ? crop_management_plan.germination_date : undefined,
-    termination_date: for_cover ? crop_management_plan.termination_date : undefined,
-    harvest_date: for_cover ? undefined : crop_management_plan.harvest_date,
-    planting_management_plans: getPlantingManagementPlansReqBody(crop_management_plan),
-  };
   return {
     needs_transplant,
     for_cover,

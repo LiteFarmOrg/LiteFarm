@@ -14,11 +14,34 @@
   },
   "ADD_TASK": {
     "ADD_A_TASK": "MISSING",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
+    "ASSIGN_TASK": "MISSING",
     "ASSIGNEE": "MISSING",
     "CANCEL": "MISSING",
+    "COLLECT_SOIL_SAMPLE": "MISSING",
+    "CREATE_CUSTOM_TASK": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
-    "WAGE_OVERRIDE": "MISSING"
+    "FERTILIZE": "MISSING",
+    "FIELD_WORK": "MISSING",
+    "HARVEST": "MISSING",
+    "IRRIGATE": "MISSING",
+    "MAINTENANCE": "MISSING",
+    "PEST_CONTROL": "MISSING",
+    "PLANT": "MISSING",
+    "RECORD_SOIL_SAMPLE": "MISSING",
+    "SALES": "MISSING",
+    "SCOUT": "MISSING",
+    "SEARCH_INFOI": "MISSING",
+    "SELECT_TASK_TYPE": "MISSING",
+    "SOCIAL_EVENT": "MISSING",
+    "SOIL_AMENDMENT": "MISSING",
+    "TASK": "MISSING",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
+    "TRANSPLANT": "MISSING",
+    "TRANSPORT": "MISSING",
+    "WAGE_OVERRIDE": "MISSING",
+    "WASH_AND_PACK": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
@@ -1270,9 +1293,8 @@
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
-    "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos"
+    "TASKS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Activo",
@@ -1295,8 +1317,28 @@
     "ROWS_TEXT": "filas"
   },
   "TASK": {
+    "ADD_TASK": "MISSING",
     "ADD_TASK_FLOW": "MISSING",
-    "SELECT_DATE": "MISSING"
+    "ALL": "MISSING",
+    "CARD": {
+      "MULTIPLE_CROPS": "MISSING",
+      "MULTIPLE_LOCATIONS": "MISSING"
+    },
+    "NO_TASKS_TO_DISPLAY": "MISSING",
+    "PAGE_TITLE": "MISSING",
+    "SELECT_DATE": "MISSING",
+    "SELECT_TASK_LOCATIONS": "MISSING",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "COMPLETED": "MISSING",
+      "FOR_REVIEW": "MISSING",
+      "LATE": "MISSING",
+      "PLANNED": "MISSING"
+    },
+    "TASKS_COUNT": "MISSING",
+    "TASKS_COUNT_plural": "MISSING",
+    "TODO": "MISSING",
+    "UNASSIGNED": "MISSING"
   },
   "UNIT": {
     "TIME": {

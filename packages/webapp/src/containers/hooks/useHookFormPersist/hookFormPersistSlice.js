@@ -115,6 +115,9 @@ const hookFormPersistSlice = createSlice({
     setInterested: (state, { payload: interested }) => {
       state.formData.interested = interested;
     },
+    setTaskLocationsData: (state, { payload: task_locations }) => {
+      state.formData.task_locations = task_locations;
+    },
   },
 });
 
@@ -134,6 +137,7 @@ export const {
   initEditDocument,
   setCertifierId,
   setInterested,
+  setTaskLocationsData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>

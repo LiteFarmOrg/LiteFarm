@@ -21,6 +21,7 @@ const PureTaskAssignment = ({
   currencySymbol,
   useHookFormPersist,
   persistPaths,
+  persistedFormData,
 }) => {
   const { t } = useTranslation();
   const {
@@ -47,6 +48,8 @@ const PureTaskAssignment = ({
   const WAGE_OVERRIDE = 'wage_override';
   let wage_override = watch(WAGE_OVERRIDE);
   const currently_assigned = watch('assignee');
+
+  console.log(persistedFormData);
 
   useEffect(() => {
     const currentlyAssignedUserId = currently_assigned?.value;
@@ -130,7 +133,7 @@ const PureTaskAssignment = ({
             <div style={{ display: 'table' }}>
               <Input
                 hookFormRegister={register(WAGE_OVERRIDE, {
-                  required: false,
+                  required: true,
                   valueAsNumber: true,
                 })}
                 type={'number'}

@@ -281,8 +281,10 @@ const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDe
 
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
 const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
-
+const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
+const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
+const Tasks = React.lazy(() => import('./containers/Task'));
 
 const Routes = () => {
   useScrollToTop();
@@ -511,11 +513,12 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
-              exact
-              component={TaskDate}
-            />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -688,6 +691,7 @@ const Routes = () => {
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/tasks" exact component={Tasks} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
@@ -790,11 +794,8 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
-              exact
-              component={TaskDate}
-            />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -935,6 +936,8 @@ const Routes = () => {
             <Route path={'/export/:id'} exact component={ExportDownload} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -955,17 +958,13 @@ const Routes = () => {
               exact
               component={ManagementDetail}
             />
-
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-            <Route
-              path="/tasks/:management_plan_id/add_task/task_date"
-              exact
-              component={TaskDate}
-            />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
 
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
@@ -988,6 +987,8 @@ const Routes = () => {
               exact
               component={EditNaturalAreaForm}
             />
+            <Route path="/tasks" exact component={Tasks} />
+
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
@@ -1039,6 +1040,8 @@ const Routes = () => {
             <Route path="/help" exact component={HelpRequest} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

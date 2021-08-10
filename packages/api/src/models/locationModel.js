@@ -39,6 +39,7 @@ class Location extends baseModel {
       additionalProperties: false,
     };
   }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
@@ -168,6 +169,19 @@ class Location extends baseModel {
         join: {
           from: 'location.location_id',
           to: 'water_valve.location_id',
+        },
+        task: {
+          modelClass: require('./taskModel'),
+          relation: Model.ManyToManyRelation,
+          join: {
+            from: 'location.location_id',
+            through: {
+              modelClass: require('./locationTasksModel'),
+              from: 'location_tasks.task_id',
+              to: 'location_tasks.location_id',
+            },
+            to: 'task.task_id',
+          },
         },
       },
     };

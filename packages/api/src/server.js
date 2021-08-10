@@ -67,6 +67,8 @@ const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
 const farmTokenRoute = require('./routes/farmTokenRoute');
 const documentRoute = require('./routes/documentRoute');
+const taskRoute = require('./routes/taskRoute');
+const productRoute = require('./routes/productRoute');
 
 // register API
 const router = promiseRouter();
@@ -134,6 +136,8 @@ app.use(bodyParser.json())
   .use('/showed_spotlight', showedSpotlightRoutes)
   .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
+  .use('/task', taskRoute)
+  .use('/product', productRoute)
 
   // handle errors
   .use((req, res, next) => {

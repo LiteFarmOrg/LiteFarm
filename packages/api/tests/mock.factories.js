@@ -389,7 +389,6 @@ function fakeExpense(defaultData = {}) {
 async function management_planFactory({
   promisedFarm = farmFactory(),
   promisedLocation = locationFactory({ promisedFarm }),
-  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
 } = {}, managementPlan = fakeManagementPlan()) {
@@ -853,25 +852,48 @@ async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = t
 
 function fakeTask(defaultData = {}) {
   return {
-    due_date:faker.date.future(),
+    due_date: faker.date.future(),
     notes: faker.lorem.words(),
-    ...defaultData,
+    happiness: faker.random.arrayElement([0, 1, 2, 3, 4, 5]),
+    ...defaultData
   };
 }
 
-async function fertilizer_taskFactory({
-  promisedTask = taskFactory(),
-  promisedFertilizer = fertilizerFactory(),
-} = {}, fertilizer_task = fakeFertilizerTask()) {
-  const [activityLog, fertilizer] = await Promise.all([promisedTask, promisedFertilizer]);
-  const [{ task_id }] = activityLog;
-  const [{ fertilizer_id }] = fertilizer;
-  return knex('fertilizer_task').insert({ task_id, fertilizer_id, ...fertilizer_task }).returning('*');
+async function productFactory({ promisedFarm = farmFactory() } = {},
+                              product = fakeProduct()){
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('product').insert({...product, ...base, farm_id}).returning('*');
 }
 
-function fakeFertilizerTask(defaultData = {}) {
-  return { quantity_kg: faker.random.number(), ...defaultData };
+function fakeProduct(defaultData = {}){
+  return {
+    name: faker.lorem.words(2),
+    supplier: faker.lorem.words(3),
+    on_permitted_substances_list: faker.random.boolean(),
+    type: faker.random.arrayElement(['soil_amendment', 'pest_control', 'cleaner']),
+    ...defaultData
+  }
+}
 
+async function soil_amendment_taskFactory({
+  promisedTask = taskFactory(),
+  promisedProduct = productFactory(),
+} = {}, soil_amendment_task = fakeSoilAmendmentTask()) {
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] = product;
+  return knex('soil_amendment_task').insert({ task_id, product_id, ...soil_amendment_task }).returning('*');
+}
+
+function fakeSoilAmendmentTask(defaultData = {}) {
+  return {
+    amount: faker.random.number(),
+    purpose: faker.random.arrayElement(['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other']),
+    ...defaultData
+  };
 }
 
 async function management_tasksFactory({
@@ -987,25 +1009,25 @@ function fakeDisease(defaultData = {}) {
 
 async function pest_control_taskFactory({
   promisedTask = taskFactory(),
-  promisedPesticide = pesticideFactory(), promisedDisease = diseaseFactory(),
+  promisedProduct = productFactory(),
 } = {}, pestTask = fakePestControlTask()) {
-  const [activity, pesticide, disease] = await Promise.all([promisedTask, promisedPesticide, promisedDisease]);
-  const [{ task_id }] = activity;
-  const [{ pesticide_id }] = pesticide;
-  const [{ disease_id }] = disease;
+  const [task, product] = await Promise.all([promisedTask, promisedProduct]);
+  const [{ task_id }] = task;
+  const [{ product_id }] = product;
   return knex('pest_control_task').insert({
     task_id,
-    pesticide_id,
-    target_disease_id: disease_id, ...pestTask,
+    product_id,
+    ...pestTask,
   }).returning('*');
 
 }
 
 function fakePestControlTask(defaultData = {}) {
   return {
-    quantity_kg: faker.random.number(2000),
-    type: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
-    ...defaultData,
+    amount: faker.random.number(2000),
+    pest_target: faker.lorem.words(2),
+    control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
+    ...defaultData
   };
 }
 
@@ -1555,14 +1577,15 @@ module.exports = {
   harvestUseTypeFactory, fakeHarvestUseType,
   createDefaultState,
   harvestUseFactory, fakeHarvestUse,
-  fertilizer_taskFactory, fakeFertilizerTask,
+  productFactory, fakeProduct,
+  soil_amendment_taskFactory, fakeSoilAmendmentTask,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,
   pest_control_taskFactory, fakePestControlTask,
   harvest_taskFactory, fakeHarvestTask,
   plant_taskFactory, fakePlantTask,
   field_work_taskFactory, fakeFieldWorkTask,
-  soil_taskFactory, fakeScoutingTask,
+  soil_taskFactory, fakeSoilTask,
   irrigation_taskFactory, fakeIrrigationTask,
   scouting_taskFactory, fakeScoutingTask,
   shiftFactory, fakeShift,

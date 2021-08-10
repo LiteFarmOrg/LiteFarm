@@ -64,8 +64,7 @@ function TaskManagement({ history, match }) {
     history.push(persistPaths[0]);
   };
   const handleCancel = () => {
-    // todo: when Brandon has main task management path
-    console.log('handleCancel called');
+    history.push('/tasks')
   };
   const onError = () => {
     console.log('onError called');

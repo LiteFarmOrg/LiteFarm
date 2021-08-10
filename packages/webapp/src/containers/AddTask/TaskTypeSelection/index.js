@@ -18,11 +18,11 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const handleGoBack = () => {
-    history.goBack();
+    history.push('/tasks')
   };
 
   const handleCancel = () => {
-    console.log('cancel called');
+    history.push('/tasks')
   };
 
   const onError = () => {};

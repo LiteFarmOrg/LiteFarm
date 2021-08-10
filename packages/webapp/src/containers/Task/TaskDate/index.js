@@ -13,7 +13,7 @@ function TaskDate({ history, match }) {
   }
 
   const onCancel = () => {
-    console.log('Go to management page');
+    history.push('/tasks');
   }
 
   return (

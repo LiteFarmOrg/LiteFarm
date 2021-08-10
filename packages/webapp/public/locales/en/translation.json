@@ -1319,8 +1319,10 @@
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
     },
+    "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "PAGE_TITLE": "Tasks",
     "SELECT_DATE": "Select the task date",
+    "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",
@@ -1331,8 +1333,7 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned",
-    "SELECT_TASK_LOCATIONS": "Select the task location(s)"
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

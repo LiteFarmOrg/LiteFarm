@@ -61,7 +61,6 @@ function TaskManagement({ history, match }) {
     console.log('onSave called'); // todo: when POST is done
   };
   const handleGoBack = () => {
-    // add goBackPath to persistPaths array
     history.push(persistPaths[0]);
   };
   const handleCancel = () => {

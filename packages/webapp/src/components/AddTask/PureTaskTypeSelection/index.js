@@ -44,13 +44,12 @@ const PureTaskTypeSelection = ({
   useHookFormPersist(persistedPaths, getValues);
   const TASK_TYPE = 'task_type';
   register(TASK_TYPE, { required: true });
-  const selected_task_type = watch(TASK_TYPE);
+  let selected_task_type = watch(TASK_TYPE);
+  let task = persistedFormData?.task_type;
 
   const onTileClick = (task) => {
     setValue(TASK_TYPE, task);
-    //handleSubmit(onContinue, onError);
     onContinue();
-    //history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   return (
@@ -77,7 +76,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'collect_soil_sample' && styles.typeContainerSelected,
+                task === 'collect_soil_sample' && styles.typeContainerSelected,
               )}
             >
               <CollectSoilSample />
@@ -94,7 +93,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'fertilize' && styles.typeContainerSelected,
+                task === 'fertilize' && styles.typeContainerSelected,
               )}
             >
               <Fertilize />
@@ -111,7 +110,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'field_work' && styles.typeContainerSelected,
+                task === 'field_work' && styles.typeContainerSelected,
               )}
             >
               <FieldWork />
@@ -128,7 +127,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'harvest' && styles.typeContainerSelected,
+                task === 'harvest' && styles.typeContainerSelected,
               )}
             >
               <Harvest />
@@ -145,7 +144,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'irrigate' && styles.typeContainerSelected,
+                task === 'irrigate' && styles.typeContainerSelected,
               )}
             >
               <Irrigate />
@@ -162,7 +161,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'maintenance' && styles.typeContainerSelected,
+                task === 'maintenance' && styles.typeContainerSelected,
               )}
             >
               <Maintenance />
@@ -179,7 +178,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'pest_control' && styles.typeContainerSelected,
+                task === 'pest_control' && styles.typeContainerSelected,
               )}
             >
               <PestControl />
@@ -196,7 +195,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'plant' && styles.typeContainerSelected,
+                task === 'plant' && styles.typeContainerSelected,
               )}
             >
               <Plant />
@@ -213,7 +212,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'record_soil_sample' && styles.typeContainerSelected,
+                task === 'record_soil_sample' && styles.typeContainerSelected,
               )}
             >
               <RecordSoilSample />
@@ -230,7 +229,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'sales' && styles.typeContainerSelected,
+                task === 'sales' && styles.typeContainerSelected,
               )}
             >
               <Sales />
@@ -247,7 +246,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'scout' && styles.typeContainerSelected,
+                task === 'scout' && styles.typeContainerSelected,
               )}
             >
               <Scout />
@@ -264,7 +263,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'social_event' && styles.typeContainerSelected,
+                task === 'social_event' && styles.typeContainerSelected,
               )}
             >
               <SocialEvent />
@@ -281,7 +280,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'soil_amendment' && styles.typeContainerSelected,
+                task === 'soil_amendment' && styles.typeContainerSelected,
               )}
             >
               <SoilAmendment />
@@ -298,7 +297,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'transplant' && styles.typeContainerSelected,
+                task === 'transplant' && styles.typeContainerSelected,
               )}
             >
               <Transplant />
@@ -315,7 +314,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'transport' && styles.typeContainerSelected,
+                task === 'transport' && styles.typeContainerSelected,
               )}
             >
               <Transport />
@@ -332,7 +331,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'wash_and_pack' && styles.typeContainerSelected,
+                task === 'wash_and_pack' && styles.typeContainerSelected,
               )}
             >
               <WashAndPack />

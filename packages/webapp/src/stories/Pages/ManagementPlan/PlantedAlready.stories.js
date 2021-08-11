@@ -22,12 +22,12 @@ Seedling.args = {
     },
   },
   useHookFormPersist: () => {},
-  onSubmit: (data) => {
-    console.log(data);
-  },
-  onGoBack: () => {},
-  onCancel: () => {},
   system: 'metric',
+  cropVariety: {
+    needs_transplant: true,
+    can_be_cover_crop: true,
+    crop_variety_id: 'crop_variety_id',
+  },
 };
 Seedling.parameters = {
   ...chromaticSmallScreen,
@@ -43,12 +43,12 @@ WildCrop.args = {
     },
   },
   useHookFormPersist: () => {},
-  onSubmit: (data) => {
-    console.log(data);
-  },
-  onGoBack: () => {},
-  onCancel: () => {},
   system: 'imperial',
+  cropVariety: {
+    needs_transplant: false,
+    can_be_cover_crop: false,
+    crop_variety_id: 'crop_variety_id',
+  },
 };
 WildCrop.parameters = {
   ...chromaticSmallScreen,

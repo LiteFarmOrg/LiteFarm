@@ -232,14 +232,12 @@ export default function PurePlantedAlready({
 }
 
 PurePlantedAlready.prototype = {
-  onSubmit: PropTypes.func,
-  onGoBack: PropTypes.func,
-  onCancel: PropTypes.func,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   cropVariety: PropTypes.shape({
     needs_transplant: PropTypes.bool,
     can_be_cover_crop: PropTypes.bool,
+    crop_variety_id: PropTypes.string,
   }),
 };

@@ -217,7 +217,7 @@ function PureBroadcastPlan({
             hookFormGetValue={getValues}
             hookFromWatch={watch}
             control={control}
-            required={isFinalPage}
+            required={false}
           />
           <Unit
             register={register}

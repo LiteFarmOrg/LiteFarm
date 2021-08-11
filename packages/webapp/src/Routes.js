@@ -285,6 +285,7 @@ const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskType
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
+const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 
 const Routes = () => {
   useScrollToTop();
@@ -519,6 +520,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -937,7 +939,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
-
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1041,7 +1043,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
-
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

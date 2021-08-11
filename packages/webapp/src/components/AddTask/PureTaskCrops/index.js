@@ -9,10 +9,29 @@ import PureCropTile from '../../CropTile';
 import CropStatusInfoBox from '../../CropCatalogue/CropStatusInfoBox';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 
-const PureTaskCrops = ({ handleGoBack, handleCancel, onError, persistedFormData, onSubmit }) => {
+const PureTaskCrops = ({
+  handleGoBack,
+  handleCancel,
+  onError,
+  persistedFormData,
+  onContinue,
+  persistedPaths,
+  useHookFormPersist,
+}) => {
   const { t } = useTranslation();
 
-  const { handleSubmit } = useForm({ mode: 'onChange' });
+  const {
+    handleSubmit,
+    getValues,
+    watch,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  useHookFormPersist(getValues, persistedPaths);
 
   return (
     <>
@@ -24,7 +43,7 @@ const PureTaskCrops = ({ handleGoBack, handleCancel, onError, persistedFormData,
             </Button>
           </div>
         }
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit(onContinue, onError)}
       >
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}

@@ -8,7 +8,7 @@ export default {
   decorators: componentDecorators,
 };
 
-const Template = (args) => <CardWithStatus style={{ height: '100px' }} {...args} />;
+const Template = (args) => <CardWithStatus classes={{ card: { height: '100px' } }} {...args} />;
 export const TaskForReview = Template.bind({});
 TaskForReview.args = {
   color: 'secondary',
@@ -36,7 +36,7 @@ TaskPlanned.args = {
 
 export const TaskPlannedActive = Template.bind({});
 TaskPlannedActive.args = {
-  color: 'secondary',
+  color: 'active',
   children: 'planned active',
   status: 'planned',
   label: 'Planned',
@@ -64,4 +64,38 @@ TaskCompleted.args = {
   children: 'completed',
   status: 'completed',
   label: 'Completed',
+  score: 0,
+};
+
+export const TaskCompletedActive = Template.bind({});
+TaskCompletedActive.args = {
+  color: 'completedActive',
+  children: 'completed',
+  status: 'completed',
+  label: 'Completed',
+  score: 1,
+};
+
+export const TaskAbandoned = Template.bind({});
+TaskAbandoned.args = {
+  color: 'completed',
+  children: 'completed',
+  status: 'abandoned',
+  label: 'Abandoned',
+};
+
+export const TaskAbandonedActive = Template.bind({});
+TaskAbandonedActive.args = {
+  color: 'completedActive',
+  children: 'completed',
+  status: 'abandoned',
+  label: 'Abandoned',
+};
+
+export const TaskDisabled = Template.bind({});
+TaskDisabled.args = {
+  color: 'disabled',
+  children: 'Disabled',
+  status: 'disabled',
+  label: 'Disabled',
 };

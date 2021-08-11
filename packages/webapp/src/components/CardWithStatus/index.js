@@ -20,14 +20,14 @@ export function CardWithStatus({
   return (
     <div className={styles.cardContainer} style={{ ...classes.container, ...style }}>
       <div className={styles.statusLabel}>
-        <StatusLabel status={status} label={label} />
+        <StatusLabel color={status} label={label} />
         {[0, 1, 2, 3, 4, 5].includes(score) && <Rating stars={score} />}
       </div>
       <Card
         color={color}
         onClick={onClick}
         style={{
-          cursor: onClick ? 'pointer' : 'default',
+          cursor: onClick && color !== 'disabled' ? 'pointer' : 'default',
           ...classes.card,
         }}
         {...props}
@@ -39,7 +39,7 @@ export function CardWithStatus({
 }
 
 CardWithStatus.propTypes = {
-  color: PropTypes.oneOf(['secondary', 'active', 'completed', 'completedActive']),
+  color: PropTypes.oneOf(['secondary', 'active', 'completed', 'completedActive', 'disabled']),
   style: PropTypes.object,
   status: PropTypes.oneOf(['active', 'planned', 'late', 'completed', 'abandoned', 'disabled']),
   label: PropTypes.string,

@@ -942,7 +942,6 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
-            `
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

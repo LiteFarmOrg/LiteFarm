@@ -31,7 +31,7 @@ class TaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['due_date', 'type'],
+      required: ['due_date', 'type', 'happiness'],
 
       properties: {
         task_id: { type: 'integer' },
@@ -44,12 +44,12 @@ class TaskModel extends BaseModel {
         coordinates: { type: 'object' },
         duration: { type: 'number' },
         wage_at_moment: { type: 'number' },
-        happiness: { type: 'integer' },
+        happiness: { type: 'integer', minimum: 0, maximum: 5 },
         planned_time: { type: 'date-time' },
-        completed_time: { type: 'date-time' },
-        late_time: { type: 'date-time' },
-        for_review_time: { type: 'date-time' },
-        abandoned_time: { type: 'date-time' },
+        completed_time: { type: ['date-time', null] },
+        late_time: { type: ['date-time', null] },
+        for_review_time: { type: ['date-time', null] },
+        abandoned_time: { type: ['date-time', null] },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -59,12 +59,12 @@ class TaskModel extends BaseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fertilizer_task: {
+      soil_amendment_task: {
         relation: Model.HasOneRelation,
-        modelClass: require('./fertilizerTaskModel'),
+        modelClass: require('./soilAmendmentTaskModel'),
         join: {
           from: 'task.task_id',
-          to: 'fertilizer_task.task_id',
+          to: 'soil_amendment_task.task_id',
         },
       },
       pest_control_task: {

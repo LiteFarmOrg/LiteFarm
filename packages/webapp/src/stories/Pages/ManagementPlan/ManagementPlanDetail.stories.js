@@ -21,6 +21,10 @@ Primary.args = {
     crop_variety_photo_url: '',
     supplier: 'Supplier',
   },
+  plan: {
+    name: 'name',
+    notes: 'notes',
+  },
   isAdmin: true,
 };
 Primary.parameters = {

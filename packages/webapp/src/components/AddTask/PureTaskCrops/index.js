@@ -8,6 +8,11 @@ import Button from '../../Form/Button';
 import PureCropTile from '../../CropTile';
 import CropStatusInfoBox from '../../CropCatalogue/CropStatusInfoBox';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
+import { useSelector } from 'react-redux';
+import {
+  managementPlansByLocationIdSelector,
+  filterManagementPlansByLocationId,
+} from '../../../containers/managementPlanSlice';
 
 const PureTaskCrops = ({
   handleGoBack,
@@ -32,6 +37,15 @@ const PureTaskCrops = ({
   });
 
   useHookFormPersist(getValues, persistedPaths);
+
+  console.log(persistedFormData);
+  console.log(persistedFormData.task_locations);
+
+  let location_id = persistedFormData.task_locations[0];
+  console.log(location_id);
+
+  const managementPlans = useSelector(managementPlansByLocationIdSelector(location_id));
+  console.log(managementPlans);
 
   return (
     <>

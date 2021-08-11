@@ -2,12 +2,13 @@ import PureTaskCrops from '../../../components/AddTask/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getManagementPlans } from '../../saga';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { managementPlansByLocationIdSelector } from '../../managementPlanSlice';
 
 function TaskCrops({ history, match }) {
   const dispatch = useDispatch();
   const onContinuePath = '/add_task/task_notes';
-  const goBackPath = '/add_task/task_crops';
+  const goBackPath = '/add_task/task_locations';
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
     history.push(persistedPaths[0]);

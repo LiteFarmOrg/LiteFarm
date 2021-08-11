@@ -18,7 +18,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const assigned = true;
+  const assigned = isAssigned;
   const self = { label: `${user.first_name} ${user.last_name}`, value: user.user_id };
 
   let workerOptions = isAdmin
@@ -28,16 +28,14 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       }))
     : [self];
 
-  const assigned_worker = workerOptions[0];
+  const unassigned = { label: 'Unassigned', value: null };
 
-  const [worker, setWorker] = useState(assigned ? assigned_worker : null);
+  const [worker, setWorker] = useState(assigned ? unassigned : self);
   const [assignAll, setAssignAll] = useState(false);
 
-  workerOptions.unshift({ label: 'Unassigned', value: null });
+  workerOptions.unshift(unassigned);
 
   const onAssign = () => {
-    console.log(worker);
-    console.log(assignAll);
     if (assignAll) {
       dispatch(
         assignTasksOnDate({
@@ -83,7 +81,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       icon={<Person />}
     >
       <ReactSelect
-        defaultValue={isAssigned ? workerOptions[0] : self}
+        defaultValue={isAssigned ? unassigned : self}
         label={t('ADD_TASK.ASSIGNEE')}
         options={workerOptions}
         onChange={setWorker}

@@ -3,11 +3,19 @@ import Form from '../../../components/Form';
 import MultiStepPageTitle from '../../../components/PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input, { getInputErrors } from '../../Form/Input';
 
-const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persistedFormData }) => {
+const PureTaskNotes = ({
+  handleGoBack,
+  handleCancel,
+  onSubmit,
+  onError,
+  persistedFormData,
+  useHookFormPersist,
+  persistedPaths,
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -15,14 +23,20 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persiste
     watch,
     register,
     setValue,
+    getValues,
+    control,
     formState: { errors, isValid },
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      task_notes: persistedFormData?.task_notes,
+    },
+  });
 
+  useHookFormPersist(getValues, persistedPaths);
   const TASK_NOTES = 'task_notes';
+  register(TASK_NOTES, { required: false });
   let task_notes = watch(TASK_NOTES);
-
   const task = persistedFormData.task_type.toUpperCase();
-  console.log(task);
 
   return (
     <>
@@ -53,18 +67,25 @@ const PureTaskNotes = ({ handleGoBack, handleCancel, onSubmit, onError, persiste
             t('ADD_TASK.TASK')}
         </Main>
 
-        <Input
-          toolTipContent={t('ADD_TASK.SEARCH_INFOI')}
-          label={t('LOG_COMMON.NOTES')}
-          optional={true}
-          style={{ paddingTop: '20px' }}
-          hookFormRegister={register(TASK_NOTES, {
-            required: false,
-            valueAsNumber: false,
-          })}
-          errors={getInputErrors(errors, TASK_NOTES)}
-          name={TASK_NOTES}
-          hookFormSetValue-={setValue}
+        <Controller
+          control={control}
+          name={'task_notes'}
+          render={({ field }) => (
+            <Input
+              toolTipContent={t('ADD_TASK.SEARCH_INFOI')}
+              label={t('LOG_COMMON.NOTES')}
+              optional={true}
+              style={{ paddingTop: '20px' }}
+              hookFormRegister={register(TASK_NOTES, {
+                required: false,
+                valueAsNumber: false,
+              })}
+              errors={getInputErrors(errors, TASK_NOTES)}
+              name={TASK_NOTES}
+              hookFormSetValue-={setValue}
+              {...field}
+            />
+          )}
         />
       </Form>
     </>

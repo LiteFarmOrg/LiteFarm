@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 
@@ -11,6 +11,7 @@ export const getTask = (obj) => {
     'notes',
     'completion_notes',
     'owner_user_id',
+    'taskType',
     'type',
     'assignee_user_id',
     'coordinates',
@@ -28,7 +29,6 @@ export const getTask = (obj) => {
 };
 
 const addManyTasks = (state, { payload: tasks }) => {
-  console.log(tasks);
   state.loading = false;
   state.error = null;
   state.loaded = true;
@@ -36,6 +36,20 @@ const addManyTasks = (state, { payload: tasks }) => {
     state,
     tasks.map((task) => getTask(task)),
   );
+};
+
+const updateOneTask = (state, { payload: task }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateOne(state, task);
+};
+
+const updateManyTasks = (state, { payload: tasks }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskAdapter.updateMany(state, tasks);
 };
 
 const taskAdapter = createEntityAdapter({
@@ -53,6 +67,8 @@ const taskSlice = createSlice({
     onLoadingTasksStart: onLoadingStart,
     onLoadingTasksFail: onLoadingFail,
     getTasksSuccess: addManyTasks,
+    putTaskSuccess: updateOneTask,
+    putTasksSuccess: updateManyTasks,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -60,12 +76,19 @@ export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
   getTasksSuccess,
+  putTaskSuccess,
+  putTasksSuccess,
   deleteTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
 export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
+export const taskSelectors = taskAdapter.getSelectors(
+  (state) => state.entitiesReducer[taskSlice.name],
+);
 
-const taskSelectors = taskAdapter.getSelectors((state) => state.entitiesReducer[taskSlice.name]);
+export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, entities }) => {
+  return ids.map((id) => entities[id]);
+});
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

@@ -5,9 +5,9 @@ import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '.
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
-import { getLanguageFromLocalStorage } from '../../util';
 import { ENTER_PASSWORD_PAGE } from '../CustomSignUp/constants';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const loginUrl = () => `${url}/google`;
 

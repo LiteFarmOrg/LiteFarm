@@ -20,9 +20,10 @@ import history from '../../history';
 import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
 import i18n from '../../locales/i18n';
-import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
+import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;

@@ -5,7 +5,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { canShowSelectionSelector, mapLocationsSelector } from '../../mapSlice';
 
-export default function LocationSelectionModal({ history }) {
+export default function LocationSelectionModal({ history, selectingOnly }) {
   const { dismissSelectionModal } = useSelectionHandler();
   const showSelection = useSelector(canShowSelectionSelector);
   const locations = useSelector(mapLocationsSelector);
@@ -14,7 +14,11 @@ export default function LocationSelectionModal({ history }) {
       {showSelection && (
         <div className={styles.selectionModal} onClick={dismissSelectionModal}>
           <div className={styles.selectionContainer}>
-            <PureSelectionHandler locations={locations} history={history} />
+            <PureSelectionHandler
+              locations={locations}
+              history={history}
+              selectingOnly={selectingOnly}
+            />
           </div>
         </div>
       )}

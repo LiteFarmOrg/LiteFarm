@@ -13,8 +13,8 @@ function FullYearCalendarView({
   harvest_date,
   transplant_date,
   termination_date,
-  planting_date,
-  initial
+  plant_date,
+  initial,
 }) {
   const { t } = useTranslation();
   const [customYearSelected, setCustomYear] = useState(null);
@@ -26,7 +26,7 @@ function FullYearCalendarView({
     harvest_date,
     transplant_date,
     termination_date,
-    planting_date
+    plant_date,
   };
 
   const initDate = getNewDate(stagesDates[initial]);
@@ -37,23 +37,22 @@ function FullYearCalendarView({
   const initYear = initDate.getFullYear();
   const endYear = endDate.getFullYear();
 
-
   const dateKeys = useMemo(
     () =>
       [
         'seed_date',
-        'planting_date',
+        'plant_date',
         'germination_date',
         'transplant_date',
         'harvest_date',
         'termination_date',
       ].filter((dateKey) => stagesDates[dateKey] !== undefined),
-    [seed_date, germination_date, harvest_date, transplant_date, termination_date, planting_date],
+    [seed_date, germination_date, harvest_date, transplant_date, termination_date, plant_date],
   );
 
   const stageToColor = {
     seed_date: '#037A0F',
-    planting_date: '#037A0F',
+    plant_date: '#037A0F',
     germination_date: '#AA5F04',
     harvest_date: '#8F26F0',
     transplant_date: '#0669E1',
@@ -61,7 +60,7 @@ function FullYearCalendarView({
   };
   const stageToTranslation = {
     seed_date: t('CROP_MANAGEMENT.SEED'),
-    planting_date: t('CROP_MANAGEMENT.PLANT'),
+    plant_date: t('CROP_MANAGEMENT.PLANT'),
     germination_date: t('CROP_MANAGEMENT.GERMINATE'),
     harvest_date: t('CROP_MANAGEMENT.HARVEST'),
     transplant_date: t('CROP_MANAGEMENT.TRANSPLANT'),
@@ -102,11 +101,8 @@ function FullYearCalendarView({
       <div className={styles.stagesBox}>
         {dateKeys.map((stageKey) => (
           <div className={styles.flexStage} key={stageKey}>
-            <div
-              className={styles.colorBox}
-              style={{ backgroundColor: stageToColor[stageKey] }}
-            />
-            <div style={{width: '100%', textAlign: 'center'}}>
+            <div className={styles.colorBox} style={{ backgroundColor: stageToColor[stageKey] }} />
+            <div style={{ width: '100%', textAlign: 'center' }}>
               <span className={styles.colorBoxFont}>{stageToTranslation[stageKey]}</span>
             </div>
           </div>

@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { AddLink, Main } from '../../Typography';
 import styles from './styles.module.scss';
-import { ReactComponent as CollectSoilSample } from '../../../assets/images/AddTask/Collect Soil Sample.svg';
-import { ReactComponent as Custom } from '../../../assets/images/AddTask/Custom.svg';
-import { ReactComponent as Transport } from '../../../assets/images/AddTask/Transport.svg';
-import { ReactComponent as Fertilize } from '../../../assets/images/AddTask/Fertilize.svg';
-import { ReactComponent as FieldWork } from '../../../assets/images/AddTask/Field Work.svg';
-import { ReactComponent as Harvest } from '../../../assets/images/AddTask/Harvest.svg';
-import { ReactComponent as Irrigate } from '../../../assets/images/AddTask/Irrigate.svg';
-import { ReactComponent as Maintenance } from '../../../assets/images/AddTask/Maintenance.svg';
-import { ReactComponent as PestControl } from '../../../assets/images/AddTask/Pest Control.svg';
-import { ReactComponent as Plant } from '../../../assets/images/AddTask/Plant.svg';
-import { ReactComponent as RecordSoilSample } from '../../../assets/images/AddTask/Record Soil Sample.svg';
-import { ReactComponent as Sales } from '../../../assets/images/AddTask/Sales.svg';
-import { ReactComponent as Scout } from '../../../assets/images/AddTask/Scout.svg';
-import { ReactComponent as SocialEvent } from '../../../assets/images/AddTask/Social Event.svg';
-import { ReactComponent as SoilAmendment } from '../../../assets/images/AddTask/Soil Amendment.svg';
-import { ReactComponent as Transplant } from '../../../assets/images/AddTask/Transplant.svg';
-import { ReactComponent as WashAndPack } from '../../../assets/images/AddTask/Wash _ Pack.svg';
+import { ReactComponent as CollectSoilSample } from '../../../assets/images/task/CollectSoilSample.svg';
+import { ReactComponent as Transport } from '../../../assets/images/task/Transport.svg';
+import { ReactComponent as Fertilize } from '../../../assets/images/task/Fertilize.svg';
+import { ReactComponent as FieldWork } from '../../../assets/images/task/FieldWork.svg';
+import { ReactComponent as Harvest } from '../../../assets/images/task/Harvest.svg';
+import { ReactComponent as Irrigate } from '../../../assets/images/task/Irrigate.svg';
+import { ReactComponent as Maintenance } from '../../../assets/images/task/Maintenance.svg';
+import { ReactComponent as PestControl } from '../../../assets/images/task/PestControl.svg';
+import { ReactComponent as Plant } from '../../../assets/images/task/Plant.svg';
+import { ReactComponent as RecordSoilSample } from '../../../assets/images/task/RecordSoilSample.svg';
+import { ReactComponent as Sales } from '../../../assets/images/task/Sales.svg';
+import { ReactComponent as Scout } from '../../../assets/images/task/Scout.svg';
+import { ReactComponent as SocialEvent } from '../../../assets/images/task/SocialEvent.svg';
+import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
+import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
+import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 
@@ -41,16 +40,15 @@ const PureTaskTypeSelection = ({
     mode: 'onChange',
   });
 
-  useHookFormPersist(persistedPaths, getValues);
+  useHookFormPersist(getValues, persistedPaths);
   const TASK_TYPE = 'task_type';
   register(TASK_TYPE, { required: true });
-  const selected_task_type = watch(TASK_TYPE);
+  let selected_task_type = watch(TASK_TYPE);
+  let task = persistedFormData?.task_type;
 
   const onTileClick = (task) => {
     setValue(TASK_TYPE, task);
-    //handleSubmit(onContinue, onError);
     onContinue();
-    //history.push('/tasks/:management_plan_id/add_task/task_date');
   };
 
   return (
@@ -77,7 +75,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'collect_soil_sample' && styles.typeContainerSelected,
+                task === 'collect_soil_sample' && styles.typeContainerSelected,
               )}
             >
               <CollectSoilSample />
@@ -94,7 +92,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'fertilize' && styles.typeContainerSelected,
+                task === 'fertilize' && styles.typeContainerSelected,
               )}
             >
               <Fertilize />
@@ -111,7 +109,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'field_work' && styles.typeContainerSelected,
+                task === 'field_work' && styles.typeContainerSelected,
               )}
             >
               <FieldWork />
@@ -128,7 +126,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'harvest' && styles.typeContainerSelected,
+                task === 'harvest' && styles.typeContainerSelected,
               )}
             >
               <Harvest />
@@ -145,7 +143,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'irrigate' && styles.typeContainerSelected,
+                task === 'irrigate' && styles.typeContainerSelected,
               )}
             >
               <Irrigate />
@@ -162,7 +160,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'maintenance' && styles.typeContainerSelected,
+                task === 'maintenance' && styles.typeContainerSelected,
               )}
             >
               <Maintenance />
@@ -179,7 +177,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'pest_control' && styles.typeContainerSelected,
+                task === 'pest_control' && styles.typeContainerSelected,
               )}
             >
               <PestControl />
@@ -196,7 +194,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'plant' && styles.typeContainerSelected,
+                task === 'plant' && styles.typeContainerSelected,
               )}
             >
               <Plant />
@@ -213,7 +211,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'record_soil_sample' && styles.typeContainerSelected,
+                task === 'record_soil_sample' && styles.typeContainerSelected,
               )}
             >
               <RecordSoilSample />
@@ -230,7 +228,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'sales' && styles.typeContainerSelected,
+                task === 'sales' && styles.typeContainerSelected,
               )}
             >
               <Sales />
@@ -247,7 +245,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'scout' && styles.typeContainerSelected,
+                task === 'scout' && styles.typeContainerSelected,
               )}
             >
               <Scout />
@@ -264,7 +262,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'social_event' && styles.typeContainerSelected,
+                task === 'social_event' && styles.typeContainerSelected,
               )}
             >
               <SocialEvent />
@@ -281,7 +279,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'soil_amendment' && styles.typeContainerSelected,
+                task === 'soil_amendment' && styles.typeContainerSelected,
               )}
             >
               <SoilAmendment />
@@ -298,7 +296,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'transplant' && styles.typeContainerSelected,
+                task === 'transplant' && styles.typeContainerSelected,
               )}
             >
               <Transplant />
@@ -315,7 +313,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'transport' && styles.typeContainerSelected,
+                task === 'transport' && styles.typeContainerSelected,
               )}
             >
               <Transport />
@@ -332,7 +330,7 @@ const PureTaskTypeSelection = ({
             <div
               className={clsx(
                 styles.typeContainer,
-                selected_task_type === 'wash_and_pack' && styles.typeContainerSelected,
+                task === 'wash_and_pack' && styles.typeContainerSelected,
               )}
             >
               <WashAndPack />

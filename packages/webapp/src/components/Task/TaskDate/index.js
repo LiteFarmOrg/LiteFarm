@@ -3,10 +3,10 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
-import { Label } from '../../Typography';
+import { Main } from '../../Typography';
 
 export default function PureTaskDate({
   onContinue,
@@ -20,8 +20,6 @@ export default function PureTaskDate({
   const {
     register,
     handleSubmit,
-    setValue,
-    control,
     getValues,
     formState: { isValid, errors },
   } = useForm({
@@ -32,9 +30,8 @@ export default function PureTaskDate({
 
   const progress = 28;
 
-  // TODO - Add real paths
-  const persistedPath = ['LF-1564', 'LF-1567'];
-  useHookFormPersist(persistedPath, getValues);
+  const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
+  useHookFormPersist(getValues, persistedPath);
 
   const TASK_DATE = 'task_date';
 
@@ -58,7 +55,7 @@ export default function PureTaskDate({
         value={progress}
       />
 
-      <Label style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Label>
+      <Main style={{ marginBottom: '16px' }}>{t('TASK.SELECT_DATE')}</Main>
 
       <Input
         type={'date'}

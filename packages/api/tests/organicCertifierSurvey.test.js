@@ -504,22 +504,29 @@ describe('organicCertifierSurvey Tests', () => {
     function managementPlanDates(start, seed, completed=null, abandoned = null) {
       return {
         start_date: new Date(start),
-        seed_date: new Date(seed),
-        completed_date: completed ? new Date(completed) : null,
-        abandoned_date: abandoned ? new Date(abandoned) : null
+        complete_date: completed ? new Date(completed) : null,
+        abandon_date: abandoned ? new Date(abandoned) : null,
       }
     }
     test('Should get records that were active before the to_date and NOT completed before the from date' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
-      const cropVariety = await mocks.crop_varietyFactory({ promisedFarm : [ { farm_id } ]}, mocks.fakeCropVariety({organic: true}));
-      const completeBeforeTheToDate = await mocks.management_planFactory({
-        promisedFarm: [ { farm_id }],
-        promisedCropVariety: cropVariety
-      }, mocks.fakeManagementPlan( {...managementPlanDates('2021-01-20','2021-01-01', '2021-01-30') }));
-      const notCompletedOrAbandoned = await mocks.management_planFactory({
-        promisedFarm: [ { farm_id }],
-        promisedCropVariety: cropVariety
-      }, mocks.fakeManagementPlan({ ...managementPlanDates('2021-03-22','2021-03-22') }));
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
+      const completeBeforeTheToDate = await mocks.crop_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedCropVariety: cropVariety,
+        promisedManagementPlan: mocks.management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCropVariety: cropVariety,
+        }, mocks.fakeManagementPlan(managementPlanDates('2021-01-20', '2021-01-01', '2021-01-30'))),
+      }, mocks.fakeCropManagementPlan({ seed_date: new Date('2021-01-01') }));
+      const notCompletedOrAbandoned = await mocks.crop_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedCropVariety: cropVariety,
+        promisedManagementPlan: mocks.management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCropVariety: cropVariety,
+        }, mocks.fakeManagementPlan(managementPlanDates('2021-03-22', '2021-03-22'))),
+      }, mocks.fakeCropManagementPlan({ seed_date: new Date('2021-03-22') }));
       getExportRequest({
         from_date: '2021-02-01',
         to_date: '2021-05-20',
@@ -533,16 +540,24 @@ describe('organicCertifierSurvey Tests', () => {
     });
 
     test('Should get records that were active before the to_date and NOT abandoned' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
-      const cropVariety = await mocks.crop_varietyFactory({ promisedFarm : [ { farm_id } ]}, mocks.fakeCropVariety({organic: true}));
-      const completeBeforeTheToDate = await mocks.management_planFactory({
-        promisedFarm: [ { farm_id }],
-        promisedCropVariety: cropVariety
-      }, mocks.fakeManagementPlan( {...managementPlanDates('2021-01-20','2021-01-01', null, '2021-01-30') }));
-      const notCompletedOrAbandoned = await mocks.management_planFactory({
-        promisedFarm: [ { farm_id }],
-        promisedCropVariety: cropVariety
-      }, mocks.fakeManagementPlan({ ...managementPlanDates('2021-03-22','2021-03-22') }));
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
+      const completeBeforeTheToDate = await mocks.crop_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedCropVariety: cropVariety,
+        promisedManagementPlan: mocks.management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCropVariety: cropVariety,
+        }, mocks.fakeManagementPlan(managementPlanDates('2021-01-20', '2021-01-01', null, '2021-01-30'))),
+      }, mocks.fakeCropManagementPlan({ seed_date: new Date('2021-01-01') }));
+      const notCompletedOrAbandoned = await mocks.crop_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedCropVariety: cropVariety,
+        promisedManagementPlan: mocks.management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCropVariety: cropVariety,
+        }, mocks.fakeManagementPlan(managementPlanDates('2021-03-22', '2021-03-22'))),
+      }, mocks.fakeCropManagementPlan({ seed_date: new Date('2021-03-22') }));
       getExportRequest({
         from_date: '2021-02-01',
         to_date: '2021-05-20',

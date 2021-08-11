@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  hookFormPersistedPathsSetSelector,
   hookFormPersistSelector,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
@@ -8,18 +9,22 @@ import { useEffect, useLayoutEffect } from 'react';
 import history from '../../../history';
 
 export default function useHookFormPersist(
+  getValues = () => ({}),
   persistedPathNames = [],
-  getValues,
   setValue,
   shouldDirty = true,
 ) {
   const dispatch = useDispatch();
   const formData = useSelector(hookFormPersistSelector);
+  const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
   useLayoutEffect(() => {
     return () => {
       if (history.location.state?.forceReset) {
         dispatch(resetAndUnLockFormData());
-      } else if (persistedPathNames.includes(history.location.pathname)) {
+      } else if (
+        persistedPathsSet.has(history.location.pathname) ||
+        persistedPathNames.includes(history.location.pathname)
+      ) {
         dispatch(hookFormPersistUnMount(getValues()));
       } else {
         dispatch(resetAndUnLockFormData());

@@ -243,8 +243,8 @@ describe('CropVariety Tests', () => {
         const [{crop_variety_id}] = await mocks.management_planFactory({
           promisedFarm: [{farm_id}]
         }, {
-          seed_date: new Date('December 17, 1995 03:24:00'),
-          harvest_date: new Date('December 18, 1995 03:24:00')
+          start_date: new Date('December 17, 1995 03:24:00'),
+          complete_date: new Date('December 18, 1995 03:24:00'),
         });
         deleteRequest(`/crop_variety/${crop_variety_id}`, { user_id, farm_id }, async (err, res) => {
           expect(res.status).toBe(200);
@@ -261,8 +261,8 @@ describe('CropVariety Tests', () => {
         const [managementPlan] = await mocks.management_planFactory({
           promisedFarm: [{ farm_id }]
         }, {
-          seed_date: faker.date.past(),
-          harvest_date: faker.date.future()
+          start_date: faker.date.past(),
+          complete_date: faker.date.future(),
         });
         deleteRequest(`/crop_variety/${managementPlan.crop_variety_id}`, { user_id, farm_id }, async (err, res) => {
           expect(res.status).toBe(400);
@@ -305,8 +305,8 @@ describe('CropVariety Tests', () => {
           const [{crop_variety_id}] = await mocks.management_planFactory({
             promisedFarm: [{farm_id}]
           }, {
-            seed_date: new Date('December 17, 1995 03:24:00'),
-            harvest_date: new Date('December 18, 1995 03:24:00')
+            start_date: new Date('December 17, 1995 03:24:00'),
+            complete_date: new Date('December 18, 1995 03:24:00'),
           });
           console.log(crop_variety_id);
           deleteRequest(`/crop_variety/${crop_variety_id}`, { user_id, farm_id }, async (err, response) => {

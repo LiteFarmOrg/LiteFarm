@@ -28,8 +28,8 @@ const useMapAssetRenderer = ({ isClickable }) => {
     }
     return nextAssetGeometries;
   };
-  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
 
+  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
@@ -152,7 +152,13 @@ const useMapAssetRenderer = ({ isClickable }) => {
     markerClusterRef.current = markerCluster;
   };
 
-  const drawAssets = (map, maps, mapBounds) => {
+  const drawAssets = (
+    map,
+    maps,
+    mapBounds,
+    selectedLocationId = false,
+    selectedLocationIds = false,
+  ) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
     });
@@ -183,6 +189,8 @@ const useMapAssetRenderer = ({ isClickable }) => {
                 mapBounds,
                 location,
                 filterSettings?.[locationType],
+                selectedLocationId,
+                selectedLocationIds,
               ),
             );
           })
@@ -193,10 +201,11 @@ const useMapAssetRenderer = ({ isClickable }) => {
               mapBounds,
               assets[idx].type !== undefined ? assets[idx] : assets['buffer_zone'][0],
               filterSettings?.[locationType],
+              selectedLocationId,
+              selectedLocationIds,
             ),
           );
     });
-
     setAssetGeometries(newState);
     // Create marker clusters
     const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
@@ -207,9 +216,17 @@ const useMapAssetRenderer = ({ isClickable }) => {
   };
 
   // Draw an area
-  const drawArea = (map, maps, mapBounds, area, isVisible) => {
+  const drawArea = (
+    map,
+    maps,
+    mapBounds,
+    area,
+    isVisible,
+    selectedLocationId,
+    selectedLocationIds,
+  ) => {
     const { grid_points: points, name, type } = area;
-    const { colour, dashScale, dashLength } = areaStyles[type];
+    const { colour, dashScale, dashLength, selectedColour } = areaStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -276,7 +293,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
       },
     });
     marker.setMap(map);
-
     // Event listener for area click
     maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
@@ -290,6 +306,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
     marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
+
     return {
       polygon,
       polyline,
@@ -302,12 +319,20 @@ const useMapAssetRenderer = ({ isClickable }) => {
   };
 
   // Draw a line
-  const drawLine = (map, maps, mapBounds, line, isVisible) => {
+  const drawLine = (
+    map,
+    maps,
+    mapBounds,
+    line,
+    isVisible,
+    selectedLocationId,
+    selectedLocationIds,
+  ) => {
     const { line_points: points, name, type, width } = line;
     let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
-    const { colour, dashScale, dashLength } = lineStyles[type];
+    const { colour, dashScale, dashLength, selectedColour } = lineStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -441,6 +466,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       type: point.type,
     };
   };
+
   return { drawAssets, drawArea, drawPoint, drawLine };
 };
 

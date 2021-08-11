@@ -86,7 +86,6 @@ const baseController = {
 
   async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
-    console.log(req.user, table_id);
     return await model.query(trx).context({ user_id: req?.user?.user_id, ...context }).where(table_id, id).delete();
   },
 

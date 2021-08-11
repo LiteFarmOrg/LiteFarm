@@ -14,38 +14,129 @@ const Template = (args) => <PurePlantInContainer {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   useHookFormPersist: () => ({}),
-  onGoBack: () => {},
-  onCancel: () => {},
+  persistedFormData: {
+    crop_management_plan: { already_in_ground: false, planting_management_plans: { final: {} } },
+  },
   system: 'metric',
-  persistedFormData: {},
-  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: true,
 };
 Primary.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const Container = Template.bind({});
-Container.args = {
+export const FinalContainer = Template.bind({});
+FinalContainer.args = {
   useHookFormPersist: () => ({}),
-  onGoBack: () => {},
-  onCancel: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: false,
+      planting_management_plans: {
+        final: {
+          container_method: {
+            planting_depth: 0.99,
+            number_of_containers: 10,
+            plants_per_container: 10,
+            in_ground: false,
+          },
+        },
+      },
+    },
+  },
   system: 'metric',
-  persistedFormData: { in_ground: false, planting_depth: 0.99 },
-  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: true,
 };
-Container.parameters = {
+FinalContainer.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const InGround = Template.bind({});
-InGround.args = {
+export const FinalInGround = Template.bind({});
+FinalInGround.args = {
   useHookFormPersist: () => ({}),
-  onGoBack: () => {},
-  onCancel: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: false,
+      planting_management_plans: {
+        final: { container_method: { plant_spacing: 1, total_plants: 3, in_ground: true } },
+      },
+    },
+  },
   system: 'metric',
-  persistedFormData: { in_ground: true, plant_spacing: 1 },
-  crop_variety: { average_seed_weight: 10, yield_per_plant: 10 },
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: true,
 };
-InGround.parameters = {
+FinalInGround.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const InitialContainer = Template.bind({});
+InitialContainer.args = {
+  useHookFormPersist: () => ({}),
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: false,
+      planting_management_plans: {
+        initial: {
+          container_method: {
+            planting_depth: 0.99,
+            number_of_containers: 10,
+            plants_per_container: 10,
+            in_ground: false,
+          },
+        },
+      },
+    },
+  },
+  system: 'metric',
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: false,
+};
+InitialContainer.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const HistoricalInGround = Template.bind({});
+HistoricalInGround.args = {
+  useHookFormPersist: () => ({}),
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: true,
+      planting_management_plans: {
+        initial: {
+          container_method: {
+            plant_spacing: 1,
+            total_plants: 3,
+            in_ground: true,
+          },
+        },
+      },
+    },
+  },
+  system: 'metric',
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: false,
+};
+HistoricalInGround.parameters = {
   ...chromaticSmallScreen,
 };

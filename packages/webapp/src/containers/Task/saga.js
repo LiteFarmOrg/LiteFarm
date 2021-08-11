@@ -6,7 +6,7 @@ import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasksSuccess } from '../taskSlice';
+import { getTasksSuccess, putTaskSuccess, putTasksSuccess } from '../taskSlice';
 
 export const assignTask = createAction('assignTaskSaga');
 
@@ -15,12 +15,14 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
+    console.log({ task_id, assignee_user_id });
     const result = yield call(
       axios.patch,
       `${taskUrl}/assign/${task_id}`,
       { assignee_user_id: assignee_user_id },
       header,
     );
+    yield put(putTaskSuccess({ id: task_id, changes: { assignee_user_id } }));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);
@@ -41,6 +43,15 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
       { assignee_user_id: assignee_user_id, date: date },
       header,
     );
+    let modified_tasks = [];
+    for (let i = 0; i < result.data.length; i++) {
+      modified_tasks.push({
+        id: result.data[i],
+        changes: { assignee_user_id },
+      });
+    }
+    console.log(modified_tasks);
+    yield put(putTasksSuccess(modified_tasks));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
     console.log(e);

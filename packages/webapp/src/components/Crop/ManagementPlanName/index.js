@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { cloneObject } from '../../../util';
+import { getAddManagementPlanNamePaths } from '../getAddManagementPlanPath';
 
 export default function PureManagementPlanName({
   onSubmit,
@@ -20,14 +21,7 @@ export default function PureManagementPlanName({
 }) {
   const { t } = useTranslation();
   const variety_id = match?.params?.variety_id;
-  const goBackPaths = {
-    rows: 'row_guidance',
-    bed_plan: 'beds_guidance',
-    container: 'container',
-    broadcast: 'broadcast'
-  };
 
-  const goBackPath = `/crop/${variety_id}/add_management_plan/${goBackPaths[persistedFormData?.planting_type?.toLowerCase()]}`;
   const NAME = 'name';
   const NOTES = 'notes';
 
@@ -45,13 +39,15 @@ export default function PureManagementPlanName({
       ...cloneObject(persistedFormData),
     },
   });
-  useHookFormPersist([goBackPath], getValues);
-  const onGoBack = () => {
-    history?.push(goBackPath);
-  };
-  const onCancel = () => {
-    history?.push(`/crop/${variety_id}/management`);
-  };
+  useHookFormPersist(getValues);
+
+  const { goBackPath, cancelPath } = useMemo(
+    () => getAddManagementPlanNamePaths(variety_id, persistedFormData),
+    [],
+  );
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
   const disabled = !isValid;
 
   return (

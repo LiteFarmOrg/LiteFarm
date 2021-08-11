@@ -31,6 +31,9 @@ const mapLocationReducer = createSlice({
     setPosition: (state, { payload: pos }) => {
       state.position = pos;
     },
+    setSelected: (state, { payload: location }) => {
+      state.selected = location;
+    },
   },
 });
 
@@ -41,6 +44,7 @@ export const {
   locations,
   setZoomLevel,
   setPosition,
+  setSelected,
 } = mapLocationReducer.actions;
 export default mapLocationReducer.reducer;
 export const locationInfoSelector = (state) => state?.tempStateReducer[mapLocationReducer.name];
@@ -58,3 +62,5 @@ export const setZoomLevelSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].zoomLevel;
 export const setPositionSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].position;
+export const setSelectedSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].selected;

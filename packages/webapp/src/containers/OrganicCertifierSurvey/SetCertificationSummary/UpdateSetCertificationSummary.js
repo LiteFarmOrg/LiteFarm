@@ -28,7 +28,7 @@ export default function UpdateSetCertificationSummary({ history }) {
       : history.push(selectCertifierPath);
   };
 
-  useHookFormPersist([requestCertifierPath, selectCertifierPath], () => ({}));
+  useHookFormPersist(() => ({}), [requestCertifierPath, selectCertifierPath]);
   return (
     <PureSetCertificationSummary
       onSubmit={onSubmit}

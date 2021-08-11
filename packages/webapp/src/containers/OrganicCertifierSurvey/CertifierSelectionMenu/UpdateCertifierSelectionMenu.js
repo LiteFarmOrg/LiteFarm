@@ -13,10 +13,11 @@ export default function CertifierSelectionMenu() {
   const summaryPath = '/certification/summary';
   const certificationSelectionPath = '/certification/selection';
   const requestCertifierPath = '/certification/certifier/request';
-  const { persistedData } = useHookFormPersist(
-    [summaryPath, certificationSelectionPath, requestCertifierPath],
-    () => ({}),
-  );
+  const { persistedData } = useHookFormPersist(() => ({}), [
+    summaryPath,
+    certificationSelectionPath,
+    requestCertifierPath,
+  ]);
   const certification_id = persistedData.certification_id ?? survey.certification_id;
   const { certificationName } = useCertificationName();
   const certifiers = useSelector(certifiersByCertificationSelector(certification_id));

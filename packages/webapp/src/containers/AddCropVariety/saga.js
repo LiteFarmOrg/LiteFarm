@@ -12,6 +12,10 @@ import history from '../../history';
 import { postCropSuccess } from '../cropSlice';
 import i18n from '../../locales/i18n';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import {
+  deleteManagementPlansSuccess,
+  managementPlansByCropVarietyIdSelector,
+} from '../managementPlanSlice';
 
 export const postVarietal = createAction(`postVarietalSaga`);
 
@@ -38,6 +42,7 @@ export function* postVarietalSaga({ payload: varietal }) {
 }
 
 export const postCropAndVarietal = createAction(`postCropAndVarietalSaga`);
+
 export function* postCropAndVarietalSaga({ payload: cropData }) {
   const { cropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -129,6 +134,12 @@ export function* deleteVarietalSaga({ payload: { variety_id } }) {
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.delete, `${cropVarietyURL}/${variety_id}`, header);
+    const managementPlans = yield select(managementPlansByCropVarietyIdSelector(variety_id));
+    yield put(
+      deleteManagementPlansSuccess(
+        managementPlans.map(({ management_plan_id }) => management_plan_id),
+      ),
+    );
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.DELETE')));
     history.push('/crop_catalogue');
     yield put(deleteCropVarietySuccess(variety_id));

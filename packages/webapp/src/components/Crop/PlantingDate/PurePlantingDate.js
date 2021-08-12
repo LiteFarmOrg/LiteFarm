@@ -263,7 +263,7 @@ export default function PurePlantingDate({
         type={'date'}
         label={dateLabel}
         hookFormRegister={register(MAIN_DATE, { required: true, ...mainDateValidations })}
-        min={mainDateValidations?.min?.value}
+        min={new Date().toISOString().substring(0, 10)}
         info={
           seed_date &&
           !seedIsMain &&

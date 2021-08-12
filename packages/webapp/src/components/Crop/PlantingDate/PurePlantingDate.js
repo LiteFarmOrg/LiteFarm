@@ -11,11 +11,7 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import {
-  getDateDifference,
-  getDateInputFormat,
-  getLocalizedDateString,
-} from '../../../util/moment';
+import { getDateDifference, getDateInputFormat } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -188,9 +184,7 @@ export default function PurePlantingDate({
         ? {
             min: {
               value: seed_date,
-              message: t('MANAGEMENT_PLAN.PLANTING_DATE_MIN_ERROR', {
-                min: getLocalizedDateString(seed_date),
-              }),
+              message: t('MANAGEMENT_PLAN.PLANTING_DATE_MIN_ERROR'),
             },
           }
         : {},

@@ -140,7 +140,7 @@ const Unit = ({
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
     setVisibleInputValue('');
-    hookFormSetHiddenValue('', { shouldClearError: true, shouldValidate: false });
+    hookFormSetHiddenValue('', { shouldClearError: !optional, shouldValidate: optional });
   };
 
   const [showError, setShowError] = useState();

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -61,14 +61,17 @@ function PureBedPlan({
   const plant_spacing = watch(PLANT_SPACING);
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
-
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
-    if (
+    const shouldCalculateEstimatedValues =
       isNonNegativeNumber(number_of_beds) &&
       isNonNegativeNumber(number_of_rows_in_bed) &&
       isNonNegativeNumber(bed_length) &&
-      isNonNegativeNumber(plant_spacing)
-    ) {
+      isNonNegativeNumber(plant_spacing);
+    if (shouldSkipEstimatedValueCalculationRef) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+      setShowEstimatedValue(shouldCalculateEstimatedValues);
+    } else if (shouldCalculateEstimatedValues) {
       const yield_per_plant = crop_variety.yield_per_plant;
       const average_seed_weight = crop_variety.average_seed_weight;
 

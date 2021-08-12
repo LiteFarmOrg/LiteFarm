@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -83,19 +83,27 @@ export default function PurePlantInContainer({
   const plant_spacing = watch(PLANT_SPACING);
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
-    if (in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing)) {
+    const shouldCalculateInGroundEstimatedValues =
+      in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing);
+    const shouldCalculateContainerEstimatedValues =
+      !in_ground &&
+      isNonNegativeNumber(number_of_container) &&
+      isNonNegativeNumber(plants_per_container);
+    if (shouldSkipEstimatedValueCalculationRef.current) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+      setShowEstimatedValue(
+        shouldCalculateInGroundEstimatedValues || shouldCalculateContainerEstimatedValues,
+      );
+    } else if (shouldCalculateInGroundEstimatedValues) {
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
       setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
-    } else if (
-      !in_ground &&
-      isNonNegativeNumber(number_of_container) &&
-      isNonNegativeNumber(plants_per_container)
-    ) {
+    } else if (shouldCalculateContainerEstimatedValues) {
       const required_seeds = number_of_container * plants_per_container * average_seed_weight;
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);

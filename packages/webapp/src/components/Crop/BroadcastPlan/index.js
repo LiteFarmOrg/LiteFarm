@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
@@ -99,10 +99,14 @@ function PureBroadcastPlan({
       shouldValidate,
     );
   }, [percentageOfAreaPlanted]);
-
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
-    setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
-    setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+    if (shouldSkipEstimatedValueCalculationRef.current) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+    } else {
+      setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
+      setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+    }
   }, [seedingRateForm, areaUsed]);
 
   useEffect(() => {

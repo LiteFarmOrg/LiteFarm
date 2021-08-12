@@ -90,8 +90,9 @@ export default function PureNextHarvest({
           hookFormRegister={register(NEXT_HARVEST_DATE, {
             required: true,
           })}
+          // info={`seeding date: ${`2021-01-01`}`}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
-          minDate={todayStr}
+          min={todayStr}
         />
         {showEstimatedYield && (
           <Unit

@@ -68,7 +68,7 @@ function PureBedPlan({
       isNonNegativeNumber(number_of_rows_in_bed) &&
       isNonNegativeNumber(bed_length) &&
       isNonNegativeNumber(plant_spacing);
-    if (shouldSkipEstimatedValueCalculationRef) {
+    if (shouldSkipEstimatedValueCalculationRef.current) {
       shouldSkipEstimatedValueCalculationRef.current = false;
       setShowEstimatedValue(shouldCalculateEstimatedValues);
     } else if (shouldCalculateEstimatedValues) {

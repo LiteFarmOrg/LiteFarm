@@ -265,6 +265,7 @@ export default function PurePlantingDate({
         type={'date'}
         label={dateLabel}
         hookFormRegister={register(MAIN_DATE, { required: true, ...mainDateValidations })}
+        min={mainDateValidations?.min?.value}
         errors={getInputErrors(errors, MAIN_DATE)}
       />
 

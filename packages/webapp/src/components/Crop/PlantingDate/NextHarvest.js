@@ -91,7 +91,7 @@ export default function PureNextHarvest({
             required: true,
           })}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
-          minDate={todayStr}
+          min={todayStr}
         />
         {showEstimatedYield && (
           <Unit

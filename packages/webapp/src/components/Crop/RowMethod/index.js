@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -65,26 +65,30 @@ export default function PureRowMethod({
   const IsValidNumberInput = (number) => number === 0 || number > 0;
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
 
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = variety;
-    if (
+    const shouldCalculatedSameLengthEstimatedValues =
       same_length &&
       IsValidNumberInput(num_of_rows) &&
       IsValidNumberInput(length_of_row) &&
-      IsValidNumberInput(plant_spacing)
-    ) {
+      IsValidNumberInput(plant_spacing);
+    const shouldCalculateDifferentLengthEstimatedValues =
+      !same_length && IsValidNumberInput(total_length) && IsValidNumberInput(plant_spacing);
+    if (shouldSkipEstimatedValueCalculationRef.current) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+      setShowEstimatedValue(
+        shouldCalculatedSameLengthEstimatedValues || shouldCalculateDifferentLengthEstimatedValues,
+      );
+    } else if (shouldCalculatedSameLengthEstimatedValues) {
       const estimated_seed_required =
         ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
       const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
       setValue(ESTIMATED_SEED, estimated_seed_required);
       setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
-    } else if (
-      !same_length &&
-      IsValidNumberInput(total_length) &&
-      IsValidNumberInput(plant_spacing)
-    ) {
+    } else if (shouldCalculateDifferentLengthEstimatedValues) {
       const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
       const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
       setValue(ESTIMATED_SEED, estimated_seed_required);

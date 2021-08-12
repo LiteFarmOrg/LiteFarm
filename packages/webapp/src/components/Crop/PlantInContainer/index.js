@@ -252,7 +252,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage || (isHistorical && !in_ground)}
+                required={false}
               />
               <Unit
                 register={register}
@@ -266,7 +266,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage || isHistorical}
+                required={isFinalPage}
               />
             </div>
           )}

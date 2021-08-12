@@ -214,7 +214,7 @@ export default function PureRowMethod({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
-                  required={isFinalPage}
+                  required={false}
                 />
                 <Unit
                   register={register}
@@ -228,7 +228,7 @@ export default function PureRowMethod({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
-                  required
+                  required={isFinalPage}
                 />
               </div>
             </>

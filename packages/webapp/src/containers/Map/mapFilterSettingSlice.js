@@ -84,6 +84,7 @@ export const availableFilterSettingsSelector = createSelector(
     };
   },
 );
+//TODO: remove or rename
 export const onlyCropEnabledLocations = createSelector([loginSelector], ({ farm_id }) => {
   const enableLocations = [
     'field',
@@ -102,7 +103,7 @@ export const onlyCropEnabledLocations = createSelector([loginSelector], ({ farm_
   filters.farm_id = farm_id;
   return filters;
 });
-
+//TODO: remove or rename
 export const allLocations = createSelector([loginSelector], ({ farm_id }) => {
   let filters = { ...initialState };
   filters.farm_id = farm_id;

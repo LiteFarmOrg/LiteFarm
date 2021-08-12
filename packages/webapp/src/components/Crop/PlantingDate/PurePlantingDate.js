@@ -266,6 +266,7 @@ export default function PurePlantingDate({
         min={mainDateValidations?.min?.value}
         info={
           seed_date &&
+          !seedIsMain &&
           t('MANAGEMENT_PLAN.PLANTING_DATE_INFO', { seed_date: getLocalizedDateString(seed_date) })
         }
         errors={getInputErrors(errors, MAIN_DATE)}

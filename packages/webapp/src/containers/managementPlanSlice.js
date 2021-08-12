@@ -245,7 +245,7 @@ export const cropVarietiesWithoutManagementPlanSelector = createSelector(
 export const getLocationIdFromManagementPlan = (managementPlan) =>
   managementPlan.planting_management_plans?.final.location_id;
 
-const filterManagementPlansByLocationId = (location_id, managementPlans) =>
+export const filterManagementPlansByLocationId = (location_id, managementPlans) =>
   managementPlans.filter(
     (managementPlan) => getLocationIdFromManagementPlan(managementPlan) === location_id,
   );

@@ -2,17 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { Main } from '../../Typography';
+import { Main, Underlined } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
-import PureCropTile from '../../CropTile';
-import CropStatusInfoBox from '../../CropCatalogue/CropStatusInfoBox';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
-import { useSelector } from 'react-redux';
-import { managementPlansByLocationIdSelector } from '../../../containers/managementPlanSlice';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
+import clsx from 'clsx';
+import styles from './styles.module.scss';
+import Input from '../../Form/Input';
+import Square from '../../Square';
 
 const PureTaskCrops = ({
   handleGoBack,
@@ -22,6 +22,7 @@ const PureTaskCrops = ({
   onContinue,
   persistedPaths,
   useHookFormPersist,
+  managementPlansByLocationIds,
 }) => {
   const { t } = useTranslation();
 
@@ -39,24 +40,7 @@ const PureTaskCrops = ({
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
 
   useHookFormPersist(getValues, persistedPaths);
-  const managementPlans = useSelector(
-    managementPlansByLocationIdSelector(persistedFormData.task_locations[0]),
-  );
-
-  let task_locations = [];
-  for (let location of persistedFormData.task_locations) {
-    task_locations.push(location);
-  }
-  console.log(persistedFormData.task_locations[0]);
-  console.log(managementPlans);
-
-  //let management_plans = useSelector(managementPlansByLocationIdSelector(location)); // all the management plans for a location
-
-  // let map = new Map();
-  // for (let location of task_locations) {
-  //   let management_plans = useSelector(managementPlansByLocationIdSelector(location));
-  //   map.set(location, management_plans);
-  // }
+  let select_all_crops = false;
 
   return (
     <>
@@ -80,28 +64,42 @@ const PureTaskCrops = ({
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_CROPS')}</Main>
+        <Input isSearchBar={true} style={{ paddingBottom: '25px' }} />
 
-        {task_locations.map((location) => {
+        <div style={{ paddingBottom: '16px' }}>
+          <Square style={{ marginRight: '15px' }} color={'counter'}>
+            {'0'}
+          </Square>
+          <Underlined style={{ marginRight: '5px' }}>{t('ADD_TASK.SELECT_ALL_CROPS')}</Underlined>
+          {'|'}
+          <Underlined style={{ marginLeft: '5px' }}>{t('ADD_TASK.CLEAR_ALL_CROPS')}</Underlined>
+        </div>
+
+        {Object.keys(managementPlansByLocationIds).map((location_id) => {
+          let location_name =
+            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
+              .name;
           return (
             <>
-              <PageBreak style={{ paddingBottom: '16px' }} label={location} />
+              <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
+              <div style={{ paddingBottom: '16px' }}>
+                <Underlined>{t('ADD_TASK.SELECT_ALL')}</Underlined>
+                {' | '}
+                <Underlined>{t('ADD_TASK.CLEAR_ALL')}</Underlined>
+              </div>
               <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlans.map((plan) => {
-                  return <PureManagementPlanTile status={'Active'} managementPlan={plan} />;
+                {managementPlansByLocationIds[location_id].map((plan) => {
+                  return (
+                    <PureManagementPlanTile
+                      className={clsx(select_all_crops && styles.typeContainerSelected)}
+                      managementPlan={plan}
+                    />
+                  );
                 })}
               </PureCropTileContainer>
             </>
           );
         })}
-
-        <>
-          <PageBreak style={{ paddingBottom: '16px' }} label={'location 1'} />
-          <PureCropTileContainer gap={gap} padding={padding}>
-            {managementPlans.map((plan) => {
-              return <PureManagementPlanTile status={'Active'} managementPlan={plan} />;
-            })}
-          </PureCropTileContainer>
-        </>
       </Form>
     </>
   );

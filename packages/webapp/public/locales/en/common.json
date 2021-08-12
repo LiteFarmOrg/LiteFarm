@@ -45,5 +45,6 @@
   "SUBMITTING": "Submitting...",
   "TO": "to",
   "UPDATE": "Update",
+  "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "YES": "Yes"
 }

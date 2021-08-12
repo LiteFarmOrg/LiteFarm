@@ -257,6 +257,7 @@ describe('ManagementPlan Tests', () => {
 
       let worker;
       let manager;
+      let extensionOfficer;
       let unAuthorizedUser;
       let farmunAuthorizedUser;
 
@@ -271,6 +272,11 @@ describe('ManagementPlan Tests', () => {
           promisedUser: [manager],
           promisedFarm: [farm],
         }, fakeUserFarm(2));
+        [extensionOfficer] = await mocks.usersFactory();
+        const [extensionOfficerFarm] = await mocks.userFarmFactory({
+          promisedUser: [extensionOfficer],
+          promisedFarm: [farm],
+        }, fakeUserFarm(5));
 
 
         [unAuthorizedUser] = await mocks.usersFactory();
@@ -292,7 +298,17 @@ describe('ManagementPlan Tests', () => {
       });
 
       test('should delete a managementPlan by manager', async (done) => {
-        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, {}, async (err, res) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: manager.user_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id);
+          expect(managementPlanRes.length).toBe(1);
+          expect(managementPlanRes[0].deleted).toBe(true);
+          done();
+        });
+      });
+
+      test('should delete a managementPlan by extension officer', async (done) => {
+        deleteRequest(`/management_plan/${transplantManagementPlan.management_plan_id}`, { user_id: extensionOfficer.user_id }, async (err, res) => {
           expect(res.status).toBe(200);
           const managementPlanRes = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id);
           expect(managementPlanRes.length).toBe(1);

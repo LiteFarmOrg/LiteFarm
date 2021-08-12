@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -14,6 +14,10 @@ import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getContainerMethodPaths } from '../getAddManagementPlanPath';
+import {
+  hookFormMaxLengthValidation,
+  hookFormMaxValidation,
+} from '../../Form/hookformValidationUtils';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -83,19 +87,27 @@ export default function PurePlantInContainer({
   const plant_spacing = watch(PLANT_SPACING);
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
     const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
-    if (in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing)) {
+    const shouldCalculateInGroundEstimatedValues =
+      in_ground && isNonNegativeNumber(total_plants) && isNonNegativeNumber(plant_spacing);
+    const shouldCalculateContainerEstimatedValues =
+      !in_ground &&
+      isNonNegativeNumber(number_of_container) &&
+      isNonNegativeNumber(plants_per_container);
+    if (shouldSkipEstimatedValueCalculationRef.current) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+      setShowEstimatedValue(
+        shouldCalculateInGroundEstimatedValues || shouldCalculateContainerEstimatedValues,
+      );
+    } else if (shouldCalculateInGroundEstimatedValues) {
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
       setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
-    } else if (
-      !in_ground &&
-      isNonNegativeNumber(number_of_container) &&
-      isNonNegativeNumber(plants_per_container)
-    ) {
+    } else if (shouldCalculateContainerEstimatedValues) {
       const required_seeds = number_of_container * plants_per_container * average_seed_weight;
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
       setValue(ESTIMATED_SEED, required_seeds);
@@ -152,7 +164,9 @@ export default function PurePlantInContainer({
                 hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
                   valueAsNumber: true,
+                  max: hookFormMaxValidation(9999),
                 })}
+                max={9999}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
@@ -162,7 +176,9 @@ export default function PurePlantInContainer({
                 hookFormRegister={register(PLANTS_PER_CONTAINER, {
                   required: true,
                   valueAsNumber: true,
+                  max: hookFormMaxValidation(9999),
                 })}
+                max={9999}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, PLANTS_PER_CONTAINER)}
@@ -172,7 +188,12 @@ export default function PurePlantInContainer({
           {in_ground && (
             <Input
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
-              hookFormRegister={register(TOTAL_PLANTS, { required: true, valueAsNumber: true })}
+              hookFormRegister={register(TOTAL_PLANTS, {
+                required: true,
+                max: hookFormMaxValidation(9999),
+                valueAsNumber: true,
+              })}
+              max={9999}
               style={{ paddingBottom: '40px' }}
               type={'number'}
               onKeyDown={integerOnKeyDown}
@@ -217,15 +238,21 @@ export default function PurePlantInContainer({
             <>
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTING_SOIL')}
-                hookFormRegister={register(PLANTING_SOIL)}
+                hookFormRegister={register(PLANTING_SOIL, {
+                  maxLength: hookFormMaxLengthValidation(),
+                })}
                 style={{ paddingBottom: '40px' }}
+                errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
                 hasLeaf
               />
               <Input
                 label={t('MANAGEMENT_PLAN.CONTAINER_TYPE')}
-                hookFormRegister={register(CONTAINER_TYPE)}
+                hookFormRegister={register(CONTAINER_TYPE, {
+                  maxLength: hookFormMaxLengthValidation(),
+                })}
                 style={{ paddingBottom: '40px' }}
+                errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
               />
             </>
@@ -244,7 +271,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage || (isHistorical && !in_ground)}
+                required={false}
               />
               <Unit
                 register={register}
@@ -258,7 +285,7 @@ export default function PurePlantInContainer({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required={isFinalPage || isHistorical}
+                required={isFinalPage}
               />
             </div>
           )}

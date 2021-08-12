@@ -25,6 +25,9 @@ export const getTask = (obj) => {
     'abandoned_time',
     'locations',
     'managementPlans',
+    'abandonment_reason',
+    'other_abandonment_reason',
+    'abandonment_notes',
   ]);
 };
 

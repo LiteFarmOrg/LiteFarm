@@ -51,7 +51,7 @@ const PureAbandonTask = ({ onSubmit, onGoBack }) => {
             options={abandonmentReasonOptions}
             label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
             required={true}
-            style={{ marginbottom: '24px' }}
+            style={{ marginBottom: '24px' }}
             {...field}
           />
         )}
@@ -62,7 +62,7 @@ const PureAbandonTask = ({ onSubmit, onGoBack }) => {
         <Input
           label={t('TASK.ABANDON.WHAT_HAPPENED')}
           hookFormRegister={register(OTHER_REASON_FOR_ABANDONMENT)}
-          style={{ marginbottom: '24px' }}
+          style={{ marginBottom: '24px' }}
         />
       )}
 

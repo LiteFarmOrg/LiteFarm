@@ -24,6 +24,7 @@
   "MARK_COMPLETED": "Mark completed",
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
+  "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
   "NAME": "Name",
   "NEXT": "Next",
   "NO": "No",

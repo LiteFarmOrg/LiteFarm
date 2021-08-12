@@ -14,6 +14,10 @@ import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getContainerMethodPaths } from '../getAddManagementPlanPath';
+import {
+  hookFormMaxLengthValidation,
+  hookFormMaxValidation,
+} from '../../Form/hookformValidationUtils';
 
 export default function PurePlantInContainer({
   useHookFormPersist,
@@ -160,7 +164,9 @@ export default function PurePlantInContainer({
                 hookFormRegister={register(NUMBER_OF_CONTAINERS, {
                   required: true,
                   valueAsNumber: true,
+                  max: hookFormMaxValidation(9999),
                 })}
+                max={9999}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
@@ -170,7 +176,9 @@ export default function PurePlantInContainer({
                 hookFormRegister={register(PLANTS_PER_CONTAINER, {
                   required: true,
                   valueAsNumber: true,
+                  max: hookFormMaxValidation(9999),
                 })}
+                max={9999}
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, PLANTS_PER_CONTAINER)}
@@ -180,7 +188,12 @@ export default function PurePlantInContainer({
           {in_ground && (
             <Input
               label={t('MANAGEMENT_PLAN.TOTAL_PLANTS')}
-              hookFormRegister={register(TOTAL_PLANTS, { required: true, valueAsNumber: true })}
+              hookFormRegister={register(TOTAL_PLANTS, {
+                required: true,
+                max: hookFormMaxValidation(9999),
+                valueAsNumber: true,
+              })}
+              max={9999}
               style={{ paddingBottom: '40px' }}
               type={'number'}
               onKeyDown={integerOnKeyDown}
@@ -225,15 +238,21 @@ export default function PurePlantInContainer({
             <>
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTING_SOIL')}
-                hookFormRegister={register(PLANTING_SOIL)}
+                hookFormRegister={register(PLANTING_SOIL, {
+                  maxLength: hookFormMaxLengthValidation(),
+                })}
                 style={{ paddingBottom: '40px' }}
+                errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
                 hasLeaf
               />
               <Input
                 label={t('MANAGEMENT_PLAN.CONTAINER_TYPE')}
-                hookFormRegister={register(CONTAINER_TYPE)}
+                hookFormRegister={register(CONTAINER_TYPE, {
+                  maxLength: hookFormMaxLengthValidation(),
+                })}
                 style={{ paddingBottom: '40px' }}
+                errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
               />
             </>

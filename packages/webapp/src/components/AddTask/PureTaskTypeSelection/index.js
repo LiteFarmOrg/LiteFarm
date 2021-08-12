@@ -22,6 +22,7 @@ import { ReactComponent as Transplant } from '../../../assets/images/task/Transp
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
+import Button from '../../Form/Button';
 
 const PureTaskTypeSelection = ({
   onCustomTask,
@@ -65,7 +66,7 @@ const PureTaskTypeSelection = ({
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
-        <div className={styles.tileContainer}>
+        <div className={styles.tileContainer} style={{ paddingBottom: '15px' }}>
           <div
             id={'collect_soil_sample'}
             onClick={() => {
@@ -339,9 +340,9 @@ const PureTaskTypeSelection = ({
           </div>
         </div>
 
-        <AddLink onClick={onCustomTask} style={{ paddingTop: '20px' }}>
-          {t('ADD_TASK.CREATE_CUSTOM_TASK')}
-        </AddLink>
+        <Button color={'success'} onClick={onCustomTask}>
+          {t('ADD_TASK.MANAGE_CUSTOM_TASK')}
+        </Button>
       </Form>
     </>
   );

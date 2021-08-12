@@ -1,12 +1,7 @@
 import PureTaskCrops from '../../../components/AddTask/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { getManagementPlans } from '../../saga';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { managementPlansByLocationIdSelector } from '../../managementPlanSlice';
 
 function TaskCrops({ history, match }) {
-  const dispatch = useDispatch();
   const onContinuePath = '/add_task/task_notes';
   const goBackPath = '/add_task/task_locations';
   const persistedPaths = [goBackPath, onContinuePath];
@@ -22,14 +17,6 @@ function TaskCrops({ history, match }) {
   const onError = () => {
     console.log('onError called');
   };
-
-  const managementPlan = {
-    crop_variety_name: 'Bolero',
-  };
-
-  useEffect(() => {
-    dispatch(getManagementPlans());
-  }, []);
 
   console.log();
   return (

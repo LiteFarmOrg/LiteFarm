@@ -11,16 +11,21 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
 // import { cloneObject } from '../../util';
 
-const PureAbandonTask = ({ onSubmit, onGoBack }) => {
+const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit, getValues, watch, control, setValue } = useForm({});
+  const { register, handleSubmit, watch, control, setValue } = useForm({});
 
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
   const OTHER_REASON_FOR_ABANDONMENT = 'other_reason_for_abandonment';
   const TASK_ABANDONMENT_NOTES = 'abandonment_notes';
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
+  // TODO: replace with isValid when ReactSelect bug is fixed
+  const disabled =
+    !reason_for_abandonment ||
+    (reason_for_abandonment?.value === 'OTHER' && !watch(OTHER_REASON_FOR_ABANDONMENT));
 
+  // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
     { label: t('TASK.ABANDON.REASON.CROP_FAILURE'), value: 'CROP_FAILURE' },
     { label: t('TASK.ABANDON.REASON.LABOUR_ISSUE'), value: 'LABOUR_ISSUE' },
@@ -34,7 +39,7 @@ const PureAbandonTask = ({ onSubmit, onGoBack }) => {
   return (
     <Layout
       buttonGroup={
-        <Button disabled={false} onClick={onSubmit} fullLength>
+        <Button disabled={disabled} onClick={handleSubmit(onSubmit, onError)} fullLength>
           {t('TASK.ABANDON.ABANDON')}
         </Button>
       }
@@ -69,7 +74,6 @@ const PureAbandonTask = ({ onSubmit, onGoBack }) => {
       <InputAutoSize
         optional={true}
         label={t('TASK.ABANDON.NOTES')}
-        // style={{ marginBottom: '40px' }}
         hookFormRegister={register(TASK_ABANDONMENT_NOTES)}
       />
     </Layout>

@@ -936,6 +936,7 @@
     "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
+    "PLANTING_DATE_INFO": "Seeding date based on crop age: {{seed_date}}",
     "PLANTING_DATE_LABEL": "Planting date",
     "PLANTING_DATE_MIN_ERROR": "Your planting date is too early based on the crop age",
     "PLANTING_DEPTH": "Planting depth",

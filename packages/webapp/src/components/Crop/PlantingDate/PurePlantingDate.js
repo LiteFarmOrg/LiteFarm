@@ -11,7 +11,11 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import { getDateDifference, getDateInputFormat } from '../../../util/moment';
+import {
+  getDateDifference,
+  getDateInputFormat,
+  getLocalizedDateString,
+} from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -260,6 +264,10 @@ export default function PurePlantingDate({
         label={dateLabel}
         hookFormRegister={register(MAIN_DATE, { required: true, ...mainDateValidations })}
         min={mainDateValidations?.min?.value}
+        info={
+          seed_date &&
+          t('MANAGEMENT_PLAN.PLANTING_DATE_INFO', { seed_date: getLocalizedDateString(seed_date) })
+        }
         errors={getInputErrors(errors, MAIN_DATE)}
       />
 

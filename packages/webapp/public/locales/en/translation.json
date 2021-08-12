@@ -53,7 +53,7 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
-    "HISTORICAL_PERCENTAGE_LOCATION": "What percent of the location did you plant?",
+    "HISTORICAL_PERCENTAGE_LOCATION": "What percent of the location was planted?",
     "LOCATION_SIZE": "Location size",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
@@ -916,7 +916,7 @@
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
-    "HISTORICAL_CONTAINER_OR_IN_GROUND": "Did you plant in a container or in the ground?",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
@@ -947,7 +947,7 @@
     "PLANTS_PER_CONTAINER": "# of plants/container",
     "REMOVE_PIN": "Remove pin",
     "ROW_METHOD": {
-      "HISTORICAL_SAME_LENGTH": "Were your rows all the same length?",
+      "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",
       "LENGTH_OF_ROW": "Length of row",
       "NUMBER_OF_ROWS": "# of rows",
       "SAME_LENGTH": "Are your rows all the same length?",

@@ -188,9 +188,7 @@ export default function PurePlantingDate({
         ? {
             min: {
               value: seed_date,
-              message: t('MANAGEMENT_PLAN.PLANTING_DATE_MIN_ERROR', {
-                min: getLocalizedDateString(seed_date),
-              }),
+              message: t('MANAGEMENT_PLAN.PLANTING_DATE_MIN_ERROR'),
             },
           }
         : {},
@@ -265,6 +263,12 @@ export default function PurePlantingDate({
         type={'date'}
         label={dateLabel}
         hookFormRegister={register(MAIN_DATE, { required: true, ...mainDateValidations })}
+        min={mainDateValidations?.min?.value}
+        info={
+          seed_date &&
+          !seedIsMain &&
+          t('MANAGEMENT_PLAN.PLANTING_DATE_INFO', { seed_date: getLocalizedDateString(seed_date) })
+        }
         errors={getInputErrors(errors, MAIN_DATE)}
       />
 

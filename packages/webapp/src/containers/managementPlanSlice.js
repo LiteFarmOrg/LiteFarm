@@ -59,6 +59,7 @@ const managementPlanSlice = createSlice({
     onLoadingManagementPlanFail: onLoadingFail,
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
+    deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
   },
 });
 export const {
@@ -66,6 +67,7 @@ export const {
   onLoadingManagementPlanStart,
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
+  deleteManagementPlansSuccess,
 } = managementPlanSlice.actions;
 export default managementPlanSlice.reducer;
 
@@ -172,15 +174,6 @@ const isExpiredManagementPlan = (managementPlan, time) => {
 export const getExpiredManagementPlans = (managementPlans, time) =>
   managementPlans.filter((managementPlan) => isExpiredManagementPlan(managementPlan, time));
 
-export const currentAndPlannedManagementPlansSelector = createSelector(
-  [managementPlansSelector, lastActiveDatetimeSelector],
-  (managementPlans, lastActiveDatetime) => {
-    return managementPlans.filter(
-      (managementPlan) => getManagementPlanEndTime(managementPlan) >= lastActiveDatetime,
-    );
-  },
-);
-
 export const currentManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
@@ -216,6 +209,13 @@ const isPlannedManagementPlan = (managementPlan, time) => {
 export const getPlannedManagementPlans = (managementPlans, time) => {
   return managementPlans.filter((managementPlan) => isPlannedManagementPlan(managementPlan, time));
 };
+
+export const currentAndPlannedManagementPlansSelector = createSelector(
+  [plannedManagementPlansSelector, currentManagementPlansSelector],
+  (planedManagementPlans, currentManagementPlans) => {
+    return [...planedManagementPlans, ...currentManagementPlans];
+  },
+);
 
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
   [managementPlansSelector, cropVarietiesSelector],

@@ -46,5 +46,6 @@
   "TO": "to",
   "UPDATE": "Update",
   "YES": "Yes",
-  "MARK_COMPLETE": "Mark Complete"
+  "MARK_COMPLETE": "Mark Complete",
+  "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed"
 }

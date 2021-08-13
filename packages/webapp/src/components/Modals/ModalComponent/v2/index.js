@@ -37,8 +37,8 @@ export default function ModalComponent({
             {title} {/* todo: have different icons between error and warning modals */}
           </Semibold>
         )}
-        {contents?.map((line) => (
-          <Info>{line}</Info>
+        {contents?.map((line, index) => (
+          <Info key={index}>{line}</Info>
         ))}
 
         {children}

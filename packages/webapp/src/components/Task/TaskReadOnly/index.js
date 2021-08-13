@@ -3,37 +3,31 @@ import Button from '../../Form/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
-import { useSelector } from 'react-redux';
-import { taskSelectorById } from '../../../containers/taskSlice';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import { userFarmsByFarmSelector } from '../../../containers/userFarmSlice';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import LocationViewer from '../../LocationViewer';
-import { Label, Underlined, Semibold, EditLink } from '../../Typography';
+import { Label, Underlined, Semibold } from '../../Typography';
 import styles from './styles.module.scss';
-import { isAdminSelector } from '../../../containers/userFarmSlice';
 
 export default function PureTaskReadOnly({
-  task_id,
   onGoBack,
   taskSpecific,
   onComplete,
   onEdit,
   onAbandon,
+  task,
+  users,
+  user,
+  isAdmin,
 }) {
   const { t } = useTranslation();
 
-  const task = useSelector(taskSelectorById(task_id));
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
   const locations = task.locations.map(({ location_id }) => (location_id));
   const owner = task.owner_user_id;
 
-  const users = useSelector(userFarmsByFarmSelector);
-  const user = useSelector(userFarmSelector);
   const self = user.user_id;
-  const isAdmin = useSelector(isAdminSelector);
 
   let assignee = null;
   for (let user of users) {

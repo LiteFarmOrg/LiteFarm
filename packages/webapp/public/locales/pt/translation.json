@@ -928,6 +928,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
+    "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
     "PLAN_NOTES": "Notas de plan",
@@ -965,6 +966,12 @@
     "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "ACTIVE": "MISSING",
+      "COMPLETED": "MISSING",
+      "PLANNED": "MISSING"
+    },
     "TERMINATION": "Terminação",
     "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",

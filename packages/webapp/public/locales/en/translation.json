@@ -929,6 +929,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NEXT_HARVEST": "When do you expect your next harvest?",
     "NUMBER_OF_CONTAINER": "# of containers",
+    "PENDING_TASK": "Pending tasks",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
@@ -966,6 +967,12 @@
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",

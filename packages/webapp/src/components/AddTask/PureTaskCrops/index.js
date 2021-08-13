@@ -17,7 +17,6 @@ import produce from 'immer';
 import { cloneObject } from '../../../util';
 
 const PureTaskCrops = ({
-  onSubmit,
   handleGoBack,
   handleCancel,
   onError,
@@ -26,6 +25,7 @@ const PureTaskCrops = ({
   persistedPaths,
   useHookFormPersist,
   managementPlansByLocationIds,
+  history,
 }) => {
   const { t } = useTranslation();
 
@@ -35,11 +35,15 @@ const PureTaskCrops = ({
     watch,
     control,
     setValue,
+    register,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: cloneObject(persistedFormData),
   });
+
+  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
+  useHookFormPersist(getValues, persistedPaths);
 
   const [filter, setFilter] = useState();
   const onFilterChange = (e) => {
@@ -47,7 +51,6 @@ const PureTaskCrops = ({
   };
 
   const locationIds = Object.keys(managementPlansByLocationIds);
-
   const filteredMPs = useMemo(() => {
     if (!filter) {
       return managementPlansByLocationIds;
@@ -58,31 +61,82 @@ const PureTaskCrops = ({
         ].filter(
           (mp) =>
             mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
-            mp.crop_group.toLowerCase().includes(filter?.toLowerCase()),
+            mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase()),
         );
         return filteredManagementPlansByLocationId;
       }, {});
     }
   }, [filter, managementPlansByLocationIds]);
 
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
+  const MANAGEMENT_PLANS = 'managementPlans';
+  register(MANAGEMENT_PLANS, { required: false });
+  let selected_management_plans = watch(MANAGEMENT_PLANS);
 
-  useHookFormPersist(getValues, persistedPaths);
-  const [allCrops, setAllCrops] = useState(false);
-  const [numOfSelectedCrops, setNumOfSelectedCrops] = useState(0);
-  const selectAllCrops = () => {
-    let allMPs = [];
-    Object.values(filteredMPs).map((mps) => {
-      for (let mp of mps) {
-        allMPs.push(mp);
-      }
-    });
-    setNumOfSelectedCrops(allMPs.length);
-    setAllCrops(true);
+  const onSubmit = () => {
+    setValue(
+      MANAGEMENT_PLANS,
+      selectedManagementPlanIds.map((management_plan_id) => ({ management_plan_id })),
+    );
+    history.push(persistedPaths[1]);
   };
+  const [selectedManagementPlanIds, setSelectedManagementPlanIds] = useState(
+    (getValues(MANAGEMENT_PLANS) || []).map(
+      (management_plan) => management_plan.management_plan_id,
+    ),
+  );
+  const onSelectManagementPlan = (management_plan_id) => {
+    setSelectedManagementPlanIds(
+      produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
+        if (selectedManagementPlanIds.includes(management_plan_id)) {
+          selectedManagementPlanIds = selectedManagementPlanIds.splice(
+            selectedManagementPlanIds.indexOf(management_plan_id),
+            1,
+          );
+        }
+        selectedManagementPlanIds.push(management_plan_id);
+      }),
+    );
+  };
+  const [allCrops, setAllCrops] = useState(false);
+
+  const selectAllCrops = () => {
+    setSelectedManagementPlanIds(
+      locationIds.reduce((managementPlanIds, location_id) => {
+        managementPlanIds = [
+          ...managementPlanIds,
+          ...managementPlansByLocationIds[location_id].map(
+            ({ management_plan_id }) => management_plan_id,
+          ),
+        ];
+        return managementPlanIds;
+      }, []),
+    );
+  };
+
+  const selectAllManagementPlansOfALocation = (location_id) => {
+    setSelectedManagementPlanIds((prevManagementPlanIds) => [
+      ...prevManagementPlanIds,
+      ...managementPlansByLocationIds[location_id].map(
+        ({ management_plan_id }) => management_plan_id,
+      ),
+    ]);
+  };
+
+  const clearAllManagementPlansOfALocation = (location_id) => {
+    const managementPlanIdsOfLocation = managementPlansByLocationIds[location_id].map(
+      ({ management_plan_id }) => management_plan_id,
+    );
+    setSelectedManagementPlanIds(
+      selectedManagementPlanIds.filter(
+        (management_plan_id) => !managementPlanIdsOfLocation.includes(management_plan_id),
+      ),
+    );
+  };
+
   const clearAllCrops = () => {
     setSelectedManagementPlanIds([]);
   };
+
   return (
     <>
       <Form
@@ -120,7 +174,7 @@ const PureTaskCrops = ({
 
         <div style={{ paddingBottom: '16px' }}>
           <Square style={{ marginRight: '15px' }} color={'counter'}>
-            {numOfSelectedCrops}
+            {selectedManagementPlanIds.length}
           </Square>
           <Underlined onClick={selectAllCrops} style={{ marginRight: '5px' }}>
             {t('ADD_TASK.SELECT_ALL_CROPS')}
@@ -137,17 +191,25 @@ const PureTaskCrops = ({
               .name;
           return (
             <>
-              <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
               <div style={{ paddingBottom: '16px' }}>
-                <Underlined>{t('ADD_TASK.SELECT_ALL')}</Underlined>
-                {' | '}
-                <Underlined>{t('ADD_TASK.CLEAR_ALL')}</Underlined>
+                <PageBreak
+                  style={{ paddingBottom: '16px' }}
+                  label={location_name}
+                  onSelectAll={() => selectAllManagementPlansOfALocation(location_id)}
+                  onClearAll={() => clearAllManagementPlansOfALocation(location_id)}
+                />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
                 {filteredMPs[location_id].map((plan) => {
                   return (
                     <PureManagementPlanTile
-                      className={clsx(allCrops && styles.typeContainerSelected)}
+                      key={plan.management_plan_id}
+                      selected={selectedManagementPlanIds.includes(plan.management_plan_id)}
+                      onClick={() => onSelectManagementPlan(plan.management_plan_id)}
+                      className={clsx(
+                        selectedManagementPlanIds.includes(plan.management_plan_id) &&
+                          styles.typeContainerSelected,
+                      )}
                       managementPlan={plan}
                     />
                   );

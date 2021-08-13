@@ -1339,7 +1339,13 @@
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",
-    "UNASSIGNED": "MISSING"
+    "UNASSIGNED": "MISSING",
+    "DUE_DATE": "MISSING",
+    "TARGET": "MISSING",
+    "ABANDON_TASK": "MISSING",
+    "DETAILS": "MISSING",
+    "TASK": "MISSING",
+    "EDIT_TASK": "MISSING"
   },
   "UNIT": {
     "TIME": {

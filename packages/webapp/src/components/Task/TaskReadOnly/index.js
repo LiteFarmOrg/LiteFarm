@@ -22,7 +22,7 @@ export default function PureTaskReadOnly({
 }) {
   const { t } = useTranslation();
 
-  const taskType = task.taskType;
+  const taskType = task.taskType[0];
   const dueDate = task.due_date.split('T')[0];
   const locations = task.locations.map(({ location_id }) => (location_id));
   const owner = task.owner_user_id;
@@ -50,7 +50,7 @@ export default function PureTaskReadOnly({
       <PageTitle
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
-        title={t(`TASK.${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
+        title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
         onEdit={isAdmin || owner === self ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
       >
@@ -87,7 +87,7 @@ export default function PureTaskReadOnly({
       <Semibold
         style={{ marginBottom: '18px' }}
       >
-        {t(`TASK.${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
+        {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
       {taskSpecific}

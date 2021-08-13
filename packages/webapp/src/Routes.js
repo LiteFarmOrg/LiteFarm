@@ -286,6 +286,7 @@ const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
+const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 
 const Routes = () => {
   useScrollToTop();
@@ -516,6 +517,7 @@ const Routes = () => {
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
@@ -694,6 +696,7 @@ const Routes = () => {
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
@@ -995,7 +998,7 @@ const Routes = () => {
               component={EditNaturalAreaForm}
             />
             <Route path="/tasks" exact component={Tasks} />
-
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />

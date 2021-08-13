@@ -64,8 +64,22 @@ const PureTaskCrops = ({
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
 
   useHookFormPersist(getValues, persistedPaths);
-  let select_all_crops = false;
-
+  const [allCrops, setAllCrops] = useState(false);
+  const [numOfSelectedCrops, setNumOfSelectedCrops] = useState(0);
+  const selectAllCrops = () => {
+    let allMPs = [];
+    Object.values(filteredMPs).map((mps) => {
+      for (let mp of mps) {
+        allMPs.push(mp);
+      }
+    });
+    setNumOfSelectedCrops(allMPs.length);
+    setAllCrops(true);
+  };
+  const clearAllCrops = () => {
+    setNumOfSelectedCrops(0);
+    setAllCrops(false);
+  };
   return (
     <>
       <Form
@@ -97,18 +111,21 @@ const PureTaskCrops = ({
 
         <div style={{ paddingBottom: '16px' }}>
           <Square style={{ marginRight: '15px' }} color={'counter'}>
-            {'0'}
+            {numOfSelectedCrops}
           </Square>
-          <Underlined style={{ marginRight: '5px' }}>{t('ADD_TASK.SELECT_ALL_CROPS')}</Underlined>
+          <Underlined onClick={selectAllCrops} style={{ marginRight: '5px' }}>
+            {t('ADD_TASK.SELECT_ALL_CROPS')}
+          </Underlined>
           {'|'}
-          <Underlined style={{ marginLeft: '5px' }}>{t('ADD_TASK.CLEAR_ALL_CROPS')}</Underlined>
+          <Underlined onClick={clearAllCrops} style={{ marginLeft: '5px' }}>
+            {t('ADD_TASK.CLEAR_ALL_CROPS')}
+          </Underlined>
         </div>
 
         {Object.keys(filteredMPs).map((location_id) => {
           let location_name =
             managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
               .name;
-
           return (
             <>
               <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
@@ -121,7 +138,7 @@ const PureTaskCrops = ({
                 {filteredMPs[location_id].map((plan) => {
                   return (
                     <PureManagementPlanTile
-                      className={clsx(select_all_crops && styles.typeContainerSelected)}
+                      className={clsx(allCrops && styles.typeContainerSelected)}
                       managementPlan={plan}
                     />
                   );

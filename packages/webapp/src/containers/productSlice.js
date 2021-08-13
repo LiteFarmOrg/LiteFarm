@@ -28,7 +28,7 @@ const productAdapter = createEntityAdapter({
   selectId: (product) => product.product_id,
 });
 
-const taskSlice = createSlice({
+const productSlice = createSlice({
   name: 'productReducer',
   initialState: productAdapter.getInitialState({
     loading: false,
@@ -46,11 +46,11 @@ export const {
   onLoadingProductFail,
   onLoadingProductStart,
   getProductsSuccess,
-} = taskSlice.actions;
-export default taskSlice.reducer;
+} = productSlice.actions;
+export default productSlice.reducer;
 
-export const productReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
+export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
 
 const productSelector = productAdapter.getSelectors(
-  (state) => state.entitiesReducer[taskSlice.name],
+  (state) => state.entitiesReducer[productSlice.name],
 );

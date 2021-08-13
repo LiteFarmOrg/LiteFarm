@@ -42,7 +42,19 @@
     "TRANSPLANT": "Transplant",
     "TRANSPORT": "Transport",
     "WAGE_OVERRIDE": "Wage override",
-    "WASH_AND_PACK": "Wash and pack"
+    "WASH_AND_PACK": "Wash and pack",
+    "CLEANING": {
+      "TITLE": "Tell us about your cleaning task",
+      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used",
+      "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
+      "ESTIMATED_WATER": "Estimated water usage"
+    },
+  },
+  "ADD_PRODUCT" : {
+    "PRODUCT_LABEL": "Product",
+    "SUPPLIER_LABEL": "Supplier",
+    "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?"
+    "QUANTITY": "Quantity"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

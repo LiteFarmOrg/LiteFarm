@@ -15,6 +15,7 @@ import Input from '../../Form/Input';
 import Square from '../../Square';
 
 const PureTaskCrops = ({
+  onSubmit,
   handleGoBack,
   handleCancel,
   onError,
@@ -54,7 +55,7 @@ const PureTaskCrops = ({
         ].filter(
           (mp) =>
             mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
-            mp.crop_group.toLowerCase().includes(filter?.toLocaleString()),
+            mp.crop_group.toLowerCase().includes(filter?.toLowerCase()),
         );
         return filteredManagementPlansByLocationId;
       }, {});
@@ -90,7 +91,7 @@ const PureTaskCrops = ({
             </Button>
           </div>
         }
-        onSubmit={handleSubmit(onContinue, onError)}
+        onSubmit={handleSubmit(onSubmit, onError)}
       >
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}

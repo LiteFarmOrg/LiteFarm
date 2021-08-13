@@ -77,7 +77,9 @@ const taskController = {
         const { user_id } = req.headers;
         const { abandonment_reason, other_abandonment_reason, abandonment_notes } = req.body;
 
-        const { owner_user_id, assignee_user_id } = TaskModel.query().select('owner_user_id', 'assignee_user_id').where({ task_id }).first();
+        const { owner_user_id, assignee_user_id } = await TaskModel.query()
+          .select('owner_user_id', 'assignee_user_id')
+          .where({ task_id }).first();
         const isUserTaskOwner = user_id === owner_user_id;
         const isUserTaskAssignee = user_id === assignee_user_id;
         // cannot abandon task if user is worker and not assignee and not creator

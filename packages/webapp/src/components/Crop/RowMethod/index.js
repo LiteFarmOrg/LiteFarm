@@ -106,7 +106,9 @@ export default function PureRowMethod({
   const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
-
+  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
+  const isHistoricalPage =
+    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   return (
     <Form
       buttonGroup={
@@ -125,9 +127,9 @@ export default function PureRowMethod({
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ paddingBottom: '24px' }}>
-        {isFinalPage
-          ? t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')
-          : t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')}
+        {isHistoricalPage
+          ? t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')
+          : t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
       </Main>
       <div>
         <RadioGroup hookFormControl={control} name={SAME_LENGTH} required />

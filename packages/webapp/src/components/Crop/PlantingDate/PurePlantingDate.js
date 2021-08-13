@@ -2,7 +2,7 @@ import Button from '../../Form/Button';
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
+import { Info, Main } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
 import Form from '../../Form';
 import { get, useForm } from 'react-hook-form';
@@ -182,19 +182,6 @@ export default function PurePlantingDate({
     return harvestDaysMin > transplantDaysMax ? transplantDaysMax : harvestDaysMin;
   }, [transplant_days, germination_days, needs_transplant, min]);
 
-  const mainDateValidations = useMemo(
-    () =>
-      plantingIsMain && seed_date
-        ? {
-            min: {
-              value: seed_date,
-              message: t('MANAGEMENT_PLAN.PLANTING_DATE_MIN_ERROR'),
-            },
-          }
-        : {},
-    [],
-  );
-
   useEffect(() => {
     if (showTransplantOffset && isNonNegativeNumber(transplant_days)) trigger(TRANSPLANT_DAYS);
     if (showHarvestOffset && isNonNegativeNumber(harvest_days)) trigger(HARVEST_DAYS);
@@ -262,23 +249,35 @@ export default function PurePlantingDate({
         style={{ marginBottom: '40px' }}
         type={'date'}
         label={dateLabel}
-        hookFormRegister={register(MAIN_DATE, { required: true, ...mainDateValidations })}
+        hookFormRegister={register(MAIN_DATE, { required: true })}
         min={new Date().toISOString().substring(0, 10)}
-        info={
-          seed_date &&
-          !seedIsMain &&
-          t('MANAGEMENT_PLAN.PLANTING_DATE_INFO', { seed_date: getLocalizedDateString(seed_date) })
-        }
         errors={getInputErrors(errors, MAIN_DATE)}
       />
 
       {!harvestIsMain && !terminationIsMain && (
-        <Main
-          style={{ marginBottom: '24px' }}
-          tooltipContent={t('MANAGEMENT_PLAN.DURATION_TOOLTIP')}
-        >
-          {dateOffsetTitle}
-        </Main>
+        <>
+          <Main
+            style={{ marginBottom: '24px' }}
+            tooltipContent={
+              seedIsMain || plantingIsMain ? t('MANAGEMENT_PLAN.DURATION_TOOLTIP') : undefined
+            }
+          >
+            {dateOffsetTitle}
+          </Main>
+          {seed_date && plantingIsMain && (
+            <Info
+              style={{
+                marginTop: 0,
+                transform: 'translateY(-8px)',
+                marginBottom: '12px',
+              }}
+            >
+              {t('MANAGEMENT_PLAN.PLANTING_DATE_INFO', {
+                seed_date: getLocalizedDateString(seed_date),
+              })}
+            </Info>
+          )}
+        </>
       )}
       {showGerminationOffset && (
         <InputDuration

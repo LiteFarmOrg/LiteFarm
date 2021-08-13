@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import { Label } from '../../../components/Typography';
+import { isAdminSelector } from '../../userFarmSlice';
+import { userFarmsByFarmSelector } from '../../userFarmSlice';
+import { userFarmSelector } from '../../userFarmSlice';
+import { taskSelectorById } from '../../taskSlice';
 
 function TaskReadOnly({ history, match }) {
   const dispatch = useDispatch();
   const task_id = match.params.task_id;
+  const task = useSelector(taskSelectorById(task_id));
+
+  const users = useSelector(userFarmsByFarmSelector);
+  const user = useSelector(userFarmSelector);
+  const isAdmin = useSelector(isAdminSelector);
 
   const onGoBack = () => {
     history.push('/tasks');
@@ -30,6 +38,10 @@ function TaskReadOnly({ history, match }) {
       onComplete={onComplete}
       onEdit={onEdit}
       onAbandon={onAbandon}
+      task={task}
+      users={users}
+      user={user}
+      isAdmin={isAdmin}
     />
   );
 }

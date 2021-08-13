@@ -70,6 +70,34 @@ const taskController = {
     }
   },
 
+  abandonTask() {
+    return async (req, res, next) => {
+      try {
+        const { task_id } = req.params;
+        const { user_id } = req.headers;
+        const { abandonment_reason, other_abandonment_reason, abandonment_notes } = req.body;
+
+        const { owner_user_id, assignee_user_id } = TaskModel.query().select('owner_user_id', 'assignee_user_id').where({ task_id }).first();
+        const isUserTaskOwner = user_id === owner_user_id;
+        const isUserTaskAssignee = user_id === assignee_user_id;
+        // cannot abandon task if user is worker and not assignee and not creator
+        if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
+          return res.status(403).send('A worker who is not assignee or owner of task cannot abandon it');
+        }
+        const result = await TaskModel.query().context(req.user).findById(task_id).patch({
+          abandoned_time: new Date(Date.now()),
+          abandonment_reason,
+          other_abandonment_reason,
+          abandonment_notes,
+        });
+        return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error });
+      }
+    }
+  },
+
   createTask(typeOfTask) {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {

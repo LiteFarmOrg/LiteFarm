@@ -49,7 +49,7 @@ class TaskModel extends BaseModel {
         completed_time: { type: ['date-time', null] },
         late_time: { type: ['date-time', null] },
         for_review_time: { type: ['date-time', null] },
-        abandoned_time: { type: ['date-time', null] },
+        abandoned_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
         abandonment_reason: {
           type: 'string',
           enum: [
@@ -62,7 +62,7 @@ class TaskModel extends BaseModel {
             'SCHEDULING_ISSUE',
           ],
         },
-        other_abandonment_reason: { type: 'string' },
+        other_abandonment_reason: { type: ['string', null] },
         abandonment_notes: { type: 'string', maxLength: 10000 },
         ...super.baseProperties,
       },

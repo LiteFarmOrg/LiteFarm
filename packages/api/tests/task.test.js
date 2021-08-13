@@ -52,6 +52,14 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function abandonTaskRequest({ user_id, farm_id }, data, task_id, callback) {
+    chai.request(server).patch(`/task/abandon/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -267,6 +275,31 @@ describe('Task tests', () => {
       await mocks.location_tasksFactory({ promisedTask: [task_2], promisedField: [location_2] });
       assignAllTasksOnDateRequest({ user_id, farm_id }, { assignee_user_id: other_user_id, date: date }, task_1.task_id, async (err, res) => {
         expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
+
+  describe.only('PATCH abandon task tests', () => {
+    test('Owner should be able to abandon a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      const abandonment_reason = 'CROP_FAILURE';
+      const other_abandonment_reason = null;
+      const abandonment_notes = 'some abandonment note';
+      abandonTaskRequest({ user_id, farm_id }, {
+        abandonment_reason,
+        other_abandonment_reason,
+        abandonment_notes,
+      }, task.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const updated_task = await getTask(task.task_id);
+        expect(updated_task.abandonment_reason).toBe(abandonment_reason);
+        expect(updated_task.other_abandonment_reason).toBe(other_abandonment_reason);
+        expect(updated_task.abandonment_notes).toBe(abandonment_notes);
         done();
       });
     });

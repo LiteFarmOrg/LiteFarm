@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -37,6 +37,30 @@ const PureTaskCrops = ({
     mode: 'onChange',
   });
 
+  const [filter, setFilter] = useState();
+  const onFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const locationIds = Object.keys(managementPlansByLocationIds);
+
+  const filteredMPs = useMemo(() => {
+    if (!filter) {
+      return managementPlansByLocationIds;
+    } else {
+      return locationIds.reduce((filteredManagementPlansByLocationId, locationId) => {
+        filteredManagementPlansByLocationId[locationId] = managementPlansByLocationIds[
+          locationId
+        ].filter(
+          (mp) =>
+            mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
+            mp.crop_group.toLowerCase().includes(filter?.toLocaleString()),
+        );
+        return filteredManagementPlansByLocationId;
+      }, {});
+    }
+  }, [filter, managementPlansByLocationIds]);
+
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
 
   useHookFormPersist(getValues, persistedPaths);
@@ -64,7 +88,12 @@ const PureTaskCrops = ({
         />
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_CROPS')}</Main>
-        <Input isSearchBar={true} style={{ paddingBottom: '25px' }} />
+        <Input
+          value={filter}
+          onChange={onFilterChange}
+          isSearchBar={true}
+          style={{ paddingBottom: '25px' }}
+        />
 
         <div style={{ paddingBottom: '16px' }}>
           <Square style={{ marginRight: '15px' }} color={'counter'}>
@@ -75,10 +104,11 @@ const PureTaskCrops = ({
           <Underlined style={{ marginLeft: '5px' }}>{t('ADD_TASK.CLEAR_ALL_CROPS')}</Underlined>
         </div>
 
-        {Object.keys(managementPlansByLocationIds).map((location_id) => {
+        {Object.keys(filteredMPs).map((location_id) => {
           let location_name =
             managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
               .name;
+
           return (
             <>
               <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
@@ -88,7 +118,7 @@ const PureTaskCrops = ({
                 <Underlined>{t('ADD_TASK.CLEAR_ALL')}</Underlined>
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id].map((plan) => {
+                {filteredMPs[location_id].map((plan) => {
                   return (
                     <PureManagementPlanTile
                       className={clsx(select_all_crops && styles.typeContainerSelected)}

@@ -13,6 +13,8 @@ import clsx from 'clsx';
 import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import Square from '../../Square';
+import produce from 'immer';
+import { cloneObject } from '../../../util';
 
 const PureTaskCrops = ({
   onSubmit,
@@ -36,6 +38,7 @@ const PureTaskCrops = ({
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
+    defaultValues: cloneObject(persistedFormData),
   });
 
   const [filter, setFilter] = useState();
@@ -78,8 +81,7 @@ const PureTaskCrops = ({
     setAllCrops(true);
   };
   const clearAllCrops = () => {
-    setNumOfSelectedCrops(0);
-    setAllCrops(false);
+    setSelectedManagementPlanIds([]);
   };
   return (
     <>
@@ -95,7 +97,13 @@ const PureTaskCrops = ({
       >
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
-          onGoBack={handleGoBack}
+          onGoBack={() => {
+            setValue(
+              MANAGEMENT_PLANS,
+              selectedManagementPlanIds.map((management_plan_id) => ({ management_plan_id })),
+            );
+            handleGoBack();
+          }}
           onCancel={handleCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}

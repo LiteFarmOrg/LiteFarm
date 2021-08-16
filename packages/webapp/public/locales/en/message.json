@@ -141,6 +141,12 @@
       "UPDATE": "Successfully updated shift!"
     }
   },
+  "TASK": {
+    "CREATE": {
+      "FAILED": "Failed to create task",
+      "SUCCESS": "Successfully created task"
+    }
+  },
   "USER": {
     "ERROR": {
       "ADD": "Failed to add user",

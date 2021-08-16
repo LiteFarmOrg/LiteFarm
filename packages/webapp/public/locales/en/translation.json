@@ -1341,7 +1341,14 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "COMPLETE_TASK": "Complete task",
+    "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
+    "DURATION": "Duration",
+    "DID_YOU_ENJOY": "Did you enjoy this task?",
+    "PROVIDE_RATING": "Provide a rating",
+    "PREFER_NOT_TO_SAY": "I prefer not to say",
+    "COMPLETION_NOTES": "Task completion notes"
   },
   "UNIT": {
     "TIME": {

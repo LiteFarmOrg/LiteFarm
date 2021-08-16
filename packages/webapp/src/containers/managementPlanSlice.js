@@ -105,7 +105,7 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
  *   }
  * }
  */
-const managementPlanEntitiesSelector = createSelector(
+export const managementPlanEntitiesSelector = createSelector(
   [
     managementPlanSelectors.selectEntities,
     cropEntitiesSelector,

@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { taskEntitiesSelector } from '../taskSlice';
+import { tasksSelector } from '../taskSlice';
 import { getTasks } from './saga';
 import TaskCard from './TaskCard';
 import StateTab from '../../components/RouterTab/StateTab';
@@ -19,7 +19,7 @@ export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
   const { user_id } = useSelector(loginSelector);
-  const tasks = useSelector(taskEntitiesSelector);
+  const tasks = useSelector(tasksSelector);
   const dispatch = useDispatch();
 
   const defaultTab = TODO;

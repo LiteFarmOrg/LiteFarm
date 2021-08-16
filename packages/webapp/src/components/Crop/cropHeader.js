@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 function CropHeader({
   crop_translation_key,
   crop_variety_name,
-  supplierName,
+  supplier,
   crop_variety_photo_url,
   onBackClick,
 }) {
@@ -31,7 +31,7 @@ function CropHeader({
       <div className={styles.headerAttributesContainer}>
         <Label>
           {t('MANAGEMENT_PLAN.SUPPLIER')}:{' '}
-          <Text className={styles.attributeText}> {supplierName} </Text>
+          <Text className={styles.attributeText}> {supplier} </Text>
         </Label>
       </div>
       <div className={styles.imgContainer}>

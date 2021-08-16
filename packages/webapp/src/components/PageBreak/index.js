@@ -4,7 +4,9 @@ import Square from '../Square';
 
 import PropTypes from 'prop-types';
 
-import { Semibold } from '../Typography';
+import { Semibold, Underlined } from '../Typography';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   container: {
@@ -37,8 +39,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PageBreak({ label, square, children, style }) {
+export default function PageBreak({ label, square, children, style, onSelectAll, onClearAll }) {
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
     <div className={classes.container} style={style}>
       {label && (
@@ -54,14 +57,17 @@ export default function PageBreak({ label, square, children, style }) {
       )}
       {square && (
         <div className={classes.documentCountContainer}>
-          {square && (
-            <Square color={square.type}>{square.count}</Square>
-          )}
+          {square && <Square color={square.type}>{square.count}</Square>}
         </div>
       )}
       <div className={classes.breakContainer}>
         <div className={classes.break} />
       </div>
+      <>
+        {onSelectAll && <Underlined onClick={onSelectAll}>{t('ADD_TASK.SELECT_ALL')}</Underlined>}
+        {onSelectAll && onClearAll && ' | '}
+        {onClearAll && <Underlined onClick={onClearAll}>{t('ADD_TASK.CLEAR_ALL')}</Underlined>}
+      </>
     </div>
   );
 }

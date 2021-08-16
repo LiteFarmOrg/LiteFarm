@@ -23,6 +23,7 @@ import { ReactComponent as Transplant } from '../../../assets/images/task/Transp
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
+import Button from '../../Form/Button';
 
 const PureTaskTypeSelection = ({
                                  onCustomTask,
@@ -380,9 +381,9 @@ const PureTaskTypeSelection = ({
           {/*</div>*/}
         </div>
 
-        <AddLink onClick={onCustomTask} style={{ paddingTop: '20px' }}>
-          {t('ADD_TASK.CREATE_CUSTOM_TASK')}
-        </AddLink>
+        <Button color={'success'} onClick={onCustomTask}>
+          {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
+        </Button>
       </Form>
     </>
   );

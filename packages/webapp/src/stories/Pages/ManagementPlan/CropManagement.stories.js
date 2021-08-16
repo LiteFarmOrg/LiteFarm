@@ -13,7 +13,7 @@ const Template = (args) => <PureCropManagement {...args} />;
 export const Management = Template.bind({});
 Management.args = {
   history: {
-    location: { pathname: '/crop/2/management' },
+    location: { pathname: '/crop/variety_id/management' },
   },
   match: {
     params: {
@@ -21,9 +21,10 @@ Management.args = {
     },
   },
   variety: {
-    cropName: 'Carrot',
-    varietyName: 'Nantes',
-    supplierName: 'Buckerfields',
-    supplier: 'Supplier 1',
+    crop_translation_key: 'Blueberry',
+    crop_variety_name: 'Nantes',
+    supplier: 'Buckerfields',
+    crop_variety_photo_url:
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
   },
 };

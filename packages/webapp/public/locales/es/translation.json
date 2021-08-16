@@ -972,6 +972,7 @@
       "COMPLETED": "MISSING",
       "PLANNED": "MISSING"
     },
+    "SUPPLIER": "MISSING",
     "TERMINATION": "Terminar",
     "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
@@ -989,6 +990,7 @@
         "TEXT": "MISSING"
       }
     },
+    "VARIETY": "MISSING",
     "WHAT_IS_AGE": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHERE_START_LOCATION": "MISSING",

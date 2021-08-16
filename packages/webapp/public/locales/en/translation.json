@@ -973,6 +973,7 @@
       "COMPLETED": "Completed",
       "PLANNED": "Planned"
     },
+    "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
@@ -990,6 +991,7 @@
         "TEXT": "{{fill}} location"
       }
     },
+    "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHERE_START_LOCATION": "Where is your starting location?",

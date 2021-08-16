@@ -286,6 +286,7 @@ const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
+const ManageCustomTasks = React.lazy(() => import('./containers/AddTask/ManageCustomTasks'));
 
 const Routes = () => {
   useScrollToTop();
@@ -650,6 +651,7 @@ const Routes = () => {
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path="/export/:id" exact component={ExportDownload} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -945,6 +947,7 @@ const Routes = () => {
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1049,6 +1052,7 @@ const Routes = () => {
             <Route path="/add_task/task_notes" exact component={TaskNotes} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

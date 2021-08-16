@@ -9,6 +9,8 @@ import { Main } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import InputAutoSize from '../../Form/InputAutoSize';
+import Rating from '../../Rating';
+import styles from './styles.module.scss';
 
 
 export default function PureTaskComplete({
@@ -24,14 +26,14 @@ export default function PureTaskComplete({
     handleSubmit,
     watch,
     getValues,
-    formState: { isValid, errors },
+    formState: { errors },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
 
-  const disabled = !isValid;
+  
 
   const progress = 12;
 
@@ -41,12 +43,17 @@ export default function PureTaskComplete({
   const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
 
-  console.log(prefer_not_to_say);
+  const notes = watch(COMPLETION_NOTES);
+
 
   const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };
+
+  const [rating, setRating] = useState(0);
+
+  const disabled = !prefer_not_to_say && rating === 0;
 
   return (
     <Form
@@ -55,7 +62,7 @@ export default function PureTaskComplete({
           {t('common:SAVE')}
         </Button>
       }
-      onSubmit={handleSubmit(() => { console.log(prefer_not_to_say) })}
+      onSubmit={handleSubmit(() => { onSave({duration: duration, rating: rating, notes: notes}); })}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
@@ -81,6 +88,13 @@ export default function PureTaskComplete({
       <Main style={{ marginBottom: '24px' }}>
         {t('TASK.DID_YOU_ENJOY')}
       </Main>
+
+      <Rating
+        className={styles.rating}
+        style={{ marginBottom: '27px' }}
+        label={t('TASK.PROVIDE_RATING')}
+        onRate={setRating}
+      />
 
       <Checkbox
         style={{ marginBottom: '42px' }}

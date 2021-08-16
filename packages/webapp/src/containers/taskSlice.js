@@ -93,3 +93,20 @@ export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, 
 });
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+
+export const taskEntitiesSelectorByManagementPlanId = createSelector(
+  [taskEntitiesSelector],
+  (tasks) => {
+    return tasks.reduce((obj, { managementPlans, ...task }) => {
+      let newObj = { ...obj };
+      managementPlans.forEach(({ management_plan_id }) => {
+        if (!newObj[management_plan_id]) {
+          newObj[management_plan_id] = [task];
+        } else {
+          newObj[management_plan_id].push(task);
+        }
+      });
+      return newObj;
+    }, {});
+  },
+);

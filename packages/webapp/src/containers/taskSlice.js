@@ -84,7 +84,6 @@ export const {
 export default taskSlice.reducer;
 
 export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
-
 export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );

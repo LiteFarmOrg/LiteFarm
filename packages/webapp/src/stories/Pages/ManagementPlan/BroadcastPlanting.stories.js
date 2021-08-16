@@ -58,20 +58,14 @@ Final.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const Historical = Template.bind({});
-Historical.args = {
+export const HistoricalInitial = Template.bind({});
+HistoricalInitial.args = {
   variety_id: 'variety_id',
   useHookFormPersist: () => {},
   persistedFormData: {
     crop_management_plan: {
-      planting_management_plans: {
-        initial: {
-          broadcast_method: {
-            percentage_planted: 10,
-            seeding_rate: 3,
-          },
-        },
-      },
+      already_in_ground: true,
+      needs_transplant: true,
     },
   },
   system: 'metric',
@@ -80,6 +74,26 @@ Historical.args = {
   isFinalPage: false,
 };
 
-Historical.parameters = {
+HistoricalInitial.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const HistoricalFinal = Template.bind({});
+HistoricalFinal.args = {
+  variety_id: 'variety_id',
+  useHookFormPersist: () => {},
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: true,
+      needs_transplant: false,
+    },
+  },
+  system: 'metric',
+  locationSize: 2000,
+  yieldPerArea: 30,
+  isFinalPage: true,
+};
+
+HistoricalFinal.parameters = {
   ...chromaticSmallScreen,
 };

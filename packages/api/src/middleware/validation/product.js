@@ -1,4 +1,3 @@
-// const knex = require('./../../util/knex');
 const productModel = require('../../models/productModel');
 function createOrPatchProduct(taskType) {
   return async (req, res, next) =>  {

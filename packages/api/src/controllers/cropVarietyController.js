@@ -1,4 +1,6 @@
 const CropVarietyModel = require('../models/cropVarietyModel');
+const managementPlanModel = require('../models/managementPlanModel');
+
 const CropModel = require('../models/cropModel');
 const nutrients = ['protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
   'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits',
@@ -39,7 +41,10 @@ const cropVarietyController = {
     return async (req, res, next) => {
       const { crop_variety_id } = req.params;
       try {
-        const result = await CropVarietyModel.query().context(req.user).findById(crop_variety_id).delete();
+        const result = await CropVarietyModel.transaction(async trx => {
+          await managementPlanModel.query(trx).context(req.user).where({ crop_variety_id }).delete();
+          return await CropVarietyModel.query(trx).context(req.user).findById(crop_variety_id).delete();
+        });
         return result ? res.sendStatus(200) : res.status(404).send('Crop variety not found');
       } catch (error) {
         console.log(error);

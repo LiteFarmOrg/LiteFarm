@@ -2,19 +2,19 @@ import styles, { defaultColour } from './styles.module.scss';
 import { activeIcons, areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { onlyCropEnabledLocations, allLocations } from './mapFilterSettingSlice';
+import { allLocations, onlyCropEnabledLocations } from './mapFilterSettingSlice';
 import {
+  cropLocationsSelector,
   lineSelector,
+  locationsSelector,
   pointSelector,
   sortedAreaSelector,
-  cropLocationsSelector,
-  locationsSelector,
 } from '../locationSlice';
 import { setPosition, setZoomLevel } from '../mapSlice';
 import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useLocationsSelectionHandler from './useLocationsSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
-
+//TODO: refactor or revert.
 const useMapSelectionRenderer = ({
   isClickable,
   isSelectable = true,

@@ -929,6 +929,7 @@
     "PLANTED_ALREADY": "MISSING",
     "PLANTING": "MISSING",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
+    "PLANTING_DATE_INFO": "MISSING",
     "PLANTING_DATE_LABEL": "MISSING",
     "PLANTING_DATE_MIN_ERROR": "MISSING",
     "PLANTING_DEPTH": "Profundidad de siembra",

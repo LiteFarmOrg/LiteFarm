@@ -87,6 +87,7 @@ export default function TaskPage({ history }) {
             task={task}
             key={task.task_id}
             onClickAssignee={handleClickAssignee}
+            onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
             style={{ marginBottom: '14px' }}
           />
         ))

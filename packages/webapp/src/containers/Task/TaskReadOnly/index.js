@@ -5,6 +5,7 @@ import { isAdminSelector } from '../../userFarmSlice';
 import { userFarmsByFarmSelector } from '../../userFarmSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { taskSelectorById } from '../../taskSlice';
+import { useManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlansByLocationIds';
 
 function TaskReadOnly({ history, match }) {
   const dispatch = useDispatch();
@@ -14,6 +15,12 @@ function TaskReadOnly({ history, match }) {
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
+
+  const task_locations = task.locations.map(({ location_id }) => (location_id));
+
+  const managementPlansByLocationIds = useManagementPlansByLocationIds(
+    task_locations
+  );
 
   const onGoBack = () => {
     history.push('/tasks');
@@ -42,6 +49,7 @@ function TaskReadOnly({ history, match }) {
       users={users}
       user={user}
       isAdmin={isAdmin}
+      managementPlansByLocationIds={managementPlansByLocationIds}
     />
   );
 }

@@ -142,6 +142,7 @@ export default function PurePlantingMethod({
   const [{ imageModalSrc, imageModalAlt }, setSelectedImage] = useState({});
   const onImageSelect = (src, alt) => setSelectedImage({ imageModalSrc: src, imageModalAlt: alt });
   const dismissModal = () => setSelectedImage({});
+
   return (
     <Form
       buttonGroup={

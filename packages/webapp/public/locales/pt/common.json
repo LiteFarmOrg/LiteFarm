@@ -46,6 +46,7 @@
   "SUBMITTING": "Enviando...",
   "TO": "Para",
   "UPDATE": "Atualizar",
-  "WORD_LIMIT_ERROR": "MISSING",
-  "YES": "Sim"
+  "YES": "Sim",
+  "MARK_COMPLETE": "MISSING",
+  "WORD_LIMIT_ERROR": "MISSING"
 }

@@ -7,3 +7,10 @@
   fill: var(--yellow700);
   stroke: var(--grey900);
 }
+
+button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

@@ -4,7 +4,6 @@
   "SALES": "Ventas",
   "SOCIAL_EVENT": "Evento Social",
   "SEEDING": "Siembra",
-  "FERTILIZING": "Fertilización",
   "SCOUTING": "Búsqueda",
   "HARVESTING": "Cosecha",
   "WEEDING": "Desmalezar",
@@ -17,5 +16,7 @@
   "TRANSPORT": "MISSING",
   "FIELD_WORK": "MISSING",
   "PLANTING": "MISSING",
-  "SOCIAL": "MISSING"
+  "SOCIAL": "Social",
+  "CLEANING": "Cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment"
 }

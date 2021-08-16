@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Infoi from '../Tooltip/Infoi';
 import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
+import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
 
 export const Underlined = ({ children = 'Link', className = '', style, ...props }) => {
   return (
@@ -31,6 +32,23 @@ export const AddLink = ({ children = 'Link', className = '', style, onClick, ...
 };
 
 AddLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+  return (
+    <p style={style} className={clsx(styles.editLinkContainer, className)} {...props}>
+      <Pencil className={styles.pencil}/>
+      <span className={clsx(styles.underlined)} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+EditLink.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,

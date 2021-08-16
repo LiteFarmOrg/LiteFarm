@@ -213,3 +213,21 @@ InitialSeedling.args = {
 InitialSeedling.parameters = {
   ...chromaticSmallScreen,
 };
+
+export const InitialSeedlingWithDefaultFarmLocation = Template.bind({});
+InitialSeedlingWithDefaultFarmLocation.args = {
+  cropLocations,
+  variety_id: 'variety_id',
+  useHookFormPersist: () => {},
+  persistedFormData: produce(persistedFormData, (persistedFormData) => {
+    persistedFormData.crop_management_plan.already_in_ground = false;
+    persistedFormData.farm = {
+      default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+    };
+  }),
+  isFinalLocationPage: false,
+  default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+};
+InitialSeedlingWithDefaultFarmLocation.parameters = {
+  ...chromaticSmallScreen,
+};

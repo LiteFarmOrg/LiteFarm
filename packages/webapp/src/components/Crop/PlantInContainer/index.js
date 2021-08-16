@@ -27,9 +27,11 @@ export default function PurePlantInContainer({
   crop_variety,
   isFinalPage,
 }) {
-  const isHistorical = persistedFormData.crop_management_plan.already_in_ground && !isFinalPage;
+  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
+  const isHistorical =
+    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   const progress = useMemo(() => {
-    if (isHistorical) return 55;
+    if (isHistorical && !isFinalPage) return 55;
     if (isFinalPage) return 75;
     return 50;
   }, []);

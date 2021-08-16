@@ -81,8 +81,6 @@ import {
   onLoadingManagementPlanStart,
 } from './managementPlanSlice';
 import i18n from '../locales/i18n';
-import { getLogs, resetLogFilter } from './Log/actions';
-import { getAllShifts, resetShiftFilter } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
 import { logout } from '../util/jwt';
 import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
@@ -134,7 +132,7 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import { getTasks } from './Task/saga';
+import { getTasks, getTaskTypes } from './Task/saga';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -507,6 +505,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       put(getManagementPlans()),
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
+      put(getTaskTypes()),
       put(getTasks()),
     ];
 

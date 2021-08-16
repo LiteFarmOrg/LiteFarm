@@ -9,6 +9,7 @@ const databaseUnit = {
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
+  volume: 'l',
   time: 'd',
 };
 
@@ -165,6 +166,20 @@ export const seedYield = {
   },
   databaseUnit: databaseUnit.mass,
 };
+
+export const waterUsage = {
+  metric: {
+    units : ['ml', 'l'],
+    defaultUnit: 'l',
+    breakpoints: [1000]
+  },
+  imperial: {
+    units: ['fl-oz', 'gal'],
+    defaultUnit: 'gal',
+    breakpoints:  [128]
+  },
+  databaseUnit: databaseUnit.volume
+}
 
 //TODO move to storybook
 

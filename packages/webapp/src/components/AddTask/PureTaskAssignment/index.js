@@ -9,6 +9,7 @@ import styles from '../../CertificationReportingPeriod/styles.module.scss';
 import ReactSelect from '../../Form/ReactSelect';
 import RadioGroup from '../../Form/RadioGroup';
 import Input, { getInputErrors, numberOnKeyDown } from '../../Form/Input';
+import { cloneObject } from '../../../util';
 
 const PureTaskAssignment = ({
   onSubmit,
@@ -45,6 +46,7 @@ const PureTaskAssignment = ({
         ? persistedFormData.override_hourly_wage
         : false,
       wage_at_moment: persistedFormData.wage_at_moment ? persistedFormData.wage_at_moment : null,
+      ...cloneObject(persistedFormData)
     },
   });
 

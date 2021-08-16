@@ -868,8 +868,8 @@ function fakeProduct(defaultData = {}){
   return {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
-    on_permitted_substances_list: faker.random.boolean(),
-    type: faker.random.arrayElement(['soil_amendment', 'pest_control', 'cleaner']),
+    on_permitted_substances_list: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
+    type: faker.random.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
     ...defaultData
   }
 }

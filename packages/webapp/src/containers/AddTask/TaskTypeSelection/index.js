@@ -7,10 +7,11 @@ function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
 
   const continuePath = '/add_task/task_date';
-  const persistedPaths = [continuePath];
+  const customTaskPath = '/add_task/manage_custom_tasks';
+  const persistedPaths = [continuePath, customTaskPath];
 
   const onCustomTask = () => {
-    console.log('Go to LF-1747 custom task creation page');
+    history.push(customTaskPath);
   };
 
   const onContinue = () => {
@@ -18,11 +19,11 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const handleGoBack = () => {
-    history.push('/tasks')
+    history.push('/tasks');
   };
 
   const handleCancel = () => {
-    history.push('/tasks')
+    history.push('/tasks');
   };
 
   const onError = () => {};

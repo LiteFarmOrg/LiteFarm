@@ -3,19 +3,15 @@ import PureManageCustomTasks from '../../../components/AddTask/PureManageCustomT
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function ManageCustomTasks({ history, match }) {
-  const onAddCustomTaskPath = '';
+  const onAddCustomTaskPath = '/add_task/add_custom_task';
   const onGoBackPath = '/add_task/task_type_selection';
   const persistedPaths = [onGoBackPath, onAddCustomTaskPath];
   const handleGoBack = () => {
-    history.push(persistedPaths[0]);
-  };
-
-  const handleCancel = () => {
-    history.push('/tasks');
+    history.push(onGoBackPath);
   };
 
   const onAddCustomTask = () => {
-    history.push(persistedPaths[1]);
+    history.push(onAddCustomTaskPath);
   };
 
   const onError = () => {
@@ -25,7 +21,6 @@ function ManageCustomTasks({ history, match }) {
   return (
     <HookFormPersistProvider>
       <PureManageCustomTasks
-        handleCancel={handleCancel}
         handleGoBack={handleGoBack}
         onError={onError}
         onAddCustomTask={onAddCustomTask}

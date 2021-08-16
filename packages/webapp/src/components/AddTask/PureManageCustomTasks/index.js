@@ -2,11 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Form from '../../Form';
-import PageTitle from '../../PageTitle';
+import PageTitle from '../../PageTitle/v2';
 import { AddLink } from '../../Typography';
 
 const PureManageCustomTasks = ({
-  handleCancel,
   handleGoBack,
   onAddCustomTask,
   onError,
@@ -33,11 +32,11 @@ const PureManageCustomTasks = ({
     <>
       <Form>
         <PageTitle
-          style={{ marginBottom: '5px' }}
-          onGoBack={handleGoBack}
+          style={{ marginBottom: '20px' }}
           title={t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
+          onGoBack={handleGoBack}
         />
-        <AddLink>{t('ADD_TASK.ADD_CUSTOM_TASK')}</AddLink>
+        <AddLink onClick={onAddCustomTask}>{t('ADD_TASK.ADD_CUSTOM_TASK')}</AddLink>
       </Form>
     </>
   );

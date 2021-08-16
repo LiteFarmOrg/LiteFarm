@@ -286,6 +286,7 @@ const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
+const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 
 const Routes = () => {
@@ -522,6 +523,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -947,6 +949,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Redirect to={'/'} />
           </Switch>
@@ -1051,6 +1054,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Redirect to={'/'} />
           </Switch>

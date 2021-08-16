@@ -230,6 +230,11 @@ const Unit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
+      //FIXME: walk around for racing condition on add management plan pages LF-1883
+      hookFormSetValue(name, value, {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
       setTimeout(() => {
         hookFormSetValue(name, value, {
           shouldValidate: !shouldClearError && shouldValidate,

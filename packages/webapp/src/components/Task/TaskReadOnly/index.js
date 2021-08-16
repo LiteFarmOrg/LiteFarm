@@ -8,6 +8,10 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import LocationViewer from '../../LocationViewer';
 import { Label, Underlined, Semibold } from '../../Typography';
 import styles from './styles.module.scss';
+import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
+import PureCropTileContainer from '../../CropTile/CropTileContainer';
+import useCropTileListGap from '../../CropTile/useCropTileListGap';
+import PageBreak from '../../PageBreak';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -19,6 +23,7 @@ export default function PureTaskReadOnly({
   users,
   user,
   isAdmin,
+  managementPlansByLocationIds,
 }) {
   const { t } = useTranslation();
 
@@ -35,6 +40,8 @@ export default function PureTaskReadOnly({
       assignee = user.first_name + ' ' + user.last_name;
     }
   }
+
+  const { ref: gap, padding } = useCropTileListGap([]);
 
   return (
     <Layout
@@ -84,8 +91,34 @@ export default function PureTaskReadOnly({
         viewLocations={locations}
       />
 
+      {Object.keys(managementPlansByLocationIds).map((location_id) => {
+        let location_name =
+          managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
+            .name;
+        return (
+          <>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak
+                style={{ paddingBottom: '16px' }}
+                label={location_name}
+              />
+            </div>
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {managementPlansByLocationIds[location_id].map((plan) => {
+                return (
+                  <PureManagementPlanTile
+                    key={plan.management_plan_id}
+                    managementPlan={plan}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </>
+        );
+      })}
+
       <Semibold
-        style={{ marginBottom: '18px' }}
+        style={{ marginTop: '8px' , marginBottom: '18px' }}
       >
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>

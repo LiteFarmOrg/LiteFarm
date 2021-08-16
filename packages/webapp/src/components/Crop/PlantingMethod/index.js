@@ -173,9 +173,9 @@ export default function PurePlantingMethod({
             style={{ marginBottom: '24px' }}
             tooltipContent={t('MANAGEMENT_PLAN.PLANTING_METHOD_TOOLTIP')}
           >
-            {isFinalPlantingMethod
-              ? t('MANAGEMENT_PLAN.PLANTING_METHOD')
-              : t('MANAGEMENT_PLAN.WHAT_WAS_PLANTING_METHOD')}
+            {showIsPlantingMethodKnown
+              ? t('MANAGEMENT_PLAN.WHAT_WAS_PLANTING_METHOD')
+              : t('MANAGEMENT_PLAN.PLANTING_METHOD')}
           </Main>
           <div className={styles.radioGroupContainer}>
             <RadioGroup

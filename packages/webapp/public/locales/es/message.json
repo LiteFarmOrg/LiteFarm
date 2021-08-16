@@ -141,6 +141,12 @@
       "UPDATE": "Turno agregado exitosamente!"
     }
   },
+  "TASK": {
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    }
+  },
   "USER": {
     "ERROR": {
       "ADD": "No se pudo agregar usuario",

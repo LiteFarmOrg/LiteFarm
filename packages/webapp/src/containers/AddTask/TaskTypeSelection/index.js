@@ -4,18 +4,18 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { getTaskTypes } from '../../Task/saga';
-import { taskTypeEntitiesSelector } from '../../taskTypeSlice';
+import { taskTypesSelector } from '../../taskTypeSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const taskTypes = useSelector(taskTypeEntitiesSelector);
+  const taskTypes = useSelector(taskTypesSelector);
   const continuePath = '/add_task/task_date';
   const persistedPaths = [continuePath];
 
   useEffect(() => {
     dispatch(getTaskTypes());
-  },[]);
+  }, []);
 
   const onCustomTask = () => {
     console.log('Go to LF-1747 custom task creation page');
@@ -26,11 +26,11 @@ function TaskTypeSelection({ history, match }) {
   };
 
   const handleGoBack = () => {
-    history.push('/tasks')
+    history.push('/tasks');
   };
 
   const handleCancel = () => {
-    history.push('/tasks')
+    history.push('/tasks');
   };
 
   const onError = () => {};

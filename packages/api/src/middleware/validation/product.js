@@ -19,4 +19,4 @@ function createOrPatchProduct(taskType) {
   }
 }
 
-module.exports = { createOrPatchProduct }
+module.exports = { createOrPatchProduct };

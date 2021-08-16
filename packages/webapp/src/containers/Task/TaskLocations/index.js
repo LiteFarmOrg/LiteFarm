@@ -12,7 +12,7 @@ export default function TaskLocations({ history }) {
   const dispatch = useDispatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
-  const persistedPath = ['/add_task/task_date', '/add_task/task_notes', '/add_task/task_crops'];
+  const persistedPath = ['/add_task/task_date', '/add_task/task_details', '/add_task/task_crops'];
 
   //TODO: Remove this, make the location picker produce or accept [{location_id}] instead of [location_id]
   let task_locations = persistedFormData?.locations?.map(({ location_id }) => location_id);
@@ -30,7 +30,7 @@ export default function TaskLocations({ history }) {
   const onContinue = () => {
     dispatch(setTaskLocationsData(locationsAsLocationIdObjects(taskLocations)));
     taskTypesBypassCrops.includes(persistedFormData.type)
-      ? history.push('/add_task/task_notes')
+      ? history.push('/add_task/task_details')
       : history.push('/add_task/task_crops');
   };
 

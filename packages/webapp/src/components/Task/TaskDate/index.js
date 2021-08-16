@@ -33,7 +33,7 @@ export default function PureTaskDate({
   const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
   useHookFormPersist(getValues, persistedPath);
 
-  const TASK_DATE = 'due_date';
+  const DUE_DATE = 'due_date';
 
   const disabled = !isValid;
 
@@ -60,10 +60,10 @@ export default function PureTaskDate({
       <Input
         type={'date'}
         label={t('common:DATE')}
-        hookFormRegister={register(TASK_DATE, {
+        hookFormRegister={register(DUE_DATE, {
           required: true,
         })}
-        errors={errors[TASK_DATE] && t('common:REQUIRED')}
+        errors={errors[DUE_DATE] && t('common:REQUIRED')}
       />
     </Form>
   );

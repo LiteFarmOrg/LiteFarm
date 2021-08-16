@@ -7,5 +7,4 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.raw(formatAlterTableEnumSql('product', 'type', currentEnum));
-
 };

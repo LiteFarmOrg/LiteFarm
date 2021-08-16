@@ -26,7 +26,7 @@ function TaskManagement({ history, match }) {
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
-  const goBackPath = '/add_task/task_notes';
+  const goBackPath = '/add_task/task_details';
   const persistPaths = [goBackPath];
 
   useEffect(() => {

@@ -1,9 +1,5 @@
 import React from 'react';
-import Button from '../../Form/Button';
-import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Label, Main } from '../../Typography';
 import styles from './styles.module.scss';
 import Input from '../../Form/Input';
@@ -12,46 +8,26 @@ import { waterUsage } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import AddProduct from '../AddProduct';
 
-const PureCleaningTask = ({ onSubmit, onError, handleGoBack, handleCancel, system, products }) => {
+const PureCleaningTask = ({ system, products,  register, control, setValue, getValues, watch, farm }) => {
   const { t } = useTranslation();
-  const { handleSubmit, register, control, setValue, getValues, watch } = useForm();
-
-  const CLEANING_TARGET = 'cleaning_target';
-  const AGENT_USED = 'agent_used';
-  const WATER_USAGE = 'water_usage';
-  const WATER_USAGE_UNIT = 'water_usage_unit';
-
+  const CLEANING_TARGET = 'cleaning_task.cleaning_target';
+  const AGENT_USED = 'cleaning_task.agent_used';
+  const WATER_USAGE = 'cleaning_task.water_usage';
+  const WATER_USAGE_UNIT = 'cleaning_task.water_usage_unit';
+  const filtered = products.filter(({type}) => type === 'cleaning_task')
   const isCleaningAgentUsed = watch(AGENT_USED);
 
   return (
-    <Form
-      buttonGroup={
-        <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-          <Button color={'primary'} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </div>
-      }
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      <MultiStepPageTitle
-        style={{ marginBottom: '24px' }}
-        onGoBack={handleGoBack}
-        onCancel={handleCancel}
-        title={t('ADD_TASK.ADD_A_TASK')}
-        cancelModalTitle={t('ADD_TASK.CANCEL')}
-        value={86}
-      />
-      <Main className={styles.mb24}>{t('ADD_TASK.CLEANING.TITLE')}</Main>
+    <>
       <Input
-        label={t('ADD_TASK.CLEANING.WHAT_NEEDS_TO_BE')}
+        label={t('ADD_TASK.CLEANING_VIEW.WHAT_NEEDS_TO_BE')}
         name={CLEANING_TARGET}
-        style={styles.mb24}
+        style={{ marginBottom: '40px', marginTop: '24px'}}
         hookFormRegister={register(CLEANING_TARGET)}/>
 
-      <Main>{t('ADD_TASK.CLEANING.WILL_CLEANER_BE_USED')}</Main>
+      <Main>{t('ADD_TASK.CLEANING_VIEW.WILL_CLEANER_BE_USED')}</Main>
       <RadioGroup
-        style={styles.mb24}
+        style={ { marginBottom: '24px', marginTop: '18px'} }
         hookFormControl={control}
         name={AGENT_USED}
         required
@@ -61,17 +37,19 @@ const PureCleaningTask = ({ onSubmit, onError, handleGoBack, handleCancel, syste
         <AddProduct
           system={system}
           watch={watch}
-          type={'cleaning'}
+          type={'cleaning_task'}
           register={register}
           getValues={getValues}
           setValue={setValue}
           control={control}
-          products={products}
+          products={filtered}
+          farm={farm}
         />
       )}
       <Unit
         register={register}
-        label={t('ADD_TASK.CLEANING.ESTIMATED_WATER')}
+        style={{marginBottom: '40px'}}
+        label={t('ADD_TASK.CLEANING_VIEW.ESTIMATED_WATER')}
         name={WATER_USAGE}
         displayUnitName={WATER_USAGE_UNIT}
         unitType={waterUsage}
@@ -82,9 +60,7 @@ const PureCleaningTask = ({ onSubmit, onError, handleGoBack, handleCancel, syste
         control={control}
         required
       />
-
-    </Form>
-
+    </>
   )
 }
 

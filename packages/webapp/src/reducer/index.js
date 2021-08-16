@@ -44,11 +44,11 @@ import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
 
-import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import taskReducer from '../containers/taskSlice';
+import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
@@ -169,6 +169,7 @@ const entitiesReducer = combineReducers({
   certifierReducer,
   certificationReducer,
   taskReducer,
+  taskTypeReducer,
   productReducer,
 });
 
@@ -180,7 +181,6 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
-  shiftStepReducer,
   logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,

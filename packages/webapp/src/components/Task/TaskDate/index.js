@@ -33,7 +33,7 @@ export default function PureTaskDate({
   const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
   useHookFormPersist(getValues, persistedPath);
 
-  const TASK_DATE = 'task_date';
+  const TASK_DATE = 'due_date';
 
   const disabled = !isValid;
 

@@ -72,8 +72,8 @@ describe('Task tests', () => {
 
 
   afterAll(async (done) => {
-    // await tableCleanup(knex);
-    // await knex.destroy();
+    await tableCleanup(knex);
+    await knex.destroy();
     done();
   });
 
@@ -277,12 +277,14 @@ describe('Task tests', () => {
 
     describe('creating types of tasks',  () => {
       let product;
+      let productData;
       beforeEach(async () => {
-         [{ product_id: product }] = await mocks.productFactory();
+         [{ product_id: product }] = await mocks.productFactory({}, mocks.fakeProduct({ supplier : 'mock'}));
+         productData = mocks.fakeProduct({ supplier: 'test' });
       });
       const fakeTaskData = {
-        soil_amendment_task: () =>  mocks.fakeSoilAmendmentTask({ product_id: product }),
-        pest_control_task: () => mocks.fakePestControlTask({ product_id: product }),
+        soil_amendment_task: () =>  mocks.fakeSoilAmendmentTask({ product_id: product, product: productData }),
+        pest_control_task: () => mocks.fakePestControlTask({ product_id: product, product: productData }),
         irrigation_task: () => mocks.fakeIrrigationTask(),
         scouting_task: () => mocks.fakeScoutingTask(),
         soil_task: () => mocks.fakeSoilTask(),
@@ -317,6 +319,10 @@ describe('Task tests', () => {
             const specificTask = await knex(type).where({ task_id });
             expect(specificTask.length).toBe(1);
             expect(specificTask[0].task_id).toBe(task_id)
+            if( res.body[type].product_id ) {
+              const specificProduct = await knex('product').where({ product_id: res.body[type].product_id }).first();
+              expect(specificProduct.supplier).toBe('test');
+            }
             done();
           });
         });
@@ -416,6 +422,85 @@ describe('Task tests', () => {
           done();
         });
       })
+
+      test('should create a task (i.e soilamendment) and patch a product', async (done) => {
+        const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
+        const promisedManagement  = await Promise.all([...Array(3)].map(async () =>
+          mocks.management_planFactory({ promisedFarm: [{ farm_id }],
+            promisedLocation: [{location_id}] })
+        ));
+        const managementPlans = promisedManagement.reduce((a,b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const soilAmendmentProduct = mocks.fakeProduct();
+        soilAmendmentProduct.name = 'soilProduct';
+        const data = {
+          ...mocks.fakeTask({
+            soil_amendment_task: { ...fakeTaskData.soil_amendment_task(), product: soilAmendmentProduct },
+            type: task_type_id,
+            owner_user_id: user_id,
+            wage_at_moment: 50,
+          }),
+          locations: [{ location_id } ],
+          managementPlans,
+        }
+
+        postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', data, async (err, res) => {
+          expect(res.status).toBe(200);
+          const { task_id } = res.body;
+          const { product_id } = res.body.soil_amendment_task;
+          const createdTask = await knex('task').where({ task_id }).first();
+          expect(createdTask).toBeDefined();
+          const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
+          expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+          expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+          expect(createdTask.wage_at_moment).toBe(50);
+          const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id });
+          expect(isTaskRelatedToManagementPlans.length).toBe(3);
+          const specificProduct = await knex('product').where({ product_id }).first();
+          expect(specificProduct.name).toBe('soilProduct')
+          done();
+        });
+      });
+
+      test('should create a task (i.e soilamendment) and create a product', async (done) => {
+        const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
+        const promisedManagement  = await Promise.all([...Array(3)].map(async () =>
+          mocks.management_planFactory({ promisedFarm: [{ farm_id }],
+            promisedLocation: [{location_id}] })
+        ));
+        const managementPlans = promisedManagement.reduce((a,b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const soilAmendmentProduct = mocks.fakeProduct();
+        soilAmendmentProduct.name = 'soilProduct2';
+        soilAmendmentProduct.farm_id = farm_id;
+        const data = {
+          ...mocks.fakeTask({
+            soil_amendment_task: { ...fakeTaskData.soil_amendment_task(), product: soilAmendmentProduct, product_id: null },
+            type: task_type_id,
+            owner_user_id: user_id,
+            wage_at_moment: 50,
+          }),
+          locations: [{ location_id } ],
+          managementPlans,
+        }
+
+        postTaskRequest({ user_id, farm_id }, 'soil_amendment_task', data, async (err, res) => {
+          expect(res.status).toBe(200);
+          const { task_id } = res.body;
+          const { product_id } = res.body.soil_amendment_task;
+          const createdTask = await knex('task').where({ task_id }).first();
+          expect(createdTask).toBeDefined();
+          const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
+          expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+          expect(isTaskRelatedToLocation.task_id).toBe(task_id);
+          expect(createdTask.wage_at_moment).toBe(50);
+          const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id });
+          expect(isTaskRelatedToManagementPlans.length).toBe(3);
+          const specificProduct = await knex('product').where({ product_id }).first();
+          expect(specificProduct.name).toBe('soilProduct2')
+          done();
+        });
+      });
+
+
 
       test('should fail to create a task were a worker is trying to assign someone else', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);

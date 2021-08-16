@@ -280,7 +280,7 @@ const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
 
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
-const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
+const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
 const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
@@ -498,7 +498,7 @@ const Routes = () => {
               component={ManagementPlanName}
             />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_notes" exact component={TaskDetails} />
 
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
@@ -517,7 +517,7 @@ const Routes = () => {
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_notes" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -935,7 +935,7 @@ const Routes = () => {
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path={'/export/:id'} exact component={ExportDownload} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_notes" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
 
             <Redirect to={'/'} />
@@ -1039,7 +1039,7 @@ const Routes = () => {
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_notes" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
 
             <Redirect to={'/'} />

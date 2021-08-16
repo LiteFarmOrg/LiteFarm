@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fertilizerLogModel.js) is part of LiteFarm.
+ *  This file (cleaningTaskModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class SoilAmendmentTaskModel extends Model {
+class CleaningTaskModel extends Model {
   static get tableName() {
-    return 'soil_amendment_task';
+    return 'cleaning_task';
   }
 
   static get idColumn() {
@@ -29,14 +29,18 @@ class SoilAmendmentTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['product_id', 'amount'],
+      required: ['product_id', 'product_quantity'],
 
       properties: {
         task_id: { type: 'integer' },
-        purpose: { type: 'string', enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'] },
+        product_id: { type: 'integer' },
         other_purpose: { type: 'string' },
-        product_id: { type: 'integer', minimum: 0 },
-        amount: { type: 'float' },
+        cleaning_target: { type: ['string', null] },
+        agent_used: { type: ['boolean', null] },
+        water_usage: { type: 'number' },
+        water_usage_unit: { type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz'] },
+        product_quantity: { type: ['number', null] },
+        product_quantity_unit: {  type: 'string', enum: ['ml', 'l', 'gal', 'fl-oz']  },
       },
       additionalProperties: false,
     };
@@ -52,21 +56,14 @@ class SoilAmendmentTaskModel extends Model {
         // to a module that exports one.
         modelClass: require('./taskModel'),
         join: {
-          from: 'soil_amendment_task.task_id',
+          from: 'cleaning_task.task_id',
           to: 'task.task_id',
         },
-      },
-      product: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: require('./productModel'),
-        join: {
-          from: 'soil_amendment_task.product_id',
-          to: 'product.product_id',
-        },
+
       },
 
     };
   }
 }
 
-module.exports = SoilAmendmentTaskModel;
+module.exports = CleaningTaskModel;

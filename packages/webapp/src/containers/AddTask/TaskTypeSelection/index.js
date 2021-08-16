@@ -1,13 +1,21 @@
 import PureTaskTypeSelection from '../../../components/AddTask/PureTaskTypeSelection';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useEffect } from 'react';
+import { getTaskTypes } from '../../Task/saga';
+import { taskTypeEntitiesSelector } from '../../taskTypeSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
-
+  const dispatch = useDispatch();
+  const taskTypes = useSelector(taskTypeEntitiesSelector);
   const continuePath = '/add_task/task_date';
   const persistedPaths = [continuePath];
+
+  useEffect(() => {
+    dispatch(getTaskTypes());
+  },[]);
 
   const onCustomTask = () => {
     console.log('Go to LF-1747 custom task creation page');
@@ -37,6 +45,7 @@ function TaskTypeSelection({ history, match }) {
         persistedPaths={persistedPaths}
         onContinue={onContinue}
         onError={onError}
+        taskTypes={taskTypes}
       />
     </HookFormPersistProvider>
   );

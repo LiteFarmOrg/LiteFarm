@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
+import { createSelector } from 'reselect';
 
 export const getProduct = (obj) => {
   return pick(obj, [
@@ -51,6 +52,9 @@ export default productSlice.reducer;
 
 export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
 
+export const productEntitiesSelector = createSelector(productReducerSelector, ({ ids, entities }) => {
+  return ids.map((id) => entities[id]);
+});
 const productSelector = productAdapter.getSelectors(
   (state) => state.entitiesReducer[productSlice.name],
 );

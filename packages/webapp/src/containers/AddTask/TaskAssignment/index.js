@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import PureTaskAssignment from '../../../components/AddTask/PureTaskAssignment';
 import { loginSelector, userFarmEntitiesSelector, userFarmSelector } from '../../userFarmSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { taskTypeById } from '../../taskTypeSlice';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { createTask } from '../../Task/saga';
+import { getObjectInnerValues } from '../../../util';
 
 function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const userFarm = useSelector(userFarmSelector);
+  const dispatch = useDispatch();
   const users = userFarms[farm_id];
   const userData = Object.values(users);
-  const [options, setOptions] = useState([{ label: 'Unassigned', value: 'unassigned' }]);
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type))
+  const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
   ]);
@@ -57,9 +64,14 @@ function TaskManagement({ history, match }) {
     setWageData(wageData.concat(wage_data));
   }, []);
 
-  const onSubmit = () => {
-    console.log('onSave called'); // todo: when POST is done
+  const onSubmit = (data) => {
+    const { task_translation_key } = selectedTaskType;
+    const {override_hourly_wage :t, ...assignmentFormData} = data;
+    const {override_hourly_wage: d, ...filteredPersistedForm} = persistedFormData;
+    const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
+    dispatch(createTask({task_translation_key, ...filteredData}))
   };
+
   const handleGoBack = () => {
     history.push(persistPaths[0]);
   };

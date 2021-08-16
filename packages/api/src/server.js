@@ -161,10 +161,10 @@ if (environment === 'development' || environment === 'production' || environment
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');
   });
-  waterBalanceScheduler.registerHourlyJob();
-  waterBalanceScheduler.registerDailyJob();
-
-  nitrogenBalanceScheduler.registerDailyJob();
+  // waterBalanceScheduler.registerHourlyJob();
+  // waterBalanceScheduler.registerDailyJob();
+  //
+  // nitrogenBalanceScheduler.registerDailyJob();
 
   // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console

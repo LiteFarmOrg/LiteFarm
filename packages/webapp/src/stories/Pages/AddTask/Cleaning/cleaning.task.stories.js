@@ -1,21 +1,25 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
-import PureCleaningTask from '../../../../components/AddTask/CleaningTask';
+import PureTaskDetails from '../../../../components/AddTask/PureTaskDetails';
 
 export default {
-  title: 'Page/AddCleaning',
+  title: 'Page/AddCleaningTask',
   decorators: decorators,
-  component: PureCleaningTask,
+  component: PureTaskDetails,
 };
 
-const Template = (args) => <PureCleaningTask {...args} />;
+const Template = (args) => <PureTaskDetails {...args} />;
 
 export const CleaningTask = Template.bind({});
 CleaningTask.args = {
-  useHookFormPersist: () => {},
-  onSubmit: () => console.log('onSave called'),
   handleGoBack: () => console.log('handleGoBack called'),
+  onSubmit: () => console.log('onSave called'),
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
+  useHookFormPersist: () => {},
+  persistedFormData: {task_type: 'cleaning'},
+  persistedPaths : [],
+  products :[],
+  system: 'metric'
 };

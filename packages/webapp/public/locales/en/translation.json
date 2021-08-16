@@ -12,49 +12,31 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "ADD_PRODUCT": {
+    "PRODUCT_LABEL": "Product",
+    "QUANTITY": "Quantity",
+    "SUPPLIER_LABEL": "Supplier"
+  },
   "ADD_TASK": {
     "ADD_A_TASK": "Add a task",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
-    "COLLECT_SOIL_SAMPLE": "Collect soil sample",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "Estimated water usage",
+      "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
+      "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
+      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used"
+    },
     "CREATE_CUSTOM_TASK": "Create a custom task",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
-    "FERTILIZE": "Fertilize",
-    "FIELD_WORK": "Field work",
-    "HARVEST": "Harvest",
     "HR": "/hr",
-    "IRRIGATE": "Irrigate",
-    "MAINTENANCE": "Maintenance",
-    "PEST_CONTROL": "Pest control",
-    "PLANT": "Plant",
-    "RECORD_SOIL_SAMPLE": "Record soil sample",
-    "SALES": "Sales",
-    "SCOUT": "Scout",
-    "SEARCH_INFOI": "You’ll be able to search for these notes on the tasks homepage.",
     "SELECT_TASK_TYPE": "Select task type",
-    "SOCIAL_EVENT": "Social event",
-    "SOIL_AMENDMENT": "Soil amendment",
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
-    "TRANSPLANT": "Transplant",
-    "TRANSPORT": "Transport",
-    "WAGE_OVERRIDE": "Wage override",
-    "WASH_AND_PACK": "Wash and pack",
-    "CLEANING": {
-      "TITLE": "Tell us about your cleaning task",
-      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used",
-      "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
-      "ESTIMATED_WATER": "Estimated water usage"
-    },
-  },
-  "ADD_PRODUCT" : {
-    "PRODUCT_LABEL": "Product",
-    "SUPPLIER_LABEL": "Supplier",
-    "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?"
-    "QUANTITY": "Quantity"
+    "WAGE_OVERRIDE": "Wage override"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

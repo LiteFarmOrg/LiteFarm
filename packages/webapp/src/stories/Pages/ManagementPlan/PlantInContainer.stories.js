@@ -112,12 +112,13 @@ InitialContainer.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const HistoricalInGround = Template.bind({});
-HistoricalInGround.args = {
+export const HistoricalInitial = Template.bind({});
+HistoricalInitial.args = {
   useHookFormPersist: () => ({}),
   persistedFormData: {
     crop_management_plan: {
       already_in_ground: true,
+      needs_transplant: true,
       planting_management_plans: {
         initial: {
           container_method: {
@@ -137,6 +138,36 @@ HistoricalInGround.args = {
   },
   isFinalPage: false,
 };
-HistoricalInGround.parameters = {
+HistoricalInitial.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const HistoricalFinal = Template.bind({});
+HistoricalFinal.args = {
+  useHookFormPersist: () => ({}),
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: true,
+      needs_transplant: false,
+      planting_management_plans: {
+        final: {
+          container_method: {
+            plant_spacing: 1,
+            total_plants: 3,
+            in_ground: true,
+          },
+        },
+      },
+    },
+  },
+  system: 'metric',
+  crop_variety: {
+    average_seed_weight: 10,
+    yield_per_plant: 10,
+    crop_variety_id: 'crop_variety_id',
+  },
+  isFinalPage: true,
+};
+HistoricalFinal.parameters = {
   ...chromaticSmallScreen,
 };

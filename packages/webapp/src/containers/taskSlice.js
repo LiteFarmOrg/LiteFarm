@@ -1,7 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import { managementPlanEntitiesSelector } from './managementPlanSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -69,6 +70,7 @@ const taskSlice = createSlice({
     getTasksSuccess: addManyTasks,
     putTaskSuccess: updateOneTask,
     putTasksSuccess: updateManyTasks,
+    createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -79,34 +81,34 @@ export const {
   putTaskSuccess,
   putTasksSuccess,
   deleteTaskSuccess,
+  createTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
 export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
-
 export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
-export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, entities }) => {
-  return ids.map((id) => entities[id]);
-});
+export const taskEntitiesSelector = taskSelectors.selectEntities;
 
-export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
-
-export const taskEntitiesSelectorByManagementPlanId = createSelector(
-  [taskEntitiesSelector],
-  (tasks) => {
-    return tasks.reduce((obj, { managementPlans, ...task }) => {
-      let newObj = { ...obj };
-      managementPlans.forEach(({ management_plan_id }) => {
-        if (!newObj[management_plan_id]) {
-          newObj[management_plan_id] = [task];
-        } else {
-          newObj[management_plan_id].push(task);
+export const tasksSelector = createSelector(
+  [taskSelectors.selectAll, loginSelector, managementPlanEntitiesSelector],
+  (tasks, { farm_id }, managementPlanEntities) => {
+    return tasks.filter(({ locations, managementPlans }) => {
+      for (const location of locations) {
+        if (location.farm_id === farm_id) {
+          return true;
         }
-      });
-      return newObj;
-    }, {});
+      }
+      for (const { management_plan_id } of managementPlans) {
+        if (managementPlanEntities[management_plan_id].farm_id === farm_id) {
+          return true;
+        }
+      }
+      return false;
+    });
   },
 );
+
+export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

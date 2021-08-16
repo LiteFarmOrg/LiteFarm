@@ -105,7 +105,7 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
  *   }
  * }
  */
-const managementPlanEntitiesSelector = createSelector(
+export const managementPlanEntitiesSelector = createSelector(
   [
     managementPlanSelectors.selectEntities,
     cropEntitiesSelector,
@@ -245,9 +245,10 @@ export const cropVarietiesWithoutManagementPlanSelector = createSelector(
 export const getLocationIdFromManagementPlan = (managementPlan) =>
   managementPlan.planting_management_plans?.final.location_id;
 
-const filterManagementPlansByLocationId = (location_id, managementPlans) =>
-  managementPlans.filter((managementPlan) => getLocationIdFromManagementPlan(managementPlan)) ===
-  location_id;
+export const filterManagementPlansByLocationId = (location_id, managementPlans) =>
+  managementPlans.filter(
+    (managementPlan) => getLocationIdFromManagementPlan(managementPlan) === location_id,
+  );
 
 //TODO: remove
 export const cropTranslationKeyByManagementPlanSelector = createSelector(

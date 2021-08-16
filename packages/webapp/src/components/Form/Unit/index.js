@@ -24,6 +24,10 @@ export const getUnitOptionMap = () => ({
   km: { label: 'km', value: 'km' },
   in: { label: 'in', value: 'in' },
   ft: { label: 'ft', value: 'ft' },
+  'fl-oz': { label: 'floz', value: 'fl-oz' },
+  gal: { label: 'gal', value: 'gal' },
+  l: { label: 'l', value: 'l' },
+  ml: { label: 'ml', value: 'ml' },
   mi: { label: 'mi', value: 'mi' },
   'l/min': { label: 'l/m', value: 'l/min' },
   'l/h': { label: 'l/h', value: 'l/h' },
@@ -226,6 +230,11 @@ const Unit = ({
 
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
+      //FIXME: walk around for racing condition on add management plan pages LF-1883
+      hookFormSetValue(name, value, {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
       setTimeout(() => {
         hookFormSetValue(name, value, {
           shouldValidate: !shouldClearError && shouldValidate,

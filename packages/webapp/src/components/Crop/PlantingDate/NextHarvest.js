@@ -55,8 +55,7 @@ export default function PureNextHarvest({
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 
-  const today = new Date();
-  const todayStr = today.toISOString().substring(0, 10);
+  const todayStr = new Date().toISOString().substring(0, 10);
 
   return (
     <Form
@@ -90,7 +89,6 @@ export default function PureNextHarvest({
           hookFormRegister={register(NEXT_HARVEST_DATE, {
             required: true,
           })}
-          // info={`seeding date: ${`2021-01-01`}`}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
           min={todayStr}
         />

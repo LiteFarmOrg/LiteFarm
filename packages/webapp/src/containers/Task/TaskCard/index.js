@@ -58,6 +58,7 @@ const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }
       style={style}
       happiness={happiness}
       onClickAssignee={handleClickAssignee}
+      onClick={onClick}
     />
   );
 };

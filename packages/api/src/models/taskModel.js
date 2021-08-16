@@ -31,7 +31,7 @@ class TaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['due_date', 'type', 'happiness'],
+      required: ['due_date', 'type'],
 
       properties: {
         task_id: { type: 'integer' },
@@ -113,6 +113,14 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'harvest_task.task_id',
+        },
+      },
+      cleaning_task: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./cleaningTaskModel'),
+        join: {
+          from: 'task.task_id',
+          to: 'cleaning_task.task_id',
         },
       },
       harvestUse: {

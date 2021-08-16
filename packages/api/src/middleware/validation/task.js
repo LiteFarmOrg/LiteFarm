@@ -9,6 +9,7 @@ const typesOfTask = [
   'field_work_task',
   'harvest_task',
   'plant_task',
+  'cleaning_task',
 ];
 
 
@@ -21,6 +22,7 @@ const modelMapping = {
   field_work_task: modelValidation('field_work_task'),
   harvest_task: modelValidation('harvest_task'),
   plant_task: modelValidation('plant_task'),
+  cleaning_task: modelValidation('cleaning_task'),
 };
 
 function modelValidation(asset) {

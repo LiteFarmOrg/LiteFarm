@@ -17,5 +17,7 @@
   "TRANSPORT": "Transport",
   "FIELD_WORK": "Field Work",
   "PLANTING": "Planting",
-  "SOCIAL": "Social"
+  "SOCIAL": "Social",
+  "CLEANING": "Cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment"
 }

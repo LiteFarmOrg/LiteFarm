@@ -79,7 +79,9 @@ const taskController = {
         // after the validation middleware.
         const data = req.body;
         const { farm_id } = req.headers;
+        const { user_id } = req.user;
         data.planned_time = data.due_date;
+        data.owner_user_id = user_id;
         if (data.assignee_user_id && !data.wage_at_moment) {
           const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
           data.wage_at_moment = wage.amount;

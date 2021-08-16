@@ -86,7 +86,9 @@ const PureTaskCard = ({
     <div className={styles.cardContainer}>
       <div className={styles.statusLabel}>
         <StatusLabel status={status} />
-        {happiness !== null && status === 'completed' && <Rating stars={happiness} />}
+        {happiness !== null && status === 'completed' && (
+          <Rating stars={happiness} viewOnly={true} />
+        )}
       </div>
       <Card
         color={selected ? activeCardColor[status] : cardColor[status]}

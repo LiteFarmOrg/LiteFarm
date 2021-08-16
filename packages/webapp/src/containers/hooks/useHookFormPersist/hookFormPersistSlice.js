@@ -116,7 +116,7 @@ const hookFormPersistSlice = createSlice({
       state.formData.interested = interested;
     },
     setTaskLocationsData: (state, { payload: task_locations }) => {
-      state.formData.task_locations = task_locations;
+      state.formData.locations = task_locations;
     },
   },
 });

@@ -18,6 +18,21 @@
   display: inline-block;
 }
 
+.editLinkContainer {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--iconActive);
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
+  display: inline-block;
+}
+
+.pencil {
+  margin-right: 5px;
+  width: 15px;
+  height: 15px;
+}
+
 .title {
   font-style: normal;
   font-weight: normal;

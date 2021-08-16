@@ -55,7 +55,14 @@ class SoilAmendmentTaskModel extends Model {
           from: 'soil_amendment_task.task_id',
           to: 'task.task_id',
         },
-
+      },
+      product: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: require('./productModel'),
+        join: {
+          from: 'soil_amendment_task.product_id',
+          to: 'product.product_id',
+        },
       },
 
     };

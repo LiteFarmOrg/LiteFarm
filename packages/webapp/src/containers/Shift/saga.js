@@ -33,20 +33,6 @@ import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
-export function* getTaskTypesSaga() {
-  const { taskTypeUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, taskTypeUrl + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setTaskTypesInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch task types from database');
-  }
-}
 
 export function* addTaskTypeSaga(payload) {
   const { taskTypeUrl } = apiConfig;
@@ -219,7 +205,7 @@ export function* updateShiftSaga(action) {
 }
 
 export default function* shiftSaga() {
-  yield takeLatest(GET_TASK_TYPES, getTaskTypesSaga);
+  // yield takeLatest(GET_TASK_TYPES, getTaskTypesSaga);
   yield takeLeading(ADD_TASK_TYPE, addTaskTypeSaga);
   yield takeLeading(SUBMIT_SHIFT, addShift);
   yield takeLatest(GET_SHIFTS, getShiftsSaga);

@@ -280,7 +280,7 @@ const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
 
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
-const TaskNotes = React.lazy(() => import('./containers/AddTask/TaskNotes'));
+const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
 const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
@@ -288,6 +288,8 @@ const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations')
 const Tasks = React.lazy(() => import('./containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('./containers/AddTask/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('./containers/AddTask/AddCustomTask'));
+const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
+const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 
 const Routes = () => {
   useScrollToTop();
@@ -501,7 +503,7 @@ const Routes = () => {
               component={ManagementPlanName}
             />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
 
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
@@ -518,10 +520,12 @@ const Routes = () => {
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -698,6 +702,7 @@ const Routes = () => {
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
@@ -946,8 +951,9 @@ const Routes = () => {
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path={'/export/:id'} exact component={ExportDownload} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -1001,7 +1007,7 @@ const Routes = () => {
               component={EditNaturalAreaForm}
             />
             <Route path="/tasks" exact component={Tasks} />
-
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
@@ -1052,8 +1058,9 @@ const Routes = () => {
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_notes" exact component={TaskNotes} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />

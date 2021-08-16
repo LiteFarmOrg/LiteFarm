@@ -2,6 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import {  managementPlansSelector } from './managementPlanSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -69,6 +70,7 @@ const taskSlice = createSlice({
     getTasksSuccess: addManyTasks,
     putTaskSuccess: updateOneTask,
     putTasksSuccess: updateManyTasks,
+    createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -79,6 +81,7 @@ export const {
   putTaskSuccess,
   putTasksSuccess,
   deleteTaskSuccess,
+  createTaskSuccess
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -92,3 +95,20 @@ export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, 
 });
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+
+export const managementPlansTaskAndStatus = createSelector(
+  [taskEntitiesSelector],
+  (tasks ) => {
+    return tasks.reduce((obj, { managementPlans, ...task }) => {
+      let newObj = { ...obj };
+      managementPlans.forEach(({management_plan_id}) => {
+        if(!newObj[management_plan_id]) {
+          newObj[management_plan_id] = [task];
+        } else {
+          newObj[management_plan_id].push(task);
+        }
+      });
+      return newObj;
+    }, {});
+  }
+)

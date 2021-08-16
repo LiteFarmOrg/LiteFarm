@@ -5,7 +5,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { useManagementPlansByLocationIds } from './useManagementPlansByLocationIds';
 
 function TaskCrops({ history, match }) {
-  const onContinuePath = '/add_task/task_notes';
+  const onContinuePath = '/add_task/task_details';
   const goBackPath = '/add_task/task_locations';
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {

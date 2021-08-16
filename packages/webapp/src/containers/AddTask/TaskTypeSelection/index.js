@@ -1,14 +1,23 @@
 import PureTaskTypeSelection from '../../../components/AddTask/PureTaskTypeSelection';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useEffect } from 'react';
+import { getTaskTypes } from '../../Task/saga';
+import { defaultTaskTypesSelector } from '../../taskTypeSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
-
+  const dispatch = useDispatch();
+  const taskTypes = useSelector(defaultTaskTypesSelector);
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
+
+  console.log(taskTypes);
+  useEffect(() => {
+    dispatch(getTaskTypes());
+  }, []);
 
   const onCustomTask = () => {
     history.push(customTaskPath);
@@ -38,6 +47,7 @@ function TaskTypeSelection({ history, match }) {
         persistedPaths={persistedPaths}
         onContinue={onContinue}
         onError={onError}
+        taskTypes={taskTypes}
       />
     </HookFormPersistProvider>
   );

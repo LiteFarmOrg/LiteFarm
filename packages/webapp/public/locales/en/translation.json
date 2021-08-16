@@ -12,6 +12,11 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "ADD_PRODUCT": {
+    "PRODUCT_LABEL": "Product",
+    "QUANTITY": "Quantity",
+    "SUPPLIER_LABEL": "Supplier"
+  },
   "ADD_TASK": {
     "ADD_A_CUSTOM_TASK": "Add a custom task",
     "ADD_A_TASK": "Add a task",
@@ -21,15 +26,19 @@
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
     "CANCEL": "task creation",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "Estimated water usage",
+      "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
+      "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
+      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used"
+    },
+    "CREATE_CUSTOM_TASK": "Create a custom task",
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_CROPS": "Clear all crops",
     "COLLECT_SOIL_SAMPLE": "Collect soil sample",
     "CUSTOM_TASK_TYPE": "Custom task type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
-    "FERTILIZE": "Fertilize",
-    "FIELD_WORK": "Field work",
-    "HARVEST": "Harvest",
     "HR": "/hr",
     "IRRIGATE": "Irrigate",
     "MAINTENANCE": "Maintenance",
@@ -43,14 +52,9 @@
     "SELECT_ALL": "Select all",
     "SELECT_ALL_CROPS": "Select all crops",
     "SELECT_TASK_TYPE": "Select task type",
-    "SOCIAL_EVENT": "Social event",
-    "SOIL_AMENDMENT": "Soil amendment",
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
-    "TRANSPLANT": "Transplant",
-    "TRANSPORT": "Transport",
-    "WAGE_OVERRIDE": "Wage override",
-    "WASH_AND_PACK": "Wash and pack"
+    "WAGE_OVERRIDE": "Wage override"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -1349,7 +1353,20 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "COMPLETE_TASK": "Complete task",
+    "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
+    "DURATION": "Duration",
+    "DID_YOU_ENJOY": "Did you enjoy this task?",
+    "PROVIDE_RATING": "Provide a rating",
+    "PREFER_NOT_TO_SAY": "I prefer not to say",
+    "COMPLETION_NOTES": "Task completion notes"
+    "DUE_DATE": "Due date",
+    "TARGET": "Target",
+    "ABANDON_TASK": "Abandon this task",
+    "DETAILS": "Details",
+    "TASK": "task",
+    "EDIT_TASK": "Edit Task"
   },
   "UNIT": {
     "TIME": {

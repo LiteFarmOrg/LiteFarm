@@ -1352,6 +1352,7 @@
     "TODO": "To do",
     "UNASSIGNED": "Unassigned",
     "COMPLETE_TASK": "Complete task",
+    "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
     "DURATION": "Duration",
     "DID_YOU_ENJOY": "Did you enjoy this task?",

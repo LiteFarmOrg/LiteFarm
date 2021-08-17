@@ -1,5 +1,5 @@
 import ReactSelect from '../../Form/ReactSelect';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
@@ -9,8 +9,9 @@ import Unit from '../../Form/Unit';
 import { Main } from '../../Typography';
 
 
-const AddProduct = ({ products, type, system, getValues, setValue, watch, control, register, farm }) => {
+const AddProduct = ({ products, type, system, getValues, setValue, watch, control, register, farm, disabled }) => {
   const { t } = useTranslation();
+  const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
     cleaning_task: {
       units: waterUsage,
@@ -27,54 +28,59 @@ const AddProduct = ({ products, type, system, getValues, setValue, watch, contro
   const PRODUCT_ID = `${type}.product_id`;
 
   const processProduct = (value) => {
-    let product = products.find(({ product_id }) => product_id === value?.label);
+    let product = products.find(({ product_id }) => product_id === value?.value);
     if(product) {
       const { supplier, on_permitted_substances_list } = product;
+      setValue(NAME, value?.label);
+      setValue(PRODUCT_ID, value?.value)
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list);
-      setValue(PRODUCT_ID, value?.label)
     } else {
+      setValue(NAME, value.label);
       setValue(PRODUCT_ID, null);
       setValue(SUPPLIER, null);
       setValue(PERMITTED, null);
     }
   }
 
-  const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: { label: product_id, value: name } }));
+  const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: product_id }));
 
   useEffect(() => {
     setValue(FARM, farm);
     setValue(TYPE, type);
+    const [id, name] = getValues([PRODUCT_ID, NAME]);
+    if(id && name) {
+      setProductValue({label: name, value: id});
+    } else if (!id && name) {
+      setProductValue({ label: name, value: name });
+    }
   }, [])
 
   return (
     <>
-      <Controller
-        control={control}
-        name={NAME}
-        rules={{ required: true }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <ReactSelect
-            label={t('ADD_PRODUCT.PRODUCT_LABEL')}
-            options={transformProductsToLabel(products)}
-            onChange={(e) => {
-              processProduct(e.value);
-              onChange(e);
-            }}
-            value={value}
-            style={{ marginBottom: '40px' }}
-            creatable
-          />
-        )}
+      <ReactSelect
+        label={t('ADD_PRODUCT.PRODUCT_LABEL')}
+        options={transformProductsToLabel(products)}
+        onChange={(e) => {
+          processProduct(e);
+          setProductValue(e);
+        }}
+        value={productValue}
+        style={{ marginBottom: '40px' }}
+        creatable
+        isDisabled={disabled}
       />
+      <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })}  />
+      <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)}  />
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
         hookFormRegister={register(SUPPLIER)}
         style={{ marginBottom: '40px' }}
+        disabled={disabled}
       />
       <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }</Main>
-      <RadioGroup hookFormControl={control} name={PERMITTED} showNotSure />
+      <RadioGroup hookFormControl={control} name={PERMITTED} disabled={disabled}  showNotSure />
       <Unit
         style={{marginBottom: '40px', marginTop:'34px'}}
         register={register}
@@ -87,6 +93,7 @@ const AddProduct = ({ products, type, system, getValues, setValue, watch, contro
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
+        disabled={disabled}
         required
       />
     </>

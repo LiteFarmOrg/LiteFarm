@@ -3,6 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
+import { productEntitiesSelector } from './productSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -26,6 +27,10 @@ export const getTask = (obj) => {
     'abandoned_time',
     'locations',
     'managementPlans',
+    'soil_amendment_task',
+    'pest_control_task',
+    'field_work_task',
+    'cleaning_task'
   ]);
 };
 
@@ -113,6 +118,29 @@ export const tasksSelector = createSelector(
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
 
+export const taskWithProductById = (task_id) => createSelector(
+  [taskSelectorById(task_id), productEntitiesSelector],
+  (task, products) => {
+    const taskTypeKey = {
+      CLEANING: 'cleaning_task'
+    }
+    const taskHasProduct = !!task[taskTypeKey[task.taskType[0].task_translation_key]]?.product_id ;
+    if( taskHasProduct ) {
+      const product = products.find(({product_id}) => task[taskTypeKey[task.taskType[0].task_translation_key]].product_id === product_id);
+      const innerTask =  {
+        ...traverseObjectUnits(task),
+        [taskTypeKey[task.taskType[0].task_translation_key]]: {
+          product: {...traverseObjectUnits(product)},
+          ...traverseObjectUnits(task[[taskTypeKey[task.taskType[0].task_translation_key]]])
+        },
+      };
+      console.log(innerTask);
+      return innerTask;
+    }
+    return task;
+  }
+)
+
 export const managementPlansTaskAndStatus = createSelector(
   [taskEntitiesSelector],
   (tasks ) => {
@@ -129,3 +157,15 @@ export const managementPlansTaskAndStatus = createSelector(
     }, {});
   }
 )
+
+
+export const traverseObjectUnits = (data) => {
+  return Object.keys(data).reduce((reduced, k) => {
+    if(k.endsWith('_unit')){
+      return { ...reduced, [k]: { label: data[k], value: data[k] } } ;
+    } else if(data[k] instanceof Object && !(data[k] instanceof Array)) {
+      return {...reduced, [k]: traverseObjectUnits(data[k])}
+    }
+    return { ...reduced, [k]: data[k] }
+  }, {});
+}

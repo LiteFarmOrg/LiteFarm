@@ -22,16 +22,12 @@ function TaskReadOnly({ history, match }) {
 
   const managementPlansByLocationIds = useManagementPlansByLocationIds(task_locations);
 
-  const taskTypeKey = {
-    CLEANING: 'cleaning_task'
-  }
-
   const onGoBack = () => {
     history.push('/tasks');
   };
 
   const onComplete = () => {
-    // TODO - LF-1750 - Implement complete task
+    history.push(`/tasks/${task_id}/before_complete`)
   };
 
   const onEdit = () => {

@@ -47,12 +47,8 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
-  console.log(watch());
   const taskComponents = {
-    // CLEANING: (props) => <PureCleaningTask  farm={user.farm_id} system={system} products={getTaskProductAsArray()}  {...props} />
-  }
-  const taskTypeKey = {
-    CLEANING: 'cleaning_task'
+    CLEANING: (props) => <PureCleaningTask  farm={user.farm_id} system={system} products={products}  {...props} />
   }
 
   const self = user.user_id;
@@ -84,7 +80,7 @@ export default function PureTaskReadOnly({
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
         onEdit={isAdmin || owner === self ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
-      ></PageTitle>
+      />
 
       <Input
         style={{ marginBottom: '40px' }}
@@ -130,30 +126,15 @@ export default function PureTaskReadOnly({
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
-      {/*{*/}
-      {/*  taskComponents[taskType.task_translation_key]({*/}
-      {/*  setValue,*/}
-      {/*  getValues,*/}
-      {/*  watch,*/}
-      {/*  control,*/}
-      {/*  register,*/}
-      {/*  disabled: true*/}
-      {/*})*/}
-      {/*}*/}
-
       {
-        taskType.task_translation_key === 'CLEANING' &&
-          <PureCleaningTask
-            setValue={setValue}
-            getValues={getValues}
-            watch={watch}
-            control={control}
-            products={products}
-            system={system}
-            register={register}
-            farm={user.farm_id}
-            disabled={false}
-          />
+        taskComponents[taskType.task_translation_key]({
+        setValue,
+        getValues,
+        watch,
+        control,
+        register,
+        disabled: true
+      })
       }
       <InputAutoSize
         style={{ marginBottom: '40px' }}

@@ -15,6 +15,7 @@ function PureCompleteStepOne(
   onGoBack,
   onCancel,
   selectedTaskType,
+  selectedTask,
   farm,
   system,
   products,
@@ -33,8 +34,12 @@ function PureCompleteStepOne(
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData, need_changes: false },
+    defaultValues: {  need_changes: false, ...selectedTask, ...persistedFormData, },
   });
+
+  const taskComponents = {
+    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />
+  }
 
   useHookFormPersist(getValues, persistedPaths);
   const CHANGES_NEEDED = 'need_changes'
@@ -45,7 +50,7 @@ function PureCompleteStepOne(
     <Form
       buttonGroup={
         <Button type={'submit'} disabled={!isValid} fullLength>
-          {t('common:SAVE')}
+          {t('common:CONTINUE')}
         </Button>
       }
       onSubmit={handleSubmit(onContinue)}
@@ -68,18 +73,14 @@ function PureCompleteStepOne(
         name={CHANGES_NEEDED}
       />
       {
-        taskType === 'CLEANING' &&
-        <PureCleaningTask
-          setValue={setValue}
-          getValues={getValues}
-          watch={watch}
-          control={control}
-          products={products}
-          system={system}
-          register={register}
-          farm={farm}
-          disabled={!changesRequired}
-        />
+        taskType && taskComponents[taskType]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+          disabled: !changesRequired
+        })
       }
     </Form>
   )

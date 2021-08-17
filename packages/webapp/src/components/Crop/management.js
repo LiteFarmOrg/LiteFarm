@@ -1,12 +1,13 @@
 import Layout from '../Layout';
 import CropHeader from './cropHeader';
 import RouterTab from '../RouterTab';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { CardWithStatusContainer } from '../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
 import { ManagementPlanCard } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
+import Input from '../Form/Input';
 
 export default function PureCropManagement({
   history,
@@ -17,6 +18,19 @@ export default function PureCropManagement({
   managementPlanCardContents,
 }) {
   const { t } = useTranslation();
+  const [searchString, setSearchString] = useState('');
+  const searchStringOnChange = (e) => setSearchString(e.target.value);
+  const filteredManagementPlanCardContents = useMemo(() => {
+    return searchString
+      ? managementPlanCardContents.filter(
+          ({ locationName, managementPlanName, status }) =>
+            locationName?.toLowerCase()?.includes(searchString?.toLowerCase()) ||
+            managementPlanName?.toLowerCase()?.includes(searchString?.toLowerCase()) ||
+            status?.toLowerCase()?.includes(searchString?.toLowerCase()),
+        )
+      : managementPlanCardContents;
+  }, [searchString, managementPlanCardContents]);
+
   return (
     <Layout>
       <CropHeader {...variety} onBackClick={onBack} />
@@ -36,10 +50,18 @@ export default function PureCropManagement({
         ]}
       />
       <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
+      {managementPlanCardContents?.length > 2 && (
+        <Input
+          style={{ paddingBottom: '16px' }}
+          value={searchString}
+          onChange={searchStringOnChange}
+          isSearchBar
+        />
+      )}
       <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
-          {managementPlanCardContents.map((managementPlan, index) => (
+          {filteredManagementPlanCardContents.map((managementPlan, index) => (
             <ManagementPlanCard {...managementPlan} key={index} />
           ))}
         </CardWithStatusContainer>

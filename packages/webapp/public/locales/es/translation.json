@@ -895,6 +895,8 @@
     "PLAN_NOTES": "MISSING"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "MISSING",
     "ADD_MANAGEMENT_PLAN": "Agregar plan de manejo",
     "AGE": "MISSING",
     "AS_COVER_CROP": "Como cultivo de cobertura",
@@ -912,6 +914,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
     "DROP_PIN": "MISSING",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
@@ -926,6 +929,8 @@
     "HARVEST_DATE": "MISSING",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "En el suelo",
+    "INCOMPLETE_TASK_CONTENT": "MISSING",
+    "INCOMPLETE_TASK_TITLE": "MISSING",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
     "KNOW_HOW_IS_CROP_PLANTED": "MISSING",

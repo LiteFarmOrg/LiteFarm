@@ -60,7 +60,9 @@ export function ManagementPlanCard({
           {
             <div className={styles.iconTextContainer}>
               <div className={clsx(styles.circle)}>
-                <p>{numberOfPendingTask <= 99 ? numberOfPendingTask : '+99'}</p>
+                <p style={{ transform: 'translateX(-0.6px)' }}>
+                  {numberOfPendingTask <= 99 ? numberOfPendingTask : '+99'}
+                </p>
               </div>
               <div>{t('MANAGEMENT_PLAN.PENDING_TASK')}</div>
             </div>

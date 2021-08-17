@@ -29,11 +29,18 @@
 .dateUserContainer {
   display: flex;
   flex-direction: row;
-  color: var(--fontColor)
+  color: var(--fontColor);
+}
+
+@media (max-width: 359px) {
+  .dateUserContainer {
+    flex-direction: column;
+    row-gap: 2px;
+  }
 }
 
 .gap {
-  max-width: 8px;
+  width: 8px;
   flex-shrink: 1;
 }
 
@@ -51,7 +58,6 @@
   justify-content: center;
   min-width: 14px;
   height: 14px;
-  margin-left: 10px;
   background-color: var(--teal700);
   color: white;
   font-weight: 700;

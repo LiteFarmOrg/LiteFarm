@@ -5,8 +5,10 @@ import React from 'react';
 import { AddLink, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { CardWithStatusContainer } from '../CardWithStatus/CardWithStatusContainer/CardWithStatusContainer';
+import { ManagementPlanCard } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 
-function PureCropManagement({
+export default function PureCropManagement({
   history,
   match,
   onBack,
@@ -35,11 +37,16 @@ function PureCropManagement({
       />
       <Semibold style={{ marginBottom: '16px' }}>{t('CROP_DETAIL.MANAGEMENT_PLANS')}</Semibold>
       <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>
+      {managementPlanCardContents && (
+        <CardWithStatusContainer style={{ paddingTop: '16px' }}>
+          {managementPlanCardContents.map((managementPlan, index) => (
+            <ManagementPlanCard {...managementPlan} key={index} />
+          ))}
+        </CardWithStatusContainer>
+      )}
     </Layout>
   );
 }
-
-export default PureCropManagement;
 
 PureCropManagement.propTypes = {
   managementPlanCardContents: PropTypes.arrayOf(

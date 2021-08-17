@@ -21,7 +21,7 @@ export function CardWithStatus({
     <div className={styles.cardContainer} style={{ ...classes.container, ...style }}>
       <div className={styles.statusLabel}>
         <StatusLabel color={status} label={label} />
-        {[0, 1, 2, 3, 4, 5].includes(score) && <Rating stars={score} />}
+        {[0, 1, 2, 3, 4, 5].includes(score) && <Rating stars={score} viewOnly />}
       </div>
       <Card
         color={color}

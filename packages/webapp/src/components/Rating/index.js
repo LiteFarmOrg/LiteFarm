@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { ReactComponent as RatingStar } from '../../assets/images/rating/Star.svg';
@@ -10,7 +10,7 @@ const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate }
   const [hover, setHover] = useState(0);
   return (
     <>
-      <Label style={{ marginBottom: '16px' }}>{label ? label : ''}</Label>
+      {label && <Label style={{ marginBottom: '16px' }}>{label}</Label>}
       <div className={className} style={style}>
         {[...Array(5)].map((star, index) => {
           index += 1;

@@ -33,7 +33,6 @@ import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
-
 export function* addTaskTypeSaga(payload) {
   const { taskTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);

@@ -130,18 +130,18 @@ export const TaskReadOnly = Template.bind({});
 TaskReadOnly.args = {
   task: {
     taskType: {
-      task_translation_key: 'Task type'
+      task_translation_key: 'Task type',
     },
-    due_date: "06/21/2021T",
+    due_date: '06/21/2021T',
     locations: cropLocations,
-    onwer_user_id: "1",
-    notes: "",
-    assignee_user_id: "1"
+    onwer_user_id: '1',
+    notes: '',
+    assignee_user_id: '1',
   },
-  users: [{user_id: "1", first_name: 'John', last_name: 'Doe'}],
+  users: [{ user_id: '1', first_name: 'John', last_name: 'Doe' }],
   user: {
-    user_id: "1"
+    user_id: '1',
   },
   isAdmin: true,
-  onGoBack: () => { },
+  onGoBack: () => {},
 };

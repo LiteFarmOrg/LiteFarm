@@ -12,9 +12,9 @@ const Template = (args) => <PureTaskComplete {...args} />;
 
 export const TaskComplete = Template.bind({});
 TaskComplete.args = {
-  onCancel: () => { },
-  onGoBack: () => { },
-  onSave: () => { },
-  useHookFormPersist: () => { },
+  onCancel: () => {},
+  onGoBack: () => {},
+  onSave: () => {},
+  useHookFormPersist: () => {},
   persistedFormData: {},
 };

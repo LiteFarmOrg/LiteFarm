@@ -40,7 +40,7 @@ AddLink.propTypes = {
 export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
   return (
     <p style={style} className={clsx(styles.editLinkContainer, className)} {...props}>
-      <Pencil className={styles.pencil}/>
+      <Pencil className={styles.pencil} />
       <span className={clsx(styles.underlined)} onClick={onClick}>
         {children}
       </span>

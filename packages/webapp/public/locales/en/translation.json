@@ -893,6 +893,13 @@
     "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "Abandon plan",
+      "ABANDON_REASON": "Reason for abandoning",
+      "COMPLETE_PLAN": "Complete plan",
+      "DATE_OF_CHANGE": "Date of status change",
+      "RATING": "Rate this management plan"
+    },
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",

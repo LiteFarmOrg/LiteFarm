@@ -892,6 +892,13 @@
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "MISSING",
+      "ABANDON_REASON": "MISSING",
+      "COMPLETE_PLAN": "MISSING",
+      "DATE_OF_CHANGE": "MISSING",
+      "RATING": "MISSING"
+    },
     "CONTAINER": "Maceta",
     "CONTAINER_OR_IN_GROUND": "¿Está plantando en una maceta o en el suelo?",
     "CONTAINER_TYPE": "Tipo de maceta",

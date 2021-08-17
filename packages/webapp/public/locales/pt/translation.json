@@ -892,6 +892,13 @@
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "MISSING",
+      "ABANDON_REASON": "MISSING",
+      "COMPLETE_PLAN": "MISSING",
+      "DATE_OF_CHANGE": "MISSING",
+      "RATING": "MISSING"
+    },
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",
     "CONTAINER_TYPE": "Tipo de recipiente",

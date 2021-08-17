@@ -52,9 +52,12 @@ export default productSlice.reducer;
 
 export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
 
-export const productEntitiesSelector = createSelector(productReducerSelector, ({ ids, entities }) => {
-  return ids.map((id) => entities[id]);
-});
+export const productEntitiesSelector = createSelector(
+  productReducerSelector,
+  ({ ids, entities }) => {
+    return ids.map((id) => entities[id]);
+  },
+);
 const productSelector = productAdapter.getSelectors(
   (state) => state.entitiesReducer[productSlice.name],
 );

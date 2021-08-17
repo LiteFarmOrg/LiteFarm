@@ -16,27 +16,25 @@ function TaskReadOnly({ history, match }) {
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
 
-  const task_locations = task.locations.map(({ location_id }) => (location_id));
+  const task_locations = task.locations.map(({ location_id }) => location_id);
 
-  const managementPlansByLocationIds = useManagementPlansByLocationIds(
-    task_locations
-  );
+  const managementPlansByLocationIds = useManagementPlansByLocationIds(task_locations);
 
   const onGoBack = () => {
     history.push('/tasks');
-  }
+  };
 
   const onComplete = () => {
     // TODO - LF-1750 - Implement complete task
-  }
+  };
 
   const onEdit = () => {
     // TODO - LF-1720 Edit task page
-  }
+  };
 
   const onAbandon = () => {
-    // TODO - LF-1716 Abandon task 
-  }
+    // TODO - LF-1716 Abandon task
+  };
 
   return (
     <PureTaskReadOnly

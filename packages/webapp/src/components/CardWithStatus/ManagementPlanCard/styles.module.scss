@@ -1,0 +1,74 @@
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainTypographySansColor {
+  font-size: 16px;
+  line-height: 24px;
+  font-style: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.subMain {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  max-height: 16px;
+  max-width: calc(100% - 80px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dateUserContainer {
+  display: flex;
+  flex-direction: row;
+  color: var(--fontColor);
+}
+
+@media (max-width: 359px) {
+  .dateUserContainer {
+    flex-direction: column;
+    row-gap: 2px;
+  }
+}
+
+.gap {
+  width: 8px;
+  flex-shrink: 1;
+}
+
+.iconTextContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+  background-color: var(--teal700);
+  color: white;
+  font-weight: 700;
+  font-size: 9px;
+  line-height: 16px;
+  border-radius: 7px;
+  padding: 0 4px;
+}
+
+.circleContent {
+  transform: translateX(-1px);
+}
+
+

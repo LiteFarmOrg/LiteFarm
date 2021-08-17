@@ -105,7 +105,7 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
  *   }
  * }
  */
-const managementPlanEntitiesSelector = createSelector(
+export const managementPlanEntitiesSelector = createSelector(
   [
     managementPlanSelectors.selectEntities,
     cropEntitiesSelector,
@@ -133,6 +133,7 @@ const managementPlanEntitiesSelector = createSelector(
         ...crop_variety,
         ...management_plan,
         ...crop_management_plan,
+        crop_management_plan,
         planting_management_plans,
         crop,
         crop_variety,
@@ -153,6 +154,20 @@ export const expiredManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
     return getExpiredManagementPlans(managementPlans, lastActiveDatetime);
+  },
+);
+
+export const completedManagementPlansSelector = createSelector(
+  [expiredManagementPlansSelector],
+  (managementPlans) => {
+    return managementPlans.filter(({ abandon_time }) => !abandon_time);
+  },
+);
+
+export const abandonedManagementPlansSelector = createSelector(
+  [expiredManagementPlansSelector],
+  (managementPlans) => {
+    return managementPlans.filter(({ abandon_time }) => abandon_time);
   },
 );
 

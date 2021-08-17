@@ -34,6 +34,7 @@ function TaskCrops({ history, match }) {
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
         managementPlansByLocationIds={managementPlansByLocationIds}
+        onContinue={onContinue}
       />
     </HookFormPersistProvider>
   );

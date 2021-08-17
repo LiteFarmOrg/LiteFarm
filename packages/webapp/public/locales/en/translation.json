@@ -899,6 +899,8 @@
     "PLAN_NOTES": "Plan notes"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandoning this management plan will abandon all the incomplete tasks associated with it and remove it from your farm map.",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandon mangement plan?",
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
     "AGE": "Age",
     "AS_COVER_CROP": "As cover crop",
@@ -916,6 +918,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
@@ -930,6 +933,8 @@
     "HARVEST_DATE": "When do you expect your next harvest?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
+    "INCOMPLETE_TASK_CONTENT": "This plan has tasks that aren’t completed yet. You’ll need to mark the tasks complete in order to complete this crop management plan.",
+    "INCOMPLETE_TASK_TITLE": "You have incomplete tasks",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
     "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
@@ -941,6 +946,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NEXT_HARVEST": "When do you expect your next harvest?",
     "NUMBER_OF_CONTAINER": "# of containers",
+    "PENDING_TASK": "Pending tasks",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
@@ -978,6 +984,13 @@
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
+    "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
@@ -995,6 +1008,7 @@
         "TEXT": "{{fill}} location"
       }
     },
+    "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHERE_START_LOCATION": "Where is your starting location?",

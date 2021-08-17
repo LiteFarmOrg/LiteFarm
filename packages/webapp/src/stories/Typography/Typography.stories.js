@@ -49,8 +49,7 @@ const AllFontTemplate = (args) => (
     <Text style={args.style} />
     <Info style={args.style} />
     <Error style={args.style} />
-    <EditLink style={args.style}>
-    </EditLink>
+    <EditLink style={args.style}></EditLink>
     <Underlined style={args.style} />
     <div>
       <AddLink style={args.style} />

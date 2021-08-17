@@ -3,18 +3,18 @@ import { areaStyles, icons, lineStyles } from '../../containers/Map/mapStyles';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { allLocations } from '../../containers/Map/mapFilterSettingSlice';
+import { lineSelector, pointSelector, sortedAreaSelector } from '../../containers/locationSlice';
 import {
-  lineSelector,
-  pointSelector,
-  sortedAreaSelector,
-} from '../../containers/locationSlice';
-import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from '../../containers/Map/constants';
+  isArea,
+  isAreaLine,
+  isLine,
+  isNoFillArea,
+  locationEnum,
+  polygonPath,
+} from '../../containers/Map/constants';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
-const useMapLocationsRenderer = ({
-  locations,
-}) => {
-
+const useMapLocationsRenderer = ({ locations }) => {
   const dispatch = useDispatch();
   const usualFilters = useSelector(allLocations);
   const filterSettings = usualFilters;
@@ -28,7 +28,6 @@ const useMapLocationsRenderer = ({
 
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
 
-
   const areaAssets = useSelector(sortedAreaSelector);
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
@@ -39,8 +38,8 @@ const useMapLocationsRenderer = ({
         ? drawNoFillArea
         : drawArea
       : !!isLine(assetType)
-        ? drawLine
-        : drawPoint;
+      ? drawLine
+      : drawPoint;
   };
 
   const markerClusterRef = useRef();
@@ -94,7 +93,6 @@ const useMapLocationsRenderer = ({
       if (assets[idx].type === undefined) {
         assets[locationType].forEach((location) => {
           if (locations.includes(location.location_id)) {
-
             newState[locationType]?.push(
               assetFunctionMap(locationType)(
                 map,
@@ -130,13 +128,7 @@ const useMapLocationsRenderer = ({
   };
 
   // Draw an area
-  const drawArea = (
-    map,
-    maps,
-    mapBounds,
-    area,
-    isVisible,
-  ) => {
+  const drawArea = (map, maps, mapBounds, area, isVisible) => {
     const { grid_points: points, name, type } = area;
     const { colour, dashScale, dashLength } = areaStyles[type];
     points.forEach((point) => {
@@ -215,13 +207,7 @@ const useMapLocationsRenderer = ({
   };
 
   // Draw a line
-  const drawLine = (
-    map,
-    maps,
-    mapBounds,
-    line,
-    isVisible,
-  ) => {
+  const drawLine = (map, maps, mapBounds, line, isVisible) => {
     const { line_points: points, type, width } = line;
     let linePolygon;
     const realWidth =

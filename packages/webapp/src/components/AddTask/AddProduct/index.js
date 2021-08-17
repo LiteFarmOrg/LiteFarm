@@ -8,21 +8,31 @@ import { waterUsage } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import { Main } from '../../Typography';
 
-
-const AddProduct = ({ products, type, system, getValues, setValue, watch, control, register, farm, disabled }) => {
+const AddProduct = ({
+  products,
+  type,
+  system,
+  getValues,
+  setValue,
+  watch,
+  control,
+  register,
+  farm,
+  disabled
+}) => {
   const { t } = useTranslation();
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
     cleaning_task: {
       units: waterUsage,
-      label: t('ADD_TASK.CLEANING_VIEW.IS_PERMITTED')
-    }
-  }
+      label: t('ADD_TASK.CLEANING_VIEW.IS_PERMITTED'),
+    },
+  };
   const NAME = `${type}.product.name`;
   const FARM = `${type}.product.farm_id`;
   const SUPPLIER = `${type}.product.supplier`;
   const TYPE = `${type}.product.type`;
-  const PERMITTED  = `${type}.product.on_permitted_substances_list`;
+  const PERMITTED = `${type}.product.on_permitted_substances_list`;
   const PRODUCT_QUANTITY = `${type}.product_quantity`;
   const PRODUCT_QUANTITY_UNIT = `${type}.product_quantity_unit`;
   const PRODUCT_ID = `${type}.product_id`;
@@ -41,7 +51,7 @@ const AddProduct = ({ products, type, system, getValues, setValue, watch, contro
       setValue(SUPPLIER, null);
       setValue(PERMITTED, null);
     }
-  }
+  };
 
   const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: product_id }));
 
@@ -82,7 +92,7 @@ const AddProduct = ({ products, type, system, getValues, setValue, watch, contro
       <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }</Main>
       <RadioGroup hookFormControl={control} name={PERMITTED} disabled={disabled}  showNotSure />
       <Unit
-        style={{marginBottom: '40px', marginTop:'34px'}}
+        style={{ marginBottom: '40px', marginTop: '34px' }}
         register={register}
         label={t('ADD_PRODUCT.QUANTITY')}
         name={PRODUCT_QUANTITY}
@@ -97,8 +107,7 @@ const AddProduct = ({ products, type, system, getValues, setValue, watch, contro
         required
       />
     </>
-  )
-}
-
+  );
+};
 
 export default AddProduct;

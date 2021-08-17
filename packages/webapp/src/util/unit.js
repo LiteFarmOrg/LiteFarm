@@ -169,17 +169,17 @@ export const seedYield = {
 
 export const waterUsage = {
   metric: {
-    units : ['ml', 'l'],
+    units: ['ml', 'l'],
     defaultUnit: 'l',
-    breakpoints: [1000]
+    breakpoints: [1000],
   },
   imperial: {
     units: ['fl-oz', 'gal'],
     defaultUnit: 'gal',
-    breakpoints:  [128]
+    breakpoints: [128],
   },
-  databaseUnit: databaseUnit.volume
-}
+  databaseUnit: databaseUnit.volume,
+};
 
 //TODO move to storybook
 

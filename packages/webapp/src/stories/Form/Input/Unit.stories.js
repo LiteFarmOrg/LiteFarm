@@ -252,3 +252,18 @@ DisabledWithDefaultValues.args = {
   },
   disabled: true,
 };
+
+export const StringAsUnit = Template.bind({});
+StringAsUnit.args = {
+  label: 'SquareMeter',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'metric',
+  required: true,
+  defaultValues: {
+    [fieldEnum?.total_area]: 999,
+    [fieldEnum?.total_area_unit]: 'm2',
+  },
+  disabled: true,
+};

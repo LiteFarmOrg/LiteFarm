@@ -76,8 +76,8 @@ PureCropManagement.propTypes = {
       managementPlanName: PropTypes.string,
       locationName: PropTypes.string,
       notes: PropTypes.string,
-      startDate: PropTypes.string,
-      endDate: PropTypes.string,
+      startDate: PropTypes.any,
+      endDate: PropTypes.any,
       numberOfPendingTask: PropTypes.number,
       status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
     }),
@@ -86,5 +86,5 @@ PureCropManagement.propTypes = {
   match: PropTypes.object,
   onBack: PropTypes.func,
   variety: PropTypes.object,
-  onAddManagementPlan: PropTypes.object,
+  onAddManagementPlan: PropTypes.func,
 };

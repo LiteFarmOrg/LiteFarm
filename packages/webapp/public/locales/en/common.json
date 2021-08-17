@@ -22,6 +22,7 @@
   "HOURS": "Hours",
   "LOADING": "Loading...",
   "LOCATION": "Location",
+  "MARK_COMPLETE": "Mark Complete",
   "MARK_COMPLETED": "Mark completed",
   "MAX_ERROR": "Please enter a value less than {{value}}",
   "MIN_ERROR": "Please enter a value greater than {{value}}",
@@ -46,7 +47,6 @@
   "SUBMITTING": "Submitting...",
   "TO": "to",
   "UPDATE": "Update",
-  "YES": "Yes",
-  "MARK_COMPLETE": "Mark Complete",
-  "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed"
+  "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
+  "YES": "Yes"
 }

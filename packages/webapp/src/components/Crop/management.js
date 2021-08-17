@@ -79,7 +79,7 @@ PureCropManagement.propTypes = {
       startDate: PropTypes.string,
       endDate: PropTypes.string,
       numberOfPendingTask: PropTypes.number,
-      status: PropTypes.string,
+      status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
     }),
   ),
   history: PropTypes.object,

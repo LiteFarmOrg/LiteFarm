@@ -50,13 +50,17 @@ export function ManagementPlanCard({
           {locationName} {notes ? ` | ${notes}` : ''}
         </div>
         <div className={styles.dateUserContainer}>
-          <div className={styles.iconTextContainer}>
-            <CalendarIcon />
-            <div>{`${getShortLocalizedDateString(startDate)} - ${getShortLocalizedDateString(
-              endDate,
-            )}`}</div>
-          </div>
-          <div className={styles.gap} />
+          {startDate && (
+            <>
+              <div className={styles.iconTextContainer}>
+                <CalendarIcon />
+                <div>{`${getShortLocalizedDateString(startDate)}${
+                  endDate && ` - ${getShortLocalizedDateString(endDate)}`
+                }`}</div>
+              </div>
+              <div className={styles.gap} />
+            </>
+          )}
           {
             <div className={styles.iconTextContainer}>
               <div className={clsx(styles.circle)}>
@@ -82,7 +86,7 @@ ManagementPlanCard.propTypes = {
   managementPlanName: PropTypes.string,
   locationName: PropTypes.string,
   notes: PropTypes.string,
-  startDate: PropTypes.string,
-  endDate: PropTypes.string,
+  startDate: PropTypes.any,
+  endDate: PropTypes.any,
   numberOfPendingTask: PropTypes.number,
 };

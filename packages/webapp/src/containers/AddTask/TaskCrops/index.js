@@ -21,8 +21,6 @@ function TaskCrops({ history, match }) {
     console.log('onError called');
   };
 
-  console.log();
-
   const persistedFormData = useSelector(hookFormPersistSelector);
   const managementPlansByLocationIds = useManagementPlansByLocationIds(
     persistedFormData.task_locations,
@@ -36,6 +34,7 @@ function TaskCrops({ history, match }) {
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
         managementPlansByLocationIds={managementPlansByLocationIds}
+        onContinue={onContinue}
       />
     </HookFormPersistProvider>
   );

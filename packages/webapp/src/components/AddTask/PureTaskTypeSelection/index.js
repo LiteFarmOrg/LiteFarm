@@ -52,6 +52,10 @@ const PureTaskTypeSelection = ({
     TRANSPORT: <Transport />,
     WASH_AND_PACK: <WashAndPack />,
     CLEANING: <Clean />,
+    TRANSPLANT: <Transplant />,
+    FERTILIZE: <Fertilize />,
+    COLLECT_SOIL_SAMPLE: <CollectSoilSample />,
+    MAINTENANCE: <Maintenance />,
   };
   const showOnly = ['SOIL_AMENDMENT', 'FIELD_WORK', 'PEST_CONTROL', 'CLEANING'];
   const { watch, getValues, handleSubmit, register, setValue } = useForm({

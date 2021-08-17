@@ -17,6 +17,8 @@ const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
 const { transaction, Model, raw } = require('objection');
 
+const lodash = require('lodash');
+
 const managementPlanController = {
   addManagementPlan() {
     return async (req, res) => {
@@ -42,6 +44,44 @@ const managementPlanController = {
         const isDeleted = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).delete();
         if (isDeleted) {
           return res.sendStatus(200);
+        } else {
+          return res.sendStatus(404);
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  completeManagementPlan() {
+    return async (req, res) => {
+
+      try {
+        const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+        if (result) {
+          return res.status(200).send(result);
+        } else {
+          return res.sendStatus(404);
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  abandonManagementPlan() {
+    return async (req, res) => {
+
+      try {
+        const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
+        if (result) {
+          return res.status(200).send(result);
         } else {
           return res.sendStatus(404);
         }

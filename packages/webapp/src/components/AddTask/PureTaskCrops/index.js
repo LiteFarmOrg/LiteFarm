@@ -77,7 +77,7 @@ const PureTaskCrops = ({
       MANAGEMENT_PLANS,
       selectedManagementPlanIds.map((management_plan_id) => ({ management_plan_id })),
     );
-    history.push(persistedPaths[1]);
+    onContinue();
   };
   const [selectedManagementPlanIds, setSelectedManagementPlanIds] = useState(
     (getValues(MANAGEMENT_PLANS) || []).map(

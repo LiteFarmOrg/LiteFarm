@@ -1,0 +1,19 @@
+import React from 'react';
+import { componentDecorators } from '../Pages/config/decorators';
+import CropHeader from '../../components/Crop/cropHeader';
+
+export default {
+  title: 'Components/CropHeader',
+  component: CropHeader,
+  decorators: componentDecorators,
+};
+
+const Template = (args) => <CropHeader {...args} />;
+export const Primary = Template.bind({});
+Primary.args = {
+  crop_translation_key: 'Blueberry',
+  crop_variety_name: 'Blueberry 1',
+  supplier: 'supplier',
+  crop_variety_photo_url:
+    'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+};

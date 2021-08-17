@@ -67,7 +67,7 @@ export default function PureTaskReadOnly({
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
         isSearchBar={true}
-        disabled={true}
+        disabled
         value={assignee}
       />
 
@@ -114,6 +114,7 @@ export default function PureTaskReadOnly({
         label={t('common:NOTES')}
         value={task.notes}
         optional
+        disabled
       />
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && (

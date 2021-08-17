@@ -119,17 +119,16 @@ export const isChrome = () => {
 
 export const cloneObject = (obj) => JSON.parse(JSON.stringify(obj));
 
-
 export const getObjectInnerValues = (data) => {
   return Object.keys(data).reduce((reduced, k) => {
-    if(data[k] instanceof Object && Object.keys(data[k]).includes('label')){
-      if(data[k].value instanceof Object && Object.keys(data[k].value).includes('label')) {
-        return { ...reduced, [k]: data[k].value.value } ;
+    if (data[k] instanceof Object && Object.keys(data[k]).includes('label')) {
+      if (data[k].value instanceof Object && Object.keys(data[k].value).includes('label')) {
+        return { ...reduced, [k]: data[k].value.value };
       }
-      return { ...reduced, [k]: data[k].value } ;
-    } else if(data[k] instanceof Object && !(data[k] instanceof Array)) {
-      return { ...reduced, [k]: getObjectInnerValues({ ...data[k] })}
+      return { ...reduced, [k]: data[k].value };
+    } else if (data[k] instanceof Object && !(data[k] instanceof Array)) {
+      return { ...reduced, [k]: getObjectInnerValues({ ...data[k] }) };
     }
-    return {...reduced, [k]: data[k]}
+    return { ...reduced, [k]: data[k] };
   }, {});
-}
+};

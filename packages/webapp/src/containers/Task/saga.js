@@ -11,8 +11,8 @@ import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from 
 import { getTaskTypesSuccess } from '../taskTypeSlice';
 
 const taskTypeToEndpointMap = {
-  CLEANING: 'cleaning_task'
-}
+  CLEANING: 'cleaning_task',
+};
 
 export const assignTask = createAction('assignTaskSaga');
 
@@ -87,11 +87,7 @@ export function* getProductsSaga() {
 
   try {
     yield put(onLoadingProductStart());
-    const result = yield call(
-      axios.get,
-      `${productsUrl}/farm/${farm_id}` ,
-      header,
-    );
+    const result = yield call(axios.get, `${productsUrl}/farm/${farm_id}`, header);
     yield put(getProductsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingProductFail());

@@ -26,32 +26,32 @@ import clsx from 'clsx';
 import Button from '../../Form/Button';
 
 const PureTaskTypeSelection = ({
-                                 onCustomTask,
-                                 handleGoBack,
-                                 handleCancel,
-                                 history,
-                                 persistedPaths,
-                                 persistedFormData,
-                                 useHookFormPersist,
-                                 onContinue,
-                                 onError,
-                                 taskTypes
-                               }) => {
+  onCustomTask,
+  handleGoBack,
+  handleCancel,
+  history,
+  persistedPaths,
+  persistedFormData,
+  useHookFormPersist,
+  onContinue,
+  onError,
+  taskTypes,
+}) => {
   const { t } = useTranslation();
   const icons = {
-    SOIL_AMENDMENT: (<SoilAmendment />),
-    FIELD_WORK: (<FieldWork />),
-    HARVESTING: (<Harvest />),
-    IRRIGATION: (<Irrigate />),
-    PEST_CONTROL: (<PestControl />),
-    PLANTING: (<Plant />),
-    SOIL_RESULTS: (<RecordSoilSample/>),
-    SALES: (<Sales/>),
-    SCOUTING: (<Scout/>),
-    SOCIAL: (<SocialEvent/>),
-    TRANSPORT: (<Transport/>),
-    WASH_AND_PACK: (<WashAndPack/>),
-    CLEANING: (<Clean/>)
+    SOIL_AMENDMENT: <SoilAmendment />,
+    FIELD_WORK: <FieldWork />,
+    HARVESTING: <Harvest />,
+    IRRIGATION: <Irrigate />,
+    PEST_CONTROL: <PestControl />,
+    PLANTING: <Plant />,
+    SOIL_RESULTS: <RecordSoilSample />,
+    SALES: <Sales />,
+    SCOUTING: <Scout />,
+    SOCIAL: <SocialEvent />,
+    TRANSPORT: <Transport />,
+    WASH_AND_PACK: <WashAndPack />,
+    CLEANING: <Clean />,
   };
   const showOnly = ['SOIL_AMENDMENT', 'FIELD_WORK', 'PEST_CONTROL', 'CLEANING'];
   const { watch, getValues, handleSubmit, register, setValue } = useForm({
@@ -69,7 +69,6 @@ const PureTaskTypeSelection = ({
     onContinue();
   };
 
-
   return (
     <>
       <Form>
@@ -85,9 +84,12 @@ const PureTaskTypeSelection = ({
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
         <div className={styles.tileContainer}>
-          {
-            taskTypes?.filter(({farm_id, task_translation_key}) => farm_id === null && showOnly.includes(task_translation_key))
-              .map(({ task_translation_key, task_type_id }) => {
+          {taskTypes
+            ?.filter(
+              ({ farm_id, task_translation_key }) =>
+                farm_id === null && showOnly.includes(task_translation_key),
+            )
+            .map(({ task_translation_key, task_type_id }) => {
               return (
                 <div
                   onClick={() => {
@@ -105,9 +107,8 @@ const PureTaskTypeSelection = ({
                     <div>{t(`task:${task_translation_key}`)}</div>
                   </div>
                 </div>
-              )
-            })
-          }
+              );
+            })}
           {/*<div*/}
           {/*  id={'collect_soil_sample'}*/}
           {/*  onClick={() => {*/}

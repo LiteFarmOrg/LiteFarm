@@ -8,13 +8,22 @@ import { waterUsage } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import AddProduct from '../AddProduct';
 
-const PureCleaningTask = ({ system, products,  register, control, setValue, getValues, watch, farm }) => {
+const PureCleaningTask = ({
+  system,
+  products,
+  register,
+  control,
+  setValue,
+  getValues,
+  watch,
+  farm,
+}) => {
   const { t } = useTranslation();
   const CLEANING_TARGET = 'cleaning_task.cleaning_target';
   const AGENT_USED = 'cleaning_task.agent_used';
   const WATER_USAGE = 'cleaning_task.water_usage';
   const WATER_USAGE_UNIT = 'cleaning_task.water_usage_unit';
-  const filtered = products.filter(({type}) => type === 'cleaning_task')
+  const filtered = products.filter(({ type }) => type === 'cleaning_task');
   const isCleaningAgentUsed = watch(AGENT_USED);
 
   return (
@@ -22,12 +31,13 @@ const PureCleaningTask = ({ system, products,  register, control, setValue, getV
       <Input
         label={t('ADD_TASK.CLEANING_VIEW.WHAT_NEEDS_TO_BE')}
         name={CLEANING_TARGET}
-        style={{ marginBottom: '40px', marginTop: '24px'}}
-        hookFormRegister={register(CLEANING_TARGET)}/>
+        style={{ marginBottom: '40px', marginTop: '24px' }}
+        hookFormRegister={register(CLEANING_TARGET)}
+      />
 
       <Main>{t('ADD_TASK.CLEANING_VIEW.WILL_CLEANER_BE_USED')}</Main>
       <RadioGroup
-        style={ { marginBottom: '24px', marginTop: '18px'} }
+        style={{ marginBottom: '24px', marginTop: '18px' }}
         hookFormControl={control}
         name={AGENT_USED}
         required
@@ -48,7 +58,7 @@ const PureCleaningTask = ({ system, products,  register, control, setValue, getV
       )}
       <Unit
         register={register}
-        style={{marginBottom: '40px'}}
+        style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.CLEANING_VIEW.ESTIMATED_WATER')}
         name={WATER_USAGE}
         displayUnitName={WATER_USAGE_UNIT}
@@ -61,8 +71,7 @@ const PureCleaningTask = ({ system, products,  register, control, setValue, getV
         required
       />
     </>
-  )
-}
-
+  );
+};
 
 export default PureCleaningTask;

@@ -18,8 +18,8 @@ CleaningTask.args = {
   handleCancel: () => console.log('handleCancel called'),
   onError: () => console.log('onError called'),
   useHookFormPersist: () => {},
-  persistedFormData: {task_type: 'cleaning'},
-  persistedPaths : [],
-  products :[],
-  system: 'metric'
+  persistedFormData: { task_type: 'cleaning' },
+  persistedPaths: [],
+  products: [],
+  system: 'metric',
 };

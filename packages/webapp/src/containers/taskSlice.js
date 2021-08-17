@@ -81,7 +81,7 @@ export const {
   putTaskSuccess,
   putTasksSuccess,
   deleteTaskSuccess,
-  createTaskSuccess
+  createTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -111,21 +111,18 @@ export const tasksSelector = createSelector(
   },
 );
 
-export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+export const taskEntitiesSelectorByManagementPlanId = createSelector([tasksSelector], (tasks) => {
+  return tasks.reduce((obj, { managementPlans, ...task }) => {
+    let newObj = { ...obj };
+    managementPlans.forEach(({ management_plan_id }) => {
+      if (!newObj[management_plan_id]) {
+        newObj[management_plan_id] = [task];
+      } else {
+        newObj[management_plan_id].push(task);
+      }
+    });
+    return newObj;
+  }, {});
+});
 
-export const managementPlansTaskAndStatus = createSelector(
-  [taskEntitiesSelector],
-  (tasks ) => {
-    return tasks.reduce((obj, { managementPlans, ...task }) => {
-      let newObj = { ...obj };
-      managementPlans.forEach(({management_plan_id}) => {
-        if(!newObj[management_plan_id]) {
-          newObj[management_plan_id] = [task];
-        } else {
-          newObj[management_plan_id].push(task);
-        }
-      });
-      return newObj;
-    }, {});
-  }
-)
+export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

@@ -34,3 +34,10 @@ export const addDaysToDate = (date, days) => {
  */
 export const getLocalizedDateString = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY');
+/**
+ *
+ * @param date
+ * @returns {string}
+ */
+export const getShortLocalizedDateString = (date) =>
+  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);

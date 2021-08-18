@@ -52,6 +52,14 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function completeTaskRequest({ user_id, farm_id }, data, task_id, type, callback) {
+    chai.request(server).patch(`/task/complete/${type}/${task_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -584,4 +592,11 @@ describe('Task tests', () => {
       });
     });
   })
+
+  describe('Patch tasks completion tests', () => {
+    test('should return 403 if non-assignee tries to complete task', async (done) => {
+      const [{ user_id, farm_id, task_id }] = await mocks.userFarmTaskFactory({}, fakeUserFarm(1));
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ assignee_user_id: user_id }));
+    });
+  });
 });

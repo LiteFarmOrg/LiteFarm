@@ -59,4 +59,34 @@ router.post('/harvest_task', modelMapping['harvest_task'],
 router.post('/plant_task', modelMapping['plant_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('plant_task'));
 
+router.patch('/complete/soil_amendment_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('soil_amendment_task'));
+
+router.patch('/complete/cleaning_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('cleaning_task'));
+
+router.patch('/complete/pest_control_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('pest_control_task'));
+
+router.patch('/complete/irrigation_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('irrigation_task'));
+
+router.patch('/complete/scouting_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('scouting_task'));
+
+router.patch('/complete/soil_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('soil_task'));
+
+router.patch('/complete/field_work_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('field_work_task'));
+
+router.patch('/complete/harvest_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('harvest_task'));
+
+router.patch('/complete/plant_task/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('plant_task'));
+
+
+
+
 module.exports = router;

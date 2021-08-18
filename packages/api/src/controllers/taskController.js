@@ -2,7 +2,7 @@ const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
 
 const { typesOfTask } = require('./../middleware/validation/task')
-const adminRoles = [ 1, 2, 5 ];
+const adminRoles = [1, 2, 5];
 
 const taskController = {
 
@@ -92,10 +92,35 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: [ 'locations', 'managementPlans' ],
+              relate: ['locations', 'managementPlans'],
             }),
         );
         return res.status(200).send(result);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  },
+
+  completeTask() {
+    const nonModifiable = getNonModifiable(typeOfTask);
+    return async (req, res, next) => {
+      try {
+        const data = req.body;
+        const { user_id, farm_id } = req.headers;
+        const { task_id } = req.params;
+        const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
+        if (assignee_user_id !== user_id) {
+          return res.status(403).send("Not authorized to complete other people's task");
+        }
+        const result = await TaskModel.transaction(async trx =>
+          await TaskModel.query(trx).context({ user_id: req.user.user_id })
+            .upsertGraph(req.body, {
+              noDelete: true,
+              noInsert: nonModifiable,
+            }),
+        );
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });
@@ -128,7 +153,7 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
-  return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan' ].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
 }
 
 function getTasksForFarm(farm_id) {

@@ -58,6 +58,7 @@ export default function PurePlantingLocation({
   useEffect(() => {
     if (!(already_in_ground && is_wild) && !isFinalLocationPage && !selectedLocationId) {
       setLocationId(default_initial_location_id);
+      setValue(DEFAULT_INITIAL_LOCATION_ID, default_initial_location_id);
     }
   }, []);
 

@@ -55,8 +55,7 @@ export default function PureNextHarvest({
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 
-  const today = new Date();
-  const todayStr = today.toISOString().substring(0, 10);
+  const todayStr = new Date().toISOString().substring(0, 10);
 
   return (
     <Form
@@ -91,7 +90,7 @@ export default function PureNextHarvest({
             required: true,
           })}
           errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
-          minDate={todayStr}
+          min={todayStr}
         />
         {showEstimatedYield && (
           <Unit

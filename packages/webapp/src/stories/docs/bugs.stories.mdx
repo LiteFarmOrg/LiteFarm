@@ -109,6 +109,11 @@ export default [
 ```js
   const hookFormSetHiddenValue = useCallback(
     (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
+      //FIXME: walk around for racing condition on add management plan pages LF-1883
+      hookFormSetValue(name, value, {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
       setTimeout(()=>{
         hookFormSetValue(name, value, {
           shouldValidate,
@@ -163,4 +168,13 @@ import { IoLogoAndroid } from "react-icons/io5"
   },[]);
  }
 ```
+
+### Hookform isValid does not update on react select change
+
+###### Reason unknown
+
+https://github.com/LiteFarmOrg/LiteFarm/compare/bug/hook-form-react-select-validation-error?expand=1
+
+https://5fa09c09b8435e0022120d64-lrowlcggld.chromatic.com/?path=/story/page-task-abandonedtask--primary
+
 

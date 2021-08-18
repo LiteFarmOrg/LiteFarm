@@ -50,3 +50,21 @@ BlueActive.args = {
   color: 'blueActive',
   children: 'blueActive',
 };
+
+export const Completed = Template.bind({});
+Completed.args = {
+  color: 'completed',
+  children: 'completed',
+};
+
+export const CompletedActive = Template.bind({});
+CompletedActive.args = {
+  color: 'completedActive',
+  children: 'completedActive',
+};
+
+export const None = Template.bind({});
+None.args = {
+  color: 'none',
+  children: 'none',
+};

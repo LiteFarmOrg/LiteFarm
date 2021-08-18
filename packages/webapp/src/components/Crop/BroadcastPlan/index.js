@@ -123,6 +123,10 @@ function PureBroadcastPlan({
   const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
+
+  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
+  const isHistoricalPage =
+    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   return (
     <Form
       buttonGroup={
@@ -141,9 +145,9 @@ function PureBroadcastPlan({
         style={{ marginBottom: '24px' }}
       />
       <Main style={{ paddingBottom: '24px' }}>
-        {isFinalPage
-          ? t('BROADCAST_PLAN.PERCENTAGE_LOCATION')
-          : t('BROADCAST_PLAN.HISTORICAL_PERCENTAGE_LOCATION')}
+        {isHistoricalPage
+          ? t('BROADCAST_PLAN.HISTORICAL_PERCENTAGE_LOCATION')
+          : t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}
       </Main>
       <Input
         hookFormRegister={register(PERCENTAGE_PLANTED, {

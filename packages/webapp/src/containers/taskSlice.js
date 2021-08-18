@@ -1,7 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import { managementPlanEntitiesSelector } from './managementPlanSlice';
+import { productEntitiesSelector } from './productSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -28,6 +30,10 @@ export const getTask = (obj) => {
     'abandonment_reason',
     'other_abandonment_reason',
     'abandonment_notes',
+    'soil_amendment_task',
+    'pest_control_task',
+    'field_work_task',
+    'cleaning_task',
   ]);
 };
 
@@ -72,6 +78,7 @@ const taskSlice = createSlice({
     getTasksSuccess: addManyTasks,
     putTaskSuccess: updateOneTask,
     putTasksSuccess: updateManyTasks,
+    createTaskSuccess: taskAdapter.addOne,
     deleteTaskSuccess: taskAdapter.removeOne,
   },
 });
@@ -82,17 +89,86 @@ export const {
   putTaskSuccess,
   putTasksSuccess,
   deleteTaskSuccess,
+  createTaskSuccess,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
 export const taskReducerSelector = (state) => state.entitiesReducer[taskSlice.name];
-
 export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
-export const taskEntitiesSelector = createSelector(taskReducerSelector, ({ ids, entities }) => {
-  return ids.map((id) => entities[id]);
+export const taskEntitiesSelector = taskSelectors.selectEntities;
+
+export const tasksSelector = createSelector(
+  [taskSelectors.selectAll, loginSelector, managementPlanEntitiesSelector],
+  (tasks, { farm_id }, managementPlanEntities) => {
+    return tasks.filter(({ locations, managementPlans }) => {
+      for (const location of locations) {
+        if (location.farm_id === farm_id) {
+          return true;
+        }
+      }
+      for (const { management_plan_id } of managementPlans) {
+        if (managementPlanEntities[management_plan_id].farm_id === farm_id) {
+          return true;
+        }
+      }
+      return false;
+    });
+  },
+);
+
+export const taskEntitiesSelectorByManagementPlanId = createSelector([tasksSelector], (tasks) => {
+  return tasks.reduce((obj, { managementPlans, ...task }) => {
+    let newObj = { ...obj };
+    managementPlans.forEach(({ management_plan_id }) => {
+      if (!newObj[management_plan_id]) {
+        newObj[management_plan_id] = [task];
+      } else {
+        newObj[management_plan_id].push(task);
+      }
+    });
+    return newObj;
+  }, {});
+});
+
+export const taskWithProductById = (task_id) =>
+  createSelector([taskSelectorById(task_id), productEntitiesSelector], (task, products) => {
+    const taskTypeKey = {
+      CLEANING: 'cleaning_task',
+    };
+    const taskHasProduct = !!task[taskTypeKey[task.taskType[0].task_translation_key]]?.product_id;
+    if (taskHasProduct) {
+      const product = products.find(
+        ({ product_id }) =>
+          task[taskTypeKey[task.taskType[0].task_translation_key]].product_id === product_id,
+      );
+      const innerTask = {
+        ...task,
+        [taskTypeKey[task.taskType[0].task_translation_key]]: {
+          product: { ...product },
+          ...task[[taskTypeKey[task.taskType[0].task_translation_key]]],
+        },
+      };
+      console.log(innerTask);
+      return innerTask;
+    }
+    return task;
+  });
+
+export const managementPlansTaskAndStatus = createSelector([taskEntitiesSelector], (tasks) => {
+  return tasks.reduce((obj, { managementPlans, ...task }) => {
+    let newObj = { ...obj };
+    managementPlans.forEach(({ management_plan_id }) => {
+      if (!newObj[management_plan_id]) {
+        newObj[management_plan_id] = [task];
+      } else {
+        newObj[management_plan_id].push(task);
+      }
+    });
+    return newObj;
+  }, {});
 });
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

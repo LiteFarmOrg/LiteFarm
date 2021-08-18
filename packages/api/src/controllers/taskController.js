@@ -109,7 +109,9 @@ const taskController = {
         // after the validation middleware.
         const data = req.body;
         const { farm_id } = req.headers;
+        const { user_id } = req.user;
         data.planned_time = data.due_date;
+        data.owner_user_id = user_id;
         if (data.assignee_user_id && !data.wage_at_moment) {
           const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
           data.wage_at_moment = wage.amount;
@@ -138,10 +140,11 @@ const taskController = {
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().withGraphFetched(`
-          [locations, managementPlans, taskType]
+          [locations, managementPlans, taskType, soil_amendment_task, field_work_task, cleaning_task, pest_control_task]
         `).whereIn('task_id', taskIds);
+        const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {
-          res.status(200).send(graphTasks);
+          res.status(200).send(filteredTasks);
         }
       } catch (error) {
         console.log(error);
@@ -157,6 +160,13 @@ const taskController = {
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
   return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan' ].concat(nonModifiableAssets);
+}
+
+function removeNullTypes(task, i, arr) {
+  const filtered = Object.keys(task)
+    .filter((k) => typesOfTask.includes(k))
+    .reduce((reducer, k) => ({ ...reducer, [k]: task[k] === null ? undefined : task[k] }), {})
+  return { ...task, ...filtered };
 }
 
 function getTasksForFarm(farm_id) {

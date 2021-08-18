@@ -19,6 +19,7 @@ const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 const { modelMapping, isWorkerToSelfOrAdmin } = require('../middleware/validation/task');
 const taskController = require('../controllers/taskController');
+const { createOrPatchProduct } = require('../middleware/validation/product');
 
 router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignTask());
@@ -32,10 +33,16 @@ router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
 
 router.post('/soil_amendment_task', modelMapping['soil_amendment_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('soil_amendment_task'));
+  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
+  createOrPatchProduct('soil_amendment_task'), taskController.createTask('soil_amendment_task'));
+
+router.post('/cleaning_task', modelMapping['cleaning_task'],
+  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
+  createOrPatchProduct('cleaning_task'), taskController.createTask('cleaning_task'));
 
 router.post('/pest_control_task', modelMapping['pest_control_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('pest_control_task'));
+  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
+  createOrPatchProduct('pest_control_task'), taskController.createTask('pest_control_task'));
 
 router.post('/irrigation_task', modelMapping['irrigation_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('irrigation_task'));

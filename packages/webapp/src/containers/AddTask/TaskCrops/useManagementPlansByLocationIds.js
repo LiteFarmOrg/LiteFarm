@@ -9,7 +9,7 @@ export const useManagementPlansByLocationIds = (locationIds = []) => {
   const managementPlans = useSelector(managementPlansSelector);
   return useMemo(
     () =>
-      locationIds.reduce((managementPlansByLocationIds, location_id) => {
+      locationIds.reduce((managementPlansByLocationIds, { location_id }) => {
         managementPlansByLocationIds[location_id] = filterManagementPlansByLocationId(
           location_id,
           managementPlans,

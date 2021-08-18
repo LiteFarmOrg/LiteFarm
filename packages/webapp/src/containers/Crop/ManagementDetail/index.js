@@ -20,8 +20,10 @@ export default function ManagementDetail({ history, match }) {
   };
 
   const onCompleted = () => {
-    console.log('Go to LF-1645');
+    history.push(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`);
   };
+  const onAbandon = () =>
+    history.push(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`);
 
   const showSpotlight = history.location.state?.fromCreation;
 
@@ -31,6 +33,7 @@ export default function ManagementDetail({ history, match }) {
       <PureManagementDetail
         onBack={onBack}
         onCompleted={onCompleted}
+        onAbandon={onAbandon}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

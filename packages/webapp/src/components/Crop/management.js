@@ -63,10 +63,14 @@ export default function PureCropManagement({
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => (
             <ManagementPlanCard
-              onClick={() =>
-                history.push(
-                  `/crop/${variety.crop_variety_id}/${managementPlan.management_plan_id}/management_detail`,
-                )
+              onClick={
+                ['completed', 'abandoned'].includes(managementPlan.status)
+                  ? undefined
+                  : () =>
+                      //TODO: change string status to enum
+                      history.push(
+                        `/crop/${variety.crop_variety_id}/${managementPlan.management_plan_id}/management_detail`,
+                      )
               }
               {...managementPlan}
               key={index}

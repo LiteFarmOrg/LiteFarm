@@ -12,6 +12,7 @@ import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
 
 export default function PureManagementDetail({
   onCompleted,
+  onAbandon,
   onBack,
   variety,
   plan,
@@ -104,12 +105,7 @@ export default function PureManagementDetail({
       {isAdmin && (
         <div className={styles.abandonwrapper} style={{ marginTop: '24px' }}>
           <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
-          <Underlined
-            style={{ marginLeft: '6px' }}
-            onClick={() => {
-              console.log('Go to abandon page');
-            }}
-          >
+          <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
           </Underlined>
         </div>
@@ -126,4 +122,5 @@ PureManagementDetail.prototype = {
   onCompleted: PropTypes.func,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
+  onAbandon: PropTypes.func,
 };

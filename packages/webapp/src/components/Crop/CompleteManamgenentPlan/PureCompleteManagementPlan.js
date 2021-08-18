@@ -11,6 +11,7 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
 import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
+import { getProcessedFormData } from '../../../containers/hooks/useHookFormPersist/utils';
 
 export function PureCompleteManagementPlan({
   onGoBack,
@@ -107,7 +108,7 @@ export function PureCompleteManagementPlan({
       {showAbandonModal && isAbandonPage && (
         <AbandonManagementPlanModal
           dismissModal={() => setShowAbandonModal(false)}
-          onAbandon={() => onSubmit(getValues())}
+          onAbandon={() => onSubmit(getProcessedFormData(getValues()))}
         />
       )}
     </Form>

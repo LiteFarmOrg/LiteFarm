@@ -1,12 +1,12 @@
 import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { useDispatch, useSelector } from 'react-redux';
-import { cropVarietyByID } from '../../cropVarietySlice';
+import { cropVarietySelector } from '../../cropVarietySlice';
 import { completeManagementPlan } from './saga';
 
 export default function CompleteManagementPlan({ match, history }) {
   const management_plan_id = match.params.management_plan_id;
   const crop_variety_id = match.params.variety_id;
-  const crop_variety = useSelector(cropVarietyByID(crop_variety_id));
+  const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
   const dispatch = useDispatch();
 
   const onGoBack = () => {

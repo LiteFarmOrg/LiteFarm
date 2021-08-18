@@ -193,7 +193,13 @@ const Unit = ({
   }, []);
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
-  const hookFormUnit = hookFromWatch(displayUnitName, {})?.value;
+  const hookFormUnitOption = hookFromWatch(displayUnitName);
+  const hookFormUnit = hookFormUnitOption?.value;
+  useEffect(() => {
+    if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
+    }
+  }, []);
   useEffect(() => {
     if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);

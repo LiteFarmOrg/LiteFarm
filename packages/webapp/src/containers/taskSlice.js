@@ -3,6 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
+import { productEntitiesSelector } from './productSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -26,6 +27,10 @@ export const getTask = (obj) => {
     'abandoned_time',
     'locations',
     'managementPlans',
+    'soil_amendment_task',
+    'pest_control_task',
+    'field_work_task',
+    'cleaning_task'
   ]);
 };
 
@@ -125,4 +130,45 @@ export const taskEntitiesSelectorByManagementPlanId = createSelector([tasksSelec
   }, {});
 });
 
+export const taskWithProductById = (task_id) => createSelector(
+  [taskSelectorById(task_id), productEntitiesSelector],
+  (task, products) => {
+    const taskTypeKey = {
+      CLEANING: 'cleaning_task'
+    }
+    const taskHasProduct = !!task[taskTypeKey[task.taskType[0].task_translation_key]]?.product_id ;
+    if(taskHasProduct) {
+      const product = products.find(({product_id}) => task[taskTypeKey[task.taskType[0].task_translation_key]].product_id === product_id);
+      const innerTask =  {
+        ...task,
+        [taskTypeKey[task.taskType[0].task_translation_key]]: {
+          product: {...product},
+          ...task[[taskTypeKey[task.taskType[0].task_translation_key]]]
+        },
+      };
+      console.log(innerTask);
+      return innerTask;
+    }
+    return task;
+  }
+)
+
+export const managementPlansTaskAndStatus = createSelector(
+  [taskEntitiesSelector],
+  (tasks ) => {
+    return tasks.reduce((obj, { managementPlans, ...task }) => {
+      let newObj = { ...obj };
+      managementPlans.forEach(({management_plan_id}) => {
+        if(!newObj[management_plan_id]) {
+          newObj[management_plan_id] = [task];
+        } else {
+          newObj[management_plan_id].push(task);
+        }
+      });
+      return newObj;
+    }, {});
+  }
+)
+
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+

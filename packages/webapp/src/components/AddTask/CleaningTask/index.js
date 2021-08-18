@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
 import styles from './styles.module.scss';
@@ -17,6 +17,7 @@ const PureCleaningTask = ({
   getValues,
   watch,
   farm,
+  disabled = false
 }) => {
   const { t } = useTranslation();
   const CLEANING_TARGET = 'cleaning_task.cleaning_target';
@@ -25,13 +26,13 @@ const PureCleaningTask = ({
   const WATER_USAGE_UNIT = 'cleaning_task.water_usage_unit';
   const filtered = products.filter(({ type }) => type === 'cleaning_task');
   const isCleaningAgentUsed = watch(AGENT_USED);
-
   return (
     <>
       <Input
         label={t('ADD_TASK.CLEANING_VIEW.WHAT_NEEDS_TO_BE')}
         name={CLEANING_TARGET}
-        style={{ marginBottom: '40px', marginTop: '24px' }}
+        disabled={disabled}
+        style={{ marginBottom: '40px', marginTop: '24px'}}
         hookFormRegister={register(CLEANING_TARGET)}
       />
 
@@ -40,6 +41,7 @@ const PureCleaningTask = ({
         style={{ marginBottom: '24px', marginTop: '18px' }}
         hookFormControl={control}
         name={AGENT_USED}
+        disabled={disabled}
         required
       />
 
@@ -54,6 +56,7 @@ const PureCleaningTask = ({
           control={control}
           products={filtered}
           farm={farm}
+          disabled={disabled}
         />
       )}
       <Unit
@@ -69,6 +72,7 @@ const PureCleaningTask = ({
         hookFromWatch={watch}
         control={control}
         required
+        disabled={disabled}
       />
     </>
   );

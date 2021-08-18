@@ -71,3 +71,10 @@ Creatable.args = {
   placeholder: 'placeholder',
   creatable: true,
 };
+export const Disabled = Template.bind({});
+Disabled.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  isDisabled: true
+};

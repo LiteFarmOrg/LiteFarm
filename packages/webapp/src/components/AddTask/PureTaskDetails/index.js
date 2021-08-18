@@ -19,14 +19,14 @@ const PureTaskDetails = ({
   products,
   system,
   selectedTaskType,
-  farm
+  farm,
 }) => {
   const { t } = useTranslation();
 
   const formFunctions = useForm({
     defaultValues: {
       task_notes: persistedFormData?.task_notes,
-      ...persistedFormData
+      ...persistedFormData,
     },
   });
 
@@ -68,13 +68,12 @@ const PureTaskDetails = ({
 
         <Main>
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
-          ' ' +
-          t(`ADD_TASK.${taskType}`) +
-          ' ' +
-          t('ADD_TASK.TASK')}
+            ' ' +
+            t(`task:${taskType}`) +
+            ' ' +
+            t('ADD_TASK.TASK')}
         </Main>
-        {
-          taskType === 'CLEANING' &&
+        {taskType === 'CLEANING' && (
           <PureCleaningTask
             setValue={setValue}
             getValues={getValues}
@@ -85,7 +84,7 @@ const PureTaskDetails = ({
             register={register}
             farm={farm}
           />
-        }
+        )}
         <Input
           label={t('LOG_COMMON.NOTES')}
           optional={true}

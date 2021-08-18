@@ -590,6 +590,24 @@ describe('Task tests', () => {
           done();
         })
       });
+
+      test('should get the specific task information', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }]});
+        const [{ management_plan_id }] = await mocks.management_planFactory({ promisedFarm: [{ farm_id }], promisedLocation: [{location_id}] });
+        const [{ task_id }] = await mocks.soil_amendment_taskFactory({promisedUser: [{ user_id }]});
+        await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }]});
+        await mocks.management_tasksFactory({ promisedTask: [{ task_id }], promisedManagementPlan: [{ management_plan_id }]});
+        getTasksRequest({farm_id, user_id}, (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(1);
+          const [task] = res.body;
+          console.log(task);
+          expect(task.soil_amendment_task).toBeDefined()
+          done();
+        })
+
+      })
     });
   })
 

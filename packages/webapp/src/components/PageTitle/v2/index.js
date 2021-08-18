@@ -16,7 +16,12 @@ function PageTitle({ title, onGoBack, onCancel, onEdit, style, cancelModalTitle,
         )}
         <Title style={{ marginBottom: 0 }}>{title}</Title>
       </div>
-      {!!onEdit && <EditLink style={{marginTop: '10px'}} onClick={onEdit}> {editLink} </EditLink>}
+      {!!onEdit && (
+        <EditLink style={{ marginTop: '10px' }} onClick={onEdit}>
+          {' '}
+          {editLink}{' '}
+        </EditLink>
+      )}
       {!!onCancel && <CancelButton onClick={onCancel} cancelModalTitle={cancelModalTitle} />}
     </div>
   );

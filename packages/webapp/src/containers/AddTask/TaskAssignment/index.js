@@ -18,7 +18,7 @@ function TaskManagement({ history, match }) {
   const users = userFarms[farm_id];
   const userData = Object.values(users);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type))
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
@@ -66,17 +66,17 @@ function TaskManagement({ history, match }) {
 
   const onSubmit = (data) => {
     const { task_translation_key } = selectedTaskType;
-    const {override_hourly_wage :t, ...assignmentFormData} = data;
-    const {override_hourly_wage: d, ...filteredPersistedForm} = persistedFormData;
+    const { override_hourly_wage: t, ...assignmentFormData } = data;
+    const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
     const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
-    dispatch(createTask({task_translation_key, ...filteredData}))
+    dispatch(createTask({ task_translation_key, ...filteredData }));
   };
 
   const handleGoBack = () => {
     history.push(persistPaths[0]);
   };
   const handleCancel = () => {
-    history.push('/tasks')
+    history.push('/tasks');
   };
   const onError = () => {
     console.log('onError called');

@@ -48,16 +48,13 @@ const taskTypeSelectors = taskTypeAdapter.getSelectors(
 
 export const taskTypeEntitiesSelector = taskTypeSelectors.selectEntities;
 
-export const defaultTaskTypesSelector = createSelector([taskTypeSelectors.selectAll],
-  (taskTypes) => taskTypes.filter(({farm_id}) => farm_id === null)
+export const defaultTaskTypesSelector = createSelector([taskTypeSelectors.selectAll], (taskTypes) =>
+  taskTypes.filter(({ farm_id }) => farm_id === null),
+);
 
-)
-
-export const userCreatedTaskTypes = createSelector([taskTypeSelectors.selectAll],
-  (taskTypes) => taskTypes.filter(({farm_id}) => farm_id !== null)
-)
-
-
+export const userCreatedTaskTypes = createSelector([taskTypeSelectors.selectAll], (taskTypes) =>
+  taskTypes.filter(({ farm_id }) => farm_id !== null),
+);
 
 export const taskTypesSelector = createSelector(
   [taskTypeSelectors.selectAll, loginSelector],

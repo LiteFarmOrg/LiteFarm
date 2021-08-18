@@ -141,7 +141,7 @@ export const decoratorsWithStore = [
           <>
             <CssBaseline />
             <Router history={history}>
-              <div style={{ padding: '3rem' }}>{story()}</div>
+              <div style={{ padding: '24px' }}>{story()}</div>
             </Router>
           </>
         </ThemeProvider>
@@ -162,7 +162,7 @@ export const themeWrapper = (story) => (
 export const componentDecorators = [
   (story) => {
     const ready = useI18next();
-    return ready ? <div style={{ padding: '3rem' }}>{story()}</div> : <div>loading</div>;
+    return ready ? <div style={{ padding: '24px' }}>{story()}</div> : <div>loading</div>;
   },
   themeWrapper,
 ];
@@ -171,7 +171,7 @@ export const componentDecoratorsGreyBackground = [
   (story) => {
     const ready = useI18next();
     return ready ? (
-      <div style={{ padding: '3rem', backgroundColor: 'gray' }}>{story()}</div>
+      <div style={{ padding: '24px', backgroundColor: 'gray' }}>{story()}</div>
     ) : (
       <div>loading</div>
     );

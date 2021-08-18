@@ -1,28 +1,28 @@
 import React from 'react';
 import PureTaskComplete from '../../../components/Task/TaskComplete';
-
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function TaskComplete({ history, match }) {
+  const task_id = match.params.task_id;
+  const persistedPaths = [`/tasks/${task_id}/before_complete`];
 
   const onSave = (data) => {
     // TODO - Patch task complete
     console.log(data);
-  }
+  };
 
   const onCancel = () => {
-    // TODO - Cancel task complete
-  }
+    history.push('/tasks');
+  };
 
   const onGoBack = () => {
-    // TODO - Go to LF-1802
-  }
+    history.push(persistedPaths[0]);
+  };
 
   return (
-    <PureTaskComplete
-      onSave={onSave}
-      onCancel={onCancel}
-      onGoBack={onGoBack}
-    />
+    <HookFormPersistProvider>
+      <PureTaskComplete onSave={onSave} onCancel={onCancel} onGoBack={onGoBack} persistedPaths={persistedPaths} />
+    </HookFormPersistProvider>
   );
 }
 

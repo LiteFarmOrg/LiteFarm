@@ -12,13 +12,14 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
 
-
-export default function PureTaskComplete({
-  onSave,
-  onCancel,
-  onGoBack,
-  persistedFormData,
-}) {
+export default function PureTaskComplete(
+  { onSave,
+    onCancel,
+    onGoBack,
+    persistedFormData,
+    persistedPaths,
+    useHookFormPersist
+  }) {
   const { t } = useTranslation();
 
   const {
@@ -33,7 +34,7 @@ export default function PureTaskComplete({
     defaultValues: { ...persistedFormData },
   });
 
-  
+  useHookFormPersist(getValues, persistedPaths);
 
   const progress = 12;
 
@@ -44,7 +45,6 @@ export default function PureTaskComplete({
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
 
   const notes = watch(COMPLETION_NOTES);
-
 
   const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
   const setDuration = (value) => {
@@ -62,7 +62,9 @@ export default function PureTaskComplete({
           {t('common:SAVE')}
         </Button>
       }
-      onSubmit={handleSubmit(() => { onSave({duration: duration, rating: rating, notes: notes}); })}
+      onSubmit={handleSubmit(() => {
+        onSave({ duration: duration, rating: rating, notes: notes });
+      })}
     >
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
@@ -73,9 +75,7 @@ export default function PureTaskComplete({
         value={progress}
       />
 
-      <Main style={{ marginBottom: '24px' }}>
-        {t('TASK.COMPLETE_TASK_DURATION')}
-      </Main>
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
 
       <TimeSlider
         style={{ marginBottom: '40px' }}
@@ -85,9 +85,7 @@ export default function PureTaskComplete({
         }}
       />
 
-      <Main style={{ marginBottom: '24px' }}>
-        {t('TASK.DID_YOU_ENJOY')}
-      </Main>
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
       <Rating
         className={styles.rating}
@@ -109,6 +107,5 @@ export default function PureTaskComplete({
         optional
       />
     </Form>
-  )
+  );
 }
-

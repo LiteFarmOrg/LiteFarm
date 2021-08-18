@@ -1,6 +1,6 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
@@ -12,10 +12,12 @@ import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
+import { useForm } from 'react-hook-form';
+import PureCleaningTask from '../../AddTask/CleaningTask';
+import { cloneObject } from '../../../util';
 
 export default function PureTaskReadOnly({
   onGoBack,
-  taskSpecific,
   onComplete,
   onEdit,
   onAbandon,
@@ -23,14 +25,31 @@ export default function PureTaskReadOnly({
   users,
   user,
   isAdmin,
+  system,
+  products,
   managementPlansByLocationIds,
 }) {
   const { t } = useTranslation();
-
   const taskType = task.taskType[0];
   const dueDate = task.due_date.split('T')[0];
-  const locations = task.locations.map(({ location_id }) => (location_id));
+  const locations = task.locations.map(({ location_id }) => location_id);
   const owner = task.owner_user_id;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    shouldUnregister: false,
+    defaultValues: cloneObject(task),
+  });
+  const taskComponents = {
+    CLEANING: (props) => <PureCleaningTask  farm={user.farm_id} system={system} products={products}  {...props} />
+  }
 
   const self = user.user_id;
 
@@ -45,24 +64,23 @@ export default function PureTaskReadOnly({
 
   return (
     <Layout
-      buttonGroup={self === task.assignee_user_id && (
-        <>
-          <Button color={'primary'} onClick={onComplete} fullLength>
-            {t('common:MARK_COMPLETE')}
-          </Button>
-        </>
-      )}
+      buttonGroup={
+        self === task.assignee_user_id && (
+          <>
+            <Button color={'primary'} onClick={onComplete} fullLength>
+              {t('common:MARK_COMPLETE')}
+            </Button>
+          </>
+        )
+      }
     >
-
       <PageTitle
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
         onEdit={isAdmin || owner === self ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
-      >
-      </PageTitle>
-
+      />
 
       <Input
         style={{ marginBottom: '40px' }}
@@ -80,16 +98,9 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label
-        style={{ marginBottom: '12px' }}
-      >
-        {t('TASK.TARGET')}
-      </Label>
+      <Label style={{ marginBottom: '12px' }}>{t('TASK.TARGET')}</Label>
 
-      <LocationViewer
-        className={styles.mapContainer}
-        viewLocations={locations}
-      />
+      <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
       {Object.keys(managementPlansByLocationIds).map((location_id) => {
         let location_name =
@@ -98,18 +109,12 @@ export default function PureTaskReadOnly({
         return (
           <>
             <div style={{ paddingBottom: '16px' }}>
-              <PageBreak
-                style={{ paddingBottom: '16px' }}
-                label={location_name}
-              />
+              <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
             </div>
             <PureCropTileContainer gap={gap} padding={padding}>
               {managementPlansByLocationIds[location_id].map((plan) => {
                 return (
-                  <PureManagementPlanTile
-                    key={plan.management_plan_id}
-                    managementPlan={plan}
-                  />
+                  <PureManagementPlanTile key={plan.management_plan_id} managementPlan={plan} />
                 );
               })}
             </PureCropTileContainer>
@@ -117,29 +122,33 @@ export default function PureTaskReadOnly({
         );
       })}
 
-      <Semibold
-        style={{ marginTop: '8px' , marginBottom: '18px' }}
-      >
+      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
-      {taskSpecific}
-
+      {
+        taskComponents[taskType.task_translation_key]({
+        setValue,
+        getValues,
+        watch,
+        control,
+        register,
+        disabled: true
+      })
+      }
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('common:NOTES')}
         value={task.notes}
         optional
+        disabled
       />
 
-      {(self === task.assignee_user_id || self === owner || isAdmin) &&
-        (<Underlined
-          style={{ marginBottom: '16px' }}
-          onClick={onAbandon}
-        >
+      {(self === task.assignee_user_id || self === owner || isAdmin) && (
+        <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
           {t('TASK.ABANDON_TASK')}
         </Underlined>
-        )}
+      )}
     </Layout>
-  )
+  );
 }

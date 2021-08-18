@@ -46,7 +46,7 @@ const PureTaskAssignment = ({
         ? persistedFormData.override_hourly_wage
         : false,
       wage_at_moment: persistedFormData.wage_at_moment ? persistedFormData.wage_at_moment : null,
-      ...cloneObject(persistedFormData)
+      ...cloneObject(persistedFormData),
     },
   });
 

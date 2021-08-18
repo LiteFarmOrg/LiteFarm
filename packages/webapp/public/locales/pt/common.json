@@ -1,4 +1,5 @@
 {
+  "ABANDON": "MISSING",
   "ACTIVE": "Ativo",
   "ALL": "All",
   "APPLY": "Aplicar",
@@ -21,6 +22,7 @@
   "HOURS": "Horas",
   "LOADING": "Carregando...",
   "LOCATION": "Local",
+  "MARK_COMPLETE": "MISSING",
   "MARK_COMPLETED": "MISSING",
   "MAX_ERROR": "Insira um valor menor que {{value}}",
   "MIN_ERROR": "Insira um valor maior que {{value}}",
@@ -45,7 +47,6 @@
   "SUBMITTING": "Enviando...",
   "TO": "Para",
   "UPDATE": "Atualizar",
-  "YES": "Sim",
-  "MARK_COMPLETE": "MISSING",
-  "WORD_LIMIT_ERROR": "MISSING"
+  "WORD_LIMIT_ERROR": "MISSING",
+  "YES": "Sim"
 }

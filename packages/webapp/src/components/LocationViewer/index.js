@@ -7,18 +7,23 @@ import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useMapLocationsRenderer from './useMapLocationsRenderer';
 
-const areaTypes = ['field', 'garden', 'barn',  'greenhouse', 'ceremonial_area', 'surface_water', 'natural_area', 'residence'];
+const areaTypes = [
+  'field',
+  'garden',
+  'barn',
+  'greenhouse',
+  'ceremonial_area',
+  'surface_water',
+  'natural_area',
+  'residence',
+];
 const lineTypes = ['buffer_zone', 'watercourse', 'fence', 'farm_site_boundary'];
 const pointTypes = ['gate', 'water_valve'];
 
-const LocationViewer = ({
-  className,
-  viewLocations,
-}) => {
-
+const LocationViewer = ({ className, viewLocations }) => {
   const { grid_points } = useSelector(userFarmSelector);
   const { drawAssets } = useMapLocationsRenderer({
-    locations: viewLocations
+    locations: viewLocations,
   });
 
   const getMapOptions = (maps) => {
@@ -44,7 +49,7 @@ const LocationViewer = ({
         position: maps.ControlPosition.BOTTOM_CENTER,
         mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
-      gestureHandling: "none",
+      gestureHandling: 'none',
       clickableIcons: false,
       streetViewControl: false,
       scaleControl: false,
@@ -57,7 +62,6 @@ const LocationViewer = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
-
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -107,7 +111,7 @@ const LocationViewer = ({
 
 function getLatLngs(locations) {
   let latlngs = [];
-  locations.forEach(location => {
+  locations.forEach((location) => {
     let type = location.type;
     if (areaTypes.includes(type)) {
       latlngs = [...latlngs, ...location.grid_points];

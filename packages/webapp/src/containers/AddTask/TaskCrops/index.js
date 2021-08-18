@@ -22,9 +22,7 @@ function TaskCrops({ history, match }) {
   };
 
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const managementPlansByLocationIds = useManagementPlansByLocationIds(
-    persistedFormData.task_locations,
-  );
+  const managementPlansByLocationIds = useManagementPlansByLocationIds(persistedFormData.locations);
   return (
     <HookFormPersistProvider>
       <PureTaskCrops

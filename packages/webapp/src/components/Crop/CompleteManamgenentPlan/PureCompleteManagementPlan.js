@@ -1,6 +1,6 @@
 import Form from '../../Form';
 import CropHeader from '../cropHeader';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import Rating from '../../Rating';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
 import { getDateInputFormat } from '../../../util/moment';
+import AbandonManagementPlanModal from '../../Modals/AbandonManagementPlanModal';
 
 export function PureCompleteManagementPlan({
   onGoBack,
@@ -35,15 +36,17 @@ export function PureCompleteManagementPlan({
     defaultValues: { [DATE]: getDateInputFormat(new Date()) },
   });
 
+  const [showAbandonModal, setShowAbandonModal] = useState(false);
+
   const disabled = !isValid;
   return (
     <Form
       buttonGroup={
         <Button disabled={disabled} fullLength>
-          {t('common:MARK_COMPLETE')}
+          {isAbandonPage ? t('common:MARK_ABANDON') : t('common:MARK_COMPLETE')}
         </Button>
       }
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(isAbandonPage ? () => setShowAbandonModal(true) : onSubmit)}
     >
       <CropHeader {...crop_variety} onBackClick={onGoBack} />
       <Title
@@ -101,6 +104,12 @@ export function PureCompleteManagementPlan({
         hookFormRegister={register(NOTES)}
         optional
       />
+      {showAbandonModal && isAbandonPage && (
+        <AbandonManagementPlanModal
+          dismissModal={() => setShowAbandonModal(false)}
+          onAbandon={() => onSubmit(getValues())}
+        />
+      )}
     </Form>
   );
 }

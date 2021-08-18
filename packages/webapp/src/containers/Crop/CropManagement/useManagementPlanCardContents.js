@@ -39,6 +39,7 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           ...getStartEndDate(tasks),
           numberOfPendingTask: tasks.length,
           status,
+          management_plan_id: management_plan.management_plan_id,
         };
       });
 

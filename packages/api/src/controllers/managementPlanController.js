@@ -87,18 +87,20 @@ const managementPlanController = {
             .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
               .count('management_plan_id').first().then(total => total.count));
           const locationCountQuery = taskModel.relatedQuery('locations');
-          await taskModel.query(trx).context(req.user)
+          //FIXME: the number of updated rows is incorrect. Can't get updated tasks and deleted management_task
+          const abandonedTasks = await taskModel.query(trx).context(req.user)
             .whereNotExists(locationCountQuery)
             .where(managementPlanCountQuery, 1).patch({
               abandoned_time: req.body.abandon_date,
+              //TODO: add reason_for_abandon after abandon task is done
               //reason_for_abandon: 'Crop management plan abandoned'
             });
-          const managementLocationCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => taskModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id)).whereExists(locationCountQuery))
-            .then(tasks => tasks.length);
-          const plans = await managementTasksModel.query(trx).context(req.user)
+          const managementTaskLocationCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
+            .then(tasks => taskModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
+              .whereExists(locationCountQuery).count().first().then(total => total.count));
+          const deletedManagementPlans = await managementTasksModel.query(trx).context(req.user)
             .where({ management_plan_id })
-            .where(builder => builder.where(managementLocationCountQuery, '>', 0)
+            .where(builder => builder.where(managementTaskLocationCountQuery, '>', 0)
               .orWhere(managementPlanCountQuery, '>', 1))
             .delete();
           return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));

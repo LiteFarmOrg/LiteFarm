@@ -10,8 +10,8 @@ export default function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const plan_id = match.params.management_plan_id;
-  const plan = useSelector(managementPlanSelectorById(plan_id));
+  const management_plan_id = match.params.management_plan_id;
+  const plan = useSelector(managementPlanSelectorById(management_plan_id));
 
   const isAdmin = useSelector(isAdminSelector);
 
@@ -25,9 +25,7 @@ export default function ManagementDetail({ history, match }) {
 
   const showSpotlight = history.location.state?.fromCreation;
 
-  const { management_plan_id } = match.params;
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
-
   return (
     <>
       <PureManagementDetail
@@ -36,6 +34,7 @@ export default function ManagementDetail({ history, match }) {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
+        hasPendingTasks={!!pendingTasks?.length}
       />
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>

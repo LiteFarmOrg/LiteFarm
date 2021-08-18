@@ -18,6 +18,9 @@ export const getManagementPlan = (obj) => {
     'start_date',
     'complete_date',
     'abandon_date',
+    'rating',
+    'complete_notes',
+    'abandon_reason',
   ]);
 };
 
@@ -60,6 +63,7 @@ const managementPlanSlice = createSlice({
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
     deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
+    updateManagementPlanSuccess: updateOneManagementPlan,
   },
 });
 export const {
@@ -68,6 +72,7 @@ export const {
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
   deleteManagementPlansSuccess,
+  updateManagementPlanSuccess,
 } = managementPlanSlice.actions;
 export default managementPlanSlice.reducer;
 

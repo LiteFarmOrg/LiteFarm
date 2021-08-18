@@ -1348,6 +1348,7 @@
       "MULTIPLE_LOCATIONS": "Multiple locations"
     },
     "COMPLETE_TASK": "Complete task",
+    "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
     "COMPLETION_NOTES": "Task completion notes",
     "DETAILS": "Details",

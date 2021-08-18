@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import { isAdminSelector } from '../../userFarmSlice';
+import { isAdminSelector, measurementSelector } from '../../userFarmSlice';
 import { userFarmsByFarmSelector } from '../../userFarmSlice';
 import { userFarmSelector } from '../../userFarmSlice';
-import { taskSelectorById } from '../../taskSlice';
+import { taskSelectorById, taskWithProductById } from '../../taskSlice';
 import { useManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlansByLocationIds';
+import { productEntitiesSelector } from '../../productSlice';
 
 function TaskReadOnly({ history, match }) {
   const dispatch = useDispatch();
   const task_id = match.params.task_id;
-  const task = useSelector(taskSelectorById(task_id));
-
+  const system = useSelector(measurementSelector);
+  const task = useSelector(taskWithProductById(task_id));
+  const products = useSelector(productEntitiesSelector);
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
@@ -25,7 +27,7 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onComplete = () => {
-    // TODO - LF-1750 - Implement complete task
+    history.push(`/tasks/${task_id}/before_complete`);
   };
 
   const onEdit = () => {
@@ -47,6 +49,8 @@ function TaskReadOnly({ history, match }) {
       users={users}
       user={user}
       isAdmin={isAdmin}
+      system={system}
+      products={products}
       managementPlansByLocationIds={managementPlansByLocationIds}
     />
   );

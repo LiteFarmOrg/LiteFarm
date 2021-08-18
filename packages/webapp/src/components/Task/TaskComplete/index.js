@@ -12,7 +12,14 @@ import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
 
-export default function PureTaskComplete({ onSave, onCancel, onGoBack, persistedFormData }) {
+export default function PureTaskComplete({
+  onSave,
+  onCancel,
+  onGoBack,
+  persistedFormData,
+  persistedPaths,
+  useHookFormPersist,
+}) {
   const { t } = useTranslation();
 
   const {
@@ -26,6 +33,8 @@ export default function PureTaskComplete({ onSave, onCancel, onGoBack, persisted
     shouldUnregister: false,
     defaultValues: { ...persistedFormData },
   });
+
+  useHookFormPersist(getValues, persistedPaths);
 
   const progress = 12;
 

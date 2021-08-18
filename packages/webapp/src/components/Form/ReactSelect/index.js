@@ -131,6 +131,7 @@ const ReactSelect = React.forwardRef(
       isSearchable,
       defaultValue,
       creatable = false,
+      isDisabled = false,
       ...props
     },
     ref,
@@ -161,7 +162,17 @@ const ReactSelect = React.forwardRef(
         {creatable && (
           <CreatableSelect
             customStyles
-            styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+            styles={{
+              ...styles,
+              singleValue: (provided, state) => ({
+                ...provided,
+                color: isDisabled ? 'var(--grey600)' : null,
+              }),
+              container: (provided, state) => ({
+                ...provided,
+                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              }),
+            }}
             placeholder={placeholder}
             options={options}
             components={{
@@ -183,13 +194,24 @@ const ReactSelect = React.forwardRef(
             isSearchable={options?.length > 8 || isSearchable}
             inputRef={ref}
             defaultValue={defaultValue}
+            isDisabled={isDisabled}
             {...props}
           />
         )}
         {!creatable && (
           <Select
             customStyles
-            styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
+            styles={{
+              ...styles,
+              singleValue: (provided, state) => ({
+                ...provided,
+                color: isDisabled ? 'var(--grey600)' : null,
+              }),
+              container: (provided, state) => ({
+                ...provided,
+                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              }),
+            }}
             placeholder={placeholder}
             options={options}
             components={{
@@ -211,6 +233,7 @@ const ReactSelect = React.forwardRef(
             isSearchable={options?.length > 8 || isSearchable}
             inputRef={ref}
             defaultValue={defaultValue}
+            isDisabled={isDisabled}
             {...props}
           />
         )}

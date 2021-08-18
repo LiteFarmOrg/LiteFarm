@@ -58,6 +58,11 @@ export const productEntitiesSelector = createSelector(
     return ids.map((id) => entities[id]);
   },
 );
+
 const productSelector = productAdapter.getSelectors(
   (state) => state.entitiesReducer[productSlice.name],
 );
+
+export const productSelectors = productSelector.selectEntities
+
+export const productById = (product_id) => (state) => productSelector.selectById(state, product_id);

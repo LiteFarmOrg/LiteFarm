@@ -133,6 +133,26 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+export const abandonTask = createAction('abandonTaskSaga');
+
+export function* abandonTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_id, patchData } = data;
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
+    if (result) {
+      // yield put(putTaskSuccess({ id: task_id, changes: patchData }));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
+      history.push('/tasks');
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.ABANDON.FAILED')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
@@ -140,4 +160,5 @@ export default function* taskSaga() {
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLeading(getTasks.type, getTasksSaga);
   yield takeLeading(getProducts.type, getProductsSaga);
+  yield takeLeading(abandonTask.type, abandonTaskSaga);
 }

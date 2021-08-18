@@ -34,6 +34,7 @@ const PureCleaningTask = ({
         disabled={disabled}
         style={{ marginBottom: '40px', marginTop: '24px' }}
         hookFormRegister={register(CLEANING_TARGET)}
+        optional
       />
 
       <Main>{t('ADD_TASK.CLEANING_VIEW.WILL_CLEANER_BE_USED')}</Main>

@@ -62,7 +62,7 @@ const managementPlanController = {
       try {
         const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
         if (result) {
-          return res.status(200).send(result);
+          return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
         }
@@ -81,7 +81,7 @@ const managementPlanController = {
       try {
         const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
         if (result) {
-          return res.status(200).send(result);
+          return res.sendStatus(200);
         } else {
           return res.sendStatus(404);
         }

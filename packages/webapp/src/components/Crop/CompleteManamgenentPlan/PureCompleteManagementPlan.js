@@ -61,6 +61,7 @@ export function PureCompleteManagementPlan({
         label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
         hookFormRegister={register(DATE)}
         type={'date'}
+        required
       />
       {isAbandonPage && (
         <Controller

@@ -16,10 +16,10 @@
 const taskModel = require('../../models/taskModel');
 
 
-const validateManagementPlanTasks = () => async (req, res, next) => {
+const validateManagementPlanTasks = async (req, res, next) => {
   const tasks = await taskModel.query().join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-    .where('management_tasks.management_plan_id', req.params.management_plan_id);
-  if (tasks.length) return res.status(400).send('Area needed is greater than the field\'s area');
+    .where('management_tasks.management_plan_id', req.params.management_plan_id).whereNull('completed_time').whereNull('abandoned_time');
+  if (tasks.length) return res.status(400).send(`Can't complete or abandon management plans with pending tasks`);
   return next();
 };
 

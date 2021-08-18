@@ -1,14 +1,12 @@
 import PureManagementDetail from '../../../components/Crop/ManagementDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
-import {
-  managementPlanSelectorById,
-  currentManagementPlanByCropVarietyIdSelector,
-} from '../../managementPlanSlice';
+import { managementPlanSelectorById } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
+import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 
-function ManagementDetail({ history, match }) {
+export default function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
@@ -27,6 +25,9 @@ function ManagementDetail({ history, match }) {
 
   const showSpotlight = history.location.state?.fromCreation;
 
+  const { management_plan_id } = match.params;
+  const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
+
   return (
     <>
       <PureManagementDetail
@@ -40,5 +41,3 @@ function ManagementDetail({ history, match }) {
     </>
   );
 }
-
-export default ManagementDetail;

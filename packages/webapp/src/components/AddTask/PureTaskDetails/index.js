@@ -86,6 +86,7 @@ const PureTaskDetails = ({
           />
         )}
         <Input
+          style={{ paddingTop: '20px' }}
           label={t('LOG_COMMON.NOTES')}
           optional={true}
           hookFormRegister={register(TASK_NOTES)}

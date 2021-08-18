@@ -37,6 +37,6 @@ router.put('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' 
 
 router.delete('/:management_plan_id', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['delete:management_plan']), managementPlanController.delManagementPlan());
 router.patch('/:management_plan_id/complete', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['delete:management_plan']), validateManagementPlanTasks, managementPlanController.completeManagementPlan());
-router.patch('/:management_plan_id/abandon', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['delete:management_plan']), validateManagementPlanTasks, managementPlanController.abandonManagementPlan());
+router.patch('/:management_plan_id/abandon', hasFarmAccess({ params: 'management_plan_id' }), checkScope(['delete:management_plan']), managementPlanController.abandonManagementPlan());
 
 module.exports = router;

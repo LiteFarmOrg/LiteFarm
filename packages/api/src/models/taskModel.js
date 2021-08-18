@@ -49,7 +49,7 @@ class TaskModel extends BaseModel {
         completed_time: { type: ['date-time', null] },
         late_time: { type: ['date-time', null] },
         for_review_time: { type: ['date-time', null] },
-        abandoned_time: { type: ['date-time', null] },
+        abandoned_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
         ...super.baseProperties,
       },
       additionalProperties: false,

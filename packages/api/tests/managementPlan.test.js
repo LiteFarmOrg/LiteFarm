@@ -24,9 +24,12 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 const faker = require('faker');
+const lodash = require('lodash');
+
 
 const managementPlanModel = require('../src/models/managementPlanModel');
 const locationModel = require('../src/models/locationModel');
+
 describe('ManagementPlan Tests', () => {
   let middleware;
   let owner;
@@ -553,7 +556,7 @@ describe('ManagementPlan Tests', () => {
     describe('Complete/abandon management plan', () => {
       function getCompleteReqBody(isAbandonReq, props = {}) {
         return {
-          [isAbandonReq ? 'abandon_date' : 'complete_date']: faker.date.past(),
+          [isAbandonReq ? 'abandon_date' : 'complete_date']: '2021-01-01',
           complete_notes: faker.lorem.words(),
           rating: faker.random.arrayElement([1, 2, 3, 4, 5, 0, null, undefined]),
           abandon_reason: isAbandonReq ? faker.lorem.words() : undefined,
@@ -597,6 +600,76 @@ describe('ManagementPlan Tests', () => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          done();
+        });
+      });
+      const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD');
+
+
+      test('Abandon management plan with one pending task that reference this management plan and another management_plan', async (done) => {
+        const reqBody = getCompleteReqBody();
+        const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
+        });
+
+        const [managementTaskToKeep] = await mocks.management_tasksFactory({
+          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
+          promisedTask: [managementTaskToBeDeleted],
+        });
+
+        const [anotherManagementTask] = await mocks.management_tasksFactory({
+          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
+        });
+
+        abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
+          expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['management_plan_id', 'task_id'])).first();
+          expect(deletedManagementPlan).toBeUndefined();
+          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['management_plan_id', 'task_id'])).first();
+          expect(keptManagementTask0).toBeDefined();
+          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['management_plan_id', 'task_id'])).first();
+          expect(keptManagementTask1).toBeDefined();
+          done();
+        });
+      });
+
+      test('Abandon management plan with one pending task that reference this management plan and a location', async (done) => {
+        const reqBody = getCompleteReqBody();
+        const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
+        });
+        const [locationTask] = await mocks.location_tasksFactory({
+          promisedTask: [managementTaskToBeDeleted],
+          promisedField: [field],
+        });
+
+        abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
+          expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['management_plan_id', 'task_id'])).first();
+          expect(deletedManagementPlan).toBeUndefined();
+          done();
+        });
+      });
+
+      test('Abandon management plan with one pending task that reference this management plan and no location', async (done) => {
+        const reqBody = getCompleteReqBody(true);
+        const [task] = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
+        });
+        abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
+          expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          const newTask = await knex('task').where('task_id', task.task_id).first();
+          expect(getDateInputFormat(newTask.abandoned_time)).toBe(reqBody.abandon_date);
+          // expect(newTask.abandon_reason).toBe('Crop management plan abandoned');
           done();
         });
       });

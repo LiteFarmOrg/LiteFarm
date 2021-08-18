@@ -15,7 +15,10 @@
 
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
-const { transaction, Model, raw } = require('objection');
+const managementTasksModel = require('../models/managementTasksModel');
+const taskModel = require('../models/taskModel');
+
+const { transaction, Model, raw, ref } = require('objection');
 
 const lodash = require('lodash');
 
@@ -77,9 +80,30 @@ const managementPlanController = {
 
   abandonManagementPlan() {
     return async (req, res) => {
-
       try {
-        const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
+        const { management_plan_id } = req.params;
+        const result = await managementPlanModel.transaction(async trx => {
+          const managementPlanCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
+            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
+              .count('management_plan_id').first().then(total => total.count));
+          const locationCountQuery = taskModel.relatedQuery('locations');
+          await taskModel.query(trx).context(req.user)
+            .whereNotExists(locationCountQuery)
+            .where(managementPlanCountQuery, 1).patch({
+              abandoned_time: req.body.abandon_date,
+              //reason_for_abandon: 'Crop management plan abandoned'
+            });
+          const managementLocationCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
+            .then(tasks => taskModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id)).whereExists(locationCountQuery))
+            .then(tasks => tasks.length);
+          const plans = await managementTasksModel.query(trx).context(req.user)
+            .where({ management_plan_id })
+            .where(builder => builder.where(managementLocationCountQuery, '>', 0)
+              .orWhere(managementPlanCountQuery, '>', 1))
+            .delete();
+          return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
+        });
+
         if (result) {
           return res.sendStatus(200);
         } else {

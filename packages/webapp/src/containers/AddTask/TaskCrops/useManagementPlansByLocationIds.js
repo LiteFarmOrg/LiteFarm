@@ -10,11 +10,14 @@ export const useManagementPlansByLocationIds = (locationIds = []) => {
   return useMemo(
     () =>
       locationIds.reduce((managementPlansByLocationIds, { location_id }) => {
-        managementPlansByLocationIds[location_id] = filterManagementPlansByLocationId(
+        const filteredManagementPlans = filterManagementPlansByLocationId(
           location_id,
           managementPlans,
         );
-        return managementPlansByLocationIds;
+        return filteredManagementPlans.length ? {
+          ...managementPlansByLocationIds,
+          [location_id]: filteredManagementPlans
+        } : { ...managementPlansByLocationIds};
       }, {}),
     [locationIds, managementPlans],
   );

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 import clsx from 'clsx';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../containers/Map/constants';
+import CustomZoom from '../Map/CustomZoom';
+import CustomCompass from '../Map/CustomCompass';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import useMapLocationsRenderer from './useMapLocationsRenderer';
@@ -39,7 +42,7 @@ const LocationViewer = ({ className, viewLocations }) => {
           ],
         },
       ],
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: false,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
@@ -49,7 +52,7 @@ const LocationViewer = ({ className, viewLocations }) => {
         position: maps.ControlPosition.BOTTOM_CENTER,
         mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
-      gestureHandling: 'none',
+      gestureHandling: 'greedy',
       clickableIcons: false,
       streetViewControl: false,
       scaleControl: false,
@@ -82,6 +85,22 @@ const LocationViewer = ({ className, viewLocations }) => {
       return res;
     };
 
+    const zoomControlDiv = document.createElement('div');
+    ReactDOM.render(
+      <CustomZoom
+        style={{ margin: '12px' }}
+        onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
+        onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
+      />,
+      zoomControlDiv,
+    );
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
+
+    const compassControlDiv = document.createElement('div');
+    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
+
+
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
 
@@ -108,21 +127,6 @@ const LocationViewer = ({ className, viewLocations }) => {
     </>
   );
 };
-
-function getLatLngs(locations) {
-  let latlngs = [];
-  locations.forEach((location) => {
-    let type = location.type;
-    if (areaTypes.includes(type)) {
-      latlngs = [...latlngs, ...location.grid_points];
-    } else if (lineTypes.includes(type)) {
-      latlngs = [...latlngs, ...location.line_points];
-    } else if (pointTypes.includes(type)) {
-      latlngs.push(location.point);
-    }
-  });
-  return latlngs;
-}
 
 LocationViewer.prototype = {
   className: PropTypes.string,

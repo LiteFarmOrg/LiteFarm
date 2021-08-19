@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../../AddTask/CleaningTask';
-
+import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
+import PurePestControlTask from '../../AddTask/PestControlTask';
+import { cloneObject } from '../../../util';
 function PureCompleteStepOne({
   persistedFormData,
   onContinue,
@@ -22,6 +24,9 @@ function PureCompleteStepOne({
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
+  const defaultsToUse = persistedFormData.need_changes
+    ? cloneObject(persistedFormData)
+    : cloneObject(selectedTask);
   const {
     register,
     handleSubmit,
@@ -33,12 +38,18 @@ function PureCompleteStepOne({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { need_changes: false, ...selectedTask, ...persistedFormData },
+    defaultValues: { need_changes: false, ...defaultsToUse },
   });
 
   const taskComponents = {
     CLEANING: (props) => (
       <PureCleaningTask farm={farm} system={system} products={products} {...props} />
+    ),
+    SOIL_AMENDMENT: (props) => (
+      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL: (props) => (
+      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
     ),
   };
 

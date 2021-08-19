@@ -137,6 +137,8 @@ export const taskWithProductById = (task_id) =>
   createSelector([taskSelectorById(task_id), productEntitiesSelector], (task, products) => {
     const taskTypeKey = {
       CLEANING: 'cleaning_task',
+      PEST_CONTROL: 'pest_control_task',
+      SOIL_AMENDMENT: 'soil_amendment_task',
     };
     const taskHasProduct = !!task[taskTypeKey[task.taskType[0].task_translation_key]]?.product_id;
     if (taskHasProduct) {
@@ -144,15 +146,13 @@ export const taskWithProductById = (task_id) =>
         ({ product_id }) =>
           task[taskTypeKey[task.taskType[0].task_translation_key]].product_id === product_id,
       );
-      const innerTask = {
+      return {
         ...task,
         [taskTypeKey[task.taskType[0].task_translation_key]]: {
           product: { ...product },
           ...task[[taskTypeKey[task.taskType[0].task_translation_key]]],
         },
       };
-      console.log(innerTask);
-      return innerTask;
     }
     return task;
   });

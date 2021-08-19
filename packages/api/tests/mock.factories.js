@@ -886,7 +886,7 @@ async function soil_amendment_taskFactory({
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    amount: faker.random.number(),
+    product_quantity: faker.random.number(),
     purpose: faker.random.arrayElement(['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other']),
     ...defaultData
   };
@@ -1020,7 +1020,7 @@ async function pest_control_taskFactory({
 
 function fakePestControlTask(defaultData = {}) {
   return {
-    amount: faker.random.number(2000),
+    product_quantity: faker.random.number(2000),
     pest_target: faker.lorem.words(2),
     control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
     ...defaultData

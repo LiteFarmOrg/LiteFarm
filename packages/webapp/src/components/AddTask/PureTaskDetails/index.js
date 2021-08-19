@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
+import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PurePestControlTask from '../PestControlTask';
 
 const PureTaskDetails = ({
   handleGoBack,
@@ -25,10 +27,16 @@ const PureTaskDetails = ({
 
   const formFunctions = useForm({
     defaultValues: {
-      task_notes: persistedFormData?.task_notes,
+      notes: persistedFormData?.notes,
       ...persistedFormData,
     },
   });
+
+  const taskComponents = {
+    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />,
+    SOIL_AMENDMENT: (props) => <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />,
+    PEST_CONTROL: (props) => <PurePestControlTask  farm={farm} system={system} products={products} {...props} />,
+  }
 
   const {
     handleSubmit,
@@ -41,8 +49,8 @@ const PureTaskDetails = ({
   } = formFunctions;
 
   useHookFormPersist(getValues, persistedPaths);
-  const TASK_NOTES = 'task_notes';
-  register(TASK_NOTES, { required: false });
+  const NOTES = 'notes';
+  register(NOTES, { required: false });
   const taskType = selectedTaskType.task_translation_key;
 
   return (
@@ -66,30 +74,29 @@ const PureTaskDetails = ({
           value={71}
         />
 
-        <Main>
+        <Main
+          style={{ marginBottom: '24px' }}
+        >
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
             t(`task:${taskType}`) +
             ' ' +
             t('ADD_TASK.TASK')}
         </Main>
-        {taskType === 'CLEANING' && (
-          <PureCleaningTask
-            setValue={setValue}
-            getValues={getValues}
-            watch={watch}
-            control={control}
-            products={products}
-            system={system}
-            register={register}
-            farm={farm}
-          />
-        )}
+        {
+          taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+          })
+        }
         <Input
           label={t('LOG_COMMON.NOTES')}
           optional={true}
-          hookFormRegister={register(TASK_NOTES)}
-          name={TASK_NOTES}
+          hookFormRegister={register(NOTES)}
+          name={NOTES}
         />
       </Form>
     </>

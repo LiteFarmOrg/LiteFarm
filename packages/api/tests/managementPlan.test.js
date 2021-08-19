@@ -636,15 +636,25 @@ describe('ManagementPlan Tests', () => {
         });
       });
 
-      test('Abandon management plan with one pending task that reference this management plan and a location', async (done) => {
-        const reqBody = getCompleteReqBody();
+      test('Abandon management plan with two pending task that reference this management plan and another management_plan', async (done) => {
+        const reqBody = getCompleteReqBody(true);
         const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
           promisedManagementPlan: [transplantManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
         });
-        const [locationTask] = await mocks.location_tasksFactory({
+
+        const [managementTaskToKeep] = await mocks.management_tasksFactory({
+          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
           promisedTask: [managementTaskToBeDeleted],
-          promisedField: [field],
+        });
+
+        const [taskToAbandon] = await mocks.management_tasksFactory({
+          promisedManagementPlan: [transplantManagementPlan],
+          promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
+        });
+
+        const [anotherManagementTask] = await mocks.management_tasksFactory({
+          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
         });
 
         abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
@@ -653,6 +663,14 @@ describe('ManagementPlan Tests', () => {
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
           const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['management_plan_id', 'task_id'])).first();
           expect(deletedManagementPlan).toBeUndefined();
+          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['management_plan_id', 'task_id'])).first();
+          expect(keptManagementTask0).toBeDefined();
+          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['management_plan_id', 'task_id'])).first();
+          expect(keptManagementTask1).toBeDefined();
+          const keptManagementTask2 = await knex('management_tasks').where(lodash.pick(taskToAbandon, ['management_plan_id', 'task_id'])).first();
+          expect(keptManagementTask2).toBeDefined();
+          const abandonedTask = await knex('task').where(lodash.pick(taskToAbandon, ['task_id'])).first();
+          expect(getDateInputFormat(abandonedTask.abandoned_time)).toBe(reqBody.abandon_date);
           done();
         });
       });

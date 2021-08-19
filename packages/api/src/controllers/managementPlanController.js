@@ -83,25 +83,28 @@ const managementPlanController = {
       try {
         const { management_plan_id } = req.params;
         const result = await managementPlanModel.transaction(async trx => {
-          const managementPlanCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
-              .count('management_plan_id').first().then(total => total.count));
-          const locationCountQuery = taskModel.relatedQuery('locations');
-          //FIXME: the number of updated rows is incorrect. Can't get updated tasks and deleted management_task
+          /**
+           * Get all related task_ids and number of related management plans of each task_id
+           * @type {{task_id: *, count: *}[]}
+           */
+          const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
+            .then(tasks => Promise.all(tasks.map(async ({ task_id }) => ({
+              ...await managementTasksModel.query().where({ task_id }).count().first(),
+              task_id,
+            }))));
+
+          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1').map(({ task_id }) => task_id);
           const abandonedTasks = await taskModel.query(trx).context(req.user)
-            .whereNotExists(locationCountQuery)
-            .where(managementPlanCountQuery, 1).patch({
+            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
+            .patch({
               abandoned_time: req.body.abandon_date,
-              //TODO: add reason_for_abandon after abandon task is done
-              //reason_for_abandon: 'Crop management plan abandoned'
+              abandonment_reason: 'OTHER',
+              other_abandonment_reason: 'Crop management plan abandoned',
             });
-          const managementTaskLocationCountQuery = managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => taskModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
-              .whereExists(locationCountQuery).count().first().then(total => total.count));
+          const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount.filter(({ count }) => Number(count) > 1).map(({ task_id }) => task_id);
           const deletedManagementPlans = await managementTasksModel.query(trx).context(req.user)
             .where({ management_plan_id })
-            .where(builder => builder.where(managementTaskLocationCountQuery, '>', 0)
-              .orWhere(managementPlanCountQuery, '>', 1))
+            .whereIn('task_id', taskIdsRelatedToManyManagementPlans)
             .delete();
           return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
         });

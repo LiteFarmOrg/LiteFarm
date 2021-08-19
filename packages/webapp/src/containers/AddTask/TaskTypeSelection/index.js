@@ -13,7 +13,6 @@ function TaskTypeSelection({ history, match }) {
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
-
   console.log(taskTypes);
   useEffect(() => {
     dispatch(getTaskTypes());

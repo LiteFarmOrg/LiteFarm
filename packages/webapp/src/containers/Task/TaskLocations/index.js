@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   hookFormPersistSelector,
+  setManagementPlansData,
   setTaskLocationsData,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
@@ -29,9 +30,11 @@ export default function TaskLocations({ history }) {
 
   const onContinue = () => {
     dispatch(setTaskLocationsData(locationsAsLocationIdObjects(taskLocations)));
-    taskTypesBypassCrops.includes(persistedFormData.type)
-      ? history.push('/add_task/task_details')
-      : history.push('/add_task/task_crops');
+    if (taskTypesBypassCrops.includes(persistedFormData.type)) {
+      dispatch(setManagementPlansData([]));
+      return history.push('/add_task/task_details');
+    }
+    history.push('/add_task/task_crops');
   };
 
   const onGoBack = () => {

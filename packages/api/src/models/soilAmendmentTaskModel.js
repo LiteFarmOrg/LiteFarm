@@ -29,14 +29,15 @@ class SoilAmendmentTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['product_id', 'amount'],
+      required: [],
 
       properties: {
         task_id: { type: 'integer' },
         purpose: { type: 'string', enum: ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'] },
         other_purpose: { type: 'string' },
         product_id: { type: 'integer', minimum: 0 },
-        amount: { type: 'float' },
+        product_quantity: { type: 'number' },
+        product_quantity_unit: { type: 'string', enum: ['g', 'lb', 'kg', 't', 'mt', 'oz', 'l', 'gal', 'ml', 'fl-oz'] },
       },
       additionalProperties: false,
     };

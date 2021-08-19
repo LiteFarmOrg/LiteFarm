@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../../AddTask/CleaningTask';
-
-function PureCompleteStepOne(
-  {
+import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
+import PurePestControlTask from '../../AddTask/PestControlTask';
+import { cloneObject } from '../../../util';
+function PureCompleteStepOne({
   persistedFormData,
   onContinue,
   onGoBack,
@@ -20,9 +21,12 @@ function PureCompleteStepOne(
   system,
   products,
   persistedPaths,
-  useHookFormPersist
- }) {
+  useHookFormPersist,
+}) {
   const { t } = useTranslation();
+  const defaultsToUse = persistedFormData.need_changes
+    ? cloneObject(persistedFormData)
+    : cloneObject(selectedTask);
   const {
     register,
     handleSubmit,
@@ -30,19 +34,27 @@ function PureCompleteStepOne(
     getValues,
     control,
     setValue,
-    formState: { errors, isValid},
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: {  need_changes: false, ...selectedTask, ...persistedFormData, },
+    defaultValues: { need_changes: false, ...defaultsToUse },
   });
 
   const taskComponents = {
-    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />
-  }
+    CLEANING: (props) => (
+      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
+    ),
+    SOIL_AMENDMENT: (props) => (
+      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL: (props) => (
+      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
+    ),
+  };
 
   useHookFormPersist(getValues, persistedPaths);
-  const CHANGES_NEEDED = 'need_changes'
+  const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;
 
@@ -64,26 +76,19 @@ function PureCompleteStepOne(
         value={50}
       />
 
-      <Main style={{ marginBottom: '24px' }}>
-        {t('TASK.COMPLETE_TASK_CHANGES')}
-      </Main>
-      <RadioGroup
-        hookFormControl={control}
-        required
-        name={CHANGES_NEEDED}
-      />
-      {
-        taskType && taskComponents[taskType]({
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>
+      <RadioGroup hookFormControl={control} required name={CHANGES_NEEDED} />
+      {taskType &&
+        taskComponents[taskType]({
           setValue,
           getValues,
           watch,
           control,
           register,
-          disabled: !changesRequired
-        })
-      }
+          disabled: !changesRequired,
+        })}
     </Form>
-  )
+  );
 }
 
 export default PureCompleteStepOne;

@@ -40,9 +40,35 @@
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "PEST_CONTROL_VIEW": {
+      "WHAT_PESTS": "What pet(s) are you trying to control",
+      "PEST_CONTROL_METHOD": "Pest control method",
+      "OTHER_PEST": "Describe the pest control method",
+      "BIOLOGICAL_CONTROL": "Biological control",
+      "FLAME_WEEDING": "Flame weeding",
+      "FOLIAR_SPRAY": "Foliar spray",
+      "HAND_PICKING": "Hand picking",
+      "PRUNING": "Pruning",
+      "SOIL_FUMIGATION": "Soil fumigation",
+      "SYSTEMIC_SPRAY": "Systemic spray",
+      "TRAPS": "Traps",
+      "OTHER": "Other",
+      "IS_PERMITTED": "Is the pest agent in the permitted substances list?",
+      "DONT_SEE_METHOD": "Don’t see your method? It may be elsewhere in the app. For example, tillage, row covers, and mulching can be documented through a field work task. Still not finding it? Create a support ticket!"
+    },
     "SELECT_ALL": "Select all",
     "SELECT_ALL_CROPS": "Select all crops",
     "SELECT_TASK_TYPE": "Select task type",
+    "SOIL_AMENDMENT_VIEW": {
+      "STRUCTURE": "Structure",
+      "MOISTURE_RETENTION": "Moisture retention",
+      "NUTRIENT_AVAILABILITY": "Nutrient availability",
+      "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
+      "PH": "ph",
+      "OTHER": "Other",
+      "PURPOSE": "Purpose",
+      "OTHER_PURPOSE": "Describe the purpose"
+    },
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
     "WAGE_OVERRIDE": "Wage override"
@@ -1344,6 +1370,23 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandon this task",
+    "ABANDON": {
+      "ABANDON": "Abandon",
+      "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
+      "NOTES": "Task abandonment notes",
+      "REASON_FOR_ABANDONMENT": "Reason for abandoning",
+      "REASON": {
+        "CROP_FAILURE": "Crop failure",
+        "LABOUR_ISSUE": "Labour issue",
+        "MACHINERY_ISSUE": "Machinery issue",
+        "MARKET_PROBLEM": "Market problem",
+        "OTHER": "Other",
+        "SCHEDULING_ISSUE": "Scheduling issue",
+        "WEATHER": "Weather"
+      },
+      "TITLE": "Abandon task",
+      "WHAT_HAPPENED": "What happened?"
+    },
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
     "ALL": "All",

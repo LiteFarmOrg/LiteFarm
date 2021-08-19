@@ -278,6 +278,12 @@ const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSu
 const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
 const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
+const CompleteManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
+);
+const AbandonManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
+);
 
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
 const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
@@ -292,6 +298,7 @@ const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/AddTask/EditCustomTask'));
+const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
 
 const Routes = () => {
   useScrollToTop();
@@ -504,13 +511,21 @@ const Routes = () => {
               exact
               component={ManagementPlanName}
             />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
 
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
@@ -529,6 +544,7 @@ const Routes = () => {
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -816,6 +832,16 @@ const Routes = () => {
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />

@@ -4,12 +4,16 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 
 function ManageCustomTasks({ history, match }) {
   const onAddCustomTaskPath = '/add_task/add_custom_task';
+  const onEditCustomTaskPath = '/add_task/edit_custom_task';
   const onGoBackPath = '/add_task/task_type_selection';
-  const persistedPaths = [onGoBackPath, onAddCustomTaskPath];
+  const persistedPaths = [onGoBackPath, onAddCustomTaskPath, onEditCustomTaskPath];
   const handleGoBack = () => {
     history.push(onGoBackPath);
   };
 
+  const onEditCustomTask = () => {
+    history.push(onEditCustomTaskPath);
+  };
   const onAddCustomTask = () => {
     history.push(onAddCustomTaskPath);
   };
@@ -25,6 +29,7 @@ function ManageCustomTasks({ history, match }) {
         onError={onError}
         onAddCustomTask={onAddCustomTask}
         persistedPaths={persistedPaths}
+        onEditCustomTask={onEditCustomTask}
       />
     </HookFormPersistProvider>
   );

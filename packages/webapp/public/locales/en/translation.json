@@ -34,6 +34,8 @@
     },
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_CROPS": "Clear all crops",
+    "CUSTOM_TASK": "Custom Task",
+    "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
     "HR": "/hr",

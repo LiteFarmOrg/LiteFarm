@@ -1,12 +1,12 @@
 import Layout from '../../Layout';
 import Button from '../../Form/Button';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import LocationViewer from '../../LocationViewer';
-import { Label, Underlined, Semibold } from '../../Typography';
+import { Label, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -89,7 +89,6 @@ export default function PureTaskReadOnly({
       <Input
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
-        isSearchBar={true}
         disabled={true}
         value={assignee}
       />
@@ -130,16 +129,14 @@ export default function PureTaskReadOnly({
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
-      {
-        taskComponents[taskType.task_translation_key]({
+      {taskComponents[taskType.task_translation_key]({
         setValue,
         getValues,
         watch,
         control,
         register,
-        disabled: true
-      })
-      }
+        disabled: true,
+      })}
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('common:NOTES')}

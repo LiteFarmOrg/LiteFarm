@@ -113,8 +113,6 @@ const taskController = {
         const { user_id } = req.headers;
         const { task_id } = req.params;
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
-        //console.log(data.completed_time);
-        //console.log(data);
         if (assignee_user_id !== user_id) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
@@ -126,14 +124,18 @@ const taskController = {
               noInsert: true,
             }),
         );
-        // const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
-        // const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
-        // if (management_plan_ids.length > 0) {
-        //   await managementPlanModel.query().context(req.user).patch({ start_date: new Date(), })
-        //     .whereIn('management_plan_id', management_plan_ids)
-        //     .where('start_date', null)
-        // }
-        return result ? res.status(200).send(result) : res.status(404).send('Task not found');
+        if (result) {
+          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+          const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+          if (management_plan_ids.length > 0) {
+            await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time, })
+              .whereIn('management_plan_id', management_plan_ids)
+              .where('start_date', null)
+          }
+          return res.status(200).send(result)
+        } else {
+          return res.status(404).send('Task not found');
+        }
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });

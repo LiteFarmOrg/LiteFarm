@@ -630,7 +630,7 @@ describe('Task tests', () => {
     const notes = faker.lorem.sentence();
 
     const fakeCompletionData = {
-      //completed_time: completed_time,
+      completed_time: completed_time,
       duration: duration,
       happiness: happiness,
       completion_notes: notes,
@@ -669,7 +669,7 @@ describe('Task tests', () => {
       completeTaskRequest({ user_id, farm_id }, { ...fakeCompletionData, soil_amendment_task: {task_id: task_id, ...new_soil_amendment_task }}, task_id, 'soil_amendment_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        //expect(completed_task.completed_time).toBe(completed_date);
+        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -700,7 +700,7 @@ describe('Task tests', () => {
       completeTaskRequest({ user_id, farm_id }, { ...fakeCompletionData, pest_control_task: {task_id: task_id, ...new_pest_control_task }}, task_id, 'pest_control_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        //expect(completed_task.completed_time).toBe(completed_date);
+        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -732,7 +732,7 @@ describe('Task tests', () => {
       completeTaskRequest({ user_id, farm_id }, { ...fakeCompletionData, plant_task: {task_id: task_id, ...new_plant_task }}, task_id, 'plant_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        //expect(completed_task.completed_time).toBe(completed_date);
+        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -775,7 +775,7 @@ describe('Task tests', () => {
       completeTaskRequest({ user_id, farm_id }, { ...fakeCompletionData, soil_amendment_task: {task_id: task_id, ...new_soil_amendment_task }}, task_id, 'soil_amendment_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
-        //expect(completed_task.completed_time).toBe(completed_date);
+        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
         expect(completed_task.duration).toBe(duration);
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
@@ -785,9 +785,9 @@ describe('Task tests', () => {
         const management_plan_1 = await knex('management_plan').where({ management_plan_id: managementPlans[0].management_plan_id }).first();
         const management_plan_2 = await knex('management_plan').where({ management_plan_id: managementPlans[1].management_plan_id }).first();
         const management_plan_3 = await knex('management_plan').where({ management_plan_id: managementPlans[2].management_plan_id }).first();
-        expect(management_plan_1.start_date).toBe(null);
-        expect(management_plan_2.start_date).toBe(null);
-        expect(management_plan_3.start_date).toBe(null);
+        expect(management_plan_1.start_date.toISOString().split('T')[0]).toBe(completed_date);
+        expect(management_plan_2.start_date.toISOString().split('T')[0]).toBe(completed_date);
+        expect(management_plan_3.start_date.toISOString().split('T')[0]).toBe(completed_date);
         done();
       });
     });

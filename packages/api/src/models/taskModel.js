@@ -46,7 +46,7 @@ class TaskModel extends BaseModel {
         wage_at_moment: { type: 'number' },
         happiness: { type: 'integer', minimum: 0, maximum: 5 },
         planned_time: { type: 'date-time' },
-        completed_time: { type: ['date-time', null] },
+        completed_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
         late_time: { type: ['date-time', null] },
         for_review_time: { type: ['date-time', null] },
         abandoned_time: { type: ['date-time', null] },

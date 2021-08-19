@@ -9,7 +9,6 @@ const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 const moment = require('moment');
 let faker = require('faker');
-const { fakeTask } = require('./mock.factories');
 
 
 describe('Task tests', () => {
@@ -783,6 +782,12 @@ describe('Task tests', () => {
         const patched_soil_amendment_task = await knex('soil_amendment_task').where({ task_id }).first();
         expect(patched_soil_amendment_task.amount).toBe(new_soil_amendment_task.amount);
         expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
+        const management_plan_1 = await knex('management_plan').where({ management_plan_id: managementPlans[0].management_plan_id }).first();
+        const management_plan_2 = await knex('management_plan').where({ management_plan_id: managementPlans[1].management_plan_id }).first();
+        const management_plan_3 = await knex('management_plan').where({ management_plan_id: managementPlans[2].management_plan_id }).first();
+        expect(management_plan_1.start_date).toBe(null);
+        expect(management_plan_2.start_date).toBe(null);
+        expect(management_plan_3.start_date).toBe(null);
         done();
       });
     });

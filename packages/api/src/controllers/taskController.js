@@ -126,11 +126,13 @@ const taskController = {
               noInsert: true,
             }),
         );
-        const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
-        const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
-        // const patchManagementPlans = await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time, })
-        //   .whereIn('management_plan_id', management_plan_ids)
-        //   .where('start_date', null);
+        // const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+        // const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+        // if (management_plan_ids.length > 0) {
+        //   await managementPlanModel.query().context(req.user).patch({ start_date: new Date(), })
+        //     .whereIn('management_plan_id', management_plan_ids)
+        //     .where('start_date', null)
+        // }
         return result ? res.status(200).send(result) : res.status(404).send('Task not found');
       } catch (error) {
         console.log(error);

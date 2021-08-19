@@ -32,12 +32,12 @@ const AddProduct = ({
     },
     soil_amendment_task: {
       units: soilAmounts,
-      label: t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')
+      label: t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED'),
     },
     pest_control_task: {
       label: t('ADD_TASK.PEST_CONTROL_VIEW.IS_PERMITTED'),
-      units: pest
-    }
+      units: pest,
+    },
   };
   const NAME = `${type}.product.name`;
   const FARM = `${type}.product.farm_id`;
@@ -50,10 +50,10 @@ const AddProduct = ({
 
   const processProduct = (value) => {
     let product = products.find(({ product_id }) => product_id === value?.value);
-    if(product) {
+    if (product) {
       const { supplier, on_permitted_substances_list } = product;
       setValue(NAME, value?.label);
-      setValue(PRODUCT_ID, value?.value)
+      setValue(PRODUCT_ID, value?.value);
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list, {shouldValidate: true });
     } else {
@@ -64,15 +64,16 @@ const AddProduct = ({
     }
   };
 
-  const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: product_id }));
   const isInterestedInCanada = useMemo(() => is_interested && country_id === CANADA,[country_id, is_interested]);
+  const transformProductsToLabel = (products) =>
+    products.map(({ product_id, name }) => ({ label: name, value: product_id }));
 
   useEffect(() => {
     setValue(FARM, farm_id);
     setValue(TYPE, type);
     const [id, name] = getValues([PRODUCT_ID, NAME]);
-    if(id && name) {
-      setProductValue({label: name, value: id});
+    if (id && name) {
+      setProductValue({ label: name, value: id });
     } else if (!id && name) {
       setProductValue({ label: name, value: name });
     }
@@ -94,8 +95,8 @@ const AddProduct = ({
         creatable
         isDisabled={disabled}
       />
-      <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })}  />
-      <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)}  />
+      <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
+      <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
@@ -117,7 +118,6 @@ const AddProduct = ({
       <Unit
         style={{ marginBottom: '40px',  }}
         register={register}
-        // label={t('ADD_PRODUCT.QUANTITY')}
         name={PRODUCT_QUANTITY}
         displayUnitName={PRODUCT_QUANTITY_UNIT}
         unitType={typesOfProduct[type].units}

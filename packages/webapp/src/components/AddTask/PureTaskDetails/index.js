@@ -42,7 +42,6 @@ const PureTaskDetails = ({
     },
   });
 
-
   const {
     handleSubmit,
     watch,
@@ -78,24 +77,20 @@ const PureTaskDetails = ({
           value={71}
         />
 
-        <Main
-          style={{ marginBottom: '24px' }}
-        >
+        <Main style={{ marginBottom: '24px' }}>
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
             t(`task:${taskType}`) +
             ' ' +
             t('ADD_TASK.TASK')}
         </Main>
-        {
-          taskComponents[taskType]({
-            setValue,
-            getValues,
-            watch,
-            control,
-            register,
-          })
-        }
+        {taskComponents[taskType]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+        })}
         <Input
           style={{ paddingTop: '20px' }}
           label={t('LOG_COMMON.NOTES')}

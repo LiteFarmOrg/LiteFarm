@@ -27,7 +27,7 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onComplete = () => {
-    history.push(`/tasks/${task_id}/before_complete`)
+    history.push(`/tasks/${task_id}/before_complete`);
   };
 
   const onEdit = () => {
@@ -35,7 +35,7 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onAbandon = () => {
-    // TODO - LF-1716 Abandon task
+    history.push(`/tasks/${task_id}/abandon`);
   };
 
   return (

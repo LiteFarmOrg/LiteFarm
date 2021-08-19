@@ -12,10 +12,10 @@ const Template = (args) => <PureCompleteStepOne {...args} />;
 
 export const TaskCompleteCleaning = Template.bind({});
 TaskCompleteCleaning.args = {
-  onCancel: () => { },
-  onGoBack: () => { },
-  onSave: () => { },
-  useHookFormPersist: () => { },
+  onCancel: () => {},
+  onGoBack: () => {},
+  onSave: () => {},
+  useHookFormPersist: () => {},
   persistedFormData: {
     cleaning_task: {
       cleaning_target: 'target',
@@ -30,19 +30,21 @@ TaskCompleteCleaning.args = {
         supplier: 'Test supplier',
         type: 'cleaning_task',
         on_permitted_substances_list: 'YES',
-        farm_id: '1231456'
-      }
+        farm_id: '1231456',
+      },
     },
   },
   selectedTaskType: { task_translation_key: 'CLEANING' },
   farm: '1231456',
   system: 'metric',
-  products: [{
-    product_id: 2,
-    name: 'Test product',
-    supplier: 'Test supplier',
-    type: 'cleaning_task',
-    on_permitted_substances_list: true,
-    farm_id: '1231456'
-  } ]
+  products: [
+    {
+      product_id: 2,
+      name: 'Test product',
+      supplier: 'Test supplier',
+      type: 'cleaning_task',
+      on_permitted_substances_list: true,
+      farm_id: '1231456',
+    },
+  ],
 };

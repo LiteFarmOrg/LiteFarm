@@ -12,7 +12,7 @@ function TaskTypeSelection({ history, match }) {
   const taskTypes = useSelector(defaultTaskTypesSelector);
   const continuePath = '/add_task/task_date';
   const persistedPaths = [continuePath];
-  console.log(taskTypes);
+
   useEffect(() => {
     dispatch(getTaskTypes());
   }, []);

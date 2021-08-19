@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { waterUsage } from '../../../util/unit';
+import { waterUsage, soilAmounts, pest } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import { Main } from '../../Typography';
 
@@ -27,6 +27,14 @@ const AddProduct = ({
       units: waterUsage,
       label: t('ADD_TASK.CLEANING_VIEW.IS_PERMITTED'),
     },
+    soil_amendment_task: {
+      units: soilAmounts,
+      label: t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED')
+    },
+    pest_control_task: {
+      label: t('ADD_TASK.PEST_CONTROL_VIEW.IS_PERMITTED'),
+      units: pest
+    }
   };
   const NAME = `${type}.product.name`;
   const FARM = `${type}.product.farm_id`;

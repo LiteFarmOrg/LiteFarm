@@ -153,6 +153,20 @@ export const seedAmounts = {
   databaseUnit: databaseUnit.mass,
 };
 
+export const soilAmounts = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [16],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
 export const seedYield = {
   metric: {
     units: ['kg', 'mt'],
@@ -168,6 +182,20 @@ export const seedYield = {
 };
 
 export const waterUsage = {
+  metric: {
+    units: ['ml', 'l'],
+    defaultUnit: 'l',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['fl-oz', 'gal'],
+    defaultUnit: 'gal',
+    breakpoints: [128],
+  },
+  databaseUnit: databaseUnit.volume,
+};
+
+export const pest = {
   metric: {
     units: ['ml', 'l'],
     defaultUnit: 'l',

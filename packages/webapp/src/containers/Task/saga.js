@@ -135,6 +135,27 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+export const completeTask = createAction('completeTaskSaga');
+
+export function* completeTaskSaga({ payload: {task_id, data} }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const { task_translation_key, ...taskData } = data;
+  const header = getHeader(user_id, farm_id);
+  const endpoint = taskTypeToEndpointMap[task_translation_key];
+  try {
+    const result = yield call(axios.patch, `${taskUrl}/complete/${endpoint}/${task_id}`, taskData, header);
+    if (result) {
+      console.log(result.data);
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
+      history.push('/tasks');
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
+  }
+}
+    
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
@@ -162,5 +183,6 @@ export default function* taskSaga() {
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLeading(getTasks.type, getTasksSaga);
   yield takeLeading(getProducts.type, getProductsSaga);
+  yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
 }

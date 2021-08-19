@@ -36,7 +36,7 @@ export default function PureTaskComplete({
 
   useHookFormPersist(getValues, persistedPaths);
 
-  const progress = 12;
+  const progress = 66;
 
   const DURATION = 'duration';
   const COMPLETION_NOTES = 'completion_notes';
@@ -87,12 +87,15 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
+
       <Rating
         className={styles.rating}
         style={{ marginBottom: '27px' }}
         label={t('TASK.PROVIDE_RATING')}
+        disabled={prefer_not_to_say}
         onRate={setRating}
       />
+
 
       <Checkbox
         style={{ marginBottom: '42px' }}

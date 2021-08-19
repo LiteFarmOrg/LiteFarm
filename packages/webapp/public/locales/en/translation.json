@@ -1366,6 +1366,23 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandon this task",
+    "ABANDON": {
+      "ABANDON": "Abandon",
+      "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
+      "NOTES": "Task abandonment notes",
+      "REASON_FOR_ABANDONMENT": "Reason for abandoning",
+      "REASON": {
+        "CROP_FAILURE": "Crop failure",
+        "LABOUR_ISSUE": "Labour issue",
+        "MACHINERY_ISSUE": "Machinery issue",
+        "MARKET_PROBLEM": "Market problem",
+        "OTHER": "Other",
+        "SCHEDULING_ISSUE": "Scheduling issue",
+        "WEATHER": "Weather"
+      },
+      "TITLE": "Abandon task",
+      "WHAT_HAPPENED": "What happened?"
+    },
     "ADD_TASK": "Create a task",
     "ADD_TASK_FLOW": "task creation",
     "ALL": "All",

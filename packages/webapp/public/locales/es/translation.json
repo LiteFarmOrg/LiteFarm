@@ -1339,6 +1339,23 @@
   },
   "TASK": {
     "ABANDON_TASK": "MISSING",
+    "ABANDON": {
+      "ABANDON": "MISSING",
+      "INFO": "MISSING",
+      "NOTES": "MISSING",
+      "REASON_FOR_ABANDONMENT": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "OTHER": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "TITLE": "MISSING",
+      "WHAT_HAPPENED": "MISSING"
+    },
     "ADD_TASK": "MISSING",
     "ADD_TASK_FLOW": "MISSING",
     "ALL": "MISSING",

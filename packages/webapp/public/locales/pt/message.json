@@ -146,6 +146,10 @@
     }
   },
   "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
     "CREATE": {
       "FAILED": "MISSING",
       "SUCCESS": "MISSING"

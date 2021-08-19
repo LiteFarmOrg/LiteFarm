@@ -22,6 +22,7 @@
   "HOURS": "Horas",
   "LOADING": "Carregando...",
   "LOCATION": "Local",
+  "MARK_ABANDON": "MISSING",
   "MARK_COMPLETE": "MISSING",
   "MARK_COMPLETED": "MISSING",
   "MAX_ERROR": "Insira um valor menor que {{value}}",

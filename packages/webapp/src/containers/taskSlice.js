@@ -119,7 +119,7 @@ export const tasksSelector = createSelector(
   },
 );
 
-export const taskEntitiesSelectorByManagementPlanId = createSelector([tasksSelector], (tasks) => {
+const getTaskEntitiesByManagementPlanId = (tasks) => {
   return tasks.reduce((obj, { managementPlans, ...task }) => {
     let newObj = { ...obj };
     managementPlans.forEach(({ management_plan_id }) => {
@@ -131,7 +131,39 @@ export const taskEntitiesSelectorByManagementPlanId = createSelector([tasksSelec
     });
     return newObj;
   }, {});
-});
+};
+
+export const taskEntitiesSelectorByManagementPlanId = createSelector(
+  [tasksSelector],
+  getTaskEntitiesByManagementPlanId,
+);
+
+export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+
+export const getPendingTasks = (tasks) =>
+  tasks.filter((task) => !task.abandoned_time && !task.completed_time);
+
+export const pendingTasksSelector = createSelector([tasksSelector], getPendingTasks);
+
+export const pendingTaskEntitiesByManagementPlanIdSelector = createSelector(
+  [pendingTasksSelector],
+  getTaskEntitiesByManagementPlanId,
+);
+
+export const pendingTasksByManagementPlanIdSelector = (management_plan_id) =>
+  createSelector(
+    [pendingTaskEntitiesByManagementPlanIdSelector],
+    (tasksByManagementPlanId) => tasksByManagementPlanId[management_plan_id] || [],
+  );
+
+export const getCompletedTasks = (tasks) =>
+  tasks.filter((task) => !task.abandoned_time && task.completed_time);
+
+export const completedTasksSelector = createSelector([tasksSelector], getCompletedTasks);
+
+export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandoned_time);
+
+export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 
 export const taskWithProductById = (task_id) =>
   createSelector([taskSelectorById(task_id), productEntitiesSelector], (task, products) => {
@@ -156,19 +188,3 @@ export const taskWithProductById = (task_id) =>
     }
     return task;
   });
-
-export const managementPlansTaskAndStatus = createSelector([taskEntitiesSelector], (tasks) => {
-  return tasks.reduce((obj, { managementPlans, ...task }) => {
-    let newObj = { ...obj };
-    managementPlans.forEach(({ management_plan_id }) => {
-      if (!newObj[management_plan_id]) {
-        newObj[management_plan_id] = [task];
-      } else {
-        newObj[management_plan_id].push(task);
-      }
-    });
-    return newObj;
-  }, {});
-});
-
-export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

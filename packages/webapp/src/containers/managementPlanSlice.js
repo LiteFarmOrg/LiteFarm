@@ -18,6 +18,9 @@ export const getManagementPlan = (obj) => {
     'start_date',
     'complete_date',
     'abandon_date',
+    'rating',
+    'complete_notes',
+    'abandon_reason',
   ]);
 };
 
@@ -60,6 +63,7 @@ const managementPlanSlice = createSlice({
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
     deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
+    updateManagementPlanSuccess: updateOneManagementPlan,
   },
 });
 export const {
@@ -68,6 +72,7 @@ export const {
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
   deleteManagementPlansSuccess,
+  updateManagementPlanSuccess,
 } = managementPlanSlice.actions;
 export default managementPlanSlice.reducer;
 
@@ -160,14 +165,14 @@ export const expiredManagementPlansSelector = createSelector(
 export const completedManagementPlansSelector = createSelector(
   [expiredManagementPlansSelector],
   (managementPlans) => {
-    return managementPlans.filter(({ abandon_time }) => !abandon_time);
+    return managementPlans.filter(({ abandon_date }) => !abandon_date);
   },
 );
 
 export const abandonedManagementPlansSelector = createSelector(
   [expiredManagementPlansSelector],
   (managementPlans) => {
-    return managementPlans.filter(({ abandon_time }) => abandon_time);
+    return managementPlans.filter(({ abandon_date }) => abandon_date);
   },
 );
 

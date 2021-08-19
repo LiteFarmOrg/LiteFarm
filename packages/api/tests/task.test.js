@@ -681,7 +681,7 @@ describe('Task tests', () => {
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
         const patched_soil_amendment_task = await knex('soil_amendment_task').where({ task_id }).first();
-        expect(patched_soil_amendment_task.amount).toBe(new_soil_amendment_task.amount);
+        expect(patched_soil_amendment_task.product_quantity).toBe(new_soil_amendment_task.product_quantity);
         expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
         done();
       });
@@ -712,7 +712,7 @@ describe('Task tests', () => {
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
         const patched_pest_control_task = await knex('pest_control_task').where({ task_id }).first();
-        expect(patched_pest_control_task.amount).toBe(new_pest_control_task.amount);
+        expect(patched_pest_control_task.product_quantity).toBe(new_pest_control_task.product_quantity);
         expect(patched_pest_control_task.pest_target).toBe(new_pest_control_task.pest_target);
         expect(patched_pest_control_task.control_method).toBe(new_pest_control_task.control_method);
         done();
@@ -786,7 +786,7 @@ describe('Task tests', () => {
         expect(completed_task.happiness).toBe(happiness);
         expect(completed_task.completion_notes).toBe(notes);
         const patched_soil_amendment_task = await knex('soil_amendment_task').where({ task_id }).first();
-        expect(patched_soil_amendment_task.amount).toBe(new_soil_amendment_task.amount);
+        expect(patched_soil_amendment_task.product_quantity).toBe(new_soil_amendment_task.product_quantity);
         expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
         const management_plan_1 = await knex('management_plan').where({ management_plan_id: managementPlans[0].management_plan_id }).first();
         const management_plan_2 = await knex('management_plan').where({ management_plan_id: managementPlans[1].management_plan_id }).first();

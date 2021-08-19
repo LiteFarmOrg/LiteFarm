@@ -24,25 +24,23 @@ const PureTaskDetails = ({
   farm,
 }) => {
   const { t } = useTranslation();
+  const taskType = selectedTaskType.task_translation_key;
+  const taskComponents = {
+    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />,
+    SOIL_AMENDMENT: (props) => <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />,
+    PEST_CONTROL: (props) => <PurePestControlTask  farm={farm} system={system} products={products} {...props} />,
+  }
+  const defaults = {
+    CLEANING : { cleaning_task: { agent_used: false }}
+  }
 
   const formFunctions = useForm({
     defaultValues: {
       notes: persistedFormData?.notes,
+      ...defaults[taskType],
       ...persistedFormData,
     },
   });
-
-  const taskComponents = {
-    CLEANING: (props) => (
-      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
-    ),
-    SOIL_AMENDMENT: (props) => (
-      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL: (props) => (
-      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
-    ),
-  };
 
   const {
     handleSubmit,
@@ -57,7 +55,6 @@ const PureTaskDetails = ({
   useHookFormPersist(getValues, persistedPaths);
   const NOTES = 'notes';
   register(NOTES, { required: false });
-  const taskType = selectedTaskType.task_translation_key;
 
   return (
     <>

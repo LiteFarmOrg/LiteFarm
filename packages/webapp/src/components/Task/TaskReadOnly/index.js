@@ -127,7 +127,7 @@ export default function PureTaskReadOnly({
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
-      {taskComponents[taskType.task_translation_key]({
+      {taskComponents[taskType.task_translation_key] !== undefined && taskComponents[taskType.task_translation_key]({
         setValue,
         getValues,
         watch,

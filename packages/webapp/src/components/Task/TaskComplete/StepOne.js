@@ -73,7 +73,7 @@ function PureCompleteStepOne(
         name={CHANGES_NEEDED}
       />
       {
-        taskType && taskComponents[taskType]({
+        taskType && taskComponents[taskType] !== undefined && taskComponents[taskType]({
           setValue,
           getValues,
           watch,

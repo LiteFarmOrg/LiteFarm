@@ -1,9 +1,16 @@
-import { isArea, polygonPath } from '../../../containers/Map/constants';
-import { areaStyles, lineStyles } from '../../../containers/Map/mapStyles';
+import { isArea, locationEnum, polygonPath } from '../../../containers/Map/constants';
+import {
+  areaStyles,
+  hoverIcons,
+  icons,
+  lineStyles,
+  selectedIcons,
+} from '../../../containers/Map/mapStyles';
 import { defaultColour } from '../../../containers/Map/styles.module.scss';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
+export const HOVER_POLYGON_OPACITY = 0.8;
 
 export const drawCropLocation = (map, maps, mapBounds, location) => {
   return !!isArea(location.type)
@@ -25,6 +32,17 @@ const drawArea = (map, maps, mapBounds, location) => {
     strokeWeight: 2,
     fillColor: colour,
     fillOpacity: DEFAULT_POLYGON_OPACITY,
+  });
+
+  maps.event.addListener(polygon, 'mouseover', function () {
+    this.clickable &&
+      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+      this.setOptions({ fillOpacity: HOVER_POLYGON_OPACITY });
+  });
+  maps.event.addListener(polygon, 'mouseout', function () {
+    this.clickable &&
+      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+      this.setOptions({ fillOpacity: DEFAULT_POLYGON_OPACITY });
   });
 
   const lineSymbol = {
@@ -79,7 +97,10 @@ const drawArea = (map, maps, mapBounds, location) => {
 
 const drawLine = (map, maps, mapBounds, location) => {
   const { line_points: points, type, width } = location;
-  const realWidth = Number(width);
+  const realWidth =
+    type === locationEnum.watercourse
+      ? Number(location.buffer_width) + Number(width)
+      : Number(width);
   const styles = lineStyles[type];
   const { colour, dashScale, dashLength, selectedColour } = styles;
   points.forEach((point) => {
@@ -108,18 +129,78 @@ const drawLine = (map, maps, mapBounds, location) => {
     ],
   });
 
+  maps.event.addListener(polyline, 'mouseover', function () {
+    this.setOptions({
+      strokeColor: colour,
+      icons: [
+        {
+          icon: lineSymbol(defaultColour),
+          offset: '0',
+          repeat: dashLength,
+        },
+      ],
+    });
+  });
+  maps.event.addListener(polyline, 'mouseout', function () {
+    this.setOptions({
+      strokeColor: defaultColour,
+      icons: [
+        {
+          icon: lineSymbol(colour),
+          offset: '0',
+          repeat: dashLength,
+        },
+      ],
+    });
+  });
+
   const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
   const linePolygon = new maps.Polygon({
     paths: polyPath,
     ...lineStyles[type].polyStyles,
   });
+  maps.event.addListener(linePolygon, 'mouseover', function () {
+    this.clickable &&
+      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+      this.setOptions({ fillOpacity: HOVER_POLYGON_OPACITY });
+  });
+  maps.event.addListener(linePolygon, 'mouseout', function () {
+    this.clickable &&
+      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+      this.setOptions({ fillOpacity: DEFAULT_POLYGON_OPACITY });
+  });
 
-  polyline.setMap(map);
   linePolygon.setMap(map);
+  polyline.setMap(map);
   return {
     location,
     polygon: linePolygon,
     polyline,
     styles,
+  };
+};
+
+const drawPoint = (map, maps, mapBounds, location) => {
+  const { point: grid_point, name, type } = location;
+  mapBounds.extend(grid_point);
+
+  const marker = new maps.Marker({
+    position: grid_point,
+    icon: icons[type],
+  });
+
+  maps.event.addListener(marker, 'mouseover', function () {
+    this.clickable &&
+      marker.icon !== selectedIcons[type] &&
+      this.setOptions({ icon: hoverIcons[type] });
+  });
+  maps.event.addListener(marker, 'mouseout', function () {
+    this.clickable && marker.icon !== selectedIcons[type] && this.setOptions({ icon: icons[type] });
+  });
+
+  marker.setMap(map);
+  return {
+    marker,
+    location,
   };
 };

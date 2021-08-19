@@ -104,9 +104,16 @@ const AddProduct = ({
         disabled={disabled}
         hasLeaf={true}
       />
-      <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }  <Leaf style={{ display: 'inline-block' }}/> </Main>
-      <RadioGroup hookFormControl={control} name={PERMITTED} required={isInterestedInCanada} disabled={disabled} showNotSure />
-      <Label style={{marginTop: '34px'}}> {t('ADD_PRODUCT.QUANTITY')} <Leaf style={{marginLeft: '6px'}}/></Label>
+      {
+        isInterestedInCanada &&  (
+          <>
+            <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }  <Leaf style={{ display: 'inline-block' }}/></Main>
+            <RadioGroup hookFormControl={control} name={PERMITTED} required={true} disabled={disabled} showNotSure />
+            <div style={{marginBottom: '34px'}}/>
+          </>
+        )
+      }
+      <Label> {t('ADD_PRODUCT.QUANTITY')} <Leaf style={{marginLeft: '6px'}}/></Label>
       <Unit
         style={{ marginBottom: '40px',  }}
         register={register}

@@ -16,6 +16,7 @@ export default function PureCropTile({
   isPastVariety,
   isCropTemplate,
   children,
+  isSelected,
 }) {
   return (
     <div
@@ -23,6 +24,7 @@ export default function PureCropTile({
         styles.container,
         isPastVariety && styles.pastVarietyContainer,
         isCropTemplate && styles.cropTemplateContainer,
+        isSelected && styles.selectedContainer,
         className,
       )}
       style={style}

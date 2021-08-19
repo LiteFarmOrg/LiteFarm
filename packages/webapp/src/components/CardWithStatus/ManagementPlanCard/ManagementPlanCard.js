@@ -89,4 +89,5 @@ ManagementPlanCard.propTypes = {
   startDate: PropTypes.any,
   endDate: PropTypes.any,
   numberOfPendingTask: PropTypes.number,
+  management_plan_id: PropTypes.number,
 };

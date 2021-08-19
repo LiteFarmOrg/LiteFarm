@@ -25,6 +25,7 @@ export default function PureManagementPlanTile({
   style,
   cropCount,
   children,
+  isSelected,
 }) {
   const { t } = useTranslation();
   const {
@@ -53,6 +54,7 @@ export default function PureManagementPlanTile({
       alt={imageKey}
       title={crop_variety_name}
       isPastVariety={isPast(status)}
+      isSelected={isSelected}
     >
       <>
         <div className={styles.infoBody} style={{ margin: '2px 0' }}>

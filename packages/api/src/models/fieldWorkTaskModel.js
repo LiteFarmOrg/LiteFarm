@@ -34,9 +34,10 @@ class FieldWorkTaskModel extends Model {
         task_id: { type: 'integer' },
         type: {
           type: 'string',
-          enum:['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing',
-            'bedPreparation', 'coverRow', 'irrigationSetup', 'prune', 'weed'],
+          enum:['COVERING_SOIL', 'FENCING', 'PREPARING_BEDS_OR_ROWS', 'PRUNING',
+            'SHADE_CLOTH', 'TERMINATION', 'TILLAGE', 'WEEDING', 'OTHER'],
         },
+        other_type: { type: ['string', null] },
       },
       additionalProperties: false,
     };

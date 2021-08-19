@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
 import PureCleaningTask from '../../AddTask/CleaningTask';
 import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
+import PureFieldWorkTask from '../../AddTask/FieldWorkTask';
 import PurePestControlTask from '../../AddTask/PestControlTask';
 import { cloneObject } from '../../../util';
 function PureCompleteStepOne({
@@ -45,6 +46,7 @@ function PureCompleteStepOne({
     CLEANING: (props) => (
       <PureCleaningTask farm={farm} system={system} products={products} {...props} />
     ),
+    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
     SOIL_AMENDMENT: (props) => (
       <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
     ),

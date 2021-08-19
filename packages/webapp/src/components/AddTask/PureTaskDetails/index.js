@@ -8,6 +8,7 @@ import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 
 const PureTaskDetails = ({
@@ -36,6 +37,7 @@ const PureTaskDetails = ({
     CLEANING: (props) => (
       <PureCleaningTask farm={farm} system={system} products={products} {...props} />
     ),
+    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
     SOIL_AMENDMENT: (props) => (
       <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
     ),

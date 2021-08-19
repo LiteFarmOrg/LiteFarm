@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
+import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PurePestControlTask from '../PestControlTask';
 
 const PureTaskDetails = ({
   handleGoBack,
@@ -29,6 +31,12 @@ const PureTaskDetails = ({
       ...persistedFormData,
     },
   });
+
+  const taskComponents = {
+    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />,
+    SOIL_AMENDMENT: (props) => <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />,
+    PEST_CONTROL: (props) => <PurePestControlTask  farm={farm} system={system} products={products} {...props} />,
+  }
 
   const {
     handleSubmit,
@@ -66,25 +74,24 @@ const PureTaskDetails = ({
           value={71}
         />
 
-        <Main>
+        <Main
+          style={{ marginBottom: '24px' }}
+        >
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
             t(`task:${taskType}`) +
             ' ' +
             t('ADD_TASK.TASK')}
         </Main>
-        {taskType === 'CLEANING' && (
-          <PureCleaningTask
-            setValue={setValue}
-            getValues={getValues}
-            watch={watch}
-            control={control}
-            products={products}
-            system={system}
-            register={register}
-            farm={farm}
-          />
-        )}
+        {
+          taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+          })
+        }
         <Input
           label={t('LOG_COMMON.NOTES')}
           optional={true}

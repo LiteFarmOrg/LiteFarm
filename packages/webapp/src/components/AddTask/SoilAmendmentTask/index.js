@@ -29,6 +29,7 @@ const PureSoilAmendmentTask = (
     other:t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER')
   };
   const purposeOptions = Object.keys(purpose).map((k) => ({value: k, label: purpose[k]}))
+  const purposeExposedValue = purposeValue?.value ? purposeValue : { value: purposeValue, label: purpose[purposeValue] }
   const filtered = products.filter(({ type }) => type === 'soil_amendment_task');
   return (
     <>
@@ -41,14 +42,17 @@ const PureSoilAmendmentTask = (
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
             style={{ marginBottom: '40px', marginTop: '24px' }}
             options={purposeOptions}
-            onChange={onChange}
-            value={value}
+            onChange={(e) => {
+              onChange(e);
+              setValue(PURPOSE, e, {shouldValidate: true});
+            }}
+            value={value?.value ? value : {value, label: purpose[value]}}
             isDisabled={disabled}
           />
         )}
       />
       {
-        purposeValue?.value === 'other' && (
+        purposeExposedValue?.value === 'other' && (
           <Input
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             style={{ marginBottom: '40px', marginTop: '24px' }}
@@ -61,7 +65,7 @@ const PureSoilAmendmentTask = (
       <AddProduct
         system={system}
         watch={watch}
-        type={'soil_task'}
+        type={'soil_amendment_task'}
         register={register}
         getValues={getValues}
         setValue={setValue}

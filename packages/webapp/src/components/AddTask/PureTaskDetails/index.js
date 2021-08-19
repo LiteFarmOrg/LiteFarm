@@ -27,7 +27,7 @@ const PureTaskDetails = ({
 
   const formFunctions = useForm({
     defaultValues: {
-      task_notes: persistedFormData?.task_notes,
+      notes: persistedFormData?.notes,
       ...persistedFormData,
     },
   });
@@ -49,8 +49,8 @@ const PureTaskDetails = ({
   } = formFunctions;
 
   useHookFormPersist(getValues, persistedPaths);
-  const TASK_NOTES = 'task_notes';
-  register(TASK_NOTES, { required: false });
+  const NOTES = 'notes';
+  register(NOTES, { required: false });
   const taskType = selectedTaskType.task_translation_key;
 
   return (
@@ -95,8 +95,8 @@ const PureTaskDetails = ({
         <Input
           label={t('LOG_COMMON.NOTES')}
           optional={true}
-          hookFormRegister={register(TASK_NOTES)}
-          name={TASK_NOTES}
+          hookFormRegister={register(NOTES)}
+          name={NOTES}
         />
       </Form>
     </>

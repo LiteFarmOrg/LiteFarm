@@ -12,7 +12,7 @@ function createOrPatchProduct(taskType) {
       req.body[taskType].product_id = product_id;
       delete req.body[taskType].product;
     } else {
-      return res.status(400).send('required product data not provided');
+      next();
     }
     next();
   }

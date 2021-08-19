@@ -14,6 +14,7 @@ exports.up = async function(knex) {
   });
   await knex.raw('ALTER TABLE soil_amendment_task ALTER COLUMN product_quantity TYPE NUMERIC(36,12)');
   await knex.raw('ALTER TABLE pest_control_task ALTER COLUMN product_quantity TYPE NUMERIC(36,12)');
+  await knex.raw('ALTER TABLE pest_control_task ALTER COLUMN product_quantity DROP NOT NULL');
   await knex.raw(`ALTER TABLE pest_control_task ALTER COLUMN product_quantity_unit SET DEFAULT 'l'`);
 };
 

@@ -35,8 +35,9 @@ const PurePestControlTask = (
     other: t('ADD_TASK.PEST_CONTROL_VIEW.OTHER'),
   };
   const controlMethodOptions = Object.keys(controlMethod).map((k) => ({value: k, label: controlMethod[k]}));
-  console.log(controlMethodValue);
+  const controlMethodExposedValue = controlMethodValue?.value ? controlMethodValue : { value: controlMethodValue, label: controlMethod[controlMethodValue] }
   const filtered = products.filter(({ type }) => type === 'pest_control_task');
+
   return (
     <>
       <Input
@@ -55,15 +56,18 @@ const PurePestControlTask = (
           <ReactSelect
             label={t('ADD_TASK.PEST_CONTROL_VIEW.PEST_CONTROL_METHOD')}
             style={{ marginBottom: '40px' }}
-            onChange={onChange}
-            value={value}
+            onChange={(e) => {
+              onChange(e);
+              setValue(CONTROL_METHOD, e, {shouldValidate: true})
+            }}
+            value={value?.value ? value : {value, label: controlMethod[value]} }
             options={controlMethodOptions}
             isDisabled={disabled}
           />
         )}
       />
       {
-        controlMethodValue?.value === 'other' && (
+        controlMethodExposedValue?.value === 'other' && (
           <Input
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
             style={{ marginBottom: '24px' }}
@@ -74,7 +78,7 @@ const PurePestControlTask = (
         )
       }
       {
-        productPests.includes(controlMethodValue?.value) && (
+        productPests.includes(controlMethodExposedValue?.value) && (
           <AddProduct
             system={system}
             watch={watch}

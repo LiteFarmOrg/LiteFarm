@@ -15,6 +15,8 @@ import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
 import PureCleaningTask from '../../AddTask/CleaningTask';
 import { cloneObject } from '../../../util';
+import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
+import PurePestControlTask from '../../AddTask/PestControlTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -50,6 +52,12 @@ export default function PureTaskReadOnly({
   const taskComponents = {
     CLEANING: (props) => (
       <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    SOIL_AMENDMENT: (props) => (
+      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL: (props) => (
+      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
   };
 
@@ -127,14 +135,15 @@ export default function PureTaskReadOnly({
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 
-      {taskComponents[taskType.task_translation_key] !== undefined && taskComponents[taskType.task_translation_key]({
-        setValue,
-        getValues,
-        watch,
-        control,
-        register,
-        disabled: true,
-      })}
+      {taskComponents[taskType.task_translation_key] !== undefined &&
+        taskComponents[taskType.task_translation_key]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+          disabled: true,
+        })}
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('common:NOTES')}

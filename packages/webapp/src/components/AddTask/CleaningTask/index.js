@@ -17,7 +17,7 @@ const PureCleaningTask = ({
   getValues,
   watch,
   farm,
-  disabled = false
+  disabled = false,
 }) => {
   const { t } = useTranslation();
   const CLEANING_TARGET = 'cleaning_task.cleaning_target';
@@ -32,7 +32,7 @@ const PureCleaningTask = ({
         label={t('ADD_TASK.CLEANING_VIEW.WHAT_NEEDS_TO_BE')}
         name={CLEANING_TARGET}
         disabled={disabled}
-        style={{ marginBottom: '40px', marginTop: '24px'}}
+        style={{ marginBottom: '40px', marginTop: '24px' }}
         hookFormRegister={register(CLEANING_TARGET)}
         optional
       />

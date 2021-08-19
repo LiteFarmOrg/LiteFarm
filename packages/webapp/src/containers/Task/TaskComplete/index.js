@@ -24,7 +24,12 @@ function TaskComplete({ history, match }) {
 
   return (
     <HookFormPersistProvider>
-      <PureTaskComplete onSave={onSave} onCancel={onCancel} onGoBack={onGoBack} persistedPaths={persistedPaths} />
+      <PureTaskComplete
+        onSave={onSave}
+        onCancel={onCancel}
+        onGoBack={onGoBack}
+        persistedPaths={persistedPaths}
+      />
     </HookFormPersistProvider>
   );
 }

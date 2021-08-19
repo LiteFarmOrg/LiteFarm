@@ -4,7 +4,7 @@ import { chromaticSmallScreen } from '../../config/chromatic';
 import PureTaskAssignment from '../../../../components/AddTask/PureTaskAssignment';
 
 export default {
-  title: 'Page/AddTask',
+  title: 'Page/Task/AddTask',
   decorators: decorators,
   component: PureTaskAssignment,
 };

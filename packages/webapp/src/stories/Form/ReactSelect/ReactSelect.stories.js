@@ -76,5 +76,5 @@ Disabled.args = {
   options: options,
   label: 'label',
   placeholder: 'placeholder',
-  isDisabled: true
+  isDisabled: true,
 };

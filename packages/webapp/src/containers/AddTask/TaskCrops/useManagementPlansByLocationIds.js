@@ -14,10 +14,12 @@ export const useManagementPlansByLocationIds = (locationIds = []) => {
           location_id,
           managementPlans,
         );
-        return filteredManagementPlans.length ? {
-          ...managementPlansByLocationIds,
-          [location_id]: filteredManagementPlans
-        } : { ...managementPlansByLocationIds};
+        return filteredManagementPlans.length
+          ? {
+              ...managementPlansByLocationIds,
+              [location_id]: filteredManagementPlans,
+            }
+          : { ...managementPlansByLocationIds };
       }, {}),
     [locationIds, managementPlans],
   );

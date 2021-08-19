@@ -141,7 +141,7 @@ export const {
   setCertifierId,
   setInterested,
   setTaskLocationsData,
-  setManagementPlansData
+  setManagementPlansData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>

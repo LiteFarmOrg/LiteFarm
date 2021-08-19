@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { waterUsage } from '../../../util/unit';
+import { waterUsage, soilAmounts, pest } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import { Main } from '../../Typography';
 
@@ -18,7 +18,7 @@ const AddProduct = ({
   control,
   register,
   farm,
-  disabled
+  disabled,
 }) => {
   const { t } = useTranslation();
   const [productValue, setProductValue] = useState(null);
@@ -26,6 +26,14 @@ const AddProduct = ({
     cleaning_task: {
       units: waterUsage,
       label: t('ADD_TASK.CLEANING_VIEW.IS_PERMITTED'),
+    },
+    soil_amendment_task: {
+      units: soilAmounts,
+      label: t('ADD_TASK.SOIL_AMENDMENT_VIEW.IS_PERMITTED'),
+    },
+    pest_control_task: {
+      label: t('ADD_TASK.PEST_CONTROL_VIEW.IS_PERMITTED'),
+      units: pest,
     },
   };
   const NAME = `${type}.product.name`;
@@ -39,10 +47,10 @@ const AddProduct = ({
 
   const processProduct = (value) => {
     let product = products.find(({ product_id }) => product_id === value?.value);
-    if(product) {
+    if (product) {
       const { supplier, on_permitted_substances_list } = product;
       setValue(NAME, value?.label);
-      setValue(PRODUCT_ID, value?.value)
+      setValue(PRODUCT_ID, value?.value);
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list);
     } else {
@@ -53,18 +61,19 @@ const AddProduct = ({
     }
   };
 
-  const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: product_id }));
+  const transformProductsToLabel = (products) =>
+    products.map(({ product_id, name }) => ({ label: name, value: product_id }));
 
   useEffect(() => {
     setValue(FARM, farm);
     setValue(TYPE, type);
     const [id, name] = getValues([PRODUCT_ID, NAME]);
-    if(id && name) {
-      setProductValue({label: name, value: id});
+    if (id && name) {
+      setProductValue({ label: name, value: id });
     } else if (!id && name) {
       setProductValue({ label: name, value: name });
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -80,8 +89,8 @@ const AddProduct = ({
         creatable
         isDisabled={disabled}
       />
-      <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })}  />
-      <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)}  />
+      <input name={NAME} style={{ display: 'none' }} {...register(NAME, { required: true })} />
+      <input name={PRODUCT_ID} style={{ display: 'none' }} {...register(PRODUCT_ID)} />
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
@@ -89,8 +98,8 @@ const AddProduct = ({
         style={{ marginBottom: '40px' }}
         disabled={disabled}
       />
-      <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }</Main>
-      <RadioGroup hookFormControl={control} name={PERMITTED} disabled={disabled}  showNotSure />
+      <Main style={{ marginBottom: '18px' }}>{typesOfProduct[type].label}</Main>
+      <RadioGroup hookFormControl={control} name={PERMITTED} disabled={disabled} showNotSure />
       <Unit
         style={{ marginBottom: '40px', marginTop: '34px' }}
         register={register}

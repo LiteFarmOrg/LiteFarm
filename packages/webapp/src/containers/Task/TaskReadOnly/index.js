@@ -35,7 +35,7 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onAbandon = () => {
-    // TODO - LF-1716 Abandon task
+    history.push(`/tasks/${task_id}/abandon`);
   };
 
   return (

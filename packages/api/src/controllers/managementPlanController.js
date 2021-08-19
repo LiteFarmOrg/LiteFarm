@@ -85,7 +85,7 @@ const managementPlanController = {
         const result = await managementPlanModel.transaction(async trx => {
           /**
            * Get all related task_ids and number of related management plans of each task_id
-           * @type {{task_id: *, count: *}[]}
+           * @type {{task_id: string, count: string}[]}
            */
           const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
             .then(tasks => Promise.all(tasks.map(async ({ task_id }) => ({

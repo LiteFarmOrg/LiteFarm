@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Controller } from 'react-hook-form';
 import AddProduct from '../AddProduct';
@@ -35,8 +35,20 @@ const PurePestControlTask = (
     other: t('ADD_TASK.PEST_CONTROL_VIEW.OTHER'),
   };
   const controlMethodOptions = Object.keys(controlMethod).map((k) => ({value: k, label: controlMethod[k]}));
-  const controlMethodExposedValue = controlMethodValue?.value ? controlMethodValue : { value: controlMethodValue, label: controlMethod[controlMethodValue] }
+  const controlMethodExposedValue = useMemo(() => {
+    return controlMethodValue?.value ? controlMethodValue : { value: controlMethodValue, label: controlMethod[controlMethodValue] }
+  },[controlMethodValue]);
   const filtered = products.filter(({ type }) => type === 'pest_control_task');
+
+  useEffect(() => {
+    if(controlMethodExposedValue?.value &&  getValues('pest_control_task.product') &&
+      !productPests.includes(controlMethodExposedValue?.value) ) {
+      setValue('pest_control_task.product', null);
+      setValue('pest_control_task.product_id', null);
+      setValue('pest_control_task.product_quantity', undefined);
+      setValue('pest_control_task.product_quantity_unit', null, { shouldValidate: true });
+    }
+  }, [controlMethodExposedValue])
 
   return (
     <>

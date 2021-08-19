@@ -1,12 +1,14 @@
 import ReactSelect from '../../Form/ReactSelect';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import { waterUsage, soilAmounts, pest } from '../../../util/unit';
 import Unit from '../../Form/Unit';
-import { Main } from '../../Typography';
+import { Label, Main } from '../../Typography';
+import {CANADA} from './constants';
 
 const AddProduct = ({
   products,
@@ -18,9 +20,10 @@ const AddProduct = ({
   control,
   register,
   farm,
-  disabled
+  disabled,
 }) => {
   const { t } = useTranslation();
+  const {farm_id, is_interested, country_id} = farm;
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
     cleaning_task: {
@@ -52,7 +55,7 @@ const AddProduct = ({
       setValue(NAME, value?.label);
       setValue(PRODUCT_ID, value?.value)
       setValue(SUPPLIER, supplier);
-      setValue(PERMITTED, on_permitted_substances_list);
+      setValue(PERMITTED, on_permitted_substances_list, {shouldValidate: true });
     } else {
       setValue(NAME, value.label);
       setValue(PRODUCT_ID, null);
@@ -62,9 +65,10 @@ const AddProduct = ({
   };
 
   const transformProductsToLabel = products=> products.map(({product_id, name}) => ({ label: name, value: product_id }));
+  const isInterestedInCanada = useMemo(() => is_interested && country_id === CANADA,[country_id, is_interested]);
 
   useEffect(() => {
-    setValue(FARM, farm);
+    setValue(FARM, farm_id);
     setValue(TYPE, type);
     const [id, name] = getValues([PRODUCT_ID, NAME]);
     if(id && name) {
@@ -72,7 +76,7 @@ const AddProduct = ({
     } else if (!id && name) {
       setProductValue({ label: name, value: name });
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -80,9 +84,11 @@ const AddProduct = ({
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
         options={transformProductsToLabel(products)}
         onChange={(e) => {
+          console.log('CHANGE', e);
           processProduct(e);
           setProductValue(e);
         }}
+        placeholder={t('ADD_PRODUCT.PRESS_ENTER')}
         value={productValue}
         style={{ marginBottom: '40px' }}
         creatable
@@ -93,16 +99,18 @@ const AddProduct = ({
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-        hookFormRegister={register(SUPPLIER)}
+        hookFormRegister={register(SUPPLIER, {required: is_interested})}
         style={{ marginBottom: '40px' }}
         disabled={disabled}
+        hasLeaf={true}
       />
-      <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }</Main>
-      <RadioGroup hookFormControl={control} name={PERMITTED} disabled={disabled}  showNotSure />
+      <Main style={{ marginBottom: '18px' }}>{ typesOfProduct[type].label }  <Leaf style={{ display: 'inline-block' }}/> </Main>
+      <RadioGroup hookFormControl={control} name={PERMITTED} required={isInterestedInCanada} disabled={disabled} showNotSure />
+      <Label style={{marginTop: '34px'}}> {t('ADD_PRODUCT.QUANTITY')} <Leaf style={{marginLeft: '6px'}}/></Label>
       <Unit
-        style={{ marginBottom: '40px', marginTop: '34px' }}
+        style={{ marginBottom: '40px',  }}
         register={register}
-        label={t('ADD_PRODUCT.QUANTITY')}
+        // label={t('ADD_PRODUCT.QUANTITY')}
         name={PRODUCT_QUANTITY}
         displayUnitName={PRODUCT_QUANTITY_UNIT}
         unitType={typesOfProduct[type].units}

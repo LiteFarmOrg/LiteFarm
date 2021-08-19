@@ -33,6 +33,16 @@
   }
 }
 
+.selectedContainer {
+  border: 1px solid var(--teal600);
+  .info {
+    background-color: var(--green100);
+    .infoMain {
+      color: var(--teal700);
+    }
+  }
+}
+
 .img {
   // background-color: orange;
   height: 72px;

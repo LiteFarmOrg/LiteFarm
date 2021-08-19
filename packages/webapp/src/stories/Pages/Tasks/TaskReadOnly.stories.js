@@ -129,10 +129,12 @@ const cropLocations = [
 export const TaskReadOnly = Template.bind({});
 TaskReadOnly.args = {
   task: {
-    taskType: [{
-      task_translation_key: 'Task type'
-    }],
-    due_date: "06/21/2021T",
+    taskType: [
+      {
+        task_translation_key: 'Task type',
+      },
+    ],
+    due_date: '06/21/2021T',
     locations: cropLocations,
     onwer_user_id: '1',
     notes: '',
@@ -144,5 +146,5 @@ TaskReadOnly.args = {
   },
   isAdmin: true,
   managementPlansByLocationIds: [],
-  onGoBack: () => { },
+  onGoBack: () => {},
 };

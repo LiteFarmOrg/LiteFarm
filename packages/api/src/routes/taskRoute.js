@@ -27,6 +27,9 @@ router.patch('/assign/:task_id', hasFarmAccess({ params: 'task_id' }),
 router.patch('/assign_all_tasks_on_date/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.assignAllTasksOnDate());
 
+router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.abandonTask());
+
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
 
 router.post('/soil_amendment_task', modelMapping['soil_amendment_task'],

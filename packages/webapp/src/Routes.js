@@ -289,6 +289,7 @@ const Tasks = React.lazy(() => import('./containers/Task'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
+const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
 
 const Routes = () => {
   useScrollToTop();
@@ -501,8 +502,6 @@ const Routes = () => {
               exact
               component={ManagementPlanName}
             />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
 
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
@@ -526,6 +525,7 @@ const Routes = () => {
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route

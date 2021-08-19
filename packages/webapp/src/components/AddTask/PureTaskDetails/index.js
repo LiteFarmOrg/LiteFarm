@@ -33,10 +33,16 @@ const PureTaskDetails = ({
   });
 
   const taskComponents = {
-    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />,
-    SOIL_AMENDMENT: (props) => <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />,
-    PEST_CONTROL: (props) => <PurePestControlTask  farm={farm} system={system} products={products} {...props} />,
-  }
+    CLEANING: (props) => (
+      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
+    ),
+    SOIL_AMENDMENT: (props) => (
+      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL: (props) => (
+      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
+    ),
+  };
 
   const {
     handleSubmit,
@@ -74,24 +80,20 @@ const PureTaskDetails = ({
           value={71}
         />
 
-        <Main
-          style={{ marginBottom: '24px' }}
-        >
+        <Main style={{ marginBottom: '24px' }}>
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
             t(`task:${taskType}`) +
             ' ' +
             t('ADD_TASK.TASK')}
         </Main>
-        {
-          taskComponents[taskType]({
-            setValue,
-            getValues,
-            watch,
-            control,
-            register,
-          })
-        }
+        {taskComponents[taskType]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+        })}
         <Input
           style={{ paddingTop: '20px' }}
           label={t('LOG_COMMON.NOTES')}

@@ -3,9 +3,8 @@ import PureCompleteStepOne from '../../../components/Task/TaskComplete/StepOne';
 import { useSelector } from 'react-redux';
 import { loginSelector, measurementSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import {  taskWithProductById } from '../../taskSlice';
+import { taskWithProductById } from '../../taskSlice';
 import { productEntitiesSelector } from '../../productSlice';
-
 
 function TaskCompleteStepOne({ history, match }) {
   const system = useSelector(measurementSelector);
@@ -18,15 +17,15 @@ function TaskCompleteStepOne({ history, match }) {
 
   const onContinue = (data) => {
     history.push(persistedPaths[0]);
-  }
+  };
 
   const onCancel = () => {
-    history.push(`/tasks/${task_id}/read_only`)
-  }
+    history.push(`/tasks/${task_id}/read_only`);
+  };
 
   const onGoBack = () => {
-    history.push(`/tasks/${task_id}/read_only`)
-  }
+    history.push(`/tasks/${task_id}/read_only`);
+  };
 
   return (
     <HookFormPersistProvider>

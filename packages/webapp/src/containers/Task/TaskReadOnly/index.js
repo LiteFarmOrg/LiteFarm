@@ -27,7 +27,7 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onComplete = () => {
-    history.push(`/tasks/${task_id}/before_complete`)
+    history.push(`/tasks/${task_id}/before_complete`);
   };
 
   const onEdit = () => {

@@ -11,8 +11,6 @@ function createOrPatchProduct(taskType) {
       const { product_id } = await productModel.query().context({ user_id }).insert(product).returning('*');
       req.body[taskType].product_id = product_id;
       delete req.body[taskType].product;
-    } else {
-      next();
     }
     next();
   }

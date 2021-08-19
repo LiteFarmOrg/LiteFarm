@@ -1,5 +1,7 @@
 const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
+const managementPlanModel = require('../models/managementPlanModel');
+const managementTasksModel = require('../models/managementTasksModel');
 
 const { typesOfTask } = require('./../middleware/validation/task')
 const adminRoles = [1, 2, 5];
@@ -103,24 +105,33 @@ const taskController = {
     }
   },
 
-  completeTask() {
+  completeTask(typeOfTask) {
     const nonModifiable = getNonModifiable(typeOfTask);
     return async (req, res, next) => {
       try {
         const data = req.body;
-        const { user_id, farm_id } = req.headers;
+        const { user_id } = req.headers;
         const { task_id } = req.params;
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
+        //console.log(data.completed_time);
+        //console.log(data);
         if (assignee_user_id !== user_id) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
         const result = await TaskModel.transaction(async trx =>
           await TaskModel.query(trx).context({ user_id: req.user.user_id })
-            .upsertGraph(req.body, {
+            .upsertGraph({ task_id: parseInt(task_id), ...data }, {
+              noUpdate: nonModifiable,
               noDelete: true,
-              noInsert: nonModifiable,
+              noInsert: true,
             }),
         );
+        const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+        const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+        // const patchManagementPlans = await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time, })
+        //   .whereIn('management_plan_id', management_plan_ids)
+        //   .where('start_date', null);
+        return result ? res.status(200).send(result) : res.status(404).send('Task not found');
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });

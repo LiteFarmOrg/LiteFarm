@@ -89,7 +89,7 @@ const Input = ({
           }}
         />
       )}
-      {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
+      {isSearchBar && !disabled && <BiSearchAlt2 className={styles.searchIcon} />}
       {isPassword &&
         !showError &&
         (showPassword ? (
@@ -103,7 +103,7 @@ const Input = ({
         className={clsx(
           styles.input,
           showError && styles.inputError,
-          isSearchBar && styles.searchBar,
+          isSearchBar && !disabled && styles.searchBar,
         )}
         style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}

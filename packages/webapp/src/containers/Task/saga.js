@@ -12,6 +12,8 @@ import { getTaskTypesSuccess } from '../taskTypeSlice';
 
 const taskTypeToEndpointMap = {
   CLEANING: 'cleaning_task',
+  PEST_CONTROL: 'pest_control_task',
+  SOIL_AMENDMENT: 'soil_amendment_task',
 };
 
 export const assignTask = createAction('assignTaskSaga');

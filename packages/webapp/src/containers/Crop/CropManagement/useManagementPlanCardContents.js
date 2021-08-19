@@ -18,7 +18,6 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
   const activeManagementPlans = useSelector(currentManagementPlansSelector);
   const completedManagementPlans = useSelector(completedManagementPlansSelector);
   const abandonedManagementPlans = useSelector(abandonedManagementPlansSelector);
-
   const getManagementPlanCards = (managementPlans, status) =>
     managementPlans
       .filter((management_plan) => management_plan.crop_variety_id === crop_variety_id)
@@ -39,6 +38,8 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           ...getStartEndDate(tasks),
           numberOfPendingTask: tasks.length,
           status,
+          score: management_plan.rating,
+          management_plan_id: management_plan.management_plan_id,
         };
       });
 

@@ -26,6 +26,15 @@ const PureCleaningTask = ({
   const WATER_USAGE_UNIT = 'cleaning_task.water_usage_unit';
   const filtered = products.filter(({ type }) => type === 'cleaning_task');
   const isCleaningAgentUsed = watch(AGENT_USED);
+
+  useEffect(() => {
+    if(isCleaningAgentUsed === false && getValues('cleaning_task.product')) {
+      setValue('cleaning_task.product', null);
+      setValue('cleaning_task.product_id', null);
+      setValue('cleaning_task.product_quantity', undefined);
+      setValue('cleaning_task.product_quantity_unit', null, { shouldValidate: true });
+    }
+  }, [isCleaningAgentUsed]);
   return (
     <>
       <Input

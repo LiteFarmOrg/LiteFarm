@@ -62,7 +62,19 @@ export default function PureCropManagement({
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => (
-            <ManagementPlanCard {...managementPlan} key={index} />
+            <ManagementPlanCard
+              onClick={
+                ['completed', 'abandoned'].includes(managementPlan.status)
+                  ? undefined
+                  : () =>
+                      //TODO: change string status to enum
+                      history.push(
+                        `/crop/${variety.crop_variety_id}/${managementPlan.management_plan_id}/management_detail`,
+                      )
+              }
+              {...managementPlan}
+              key={index}
+            />
           ))}
         </CardWithStatusContainer>
       )}
@@ -80,6 +92,7 @@ PureCropManagement.propTypes = {
       endDate: PropTypes.any,
       numberOfPendingTask: PropTypes.number,
       status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
+      management_plan_id: PropTypes.number,
     }),
   ),
   history: PropTypes.object,

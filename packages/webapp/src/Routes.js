@@ -278,6 +278,12 @@ const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSu
 const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
 const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
+const CompleteManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
+);
+const AbandonManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
+);
 
 const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
 const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
@@ -507,6 +513,16 @@ const Routes = () => {
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
@@ -810,6 +826,16 @@ const Routes = () => {
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />

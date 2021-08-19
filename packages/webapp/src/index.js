@@ -77,6 +77,7 @@ import theme from './assets/theme';
 import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
 import taskSaga from './containers/Task/saga';
+import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -170,6 +171,7 @@ sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(cropVarietyImageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
 sagaMiddleware.run(taskSaga);
+sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 
 const persistor = persistStore(store);
 

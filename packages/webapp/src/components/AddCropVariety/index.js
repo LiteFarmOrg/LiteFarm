@@ -119,7 +119,7 @@ export default function PureAddCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'Supplier'}
+        label={t('CROP_VARIETIES.SUPPLIER')}
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}

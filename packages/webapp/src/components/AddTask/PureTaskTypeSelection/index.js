@@ -77,7 +77,7 @@ const PureTaskTypeSelection = ({
     <>
       <Form>
         <MultiStepPageTitle
-          style={{ marginBottom: '24px' }}
+          style={{ marginBottom: '20px' }}
           onGoBack={handleGoBack}
           onCancel={handleCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
@@ -87,7 +87,7 @@ const PureTaskTypeSelection = ({
 
         <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.SELECT_TASK_TYPE')}</Main>
 
-        <div className={styles.tileContainer}>
+        <div style={{ paddingBottom: '20px' }} className={styles.tileContainer}>
           {taskTypes
             ?.filter(
               ({ farm_id, task_translation_key }) =>

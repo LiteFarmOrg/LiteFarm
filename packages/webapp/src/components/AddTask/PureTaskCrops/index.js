@@ -15,6 +15,7 @@ import Input from '../../Form/Input';
 import Square from '../../Square';
 import produce from 'immer';
 import { cloneObject } from '../../../util';
+import { getArrayWithUniqueValues } from '../../../util/getArrayWithUniqueValues';
 
 const PureTaskCrops = ({
   handleGoBack,
@@ -97,33 +98,31 @@ const PureTaskCrops = ({
       }),
     );
   };
-  const [allCrops, setAllCrops] = useState(false);
 
   const selectAllCrops = () => {
-    setSelectedManagementPlanIds(
-      locationIds.reduce((managementPlanIds, location_id) => {
+    setSelectedManagementPlanIds((prevManagementPlanIds) =>
+      Object.keys(filteredMPs).reduce((managementPlanIds, location_id) => {
         managementPlanIds = [
+          ...prevManagementPlanIds,
           ...managementPlanIds,
-          ...managementPlansByLocationIds[location_id].map(
-            ({ management_plan_id }) => management_plan_id,
-          ),
+          ...filteredMPs[location_id].map(({ management_plan_id }) => management_plan_id),
         ];
-        return managementPlanIds;
+        return getArrayWithUniqueValues(managementPlanIds);
       }, []),
     );
   };
 
   const selectAllManagementPlansOfALocation = (location_id) => {
-    setSelectedManagementPlanIds((prevManagementPlanIds) => [
-      ...prevManagementPlanIds,
-      ...managementPlansByLocationIds[location_id].map(
-        ({ management_plan_id }) => management_plan_id,
-      ),
-    ]);
+    setSelectedManagementPlanIds((prevManagementPlanIds) =>
+      getArrayWithUniqueValues([
+        ...prevManagementPlanIds,
+        ...filteredMPs[location_id].map(({ management_plan_id }) => management_plan_id),
+      ]),
+    );
   };
 
   const clearAllManagementPlansOfALocation = (location_id) => {
-    const managementPlanIdsOfLocation = managementPlansByLocationIds[location_id].map(
+    const managementPlanIdsOfLocation = filteredMPs[location_id].map(
       ({ management_plan_id }) => management_plan_id,
     );
     setSelectedManagementPlanIds(
@@ -134,7 +133,18 @@ const PureTaskCrops = ({
   };
 
   const clearAllCrops = () => {
-    setSelectedManagementPlanIds([]);
+    const managementPlanIds = Object.values(filteredMPs).reduce(
+      (managementPlanIds, managementPlans) => [
+        ...managementPlanIds,
+        ...managementPlans.map(({ management_plan_id }) => management_plan_id),
+      ],
+      [],
+    );
+    setSelectedManagementPlanIds(
+      selectedManagementPlanIds.filter(
+        (management_plan_id) => !managementPlanIds.includes(management_plan_id),
+      ),
+    );
   };
 
   return (

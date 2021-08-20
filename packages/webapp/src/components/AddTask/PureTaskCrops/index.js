@@ -204,7 +204,7 @@ const PureTaskCrops = ({
                   return (
                     <PureManagementPlanTile
                       key={plan.management_plan_id}
-                      selected={selectedManagementPlanIds.includes(plan.management_plan_id)}
+                      isSelected={selectedManagementPlanIds.includes(plan.management_plan_id)}
                       onClick={() => onSelectManagementPlan(plan.management_plan_id)}
                       className={clsx(
                         selectedManagementPlanIds.includes(plan.management_plan_id) &&

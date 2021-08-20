@@ -12,6 +12,7 @@ import { getTaskTypesSuccess } from '../taskTypeSlice';
 
 const taskTypeToEndpointMap = {
   CLEANING: 'cleaning_task',
+  FIELD_WORK: 'field_work_task',
   PEST_CONTROL: 'pest_control_task',
   SOIL_AMENDMENT: 'soil_amendment_task',
 };
@@ -137,14 +138,19 @@ export function* createTaskSaga({ payload: data }) {
 
 export const completeTask = createAction('completeTaskSaga');
 
-export function* completeTaskSaga({ payload: {task_id, data} }) {
+export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, ...taskData } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {
-    const result = yield call(axios.patch, `${taskUrl}/complete/${endpoint}/${task_id}`, taskData, header);
+    const result = yield call(
+      axios.patch,
+      `${taskUrl}/complete/${endpoint}/${task_id}`,
+      taskData,
+      header,
+    );
     if (result) {
       console.log(result.data);
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
@@ -155,7 +161,7 @@ export function* completeTaskSaga({ payload: {task_id, data} }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
   }
 }
-    
+
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {

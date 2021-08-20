@@ -571,6 +571,7 @@ describe('ManagementPlan Tests', () => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
+          expect(newManagementPlan.abandon_reason).toBe(reqBody.abandon_reason);
           done();
         });
       });

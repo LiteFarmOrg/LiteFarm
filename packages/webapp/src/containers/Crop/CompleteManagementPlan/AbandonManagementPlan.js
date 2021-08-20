@@ -1,4 +1,7 @@
-import { PureCompleteManagementPlan } from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
+import {
+  PureCompleteManagementPlan,
+  SOMETHING_ELSE,
+} from '../../../components/Crop/CompleteManamgenentPlan/PureCompleteManagementPlan';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { abandonManagementPlan } from './saga';
@@ -15,7 +18,18 @@ export default function AbandonManagementPlan({ match, history }) {
     history.push(`/crop/${crop_variety_id}/${management_plan_id}/management_detail`);
   };
   const onSubmit = (data) => {
-    dispatch(abandonManagementPlan({ crop_variety_id, management_plan_id, ...data }));
+    const reqBody = {
+      crop_variety_id,
+      management_plan_id,
+      ...data,
+      created_abandon_reason: undefined,
+      abandon_reason:
+        data.abandon_reason.value === SOMETHING_ELSE
+          ? data.created_abandon_reason || SOMETHING_ELSE
+          : data.abandon_reason.value,
+    };
+
+    dispatch(abandonManagementPlan(reqBody));
   };
   return (
     <PureCompleteManagementPlan

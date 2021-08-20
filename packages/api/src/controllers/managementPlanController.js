@@ -88,12 +88,11 @@ const managementPlanController = {
            * @type {{task_id: string, count: string}[]}
            */
           const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => Promise.all(tasks.map(async ({ task_id }) => ({
-              ...await managementTasksModel.query().where({ task_id }).count().first(),
-              task_id,
-            }))));
+            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
+              .groupBy('task_id').count('management_plan_id').select('task_id'));
 
-          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1').map(({ task_id }) => task_id);
+          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1')
+            .map(({ task_id }) => task_id);
           const abandonedTasks = await taskModel.query(trx).context(req.user)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
             .patch({
@@ -106,7 +105,7 @@ const managementPlanController = {
             .where({ management_plan_id })
             .whereIn('task_id', taskIdsRelatedToManyManagementPlans)
             .delete();
-          return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating']));
+          return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
         });
 
         if (result) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -6,106 +6,107 @@ import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../../containers/Map/constants';
-import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
   DEFAULT_POLYGON_OPACITY,
   drawCropLocation,
   SELECTED_POLYGON_OPACITY,
 } from './drawLocations';
+import { usePropRef } from './usePropRef';
+import { getOverlappedAreaAndLines } from './getOverlappedAreaAndLines';
+import PureSelectionHandler from './PureMapLocationSelectionModal';
 
 const LocationPicker = ({
   className,
-  setLocationId,
-  selectedLocationId,
-  canUsePin,
-  setPinLocation,
-  currentPin,
+  onSelectLocation,
+  clearLocations = onSelectLocation,
+  selectedLocationIds,
+  isPinMode,
+  setPinCoordinate,
+  pinCoordinate,
   cropLocations,
+  farmCenterCoordinate,
 }) => {
-  const pinMarkerRef = useRef();
+  const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
-  const selectedGeometryRef = useRef();
-  const { grid_points } = useSelector(userFarmSelector);
 
-  const setLocationIdRef = useRef();
-  useEffect(() => {
-    setLocationIdRef.current = setLocationId;
-  }, [setLocationId]);
+  const onSelectLocationRef = usePropRef(onSelectLocation);
+  const setPinCoordinateRef = usePropRef(setPinCoordinate);
+  const clearLocationsRef = usePropRef(clearLocations);
 
-  const setPinLocationRef = useRef();
-  useEffect(() => {
-    setPinLocationRef.current = setPinLocation;
-  }, [setPinLocation]);
-
+  const pinMarkerRef = useRef();
   useEffect(() => {
     if (pinMarkerRef.current) {
-      pinMarkerRef.current.canUsePin = canUsePin;
-      pinMarkerRef.current.setOptions({ visible: canUsePin && !!currentPin });
-      currentPin && pinMarkerRef.current.setOptions({ position: currentPin });
-      !canUsePin && setPinLocation(null);
+      pinMarkerRef.current.isPinMode = isPinMode;
+      pinMarkerRef.current.setOptions({ visible: isPinMode && !!pinCoordinate });
+      pinCoordinate && pinMarkerRef.current.setOptions({ position: pinCoordinate });
+      !isPinMode && setPinCoordinate(null);
     }
     for (const location_id in geometriesRef.current) {
       const { polygon } = geometriesRef.current[location_id];
-      polygon.setOptions({ clickable: !canUsePin });
+      polygon.setOptions({ clickable: !isPinMode });
     }
-  }, [canUsePin]);
+    overlappedPositions.length && dismissSelectionModal();
+  }, [isPinMode, isGoogleMapInitiated]);
 
+  const prevSelectedLocationIdsRef = useRef([]);
   useEffect(() => {
-    if (
-      geometriesRef.current[selectedLocationId] &&
-      selectedGeometryRef.current?.location.location_id !== selectedLocationId
-    ) {
-      onSelectGeometry(geometriesRef.current[selectedLocationId]);
-    } else if (!selectedLocationId) {
-      deselectLocationAndResetGeometryStyle();
+    for (const location_id of selectedLocationIds) {
+      if (
+        geometriesRef.current[location_id] &&
+        !prevSelectedLocationIdsRef.current?.includes(location_id)
+      ) {
+        setSelectedGeometryStyle(geometriesRef.current[location_id]);
+      }
     }
-  }, [selectedLocationId]);
+    for (const location_id of prevSelectedLocationIdsRef.current) {
+      if (geometriesRef.current[location_id] && !selectedLocationIds?.includes(location_id)) {
+        resetGeometryStyle(geometriesRef.current[location_id]);
+      }
+    }
+    prevSelectedLocationIdsRef.current = selectedLocationIds;
+  }, [selectedLocationIds, isGoogleMapInitiated]);
 
-  function mapOnClick(latLng) {
-    if (pinMarkerRef.current?.canUsePin) {
+  const [overlappedPositions, setOverlappedPositions] = useState([]);
+
+  function mapOnClick(latLng, maps) {
+    if (pinMarkerRef.current?.isPinMode) {
       pinMarkerRef.current?.setOptions({ position: latLng, visible: true });
-      setPinLocationRef.current(latLng);
-      deselectLocationAndResetGeometryStyle();
+      setPinCoordinateRef.current(latLng.toJSON());
+      clearLocationsRef.current();
+    } else {
+      const overlappedLocations = getOverlappedAreaAndLines(
+        latLng,
+        Object.values(geometriesRef.current),
+        maps,
+      );
+      if (overlappedLocations.length > 1) {
+        setOverlappedPositions(overlappedLocations);
+      } else if (overlappedLocations.length === 1) {
+        onSelectLocationRef.current(overlappedLocations[0].location_id);
+      }
     }
   }
+
+  const dismissSelectionModal = () => setOverlappedPositions([]);
+  const onSelectionModalClick = (location_id) => {
+    onSelectLocationRef.current(location_id);
+    dismissSelectionModal();
+  };
 
   const drawLocations = (map, maps, mapBounds) => {
     cropLocations.forEach((location) => {
       const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
-      assetGeometry.polygon.setOptions({ clickable: !canUsePin });
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
-      if (assetGeometry.location.location_id === selectedLocationId) {
+      if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
       }
-      maps.event.addListener(assetGeometry.polygon, 'mouseover', function () {
-        if (this.fillOpacity !== 1.0) {
-          this.setOptions({ fillOpacity: 0.8 });
-        }
-      });
-      maps.event.addListener(assetGeometry.polygon, 'mouseout', function () {
-        if (this.fillOpacity !== 1.0) {
-          this.setOptions({ fillOpacity: 0.5 });
-        }
-      });
-      maps.event.addListener(assetGeometry.polygon, 'click', () => onSelectGeometry(assetGeometry));
+      maps.event.addListener(assetGeometry.polygon, 'click', (e) => mapOnClick(e.latLng, maps));
     });
     cropLocations.length > 0 && map.fitBounds(mapBounds);
   };
 
-  const onSelectGeometry = (assetGeometry) => {
-    if (assetGeometry.location.location_id !== selectedGeometryRef.current?.location.location_id) {
-      resetGeometryStyle();
-      setSelectedGeometryStyle(assetGeometry);
-      setLocationIdRef.current?.(assetGeometry.location.location_id);
-    } else {
-      deselectLocationAndResetGeometryStyle();
-    }
-  };
-
   const setSelectedGeometryStyle = (assetGeometry) => {
-    selectedGeometryRef.current = assetGeometry;
     assetGeometry?.marker?.setOptions({
       label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
     });
@@ -115,8 +116,7 @@ const LocationPicker = ({
     });
   };
 
-  const resetGeometryStyle = () => {
-    const assetGeometry = selectedGeometryRef.current;
+  const resetGeometryStyle = (assetGeometry) => {
     assetGeometry?.marker?.setOptions({
       label: { ...(assetGeometry?.marker?.label || {}), color: 'white' },
     });
@@ -124,12 +124,6 @@ const LocationPicker = ({
       fillColor: assetGeometry.styles.colour,
       fillOpacity: DEFAULT_POLYGON_OPACITY,
     });
-    selectedGeometryRef.current = undefined;
-  };
-
-  const deselectLocationAndResetGeometryStyle = () => {
-    resetGeometryStyle();
-    setLocationIdRef.current?.(null);
   };
 
   const getMapOptions = (maps) => {
@@ -171,14 +165,14 @@ const LocationPicker = ({
     const mapBounds = new maps.LatLngBounds();
     pinMarkerRef.current = new maps.Marker({
       icon: MapPin,
-      position: currentPin || map.getCenter().toJSON(),
+      position: pinCoordinate || farmCenterCoordinate,
       map: map,
-      visible: !!currentPin,
-      canUsePin,
+      visible: !!pinCoordinate,
+      isPinMode,
     });
-    currentPin && mapBounds.extend(currentPin);
+    pinCoordinate && mapBounds.extend(pinCoordinate);
     map.addListener('click', (e) => {
-      mapOnClick(e.latLng.toJSON());
+      mapOnClick(e.latLng, maps);
     });
 
     //TODO: move to mapUtil.polygonGetAveragePoint
@@ -212,6 +206,8 @@ const LocationPicker = ({
 
     // Drawing locations on map
     drawLocations(map, maps, mapBounds);
+
+    setGoogleMapInitiated(true);
   };
 
   return (
@@ -223,12 +219,20 @@ const LocationPicker = ({
           libraries: ['drawing', 'geometry', 'places'],
           language: localStorage.getItem('litefarm_lang'),
         }}
-        defaultCenter={grid_points}
+        defaultCenter={farmCenterCoordinate}
         defaultZoom={DEFAULT_ZOOM}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
       />
+      {overlappedPositions.length > 1 && !isPinMode && (
+        <PureSelectionHandler
+          locations={overlappedPositions}
+          onSelect={onSelectionModalClick}
+          dismissSelectionModal={dismissSelectionModal}
+          selectedLocationIds={selectedLocationIds}
+        />
+      )}
     </div>
   );
 };
@@ -236,7 +240,8 @@ const LocationPicker = ({
 LocationPicker.prototype = {
   className: PropTypes.string,
   setSelectedLocation: PropTypes.object,
-  selectedLocationId: PropTypes.string,
+  selectedLocationIds: PropTypes.arrayOf(PropTypes.string),
+  farmCenterCoordinate: PropTypes.object,
 };
 
 export default LocationPicker;

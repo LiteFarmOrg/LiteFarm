@@ -5,6 +5,7 @@ import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
+import { addTaskTypeSaga } from '../../../containers/Shift/saga';
 
 const PureAddCustomTask = ({
   handleGoBack,
@@ -12,6 +13,7 @@ const PureAddCustomTask = ({
   useHookFormPersist,
   persistedPaths,
   persistedFormData,
+  onSave,
 }) => {
   const { t } = useTranslation();
 
@@ -33,7 +35,13 @@ const PureAddCustomTask = ({
     <>
       <Form
         buttonGroup={
-          <Button color={'primary'} fullLength>
+          <Button
+            color={'primary'}
+            fullLength
+            onClick={() => {
+              onSave(CUSTOM_TASK_TYPE);
+            }}
+          >
             {t('common:SAVE')}
           </Button>
         }
@@ -53,6 +61,7 @@ const PureAddCustomTask = ({
           name={CUSTOM_TASK_TYPE}
           hookFormSetValue={setValue}
           errors={getInputErrors(errors, CUSTOM_TASK_TYPE)}
+          optional={false}
         />
       </Form>
     </>

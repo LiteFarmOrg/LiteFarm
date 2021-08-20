@@ -13,6 +13,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "ADD_PRODUCT": {
+    "PRESS_ENTER": "Type and press enter to add...",
     "PRODUCT_LABEL": "Product",
     "QUANTITY": "Quantity",
     "SUPPLIER_LABEL": "Supplier"
@@ -37,9 +38,9 @@
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "PEST_CONTROL_VIEW": {
-      "WHAT_PESTS": "What pet(s) are you trying to control",
+      "WHAT_PESTS": "What pest(s) are you trying to control",
       "PEST_CONTROL_METHOD": "Pest control method",
-      "OTHER_PEST": "Describe the pest control method",
+      "OTHER_PEST": "Other method",
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",
       "FOLIAR_SPRAY": "Foliar spray",

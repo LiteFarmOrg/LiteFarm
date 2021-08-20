@@ -12,7 +12,6 @@ function CropHeader({
   onBackClick,
 }) {
   const { t } = useTranslation(['translation', 'crop']);
-
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerTitleContainer} onClick={onBackClick}>

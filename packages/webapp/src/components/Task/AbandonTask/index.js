@@ -16,7 +16,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const { register, handleSubmit, watch, control, setValue } = useForm({});
 
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
-  const OTHER_REASON_FOR_ABANDONMENT = 'other_reason_for_abandonment';
+  const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
   const TASK_ABANDONMENT_NOTES = 'abandonment_notes';
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);

@@ -1,19 +1,20 @@
 import PureTaskDetails from '../../../components/AddTask/PureTaskDetails';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../Task/saga';
 import { productEntitiesSelector } from '../../productSlice';
 import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { loginSelector, measurementSelector } from '../../userFarmSlice';
+import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
+import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
   const dispatch = useDispatch();
-  const system = useSelector(measurementSelector);
-  const { farm_id } = useSelector(loginSelector);
+  const { country_id, units: {measurement: system }} = useSelector(userFarmSelector);
+  const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
@@ -51,7 +52,7 @@ function TaskDetails({ history, match }) {
         selectedTaskType={selectedTaskType}
         system={system}
         products={products}
-        farm={farm_id}
+        farm={{ farm_id, country_id, interested }}
       />
     </HookFormPersistProvider>
   );

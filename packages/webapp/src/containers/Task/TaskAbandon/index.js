@@ -22,7 +22,7 @@ function TaskAbandon({ history, match }) {
       abandonment_notes: data.abandonment_notes,
     };
     if (patchData.abandonment_reason === 'OTHER') {
-      patchData.other_reason_for_abandonment = data.other_reason_for_abandonment;
+      patchData.other_abandonment_reason = data.other_abandonment_reason;
     }
     dispatch(abandonTask({ task_id, patchData }));
   };

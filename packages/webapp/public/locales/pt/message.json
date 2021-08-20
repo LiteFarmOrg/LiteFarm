@@ -93,9 +93,13 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Falha ao adicionar plano de gestão!"
     },
     "SUCCESS": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Plano de gestão adicionado com sucesso!"
     }
   },

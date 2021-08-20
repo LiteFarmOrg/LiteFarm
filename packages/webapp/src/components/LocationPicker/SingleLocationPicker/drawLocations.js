@@ -35,13 +35,11 @@ const drawArea = (map, maps, mapBounds, location) => {
   });
 
   maps.event.addListener(polygon, 'mouseover', function () {
-    this.clickable &&
-      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+    this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
       this.setOptions({ fillOpacity: HOVER_POLYGON_OPACITY });
   });
   maps.event.addListener(polygon, 'mouseout', function () {
-    this.clickable &&
-      this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
+    this.fillOpacity !== SELECTED_POLYGON_OPACITY &&
       this.setOptions({ fillOpacity: DEFAULT_POLYGON_OPACITY });
   });
 

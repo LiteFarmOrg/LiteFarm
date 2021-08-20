@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
 import { locationImgMap } from '../../Map/LocationMapping';
 import styles from '../../../containers/Map/styles.module.scss';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   rowContainer: {
@@ -12,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
     },
     backgroundColor: 'white',
     marginBottom: '5px',
+  },
+  selectedRowContainer: {
+    '&:hover': {
+      backgroundColor: colors.green100,
+      color: colors.grey900,
+    },
+    backgroundColor: colors.teal700,
+    color: 'white',
   },
   container: {
     display: 'flex',
@@ -31,6 +40,7 @@ export default function PureMapLocationSelectionModal({
   locations,
   onSelect,
   dismissSelectionModal,
+  selectedLocationIds = [],
 }) {
   const classes = useStyles();
   return (
@@ -39,7 +49,14 @@ export default function PureMapLocationSelectionModal({
         {locations.map((location, idx) => {
           const { type, name, location_id } = location;
           return (
-            <div key={idx} onClick={() => onSelect(location_id)} className={classes.rowContainer}>
+            <div
+              key={idx}
+              onClick={() => onSelect(location_id)}
+              className={clsx(
+                classes.rowContainer,
+                selectedLocationIds.includes(location_id) && classes.selectedRowContainer,
+              )}
+            >
               <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}>
                 {' '}
                 {locationImgMap[type]}{' '}
@@ -57,4 +74,5 @@ PureMapLocationSelectionModal.prototype = {
   locations: PropTypes.array,
   onSelect: PropTypes.func,
   dismissSelectionModal: PropTypes.func,
+  selectedLocationIds: PropTypes.arrayOf(PropTypes.string),
 };

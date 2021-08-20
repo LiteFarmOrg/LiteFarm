@@ -42,6 +42,11 @@ const LocationPicker = ({
       pinCoordinate && pinMarkerRef.current.setOptions({ position: pinCoordinate });
       !isPinMode && setPinCoordinate(null);
     }
+    for (const location_id in geometriesRef.current) {
+      const { polygon } = geometriesRef.current[location_id];
+      polygon.setOptions({ clickable: !isPinMode });
+    }
+    overlappedPositions.length && dismissSelectionModal();
   }, [isPinMode, isGoogleMapInitiated]);
 
   const prevSelectedLocationIdsRef = useRef([]);
@@ -92,11 +97,11 @@ const LocationPicker = ({
   const drawLocations = (map, maps, mapBounds) => {
     cropLocations.forEach((location) => {
       const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
-      assetGeometry.polygon.setOptions({ clickable: false });
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
       if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
       }
+      maps.event.addListener(assetGeometry.polygon, 'click', (e) => mapOnClick(e.latLng, maps));
     });
     cropLocations.length > 0 && map.fitBounds(mapBounds);
   };
@@ -220,11 +225,12 @@ const LocationPicker = ({
         onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
         options={getMapOptions}
       />
-      {overlappedPositions.length > 1 && (
+      {overlappedPositions.length > 1 && !isPinMode && (
         <PureSelectionHandler
           locations={overlappedPositions}
           onSelect={onSelectionModalClick}
           dismissSelectionModal={dismissSelectionModal}
+          selectedLocationIds={selectedLocationIds}
         />
       )}
     </div>

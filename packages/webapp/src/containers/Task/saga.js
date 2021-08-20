@@ -147,7 +147,7 @@ export function* completeTaskSaga({ payload: {task_id, data} }) {
   try {
     const result = yield call(axios.patch, `${taskUrl}/complete/${endpoint}/${task_id}`, taskData, header);
     if (result) {
-      console.log(result.data);
+      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
       history.push('/tasks');
     }

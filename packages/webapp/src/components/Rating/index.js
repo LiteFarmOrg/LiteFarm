@@ -6,9 +6,9 @@ import { Label } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 // TODO: this component is read-only, eventually will expand to support clicking/setting
-const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate, optional, disabled = false, }) => {
+const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate, optional, disabled = false, initialRating = 0, }) => {
   const { t } = useTranslation();
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(initialRating);
   const [hover, setHover] = useState(0);
   return (
     <>

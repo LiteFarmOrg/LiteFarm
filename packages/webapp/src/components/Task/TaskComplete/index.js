@@ -28,6 +28,7 @@ export default function PureTaskComplete({
     handleSubmit,
     watch,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -45,6 +46,8 @@ export default function PureTaskComplete({
   const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
 
+  const HAPPINESS = 'happiness';
+
   const notes = watch(COMPLETION_NOTES);
 
   const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
@@ -52,7 +55,12 @@ export default function PureTaskComplete({
     _setDuration(value > 0 ? value : '');
   };
 
-  const [rating, setRating] = useState(0);
+  const [rating, _setRating] = useState(persistedFormData?.happiness === undefined ? 0 : persistedFormData?.happiness);
+
+  const setRating = (value) => {
+    _setRating(value);
+    setValue(HAPPINESS, value);
+  };
 
   const disabled = !prefer_not_to_say && rating === 0;
 
@@ -108,7 +116,9 @@ export default function PureTaskComplete({
         label={t('TASK.DURATION')}
         setValue={(durationInMinutes) => {
           setDuration(durationInMinutes);
+          setValue(DURATION, durationInMinutes);
         }}
+        initialTime={persistedFormData?.duration}
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
@@ -119,6 +129,7 @@ export default function PureTaskComplete({
         style={{ marginBottom: '27px' }}
         label={t('TASK.PROVIDE_RATING')}
         disabled={prefer_not_to_say}
+        initialRating={persistedFormData?.happiness}
         onRate={setRating}
       />
 

@@ -44,7 +44,10 @@ export default function TaskPage({ history }) {
       case ALL:
         return tasks;
       case TODO:
-        return tasks.filter((task) => task.assignee_user_id === user_id);
+        return tasks.filter(
+          (task) =>
+            task.assignee_user_id === user_id && !task.abandoned_time && !task.completed_time,
+        );
       case UNASSIGNED:
         return tasks.filter((task) => !task.assignee_user_id);
       default:

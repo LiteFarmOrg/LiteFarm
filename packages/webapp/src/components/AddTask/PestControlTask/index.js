@@ -79,7 +79,7 @@ const PurePestControlTask = ({
       />
       {controlMethodExposedValue?.value === 'other' && (
         <Input
-          label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.OTHER_PURPOSE')}
+          label={t('ADD_TASK.PEST_CONTROL_VIEW.OTHER_PEST')}
           style={{ marginBottom: '24px' }}
           name={OTHER_PURPOSE}
           disabled={disabled}

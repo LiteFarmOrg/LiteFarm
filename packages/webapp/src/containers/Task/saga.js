@@ -140,13 +140,14 @@ export const completeTask = createAction('completeTaskSaga');
 export function* completeTaskSaga({ payload: {task_id, data} }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, ...taskData } = data;
+  const task_translation_key = data.task_translation_key;
+  const taskData = data.taskData;
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {
     const result = yield call(axios.patch, `${taskUrl}/complete/${endpoint}/${task_id}`, taskData, header);
     if (result) {
-      console.log(result.data);
+      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
       history.push('/tasks');
     }

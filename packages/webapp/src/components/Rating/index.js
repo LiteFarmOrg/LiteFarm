@@ -6,9 +6,9 @@ import { Label } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 // TODO: this component is read-only, eventually will expand to support clicking/setting
-const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate, optional }) => {
+const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate, optional, disabled = false, initialRating = 0, }) => {
   const { t } = useTranslation();
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(initialRating);
   const [hover, setHover] = useState(0);
   return (
     <>
@@ -33,16 +33,19 @@ const Rating = ({ stars = 0, className, style, viewOnly = false, label, onRate, 
               <button
                 type="button"
                 key={index}
-                onClick={() => {
-                  setRating(index);
-                  onRate(index);
-                }}
-                onMouseEnter={() => setHover(index)}
-                onMouseLeave={() => setHover(rating)}
+                onClick={disabled ?
+                  () => { } :
+                  () => {
+                    setRating(index);
+                    onRate(index);
+                  }
+                }
+                onMouseEnter={disabled ? () => { } : () => setHover(index)}
+                onMouseLeave={disabled ? () => { } : () => setHover(rating)}
               >
                 <RatingStar
                   style={{ width: '24px', height: '24px' }}
-                  className={index <= (hover || stars || rating) ? styles.filled : styles.empty}
+                  className={index <= (hover || stars || rating)  && !disabled ? styles.filled : styles.empty}
                 />
               </button>
             );

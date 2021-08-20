@@ -14,7 +14,7 @@ import { setPosition, setZoomLevel } from '../mapSlice';
 import { isArea, isAreaLine, isLine, isNoFillArea, locationEnum, polygonPath } from './constants';
 import useLocationsSelectionHandler from './useLocationsSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
-//TODO: refactor or revert.
+
 const useMapSelectionRenderer = ({
   isClickable,
   isSelectable = true,
@@ -70,7 +70,6 @@ const useMapSelectionRenderer = ({
   const removeLocation = (location_id) => {
     _setSelectedLocationsMap({ ...selectedLocationsMap, [location_id]: false });
   };
-  /**/
 
   useEffect(() => {
     let selectedLocations = Object.keys(selectedLocationsMap).filter(

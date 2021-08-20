@@ -150,6 +150,10 @@
       "FAILED": "MISSING",
       "SUCCESS": "MISSING"
     },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
     "CREATE": {
       "FAILED": "MISSING",
       "SUCCESS": "MISSING"

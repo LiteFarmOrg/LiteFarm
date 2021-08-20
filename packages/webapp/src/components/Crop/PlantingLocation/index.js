@@ -21,6 +21,7 @@ export default function PurePlantingLocation({
   history,
   cropLocations,
   default_initial_location_id,
+  farmCenterCoordinate,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -50,7 +51,11 @@ export default function PurePlantingLocation({
   const defaultInitialLocationId = watch(DEFAULT_INITIAL_LOCATION_ID);
 
   const setLocationId = (location_id) => {
-    setValue(LOCATION_ID, location_id);
+    if (selectedLocationId === location_id) {
+      setValue(LOCATION_ID, null);
+    } else {
+      setValue(LOCATION_ID, location_id);
+    }
     if (showInitialLocationCheckbox && defaultInitialLocationId) {
       setValue(DEFAULT_INITIAL_LOCATION_ID, location_id);
     }
@@ -131,11 +136,12 @@ export default function PurePlantingLocation({
 
         <LocationPicker
           className={styles.mapContainer}
-          setLocationId={setLocationId}
-          selectedLocationId={selectedLocationId}
-          canUsePin={pinToggle}
-          setPinLocation={setPinLocation}
-          currentPin={pinCoordinate}
+          onSelectLocation={setLocationId}
+          farmCenterCoordinate={farmCenterCoordinate}
+          selectedLocationIds={[selectedLocationId]}
+          isPinMode={pinToggle}
+          setPinCoordinate={setPinLocation}
+          pinCoordinate={pinCoordinate}
           cropLocations={cropLocations}
         />
 
@@ -186,4 +192,5 @@ PurePlantingLocation.prototype = {
   variety_id: PropTypes.string,
   history: PropTypes.object,
   cropLocations: PropTypes.object,
+  farmCenterCoordinate: PropTypes.object,
 };

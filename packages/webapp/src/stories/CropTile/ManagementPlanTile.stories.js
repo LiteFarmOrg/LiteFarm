@@ -57,14 +57,3 @@ Selected.args = {
   status: 'Past',
   isSelected: true,
 };
-
-//
-// export const CropCount = Template.bind({});
-// CropCount.args = {
-//   children: <Semibold>Blueberry</Semibold>,
-//   cropCount: {
-//     active: 8,
-//     planned: 8,
-//     past: 8,
-//   },
-// };

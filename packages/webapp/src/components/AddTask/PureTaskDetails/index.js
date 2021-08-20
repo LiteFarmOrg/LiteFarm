@@ -35,6 +35,7 @@ const PureTaskDetails = ({
   }
 
   const formFunctions = useForm({
+    mode:'onChange',
     defaultValues: {
       notes: persistedFormData?.notes,
       ...defaults[taskType],

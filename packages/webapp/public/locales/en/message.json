@@ -150,6 +150,10 @@
       "FAILED": "Failed to abandon task",
       "SUCCESS": "Successfully abandoned task"
     },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
     "CREATE": {
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task"

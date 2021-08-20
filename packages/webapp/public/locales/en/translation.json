@@ -38,33 +38,32 @@
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "PEST_CONTROL_VIEW": {
-      "WHAT_PESTS": "What pet(s) are you trying to control",
-      "PEST_CONTROL_METHOD": "Pest control method",
-      "OTHER_PEST": "Describe the pest control method",
       "BIOLOGICAL_CONTROL": "Biological control",
       "FLAME_WEEDING": "Flame weeding",
       "FOLIAR_SPRAY": "Foliar spray",
       "HAND_PICKING": "Hand picking",
+      "IS_PERMITTED": "Is the pest agent in the permitted substances list?",
+      "OTHER": "Other",
+      "OTHER_PEST": "Other method",
+      "PEST_CONTROL_METHOD": "Pest control method",
       "PRUNING": "Pruning",
       "SOIL_FUMIGATION": "Soil fumigation",
       "SYSTEMIC_SPRAY": "Systemic spray",
       "TRAPS": "Traps",
-      "OTHER": "Other",
-      "IS_PERMITTED": "Is the pest agent in the permitted substances list?",
-      "DONT_SEE_METHOD": "Don’t see your method? It may be elsewhere in the app. For example, tillage, row covers, and mulching can be documented through a field work task. Still not finding it? Create a support ticket!"
+      "WHAT_PESTS": "What pest(s) are you trying to control"
     },
     "SELECT_ALL": "Select all",
     "SELECT_ALL_CROPS": "Select all crops",
     "SELECT_TASK_TYPE": "Select task type",
     "SOIL_AMENDMENT_VIEW": {
-      "STRUCTURE": "Structure",
+      "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
       "MOISTURE_RETENTION": "Moisture retention",
       "NUTRIENT_AVAILABILITY": "Nutrient availability",
-      "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
-      "PH": "ph",
       "OTHER": "Other",
+      "OTHER_PURPOSE": "Describe the purpose",
+      "PH": "ph",
       "PURPOSE": "Purpose",
-      "OTHER_PURPOSE": "Describe the purpose"
+      "STRUCTURE": "Structure"
     },
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
@@ -251,7 +250,8 @@
       "RETIRE_CROP_TITLE": "Retire crop?",
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
-    }
+    },
+    "SUPPLIER": "MISSING"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -925,7 +925,17 @@
       "ABANDON_REASON": "Reason for abandoning",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
-      "RATING": "Rate this management plan"
+      "RATING": "Rate this management plan",
+      "REASON": {
+        "CROP_FAILURE": "Crop failure",
+        "LABOUR_ISSUE": "Labour issue",
+        "MACHINERY_ISSUE": "Machinery issue",
+        "MARKET_PROBLEM": "Market problem",
+        "SCHEDULING_ISSUE": "Scheduling issue",
+        "SOMETHING_ELSE": "Something else",
+        "WEATHER": "Weather"
+      },
+      "WHAT_HAPPENED": "What happened?"
     },
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",

@@ -22,6 +22,7 @@
   "HOURS": "Hours",
   "LOADING": "Loading...",
   "LOCATION": "Location",
+  "MARK_ABANDON": "Abandon",
   "MARK_COMPLETE": "Mark Complete",
   "MARK_COMPLETED": "Mark completed",
   "MAX_ERROR": "Please enter a value less than {{value}}",

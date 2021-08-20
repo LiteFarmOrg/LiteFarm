@@ -75,7 +75,7 @@ function PureCompleteStepOne({
         onCancel={onCancel}
         cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
-        value={50}
+        value={33}
       />
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_CHANGES')}</Main>

@@ -19,6 +19,7 @@ Complete.args = {
     supplier: 'supplier',
     crop_variety_photo_url:
       'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+    start_date: '2021-08-01',
   },
   onSubmit: (data) => console.log(data),
 };

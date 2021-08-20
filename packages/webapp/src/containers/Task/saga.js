@@ -140,7 +140,8 @@ export const completeTask = createAction('completeTaskSaga');
 export function* completeTaskSaga({ payload: {task_id, data} }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, ...taskData } = data;
+  const task_translation_key = data.task_translation_key;
+  const taskData = data.taskData;
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {

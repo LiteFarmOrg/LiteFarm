@@ -10,8 +10,7 @@ function TaskComplete({ history, match }) {
   const persistedPaths = [`/tasks/${task_id}/before_complete`];
 
   const onSave = (data) => {
-    // TODO - Patch task complete
-    console.log(data);
+    dispatch(completeTask({task_id, data}));
   };
 
   const onCancel = () => {

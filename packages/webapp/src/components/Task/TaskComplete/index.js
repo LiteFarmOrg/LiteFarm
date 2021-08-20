@@ -11,6 +11,7 @@ import Checkbox from '../../Form/Checkbox';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Rating from '../../Rating';
 import styles from './styles.module.scss';
+import { getObjectInnerValues } from '../../../util';
 
 export default function PureTaskComplete({
   onSave,
@@ -55,6 +56,18 @@ export default function PureTaskComplete({
 
   const disabled = !prefer_not_to_say && rating === 0;
 
+  const taskTypeMap = {
+    SCOUTING: "scouting_task",
+    HARVESTING: "harvest_task",
+    PEST_CONTROL: "pest_control_task",
+    IRRIGATION: "irrigation_task",
+    FIELD_WORK: "field_work_task",
+    PLANTING: "plant_task",
+    CLEANING: "cleaning_task",
+    SOIL_AMENDMENT: "soil_amendment_task"
+  };
+
+
   return (
     <Form
       buttonGroup={
@@ -63,7 +76,20 @@ export default function PureTaskComplete({
         </Button>
       }
       onSubmit={handleSubmit(() => {
-        onSave({ duration: duration, rating: rating, notes: notes });
+        let data = {
+          taskData: {
+            completed_time: new Date().toISOString(),
+            duration: duration,
+            happiness: prefer_not_to_say ? 0 : rating,
+            completion_notes: notes,
+          },
+          task_translation_key: persistedFormData?.taskType[0].task_translation_key
+        };
+        if (persistedFormData?.need_changes) {
+          let task_type_name = taskTypeMap[persistedFormData?.taskType[0].task_translation_key];
+          data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
+        }
+        onSave(data);
       })}
     >
       <MultiStepPageTitle

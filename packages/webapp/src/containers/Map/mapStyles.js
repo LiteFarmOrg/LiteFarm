@@ -1,27 +1,26 @@
 import {
   barnColour,
+  barnSelectedColour,
   bufferZoneColour,
+  bufferZoneSelectedColour,
   ceremonialSiteColour,
+  ceremonialSiteSelectedColour,
   farmBoundColour,
   farmBoundHoverColour,
   fenceColour,
   fieldColour,
-  gardenColour,
-  greenhouseColour,
-  naturalAreaColour,
-  residenceColour,
-  surfaceWaterColour,
-  watercourseColour,
-  barnSelectedColour,
-  bufferZoneSelectedColour,
-  ceremonialSiteSelectedColour,
-  // farmBoundSelectedColour,
   fieldSelectedColour,
+  gardenColour,
   gardenSelectedColour,
+  greenhouseColour,
   greenhouseSelectedColour,
+  naturalAreaColour,
   naturalAreaSelectedColour,
+  residenceColour,
   residenceSelectedColour,
+  surfaceWaterColour,
   surfaceWaterSelectedColour,
+  watercourseColour,
   watercourseSelectedColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
@@ -118,6 +117,12 @@ export const lineStyles = {
     colour: fenceColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: 'transparent',
+      strokeWeight: 1,
+      fillColor: 'transparent',
+      fillOpacity: 0.3,
+    },
   },
   buffer_zone: {
     colour: bufferZoneColour,
@@ -142,6 +147,10 @@ export const hoverIcons = {
   water_valve: waterValveHover,
 };
 export const activeIcons = {
+  gate: gateActive,
+  water_valve: waterValveActive,
+};
+export const selectedIcons = {
   gate: gateActive,
   water_valve: waterValveActive,
 };

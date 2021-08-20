@@ -1079,7 +1079,17 @@ async function field_work_taskFactory({ promisedTask = taskFactory() } = {}, fie
 
 function fakeFieldWorkTask(defaultData = {}) {
   return {
-    type: faker.random.arrayElement(['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']),
+    type: faker.random.arrayElement([
+      'COVERING_SOIL',
+      'FENCING',
+      'PREPARING_BEDS_OR_ROWS',
+      'PRUNING',
+      'SHADE_CLOTH',
+      'TERMINATION',
+      'TILLAGE',
+      'WEEDING',
+      'OTHER',
+    ]),
     ...defaultData,
   };
 }

@@ -4,7 +4,7 @@ const managementPlanModel = require('../models/managementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
 
 const { typesOfTask } = require('./../middleware/validation/task')
-const adminRoles = [1, 2, 5];
+const adminRoles = [ 1, 2, 5 ];
 
 const taskController = {
 
@@ -118,15 +118,20 @@ const taskController = {
           const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
           data.wage_at_moment = wage.amount;
         }
-        const result = await TaskModel.transaction(async trx =>
-          await TaskModel.query(trx).context({ user_id: req.user.user_id })
+        const result = await TaskModel.transaction(async trx => {
+          const { task_id } = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph(req.body, {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: ['locations', 'managementPlans'],
-            }),
-        );
+              relate: [ 'locations', 'managementPlans' ],
+            });
+          const [ task ] = await TaskModel.query(trx).withGraphFetched(`
+          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task, 
+          field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
+          `).where({ task_id });
+          return removeNullTypes(task);
+        });
         return res.status(200).send(result);
       } catch (error) {
         console.log(error);
@@ -199,7 +204,7 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
-  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
+  return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan' ].concat(nonModifiableAssets);
 }
 
 function removeNullTypes(task, i, arr) {

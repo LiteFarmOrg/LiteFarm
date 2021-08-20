@@ -13,6 +13,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
   "ADD_PRODUCT": {
+    "PRESS_ENTER": "MISSING",
     "PRODUCT_LABEL": "MISSING",
     "QUANTITY": "MISSING",
     "SUPPLIER_LABEL": "MISSING"
@@ -40,9 +41,34 @@
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
     "HR": "MISSING",
     "MANAGE_CUSTOM_TASKS": "MISSING",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "MISSING",
+      "FLAME_WEEDING": "MISSING",
+      "FOLIAR_SPRAY": "MISSING",
+      "HAND_PICKING": "MISSING",
+      "IS_PERMITTED": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PEST": "MISSING",
+      "PEST_CONTROL_METHOD": "MISSING",
+      "PRUNING": "MISSING",
+      "SOIL_FUMIGATION": "MISSING",
+      "SYSTEMIC_SPRAY": "MISSING",
+      "TRAPS": "MISSING",
+      "WHAT_PESTS": "MISSING"
+    },
     "SELECT_ALL": "MISSING",
     "SELECT_ALL_CROPS": "MISSING",
     "SELECT_TASK_TYPE": "MISSING",
+    "SOIL_AMENDMENT_VIEW": {
+      "IS_PERMITTED": "MISSING",
+      "MOISTURE_RETENTION": "MISSING",
+      "NUTRIENT_AVAILABILITY": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PURPOSE": "MISSING",
+      "PH": "MISSING",
+      "PURPOSE": "MISSING",
+      "STRUCTURE": "MISSING"
+    },
     "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
     "WAGE_OVERRIDE": "MISSING"
@@ -227,7 +253,8 @@
       "RETIRE_CROP_TITLE": "Retirar colheita?",
       "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar esta safra",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
-    }
+    },
+    "SUPPLIER": "MISSING"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
@@ -901,7 +928,17 @@
       "ABANDON_REASON": "MISSING",
       "COMPLETE_PLAN": "MISSING",
       "DATE_OF_CHANGE": "MISSING",
-      "RATING": "MISSING"
+      "RATING": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "SOMETHING_ELSE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "WHAT_HAPPENED": "MISSING"
     },
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",

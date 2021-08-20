@@ -16,6 +16,7 @@ export default function PlantingLocation({ history, match }) {
   const {
     crop_management_plan: { already_in_ground, is_wild, for_cover, needs_transplant, is_seed },
   } = useSelector(hookFormPersistSelector);
+  const { grid_points } = useSelector(userFarmSelector);
 
   return (
     <>
@@ -26,6 +27,7 @@ export default function PlantingLocation({ history, match }) {
           history={history}
           cropLocations={cropLocations}
           default_initial_location_id={default_initial_location_id}
+          farmCenterCoordinate={grid_points}
         />
       </HookFormPersistProvider>
       {needs_transplant && !already_in_ground && <TransplantSpotlight is_seed={is_seed} />}

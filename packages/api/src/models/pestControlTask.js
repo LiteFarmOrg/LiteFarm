@@ -46,8 +46,8 @@ class PestControlTask extends Model {
         pest_target: { type: 'string' },
         control_method: {
           type: 'string',
-          enum: ['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment',
-            'flameWeeding', 'mulching', 'pruning', 'traps', 'other' ],
+          enum: [ 'systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
+            'flameWeeding', 'soilFumigation', 'heatTreatment', 'other'],
         },
       },
       additionalProperties: false,

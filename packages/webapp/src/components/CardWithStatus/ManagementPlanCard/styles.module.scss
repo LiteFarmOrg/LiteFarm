@@ -65,6 +65,10 @@
   line-height: 16px;
   border-radius: 7px;
   padding: 0 4px;
+
+  p {
+    transform: translateX(-0.45px);
+  }
 }
 
 .circleContent {

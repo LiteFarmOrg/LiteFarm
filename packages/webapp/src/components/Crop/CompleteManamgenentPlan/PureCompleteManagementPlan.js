@@ -36,6 +36,7 @@ export function PureCompleteManagementPlan({
   onSubmit,
   isAbandonPage,
   reasonOptions,
+  start_date,
 }) {
   const { t } = useTranslation();
   const DATE = isAbandonPage ? 'abandon_date' : 'complete_date';
@@ -86,6 +87,8 @@ export function PureCompleteManagementPlan({
         label={t('MANAGEMENT_PLAN.COMPLETE_PLAN.DATE_OF_CHANGE')}
         hookFormRegister={register(DATE)}
         type={'date'}
+        max={getDateInputFormat()}
+        min={start_date}
         required
       />
       {isAbandonPage && (

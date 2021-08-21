@@ -36,7 +36,6 @@ function CropManagement({ history, match }) {
   const selectedVariety = useSelector(cropVarietySelector(variety_id));
 
   const managementPlanCardContents = useManagementPlanCardContents(variety_id);
-
   const goBack = () => {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
   };

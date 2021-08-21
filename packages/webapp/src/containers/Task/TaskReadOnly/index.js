@@ -18,7 +18,7 @@ function TaskReadOnly({ history, match }) {
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
 
-  const task_locations = task.locations.map(({ location_id }) => location_id);
+  const task_locations = task.locations.map(({ location_id }) => ({location_id}));
 
   const managementPlansByLocationIds = useManagementPlansByLocationIds(task_locations);
 

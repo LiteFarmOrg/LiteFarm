@@ -1022,7 +1022,8 @@ function fakePestControlTask(defaultData = {}) {
   return {
     product_quantity: faker.random.number(2000),
     pest_target: faker.lorem.words(2),
-    control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
+    control_method: faker.random.arrayElement([ 'systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
+      'flameWeeding', 'soilFumigation', 'heatTreatment', 'other']),
     ...defaultData
   };
 }

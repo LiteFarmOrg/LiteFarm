@@ -21,6 +21,7 @@ Complete.args = {
       'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
   },
   onSubmit: (data) => console.log(data),
+  start_date: '2021-08-01',
 };
 Complete.parameters = {
   ...chromaticSmallScreen,

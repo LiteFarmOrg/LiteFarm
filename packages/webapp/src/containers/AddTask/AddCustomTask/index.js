@@ -1,6 +1,7 @@
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddCustomTask from '../../../components/AddTask/PureAddCustomTask';
-import { addTaskTypeSaga } from '../../../containers/Shift/saga';
+import { addCustomTask } from '../../Task/saga';
+import { addTaskTypeSaga } from '../../Task/saga';
 
 function AddCustomTask({ history, match }) {
   const onGoBackPath = '/add_task/manage_custom_tasks';
@@ -11,8 +12,9 @@ function AddCustomTask({ history, match }) {
   };
 
   const onSave = (payload) => {
-    addTaskTypeSaga(payload.task_name);
-    console.log(payload.task_name);
+    addTaskTypeSaga(payload);
+    addCustomTask(payload);
+    console.log(payload);
     history.push(onGoBackPath);
   };
 

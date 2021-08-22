@@ -5,7 +5,6 @@ import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Input, { getInputErrors } from '../../Form/Input';
 import Button from '../../Form/Button';
-import { addTaskTypeSaga } from '../../../containers/Shift/saga';
 
 const PureAddCustomTask = ({
   handleGoBack,

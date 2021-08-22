@@ -135,9 +135,32 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+export const addCustomTask = createAction('addTaskTypeSaga');
+
+export function* addTaskTypeSaga(payload) {
+  const { taskTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  let taskName = payload.taskName;
+  const body = {
+    task_name: taskName,
+    farm_id: farm_id,
+  };
+
+  try {
+    const result = yield call(axios.post, taskTypeUrl, body, header);
+    if (result) {
+      yield put(getTaskTypes());
+    }
+  } catch (e) {
+    console.error('failed to add task type');
+  }
+}
+
 export const completeTask = createAction('completeTaskSaga');
 
-export function* completeTaskSaga({ payload: {task_id, data} }) {
+export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const task_translation_key = data.task_translation_key;
@@ -145,7 +168,12 @@ export function* completeTaskSaga({ payload: {task_id, data} }) {
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {
-    const result = yield call(axios.patch, `${taskUrl}/complete/${endpoint}/${task_id}`, taskData, header);
+    const result = yield call(
+      axios.patch,
+      `${taskUrl}/complete/${endpoint}/${task_id}`,
+      taskData,
+      header,
+    );
     if (result) {
       yield put(putTaskSuccess({ id: task_id, changes: result.data }));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
@@ -156,7 +184,7 @@ export function* completeTaskSaga({ payload: {task_id, data} }) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK.COMPLETE.FAILED')));
   }
 }
-    
+
 export const abandonTask = createAction('abandonTaskSaga');
 
 export function* abandonTaskSaga({ payload: data }) {
@@ -178,6 +206,7 @@ export function* abandonTaskSaga({ payload: data }) {
 }
 
 export default function* taskSaga() {
+  yield takeLeading(addCustomTask.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);

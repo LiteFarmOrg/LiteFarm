@@ -19,7 +19,7 @@ function TaskDetails({ history, match }) {
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
-  const persistedPaths = [goBackPath, continuePath];
+  const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
   const handleGoBack = () => {
     taskTypesBypassCrops.includes(persistedFormData.type)

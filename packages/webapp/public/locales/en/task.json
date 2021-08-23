@@ -9,15 +9,19 @@
   "HARVESTING": "Harvesting",
   "WEEDING": "Weeding",
   "WASH_AND_PACK": "Wash and Pack",
-  "PEST_CONTROL": "pest control",
+  "PEST_CONTROL": "Pest Control",
+  "PEST_CONTROL_LOWER": "pest control",
   "OTHER": "Other",
   "BREAK": "Break",
   "SOIL_RESULTS": "Soil Sample Results",
   "IRRIGATION": "Irrigation",
   "TRANSPORT": "Transport",
-  "FIELD_WORK": "field work",
+  "FIELD_WORK": "Field Work",
+  "FIELD_WORK_LOWER": "field work",
   "PLANTING": "Planting",
   "SOCIAL": "Social",
-  "CLEANING": "cleaning",
-  "SOIL_AMENDMENT": "soil amendment"
+  "CLEANING": "Cleaning",
+  "CLEANING_LOWER": "cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment",
+  "SOIL_AMENDMENT_LOWER": "soil amendment"
 }

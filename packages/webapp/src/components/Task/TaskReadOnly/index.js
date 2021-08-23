@@ -31,6 +31,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
+  hasManagementPlans,
   isCompleted,
 }) {
   const { t } = useTranslation();
@@ -114,7 +115,7 @@ export default function PureTaskReadOnly({
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
-      {Object.keys(managementPlansByLocationIds).map((location_id) => {
+      {hasManagementPlans && Object.keys(managementPlansByLocationIds).map((location_id) => {
         let location_name =
           managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
             .name;

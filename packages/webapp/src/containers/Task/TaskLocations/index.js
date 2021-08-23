@@ -4,10 +4,12 @@ import {
   setManagementPlansData,
   setTaskLocationsData,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import useHookFormPersist from '../../hooks/useHookFormPersist';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
+import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { userFarmSelector } from '../../userFarmSlice';
+import { locationsSelector } from '../../locationSlice';
 
 export default function TaskLocations({ history }) {
   const dispatch = useDispatch();
@@ -42,16 +44,22 @@ export default function TaskLocations({ history }) {
     history.push('/add_task/task_date');
   };
 
-  useHookFormPersist(() => ({}), persistedPath);
+  const { grid_points } = useSelector(userFarmSelector);
+  const locations = useSelector(locationsSelector);
 
   return (
-    <PureTaskLocations
-      onCancel={onCancel}
-      onContinue={onContinue}
-      onGoBack={onGoBack}
-      setTaskLocations={setTaskLocations}
-      taskLocations={taskLocations}
-      storedLocations={task_locations}
-    />
+    <HookFormPersistProvider>
+      <PureTaskLocations
+        onCancel={onCancel}
+        onContinue={onContinue}
+        onGoBack={onGoBack}
+        setTaskLocations={setTaskLocations}
+        taskLocations={taskLocations}
+        storedLocations={task_locations}
+        persistedPath={persistedPath}
+        farmCenterCoordinate={grid_points}
+        locations={locations}
+      />
+    </HookFormPersistProvider>
   );
 }

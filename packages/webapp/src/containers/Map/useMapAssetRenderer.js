@@ -109,7 +109,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       textLineHeight: 20,
       height: 28,
       width: 28,
-      className: styles.clusterIcon,
+      className: styles.selectedClusterIcon,
     };
     const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 

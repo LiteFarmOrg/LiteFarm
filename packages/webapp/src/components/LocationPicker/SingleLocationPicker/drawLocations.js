@@ -1,4 +1,11 @@
-import { isArea, locationEnum, polygonPath } from '../../../containers/Map/constants';
+import {
+  isArea,
+  isLine,
+  isNoFillArea,
+  isPoint,
+  locationEnum,
+  polygonPath,
+} from '../../../containers/Map/constants';
 import {
   areaStyles,
   hoverIcons,
@@ -6,16 +13,19 @@ import {
   lineStyles,
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
-import { defaultColour } from '../../../containers/Map/styles.module.scss';
+import styles, { defaultColour } from '../../../containers/Map/styles.module.scss';
+import MarkerClusterer from '@googlemaps/markerclustererplus';
+import clsx from 'clsx';
 
 export const SELECTED_POLYGON_OPACITY = 1.0;
 export const DEFAULT_POLYGON_OPACITY = 0.5;
 export const HOVER_POLYGON_OPACITY = 0.8;
 
 export const drawCropLocation = (map, maps, mapBounds, location) => {
-  return !!isArea(location.type)
-    ? drawArea(map, maps, mapBounds, location)
-    : drawLine(map, maps, mapBounds, location);
+  if (isNoFillArea(location.type)) return drawNoFillArea(map, maps, mapBounds, location);
+  if (isLine(location.type)) return drawLine(map, maps, mapBounds, location);
+  if (isArea(location.type)) return drawArea(map, maps, mapBounds, location);
+  if (isPoint(location.type)) return drawPoint(map, maps, mapBounds, location);
 };
 
 const drawArea = (map, maps, mapBounds, location) => {
@@ -98,7 +108,7 @@ const drawLine = (map, maps, mapBounds, location) => {
   const realWidth =
     type === locationEnum.watercourse
       ? Number(location.buffer_width) + Number(width)
-      : Number(width);
+      : Number(width > 5 ? width : 5);
   const styles = lineStyles[type];
   const { colour, dashScale, dashLength, selectedColour } = styles;
   points.forEach((point) => {
@@ -156,6 +166,8 @@ const drawLine = (map, maps, mapBounds, location) => {
   const linePolygon = new maps.Polygon({
     paths: polyPath,
     ...lineStyles[type].polyStyles,
+    strokeColor: colour,
+    fillColor: colour,
   });
   maps.event.addListener(linePolygon, 'mouseover', function () {
     this.clickable &&
@@ -176,6 +188,12 @@ const drawLine = (map, maps, mapBounds, location) => {
     polyline,
     styles,
   };
+};
+
+const drawNoFillArea = (map, maps, mapBounds, area) => {
+  const { grid_points } = area;
+  const line = { ...area, line_points: [...grid_points, grid_points[0]], width: 1 };
+  return drawLine(map, maps, mapBounds, line);
 };
 
 const drawPoint = (map, maps, mapBounds, location) => {
@@ -201,4 +219,48 @@ const drawPoint = (map, maps, mapBounds, location) => {
     marker,
     location,
   };
+};
+
+export const createMarkerClusters = (maps, map, points) => {
+  const markers = points.map((point) => {
+    point.marker.location_id = point.location.location_id;
+    point.marker.name = point.location.name;
+    point.marker.type = point.location.type;
+    return point.marker;
+  });
+
+  const clusterStyle = {
+    textSize: 20,
+    textLineHeight: 20,
+    height: 28,
+    width: 28,
+    className: styles.clusterIcon,
+  };
+  const selectedClusterStyle = {
+    textSize: 20,
+    textLineHeight: 20,
+    height: 28,
+    width: 28,
+    className: styles.selectedClusterIcon,
+  };
+  const clusterStyles = [clusterStyle, selectedClusterStyle];
+
+  const markerCluster = new MarkerClusterer(map, markers, {
+    ignoreHidden: true,
+    styles: clusterStyles,
+  });
+
+  markerCluster.addMarkers(markers, true);
+
+  maps.event.addListener(markerCluster, 'mouseover', function (c) {
+    c.clusterIcon_.div_.className = clsx(c.clusterIcon_.div_.className, styles.hoveredClusterIcon);
+  });
+
+  maps.event.addListener(markerCluster, 'mouseout', function (c) {
+    c.clusterIcon_.div_.className = c.clusterIcon_.div_.className
+      .replace(styles.hoveredClusterIcon, '')
+      .trim();
+  });
+
+  return markerCluster;
 };

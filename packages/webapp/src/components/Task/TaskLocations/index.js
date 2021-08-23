@@ -1,33 +1,55 @@
-import styles from './styles.module.scss';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Button from '../../Form/Button';
-import LocationPicker from '../../LocationPicker/MultiLocationPicker';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../Layout';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { Main } from '../../Typography';
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
+import { cloneObject } from '../../../util';
 
 export default function PureTaskLocations({
-  setTaskLocations,
-  taskLocations,
+  locations,
   onContinue,
   onGoBack,
   onCancel,
-  storedLocations,
+  farmCenterCoordinate,
+  persistedFormData,
+  useHookFormPersist,
+  persistedPath,
 }) {
   const { t } = useTranslation();
   const progress = 43;
+  const { getValues, watch, setValue } = useForm({
+    defaultValues: cloneObject({ locations: [], ...persistedFormData }),
+    shouldUnregister: false,
+  });
+  useHookFormPersist(getValues, persistedPath);
+  const LOCATIONS = 'locations';
+  const selectedLocations = watch(LOCATIONS);
+  const selectedLocationIds = useMemo(
+    () => selectedLocations?.map(({ location_id }) => location_id),
+    [selectedLocations],
+  );
+  const onSelectLocation = (location_id) => {
+    const isSelected = selectedLocations
+      .map((location) => location.location_id)
+      .includes(location_id);
+    setValue(
+      LOCATIONS,
+      isSelected
+        ? selectedLocations.filter((location) => location.location_id !== location_id)
+        : [...selectedLocations, { location_id }],
+    );
+  };
+  const clearLocations = () => setValue(LOCATIONS, []);
   return (
     <>
       <Layout
         buttonGroup={
           <>
-            <Button
-              disabled={!taskLocations || taskLocations.length === 0}
-              onClick={onContinue}
-              fullLength
-            >
+            <Button disabled={!selectedLocations?.length} onClick={onContinue} fullLength>
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -45,13 +67,11 @@ export default function PureTaskLocations({
           {t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>
         <LocationPicker
-          className={styles.mapContainer}
-          canUsePin={false}
-          setPinLocation={() => {}}
-          canSelectMultipleLocations={true}
-          setLocationIds={setTaskLocations}
-          selectedLocationIds={taskLocations}
-          storedLocations={storedLocations}
+          onSelectLocation={onSelectLocation}
+          clearLocations={clearLocations}
+          selectedLocationIds={selectedLocationIds}
+          locations={locations}
+          farmCenterCoordinate={farmCenterCoordinate}
         />
       </Layout>
     </>

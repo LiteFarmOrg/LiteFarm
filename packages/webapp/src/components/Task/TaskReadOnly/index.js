@@ -97,7 +97,7 @@ export default function PureTaskReadOnly({
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
         disabled={true}
-        value={assignee}
+        value={assignee ? assignee :  t('TASK.UNASSIGNED')}
       />
 
       <Input

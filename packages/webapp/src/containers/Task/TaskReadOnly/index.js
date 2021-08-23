@@ -59,7 +59,7 @@ function TaskReadOnly({ history, match }) {
       isAdmin={isAdmin}
       system={system}
       products={products}
-      managementPlansByLocationIds={managementPlansByLocationIds}
+      managementPlansByLocationIds={filtered_managment_plans}
       hasManagementPlans={task_management_plans.length > 0}
       isCompleted={isCompleted}
     />

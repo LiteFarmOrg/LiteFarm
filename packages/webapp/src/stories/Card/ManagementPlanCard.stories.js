@@ -33,8 +33,6 @@ Planned.args = {
   managementPlanName: 'Management Plan',
   locationName: 'Field 1',
   notes: 'Bed 1',
-  startDate: '01-01-2021',
-  endDate: '01-01-2021',
   numberOfPendingTask: 1,
   status: 'planned',
 };
@@ -56,7 +54,6 @@ Completed.args = {
   managementPlanName: 'Management Plan',
   locationName: 'Field 1',
   startDate: '01-01-2021',
-  endDate: '01-02-2021',
   numberOfPendingTask: 3,
   score: 4,
   status: 'completed',

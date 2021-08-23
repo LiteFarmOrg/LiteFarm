@@ -54,9 +54,10 @@ export function ManagementPlanCard({
             <>
               <div className={styles.iconTextContainer}>
                 <CalendarIcon />
-                <div>{`${getShortLocalizedDateString(startDate)}${
-                  endDate && ` - ${getShortLocalizedDateString(endDate)}`
-                }`}</div>
+                <div>
+                  {getShortLocalizedDateString(startDate)}
+                  {endDate && ` - ${getShortLocalizedDateString(endDate)}`}
+                </div>
               </div>
               <div className={styles.gap} />
             </>
@@ -64,9 +65,7 @@ export function ManagementPlanCard({
           {
             <div className={styles.iconTextContainer}>
               <div className={clsx(styles.circle)}>
-                <p style={{ transform: 'translateX(-0.6px)' }}>
-                  {numberOfPendingTask <= 99 ? numberOfPendingTask : '+99'}
-                </p>
+                <p>{numberOfPendingTask <= 99 ? numberOfPendingTask : '+99'}</p>
               </div>
               <div>{t('MANAGEMENT_PLAN.PENDING_TASK')}</div>
             </div>
@@ -82,7 +81,7 @@ ManagementPlanCard.propTypes = {
   status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
   classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
   onClick: PropTypes.func,
-  score: PropTypes.oneOf([1, 2, 3, 4, 5, 0]),
+  score: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
   managementPlanName: PropTypes.string,
   locationName: PropTypes.string,
   notes: PropTypes.string,

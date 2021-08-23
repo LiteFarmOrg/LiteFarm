@@ -26,11 +26,10 @@ const PurePestControlTask = ({
     biologicalControl: t('ADD_TASK.PEST_CONTROL_VIEW.BIOLOGICAL_CONTROL'),
     flameWeeding: t('ADD_TASK.PEST_CONTROL_VIEW.FLAME_WEEDING'),
     foliarSpray: t('ADD_TASK.PEST_CONTROL_VIEW.FOLIAR_SPRAY'),
-    handPick: t('ADD_TASK.PEST_CONTROL_VIEW.HAND_PICKING'),
-    pruning: t('ADD_TASK.PEST_CONTROL_VIEW.PRUNING'),
+    handWeeding: t('ADD_TASK.PEST_CONTROL_VIEW.HAND_WEEDING'),
+    heatTreatment: t('ADD_TASK.PEST_CONTROL_VIEW.HEAT_TREATMENT'),
     soilFumigation: t('ADD_TASK.PEST_CONTROL_VIEW.SOIL_FUMIGATION'),
     systemicSpray: t('ADD_TASK.PEST_CONTROL_VIEW.SYSTEMIC_SPRAY'),
-    traps: t('ADD_TASK.PEST_CONTROL_VIEW.TRAPS'),
     other: t('ADD_TASK.PEST_CONTROL_VIEW.OTHER'),
   };
   const controlMethodOptions = Object.keys(controlMethod).map((k) => ({value: k, label: controlMethod[k]}));

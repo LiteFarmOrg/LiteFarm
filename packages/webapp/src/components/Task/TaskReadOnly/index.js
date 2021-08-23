@@ -31,6 +31,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
+  isCompleted,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType[0];
@@ -77,7 +78,7 @@ export default function PureTaskReadOnly({
   return (
     <Layout
       buttonGroup={
-        self === task.assignee_user_id && (
+        self === task.assignee_user_id  && !isCompleted && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
               {t('common:MARK_COMPLETE')}
@@ -90,7 +91,7 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={isAdmin || owner === self ? onEdit : false}
+        onEdit={(isAdmin || owner === self) && !isCompleted ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
       />
 
@@ -109,7 +110,7 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label style={{ marginBottom: '12px' }}>{t('TASK.TARGET')}</Label>
+      <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
@@ -154,7 +155,7 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      {(self === task.assignee_user_id || self === owner || isAdmin) && (
+      {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
           {t('TASK.ABANDON_TASK')}
         </Underlined>

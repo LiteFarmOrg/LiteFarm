@@ -17,8 +17,9 @@ function TaskReadOnly({ history, match }) {
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
+  const isCompleted = task.completed_time !== null;
 
-  const task_locations = task.locations.map(({ location_id }) => location_id);
+  const task_locations = task.locations.map(({ location_id }) => ({location_id}));
 
   const managementPlansByLocationIds = useManagementPlansByLocationIds(task_locations);
 
@@ -52,6 +53,7 @@ function TaskReadOnly({ history, match }) {
       system={system}
       products={products}
       managementPlansByLocationIds={managementPlansByLocationIds}
+      isCompleted={isCompleted}
     />
   );
 }

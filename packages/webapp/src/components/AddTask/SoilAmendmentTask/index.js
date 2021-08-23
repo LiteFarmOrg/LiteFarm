@@ -41,7 +41,7 @@ const PureSoilAmendmentTask = ({
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
-            style={{ marginBottom: '40px', marginTop: '24px' }}
+            style={{ marginBottom: '40px' }}
             options={purposeOptions}
             onChange={(e) => {
               onChange(e);

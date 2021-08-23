@@ -84,28 +84,3 @@ export const availableFilterSettingsSelector = createSelector(
     };
   },
 );
-//TODO: remove or rename
-export const onlyCropEnabledLocations = createSelector([loginSelector], ({ farm_id }) => {
-  const enableLocations = [
-    'field',
-    'garden',
-    'greenhouse',
-    'buffer_zone',
-    'label',
-    'map_background',
-  ];
-  let filters = { ...initialState };
-  for (const key in filters) {
-    if (!enableLocations.includes(key)) {
-      filters[key] = false;
-    }
-  }
-  filters.farm_id = farm_id;
-  return filters;
-});
-//TODO: remove or rename
-export const allLocations = createSelector([loginSelector], ({ farm_id }) => {
-  let filters = { ...initialState };
-  filters.farm_id = farm_id;
-  return filters;
-});

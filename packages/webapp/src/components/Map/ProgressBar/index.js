@@ -41,7 +41,7 @@ export default function ProgressBar({ onDismiss, type = 'success' }) {
 
   useEffect(() => {
     if (progress >= MAX_PROGRESS) {
-      onDismiss();
+      onDismiss?.();
     }
   }, [progress]);
 

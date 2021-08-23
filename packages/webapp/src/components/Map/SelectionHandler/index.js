@@ -4,8 +4,6 @@ import { areaImgDict, lineImgDict, pointImgDict } from '../LocationMapping';
 import { containsCrops } from '../../../containers/Map/constants';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../assets/theme';
-import { useDispatch } from 'react-redux';
-import { setSelected } from '../../../containers/mapSlice';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,8 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PureSelectionHandler({ locations, history, selectingOnly }) {
-  const dispatch = useDispatch();
+export default function PureSelectionHandler({ locations, history }) {
   const classes = useStyles();
   const imgMapping = (assetType, locationType) => {
     let icon = null;
@@ -50,20 +47,12 @@ export default function PureSelectionHandler({ locations, history, selectingOnly
       : history.push(`/${location.type}/${location.id}/details`);
   };
 
-  const makeSelection = (location) => {
-    dispatch(setSelected(location));
-  };
-
   return locations.map((location, idx) => {
     const { type, asset, name } = { ...location };
     let icon = imgMapping(asset, type);
 
     return (
-      <div
-        key={idx}
-        onClick={() => (selectingOnly ? makeSelection(location) : loadEditView(location))}
-        className={classes.container}
-      >
+      <div key={idx} onClick={() => loadEditView(location)} className={classes.container}>
         <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
         <div style={{ padding: '12px 20px 10px 55px' }}>{name}</div>
       </div>
@@ -74,5 +63,4 @@ export default function PureSelectionHandler({ locations, history, selectingOnly
 PureSelectionHandler.prototype = {
   locations: PropTypes.array,
   history: PropTypes.func,
-  selectingOnly: PropTypes.bool,
 };

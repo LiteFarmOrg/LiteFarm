@@ -1,12 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Main } from '../../Typography';
-// import styles from './styles.module.scss';
 import Input from '../../Form/Input';
-import RadioGroup from '../../Form/RadioGroup';
-import { waterUsage } from '../../../util/unit';
-import Unit from '../../Form/Unit';
-import AddProduct from '../AddProduct';
 import ReactSelect from '../../Form/ReactSelect';
 import { Controller } from 'react-hook-form';
 
@@ -36,6 +30,17 @@ const PureFieldWorkTask = ({
     { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.WEEDING'), value: 'WEEDING' },
     { label: t('ADD_TASK.FIELD_WORK_VIEW.TYPE.OTHER'), value: 'OTHER' },
   ];
+  const fieldWorkTypeExposedValue = useMemo(() => {
+    return typeValue?.value
+      ? typeValue
+      : {
+          label: t(`ADD_TASK.FIELD_WORK_VIEW.TYPE.${typeValue}`),
+          value: typeValue,
+        };
+  }, [typeValue]);
+  useEffect(() => {
+    if (fieldWorkTypeExposedValue?.value !== 'OTHER') setValue(FIELD_WORK_OTHER_TYPE, null);
+  }, [fieldWorkTypeExposedValue]);
   return (
     <>
       <Controller
@@ -52,10 +57,19 @@ const PureFieldWorkTask = ({
               setValue(FIELD_WORK_TYPE, e, { shouldValidate: true });
             }}
             isDisabled={disabled}
+            value={
+              // TODO: refactor value reading here and in pest control
+              // this solution keeps placeholder while accommodating the read-only view
+              !value
+                ? value
+                : value?.value
+                ? value
+                : { value, label: t(`ADD_TASK.FIELD_WORK_VIEW.TYPE.${value}`) }
+            }
           />
         )}
       />
-      {typeValue?.value === 'OTHER' && (
+      {fieldWorkTypeExposedValue?.value === 'OTHER' && (
         <Input
           label={t('ADD_TASK.FIELD_WORK_VIEW.OTHER_TYPE_OF_FIELD_WORK')}
           style={{ marginBottom: '20px' }}

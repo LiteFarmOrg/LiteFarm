@@ -63,7 +63,6 @@ const AddProduct = ({
       setValue(PERMITTED, null);
     }
   };
-  console.log(interested, country_id);
   const isInterestedInCanada = useMemo(() => interested && country_id === CANADA,[country_id, interested]);
   const transformProductsToLabel = (products) =>
     products.map(({ product_id, name }) => ({ label: name, value: product_id }));

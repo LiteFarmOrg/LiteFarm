@@ -8,6 +8,7 @@ import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 
 const PureTaskDetails = ({
@@ -26,16 +27,23 @@ const PureTaskDetails = ({
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
   const taskComponents = {
-    CLEANING: (props) => <PureCleaningTask  farm={farm} system={system} products={products}  {...props} />,
-    SOIL_AMENDMENT: (props) => <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />,
-    PEST_CONTROL: (props) => <PurePestControlTask  farm={farm} system={system} products={products} {...props} />,
-  }
+    CLEANING: (props) => (
+      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
+    ),
+    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
+    SOIL_AMENDMENT: (props) => (
+      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL: (props) => (
+      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
+    ),
+  };
   const defaults = {
-    CLEANING : { cleaning_task: { agent_used: false }}
-  }
+    CLEANING: { cleaning_task: { agent_used: false } },
+  };
 
   const formFunctions = useForm({
-    mode:'onChange',
+    mode: 'onChange',
     defaultValues: {
       notes: persistedFormData?.notes,
       ...defaults[taskType],

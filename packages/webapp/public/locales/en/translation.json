@@ -35,6 +35,21 @@
     "CLEAR_ALL_CROPS": "Clear all crops",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "Other type",
+      "TYPE_OF_FIELD_WORK": "Type of field work",
+      "TYPE": {
+        "COVERING_SOIL": "Covering soil",
+        "FENCING": "Fencing",
+        "OTHER": "Other",
+        "PREPARING_BEDS_OR_ROWS": "Preparing beds or rows",
+        "PRUNING": "Pruning",
+        "SHADE_CLOTH": "Shade cloth",
+        "TERMINATION": "Termination",
+        "TILLAGE": "Tillage",
+        "WEEDING": "Weeding"
+      }
+    },
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "PEST_CONTROL_VIEW": {

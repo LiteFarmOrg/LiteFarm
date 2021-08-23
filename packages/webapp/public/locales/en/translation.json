@@ -1427,7 +1427,7 @@
       "LATE": "Late",
       "PLANNED": "Planned"
     },
-    "TARGET": "Target",
+    "LOCATIONS": "Location(s)",
     "TASK": "task",
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",

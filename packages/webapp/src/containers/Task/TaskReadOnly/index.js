@@ -27,7 +27,12 @@ function TaskReadOnly({ history, match }) {
 
   let filtered_managment_plans = cloneObject(managementPlansByLocationIds);
   for (let location in filtered_managment_plans) {
-    filtered_managment_plans[location] = filtered_managment_plans[location].filter(({ management_plan_id }) => task_management_plans.includes(management_plan_id));
+    let f = filtered_managment_plans[location].filter(({ management_plan_id }) => task_management_plans.includes(management_plan_id));
+    if (f.length === 0) {
+      delete filtered_managment_plans[location];
+    } else {
+      filtered_managment_plans[location] = f;
+    }
   }
 
   const onGoBack = () => {

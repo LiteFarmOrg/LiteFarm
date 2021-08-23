@@ -54,9 +54,10 @@ export function ManagementPlanCard({
             <>
               <div className={styles.iconTextContainer}>
                 <CalendarIcon />
-                <div>{`${getShortLocalizedDateString(startDate)}${
-                  endDate && ` - ${getShortLocalizedDateString(endDate)}`
-                }`}</div>
+                <div>
+                  {getShortLocalizedDateString(startDate)}
+                  {endDate && ` - ${getShortLocalizedDateString(endDate)}`}
+                </div>
               </div>
               <div className={styles.gap} />
             </>

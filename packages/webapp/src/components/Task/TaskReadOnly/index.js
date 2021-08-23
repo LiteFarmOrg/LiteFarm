@@ -108,7 +108,7 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label style={{ marginBottom: '12px' }}>{t('TASK.TARGET')}</Label>
+      <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 

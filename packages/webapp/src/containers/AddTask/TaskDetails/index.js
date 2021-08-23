@@ -24,7 +24,7 @@ function TaskDetails({ history, match }) {
   const handleGoBack = () => {
     taskTypesBypassCrops.includes(persistedFormData.type)
       ? history.push('/add_task/task_locations')
-      : history.push('/add_task/task_locations'); // <- This should be crop selection
+      : history.push('/add_task/task_crops');
   };
 
   const handleCancel = () => {

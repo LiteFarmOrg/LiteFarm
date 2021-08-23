@@ -19,12 +19,12 @@ function TaskDetails({ history, match }) {
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
-  const persistedPaths = [goBackPath, continuePath];
+  const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
   const handleGoBack = () => {
     taskTypesBypassCrops.includes(persistedFormData.type)
       ? history.push('/add_task/task_locations')
-      : history.push('/add_task/task_locations'); // <- This should be crop selection
+      : history.push('/add_task/task_crops');
   };
 
   const handleCancel = () => {

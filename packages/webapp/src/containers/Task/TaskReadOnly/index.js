@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import { isAdminSelector, measurementSelector } from '../../userFarmSlice';
-import { userFarmsByFarmSelector } from '../../userFarmSlice';
-import { userFarmSelector } from '../../userFarmSlice';
+import {
+  isAdminSelector,
+  measurementSelector,
+  userFarmsByFarmSelector,
+  userFarmSelector,
+} from '../../userFarmSlice';
 import { taskWithProductById } from '../../taskSlice';
 import { useManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlansByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
-import { cloneObject } from '../../../util';
+import produce from 'immer';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -19,21 +22,27 @@ function TaskReadOnly({ history, match }) {
   const isAdmin = useSelector(isAdminSelector);
   const isCompleted = task.completed_time !== null;
 
-  const task_locations = task.locations.map(({ location_id }) => ({location_id}));
+  const task_locations = task.locations.map(({ location_id }) => ({ location_id }));
 
   const managementPlansByLocationIds = useManagementPlansByLocationIds(task_locations);
 
-  let task_management_plans = task.managementPlans.map(({ management_plan_id }) => (management_plan_id));
-
-  let filtered_managment_plans = cloneObject(managementPlansByLocationIds);
-  for (let location in filtered_managment_plans) {
-    let f = filtered_managment_plans[location].filter(({ management_plan_id }) => task_management_plans.includes(management_plan_id));
-    if (f.length === 0) {
-      delete filtered_managment_plans[location];
-    } else {
-      filtered_managment_plans[location] = f;
-    }
-  }
+  const filteredManagementPlans = useMemo(() => {
+    return produce(managementPlansByLocationIds, (filteredManagementPlans) => {
+      const task_management_plans = task.managementPlans.map(
+        ({ management_plan_id }) => management_plan_id,
+      );
+      for (let location in filteredManagementPlans) {
+        let f = filteredManagementPlans[location].filter(({ management_plan_id }) =>
+          task_management_plans.includes(management_plan_id),
+        );
+        if (f.length === 0) {
+          delete filteredManagementPlans[location];
+        } else {
+          filteredManagementPlans[location] = f;
+        }
+      }
+    });
+  }, [managementPlansByLocationIds, task.managementPlans]);
 
   const onGoBack = () => {
     history.push('/tasks');
@@ -64,8 +73,8 @@ function TaskReadOnly({ history, match }) {
       isAdmin={isAdmin}
       system={system}
       products={products}
-      managementPlansByLocationIds={filtered_managment_plans}
-      hasManagementPlans={task_management_plans.length > 0}
+      managementPlansByLocationIds={filteredManagementPlans}
+      hasManagementPlans={task.managementPlans?.length > 0}
       isCompleted={isCompleted}
     />
   );

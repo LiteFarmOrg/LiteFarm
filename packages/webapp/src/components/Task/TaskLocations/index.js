@@ -79,10 +79,13 @@ export default function PureTaskLocations({
 }
 
 PureTaskLocations.prototype = {
-  setTaskLocations: PropTypes.func,
-  taskLocations: PropTypes.array,
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
   onCancel: PropTypes.func,
   storedLocations: PropTypes.array,
+  locations: PropTypes.arrayOf(PropTypes.object),
+  farmCenterCoordinate: PropTypes.object,
+  persistedFormData: PropTypes.object,
+  useHookFormPersist: PropTypes.func,
+  persistedPath: PropTypes.arrayOf(PropTypes.string),
 };

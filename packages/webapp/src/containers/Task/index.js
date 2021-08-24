@@ -14,6 +14,7 @@ import TaskCard from './TaskCard';
 import StateTab from '../../components/RouterTab/StateTab';
 import { ALL, TODO, UNASSIGNED } from './constants';
 import TaskQuickAssignModal from '../../components/Task/QuickAssign';
+import { getManagementPlans } from '../saga';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ export default function TaskPage({ history }) {
   useEffect(() => {
     dispatch(getTasks());
     dispatch(getProducts());
+    dispatch(getManagementPlans());
   }, []);
 
   useEffect(() => {

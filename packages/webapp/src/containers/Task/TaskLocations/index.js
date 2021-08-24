@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -15,8 +15,6 @@ export default function TaskLocations({ history }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const persistedPath = ['/add_task/task_date', '/add_task/task_details', '/add_task/task_crops'];
-
-  const [taskLocations, setTaskLocations] = useState([]);
 
   const onCancel = () => {
     history.push('/tasks');
@@ -43,8 +41,6 @@ export default function TaskLocations({ history }) {
         onCancel={onCancel}
         onContinue={onContinue}
         onGoBack={onGoBack}
-        setTaskLocations={setTaskLocations}
-        taskLocations={taskLocations}
         persistedPath={persistedPath}
         farmCenterCoordinate={grid_points}
         locations={locations}

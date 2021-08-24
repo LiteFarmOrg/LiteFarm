@@ -55,13 +55,7 @@ export default function PureManagementPlanTile({
         <div style={{ flexGrow: '1' }} />
         {start_date && (
           <div className={styles.dateContainer}>
-            <CalendarIcon
-              className={clsx(
-                styles.icon,
-                isPast(status) && styles.pastIcon,
-                isPlanned(status) && styles.plannedIcon,
-              )}
-            />
+            <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon)} />
             <div className={styles.infoBody}>{getShortLocalizedDateString(start_date)}</div>
           </div>
         )}

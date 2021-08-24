@@ -13,8 +13,9 @@ import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
-import PureCleaningTask from '../../AddTask/CleaningTask';
 import { cloneObject } from '../../../util';
+import PureCleaningTask from '../../AddTask/CleaningTask';
+import PureFieldWorkTask from '../../AddTask/FieldWorkTask';
 import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
 import PurePestControlTask from '../../AddTask/PestControlTask';
 
@@ -54,6 +55,7 @@ export default function PureTaskReadOnly({
     CLEANING: (props) => (
       <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
+    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
     SOIL_AMENDMENT: (props) => (
       <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
@@ -108,7 +110,7 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label style={{ marginBottom: '12px' }}>{t('TASK.TARGET')}</Label>
+      <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 

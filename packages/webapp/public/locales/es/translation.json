@@ -35,6 +35,21 @@
     "CLEAR_ALL_CROPS": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE": {
+        "COVERING_SOIL": "MISSING",
+        "FENCING": "MISSING",
+        "OTHER": "MISSING",
+        "PREPARING_BEDS_OR_ROWS": "MISSING",
+        "PRUNING": "MISSING",
+        "SHADE_CLOTH": "MISSING",
+        "TERMINATION": "MISSING",
+        "TILLAGE": "MISSING",
+        "WEEDING": "MISSING"
+      }
+    },
     "HR": "MISSING",
     "MANAGE_CUSTOM_TASKS": "MISSING",
     "PEST_CONTROL_VIEW": {
@@ -1422,7 +1437,7 @@
       "LATE": "MISSING",
       "PLANNED": "MISSING"
     },
-    "TARGET": "MISSING",
+    "LOCATIONS": "MISSING",
     "TASK": "MISSING",
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",

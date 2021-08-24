@@ -46,6 +46,9 @@ const PurePestControlTask = ({
       setValue('pest_control_task.product_quantity', undefined);
       setValue('pest_control_task.product_quantity_unit', null, { shouldValidate: true });
     }
+    if(controlMethodExposedValue?.value !== 'other' ) {
+      setValue('pest_control_task.other_method', null);
+    }
   }, [controlMethodExposedValue])
 
   return (
@@ -70,7 +73,8 @@ const PurePestControlTask = ({
               onChange(e);
               setValue(CONTROL_METHOD, e, { shouldValidate: true });
             }}
-            value={value?.value ? value : { value, label: controlMethod[value] }}
+            placeholder={t('common:SELECT')}
+            value={!value ? value : value?.value ? value : { value, label: controlMethod[value] }}
             options={controlMethodOptions}
             isDisabled={disabled}
           />

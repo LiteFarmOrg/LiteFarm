@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: colors.green100,
     },
     backgroundColor: 'white',
+    color: colors.grey900,
     marginBottom: '5px',
   },
   selectedRowContainer: {
@@ -19,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: colors.green100,
       color: colors.grey900,
     },
-    backgroundColor: colors.teal700,
-    color: 'white',
+    backgroundColor: colors.green200,
+    color: colors.grey900,
   },
   container: {
     display: 'flex',

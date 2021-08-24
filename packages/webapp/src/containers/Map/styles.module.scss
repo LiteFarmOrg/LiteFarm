@@ -92,14 +92,15 @@
     top: 56px;
   }
 }
+
 .mapContainer {
   width: 100%;
 }
 
-
 .clusterIcon {
-  background-color: var(--teal700);
-  border: 1px solid #FFFFFF;
+  background-color: white;
+  color: var(--teal700);
+  border: 1px solid var(--teal700);
   border-radius: 4px;
   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
   font-weight: 700;
@@ -108,3 +109,31 @@
   justify-content: center;
   align-items: center;
 }
+
+
+.selectedClusterIcon {
+  color: white;
+  background-color: var(--teal700);
+  border: 1px solid white;
+  border-radius: 4px;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  font-weight: 700;
+  font-family: "Open Sans", "SansSerif", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hoveredClusterIcon {
+  background-color: var(--green100);
+  color: var(--teal700);
+  border: 1px solid var(--teal700);
+  border-radius: 4px;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+  font-weight: 700;
+  font-family: "Open Sans", "SansSerif", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -156,7 +156,7 @@ const ReactSelect = React.forwardRef(
               )}
             </Label>
             {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
-            {icon && <span className={styles.icon}>{icon}</span>}
+            {icon && <span style={{marginRight: 'auto', marginLeft: '8px'}} className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}
         {creatable && (
@@ -186,7 +186,7 @@ const ReactSelect = React.forwardRef(
                     color: colors.brown700,
                   }}
                 >
-                  {t('REACT_SELECT.CLEAR_ALL')}
+                  {t('REACT_SELECT.CLEAR')}
                 </Underlined>
               ),
               ...components,
@@ -195,6 +195,7 @@ const ReactSelect = React.forwardRef(
             inputRef={ref}
             defaultValue={defaultValue}
             isDisabled={isDisabled}
+            isClearable={true}
             {...props}
           />
         )}

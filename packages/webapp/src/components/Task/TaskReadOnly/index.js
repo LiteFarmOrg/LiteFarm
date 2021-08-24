@@ -155,6 +155,17 @@ export default function PureTaskReadOnly({
         optional
         disabled
       />
+      {
+        isCompleted && (
+          <InputAutoSize
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.COMPLETION_NOTES')}
+            value={task.completion_notes}
+            optional
+            disabled
+          />
+        )
+      }
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>

@@ -25,6 +25,8 @@ import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAm
 
 import { useTranslation } from 'react-i18next';
 import Rating from '../Rating';
+import moment from 'moment';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const cardColor = {
   planned: 'taskCurrent',
@@ -79,7 +81,10 @@ const PureTaskCard = ({
   if (!locations.length) console.error('Task should be associated with at least one location');
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
   const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : t(`crop:${crops[0]}`);
-  const dateText = new Date(dueDate).toDateString().slice(4);
+  const dateText = moment(new Date(dueDate))
+    .locale(getLanguageFromLocalStorage())
+    .utc()
+    .format('MMM D, YYYY');
   const TaskIcon = iconDict[taskType.task_translation_key];
 
   return (

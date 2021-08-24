@@ -57,7 +57,7 @@ const AddProduct = ({
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list, {shouldValidate: true });
     } else {
-      setValue(NAME, value.label);
+      setValue(NAME, value?.label);
       setValue(PRODUCT_ID, null);
       setValue(SUPPLIER, null);
       setValue(PERMITTED, null);

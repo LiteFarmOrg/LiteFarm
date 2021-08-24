@@ -23,7 +23,7 @@ const AddProduct = ({
   disabled,
 }) => {
   const { t } = useTranslation();
-  const {farm_id, is_interested, country_id} = farm;
+  const {farm_id, interested, country_id} = farm;
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
     cleaning_task: {
@@ -57,14 +57,13 @@ const AddProduct = ({
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list, {shouldValidate: true });
     } else {
-      setValue(NAME, value.label);
+      setValue(NAME, value?.label);
       setValue(PRODUCT_ID, null);
       setValue(SUPPLIER, null);
       setValue(PERMITTED, null);
     }
   };
-
-  const isInterestedInCanada = useMemo(() => is_interested && country_id === CANADA,[country_id, is_interested]);
+  const isInterestedInCanada = useMemo(() => interested && country_id === CANADA,[country_id, interested]);
   const transformProductsToLabel = (products) =>
     products.map(({ product_id, name }) => ({ label: name, value: product_id }));
 
@@ -85,7 +84,6 @@ const AddProduct = ({
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
         options={transformProductsToLabel(products)}
         onChange={(e) => {
-          console.log('CHANGE', e);
           processProduct(e);
           setProductValue(e);
         }}
@@ -100,7 +98,7 @@ const AddProduct = ({
       <Input
         name={SUPPLIER}
         label={t('ADD_PRODUCT.SUPPLIER_LABEL')}
-        hookFormRegister={register(SUPPLIER, {required: is_interested})}
+        hookFormRegister={register(SUPPLIER, {required: interested})}
         style={{ marginBottom: '40px' }}
         disabled={disabled}
         hasLeaf={true}

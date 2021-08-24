@@ -81,7 +81,7 @@ const PureCleaningTask = ({
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
-        required
+        optional
         disabled={disabled}
       />
     </>

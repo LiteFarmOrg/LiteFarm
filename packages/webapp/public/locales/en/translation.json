@@ -1175,7 +1175,8 @@
     }
   },
   "REACT_SELECT": {
-    "CLEAR_ALL": "Clear all"
+    "CLEAR_ALL": "Clear all",
+    "CLEAR": "Clear"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",

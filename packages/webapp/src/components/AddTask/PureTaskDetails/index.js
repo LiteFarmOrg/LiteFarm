@@ -89,7 +89,7 @@ const PureTaskDetails = ({
         <Main style={{ marginBottom: '24px' }}>
           {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
-            t(`task:${taskType}`) +
+            t(`task:${taskType}_LOWER`) +
             ' ' +
             t('ADD_TASK.TASK')}
         </Main>

@@ -186,7 +186,7 @@ const ReactSelect = React.forwardRef(
                     color: colors.brown700,
                   }}
                 >
-                  {t('REACT_SELECT.CLEAR_ALL')}
+                  {t('REACT_SELECT.CLEAR')}
                 </Underlined>
               ),
               ...components,
@@ -195,6 +195,7 @@ const ReactSelect = React.forwardRef(
             inputRef={ref}
             defaultValue={defaultValue}
             isDisabled={isDisabled}
+            isClearable={true}
             {...props}
           />
         )}

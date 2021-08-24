@@ -2,7 +2,6 @@ import styles, { defaultColour } from '../../containers/Map/styles.module.scss';
 import { areaStyles, icons, lineStyles } from '../../containers/Map/mapStyles';
 import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { allLocations } from '../../containers/Map/mapFilterSettingSlice';
 import { lineSelector, pointSelector, sortedAreaSelector } from '../../containers/locationSlice';
 import {
   isArea,
@@ -14,10 +13,31 @@ import {
 } from '../../containers/Map/constants';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 const useMapLocationsRenderer = ({ locations }) => {
   const dispatch = useDispatch();
-  const usualFilters = useSelector(allLocations);
-  const filterSettings = usualFilters;
+
+  const filterSettings = {
+    field: true,
+    garden: true,
+    barn: true,
+    ceremonial_area: true,
+    greenhouse: true,
+    surface_water: true,
+    natural_area: true,
+    residence: true,
+    buffer_zone: true,
+    watercourse: true,
+    fence: true,
+    gate: true,
+    water_valve: true,
+    farm_site_boundary: true,
+    map_background: true,
+    label: true,
+  };
   const initAssetGeometriesState = () => {
     const nextAssetGeometries = {};
     for (const key in filterSettings) {
@@ -61,7 +81,7 @@ const useMapLocationsRenderer = ({ locations }) => {
       textLineHeight: 20,
       height: 28,
       width: 28,
-      className: styles.clusterIcon,
+      className: styles.selectedClusterIcon,
     };
     const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 

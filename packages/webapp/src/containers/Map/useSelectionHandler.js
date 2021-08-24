@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
 import { cloneObject } from '../../util';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
     area: [],

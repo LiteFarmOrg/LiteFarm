@@ -221,6 +221,7 @@ const PureTaskCrops = ({
                           styles.typeContainerSelected,
                       )}
                       managementPlan={plan}
+                      status={'Active'}
                     />
                   );
                 })}

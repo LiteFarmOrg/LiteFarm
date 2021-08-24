@@ -79,7 +79,7 @@ const PureTaskCard = ({
   if (!locations.length) console.error('Task should be associated with at least one location');
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
   const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : t(`crop:${crops[0]}`);
-  const dateText = getTaskCardDate(dueDate, 'MMM D, YYYY');
+  const dateText = getTaskCardDate(dueDate);
   const TaskIcon = iconDict[taskType.task_translation_key];
 
   return (

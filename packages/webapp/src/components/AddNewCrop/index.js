@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Semibold } from '../Typography';
-import Input from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 //import styles from './styles.module.scss';
 import Form from '../Form';
 import { Controller, useForm } from 'react-hook-form';
@@ -51,7 +51,7 @@ export default function PureAddNewCrop({
     defaultValues: { ...persistedFormData },
   });
   const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [
@@ -97,6 +97,7 @@ export default function PureAddNewCrop({
         style={{ marginBottom: '40px' }}
         label={'New Crop Name'} //TODO: i18n
         hookFormRegister={register('crop_common_name', { required: true })}
+        errors={getInputErrors(errors, 'crop_common_name')}
       />
 
       <Controller

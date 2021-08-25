@@ -5,6 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/managemen
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';
+import { getShortLocalizedDateString } from '../../../util/moment';
 
 const cropStatus = {
   active: 'Active',
@@ -25,23 +26,15 @@ export default function PureManagementPlanTile({
   style,
   cropCount,
   children,
+  isSelected,
 }) {
   const { t } = useTranslation();
   const {
     crop_variety_name,
     crop_translation_key,
-    seed_date,
-    harvest_date,
     crop_variety_photo_url,
+    start_date,
   } = managementPlan;
-  let displayDate;
-  const date = new Date(seed_date);
-  if (isPast(status)) {
-    displayDate = date.getFullYear();
-  } else if (isPlanned(status)) {
-    const parts = date.toDateString().split(' ');
-    displayDate = `${parts[1]} ${parts[2]} '${parts[3].slice(-2)}`;
-  }
 
   const imageKey = crop_translation_key.toLowerCase();
   return (
@@ -53,22 +46,17 @@ export default function PureManagementPlanTile({
       alt={imageKey}
       title={crop_variety_name}
       isPastVariety={isPast(status)}
+      isSelected={isSelected}
     >
       <>
         <div className={styles.infoBody} style={{ margin: '2px 0' }}>
           <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
         </div>
         <div style={{ flexGrow: '1' }} />
-        {displayDate && (
+        {start_date && (
           <div className={styles.dateContainer}>
-            <CalendarIcon
-              className={clsx(
-                styles.icon,
-                isPast(status) && styles.pastIcon,
-                isPlanned(status) && styles.plannedIcon,
-              )}
-            />
-            <div className={styles.infoBody}>{displayDate}</div>
+            <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon)} />
+            <div className={styles.infoBody}>{getShortLocalizedDateString(start_date)}</div>
           </div>
         )}
       </>

@@ -34,25 +34,27 @@ class TestEnvironment extends NodeEnvironment {
 }
 
 async function tableCleanup(knex) {
+  await knex('farm').whereNotNull('default_initial_location_id').update({ default_initial_location_id: null });
   return knex.raw(`
     DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";
     DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
-    DELETE FROM "activityFields";
-    DELETE FROM "fieldWorkLog";
+    DELETE FROM "location_tasks";
+    DELETE FROM "field_work_task";
     DELETE FROM "harvestUse";
-    DELETE FROM "harvestLog";
+    DELETE FROM "harvest_task";
     DELETE FROM "harvestUseType";
-    DELETE FROM "irrigationLog";
-    DELETE FROM "activityCrops";
-    DELETE FROM "scoutingLog";
-    DELETE FROM "pestControlLog";
-    DELETE FROM "fertilizerLog";
-    DELETE FROM "seedLog";
-    DELETE FROM "soilDataLog";
-    DELETE FROM "activityLog";
+    DELETE FROM "irrigation_task";
+    DELETE FROM "management_tasks";
+    DELETE FROM "scouting_task";
+    DELETE FROM "pest_control_task";
+    DELETE FROM "soil_amendment_task";
+    DELETE FROM "product";
+    DELETE FROM "plant_task";
+    DELETE FROM "soil_task";
+    DELETE FROM "task";
     DELETE FROM "yield";
     DELETE FROM "cropDisease";
     DELETE FROM "price";
@@ -60,10 +62,11 @@ async function tableCleanup(knex) {
     DELETE FROM "sale";
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
-    DELETE FROM "broadcast";
-    DELETE FROM "container";
-    DELETE FROM "beds";
-    DELETE FROM "transplant_container";
+    DELETE FROM "broadcast_method";
+    DELETE FROM "container_method";
+    DELETE FROM "row_method";
+    DELETE FROM "bed_method";
+    DELETE FROM "planting_management_plan";
     DELETE FROM "crop_management_plan";
     DELETE FROM "management_plan";
     DELETE FROM "crop_variety";
@@ -94,7 +97,7 @@ async function tableCleanup(knex) {
     DELETE FROM "farmExpenseType";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
-    DELETE FROM "taskType";
+    DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
     DELETE FROM "userFarm";
     DELETE FROM "waterBalanceSchedule";

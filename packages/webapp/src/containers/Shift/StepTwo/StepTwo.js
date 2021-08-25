@@ -4,12 +4,12 @@ import moment from 'moment';
 import { userFarmSelector } from '../../userFarmSlice';
 import { resetStepOne, stepOneSelector } from '../../shiftSlice';
 import PureStepTwo from '../../../components/Shift/StepTwo';
-import { toastr } from 'react-redux-toastr';
 import history from '../../../history';
 import { submitShift } from '../actions';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useTranslation } from 'react-i18next';
 import { locationsSelector } from '../../locationSlice';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 function StepTwo() {
   const { t } = useTranslation(['translation', 'message']);
@@ -63,14 +63,14 @@ function StepTwo() {
       let isLocation = mutatingFinalForm[key].is_location;
       let val_num = vals.length;
       if (val_num === 0) {
-        toastr.error(t('message:SHIFT.ERROR.CROP_FIELDS_EACH'));
+        dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.CROP_FIELDS_EACH')));
         return;
       }
       let valIterator = 0;
       for (let val of vals) {
         if (isLocation) {
           if (!Number.isInteger(Number(mutatingFinalForm[key].duration))) {
-            toastr.error(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
+            dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS')));
             return;
           }
 
@@ -128,11 +128,11 @@ function StepTwo() {
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
-                toastr.error(t('message:SHIFT.ERROR.DURATION_FOR_CROPS'));
+                dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.DURATION_FOR_CROPS')));
                 return;
               }
               if (!Number.isInteger(Number(cdObj.duration))) {
-                toastr.error(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
+                dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS')));
                 return;
               }
               if (cdObj.crop_id === val.id) {
@@ -140,7 +140,7 @@ function StepTwo() {
               }
             }
           } else {
-            toastr.error(t('message:SHIFT.ERROR.SUBMIT_SHIFT'));
+            dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.SUBMIT_SHIFT')));
             return;
           }
 

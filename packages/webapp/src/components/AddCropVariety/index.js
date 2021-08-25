@@ -35,13 +35,13 @@ export default function PureAddCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         crop.crop_photo_url ||
-        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/default.jpg`,
+        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v1/default.webp`,
       ...persistedFormData,
     },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`, '/crop/new'];
 
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
 
   const VARIETY = 'crop_variety_name';
   const SUPPLIER = 'supplier';
@@ -119,7 +119,7 @@ export default function PureAddCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'Supplier'}
+        label={t('CROP_VARIETIES.SUPPLIER')}
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}

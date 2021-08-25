@@ -4,10 +4,10 @@ import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { convertToMetric } from '../../../util';
-import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
+import { enqueueErrorSnackbar } from '../../../containers/Snackbar/snackbarSlice';
 
 export default function PureHarvestAllocation({
   onGoBack,
@@ -58,7 +58,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
+      dispatch(enqueueErrorSnackbar(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL')));
     }
   };
   const handleChange = (typeName, quant) => {
@@ -121,6 +121,7 @@ export default function PureHarvestAllocation({
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
                 hookFormRegister={register(type.harvest_use_type_name, { required: true })}
+                errors={getInputErrors(errors, type.harvest_use_type_name)}
               />
             </div>
           );

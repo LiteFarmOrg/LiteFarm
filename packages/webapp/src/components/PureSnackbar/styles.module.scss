@@ -39,6 +39,7 @@
   box-sizing: border-box;
   @include smallShadow2();
   border-radius: 4px;
+  flex-grow: 1;
 }
 
 .success.container {
@@ -46,8 +47,13 @@
 }
 
 .error.container {
-  background: var(--red400);
+  background: white;
+}
 
+.errorIcon {
+  font-size: 20px;
+  color: var(--red700);
+  transform: translateY(4px);
 }
 
 

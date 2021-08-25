@@ -84,5 +84,13 @@
     "GREETING": "Tenha um ótimo dia!",
     "SUBJECT0": "Aqui está o mapa de sua fazenda para",
     "SUBJECT1": "em LiteFarm"
+  },
+  "EXPORT": {
+    "HI": "EXPORT.HI",
+    "SEASON": "EXPORT.SEASON",
+    "CERTIFICATION": "EXPORT.CERTIFICATION",
+    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
+    "SUBJECT": "EXPORT.SUBJECT",
+    "PRIVACY": "EXPORT.PRIVACY"
   }
 }

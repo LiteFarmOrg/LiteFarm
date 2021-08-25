@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
-import { reducer as toastrReducer } from 'react-redux-toastr';
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import insightReducer from '../containers/Insights/reducer';
@@ -45,23 +44,25 @@ import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
 
-import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
-import managementPlanReducer from '../containers/managementPlanSlice';
+import taskReducer from '../containers/taskSlice';
+import taskTypeReducer from '../containers/taskTypeSlice';
+import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
-import organicCertifierSurveyReducer from '../containers/OrganicCertifierSurvey/organicCertifierSurveySlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import filterReducer from '../containers/filterSlice';
-import transplantContainerReducer from '../containers/transplantContainerSlice';
-import containerReducer from '../containers/containerSlice';
-import bedsReducer from '../containers/bedsSlice';
-import rowsReducer from '../containers/rowsSlice';
-import broadcastReducer from '../containers/broadcastSlice';
+import managementPlanReducer from '../containers/managementPlanSlice';
+import cropManagementPlanReducer from '../containers/cropManagementPlanSlice';
+import plantingManagementPlanReducer from '../containers/plantingManagementPlanSlice';
+import containerMethodReducer from '../containers/containerMethodSlice';
+import bedMethodReducer from '../containers/bedMethodSlice';
+import rowMethodReducer from '../containers/rowMethodSlice';
+import broadcastMethodReducer from '../containers/broadcastMethodSlice';
 import documentReducer from '../containers/documentSlice';
 import certificationReducer from '../containers/OrganicCertifierSurvey/certificationSlice';
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
@@ -141,7 +142,6 @@ const entitiesReducer = combineReducers({
   rolesReducer,
   cropReducer,
   cropVarietyReducer,
-  managementPlanReducer,
   weatherReducer,
   barnReducer,
   ceremonialReducer,
@@ -158,14 +158,19 @@ const entitiesReducer = combineReducers({
   gateReducer,
   waterValveReducer,
   showedSpotlightReducer,
-  transplantContainerReducer,
-  containerReducer,
-  bedsReducer,
-  rowsReducer,
-  broadcastReducer,
+  managementPlanReducer,
+  cropManagementPlanReducer,
+  plantingManagementPlanReducer,
+  containerMethodReducer,
+  bedMethodReducer,
+  rowMethodReducer,
+  broadcastMethodReducer,
   documentReducer,
   certifierReducer,
   certificationReducer,
+  taskReducer,
+  taskTypeReducer,
+  productReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -176,18 +181,15 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
-  shiftStepReducer,
   logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,
-  organicCertifierSurveyReducer,
   filterReducer,
   snackbarReducer,
 });
 
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
-  toastr: toastrReducer,
   profileForms: combineForms(
     {
       addInfo: addUserInfo,

@@ -4,14 +4,15 @@ import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../../Form/Radio';
-import Input from '../../../Form/Input';
+import Input, { getInputErrors } from '../../../Form/Input';
 import { gardenEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getDateInputFormat, getPersistPath } from '../../utils';
+import { getPersistPath } from '../../utils';
+import { getDateInputFormat } from '../../../../util/moment';
 
 export default function PureGarden({
   history,
@@ -53,7 +54,7 @@ export default function PureGarden({
   });
   const {
     persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
@@ -184,6 +185,7 @@ export default function PureGarden({
                 hookFormRegister={register(gardenEnum.transition_date, { required: true })}
                 style={{ paddingTop: '16px', paddingBottom: '20px' }}
                 disabled={isViewLocationPage}
+                errors={getInputErrors(errors, gardenEnum.transition_date)}
               />
             )}
           </div>

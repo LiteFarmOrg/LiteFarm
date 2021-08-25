@@ -5,6 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/managemen
 import PropTypes from 'prop-types';
 import { ImageWithAuthentication } from '../../ImageWithAuthentication';
 import { useTranslation } from 'react-i18next';
+import { DocumentIcon } from '../../../components/Icons/DocumentIcon';
 
 export default function PureDocumentTile({
   className,
@@ -14,35 +15,44 @@ export default function PureDocumentTile({
   preview,
   onClick,
   noExpiration,
+  extensionName,
   imageComponent = (props) => <ImageWithAuthentication {...props} />,
 }) {
-
   const { t } = useTranslation();
 
   return (
     <div className={clsx(styles.container, className)} onClick={onClick}>
-      {imageComponent({
-        className: styles.img,
-        src: preview,
-      })}
-      <div className={styles.info}>
-        <div className={styles.title} style={{marginBottom: '4px'}}>
-          {title}
+      {preview ? (
+        imageComponent({
+          className: styles.img,
+          src: preview,
+        })
+      ) : (
+        <div className={styles.documentIconContainer}>
+          <DocumentIcon extensionName={extensionName} />
         </div>
-        {type && (
-          <>
-            <div
-              className={styles.type}
-              style={{
-                marginTop: '4px',
-                marginBottom: date ? '4px' : '8px',
-              }}
-            >
-              {t(`DOCUMENTS.TYPE.${type}`)}
-            </div>
-          </>
-        )}
-        {date && !noExpiration &&  (
+      )}
+      <div className={styles.info}>
+        <div>
+          <div className={styles.title} style={{ marginBottom: '4px' }}>
+            {title}
+          </div>
+          {type && (
+            <>
+              <div
+                className={styles.type}
+                style={{
+                  marginTop: '4px',
+                  marginBottom: date ? '4px' : '8px',
+                }}
+              >
+                {t(`DOCUMENTS.TYPE.${type}`)}
+              </div>
+            </>
+          )}
+        </div>
+
+        {date && !noExpiration && (
           <>
             <div className={styles.date} style={{ marginBottom: '8px' }}>
               {<CalendarIcon className={styles.calendar} />}
@@ -62,4 +72,5 @@ PureDocumentTile.prototype = {
   date: PropTypes.string,
   preview: PropTypes.string,
   onClick: PropTypes.func,
+  extensionName: PropTypes.string,
 };

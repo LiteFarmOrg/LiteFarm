@@ -1,25 +1,29 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
+  },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "FAILED_ARCHIVE": "MISSING",
+      "CREATE": "No se pudo crear el documento",
+      "FAILED_ARCHIVE": "No se pudo archivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
       "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ARCHIVE": "MISSING",
-      "CREATE": "MISSING",
+      "ARCHIVE": "Documento archivado exitosamente",
+      "CREATE": "Documento creado exitosamente",
       "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "No se pudo eliminar la variedad de cultivo",
+      "UPDATE": "No se pudo actualizar la variedad de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "Cultivo eliminado exitosamente",
+      "UPDATE": "Cultivo actualizado exitosamente"
     }
   },
   "CROP": {
@@ -30,11 +34,6 @@
     "SUCCESS": {
       "DELETE": "Cultivo borrado exitosamente",
       "EDIT": "Cultivo editado exitosamente"
-    }
-  },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio"
     }
   },
   "EXPENSE": {
@@ -62,15 +61,6 @@
   "FERTILIZER": {
     "ERROR": {
       "ADD": "Nose pudo agregar fertilizante"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "El nombre de campo no puede quedar vacío",
-      "UPDATE_NAME": "No se pudo actualizar nombre del campo"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Nombre del campo cambiado exitosamente"
     }
   },
   "LOG_HARVEST": {
@@ -103,10 +93,14 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "POST": "MISSING"
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "No se pudo agregar plan de manejo"
     },
     "SUCCESS": {
-      "POST": "MISSING"
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "Plan de manejo agregado exitosamente"
     }
   },
   "MAP": {
@@ -116,14 +110,10 @@
     "SUCCESS_PATCH": " se actualizo exitosamente",
     "SUCCESS_POST": " se creo exitosamente"
   },
-  "NEW_FIELD_CROP": {
+  "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "GENERAL": "No se pudo agregar campo de cultivo a la base de datos",
-      "NOT_FILLED": "Esto no esta completado",
-      "VARIETY_EXISTS": "Un cultivo con ese nombre de variedad ya existe. Por favor intente otro."
-    },
-    "SUCCESS": {
-      "SAVE": "Cultivo ingresado exitosamente!"
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {
@@ -153,6 +143,20 @@
       "ADD": "Nuevo turno agregado exitosamente!",
       "DELETE": "Borrar turno!",
       "UPDATE": "Turno agregado exitosamente!"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "USER": {

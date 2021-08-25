@@ -25,6 +25,7 @@ const LocationController = {
         const isDeleted = await baseController.delete(LocationModel, location_id, req);
         return res.sendStatus(isDeleted ? 200 : 400);
       } catch (error) {
+        console.log(error);
         return res.status(400).json({
           error,
         });

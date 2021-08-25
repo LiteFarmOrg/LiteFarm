@@ -64,3 +64,17 @@ Multi.args = {
   defaultMenuIsOpen: true,
   isMulti: true,
 };
+export const Creatable = Template.bind({});
+Creatable.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  creatable: true,
+};
+export const Disabled = Template.bind({});
+Disabled.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  isDisabled: true,
+};

@@ -12,8 +12,88 @@
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
+  "ADD_PRODUCT": {
+    "PRESS_ENTER": "Type and press enter to add...",
+    "PRODUCT_LABEL": "Product",
+    "QUANTITY": "Quantity",
+    "SUPPLIER_LABEL": "Supplier"
+  },
+  "ADD_TASK": {
+    "ADD_A_TASK": "Add a task",
+    "AFFECT_CROPS": "Will this task affect any crops?",
+    "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
+    "ASSIGN_TASK": "Assign task",
+    "ASSIGNEE": "Assignee",
+    "CANCEL": "task creation",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "Estimated water usage",
+      "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
+      "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
+      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used"
+    },
+    "CLEAR_ALL": "Clear all",
+    "CLEAR_ALL_CROPS": "Clear all crops",
+    "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
+    "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
+      "TYPE_OF_FIELD_WORK": "Type of field work",
+      "TYPE": {
+        "COVERING_SOIL": "Covering soil",
+        "FENCING": "Fencing",
+        "OTHER": "Other",
+        "PREPARING_BEDS_OR_ROWS": "Preparing beds or rows",
+        "PRUNING": "Pruning",
+        "SHADE_CLOTH": "Shade cloth",
+        "TERMINATION": "Termination",
+        "TILLAGE": "Tillage",
+        "WEEDING": "Weeding"
+      }
+    },
+    "HR": "/hr",
+    "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "Biological control",
+      "FLAME_WEEDING": "Flame weeding",
+      "FOLIAR_SPRAY": "Foliar spray",
+      "HAND_WEEDING": "Hand weeding",
+      "IS_PERMITTED": "Is the pest agent in the permitted substances list?",
+      "OTHER": "Other",
+      "OTHER_PEST": "Other method",
+      "PEST_CONTROL_METHOD": "Pest control method",
+      "HEAT_TREATMENT": "Pruning",
+      "SOIL_FUMIGATION": "Soil fumigation",
+      "SYSTEMIC_SPRAY": "Systemic spray",
+      "TRAPS": "Traps",
+      "WHAT_PESTS": "What pest(s) are you trying to control"
+    },
+    "SELECT_ALL": "Select all",
+    "SELECT_ALL_CROPS": "Select all crops",
+    "SELECT_TASK_TYPE": "Select task type",
+    "SOIL_AMENDMENT_VIEW": {
+      "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
+      "MOISTURE_RETENTION": "Moisture retention",
+      "NUTRIENT_AVAILABILITY": "Nutrient availability",
+      "OTHER": "Other",
+      "OTHER_PURPOSE": "Describe the purpose",
+      "PH": "pH",
+      "PURPOSE": "Purpose",
+      "STRUCTURE": "Structure"
+    },
+    "TASK": "task",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
+    "WAGE_OVERRIDE": "Wage override"
+  },
+  "BED_PLAN": {
+    "LENGTH_OF_BED": "Length of beds",
+    "NUMBER_0F_BEDS": "# of beds",
+    "NUMBER_OF_ROWS": "# of rows in bed",
+    "PLANT_SPACING": "Plant spacing",
+    "PLANTING_DETAILS": "Please specify planting details"
+  },
   "BROADCAST_PLAN": {
     "AREA_USED": "Area used",
+    "HISTORICAL_PERCENTAGE_LOCATION": "What percent of the location was planted?",
     "LOCATION_SIZE": "Location size",
     "PERCENTAGE_LABEL": "% of location",
     "PERCENTAGE_LOCATION": "What percent of the location are you planting?",
@@ -21,9 +101,24 @@
     "SEEDING_RATE": "Seeding rate"
   },
   "CANCEL_FLOW_MODAL": {
-    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?"
+    "BODY": "Any information you’ve entered will be discarded. Do you want to proceed?",
+    "TITLE": "Cancel your {{flow}}?"
   },
   "CERTIFICATION": {
+    "CERTIFICATION_EXPORT": {
+      "ADD": "Add a certification",
+      "CHANGE_CERTIFICATION_PREFERENCE": "change your certification preferences",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Change your certification preferences",
+      "NO_CERTIFICATIONS": "You are not currently pursuing any certifications.",
+      "NO_LONGER_WORKING": "No longer pursuing this certification or working with this certifier? No problem!",
+      "SUPPORTED_CERTIFICATION_ONE": "You are pursuing ",
+      "SUPPORTED_CERTIFICATION_TWO": " certification from:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "to see if there are new certifiers available in your area.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "You've requested",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certification from",
+      "UPDATE_SUCCESS": "Certification preferences saved"
+    },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Request another type of certification",
       "SUBTITLE_ONE": "Here's a list of",
@@ -41,7 +136,6 @@
     "INTERESTED_IN_CERTIFICATION": {
       "PARAGRAPH": "Do you plan to pursue or renew a certification this season?",
       "TITLE": "Interested in certifications?",
-      "WHY": "Why are we asking this?",
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
     "REQUEST_CERTIFIER": {
@@ -61,14 +155,28 @@
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
     },
-    "VIEW_CERTIFICATION": {
-      "ADD_CERTIFICATION": "Add a certification",
-      "CHANGE_PREFERENCE": "Change your certification preferences",
-      "EXPORT": "Export",
-      "NO_SUPPORT_FIRST": "LiteFarm doesn’t currently generate documents for this certifier. However, we can export generic forms that are useful for most certifiers. You can select Export to create these forms or ",
-      "NO_SUPPORT_SECOND": " to see if there are new certifiers available in your area."
-    },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
+  "CERTIFICATIONS": {
+    "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL": "Email",
+    "EMAIL_ERROR": "Valid email required",
+    "EXPORT": "Export",
+    "EXPORT_DOCS": "Export certification docs",
+    "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
+    "FLOW_TITLE": "certification documents export",
+    "FROM": "From",
+    "GOOD_NEWS": "Good news!",
+    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
+    "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
+    "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
+    "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
+    "SELECT_REPORTING_PERIOD": "Select your reporting period",
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "UH_OH": "Uh oh!",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
+    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -143,6 +251,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinate",
     "HARVEST": "Harvest",
+    "PLANT": "Plant",
     "SEED": "Seed",
     "TERMINATE": "Terminate",
     "TRANSPLANT": "Transplant"
@@ -156,7 +265,8 @@
       "RETIRE_CROP_TITLE": "Retire crop?",
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
-    }
+    },
+    "SUPPLIER": "MISSING"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",
@@ -220,7 +330,7 @@
       "FERTILIZING_PRODUCT": "Fertilizing product",
       "OTHER": "Other",
       "PEST_CONTROL_PRODUCT": "Pest control product",
-      "SOIL_AMENDMENT": "Soil Amendment"
+      "SOIL_AMENDMENT": "Soil amendment"
     },
     "VALID": "Valid"
   },
@@ -460,84 +570,9 @@
     }
   },
   "FIELDS": {
-    "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
-      "CROP": {
-        "ADD_NEW_CROP_OR_VARIETY": "Add New Crop or Variety",
-        "AREA_USED": "Area Used",
-        "AREA_USED_HECTARE": "Area used in hectare",
-        "AREA_USED_IN": "Area Used in",
-        "BED": "bed",
-        "BED_LENGTH": "Bed Length",
-        "BED_WIDTH": "Bed Width",
-        "BY_AREA": "By Area",
-        "BY_BEDS": "By Bed",
-        "CHOOSE_END_DATE": "Choose end date",
-        "CHOOSE_START_DATE": "Choose start date",
-        "CROP_COMMON_NAME": "Common Name",
-        "CROP_GROUP_INFO": "Crop Group Info",
-        "CROP_GROUP_SUBGROUP": "Crop Group and Subgroup",
-        "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
-        "EDIT_CROP_DETAIL": "Edit Crop Detail",
-        "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
-        "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
-        "END_DATE": "End Date",
-        "ENTER_CROP_DETAILS": "Enter Crop Details",
-        "ENTER_START_FINISH": "Enter start and finish dates",
-        "ESTIMATED_PRICE": "Estimated price",
-        "ESTIMATED_PRODUCTION": "Estimated Production",
-        "ESTIMATED_REVENUE": "Estimated Revenue",
-        "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
-        "FIELD_SIZE": "Field size",
-        "GENUS": "Genus",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
-        "NEW_CROP": "New Crop",
-        "NEW_CROP_INFOBOX": "If you have information on the details of your crop or variety such as it’s nutrient content, or physiological traits, you can edit them here.",
-        "NEW_CROP_VARIETY": "New Crop or Variety",
-        "NEW_FIELD_CROP": "New Field Crop",
-        "NO_DATA": "No Data",
-        "NUMBER_EXPIRED": "Number of Expired Crops",
-        "NUMBER_OF_BEDS": "Number of Beds",
-        "NUTRIENT_LABEL": "Nutrients in Edible Portion (per 100g)",
-        "PERCENTAGE": "Percentage",
-        "REMOVE_CROP": "Remove crop",
-        "SELECT_CROP_GROUP": "Select crop group",
-        "SELECT_CROP_SUBGROUP": "Select crop subgroup",
-        "SELECT_CROP_TEMPLATE": "Select a crop template",
-        "SPECIES": "Species",
-        "START_DATE": "Start Date",
-        "VARIETY_NAME": "Variety Name"
-      },
-      "DELETE_FIELD": "Delete Field",
-      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
-      "EDIT_NAME": "Edit Field Name",
-      "NAME": "Field Name",
-      "NUMBER_CROPS": "Number of Crops",
-      "SELECT": "Select...",
-      "TITLE": "Edit Field",
-      "TOTAL_AREA": "Total Area",
-      "VARIETY": "Variety",
-      "DELETE_FIELD_CONFIRM": "I would like to delete this field."
-    },
-    "EXPLORE": "Explore Your Fields",
-    "LIST": "List",
-    "MAP": "Map",
-    "NEW_FIELD": {
-      "DRAW": "Draw",
-      "FIELD_NAME": "Field Name",
-      "FIELD_NAME_PLACEHOLDER": "Enter Field Name",
-      "REDRAW": "Redraw",
-      "SAVE_FIELD": "Save Field",
-      "SEARCH_BOX_PLACEHOLDER": "Search",
-      "TITLE": "New Field (2 of 2)",
-      "ZERO_AREA_DETECTED": "Field with no area detected. Please draw again."
-    },
-    "TABLE": {
-      "AREA": "Area",
-      "EDIT": "Edit",
-      "FIELD_NAME": "Field Name"
-    },
-    "TITLE": "Fields"
+      "VARIETY": "Variety"
+    }
   },
   "FILE_SIZE_MODAL": {
     "BODY": "Files can not exceed 25MB or 5 pages.",
@@ -884,65 +919,149 @@
     "TITLE": "Soil Data Log",
     "TOTAL_CARBON": "Total Carbon"
   },
+  "MANAGEMENT_DETAIL": {
+    "ABANDON_PLAN": "Abandon this management plan",
+    "ADD_A_TASK": "Add a task",
+    "ASSOCIATED_TASKS": "Associated tasks",
+    "EDIT_PLAN": "Edit plan",
+    "FAILED_CROP": "Failed crop?",
+    "PLAN_NOTES": "Plan notes"
+  },
   "MANAGEMENT_PLAN": {
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandoning this management plan will abandon all the incomplete tasks associated with it and remove it from your farm map.",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandon mangement plan?",
     "ADD_MANAGEMENT_PLAN": "Add a management plan",
     "AGE": "Age",
     "AS_COVER_CROP": "As cover crop",
     "BEDS": "Beds",
     "BROADCAST": "Broadcast or drill",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "Abandon plan",
+      "ABANDON_REASON": "Reason for abandoning",
+      "COMPLETE_PLAN": "Complete plan",
+      "DATE_OF_CHANGE": "Date of status change",
+      "RATING": "Rate this management plan",
+      "REASON": {
+        "CROP_FAILURE": "Crop failure",
+        "LABOUR_ISSUE": "Labour issue",
+        "MACHINERY_ISSUE": "Machinery issue",
+        "MARKET_PROBLEM": "Market problem",
+        "SCHEDULING_ISSUE": "Scheduling issue",
+        "SOMETHING_ELSE": "Something else",
+        "WEATHER": "Weather"
+      },
+      "WHAT_HAPPENED": "What happened?"
+    },
     "CONTAINER": "Container",
     "CONTAINER_OR_IN_GROUND": "Are you planting in a container or in ground?",
     "CONTAINER_TYPE": "Type of container",
     "COVER_INFO": "Selecting cover crop will create a field work task to terminate the cover crop at the end of the season. Selecting for harvest will create a harvest task instead.",
     "COVER_OR_HARVEST": "Is this being grown as a cover crop or for harvest?",
+    "DAYS_FROM_PLANTING": "Days from planting to:",
     "DAYS_FROM_SEEDING": "Days from seed to:",
+    "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
+    "DAYS_TO_TERMINATION": "Days from transplant to termination:",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAILS_SPOTLIGHT_1": "Edit your crop details",
     "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
+    "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
+      "TITLE": "Congrats! You’ve made your first management plan!"
+    },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
     "HARVEST": "Harvest",
+    "HARVEST_DATE": "When do you expect your next harvest?",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
+    "INCOMPLETE_TASK_CONTENT": "This plan has tasks that aren’t completed yet. You’ll need to mark the tasks complete in order to complete this crop management plan.",
+    "INCOMPLETE_TASK_TITLE": "You have incomplete tasks",
     "INDIVIDUAL_CONTAINER": "Individual or container",
     "IS_TRANSPLANT": "Will this crop be transplanted?",
+    "KNOW_HOW_IS_CROP_PLANTED": "Do you know how the crop was planted?",
     "LOCATION_SUBTEXT": "Only locations that can grow crops are shown.",
+    "MANAGEMENT_PLAN_FLOW": "management plan creation",
     "MANAGEMENT_SPOTLIGHT_1": "Create new plans for this crop",
     "MANAGEMENT_SPOTLIGHT_2": "View and modify plans for this crop",
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
+    "NEXT_HARVEST": "When do you expect your next harvest?",
     "NUMBER_OF_CONTAINER": "# of containers",
-    "PLAN": "Plan {{count}}",
-    "PLAN_plural": "MISSING",
+    "PENDING_TASK": "Pending tasks",
+    "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Management plan name",
     "PLAN_NOTES": "Plan notes",
     "PLANT_SPACING": "Plant spacing",
     "PLANTED_ALREADY": "Will you be planting this crop or is it already in the ground?",
     "PLANTING": "Planting",
     "PLANTING_DATE": "What is your planting date?",
+    "PLANTING_DATE_INFO": "Seeding date based on crop age: {{seed_date}}",
+    "PLANTING_DATE_LABEL": "Planting date",
     "PLANTING_DEPTH": "Planting depth",
     "PLANTING_METHOD": "What is your planting method?",
     "PLANTING_METHOD_TOOLTIP": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "PLANTING_NOTE": "Planting notes",
-    "PLANTING_SOIL": "Planting soil to be used ",
+    "PLANTING_SOIL": "Planting soil to be used",
     "PLANTS_PER_CONTAINER": "# of plants/container",
+    "REMOVE_PIN": "Remove pin",
+    "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "Were the rows all the same length?",
+      "LENGTH_OF_ROW": "Length of row",
+      "NUMBER_OF_ROWS": "# of rows",
+      "SAME_LENGTH": "Are your rows all the same length?",
+      "TOTAL_LENGTH": "Total length of rows"
+    },
     "ROWS": "Rows",
+    "SEED_DATE": "What is your seeding date?",
     "SEED_OR_SEEDLING": "How will you plant this crop?",
+    "SEEDING_DATE": "Seeding date",
     "SEEDLING": "Seedling or planting stock",
     "SEEDLING_AGE": "What age is the the seedling or planting stock?",
     "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
-    "SELECT_PLANTING_LOCATION": "Where is your planting location?",
-    "SELECT_STARTING_LOCATION": "Where is your starting location?",
+    "SELECT_A_PLANTING_LOCATION": "Select a planting location",
+    "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
+    "SELECT_CURRENT_LOCATION": "Select the crop's current location",
+    "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
+    "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
+    "TERMINATION_DATE": "When will you terminate this crop?",
     "TOTAL_PLANTS": "# of plants",
     "TRANSPLANT": "Transplant",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "TRANSPLANT_DATE": "What is your transplant date?",
+    "TRANSPLANT_SPOTLIGHT": {
+      "BODY": {
+        "PLANTED": "planted",
+        "SEEDED": "seeded",
+        "TEXT": "Please indicate where this crop will be initially <1>{{fill}}</1>. We’ll ask about where you’ll transplant it to later."
+      },
+      "TITLE": {
+        "PLANTING": "Planting",
+        "SEEDING": "Seeding",
+        "TEXT": "{{fill}} location"
+      }
+    },
+    "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
-    "WILD_CROP": "Are you harvesting a wild crop?"
+    "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
+    "WHERE_START_LOCATION": "Where is your starting location?",
+    "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "WILD_CROP": "Are you harvesting a wild crop?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
+    "TRANSPLANT_LOCATION": "Where will you transplant to?",
+    "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",
@@ -981,8 +1100,23 @@
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
   },
+  "PLAN_GUIDANCE": {
+    "ADDITIONAL_GUIDANCE": "Is there additional guidance you want to provide for this seeding task?",
+    "BED": "Bed",
+    "BEDS": "beds",
+    "NOTES": "Planting notes",
+    "PLANTING_DEPTH": "Planting depth",
+    "ROW": "Row",
+    "ROWS": "rows",
+    "SPACE_BETWEEN": "Space between {{types}}",
+    "SPECIFY": "Specify {{types}}",
+    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
+    "TOOLTIP": "The first 40 characters of this field will display anywhere your management plan is visible.",
+    "WIDTH": "{{type}} width",
+    "WORD_LIMIT": "Only {{limit}} characters can be displayed"
+  },
   "PREPARING_EXPORT": {
-    "MESSAGE": "LiteFarm is putting together your certification documents now and you’ll receive an email when we’re done. It may take a few minutes...",
+    "MESSAGE": "LiteFarm is putting together your certification documents in the background and you’ll receive an email when we’re done - it could take a few minutes... You can click outside this box to continue using LiteFarm without interrupting the process.",
     "TITLE": "Your export is being prepared"
   },
   "PROFILE_FLOATER": {
@@ -1041,7 +1175,8 @@
     }
   },
   "REACT_SELECT": {
-    "CLEAR_ALL": "Clear all"
+    "CLEAR_ALL": "Clear all",
+    "CLEAR": "Clear"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
@@ -1233,9 +1368,8 @@
     "DOCUMENTS": "Documents",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
-    "LOGS": "Logs",
     "MANAGE": "Manage",
-    "SHIFTS": "Shifts"
+    "TASKS": "Tasks"
   },
   "STATUS": {
     "ACTIVE": "Active",
@@ -1257,14 +1391,69 @@
     "PREVIOUS_TEXT": "Previous",
     "ROWS_TEXT": "rows"
   },
+  "TASK": {
+    "ABANDON_TASK": "Abandon this task",
+    "ABANDON": {
+      "ABANDON": "Abandon",
+      "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
+      "NOTES": "Task abandonment notes",
+      "REASON_FOR_ABANDONMENT": "Reason for abandoning",
+      "REASON": {
+        "CROP_FAILURE": "Crop failure",
+        "LABOUR_ISSUE": "Labour issue",
+        "MACHINERY_ISSUE": "Machinery issue",
+        "MARKET_PROBLEM": "Market problem",
+        "OTHER": "Other",
+        "SCHEDULING_ISSUE": "Scheduling issue",
+        "WEATHER": "Weather"
+      },
+      "TITLE": "Abandon task",
+      "WHAT_HAPPENED": "What happened?"
+    },
+    "ADD_TASK": "Create a task",
+    "ADD_TASK_FLOW": "task creation",
+    "ALL": "All",
+    "CARD": {
+      "MULTIPLE_CROPS": "Multiple crops",
+      "MULTIPLE_LOCATIONS": "Multiple locations"
+    },
+    "COMPLETE_TASK": "Complete task",
+    "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
+    "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
+    "COMPLETION_NOTES": "Task completion notes",
+    "DETAILS": "Details",
+    "DID_YOU_ENJOY": "Did you enjoy this task?",
+    "DUE_DATE": "Due date",
+    "DURATION": "Duration",
+    "EDIT_TASK": "Edit Task",
+    "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
+    "PAGE_TITLE": "Tasks",
+    "PREFER_NOT_TO_SAY": "I prefer not to say",
+    "PROVIDE_RATING": "Provide a rating",
+    "SELECT_DATE": "Select the task date",
+    "SELECT_TASK_LOCATIONS": "Select the task location(s)",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "COMPLETED": "Completed",
+      "FOR_REVIEW": "For Review",
+      "LATE": "Late",
+      "PLANNED": "Planned"
+    },
+    "LOCATIONS": "Location(s)",
+    "TASK": "task",
+    "TASKS_COUNT": "{{count}} task",
+    "TASKS_COUNT_plural": "{{count}} tasks",
+    "TODO": "To do",
+    "UNASSIGNED": "Unassigned"
+  },
   "UNIT": {
-    "INVALID_NUMBER": "Invalid number",
-    "MAXIMUM": "Maximum value exceeded",
     "TIME": {
-      "WEEK": "weeks",
+      "DAY": "days",
       "MONTH": "months",
+      "WEEK": "weeks",
       "YEAR": "years"
-    }
+    },
+    "VALID_VALUE": "Please enter a value between 0-"
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

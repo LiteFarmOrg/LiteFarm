@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { figureProperties, lineProperties, locationProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
+import { pick } from '../util/pick';
 
 const fenceProperties = ['pressure_treated', 'location_id'];
 export const getLocationObjectFromFence = (data) => {

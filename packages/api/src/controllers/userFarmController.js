@@ -67,7 +67,7 @@ const userFarmController = {
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
         let rows;
-        if (userFarm.role_id == 3) {
+        if (userFarm.role_id === 3) {
           rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
             'users.first_name',
             'users.last_name',
@@ -135,11 +135,30 @@ const userFarmController = {
       try {
         const user_id = req.params.user_id;
         const farm_id = req.params.farm_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        res.status(200).send(rows);
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id === 3) {
+          rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status',
+            'userFarm.farm_id',
+            'userFarm.user_id',
+          ).where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id');
+        } else {
+          rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         res.status(400).send(error);

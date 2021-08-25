@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Label, Main } from '../../Typography';
@@ -13,17 +13,17 @@ import convert from 'convert-units';
 import Unit, { getUnitOptionMap } from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
+import { getBroadcastMethodPaths } from '../getAddManagementPlanPath';
 
 function PureBroadcastPlan({
-  handleContinue,
   persistedFormData,
   useHookFormPersist,
   system,
-  onGoBack,
-  onCancel,
-  persistedPaths,
+  variety_id,
+  history,
   locationSize,
   yieldPerArea,
+  isFinalPage,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -33,35 +33,39 @@ function PureBroadcastPlan({
     watch,
     control,
     setValue,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
-    mode: 'onBlur',
+    mode: 'onChange',
   });
+  useHookFormPersist(getValues);
+
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
+  const [initialSeedingRate, setInitialSeedingRate] = useState(null);
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
-  const PERCENTAGE_PLANTED = 'broadcast.percentage_planted';
-  const SEEDING_RATE = 'broadcast.seeding_rate';
-  const AREA_USED = 'broadcast.area_used';
-  const AREA_USED_UNIT = 'broadcast.area_used_unit';
-  const ESTIMATED_YIELD = 'broadcast.estimated_yield';
-  const ESTIMATED_YIELD_UNIT = 'broadcast.estimated_yield_unit';
-  const ESTIMATED_SEED = 'broadcast.required_seeds';
-  const ESTIMATED_SEED_UNIT = 'broadcast.required_seeds_unit';
-  const NOTES = 'broadcast.notes';
+
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isFinalPage ? 'final' : 'initial'
+  }`;
+  const PERCENTAGE_PLANTED = `${prefix}.broadcast_method.percentage_planted`;
+  const SEEDING_RATE = `${prefix}.broadcast_method.seeding_rate`;
+  const AREA_USED = `${prefix}.broadcast_method.area_used`;
+  const AREA_USED_UNIT = `${prefix}.broadcast_method.area_used_unit`;
+  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
+  const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
+  const NOTES = `${prefix}.notes`;
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
-  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED, 100);
-  const seedingRateForm = watch(SEEDING_RATE, persistedFormData?.broadcast?.seeding_rate);
+  const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED);
+  const seedingRateForm = watch(SEEDING_RATE);
   const areaUsed = watch(AREA_USED);
-  const areaUsedUnit = watch(AREA_USED_UNIT, 'm2');
-
-  useHookFormPersist(persistedPaths, getValues);
+  const areaUsedUnit = watch(AREA_USED_UNIT);
 
   const getErrorMessage = (error, min, max) => {
     if (error?.type === 'required') return t('common:REQUIRED');
@@ -79,6 +83,14 @@ function PureBroadcastPlan({
   };
 
   useEffect(() => {
+    if (seedingRateForm) {
+      setInitialSeedingRate(
+        system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2),
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     const areaUsed = (locationSize * percentageOfAreaPlanted) / 100;
     setValue(AREA_USED, areaUsed, shouldValidate);
     setValue(
@@ -87,10 +99,14 @@ function PureBroadcastPlan({
       shouldValidate,
     );
   }, [percentageOfAreaPlanted]);
-
+  const shouldSkipEstimatedValueCalculationRef = useRef(true);
   useEffect(() => {
-    setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
-    setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+    if (shouldSkipEstimatedValueCalculationRef.current) {
+      shouldSkipEstimatedValueCalculationRef.current = false;
+    } else {
+      setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
+      setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+    }
   }, [seedingRateForm, areaUsed]);
 
   useEffect(() => {
@@ -100,6 +116,17 @@ function PureBroadcastPlan({
     }
   }, [areaUsedUnit]);
 
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getBroadcastMethodPaths(variety_id, isFinalPage),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
+  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
+  const isHistoricalPage =
+    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   return (
     <Form
       buttonGroup={
@@ -107,16 +134,21 @@ function PureBroadcastPlan({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
-        value={75}
+        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
+        value={isFinalPage ? 75 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ paddingBottom: '24px' }}>{t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}</Main>
+      <Main style={{ paddingBottom: '24px' }}>
+        {isHistoricalPage
+          ? t('BROADCAST_PLAN.HISTORICAL_PERCENTAGE_LOCATION')
+          : t('BROADCAST_PLAN.PERCENTAGE_LOCATION')}
+      </Main>
       <Input
         hookFormRegister={register(PERCENTAGE_PLANTED, {
           required: true,
@@ -160,7 +192,6 @@ function PureBroadcastPlan({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           style={{ flex: '1 1 0px' }}
@@ -172,6 +203,7 @@ function PureBroadcastPlan({
         onChange={seedingRateHandler}
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
+        defaultValue={initialSeedingRate}
         errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}
       />
       <input
@@ -180,38 +212,34 @@ function PureBroadcastPlan({
       />
 
       {areaUsed > 0 && seedingRateForm > 0 && (
-        <div className={clsx(styles.row, styles.paddingBottom40)} style={{ columnGap: '16px' }}>
+        <div className={clsx(styles.row)} style={{ columnGap: '16px' }}>
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
             name={ESTIMATED_SEED}
             displayUnitName={ESTIMATED_SEED_UNIT}
-            errors={errors[ESTIMATED_SEED]}
+            errors={errors?.broadcast?.required_seeds}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
-            required
-            style={{ flex: '1 1 0px' }}
+            required={false}
           />
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
             name={ESTIMATED_YIELD}
             displayUnitName={ESTIMATED_YIELD_UNIT}
-            errors={errors[ESTIMATED_YIELD]}
+            errors={errors?.broadcast?.estimated_yield}
             unitType={seedYield}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
-            required
-            style={{ flex: '1 1 0px' }}
+            required={isFinalPage}
           />
         </div>
       )}

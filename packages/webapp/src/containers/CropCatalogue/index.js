@@ -7,7 +7,6 @@ import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox'
 import { AddLink, Semibold, Text } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropsSelector } from '../cropSlice';
-import { cropsWithVarietyWithoutManagementPlanSelector } from '../managementPlanSlice';
 import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
@@ -18,15 +17,14 @@ import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
   cropCatalogueFilterDateSelector,
   cropCatalogueFilterSelector,
-  setCropCatalogueFilterDate,
   isFilterCurrentlyActiveSelector,
+  setCropCatalogueFilterDate,
 } from '../filterSlice';
 import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import useFilterNoPlan from './useFilterNoPlan';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 
@@ -37,12 +35,18 @@ export default function CropCatalogue({ history }) {
 
   const [filterString, setFilterString] = useState('');
   const filterStringOnChange = (e) => setFilterString(e.target.value);
-  const { active, planned, past, sum, cropCatalogue } = useCropCatalogue(filterString);
+  const {
+    active,
+    planned,
+    past,
+    sum,
+    cropCatalogue,
+    filteredCropsWithoutManagementPlan,
+  } = useCropCatalogue(filterString);
   const crops = useStringFilteredCrops(
     useSortByCropTranslation(useSelector(cropsSelector)),
     filterString,
   );
-  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(filterString);
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
     dispatch(getCropVarieties());
@@ -94,7 +98,7 @@ export default function CropCatalogue({ history }) {
       )}
 
       <div ref={containerRef}>
-        {!!(sum + filteredCropVarietiesWithoutManagementPlan.length) ? (
+        {!!(sum + filteredCropsWithoutManagementPlan.length) ? (
           <>
             <PageBreak style={{ paddingBottom: '16px' }} label={t('CROP_CATALOGUE.ON_YOUR_FARM')} />
             <CropStatusInfoBox
@@ -104,9 +108,10 @@ export default function CropCatalogue({ history }) {
               setDate={setDate}
             />
             <PureCropTileContainer gap={gap} padding={padding}>
-              {filteredCropVarietiesWithoutManagementPlan.map((cropVariety) => {
+              {filteredCropsWithoutManagementPlan.map((cropVariety) => {
                 const { crop_translation_key, crop_photo_url, crop_id } = cropVariety;
                 const imageKey = cropVariety.crop_translation_key?.toLowerCase();
+
                 return (
                   <PureCropTile
                     key={crop_id}
@@ -128,11 +133,9 @@ export default function CropCatalogue({ history }) {
                   imageKey,
                   crop_photo_url,
                   crop_id,
+                  needsPlan,
                 } = cropCatalog;
-                const noPlanCropIds = new Set(
-                  filteredCropVarietiesWithoutManagementPlan.map(({ crop_id }) => crop_id),
-                );
-                const needsPlan = noPlanCropIds.has(crop_id);
+
                 return (
                   <PureCropTile
                     key={crop_translation_key}

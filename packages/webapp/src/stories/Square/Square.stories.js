@@ -58,3 +58,10 @@ CropTileNeedsPlan.args = {
   color: 'needsPlan',
   isCropTile: true,
 };
+
+export const CropTileCounter = Template.bind({});
+CropTileCounter.args = {
+  color: 'counter',
+  children: 0,
+  isCropTile: true,
+};

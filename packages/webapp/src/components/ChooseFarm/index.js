@@ -69,6 +69,7 @@ export default function PureChooseFarmScreen({
             color={farm.color}
             onClick={farm.color === 'disabled' ? undefined : () => onSelectFarm(farm.farm_id)}
             ownerName={farm.ownerName}
+            key={farm.farm_id}
           />
         );
       })}

@@ -47,7 +47,7 @@ export default function PureWaterValve({
   });
   const {
     persistedData: { name, point, type },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -157,7 +157,6 @@ export default function PureWaterValve({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             optional

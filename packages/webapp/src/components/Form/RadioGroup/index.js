@@ -13,7 +13,7 @@ export default function RadioGroup({
   onBlur,
   name,
   required,
-  shouldUnregister = true,
+  shouldUnregister = false,
   showNotSure = false,
   radios,
   row = false,
@@ -28,11 +28,10 @@ export default function RadioGroup({
     rules: { validate },
     shouldUnregister,
   });
+  //TODO: create issue on HookForm
   useEffect(() => {
-    if (!props.disabled) {
-      field.onChange(field.value);
-    }
-  }, [props.disabled]);
+    field.onChange(field.value);
+  }, []);
 
   const YES = showNotSure ? 'YES' : true;
   const NO = showNotSure ? 'NO' : false;
@@ -130,7 +129,7 @@ RadioGroup.propTypes = {
       style: PropTypes.object,
       label: PropTypes.string,
       defaultChecked: PropTypes.bool,
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
     }),
   ),
 };

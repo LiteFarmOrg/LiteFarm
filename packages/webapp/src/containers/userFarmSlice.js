@@ -150,9 +150,9 @@ const userFarmSlice = createSlice({
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
     },
-    patchFarmSuccess: (state, { payload: farm }) => {
-      const { farm_id, user_id } = farm;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
+    patchFarmSuccess: (state, { payload: userFarm }) => {
+      const { farm_id, user_id } = userFarm;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
     },
     acceptInvitationSuccess: (state, { payload: userFarm }) => {
       addUserFarm(state, { payload: userFarm });
@@ -273,4 +273,10 @@ export const getUserFarmSelector = (farmId, userId) => {
   return createSelector(userFarmReducerSelector, ({ byFarmIdUserId }) =>
     byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {},
   );
+};
+
+export const getNameFromUserIdSelector = (userId) => {
+  return createSelector(userFarmsByFarmSelector, (usersInFarm) => {
+    return usersInFarm.find(({ user_id }) => user_id === userId);
+  });
 };

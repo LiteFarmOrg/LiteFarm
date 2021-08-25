@@ -4,41 +4,31 @@ import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { measurementSelector } from '../../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../../locationSlice';
-import { cropVarietyByID } from '../../../cropVarietySlice';
+import { cropVarietySelector } from '../../../cropVarietySlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function BroadcastPlan({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const location = useSelector(cropLocationByIdSelector(persistedFormData.location_id));
-  const varietyId = match.params.variety_id;
-  const cropVariety = useSelector(cropVarietyByID(varietyId));
+  const variety_id = match.params.variety_id;
+  const cropVariety = useSelector(cropVarietySelector(variety_id));
   const yieldPerArea = cropVariety.yield_per_area || 0;
   const system = useSelector(measurementSelector);
-  const variety_id = match.params.variety_id;
-  const persistedPaths = [
-    `/crop/${variety_id}/add_management_plan/name`,
-    `/crop/${variety_id}/add_management_plan/planting_method`,
-  ];
-  const onCancel = () => {
-    history.push(`/crop/${variety_id}/management`);
-  };
-
-  const onContinue = () => {
-    history.push(persistedPaths[0]);
-  };
-
-  const onBack = () => {
-    history.push(`/crop/${variety_id}/add_management_plan/planting_method`);
-  };
+  const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/broadcast_method';
+  const location = useSelector(
+    cropLocationByIdSelector(
+      persistedFormData.crop_management_plan.planting_management_plans[
+        isFinalPage ? 'final' : 'initial'
+      ].location_id,
+    ),
+  );
 
   return (
     <HookFormPersistProvider>
       <PureBroadcastPlan
-        onCancel={onCancel}
-        handleContinue={onContinue}
-        onGoBack={onBack}
         system={system}
-        persistedPaths={persistedPaths}
+        variety_id={variety_id}
+        history={history}
+        isFinalPage={isFinalPage}
         locationSize={location.total_area}
         yieldPerArea={yieldPerArea}
       />

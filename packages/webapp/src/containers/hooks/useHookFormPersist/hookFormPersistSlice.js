@@ -2,15 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
 import { getUnitOptionMap } from '../../../components/Form/Unit';
 import { cloneObject } from '../../../util';
+import { createSelector } from 'reselect';
 
 export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
+  persistedPaths: [],
 };
 
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
+  persistedPaths: [],
 };
 
 const getCorrectedPayload = (payload) => {
@@ -59,6 +62,9 @@ const hookFormPersistSlice = createSlice({
       state.shouldUpdateFormData = true;
       state.formData = payload;
     },
+    setPersistedPaths: (state, { payload: persistedPaths }) => {
+      state.persistedPaths = persistedPaths;
+    },
     //Prevent useHookPersistUnMount from updating formData after reset
     resetAndLockFormData: (state) => resetState,
     resetAndUnLockFormData: (state) => initialState,
@@ -93,17 +99,24 @@ const hookFormPersistSlice = createSlice({
       ];
       state.formData = formData;
     },
-    setPlantingLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      state.formData.location_id = location_id;
-    },
-    setTransplantContainerLocationIdManagementPlanFormData: (state, { payload: location_id }) => {
-      !state.formData.transplant_container && (state.formData.transplant_container = {});
-      state.formData.transplant_container.location_id = location_id;
+
+    setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
+      state.formData.submission_id = submission_id;
     },
     uploadFileSuccess: onUploadFileSuccess,
     deleteUploadedFile: onDeleteUploadedFile,
     initEditDocument: (state, { payload: files }) => {
       state.formData.uploadedFiles = files;
+    },
+    setCertifierId: (state, { payload: certifier_id }) => {
+      state.formData.certifier_id = certifier_id;
+      delete state.formData.requested_certifier;
+    },
+    setInterested: (state, { payload: interested }) => {
+      state.formData.interested = interested;
+    },
+    setManagementPlansData: (state, { payload: managementPlans }) => {
+      state.formData.managementPlans = managementPlans;
     },
   },
 });
@@ -111,18 +124,27 @@ const hookFormPersistSlice = createSlice({
 export const {
   upsertFormData,
   setFormData,
+  setPersistedPaths,
   resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
   setAreaDetailFormData,
   setLineDetailFormData,
   setPointDetailFormData,
-  setPlantingLocationIdManagementPlanFormData,
-  setTransplantContainerLocationIdManagementPlanFormData,
+  setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
   initEditDocument,
+  setCertifierId,
+  setInterested,
+  setManagementPlansData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
+const hookFormPersistReducerSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name];
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
+export const hookFormPersistedPathsSetSelector = createSelector(
+  [hookFormPersistReducerSelector],
+  (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),
+);

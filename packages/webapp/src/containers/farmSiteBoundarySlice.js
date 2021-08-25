@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
+import { pick } from '../util/pick';
 
 const farmSiteBoundaryProperties = ['location_id'];
 export const getLocationObjectFromFarmSiteBoundary = (data) => {

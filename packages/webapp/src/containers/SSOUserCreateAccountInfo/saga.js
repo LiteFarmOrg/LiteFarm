@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
-import { call, takeLeading, select } from 'redux-saga/effects';
+import { call, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
-import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
+import { getFirstNameLastName } from '../../util';
 import history from '../../history';
 import { axios } from '../saga';
 import { loginSelector } from '../userFarmSlice';

@@ -1,13 +1,11 @@
-import { Semibold, Title } from '../../Typography';
+import { Title, EditLink } from '../../Typography';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import { BsChevronLeft } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { colors } from '../../../assets/theme';
+import { CancelButton } from '../CancelButton';
 
-function PageTitle({ title, onGoBack, onCancel, style }) {
-  const { t } = useTranslation();
+function PageTitle({ title, onGoBack, onCancel, onEdit, style, cancelModalTitle, editLink }) {
   return (
     <div className={styles.container} style={style}>
       <div className={styles.leftContainer}>
@@ -18,11 +16,13 @@ function PageTitle({ title, onGoBack, onCancel, style }) {
         )}
         <Title style={{ marginBottom: 0 }}>{title}</Title>
       </div>
-      {onCancel && (
-        <Semibold sm style={{ color: colors.teal700 }} onClick={onCancel}>
-          {t('common:CANCEL')}
-        </Semibold>
+      {!!onEdit && (
+        <EditLink style={{ marginTop: '10px' }} onClick={onEdit}>
+          {' '}
+          {editLink}{' '}
+        </EditLink>
       )}
+      {!!onCancel && <CancelButton onClick={onCancel} cancelModalTitle={cancelModalTitle} />}
     </div>
   );
 }

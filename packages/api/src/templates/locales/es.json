@@ -84,5 +84,13 @@
     "GREETING": "¡Qué tengas un lindo día!",
     "SUBJECT0": "Aquí está el mapa de su granja para",
     "SUBJECT1": "en LiteFarm"
+  },
+  "EXPORT": {
+    "HI": "EXPORT.HI",
+    "SEASON": "EXPORT.SEASON",
+    "CERTIFICATION": "EXPORT.CERTIFICATION",
+    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
+    "SUBJECT": "EXPORT.SUBJECT",
+    "PRIVACY": "EXPORT.PRIVACY"
   }
 }

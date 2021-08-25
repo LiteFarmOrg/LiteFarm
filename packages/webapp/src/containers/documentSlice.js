@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
 import { lastActiveDatetimeSelector } from './userLogSlice';
+import { pick } from '../util/pick';
 
 const getDocument = (obj) => {
   return pick(obj, [

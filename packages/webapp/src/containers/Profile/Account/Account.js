@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { integerOnKeyDown } from '../../../components/Form/Input';
-import { getLanguageFromLocalStorage } from '../../../util';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 class Account extends Component {
   constructor() {

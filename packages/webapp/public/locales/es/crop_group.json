@@ -1,11 +1,11 @@
 {
-  "BEVERAGE_AND_SPICE_CROPS": "MISSING",
-  "CEREALS": "MISSING",
-  "FRUITS_AND_NUTS": "MISSING",
-  "LEGUMINOUS_CROPS": "MISSING",
-  "OILSEED_CROPS": "MISSING",
-  "OTHER_CROPS": "MISSING",
-  "POTATOES_AND_YAMS": "MISSING",
-  "SUGAR_CROPS": "MISSING",
-  "VEGETABLE_AND_MELONS": "MISSING"
+  "BEVERAGE_AND_SPICE_CROPS": "Cultivos de bebida y especia",
+  "CEREALS": "Cereales",
+  "FRUITS_AND_NUTS": "Frutas y nueces",
+  "LEGUMINOUS_CROPS": "Cultivos leguminosos",
+  "OILSEED_CROPS": "Cultivos oleaginosos",
+  "OTHER_CROPS": "Otros cultivos",
+  "POTATOES_AND_YAMS": "Papas y ñames",
+  "SUGAR_CROPS": "Cultivos de azúcar",
+  "VEGETABLE_AND_MELONS": "Vegetal y melones"
 }

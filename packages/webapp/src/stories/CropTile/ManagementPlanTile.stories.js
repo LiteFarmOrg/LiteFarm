@@ -17,9 +17,9 @@ export const Active = Template.bind({});
 Active.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    seed_date: '2020-12-25T15:02:31.440Z',
+    start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
   status: 'Active',
 };
@@ -28,9 +28,9 @@ export const Planned = Template.bind({});
 Planned.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    seed_date: '2020-12-25T15:02:31.440Z',
+    start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
   status: 'Planned',
 };
@@ -39,19 +39,21 @@ export const Past = Template.bind({});
 Past.args = {
   managementPlan: {
     crop_variety_name: 'Bolero',
-    seed_date: '2020-12-25T15:02:31.440Z',
+    start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/carrot.jpg`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
   status: 'Past',
 };
-//
-// export const CropCount = Template.bind({});
-// CropCount.args = {
-//   children: <Semibold>Blueberry</Semibold>,
-//   cropCount: {
-//     active: 8,
-//     planned: 8,
-//     past: 8,
-//   },
-// };
+
+export const Selected = Template.bind({});
+Selected.args = {
+  managementPlan: {
+    crop_variety_name: 'Bolero',
+    start_date: '2020-12-25T15:02:31.440Z',
+    crop_translation_key: 'CARROT',
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
+  },
+  status: 'Past',
+  isSelected: true,
+};

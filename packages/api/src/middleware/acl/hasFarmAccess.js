@@ -24,7 +24,9 @@ const entitiesGetters = {
   field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
   crop_variety_id: fromCropVariety,
-  document_id: fromDocument
+  document_id: fromDocument,
+  default_initial_location_id: fromLocation,
+  task_id: fromTaskId,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -50,7 +52,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   }
 
   const { farm_id } = req.headers;
-  const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
+  const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
   // Is getting a seeded table and accessing community data. Go through.
   if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
@@ -58,42 +60,66 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
 };
 
-async function fromTask(taskId) {
-  return knex('taskType').where({ task_id: taskId }).first();
+async function fromTaskId(taskId) {
+  const userFarm = await userFarmModel.query()
+  .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+  .join('location', 'userFarm.farm_id', 'location.farm_id')
+  .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
+  .skipUndefined()
+  .where('location_tasks.task_id', taskId)
+  .first();
+  if (!userFarm) return {};
+  return userFarm;
 }
 
-async function fromDocument(document_id){
-  return await knex('document').where({ document_id }).first();
+function fromTask(taskTypeId) {
+  return knex('task_type').where({ task_type_id: taskTypeId }).first();
 }
 
-async function fromShift(shiftId) {
+function fromDocument(document_id) {
+  return  knex('document').where({ document_id }).first();
+}
+
+function fromShift(shiftId) {
   return knex('shift').where({ shift_id: shiftId }).first();
 }
 
-async function fromPesticide(pesticideId) {
+function fromPesticide(pesticideId) {
   return knex('pesticide').where({ pesticide_id: pesticideId }).first();
 }
 
-async function fromNitrogenSchedule(nitrogenScheduleId) {
+function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
-function fromCropManagement(cropPlan){
-  return fromLocation(cropPlan.location_id);
+
+async function fromCropManagement(crop_management_plan, next) {
+  const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id).filter(location_id => location_id);
+  const hasLocationId = locationIds.length;
+  if (!hasLocationId) return next();
+  const locations = await knex('location').whereIn('location_id', locationIds);
+  const farm_id = locations.reduce((farm_id, location) => {
+    if (farm_id) {
+      return farm_id === location.farm_id ? location.farm_id : undefined;
+    } else {
+      return location.farm_id;
+    }
+  }, undefined);
+  return { farm_id };
 }
 
-async function fromDisease(disease_id) {
+function fromDisease(disease_id) {
   return knex('disease').where({ disease_id }).first();
 }
 
-async function fromLocation(location_id) {
+function fromLocation(location_id) {
   return knex('location').where({ location_id }).first();
 }
 
-async function fromCrop(cropId) {
+function fromCrop(cropId) {
   return knex('crop').where({ crop_id: cropId }).first();
 }
 
-async function fromFertilizer(fertilizerId) {
+function fromFertilizer(fertilizerId) {
   return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
 }
 
@@ -177,36 +203,37 @@ async function fromActivity(req) {
   return userFarm;
 }
 
-async function fromManagementPlan(managementPlanId) {
-  return await knex('management_plan').where('management_plan_id', managementPlanId).join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
+function fromManagementPlan(managementPlanId) {
+  return knex('management_plan').where('management_plan_id', managementPlanId)
+    .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
 }
 
-async function fromCropVariety(crop_variety_id) {
-  return await knex('crop_variety').where({ crop_variety_id }).first();
+function fromCropVariety(crop_variety_id) {
+  return knex('crop_variety').where({ crop_variety_id }).first();
 }
 
-async function fromYield(yieldId) {
-  return await knex('yield').where({ yield_id: yieldId }).first();
+function fromYield(yieldId) {
+  return knex('yield').where({ yield_id: yieldId }).first();
 }
 
-async function fromPrice(priceId) {
-  return await knex('price').where({ price_id: priceId }).first();
+function fromPrice(priceId) {
+  return knex('price').where({ price_id: priceId }).first();
 }
 
-async function fromFarmExpense(farm_expense_id) {
-  return await knex('farmExpense').where({ farm_expense_id }).first();
+function fromFarmExpense(farm_expense_id) {
+  return knex('farmExpense').where({ farm_expense_id }).first();
 }
 
-async function fromFarmExpenseType(expense_type_id) {
-  return await knex('farmExpenseType').where({ expense_type_id }).first();
+function fromFarmExpenseType(expense_type_id) {
+  return knex('farmExpenseType').where({ expense_type_id }).first();
 }
 
-async function fromSale(sale_id) {
-  return await knex('sale').where({ sale_id }).first();
+function fromSale(sale_id) {
+  return knex('sale').where({ sale_id }).first();
 }
 
-async function fromOrganicCertifierSurvey(survey_id) {
-  return await knex('organicCertifierSurvey').where({ survey_id }).first();
+function fromOrganicCertifierSurvey(survey_id) {
+  return knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
 function sameFarm(object, farm) {

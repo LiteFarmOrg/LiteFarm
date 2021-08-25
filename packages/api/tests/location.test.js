@@ -7,7 +7,8 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
-const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location')
+const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location');
+const faker = require('faker');
 
 const locations = {
   BARN: 'barn',
@@ -234,7 +235,7 @@ describe('Location tests', () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const expiredManagementPlan = mocks.fakeManagementPlan();
-      expiredManagementPlan.harvest_date = expiredManagementPlan.seed_date;
+      expiredManagementPlan.complete_date = faker.date.past();
       await mocks.crop_management_planFactory({
         promisedManagementPlan: mocks.management_planFactory({}, expiredManagementPlan),
         promisedField: [field1],
@@ -245,11 +246,11 @@ describe('Location tests', () => {
       });
     });
 
-    test('Delete should return 400 when field is referenced by log', async (done) => {
+    test('Delete should return 400 when field is referenced by task', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      await mocks.activityFieldsFactory({
-        promisedActivityLog: mocks.activityLogFactory({ user_id }),
+      await mocks.location_tasksFactory({
+        promisedActivityLog: mocks.taskFactory({ user_id }),
         promisedField: [field1],
       });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
@@ -258,43 +259,24 @@ describe('Location tests', () => {
       });
     });
 
-    test('should return 400 when field is referenced in shift', async (done) => {
-      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
-      const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
-      const shiftData = mocks.fakeShift();
-      const today = new Date();
-      today.setDate(today.getDate() + 1 );
-      shiftData.shift_date = today;
-      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
-      await mocks.shiftTaskFactory({
-        promisedLocation: [{ location_id: field1.location_id }],
-        promisedShift: [shift],
-      });
-      deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
-        expect(res.status).toBe(400);
-        done();
-      });
-    })
-    test('should return 400 when expired managementPlan is referenced in shift', async (done) => {
+    test('should return 400 when expired managementPlan is referenced in task', async (done) => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       const [[field1], [field2]] = await appendFieldToFarm(farm_id, 2);
       const fakeManagementPlan = mocks.fakeManagementPlan();
       const [managementPlan1] = await mocks.crop_management_planFactory({
         promisedManagementPlan: mocks.management_planFactory({}, {
           ...fakeManagementPlan,
-          harvest_date: fakeManagementPlan.seed_date,
         }), promisedField: [field1],
       });
-      const shiftData = mocks.fakeShift();
+      const taskData = mocks.fakeTask();
       const today = new Date();
       today.setDate(today.getDate() + 1);
-      shiftData.shift_date = today;
-      const [shift] = await mocks.shiftFactory({ promisedUserFarm: [{ user_id, farm_id }] }, shiftData);
-      await mocks.shiftTaskFactory({
+      taskData.due_date = today;
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, taskData);
+      await mocks.management_tasksFactory({
         promisedManagementPlan: [managementPlan1],
-        promisedLocation: [{}],
-        promisedShift: [shift],
-      }, { ...mocks.fakeShiftTask(), is_location: false });
+        promisedTask: [{task_id: task.task_id}],
+      });
       deleteLocation({ user_id, farm_id }, field1.location_id, async (err, res) => {
         expect(res.status).toBe(400);
         done();

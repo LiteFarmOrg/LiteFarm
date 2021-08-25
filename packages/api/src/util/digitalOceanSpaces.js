@@ -18,8 +18,11 @@ function getPublicS3BucketName() {
   return 'litefarm';
 }
 
-function getImaginaryUrl({ url, type = 'webp', width, ...imaginaryQueries } = {}, { endpoint = 'thumbnail' } = {}) {
-  const reqUrl = new URL(`https://image.litefarm.org/${endpoint}`);
+function getImaginaryUrl({ url, type = 'webp', width, ...imaginaryQueries } = {}, {
+  endpoint = 'thumbnail',
+  serverUrl = 'https://image.litefarm.org',
+} = {}) {
+  const reqUrl = new URL(`${serverUrl}/${endpoint}`);
   width && reqUrl.searchParams.append('width', width);
   reqUrl.searchParams.append('type', type);
   url && reqUrl.searchParams.append('url', url);
@@ -41,14 +44,14 @@ async function imaginaryPost({ buffer, originalname }, {
   width,
   type,
   ...imaginaryQueries
-} = {}, { endpoint = 'thumbnail' } = {}) {
+} = {}, { endpoint = 'thumbnail', serverUrl = 'https://image.litefarm.org' } = {}) {
   const form = new FormData();
   form.append('file', buffer, { filename: originalname });
   return axios.post(getImaginaryUrl({
     width,
     type,
     ...imaginaryQueries,
-  }, { endpoint }), form, {
+  }, { endpoint, serverUrl }), form, {
     headers: {
       'API-Key': process.env.IMAGINARY_TOKEN,
       ...form.getHeaders(),
@@ -57,13 +60,16 @@ async function imaginaryPost({ buffer, originalname }, {
   });
 }
 
-async function imaginaryGet(url, { width, type, ...imaginaryQueries } = {}, { endpoint = 'thumbnail' } = {}) {
+async function imaginaryGet(url, { width, type, ...imaginaryQueries } = {}, {
+  endpoint = 'thumbnail',
+  serverUrl = 'https://image.litefarm.org',
+} = {}) {
   return axios.post(getImaginaryUrl({
     width,
     type,
     url,
     ...imaginaryQueries,
-  }, { endpoint }), {
+  }, { endpoint, serverUrl }), {
     headers: {
       'API-Key': process.env.IMAGINARY_TOKEN,
     },

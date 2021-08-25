@@ -10,8 +10,9 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
-import CertifierSelectionMenuItem from '../../CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';
+import { ContainerWithIcon } from '../../ContainerWithIcon/ContainerWithIcon';
 
 function PureDocumentDetailView({
   submit,
@@ -80,6 +81,7 @@ function PureDocumentDetailView({
     };
     let validUntil = !!data.valid_until ? data.valid_until : null;
     data.type = !!data.type ? data.type.value : data.type;
+    validUntil = data.no_expiration ? null : validUntil;
     submit({
       ...data,
       thumbnail_url: getDocumentThumbnailUrl(uploadedFiles),
@@ -94,7 +96,7 @@ function PureDocumentDetailView({
 
   const {
     persistedData: { uploadedFiles },
-  } = useHookFormPersist(persistedPath, getValues);
+  } = useHookFormPersist(getValues, persistedPath);
   const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
   const onFileUpdateEnd = () => {
     setIsFilesUpdated(true);
@@ -179,50 +181,39 @@ function PureDocumentDetailView({
       />
       <div
         style={{
-          width: '312px',
           flexGrow: 1,
-          margin: 'auto',
-          paddingBottom: '16px',
           display: 'flex',
           flexDirection: 'column',
           rowGap: '24px',
+          paddingBottom: '16px',
+          alignItems: 'center',
         }}
       >
         {uploadedFiles?.map(({ thumbnail_url, file_name, url }, index) => (
-          <div key={thumbnail_url}>
-            <div
-              style={{
-                background: 'var(--teal700)',
-                width: '24px',
-                height: '24px',
-                position: 'relative',
-                float: 'right',
-                borderRadius: '4px 0 4px 4px',
-                zIndex: 10,
-              }}
-              onClick={() => {
-                deleteImage(url);
-                onFileUpdateEnd();
-              }}
-            >
-              <TrashIcon />
-            </div>
+          <ContainerWithIcon
+            icon={<TrashIcon />}
+            onIconClick={() => {
+              deleteImage(url);
+              onFileUpdateEnd();
+            }}
+            key={index}
+            style={{ width: '100%', maxWidth: thumbnail_url ? '312px' : undefined }}
+          >
             {thumbnail_url ? (
               imageComponent({
                 width: '100%',
-                style: { position: 'relative', top: '-24px', zIndex: 0 },
+                style: { width: '100%', height: '100%' },
                 height: '100%',
                 src: thumbnail_url,
               })
             ) : (
-              <CertifierSelectionMenuItem
-                certifierName={file_name}
-                style={{ position: 'relative', top: '-24px', zIndex: 0 }}
-              />
+              <CertifierSelectionMenuItem certifierName={file_name} />
             )}
-          </div>
+          </ContainerWithIcon>
         ))}
-        {shouldShowLoadingImage && <Loading style={{ minHeight: '192px' }} />}
+        {shouldShowLoadingImage && (
+          <Loading style={{ minHeight: '192px', width: '100%', maxWidth: '312px' }} />
+        )}
       </div>
       {uploadedFiles?.length <= 5 &&
         documentUploader({

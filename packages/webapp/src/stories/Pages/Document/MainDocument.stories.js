@@ -20,12 +20,14 @@ Primary.args = {
     name: 'Document Name',
     notes: `Lorem Ipsum dolorem`,
     valid_until: '2021-06-21',
-    files: [{
-      thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/default.jpg'
-    }]
+    files: [
+      {
+        thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+      },
+    ],
   },
   imageComponent: (props) => <img {...props} />,
-  onGoBack: () => {}
+  onGoBack: () => {},
 };
 
 Primary.parameters = { ...chromaticSmallScreen };

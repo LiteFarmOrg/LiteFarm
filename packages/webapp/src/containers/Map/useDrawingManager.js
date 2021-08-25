@@ -7,6 +7,10 @@ import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);

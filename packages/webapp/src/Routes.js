@@ -223,11 +223,19 @@ const PlantInContainer = React.lazy(() =>
 const PlantBroadcast = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/BroadcastPlan'),
 );
+const BedPlan = React.lazy(() => import('./containers/Crop/AddManagementPlan/BedPlan/BedPlan'));
+const BedPlanGuidance = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/BedPlan/BedPlanGuidance'),
+);
 const ManagementPlanName = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/ManagementPlanName'),
 );
+const RowMethod = React.lazy(() => import('./containers/Crop/AddManagementPlan/RowMethod'));
+const RowMethodGuidance = React.lazy(() =>
+  import('./containers/Crop/AddManagementPlan/RowMethod/RowGuidance'),
+);
 
-const PlantedAlready = React.lazy(() => 
+const PlantedAlready = React.lazy(() =>
   import('./containers/Crop/AddManagementPlan/PlantedAlready'),
 );
 
@@ -237,16 +245,20 @@ const EditDocument = React.lazy(() => import('./containers/Documents/Edit'));
 
 const AddDocument = React.lazy(() => import('./containers/Documents/Add'));
 const MainDocument = React.lazy(() => import('./containers/Documents/Main'));
+const CertificationReportingPeriod = React.lazy(() =>
+  import('./containers/Certifications/ReportingPeriod'),
+);
+const CertificationSurvey = React.lazy(() => import('./containers/Certifications/Survey'));
 
 const InterestedOrganic = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/InterestedOrganic/UpdateInterestedOrganic'),
 );
 const CertificationSelection = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/CertificationSelection'),
+  import('./containers/OrganicCertifierSurvey/CertificationSelection/UpdateCertificationSelection'),
 );
 
 const CertifierSelectionMenu = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu'),
+  import('./containers/OrganicCertifierSurvey/CertifierSelectionMenu/UpdateCertifierSelectionMenu'),
 );
 
 const SetCertificationSummary = React.lazy(() =>
@@ -256,11 +268,34 @@ const SetCertificationSummary = React.lazy(() =>
 );
 
 const RequestCertifier = React.lazy(() =>
-  import('./containers/OrganicCertifierSurvey/RequestCertifier'),
+  import('./containers/OrganicCertifierSurvey/RequestCertifier/UpdateRequestCertifier'),
 );
 const ViewCertification = React.lazy(() =>
   import('./containers/OrganicCertifierSurvey/ViewCertification/ViewCertification'),
 );
+
+const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
+const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
+
+const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
+const CompleteManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
+);
+const AbandonManagementPlan = React.lazy(() =>
+  import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
+);
+
+const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
+const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
+const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
+const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
+const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
+const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
+const Tasks = React.lazy(() => import('./containers/Task'));
+const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
+const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
+const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
+const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
 
 const Routes = () => {
   useScrollToTop();
@@ -281,9 +316,18 @@ const Routes = () => {
     chooseFarmFlowSelector,
     (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
+  let {
+    step_five,
+    has_consent,
+    role_id,
+    status,
+    step_one,
+    farm_id,
+    step_three,
+    step_four,
+  } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const hasFinishedOnBoardingFlow = step_five;
+  const hasFinishedOnBoardingFlow = step_one && step_four && step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
@@ -362,50 +406,102 @@ const Routes = () => {
             <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
             <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
-            <Route 
+            <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
               exact
               component={PlantedAlready}
-            />  
+            />
             <Route
               path="/crop/:variety_id/add_management_plan/needs_transplant"
               exact
               component={Transplant}
             />
+
             <Route
-              path="/crop/:variety_id/add_management_plan/planting_date"
+              path="/crop/:variety_id/add_management_plan/plant_date"
               exact
               component={PlantingDate}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/choose_planting_location"
+              path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
               exact
               component={PlantingLocation}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/choose_transplant_location"
+              path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
               exact
               component={PlantingLocation}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/planting_method"
+              path="/crop/:variety_id/add_management_plan/final_planting_method"
               exact
               component={PlantingMethod}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/broadcast"
+              path="/crop/:variety_id/add_management_plan/initial_planting_method"
+              exact
+              component={PlantingMethod}
+            />
+
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
               exact
               component={PlantBroadcast}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/transplant_container"
+              path="/crop/:variety_id/add_management_plan/initial_container_method"
               exact
               component={PlantInContainer}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/container"
+              path="/crop/:variety_id/add_management_plan/initial_bed_method"
+              exact
+              component={BedPlan}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
+              exact
+              component={BedPlanGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_row_method"
+              exact
+              component={RowMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
+              exact
+              component={RowMethodGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/broadcast_method"
+              exact
+              component={PlantBroadcast}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/container_method"
               exact
               component={PlantInContainer}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/bed_method"
+              exact
+              component={BedPlan}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/bed_guidance"
+              exact
+              component={BedPlanGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/row_method"
+              exact
+              component={RowMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/row_guidance"
+              exact
+              component={RowMethodGuidance}
             />
             <Route
               path="/crop/:variety_id/add_management_plan/name"
@@ -413,6 +509,21 @@ const Routes = () => {
               component={ManagementPlanName}
             />
 
+            <Route
+              path="/crop/:variety_id/:management_plan_id/management_detail"
+              exact
+              component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
+            />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
 
@@ -421,7 +532,16 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
+            <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -532,6 +652,12 @@ const Routes = () => {
             <Route path="/invite_user" exact component={InviteUser} />
             <Route path="/certification" exact component={ViewCertification} />
             <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
               path="/certification/interested_in_organic"
               exact
               component={InterestedOrganic}
@@ -544,6 +670,8 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
+            <Route path="/export/:id" exact component={ExportDownload} />
+            <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -587,12 +715,14 @@ const Routes = () => {
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route
               path="/crop/:crop_id/add_crop_variety/compliance"
               exact
               component={ComplianceInfo}
             />
-            <Route 
+            <Route
               path="/crop/:variety_id/add_management_plan/planted_already"
               exact
               component={PlantedAlready}
@@ -603,29 +733,109 @@ const Routes = () => {
               component={Transplant}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/planting_date"
+              path="/crop/:variety_id/add_management_plan/plant_date"
               exact
               component={PlantingDate}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/planting_method"
+              path="/crop/:variety_id/add_management_plan/choose_initial_planting_location"
+              exact
+              component={PlantingLocation}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/choose_final_planting_location"
+              exact
+              component={PlantingLocation}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/final_planting_method"
               exact
               component={PlantingMethod}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/broadcast"
+              path="/crop/:variety_id/add_management_plan/initial_planting_method"
+              exact
+              component={PlantingMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
               exact
               component={PlantBroadcast}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/transplant_container"
+              path="/crop/:variety_id/add_management_plan/initial_container_method"
               exact
               component={PlantInContainer}
             />
             <Route
-              path="/crop/:variety_id/add_management_plan/container"
+              path="/crop/:variety_id/add_management_plan/initial_bed_method"
+              exact
+              component={BedPlan}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_bed_guidance"
+              exact
+              component={BedPlanGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_row_method"
+              exact
+              component={RowMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/initial_row_guidance"
+              exact
+              component={RowMethodGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/broadcast_method"
+              exact
+              component={PlantBroadcast}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/container_method"
               exact
               component={PlantInContainer}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/bed_method"
+              exact
+              component={BedPlan}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/bed_guidance"
+              exact
+              component={BedPlanGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/row_method"
+              exact
+              component={RowMethod}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/row_guidance"
+              exact
+              component={RowMethodGuidance}
+            />
+            <Route
+              path="/crop/:variety_id/add_management_plan/name"
+              exact
+              component={ManagementPlanName}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/management_detail"
+              exact
+              component={ManagementDetail}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/complete_management_plan"
+              exact
+              component={CompleteManagementPlan}
+            />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/abandon_management_plan"
+              exact
+              component={AbandonManagementPlan}
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
@@ -633,11 +843,11 @@ const Routes = () => {
             <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route path="/documents" exact component={Documents} />
-
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -702,7 +912,6 @@ const Routes = () => {
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
             <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
-
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />
@@ -720,12 +929,6 @@ const Routes = () => {
               exact
               component={ComplianceInfo}
             />
-            <Route
-              path="/crop/:variety_id/add_management_plan/choose_planting_location"
-              exact
-              component={PlantingLocation}
-            />
-            <Route path="/crop/:variety_id/add_management_plan" exact component={Transplant} />
             {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
             {/* and remove edit_expense  */}
             {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
@@ -752,6 +955,12 @@ const Routes = () => {
             <Route path="/invite_user" exact component={InviteUser} />
             <Route path="/certification" exact component={ViewCertification} />
             <Route
+              path="/certification/report_period"
+              exact
+              component={CertificationReportingPeriod}
+            />
+            <Route path="/certification/survey" exact component={CertificationSurvey} />
+            <Route
               path="/certification/interested_in_organic"
               exact
               component={InterestedOrganic}
@@ -764,6 +973,13 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
+            <Route path={'/export/:id'} exact component={ExportDownload} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
+            <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -778,6 +994,20 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+
+            <Route
+              path="/crop/:variety_id/:management_plan_id/management_detail"
+              exact
+              component={ManagementDetail}
+            />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route
+              path="/crop/:variety_id/:management_plan_id/management_detail"
+              exact
+              component={ManagementDetail}
+            />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route
@@ -799,6 +1029,8 @@ const Routes = () => {
               exact
               component={EditNaturalAreaForm}
             />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
@@ -848,6 +1080,13 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
+            <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
+            <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
+            <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -857,6 +1096,7 @@ const Routes = () => {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
+          <Route path={'/render_survey'} exact component={RenderSurvey} />
           <Route path="/callback" component={Callback} />
           <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />

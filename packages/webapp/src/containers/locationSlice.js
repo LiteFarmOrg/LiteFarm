@@ -1,26 +1,54 @@
 import { createSelector } from 'reselect';
-import { barnsSelector, barnStatusSelector } from './barnSlice';
-import { ceremonialsSelector, ceremonialStatusSelector } from './ceremonialSlice';
-import { farmSiteBoundarysSelector, farmSiteBoundaryStatusSelector } from './farmSiteBoundarySlice';
+import { barnEntitiesSelector, barnsSelector, barnStatusSelector } from './barnSlice';
+import {
+  ceremonialEntitiesSelector,
+  ceremonialsSelector,
+  ceremonialStatusSelector,
+} from './ceremonialSlice';
+import {
+  farmSiteBoundaryEntitiesSelector,
+  farmSiteBoundarysSelector,
+  farmSiteBoundaryStatusSelector,
+} from './farmSiteBoundarySlice';
 import { fieldEntitiesSelector, fieldsSelector, fieldStatusSelector } from './fieldSlice';
 import {
   greenhouseEntitiesSelector,
   greenhousesSelector,
   greenhouseStatusSelector,
 } from './greenhouseSlice';
-import { surfaceWatersSelector, surfaceWaterStatusSelector } from './surfaceWaterSlice';
-import { naturalAreasSelector, naturalAreaStatusSelector } from './naturalAreaSlice';
-import { residencesSelector, residenceStatusSelector } from './residenceSlice';
+import {
+  surfaceWaterEntitiesSelector,
+  surfaceWatersSelector,
+  surfaceWaterStatusSelector,
+} from './surfaceWaterSlice';
+import {
+  naturalAreaEntitiesSelector,
+  naturalAreasSelector,
+  naturalAreaStatusSelector,
+} from './naturalAreaSlice';
+import {
+  residenceEntitiesSelector,
+  residencesSelector,
+  residenceStatusSelector,
+} from './residenceSlice';
 import { locationEnum } from './Map/constants';
 import {
   bufferZoneEntitiesSelector,
   bufferZonesSelector,
   bufferZoneStatusSelector,
 } from './bufferZoneSlice';
-import { watercoursesSelector, watercourseStatusSelector } from './watercourseSlice';
-import { fencesSelector, fenceStatusSelector } from './fenceSlice';
-import { gatesSelector, gateStatusSelector } from './gateSlice';
-import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
+import {
+  watercourseEntitiesSelector,
+  watercoursesSelector,
+  watercourseStatusSelector,
+} from './watercourseSlice';
+import { fenceEntitiesSelector, fencesSelector, fenceStatusSelector } from './fenceSlice';
+import { gateEntitiesSelector, gatesSelector, gateStatusSelector } from './gateSlice';
+import {
+  waterValveEntitiesSelector,
+  waterValvesSelector,
+  waterValveStatusSelector,
+} from './waterValveSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
 
 export const sortedAreaSelector = createSelector(
@@ -191,7 +219,19 @@ export const pointStatusSelector = createSelector(
     };
   },
 );
-
+/**
+ * {
+ *
+ * location_id: field,
+ *
+ * location_id: garden,
+ *
+ * location_id: greenhouse,
+ *
+ * location_id: buffer_zone
+ *
+ * }
+ */
 export const cropLocationEntitiesSelector = createSelector(
   [
     fieldEntitiesSelector,
@@ -239,6 +279,31 @@ export const locationsSelector = createSelector(
     return Object.keys(locationAssetMaps).reduce(
       (allLocations, locationType) => allLocations.concat(locationAssetMaps[locationType]),
       [],
+    );
+  },
+);
+
+export const locationEntitiesSelector = createSelector(
+  [
+    barnEntitiesSelector,
+    ceremonialEntitiesSelector,
+    farmSiteBoundaryEntitiesSelector,
+    fieldEntitiesSelector,
+    gardenEntitiesSelector,
+    greenhouseEntitiesSelector,
+    surfaceWaterEntitiesSelector,
+    naturalAreaEntitiesSelector,
+    residenceEntitiesSelector,
+    bufferZoneEntitiesSelector,
+    watercourseEntitiesSelector,
+    fenceEntitiesSelector,
+    gateEntitiesSelector,
+    waterValveEntitiesSelector,
+  ],
+  (...args) => {
+    return args.reduce(
+      (locationEntities, entities) => Object.assign(locationEntities, entities),
+      {},
     );
   },
 );

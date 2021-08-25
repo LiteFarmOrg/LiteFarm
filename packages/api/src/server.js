@@ -61,12 +61,14 @@ const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
 const farmTokenRoute = require('./routes/farmTokenRoute');
 const documentRoute = require('./routes/documentRoute');
+const taskRoute = require('./routes/taskRoute');
+const productRoute = require('./routes/productRoute');
 
 // register API
 const router = promiseRouter();
@@ -134,6 +136,8 @@ app.use(bodyParser.json())
   .use('/showed_spotlight', showedSpotlightRoutes)
   .use('/farm_token', farmTokenRoute)
   .use('/document', documentRoute)
+  .use('/task', taskRoute)
+  .use('/product', productRoute)
 
   // handle errors
   .use((req, res, next) => {
@@ -157,12 +161,12 @@ if (environment === 'development' || environment === 'production' || environment
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');
   });
-  waterBalanceScheduler.registerHourlyJob();
-  waterBalanceScheduler.registerDailyJob();
+  // waterBalanceScheduler.registerHourlyJob();
+  // waterBalanceScheduler.registerDailyJob();
+  //
+  // nitrogenBalanceScheduler.registerDailyJob();
 
-  nitrogenBalanceScheduler.registerDailyJob();
-
-  farmDataScheduler.registerJob();
+  // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
   console.log('LiteFarm Water Balance Scheduler Enabled');
 }

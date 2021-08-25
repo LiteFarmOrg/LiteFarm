@@ -120,7 +120,8 @@ export const tasksSelector = createSelector(
 );
 
 const getTaskEntitiesByManagementPlanId = (tasks) => {
-  return tasks.reduce((obj, { managementPlans, ...task }) => {
+  return tasks.reduce((obj, task) => {
+    const { managementPlans } = task;
     let newObj = { ...obj };
     managementPlans.forEach(({ management_plan_id }) => {
       if (!newObj[management_plan_id]) {
@@ -145,6 +146,12 @@ export const tasksByManagementPlanIdSelector = (management_plan_id) =>
   );
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+
+export const tasksByManagementPlanIdSelector = (management_plan_id) =>
+  createSelector(
+    taskEntitiesSelectorByManagementPlanId,
+    (taskEntitiesByManagementPlanId) => taskEntitiesByManagementPlanId[management_plan_id],
+  );
 
 export const getPendingTasks = (tasks) =>
   tasks.filter((task) => !task.abandoned_time && !task.completed_time);

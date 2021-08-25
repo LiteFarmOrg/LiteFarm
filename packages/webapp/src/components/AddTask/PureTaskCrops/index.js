@@ -25,7 +25,6 @@ const PureTaskCrops = ({
   useHookFormPersist,
   managementPlansByLocationIds,
 }) => {
-  console.log(persistedFormData, managementPlansByLocationIds);
   const { t } = useTranslation();
 
   const {

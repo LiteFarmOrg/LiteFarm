@@ -13,8 +13,9 @@ import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
-import PureCleaningTask from '../../AddTask/CleaningTask';
 import { cloneObject } from '../../../util';
+import PureCleaningTask from '../../AddTask/CleaningTask';
+import PureFieldWorkTask from '../../AddTask/FieldWorkTask';
 import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
 import PurePestControlTask from '../../AddTask/PestControlTask';
 
@@ -30,6 +31,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
+  hasManagementPlans,
   isCompleted,
 }) {
   const { t } = useTranslation();
@@ -54,6 +56,7 @@ export default function PureTaskReadOnly({
     CLEANING: (props) => (
       <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
+    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
     SOIL_AMENDMENT: (props) => (
       <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
@@ -97,7 +100,7 @@ export default function PureTaskReadOnly({
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
         disabled={true}
-        value={assignee}
+        value={assignee ? assignee :  t('TASK.UNASSIGNED')}
       />
 
       <Input
@@ -112,7 +115,7 @@ export default function PureTaskReadOnly({
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
-      {Object.keys(managementPlansByLocationIds).map((location_id) => {
+      {hasManagementPlans && Object.keys(managementPlansByLocationIds).map((location_id) => {
         let location_name =
           managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
             .name;
@@ -152,6 +155,17 @@ export default function PureTaskReadOnly({
         optional
         disabled
       />
+      {
+        isCompleted && (
+          <InputAutoSize
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.COMPLETION_NOTES')}
+            value={task.completion_notes}
+            optional
+            disabled
+          />
+        )
+      }
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>

@@ -135,14 +135,13 @@ export default function PurePlantingLocation({
         <p className={styles.planting_label}>{plantingLabel}</p>
 
         <LocationPicker
-          className={styles.mapContainer}
           onSelectLocation={setLocationId}
           farmCenterCoordinate={farmCenterCoordinate}
           selectedLocationIds={[selectedLocationId]}
           isPinMode={pinToggle}
           setPinCoordinate={setPinLocation}
           pinCoordinate={pinCoordinate}
-          cropLocations={cropLocations}
+          locations={cropLocations}
         />
 
         <div>
@@ -191,6 +190,6 @@ PurePlantingLocation.prototype = {
   isFinalLocationPage: PropTypes.bool,
   variety_id: PropTypes.string,
   history: PropTypes.object,
-  cropLocations: PropTypes.object,
+  locations: PropTypes.object,
   farmCenterCoordinate: PropTypes.object,
 };

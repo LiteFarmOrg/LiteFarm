@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import CustomZoom from '../../Map/CustomZoom';
 import CustomCompass from '../../Map/CustomCompass';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from '../../../containers/Map/constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isPoint } from '../../../containers/Map/constants';
 import MapPin from '../../../assets/images/map/map_pin.svg';
 import {
+  createMarkerClusters,
   DEFAULT_POLYGON_OPACITY,
   drawCropLocation,
   SELECTED_POLYGON_OPACITY,
@@ -15,20 +15,23 @@ import {
 import { usePropRef } from './usePropRef';
 import { getOverlappedAreaAndLines } from './getOverlappedAreaAndLines';
 import PureSelectionHandler from './PureMapLocationSelectionModal';
+import styles from './styles.module.scss';
+import { icons, selectedIcons } from '../../../containers/Map/mapStyles';
 
 const LocationPicker = ({
-  className,
   onSelectLocation,
   clearLocations = onSelectLocation,
   selectedLocationIds,
   isPinMode,
   setPinCoordinate,
   pinCoordinate,
-  cropLocations,
+  locations,
   farmCenterCoordinate,
+  style,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
+  const markerClusterRef = useRef();
 
   const onSelectLocationRef = usePropRef(onSelectLocation);
   const setPinCoordinateRef = usePropRef(setPinCoordinate);
@@ -38,13 +41,13 @@ const LocationPicker = ({
   useEffect(() => {
     if (pinMarkerRef.current) {
       pinMarkerRef.current.isPinMode = isPinMode;
-      pinMarkerRef.current.setOptions({ visible: isPinMode && !!pinCoordinate });
+      pinMarkerRef.current.setOptions({ visible: !!isPinMode && !!pinCoordinate });
       pinCoordinate && pinMarkerRef.current.setOptions({ position: pinCoordinate });
-      !isPinMode && setPinCoordinate(null);
+      !isPinMode && setPinCoordinate?.(null);
     }
     for (const location_id in geometriesRef.current) {
       const { polygon } = geometriesRef.current[location_id];
-      polygon.setOptions({ clickable: !isPinMode });
+      polygon?.setOptions({ clickable: !isPinMode });
     }
     overlappedPositions.length && dismissSelectionModal();
   }, [isPinMode, isGoogleMapInitiated]);
@@ -69,22 +72,24 @@ const LocationPicker = ({
 
   const [overlappedPositions, setOverlappedPositions] = useState([]);
 
+  function areaOnClick(latLng, maps) {
+    const overlappedLocations = getOverlappedAreaAndLines(
+      latLng,
+      Object.values(geometriesRef.current),
+      maps,
+    );
+    if (overlappedLocations.length > 1) {
+      setOverlappedPositions(overlappedLocations);
+    } else if (overlappedLocations.length === 1) {
+      onSelectLocationRef.current(overlappedLocations[0].location_id);
+    }
+  }
+
   function mapOnClick(latLng, maps) {
     if (pinMarkerRef.current?.isPinMode) {
       pinMarkerRef.current?.setOptions({ position: latLng, visible: true });
-      setPinCoordinateRef.current(latLng.toJSON());
+      setPinCoordinateRef.current?.(latLng.toJSON());
       clearLocationsRef.current();
-    } else {
-      const overlappedLocations = getOverlappedAreaAndLines(
-        latLng,
-        Object.values(geometriesRef.current),
-        maps,
-      );
-      if (overlappedLocations.length > 1) {
-        setOverlappedPositions(overlappedLocations);
-      } else if (overlappedLocations.length === 1) {
-        onSelectLocationRef.current(overlappedLocations[0].location_id);
-      }
     }
   }
 
@@ -95,35 +100,74 @@ const LocationPicker = ({
   };
 
   const drawLocations = (map, maps, mapBounds) => {
-    cropLocations.forEach((location) => {
+    locations.forEach((location) => {
       const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
       geometriesRef.current[assetGeometry.location.location_id] = assetGeometry;
       if (selectedLocationIds.includes(assetGeometry.location.location_id)) {
         setSelectedGeometryStyle(assetGeometry);
       }
-      maps.event.addListener(assetGeometry.polygon, 'click', (e) => mapOnClick(e.latLng, maps));
+      if (isPoint(assetGeometry.location.type)) {
+        maps.event.addListener(assetGeometry.marker, 'click', (e) =>
+          onSelectLocationRef.current(assetGeometry.location.location_id),
+        );
+      } else {
+        maps.event.addListener(assetGeometry.polygon, 'click', (e) => areaOnClick(e.latLng, maps));
+      }
     });
-    cropLocations.length > 0 && map.fitBounds(mapBounds);
+    markerClusterRef.current = createMarkerClusters(
+      maps,
+      map,
+      Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
+    );
+    maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
+      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
+        setOverlappedPositions(
+          cluster.markers_.map((marker) => ({
+            location_id: marker.location_id,
+            name: marker.name,
+            type: marker.type,
+          })),
+        );
+      }
+    });
+    markerClusterRef.current.setCalculator(function (markers, numStyles) {
+      const isSelected = !!markers.find(({ location_id }) =>
+        prevSelectedLocationIdsRef.current.includes(location_id),
+      );
+      return {
+        text: markers.length,
+        index: isSelected ? 2 : 1,
+      };
+    });
+    locations.length > 0 && map.fitBounds(mapBounds);
   };
 
   const setSelectedGeometryStyle = (assetGeometry) => {
-    assetGeometry?.marker?.setOptions({
-      label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
-    });
-    assetGeometry.polygon.setOptions({
-      fillColor: assetGeometry.styles.selectedColour,
-      fillOpacity: SELECTED_POLYGON_OPACITY,
-    });
+    if (isPoint(assetGeometry.location.type)) {
+      assetGeometry?.marker?.setOptions({ icon: selectedIcons[assetGeometry.location.type] });
+    } else {
+      assetGeometry?.marker?.setOptions({
+        label: { ...(assetGeometry?.marker?.label || {}), color: 'black' },
+      });
+      assetGeometry.polygon.setOptions({
+        fillColor: assetGeometry.styles.selectedColour || 'white',
+        fillOpacity: SELECTED_POLYGON_OPACITY,
+      });
+    }
   };
 
   const resetGeometryStyle = (assetGeometry) => {
-    assetGeometry?.marker?.setOptions({
-      label: { ...(assetGeometry?.marker?.label || {}), color: 'white' },
-    });
-    assetGeometry?.polygon?.setOptions({
-      fillColor: assetGeometry.styles.colour,
-      fillOpacity: DEFAULT_POLYGON_OPACITY,
-    });
+    if (isPoint(assetGeometry.location.type)) {
+      assetGeometry?.marker?.setOptions({ icon: icons[assetGeometry.location.type] });
+    } else {
+      assetGeometry?.marker?.setOptions({
+        label: { ...(assetGeometry?.marker?.label || {}), color: 'white' },
+      });
+      assetGeometry?.polygon?.setOptions({
+        fillColor: assetGeometry.styles.colour,
+        fillOpacity: DEFAULT_POLYGON_OPACITY,
+      });
+    }
   };
 
   const getMapOptions = (maps) => {
@@ -211,7 +255,7 @@ const LocationPicker = ({
   };
 
   return (
-    <div className={clsx(className)}>
+    <div className={styles.mapContainer} style={style}>
       <GoogleMap
         style={{ flexGrow: 1 }}
         bootstrapURLKeys={{

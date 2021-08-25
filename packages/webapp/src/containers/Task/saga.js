@@ -12,6 +12,7 @@ import { getTaskTypesSuccess } from '../taskTypeSlice';
 
 const taskTypeToEndpointMap = {
   CLEANING: 'cleaning_task',
+  FIELD_WORK: 'field_work_task',
   PEST_CONTROL: 'pest_control_task',
   SOIL_AMENDMENT: 'soil_amendment_task',
 };

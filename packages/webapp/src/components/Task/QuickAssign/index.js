@@ -28,7 +28,7 @@ export default function TaskQuickAssignModal({ dismissModal, taskId, dueDate, is
       }))
     : [self];
 
-  const unassigned = { label: 'Unassigned', value: null };
+  const unassigned = { label: t('TASK.UNASSIGNED'), value: null };
 
   const [worker, setWorker] = useState(assigned ? unassigned : self);
   const [assignAll, setAssignAll] = useState(false);

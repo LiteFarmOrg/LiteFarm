@@ -17,7 +17,7 @@ import DocLink from '../DocLink';
 | [Objection transactions](https://vincit.github.io/objection.js/guide/transactions.html#creating-a-transaction) |
 | [Objection hooks](https://vincit.github.io/objection.js/guide/hooks.html#instance-query-hooks) |
 
-# 1.Get endpoints
+# 1.Get endpointsGet endpoints
 
 Get endpoints return
 - objects from a single table `{...crop}`
@@ -31,6 +31,7 @@ Get endpoints return
   <Text>In short, <code>post</code> success should return status code <code>201</code>.</Text>
   <Text> <code>get</code> <code>delete</code> <code>patch</code> <code>put</code> success should return status
     code <code>200</code>.</Text>
+  <Text><code>post</code> and <code>put</code> should return inserted/edited object.</Text>
   <Text> If no entity is found, return status code <code>404</code>.</Text>
   <Text> Validation errors should return status code <code>400</code>.</Text>
 </DocCard>
@@ -250,8 +251,63 @@ const userFarmController = {
 };
 ```
 
+# 2.Post endpointsGet endpoints
+
+**Add a single entity**
+
+```js
+
+const NewEntityModel = require('../models/newEntityModel');
+
+const newEntityController = {
+  addNewEntity() {
+    return async (req, res, next) => {
+      try{
+        const result = await NewEntityModel.query().context(req.user).insert(req.body);
+        return res.status(201).send(result);
+      }catch(error){
+        return res.status(400).json({ error });
+      }
+    }
+  },
+}
+
+module.exports = newEntityController;
+```
+
+<DocCard>
+  <Text><code>NewEntityModel.query().context(req.user)</code> is required when <code>NewEntityModel</code> extends
+    baseModel so that <code>updated_by_user_id</code> <code>created_by_user_id</code> can be populated</Text>
+  <Text>Post request should return inserted object.</Text>
+</DocCard>
 
 
+**Add a single entity that uses multiple tables**
+
+```js
+
+const LocationModel = require('../models/locationModel');
+
+const LocationController = {
+  createLocation(asset) {
+    const nonModifiable = getNonModifiable(asset);
+    return async (req, res, next) => {
+      try {
+        const result = await LocationModel.transaction(async trx => {
+          return await LocationModel.query(trx).context(req.user).upsertGraph(
+            req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
+        });
+        return res.status(200).send(result);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  },
+}
+
+module.exports = LocationController;
+```
 
 <DocCard>
   <Error>Always use <DocLink

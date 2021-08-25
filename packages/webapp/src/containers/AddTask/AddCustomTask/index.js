@@ -15,7 +15,6 @@ function AddCustomTask({ history, match }) {
 
   const onSave = (payload) => {
     dispatch(addCustomTask(payload));
-    console.log(payload);
     history.push(onGoBackPath);
   };
 

@@ -137,14 +137,14 @@ export function* createTaskSaga({ payload: data }) {
 
 export const addCustomTask = createAction('addTaskTypeSaga');
 
-export function* addTaskTypeSaga(payload) {
+export function* addTaskTypeSaga({ payload: data }) {
   const { taskTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
-  let taskName = payload.taskName;
+  let { task_name } = data;
   const body = {
-    task_name: taskName,
+    task_name,
     farm_id: farm_id,
   };
 

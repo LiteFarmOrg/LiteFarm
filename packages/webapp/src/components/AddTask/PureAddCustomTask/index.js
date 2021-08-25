@@ -28,18 +28,17 @@ const PureAddCustomTask = ({
     mode: 'onChange',
   });
 
-  const CUSTOM_TASK_TYPE = 'custom_task_type';
+  const CUSTOM_TASK_TYPE = 'task_name';
 
   return (
     <>
       <Form
+        onSubmit={handleSubmit(onSave)}
         buttonGroup={
           <Button
             color={'primary'}
             fullLength
-            onClick={() => {
-              onSave(CUSTOM_TASK_TYPE);
-            }}
+            disabled={!isValid}
           >
             {t('common:SAVE')}
           </Button>

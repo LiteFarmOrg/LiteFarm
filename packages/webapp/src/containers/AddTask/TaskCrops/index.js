@@ -2,7 +2,8 @@ import PureTaskCrops from '../../../components/AddTask/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useManagementPlansByLocationIds } from './useManagementPlansByLocationIds';
+import { useManagementPlansByLocationIds, useActiveAndCurrentManagementPlansByLocationIds } from './useManagementPlansByLocationIds';
+import { taskTypeById } from '../../taskTypeSlice';
 
 function TaskCrops({ history, match }) {
   const onContinuePath = '/add_task/task_details';
@@ -21,8 +22,13 @@ function TaskCrops({ history, match }) {
     console.log('onError called');
   };
 
+  const HARVEST_TYPE = 'HARVEST';
+
   const persistedFormData = useSelector(hookFormPersistSelector);
   const managementPlansByLocationIds = useManagementPlansByLocationIds(persistedFormData.locations);
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
+  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(persistedFormData.locations);
+
   return (
     <HookFormPersistProvider>
       <PureTaskCrops
@@ -31,7 +37,9 @@ function TaskCrops({ history, match }) {
         onError={onError}
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
-        managementPlansByLocationIds={managementPlansByLocationIds}
+        managementPlansByLocationIds={selectedTaskType.task_translation_key === HARVEST_TYPE ? 
+          activeAndCurrentManagementPlansByLocationIds : managementPlansByLocationIds
+        }
         onContinue={onContinue}
       />
     </HookFormPersistProvider>

@@ -11,6 +11,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { locationsSelector, cropLocationsSelector } from '../../locationSlice';
 import { useActiveAndCurrentManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlansByLocationIds';
 import { taskTypeById } from '../../taskTypeSlice';
+import { getDateUTC } from '../../../util/moment';
 
 export default function TaskLocations({ history }) {
   const dispatch = useDispatch();
@@ -40,10 +41,11 @@ export default function TaskLocations({ history }) {
 
   const { grid_points } = useSelector(userFarmSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
+  const due_date = persistedFormData.due_date;
   const locations = useSelector(locationsSelector);
   const cropLocations = useSelector(cropLocationsSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
-  const activeAndPlannedLocationsIds = Object.keys(useActiveAndCurrentManagementPlansByLocationIds(cropLocationsIds));
+  const activeAndPlannedLocationsIds = Object.keys(useActiveAndCurrentManagementPlansByLocationIds(cropLocationsIds, getDateUTC(due_date).toDate().getTime()));
   const activeAndPlannedLocations = cropLocations.filter(({ location_id }) => activeAndPlannedLocationsIds.includes(location_id));
 
 

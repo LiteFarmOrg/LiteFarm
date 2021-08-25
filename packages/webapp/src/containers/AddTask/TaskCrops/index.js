@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useManagementPlansByLocationIds, useActiveAndCurrentManagementPlansByLocationIds } from './useManagementPlansByLocationIds';
 import { taskTypeById } from '../../taskTypeSlice';
+import { getDateUTC } from '../../../util/moment';
 
 function TaskCrops({ history, match }) {
   const onContinuePath = '/add_task/task_details';
@@ -27,7 +28,8 @@ function TaskCrops({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const managementPlansByLocationIds = useManagementPlansByLocationIds(persistedFormData.locations);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
-  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(persistedFormData.locations);
+  const due_date = persistedFormData.due_date;
+  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(persistedFormData.locations, getDateUTC(due_date).toDate().getTime());
 
   return (
     <HookFormPersistProvider>

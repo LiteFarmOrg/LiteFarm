@@ -3,6 +3,7 @@ import {
   filterManagementPlansByLocationId,
   managementPlansSelector,
   currentAndPlannedManagementPlansSelector,
+  currentAndPlannedManagementPlansWithTimeSelector,
 } from '../../managementPlanSlice';
 import { useMemo } from 'react';
 
@@ -26,8 +27,8 @@ export const useManagementPlansByLocationIds = (locationIds = []) => {
   );
 };
 
-export const useActiveAndCurrentManagementPlansByLocationIds = (locationIds = []) => {
-  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector);
+export const useActiveAndCurrentManagementPlansByLocationIds = (locationIds = [], time) => {
+  const managementPlans = useSelector(currentAndPlannedManagementPlansWithTimeSelector(time));
   return useMemo(
     () =>
       locationIds.reduce((managementPlansByLocationIds, { location_id }) => {

@@ -198,7 +198,7 @@ const getManagementPlanEndTime = (managementPlan) =>
 
 const isExpiredManagementPlan = (managementPlan, time) => {
   const endTime = getManagementPlanEndTime(managementPlan);
-  return endTime && getManagementPlanEndTime(managementPlan) < time;
+  return endTime && getManagementPlanEndTime(managementPlan) <= time;
 };
 
 export const getExpiredManagementPlans = (managementPlans, time) =>
@@ -244,6 +244,15 @@ export const currentAndPlannedManagementPlansSelector = createSelector(
   [plannedManagementPlansSelector, currentManagementPlansSelector],
   (planedManagementPlans, currentManagementPlans) => {
     return [...planedManagementPlans, ...currentManagementPlans];
+  },
+);
+
+export const currentAndPlannedManagementPlansWithTimeSelector = (time) => createSelector(
+  [managementPlansSelector],
+  (managementPlans) => {
+    let currentPlans = getCurrentManagementPlans(managementPlans, time);
+    let plannedPlans = getPlannedManagementPlans(managementPlans, time);
+    return [...currentPlans, ...plannedPlans];
   },
 );
 

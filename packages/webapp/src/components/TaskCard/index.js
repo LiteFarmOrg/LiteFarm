@@ -10,7 +10,6 @@ import { ReactComponent as CustomIcon } from '../../assets/images/task/Custom.sv
 import { ReactComponent as RecordSoilSample } from '../../assets/images/task/RecordSoilSample.svg';
 import { ReactComponent as Sales } from '../../assets/images/task/Sales.svg';
 import { ReactComponent as Scout } from '../../assets/images/task/Scout.svg';
-import { ReactComponent as Fertilize } from '../../assets/images/task/Fertilize.svg';
 import { ReactComponent as WashAndPack } from '../../assets/images/task/WashAndPack.svg';
 import { ReactComponent as Transplant } from '../../assets/images/task/Transplant.svg';
 import { ReactComponent as Harvest } from '../../assets/images/task/Harvest.svg';
@@ -25,8 +24,7 @@ import { ReactComponent as SoilAmendment } from '../../assets/images/task/SoilAm
 
 import { useTranslation } from 'react-i18next';
 import Rating from '../Rating';
-import moment from 'moment';
-import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { getTaskCardDate } from '../../util/moment';
 
 const cardColor = {
   planned: 'taskCurrent',
@@ -81,10 +79,7 @@ const PureTaskCard = ({
   if (!locations.length) console.error('Task should be associated with at least one location');
   const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
   const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : t(`crop:${crops[0]}`);
-  const dateText = moment(new Date(dueDate))
-    .locale(getLanguageFromLocalStorage())
-    .utc()
-    .format('MMM D, YYYY');
+  const dateText = getTaskCardDate(dueDate);
   const TaskIcon = iconDict[taskType.task_translation_key];
 
   return (

@@ -868,8 +868,8 @@ function fakeProduct(defaultData = {}){
   return {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
-    on_permitted_substances_list: faker.random.boolean(),
-    type: faker.random.arrayElement(['soil_amendment', 'pest_control', 'cleaner']),
+    on_permitted_substances_list: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
+    type: faker.random.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
     ...defaultData
   }
 }
@@ -886,7 +886,7 @@ async function soil_amendment_taskFactory({
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    amount: faker.random.number(),
+    product_quantity: faker.random.number(),
     purpose: faker.random.arrayElement(['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other']),
     ...defaultData
   };
@@ -1020,9 +1020,10 @@ async function pest_control_taskFactory({
 
 function fakePestControlTask(defaultData = {}) {
   return {
-    amount: faker.random.number(2000),
+    product_quantity: faker.random.number(2000),
     pest_target: faker.lorem.words(2),
-    control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
+    control_method: faker.random.arrayElement([ 'systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
+      'flameWeeding', 'soilFumigation', 'heatTreatment', 'other']),
     ...defaultData
   };
 }
@@ -1079,7 +1080,17 @@ async function field_work_taskFactory({ promisedTask = taskFactory() } = {}, fie
 
 function fakeFieldWorkTask(defaultData = {}) {
   return {
-    type: faker.random.arrayElement(['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']),
+    type: faker.random.arrayElement([
+      'COVERING_SOIL',
+      'FENCING',
+      'PREPARING_BEDS_OR_ROWS',
+      'PRUNING',
+      'SHADE_CLOTH',
+      'TERMINATION',
+      'TILLAGE',
+      'WEEDING',
+      'OTHER',
+    ]),
     ...defaultData,
   };
 }

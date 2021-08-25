@@ -12,37 +12,77 @@
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
+  "ADD_PRODUCT": {
+    "PRESS_ENTER": "MISSING",
+    "PRODUCT_LABEL": "MISSING",
+    "QUANTITY": "MISSING",
+    "SUPPLIER_LABEL": "MISSING"
+  },
   "ADD_TASK": {
     "ADD_A_TASK": "MISSING",
+    "AFFECT_CROPS": "MISSING",
     "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_TASK": "MISSING",
     "ASSIGNEE": "MISSING",
     "CANCEL": "MISSING",
-    "COLLECT_SOIL_SAMPLE": "MISSING",
-    "CREATE_CUSTOM_TASK": "MISSING",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "MISSING",
+      "IS_PERMITTED": "MISSING",
+      "WHAT_NEEDS_TO_BE": "MISSING",
+      "WILL_CLEANER_BE_USED": "MISSING"
+    },
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_CROPS": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
-    "FERTILIZE": "MISSING",
-    "FIELD_WORK": "MISSING",
-    "HARVEST": "MISSING",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE": {
+        "COVERING_SOIL": "MISSING",
+        "FENCING": "MISSING",
+        "OTHER": "MISSING",
+        "PREPARING_BEDS_OR_ROWS": "MISSING",
+        "PRUNING": "MISSING",
+        "SHADE_CLOTH": "MISSING",
+        "TERMINATION": "MISSING",
+        "TILLAGE": "MISSING",
+        "WEEDING": "MISSING"
+      }
+    },
     "HR": "MISSING",
-    "IRRIGATE": "MISSING",
-    "MAINTENANCE": "MISSING",
-    "PEST_CONTROL": "MISSING",
-    "PLANT": "MISSING",
-    "RECORD_SOIL_SAMPLE": "MISSING",
-    "SALES": "MISSING",
-    "SCOUT": "MISSING",
-    "SEARCH_INFOI": "MISSING",
+    "MANAGE_CUSTOM_TASKS": "MISSING",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "MISSING",
+      "FLAME_WEEDING": "MISSING",
+      "FOLIAR_SPRAY": "MISSING",
+      "HAND_PICKING": "MISSING",
+      "IS_PERMITTED": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PEST": "MISSING",
+      "PEST_CONTROL_METHOD": "MISSING",
+      "PRUNING": "MISSING",
+      "SOIL_FUMIGATION": "MISSING",
+      "SYSTEMIC_SPRAY": "MISSING",
+      "TRAPS": "MISSING",
+      "WHAT_PESTS": "MISSING"
+    },
+    "SELECT_ALL": "MISSING",
+    "SELECT_ALL_CROPS": "MISSING",
     "SELECT_TASK_TYPE": "MISSING",
-    "SOCIAL_EVENT": "MISSING",
-    "SOIL_AMENDMENT": "MISSING",
+    "SOIL_AMENDMENT_VIEW": {
+      "IS_PERMITTED": "MISSING",
+      "MOISTURE_RETENTION": "MISSING",
+      "NUTRIENT_AVAILABILITY": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PURPOSE": "MISSING",
+      "PH": "MISSING",
+      "PURPOSE": "MISSING",
+      "STRUCTURE": "MISSING"
+    },
     "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
-    "TRANSPLANT": "MISSING",
-    "TRANSPORT": "MISSING",
-    "WAGE_OVERRIDE": "MISSING",
-    "WASH_AND_PACK": "MISSING"
+    "WAGE_OVERRIDE": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "MISSING",
@@ -224,7 +264,8 @@
       "RETIRE_CROP_TITLE": "Retirar colheita?",
       "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar esta safra",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
-    }
+    },
+    "SUPPLIER": "MISSING"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
@@ -886,11 +927,30 @@
     "PLAN_NOTES": "MISSING"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "MISSING",
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de manejo",
     "AGE": "MISSING",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "MISSING",
+      "ABANDON_REASON": "MISSING",
+      "COMPLETE_PLAN": "MISSING",
+      "DATE_OF_CHANGE": "MISSING",
+      "RATING": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "SOMETHING_ELSE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "WHAT_HAPPENED": "MISSING"
+    },
     "CONTAINER": "Recipiente",
     "CONTAINER_OR_IN_GROUND": "Você está plantando em um recipiente ou no solo?",
     "CONTAINER_TYPE": "Tipo de recipiente",
@@ -903,6 +963,7 @@
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
     "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
     "DROP_PIN": "MISSING",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "ESTIMATED_SEED": "Semente estimada necessária",
@@ -917,6 +978,8 @@
     "HARVEST_DATE": "MISSING",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "No solo",
+    "INCOMPLETE_TASK_CONTENT": "MISSING",
+    "INCOMPLETE_TASK_TITLE": "MISSING",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
     "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
@@ -928,6 +991,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
+    "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
     "PLAN_NOTES": "Notas de plan",
@@ -937,7 +1001,6 @@
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DATE_INFO": "MISSING",
     "PLANTING_DATE_LABEL": "MISSING",
-    "PLANTING_DATE_MIN_ERROR": "MISSING",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
@@ -965,6 +1028,13 @@
     "SELECTED_STARTING_LOCATION": "MISSING",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "ACTIVE": "MISSING",
+      "COMPLETED": "MISSING",
+      "PLANNED": "MISSING"
+    },
+    "SUPPLIER": "MISSING",
     "TERMINATION": "Terminação",
     "TERMINATION_DATE": "MISSING",
     "TOTAL_PLANTS": "# de plantas",
@@ -982,6 +1052,7 @@
         "TEXT": "MISSING"
       }
     },
+    "VARIETY": "MISSING",
     "WHAT_IS_AGE": "MISSING",
     "WHAT_WAS_PLANTING_METHOD": "MISSING",
     "WHERE_START_LOCATION": "MISSING",
@@ -1319,6 +1390,24 @@
     "ROWS_TEXT": "linhas"
   },
   "TASK": {
+    "ABANDON_TASK": "MISSING",
+    "ABANDON": {
+      "ABANDON": "MISSING",
+      "INFO": "MISSING",
+      "NOTES": "MISSING",
+      "REASON_FOR_ABANDONMENT": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "OTHER": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "TITLE": "MISSING",
+      "WHAT_HAPPENED": "MISSING"
+    },
     "ADD_TASK": "MISSING",
     "ADD_TASK_FLOW": "MISSING",
     "ALL": "MISSING",
@@ -1326,8 +1415,19 @@
       "MULTIPLE_CROPS": "MISSING",
       "MULTIPLE_LOCATIONS": "MISSING"
     },
+    "COMPLETE_TASK": "MISSING",
+    "COMPLETE_TASK_CHANGES": "MISSING",
+    "COMPLETE_TASK_DURATION": "MISSING",
+    "COMPLETION_NOTES": "MISSING",
+    "DETAILS": "MISSING",
+    "DID_YOU_ENJOY": "MISSING",
+    "DUE_DATE": "MISSING",
+    "DURATION": "MISSING",
+    "EDIT_TASK": "MISSING",
     "NO_TASKS_TO_DISPLAY": "MISSING",
     "PAGE_TITLE": "MISSING",
+    "PREFER_NOT_TO_SAY": "MISSING",
+    "PROVIDE_RATING": "MISSING",
     "SELECT_DATE": "MISSING",
     "SELECT_TASK_LOCATIONS": "MISSING",
     "STATUS": {
@@ -1337,6 +1437,8 @@
       "LATE": "MISSING",
       "PLANNED": "MISSING"
     },
+    "LOCATIONS": "MISSING",
+    "TASK": "MISSING",
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",

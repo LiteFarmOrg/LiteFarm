@@ -348,27 +348,6 @@ SeedlingWithoutSeedingDate.parameters = {
   ...chromaticSmallScreen,
 };
 
-export const PlantingDatePriorThanSeedingDateError = Template.bind({});
-PlantingDatePriorThanSeedingDateError.args = {
-  useHookFormPersist: () => ({}),
-  system: 'imperial',
-  persistedFormData: {
-    crop_management_plan: {
-      already_in_ground: false,
-      is_wild: undefined,
-      is_seed: false,
-      for_cover: false,
-      needs_transplant: true,
-      ...defaultDates,
-      seed_date: '2021-07-20',
-      plant_date: '2021-07-19',
-    },
-  },
-};
-PlantingDatePriorThanSeedingDateError.parameters = {
-  ...chromaticSmallScreen,
-};
-
 export const TransplantDatePriorThanPlantingDateError = Template.bind({});
 TransplantDatePriorThanPlantingDateError.args = {
   useHookFormPersist: () => ({}),

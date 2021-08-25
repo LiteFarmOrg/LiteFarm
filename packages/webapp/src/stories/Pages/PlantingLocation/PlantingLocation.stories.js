@@ -169,6 +169,10 @@ FinalInGround.args = {
   useHookFormPersist: () => {},
   persistedFormData,
   isFinalLocationPage: true,
+  farmCenterCoordinate: {
+    lat: 49.26886611583817,
+    lng: -123.18239233683167,
+  },
 };
 FinalInGround.parameters = {
   ...chromaticSmallScreen,
@@ -181,6 +185,10 @@ InitialInGround.args = {
   useHookFormPersist: () => {},
   persistedFormData,
   isFinalLocationPage: false,
+  farmCenterCoordinate: {
+    lat: 49.26886611583817,
+    lng: -123.18239233683167,
+  },
 };
 InitialInGround.parameters = {
   ...chromaticSmallScreen,
@@ -195,6 +203,10 @@ FinalSeedling.args = {
     persistedFormData.crop_management_plan.already_in_ground = false;
   }),
   isFinalLocationPage: true,
+  farmCenterCoordinate: {
+    lat: 49.26886611583817,
+    lng: -123.18239233683167,
+  },
 };
 FinalSeedling.parameters = {
   ...chromaticSmallScreen,
@@ -209,7 +221,33 @@ InitialSeedling.args = {
     persistedFormData.crop_management_plan.already_in_ground = false;
   }),
   isFinalLocationPage: false,
+  farmCenterCoordinate: {
+    lat: 49.26886611583817,
+    lng: -123.18239233683167,
+  },
 };
 InitialSeedling.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const InitialSeedlingWithDefaultFarmLocation = Template.bind({});
+InitialSeedlingWithDefaultFarmLocation.args = {
+  cropLocations,
+  variety_id: 'variety_id',
+  useHookFormPersist: () => {},
+  persistedFormData: produce(persistedFormData, (persistedFormData) => {
+    persistedFormData.crop_management_plan.already_in_ground = false;
+    persistedFormData.farm = {
+      default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+    };
+  }),
+  isFinalLocationPage: false,
+  default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
+  farmCenterCoordinate: {
+    lat: 49.26886611583817,
+    lng: -123.18239233683167,
+  },
+};
+InitialSeedlingWithDefaultFarmLocation.parameters = {
   ...chromaticSmallScreen,
 };

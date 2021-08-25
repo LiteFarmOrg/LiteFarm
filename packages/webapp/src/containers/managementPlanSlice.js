@@ -10,15 +10,21 @@ import { cropManagementPlanSelectors } from './cropManagementPlanSlice';
 import { plantingManagementPlanEntitiesByManagementPlanIdSelector } from './plantingManagementPlanSlice';
 
 export const getManagementPlan = (obj) => {
-  return pick(obj, [
-    'crop_variety_id',
-    'management_plan_id',
-    'notes',
-    'name',
-    'start_date',
-    'complete_date',
-    'abandon_date',
-  ]);
+  return pick(
+    { ...obj, rating: obj.rating === null ? undefined : Number(obj.rating) || undefined },
+    [
+      'crop_variety_id',
+      'management_plan_id',
+      'notes',
+      'name',
+      'start_date',
+      'complete_date',
+      'abandon_date',
+      'rating',
+      'complete_notes',
+      'abandon_reason',
+    ],
+  );
 };
 
 const addOneManagementPlan = (state, { payload }) => {
@@ -60,6 +66,7 @@ const managementPlanSlice = createSlice({
     getManagementPlansSuccess: addManyManagementPlan,
     deleteManagementPlanSuccess: managementPlanAdapter.removeOne,
     deleteManagementPlansSuccess: managementPlanAdapter.removeMany,
+    updateManagementPlanSuccess: updateOneManagementPlan,
   },
 });
 export const {
@@ -68,6 +75,7 @@ export const {
   onLoadingManagementPlanFail,
   deleteManagementPlanSuccess,
   deleteManagementPlansSuccess,
+  updateManagementPlanSuccess,
 } = managementPlanSlice.actions;
 export default managementPlanSlice.reducer;
 
@@ -105,7 +113,7 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
  *   }
  * }
  */
-const managementPlanEntitiesSelector = createSelector(
+export const managementPlanEntitiesSelector = createSelector(
   [
     managementPlanSelectors.selectEntities,
     cropEntitiesSelector,
@@ -133,6 +141,7 @@ const managementPlanEntitiesSelector = createSelector(
         ...crop_variety,
         ...management_plan,
         ...crop_management_plan,
+        crop_management_plan,
         planting_management_plans,
         crop,
         crop_variety,
@@ -141,6 +150,13 @@ const managementPlanEntitiesSelector = createSelector(
     return entities;
   },
 );
+
+export const managementPlanSelector = (management_plan_id) =>
+  createSelector(
+    managementPlanEntitiesSelector,
+    (managementPlanEntities) => managementPlanEntities[management_plan_id],
+  );
+
 export const managementPlansSelector = createSelector(
   [managementPlanEntitiesSelector, loginSelector],
   (managementPlanEntities, { farm_id }) =>
@@ -153,6 +169,20 @@ export const expiredManagementPlansSelector = createSelector(
   [managementPlansSelector, lastActiveDatetimeSelector],
   (managementPlans, lastActiveDatetime) => {
     return getExpiredManagementPlans(managementPlans, lastActiveDatetime);
+  },
+);
+
+export const completedManagementPlansSelector = createSelector(
+  [expiredManagementPlansSelector],
+  (managementPlans) => {
+    return managementPlans.filter(({ abandon_date }) => !abandon_date);
+  },
+);
+
+export const abandonedManagementPlansSelector = createSelector(
+  [expiredManagementPlansSelector],
+  (managementPlans) => {
+    return managementPlans.filter(({ abandon_date }) => abandon_date);
   },
 );
 
@@ -245,9 +275,10 @@ export const cropVarietiesWithoutManagementPlanSelector = createSelector(
 export const getLocationIdFromManagementPlan = (managementPlan) =>
   managementPlan.planting_management_plans?.final.location_id;
 
-const filterManagementPlansByLocationId = (location_id, managementPlans) =>
-  managementPlans.filter((managementPlan) => getLocationIdFromManagementPlan(managementPlan)) ===
-  location_id;
+export const filterManagementPlansByLocationId = (location_id, managementPlans) =>
+  managementPlans.filter(
+    (managementPlan) => getLocationIdFromManagementPlan(managementPlan) === location_id,
+  );
 
 //TODO: remove
 export const cropTranslationKeyByManagementPlanSelector = createSelector(
@@ -302,11 +333,6 @@ export const plannedManagementPlansByLocationIdSelector = (location_id) =>
     (location_id, managementPlans) =>
       filterManagementPlansByLocationId(location_id, managementPlans),
   );
-
-export const managementPlanSelector = managementPlanSelectors.selectById;
-
-export const managementPlanSelectorById = (management_plan_id) => (state) =>
-  managementPlanSelectors.selectById(state, management_plan_id);
 
 export const managementPlanStatusSelector = createSelector(
   [managementPlanReducerSelector],

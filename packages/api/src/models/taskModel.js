@@ -31,14 +31,14 @@ class TaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['due_date', 'type', 'happiness'],
+      required: ['due_date', 'type'],
 
       properties: {
         task_id: { type: 'integer' },
         type: { type: 'integer' },
         due_date: { type: 'date-time' },
         notes: { type: 'string' },
-        completion_notes: { type: 'string' },
+        completion_notes: { type: ['string', null], maxLength: 10000 },
         owner_user_id: { type: 'string' },
         assignee_user_id: { type: ['string', null] },
         coordinates: { type: 'object' },
@@ -46,10 +46,24 @@ class TaskModel extends BaseModel {
         wage_at_moment: { type: 'number' },
         happiness: { type: 'integer', minimum: 0, maximum: 5 },
         planned_time: { type: 'date-time' },
-        completed_time: { type: ['date-time', null] },
+        completed_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
         late_time: { type: ['date-time', null] },
         for_review_time: { type: ['date-time', null] },
-        abandoned_time: { type: ['date-time', null] },
+        abandoned_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
+        abandonment_reason: {
+          type: 'string',
+          enum: [
+            'OTHER',
+            'CROP_FAILURE',
+            'LABOUR_ISSUE',
+            'MARKET_PROBLEM',
+            'WEATHER',
+            'MACHINERY_ISSUE',
+            'SCHEDULING_ISSUE',
+          ],
+        },
+        other_abandonment_reason: { type: ['string', null] },
+        abandonment_notes: { type: ['string', null], maxLength: 10000 },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -113,6 +127,14 @@ class TaskModel extends BaseModel {
         join: {
           from: 'task.task_id',
           to: 'harvest_task.task_id',
+        },
+      },
+      cleaning_task: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./cleaningTaskModel'),
+        join: {
+          from: 'task.task_id',
+          to: 'cleaning_task.task_id',
         },
       },
       harvestUse: {

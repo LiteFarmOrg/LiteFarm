@@ -15,7 +15,12 @@
 
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
-const { transaction, Model, raw } = require('objection');
+const managementTasksModel = require('../models/managementTasksModel');
+const taskModel = require('../models/taskModel');
+
+const { transaction, Model, raw, ref } = require('objection');
+
+const lodash = require('lodash');
 
 const managementPlanController = {
   addManagementPlan() {
@@ -41,6 +46,69 @@ const managementPlanController = {
       try {
         const isDeleted = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).delete();
         if (isDeleted) {
+          return res.sendStatus(200);
+        } else {
+          return res.sendStatus(404);
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  completeManagementPlan() {
+    return async (req, res) => {
+
+      try {
+        const result = await managementPlanModel.query().context(req.user).where({ management_plan_id: req.params.management_plan_id }).patch(lodash.pick(req.body, ['complete_date', 'complete_notes', 'rating']));
+        if (result) {
+          return res.sendStatus(200);
+        } else {
+          return res.sendStatus(404);
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  },
+
+  abandonManagementPlan() {
+    return async (req, res) => {
+      try {
+        const { management_plan_id } = req.params;
+        const result = await managementPlanModel.transaction(async trx => {
+          /**
+           * Get all related task_ids and number of related management plans of each task_id
+           * @type {{task_id: string, count: string}[]}
+           */
+          const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
+            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
+              .groupBy('task_id').count('management_plan_id').select('task_id'));
+
+          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1')
+            .map(({ task_id }) => task_id);
+          const abandonedTasks = await taskModel.query(trx).context(req.user)
+            .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
+            .patch({
+              abandoned_time: req.body.abandon_date,
+              abandonment_reason: 'OTHER',
+              other_abandonment_reason: 'Crop management plan abandoned',
+            });
+          const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount.filter(({ count }) => Number(count) > 1).map(({ task_id }) => task_id);
+          const deletedManagementPlans = await managementTasksModel.query(trx).context(req.user)
+            .where({ management_plan_id })
+            .whereIn('task_id', taskIdsRelatedToManyManagementPlans)
+            .delete();
+          return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
+        });
+
+        if (result) {
           return res.sendStatus(200);
         } else {
           return res.sendStatus(404);

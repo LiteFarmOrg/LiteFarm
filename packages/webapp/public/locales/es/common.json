@@ -1,4 +1,5 @@
 {
+  "ABANDON": "MISSING",
   "ACTIVE": "Activo",
   "ALL": "Todo",
   "APPLY": "Aplicar",
@@ -21,6 +22,8 @@
   "HOURS": "Horas",
   "LOADING": "Cargando...",
   "LOCATION": "Ubicacion",
+  "MARK_ABANDON": "MISSING",
+  "MARK_COMPLETE": "MISSING",
   "MARK_COMPLETED": "MISSING",
   "MAX_ERROR": "Por favor, ingrese un valor menor que {{value}}",
   "MIN_ERROR": "Por favor, ingrese un valor mayor que {{value}}",

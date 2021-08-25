@@ -16,5 +16,7 @@
   "TRANSPORT": "MISSING",
   "FIELD_WORK": "MISSING",
   "PLANTING": "MISSING",
-  "SOCIAL": "MISSING"
+  "SOCIAL": "Social",
+  "CLEANING": "Cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment"
 }

@@ -93,9 +93,13 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "No se pudo agregar plan de manejo"
     },
     "SUCCESS": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Plan de manejo agregado exitosamente"
     }
   },
@@ -139,6 +143,20 @@
       "ADD": "Nuevo turno agregado exitosamente!",
       "DELETE": "Borrar turno!",
       "UPDATE": "Turno agregado exitosamente!"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "USER": {

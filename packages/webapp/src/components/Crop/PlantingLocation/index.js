@@ -21,6 +21,7 @@ export default function PurePlantingLocation({
   history,
   cropLocations,
   default_initial_location_id,
+  farmCenterCoordinate,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const { getValues, watch, setValue } = useForm({
@@ -50,7 +51,11 @@ export default function PurePlantingLocation({
   const defaultInitialLocationId = watch(DEFAULT_INITIAL_LOCATION_ID);
 
   const setLocationId = (location_id) => {
-    setValue(LOCATION_ID, location_id);
+    if (selectedLocationId === location_id) {
+      setValue(LOCATION_ID, null);
+    } else {
+      setValue(LOCATION_ID, location_id);
+    }
     if (showInitialLocationCheckbox && defaultInitialLocationId) {
       setValue(DEFAULT_INITIAL_LOCATION_ID, location_id);
     }
@@ -58,6 +63,7 @@ export default function PurePlantingLocation({
   useEffect(() => {
     if (!(already_in_ground && is_wild) && !isFinalLocationPage && !selectedLocationId) {
       setLocationId(default_initial_location_id);
+      setValue(DEFAULT_INITIAL_LOCATION_ID, default_initial_location_id);
     }
   }, []);
 
@@ -129,13 +135,13 @@ export default function PurePlantingLocation({
         <p className={styles.planting_label}>{plantingLabel}</p>
 
         <LocationPicker
-          className={styles.mapContainer}
-          setLocationId={setLocationId}
-          selectedLocationId={selectedLocationId}
-          canUsePin={pinToggle}
-          setPinLocation={setPinLocation}
-          currentPin={pinCoordinate}
-          cropLocations={cropLocations}
+          onSelectLocation={setLocationId}
+          farmCenterCoordinate={farmCenterCoordinate}
+          selectedLocationIds={[selectedLocationId]}
+          isPinMode={pinToggle}
+          setPinCoordinate={setPinLocation}
+          pinCoordinate={pinCoordinate}
+          locations={cropLocations}
         />
 
         <div>
@@ -184,5 +190,6 @@ PurePlantingLocation.prototype = {
   isFinalLocationPage: PropTypes.bool,
   variety_id: PropTypes.string,
   history: PropTypes.object,
-  cropLocations: PropTypes.object,
+  locations: PropTypes.object,
+  farmCenterCoordinate: PropTypes.object,
 };

@@ -2,7 +2,7 @@ import PureTaskCrops from '../../../components/AddTask/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useManagementPlansByLocationIds } from './useManagementPlansByLocationIds';
+import { useManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
 
 function TaskCrops({ history, match }) {
   const onContinuePath = '/add_task/task_details';
@@ -22,7 +22,9 @@ function TaskCrops({ history, match }) {
   };
 
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const managementPlansByLocationIds = useManagementPlansByLocationIds(persistedFormData.locations);
+  const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
+    persistedFormData.locations,
+  );
   return (
     <HookFormPersistProvider>
       <PureTaskCrops

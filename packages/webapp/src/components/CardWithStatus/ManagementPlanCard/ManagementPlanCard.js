@@ -6,12 +6,20 @@ import React from 'react';
 import { getShortLocalizedDateString } from '../../../util/moment';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import i18n from '../../../locales/i18n';
 
 const statusColorMap = {
   active: 'secondary',
   planned: 'secondary',
   completed: 'completed',
   abandoned: 'completed',
+};
+
+export const managementPlanStatusText = {
+  active: i18n.t('MANAGEMENT_PLAN.STATUS.ACTIVE'),
+  planned: i18n.t('MANAGEMENT_PLAN.STATUS.PLANNED'),
+  completed: i18n.t('MANAGEMENT_PLAN.STATUS.COMPLETED'),
+  abandoned: i18n.t('MANAGEMENT_PLAN.STATUS.ABANDONED'),
 };
 
 export function ManagementPlanCard({
@@ -28,18 +36,13 @@ export function ManagementPlanCard({
   score,
 }) {
   const { t } = useTranslation();
-  const statusText = {
-    active: t('MANAGEMENT_PLAN.STATUS.ACTIVE'),
-    planned: t('MANAGEMENT_PLAN.STATUS.PLANNED'),
-    completed: t('MANAGEMENT_PLAN.STATUS.COMPLETED'),
-    abandoned: t('MANAGEMENT_PLAN.STATUS.ABANDONED'),
-  };
+
   return (
     <CardWithStatus
       color={statusColorMap[status]}
       style={style}
       status={status}
-      label={statusText[status]}
+      label={managementPlanStatusText[status]}
       classes={{ ...classes, card: { padding: '12px', ...classes.card } }}
       onClick={onClick}
       score={score}

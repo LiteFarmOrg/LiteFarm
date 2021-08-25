@@ -9,8 +9,6 @@ import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
-import clsx from 'clsx';
-import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import Square from '../../Square';
 import produce from 'immer';
@@ -26,7 +24,6 @@ const PureTaskCrops = ({
   persistedPaths,
   useHookFormPersist,
   managementPlansByLocationIds,
-  history,
 }) => {
   const { t } = useTranslation();
 
@@ -52,7 +49,7 @@ const PureTaskCrops = ({
   };
 
   const locationIds = Object.keys(managementPlansByLocationIds);
-  const filteredMPs = useMemo(() => {
+  const managementPlansFilteredByInput = useMemo(() => {
     if (!filter) {
       return managementPlansByLocationIds;
     } else {
@@ -101,11 +98,13 @@ const PureTaskCrops = ({
 
   const selectAllCrops = () => {
     setSelectedManagementPlanIds((prevManagementPlanIds) =>
-      Object.keys(filteredMPs).reduce((managementPlanIds, location_id) => {
+      Object.keys(managementPlansFilteredByInput).reduce((managementPlanIds, location_id) => {
         managementPlanIds = [
           ...prevManagementPlanIds,
           ...managementPlanIds,
-          ...filteredMPs[location_id].map(({ management_plan_id }) => management_plan_id),
+          ...managementPlansFilteredByInput[location_id].map(
+            ({ management_plan_id }) => management_plan_id,
+          ),
         ];
         return getArrayWithUniqueValues(managementPlanIds);
       }, []),
@@ -116,13 +115,15 @@ const PureTaskCrops = ({
     setSelectedManagementPlanIds((prevManagementPlanIds) =>
       getArrayWithUniqueValues([
         ...prevManagementPlanIds,
-        ...filteredMPs[location_id].map(({ management_plan_id }) => management_plan_id),
+        ...managementPlansFilteredByInput[location_id].map(
+          ({ management_plan_id }) => management_plan_id,
+        ),
       ]),
     );
   };
 
   const clearAllManagementPlansOfALocation = (location_id) => {
-    const managementPlanIdsOfLocation = filteredMPs[location_id].map(
+    const managementPlanIdsOfLocation = managementPlansFilteredByInput[location_id].map(
       ({ management_plan_id }) => management_plan_id,
     );
     setSelectedManagementPlanIds(
@@ -133,7 +134,7 @@ const PureTaskCrops = ({
   };
 
   const clearAllCrops = () => {
-    const managementPlanIds = Object.values(filteredMPs).reduce(
+    const managementPlanIds = Object.values(managementPlansFilteredByInput).reduce(
       (managementPlanIds, managementPlans) => [
         ...managementPlanIds,
         ...managementPlans.map(({ management_plan_id }) => management_plan_id),
@@ -195,7 +196,7 @@ const PureTaskCrops = ({
           </Underlined>
         </div>
 
-        {Object.keys(filteredMPs).map((location_id) => {
+        {Object.keys(managementPlansFilteredByInput).map((location_id) => {
           let location_name =
             managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
               .name;
@@ -210,17 +211,17 @@ const PureTaskCrops = ({
                 />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
-                {filteredMPs[location_id].map((plan) => {
+                {managementPlansFilteredByInput[location_id].map((managementPlan) => {
                   return (
                     <PureManagementPlanTile
-                      key={plan.management_plan_id}
-                      isSelected={selectedManagementPlanIds.includes(plan.management_plan_id)}
-                      onClick={() => onSelectManagementPlan(plan.management_plan_id)}
-                      className={clsx(
-                        selectedManagementPlanIds.includes(plan.management_plan_id) &&
-                          styles.typeContainerSelected,
+                      key={managementPlan.management_plan_id}
+                      isSelected={selectedManagementPlanIds.includes(
+                        managementPlan.management_plan_id,
                       )}
-                      managementPlan={plan}
+                      onClick={() => onSelectManagementPlan(managementPlan.management_plan_id)}
+                      managementPlan={managementPlan}
+                      date={managementPlan.firstTaskDate}
+                      status={managementPlan.status}
                     />
                   );
                 })}

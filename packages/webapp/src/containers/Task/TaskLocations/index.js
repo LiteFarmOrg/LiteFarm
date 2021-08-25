@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   hookFormPersistSelector,
   setManagementPlansData,
@@ -9,7 +9,7 @@ import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import { locationsSelector, cropLocationsSelector } from '../../locationSlice';
-import { useActiveAndCurrentManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlansByLocationIds';
+import { useActiveAndCurrentManagementPlansByLocationIds }from '../../AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
 import { taskTypeById } from '../../taskTypeSlice';
 import { getDateUTC } from '../../../util/moment';
 
@@ -18,8 +18,6 @@ export default function TaskLocations({ history }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const persistedPath = ['/add_task/task_date', '/add_task/task_details', '/add_task/task_crops'];
-
-  const [taskLocations, setTaskLocations] = useState([]);
 
   const onCancel = () => {
     history.push('/tasks');
@@ -55,8 +53,6 @@ export default function TaskLocations({ history }) {
         onCancel={onCancel}
         onContinue={onContinue}
         onGoBack={onGoBack}
-        setTaskLocations={setTaskLocations}
-        taskLocations={taskLocations}
         persistedPath={persistedPath}
         farmCenterCoordinate={grid_points}
         locations={selectedTaskType.task_translation_key === HARVEST_TYPE ? activeAndPlannedLocations : locations}

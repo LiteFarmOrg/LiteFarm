@@ -21,7 +21,7 @@ Active.args = {
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
-  status: 'Active',
+  status: 'active',
 };
 
 export const Planned = Template.bind({});
@@ -32,7 +32,7 @@ Planned.args = {
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
-  status: 'Planned',
+  status: 'planned',
 };
 
 export const Past = Template.bind({});
@@ -43,7 +43,7 @@ Past.args = {
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
-  status: 'Past',
+  status: 'past',
 };
 
 export const Selected = Template.bind({});
@@ -54,6 +54,6 @@ Selected.args = {
     crop_translation_key: 'CARROT',
     crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
   },
-  status: 'Past',
+  status: 'past',
   isSelected: true,
 };

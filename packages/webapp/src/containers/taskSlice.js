@@ -134,10 +134,16 @@ const getTaskEntitiesByManagementPlanId = (tasks) => {
   }, {});
 };
 
-export const taskEntitiesSelectorByManagementPlanId = createSelector(
+export const taskEntitiesByManagementPlanIdSelector = createSelector(
   [tasksSelector],
   getTaskEntitiesByManagementPlanId,
 );
+
+export const tasksByManagementPlanIdSelector = (management_plan_id) =>
+  createSelector(
+    taskEntitiesByManagementPlanIdSelector,
+    (taskEntitiesByManagementPlanId) => taskEntitiesByManagementPlanId[management_plan_id],
+  );
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
 

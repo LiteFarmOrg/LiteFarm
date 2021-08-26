@@ -5,7 +5,7 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/managemen
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';
-import { getShortLocalizedDateString } from '../../../util/moment';
+import { getManagementPlanTileDate } from '../../../util/moment';
 
 const cropStatus = {
   active: 'active',
@@ -56,7 +56,7 @@ export default function PureManagementPlanTile({
         {displayDate && (
           <div className={styles.dateContainer}>
             <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon)} />
-            <div className={styles.infoBody}>{getShortLocalizedDateString(displayDate)}</div>
+            <div className={styles.infoBody}>{getManagementPlanTileDate(displayDate)}</div>
           </div>
         )}
       </>

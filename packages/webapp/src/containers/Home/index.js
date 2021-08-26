@@ -17,6 +17,8 @@ import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmMod
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
+import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { CertificationsModal } from '../../components/Modals/CertificationsModal';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
@@ -32,6 +34,18 @@ export default function Home({ history }) {
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
   const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
+
+  // Certification modal logic
+  const certifierSurvey = useSelector(certifierSurveySelector);
+  const [showCertificationsModal, setShowCertificationsModal] = useState(
+    certifierSurvey && Object.keys(certifierSurvey).length === 0,
+  );
+  const onClickMaybeLater = () => {
+    console.log('maybe later');
+    // api call to set organic certifier survey
+    // dispatch show drop down highlight
+  };
+
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
@@ -66,6 +80,14 @@ export default function Home({ history }) {
       )}
 
       {showExportModal && <PreparingExportModal dismissModal={() => setShowExportModal(false)} />}
+
+      {showCertificationsModal && (
+        <CertificationsModal
+          handleClickMaybeLater={onClickMaybeLater}
+          dismissModal={() => setShowCertificationsModal(false)}
+          history={history}
+        />
+      )}
     </PureHome>
   );
 }

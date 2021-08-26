@@ -299,6 +299,7 @@ const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskCompl
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/AddTask/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
+const EditCustomTaskUpdate = React.lazy(() => import('./containers/AddTask/EditCustomTaskUpdate'));
 
 const Routes = () => {
   useScrollToTop();
@@ -678,6 +679,11 @@ const Routes = () => {
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -989,6 +995,11 @@ const Routes = () => {
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1099,6 +1110,11 @@ const Routes = () => {
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
             <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

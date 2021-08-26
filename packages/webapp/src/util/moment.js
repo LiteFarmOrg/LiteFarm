@@ -7,6 +7,15 @@ import { getLanguageFromLocalStorage } from './getLanguageFromLocalStorage';
  * @return {string}
  */
 export const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD');
+
+/**
+ * 
+ * 
+ * @param date
+ * @return {Moment}
+ */
+export const getDateUTC = (date) => moment(date).utc();
+
 /**
  *
  * @param pastDate

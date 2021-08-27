@@ -1036,7 +1036,7 @@ async function harvest_taskFactory({ promisedTask = taskFactory() } = {}, harves
 
 function fakeHarvestTask(defaultData = {}) {
   return {
-    quantity_kg: faker.random.number(1000),
+    quantity: faker.random.number(1000),
     ...defaultData,
   };
 }

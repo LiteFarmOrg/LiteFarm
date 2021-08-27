@@ -7,6 +7,15 @@ import { getLanguageFromLocalStorage } from './getLanguageFromLocalStorage';
  * @return {string}
  */
 export const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD');
+
+/**
+ *
+ *
+ * @param date
+ * @return {Moment}
+ */
+export const getDateUTC = (date) => moment(date).utc();
+
 /**
  *
  * @param pastDate
@@ -41,6 +50,9 @@ export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
  */
 export const getShortLocalizedDateString = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
+
+export const getManagementPlanTileDate = (date) =>
+  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
 
 export const getTaskCardDate = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).utc().format('MMM D, YYYY');

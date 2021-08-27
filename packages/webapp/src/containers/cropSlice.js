@@ -136,7 +136,12 @@ const cropAdapter = createEntityAdapter({
 
 const cropSlice = createSlice({
   name: 'cropReducer',
-  initialState: cropAdapter.getInitialState({ loading: false, error: undefined, loaded: false }),
+  initialState: cropAdapter.getInitialState({
+    loading: false,
+    error: undefined,
+    loaded: false,
+    crop_version: undefined,
+  }),
   reducers: {
     onLoadingCropStart: onLoadingStart,
     onLoadingCropFail: onLoadingFail,
@@ -149,6 +154,9 @@ const cropSlice = createSlice({
     selectCropSuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
+    setCropVersion(state) {
+      state.crop_version = '2.0';
+    },
   },
 });
 export const {
@@ -157,10 +165,13 @@ export const {
   onLoadingCropStart,
   onLoadingCropFail,
   getAllCropsSuccess,
+  setCropVersion,
 } = cropSlice.actions;
 export default cropSlice.reducer;
 
 export const cropReducerSelector = (state) => state.entitiesReducer[cropSlice.name];
+
+export const cropVersionSelector = (state) => state.entitiesReducer[cropSlice.name].crop_version;
 
 const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropSlice.name]);
 

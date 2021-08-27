@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, take, race, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
@@ -133,6 +133,10 @@ import {
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
 import { getTasks, getTaskTypes } from './Task/saga';
+import {
+  getCertificationSurveysSuccess,
+  onLoadingCertifierSurveyFail,
+} from './OrganicCertifierSurvey/slice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -519,10 +523,16 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       // put(resetShiftFilter()),
     ]);
 
+    yield race([
+      take(getCertificationSurveysSuccess.type),
+      take(onLoadingCertifierSurveyFail.type),
+    ]);
+
     const {
       data: { farm_token },
     } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
     localStorage.setItem('farm_token', farm_token);
+    history.push({ pathname: '/' });
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }

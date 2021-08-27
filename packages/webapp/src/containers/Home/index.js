@@ -17,7 +17,10 @@ import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmMod
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import {
+  certifierSurveySelector,
+  doesCertifierSurveyExistSelector,
+} from '../OrganicCertifierSurvey/slice';
 import { CertificationsModal } from '../../components/Modals/CertificationsModal';
 
 export default function Home({ history }) {
@@ -37,9 +40,9 @@ export default function Home({ history }) {
 
   // Certification modal logic
   const certifierSurvey = useSelector(certifierSurveySelector);
-  const [showCertificationsModal, setShowCertificationsModal] = useState(
-    certifierSurvey && Object.keys(certifierSurvey).length === 0,
-  );
+  const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
+  console.log(`Does the survey exist? ${doesCertifierSurveyExist}`);
+  const [showCertificationsModal, setShowCertificationsModal] = useState(!doesCertifierSurveyExist);
   const onClickMaybeLater = () => {
     console.log('maybe later');
     // api call to set organic certifier survey

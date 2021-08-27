@@ -71,7 +71,6 @@ const PureHarvestingTask = ({
                   return (
                     <div className={styles.harvestDetails} style={{ marginBottom: '48px' }}>
                       <PureManagementPlanTile
-                        className={styles.cropTile}
                         key={managementPlanId}
                         managementPlan={managementPlan}
                         date={managementPlan.firstTaskDate}

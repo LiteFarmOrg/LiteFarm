@@ -8,7 +8,10 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { locationsSelector } from '../../locationSlice';
+import { locationsSelector, cropLocationsSelector } from '../../locationSlice';
+import { useActiveAndCurrentManagementPlansByLocationIds }from '../../AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
+import { taskTypeById } from '../../taskTypeSlice';
+import { getDateUTC } from '../../../util/moment';
 
 export default function TaskLocations({ history }) {
   const dispatch = useDispatch();
@@ -32,8 +35,17 @@ export default function TaskLocations({ history }) {
     history.push('/add_task/task_date');
   };
 
+  const HARVEST_TYPE = 'HARVEST';
+
   const { grid_points } = useSelector(userFarmSelector);
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
+  const due_date = persistedFormData.due_date;
   const locations = useSelector(locationsSelector);
+  const cropLocations = useSelector(cropLocationsSelector);
+  const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
+  const activeAndPlannedLocationsIds = Object.keys(useActiveAndCurrentManagementPlansByLocationIds(cropLocationsIds, getDateUTC(due_date).toDate().getTime()));
+  const activeAndPlannedLocations = cropLocations.filter(({ location_id }) => activeAndPlannedLocationsIds.includes(location_id));
+
 
   return (
     <HookFormPersistProvider>
@@ -43,7 +55,7 @@ export default function TaskLocations({ history }) {
         onGoBack={onGoBack}
         persistedPath={persistedPath}
         farmCenterCoordinate={grid_points}
-        locations={locations}
+        locations={selectedTaskType.task_translation_key === HARVEST_TYPE ? activeAndPlannedLocations : locations}
       />
     </HookFormPersistProvider>
   );

@@ -977,6 +977,7 @@ const Routes = () => {
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
             <Route path="/add_task/task_details" exact component={TaskDetails} />
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
+            <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />

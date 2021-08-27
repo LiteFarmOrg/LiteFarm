@@ -3,7 +3,9 @@ import { getUnitOptionMap } from '../components/Form/Unit';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';
-
+/**
+ * seeding_rate: kg/m2
+ */
 const databaseUnit = {
   area: 'm2',
   length: 'm',

@@ -22,7 +22,6 @@ export default function PureEditCropVariety({
   cropVariety,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
-
   const {
     register,
     handleSubmit,
@@ -34,8 +33,8 @@ export default function PureEditCropVariety({
     shouldUnregister: true,
     defaultValues: {
       crop_variety_photo_url:
-        cropVariety.crop_photo_url ||
-        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v1/default.webp`,
+        cropVariety.crop_variety_photo_url ||
+        cropVariety.crop_photo_url`https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v2/default.webp`,
       ...(({
         crop_variety_name,
         supplier,

@@ -74,7 +74,13 @@ import {
   onLoadingWaterValveStart,
 } from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
-import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
+import {
+  cropVersionSelector,
+  getAllCropsSuccess,
+  onLoadingCropFail,
+  onLoadingCropStart,
+  setCropVersion,
+} from './cropSlice';
 import {
   getManagementPlansSuccess,
   onLoadingManagementPlanFail,
@@ -199,8 +205,14 @@ export function* getCropsSaga() {
 
   try {
     yield put(onLoadingCropStart());
-    const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
+    const crop_version = yield select(cropVersionSelector);
+    const result = yield call(
+      axios.get,
+      `${cropURL}/farm/${farm_id}?crop_version=${crop_version}`,
+      header,
+    );
     yield put(getAllCropsSuccess(result.data));
+    yield put(setCropVersion());
   } catch (e) {
     yield put(onLoadingCropFail());
     console.error('failed to fetch all crops from database');

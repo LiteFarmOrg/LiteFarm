@@ -35,18 +35,23 @@ const useStyles = makeStyles({
     backgroundColor: colors.grey200,
     color: colors.grey600,
   },
+  sm: {
+    height: '16px',
+    fontSize: '11px',
+  },
 });
 
-export const StatusLabel = ({ color = 'active', label, ...props }) => {
+export const StatusLabel = ({ color = 'active', label, sm, ...props }) => {
   const classes = useStyles();
   return (
-    <div className={clsx(classes.container, classes[color])} {...props}>
+    <div className={clsx(classes.container, classes[color], sm && classes.sm)} {...props}>
       {label}
     </div>
   );
 };
 
 StatusLabel.propTypes = {
-  status: PropTypes.oneOf(['active', 'planned', 'late', 'completed', 'abandoned', 'disabled']),
+  color: PropTypes.oneOf(['active', 'planned', 'late', 'completed', 'abandoned', 'disabled']),
   label: PropTypes.string,
+  sm: PropTypes.bool,
 };

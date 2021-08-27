@@ -82,7 +82,9 @@
     },
     "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
-    "WAGE_OVERRIDE": "MISSING"
+    "WAGE_OVERRIDE": "MISSING",
+    "QUANTITY": "MISSING",
+    "HARVEST_EVERYTHING": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",

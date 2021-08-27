@@ -30,6 +30,11 @@ import {
 } from '../../../components/Crop/addManagementPlanPaths';
 import { useManagementPlanCardContents } from './useManagementPlanCardContents';
 
+const seedingTypeIsSeedMap = {
+  SEED: true,
+  SEEDLING_OR_PLANTING_STOCK: false,
+};
+
 function CropManagement({ history, match }) {
   const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
@@ -45,13 +50,24 @@ function CropManagement({ history, match }) {
       setFormData({
         crop_management_plan: {
           for_cover: selectedVariety.can_be_cover_crop ? undefined : false,
-          is_seed: selectedVariety.is_seed,
-          germination_days: selectedVariety.germination_days,
-          transplant_days: selectedVariety.transplant_days,
-          harvest_days: selectedVariety.harvest_days,
-          termination_days: selectedVariety.termination_days,
+          is_seed: seedingTypeIsSeedMap[selectedVariety.seeding_type],
+          needs_transplant: selectedVariety.needs_transplant,
+
           planting_management_plans: {
-            final: { estimated_yield_unit },
+            final: {
+              estimated_yield_unit,
+              planting_method: selectedVariety.planting_method,
+              bed_method: {
+                plant_spacing: selectedVariety.plant_spacing,
+                planting_depth: selectedVariety.planting_depth,
+              },
+              row_method: {
+                plant_spacing: selectedVariety.plant_spacing,
+                planting_depth: selectedVariety.planting_depth,
+              },
+              broadcast_method: { seeding_rate: selectedVariety.seeding_rate },
+              container_method: { planting_depth: selectedVariety.planting_depth },
+            },
             initial: { estimated_yield_unit },
           },
         },

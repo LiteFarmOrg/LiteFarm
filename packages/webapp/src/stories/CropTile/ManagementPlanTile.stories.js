@@ -19,7 +19,7 @@ Active.args = {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/carrot.webp`,
   },
   status: 'active',
 };
@@ -30,7 +30,7 @@ Planned.args = {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/carrot.webp`,
   },
   status: 'planned',
 };
@@ -41,7 +41,7 @@ Past.args = {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/carrot.webp`,
   },
   status: 'past',
 };
@@ -52,7 +52,7 @@ Selected.args = {
     crop_variety_name: 'Bolero',
     start_date: '2020-12-25T15:02:31.440Z',
     crop_translation_key: 'CARROT',
-    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/carrot.webp`,
+    crop_variety_photo_url: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/carrot.webp`,
   },
   status: 'past',
   isSelected: true,

@@ -14,6 +14,7 @@ import {
   CEREALS,
   FIRST_NUTRIENT_ARRAY,
   FRUITS_AND_NUTS,
+  HIGH_STARCH_ROOT_TUBER_CROP,
   LEGUMINOUS_CROPS,
   NUTRIENT_ARRAY,
   NUTRIENT_DICT,
@@ -21,6 +22,7 @@ import {
   OTHER_CROPS,
   POTATOES_AND_YAMS,
   SECOND_NUTRIENT_ARRAY,
+  STIMULANT_SPICE_AROMATIC_CROPS,
   SUGAR_CROPS,
   VEGETABLE_AND_MELONS,
 } from './constants';
@@ -64,6 +66,11 @@ export default function PureAddNewCrop({
     { value: POTATOES_AND_YAMS, label: t('crop_group:POTATOES_AND_YAMS') },
     { value: SUGAR_CROPS, label: t('crop_group:SUGAR_CROPS') },
     { value: VEGETABLE_AND_MELONS, label: t('crop_group:VEGETABLE_AND_MELONS') },
+    {
+      value: STIMULANT_SPICE_AROMATIC_CROPS,
+      label: t('crop_group:STIMULANT_SPICE_AROMATIC_CROPS'),
+    },
+    { value: HIGH_STARCH_ROOT_TUBER_CROP, label: t('crop_group:HIGH_STARCH_ROOT_TUBER_CROP') },
   ];
 
   const progress = 33;
@@ -111,7 +118,8 @@ export default function PureAddNewCrop({
             options={cropGroupOptions}
             onChange={(e) => {
               onChange(e);
-              updatePAValues(e);
+              //TODO: uncomment updatePAValues after crop nutrition values are fixed
+              // updatePAValues(e);
             }}
             value={value}
             style={{ marginBottom: '40px' }}

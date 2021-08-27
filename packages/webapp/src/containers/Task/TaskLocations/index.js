@@ -9,21 +9,34 @@ import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import { cropLocationsSelector, locationsSelector } from '../../locationSlice';
+import { useActiveAndCurrentManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
+import { getDateUTC } from '../../../util/moment';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const isCropLocation = selectedTaskType.task_translation_key === 'HARVESTING';
   return isCropLocation ? (
-    <TaskCropLocations history={history} />
+    <TaskCropLocations history={history} persistedFormData={persistedFormData} />
   ) : (
     <TaskAllLocations history={history} />
   );
 }
 
-function TaskCropLocations({ history }) {
-  const locations = useSelector(cropLocationsSelector);
-  return <TaskLocations locations={locations} history={history} />;
+function TaskCropLocations({ history, persistedFormData }) {
+  const due_date = persistedFormData.due_date;
+  const cropLocations = useSelector(cropLocationsSelector);
+  const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
+  const activeAndPlannedLocationsIds = Object.keys(
+    useActiveAndCurrentManagementPlansByLocationIds(
+      cropLocationsIds,
+      getDateUTC(due_date).toDate().getTime(),
+    ),
+  );
+  const activeAndPlannedLocations = cropLocations.filter(({ location_id }) =>
+    activeAndPlannedLocationsIds.includes(location_id),
+  );
+  return <TaskLocations locations={activeAndPlannedLocations} history={history} />;
 }
 
 function TaskAllLocations({ history }) {

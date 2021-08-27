@@ -2,9 +2,7 @@ const CropVarietyModel = require('../models/cropVarietyModel');
 const managementPlanModel = require('../models/managementPlanModel');
 
 const CropModel = require('../models/cropModel');
-const nutrients = ['protein', 'lipid', 'ph', 'energy', 'ca', 'fe', 'mg', 'k', 'na', 'zn', 'cu',
-  'mn', 'vita_rae', 'vitc', 'thiamin', 'riboflavin', 'niacin', 'vitb6', 'folate', 'vitb12', 'nutrient_credits',
-  'can_be_cover_crop'];
+
 const {
   getPublicS3BucketName,
   s3,
@@ -12,6 +10,7 @@ const {
   getPublicS3Url,
 } = require('../util/digitalOceanSpaces');
 const { v4: uuidv4 } = require('uuid');
+const { post } = require('./baseController');
 
 
 const cropVarietyController = {
@@ -56,9 +55,8 @@ const cropVarietyController = {
     return async (req, res, next) => {
       try {
         const { crop_id } = req.body;
-        const [relatedCrop] = await CropModel.query().where({ crop_id });
-        const cropData = nutrients.reduce((obj, k) => ({ ...obj, [k]: relatedCrop[k] }), {});
-        const result = await CropVarietyModel.query().context(req.user).insert({ ...req.body, ...cropData });
+        const [relatedCrop] = await CropModel.query().context({ showHidden: true }).where({ crop_id });
+        const result = await post(CropVarietyModel, { ...relatedCrop, ...req.body }, req);
         return res.status(201).json(result);
       } catch (error) {
         return res.status(400).json({ error });

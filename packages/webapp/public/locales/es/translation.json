@@ -157,6 +157,17 @@
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
+  "CERTIFICATIONS_MODAL": {
+    "MAYBE_LATER": "MISSING",
+    "STEP_ONE": {
+      "DESCRIPTION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "STEP_TWO": {
+      "DESCRIPTION": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
     "EMAIL": "MISSING",

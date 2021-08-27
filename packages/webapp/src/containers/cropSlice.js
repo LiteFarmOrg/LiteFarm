@@ -97,6 +97,16 @@ const getCrop = (obj) => {
     'yield_per_area',
     'average_seed_weight',
     'yield_per_plant',
+    'lifecycle',
+    'seeding_type',
+    'needs_transplant',
+    'germination_days',
+    'transplant_days',
+    'harvest_days',
+    'termination_days',
+    'planting_method',
+    'plant_spacing',
+    'seeding_rate',
   ]);
 };
 const addOneCrop = (state, { payload }) => {

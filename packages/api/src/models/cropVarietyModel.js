@@ -55,7 +55,6 @@ class CropVariety extends BaseModel {
       'nutrient_credits',
       //TODO: remove the following when these fields can be edited on the frontend
       'seeding_type',
-      'lifecycle',
       'can_be_cover_crop',
       'yield_per_area',
       'average_seed_weight',

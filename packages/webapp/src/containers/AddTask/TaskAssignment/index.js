@@ -69,7 +69,8 @@ function TaskManagement({ history, match }) {
     const { override_hourly_wage: t, ...assignmentFormData } = data;
     const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
     const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
-    dispatch(createTask({ task_translation_key, ...filteredData }));
+    console.log({ task_translation_key, ...filteredData });
+    //dispatch(createTask({ task_translation_key, ...filteredData }));
   };
 
   const handleGoBack = () => {

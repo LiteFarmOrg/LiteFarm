@@ -27,7 +27,7 @@ const PureTaskDetails = ({
   farm,
 }) => {
   const { t } = useTranslation();
-  const taskType = 'HARVESTING';//selectedTaskType.task_translation_key;
+  const taskType = selectedTaskType.task_translation_key;
   const isHarvest = taskType === 'HARVESTING';
 
   const locations = persistedFormData.locations;

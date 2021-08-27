@@ -484,6 +484,7 @@ describe('CropVariety Tests', () => {
     test('should post and get a valid cropVariety', async (done) => {
       let cropVariety = fakeCropVariety(crop.crop_id);
       cropVariety.crop_variety_name = `${cropVariety.cropVariety_specie} - ${cropVariety.crop_variety_name}`;
+      delete cropVariety.nutrient_credits;
       postCropVarietyRequest(cropVariety, {}, async (err, res) => {
         expect(res.status).toBe(201);
         const cropVarietys = await knex('crop_variety').where('farm_id', farm.farm_id);

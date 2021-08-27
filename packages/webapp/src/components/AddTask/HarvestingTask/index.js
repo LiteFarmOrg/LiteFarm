@@ -102,6 +102,7 @@ const PureHarvestingTask = ({
                           defaultChecked={field[HARVEST_EVERYTHING]}
                           label={t('ADD_TASK.HARVEST_EVERYTHING')}
                           hookFormRegister={register(`harvest_tasks.${index}.` + HARVEST_EVERYTHING)}
+                          smallText={true}
                         />
                         <Input
                           defaultValue={field[NOTES]}

@@ -46,7 +46,7 @@ export function CertificationsModal({ dismissModal, handleClickMaybeLater, histo
       buttonGroup={
         <>
           <Button
-            style={{ width: '96px', marginRight: '8px' }}
+            style={{ width: '96px', marginRight: '8px', padding: '0' }}
             onClick={onClickMaybeLater}
             color={'secondary'}
             type={'button'}

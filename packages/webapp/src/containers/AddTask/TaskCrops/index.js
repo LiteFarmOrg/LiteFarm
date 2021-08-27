@@ -23,7 +23,7 @@ function TaskCrops({ history, match }) {
     console.log('onError called');
   };
 
-  const HARVEST_TYPE = 'HARVEST';
+  const HARVEST_TYPE = 'HARVESTING';
 
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));

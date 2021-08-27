@@ -35,7 +35,7 @@ export default function TaskLocations({ history }) {
     history.push('/add_task/task_date');
   };
 
-  const HARVEST_TYPE = 'HARVEST';
+  const HARVEST_TYPE = 'HARVESTING';
 
   const { grid_points } = useSelector(userFarmSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));

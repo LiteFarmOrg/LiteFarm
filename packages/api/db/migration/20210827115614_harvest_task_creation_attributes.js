@@ -11,8 +11,8 @@ exports.up = async function(knex) {
 exports.down = async function(knex) {
   await knex.schema.alterTable('harvest_task', function(table) {
     table.float('quantity_kg');
+    table.dropColumn('quantity');
     table.dropColumn('quantity_unit');
     table.dropColumn('harvest_everything');
-    table.decimal('quantity_kg', 36, 12);
   });
 };

@@ -1105,6 +1105,7 @@ const crops = [
     'seeding_type': 'SEED',
   },
   {
+    'crop_id': 5,
     'crop_common_name': 'Cacao (cocoa)',
     'image_name': 'cacao_cocoa.webp',
     'crop_genus': 'Theobroma',
@@ -1120,7 +1121,6 @@ const crops = [
     'yield_per_area': 0.064,
     'yield_per_plant': 98,
     'average_seed_weight': 0.001,
-    'crop_translation_key': 'CACAO_COCOA',
     'lifecycle': 'PERENNIAL',
     'seeding_type': 'SEED',
   },
@@ -2120,6 +2120,7 @@ const crops = [
     'seeding_type': 'SEED',
   },
   {
+    'crop_id': 145,
     'crop_common_name': 'Dasheen',
     'image_name': 'dasheen.webp',
     'crop_genus': 'Colocasia',
@@ -3787,7 +3788,7 @@ const crops = [
   {
     'crop_common_name': 'Millet (bajra, pearl)',
     'crop_id': 13,
-    'image_name': 'millet_japanese.webp',
+    'image_name': 'millet_bajra_pearl.webp',
     'crop_genus': 'Pennisetum',
     'crop_specie': 'glaucum',
     'crop_group': 'Cereals',
@@ -3823,7 +3824,7 @@ const crops = [
   {
     'crop_common_name': 'Millet (finger)',
     'crop_id': 8,
-    'image_name': 'millet_bajra_pearl.webp',
+    'image_name': 'millet_broom.webp',
     'crop_genus': 'Eleusine',
     'crop_specie': 'coracana',
     'crop_group': 'Cereals',
@@ -3839,7 +3840,7 @@ const crops = [
   {
     'crop_common_name': 'Millet (foxtail)',
     'crop_id': 15,
-    'image_name': 'millet_finger.webp',
+    'image_name': 'millet_bajra_pearl.webp',
     'crop_genus': 'Setaria',
     'crop_specie': 'italica',
     'crop_group': 'Cereals',
@@ -3857,7 +3858,7 @@ const crops = [
   {
     'crop_common_name': 'Millet (Japanese)',
     'crop_id': 7,
-    'image_name': 'millet_foxtail.webp',
+    'image_name': 'millet_broom.webp',
     'crop_genus': 'Echinochloa',
     'crop_specie': 'esculenta',
     'crop_group': 'Cereals',
@@ -3874,7 +3875,7 @@ const crops = [
   {
     'crop_common_name': 'Millet (proso)',
     'crop_id': 12,
-    'image_name': 'millet_proso.webp',
+    'image_name': 'millet_broom.webp',
     'crop_genus': 'Panicum',
     'crop_specie': 'miliaceum',
     'crop_group': 'Cereals',
@@ -4073,6 +4074,7 @@ const crops = [
   },
   {
     'crop_common_name': 'Mustard, for seed',
+    'crop_translation_key': 'MUSTARD_FOR_SEED',
     'crop_id': 132,
     'image_name': 'mustard.webp',
     'crop_genus': 'Brassica',
@@ -6512,15 +6514,6 @@ const crops = [
     'image_name': 'rice_african.webp',
     'crop_genus': 'Oryza',
     'crop_specie': 'glaberrima',
-    'crop_group': 'Cereals',
-    'crop_subgroup': 'Cereals',
-  },
-  {
-    'crop_common_name': 'Broom millet',
-    'crop_id': 16,
-    'image_name': 'default.webp',
-    'crop_genus': 'Sorghum',
-    'crop_specie': 'bicolor',
     'crop_group': 'Cereals',
     'crop_subgroup': 'Cereals',
   },

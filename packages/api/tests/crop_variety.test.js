@@ -486,7 +486,7 @@ describe('CropVariety Tests', () => {
       cropVariety.crop_variety_name = `${cropVariety.cropVariety_specie} - ${cropVariety.crop_variety_name}`;
       postCropVarietyRequest(cropVariety, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const cropVarietys = await cropVarietyModel.query().where('farm_id', farm.farm_id);
+        const cropVarietys = await knex('crop_variety').where('farm_id', farm.farm_id);
         expect(cropVarietys.length).toBe(1);
         expect(cropVarietys[0].crop_variety_name).toBe(cropVariety.crop_variety_name);
         expect(cropVarietys[0].nutrient_credits).toBe(crop.nutrient_credits);

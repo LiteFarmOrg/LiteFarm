@@ -31,6 +31,7 @@ const cropController = {
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        console.log(error);
         let violationError = false;
         if (error instanceof UniqueViolationError) {
           violationError = true;

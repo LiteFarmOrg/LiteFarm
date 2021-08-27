@@ -10,17 +10,13 @@ const useStyles = makeStyles({
     columnGap: '24px',
     rowGap: '16px',
   },
-  harvest: {
-    display: 'inline-block',
-    justifyContent: 'flex-start',
-  }
 });
 
 //TODO storybook
-export default function PureCropTileContainer({ children, gap, padding, harvestInputs, }) {
+export default function PureCropTileContainer({ children, gap, padding }) {
   const classes = useStyles();
   return (
-    <div className={harvestInputs ? classes.harvest : classes.container} style={{ columnGap: gap, padding: `0 ${padding}px` }}>
+    <div className={classes.container} style={{ columnGap: gap, padding: `0 ${padding}px` }}>
       {children}
     </div>
   );

@@ -5,12 +5,33 @@ import {
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
-import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
+import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { locationsSelector } from '../../locationSlice';
+import { cropLocationsSelector, locationsSelector } from '../../locationSlice';
 
-export default function TaskLocations({ history }) {
+export default function TaskLocationsSwitch({ history, match }) {
+  const persistedFormData = useSelector(hookFormPersistSelector);
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
+  const isCropLocation = selectedTaskType.task_translation_key === 'HARVESTING';
+  return isCropLocation ? (
+    <TaskCropLocations history={history} />
+  ) : (
+    <TaskAllLocations history={history} />
+  );
+}
+
+function TaskCropLocations({ history }) {
+  const locations = useSelector(cropLocationsSelector);
+  return <TaskLocations locations={locations} history={history} />;
+}
+
+function TaskAllLocations({ history }) {
+  const locations = useSelector(locationsSelector);
+  return <TaskLocations locations={locations} history={history} />;
+}
+
+function TaskLocations({ history, locations }) {
   const dispatch = useDispatch();
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
@@ -33,7 +54,6 @@ export default function TaskLocations({ history }) {
   };
 
   const { grid_points } = useSelector(userFarmSelector);
-  const locations = useSelector(locationsSelector);
 
   return (
     <HookFormPersistProvider>

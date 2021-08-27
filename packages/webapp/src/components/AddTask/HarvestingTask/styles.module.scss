@@ -1,10 +1,22 @@
 .harvestDetails {
   display: flex;
-  //justify-content: space-between;
 }
 
 .harvestInputs {
-  //display: inline-block;
-  float: right;
-  width: 200px;
+  min-width: 200px;
+  flex-grow: 1;
+}
+
+.container {
+
+}
+
+@media (min-width: 1024px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px
+  }
+  .harvestInputs {
+  }
 }

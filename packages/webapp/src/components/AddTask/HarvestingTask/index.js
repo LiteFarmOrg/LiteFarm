@@ -1,13 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import ReactSelect from '../../Form/ReactSelect';
-import { Controller, useFieldArray } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 import { Info } from '../../Typography';
-import { useManagementPlanTilesByLocationIds } from '../../../containers/AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
-import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
-import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import Unit from '../../Form/Unit';
 import { harvestAmounts } from '../../../util/unit';
@@ -30,14 +26,12 @@ const PureHarvestingTask = ({
   for (let location in managementPlanByLocations) {
     for (let managementPlan of managementPlanByLocations[location]) {
       managementPlansMap[managementPlan.management_plan_id] = managementPlan;
-
     }
   }
 
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
   const { fields, append } = useFieldArray({
     control,
-    name: "harvest_tasks",
+    name: 'harvest_tasks',
     shouldUnregister: false,
   });
   const HARVEST_QUANTITY = 'quantity';
@@ -47,27 +41,24 @@ const PureHarvestingTask = ({
 
   return (
     <>
-      <Info style={{ marginBottom: '24px' }}>
-        {t('ADD_TASK.HARVESTING_INFO')}
-      </Info>
+      <Info style={{ marginBottom: '24px' }}>{t('ADD_TASK.HARVESTING_INFO')}</Info>
       {Object.keys(managementPlanByLocations).map((location_id) => {
         let location_name =
-          managementPlanByLocations[location_id][0].planting_management_plans.final.location
-            .name;
+          managementPlanByLocations[location_id][0].planting_management_plans.final.location.name;
         return (
           <>
             <div style={{ paddingBottom: '16px' }} key={location_id}>
-              <PageBreak
-                label={location_name}
-              />
+              <PageBreak label={location_name} />
             </div>
-            <PureCropTileContainer gap={gap} padding={padding} harvestInputs={true}>
+            <div className={styles.container}>
               {fields.map((field, index) => {
                 let managementLocation = field.id.split('.')[0];
                 let managementPlanId = field.id.split('.')[1];
                 let managementPlan = managementPlansMap[managementPlanId];
                 if (managementLocation === location_id) {
-                  const is_harvest_everything = watch(`harvest_tasks.${index}.` + HARVEST_EVERYTHING);
+                  const is_harvest_everything = watch(
+                    `harvest_tasks.${index}.` + HARVEST_EVERYTHING,
+                  );
                   return (
                     <div className={styles.harvestDetails} style={{ marginBottom: '48px' }}>
                       <PureManagementPlanTile
@@ -76,8 +67,8 @@ const PureHarvestingTask = ({
                         date={managementPlan.firstTaskDate}
                         status={managementPlan.status}
                       />
-                      <div 
-                        className={styles.harvestInputs} 
+                      <div
+                        className={styles.harvestInputs}
                         style={{ marginLeft: '24px' }}
                         key={field.id}
                       >
@@ -101,7 +92,9 @@ const PureHarvestingTask = ({
                         <Checkbox
                           defaultChecked={field[HARVEST_EVERYTHING]}
                           label={t('ADD_TASK.HARVEST_EVERYTHING')}
-                          hookFormRegister={register(`harvest_tasks.${index}.` + HARVEST_EVERYTHING)}
+                          hookFormRegister={register(
+                            `harvest_tasks.${index}.` + HARVEST_EVERYTHING,
+                          )}
                         />
                         <Input
                           defaultValue={field[NOTES]}
@@ -113,17 +106,15 @@ const PureHarvestingTask = ({
                         />
                       </div>
                     </div>
-                  )
+                  );
                 }
               })}
-            </PureCropTileContainer>
+            </div>
           </>
         );
-      })
-      }
+      })}
     </>
-  )
-}
+  );
+};
 
 export default PureHarvestingTask;
-

@@ -3,9 +3,16 @@
   //justify-content: space-between;
 }
 
-.harvestInputs {
-  //display: inline-block;
-  float: right;
-  width: 200px;
-  margin-right: 0;
+@media only screen and (max-width: 480px) {
+  .harvestInputs {
+    float: right;
+    width: 100%;
+  }
 }
+
+@media only screen and (min-width: 480px) {
+  .harvestInputs {
+    float: right;
+  }
+}
+

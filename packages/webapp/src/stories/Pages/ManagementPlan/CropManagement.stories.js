@@ -34,7 +34,7 @@ Management.args = {
     crop_variety_name: 'Nantes',
     supplier: 'Buckerfields',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
   },
 };
 Management.parameters = {
@@ -56,7 +56,7 @@ ManagementWithOneCard.args = {
     crop_variety_name: 'Nantes',
     supplier: 'Buckerfields',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
   },
   managementPlanCardContents: [managementPlanCardContents[0]],
 };
@@ -79,7 +79,7 @@ ManagementWithManyCards.args = {
     crop_variety_name: 'Nantes',
     supplier: 'Buckerfields',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
   },
   managementPlanCardContents: getManagementPlanCardContents(100),
 };

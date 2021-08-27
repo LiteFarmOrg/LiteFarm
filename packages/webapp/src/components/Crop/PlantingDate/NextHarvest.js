@@ -17,7 +17,7 @@ export default function PureNextHarvest({
   system,
   persistedFormData,
   useHookFormPersist,
-  variety_id,
+  crop_variety,
   history,
 }) {
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ export default function PureNextHarvest({
     'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getNextHarvestPaths(variety_id, persistedFormData),
+    () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
   const onSubmit = () => history.push(submitPath);
@@ -117,5 +117,5 @@ PureNextHarvest.prototype = {
   system: PropTypes.string,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  variety_id: PropTypes.string,
+  crop_variety: PropTypes.object,
 };

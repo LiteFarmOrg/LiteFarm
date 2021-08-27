@@ -10,6 +10,8 @@ import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
+import PureHarvestingTask from '../HarvestingTask';
+import { useManagementPlanTilesByLocationIds } from '../../../containers/AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
 
 const PureTaskDetails = ({
   handleGoBack,
@@ -25,7 +27,13 @@ const PureTaskDetails = ({
   farm,
 }) => {
   const { t } = useTranslation();
-  const taskType = selectedTaskType.task_translation_key;
+  const taskType = 'HARVESTING';//selectedTaskType.task_translation_key;
+  const isHarvest = taskType === 'HARVESTING';
+
+  const locations = persistedFormData.locations;
+  const managementPlans = persistedFormData.managementPlans.map(({ management_plan_id }) => management_plan_id);
+  const managementPlanByLocations = useManagementPlanTilesByLocationIds(locations, managementPlans);
+
   const taskComponents = {
     CLEANING: (props) => (
       <PureCleaningTask farm={farm} system={system} products={products} {...props} />
@@ -37,10 +45,34 @@ const PureTaskDetails = ({
     PEST_CONTROL: (props) => (
       <PurePestControlTask farm={farm} system={system} products={products} {...props} />
     ),
+    HARVESTING: (props) =>
+      <PureHarvestingTask
+        persistedFormData={persistedFormData}
+        system={system}
+        managementPlanByLocations={managementPlanByLocations}
+        {...props}
+      />,
   };
   const defaults = {
     CLEANING: { cleaning_task: { agent_used: false } },
   };
+
+  
+
+  const harvest_defaults = [];
+  for (let location in managementPlanByLocations) {
+    for (let managementPlan of managementPlanByLocations[location]) {
+      harvest_defaults.push(
+        {
+          id: location + '.' + managementPlan.management_plan_id, 
+          quantity: null, 
+          quantity_unit: null, 
+          harvest_everything: false, 
+          harvest_task_notes: null
+        }
+      );
+    }
+  }
 
   const formFunctions = useForm({
     mode: 'onChange',
@@ -48,6 +80,7 @@ const PureTaskDetails = ({
       notes: persistedFormData?.notes,
       ...defaults[taskType],
       ...persistedFormData,
+      harvest_tasks: persistedFormData?.harvest_tasks? persistedFormData.harvest_tasks : harvest_defaults,
     },
   });
 
@@ -83,15 +116,18 @@ const PureTaskDetails = ({
           onCancel={handleCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
-          value={71}
+          value={isHarvest ? 67 : 71}
         />
 
-        <Main style={{ marginBottom: '24px' }}>
-          {t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
+        <Main style={{ marginBottom: isHarvest ? '16px' : '24px' }}>
+          {isHarvest ?
+            t('ADD_TASK.HOW_MUCH_IS_HARVESTED') :
+            t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
             ' ' +
             t(`task:${taskType}_LOWER`) +
             ' ' +
-            t('ADD_TASK.TASK')}
+            t('ADD_TASK.TASK')
+          }
         </Main>
         {taskComponents[taskType]({
           setValue,
@@ -100,13 +136,15 @@ const PureTaskDetails = ({
           control,
           register,
         })}
-        <Input
-          style={{ paddingTop: '20px' }}
-          label={t('LOG_COMMON.NOTES')}
-          optional={true}
-          hookFormRegister={register(NOTES)}
-          name={NOTES}
-        />
+        {!isHarvest && (
+          <Input
+            style={{ paddingTop: '20px' }}
+            label={t('LOG_COMMON.NOTES')}
+            optional={true}
+            hookFormRegister={register(NOTES)}
+            name={NOTES}
+          />
+        )}
       </Form>
     </>
   );

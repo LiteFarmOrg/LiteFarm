@@ -247,14 +247,12 @@ export const currentAndPlannedManagementPlansSelector = createSelector(
   },
 );
 
-export const currentAndPlannedManagementPlansWithTimeSelector = (time) => createSelector(
-  [managementPlansSelector],
-  (managementPlans) => {
+export const currentAndPlannedManagementPlansWithTimeSelector = (time) =>
+  createSelector([managementPlansSelector], (managementPlans) => {
     let currentPlans = getCurrentManagementPlans(managementPlans, time);
     let plannedPlans = getPlannedManagementPlans(managementPlans, time);
     return [...currentPlans, ...plannedPlans];
-  },
-);
+  });
 
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
   [managementPlansSelector, cropVarietiesSelector],

@@ -1,25 +1,22 @@
-@media only screen and (max-width: 480px) {
-  .harvestDetails {
-    display: flex;
-    justify-content: space-between;
-  }
+.harvestDetails {
+  display: flex;
 }
 
-@media only screen and (min-width: 480px) {
-  .harvestDetails {
-    display: flex;
-  }
+.harvestInputs {
+  min-width: 200px;
+  flex-grow: 1;
 }
 
-@media only screen and (max-width: 480px) {
+.container {
+
+}
+
+@media (min-width: 1024px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px
+  }
   .harvestInputs {
-    float: right;
-    width: 200px;
-  }
-}
-
-@media only screen and (min-width: 480px) {
-  .harvestInputs {
-    float: right;
   }
 }

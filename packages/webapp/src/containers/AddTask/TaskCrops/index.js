@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { taskTypeById } from '../../taskTypeSlice';
 import { getDateUTC } from '../../../util/moment';
-import { useManagementPlanTilesByLocationIds, useActiveAndCurrentManagementPlansByLocationIds } from './useManagementPlanTilesByLocationIds';
+import {
+  useManagementPlanTilesByLocationIds,
+  useActiveAndCurrentManagementPlansByLocationIds,
+} from './useManagementPlanTilesByLocationIds';
 
 function TaskCrops({ history, match }) {
   const onContinuePath = '/add_task/task_details';
@@ -28,7 +31,10 @@ function TaskCrops({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const due_date = persistedFormData.due_date;
-  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(persistedFormData.locations, getDateUTC(due_date).toDate().getTime());
+  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(
+    persistedFormData.locations,
+    getDateUTC(due_date).toDate().getTime(),
+  );
   const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
     persistedFormData.locations,
   );
@@ -41,8 +47,10 @@ function TaskCrops({ history, match }) {
         onError={onError}
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
-        managementPlansByLocationIds={selectedTaskType.task_translation_key === HARVEST_TYPE ? 
-          activeAndCurrentManagementPlansByLocationIds : managementPlansByLocationIds
+        managementPlansByLocationIds={
+          selectedTaskType.task_translation_key === HARVEST_TYPE
+            ? activeAndCurrentManagementPlansByLocationIds
+            : managementPlansByLocationIds
         }
         onContinue={onContinue}
       />

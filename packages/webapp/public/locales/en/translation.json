@@ -82,7 +82,9 @@
     },
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
-    "WAGE_OVERRIDE": "Wage override"
+    "WAGE_OVERRIDE": "Wage override",
+    "QUANTITY": "Quantity",
+    "HARVEST_EVERYTHING": "Harvest everything that is ready"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",

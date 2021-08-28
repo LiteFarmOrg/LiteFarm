@@ -334,6 +334,7 @@ const Unit = ({
         <Controller
           control={control}
           name={displayUnitName}
+          defaultValue={getUnitOptionMap()[to]}
           render={({ field: { onChange, onBlur, value, name, ref } }) => (
             <Select
               onBlur={onBlur}

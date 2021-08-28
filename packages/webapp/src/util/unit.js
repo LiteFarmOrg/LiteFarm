@@ -197,6 +197,20 @@ export const waterUsage = {
   databaseUnit: databaseUnit.volume,
 };
 
+export const harvestAmounts = {
+  metric: {
+    units: ['kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [2000],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
 export const pest = {
   metric: {
     units: ['ml', 'l'],

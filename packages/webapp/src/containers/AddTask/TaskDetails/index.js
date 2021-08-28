@@ -6,19 +6,29 @@ import { getProducts } from '../../Task/saga';
 import { productEntitiesSelector } from '../../productSlice';
 import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { userFarmSelector, measurementSelector } from '../../userFarmSlice';
+import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
+import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
   const dispatch = useDispatch();
-  const { country_id, units: {measurement: system }} = useSelector(userFarmSelector);
+  const {
+    country_id,
+    units: { measurement: system },
+  } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
+  const locations = persistedFormData.locations;
+  const managementPlans = persistedFormData.managementPlans.map(
+    ({ management_plan_id }) => management_plan_id,
+  );
+  const managementPlanByLocations = useManagementPlanTilesByLocationIds(locations, managementPlans);
+
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
   const handleGoBack = () => {
@@ -53,6 +63,7 @@ function TaskDetails({ history, match }) {
         system={system}
         products={products}
         farm={{ farm_id, country_id, interested }}
+        managementPlanByLocations={managementPlanByLocations}
       />
     </HookFormPersistProvider>
   );

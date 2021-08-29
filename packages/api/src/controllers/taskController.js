@@ -158,15 +158,16 @@ const taskController = {
         }
         const harvest_tasks = data.harvest_tasks;
         delete data.harvest_tasks;
-        let result = [];
+        let result = {};
         await TaskModel.transaction(async trx => {
           for (let harvest_task of harvest_tasks) {
             const task = { ...data };
-            const { task_id } = await baseController.postWithResponse(TaskModel, task, req, { trx });
-            await baseController.postWithResponse(HarvestTaskModel, { ...harvest_task, task_id }, req, { trx });
-            await baseController.postWithResponse(LocationTaskModel, {task_id, location_id: harvest_task.location_id}, req, { trx });
-            await baseController.postWithResponse(managementTasksModel, {task_id, management_plan_id: harvest_task.management_plan_id}, req, { trx });
-            result.push(task_id);
+            const posted_task = await baseController.postWithResponse(TaskModel, task, req, { trx });
+            const posted_harvest_task = await baseController.postWithResponse(HarvestTaskModel, { ...harvest_task, task_id: posted_task.task_id }, req, { trx });
+            await baseController.postWithResponse(LocationTaskModel, {task_id: posted_task.task_id, location_id: harvest_task.location_id}, req, { trx });
+            await baseController.postWithResponse(managementTasksModel, {task_id: posted_task.task_id, management_plan_id: harvest_task.management_plan_id}, req, { trx });
+            result[posted_task.task_id] = posted_task;
+            result[posted_task.task_id].harvest_task = [posted_harvest_task];
           } 
         });
         return res.status(200).send(result);

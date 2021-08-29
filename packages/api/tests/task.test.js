@@ -330,7 +330,7 @@ describe('Task tests', () => {
           }, { start_date: null })
         ));
         const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
-        const harvest_tasks = mocks.fakeHarvestTasks({}, 3);
+        const harvest_tasks = mocks.fakeHarvestTasks({quantity: 300}, 3);
         for (let i = 0; i < harvest_tasks.length; i++) {
           harvest_tasks[i].management_plan_id = managementPlans[i].management_plan_id;
           harvest_tasks[i].location_id = location_id;
@@ -343,11 +343,23 @@ describe('Task tests', () => {
           locations: [{ location_id }],
           harvest_tasks: harvest_tasks,
         };
-
-        //console.log(data);
         postHarvestTasksRequest({ user_id, farm_id }, data, async (err, res) => {
           expect(res.status).toBe(200);
-          console.log(res.body);
+          const task_ids = Object.keys(res.body);
+          for (let i = 0; i < task_ids.length; i++) {
+            const created_task = await knex('task').where({ task_id: task_ids[i] }).first();
+            expect(created_task.type).toBe(task_type_id);
+            expect(created_task.wage_at_moment).toBe(30);
+            const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id: task_ids[i] }).first();
+            expect(isTaskRelatedToLocation.location_id).toBe(location_id);
+            expect(isTaskRelatedToLocation.task_id).toBe(Number(task_ids[i]));
+            const isTaskRelatedToManagementPlans = await knex('management_tasks').where({ task_id: task_ids[i] });
+            expect(isTaskRelatedToManagementPlans.length).toBe(1);
+            const created_harvest_task = await knex('harvest_task').where({ task_id: task_ids[i] });
+            expect(created_harvest_task.length).toBe(1);
+            expect(created_harvest_task[0].task_id).toBe(Number(task_ids[i]));
+            expect(created_harvest_task[0].quantity).toBe(300);
+          }
           done();
         });
       });

@@ -24,9 +24,8 @@ function TaskDetails({ history, match }) {
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const locations = persistedFormData.locations;
-  const managementPlans = persistedFormData.managementPlans.map(
-    ({ management_plan_id }) => management_plan_id,
-  );
+  const managementPlans =
+    persistedFormData.managementPlans?.map(({ management_plan_id }) => management_plan_id) || [];
   const managementPlanByLocations = useManagementPlanTilesByLocationIds(locations, managementPlans);
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];

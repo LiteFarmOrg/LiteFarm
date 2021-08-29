@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Form from '../../../components/Form';
 import MultiStepPageTitle from '../../../components/PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
@@ -54,18 +54,28 @@ const PureTaskDetails = ({
     CLEANING: { cleaning_task: { agent_used: false } },
   };
 
-  const harvest_defaults = [];
-  for (let location in managementPlanByLocations) {
-    for (let managementPlan of managementPlanByLocations[location]) {
-      harvest_defaults.push({
-        id: location + '.' + managementPlan.management_plan_id,
-        quantity: null,
-        quantity_unit: null,
-        harvest_everything: false,
-        harvest_task_notes: null,
-      });
-    }
-  }
+  const harvest_tasks = useMemo(() => {
+    const harvestTasksById = persistedFormData?.harvest_tasks?.reduce(
+      (harvestTasksById, harvestTask) => {
+        harvestTasksById[harvestTask.id] = harvestTask;
+        return harvestTasksById;
+      },
+      {},
+    );
+
+    return Object.keys(managementPlanByLocations).reduce((harvest_tasks, location_id) => {
+      for (const managementPlan of managementPlanByLocations[location_id]) {
+        const id = `${location_id}.${managementPlan.management_plan_id}`;
+        harvest_tasks.push(
+          harvestTasksById?.[id] || {
+            id,
+            harvest_everything: false,
+          },
+        );
+      }
+      return harvest_tasks;
+    }, []);
+  }, []);
 
   const formFunctions = useForm({
     mode: 'onChange',
@@ -73,9 +83,7 @@ const PureTaskDetails = ({
       notes: persistedFormData?.notes,
       ...defaults[taskType],
       ...persistedFormData,
-      harvest_tasks: persistedFormData?.harvest_tasks
-        ? persistedFormData.harvest_tasks
-        : harvest_defaults,
+      harvest_tasks,
     },
   });
 

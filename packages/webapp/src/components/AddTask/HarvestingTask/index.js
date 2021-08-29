@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
 import { useFieldArray } from 'react-hook-form';
@@ -21,13 +21,14 @@ const PureHarvestingTask = ({
   managementPlanByLocations,
 }) => {
   const { t } = useTranslation();
-  const managementPlansMap = {};
-
-  for (let location in managementPlanByLocations) {
-    for (let managementPlan of managementPlanByLocations[location]) {
-      managementPlansMap[managementPlan.management_plan_id] = managementPlan;
-    }
-  }
+  const managementPlansMap = useMemo(() => {
+    return Object.keys(managementPlanByLocations).reduce((managementPlansMap, location_id) => {
+      for (const managementPlan of managementPlanByLocations[location_id]) {
+        managementPlansMap[managementPlan.management_plan_id] = managementPlan;
+      }
+      return managementPlansMap;
+    }, {});
+  }, []);
 
   const { fields, append } = useFieldArray({
     control,
@@ -73,8 +74,6 @@ const PureHarvestingTask = ({
                         key={field.id}
                       >
                         <Unit
-                          defaultValue={field[HARVEST_QUANTITY]}
-                          to={field[HARVEST_QUANTITY_UNIT]?.value}
                           register={register}
                           style={{ marginBottom: '10px' }}
                           label={t('ADD_TASK.QUANTITY')}

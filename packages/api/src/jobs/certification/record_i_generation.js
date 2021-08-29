@@ -3,14 +3,14 @@ const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
-  quantity: 'C',
-  date: 'D',
-  crop_location: 'E',
+  product_quantity: 'C',
+  date_used: 'D',
+  affected: 'E',
+  task_id: 'F',
   on_permitted_substances_list: 'G',
 }
 const dataTransformsMapping = {
-  on_permitted_substances_list: boolToStringTransformation,
-  genetically_engineered: boolToStringTransformation,
+  // on_permitted_substances_list: boolToStringTransformation,
 }
 
 module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
@@ -108,7 +108,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/iCertify-RecordI-${title}.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/iCertify-RecordI-${title}.xlsx`);
     })
 }
 

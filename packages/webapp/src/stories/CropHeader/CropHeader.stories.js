@@ -15,5 +15,5 @@ Primary.args = {
   crop_variety_name: 'Blueberry 1',
   supplier: 'supplier',
   crop_variety_photo_url:
-    'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp',
+    'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp',
 };

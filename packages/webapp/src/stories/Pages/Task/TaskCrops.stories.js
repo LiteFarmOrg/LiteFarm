@@ -17,7 +17,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -69,7 +69,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -239,7 +239,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -295,7 +295,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,
@@ -340,7 +340,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Cereals',
       crop_id: 9,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
       crop_specie: 'vulgare     ',
       crop_subgroup: 'Cereals',
       crop_translation_key: 'BARLEY',
@@ -561,7 +561,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Cereals',
         crop_id: 9,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
         crop_specie: 'vulgare     ',
         crop_subgroup: 'Cereals',
         crop_translation_key: 'BARLEY',
@@ -664,7 +664,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -716,7 +716,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -845,7 +845,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -901,7 +901,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,
@@ -946,7 +946,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Cereals',
       crop_id: 9,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
       crop_specie: 'vulgare     ',
       crop_subgroup: 'Cereals',
       crop_translation_key: 'BARLEY',
@@ -1109,7 +1109,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Cereals',
         crop_id: 9,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
         crop_specie: 'vulgare     ',
         crop_subgroup: 'Cereals',
         crop_translation_key: 'BARLEY',
@@ -1210,7 +1210,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Cereals',
       crop_id: 9,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
       crop_specie: 'vulgare     ',
       crop_subgroup: 'Cereals',
       crop_translation_key: 'BARLEY',
@@ -1429,7 +1429,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Cereals',
         crop_id: 9,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/barley.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/barley.webp',
         crop_specie: 'vulgare     ',
         crop_subgroup: 'Cereals',
         crop_translation_key: 'BARLEY',
@@ -1530,7 +1530,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -1582,7 +1582,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -1691,7 +1691,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -1747,7 +1747,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,
@@ -1792,7 +1792,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -1844,7 +1844,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -1939,7 +1939,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -1995,7 +1995,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,
@@ -2040,7 +2040,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -2092,7 +2092,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -2220,7 +2220,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -2276,7 +2276,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,
@@ -2323,7 +2323,7 @@ const managementPlansByLocationIds = {
       crop_group: 'Fruit and nuts',
       crop_id: 32,
       crop_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       crop_specie: 'dulcis     ',
       crop_subgroup: 'Nuts',
       crop_translation_key: 'ALMOND',
@@ -2375,7 +2375,7 @@ const managementPlansByLocationIds = {
       crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
       crop_variety_name: '1',
       crop_variety_photo_url:
-        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+        'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
       genetically_engineered: null,
       lifecycle: 'PERENNIAL',
       organic: null,
@@ -2530,7 +2530,7 @@ const managementPlansByLocationIds = {
         crop_group: 'Fruit and nuts',
         crop_id: 32,
         crop_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         crop_specie: 'dulcis     ',
         crop_subgroup: 'Nuts',
         crop_translation_key: 'ALMOND',
@@ -2586,7 +2586,7 @@ const managementPlansByLocationIds = {
         crop_variety_id: 'fd98b0fe-c7dc-11eb-9f35-0242ac120002',
         crop_variety_name: '1',
         crop_variety_photo_url:
-          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/almond.webp',
+          'https://litefarmbeta.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/almond.webp',
         yield_per_area: null,
         planting_depth: null,
         can_be_cover_crop: null,

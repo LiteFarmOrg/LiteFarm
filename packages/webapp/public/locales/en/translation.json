@@ -82,7 +82,9 @@
     },
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
-    "WAGE_OVERRIDE": "Wage override"
+    "WAGE_OVERRIDE": "Wage override",
+    "QUANTITY": "Quantity",
+    "HARVEST_EVERYTHING": "Harvest everything that is ready"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -266,7 +268,7 @@
       "UNABLE_TO_RETIRE": "You can only retire crops that have no active or future management plans. You'll need to complete or abandon those plans to retire this crop",
       "UNABLE_TO_RETIRE_TITLE": "Unable to retire"
     },
-    "SUPPLIER": "MISSING"
+    "SUPPLIER": "Supplier"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Link to a compliance file",

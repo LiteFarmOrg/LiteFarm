@@ -76,7 +76,7 @@ export const ceremonialEnum = {
   location_id: 'location_id',
   notes: 'notes',
   total_area: 'total_area',
-  total_area_unit: 'total_area_unit',
+  total_zarea_unit: 'total_area_unit',
   grid_points: 'grid_points',
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',

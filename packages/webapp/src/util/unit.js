@@ -3,7 +3,9 @@ import { getUnitOptionMap } from '../components/Form/Unit';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';
-
+/**
+ * seeding_rate: kg/m2
+ */
 const databaseUnit = {
   area: 'm2',
   length: 'm',
@@ -193,6 +195,20 @@ export const waterUsage = {
     breakpoints: [128],
   },
   databaseUnit: databaseUnit.volume,
+};
+
+export const harvestAmounts = {
+  metric: {
+    units: ['kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [2000],
+  },
+  databaseUnit: databaseUnit.mass,
 };
 
 export const pest = {

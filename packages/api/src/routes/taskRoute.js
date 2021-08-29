@@ -32,6 +32,9 @@ router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
 
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
 
+router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
+  taskController.createHarvestTasks());
+
 router.post('/soil_amendment_task', modelMapping['soil_amendment_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
   createOrPatchProduct('soil_amendment_task'), taskController.createTask('soil_amendment_task'));

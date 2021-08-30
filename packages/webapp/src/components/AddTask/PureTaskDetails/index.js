@@ -79,15 +79,10 @@ const PureTaskDetails = ({
 
   const formFunctions = useForm({
     mode: 'onChange',
-    defaultValues: isHarvest ? {
-      notes: persistedFormData?.notes,
+    defaultValues: {
       ...defaults[taskType],
       ...persistedFormData,
-      harvest_tasks,
-    } : {
-      notes: persistedFormData?.notes,
-      ...defaults[taskType],
-      ...persistedFormData,
+      harvest_tasks: isHarvest ? harvest_tasks : persistedFormData?.harvest_tasks,
     },
   });
 

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
 import { productEntitiesSelector } from './productSlice';
-
+//TODO normalize task reducer
 export const getTask = (obj) => {
   return pick(obj, [
     'task_id',
@@ -142,7 +142,7 @@ export const taskEntitiesByManagementPlanIdSelector = createSelector(
 export const tasksByManagementPlanIdSelector = (management_plan_id) =>
   createSelector(
     taskEntitiesByManagementPlanIdSelector,
-    (taskEntitiesByManagementPlanId) => taskEntitiesByManagementPlanId[management_plan_id],
+    (taskEntitiesByManagementPlanId) => taskEntitiesByManagementPlanId[management_plan_id] || [],
   );
 
 export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);

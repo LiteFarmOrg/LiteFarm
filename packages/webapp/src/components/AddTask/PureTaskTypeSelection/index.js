@@ -57,7 +57,7 @@ const PureTaskTypeSelection = ({
     COLLECT_SOIL_SAMPLE: <CollectSoilSample />,
     MAINTENANCE: <Maintenance />,
   };
-  const showOnly = ['SOIL_AMENDMENT', 'FIELD_WORK', 'PEST_CONTROL', 'CLEANING'];
+  const showOnly = ['SOIL_AMENDMENT', 'FIELD_WORK', 'PEST_CONTROL', 'CLEANING', 'HARVESTING'];
   const { watch, getValues, handleSubmit, register, setValue } = useForm({
     mode: 'onChange',
   });

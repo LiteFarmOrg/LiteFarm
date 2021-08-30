@@ -22,9 +22,9 @@ Primary.args = {
     persistedData: {
       uploadedFiles: [
         {
-          url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+          url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
           thumbnail_url:
-            'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+            'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
         },
       ],
     },
@@ -44,9 +44,9 @@ uploadingImage.args = {
     persistedData: {
       uploadedFiles: [
         {
-          url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+          url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
           thumbnail_url:
-            'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+            'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
         },
       ],
     },

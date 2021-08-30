@@ -6,15 +6,19 @@ import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasksSuccess, putTaskSuccess, putTasksSuccess, createTaskSuccess } from '../taskSlice';
+import { createTaskSuccess, getTasksSuccess, putTasksSuccess, putTaskSuccess } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
-import { getTaskTypesSuccess } from '../taskTypeSlice';
+import { getTaskTypesSuccess, taskTypeById } from '../taskTypeSlice';
+import { pick } from '../../util/pick';
+import produce from 'immer';
+import { getObjectInnerValues } from '../../util';
 
 const taskTypeToEndpointMap = {
   CLEANING: 'cleaning_task',
   FIELD_WORK: 'field_work_task',
   PEST_CONTROL: 'pest_control_task',
   SOIL_AMENDMENT: 'soil_amendment_task',
+  HARVESTING: 'harvest_tasks',
 };
 
 export const assignTask = createAction('assignTaskSaga');
@@ -115,16 +119,57 @@ export function* getTaskTypesSaga() {
   }
 }
 
+const defaultProcessFunction = (data, endpoint) => {
+  return getObjectInnerValues(
+    produce(data, (data) => {
+      const propertiesToRemove = Object.values(taskTypeToEndpointMap).filter(
+        (taskType) => taskType !== endpoint,
+      );
+      for (const key of propertiesToRemove) {
+        delete data[key];
+      }
+      //TODO investigate where override_hourly_wage is used
+      delete data['override_hourly_wage'];
+    }),
+  );
+};
+
+const harvestProcessFunction = (data, endpoint) => {
+  return data.harvest_tasks.map((harvest_task) => ({
+    harvest_task: getObjectInnerValues(harvest_task),
+    ...pick(
+      data,
+      Object.keys(data).filter(
+        (key) => !Object.values([...taskTypeToEndpointMap, 'override_hourly_wage']).includes(key),
+      ),
+    ),
+  }));
+};
+
+const taskTypeProcessFunctionMap = {
+  CLEANING: defaultProcessFunction,
+  FIELD_WORK: defaultProcessFunction,
+  PEST_CONTROL: defaultProcessFunction,
+  SOIL_AMENDMENT: defaultProcessFunction,
+  HARVESTING: harvestProcessFunction,
+};
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload: data }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, ...taskData } = data;
+  const { task_translation_key } = yield select(taskTypeById(data.type));
+
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {
-    const result = yield call(axios.post, `${taskUrl}/${endpoint}`, taskData, header);
+    const result = yield call(
+      axios.post,
+      `${taskUrl}/${endpoint}`,
+      taskTypeProcessFunctionMap[task_translation_key](data, endpoint),
+      header,
+    );
     if (result) {
       yield put(createTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));

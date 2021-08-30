@@ -24,7 +24,7 @@ import { seedYield } from '../../../util/unit';
 export default function PurePlantingDate({
   useHookFormPersist,
   persistedFormData,
-  variety_id,
+  crop_variety,
   history,
   system,
 }) {
@@ -137,6 +137,30 @@ export default function PurePlantingDate({
     [],
   );
 
+  useEffect(() => {
+    if (
+      MAIN_DATE === SEED_DATE ||
+      (MAIN_DATE === PLANT_DATE && persistedFormData.crop_management_plan.seed_date)
+    ) {
+      showGerminationOffset &&
+        !germination_days &&
+        crop_variety.germination_days &&
+        setValue(GERMINATION_DAYS, crop_variety.germination_days);
+      showTransplantOffset &&
+        !transplant_days &&
+        crop_variety.transplant_days &&
+        setValue(TRANSPLANT_DAYS, crop_variety.transplant_days);
+      showHarvestOffset &&
+        !harvest_days &&
+        crop_variety.harvest_days &&
+        setValue(HARVEST_DAYS, crop_variety.harvest_days);
+      showTerminationOffset &&
+        !termination_days &&
+        crop_variety.termination_days &&
+        setValue(TERMINATION_DAYS, crop_variety.termination_days);
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -215,7 +239,7 @@ export default function PurePlantingDate({
   };
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getPlantingDatePaths(variety_id, persistedFormData),
+    () => getPlantingDatePaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
   const onSubmit = () => history.push(submitPath);
@@ -388,7 +412,7 @@ export default function PurePlantingDate({
 
 PurePlantingDate.prototype = {
   history: PropTypes.object,
-  variety_id: PropTypes.string,
+  crop_variety: PropTypes.object,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.shape({
     crop_management_plan: PropTypes.shape({

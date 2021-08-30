@@ -22,7 +22,7 @@ Primary.args = {
     valid_until: '2021-06-21',
     files: [
       {
-        thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v1/default.webp',
+        thumbnail_url: 'https://litefarm.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp',
       },
     ],
   },

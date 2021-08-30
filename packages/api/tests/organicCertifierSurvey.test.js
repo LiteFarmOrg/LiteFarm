@@ -26,7 +26,8 @@ jest.mock('jsdom');
 jest.mock('bull');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
-
+const emailTemplate = require('../src/templates/sendEmailTemplate');
+jest.mock('../src/templates/sendEmailTemplate');
 
 const organicCertifierSurveyModel = require('../src/models/organicCertifierSurveyModel');
 
@@ -89,15 +90,6 @@ describe('organicCertifierSurvey Tests', () => {
       .end(callback);
   }
 
-  // function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-  //   chai.request(server).get(`/farm/${farm_id}/organic_certifier_survey`)
-  //     .set('user_id', user_id)
-  //     .set('farm_id', farm_id)
-  //     .end(callback)
-  // }
-
-
-
   function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, survey_id }, callback) {
     chai.request(server).delete(`/organic_certifier_survey/${survey_id}`)
       .set('user_id', user_id)
@@ -155,7 +147,6 @@ describe('organicCertifierSurvey Tests', () => {
           user_id: manager.user_id,
         }, (err, res) => {
           expect(res.status).toBe(200);
-          console.log(res.body);
           done();
         });
       });
@@ -214,23 +205,23 @@ describe('organicCertifierSurvey Tests', () => {
   //         promisedFarm: [farmunAuthorizedUser],
   //       }, fakeUserFarm(1));
   //     })
-
-  //     // test('Owner should get all supported certifications', async (done) => {
-  //     //   getAllSupportedCertificationsRequest({ }, (err, res) => {
-  //     //     expect(res.status).toBe(200);
-  //     //     expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
-  //     //     done();
-  //     //   });
-  //     // })
-
-  //     test.only('Manager should get organic certifier survey  by farm id', async (done) => {
+  //
+  //     test('Owner should get all supported certifications', async (done) => {
+  //       getAllSupportedCertificationsRequest({ }, (err, res) => {
+  //         expect(res.status).toBe(200);
+  //         expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
+  //         done();
+  //       });
+  //     })
+  //
+  //     test('Manager should get organic certifier survey  by farm id', async (done) => {
   //       getAllSupportedCertifiersRequest({ user_id: manager.user_id }, (err, res) => {
   //         expect(res.status).toBe(200);
   //         expect(res.body.survey_id).toBe(organicCertifierSurvey.survey_id);
   //         done();
   //       });
   //     })
-
+  //
   //     // test('Extension officer should get organic certifier survey  by farm id', async (done) => {
   //     //   getRequest({ user_id: extensionOfficer.user_id }, (err, res) => {
   //     //     expect(res.status).toBe(200);
@@ -238,7 +229,7 @@ describe('organicCertifierSurvey Tests', () => {
   //     //     done();
   //     //   });
   //     // })
-
+  //
   //     // test('Should get status 403 if an worker tries to get organic certifier survey  by farm id', async (done) => {
   //     //   getRequest({ user_id: worker.user_id }, (err, res) => {
   //     //     expect(res.status).toBe(403);
@@ -369,7 +360,6 @@ describe('organicCertifierSurvey Tests', () => {
     test('should return 400 if certification_id and requested_certification are null', async (done) => {
       delete fakeOrganicCertifierSurvey.certification_id;
       delete fakeOrganicCertifierSurvey.requested_certification;
-      console.log(fakeOrganicCertifierSurvey);
       postRequest(fakeOrganicCertifierSurvey, {}, (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -508,8 +498,10 @@ describe('organicCertifierSurvey Tests', () => {
         abandon_date: abandoned ? new Date(abandoned) : null,
       }
     }
-    test('Should get records that were active before the to_date and NOT completed before the from date' , async (done) => {
+
+    test('Should get records from canadian farm that were active before the to_date and NOT completed before the from date' , async (done) => {
       const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
       const completeBeforeTheToDate = await mocks.crop_management_planFactory({
         promisedFarm: [{ farm_id }],
@@ -534,13 +526,14 @@ describe('organicCertifierSurvey Tests', () => {
         farm_id: farm_id
       }, {farm_id, user_id} , (err,res) => {
         expect(res.status).toBe(200);
-        expect(res.body.records.length).toBe(1);
+        expect(res.body.recordD.length).toBe(1);
         done();
       })
     });
 
-    test('Should get records that were active before the to_date and NOT abandoned' , async (done) => {
+    test('Should get records from canadian farm that were active before the to_date and NOT abandoned' , async (done) => {
       const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
       const completeBeforeTheToDate = await mocks.crop_management_planFactory({
         promisedFarm: [{ farm_id }],
@@ -565,13 +558,14 @@ describe('organicCertifierSurvey Tests', () => {
         farm_id: farm_id
       }, {farm_id, user_id} , (err,res) => {
         expect(res.status).toBe(200);
-        expect(res.body.records.length).toBe(1);
+        expect(res.body.recordD.length).toBe(1);
         done();
       })
     });
 
-    test('Should get no records if no management plans (Possible failure scenario in the future)' , async (done) => {
+    test('Should get no records from canadian farm if no management plans (Possible failure scenario in the future)' , async (done) => {
       const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       getExportRequest({
         from_date: '2021-02-01',
         to_date: '2021-05-20',
@@ -579,10 +573,26 @@ describe('organicCertifierSurvey Tests', () => {
         farm_id: farm_id
       }, {farm_id, user_id} , (err,res) => {
         expect(res.status).toBe(200);
-        expect(res.body.records.length).toBe(0);
+        expect(res.body.recordD.length).toBe(0);
         done();
       })
     });
+
+    test('Should get no records if is not a canadian farm' , async (done) => {
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 10 }));
+      getExportRequest({
+        from_date: '2021-02-01',
+        to_date: '2021-05-20',
+        email: faker.internet.email(),
+        farm_id: farm_id
+      }, {farm_id, user_id} , (err,res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.recordD).not.toBeDefined();
+        done();
+      })
+    });
+
 
 
 

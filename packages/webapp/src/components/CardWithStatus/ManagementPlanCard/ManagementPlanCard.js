@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
 import clsx from 'clsx';
 import React from 'react';
-import { getShortLocalizedDateString } from '../../../util/moment';
+import { getManagementPlanCardDate } from '../../../util/moment';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import i18n from '../../../locales/i18n';
@@ -58,8 +58,8 @@ export function ManagementPlanCard({
               <div className={styles.iconTextContainer}>
                 <CalendarIcon />
                 <div>
-                  {getShortLocalizedDateString(startDate)}
-                  {endDate && ` - ${getShortLocalizedDateString(endDate)}`}
+                  {getManagementPlanCardDate(startDate)}
+                  {endDate && ` - ${getManagementPlanCardDate(endDate)}`}
                 </div>
               </div>
               <div className={styles.gap} />

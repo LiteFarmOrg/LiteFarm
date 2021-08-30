@@ -190,10 +190,9 @@ const organicCertifierSurveyController = {
       return [];
     }
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
-
     const tasks = pestTasks.rows.concat(soilTasks.rows);
     return tasks.map((task) => {
-      this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
     });
   },
 
@@ -215,7 +214,7 @@ const organicCertifierSurveyController = {
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
     const tasks = pestTasks.rows.concat(cleaningTask.rows);
     return tasks.map((task) => {
-      this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
     });
   },
 

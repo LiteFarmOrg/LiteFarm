@@ -66,27 +66,26 @@ function TaskManagement({ history, match }) {
   }, []);
 
   const getHarvestTasksData = (taskData) => {
-    let harvest_tasks = cloneObject(taskData.harvest_tasks);
-    for (let harvest_task of harvest_tasks) {
+    let harvestTasks = [];
+    for (let harvest_task of taskData.harvest_tasks) {
       let id = harvest_task.id.split('.');
       let location = id[0];
       let managementPlan = id[1];
-      harvest_task.location_id = location;
-      harvest_task.management_plan_id = Number(managementPlan);
-      harvest_task.quantity_unit = harvest_task.quantity_unit.value;
-      delete harvest_task.id;
+      let h = {};
+      h.location_id = location;
+      h.management_plan_id = Number(managementPlan);
+      h.harvest_everything = harvest_task.harvest_everything;
+      h.quantity = harvest_task.quantity === undefined ? 0 : harvest_task.quantity;
+      h.harvest_task_notes = harvest_task.harvest_task_notes === undefined ? '' : harvest_task.harvest_task_notes;
+      harvestTasks.push(h);
     }
     return harvest_tasks;
   };
 
   const onSubmit = (data) => {
-    const { task_translation_key } = selectedTaskType;
-    const { override_hourly_wage: t, ...assignmentFormData } = data;
-    const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
-    const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
-    if (task_translation_key === 'HARVESTING') {
-      filteredData.harvest_tasks = getHarvestTasksData(filteredData);
-      dispatch(createHarvestTasks(filteredData));
+    if (selectedTaskType.task_translation_key === 'HARVESTING') {
+      let harvestTasks = getHarvestTasksData(persistedFormData);
+      dispatch(createHarvestTasks({ ...persistedFormData, ...data, harvest_tasks: harvestTasks}));
     } else {
       dispatch(createTask({ task_translation_key, ...filteredData }));
     }

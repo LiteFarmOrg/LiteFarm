@@ -129,7 +129,8 @@ export function* createHarvestTasksSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, `${taskUrl}/harvest_tasks`, data, header);
+    let postData = getObjectInnerValues(data);
+    const result = yield call(axios.post, `${taskUrl}/harvest_tasks`, postData, header);
     if (result) {
       for (let task_id in result.data) {
         let task = result.data[task_id];

@@ -5,6 +5,7 @@
 .harvestInputs {
   min-width: 200px;
   flex-grow: 1;
+  margin-left: 24px
 }
 
 .container {
@@ -18,5 +19,20 @@
     gap: 24px
   }
   .harvestInputs {
+  }
+}
+
+@media (max-width: 359px) {
+  .container {
+  }
+  .harvestInputs {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 24px;
+  }
+  .harvestDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

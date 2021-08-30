@@ -45,6 +45,12 @@ const classes = {
   container: { marginLeft: '100px' },
 };
 
+export const SM = Template.bind({});
+SM.args = {
+  label: 'checkbox',
+  sm: true,
+};
+
 export const WithClasses = Template.bind({});
 WithClasses.args = {
   errors: 'error error error error',

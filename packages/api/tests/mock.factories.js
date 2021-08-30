@@ -894,7 +894,7 @@ function fakeFertilizer(defaultData = {}) {
   };
 }
 
-async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {}, task = fakeTask() ) {
+async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = task_typeFactory() } = {}, task = fakeTask()) {
   const [user, taskType] = await Promise.all([promisedUser, promisedTaskType]);
   const [{ user_id }] = user;
   const [{ task_type_id }] = taskType;
@@ -913,15 +913,15 @@ function fakeTask(defaultData = {}) {
 }
 
 async function productFactory({ promisedFarm = farmFactory() } = {},
-                              product = fakeProduct()){
+  product = fakeProduct()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('product').insert({...product, ...base, farm_id}).returning('*');
+  return knex('product').insert({ ...product, ...base, farm_id }).returning('*');
 }
 
-function fakeProduct(defaultData = {}){
+function fakeProduct(defaultData = {}) {
   return {
     name: faker.lorem.words(2),
     supplier: faker.lorem.words(3),
@@ -1079,7 +1079,7 @@ function fakePestControlTask(defaultData = {}) {
   return {
     product_quantity: faker.random.number(2000),
     pest_target: faker.lorem.words(2),
-    control_method: faker.random.arrayElement([ 'systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
+    control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
       'flameWeeding', 'soilFumigation', 'heatTreatment', 'other']),
     ...defaultData
   };
@@ -1098,11 +1098,22 @@ function fakeHarvestTask(defaultData = {}) {
   };
 }
 
+function fakeHarvestTasks(defaultData = {}, number) {
+  return [...Array(number)].map(() =>
+    ({
+      quantity: faker.random.number(1000),
+      notes: faker.lorem.words(),
+      harvest_everything: faker.random.boolean(),
+      ...defaultData,
+    })
+  );
+}
+
 async function harvestUseFactory({
-    promisedHarvestLog = harvest_taskFactory(),
-    promisedHarvestUseType = harvestUseTypeFactory(),
-    promisedManagementPlan = management_planFactory(),
-  } = {},
+  promisedHarvestLog = harvest_taskFactory(),
+  promisedHarvestUseType = harvestUseTypeFactory(),
+  promisedManagementPlan = management_planFactory(),
+} = {},
   harvestUse = fakeHarvestUse()) {
   const [harvestLog, harvestUseType, managementPlan] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
@@ -1646,7 +1657,7 @@ module.exports = {
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,
   pest_control_taskFactory, fakePestControlTask,
-  harvest_taskFactory, fakeHarvestTask,
+  harvest_taskFactory, fakeHarvestTask, fakeHarvestTasks,
   plant_taskFactory, fakePlantTask,
   field_work_taskFactory, fakeFieldWorkTask,
   soil_taskFactory, fakeSoilTask,

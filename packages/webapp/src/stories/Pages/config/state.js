@@ -10367,6 +10367,9 @@ export default {
       formData: {},
       shouldUpdateFormData: true,
     },
+    navbarReducer: {
+      introducingCertifications: false,
+    },
   },
   baseReducer: {},
   logReducer: {

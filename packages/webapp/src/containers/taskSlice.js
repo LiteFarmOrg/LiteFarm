@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
 import { productEntitiesSelector } from './productSlice';
-//TODO normalize task reducer
+
 export const getTask = (obj) => {
   return pick(obj, [
     'task_id',
@@ -34,6 +34,7 @@ export const getTask = (obj) => {
     'pest_control_task',
     'field_work_task',
     'cleaning_task',
+    'harvest_task',
   ]);
 };
 

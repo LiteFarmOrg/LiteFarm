@@ -14,7 +14,7 @@ const Checkbox = ({
   onBlur,
   hookFormRegister,
   errors,
-  smallText = false,
+  sm,
   ...props
 }) => {
   const name = hookFormRegister?.name ?? props?.name;
@@ -38,7 +38,7 @@ const Checkbox = ({
         {...props}
         disabled={disabled}
       />
-      <Main className={clsx(styles.label, smallText && styles.smallLabel)} style={classes.label}>
+      <Main className={clsx(styles.label, sm && styles.smallLabel)} style={classes.label}>
         {label}
       </Main>
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />
@@ -69,6 +69,7 @@ Checkbox.propTypes = {
   }),
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
+  sm: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 

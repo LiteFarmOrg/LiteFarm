@@ -79,7 +79,7 @@ function TaskManagement({ history, match }) {
       h.harvest_task_notes = harvest_task.harvest_task_notes === undefined ? '' : harvest_task.harvest_task_notes;
       harvestTasks.push(h);
     }
-    return harvest_tasks;
+    return harvestTasks;
   };
 
   const onSubmit = (data) => {
@@ -87,7 +87,7 @@ function TaskManagement({ history, match }) {
       let harvestTasks = getHarvestTasksData(persistedFormData);
       dispatch(createHarvestTasks({ ...persistedFormData, ...data, harvest_tasks: harvestTasks}));
     } else {
-      dispatch(createTask({ task_translation_key, ...filteredData }));
+      dispatch(createTask({ ...persistedFormData, ...data }));
     }
   };
 

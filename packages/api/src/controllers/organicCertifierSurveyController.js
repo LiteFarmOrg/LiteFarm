@@ -20,14 +20,14 @@ const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
-const Queue = require('bull');
-const redisConf = {
-  redis: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-  },
-}
+// const Queue = require('bull');
+// const redisConf = {
+//   redis: {
+//     host: process.env.REDIS_HOST,
+//     port: process.env.REDIS_PORT,
+//     password: process.env.REDIS_PASSWORD,
+//   },
+// }
 
 const organicCertifierSurveyController = {
   getCertificationSurveyByFarmId() {
@@ -151,8 +151,8 @@ const organicCertifierSurveyController = {
         from_date, to_date, submission: submission_id
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
-      const retrieveQueue = new Queue('retrieve', redisConf);
-      retrieveQueue.add(body, { removeOnComplete: true });
+      // const retrieveQueue = new Queue('retrieve', redisConf);
+      // retrieveQueue.add(body, { removeOnComplete: true });
     }
   },
 
@@ -186,14 +186,16 @@ const organicCertifierSurveyController = {
     `, [ to_date, from_date, farm_id ]);
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
     const taskIds = soilTasks.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
+    console.log(taskIds);
     if(!taskIds.length) {
       return [];
     }
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
-
+    console.log(managementPlans, locations);
     const tasks = pestTasks.rows.concat(soilTasks.rows);
+    console.log(tasks);
     return tasks.map((task) => {
-      this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
     });
   },
 
@@ -215,7 +217,7 @@ const organicCertifierSurveyController = {
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
     const tasks = pestTasks.rows.concat(cleaningTask.rows);
     return tasks.map((task) => {
-      this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
     });
   },
 

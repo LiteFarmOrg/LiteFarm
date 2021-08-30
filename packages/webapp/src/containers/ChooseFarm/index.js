@@ -63,11 +63,11 @@ function ChooseFarm() {
   const onProceed = () => {
     const farm = userFarmEntities[selectedFarmId][user_id];
     if (farm.status === 'Active') {
-      dispatch(selectFarmAndFetchAll({ farm_id: selectedFarmId }));
       if (currentFarmId) {
         dispatch(startSwitchFarmModal(selectedFarmId));
       }
-      history.push({ pathname: '/' });
+      dispatch(selectFarmAndFetchAll({ farm_id: selectedFarmId }));
+      // history.push({ pathname: '/' });
     } else {
       dispatch(patchUserFarmStatusWithIDToken(farm));
     }

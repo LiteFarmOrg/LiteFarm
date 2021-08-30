@@ -168,6 +168,17 @@
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
   },
+  "CERTIFICATIONS_MODAL": {
+    "MAYBE_LATER": "Maybe later",
+    "STEP_ONE": {
+      "DESCRIPTION": "We've added support for certifications and certifiers! Want to see what’s available in your area?",
+      "TITLE": "New feature!"
+    },
+    "STEP_TWO": {
+      "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
+      "TITLE": "Viewing certifications"
+    }
+  },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
     "EMAIL": "Email",

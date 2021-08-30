@@ -52,12 +52,16 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   }
 
   const { farm_id } = req.headers;
-  const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
-  // Is getting a seeded table and accessing community data. Go through.
-  if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
-    return next();
+  try {
+    const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
+    // Is getting a seeded table and accessing community data. Go through.
+    if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
+      return next();
+    }
+    return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
+  } catch(e) {
+    notAuthorizedResponse(res);
   }
-  return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
 };
 
 async function fromTaskId(taskId) {

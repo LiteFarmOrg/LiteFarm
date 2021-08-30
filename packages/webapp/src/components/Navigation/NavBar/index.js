@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import { isIntroducingCertificationsSelector } from '../../../containers/Navigation/navbarSlice';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -118,6 +119,7 @@ export default function PureNavBar({
   ]);
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const isIntroducingFarmMap = !introduce_map && navigation;
+  const isIntroducingCertifications = useSelector(isIntroducingCertificationsSelector);
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -301,6 +303,7 @@ export default function PureNavBar({
               peopleClick={peopleClick}
               certificationClick={certificationClick}
               isIntroducingFarmMap={isIntroducingFarmMap}
+              isIntroducingCertifications={isIntroducingCertifications}
             >
               <IconButton
                 aria-label="farm-icon"

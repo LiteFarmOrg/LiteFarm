@@ -19,7 +19,9 @@
     "SUPPLIER_LABEL": "Supplier"
   },
   "ADD_TASK": {
+    "ADD_A_CUSTOM_TASK": "Add a custom task",
     "ADD_A_TASK": "Add a task",
+    "ADD_CUSTOM_TASK": "Add custom task",
     "AFFECT_CROPS": "Will this task affect any crops?",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "ASSIGN_TASK": "Assign task",
@@ -33,8 +35,12 @@
     },
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_CROPS": "Clear all crops",
+    "CUSTOM_TASK": "Custom Task",
+    "CUSTOM_TASK_NAME": "Custom task name",
+    "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
     "DO_YOU_WANT_TO_ASSIGN": "Do you want to assign the task now?",
+    "EDIT_CUSTOM_TASK": "Edit custom task",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "Describe the type of field work",
       "TYPE_OF_FIELD_WORK": "Type of field work",
@@ -50,6 +56,9 @@
         "WEEDING": "Weeding"
       }
     },
+    "HARVEST_EVERYTHING": "Harvest everything that is ready",
+    "HARVESTING_INFO": "MISSING",
+    "HOW_MUCH_IS_HARVESTED": "MISSING",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "PEST_CONTROL_VIEW": {
@@ -57,16 +66,18 @@
       "FLAME_WEEDING": "Flame weeding",
       "FOLIAR_SPRAY": "Foliar spray",
       "HAND_WEEDING": "Hand weeding",
+      "HEAT_TREATMENT": "Pruning",
       "IS_PERMITTED": "Is the pest agent in the permitted substances list?",
       "OTHER": "Other",
       "OTHER_PEST": "Other method",
       "PEST_CONTROL_METHOD": "Pest control method",
-      "HEAT_TREATMENT": "Pruning",
       "SOIL_FUMIGATION": "Soil fumigation",
       "SYSTEMIC_SPRAY": "Systemic spray",
-      "TRAPS": "Traps",
       "WHAT_PESTS": "What pest(s) are you trying to control"
     },
+    "QUANTITY": "Quantity",
+    "RETIRE_CUSTOM_TASK": "Retire custom task?",
+    "RETIRE_CUSTOM_TASK_CONTENT": "Are you sure you want to delete this custom task?",
     "SELECT_ALL": "Select all",
     "SELECT_ALL_CROPS": "Select all crops",
     "SELECT_TASK_TYPE": "Select task type",
@@ -82,9 +93,7 @@
     },
     "TASK": "task",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about your",
-    "WAGE_OVERRIDE": "Wage override",
-    "QUANTITY": "Quantity",
-    "HARVEST_EVERYTHING": "Harvest everything that is ready"
+    "WAGE_OVERRIDE": "Wage override"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -158,6 +167,17 @@
       "YOUR_CERTIFICATION": "Your certification"
     },
     "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+  },
+  "CERTIFICATIONS_MODAL": {
+    "MAYBE_LATER": "Maybe later",
+    "STEP_ONE": {
+      "DESCRIPTION": "We've added support for certifications and certifiers! Want to see what’s available in your area?",
+      "TITLE": "New feature!"
+    },
+    "STEP_TWO": {
+      "DESCRIPTION": "That’s okay! You can add certifications and certifiers later under “my farm”.",
+      "TITLE": "Viewing certifications"
+    }
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
@@ -1023,7 +1043,7 @@
     "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDING_DATE": "Seeding date",
     "SEEDLING": "Seedling or planting stock",
-    "SEEDLING_AGE": "What age is the the seedling or planting stock?",
+    "SEEDLING_AGE": "What age is the seedling or planting stock?",
     "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
     "SELECT_A_PLANTING_LOCATION": "Select a planting location",
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
@@ -1177,8 +1197,8 @@
     }
   },
   "REACT_SELECT": {
-    "CLEAR_ALL": "Clear all",
-    "CLEAR": "Clear"
+    "CLEAR": "Clear",
+    "CLEAR_ALL": "Clear all"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
@@ -1428,6 +1448,7 @@
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "EDIT_TASK": "Edit Task",
+    "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "PAGE_TITLE": "Tasks",
     "PREFER_NOT_TO_SAY": "I prefer not to say",
@@ -1441,7 +1462,6 @@
       "LATE": "Late",
       "PLANNED": "Planned"
     },
-    "LOCATIONS": "Location(s)",
     "TASK": "task",
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",

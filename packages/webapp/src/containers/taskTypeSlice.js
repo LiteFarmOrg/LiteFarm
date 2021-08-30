@@ -34,10 +34,10 @@ const taskTypeSlice = createSlice({
     onLoadingProductStart: onLoadingStart,
     onLoadingProductFail: onLoadingFail,
     getTaskTypesSuccess: addManyTaskTypes,
-    deleteTaskSuccess: taskTypeAdapter.removeOne,
+    deleteTaskTypeSuccess: taskTypeAdapter.removeOne,
   },
 });
-export const { onLoadingProductFail, taskTypes, getTaskTypesSuccess } = taskTypeSlice.actions;
+export const { onLoadingProductFail, taskTypes, getTaskTypesSuccess, deleteTaskTypeSuccess } = taskTypeSlice.actions;
 export default taskTypeSlice.reducer;
 
 export const taskTypeReducerSelector = (state) => state.entitiesReducer[taskTypeSlice.name];

@@ -7,7 +7,30 @@ export default function ListOption({
   icon,
   customParagraphStyle = {},
   customIconStyle = {},
+  isBeingIntroduced = false,
+  isIntroductionActive = false,
 }) {
+  if (isIntroductionActive) {
+    let alterStyles;
+    if (isBeingIntroduced) {
+      alterStyles = {
+        background: '#c7efd3',
+      };
+    } else {
+      alterStyles = {
+        background: 'white',
+      };
+    }
+    customParagraphStyle = {
+      ...customParagraphStyle,
+      ...alterStyles,
+    };
+    customIconStyle = {
+      ...customIconStyle,
+      ...alterStyles,
+    };
+  }
+
   const paragraphStyle = Object.assign(
     {
       paddingBottom: '0.4rem',

@@ -7,7 +7,15 @@ import { colors } from '../../../assets/theme';
 import ProgressBar from '../../ProgressBar';
 import { CancelButton } from '../CancelButton';
 
-function MultiStepPageTitle({ title, onGoBack, onCancel, style, value, cancelModalTitle }) {
+function MultiStepPageTitle({
+  title,
+  onGoBack,
+  onCancel,
+  style,
+  value,
+  cancelModalTitle,
+  showProgressBar,
+}) {
   return (
     <div style={style}>
       <div className={styles.titleContainer}>

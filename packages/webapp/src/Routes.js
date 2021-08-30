@@ -292,10 +292,14 @@ const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
 const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
+const ManageCustomTasks = React.lazy(() => import('./containers/AddTask/ManageCustomTasks'));
+const AddCustomTask = React.lazy(() => import('./containers/AddTask/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
+const EditCustomTask = React.lazy(() => import('./containers/AddTask/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
+const EditCustomTaskUpdate = React.lazy(() => import('./containers/AddTask/EditCustomTaskUpdate'));
 
 const Routes = () => {
   useScrollToTop();
@@ -672,6 +676,14 @@ const Routes = () => {
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path="/export/:id" exact component={ExportDownload} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
+            <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
+            <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -981,6 +993,14 @@ const Routes = () => {
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
+            <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
+            <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1088,6 +1108,14 @@ const Routes = () => {
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
+            <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
+            <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
+            <Route path="/add_task/edit_custom_task" exact component={EditCustomTask} />
+            <Route
+              path="/add_task/edit_custom_task_update"
+              exact
+              component={EditCustomTaskUpdate}
+            />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

@@ -19,7 +19,9 @@
     "SUPPLIER_LABEL": "MISSING"
   },
   "ADD_TASK": {
+    "ADD_A_CUSTOM_TASK": "MISSING",
     "ADD_A_TASK": "MISSING",
+    "ADD_CUSTOM_TASK": "MISSING",
     "AFFECT_CROPS": "MISSING",
     "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_TASK": "MISSING",
@@ -33,8 +35,12 @@
     },
     "CLEAR_ALL": "MISSING",
     "CLEAR_ALL_CROPS": "MISSING",
+    "CUSTOM_TASK": "MISSING",
+    "CUSTOM_TASK_NAME": "MISSING",
+    "CUSTOM_TASK_TYPE": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "EDIT_CUSTOM_TASK": "MISSING",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "MISSING",
       "TYPE_OF_FIELD_WORK": "MISSING",
@@ -50,23 +56,28 @@
         "WEEDING": "MISSING"
       }
     },
+    "HARVEST_EVERYTHING": "MISSING",
+    "HARVESTING_INFO": "MISSING",
+    "HOW_MUCH_IS_HARVESTED": "MISSING",
     "HR": "MISSING",
     "MANAGE_CUSTOM_TASKS": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "MISSING",
       "FLAME_WEEDING": "MISSING",
       "FOLIAR_SPRAY": "MISSING",
-      "HAND_PICKING": "MISSING",
+      "HAND_WEEDING": "MISSING",
+      "HEAT_TREATMENT": "MISSING",
       "IS_PERMITTED": "MISSING",
       "OTHER": "MISSING",
       "OTHER_PEST": "MISSING",
       "PEST_CONTROL_METHOD": "MISSING",
-      "PRUNING": "MISSING",
       "SOIL_FUMIGATION": "MISSING",
       "SYSTEMIC_SPRAY": "MISSING",
-      "TRAPS": "MISSING",
       "WHAT_PESTS": "MISSING"
     },
+    "QUANTITY": "MISSING",
+    "RETIRE_CUSTOM_TASK": "MISSING",
+    "RETIRE_CUSTOM_TASK_CONTENT": "MISSING",
     "SELECT_ALL": "MISSING",
     "SELECT_ALL_CROPS": "MISSING",
     "SELECT_TASK_TYPE": "MISSING",
@@ -82,9 +93,7 @@
     },
     "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
-    "WAGE_OVERRIDE": "MISSING",
-    "QUANTITY": "MISSING",
-    "HARVEST_EVERYTHING": "MISSING"
+    "WAGE_OVERRIDE": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -965,8 +974,8 @@
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
     "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
-    "DROP_PIN": "Alfinetar",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
+    "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
@@ -1001,8 +1010,8 @@
     "PLANTED_ALREADY": "Você vai plantar esta safra ou ela já está plantada?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
-    "PLANTING_DATE_LABEL": "Data do plantio",
     "PLANTING_DATE_INFO": "MISSING",
+    "PLANTING_DATE_LABEL": "Data do plantio",
     "PLANTING_DEPTH": "Profundidade de plantio",
     "PLANTING_METHOD": "Qual é o seu método de plantio?",
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
@@ -1054,13 +1063,13 @@
         "TEXT": "{{fill}} local"
       }
     },
+    "VARIETY": "MISSING",
     "WHAT_IS_AGE": "Qual é a idade da safra?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
-    "WILD_CROP": "Você está colhendo uma safra selvagem?",
-    "VARIETY": "MISSING",
     "WHERE_START_LOCATION": "MISSING",
     "WHERE_TRANSPLANT_LOCATION": "MISSING",
+    "WILD_CROP": "Você está colhendo uma safra selvagem?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": "MISSING"
   },
@@ -1176,6 +1185,7 @@
     }
   },
   "REACT_SELECT": {
+    "CLEAR": "MISSING",
     "CLEAR_ALL": "Clear all"
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -1426,6 +1436,7 @@
     "DUE_DATE": "MISSING",
     "DURATION": "MISSING",
     "EDIT_TASK": "MISSING",
+    "LOCATIONS": "MISSING",
     "NO_TASKS_TO_DISPLAY": "MISSING",
     "PAGE_TITLE": "MISSING",
     "PREFER_NOT_TO_SAY": "MISSING",
@@ -1439,7 +1450,6 @@
       "LATE": "MISSING",
       "PLANNED": "MISSING"
     },
-    "LOCATIONS": "MISSING",
     "TASK": "MISSING",
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",

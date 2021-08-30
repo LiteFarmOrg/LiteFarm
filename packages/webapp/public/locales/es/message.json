@@ -8,12 +8,12 @@
       "CREATE": "No se pudo crear el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
-      "UPDATE": "No se pudo actualizar el documento"
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
-      "UPDATE": "Documento actualizado exitosamente"
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {
@@ -106,14 +106,14 @@
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente.",
-    "SUCCESS_PATCH": " se actualizo exitosamente.",
-    "SUCCESS_POST": " se creo exitosamente."
+    "SUCCESS_DELETE": " se retiro exitosamente",
+    "SUCCESS_PATCH": " se actualizo exitosamente",
+    "SUCCESS_POST": " se creo exitosamente"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "No se pudo crear la certificación.",
-      "UPDATE": "No se pudo actualizar la certificación."
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {

@@ -10,12 +10,12 @@
     "NEEDS_PLAN": "Precisa de um plano"
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "Produto de limpeza",
-    "CROP_COMPLIANCE": "Conformidade da safra",
-    "FERTILIZING_PRODUCT": "Fertilizante",
-    "OTHER": "Outro",
-    "PEST_CONTROL_PRODUCT": "Produto de controle de praga",
-    "SOIL_AMENDMENT": "Correção de solo",
-    "UNCATEGORIZED": "Não categorizado"
+    "CLEANING_PRODUCT": "Cleaning product",
+    "CROP_COMPLIANCE": "Crop compliance",
+    "FERTILIZING_PRODUCT": "Fertilizing product",
+    "OTHER": "Other",
+    "PEST_CONTROL_PRODUCT": "Pest control product",
+    "SOIL_AMENDMENT": "Soil amendment",
+    "UNCATEGORIZED": "Uncategorized"
   }
 }

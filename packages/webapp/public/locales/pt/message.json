@@ -8,12 +8,12 @@
       "CREATE": "Falha ao criar documento",
       "FAILED_ARCHIVE": "Falha ao arquivar o documento",
       "FAILED_UPLOAD": "Anexos não carregados",
-      "UPDATE": "Falha ao atualizar o documento"
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento arquivado com sucesso",
       "CREATE": "Documento criado com sucesso",
-      "UPDATE": "Documento atualizado com sucesso"
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {
@@ -112,8 +112,8 @@
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "Falha ao criar a certificação",
-      "UPDATE": "Falha ao atualizar a certificação"
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {

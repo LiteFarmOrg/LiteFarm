@@ -5,14 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { taskTypeById } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask, createHarvestTasks } from '../../Task/saga';
 import { getObjectInnerValues } from '../../../util';
 import { cloneObject } from '../../../util';
-import { taskTypeById } from '../../taskTypeSlice';
 
-
-export default function TaskManagement({ history, match }) {
+function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const userFarm = useSelector(userFarmSelector);
@@ -20,11 +19,11 @@ export default function TaskManagement({ history, match }) {
   const users = userFarms[farm_id];
   const userData = Object.values(users);
   const persistedFormData = useSelector(hookFormPersistSelector);
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
   ]);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
@@ -67,31 +66,29 @@ export default function TaskManagement({ history, match }) {
   }, []);
 
   const getHarvestTasksData = (taskData) => {
-    let harvestTasks = [];
-    console.log(taskData);
-    for (let harvest_task of taskData.harvest_tasks) {
+    let harvest_tasks = cloneObject(taskData.harvest_tasks);
+    for (let harvest_task of harvest_tasks) {
       let id = harvest_task.id.split('.');
       let location = id[0];
       let managementPlan = id[1];
-      let h = {};
-      h.location_id = location;
-      h.management_plan_id = Number(managementPlan);
-      h.quantity_unit = harvest_task.quantity_unit.value;
-      h.harvest_everything = harvest_task.harvest_everything;
-      h.quantity = harvest_task.quantity;
-      h.harvest_task_notes = harvest_task.harvest_task_notes;
-      harvestTasks.push(h);
+      harvest_task.location_id = location;
+      harvest_task.management_plan_id = Number(managementPlan);
+      harvest_task.quantity_unit = harvest_task.quantity_unit.value;
+      delete harvest_task.id;
     }
-    return harvestTasks;
+    return harvest_tasks;
   };
 
   const onSubmit = (data) => {
-    if (selectedTaskType.task_translation_key === 'HARVESTING') {
-      let harvestTasks = getHarvestTasksData(persistedFormData);
-      console.log({ ...persistedFormData, ...data, harvest_tasks: harvestTasks });
-      //dispatch(createHarvestTasks({ ...persistedFormData, ...data }));
+    const { task_translation_key } = selectedTaskType;
+    const { override_hourly_wage: t, ...assignmentFormData } = data;
+    const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
+    const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
+    if (task_translation_key === 'HARVESTING') {
+      filteredData.harvest_tasks = getHarvestTasksData(filteredData);
+      dispatch(createHarvestTasks(filteredData));
     } else {
-      dispatch(createTask({ ...persistedFormData, ...data }));
+      dispatch(createTask({ task_translation_key, ...filteredData }));
     }
   };
 
@@ -121,3 +118,5 @@ export default function TaskManagement({ history, match }) {
     </HookFormPersistProvider>
   );
 }
+
+export default TaskManagement;

@@ -21,15 +21,8 @@ export default function PureTaskLocations({
 }) {
   const { t } = useTranslation();
   const progress = 43;
-  const defaultLocations = useMemo(() => {
-    const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));
-    return (
-      persistedFormData.locations?.filter(({ location_id }) => locationIdsSet.has(location_id)) ||
-      []
-    );
-  }, []);
   const { getValues, watch, setValue } = useForm({
-    defaultValues: cloneObject({ ...persistedFormData, locations: defaultLocations }),
+    defaultValues: cloneObject({ locations: [], ...persistedFormData }),
     shouldUnregister: false,
   });
   useHookFormPersist(getValues, persistedPath);

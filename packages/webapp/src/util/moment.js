@@ -48,8 +48,8 @@ export const getLocalizedDateString = (date, format = 'MMMM DD, YYYY') =>
  * @param date
  * @returns {string}
  */
-export const getShortLocalizedDateString = (date) =>
-  moment(date).locale(getLanguageFromLocalStorage()).format(`MMM DD,'YY`);
+export const getManagementPlanCardDate = (date) =>
+  moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);
 
 export const getManagementPlanTileDate = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).utc().format(`MMM DD,'YY`);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import WeatherBoard from '../../containers/WeatherBoard';
 import PureHome from '../../components/Home';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
@@ -40,7 +40,10 @@ export default function Home({ history }) {
 
   // Certification modal logic
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
-  const [showCertificationsModal, setShowCertificationsModal] = useState(!doesCertifierSurveyExist);
+  const isAdmin = useSelector(isAdminSelector);
+  const [showCertificationsModal, setShowCertificationsModal] = useState(
+    !doesCertifierSurveyExist && isAdmin,
+  );
   const onClickMaybeLater = () => {
     dispatch(
       postOrganicCertifierSurvey({

@@ -164,6 +164,29 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+export const createHarvestTasks = createAction('createHarvestTasksSaga');
+
+export function* createHarvestTasksSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    let postData = getObjectInnerValues(data);
+    const result = yield call(axios.post, `${taskUrl}/harvest_tasks`, postData, header);
+    if (result) {
+      for (let task_id in result.data) {
+        let task = result.data[task_id];
+        yield put(createTaskSuccess(task));
+      }
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
+      history.push('/tasks');
+    } 
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+  }
+}
+
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data } }) {
@@ -274,6 +297,7 @@ export default function* taskSaga() {
   yield takeLeading(addCustomTask.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
+  yield takeLeading(createHarvestTasks.type, createHarvestTasksSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLeading(getTasks.type, getTasksSaga);

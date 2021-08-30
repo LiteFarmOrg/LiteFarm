@@ -173,7 +173,7 @@ export default function CropCatalogue({ history }) {
                 <PureCropTileContainer gap={gap} padding={padding}>
                   {crops.map((crop) => {
                     const { crop_translation_key } = crop;
-                    const imageKey = crop_translation_key.toLowerCase();
+                    const imageKey = crop_translation_key?.toLowerCase();
                     return (
                       <PureCropTile
                         key={crop.crop_id}

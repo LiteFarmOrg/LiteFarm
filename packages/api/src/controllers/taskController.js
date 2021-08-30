@@ -2,6 +2,10 @@ const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
 const managementPlanModel = require('../models/managementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
+const HarvestTaskModel = require('../models/harvestTaskModel');
+const LocationTaskModel = require('../models/locationTasksModel');
+const { transaction, Model, UniqueViolationError } = require('objection');
+const baseController = require('../controllers/baseController');
 
 const { typesOfTask } = require('./../middleware/validation/task')
 const adminRoles = [ 1, 2, 5 ];
@@ -136,6 +140,40 @@ const taskController = {
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });
+      }
+    }
+  },
+
+  createHarvestTasks() {
+    return async (req, res, next) => {
+      try {
+        const data = req.body;
+        const { farm_id } = req.headers;
+        const { user_id } = req.user;
+        data.planned_time = data.due_date;
+        data.owner_user_id = user_id;
+        if (data.assignee_user_id && !data.wage_at_moment) {
+          const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
+          data.wage_at_moment = wage.amount;
+        }
+        const harvest_tasks = data.harvest_tasks;
+        delete data.harvest_tasks;
+        let result = {};
+        await TaskModel.transaction(async trx => {
+          for (let harvest_task of harvest_tasks) {
+            const task = { ...data, notes: harvest_task.harvest_task_notes };
+            const posted_task = await baseController.postWithResponse(TaskModel, task, req, { trx });
+            await baseController.postWithResponse(HarvestTaskModel, { ...harvest_task, task_id: posted_task.task_id }, req, { trx });
+            await baseController.postWithResponse(LocationTaskModel, {task_id: posted_task.task_id, location_id: harvest_task.location_id}, req, { trx });
+            await baseController.postWithResponse(managementTasksModel, {task_id: posted_task.task_id, management_plan_id: harvest_task.management_plan_id}, req, { trx });
+            const [ createdTask ] = await TaskModel.query(trx).withGraphFetched(`[locations, managementPlans, taskType, harvest_task]`).where({ task_id: posted_task.task_id });
+            result[posted_task.task_id] = removeNullTypes(createdTask);
+          }
+        });
+        return res.status(200).send(result);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({ error });
       }
     }
   },

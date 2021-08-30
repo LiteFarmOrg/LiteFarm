@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
-import { crop_age } from '../../../util/unit';
-import { seedingType } from './constants'
+import { crop_age, getDurationInDaysDefaultUnit } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
+import { getDateDifference, getDateInputFormat } from '../../../util/moment';
+import { getPlantedAlreadyPaths } from '../getAddManagementPlanPath';
 
 export default function PurePlantedAlready({
-  onSubmit,
-  onGoBack,
-  onCancel,
+  history,
   useHookFormPersist,
   persistedFormData,
   system,
-  persistPath,
+  cropVariety,
 }) {
   const { t } = useTranslation();
 
@@ -30,7 +29,6 @@ export default function PurePlantedAlready({
     watch,
     getValues,
     setValue,
-    setError,
     control,
     formState: { errors, isValid },
   } = useForm({
@@ -39,25 +37,78 @@ export default function PurePlantedAlready({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist([persistPath], getValues);
+  useHookFormPersist(getValues);
 
   const progress = 12.5;
 
-  const IN_GROUND = 'in_ground';
-  const AGE = 'age';
-  const SEEDLING_AGE = 'seedling_age';
-  const SEEDLING_AGE_UNIT = 'seedling_age_unit';
-  const AGE_UNIT = 'age_unit';
-  const SEEDING_TYPE = 'seeding_type';
-  const WILD_CROP = 'wild_crop';
+  const ALREADY_IN_GROUND = 'crop_management_plan.already_in_ground';
+  const AGE = 'crop_management_plan.crop_age';
+  const AGE_UNIT = 'crop_management_plan.crop_age_unit';
+  //TODO: remove duplicate
+  const SEEDLING_AGE = AGE;
+  const SEEDLING_AGE_UNIT = AGE_UNIT;
+
+  const IS_SEED = 'crop_management_plan.is_seed';
+  const IS_WILD = 'crop_management_plan.is_wild';
 
   const MAX_AGE = 999;
 
-  const in_ground = watch(IN_GROUND);
-  const seeding_type = watch(SEEDING_TYPE);
-  const wild_crop = watch(WILD_CROP);
+  useEffect(() => {
+    if (persistedFormData.crop_management_plan.seed_date) {
+      const currentDate = getDateInputFormat(new Date());
+      const newAge = getDateDifference(
+        persistedFormData.crop_management_plan.seed_date,
+        currentDate,
+      );
+      setValue(AGE, newAge);
+      setValue(AGE_UNIT, getDurationInDaysDefaultUnit(newAge));
+    }
+  }, []);
 
-  const disabled = !isValid || (in_ground === true && wild_crop !== true && wild_crop !== false);
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getPlantedAlreadyPaths(cropVariety.crop_variety_id),
+    [],
+  );
+
+  const onSubmit = () => {
+    const age = getValues(AGE);
+    if ((already_in_ground || !is_seed) && age !== get(persistedFormData, AGE)) {
+      const SEED_DATE = 'crop_management_plan.seed_date';
+      if (age === 0 || age > 0) {
+        const seedDate = new Date();
+        seedDate.setDate(seedDate.getDate() + getValues(AGE));
+        setValue(SEED_DATE, getDateInputFormat(seedDate));
+      } else {
+        setValue(SEED_DATE, undefined);
+      }
+    }
+
+    const NEEDS_TRANSPLANT = 'crop_management_plan.needs_transplant';
+    if (get(persistedFormData, NEEDS_TRANSPLANT) === undefined) {
+      if (getValues(ALREADY_IN_GROUND)) {
+        setValue(NEEDS_TRANSPLANT, false);
+      } else if (getValues(IS_SEED) === false) {
+        setValue(NEEDS_TRANSPLANT, true);
+      } else {
+        setValue(NEEDS_TRANSPLANT, cropVariety.needs_transplant);
+      }
+    }
+
+    const FOR_COVER = 'crop_management_plan.for_cover';
+    if (cropVariety.can_be_cover_crop && get(persistedFormData, FOR_COVER) === undefined) {
+      setValue(FOR_COVER, true);
+    } else if (!cropVariety.can_be_cover_crop) {
+      setValue(FOR_COVER, false);
+    }
+    history.push(submitPath);
+  };
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
+
+  const already_in_ground = watch(ALREADY_IN_GROUND);
+  const is_seed = watch(IS_SEED);
+
+  const disabled = !isValid;
 
   return (
     <Form
@@ -79,112 +130,101 @@ export default function PurePlantedAlready({
         }}
       />
 
-      <div>
-        <div>
-          <Label className={styles.label} style={{ marginBottom: '18px' }}>
-            {t('MANAGEMENT_PLAN.PLANTED_ALREADY')}
-          </Label>
-        </div>
-        <RadioGroup
-          hookFormControl={control}
-          style={{ marginBottom: '16px' }}
-          name={IN_GROUND}
-          radios={[
-            {
-              label: t('MANAGEMENT_PLAN.PLANTING'),
-              value: false,
-            },
-            {
-              label: t('MANAGEMENT_PLAN.IN_GROUND'),
-              value: true,
-            },
-          ]}
-          required
-        />
-      </div>
-      {(in_ground === true || in_ground === false) && (
+      <Label className={styles.label} style={{ marginBottom: '18px' }}>
+        {t('MANAGEMENT_PLAN.PLANTED_ALREADY')}
+      </Label>
+
+      <RadioGroup
+        hookFormControl={control}
+        style={{ marginBottom: '16px' }}
+        name={ALREADY_IN_GROUND}
+        radios={[
+          {
+            label: t('MANAGEMENT_PLAN.PLANTING'),
+            value: false,
+          },
+          {
+            label: t('MANAGEMENT_PLAN.IN_GROUND'),
+            value: true,
+          },
+        ]}
+        required
+      />
+
+      {already_in_ground === false && (
         <>
-          {!in_ground && (
+          <Label className={styles.label} style={{ marginBottom: '18px' }}>
+            {t('MANAGEMENT_PLAN.SEED_OR_SEEDLING')}
+          </Label>
+          <RadioGroup
+            style={{ marginBottom: '32px' }}
+            hookFormControl={control}
+            name={IS_SEED}
+            radios={[
+              {
+                label: t('CROP_MANAGEMENT.SEED'),
+                value: true,
+              },
+              {
+                label: t('MANAGEMENT_PLAN.SEEDLING'),
+                value: false,
+              },
+            ]}
+            required
+          />
+          {is_seed === false && (
             <>
-              <Label className={styles.label} style={{ marginBottom: '18px' }}>
-                {t('MANAGEMENT_PLAN.SEED_OR_SEEDLING')}
+              <Label className={styles.label} style={{ marginBottom: '23px' }}>
+                {t('MANAGEMENT_PLAN.SEEDLING_AGE')}
               </Label>
-              <RadioGroup
-                style={{ marginBottom: '32px' }}
-                hookFormControl={control}
-                name={SEEDING_TYPE}
-                radios={[
-                  {
-                    label: t('CROP_MANAGEMENT.SEED'),
-                    value: seedingType.SEED,
-                  },
-                  {
-                    label: t('MANAGEMENT_PLAN.SEEDLING'),
-                    value: seedingType.SEEDLING,
-                  },
-                ]}
-                required
-                shouldUnregister={false}
+
+              <Unit
+                register={register}
+                label={t('MANAGEMENT_PLAN.AGE')}
+                name={SEEDLING_AGE}
+                displayUnitName={SEEDLING_AGE_UNIT}
+                errors={errors[SEEDLING_AGE]}
+                unitType={crop_age}
+                system={system}
+                hookFormSetValue={setValue}
+                hookFormGetValue={getValues}
+                hookFromWatch={watch}
+                control={control}
+                max={MAX_AGE}
+                toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
+                optional
               />
-              {seeding_type === 'SEEDLING_OR_PLANTING_STOCK' && (
-                <>
-                  <div>
-                    <Label className={styles.label} style={{ marginBottom: '23px' }}>
-                      {t('MANAGEMENT_PLAN.SEEDLING_AGE')}
-                    </Label>
-                  </div>
-                  <div>
-                    <Unit
-                      register={register}
-                      label={t('MANAGEMENT_PLAN.AGE')}
-                      name={SEEDLING_AGE}
-                      displayUnitName={SEEDLING_AGE_UNIT}
-                      errors={errors[SEEDLING_AGE]}
-                      unitType={crop_age}
-                      system={system}
-                      hookFormSetValue={setValue}
-                      hookFormGetValue={getValues}
-                      hookFromWatch={watch}
-                      control={control}
-                      max={MAX_AGE}
-                      toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
-                      optional
-                    />
-                  </div>
-                </>
-              )}
             </>
           )}
-          {in_ground && (
-            <>
-              <Label className={styles.label} style={{ marginBottom: '24px' }}>
-                {t('MANAGEMENT_PLAN.WHAT_IS_AGE')}
-              </Label>
-              <div style={{ marginBottom: '40px' }}>
-                <Unit
-                  register={register}
-                  label={t('MANAGEMENT_PLAN.AGE')}
-                  name={AGE}
-                  displayUnitName={AGE_UNIT}
-                  errors={errors[AGE]}
-                  unitType={crop_age}
-                  system={system}
-                  hookFormSetValue={setValue}
-                  hookFormGetValue={getValues}
-                  hookFromWatch={watch}
-                  control={control}
-                  max={MAX_AGE}
-                  optional
-                />
-              </div>
-              <div>
-                <Label className={styles.label} style={{ marginBottom: '18px' }}>
-                  {t('MANAGEMENT_PLAN.WILD_CROP')}
-                </Label>
-                <RadioGroup hookFormControl={control} name={WILD_CROP} shouldUnregister={false} />
-              </div>
-            </>
-          )}
+        </>
+      )}
+      {already_in_ground === true && (
+        <>
+          <Label className={styles.label} style={{ marginBottom: '24px' }}>
+            {t('MANAGEMENT_PLAN.WHAT_IS_AGE')}
+          </Label>
+
+          <Unit
+            register={register}
+            label={t('MANAGEMENT_PLAN.AGE')}
+            name={AGE}
+            displayUnitName={AGE_UNIT}
+            errors={errors[AGE]}
+            unitType={crop_age}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFromWatch={watch}
+            control={control}
+            max={MAX_AGE}
+            style={{ marginBottom: '40px' }}
+            optional
+          />
+
+          <Label className={styles.label} style={{ marginBottom: '18px' }}>
+            {t('MANAGEMENT_PLAN.WILD_CROP')}
+          </Label>
+          <RadioGroup hookFormControl={control} name={IS_WILD} required />
         </>
       )}
     </Form>
@@ -192,11 +232,12 @@ export default function PurePlantedAlready({
 }
 
 PurePlantedAlready.prototype = {
-  onSubmit: PropTypes.func,
-  onGoBack: PropTypes.func,
-  onCancel: PropTypes.func,
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
-  persistPath: PropTypes.string,
+  cropVariety: PropTypes.shape({
+    needs_transplant: PropTypes.bool,
+    can_be_cover_crop: PropTypes.bool,
+    crop_variety_id: PropTypes.string,
+  }),
 };

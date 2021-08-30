@@ -16,7 +16,10 @@ Primary.args = {
   useHookFormPersist: () => ({}),
   onGoBack: () => {},
   onCancel: () => {},
-  persistedFormData: {},
+  persistedFormData: {
+    crop_management_plan: { planting_management_plans: { final: {}, initial: {} } },
+  },
+  managementPlanCount: 10,
 };
 Primary.parameters = {
   ...chromaticSmallScreen,

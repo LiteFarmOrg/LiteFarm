@@ -44,7 +44,7 @@ export default function PureSurfaceWater({
   });
   const {
     persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const irrigation = watch(surfaceWaterEnum.used_for_irrigation);

@@ -25,8 +25,8 @@ import { logout } from '../../util/jwt';
 import { axios } from '../saga';
 
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
-import { getLanguageFromLocalStorage } from '../../util';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;

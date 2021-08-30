@@ -55,7 +55,7 @@ export default function PureWatercourse({
       buffer_width,
       total_area,
     },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);

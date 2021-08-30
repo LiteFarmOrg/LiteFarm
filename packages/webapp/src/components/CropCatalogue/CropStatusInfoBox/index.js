@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next';
 import Square from '../../Square';
 import NativeDatePickerWrapper from '../../Form/NativeDatePicker/NativeDatePickerWrapper';
 import moment from 'moment';
-import { getDateInputFormat } from '../../LocationDetailLayout/utils';
-import { getLanguageFromLocalStorage } from '../../../util';
+import { getDateInputFormat } from '../../../util/moment';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const useStyles = makeStyles({
   container: {

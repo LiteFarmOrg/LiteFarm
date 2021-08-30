@@ -17,6 +17,9 @@ const useStyles = makeStyles({
     fontWeight: 700,
     borderRadius: '4px',
   },
+  counter: {
+    backgroundColor: colors.teal700,
+  },
   active: {
     backgroundColor: colors.brightGreen700,
   },
@@ -55,7 +58,15 @@ export default function Square({ color = 'active', children, isCropTile, ...prop
 }
 
 Square.propTypes = {
-  color: PropTypes.oneOf(['active', 'planned', 'past', 'needsPlan', 'valid', 'archived']),
+  color: PropTypes.oneOf([
+    'active',
+    'planned',
+    'past',
+    'needsPlan',
+    'valid',
+    'archived',
+    'counter',
+  ]),
   isCropTile: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };

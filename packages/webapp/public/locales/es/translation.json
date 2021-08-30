@@ -12,6 +12,80 @@
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
+  "ADD_PRODUCT": {
+    "PRESS_ENTER": "MISSING",
+    "PRODUCT_LABEL": "MISSING",
+    "QUANTITY": "MISSING",
+    "SUPPLIER_LABEL": "MISSING"
+  },
+  "ADD_TASK": {
+    "ADD_A_TASK": "MISSING",
+    "AFFECT_CROPS": "MISSING",
+    "ASSIGN_ALL_TO_PERSON": "MISSING",
+    "ASSIGN_TASK": "MISSING",
+    "ASSIGNEE": "MISSING",
+    "CANCEL": "MISSING",
+    "CLEANING_VIEW": {
+      "ESTIMATED_WATER": "MISSING",
+      "IS_PERMITTED": "MISSING",
+      "WHAT_NEEDS_TO_BE": "MISSING",
+      "WILL_CLEANER_BE_USED": "MISSING"
+    },
+    "CLEAR_ALL": "MISSING",
+    "CLEAR_ALL_CROPS": "MISSING",
+    "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
+    "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "FIELD_WORK_VIEW": {
+      "OTHER_TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE_OF_FIELD_WORK": "MISSING",
+      "TYPE": {
+        "COVERING_SOIL": "MISSING",
+        "FENCING": "MISSING",
+        "OTHER": "MISSING",
+        "PREPARING_BEDS_OR_ROWS": "MISSING",
+        "PRUNING": "MISSING",
+        "SHADE_CLOTH": "MISSING",
+        "TERMINATION": "MISSING",
+        "TILLAGE": "MISSING",
+        "WEEDING": "MISSING"
+      }
+    },
+    "HR": "MISSING",
+    "MANAGE_CUSTOM_TASKS": "MISSING",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "MISSING",
+      "FLAME_WEEDING": "MISSING",
+      "FOLIAR_SPRAY": "MISSING",
+      "HAND_PICKING": "MISSING",
+      "IS_PERMITTED": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PEST": "MISSING",
+      "PEST_CONTROL_METHOD": "MISSING",
+      "PRUNING": "MISSING",
+      "SOIL_FUMIGATION": "MISSING",
+      "SYSTEMIC_SPRAY": "MISSING",
+      "TRAPS": "MISSING",
+      "WHAT_PESTS": "MISSING"
+    },
+    "SELECT_ALL": "MISSING",
+    "SELECT_ALL_CROPS": "MISSING",
+    "SELECT_TASK_TYPE": "MISSING",
+    "SOIL_AMENDMENT_VIEW": {
+      "IS_PERMITTED": "MISSING",
+      "MOISTURE_RETENTION": "MISSING",
+      "NUTRIENT_AVAILABILITY": "MISSING",
+      "OTHER": "MISSING",
+      "OTHER_PURPOSE": "MISSING",
+      "PH": "MISSING",
+      "PURPOSE": "MISSING",
+      "STRUCTURE": "MISSING"
+    },
+    "TASK": "MISSING",
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
+    "WAGE_OVERRIDE": "MISSING",
+    "QUANTITY": "MISSING",
+    "HARVEST_EVERYTHING": "MISSING"
+  },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
     "NUMBER_0F_BEDS": "# de camas",
@@ -21,6 +95,7 @@
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área utilizada",
+    "HISTORICAL_PERCENTAGE_LOCATION": "MISSING",
     "LOCATION_SIZE": "Tamaño de la ubicación",
     "PERCENTAGE_LABEL": "% de la ubicación",
     "PERCENTAGE_LOCATION": "¿Qué porcentaje de la ubicación está plantando?",
@@ -191,7 +266,8 @@
       "RETIRE_CROP_TITLE": "Retirar este cultivo?",
       "UNABLE_TO_RETIRE": "Solo puede retirar cultivos que no tengan planes de manejo activos o futuros. Deberá completar o abandonar esos planes para retirar este cultivo.",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de retirar"
-    }
+    },
+    "SUPPLIER": "MISSING"
   },
   "CROP": {
     "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
@@ -853,16 +929,36 @@
     "PLAN_NOTES": "Notas del plan"
   },
   "MANAGEMENT_PLAN": {
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "MISSING",
     "ADD_MANAGEMENT_PLAN": "Agregar plan de manejo",
     "AGE": "Edad",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
+    "COMPLETE_PLAN": {
+      "ABANDON_PLAN": "MISSING",
+      "ABANDON_REASON": "MISSING",
+      "COMPLETE_PLAN": "MISSING",
+      "DATE_OF_CHANGE": "MISSING",
+      "RATING": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "SOMETHING_ELSE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "WHAT_HAPPENED": "MISSING"
+    },
     "CONTAINER": "Maceta",
     "CONTAINER_OR_IN_GROUND": "¿Está plantando en una maceta o en el suelo?",
     "CONTAINER_TYPE": "Tipo de maceta",
     "COVER_INFO": "La selección de un cultivo de cobertura creará una tarea de trabajo de campo para terminar el cultivo de cobertura al final de la temporada. En su lugar, seleccionar para la cosecha creará una tarea de cosecha.",
     "COVER_OR_HARVEST": "¿Se está cultivando como cultivo de cobertura o para la cosecha?",
+    "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
     "DAYS_TO_TERMINATION": "Días hasta la terminación:",
@@ -870,14 +966,22 @@
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
     "DROP_PIN": "Suelta un pin",
+    "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
+    "FIRST_MP_SPOTLIGHT": {
+      "BODY": "MISSING",
+      "TITLE": "MISSING"
+    },
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
     "HARVEST_DATE": "Fecha de cosecha",
+    "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "En el suelo",
+    "INCOMPLETE_TASK_CONTENT": "MISSING",
+    "INCOMPLETE_TASK_TITLE": "MISSING",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
     "KNOW_HOW_IS_CROP_PLANTED": "¿Sabes cómo se plantó el cultivo?",
@@ -889,6 +993,7 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
     "NUMBER_OF_CONTAINER": "# de macetas",
+    "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nombre del plan de manejo",
     "PLAN_NOTES": "Notas del plan",
@@ -897,6 +1002,7 @@
     "PLANTING": "Plantando",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
     "PLANTING_DATE_LABEL": "Fecha de plantar",
+    "PLANTING_DATE_INFO": "MISSING",
     "PLANTING_DEPTH": "Profundidad de siembra",
     "PLANTING_METHOD": "¿Cuál es tu método de plantación?",
     "PLANTING_METHOD_TOOLTIP": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
@@ -905,6 +1011,7 @@
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
     "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
+      "HISTORICAL_SAME_LENGTH": "MISSING",
       "LENGTH_OF_ROW": "Longitud de la hilera",
       "NUMBER_OF_ROWS": "# de hileras",
       "SAME_LENGTH": "¿Todas las hileras tienen la misma longitud?",
@@ -920,10 +1027,16 @@
     "SELECT_A_PLANTING_LOCATION": "Seleccione una ubicación de plantación",
     "SELECT_A_SEEDING_LOCATION": "Seleccione una ubicación de siembra",
     "SELECT_CURRENT_LOCATION": "Seleccione la ubicación actual del cultivo",
-    "SELECT_PLANTING_LOCATION": "¿Dónde está su lugar de plantación?",
     "SELECTED_STARTING_LOCATION": "Seleccione siempre esta como la ubicación de inicio para los cultivos que se trasplantarán",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "ACTIVE": "MISSING",
+      "COMPLETED": "MISSING",
+      "PLANNED": "MISSING"
+    },
+    "SUPPLIER": "MISSING",
     "TERMINATION": "Terminar",
     "TERMINATION_DATE": "¿Cuándo terminará este cultivo?",
     "TOTAL_PLANTS": "# de plantas",
@@ -945,6 +1058,9 @@
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "VARIETY": "MISSING",
+    "WHERE_START_LOCATION": "MISSING",
+    "WHERE_TRANSPLANT_LOCATION": "MISSING",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "PLAN_AND_ID_plural": "MISSING"
   },
@@ -1252,9 +1368,8 @@
     "DOCUMENTS": "Documentos",
     "FINANCES": "Finanzas",
     "INSIGHTS": "Reflexiones",
-    "LOGS": "Registros",
     "MANAGE": "Manejo",
-    "SHIFTS": "Turnos"
+    "TASKS": "MISSING"
   },
   "STATUS": {
     "ACTIVE": "Activo",
@@ -1276,8 +1391,64 @@
     "PREVIOUS_TEXT": "Previa",
     "ROWS_TEXT": "filas"
   },
+  "TASK": {
+    "ABANDON_TASK": "MISSING",
+    "ABANDON": {
+      "ABANDON": "MISSING",
+      "INFO": "MISSING",
+      "NOTES": "MISSING",
+      "REASON_FOR_ABANDONMENT": "MISSING",
+      "REASON": {
+        "CROP_FAILURE": "MISSING",
+        "LABOUR_ISSUE": "MISSING",
+        "MACHINERY_ISSUE": "MISSING",
+        "MARKET_PROBLEM": "MISSING",
+        "OTHER": "MISSING",
+        "SCHEDULING_ISSUE": "MISSING",
+        "WEATHER": "MISSING"
+      },
+      "TITLE": "MISSING",
+      "WHAT_HAPPENED": "MISSING"
+    },
+    "ADD_TASK": "MISSING",
+    "ADD_TASK_FLOW": "MISSING",
+    "ALL": "MISSING",
+    "CARD": {
+      "MULTIPLE_CROPS": "MISSING",
+      "MULTIPLE_LOCATIONS": "MISSING"
+    },
+    "COMPLETE_TASK": "MISSING",
+    "COMPLETE_TASK_CHANGES": "MISSING",
+    "COMPLETE_TASK_DURATION": "MISSING",
+    "COMPLETION_NOTES": "MISSING",
+    "DETAILS": "MISSING",
+    "DID_YOU_ENJOY": "MISSING",
+    "DUE_DATE": "MISSING",
+    "DURATION": "MISSING",
+    "EDIT_TASK": "MISSING",
+    "NO_TASKS_TO_DISPLAY": "MISSING",
+    "PAGE_TITLE": "MISSING",
+    "PREFER_NOT_TO_SAY": "MISSING",
+    "PROVIDE_RATING": "MISSING",
+    "SELECT_DATE": "MISSING",
+    "SELECT_TASK_LOCATIONS": "MISSING",
+    "STATUS": {
+      "ABANDONED": "MISSING",
+      "COMPLETED": "MISSING",
+      "FOR_REVIEW": "MISSING",
+      "LATE": "MISSING",
+      "PLANNED": "MISSING"
+    },
+    "LOCATIONS": "MISSING",
+    "TASK": "MISSING",
+    "TASKS_COUNT": "MISSING",
+    "TASKS_COUNT_plural": "MISSING",
+    "TODO": "MISSING",
+    "UNASSIGNED": "MISSING"
+  },
   "UNIT": {
     "TIME": {
+      "DAY": "MISSING",
       "MONTH": "meses",
       "WEEK": "años",
       "YEAR": "dias"
@@ -1293,13 +1464,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Seleccionar año"
-  },
-  "BED_PLAN_GUIDANCE": {
-    "BED_WIDTH": "Ancho de camas",
-    "NOTES": "Notas de plantación",
-    "PLANTING_DEPTH": "Profundidad de siembra",
-    "SPACE_BETWEEN": "Espacio entre las plantas",
-    "SPECIFY_BEDS": "Especificar camas",
-    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo."
   }
 }

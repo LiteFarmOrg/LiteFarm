@@ -6,7 +6,7 @@ import PureProfileFloater from '../../ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
-import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
+import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import PureMyFarmFloater from '../../MyFarmFloater';
@@ -23,10 +23,10 @@ import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
-import { getLanguageFromLocalStorage } from '../../../util';
 import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -137,8 +137,9 @@ export default function PureNavBar({
   const isProfileFloaterOpen = openFloater === PROFILE;
   const closeFloater = () => setOpenFloater(null);
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
-  const notificationButtonOnClick = () =>
-    setOpenFloater(isNotificationFloaterOpen ? null : NOTIFICATION);
+  const taskIconClick = () => {
+    history.push('/tasks');
+  };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
@@ -325,11 +326,11 @@ export default function PureNavBar({
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStep"
-                onClick={notificationButtonOnClick}
+                onClick={taskIconClick}
                 className={classes.iconButton}
                 classes={{ root: classes.notificationButton }}
               >
-                <NotifIcon />
+                <TaskIcon />
               </IconButton>
             </PureNotificationFloater>
 

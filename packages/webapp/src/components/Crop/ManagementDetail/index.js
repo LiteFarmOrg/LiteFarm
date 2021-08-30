@@ -1,27 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CropHeader from '../cropHeader';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import { Label, Underlined, AddLink } from '../../Typography';
+import { AddLink, Label, Underlined } from '../../Typography';
 import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import Card from '../../Card';
 import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
+import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
+import TaskCard from '../../../containers/Task/TaskCard';
+import TaskQuickAssignModal from '../../Task/QuickAssign';
 
-export default function PureManagementDetail({ onCompleted, onBack, variety, plan, isAdmin }) {
+export default function PureManagementDetail({
+  onCompleted,
+  onAbandon,
+  onBack,
+  variety,
+  plan,
+  isAdmin,
+  tasks,
+  hasPendingTasks,
+  history,
+}) {
   const { t } = useTranslation();
 
   const title = plan.name;
 
   const notes = plan.notes;
 
+  const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
+  const [quickAssignInfo, setQuickAssignInfo] = useState(null);
+
+  const onMarkComplete = () => {
+    if (hasPendingTasks) {
+      setShowCompleteFailModal(true);
+    } else {
+      onCompleted();
+    }
+  };
+
+  const handleClickAssignee = (taskId, dueDate, isAssigned) => {
+    setQuickAssignInfo({ taskId, dueDate, isAssigned });
+  };
+
   return (
     <Layout
       buttonGroup={
         isAdmin && (
           <>
-            <Button fullLength onClick={onCompleted}>
+            <Button fullLength onClick={onMarkComplete}>
               {t('common:MARK_COMPLETED')}
             </Button>
           </>
@@ -70,7 +98,7 @@ export default function PureManagementDetail({ onCompleted, onBack, variety, pla
 
       {isAdmin && (
         <AddLink
-          style={{ marginTop: '16px' }}
+          style={{ marginTop: '16px', marginBottom: '14px' }}
           onClick={() => {
             console.log('Go to add task page');
           }}
@@ -79,22 +107,34 @@ export default function PureManagementDetail({ onCompleted, onBack, variety, pla
         </AddLink>
       )}
 
-      {
-        // TODO - Add task list
-      }
+      {tasks.map((task) => (
+        <TaskCard
+          task={task}
+          key={task.task_id}
+          onClickAssignee={handleClickAssignee}
+          onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+          style={{ marginBottom: '14px' }}
+        />
+      ))}
 
       {isAdmin && (
         <div className={styles.abandonwrapper} style={{ marginTop: '24px' }}>
           <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
-          <Underlined
-            style={{ marginLeft: '6px' }}
-            onClick={() => {
-              console.log('Go to abandon page');
-            }}
-          >
+          <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
           </Underlined>
         </div>
+      )}
+      {showCompleteFailModal && (
+        <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
+      )}
+      {quickAssignInfo && (
+        <TaskQuickAssignModal
+          dismissModal={() => setQuickAssignInfo(null)}
+          taskId={quickAssignInfo.taskId}
+          dueDate={quickAssignInfo.dueDate}
+          isAssigned={quickAssignInfo.isAssigned}
+        />
       )}
     </Layout>
   );
@@ -105,4 +145,5 @@ PureManagementDetail.prototype = {
   onCompleted: PropTypes.func,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
+  onAbandon: PropTypes.func,
 };

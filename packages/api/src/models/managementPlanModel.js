@@ -35,45 +35,27 @@ class ManagementPlan extends baseModel {
 
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
-    this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-    this.germination_date = this.getDate(this.seed_date, this.germination_days);
-    this.termination_date = this.getDate(this.seed_date, this.termination_days);
-    this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-    // throw new Error('Need to properly set dates');
   }
 
   async $beforeUpdate(opt, context) {
     await super.$beforeUpdate(opt, context);
-    // TODO: if seed_date/transplant_days/germination_days/termination_days/harvest_days exist reset dates
-    if (Object.keys(this) > 3 || !this.deleted) {
-      this.transplant_date = this.getDate(this.seed_date, this.transplant_days);
-      this.germination_date = this.getDate(this.seed_date, this.germination_days);
-      this.termination_date = this.getDate(this.seed_date, this.termination_days);
-      this.harvest_date = this.getDate(this.seed_date, this.harvest_days);
-      throw new Error('Need to properly set dates');
-    }
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_variety_id', 'seed_date', 'name'],
+      required: ['crop_variety_id', 'name'],
       properties: {
         management_plan_id: { type: 'integer' },
         crop_variety_id: { type: 'string' },
         name: { type: 'string' },
-        seed_date: { type: 'date' },
-        needs_transplant: { type: 'boolean' },
-        for_cover: { type: 'boolean' },
-        transplant_date: { type: 'date' },
-        transplant_days: { type: ['integer', null] },
-        germination_date: { type: 'date' },
-        germination_days: { type: ['integer', null] },
-        termination_date: { type: 'date' },
-        termination_days: { type: ['integer', null] },
-        harvest_date: { type: 'date' },
-        harvest_days: { type: ['integer', null] },
         notes: { type: ['string', null] },
+        abandon_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        start_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        complete_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        complete_notes: { type: ['string', null] },
+        rating: { type: ['integer', null], enum: [0, 1, 2, 3, 4, 5, null] },
+        abandon_reason: { type: ['string', null] },
         ...this.baseProperties,
       },
       additionalProperties: false,
@@ -107,14 +89,14 @@ class ManagementPlan extends baseModel {
         },
       },
 
-      activityLog: {
+      task: {
         relation: Model.ManyToManyRelation,
-        modelClass: require('./activityLogModel.js'),
+        modelClass: require('./taskModel.js'),
         join: {
-          to: 'activityLog.activity_id',
+          to: 'task.task_id',
           through: {
-            from: 'activityCrops.activity_id',
-            to: 'activityCrops.management_plan_id',
+            from: 'management_tasks.task_id',
+            to: 'management_tasks.management_plan_id',
           },
           from: 'management_plan.management_plan_id',
         },

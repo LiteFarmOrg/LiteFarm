@@ -10,5 +10,13 @@
   "WEEDING": "Capina",
   "WASH_AND_PACK": "Lavar e empacotar",
   "PEST_CONTROL": "Controle de pragas",
-  "OTHER": "Outro"
+  "OTHER": "Outro",
+  "SOIL_RESULTS": "MISSING",
+  "IRRIGATION": "MISSING",
+  "TRANSPORT": "MISSING",
+  "FIELD_WORK": "MISSING",
+  "PLANTING": "MISSING",
+  "SOCIAL": "Social",
+  "CLEANING": "Cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment"
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -9,16 +9,16 @@ import { container_planting_depth } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
+import { getBedGuidancePaths, getRowGuidancePaths } from '../getAddManagementPlanPath';
 
 function PurePlanGuidance({
-  onGoBack,
-  onCancel,
   system,
-  handleContinue,
   persistedFormData,
   useHookFormPersist,
-  persistedPaths,
   isBed,
+  variety_id,
+  isFinalPage,
+  history,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -28,29 +28,50 @@ function PurePlanGuidance({
     watch,
     control,
     setValue,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
     mode: 'onChange',
   });
+  useHookFormPersist(getValues);
 
-  const SPECIFY = isBed ? 'beds.specify_beds' : 'rows.specify_rows';
-  const PLANTING_DEPTH = isBed ? 'beds.planting_depth' : 'rows.planting_depth';
-  const PLANTING_DEPTH_UNIT = isBed ? 'beds.planting_depth_unit' : 'rows.planting_depth_unit';
-  const WIDTH = isBed ? 'beds.bed_width' : 'rows.row_width';
-  const WIDTH_UNIT = isBed ? 'beds.bed_width_unit' : 'rows.row_width_unit';
-  const SPACING = isBed ? 'beds.bed_spacing' : 'rows.row_spacing';
-  const SPACING_UNIT = isBed ? 'beds.bed_spacing_unit' : 'rows.row_spacing_unit';
-  const PLANTING_NOTES = isBed ? 'beds.planting_notes' : 'rows.planting_notes';
+  const prefix = `crop_management_plan.planting_management_plans.${
+    isFinalPage ? 'final' : 'initial'
+  }`;
+
+  const SPECIFY = `${prefix}.${isBed ? `bed_method.specify_beds` : `row_method.specify_rows`}`;
+  const PLANTING_DEPTH = `${prefix}.${
+    isBed ? `bed_method.planting_depth` : `row_method.planting_depth`
+  }`;
+  const PLANTING_DEPTH_UNIT = `${prefix}.${
+    isBed ? `bed_method.planting_depth_unit` : `row_method.planting_depth_unit`
+  }`;
+  const WIDTH = `${prefix}.${isBed ? `bed_method.bed_width` : `row_method.row_width`}`;
+  const WIDTH_UNIT = `${prefix}.${
+    isBed ? `bed_method.bed_width_unit` : `row_method.row_width_unit`
+  }`;
+  const SPACING = `${prefix}.${isBed ? `bed_method.bed_spacing` : `row_method.row_spacing`}`;
+  const SPACING_UNIT = `${prefix}.${
+    isBed ? `bed_method.bed_spacing_unit` : `row_method.row_spacing_unit`
+  }`;
+  const PLANTING_NOTES = `${prefix}.notes`;
 
   const TYPE = isBed ? t('PLAN_GUIDANCE.BED') : t('PLAN_GUIDANCE.ROW');
   const TYPES = isBed ? [t('PLAN_GUIDANCE.BEDS')] : [t('PLAN_GUIDANCE.ROWS')];
 
   const SPECIFY_LIMIT = 40;
 
-  useHookFormPersist(persistedPaths, getValues);
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () =>
+      isBed
+        ? getBedGuidancePaths(variety_id, isFinalPage)
+        : getRowGuidancePaths(variety_id, isFinalPage),
+    [],
+  );
+  const onSubmit = () => history.push(submitPath);
+  const onGoBack = () => history.push(goBackPath);
+  const onCancel = () => history.push(cancelPath);
 
   return (
     <Form
@@ -59,13 +80,13 @@ function PurePlanGuidance({
           {t('common:CONTINUE')}
         </Button>
       }
-      onSubmit={handleSubmit(handleContinue)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
         onCancel={onCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={75}
+        value={isFinalPage ? 81.25 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />

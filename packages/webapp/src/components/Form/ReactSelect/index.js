@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import PropTypes from 'prop-types';
 import { Label, Underlined } from '../../Typography';
 import { useTranslation } from 'react-i18next';
@@ -117,7 +118,22 @@ export const styles = {
 
 const ReactSelect = React.forwardRef(
   (
-    { label, optional, placeholder, options, toolTipContent, icon, style, autoOpen, components, ...props },
+    {
+      label,
+      optional,
+      placeholder,
+      options,
+      toolTipContent,
+      icon,
+      style,
+      autoOpen,
+      components,
+      isSearchable,
+      defaultValue,
+      creatable = false,
+      isDisabled = false,
+      ...props
+    },
     ref,
   ) => {
     const { t } = useTranslation();
@@ -131,39 +147,97 @@ const ReactSelect = React.forwardRef(
               height: '20px',
             }}
           >
-            <Label>{label}
-            {
-              optional && (
+            <Label>
+              {label}
+              {optional && (
                 <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
                   {t('common:OPTIONAL')}
                 </Label>
-              )
-            }
+              )}
             </Label>
             {toolTipContent && <Infoi content={toolTipContent} autoOpen={autoOpen} />}
-            {icon && <span className={styles.icon}>{icon}</span>}
+            {icon && <span style={{marginRight: 'auto', marginLeft: '8px'}} className={styles.icon}>{icon}</span>}
           </div>
         )}{' '}
-        <Select
-          customStyles
-          styles={{ ...styles, container: (provided, state) => ({ ...provided }) }}
-          placeholder={placeholder}
-          options={options}
-          components={{
-            ClearIndicator: ({ innerProps }) => (
-              <Underlined
-                {...innerProps}
-                style={{ position: 'absolute', right: 0, bottom: '-20px', color: colors.brown700 }}
-              >
-                {t('REACT_SELECT.CLEAR_ALL')}
-              </Underlined>
-            ),
-            ...components,
-          }}
-          isSearchable={options?.length > 8}
-          inputRef={ref}
-          {...props}
-        />
+        {creatable && (
+          <CreatableSelect
+            customStyles
+            styles={{
+              ...styles,
+              singleValue: (provided, state) => ({
+                ...provided,
+                color: isDisabled ? 'var(--grey600)' : null,
+              }),
+              container: (provided, state) => ({
+                ...provided,
+                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              }),
+            }}
+            placeholder={placeholder}
+            options={options}
+            components={{
+              ClearIndicator: ({ innerProps }) => (
+                <Underlined
+                  {...innerProps}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: '-20px',
+                    color: colors.brown700,
+                  }}
+                >
+                  {t('REACT_SELECT.CLEAR')}
+                </Underlined>
+              ),
+              ...components,
+            }}
+            isSearchable={options?.length > 8 || isSearchable}
+            inputRef={ref}
+            defaultValue={defaultValue}
+            isDisabled={isDisabled}
+            isClearable={true}
+            {...props}
+          />
+        )}
+        {!creatable && (
+          <Select
+            customStyles
+            styles={{
+              ...styles,
+              singleValue: (provided, state) => ({
+                ...provided,
+                color: isDisabled ? 'var(--grey600)' : null,
+              }),
+              container: (provided, state) => ({
+                ...provided,
+                backgroundColor: isDisabled ? 'var(--inputDisabled)' : null,
+              }),
+            }}
+            placeholder={placeholder}
+            options={options}
+            components={{
+              ClearIndicator: ({ innerProps }) => (
+                <Underlined
+                  {...innerProps}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: '-20px',
+                    color: colors.brown700,
+                  }}
+                >
+                  {t('REACT_SELECT.CLEAR_ALL')}
+                </Underlined>
+              ),
+              ...components,
+            }}
+            isSearchable={options?.length > 8 || isSearchable}
+            inputRef={ref}
+            defaultValue={defaultValue}
+            isDisabled={isDisabled}
+            {...props}
+          />
+        )}
       </div>
     );
   },

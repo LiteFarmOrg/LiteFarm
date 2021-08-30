@@ -7,13 +7,7 @@ import history from '../../../history';
 
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
 import { currentLogSelector } from './selectors';
-import {
-  convertFromMetric,
-  getLanguageFromLocalStorage,
-  getUnit,
-  roundToFourDecimal,
-  roundToTwoDecimal,
-} from '../../../util';
+import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
 import { getFertilizers } from '../FertilizingLog/actions';
 import { fertSelector } from '../FertilizingLog/selectors';
 import { deleteLog } from '../Utility/actions';
@@ -25,6 +19,7 @@ import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 import DropdownButton from '../../../components/Form/DropDownButton';
 import { cropLocationsSelector } from '../../locationSlice';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
 
 class LogDetail extends Component {
   constructor(props) {

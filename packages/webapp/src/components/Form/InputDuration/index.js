@@ -1,11 +1,9 @@
 import Input, { integerOnKeyDown } from '../Input';
 import { Semibold } from '../../Typography';
 import styles from './styles.module.scss';
-import moment from 'moment';
-import { useEffect, useMemo } from 'react';
-import { getLanguageFromLocalStorage } from '../../../util';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getDateInputFormat } from '../../LocationDetailLayout/utils';
+import { addDaysToDate, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 
 export default function InputDuration({
   label,
@@ -21,19 +19,23 @@ export default function InputDuration({
   ...props
 }) {
   const duration = hookFormWatch(hookFormRegister?.name);
-  const date = useMemo(() => {
-    const maxDuration = max || 999;
-    return moment(startDate)
-      .add(duration > maxDuration ? maxDuration : duration, 'days')
-      .locale(getLanguageFromLocalStorage())
-      .format('MMMM DD, YYYY');
-  }, [duration, startDate]);
+  const date = hookFormWatch(dateName);
   useEffect(() => {
-    hookFormSetValue &&
-      dateName &&
-      date &&
-      hookFormSetValue(dateName, duration ? getDateInputFormat(date) : null);
-  }, [date, duration]);
+    const maxDuration = max || 999;
+    setTimeout(
+      () =>
+        hookFormSetValue(
+          dateName,
+          duration
+            ? getDateInputFormat(
+                addDaysToDate(startDate, duration > maxDuration ? maxDuration : duration),
+              )
+            : null,
+        ),
+      0,
+    );
+  }, [duration, startDate]);
+
   return (
     <div style={style} className={styles.container}>
       <Input
@@ -49,7 +51,7 @@ export default function InputDuration({
       />
       <div className={styles.dateContainer}>
         {!errors && !!startDate && !isNaN(duration) && duration !== '' && (
-          <Semibold>{date}</Semibold>
+          <Semibold>{getLocalizedDateString(date)}</Semibold>
         )}
       </div>
     </div>

@@ -6,7 +6,7 @@ import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../locales/i18n';
-import { numberOnKeyDown, preventNumberScrolling } from '../Input';
+import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
@@ -24,6 +24,10 @@ export const getUnitOptionMap = () => ({
   km: { label: 'km', value: 'km' },
   in: { label: 'in', value: 'in' },
   ft: { label: 'ft', value: 'ft' },
+  'fl-oz': { label: 'floz', value: 'fl-oz' },
+  gal: { label: 'gal', value: 'gal' },
+  l: { label: 'l', value: 'l' },
+  ml: { label: 'ml', value: 'ml' },
   mi: { label: 'mi', value: 'mi' },
   'l/min': { label: 'l/m', value: 'l/min' },
   'l/h': { label: 'l/h', value: 'l/h' },
@@ -35,6 +39,7 @@ export const getUnitOptionMap = () => ({
   oz: { label: 'oz', value: 'oz' },
   lb: { label: 'lb', value: 'lb' },
   t: { label: 't', value: 't' },
+  d: { label: i18n.t('UNIT.TIME.DAY'), value: 'd' },
   year: { label: i18n.t('UNIT.TIME.YEAR'), value: 'year' },
   week: { label: i18n.t('UNIT.TIME.WEEK'), value: 'week' },
   month: { label: i18n.t('UNIT.TIME.MONTH'), value: 'month' },
@@ -42,6 +47,14 @@ export const getUnitOptionMap = () => ({
 
 const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => getUnitOptionMap()[unit]);
+};
+const getOnKeyDown = (measure) => {
+  switch (measure) {
+    case 'time':
+      return integerOnKeyDown;
+    default:
+      return numberOnKeyDown;
+  }
 };
 
 const DEFAULT_REACT_SELECT_WIDTH = 61;
@@ -108,7 +121,6 @@ const Unit = ({
   classes = { container: {} },
   style = {},
   label,
-  optional,
   info,
   register,
   name,
@@ -123,6 +135,7 @@ const Unit = ({
   from: defaultValueUnit,
   to,
   required,
+  optional = !required,
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
@@ -131,15 +144,16 @@ const Unit = ({
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
     setVisibleInputValue('');
-    hookFormSetHiddenValue('', { shouldClearError: true, shouldValidate: false });
+    hookFormSetHiddenValue('', { shouldClearError: !optional, shouldValidate: optional });
   };
 
   const [showError, setShowError] = useState();
+  const [isDirty, setDirty] = useState();
   const { errors } = useFormState({ control });
   const error = get(errors, name);
 
   useEffect(() => {
-    setShowError(!!error && !disabled);
+    setShowError(!!error && !disabled && isDirty);
   }, [error]);
 
   const {
@@ -176,48 +190,60 @@ const Unit = ({
           measure,
           reactSelectWidth,
         };
-  }, [unitType, defaultValue, system, defaultValueUnit, to]);
+  }, []);
   const reactSelectStyles = useReactSelectStyles(disabled, { reactSelectWidth });
 
-  const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
+  const hookFormUnitOption = hookFromWatch(displayUnitName);
+  const hookFormUnit = hookFormUnitOption?.value;
   useEffect(() => {
-    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system) {
+    if (typeof hookFormUnitOption === 'string' && getUnitOptionMap()[hookFormUnitOption]) {
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[hookFormUnitOption]);
+    }
+  }, []);
+  useEffect(() => {
+    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system && measure !== 'time') {
       hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
     }
   }, [hookFormUnit]);
+
+  useEffect(() => {
+    if (!hookFormGetValue(displayUnitName)) {
+      hookFormSetValue(displayUnitName, getUnitOptionMap()[displayUnit]);
+    }
+  }, []);
+
+  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
+  const hookFormValue = hookFromWatch(name, defaultValue);
+
+  useEffect(() => {
+    hookFormSetHiddenValue(hookFormValue, { shouldValidate: true, shouldDirty: false });
+  }, []);
 
   useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
+      //Trigger validation
       (hookFormValue === 0 || hookFormValue > 0) && hookFormSetHiddenValue(hookFormValue);
     }
   }, [hookFormUnit]);
 
-  const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
-  useEffect(() => {
-    if (!hookFormGetValue(displayUnitName)) {
-      for (const option of options) {
-        if (option.value === displayUnit) {
-          hookFormSetValue(displayUnitName, option);
-          break;
-        }
-      }
-    }
-  }, []);
-
-  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);
   };
 
   const hookFormSetHiddenValue = useCallback(
-    (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
+    (value, { shouldDirty = false, shouldValidate = true, shouldClearError } = {}) => {
+      //FIXME: walk around for racing condition on add management plan pages LF-1883
+      hookFormSetValue(name, value, {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
       setTimeout(() => {
         hookFormSetValue(name, value, {
-          shouldValidate,
+          shouldValidate: !shouldClearError && shouldValidate,
           shouldDirty,
         });
         shouldClearError && setShowError(false);
@@ -237,6 +263,7 @@ const Unit = ({
         shouldDirty: true,
       });
     }
+    if (!isDirty) setDirty(true);
   };
   useEffect(() => {
     if (databaseUnit && hookFormUnit) {
@@ -297,7 +324,7 @@ const Unit = ({
           type={'number'}
           value={visibleInputValue}
           size={1}
-          onKeyDown={numberOnKeyDown}
+          onKeyDown={getOnKeyDown(measure)}
           onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}
@@ -312,6 +339,7 @@ const Unit = ({
               onBlur={onBlur}
               onChange={(e) => {
                 onChange(e);
+                if (!isDirty) setDirty(true);
               }}
               value={value}
               inputRef={ref}

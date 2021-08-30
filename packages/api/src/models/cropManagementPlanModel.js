@@ -28,18 +28,22 @@ class CropManagementPlanModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'management_plan_id', 'planting_type'],
+      required: ['management_plan_id', 'already_in_ground', 'needs_transplant'],
       properties: {
         management_plan_id: { type: 'integer' },
-        location_id: { type: 'string' },
-        planting_type: {
-          type: 'string',
-          enum: ['BROADCAST', 'CONTAINER', 'BEDS', 'ROWS'],
-        },
-        notes: { type: 'string' },
+        seed_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        plant_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        germination_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        transplant_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        harvest_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        termination_date: { anyOf: [{ type: 'null' }, { type: 'date' }] },
+        already_in_ground: { type: 'boolean' },
+        is_seed: { type: ['boolean', null] },
+        needs_transplant: { type: 'boolean' },
+        for_cover: { type: ['boolean', null] },
+        is_wild: { type: ['boolean', null] },
+        //TODO: deprecate estimated_revenue
         estimated_revenue: { type: ['number', null] },
-        estimated_yield: { type: ['number', null] },
-        estimated_yield_unit: { type: ['string', null], enum: ['g', 'lb', 'kg', 'oz', 'l', 'gal', null] },
       },
       additionalProperties: false,
     };
@@ -47,46 +51,14 @@ class CropManagementPlanModel extends Model {
 
   static get relationMappings() {
     return {
-      location: {
-        relation: Model.HasOneRelation,
-        modelClass: require('./locationModel.js'),
-        join: {
-          from: 'crop_management_plan.location_id',
-          to: 'location.location_id',
-        },
-      },
-      broadcast: {
-        modelClass: require('./broadcastModel'),
-        relation: Model.HasOneRelation,
+      planting_management_plans: {
+        modelClass: require('./plantingManagementPlanModel'),
+        relation: Model.HasManyRelation,
         join: {
           from: 'crop_management_plan.management_plan_id',
-          to: 'broadcast.management_plan_id',
+          to: 'planting_management_plan.management_plan_id',
         },
       },
-      container: {
-        modelClass: require('./containerModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'crop_management_plan.management_plan_id',
-          to: 'container.management_plan_id',
-        },
-      },
-      beds: {
-        modelClass: require('./bedsModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'crop_management_plan.management_plan_id',
-          to: 'beds.management_plan_id',
-        },
-      },
-      rows: {
-        modelClass: require('./rowsModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'crop_management_plan.management_plan_id',
-          to: 'rows.management_plan_id',
-        },
-      }
     };
   }
 }

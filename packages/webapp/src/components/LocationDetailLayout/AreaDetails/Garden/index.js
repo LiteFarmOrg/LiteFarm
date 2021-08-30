@@ -11,7 +11,8 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getDateInputFormat, getPersistPath } from '../../utils';
+import { getPersistPath } from '../../utils';
+import { getDateInputFormat } from '../../../../util/moment';
 
 export default function PureGarden({
   history,
@@ -53,7 +54,7 @@ export default function PureGarden({
   });
   const {
     persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);

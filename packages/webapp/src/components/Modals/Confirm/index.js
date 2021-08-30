@@ -10,7 +10,7 @@ const ConfirmModal = ({ open, onClose, onConfirm, message, option }) => {
       contents={[message]}
       dismissModal={onClose}
       buttonGroup={
-        <div style={{ display: 'inline-flex', gap: '8px' }}>
+        <>
           <Button sm color={'secondary'} onClick={onClose}>
             {' '}
             {t('common:CANCEL')}
@@ -18,7 +18,7 @@ const ConfirmModal = ({ open, onClose, onConfirm, message, option }) => {
           <Button sm onClick={onConfirm}>
             {option ? option : t('common:DELETE')}
           </Button>
-        </div>
+        </>
       }
     />
   ) : (

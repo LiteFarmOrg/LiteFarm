@@ -7,12 +7,13 @@ import {
   onLoadingUserFarmsStart,
 } from '../userFarmSlice';
 import history from '../../history';
-import { getFirstNameLastName, getLanguageFromLocalStorage } from '../../util';
+import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;

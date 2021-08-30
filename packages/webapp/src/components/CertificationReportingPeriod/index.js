@@ -40,7 +40,7 @@ const PureCertificationReportingPeriod = ({
   });
   const persistedPath = ['/certification', '/certification/survey'];
 
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
 
   const fromDateRegister = register(FROM_DATE, {
     required: true,

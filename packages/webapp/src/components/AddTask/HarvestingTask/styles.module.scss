@@ -1,0 +1,22 @@
+.harvestDetails {
+  display: flex;
+}
+
+.harvestInputs {
+  min-width: 200px;
+  flex-grow: 1;
+}
+
+.container {
+
+}
+
+@media (min-width: 1024px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px
+  }
+  .harvestInputs {
+  }
+}

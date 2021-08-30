@@ -13,5 +13,7 @@ export default function useSortByVarietyName(crops) {
 }
 
 const getCropName = (crop, t) => {
-  return crop.crop_variety_name || t(`crop:${crop.crop_translation_key}`);
+  return (
+    crop.crop_variety_name.toLowerCase() || t(`crop:${crop.crop_translation_key}`).toLowerCase()
+  );
 };

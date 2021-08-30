@@ -64,26 +64,18 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
                 primary={t('SLIDE_MENU.CROPS')}
               />
             </ListItem>
-            <ListItem
-              className={classes.subListItem}
-              button
-              onClick={() => {
-                handleClick('/Log');
-              }}
-            >
+            <ListItem className={classes.subListItem} button onClick={() => handleClick('/tasks')}>
               <ListItemText
                 classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.LOGS')}
-              />
-            </ListItem>
-            <ListItem className={classes.subListItem} button onClick={() => handleClick('/Shift')}>
-              <ListItemText
-                classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.SHIFTS')}
+                primary={t('SLIDE_MENU.TASKS')}
               />
             </ListItem>
             {isAdmin && (
-              <ListItem className={classes.subListItem} button onClick={() => handleClick('/documents')}>
+              <ListItem
+                className={classes.subListItem}
+                button
+                onClick={() => handleClick('/documents')}
+              >
                 <ListItemText
                   classes={{ primary: classes.subListItemText }}
                   primary={t('SLIDE_MENU.DOCUMENTS')}

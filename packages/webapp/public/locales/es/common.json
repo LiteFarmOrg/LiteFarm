@@ -1,4 +1,5 @@
 {
+  "ABANDON": "MISSING",
   "ACTIVE": "Activo",
   "ALL": "Todo",
   "APPLY": "Aplicar",
@@ -22,6 +23,8 @@
   "LOADING": "Cargando...",
   "LOCATION": "Ubicacion",
   "MARK_COMPLETED": "Marca completada",
+  "MARK_ABANDON": "MISSING",
+  "MARK_COMPLETE": "MISSING",
   "MAX_ERROR": "Por favor, ingrese un valor menor que {{value}}",
   "MIN_ERROR": "Por favor, ingrese un valor mayor que {{value}}",
   "NAME": "Nombre",
@@ -45,5 +48,6 @@
   "SUBMITTING": "Submitting...",
   "TO": "Para",
   "UPDATE": "Actualizar",
+  "WORD_LIMIT_ERROR": "MISSING",
   "YES": "Si"
 }

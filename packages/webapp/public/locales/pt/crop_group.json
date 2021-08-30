@@ -2,10 +2,12 @@
   "BEVERAGE_AND_SPICE_CROPS": "Colheitas de bebidas e especiarias",
   "CEREALS": "Cereais",
   "FRUITS_AND_NUTS": "Frutas e nozes",
+  "HIGH_STARCH_ROOT_TUBER_CROP": "MISSING",
   "LEGUMINOUS_CROPS": "Colheita leguminosas",
   "OILSEED_CROPS": "Colheita oleaginosos",
   "OTHER_CROPS": "Outras colheita",
   "POTATOES_AND_YAMS": "Batatas e inhames",
+  "STIMULANT_SPICE_AROMATIC_CROPS": "MISSING",
   "SUGAR_CROPS": "Colheitas de açúcar",
   "VEGETABLE_AND_MELONS": "Vegetal e melão"
 }

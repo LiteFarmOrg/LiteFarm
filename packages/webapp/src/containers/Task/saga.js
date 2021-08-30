@@ -6,16 +6,37 @@ import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
-import { getTasksSuccess, putTaskSuccess, putTasksSuccess, createTaskSuccess } from '../taskSlice';
+import { createTaskSuccess, getTasksSuccess, putTasksSuccess, putTaskSuccess } from '../taskSlice';
 import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from '../productSlice';
-import { getTaskTypesSuccess } from '../taskTypeSlice';
+import { deleteTaskTypeSuccess, getTaskTypesSuccess, taskTypeById } from '../taskTypeSlice';
+import { pick } from '../../util/pick';
+import produce from 'immer';
+import { getObjectInnerValues } from '../../util';
 
 const taskTypeToEndpointMap = {
   CLEANING: 'cleaning_task',
   FIELD_WORK: 'field_work_task',
   PEST_CONTROL: 'pest_control_task',
   SOIL_AMENDMENT: 'soil_amendment_task',
+  HARVESTING: 'harvest_tasks',
 };
+
+export const getProducts = createAction('getProductsSaga');
+
+export function* getProductsSaga() {
+  const { productsUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingProductStart());
+    const result = yield call(axios.get, `${productsUrl}/farm/${farm_id}`, header);
+    yield put(getProductsSuccess(result.data));
+  } catch (e) {
+    yield put(onLoadingProductFail());
+    console.log('failed to fetch field crops by date');
+  }
+}
 
 export const assignTask = createAction('assignTaskSaga');
 
@@ -59,7 +80,6 @@ export function* assignTaskOnDateSaga({ payload: { task_id, date, assignee_user_
         changes: { assignee_user_id },
       });
     }
-    console.log(modified_tasks);
     yield put(putTasksSuccess(modified_tasks));
     yield put(enqueueSuccessSnackbar(i18n.t('message:ASSIGN_TASK.SUCCESS')));
   } catch (e) {
@@ -81,50 +101,58 @@ export function* getTasksSaga() {
     console.log(e);
   }
 }
-export const getProducts = createAction('getProductsSaga');
 
-export function* getProductsSaga() {
-  const { productsUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
+const defaultProcessFunction = (data, endpoint) => {
+  return getObjectInnerValues(
+    produce(data, (data) => {
+      const propertiesToRemove = Object.values(taskTypeToEndpointMap).filter(
+        (taskType) => taskType !== endpoint,
+      );
+      for (const key of propertiesToRemove) {
+        delete data[key];
+      }
+      //TODO investigate where override_hourly_wage is used
+      delete data['override_hourly_wage'];
+    }),
+  );
+};
 
-  try {
-    yield put(onLoadingProductStart());
-    const result = yield call(axios.get, `${productsUrl}/farm/${farm_id}`, header);
-    yield put(getProductsSuccess(result.data));
-  } catch (e) {
-    yield put(onLoadingProductFail());
-    console.log('failed to fetch field crops by date');
-  }
-}
+const harvestProcessFunction = (data, endpoint) => {
+  return data.harvest_tasks.map((harvest_task) => ({
+    harvest_task: getObjectInnerValues(harvest_task),
+    ...pick(
+      data,
+      Object.keys(data).filter(
+        (key) => !Object.values([...taskTypeToEndpointMap, 'override_hourly_wage']).includes(key),
+      ),
+    ),
+  }));
+};
 
-export const getTaskTypes = createAction('getTaskTypesSaga');
-
-export function* getTaskTypesSaga() {
-  const { taskTypeUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, `${taskTypeUrl}/farm/${farm_id}`, header);
-    if (result) {
-      yield put(getTaskTypesSuccess(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch task types from database');
-  }
-}
+const taskTypeProcessFunctionMap = {
+  CLEANING: defaultProcessFunction,
+  FIELD_WORK: defaultProcessFunction,
+  PEST_CONTROL: defaultProcessFunction,
+  SOIL_AMENDMENT: defaultProcessFunction,
+  HARVESTING: harvestProcessFunction,
+};
 
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload: data }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, ...taskData } = data;
+  const { task_translation_key } = yield select(taskTypeById(data.type));
+
   const header = getHeader(user_id, farm_id);
   const endpoint = taskTypeToEndpointMap[task_translation_key];
   try {
-    const result = yield call(axios.post, `${taskUrl}/${endpoint}`, taskData, header);
+    const result = yield call(
+      axios.post,
+      `${taskUrl}/${endpoint}`,
+      taskTypeProcessFunctionMap[task_translation_key](data, endpoint),
+      header,
+    );
     if (result) {
       yield put(createTaskSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
@@ -183,7 +211,67 @@ export function* abandonTaskSaga({ payload: data }) {
   }
 }
 
+export const addCustomTask = createAction('addTaskTypeSaga');
+
+export function* addTaskTypeSaga({ payload: data }) {
+  const { taskTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  let { task_name } = data;
+  const body = {
+    task_name,
+    farm_id: farm_id,
+  };
+
+  try {
+    const result = yield call(axios.post, taskTypeUrl, body, header);
+    if (result) {
+      yield put(getTaskTypes());
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.CREATE.SUCCESS')));
+    }
+  } catch (e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.CREATE.FAILED')));
+  }
+}
+
+export const getTaskTypes = createAction('getTaskTypesSaga');
+
+export function* getTaskTypesSaga() {
+  const { taskTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, `${taskTypeUrl}/farm/${farm_id}`, header);
+    if (result) {
+      yield put(getTaskTypesSuccess(result.data));
+    }
+  } catch (e) {
+    console.log('failed to fetch task types from database');
+  }
+}
+
+export const deleteTaskType = createAction('deleteTaskTypeSaga');
+
+export function* deleteTaskTypeSaga({payload: id}) {
+  const { taskTypeUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(axios.delete, `${taskTypeUrl}/${id}`, header)
+    if(result) {
+      yield put(deleteTaskTypeSuccess(id));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
+      history.push('/add_task/manage_custom_tasks')
+    }
+  } catch(e) {
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));
+  }
+}
+
 export default function* taskSaga() {
+  yield takeLeading(addCustomTask.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
@@ -192,4 +280,5 @@ export default function* taskSaga() {
   yield takeLeading(getProducts.type, getProductsSaga);
   yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
+  yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
 }

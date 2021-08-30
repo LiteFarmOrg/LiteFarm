@@ -38,6 +38,7 @@ SeedForHarvestTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedForHarvestTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -57,6 +58,7 @@ SeedCoverCropTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedCoverCropTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -76,6 +78,7 @@ SeedForHarvestNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedForHarvestNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -95,6 +98,7 @@ SeedCoverCropNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedCoverCropNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -114,6 +118,7 @@ SeedlingForHarvestTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedlingForHarvestTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -133,6 +138,7 @@ SeedlingCoverCropTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedlingCoverCropTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -152,6 +158,7 @@ SeedlingForHarvestNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedlingForHarvestNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -171,6 +178,7 @@ SeedlingCoverCropNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 SeedlingCoverCropNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -190,6 +198,7 @@ InGroundNotWildHarvestTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundNotWildHarvestTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -209,6 +218,7 @@ InGroundNotWildCoverCropTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundNotWildCoverCropTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -228,6 +238,7 @@ InGroundNotWildHarvestNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundNotWildHarvestNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -247,6 +258,7 @@ InGroundNotWildCoverCropNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundNotWildCoverCropNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -266,6 +278,7 @@ InGroundWildForHarvestTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundWildForHarvestTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -285,6 +298,7 @@ InGroundWildCoverCropTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundWildCoverCropTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -304,6 +318,7 @@ InGroundWildCoverCropNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundWildCoverCropNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -323,6 +338,7 @@ InGroundWildForHarvestNoTransplant.args = {
       ...defaultDates,
     },
   },
+  crop_variety: {},
 };
 InGroundWildForHarvestNoTransplant.parameters = {
   ...chromaticSmallScreen,
@@ -343,8 +359,58 @@ SeedlingWithoutSeedingDate.args = {
       seed_date: undefined,
     },
   },
+  crop_variety: {},
 };
 SeedlingWithoutSeedingDate.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const SeedlingWithSeedingDateAndDefaultVarietyValues = Template.bind({});
+SeedlingWithSeedingDateAndDefaultVarietyValues.args = {
+  useHookFormPersist: () => ({}),
+  system: 'imperial',
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: false,
+      is_wild: undefined,
+      is_seed: false,
+      for_cover: false,
+      needs_transplant: true,
+      seed_date: '2021-07-20',
+    },
+  },
+  crop_variety: {
+    germination_days: 2,
+    transplant_days: 3,
+    termination_days: 4,
+    harvest_days: 5,
+  },
+};
+SeedlingWithSeedingDateAndDefaultVarietyValues.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const SeedlingWithoutSeedingDateAndDefaultVarietyValues = Template.bind({});
+SeedlingWithoutSeedingDateAndDefaultVarietyValues.args = {
+  useHookFormPersist: () => ({}),
+  system: 'imperial',
+  persistedFormData: {
+    crop_management_plan: {
+      already_in_ground: false,
+      is_wild: undefined,
+      is_seed: false,
+      for_cover: false,
+      needs_transplant: true,
+    },
+  },
+  crop_variety: {
+    germination_days: 2,
+    transplant_days: 3,
+    termination_days: 4,
+    harvest_days: 5,
+  },
+};
+SeedlingWithoutSeedingDateAndDefaultVarietyValues.parameters = {
   ...chromaticSmallScreen,
 };
 
@@ -365,6 +431,7 @@ TransplantDatePriorThanPlantingDateError.args = {
       transplant_date: '2021-07-24',
     },
   },
+  crop_variety: {},
 };
 TransplantDatePriorThanPlantingDateError.parameters = {
   ...chromaticSmallScreen,
@@ -388,6 +455,7 @@ HarvestDatePriorThanTransplantDateError.args = {
       harvest_days: 2,
     },
   },
+  crop_variety: {},
 };
 HarvestDatePriorThanTransplantDateError.parameters = {
   ...chromaticSmallScreen,

@@ -19,7 +19,9 @@
     "SUPPLIER_LABEL": "MISSING"
   },
   "ADD_TASK": {
+    "ADD_A_CUSTOM_TASK": "MISSING",
     "ADD_A_TASK": "MISSING",
+    "ADD_CUSTOM_TASK": "MISSING",
     "AFFECT_CROPS": "MISSING",
     "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_TASK": "MISSING",
@@ -33,8 +35,12 @@
     },
     "CLEAR_ALL": "MISSING",
     "CLEAR_ALL_CROPS": "MISSING",
+    "CUSTOM_TASK": "MISSING",
+    "CUSTOM_TASK_NAME": "MISSING",
+    "CUSTOM_TASK_TYPE": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
+    "EDIT_CUSTOM_TASK": "MISSING",
     "FIELD_WORK_VIEW": {
       "OTHER_TYPE_OF_FIELD_WORK": "MISSING",
       "TYPE_OF_FIELD_WORK": "MISSING",
@@ -50,23 +56,28 @@
         "WEEDING": "MISSING"
       }
     },
+    "HARVEST_EVERYTHING": "MISSING",
+    "HARVESTING_INFO": "MISSING",
+    "HOW_MUCH_IS_HARVESTED": "MISSING",
     "HR": "MISSING",
     "MANAGE_CUSTOM_TASKS": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "MISSING",
       "FLAME_WEEDING": "MISSING",
       "FOLIAR_SPRAY": "MISSING",
-      "HAND_PICKING": "MISSING",
+      "HAND_WEEDING": "MISSING",
+      "HEAT_TREATMENT": "MISSING",
       "IS_PERMITTED": "MISSING",
       "OTHER": "MISSING",
       "OTHER_PEST": "MISSING",
       "PEST_CONTROL_METHOD": "MISSING",
-      "PRUNING": "MISSING",
       "SOIL_FUMIGATION": "MISSING",
       "SYSTEMIC_SPRAY": "MISSING",
-      "TRAPS": "MISSING",
       "WHAT_PESTS": "MISSING"
     },
+    "QUANTITY": "MISSING",
+    "RETIRE_CUSTOM_TASK": "MISSING",
+    "RETIRE_CUSTOM_TASK_CONTENT": "MISSING",
     "SELECT_ALL": "MISSING",
     "SELECT_ALL_CROPS": "MISSING",
     "SELECT_TASK_TYPE": "MISSING",
@@ -87,9 +98,9 @@
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
     "NUMBER_0F_BEDS": "# de camas",
-    "NUMBER_OF_ROWS": "MISSING",
-    "PLANT_SPACING": "MISSING",
-    "PLANTING_DETAILS": "MISSING"
+    "NUMBER_OF_ROWS": "# de hileras en cama",
+    "PLANT_SPACING": "Espacio entre plantas",
+    "PLANTING_DETAILS": "Especifique los detalles de la siembra"
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área utilizada",
@@ -102,22 +113,22 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Se descartará cualquier información que haya ingresado. Quieres proceder?",
-    "TITLE": "MISSING"
+    "TITLE": "Cancelar su {{flow}}?"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
-      "ADD": "MISSING",
-      "CHANGE_CERTIFICATION_PREFERENCE": "MISSING",
-      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "MISSING",
-      "NO_CERTIFICATIONS": "MISSING",
-      "NO_LONGER_WORKING": "MISSING",
-      "SUPPORTED_CERTIFICATION_ONE": "MISSING",
-      "SUPPORTED_CERTIFICATION_TWO": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "MISSING",
-      "UPDATE_SUCCESS": "MISSING"
+      "ADD": "Agregar una certificación",
+      "CHANGE_CERTIFICATION_PREFERENCE": "cambiar sus preferencias de certificación",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Cambiar sus preferencias de certificación",
+      "NO_CERTIFICATIONS": "Actualmente no está prosiguiendo ninguna certificación.",
+      "NO_LONGER_WORKING": "¿Ya no persigue esta certificación o trabaja con este certificador? ¡No hay problema!",
+      "SUPPORTED_CERTIFICATION_ONE": "Esta prosiguiendo",
+      "SUPPORTED_CERTIFICATION_TWO": "certificación de",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "LiteFarm no genera actualmente documentos para este certificador. Sin embargo, podemos exportar formularios genéricos que son útiles para la mayoría de los certificadores. Puede seleccionar Exportar para crear estos formularios o",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "para ver si hay nuevos certificadores disponibles en su área.",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "Has requerido",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certificación de",
+      "UPDATE_SUCCESS": "Preferencias de certificación guardadas."
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Requerir otro tipo de certificación",
@@ -153,7 +164,7 @@
       "GOOD_NEWS": "Buenas noticias! Litefarm puede recolectar la informacion que necesitas para generar tus documentos de certificacion!",
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Estas interesado en aplicar para:",
-      "YOUR_CERTIFICATION": "MISSING"
+      "YOUR_CERTIFICATION": "Tu certificación"
     },
     "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
   },
@@ -169,25 +180,25 @@
     }
   },
   "CERTIFICATIONS": {
-    "COULD_NOT_CONTACT_CERTIFIER": "MISSING",
-    "EMAIL": "MISSING",
-    "EMAIL_ERROR": "MISSING",
-    "EXPORT": "MISSING",
-    "EXPORT_DOCS": "MISSING",
-    "FILES_ARE_READY": "MISSING",
-    "FLOW_TITLE": "MISSING",
-    "FROM": "MISSING",
-    "GOOD_NEWS": "MISSING",
-    "HAVE_ALL_INFO": "MISSING",
-    "NEXT_WE_WILL_CHECK": "MISSING",
-    "NOTE_CANNOT_RESUBMIT": "MISSING",
-    "ORGANIC_CERTIFICATION_FROM": "MISSING",
-    "SELECT_REPORTING_PERIOD": "MISSING",
-    "TO": "MISSING",
-    "TO_MUST_BE_AFTER_FROM": "MISSING",
-    "UH_OH": "MISSING",
-    "WHERE_TO_SEND_DOCS": "MISSING",
-    "WOULD_LIKE_ANSWERS": "MISSING"
+    "COULD_NOT_CONTACT_CERTIFIER": "Parece que LiteFarm no exporta actualmente en el formato de su certificador. Aún puede exportar sus documentos, pero su certificador puede requerir información adicional. Se los enviaremos a:",
+    "EMAIL": "Correo electrónico",
+    "EMAIL_ERROR": "Se requiere un correo válido",
+    "EXPORT": "Exportar",
+    "EXPORT_DOCS": "Exportar documentos de certificación",
+    "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
+    "FLOW_TITLE": "exportar de documentos de certificación",
+    "FROM": "Desde",
+    "GOOD_NEWS": "¡Buenas noticias!",
+    "HAVE_ALL_INFO": "Parece que LiteFarm tiene toda la información que necesitamos para procesar sus documentos de certificación. Se los enviaremos a:",
+    "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
+    "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
+    "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
+    "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
+    "TO": "Hasta",
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
+    "UH_OH": "¡Oh, no!",
+    "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
+    "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agregar otra finca",
@@ -261,7 +272,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Cosechar",
-    "PLANT": "MISSING",
+    "PLANT": "Plantar",
     "SEED": "Sembrar",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Trasplantar"
@@ -930,18 +941,18 @@
     "TOTAL_CARBON": "Carbón total"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "MISSING",
-    "ADD_A_TASK": "MISSING",
-    "ASSOCIATED_TASKS": "MISSING",
-    "EDIT_PLAN": "MISSING",
-    "FAILED_CROP": "MISSING",
-    "PLAN_NOTES": "MISSING"
+    "ABANDON_PLAN": "Abandonar este plan de manejo",
+    "ADD_A_TASK": "Agregar una tarea",
+    "ASSOCIATED_TASKS": "Tareas asociadas",
+    "EDIT_PLAN": "Editar plan",
+    "FAILED_CROP": "¿Cultivo fallido?",
+    "PLAN_NOTES": "Notas del plan"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "MISSING",
     "ADD_MANAGEMENT_PLAN": "Agregar plan de manejo",
-    "AGE": "MISSING",
+    "AGE": "Edad",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Camas",
     "BROADCAST": "Siembra a voleo o sembradora mecánica",
@@ -969,13 +980,13 @@
     "COVER_OR_HARVEST": "¿Se está cultivando como cultivo de cobertura o para la cosecha?",
     "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
-    "DAYS_TO_HARVEST": "MISSING",
-    "DAYS_TO_TERMINATION": "MISSING",
+    "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
+    "DAYS_TO_TERMINATION": "Días hasta la terminación:",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
-    "DROP_PIN": "MISSING",
+    "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
@@ -986,57 +997,57 @@
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
     "HARVEST": "Cosechar",
-    "HARVEST_DATE": "MISSING",
+    "HARVEST_DATE": "Fecha de cosecha",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "En el suelo",
     "INCOMPLETE_TASK_CONTENT": "MISSING",
     "INCOMPLETE_TASK_TITLE": "MISSING",
     "INDIVIDUAL_CONTAINER": "Individual o maceta",
     "IS_TRANSPLANT": "¿Se trasplantará este cultivo?",
-    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
+    "KNOW_HOW_IS_CROP_PLANTED": "¿Sabes cómo se plantó el cultivo?",
     "LOCATION_SUBTEXT": "Solo se muestran las ubicaciones que pueden producir cultivos.",
-    "MANAGEMENT_PLAN_FLOW": "MISSING",
+    "MANAGEMENT_PLAN_FLOW": "creación del plan de manejo",
     "MANAGEMENT_SPOTLIGHT_1": "Crea nuevos planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Ver y modificar planes para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
-    "NEXT_HARVEST": "MISSING",
+    "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nombre del plan de manejo",
     "PLAN_NOTES": "Notas del plan",
-    "PLANT_SPACING": "Espaciamiento de plantas",
-    "PLANTED_ALREADY": "MISSING",
-    "PLANTING": "MISSING",
+    "PLANT_SPACING": "Espacio entre plantas",
+    "PLANTED_ALREADY": "¿Plantarás este cultivo o ya está en el suelo?",
+    "PLANTING": "Plantando",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
     "PLANTING_DATE_INFO": "MISSING",
-    "PLANTING_DATE_LABEL": "MISSING",
+    "PLANTING_DATE_LABEL": "Fecha de plantar",
     "PLANTING_DEPTH": "Profundidad de siembra",
     "PLANTING_METHOD": "¿Cuál es tu método de plantación?",
     "PLANTING_METHOD_TOOLTIP": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "PLANTING_NOTE": "Notas de la siembra",
     "PLANTING_SOIL": "Suelo de siembra que se utilizará",
     "PLANTS_PER_CONTAINER": "# de plantas/maceta",
-    "REMOVE_PIN": "MISSING",
+    "REMOVE_PIN": "Quitar el pin",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "MISSING",
-      "LENGTH_OF_ROW": "MISSING",
-      "NUMBER_OF_ROWS": "MISSING",
-      "SAME_LENGTH": "MISSING",
-      "TOTAL_LENGTH": "MISSING"
+      "LENGTH_OF_ROW": "Longitud de la hilera",
+      "NUMBER_OF_ROWS": "# de hileras",
+      "SAME_LENGTH": "¿Todas las hileras tienen la misma longitud?",
+      "TOTAL_LENGTH": "Longitud total de filas"
     },
     "ROWS": "Hilera",
-    "SEED_DATE": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDING_DATE": "MISSING",
-    "SEEDLING": "MISSING",
-    "SEEDLING_AGE": "MISSING",
-    "SEEDLING_AGE_INFO": "MISSING",
-    "SELECT_A_PLANTING_LOCATION": "MISSING",
-    "SELECT_A_SEEDING_LOCATION": "MISSING",
-    "SELECT_CURRENT_LOCATION": "MISSING",
-    "SELECTED_STARTING_LOCATION": "MISSING",
+    "SEED_DATE": "¿Cuál es tu fecha de siembra?",
+    "SEED_OR_SEEDLING": "¿Cómo plantarás este cultivo?",
+    "SEEDING_DATE": "Fecha de siembra",
+    "SEEDLING": "Plántula o planton",
+    "SEEDLING_AGE": "¿Qué edad tiene la plántula o el planton?",
+    "SEEDLING_AGE_INFO": "La edad aproximada ayudará a LiteFarm a calcular las fechas de cosecha de las plántulas. Puede omitir esta pregunta para otros tipos de material de plantación.",
+    "SELECT_A_PLANTING_LOCATION": "Seleccione una ubicación de plantación",
+    "SELECT_A_SEEDING_LOCATION": "Seleccione una ubicación de siembra",
+    "SELECT_CURRENT_LOCATION": "Seleccione la ubicación actual del cultivo",
+    "SELECTED_STARTING_LOCATION": "Seleccione siempre esta como la ubicación de inicio para los cultivos que se trasplantarán",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
     "STATUS": {
@@ -1047,34 +1058,34 @@
     },
     "SUPPLIER": "MISSING",
     "TERMINATION": "Terminar",
-    "TERMINATION_DATE": "MISSING",
+    "TERMINATION_DATE": "¿Cuándo terminará este cultivo?",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Trasplantar",
-    "TRANSPLANT_DATE": "MISSING",
+    "TRANSPLANT_DATE": "¿Cuál es la fecha de su trasplante?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
-        "PLANTED": "MISSING",
-        "SEEDED": "MISSING",
-        "TEXT": "MISSING"
+        "PLANTED": "plantado",
+        "SEEDED": "sembrado",
+        "TEXT": "Indique dónde estará inicialmente este cultivo <1> {{fill}} </1>. Le preguntaremos dónde lo trasplantará más adelante."
       },
       "TITLE": {
-        "PLANTING": "MISSING",
-        "SEEDING": "MISSING",
-        "TEXT": "MISSING"
+        "PLANTING": "Plantando",
+        "SEEDING": "Sembrando",
+        "TEXT": "{{fill}} ubicacion"
       }
     },
     "VARIETY": "MISSING",
-    "WHAT_IS_AGE": "MISSING",
-    "WHAT_WAS_PLANTING_METHOD": "MISSING",
+    "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
+    "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
     "WHERE_START_LOCATION": "MISSING",
     "WHERE_TRANSPLANT_LOCATION": "MISSING",
-    "WILD_CROP": "MISSING",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "MISSING",
+    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
-    "CERTIFICATIONS": "MISSING",
+    "CERTIFICATIONS": "Certificaciones",
     "FARM_INFO": "Información de la finca",
     "FARM_MAP": "Mapa de la finca",
     "PEOPLE": "Personas"
@@ -1111,23 +1122,23 @@
     "TITLE": "Enlace enviado"
   },
   "PLAN_GUIDANCE": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
-    "BED": "MISSING",
-    "BEDS": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "ROW": "MISSING",
-    "ROWS": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY": "MISSING",
-    "SPECIFY_PLACEHOLDER": "MSSING",
-    "TOOLTIP": "MISSING",
-    "WIDTH": "MISSING",
-    "WORD_LIMIT": "MISSING"
+    "ADDITIONAL_GUIDANCE": "¿Hay alguna orientación adicional que desee proporcionar para esta tarea de siembra?",
+    "BED": "Cama",
+    "BEDS": "camas",
+    "NOTES": "Notas de plantación",
+    "PLANTING_DEPTH": "Profundidad de plantación",
+    "ROW": "Hilera",
+    "ROWS": "hileras",
+    "SPACE_BETWEEN": "Espacio entre {{types}}",
+    "SPECIFY": "Especificar {{types}}",
+    "SPECIFY_PLACEHOLDER": "Eje. {{types}} 1-4",
+    "TOOLTIP": "Los primeros 40 caracteres de este campo se mostrarán en cualquier lugar donde esté visible su plan de manejo.",
+    "WIDTH": "{{type}} la anchcho",
+    "WORD_LIMIT": "Solo se pueden mostrar {{limit}} caracteres"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "MISSING",
-    "TITLE": "MISSING"
+    "MESSAGE": "LiteFarm está juntando sus documentos de certificación en segundo plano y recibirá un correo electrónico cuando hayamos terminado; podría demorar unos minutos ... Puede hacer clic fuera de este cuadro para continuar usando LiteFarm sin interrumpir el proceso.",
+    "TITLE": "Se está preparando su exportación"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ayuda",
@@ -1185,6 +1196,7 @@
     }
   },
   "REACT_SELECT": {
+    "CLEAR": "MISSING",
     "CLEAR_ALL": "Quitar todo"
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -1435,6 +1447,7 @@
     "DUE_DATE": "MISSING",
     "DURATION": "MISSING",
     "EDIT_TASK": "MISSING",
+    "LOCATIONS": "MISSING",
     "NO_TASKS_TO_DISPLAY": "MISSING",
     "PAGE_TITLE": "MISSING",
     "PREFER_NOT_TO_SAY": "MISSING",
@@ -1448,7 +1461,6 @@
       "LATE": "MISSING",
       "PLANNED": "MISSING"
     },
-    "LOCATIONS": "MISSING",
     "TASK": "MISSING",
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
@@ -1458,11 +1470,11 @@
   "UNIT": {
     "TIME": {
       "DAY": "MISSING",
-      "MONTH": "MISSING",
-      "WEEK": "MISSING",
-      "YEAR": "MISSING"
+      "MONTH": "meses",
+      "WEEK": "años",
+      "YEAR": "dias"
     },
-    "VALID_VALUE": "MISSING"
+    "VALID_VALUE": "Introduzca un valor entre 0 y"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

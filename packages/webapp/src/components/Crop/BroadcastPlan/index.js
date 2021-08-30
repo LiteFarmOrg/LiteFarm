@@ -44,6 +44,7 @@ function PureBroadcastPlan({
   const shouldValidate = { shouldValidate: true };
   const [displayedLocationSize, setDisplayedLocationSize] = useState(null);
   const [initialSeedingRate, setInitialSeedingRate] = useState(null);
+  const KgHaToKgM2 = 1 / 10000;
   const KgHaToLbAc = 2.20462 / 2.47105;
   const LbAcToKgHa = 0.453592 / 0.404686;
   const seedingRateUnit = system === 'metric' ? 'kg/ha' : 'lb/ac';
@@ -63,7 +64,7 @@ function PureBroadcastPlan({
   const greenInput = { color: 'var(--teal900)', fontWeight: 600 };
 
   const percentageOfAreaPlanted = watch(PERCENTAGE_PLANTED);
-  const seedingRateForm = watch(SEEDING_RATE);
+  const seedingRateFormInKgM2 = watch(SEEDING_RATE);
   const areaUsed = watch(AREA_USED);
   const areaUsedUnit = watch(AREA_USED_UNIT);
 
@@ -74,7 +75,7 @@ function PureBroadcastPlan({
   };
 
   const seedingRateHandler = (e) => {
-    const seedingRateConversion = system === 'metric' ? 1 : LbAcToKgHa;
+    const seedingRateConversion = (system === 'metric' ? 1 : LbAcToKgHa) * KgHaToKgM2;
     setValue(
       SEEDING_RATE,
       e.target.value === '' ? '' : seedingRateConversion * Number(e.target.value),
@@ -83,9 +84,11 @@ function PureBroadcastPlan({
   };
 
   useEffect(() => {
-    if (seedingRateForm) {
+    if (seedingRateFormInKgM2) {
       setInitialSeedingRate(
-        system === 'metric' ? seedingRateForm : (seedingRateForm * KgHaToLbAc).toFixed(2),
+        system === 'metric'
+          ? seedingRateFormInKgM2 / KgHaToKgM2
+          : ((seedingRateFormInKgM2 / KgHaToKgM2) * KgHaToLbAc).toFixed(2),
       );
     }
   }, []);
@@ -104,10 +107,10 @@ function PureBroadcastPlan({
     if (shouldSkipEstimatedValueCalculationRef.current) {
       shouldSkipEstimatedValueCalculationRef.current = false;
     } else {
-      setValue(ESTIMATED_SEED, (seedingRateForm * areaUsed) / 10000, shouldValidate);
+      setValue(ESTIMATED_SEED, seedingRateFormInKgM2 * areaUsed, shouldValidate);
       setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
     }
-  }, [seedingRateForm, areaUsed]);
+  }, [seedingRateFormInKgM2, areaUsed]);
 
   useEffect(() => {
     if (areaUsedUnit?.value) {
@@ -211,7 +214,7 @@ function PureBroadcastPlan({
         style={{ display: 'none' }}
       />
 
-      {areaUsed > 0 && seedingRateForm > 0 && (
+      {areaUsed > 0 && seedingRateFormInKgM2 > 0 && (
         <div className={clsx(styles.row)} style={{ columnGap: '16px' }}>
           <Unit
             register={register}

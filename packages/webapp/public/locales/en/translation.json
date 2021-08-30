@@ -57,8 +57,8 @@
       }
     },
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
-    "HARVESTING_INFO": "MISSING",
-    "HOW_MUCH_IS_HARVESTED": "MISSING",
+    "HARVESTING_INFO": "Each plan will generate an individual harvest task",
+    "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
     "PEST_CONTROL_VIEW": {

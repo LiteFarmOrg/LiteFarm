@@ -1,7 +1,7 @@
 {
   "ABANDON": "MISSING",
   "ACTIVE": "Ativo",
-  "ALL": "All",
+  "ALL": "Tudo",
   "APPLY": "Aplicar",
   "BACK": "Voltar",
   "CANCEL": "Cancelar",
@@ -14,7 +14,7 @@
   "EDIT": "Editar",
   "EDIT_DATE": "Editar data",
   "EG": "e.g.",
-  "EXPORT": "MISSING",
+  "EXPORT": "Exportar",
   "FINISH": "Finalizar",
   "FROM": "de",
   "GOT_IT": "Feito!",

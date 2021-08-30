@@ -96,11 +96,11 @@
     "WAGE_OVERRIDE": "MISSING"
   },
   "BED_PLAN": {
-    "LENGTH_OF_BED": "MISSING",
-    "NUMBER_0F_BEDS": "MISSING",
-    "NUMBER_OF_ROWS": "MISSING",
-    "PLANT_SPACING": "MISSING",
-    "PLANTING_DETAILS": "MISSING"
+    "LENGTH_OF_BED": "Comprimento dos canteiros ",
+    "NUMBER_0F_BEDS": "# de canteiros",
+    "NUMBER_OF_ROWS": "# de linhas",
+    "PLANT_SPACING": "Espaçamento",
+    "PLANTING_DETAILS": "Por favor, especifique os detalhes do plantio"
   },
   "BROADCAST_PLAN": {
     "AREA_USED": "Área usada",
@@ -113,22 +113,22 @@
   },
   "CANCEL_FLOW_MODAL": {
     "BODY": "Qualquer informação que você inseriu será descartada. Você quer prosseguir?",
-    "TITLE": "MISSING"
+    "TITLE": "Cancelar sua {{flow}}"
   },
   "CERTIFICATION": {
     "CERTIFICATION_EXPORT": {
-      "ADD": "MISSING",
-      "CHANGE_CERTIFICATION_PREFERENCE": "MISSING",
-      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "MISSING",
-      "NO_CERTIFICATIONS": "MISSING",
-      "NO_LONGER_WORKING": "MISSING",
-      "SUPPORTED_CERTIFICATION_ONE": "MISSING",
-      "SUPPORTED_CERTIFICATION_TWO": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "MISSING",
-      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "MISSING",
-      "UPDATE_SUCCESS": "MISSING"
+      "ADD": "Adicionar uma certificação",
+      "CHANGE_CERTIFICATION_PREFERENCE": "alterar as preferências de sua certificação",
+      "CHANGE_CERTIFICATION_PREFERENCE_CAPITAL": "Alterar as preferências de sua certificação",
+      "NO_CERTIFICATIONS": "No momento, você não está buscando nenhuma certificação",
+      "NO_LONGER_WORKING": "Não está mais buscando esta certificação ou trabalhando com esta certificadora? Sem problema!",
+      "SUPPORTED_CERTIFICATION_ONE": "Você está buscando",
+      "SUPPORTED_CERTIFICATION_TWO": " certificação de:",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_ONE": "No momento, Litefarm não gera documentos para esta certificadora. Entretanto, podemos exportar formulários genéricos que podem servir para a maioria das certificadores. Você pode selecionar Exportar para criar esses formulários ou",
+      "UNSUPPORTED_CERTIFICATION_MESSAGE_TWO": "para ver se existem novas certificadoras disponíveis na sua região",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_ONE": "Você solicitou",
+      "UNSUPPORTED_CERTIFICATION_REQUEST_TWO": "certificação de",
+      "UPDATE_SUCCESS": "Preferências de certificação salvas"
     },
     "CERTIFICATION_SELECTION": {
       "REQUEST_CERTIFICATION": "Solicite outro tipo de certificação",
@@ -164,7 +164,7 @@
       "GOOD_NEWS": "Boas notícias! O LiteFarm pode documentar as informações que você precisa para gerar seus documentos de certificação!",
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
       "TITLE": "Você está interessado(a) em aplicar para:",
-      "YOUR_CERTIFICATION": "MISSING"
+      "YOUR_CERTIFICATION": "Sua certificação"
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
@@ -182,23 +182,23 @@
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EMAIL": "Email",
-    "EMAIL_ERROR": "MISSING",
-    "EXPORT": "Export",
-    "EXPORT_DOCS": "Export certification docs",
-    "FILES_ARE_READY": "MISSING",
-    "FLOW_TITLE": "MISSING",
-    "FROM": "From",
-    "GOOD_NEWS": "Good news!",
-    "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. Ready to go?",
-    "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
-    "NOTE_CANNOT_RESUBMIT": "MISSING",
-    "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
-    "SELECT_REPORTING_PERIOD": "Select your reporting period",
-    "TO": "To",
-    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
+    "EMAIL_ERROR": "É necessário um e-mail válido",
+    "EXPORT": "Exportar",
+    "EXPORT_DOCS": "Exportar documentos da certificação",
+    "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
+    "FLOW_TITLE": "exportação de documentos de certificação",
+    "FROM": "De",
+    "GOOD_NEWS": "Boas notícias!",
+    "HAVE_ALL_INFO": "Parece que o LiteFarm tem toda a informação necessária para processar a documentação da certificação. Está pronto?",
+    "NEXT_WE_WILL_CHECK": "Em seguida, vamos verificar se a certificadora exige mais alguma informação para processar o envio da sua certificação.",
+    "NOTE_CANNOT_RESUBMIT": "Observação: depois de enviar a pesquisa, você não poderar alterar as respostas. Para alterar após a submissão, é preciso começar uma nova exportação.",
+    "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
+    "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
+    "TO": "Até",
+    "TO_MUST_BE_AFTER_FROM": "A data 'Até' deve ser depois da data 'De'",
     "UH_OH": "Uh oh!",
-    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
-    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
+    "WHERE_TO_SEND_DOCS": "Para onde você quer que os seus documentos sejam enviados?",
+    "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sítio/fazenda",
@@ -272,7 +272,7 @@
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
     "HARVEST": "Colher",
-    "PLANT": "MISSING",
+    "PLANT": "Plantar",
     "SEED": "Semear",
     "TERMINATE": "Terminar",
     "TRANSPLANT": "Transplantar"
@@ -941,18 +941,18 @@
     "TOTAL_CARBON": "Carbono Total"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "MISSING",
-    "ADD_A_TASK": "MISSING",
-    "ASSOCIATED_TASKS": "MISSING",
-    "EDIT_PLAN": "MISSING",
-    "FAILED_CROP": "MISSING",
-    "PLAN_NOTES": "MISSING"
+    "ABANDON_PLAN": "Abandonar este plano de manejo",
+    "ADD_A_TASK": "Adicione uma tarefa",
+    "ASSOCIATED_TASKS": "Tarefas associadas",
+    "EDIT_PLAN": "Editar plano",
+    "FAILED_CROP": "Colheita falhou?",
+    "PLAN_NOTES": "Notas do plano"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
     "ABANDON_MANAGEMENT_PLAN_TITLE": "MISSING",
     "ADD_MANAGEMENT_PLAN": "Adicionar um plano de manejo",
-    "AGE": "MISSING",
+    "AGE": "Época",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
     "BROADCAST": "Semeadura a lanço ou com máquina semeadora",
@@ -980,8 +980,8 @@
     "COVER_OR_HARVEST": "Isso está sendo cultivado como um cultivo de cobertura ou para a colheita?",
     "DAYS_FROM_PLANTING": "MISSING",
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
-    "DAYS_TO_HARVEST": "MISSING",
-    "DAYS_TO_TERMINATION": "MISSING",
+    "DAYS_TO_HARVEST": "Dias para a próxima colheita",
+    "DAYS_TO_TERMINATION": "Dias para rescisão",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
     "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
@@ -997,29 +997,29 @@
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
     "HARVEST": "Colheita",
-    "HARVEST_DATE": "MISSING",
+    "HARVEST_DATE": "Quando será a próxima colheita?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "MISSING",
     "IN_GROUND": "No solo",
     "INCOMPLETE_TASK_CONTENT": "MISSING",
     "INCOMPLETE_TASK_TITLE": "MISSING",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
-    "KNOW_HOW_IS_CROP_PLANTED": "MISSING",
+    "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como a safra foi plantada?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
-    "MANAGEMENT_PLAN_FLOW": "MISSING",
+    "MANAGEMENT_PLAN_FLOW": "criação do plano de manejo",
     "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
     "MANAGEMENT_SPOTLIGHT_2": "Visualize e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
-    "NEXT_HARVEST": "MISSING",
+    "NEXT_HARVEST": "Quando será a próxima colheita?",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
     "PLAN_NOTES": "Notas de plan",
     "PLANT_SPACING": "Espaçamento de plantas",
-    "PLANTED_ALREADY": "MISSING",
-    "PLANTING": "MISSING",
+    "PLANTED_ALREADY": "Você vai plantar esta safra ou ela já está plantada?",
+    "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DATE_INFO": "MISSING",
     "PLANTING_DATE_LABEL": "Data do plantio",
@@ -1029,25 +1029,25 @@
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
     "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
-    "REMOVE_PIN": "MISSING",
+    "REMOVE_PIN": "Remover alfinete",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "MISSING",
-      "LENGTH_OF_ROW": "MISSING",
-      "NUMBER_OF_ROWS": "MISSING",
-      "SAME_LENGTH": "MISSING",
-      "TOTAL_LENGTH": "MISSING"
+      "LENGTH_OF_ROW": "Comprimento da linha",
+      "NUMBER_OF_ROWS": "# de linhas",
+      "SAME_LENGTH": "As linhas são do mesmo comprimento?",
+      "TOTAL_LENGTH": "Comprimento total das linhas"
     },
     "ROWS": "Linhas",
-    "SEED_DATE": "MISSING",
-    "SEED_OR_SEEDLING": "MISSING",
-    "SEEDING_DATE": "MISSING",
-    "SEEDLING": "MISSING",
-    "SEEDLING_AGE": "MISSING",
-    "SEEDLING_AGE_INFO": "MISSING",
-    "SELECT_A_PLANTING_LOCATION": "MISSING",
-    "SELECT_A_SEEDING_LOCATION": "MISSING",
-    "SELECT_CURRENT_LOCATION": "MISSING",
-    "SELECTED_STARTING_LOCATION": "MISSING",
+    "SEED_DATE": "Qual é a sua data de semeadura?",
+    "SEED_OR_SEEDLING": "Como você vai plantar esta safra?",
+    "SEEDING_DATE": "Data da semeadura",
+    "SEEDLING": "Estoque de mudas ou plantio",
+    "SEEDLING_AGE": "Qual é a idade da muda ou do estoque de plantio?",
+    "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Você pode pular esta questão para outros tipos de estoque de plantio.",
+    "SELECT_A_PLANTING_LOCATION": "Selecione um local de plantio",
+    "SELECT_A_SEEDING_LOCATION": "Selecione um local de semeadura",
+    "SELECT_CURRENT_LOCATION": "Selecione o local atual da safra",
+    "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para as safras que serão transplantadas ",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "STATUS": {
@@ -1058,20 +1058,20 @@
     },
     "SUPPLIER": "MISSING",
     "TERMINATION": "Terminação",
-    "TERMINATION_DATE": "MISSING",
+    "TERMINATION_DATE": "Quando você encerrará esta colheita?",
     "TOTAL_PLANTS": "# de plantas",
     "TRANSPLANT": "Transplantar",
-    "TRANSPLANT_DATE": "MISSING",
+    "TRANSPLANT_DATE": "Qual é a sua data de transplante?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
-        "PLANTED": "MISSING",
-        "SEEDED": "MISSING",
-        "TEXT": "MISSING"
+        "PLANTED": "Plantado",
+        "SEEDED": "Semeado",
+        "TEXT": "Por favor, indique onde esta safra ficará inicialmente <1>{{fill}}</1>. Nós vamos perguntar sobre onde você irá transplantar depois."
       },
       "TITLE": {
-        "PLANTING": "MISSING",
-        "SEEDING": "MISSING",
-        "TEXT": "MISSING"
+        "PLANTING": "Plantando",
+        "SEEDING": "Semeando",
+        "TEXT": "{{fill}} local"
       }
     },
     "VARIETY": "MISSING",
@@ -1085,7 +1085,7 @@
     "PLAN_AND_ID_plural": "MISSING"
   },
   "MY_FARM": {
-    "CERTIFICATIONS": "MISSING",
+    "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
     "FARM_MAP": "Mapa de fazenda/sitio",
     "PEOPLE": "Pessoas"
@@ -1122,23 +1122,23 @@
     "TITLE": "Link enviado"
   },
   "PLAN_GUIDANCE": {
-    "ADDITIONAL_GUIDANCE": "MISSING",
-    "BED": "MISSING",
-    "BEDS": "MISSING",
-    "NOTES": "MISSING",
-    "PLANTING_DEPTH": "MISSING",
-    "ROW": "MISSING",
-    "ROWS": "MISSING",
-    "SPACE_BETWEEN": "MISSING",
-    "SPECIFY": "MISSING",
-    "SPECIFY_PLACEHOLDER": "MSSING",
-    "TOOLTIP": "MISSING",
-    "WIDTH": "MISSING",
-    "WORD_LIMIT": "MISSING"
+    "ADDITIONAL_GUIDANCE": "Há alguma orientação adicional que você deseja fornecer para a tarefa de semeadura?",
+    "BED": "Canteiro",
+    "BEDS": "canteiros",
+    "NOTES": "Notas de plantio",
+    "PLANTING_DEPTH": "Profundidade de plantio",
+    "ROW": "Linha",
+    "ROWS": "linhas",
+    "SPACE_BETWEEN": "Espaço entre {{types}}",
+    "SPECIFY": "Especificar {{types}}",
+    "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
+    "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de manejo esteja visível. ",
+    "WIDTH": "{{types}} largura",
+    "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "MISSING",
-    "TITLE": "MISSING"
+    "MESSAGE": "O LiteFarm está reunindo seus documentos da certificação e você receberá um e-mail quando terminarmos - pode levar alguns minutinhos... Você pode clicar fora desta caixa para continuar usando o LiteFarm sem interromper o processo.",
+    "TITLE": "Sua exportação está sendo preparada"
   },
   "PROFILE_FLOATER": {
     "HELP": "Ajuda",
@@ -1470,11 +1470,11 @@
   "UNIT": {
     "TIME": {
       "DAY": "MISSING",
-      "MONTH": "MISSING",
-      "WEEK": "MISSING",
-      "YEAR": "MISSING"
+      "MONTH": "meses",
+      "WEEK": "semanas",
+      "YEAR": "anos"
     },
-    "VALID_VALUE": "MISSING"
+    "VALID_VALUE": "Por favor, entre um valor entre 0-"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

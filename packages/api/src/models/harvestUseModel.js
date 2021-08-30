@@ -29,11 +29,11 @@ class HarvestUse extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['activity_id', 'harvest_use_type_id', 'quantity_kg'],
+      required: ['task_id', 'harvest_use_type_id', 'quantity_kg'],
 
       properties: {
         harvest_use_id: { type: 'integer' },
-        activity_id: { type: 'integer' },
+        task_id: { type: 'integer' },
         harvest_use_type_id: { type: 'integer' },
         quantity_kg: { type: 'float' },
       },
@@ -43,15 +43,15 @@ class HarvestUse extends Model {
 
   static get relationMappings() {
     return {
-      harvestLog: {
+      harvest_task: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./harvestLogModel'),
+        modelClass: require('./harvestTaskModel'),
         join: {
-          from: 'harvestUse.activity_id',
-          to: 'harvestLog.activity_id',
+          from: 'harvestUse.task_id',
+          to: 'harvest_task.task_id',
         },
       },
       harvestUseType: {

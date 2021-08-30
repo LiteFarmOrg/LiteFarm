@@ -1,32 +1,34 @@
 import {
   barnColour,
+  barnSelectedColour,
   bufferZoneColour,
+  bufferZoneSelectedColour,
   ceremonialSiteColour,
+  ceremonialSiteSelectedColour,
   farmBoundColour,
   farmBoundHoverColour,
   fenceColour,
   fieldColour,
-  gardenColour,
-  greenhouseColour,
-  naturalAreaColour,
-  residenceColour,
-  surfaceWaterColour,
-  watercourseColour,
-  barnSelectedColour,
-  bufferZoneSelectedColour,
-  ceremonialSiteSelectedColour,
-  // farmBoundSelectedColour,
   fieldSelectedColour,
+  gardenColour,
   gardenSelectedColour,
+  greenhouseColour,
   greenhouseSelectedColour,
+  naturalAreaColour,
   naturalAreaSelectedColour,
+  residenceColour,
   residenceSelectedColour,
+  surfaceWaterColour,
   surfaceWaterSelectedColour,
+  watercourseColour,
+  watercourseSelectedColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
+import waterValveActive from '../../assets/images/map/water-valve-active.png';
 import gate from '../../assets/images/map/gate.png';
 import gateHover from '../../assets/images/map/gate-hover.png';
+import gateActive from '../../assets/images/map/gate-active.png';
 
 export const areaStyles = {
   barn: {
@@ -89,6 +91,7 @@ export const areaStyles = {
 export const lineStyles = {
   watercourse: {
     colour: watercourseColour,
+    selectedColour: watercourseSelectedColour,
     dashScale: 0.7,
     dashLength: '6px',
     polyStyles: {
@@ -114,6 +117,12 @@ export const lineStyles = {
     colour: fenceColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: 'transparent',
+      strokeWeight: 1,
+      fillColor: 'transparent',
+      fillOpacity: 0.3,
+    },
   },
   buffer_zone: {
     colour: bufferZoneColour,
@@ -136,4 +145,12 @@ export const icons = {
 export const hoverIcons = {
   gate: gateHover,
   water_valve: waterValveHover,
+};
+export const activeIcons = {
+  gate: gateActive,
+  water_valve: waterValveActive,
+};
+export const selectedIcons = {
+  gate: gateActive,
+  water_valve: waterValveActive,
 };

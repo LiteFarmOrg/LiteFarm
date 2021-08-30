@@ -54,11 +54,10 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
-  flex-grow: 1;
 }
 
 .sm {
-  margin-left: 8px;
+  margin-left: 0px;
 }
 
 .input:focus:enabled ~ .pseudoInputContainer .verticleDivider {

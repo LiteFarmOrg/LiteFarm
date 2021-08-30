@@ -3,6 +3,8 @@ import styles from './styles.module.scss';
 import clsx from 'clsx';
 import Square from '../Square';
 import PropTypes from 'prop-types';
+import { StatusLabel } from '../CardWithStatus/StatusLabel';
+import { managementPlanStatusText } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
 
 export default function PureCropTile({
   className,
@@ -16,6 +18,8 @@ export default function PureCropTile({
   isPastVariety,
   isCropTemplate,
   children,
+  isSelected,
+  status,
 }) {
   return (
     <div
@@ -23,6 +27,7 @@ export default function PureCropTile({
         styles.container,
         isPastVariety && styles.pastVarietyContainer,
         isCropTemplate && styles.cropTemplateContainer,
+        isSelected && styles.selectedContainer,
         className,
       )}
       style={style}
@@ -48,6 +53,18 @@ export default function PureCropTile({
           <Square color={'past'} isCropTile>
             {cropCount.past}
           </Square>
+        </div>
+      )}
+      {status && (
+        <div className={styles.cropCountContainer}>
+          <StatusLabel
+            style={{
+              borderRadius: '4px 4px 4px 4px',
+            }}
+            color={status}
+            label={managementPlanStatusText[status]}
+            sm
+          />
         </div>
       )}
 
@@ -80,4 +97,5 @@ PureCropTile.prototype = {
   alt: PropTypes.string,
   isPastVariety: PropTypes.bool,
   isCropTemplate: PropTypes.bool,
+  status: PropTypes.oneOf(['active', 'planned', 'completed', 'abandoned']),
 };

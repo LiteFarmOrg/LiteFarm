@@ -15,8 +15,13 @@
 
 import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
-import { loginSelector } from '../../../userFarmSlice';
-import { axios, getHeader, getManagementPlanAndPlantingMethodSuccess } from '../../../saga';
+import { loginSelector, patchFarmSuccess } from '../../../userFarmSlice';
+import {
+  axios,
+  getHeader,
+  getManagementPlanAndPlantingMethodSuccess,
+  getManagementPlanAndPlantingMethodSuccessSaga,
+} from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -53,20 +58,35 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(
-      axios.post,
-      managementPlanURL + `/${managementPlan.crop_management_plan.planting_type.toLowerCase()}`,
-      managementPlan,
-      header,
-    );
-    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
+    const result = yield call(axios.post, managementPlanURL, managementPlan, header);
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [result.data] });
     const management_plan_id = [result.data][0].management_plan_id;
-    history.push(`/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`);
+    history.push(
+      `/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`,
+      { fromCreation: true },
+    );
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST')));
   } catch (e) {
-    console.log('failed to add managementPlan to database');
+    console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
   }
+}
+
+export const patchFarmDefaultInitialLocation = createAction(`patchFarmDefaultInitialLocationSaga`);
+
+export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
+  const { url } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.patch,
+      `${url}/farm/${farm_id}/default_initial_location`,
+      farm,
+      header,
+    );
+    yield put(patchFarmSuccess({ ...farm, farm_id, user_id }));
+  } catch (e) {}
 }
 
 export const putManagementPlan = createAction(`putManagementPlanSaga`);
@@ -164,6 +184,7 @@ const formatDate = (currDate) => {
 
 export default function* managementPlanSaga() {
   yield takeLeading(postManagementPlan.type, postManagementPlanSaga);
+  yield takeLeading(patchFarmDefaultInitialLocation.type, patchFarmDefaultInitialLocationSaga);
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);
   yield takeLeading(createYield.type, createYieldSaga);

@@ -1,15 +1,19 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "No se pudo crear el documento",
       "FAILED_ARCHIVE": "No se pudo archivar el documento",
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
-      "UPDATE": "MISSING"
+      "UPDATE": "No se pudo actualizar el documento"
     },
     "SUCCESS": {
       "ARCHIVE": "Documento archivado exitosamente",
       "CREATE": "Documento creado exitosamente",
-      "UPDATE": "MISSING"
+      "UPDATE": "Documento actualizado exitosamente"
     }
   },
   "CROP_VARIETY": {
@@ -89,23 +93,27 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "No se pudo agregar plan de manejo"
     },
     "SUCCESS": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Plan de manejo agregado exitosamente"
     }
   },
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente",
-    "SUCCESS_PATCH": " se actualizo exitosamente",
-    "SUCCESS_POST": " se creo exitosamente"
+    "SUCCESS_DELETE": " se retiro exitosamente.",
+    "SUCCESS_PATCH": " se actualizo exitosamente.",
+    "SUCCESS_POST": " se creo exitosamente."
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "MISSING",
-      "UPDATE": "MISSING"
+      "CREATE": "No se pudo crear la certificación.",
+      "UPDATE": "No se pudo actualizar la certificación."
     }
   },
   "SALE": {
@@ -135,6 +143,20 @@
       "ADD": "Nuevo turno agregado exitosamente!",
       "DELETE": "Borrar turno!",
       "UPDATE": "Turno agregado exitosamente!"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "USER": {

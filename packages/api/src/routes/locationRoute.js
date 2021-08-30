@@ -26,11 +26,13 @@ router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['
   getLocationsByFarm());
 
 router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
-  validateLocationDependency, deleteLocation());
+  validateLocationDependency,
+  deleteLocation());
 
 // TODO: to deprecate
 router.get('/check_delete/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
-  validateLocationDependency, checkDeleteLocation())
+  validateLocationDependency,
+  checkDeleteLocation())
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],

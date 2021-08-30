@@ -42,7 +42,7 @@ export function PureCertificationSelection({
       certification_id: getDefaultCertificationId(),
     },
   });
-  useHookFormPersist?.(persistedPathNames, getValues);
+  useHookFormPersist?.(getValues, persistedPathNames);
   const CERTIFICATION_ID = 'certification_id';
   const certification_id = watch(CERTIFICATION_ID);
   const REQUESTED_CERTIFICATION = 'requested_certification';

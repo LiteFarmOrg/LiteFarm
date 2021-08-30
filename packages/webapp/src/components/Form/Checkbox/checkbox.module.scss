@@ -14,6 +14,12 @@
   transform: translate(25px, -3px);
 }
 
+.smallLabel {
+  transform: translate(25px, 2px);
+  font-size: 12px;
+  line-height: 16px;
+}
+
 /* Hide the browser's default Checkbox */
 .container input {
   position: absolute;

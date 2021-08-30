@@ -1,6 +1,7 @@
 import {
   getCurrentManagementPlans,
   getExpiredManagementPlans,
+  getLocationIdFromManagementPlan,
   getPlannedManagementPlans,
   managementPlansSelector,
 } from '../managementPlanSlice';
@@ -11,6 +12,7 @@ import useStringFilteredCrops from './useStringFilteredCrops';
 import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filter/constants';
 import { useTranslation } from 'react-i18next';
 import useFilterNoPlan from './useFilterNoPlan';
+import useSortByCropTranslation from './useSortByCropTranslation';
 
 export default function useCropCatalogue(filterString) {
   const managementPlans = useSelector(managementPlansSelector);
@@ -29,7 +31,7 @@ export default function useCropCatalogue(filterString) {
     }
     if (included.size === 0) return managementPlansFilteredByFilterString;
     return managementPlansFilteredByFilterString.filter((managementPlan) =>
-      included.has(managementPlan.location_id),
+      included.has(getLocationIdFromManagementPlan(managementPlan)),
     );
   }, [cropCatalogueFilter[LOCATION], managementPlansFilteredByFilterString]);
 
@@ -126,7 +128,9 @@ export default function useCropCatalogue(filterString) {
     });
   }, [cropCatalogueFilteredByStatus]);
 
-  const filteredCropVarietiesWithoutManagementPlan = useFilterNoPlan(filterString);
+  const filteredCropVarietiesWithoutManagementPlan = useSortByCropTranslation(
+    useFilterNoPlan(filterString),
+  );
 
   const filteredCropsWithoutManagementPlan = useMemo(() => {
     const cropIdsWithPlan = new Set(sortedCropCatalogue.map(({ crop_id }) => crop_id));

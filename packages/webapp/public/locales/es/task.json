@@ -4,12 +4,19 @@
   "SALES": "Ventas",
   "SOCIAL_EVENT": "Evento Social",
   "SEEDING": "Siembra",
-  "FERTILIZING": "Fertilización",
   "SCOUTING": "Búsqueda",
   "HARVESTING": "Cosecha",
   "WEEDING": "Desmalezar",
   "WASH_AND_PACK": "Lavar y guardar",
   "PEST_CONTROL": "Control de pestes",
   "OTHER": "Otro",
-  "BREAK": "Descanso"
+  "BREAK": "Descanso",
+  "SOIL_RESULTS": "MISSING",
+  "IRRIGATION": "MISSING",
+  "TRANSPORT": "MISSING",
+  "FIELD_WORK": "MISSING",
+  "PLANTING": "MISSING",
+  "SOCIAL": "Social",
+  "CLEANING": "Cleaning",
+  "SOIL_AMENDMENT": "Soil Amendment"
 }

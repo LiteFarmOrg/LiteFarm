@@ -19,6 +19,6 @@ Variety.args = {
   title: 'Document Name I have a very long name, hahaha',
   type: 'Crop Compliance',
   date: "May 01 21'",
-  preview: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/blueberry.webp`,
+  preview: `https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/blueberry.webp`,
   imageComponent: (props) => <img {...props} />,
 };

@@ -23,6 +23,10 @@ export default function PureAddCropVariety({
   handleCancel,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const VARIETY = 'crop_variety_name';
+  const SUPPLIER = 'supplier';
+  const LIFE_CYCLE = 'lifecycle';
+  const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
   const {
     register,
     handleSubmit,
@@ -35,18 +39,14 @@ export default function PureAddCropVariety({
     defaultValues: {
       crop_variety_photo_url:
         crop.crop_photo_url ||
-        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com//default_crop/v1/default.webp`,
+        `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com/default_crop/v2/default.webp`,
+      [LIFE_CYCLE]: crop[LIFE_CYCLE],
       ...persistedFormData,
     },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`, '/crop/new'];
 
-  useHookFormPersist(persistedPath, getValues);
-
-  const VARIETY = 'crop_variety_name';
-  const SUPPLIER = 'supplier';
-  const LIFE_CYCLE = 'lifecycle';
-  const CROP_VARIETY_PHOTO_URL = 'crop_variety_photo_url';
+  useHookFormPersist(getValues, persistedPath);
 
   const disabled = !isValid;
 
@@ -119,7 +119,7 @@ export default function PureAddCropVariety({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'Supplier'}
+        label={t('CROP_VARIETIES.SUPPLIER')}
         type="text"
         hookFormRegister={supplierRegister}
         hasLeaf={true}

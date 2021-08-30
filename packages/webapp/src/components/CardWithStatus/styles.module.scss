@@ -1,0 +1,13 @@
+.cardContainer {
+  position: relative;
+  min-width: 0;
+}
+
+.statusLabel {
+  display: flex;
+  right: 0;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}

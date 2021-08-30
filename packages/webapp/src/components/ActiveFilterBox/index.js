@@ -88,6 +88,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
           {activeFilters.map((filter) => {
             return (
               <Pill
+                key={filter.value}
                 className={'activePill'}
                 label={filter.label}
                 selected
@@ -112,6 +113,7 @@ const ActiveFilterBox = ({ pageFilter, pageFilterKey, style }) => {
         {activeFilters.map((filter) => {
           return (
             <Pill
+              key={filter.value}
               className={'activePill'}
               label={filter.label}
               selected

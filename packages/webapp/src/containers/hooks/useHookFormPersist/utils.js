@@ -1,11 +1,11 @@
-import { cloneObject } from '../../../util';
+import produce from 'immer';
 
 export const getProcessedFormData = (data) => {
-  const result = cloneObject(data);
-  for (const fieldNameKey in result) {
-    setOptionObjectToValueProperty(fieldNameKey, result);
-  }
-  return result;
+  return produce(data, (result) => {
+    for (const fieldNameKey in result) {
+      setOptionObjectToValueProperty(fieldNameKey, result);
+    }
+  });
 };
 
 const setOptionObjectToValueProperty = (fieldNameKey, formDataObject) => {

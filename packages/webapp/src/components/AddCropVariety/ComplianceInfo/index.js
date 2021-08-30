@@ -33,7 +33,7 @@ export default function ComplianceInfo({
     defaultValues: { ...persistedFormData },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety`];
-  useHookFormPersist(persistedPath, getValues);
+  useHookFormPersist(getValues, persistedPath);
 
   const CERTIFIED_ORGANIC = 'organic';
   const COMMERCIAL_AVAILABILITY = 'searched';

@@ -1,4 +1,8 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Falha ao criar documento",
@@ -89,9 +93,13 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Falha ao adicionar plano de gestão!"
     },
     "SUCCESS": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
       "POST": "Plano de gestão adicionado com sucesso!"
     }
   },
@@ -135,6 +143,20 @@
       "ADD": "Novo turno adicionado com sucesso!",
       "DELETE": "Turno excluído!",
       "UPDATE": "Turno atualizado com sucesso!"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "USER": {

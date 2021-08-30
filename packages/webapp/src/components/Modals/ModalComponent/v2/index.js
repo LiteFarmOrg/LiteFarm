@@ -4,7 +4,9 @@ import { Info, Semibold } from '../../../Typography';
 import PropTypes from 'prop-types';
 import { Modal } from '../../index';
 import { VscWarning } from 'react-icons/vsc';
+
 import { colors } from '../../../../assets/theme';
+import { FiSlash } from 'react-icons/all';
 
 export default function ModalComponent({
   title,
@@ -32,13 +34,14 @@ export default function ModalComponent({
               gap: '8px',
             }}
           >
-            {(warning || error) && <VscWarning style={{ marginTop: '1px' }} />}
+            {warning && <VscWarning style={{ marginTop: '1px' }} />}
+            {error && <FiSlash style={{ marginTop: '1px' }} />}
             {icon && icon}
-            {title} {/* todo: have different icons between error and warning modals */}
+            {title}
           </Semibold>
         )}
-        {contents?.map((line) => (
-          <Info>{line}</Info>
+        {contents?.map((line, index) => (
+          <Info key={index}>{line}</Info>
         ))}
 
         {children}

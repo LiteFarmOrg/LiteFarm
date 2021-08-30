@@ -150,6 +150,25 @@ const farmController = {
     }
   },
 
+  patchDefaultInitialLocation() {
+    return async (req, res) => {
+      try {
+        const { default_initial_location_id } = req.body;
+        const user_id = req.user.user_id;
+        const updated = await farmModel.query().context({ user_id }).findById(req.params.farm_id).patch({ default_initial_location_id }).returning('*');
+        if (!updated) {
+          return res.sendStatus(404);
+        } else {
+          return res.status(200).send(updated);
+        }
+      } catch (e) {
+        return res.status(400).json({
+          error: e.message ? e.message : e,
+        });
+      }
+    };
+  },
+
   patchOwnerOperated() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

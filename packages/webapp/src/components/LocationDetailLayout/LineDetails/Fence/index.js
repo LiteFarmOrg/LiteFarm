@@ -47,7 +47,7 @@ export default function PureFence({
   });
   const {
     persistedData: { name, line_points, length },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const isPressureTreated = watch(fenceEnum.pressure_treated);

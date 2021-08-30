@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -13,7 +13,7 @@ export default function RadioGroup({
   onBlur,
   name,
   required,
-  shouldUnregister = true,
+  shouldUnregister = false,
   showNotSure = false,
   radios,
   row = false,
@@ -28,6 +28,10 @@ export default function RadioGroup({
     rules: { validate },
     shouldUnregister,
   });
+  //TODO: create issue on HookForm
+  useEffect(() => {
+    field.onChange(field.value);
+  }, []);
 
   const YES = showNotSure ? 'YES' : true;
   const NO = showNotSure ? 'NO' : false;

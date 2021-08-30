@@ -76,6 +76,8 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
 import cropVarietyImageUploaderSaga from './containers/ImagePickerWrapper/saga';
 import certificationsSaga from './containers/Certifications/saga';
+import taskSaga from './containers/Task/saga';
+import abandonAndCompleteManagementPlanSaga from './containers/Crop/CompleteManagementPlan/saga';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
@@ -95,17 +97,6 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 const languages = ['en', 'es', 'pt'];
-if (process.env.REACT_APP_SENTRY_DSN) {
-  Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
-    integrations: [new Integrations.BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
-  });
-}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -179,6 +170,8 @@ sagaMiddleware.run(uploadDocumentSaga);
 sagaMiddleware.run(documentSaga);
 sagaMiddleware.run(cropVarietyImageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
+sagaMiddleware.run(taskSaga);
+sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
 
 const persistor = persistStore(store);
 

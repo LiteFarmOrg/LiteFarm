@@ -100,24 +100,44 @@ export default [
     }
   }, [props.disabled]);
 ```
-### Hookform trigger does not update errors properly when there is a required RadioGroup after triggered input field
+### Hookform useFormState.errors does not trigger rerendering properly when there are consecutive unit component (bed method)
 
-[github discussion](https://github.com/react-hook-form/react-hook-form/discussions/5843)
+[github discussion](https://github.com/react-hook-form/react-hook-form/discussions/5843&#41)
 
-###### Walk around: trigger validation twice
+###### Walk around: delay setValue
+
 ```js
-  const newHookFormValue = convert(e.target.value).from(hookFormUnit).to(databaseUnit);
-      hookFormSetValue(name, newHookFormValue, {
-        shouldValidate: true,
-        shouldDirty: true,
+  const hookFormSetHiddenValue = useCallback(
+    (value, { shouldDirty = false, shouldClearError, shouldValidate = true } = {}) => {
+      //FIXME: walk around for racing condition on add management plan pages LF-1883
+      hookFormSetValue(name, value, {
+        shouldValidate: false,
+        shouldDirty: false,
       });
-      //TODO: wait for hookform fix
       setTimeout(()=>{
-        hookFormSetValue(name, newHookFormValue, {
-          shouldValidate: true
+        hookFormSetValue(name, value, {
+          shouldValidate,
+          shouldDirty,
         });
-      },1);
+        shouldClearError && setShowError(false);
+      },0);
+    },
+    [name],
+  );
 ```
+
+###### Walk around: force validation on unit component mount. Set show error to false when input is not dirty;
+```js
+  const [isDirty, setDirty] = useState();
+  useEffect(() => {
+    setShowError(!!error && !disabled && isDirty);
+  }, [error]);
+  useEffect(()=>{
+    hookFormSetHiddenValue(hookFormValue, {shouldValidate: true, shouldDirty: false});
+  },[]);
+```
+
+https://github.com/LiteFarmOrg/LiteFarm/commit/2de64bc75102f99468982a25ff9c081406c15dbc
 
 ### Frontend tests won't compile when react-icons are imported from 'react-icons/all'
 
@@ -128,3 +148,33 @@ export default [
 ```js
 import { IoLogoAndroid } from "react-icons/io5"
 ```
+
+### Hookform controlled component with shouldUnregister:false is not validated properly onMount
+
+###### Walk around: force validation when component is mounted
+
+```js
+ function RadioGroup({hookFormControl, name}){
+    const validate = (value) => (required ? value !== undefined && value !== null : true);
+    const { field } = useController({
+    name,
+    control: hookFormControl,
+    rules: { validate },
+    shouldUnregister: false,
+  });
+  //TODO: create issue on HookForm
+  useEffect(()=>{
+    field.onChange(field.value);
+  },[]);
+ }
+```
+
+### Hookform isValid does not update on react select change
+
+###### Reason unknown
+
+https://github.com/LiteFarmOrg/LiteFarm/compare/bug/hook-form-react-select-validation-error?expand=1
+
+https://5fa09c09b8435e0022120d64-lrowlcggld.chromatic.com/?path=/story/page-task-abandonedtask--primary
+
+

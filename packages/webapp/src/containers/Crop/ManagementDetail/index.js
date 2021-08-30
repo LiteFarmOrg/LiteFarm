@@ -1,36 +1,51 @@
-import PureManagementDetail from "../../../components/Crop/ManagementDetail";
+import PureManagementDetail from '../../../components/Crop/ManagementDetail';
 import { cropVarietySelector } from '../../cropVarietySlice';
-import { managementPlanSelectorById, currentManagementPlanByCropVarietyIdSelector } from "../../managementPlanSlice";
-import { isAdminSelector } from "../../userFarmSlice";
+import { managementPlanSelector } from '../../managementPlanSlice';
+import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
+import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
+import {
+  tasksByManagementPlanIdSelector,
+  pendingTasksByManagementPlanIdSelector,
+} from '../../taskSlice';
 
-function ManagementDetail({ history, match }) {
-
+export default function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
-  const plan_id = match.params.management_plan_id;
-  const plan = useSelector(managementPlanSelectorById(plan_id));
+  const management_plan_id = match.params.management_plan_id;
+  const plan = useSelector(managementPlanSelector(management_plan_id));
 
   const isAdmin = useSelector(isAdminSelector);
 
   const onBack = () => {
     history.push(`/crop/${variety_id}/management`);
-  }
+  };
 
   const onCompleted = () => {
-    console.log("Go to LF-1645");
-  }
+    history.push(`/crop/${variety_id}/${management_plan_id}/complete_management_plan`);
+  };
+  const onAbandon = () =>
+    history.push(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`);
 
+  const showSpotlight = history.location.state?.fromCreation;
+
+  const allTasks = useSelector(tasksByManagementPlanIdSelector(management_plan_id));
+  const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   return (
-    <PureManagementDetail 
-      onBack={onBack}
-      onCompleted={onCompleted}
-      isAdmin={isAdmin}
-      variety={variety}
-      plan={plan}
-    />
+    <>
+      <PureManagementDetail
+        onBack={onBack}
+        onCompleted={onCompleted}
+        onAbandon={onAbandon}
+        isAdmin={isAdmin}
+        variety={variety}
+        plan={plan}
+        tasks={allTasks}
+        hasPendingTasks={!!pendingTasks?.length}
+        history={history}
+      />
+      {showSpotlight && <FirstManagementPlanSpotlight />}
+    </>
   );
 }
-
-export default ManagementDetail;

@@ -1,4 +1,8 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "Failed to assign tasks",
+    "SUCCESS": "Successfully assigned tasks"
+  },
   "ATTACHMENTS": {
     "ERROR": {
       "CREATE": "Failed to create document",
@@ -89,9 +93,13 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
+      "ABANDON": "Failed to abandon management plan!",
+      "COMPLETE": "Failed to complete management plan!",
       "POST": "Failed to add management plan!"
     },
     "SUCCESS": {
+      "ABANDON": "Successfully abandoned management plan!",
+      "COMPLETE": "Successfully completed management plan!",
       "POST": "Successfully added management plan!"
     }
   },
@@ -135,6 +143,20 @@
       "ADD": "Successfully added new shift!",
       "DELETE": "Deleted shift!",
       "UPDATE": "Successfully updated shift!"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Failed to abandon task",
+      "SUCCESS": "Successfully abandoned task"
+    },
+    "COMPLETE": {
+      "FAILED": "Failed to complete task",
+      "SUCCESS": "Successfully completed task"
+    },
+    "CREATE": {
+      "FAILED": "Failed to create task",
+      "SUCCESS": "Successfully created task"
     }
   },
   "USER": {

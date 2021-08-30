@@ -63,22 +63,6 @@ class organicCertifierSurveyModel extends BaseModel {
           to: 'farm.farm_id',
         },
       },
-      certifiers: {
-        relation: Model.HasManyRelation,
-        modelClass: require('./certifierModel'),
-        join: {
-          from: 'organicCertifierSurvey.certifier_id',
-          to: 'certifiers.certifier_id',
-        },
-      },
-      certifications: {
-        relation: Model.HasManyRelation,
-        modelClass: require('./certificationModel'),
-        join: {
-          from: 'organicCertifierSurvey.certification_id',
-          to: 'certifications.certification_id',
-        },
-      },
     }
   }
 }

@@ -34,6 +34,7 @@ export const getTask = (obj) => {
     'pest_control_task',
     'field_work_task',
     'cleaning_task',
+    'harvest_task',
   ]);
 };
 

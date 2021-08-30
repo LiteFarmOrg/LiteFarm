@@ -318,7 +318,7 @@ describe('Task tests', () => {
         plant_task: () => mocks.fakePlantTask(),
       }
 
-      test.only('should succesfully create a bunch of harvest tasks', async (done) => {
+      test('should succesfully create a bunch of harvest tasks', async (done) => {
         const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
         const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });

@@ -7,8 +7,9 @@ import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskTypeById } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask } from '../../Task/saga';
+import { createTask, createHarvestTasks } from '../../Task/saga';
 import { getObjectInnerValues } from '../../../util';
+import { cloneObject } from '../../../util';
 
 function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -64,12 +65,31 @@ function TaskManagement({ history, match }) {
     setWageData(wageData.concat(wage_data));
   }, []);
 
+  const getHarvestTasksData = (taskData) => {
+    let harvest_tasks = cloneObject(taskData.harvest_tasks);
+    for (let harvest_task of harvest_tasks) {
+      let id = harvest_task.id.split('.');
+      let location = id[0];
+      let managementPlan = id[1];
+      harvest_task.location_id = location;
+      harvest_task.management_plan_id = Number(managementPlan);
+      harvest_task.quantity_unit = harvest_task.quantity_unit.value;
+      delete harvest_task.id;
+    }
+    return harvest_tasks;
+  };
+
   const onSubmit = (data) => {
     const { task_translation_key } = selectedTaskType;
     const { override_hourly_wage: t, ...assignmentFormData } = data;
     const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
     const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
-    dispatch(createTask({ task_translation_key, ...filteredData }));
+    if (task_translation_key === 'HARVESTING') {
+      filteredData.harvest_tasks = getHarvestTasksData(filteredData);
+      dispatch(createHarvestTasks(filteredData));
+    } else {
+      dispatch(createTask({ task_translation_key, ...filteredData }));
+    }
   };
 
   const handleGoBack = () => {

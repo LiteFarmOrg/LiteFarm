@@ -5,12 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { taskTypeById } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask } from '../../Task/saga';
-import { getObjectInnerValues } from '../../../util';
 
-function TaskManagement({ history, match }) {
+export default function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const userFarm = useSelector(userFarmSelector);
@@ -18,7 +16,6 @@ function TaskManagement({ history, match }) {
   const users = userFarms[farm_id];
   const userData = Object.values(users);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
   const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
@@ -65,11 +62,7 @@ function TaskManagement({ history, match }) {
   }, []);
 
   const onSubmit = (data) => {
-    const { task_translation_key } = selectedTaskType;
-    const { override_hourly_wage: t, ...assignmentFormData } = data;
-    const { override_hourly_wage: d, ...filteredPersistedForm } = persistedFormData;
-    const filteredData = getObjectInnerValues({ ...assignmentFormData, ...filteredPersistedForm });
-    dispatch(createTask({ task_translation_key, ...filteredData }));
+    dispatch(createTask({ ...persistedFormData, ...data }));
   };
 
   const handleGoBack = () => {
@@ -98,5 +91,3 @@ function TaskManagement({ history, match }) {
     </HookFormPersistProvider>
   );
 }
-
-export default TaskManagement;

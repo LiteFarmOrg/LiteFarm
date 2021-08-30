@@ -5,12 +5,12 @@ import { ReactComponent as CalendarIcon } from '../../../assets/images/managemen
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import PureCropTile from '../index';
-import { getShortLocalizedDateString } from '../../../util/moment';
+import { getManagementPlanTileDate } from '../../../util/moment';
 
 const cropStatus = {
-  active: 'Active',
-  past: 'Past',
-  planned: 'Planned',
+  active: 'active',
+  past: 'past',
+  planned: 'planned',
 };
 
 const isActive = (status) => status === cropStatus.active;
@@ -21,12 +21,10 @@ export default function PureManagementPlanTile({
   managementPlan,
   className,
   status,
-  history,
   onClick,
   style,
-  cropCount,
-  children,
   isSelected,
+  date,
 }) {
   const { t } = useTranslation();
   const {
@@ -35,6 +33,7 @@ export default function PureManagementPlanTile({
     crop_variety_photo_url,
     start_date,
   } = managementPlan;
+  const displayDate = date || start_date;
 
   const imageKey = crop_translation_key.toLowerCase();
   return (
@@ -45,18 +44,19 @@ export default function PureManagementPlanTile({
       src={crop_variety_photo_url}
       alt={imageKey}
       title={crop_variety_name}
-      isPastVariety={isPast(status)}
+      ispastVariety={isPast(status)}
       isSelected={isSelected}
+      status={status}
     >
       <>
         <div className={styles.infoBody} style={{ margin: '2px 0' }}>
           <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
         </div>
         <div style={{ flexGrow: '1' }} />
-        {start_date && (
+        {displayDate && (
           <div className={styles.dateContainer}>
             <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon)} />
-            <div className={styles.infoBody}>{getShortLocalizedDateString(start_date)}</div>
+            <div className={styles.infoBody}>{getManagementPlanTileDate(displayDate)}</div>
           </div>
         )}
       </>
@@ -67,12 +67,13 @@ export default function PureManagementPlanTile({
 PureManagementPlanTile.prototype = {
   managementPlan: PropTypes.shape({
     crop_variety_name: PropTypes.string,
-    seed_date: PropTypes.string,
+    start_date: PropTypes.string,
     crop_translation_key: PropTypes.string,
   }),
   className: PropTypes.string,
-  status: PropTypes.oneOf(['Past', 'Active', 'Planned']),
-  history: PropTypes.object,
+  status: PropTypes.oneOf(['past', 'active', 'planned']),
   onClick: PropTypes.func,
   style: PropTypes.object,
+  isSelected: PropTypes.bool,
+  date: PropTypes.string,
 };

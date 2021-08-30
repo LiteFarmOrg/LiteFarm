@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { taskEntitiesSelectorByManagementPlanId } from '../../taskSlice';
+import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import {
   abandonedManagementPlansSelector,
   completedManagementPlansSelector,
@@ -9,9 +9,10 @@ import {
 } from '../../managementPlanSlice';
 import { useMemo } from 'react';
 import { lastActiveDatetimeSelector } from '../../userLogSlice';
+import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 
 export const useManagementPlanCardContents = (crop_variety_id) => {
-  const tasksByManagementPlanId = useSelector(taskEntitiesSelectorByManagementPlanId);
+  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const managementPlans = useSelector(managementPlansSelector);
   const lastActiveTime = useSelector(lastActiveDatetimeSelector);
   const plannedManagementPlans = useSelector(plannedManagementPlansSelector);
@@ -35,7 +36,7 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           managementPlanName: management_plan.name,
           locationName: getLocationName(planting_management_plan),
           notes: getNotes(planting_management_plan),
-          ...getStartEndDate(tasks),
+          ...getTasksMinMaxDate(tasks),
           numberOfPendingTask: tasks.length,
           status,
           score: management_plan.rating,
@@ -70,23 +71,4 @@ const getNotes = (planting_management_plan) => {
   if (planting_management_plan.row_method) return planting_management_plan.row_method.specify_rows;
   if (planting_management_plan.bed_method) return planting_management_plan.bed_method.specify_beds;
   return planting_management_plan.notes;
-};
-
-const getStartEndDate = (tasks = []) => {
-  let startDate;
-  let endDate;
-  for (const { planned_time } of tasks) {
-    const date = new Date(planned_time).getTime();
-    if (!startDate) {
-      startDate = date;
-    } else if (date < startDate) {
-      !endDate && (endDate = startDate);
-      startDate = date;
-    } else if (!endDate) {
-      endDate = date;
-    } else if (date > endDate) {
-      endDate = date;
-    }
-  }
-  return { startDate, endDate };
 };

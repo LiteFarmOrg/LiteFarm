@@ -79,7 +79,8 @@ export default function PureTaskReadOnly({
   return (
     <Layout
       buttonGroup={
-        self === task.assignee_user_id  && !isCompleted && (
+        self === task.assignee_user_id &&
+        !isCompleted && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
               {t('common:MARK_COMPLETE')}
@@ -100,7 +101,7 @@ export default function PureTaskReadOnly({
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
         disabled={true}
-        value={assignee ? assignee :  t('TASK.UNASSIGNED')}
+        value={assignee ? assignee : t('TASK.UNASSIGNED')}
       />
 
       <Input
@@ -115,25 +116,31 @@ export default function PureTaskReadOnly({
 
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
-      {hasManagementPlans && Object.keys(managementPlansByLocationIds).map((location_id) => {
-        let location_name =
-          managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
-            .name;
-        return (
-          <>
-            <div style={{ paddingBottom: '16px' }}>
-              <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
+      {hasManagementPlans &&
+        Object.keys(managementPlansByLocationIds).map((location_id) => {
+          let location_name =
+            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
+              .name;
+          return (
+            <div key={location_id}>
+              <div style={{ paddingBottom: '16px' }}>
+                <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
+              </div>
+              <PureCropTileContainer gap={gap} padding={padding}>
+                {managementPlansByLocationIds[location_id].map((managementPlan) => {
+                  return (
+                    <PureManagementPlanTile
+                      key={managementPlan.management_plan_id}
+                      managementPlan={managementPlan}
+                      date={managementPlan.firstTaskDate}
+                      status={managementPlan.status}
+                    />
+                  );
+                })}
+              </PureCropTileContainer>
             </div>
-            <PureCropTileContainer gap={gap} padding={padding}>
-              {managementPlansByLocationIds[location_id].map((plan) => {
-                return (
-                  <PureManagementPlanTile key={plan.management_plan_id} managementPlan={plan} />
-                );
-              })}
-            </PureCropTileContainer>
-          </>
-        );
-      })}
+          );
+        })}
 
       <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
@@ -155,17 +162,15 @@ export default function PureTaskReadOnly({
         optional
         disabled
       />
-      {
-        isCompleted && (
-          <InputAutoSize
-            style={{ marginBottom: '40px' }}
-            label={t('TASK.COMPLETION_NOTES')}
-            value={task.completion_notes}
-            optional
-            disabled
-          />
-        )
-      }
+      {isCompleted && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('TASK.COMPLETION_NOTES')}
+          value={task.completion_notes}
+          optional
+          disabled
+        />
+      )}
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>

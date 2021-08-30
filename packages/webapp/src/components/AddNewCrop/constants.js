@@ -1,48 +1,54 @@
 // constants for crop groups and subgroups
 const CROP_GROUPS = [
   'Fruit and nuts',
-  'Beverage and spice crops',
-  'Potatoes and yams',
+  'Other crops',
+  'Stimulant, spice and aromatic crops',
   'Vegetables and melons',
   'Cereals',
+  'High starch root/tuber crops',
+  'Oilseed crops and oleaginous fruits',
   'Leguminous crops',
   'Sugar crops',
-  'Oilseed crops',
-  'Other crops',
+  'Potatoes and yams',
+  'Beverage and spice crops',
 ];
 CROP_GROUPS.sort();
 
 const CROP_SUBGROUPS = [
-  'Fibre crops',
-  'Grasses and other fodder crops',
-  'Nuts',
-  'Temporary spice crops',
-  'Pome fruits and stone fruits',
-  'High starch Root/tuber crops',
-  'Leafy or stem vegetables',
-  'Tropical and subtropical fruits',
-  'Cereals',
-  'Legumes',
-  'Sugar crops (root)',
-  'Citrus fruits',
-  'Permanent spice crops',
   'Berries',
-  'Fruit-bearing vegetables',
-  'Other fruits',
-  'Root, bulb, or tuberous vegetables',
-  'Temporary oilseed crops',
-  'Permanent oilseed crops',
-  'Medicinal, aromatic, pesticidal, or similar crops',
-  'Grapes',
+  'Cereals',
+  'Citrus fruits',
+  'Fibre crops',
   'Flower crops',
+  'Fruit-bearing vegetables',
+  'Grapes',
+  'Grasses and other fodder crops',
+  'High starch root/tuber crops',
+  'Leafy or stem vegetables',
+  'Leguminous crops',
+  'Lentils',
+  'Medicinal, pesticidal or similar crops',
+  'Melons',
+  'Mixed cereals',
   'Mushrooms and truffles',
-  'Rubber',
-  'Sugar crops (other)',
-  'Tobacco',
+  'Nuts',
+  'Oilseed crops and oleaginous fruits',
   'Other crops',
+  'Other fruits',
+  'Other roots and tubers',
+  'Other temporary oilseed crops',
+  'Permanent oilseed crops',
+  'Pome fruits and stone fruits',
+  'Root, bulb or tuberous vegetables',
+  'Rubber',
+  'Spice and aromatic crops',
+  'Stimulant crops',
+  'Sugar crops',
+  'Tobacco',
+  'Tropical and subtropical fruits',
 ];
 CROP_SUBGROUPS.sort();
-
+//FIXME: crop v2 update
 export const CROP_DICT = {
   'Fruit and nuts': [
     'Nuts',
@@ -77,15 +83,17 @@ export const CROP_DICT = {
   ],
 };
 
-const BEVERAGE_AND_SPICE_CROPS = 'Beverage and spice crops';
-const CEREALS = 'Cereals';
 const FRUITS_AND_NUTS = 'Fruit and nuts';
-const LEGUMINOUS_CROPS = 'Leguminous crops';
-const OILSEED_CROPS = 'Oilseed crops';
 const OTHER_CROPS = 'Other crops';
-const POTATOES_AND_YAMS = 'Potatoes and yams';
-const SUGAR_CROPS = 'Sugar crops';
+const STIMULANT_SPICE_AROMATIC_CROPS = 'Stimulant, spice and aromatic crops';
 const VEGETABLE_AND_MELONS = 'Vegetables and melons';
+const CEREALS = 'Cereals';
+const HIGH_STARCH_ROOT_TUBER_CROP = 'High starch root/tuber crops';
+const OILSEED_CROPS = 'Oilseed crops and oleaginous fruits';
+const LEGUMINOUS_CROPS = 'Leguminous crops';
+const SUGAR_CROPS = 'Sugar crops';
+const POTATOES_AND_YAMS = 'Potatoes and yams';
+const BEVERAGE_AND_SPICE_CROPS = 'Beverage and spice crops';
 
 const NUTRIENT_DICT = {
   initial_kc: 'INIT_KC',
@@ -160,4 +168,6 @@ export {
   POTATOES_AND_YAMS,
   SUGAR_CROPS,
   VEGETABLE_AND_MELONS,
+  STIMULANT_SPICE_AROMATIC_CROPS,
+  HIGH_STARCH_ROOT_TUBER_CROP,
 };

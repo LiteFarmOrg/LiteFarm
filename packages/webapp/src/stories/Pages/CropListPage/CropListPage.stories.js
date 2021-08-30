@@ -16,7 +16,7 @@ const crops = [
     crop_group: 'Beverage and spice crops',
     crop_id: 82,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
     crop_specie: 'nigrum     ',
     crop_subgroup: 'Permanent spice crops',
     crop_translation_key: 'BLACK_PEPPER',
@@ -63,7 +63,7 @@ const crops = [
     crop_variety_id: '19336a15-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -120,7 +120,7 @@ const crops = [
       crop_group: 'Beverage and spice crops',
       crop_id: 82,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
       crop_specie: 'nigrum     ',
       crop_subgroup: 'Permanent spice crops',
       crop_translation_key: 'BLACK_PEPPER',
@@ -171,7 +171,7 @@ const crops = [
       crop_variety_id: '19336a15-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
       cu: 0.09,
       energy: 27,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -209,7 +209,7 @@ const crops = [
     crop_group: 'Vegetables and melons',
     crop_id: 66,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/artichoke.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/artichoke.webp',
     crop_specie: 'scolymus     ',
     crop_subgroup: 'Leafy or stem vegetables',
     crop_translation_key: 'ARTICHOKE',
@@ -256,7 +256,7 @@ const crops = [
     crop_variety_id: '19336a35-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/artichoke.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/artichoke.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -313,7 +313,7 @@ const crops = [
       crop_group: 'Vegetables and melons',
       crop_id: 66,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/artichoke.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/artichoke.webp',
       crop_specie: 'scolymus     ',
       crop_subgroup: 'Leafy or stem vegetables',
       crop_translation_key: 'ARTICHOKE',
@@ -364,7 +364,7 @@ const crops = [
       crop_variety_id: '19336a35-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/artichoke.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/artichoke.webp',
       cu: 0.23,
       energy: 47,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -401,7 +401,7 @@ const crops = [
     crop_genus: 'Maranta',
     crop_group: 'Potatoes and yams',
     crop_id: 147,
-    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     crop_specie: 'arundinacea     ',
     crop_subgroup: 'High starch Root/tuber crops',
     crop_translation_key: 'ARROWROOT',
@@ -448,7 +448,7 @@ const crops = [
     crop_variety_id: '19336a40-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -505,7 +505,7 @@ const crops = [
       crop_group: 'Potatoes and yams',
       crop_id: 147,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       crop_specie: 'arundinacea     ',
       crop_subgroup: 'High starch Root/tuber crops',
       crop_translation_key: 'ARROWROOT',
@@ -556,7 +556,7 @@ const crops = [
       crop_variety_id: '19336a40-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       cu: 0.12,
       energy: 65,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -594,7 +594,7 @@ const crops = [
     crop_group: 'Other crops',
     crop_id: 142,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
     crop_specie: 'sativa     ',
     crop_subgroup: 'Grasses and other fodder crops',
     crop_translation_key: 'ALFALFA_FOR_FODDER',
@@ -641,7 +641,7 @@ const crops = [
     crop_variety_id: '19336a3b-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -698,7 +698,7 @@ const crops = [
       crop_group: 'Other crops',
       crop_id: 142,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
       crop_specie: 'sativa     ',
       crop_subgroup: 'Grasses and other fodder crops',
       crop_translation_key: 'ALFALFA_FOR_FODDER',
@@ -749,7 +749,7 @@ const crops = [
       crop_variety_id: '19336a3b-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
       cu: null,
       energy: null,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -786,7 +786,7 @@ const crops = [
     crop_genus: 'Tragopogon',
     crop_group: 'Vegetables and melons',
     crop_id: 167,
-    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     crop_specie: 'porrifolius     ',
     crop_subgroup: 'Root, bulb, or tuberous vegetables',
     crop_translation_key: 'SALSIFY',
@@ -833,7 +833,7 @@ const crops = [
     crop_variety_id: '19336a12-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -890,7 +890,7 @@ const crops = [
       crop_group: 'Vegetables and melons',
       crop_id: 167,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       crop_specie: 'porrifolius     ',
       crop_subgroup: 'Root, bulb, or tuberous vegetables',
       crop_translation_key: 'SALSIFY',
@@ -941,7 +941,7 @@ const crops = [
       crop_variety_id: '19336a12-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       cu: 0.09,
       energy: 82,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -979,7 +979,7 @@ const crops = [
     crop_group: 'Beverage and spice crops',
     crop_id: 82,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
     crop_specie: 'nigrum     ',
     crop_subgroup: 'Permanent spice crops',
     crop_translation_key: 'BLACK_PEPPER',
@@ -1026,7 +1026,7 @@ const crops = [
     crop_variety_id: '19336a15-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -1083,7 +1083,7 @@ const crops = [
       crop_group: 'Beverage and spice crops',
       crop_id: 82,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
       crop_specie: 'nigrum     ',
       crop_subgroup: 'Permanent spice crops',
       crop_translation_key: 'BLACK_PEPPER',
@@ -1134,7 +1134,7 @@ const crops = [
       crop_variety_id: '19336a15-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/black_pepper.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/black_pepper.webp',
       cu: 0.09,
       energy: 27,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -1171,7 +1171,7 @@ const crops = [
     crop_genus: 'Prunus',
     crop_group: 'Fruit and nuts',
     crop_id: 31,
-    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apricot.webp',
+    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apricot.webp',
     crop_specie: 'armeniaca     ',
     crop_subgroup: 'Pome fruits and stone fruits',
     crop_translation_key: 'APRICOT',
@@ -1218,7 +1218,7 @@ const crops = [
     crop_variety_id: '19336a27-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apricot.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apricot.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -1275,7 +1275,7 @@ const crops = [
       crop_group: 'Fruit and nuts',
       crop_id: 31,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apricot.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apricot.webp',
       crop_specie: 'armeniaca     ',
       crop_subgroup: 'Pome fruits and stone fruits',
       crop_translation_key: 'APRICOT',
@@ -1326,7 +1326,7 @@ const crops = [
       crop_variety_id: '19336a27-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apricot.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apricot.webp',
       cu: 0.08,
       energy: 48,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -1363,7 +1363,7 @@ const crops = [
     crop_genus: 'Malus',
     crop_group: 'Fruit and nuts',
     crop_id: 25,
-    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apple.webp',
+    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apple.webp',
     crop_specie: 'sylvestris     ',
     crop_subgroup: 'Pome fruits and stone fruits',
     crop_translation_key: 'APPLE',
@@ -1410,7 +1410,7 @@ const crops = [
     crop_variety_id: '19336a11-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apple.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apple.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -1466,7 +1466,7 @@ const crops = [
       crop_genus: 'Malus',
       crop_group: 'Fruit and nuts',
       crop_id: 25,
-      crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apple.webp',
+      crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apple.webp',
       crop_specie: 'sylvestris     ',
       crop_subgroup: 'Pome fruits and stone fruits',
       crop_translation_key: 'APPLE',
@@ -1517,7 +1517,7 @@ const crops = [
       crop_variety_id: '19336a11-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/apple.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/apple.webp',
       cu: 0.03,
       energy: 52,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -1555,7 +1555,7 @@ const crops = [
     crop_group: 'Beverage and spice crops',
     crop_id: 81,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/anise_seeds.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/anise_seeds.webp',
     crop_specie: 'anisum     ',
     crop_subgroup: 'Temporary spice crops',
     crop_translation_key: 'ANISE_SEEDS',
@@ -1602,7 +1602,7 @@ const crops = [
     crop_variety_id: '19336a21-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/anise_seeds.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/anise_seeds.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -1659,7 +1659,7 @@ const crops = [
       crop_group: 'Beverage and spice crops',
       crop_id: 81,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/anise_seeds.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/anise_seeds.webp',
       crop_specie: 'anisum     ',
       crop_subgroup: 'Temporary spice crops',
       crop_translation_key: 'ANISE_SEEDS',
@@ -1710,7 +1710,7 @@ const crops = [
       crop_variety_id: '19336a21-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/anise_seeds.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/anise_seeds.webp',
       cu: 0.91,
       energy: 337,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -1748,7 +1748,7 @@ const crops = [
     crop_group: 'Other crops',
     crop_id: 142,
     crop_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
     crop_specie: 'sativa     ',
     crop_subgroup: 'Grasses and other fodder crops',
     crop_translation_key: 'ALFALFA_FOR_FODDER',
@@ -1795,7 +1795,7 @@ const crops = [
     crop_variety_id: '19336a3b-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -1852,7 +1852,7 @@ const crops = [
       crop_group: 'Other crops',
       crop_id: 142,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
       crop_specie: 'sativa     ',
       crop_subgroup: 'Grasses and other fodder crops',
       crop_translation_key: 'ALFALFA_FOR_FODDER',
@@ -1903,7 +1903,7 @@ const crops = [
       crop_variety_id: '19336a3b-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/alfalfa_for_fodder.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/alfalfa_for_fodder.webp',
       cu: null,
       energy: null,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
@@ -1940,7 +1940,7 @@ const crops = [
     crop_genus: 'Maranta',
     crop_group: 'Potatoes and yams',
     crop_id: 147,
-    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+    crop_photo_url: 'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     crop_specie: 'arundinacea     ',
     crop_subgroup: 'High starch Root/tuber crops',
     crop_translation_key: 'ARROWROOT',
@@ -1987,7 +1987,7 @@ const crops = [
     crop_variety_id: '19336a40-b308-11eb-8c6d-1d647fbafa40',
     crop_variety_name: '',
     crop_variety_photo_url:
-      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+      'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
     genetically_engineered: null,
     lifecycle: 'ANNUAL',
     organic: null,
@@ -2044,7 +2044,7 @@ const crops = [
       crop_group: 'Potatoes and yams',
       crop_id: 147,
       crop_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       crop_specie: 'arundinacea     ',
       crop_subgroup: 'High starch Root/tuber crops',
       crop_translation_key: 'ARROWROOT',
@@ -2095,7 +2095,7 @@ const crops = [
       crop_variety_id: '19336a40-b308-11eb-8c6d-1d647fbafa40',
       crop_variety_name: '',
       crop_variety_photo_url:
-        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v1/default.webp',
+        'https://litefarm.nyc3.cdn.digitaloceanspaces.com/default_crop/v2/default.webp',
       cu: 0.12,
       energy: 65,
       farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',

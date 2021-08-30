@@ -4,7 +4,10 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
+import {
+  tasksByManagementPlanIdSelector,
+  pendingTasksByManagementPlanIdSelector,
+} from '../../taskSlice';
 
 export default function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
@@ -27,6 +30,7 @@ export default function ManagementDetail({ history, match }) {
 
   const showSpotlight = history.location.state?.fromCreation;
 
+  const allTasks = useSelector(tasksByManagementPlanIdSelector(management_plan_id));
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
   return (
     <>
@@ -37,7 +41,9 @@ export default function ManagementDetail({ history, match }) {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
+        tasks={allTasks}
         hasPendingTasks={!!pendingTasks?.length}
+        history={history}
       />
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>

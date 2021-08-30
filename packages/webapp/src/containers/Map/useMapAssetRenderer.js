@@ -17,6 +17,10 @@ import {
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
@@ -109,7 +113,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       textLineHeight: 20,
       height: 28,
       width: 28,
-      className: styles.clusterIcon,
+      className: styles.selectedClusterIcon,
     };
     const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 
@@ -152,13 +156,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
     markerClusterRef.current = markerCluster;
   };
 
-  const drawAssets = (
-    map,
-    maps,
-    mapBounds,
-    selectedLocationId = false,
-    selectedLocationIds = false,
-  ) => {
+  const drawAssets = (map, maps, mapBounds) => {
     maps.event.addListenerOnce(map, 'idle', function () {
       markerClusterRef?.current?.repaint();
     });
@@ -189,8 +187,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
                 mapBounds,
                 location,
                 filterSettings?.[locationType],
-                selectedLocationId,
-                selectedLocationIds,
               ),
             );
           })
@@ -201,8 +197,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
               mapBounds,
               assets[idx].type !== undefined ? assets[idx] : assets['buffer_zone'][0],
               filterSettings?.[locationType],
-              selectedLocationId,
-              selectedLocationIds,
             ),
           );
     });
@@ -216,17 +210,9 @@ const useMapAssetRenderer = ({ isClickable }) => {
   };
 
   // Draw an area
-  const drawArea = (
-    map,
-    maps,
-    mapBounds,
-    area,
-    isVisible,
-    selectedLocationId,
-    selectedLocationIds,
-  ) => {
+  const drawArea = (map, maps, mapBounds, area, isVisible) => {
     const { grid_points: points, name, type } = area;
-    const { colour, dashScale, dashLength, selectedColour } = areaStyles[type];
+    const { colour, dashScale, dashLength } = areaStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });
@@ -319,20 +305,12 @@ const useMapAssetRenderer = ({ isClickable }) => {
   };
 
   // Draw a line
-  const drawLine = (
-    map,
-    maps,
-    mapBounds,
-    line,
-    isVisible,
-    selectedLocationId,
-    selectedLocationIds,
-  ) => {
+  const drawLine = (map, maps, mapBounds, line, isVisible) => {
     const { line_points: points, name, type, width } = line;
     let linePolygon;
     const realWidth =
       type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
-    const { colour, dashScale, dashLength, selectedColour } = lineStyles[type];
+    const { colour, dashScale, dashLength } = lineStyles[type];
     points.forEach((point) => {
       mapBounds.extend(point);
     });

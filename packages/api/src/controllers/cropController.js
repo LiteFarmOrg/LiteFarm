@@ -31,6 +31,7 @@ const cropController = {
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        console.log(error);
         let violationError = false;
         if (error instanceof UniqueViolationError) {
           violationError = true;
@@ -63,7 +64,7 @@ const cropController = {
         crop.user_added = true;
         crop.crop_translation_key = crop.crop_common_name;
         const newCrop = await baseController.postWithResponse(cropModel, crop, req, { trx });
-        const newVariety = await baseController.postWithResponse(cropVarietyModel, { crop_id: newCrop.crop_id, ...variety }, req, { trx });
+        const newVariety = await baseController.postWithResponse(cropVarietyModel, { ...newCrop, ...variety }, req, { trx });
         await trx.commit();
         res.status(201).send({ crop: newCrop, variety: newVariety });
       } catch (error) {
@@ -95,7 +96,11 @@ const cropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await cropController.get(farm_id);
+        const rows = req.query.crop_version === '2.0' ? await cropModel.query().whereNotDeleted().where({
+            farm_id,
+            deleted: false,
+          })
+          : await cropController.get(farm_id);
         if (!rows.length) {
           res.status(200).send(rows);
         } else {

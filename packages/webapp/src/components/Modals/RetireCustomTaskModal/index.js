@@ -19,6 +19,6 @@ export default function RetireCustomTaskModal({ dismissModal, onRetire }) {
         </>
       }
       contents={[t('ADD_TASK.RETIRE_CUSTOM_TASK_CONTENT')]}
-    ></ModalComponent>
+    />
   );
 }

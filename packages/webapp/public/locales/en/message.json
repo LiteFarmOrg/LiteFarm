@@ -159,6 +159,16 @@
       "SUCCESS": "Successfully created task"
     }
   },
+  "TASK_TYPE": {
+    "CREATE": {
+      "SUCCESS": "Successfully created custom task",
+      "FAILED": "Failed to create custom task"
+    },
+    "DELETE": {
+      "SUCCESS": "Successfully deleted custom task",
+      "FAILED": "Failed to delete custom task"
+    }
+  },
   "USER": {
     "ERROR": {
       "ADD": "Failed to add user",

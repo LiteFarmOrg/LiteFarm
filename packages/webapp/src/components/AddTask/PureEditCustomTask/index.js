@@ -1,17 +1,33 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import Button from '../../Form/Button';
 import RetireCustomTaskModal from '../../Modals/RetireCustomTaskModal';
+import Layout from '../../Layout';
+import { useForm } from 'react-hook-form';
+import Input from '../../Form/Input';
 
-const PureEditCustomTask = ({ handleGoBack, persistedPaths, handleEdit, handleRetire }) => {
+const PureEditCustomTask = (
+  {
+    handleGoBack,
+    handleEdit,
+    handleRetire,
+    selectedType,
+  }) => {
   const { t } = useTranslation();
-
-  const [showRetire, setShowRetire] = useState(false);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: { task_name: selectedType?.task_name }
+  });
+  const TASK_NAME = 'task_name';
+  const [ showRetire, setShowRetire ] = useState(false);
   return (
     <>
-      <Form
+      <Layout
         buttonGroup={
           <>
             <Button
@@ -34,6 +50,13 @@ const PureEditCustomTask = ({ handleGoBack, persistedPaths, handleEdit, handleRe
           title={t('ADD_TASK.CUSTOM_TASK')}
           onGoBack={handleGoBack}
         />
+
+        <Input
+          label={t('ADD_TASK.CUSTOM_TASK_NAME')}
+          name={TASK_NAME}
+          hookFormRegister={register(TASK_NAME)}
+          disabled
+        />
         {showRetire && (
           <RetireCustomTaskModal
             dismissModal={() => {
@@ -42,7 +65,7 @@ const PureEditCustomTask = ({ handleGoBack, persistedPaths, handleEdit, handleRe
             onRetire={handleRetire}
           />
         )}
-      </Form>
+      </Layout>
     </>
   );
 };

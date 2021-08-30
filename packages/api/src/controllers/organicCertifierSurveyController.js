@@ -150,7 +150,7 @@ const organicCertifierSurveyController = {
         files, farm_id, email, first_name, farm_name,
         from_date, to_date, submission: submission_id
       };
-      res.status(200).json({ message: 'Processing' });
+      res.status(200).json({ message: 'Processing', ...extraInfo });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true });
     }
@@ -245,7 +245,7 @@ const organicCertifierSurveyController = {
   async isCanadianFarm(farm_id) {
     const certifierCountry = await knex.raw(`SELECT * FROM "organicCertifierSurvey" ocs 
             JOIN certifier_country cf ON ocs.certifier_id = cf.certifier_id
-            JOIN countries c ON c.id =cf.country_id 
+            JOIN countries c ON c.id = cf.country_id 
             WHERE country_name = 'Canada' AND farm_id = ?`, [ farm_id ]);
     return certifierCountry.rows.length > 0;
   },

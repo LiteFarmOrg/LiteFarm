@@ -8,10 +8,8 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { taskTypeById } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask, createHarvestTasks } from '../../Task/saga';
-import { getObjectInnerValues } from '../../../util';
-import { cloneObject } from '../../../util';
 
-function TaskManagement({ history, match }) {
+export default function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
   const { farm_id } = useSelector(loginSelector);
   const userFarm = useSelector(userFarmSelector);
@@ -118,4 +116,3 @@ function TaskManagement({ history, match }) {
   );
 }
 
-export default TaskManagement;

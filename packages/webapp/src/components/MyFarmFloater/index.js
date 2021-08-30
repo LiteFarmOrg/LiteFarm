@@ -16,9 +16,11 @@ export function PureMyFarmFloaterComponent({
   people,
   certification,
   isIntroducingFarmMap,
+  isIntroducingCertifications,
   isAdmin,
 }) {
   const { t } = useTranslation();
+  const isIntroductionActive = isIntroducingFarmMap || isIntroducingCertifications;
   return (
     <div
       style={{
@@ -32,30 +34,29 @@ export function PureMyFarmFloaterComponent({
       <ListOption
         clickFn={farmInfo}
         iconText={t('MY_FARM.FARM_INFO')}
-        icon={<FarmInfoIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
-        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
-        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        icon={<FarmInfoIcon style={isIntroductionActive ? { background: 'white' } : {}} />}
+        isIntroductionActive={isIntroductionActive}
       />
       <ListOption
         clickFn={farmMap}
         iconText={t('MY_FARM.FARM_MAP')}
-        icon={<FarmMapIcon />}
-        customParagraphStyle={isIntroducingFarmMap ? { background: '#c7efd3' } : {}}
+        icon={<FarmMapIcon style={isIntroducingCertifications ? { background: 'white' } : {}} />}
+        isIntroductionActive={isIntroductionActive}
+        isBeingIntroduced={isIntroducingFarmMap}
       />
       <ListOption
         clickFn={people}
         iconText={t('MY_FARM.PEOPLE')}
-        icon={<PeopleIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
-        customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
-        customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+        icon={<PeopleIcon style={isIntroductionActive ? { background: 'white' } : {}} />}
+        isIntroductionActive={isIntroductionActive}
       />
       {isAdmin && (
         <ListOption
           clickFn={certification}
           iconText={t('MY_FARM.CERTIFICATIONS')}
           icon={<CertificationsIcon style={isIntroducingFarmMap ? { background: 'white' } : {}} />}
-          customParagraphStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
-          customIconStyle={isIntroducingFarmMap ? { background: 'white' } : {}}
+          isIntroductionActive={isIntroductionActive}
+          isBeingIntroduced={isIntroducingCertifications}
         />
       )}
     </div>
@@ -70,8 +71,10 @@ export default function PureMyFarmFloater({
   peopleClick,
   certificationClick,
   isIntroducingFarmMap,
+  isIntroducingCertifications,
 }) {
   const { is_admin } = useSelector(userFarmSelector);
+  const isIntroductionActive = isIntroducingFarmMap || isIntroducingCertifications;
   const Wrapper = (
     <PureMyFarmFloaterComponent
       farmInfo={farmInfoClick}
@@ -79,6 +82,7 @@ export default function PureMyFarmFloater({
       people={peopleClick}
       certification={certificationClick}
       isIntroducingFarmMap={isIntroducingFarmMap}
+      isIntroducingCertifications={isIntroducingCertifications}
       isAdmin={is_admin}
     />
   );
@@ -86,11 +90,11 @@ export default function PureMyFarmFloater({
     <Floater
       component={Wrapper}
       placement={'bottom-end'}
-      open={openProfile || isIntroducingFarmMap}
+      open={openProfile || isIntroductionActive}
       styles={{
         floater: {
           zIndex: 1500,
-          display: openProfile || isIntroducingFarmMap ? 'initial' : 'none',
+          display: openProfile || isIntroductionActive ? 'initial' : 'none',
         },
       }}
     >

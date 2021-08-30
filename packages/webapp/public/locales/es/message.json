@@ -145,6 +145,16 @@
       "UPDATE": "Turno agregado exitosamente!"
     }
   },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "DELETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "MISSING",

@@ -11,14 +11,15 @@ function TaskTypeSelection({ history, match }) {
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
   const continuePath = '/add_task/task_date';
-  const persistedPaths = [continuePath];
-
+  const customTaskPath = '/add_task/manage_custom_tasks';
+  const persistedPaths = [continuePath, customTaskPath];
+  console.log(taskTypes);
   useEffect(() => {
     dispatch(getTaskTypes());
   }, []);
 
   const onCustomTask = () => {
-    console.log('Go to LF-1747 custom task creation page');
+    history.push(customTaskPath);
   };
 
   const onContinue = () => {

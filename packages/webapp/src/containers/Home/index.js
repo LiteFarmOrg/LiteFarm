@@ -42,13 +42,11 @@ export default function Home({ history }) {
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
   const [showCertificationsModal, setShowCertificationsModal] = useState(!doesCertifierSurveyExist);
   const onClickMaybeLater = () => {
-    // api call to set organic certifier survey
     dispatch(
       postOrganicCertifierSurvey({
         survey: getOrganicSurveyReqBody({ interested: false }),
       }),
     );
-    // dispatch show drop down highlight
     dispatch(setIntroducingCertifications(true));
   };
   const onClickCertificationsYes = () => {

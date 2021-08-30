@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import Button from '../../Form/Button';
 
-export function CertificationsModal({ dismissModal, handleClickMaybeLater, history }) {
+export function CertificationsModal({ dismissModal, handleClickMaybeLater, handleClickYes }) {
   const { t } = useTranslation();
 
   const [stepTwo, setStepTwo] = useState(false);
@@ -12,10 +12,6 @@ export function CertificationsModal({ dismissModal, handleClickMaybeLater, histo
   const onClickMaybeLater = () => {
     setStepTwo(true);
     handleClickMaybeLater();
-  };
-
-  const onClickConfirm = () => {
-    history.push('/certification/interested_in_organic');
   };
 
   if (stepTwo)
@@ -56,7 +52,7 @@ export function CertificationsModal({ dismissModal, handleClickMaybeLater, histo
           </Button>
           <Button
             style={{ width: '96px', marginRight: '8px' }}
-            onClick={onClickConfirm}
+            onClick={handleClickYes}
             type={'submit'}
             sm
           >

@@ -17,11 +17,11 @@ import NotifyUpdatedFarmModal from '../../components/Modals/NotifyUpdatedFarmMod
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { setSpotlightToShown } from '../Map/saga';
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
-import {
-  certifierSurveySelector,
-  doesCertifierSurveyExistSelector,
-} from '../OrganicCertifierSurvey/slice';
+import { doesCertifierSurveyExistSelector } from '../OrganicCertifierSurvey/slice';
 import { CertificationsModal } from '../../components/Modals/CertificationsModal';
+import { postOrganicCertifierSurvey } from '../OrganicCertifierSurvey/saga';
+import { getOrganicSurveyReqBody } from '../OrganicCertifierSurvey/SetCertificationSummary/utils/getOrganicSurveyReqBody';
+import { setIntroducingCertifications } from '../Navigation/navbarSlice';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
@@ -39,14 +39,25 @@ export default function Home({ history }) {
   const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
 
   // Certification modal logic
-  const certifierSurvey = useSelector(certifierSurveySelector);
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
-  console.log(`Does the survey exist? ${doesCertifierSurveyExist}`);
   const [showCertificationsModal, setShowCertificationsModal] = useState(!doesCertifierSurveyExist);
   const onClickMaybeLater = () => {
-    console.log('maybe later');
     // api call to set organic certifier survey
+    dispatch(
+      postOrganicCertifierSurvey({
+        survey: getOrganicSurveyReqBody({ interested: false }),
+      }),
+    );
     // dispatch show drop down highlight
+    dispatch(setIntroducingCertifications(true));
+  };
+  const onClickCertificationsYes = () => {
+    dispatch(
+      postOrganicCertifierSurvey({
+        survey: getOrganicSurveyReqBody({ interested: false }),
+        callback: () => history.push('/certification/interested_in_organic'),
+      }),
+    );
   };
 
   return (
@@ -87,8 +98,11 @@ export default function Home({ history }) {
       {showCertificationsModal && (
         <CertificationsModal
           handleClickMaybeLater={onClickMaybeLater}
-          dismissModal={() => setShowCertificationsModal(false)}
-          history={history}
+          handleClickYes={onClickCertificationsYes}
+          dismissModal={() => {
+            setShowCertificationsModal(false);
+            dispatch(setIntroducingCertifications(false));
+          }}
         />
       )}
     </PureHome>

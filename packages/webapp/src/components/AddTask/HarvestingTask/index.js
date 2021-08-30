@@ -68,11 +68,7 @@ const PureHarvestingTask = ({
                         date={managementPlan.firstTaskDate}
                         status={managementPlan.status}
                       />
-                      <div
-                        className={styles.harvestInputs}
-                        style={{ marginLeft: '24px' }}
-                        key={field.id}
-                      >
+                      <div className={styles.harvestInputs} key={field.id}>
                         <Unit
                           register={register}
                           style={{ marginBottom: '10px' }}
@@ -94,6 +90,7 @@ const PureHarvestingTask = ({
                           hookFormRegister={register(
                             `harvest_tasks.${index}.` + HARVEST_EVERYTHING,
                           )}
+                          sm
                         />
                         <Input
                           defaultValue={field[NOTES]}

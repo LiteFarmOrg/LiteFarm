@@ -145,6 +145,16 @@
       "UPDATE": "Successfully updated shift!"
     }
   },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Failed to create custom task",
+      "SUCCESS": "Successfully created custom task"
+    },
+    "DELETE": {
+      "FAILED": "Failed to delete custom task",
+      "SUCCESS": "Successfully deleted custom task"
+    }
+  },
   "TASK": {
     "ABANDON": {
       "FAILED": "Failed to abandon task",
@@ -157,16 +167,6 @@
     "CREATE": {
       "FAILED": "Failed to create task",
       "SUCCESS": "Successfully created task"
-    }
-  },
-  "TASK_TYPE": {
-    "CREATE": {
-      "SUCCESS": "Successfully created custom task",
-      "FAILED": "Failed to create custom task"
-    },
-    "DELETE": {
-      "SUCCESS": "Successfully deleted custom task",
-      "FAILED": "Failed to delete custom task"
     }
   },
   "USER": {

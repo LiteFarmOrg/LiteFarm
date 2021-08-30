@@ -36,6 +36,7 @@
     "CLEAR_ALL": "MISSING",
     "CLEAR_ALL_CROPS": "MISSING",
     "CUSTOM_TASK": "MISSING",
+    "CUSTOM_TASK_NAME": "MISSING",
     "CUSTOM_TASK_TYPE": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
     "DO_YOU_WANT_TO_ASSIGN": "MISSING",
@@ -55,6 +56,9 @@
         "WEEDING": "MISSING"
       }
     },
+    "HARVEST_EVERYTHING": "MISSING",
+    "HARVESTING_INFO": "MISSING",
+    "HOW_MUCH_IS_HARVESTED": "MISSING",
     "HR": "MISSING",
     "MANAGE_CUSTOM_TASKS": "MISSING",
     "PEST_CONTROL_VIEW": {
@@ -71,6 +75,7 @@
       "SYSTEMIC_SPRAY": "MISSING",
       "WHAT_PESTS": "MISSING"
     },
+    "QUANTITY": "MISSING",
     "RETIRE_CUSTOM_TASK": "MISSING",
     "RETIRE_CUSTOM_TASK_CONTENT": "MISSING",
     "SELECT_ALL": "MISSING",
@@ -88,9 +93,7 @@
     },
     "TASK": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
-    "WAGE_OVERRIDE": "MISSING",
-    "QUANTITY": "MISSING",
-    "HARVEST_EVERYTHING": "MISSING"
+    "WAGE_OVERRIDE": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
@@ -971,8 +974,8 @@
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
     "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
-    "DROP_PIN": "Suelta un pin",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "MISSING",
+    "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
@@ -1007,8 +1010,8 @@
     "PLANTED_ALREADY": "¿Plantarás este cultivo o ya está en el suelo?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "¿Cuál es tu fecha de siembra?",
-    "PLANTING_DATE_LABEL": "Fecha de plantar",
     "PLANTING_DATE_INFO": "MISSING",
+    "PLANTING_DATE_LABEL": "Fecha de plantar",
     "PLANTING_DEPTH": "Profundidad de siembra",
     "PLANTING_METHOD": "¿Cuál es tu método de plantación?",
     "PLANTING_METHOD_TOOLTIP": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
@@ -1060,13 +1063,13 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
+    "VARIETY": "MISSING",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
-    "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
-    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
-    "VARIETY": "MISSING",
     "WHERE_START_LOCATION": "MISSING",
     "WHERE_TRANSPLANT_LOCATION": "MISSING",
+    "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?",
     "PLAN_AND_ID_plural": "MISSING"
   },

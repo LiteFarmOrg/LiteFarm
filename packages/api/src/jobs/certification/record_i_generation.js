@@ -101,7 +101,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).row(10).height(35);
       data.map((row, i) => {
         const rowN = i + 11;
-        Object.keys(row).filter(k => k === 'task_id').map((k) => {
+        Object.keys(row).filter(k => k !== 'task_id').map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
           const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];
           workbook.sheet(0).cell(cell).value(value);

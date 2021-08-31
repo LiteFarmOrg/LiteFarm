@@ -181,6 +181,15 @@ const organicCertifierSurveyController = {
         FROM task t 
         JOIN soil_amendment_task sat ON sat.task_id = t.task_id
         JOIN product p ON p.product_id = sat.product_id 
+        JOIN location_tasks tl ON t.task_id = tl.task_id
+        JOIN location l ON tl.location_id = l.location_id
+        JOIN (
+            SELECT location_id FROM field WHERE organic_status != 'Non-Organic' 
+            UNION 
+            SELECT location_id FROM greenhouse WHERE organic_status != 'Non-Organic'
+            UNION 
+            SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
+        ) lu ON lu.location_id = l.location_id
         WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
         AND p.farm_id = ?
     `, [ to_date, from_date, farm_id ]);
@@ -279,12 +288,6 @@ const organicCertifierSurveyController = {
       JOIN location_tasks tl ON t.task_id = tl.task_id
       JOIN location l ON tl.location_id = l.location_id
       JOIN (
-          SELECT location_id FROM field WHERE organic_status = 'Non-Organic' 
-          UNION 
-          SELECT location_id FROM greenhouse WHERE organic_status = 'Non-Organic'
-          UNION 
-          SELECT location_id FROM garden WHERE organic_status = 'Non-Organic'
-          UNION 
           SELECT location_id FROM buffer_zone
           UNION 
           SELECT location_id FROM water_valve
@@ -305,6 +308,9 @@ const organicCertifierSurveyController = {
           UNION 
           SELECT location_id FROM residence
       )  lu ON lu.location_id = l.location_id
+      LEFT JOIN management_tasks mt ON t.task_id = mt.task_id 
+      LEFT JOIN management_plan mp ON mt.management_plan_id = mp.management_plan_id 
+      LEFT JOIN crop_variety cv ON cv.crop_variety_id = mp.crop_variety_id AND cv.organic = true 
       WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
       AND p.farm_id = ?`, [to_date, from_date, farm_id]);
   },

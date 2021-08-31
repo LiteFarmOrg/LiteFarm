@@ -106,14 +106,14 @@ export default function PurePlantInContainer({
     } else if (shouldCalculateInGroundEstimatedValues) {
       const required_seeds = total_plants * average_seed_weight;
       const estimated_yield = total_plants * yield_per_plant;
-      setValue(ESTIMATED_SEED, required_seeds);
-      setValue(ESTIMATED_YIELD, estimated_yield);
+      average_seed_weight && setValue(ESTIMATED_SEED, required_seeds);
+      yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else if (shouldCalculateContainerEstimatedValues) {
       const required_seeds = number_of_container * plants_per_container * average_seed_weight;
       const estimated_yield = number_of_container * plants_per_container * yield_per_plant;
-      setValue(ESTIMATED_SEED, required_seeds);
-      setValue(ESTIMATED_YIELD, estimated_yield);
+      average_seed_weight && setValue(ESTIMATED_SEED, required_seeds);
+      yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else {
       setShowEstimatedValue(false);

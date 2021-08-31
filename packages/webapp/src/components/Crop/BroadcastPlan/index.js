@@ -110,7 +110,7 @@ function PureBroadcastPlan({
       shouldSkipEstimatedValueCalculationRef.current = false;
     } else {
       setValue(ESTIMATED_SEED, seedingRateFormInKgM2 * areaUsed, shouldValidate);
-      setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+      yieldPerArea && setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
     }
   }, [seedingRateFormInKgM2, areaUsed]);
 

@@ -229,13 +229,6 @@ const Unit = ({
     }
   }, [hookFormUnit]);
 
-  useEffect(() => {
-    if (disabled) {
-      setVisibleInputValue('');
-      hookFormSetHiddenValue(name, '', { shouldValidate: true });
-    }
-  }, [disabled]);
-
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

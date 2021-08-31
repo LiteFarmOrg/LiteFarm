@@ -47,7 +47,7 @@ const PureHarvestingTask = ({
         let location_name =
           managementPlanByLocations[location_id][0].planting_management_plans.final.location.name;
         return (
-          <>
+          <div key={location_id}>
             <div style={{ paddingBottom: '16px' }} key={location_id}>
               <PageBreak label={location_name} />
             </div>
@@ -60,20 +60,25 @@ const PureHarvestingTask = ({
                   const is_harvest_everything = watch(
                     `harvest_tasks.${index}.` + HARVEST_EVERYTHING,
                   );
+                  const quantityName = `harvest_tasks.${index}.` + HARVEST_QUANTITY;
                   return (
-                    <div className={styles.harvestDetails} style={{ marginBottom: '48px' }}>
+                    <div
+                      className={styles.harvestDetails}
+                      style={{ marginBottom: '48px' }}
+                      key={field.id}
+                    >
                       <PureManagementPlanTile
                         key={managementPlanId}
                         managementPlan={managementPlan}
                         date={managementPlan.firstTaskDate}
                         status={managementPlan.status}
                       />
-                      <div className={styles.harvestInputs} key={field.id}>
+                      <div className={styles.harvestInputs}>
                         <Unit
                           register={register}
                           style={{ marginBottom: '10px' }}
                           label={t('ADD_TASK.QUANTITY')}
-                          name={`harvest_tasks.${index}.` + HARVEST_QUANTITY}
+                          name={quantityName}
                           displayUnitName={`harvest_tasks.${index}.` + HARVEST_QUANTITY_UNIT}
                           unitType={harvestAmounts}
                           system={system}
@@ -90,6 +95,7 @@ const PureHarvestingTask = ({
                           hookFormRegister={register(
                             `harvest_tasks.${index}.` + HARVEST_EVERYTHING,
                           )}
+                          onChange={(e) => e.target.checked && setValue(quantityName, '')}
                           sm
                         />
                         <Input
@@ -106,7 +112,7 @@ const PureHarvestingTask = ({
                 }
               })}
             </div>
-          </>
+          </div>
         );
       })}
     </>

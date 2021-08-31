@@ -27,7 +27,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import { isIntroducingCertificationsSelector } from '../../../containers/Navigation/navbarSlice';
+import {
+  isIntroducingCertificationsSelector,
+  setIntroducingCertifications,
+} from '../../../containers/Navigation/navbarSlice';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -137,7 +140,10 @@ export default function PureNavBar({
   const isFarmFloaterOpen = openFloater === FARM;
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
-  const closeFloater = () => setOpenFloater(null);
+  const closeFloater = () => {
+    setOpenFloater(null);
+    dispatch(setIntroducingCertifications(false));
+  };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
   const taskIconClick = () => {
     history.push('/tasks');

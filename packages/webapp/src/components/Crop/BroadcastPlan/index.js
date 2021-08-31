@@ -6,7 +6,7 @@ import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Form from '../../Form';
 import Button from '../../Form/Button';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { area_total_area, getDefaultUnit, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import convert from 'convert-units';
@@ -68,10 +68,12 @@ function PureBroadcastPlan({
   const areaUsed = watch(AREA_USED);
   const areaUsedUnit = watch(AREA_USED_UNIT);
 
-  const getErrorMessage = (error, min, max) => {
-    if (error?.type === 'required') return t('common:REQUIRED');
-    if (error?.type === 'max') return t('common:MAX_ERROR', { value: max });
-    if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
+  const getErrorMessage = (name, min, max) => {
+    const type = get(errors, name)?.type;
+    if (type === 'required') return t('common:REQUIRED');
+    if (type === 'max') return t('common:MAX_ERROR', { value: max });
+    if (type === 'min') return t('common:MIN_ERROR', { value: min });
+    if (type === 'validate') return t('common:MIN_ERROR', { value: min });
   };
 
   const seedingRateHandler = (e) => {
@@ -108,7 +110,7 @@ function PureBroadcastPlan({
       shouldSkipEstimatedValueCalculationRef.current = false;
     } else {
       setValue(ESTIMATED_SEED, seedingRateFormInKgM2 * areaUsed, shouldValidate);
-      setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
+      yieldPerArea && setValue(ESTIMATED_YIELD, areaUsed * yieldPerArea, shouldValidate);
     }
   }, [seedingRateFormInKgM2, areaUsed]);
 
@@ -130,6 +132,7 @@ function PureBroadcastPlan({
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
     already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
+
   return (
     <Form
       buttonGroup={
@@ -162,7 +165,7 @@ function PureBroadcastPlan({
         max={100}
         type={'number'}
         style={{ paddingBottom: '40px' }}
-        errors={getErrorMessage(errors?.broadcast?.percentage_planted, 1, 100)}
+        errors={getErrorMessage(PERCENTAGE_PLANTED, 1, 100)}
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
       />
       <div className={clsx(styles.row, styles.paddingBottom40)}>
@@ -207,10 +210,14 @@ function PureBroadcastPlan({
         unit={seedingRateUnit}
         style={{ paddingBottom: '40px' }}
         defaultValue={initialSeedingRate}
-        errors={getErrorMessage(errors?.broadcast?.seeding_rate, 1)}
+        errors={getErrorMessage(SEEDING_RATE, 0)}
       />
       <input
-        {...register(SEEDING_RATE, { required: true, valueAsNumber: true, min: 1 })}
+        {...register(SEEDING_RATE, {
+          required: true,
+          valueAsNumber: true,
+          validate: (value) => Number(value) > 0,
+        })}
         style={{ display: 'none' }}
       />
 

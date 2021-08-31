@@ -30,7 +30,7 @@ import { cropGroupAverages as cropGroupAveragesSelector } from '../../containers
 import { useSelector } from 'react-redux';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../Form/RadioGroup';
-import styles from '../Crop/PlantingMethod/styles.module.scss';
+import styles from './styles.module.scss';
 
 export default function PureAddNewCrop({
   handleContinue,
@@ -154,7 +154,7 @@ function PhysiologyAnatomyDropDown({ register, isPhysiologyAnatomyDropDownOpen }
     <div className={styles.dropdownContainer}>
       <div className={styles.dropdownHead} onClick={() => setOpen(!open)}>
         <Semibold>{'Physiology and Anatomy'}</Semibold>
-        <BsChevronDown style={open ? { transform: 'scaleY(-1)' } : {}} />
+        <BsChevronDown style={open ? { transform: 'scaleY(-1)', marginLeft: '8px' } : {marginLeft: '8px'}} />
       </div>
       <div className={styles.dropdownBody} style={{ display: open ? 'flex' : 'none' }}>
         <div className={styles.paFieldContainer} style={{ marginBottom: '40px' }}>

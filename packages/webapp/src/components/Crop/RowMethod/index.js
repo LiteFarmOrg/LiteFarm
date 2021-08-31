@@ -85,14 +85,14 @@ export default function PureRowMethod({
       const estimated_seed_required =
         ((num_of_rows * length_of_row) / plant_spacing) * average_seed_weight;
       const estimated_yield = ((num_of_rows * length_of_row) / plant_spacing) * yield_per_plant;
-      setValue(ESTIMATED_SEED, estimated_seed_required);
-      setValue(ESTIMATED_YIELD, estimated_yield);
+      average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
+      yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else if (shouldCalculateDifferentLengthEstimatedValues) {
       const estimated_seed_required = (total_length / plant_spacing) * average_seed_weight;
       const estimated_yield = (total_length / plant_spacing) * yield_per_plant;
-      setValue(ESTIMATED_SEED, estimated_seed_required);
-      setValue(ESTIMATED_YIELD, estimated_yield);
+      average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required);
+      yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else {
       setShowEstimatedValue(false);

@@ -177,7 +177,8 @@ const organicCertifierSurveyController = {
 
   async recordICropsQuery(to_date, from_date, farm_id) {
     const soilTasks = await knex.raw(`
-        SELECT p.name, p.supplier, sat.product_quantity, t.completed_time as date_used, t.task_id
+        SELECT p.name, p.supplier, sat.product_quantity, t.completed_time as date_used, t.task_id,
+        p.on_permitted_substances_list
         FROM task t 
         JOIN soil_amendment_task sat ON sat.task_id = t.task_id
         JOIN product p ON p.product_id = sat.product_id 
@@ -245,8 +246,8 @@ const organicCertifierSurveyController = {
   filterLocationsAndManagementPlans(task, locations, managementPlans){
     const taskLocations = locations.filter(({ task_id }) => task.task_id === task_id);
     const taskManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
-    task.affected = taskLocations.reduce((reducedString, { name }) => `${reducedString} Location: ${name},`, '');
-    task.affected += taskManagementPlans.reduce((reducedString, { crop_variety_name }) => `${reducedString} Variety: ${crop_variety_name},`, '')
+    task.affected = taskLocations.reduce((reducedString, { name }, i) => `${i !== 0 ? ', ' :''}${reducedString} Location: ${name}`, '');
+    task.affected += taskManagementPlans.reduce((reducedString, { crop_variety_name }) => `, ${reducedString} Variety: ${crop_variety_name}`, '')
     return task;
   },
 

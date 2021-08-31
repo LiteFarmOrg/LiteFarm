@@ -84,8 +84,8 @@ function PureBedPlan({
       const estimated_seed_required_in_seeds =
         (number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing;
 
-      setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
-      setValue(ESTIMATED_YIELD, estimated_yield);
+      average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
+      yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
       setShowEstimatedValue(true);
     } else {
       setShowEstimatedValue(false);

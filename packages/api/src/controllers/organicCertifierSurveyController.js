@@ -308,9 +308,6 @@ const organicCertifierSurveyController = {
           UNION 
           SELECT location_id FROM residence
       )  lu ON lu.location_id = l.location_id
-      LEFT JOIN management_tasks mt ON t.task_id = mt.task_id 
-      LEFT JOIN management_plan mp ON mt.management_plan_id = mp.management_plan_id 
-      LEFT JOIN crop_variety cv ON cv.crop_variety_id = mp.crop_variety_id AND cv.organic = true 
       WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
       AND p.farm_id = ?`, [to_date, from_date, farm_id]);
   },

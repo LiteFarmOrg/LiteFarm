@@ -326,26 +326,26 @@ describe('Task tests', () => {
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
           mocks.management_planFactory({
             promisedFarm: [{ farm_id }],
-            promisedLocation: [{ location_id }]
-          }, { start_date: null })
+            promisedLocation: [{ location_id }],
+          }, { start_date: null }),
         ));
         const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
-        const harvest_tasks = mocks.fakeHarvestTasks({quantity: 300}, 3);
-        for (let i = 0; i < harvest_tasks.length; i++) {
-          harvest_tasks[i].management_plan_id = managementPlans[i].management_plan_id;
-          harvest_tasks[i].location_id = location_id;
-        }
-        const data = {
-          due_date: faker.date.future(),
-          task_type_id: task_type_id,
-          owner_user_id: user_id,
-          assignee_user_id: user_id,
-          locations: [{ location_id }],
-          harvest_tasks: harvest_tasks,
-        };
-        postHarvestTasksRequest({ user_id, farm_id }, data, async (err, res) => {
+        const harvest_tasks = mocks.fakeHarvestTasks({ quantity: 300 }, 3).map((harvest_task, i) => {
+          return {
+            harvest_task,
+            due_date: faker.date.future(),
+            task_type_id: task_type_id,
+            owner_user_id: user_id,
+            assignee_user_id: user_id,
+            locations: [{ location_id }],
+            managementPlans: [{ management_plan_id: managementPlans[i].management_plan_id }],
+            notes: faker.lorem.words(),
+          };
+        });
+
+        postHarvestTasksRequest({ user_id, farm_id }, harvest_tasks, async (err, res) => {
           expect(res.status).toBe(200);
-          const task_ids = Object.keys(res.body);
+          const task_ids = res.body.map(({ task_id }) => task_id);
           for (let i = 0; i < task_ids.length; i++) {
             const created_task = await knex('task').where({ task_id: task_ids[i] }).first();
             expect(created_task.task_type_id).toBe(task_type_id);

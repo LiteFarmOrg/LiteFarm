@@ -1102,7 +1102,6 @@ function fakeHarvestTasks(defaultData = {}, number) {
   return [...Array(number)].map(() =>
     ({
       quantity: faker.random.number(1000),
-      notes: faker.lorem.words(),
       harvest_everything: faker.random.boolean(),
       ...defaultData,
     })

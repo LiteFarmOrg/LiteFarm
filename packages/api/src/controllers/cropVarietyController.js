@@ -1,5 +1,6 @@
 const CropVarietyModel = require('../models/cropVarietyModel');
 const managementPlanModel = require('../models/managementPlanModel');
+const managementTasksModel = require('../models/managementTasksModel');
 
 const CropModel = require('../models/cropModel');
 
@@ -41,9 +42,12 @@ const cropVarietyController = {
       const { crop_variety_id } = req.params;
       try {
         const result = await CropVarietyModel.transaction(async trx => {
-          await managementPlanModel.query(trx).context(req.user).where({ crop_variety_id }).delete();
+          const deletedManagementPlans = await managementPlanModel.query(trx).context(req.user).where({ crop_variety_id }).delete().returning('management_plan_id');
+          await managementTasksModel.query(trx).context(req.user)
+            .whereIn('management_plan_id', deletedManagementPlans.map(({ management_plan_id }) => management_plan_id)).delete();
           return await CropVarietyModel.query(trx).context(req.user).findById(crop_variety_id).delete();
         });
+        //TODO: If a task is not related to a location or a management plan, delete or keep the task?
         return result ? res.sendStatus(200) : res.status(404).send('Crop variety not found');
       } catch (error) {
         console.log(error);

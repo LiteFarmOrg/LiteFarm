@@ -6,11 +6,12 @@ import Form from '../../Form';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../../Form/RadioGroup';
-import PureCleaningTask from '../../AddTask/CleaningTask';
-import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
-import PureFieldWorkTask from '../../AddTask/FieldWorkTask';
-import PurePestControlTask from '../../AddTask/PestControlTask';
+import PureCleaningTask from '../CleaningTask';
+import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PureFieldWorkTask from '../FieldWorkTask';
+import PurePestControlTask from '../PestControlTask';
 import { cloneObject } from '../../../util';
+
 function PureCompleteStepOne({
   persistedFormData,
   onContinue,
@@ -43,14 +44,14 @@ function PureCompleteStepOne({
   });
 
   const taskComponents = {
-    CLEANING: (props) => (
+    CLEANING_TASK: (props) => (
       <PureCleaningTask farm={farm} system={system} products={products} {...props} />
     ),
-    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT: (props) => (
+    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+    SOIL_AMENDMENT_TASK: (props) => (
       <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
     ),
-    PEST_CONTROL: (props) => (
+    PEST_CONTROL_TASK: (props) => (
       <PurePestControlTask farm={farm} system={system} products={products} {...props} />
     ),
   };

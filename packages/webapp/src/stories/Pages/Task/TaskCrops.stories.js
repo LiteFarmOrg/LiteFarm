@@ -1,7 +1,7 @@
 import React from 'react';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
-import PureTaskCrops from '../../../components/AddTask/PureTaskCrops';
+import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 
 export default {
   title: 'Form/Task/PureTaskCrops',

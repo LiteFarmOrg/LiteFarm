@@ -145,30 +145,38 @@ const taskController = {
   },
 
   createHarvestTasks() {
+    const nonModifiable = getNonModifiable('harvest_task');
+
     return async (req, res, next) => {
       try {
-        const data = req.body;
+        const harvest_tasks = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
-        data.planned_time = data.due_date;
-        data.owner_user_id = user_id;
-        if (data.assignee_user_id && !data.wage_at_moment) {
-          const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
-          data.wage_at_moment = wage.amount;
-        }
-        const harvest_tasks = data.harvest_tasks;
-        delete data.harvest_tasks;
-        let result = {};
-        await TaskModel.transaction(async trx => {
-          for (let harvest_task of harvest_tasks) {
-            const task = { ...data, notes: harvest_task.harvest_task_notes };
-            const posted_task = await baseController.postWithResponse(TaskModel, task, req, { trx });
-            await baseController.postWithResponse(HarvestTaskModel, { ...harvest_task, task_id: posted_task.task_id }, req, { trx });
-            await baseController.postWithResponse(LocationTaskModel, {task_id: posted_task.task_id, location_id: harvest_task.location_id}, req, { trx });
-            await baseController.postWithResponse(managementTasksModel, {task_id: posted_task.task_id, management_plan_id: harvest_task.management_plan_id}, req, { trx });
-            const [ createdTask ] = await TaskModel.query(trx).withGraphFetched(`[locations, managementPlans, taskType, harvest_task]`).where({ task_id: posted_task.task_id });
-            result[posted_task.task_id] = removeNullTypes(createdTask);
+        //TODO: use cases of planned_time and due_date
+
+        const result = await TaskModel.transaction(async trx => {
+          const result = [];
+          for (const harvest_task of harvest_tasks) {
+            harvest_task.planned_time = harvest_task.due_date;
+            harvest_task.owner_user_id = user_id;
+            if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
+              const { wage } = await userFarmModel.query().where({
+                user_id: harvest_task.assignee_user_id,
+                farm_id,
+              }).first();
+              harvest_task.wage_at_moment = wage.amount;
+            }
+
+            const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
+              .upsertGraph(harvest_task, {
+                noUpdate: true,
+                noDelete: true,
+                noInsert: nonModifiable,
+                relate: ['locations', 'managementPlans'],
+              });
+            result.push(removeNullTypes(task));
           }
+          return result;
         });
         return res.status(200).send(result);
       } catch (error) {
@@ -223,7 +231,7 @@ const taskController = {
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().withGraphFetched(`
-          [locations, managementPlans, taskType, soil_amendment_task, field_work_task, cleaning_task, pest_control_task]
+          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task]
         `).whereIn('task_id', taskIds);
         const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {

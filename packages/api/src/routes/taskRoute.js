@@ -31,7 +31,10 @@ router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.abandonTask());
 
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
-
+/**
+ * endpoint name should follow
+ * /task/task_type.task_translation_key.toLowerCase()
+ */
 router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
   taskController.createHarvestTasks());
 

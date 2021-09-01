@@ -9,13 +9,13 @@ import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
 import { cropLocationsSelector, locationsSelector } from '../../locationSlice';
-import { useActiveAndCurrentManagementPlansByLocationIds } from '../../AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
+import { useActiveAndCurrentManagementPlansByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { getDateUTC } from '../../../util/moment';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.type));
-  const isCropLocation = selectedTaskType.task_translation_key === 'HARVESTING';
+  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
+  const isCropLocation = selectedTaskType.task_translation_key === 'HARVEST_TASK';
   return isCropLocation ? (
     <TaskCropLocations history={history} persistedFormData={persistedFormData} />
   ) : (
@@ -55,7 +55,7 @@ function TaskLocations({ history, locations }) {
   };
 
   const onContinue = () => {
-    if (taskTypesBypassCrops.includes(persistedFormData.type)) {
+    if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
       dispatch(setManagementPlansData([]));
       return history.push('/add_task/task_details');
     }

@@ -8,7 +8,7 @@ import {
   userFarmSelector,
 } from '../../userFarmSlice';
 import { taskWithProductById } from '../../taskSlice';
-import { useManagementPlanTilesByLocationIds } from '../../AddTask/TaskCrops/useManagementPlanTilesByLocationIds';
+import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
 
 function TaskReadOnly({ history, match }) {
@@ -31,7 +31,7 @@ function TaskReadOnly({ history, match }) {
   );
 
   const onGoBack = () => {
-    history.push('/tasks');
+    history.goBack();
   };
 
   const onComplete = () => {

@@ -14,10 +14,10 @@ import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
-import PureCleaningTask from '../../AddTask/CleaningTask';
-import PureFieldWorkTask from '../../AddTask/FieldWorkTask';
-import PureSoilAmendmentTask from '../../AddTask/SoilAmendmentTask';
-import PurePestControlTask from '../../AddTask/PestControlTask';
+import PureCleaningTask from '../CleaningTask';
+import PureFieldWorkTask from '../FieldWorkTask';
+import PureSoilAmendmentTask from '../SoilAmendmentTask';
+import PurePestControlTask from '../PestControlTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -35,7 +35,7 @@ export default function PureTaskReadOnly({
   isCompleted,
 }) {
   const { t } = useTranslation();
-  const taskType = task.taskType[0];
+  const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
   const locations = task.locations.map(({ location_id }) => location_id);
   const owner = task.owner_user_id;
@@ -53,14 +53,14 @@ export default function PureTaskReadOnly({
     defaultValues: cloneObject(task),
   });
   const taskComponents = {
-    CLEANING: (props) => (
+    CLEANING_TASK: (props) => (
       <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
-    FIELD_WORK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT: (props) => (
+    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+    SOIL_AMENDMENT_TASK: (props) => (
       <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
-    PEST_CONTROL: (props) => (
+    PEST_CONTROL_TASK: (props) => (
       <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
     ),
   };

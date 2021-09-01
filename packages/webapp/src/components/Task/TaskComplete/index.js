@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
@@ -55,7 +54,9 @@ export default function PureTaskComplete({
     _setDuration(value > 0 ? value : '');
   };
 
-  const [rating, _setRating] = useState(persistedFormData?.happiness === undefined ? 0 : persistedFormData?.happiness);
+  const [rating, _setRating] = useState(
+    persistedFormData?.happiness === undefined ? 0 : persistedFormData?.happiness,
+  );
 
   const setRating = (value) => {
     _setRating(value);
@@ -63,18 +64,6 @@ export default function PureTaskComplete({
   };
 
   const disabled = !prefer_not_to_say && rating === 0;
-
-  const taskTypeMap = {
-    SCOUTING: "scouting_task",
-    HARVESTING: "harvest_task",
-    PEST_CONTROL: "pest_control_task",
-    IRRIGATION: "irrigation_task",
-    FIELD_WORK: "field_work_task",
-    PLANTING: "plant_task",
-    CLEANING: "cleaning_task",
-    SOIL_AMENDMENT: "soil_amendment_task"
-  };
-
 
   return (
     <Form
@@ -91,10 +80,10 @@ export default function PureTaskComplete({
             happiness: prefer_not_to_say ? 0 : rating,
             completion_notes: notes,
           },
-          task_translation_key: persistedFormData?.taskType[0].task_translation_key
+          task_translation_key: persistedFormData?.taskType.task_translation_key,
         };
         if (persistedFormData?.need_changes) {
-          let task_type_name = taskTypeMap[persistedFormData?.taskType[0].task_translation_key];
+          let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
         }
         onSave(data);
@@ -123,7 +112,6 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
-
       <Rating
         className={styles.rating}
         style={{ marginBottom: '27px' }}
@@ -132,7 +120,6 @@ export default function PureTaskComplete({
         initialRating={persistedFormData?.happiness}
         onRate={setRating}
       />
-
 
       <Checkbox
         style={{ marginBottom: '42px' }}

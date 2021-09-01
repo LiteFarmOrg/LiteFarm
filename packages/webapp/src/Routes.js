@@ -285,21 +285,21 @@ const AbandonManagementPlan = React.lazy(() =>
   import('./containers/Crop/CompleteManagementPlan/AbandonManagementPlan'),
 );
 
-const TaskAssignment = React.lazy(() => import('./containers/AddTask/TaskAssignment'));
-const TaskDetails = React.lazy(() => import('./containers/AddTask/TaskDetails'));
-const TaskTypeSelection = React.lazy(() => import('./containers/AddTask/TaskTypeSelection'));
+const TaskAssignment = React.lazy(() => import('./containers/Task/TaskAssignment'));
+const TaskDetails = React.lazy(() => import('./containers/Task/TaskDetails'));
+const TaskTypeSelection = React.lazy(() => import('./containers/Task/TaskTypeSelection'));
 const TaskDate = React.lazy(() => import('./containers/Task/TaskDate'));
-const TaskCrops = React.lazy(() => import('./containers/AddTask/TaskCrops'));
+const TaskCrops = React.lazy(() => import('./containers/Task/TaskCrops'));
 const TaskLocations = React.lazy(() => import('./containers/Task/TaskLocations'));
 const Tasks = React.lazy(() => import('./containers/Task'));
-const ManageCustomTasks = React.lazy(() => import('./containers/AddTask/ManageCustomTasks'));
-const AddCustomTask = React.lazy(() => import('./containers/AddTask/AddCustomTask'));
+const ManageCustomTasks = React.lazy(() => import('./containers/Task/ManageCustomTasks'));
+const AddCustomTask = React.lazy(() => import('./containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
-const EditCustomTask = React.lazy(() => import('./containers/AddTask/EditCustomTask'));
+const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
-const EditCustomTaskUpdate = React.lazy(() => import('./containers/AddTask/EditCustomTaskUpdate'));
+const EditCustomTaskUpdate = React.lazy(() => import('./containers/Task/EditCustomTaskUpdate'));
 
 const Routes = () => {
   useScrollToTop();

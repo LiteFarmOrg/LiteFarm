@@ -337,7 +337,7 @@ describe('Task tests', () => {
         }
         const data = {
           due_date: faker.date.future(),
-          type: task_type_id,
+          task_type_id: task_type_id,
           owner_user_id: user_id,
           assignee_user_id: user_id,
           locations: [{ location_id }],
@@ -348,7 +348,7 @@ describe('Task tests', () => {
           const task_ids = Object.keys(res.body);
           for (let i = 0; i < task_ids.length; i++) {
             const created_task = await knex('task').where({ task_id: task_ids[i] }).first();
-            expect(created_task.type).toBe(task_type_id);
+            expect(created_task.task_type_id).toBe(task_type_id);
             expect(created_task.wage_at_moment).toBe(30);
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id: task_ids[i] }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
@@ -370,7 +370,7 @@ describe('Task tests', () => {
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
-              type: task_type_id,
+              task_type_id: task_type_id,
               owner_user_id: user_id,
               assignee_user_id: user_id,
             }),
@@ -405,7 +405,7 @@ describe('Task tests', () => {
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
-              type: task_type_id,
+              task_type_id: task_type_id,
               owner_user_id: user_id,
             }),
             locations: [{ location_id }],
@@ -442,7 +442,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            type: task_type_id,
+            task_type_id: task_type_id,
             owner_user_id: user_id,
           }),
           locations: [{ location_id }],
@@ -475,7 +475,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            type: task_type_id,
+            task_type_id: task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -512,7 +512,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task(), product: soilAmendmentProduct },
-            type: task_type_id,
+            task_type_id: task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -552,8 +552,12 @@ describe('Task tests', () => {
         soilAmendmentProduct.farm_id = farm_id;
         const data = {
           ...mocks.fakeTask({
-            soil_amendment_task: { ...fakeTaskData.soil_amendment_task(), product: soilAmendmentProduct, product_id: null },
-            type: task_type_id,
+            soil_amendment_task: {
+              ...fakeTaskData.soil_amendment_task(),
+              product: soilAmendmentProduct,
+              product_id: null,
+            },
+            task_type_id: task_type_id,
             owner_user_id: user_id,
             wage_at_moment: 50,
           }),
@@ -588,9 +592,9 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            type: task_type_id,
+            task_type_id: task_type_id,
             owner_user_id: worker_id,
-            assignee_user_id: another_id
+            assignee_user_id: another_id,
           }),
           locations: [{ location_id }],
           managementPlans: [{ management_plan_id }],
@@ -608,7 +612,7 @@ describe('Task tests', () => {
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
-            type: task_type_id,
+            task_type_id: task_type_id,
             owner_user_id: worker_id,
             assignee_user_id: worker_id,
             wage_at_moment: 3512222,
@@ -717,7 +721,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        type: task_type_id,
+        task_type_id: task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       })
@@ -748,7 +752,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        type: task_type_id,
+        task_type_id: task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       })
@@ -780,7 +784,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
       const fakeTask = mocks.fakeTask({
-        type: task_type_id,
+        task_type_id: task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       })
@@ -818,7 +822,7 @@ describe('Task tests', () => {
       ));
       const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
       const fakeTask = mocks.fakeTask({
-        type: task_type_id,
+        task_type_id: task_type_id,
         owner_user_id: user_id,
         assignee_user_id: user_id,
       })

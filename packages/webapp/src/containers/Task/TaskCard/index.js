@@ -1,12 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureTaskCard from '../../../components/TaskCard';
-import { cropTranslationKeyByManagementPlanSelector } from '../../managementPlanSlice';
 import { getNameFromUserIdSelector } from '../../userFarmSlice';
+import { managementPlanEntitiesSelector } from '../../managementPlanSlice';
 
 const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }) => {
   const { t } = useTranslation();
@@ -20,20 +19,17 @@ const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }
     // for_review_time,
     due_date,
     // coordinates, (TODO: for pin drop)
-    taskType: taskTypeArr,
+    taskType,
     locations,
     managementPlans,
     happiness,
   } = task;
-  const [taskType] = taskTypeArr;
 
-  const managementPlanIdToCropTranslationKeyDict = useSelector(
-    cropTranslationKeyByManagementPlanSelector,
-  );
+  const managementPlanEntities = useSelector(managementPlanEntitiesSelector);
   const assignee = useSelector(getNameFromUserIdSelector(assignee_user_id));
 
-  const crops = managementPlans.map((mp) => {
-    return managementPlanIdToCropTranslationKeyDict[mp.management_plan_id];
+  const cropVarietyNames = managementPlans.map((mp) => {
+    return managementPlanEntities[mp.management_plan_id].crop_variety_name;
   });
 
   const handleClickAssignee = (e) => {
@@ -51,7 +47,7 @@ const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }
     <PureTaskCard
       taskType={taskType}
       status={status}
-      crops={crops}
+      cropVarietyNames={cropVarietyNames}
       locations={locations}
       dueDate={due_date}
       assignee={assignee}

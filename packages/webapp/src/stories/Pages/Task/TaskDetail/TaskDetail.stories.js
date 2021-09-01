@@ -1,7 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import { chromaticSmallScreen } from '../../config/chromatic';
-import PureTaskDetails from '../../../../components/AddTask/PureTaskDetails';
+import PureTaskDetails from '../../../../components/Task/PureTaskDetails';
 
 export default {
   title: 'Page/AddCleaningTask',

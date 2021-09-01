@@ -4,6 +4,14 @@ import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
 import { productEntitiesSelector } from './productSlice';
+import { locationEntitiesSelector } from './locationSlice';
+import { cleaningTaskEntitiesSelector } from './slice/taskSlice/cleaningTaskSlice';
+import { fieldWorkTaskEntitiesSelector } from './slice/taskSlice/fieldWorkTaskSlice';
+import { harvestTaskEntitiesSelector } from './slice/taskSlice/harvestTaskSlice';
+import { pestControlTaskEntitiesSelector } from './slice/taskSlice/pestControlTaskSlice';
+import { soilAmendmentTaskEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskSlice';
+import produce from 'immer';
+import { taskTypeEntitiesSelector } from './taskTypeSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -13,8 +21,7 @@ export const getTask = (obj) => {
     'notes',
     'completion_notes',
     'owner_user_id',
-    'taskType',
-    'type',
+    'task_type_id',
     'assignee_user_id',
     'coordinates',
     'duration',
@@ -30,15 +37,10 @@ export const getTask = (obj) => {
     'abandonment_reason',
     'other_abandonment_reason',
     'abandonment_notes',
-    'soil_amendment_task',
-    'pest_control_task',
-    'field_work_task',
-    'cleaning_task',
-    'harvest_task',
   ]);
 };
 
-const addManyTasks = (state, { payload: tasks }) => {
+const upsertManyTasks = (state, { payload: tasks }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
@@ -76,7 +78,15 @@ const taskSlice = createSlice({
   reducers: {
     onLoadingTasksStart: onLoadingStart,
     onLoadingTasksFail: onLoadingFail,
-    getTasksSuccess: addManyTasks,
+    addManyTasksFromGetReq: (state, { payload: tasks }) =>
+      upsertManyTasks(state, {
+        payload: tasks.map((task) => ({
+          ...task,
+          locations: task.locations?.map(({ location_id }) => location_id) || [],
+          managementPlans:
+            task.managementPlans?.map(({ management_plan_id }) => management_plan_id) || [],
+        })),
+      }),
     putTaskSuccess: updateOneTask,
     putTasksSuccess: updateManyTasks,
     createTaskSuccess: taskAdapter.addOne,
@@ -86,7 +96,7 @@ const taskSlice = createSlice({
 export const {
   onLoadingTasksFail,
   onLoadingTasksStart,
-  getTasksSuccess,
+  addManyTasksFromGetReq,
   putTaskSuccess,
   putTasksSuccess,
   deleteTaskSuccess,
@@ -99,21 +109,72 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
-export const taskEntitiesSelector = taskSelectors.selectEntities;
+export const taskEntitiesSelector = createSelector(
+  [
+    taskSelectors.selectEntities,
+    taskTypeEntitiesSelector,
+    managementPlanEntitiesSelector,
+    locationEntitiesSelector,
+    cleaningTaskEntitiesSelector,
+    fieldWorkTaskEntitiesSelector,
+    harvestTaskEntitiesSelector,
+    pestControlTaskEntitiesSelector,
+    soilAmendmentTaskEntitiesSelector,
+  ],
+  (
+    taskEntities,
+    taskTypeEntities,
+    managementPlanEntities,
+    locationEntities,
+    cleaningTaskEntities,
+    fieldWorkTaskEntities,
+    harvestTaskEntities,
+    pestControlTaskEntities,
+    soilAmendmentTaskEntities,
+  ) => {
+    const subTaskEntities = {
+      ...cleaningTaskEntities,
+      ...fieldWorkTaskEntities,
+      ...harvestTaskEntities,
+      ...pestControlTaskEntities,
+      ...soilAmendmentTaskEntities,
+    };
+
+    return produce(taskEntities, (taskEntities) => {
+      for (const task_id in taskEntities) {
+        taskEntities[task_id].managementPlans =
+          taskEntities[task_id].managementPlans?.map(
+            (management_plan_id) => managementPlanEntities[management_plan_id],
+          ) || [];
+        taskEntities[task_id].locations =
+          taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
+          [];
+        const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
+        taskEntities[task_id].taskType = taskType;
+        const { task_translation_key, farm_id } = taskType;
+        farm_id &&
+          (taskEntities[task_id][task_translation_key.toLowerCase()] = subTaskEntities[task_id]);
+      }
+    });
+  },
+);
 
 export const tasksSelector = createSelector(
-  [taskSelectors.selectAll, loginSelector, managementPlanEntitiesSelector],
-  (tasks, { farm_id }, managementPlanEntities) => {
-    return tasks.filter(({ locations, managementPlans }) => {
+  [taskEntitiesSelector, loginSelector],
+  (taskEntities, { farm_id }) => {
+    return Object.values(taskEntities).filter(({ locations, managementPlans, taskType }) => {
       for (const location of locations) {
         if (location.farm_id === farm_id) {
           return true;
         }
       }
-      for (const { management_plan_id } of managementPlans) {
-        if (managementPlanEntities[management_plan_id].farm_id === farm_id) {
+      for (const managementPlan of managementPlans) {
+        if (managementPlan.farm_id === farm_id) {
           return true;
         }
+      }
+      if (taskType.farm_id === farm_id) {
+        return true;
       }
       return false;
     });
@@ -146,7 +207,7 @@ export const tasksByManagementPlanIdSelector = (management_plan_id) =>
     (taskEntitiesByManagementPlanId) => taskEntitiesByManagementPlanId[management_plan_id] || [],
   );
 
-export const taskSelectorById = (task_id) => (state) => taskSelectors.selectById(state, task_id);
+export const taskSelector = (task_id) => (state) => taskEntitiesSelector(state)[task_id];
 
 export const getPendingTasks = (tasks) =>
   tasks.filter((task) => !task.abandoned_time && !task.completed_time);
@@ -174,23 +235,18 @@ export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandone
 export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 
 export const taskWithProductById = (task_id) =>
-  createSelector([taskSelectorById(task_id), productEntitiesSelector], (task, products) => {
-    const taskTypeKey = {
-      CLEANING: 'cleaning_task',
-      PEST_CONTROL: 'pest_control_task',
-      SOIL_AMENDMENT: 'soil_amendment_task',
-    };
-    const taskHasProduct = !!task[taskTypeKey[task.taskType[0].task_translation_key]]?.product_id;
+  createSelector([taskSelector(task_id), productEntitiesSelector], (task, products) => {
+    const taskTypeLowerCase = task.taskType.task_translation_key.toLowerCase();
+    const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;
     if (taskHasProduct) {
       const product = products.find(
-        ({ product_id }) =>
-          task[taskTypeKey[task.taskType[0].task_translation_key]].product_id === product_id,
+        ({ product_id }) => task[taskTypeLowerCase].product_id === product_id,
       );
       return {
         ...task,
-        [taskTypeKey[task.taskType[0].task_translation_key]]: {
+        [taskTypeLowerCase]: {
           product: { ...product },
-          ...task[[taskTypeKey[task.taskType[0].task_translation_key]]],
+          ...task[[taskTypeLowerCase]],
         },
       };
     }

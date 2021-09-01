@@ -899,7 +899,7 @@ async function taskFactory({ promisedUser = usersFactory(), promisedTaskType = t
   const [{ user_id }] = user;
   const [{ task_type_id }] = taskType;
   const base = baseProperties(user_id);
-  return knex('task').insert({ type: task_type_id, owner_user_id: user_id, ...base, ...task }).returning('*');
+  return knex('task').insert({ task_type_id, owner_user_id: user_id, ...base, ...task }).returning('*');
 
 }
 
@@ -1102,7 +1102,6 @@ function fakeHarvestTasks(defaultData = {}, number) {
   return [...Array(number)].map(() =>
     ({
       quantity: faker.random.number(1000),
-      notes: faker.lorem.words(),
       harvest_everything: faker.random.boolean(),
       ...defaultData,
     })

@@ -11,7 +11,7 @@ function TaskCompleteStepOne({ history, match }) {
   const { farm_id } = useSelector(loginSelector);
   const task_id = match.params.task_id;
   const task = useSelector(taskWithProductById(task_id));
-  const [selectedTaskType] = task.taskType;
+  const selectedTaskType = task.taskType;
   const products = useSelector(productEntitiesSelector);
   const persistedPaths = [`/tasks/${task_id}/complete`];
 

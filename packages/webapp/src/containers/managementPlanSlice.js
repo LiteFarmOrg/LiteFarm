@@ -287,21 +287,6 @@ export const filterManagementPlansByLocationId = (location_id, managementPlans) 
     (managementPlan) => getLocationIdFromManagementPlan(managementPlan) === location_id,
   );
 
-//TODO: remove
-export const cropTranslationKeyByManagementPlanSelector = createSelector(
-  [managementPlansSelector, cropVarietiesSelector],
-  (managementPlans, cropVarieties) => {
-    const managementPlanIdToCropNameDict = {};
-    for (const managementPlan of managementPlans) {
-      const { crop_translation_key } = cropVarieties.find(
-        ({ crop_variety_id }) => crop_variety_id === managementPlan.crop_variety_id,
-      );
-      managementPlanIdToCropNameDict[managementPlan.management_plan_id] = crop_translation_key;
-    }
-    return managementPlanIdToCropNameDict;
-  },
-);
-
 export const managementPlansByLocationIdSelector = (location_id) =>
   createSelector([() => location_id, managementPlansSelector], (location_id, managementPlans) =>
     filterManagementPlansByLocationId(location_id, managementPlans),

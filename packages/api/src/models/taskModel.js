@@ -31,11 +31,11 @@ class TaskModel extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['due_date', 'type'],
+      required: ['due_date', 'task_type_id'],
 
       properties: {
         task_id: { type: 'integer' },
-        type: { type: 'integer' },
+        task_type_id: { type: 'integer' },
         due_date: { type: 'date-time' },
         notes: { type: 'string' },
         completion_notes: { type: ['string', null], maxLength: 10000 },

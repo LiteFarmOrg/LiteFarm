@@ -41,31 +41,31 @@ const activeCardColor = {
 };
 
 const iconDict = {
-  CLEANING: Clean, // for release
-  HARVESTING: Harvest, // for release
-  PEST_CONTROL: PestControl, // for release
-  PLANTING: Plant, // for release
-  FIELD_WORK: FieldWork, // for release
-  TRANSPLANT: Transplant, // for release
-  SOIL_AMENDMENT: SoilAmendment, // for release
-  BED_PREPARATION: CustomIcon,
-  SALES: Sales,
+  CLEANING_TASK: Clean, // for release
+  HARVEST_TASK: Harvest, // for release
+  PEST_CONTROL_TASK: PestControl, // for release
+  PLANTING_TASK: Plant, // for release
+  FIELD_WORK_TASK: FieldWork, // for release
+  TRANSPLANT_TASK: Transplant, // for release
+  SOIL_AMENDMENT_TASK: SoilAmendment, // for release
+  BED_PREPARATION_TASK: CustomIcon,
+  SALE_TASK: Sales,
   FERTILIZING: SoilAmendment, // soil amendment replaces fertilizing
-  SCOUTING: Scout,
-  WASH_AND_PACK: WashAndPack,
-  OTHER: CustomIcon,
-  BREAK: CustomIcon,
-  SOIL_RESULTS: RecordSoilSample,
-  IRRIGATION: Irrigate,
-  TRANSPORT: Transport,
-  SOCIAL: SocialEvent,
+  SCOUTING_TASK: Scout,
+  WASH_AND_PACK_TASK: WashAndPack,
+  OTHER_TASK: CustomIcon,
+  BREAK_TASK: CustomIcon,
+  SOIL_TASK: RecordSoilSample,
+  IRRIGATION_TASK: Irrigate,
+  TRANSPORT_TASK: Transport,
+  SOCIAL_TASK: SocialEvent,
 };
 
 const PureTaskCard = ({
   taskType,
   status,
   locations,
-  crops,
+  cropVarietyNames,
   dueDate,
   assignee = null,
   style,
@@ -77,8 +77,10 @@ const PureTaskCard = ({
 }) => {
   const { t } = useTranslation();
   if (!locations.length) console.error('Task should be associated with at least one location');
-  const locationText = locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0].name;
-  const cropText = crops.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : t(`crop:${crops[0]}`);
+  const locationText =
+    locations.length > 1 ? t('TASK.CARD.MULTIPLE_LOCATIONS') : locations[0]?.name;
+  const cropText =
+    cropVarietyNames.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : cropVarietyNames[0];
   const dateText = getTaskCardDate(dueDate);
   const TaskIcon = iconDict[taskType.task_translation_key];
 
@@ -105,7 +107,9 @@ const PureTaskCard = ({
           <div className={styles.mainTypographySansColor}>
             {t(`task:${taskType.task_translation_key}`)}
           </div>
-          <div className={styles.subMain}>{`${locationText} | ${cropText}`}</div>
+          <div className={styles.subMain}>
+            {locationText} {cropText && `| ${cropText}`}
+          </div>
           <div className={styles.dateUserContainer}>
             <div className={styles.iconTextContainer}>
               <CalendarIcon className={styles.icon} />
@@ -146,6 +150,7 @@ PureTaskCard.propTypes = {
   farmName: PropTypes.string,
   address: PropTypes.arrayOf(PropTypes.string),
   style: PropTypes.object,
+  cropVarietyNames: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default PureTaskCard;

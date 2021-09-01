@@ -48,6 +48,12 @@ import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import taskReducer from '../containers/taskSlice';
+import cleaningTaskReducer from '../containers/slice/taskSlice/cleaningTaskSlice';
+import fieldWorkTaskReducer from '../containers/slice/taskSlice/fieldWorkTaskSlice';
+import harvestTaskReducer from '../containers/slice/taskSlice/harvestTaskSlice';
+import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTaskSlice';
+import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
+
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
@@ -170,6 +176,11 @@ const entitiesReducer = combineReducers({
   certifierReducer,
   certificationReducer,
   taskReducer,
+  cleaningTaskReducer,
+  fieldWorkTaskReducer,
+  harvestTaskReducer,
+  pestControlTaskReducer,
+  soilAmendmentTaskReducer,
   taskTypeReducer,
   productReducer,
 });

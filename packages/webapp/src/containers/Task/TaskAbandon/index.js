@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureAbandonTask from '../../../components/Task/AbandonTask';
-import { taskSelectorById } from '../../taskSlice';
+import { taskSelector } from '../../taskSlice';
 import { isAdminSelector, loginSelector } from '../../userFarmSlice';
 import { abandonTask } from '../saga';
 
 function TaskAbandon({ history, match }) {
   const { task_id } = match.params;
-  const task = useSelector(taskSelectorById(task_id));
+  const task = useSelector(taskSelector(task_id));
   const { user_id } = useSelector(loginSelector);
   const isAdmin = useSelector(isAdminSelector);
   const dispatch = useDispatch();

@@ -1,7 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import { chromaticSmallScreen } from '../../config/chromatic';
-import PureTaskAssignment from '../../../../components/AddTask/PureTaskAssignment';
+import PureTaskAssignment from '../../../../components/Task/PureTaskAssignment';
 
 export default {
   title: 'Page/Task/AddTask',

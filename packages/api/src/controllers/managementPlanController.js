@@ -26,6 +26,7 @@ const managementPlanController = {
   addManagementPlan() {
     return async (req, res) => {
       try {
+        //TODO: add none getNonModifiable
         const result = await managementPlanModel.transaction(async trx => {
           return await managementPlanModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
             req.body, { noUpdate: true, noDelete: true, noInsert: ['location', 'crop_variety'] });

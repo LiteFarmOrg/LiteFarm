@@ -535,19 +535,23 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       // put(resetShiftFilter()),
     ]);
 
-    yield race([
-      take(getCertificationSurveysSuccess.type),
-      take(onLoadingCertifierSurveyFail.type),
-    ]);
-
     const {
       data: { farm_token },
     } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
     localStorage.setItem('farm_token', farm_token);
-    history.push({ pathname: '/' });
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
+}
+
+export const waitForCertificationSurveyResultAndPushToHome = createAction(
+  'waitForCertificationSurveyResultAndPushToHomeSaga',
+);
+
+export function* waitForCertificationSurveyResultAndPushToHomeSaga() {
+  console.log('waitForCertificationSurveyResultAndPushSaga');
+  yield race([take(getCertificationSurveysSuccess.type), take(onLoadingCertifierSurveyFail.type)]);
+  history.push({ pathname: '/' });
 }
 
 const formatDate = (currDate) => {
@@ -583,5 +587,9 @@ export default function* getFarmIdSaga() {
   yield takeLatest(
     onLoadingManagementPlanAndPlantingMethodStart.type,
     onLoadingManagementPlanAndPlantingMethodStartSaga,
+  );
+  yield takeLatest(
+    waitForCertificationSurveyResultAndPushToHome.type,
+    waitForCertificationSurveyResultAndPushToHomeSaga,
   );
 }

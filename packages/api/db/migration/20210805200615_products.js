@@ -18,7 +18,7 @@ exports.up = async function(knex) {
   await knex.raw('ALTER TABLE fertilizer_task DROP CONSTRAINT fertilizerlog_fertilizer_id_foreign');
   await knex.schema.renameTable('fertilizer_task', 'soil_amendment_task');
   await knex.schema.alterTable('soil_amendment_task', (t) => {
-    t.dropColumn('fertilizer_id');
+    t.renameColumn('fertilizer_id', 'historic_product_id');
     t.renameColumn('quantity_kg', 'amount');
     t.enu('amount_unit', ['g', 'lb', 'kg', 'oz', 'l', 'gal', 'ml']).defaultTo('kg')
     t.enu('purpose', ['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other'])
@@ -34,7 +34,7 @@ exports.up = async function(knex) {
   ]));
   await knex.schema.alterTable('pest_control_task', (t) => {
     t.dropColumn('target_disease_id');
-    t.dropColumn('pesticide_id');
+    t.renameColumn('pesticide_id', 'historic_product_id');
     t.integer('product_id').references('product_id').inTable('product')
     t.string('pest_target');
     t.renameColumn('type', 'control_method');

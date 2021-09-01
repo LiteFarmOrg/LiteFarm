@@ -122,7 +122,6 @@ const AddProduct = ({
         </>
       )}
       <Label>
-        {' '}
         {t('ADD_PRODUCT.QUANTITY')} <Leaf style={{ marginLeft: '6px' }} />
       </Label>
       <Unit

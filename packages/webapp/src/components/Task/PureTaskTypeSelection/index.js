@@ -107,7 +107,7 @@ const PureTaskTypeSelection = ({
                   onClick={() => {
                     onTileClick(task_type_id);
                   }}
-                  key={task_translation_key}
+                  key={task_type_id}
                 >
                   <div
                     className={clsx(
@@ -127,7 +127,7 @@ const PureTaskTypeSelection = ({
                 onClick={() => {
                   onTileClick(task_type_id);
                 }}
-                key={task_translation_key}
+                key={task_type_id}
               >
                 <div
                   className={clsx(

@@ -1,6 +1,6 @@
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import PureAddCustomTask from '../../../components/Task/PureAddCustomTask';
-import { addCustomTask } from '../saga';
+import { addCustomTaskType } from '../saga';
 import { useDispatch } from 'react-redux';
 
 function AddCustomTask({ history, match }) {
@@ -14,7 +14,7 @@ function AddCustomTask({ history, match }) {
   };
 
   const onSave = (payload) => {
-    dispatch(addCustomTask(payload));
+    dispatch(addCustomTaskType(payload));
     history.push(onGoBackPath);
   };
 

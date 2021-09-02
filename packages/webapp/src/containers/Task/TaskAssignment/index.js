@@ -7,7 +7,7 @@ import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskTypeById } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask } from '../saga';
+import { createTask, createCustomTask } from '../saga';
 
 export default function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -18,6 +18,7 @@ export default function TaskManagement({ history, match }) {
   const userData = Object.values(users);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
+  const isCustomType = !!selectedTaskType.farm_id;
   const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([
     { 0: { currency: null, hourly_wage: null, currencySymbol: null } },
@@ -64,7 +65,8 @@ export default function TaskManagement({ history, match }) {
   }, []);
 
   const onSubmit = (data) => {
-    dispatch(createTask({ ...persistedFormData, ...data }));
+    const postData = { ...persistedFormData, ...data };
+    dispatch(createTask(postData));
   };
 
   const handleGoBack = () => {

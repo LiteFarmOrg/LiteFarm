@@ -28,6 +28,8 @@ const PureTaskDetails = ({
 }) => {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
+  const taskName = selectedTaskType.task_name;
+  const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = taskType === 'HARVEST_TASK';
 
   const taskComponents = {
@@ -126,17 +128,18 @@ const PureTaskDetails = ({
             ? t('ADD_TASK.HOW_MUCH_IS_HARVESTED')
             : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
               ' ' +
-              t(`task:${taskType}_LOWER`) +
+              (isCustomType ? taskName.toLowerCase() : t(`task:${taskType}_LOWER`)) +
               ' ' +
               t('ADD_TASK.TASK')}
         </Main>
-        {taskComponents[taskType]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-        })}
+        {!isCustomType &&
+          taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+          })}
         {!isHarvest && (
           <Input
             style={{ paddingTop: '20px' }}

@@ -77,7 +77,7 @@ export default function PureTaskComplete({
           taskData: {
             completed_time: new Date().toISOString(),
             duration: duration,
-            happiness: prefer_not_to_say ? 0 : rating,
+            happiness: prefer_not_to_say ? null : rating,
             completion_notes: notes,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,

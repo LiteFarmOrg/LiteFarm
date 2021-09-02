@@ -30,22 +30,13 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
   const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
   const no_work_completed = watch(NO_WORK_COMPLETED);
-
-  const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
-  const setDuration = (value) => {
-    _setDuration(value > 0 ? value : '');
-  };
-  const [rating, _setRating] = useState(0);
-  const setRating = (value) => {
-    _setRating(value);
-    setValue(HAPPINESS, value);
-  };
+  const happiness = watch(HAPPINESS);
 
   // TODO: replace with isValid when ReactSelect bug is fixed
   const disabled =
     !reason_for_abandonment ||
     (reason_for_abandonment?.value === 'OTHER' && !watch(OTHER_REASON_FOR_ABANDONMENT)) ||
-    (!prefer_not_to_say && rating === 0);
+    (!prefer_not_to_say && happiness === 0);
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -99,10 +90,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         <TimeSlider
           style={{ marginBottom: '20px' }}
           label={t('TASK.DURATION')}
-          setValue={(durationInMinutes) => {
-            setDuration(durationInMinutes);
-            setValue(DURATION, durationInMinutes);
-          }}
+          setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
         />
       )}
 
@@ -118,7 +106,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         style={{ display: 'flex', marginBottom: '27px' }}
         label={t('TASK.PROVIDE_RATING')}
         disabled={prefer_not_to_say}
-        onRate={setRating}
+        onRate={(value) => setValue(HAPPINESS, value)}
       />
 
       <Checkbox

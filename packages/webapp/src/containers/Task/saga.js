@@ -228,53 +228,38 @@ const taskTypeProcessFunctionMap = {
   HARVEST_TASK: harvestProcessFunction,
 };
 
+const getTaskReqBody = (data, endpoint, task_translation_key, isCustomTask) => {
+  if (isCustomTask) return defaultProcessFunction(data, endpoint);
+  return taskTypeProcessFunctionMap[task_translation_key](data, endpoint);
+};
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload: data }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key } = yield select(taskTypeById(data.task_type_id));
+  const { task_translation_key, farm_id: task_farm_id } = yield select(
+    taskTypeById(data.task_type_id),
+  );
+  console.log({ task_farm_id });
 
   const header = getHeader(user_id, farm_id);
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = isHarvest ? 'harvest_tasks' : task_translation_key.toLowerCase();
+  const isCustomTask = !!task_farm_id;
+  const endpoint = isHarvest
+    ? 'harvest_tasks'
+    : isCustomTask
+    ? 'custom_task'
+    : task_translation_key.toLowerCase();
   try {
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
-      taskTypeProcessFunctionMap[task_translation_key](data, endpoint),
+      getTaskReqBody(data, endpoint, task_translation_key, isCustomTask),
       header,
     );
     if (result) {
       yield put(postTasksSuccess(isHarvest ? result.data : [result.data]));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
-      history.push('/tasks');
-    }
-  } catch (e) {
-    console.log(e);
-    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
-  }
-}
-
-// note this is for creating a custom task, rather than adding a task type
-export const createCustomTask = createAction('createCustomTaskSaga');
-
-export function* createCustomTaskSaga({ payload: data }) {
-  const { taskUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-
-  const header = getHeader(user_id, farm_id);
-  try {
-    const result = yield call(
-      axios.post,
-      `${taskUrl}/harvest_tasks`,
-      [defaultProcessFunction(data, 'harvest_tasks')],
-      header,
-    );
-    if (result) {
-      // todo: check
-      console.log(result.data);
-      yield put(postTasksSuccess(result.data));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
       history.push('/tasks');
     }
@@ -394,7 +379,6 @@ export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
-  yield takeLeading(createCustomTask.type, createCustomTaskSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLeading(getTasks.type, getTasksSaga);

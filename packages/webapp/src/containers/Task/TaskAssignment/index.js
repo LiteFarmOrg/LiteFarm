@@ -66,11 +66,7 @@ export default function TaskManagement({ history, match }) {
 
   const onSubmit = (data) => {
     const postData = { ...persistedFormData, ...data };
-    if (isCustomType) {
-      dispatch(createCustomTask(postData));
-    } else {
-      dispatch(createTask(postData));
-    }
+    dispatch(createTask(postData));
   };
 
   const handleGoBack = () => {

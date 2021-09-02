@@ -68,6 +68,9 @@ router.post('/harvest_task', modelMapping['harvest_task'],
 router.post('/plant_task', modelMapping['plant_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('plant_task'));
 
+router.post('/custom_task', hasFarmAccess({ body: 'locations' }),
+  isWorkerToSelfOrAdmin, taskController.createTask('custom_task'));
+
 router.patch('/complete/soil_amendment_task/:task_id', modelMapping['soil_amendment_task'],
   hasFarmAccess({ params: 'task_id' }), checkScope(['edit:task']),
   createOrPatchProduct('soil_amendment_task'), taskController.completeTask('soil_amendment_task'));

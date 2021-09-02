@@ -82,7 +82,6 @@ const PureTaskCard = ({
   const cropText =
     cropVarietyNames.length > 1 ? t('TASK.CARD.MULTIPLE_CROPS') : cropVarietyNames[0];
   const dateText = getTaskCardDate(dueDate);
-  console.log(taskType);
   const isCustomType = !!taskType.farm_id;
   const TaskIcon = isCustomType ? CustomIcon : iconDict[taskType.task_translation_key];
 

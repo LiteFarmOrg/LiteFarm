@@ -1093,7 +1093,7 @@ async function harvest_taskFactory({ promisedTask = taskFactory() } = {}, harves
 
 function fakeHarvestTask(defaultData = {}) {
   return {
-    quantity: faker.random.number(1000),
+    projected_quantity: faker.random.number(1000),
     ...defaultData,
   };
 }
@@ -1101,7 +1101,7 @@ function fakeHarvestTask(defaultData = {}) {
 function fakeHarvestTasks(defaultData = {}, number) {
   return [...Array(number)].map(() =>
     ({
-      quantity: faker.random.number(1000),
+      projected_quantity: faker.random.number(1000),
       harvest_everything: faker.random.boolean(),
       ...defaultData,
     })

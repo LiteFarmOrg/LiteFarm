@@ -256,6 +256,34 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+// note this is for creating a custom task, rather than adding a task type
+export const createCustomTask = createAction('createCustomTaskSaga');
+
+export function* createCustomTaskSaga({ payload: data }) {
+  const { taskUrl } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+
+  const header = getHeader(user_id, farm_id);
+  try {
+    const result = yield call(
+      axios.post,
+      `${taskUrl}/harvest_tasks`,
+      [defaultProcessFunction(data, 'harvest_tasks')],
+      header,
+    );
+    if (result) {
+      // todo: check
+      console.log(result.data);
+      yield put(postTasksSuccess(result.data));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
+      history.push('/tasks');
+    }
+  } catch (e) {
+    console.log(e);
+    yield put(enqueueErrorSnackbar(i18n.t('message:TASK.CREATE.FAILED')));
+  }
+}
+
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data } }) {
@@ -303,7 +331,7 @@ export function* abandonTaskSaga({ payload: data }) {
   }
 }
 
-export const addCustomTask = createAction('addTaskTypeSaga');
+export const addCustomTaskType = createAction('addTaskTypeSaga');
 
 export function* addTaskTypeSaga({ payload: data }) {
   const { taskTypeUrl } = apiConfig;
@@ -363,9 +391,10 @@ export function* deleteTaskTypeSaga({ payload: id }) {
 }
 
 export default function* taskSaga() {
-  yield takeLeading(addCustomTask.type, addTaskTypeSaga);
+  yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
+  yield takeLeading(createCustomTask.type, createCustomTaskSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLeading(getTasks.type, getTasksSaga);

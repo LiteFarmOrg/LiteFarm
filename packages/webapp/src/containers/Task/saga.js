@@ -243,12 +243,12 @@ export function* createTaskSaga({ payload: data }) {
   );
 
   const header = getHeader(user_id, farm_id);
-  const isHarvest = task_translation_key === 'HARVEST_TASK';
   const isCustomTask = !!task_farm_id;
-  const endpoint = isHarvest
-    ? 'harvest_tasks'
-    : isCustomTask
+  const isHarvest = task_translation_key === 'HARVEST_TASK';
+  const endpoint = isCustomTask
     ? 'custom_task'
+    : isHarvest
+    ? 'harvest_tasks'
     : task_translation_key.toLowerCase();
   try {
     const result = yield call(

@@ -241,7 +241,6 @@ export function* createTaskSaga({ payload: data }) {
   const { task_translation_key, farm_id: task_farm_id } = yield select(
     taskTypeById(data.task_type_id),
   );
-  console.log({ task_farm_id });
 
   const header = getHeader(user_id, farm_id);
   const isHarvest = task_translation_key === 'HARVEST_TASK';

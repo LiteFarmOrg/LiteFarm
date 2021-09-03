@@ -37,24 +37,6 @@ class HarvestTaskModel extends Model {
         projected_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
         actual_quantity: { type: 'number' },
         actual_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        not_sure: { type: 'number' },
-        not_sure_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        sales: { type: 'number' },
-        sales_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        self_consumption: { type: 'number' },
-        self_consumption_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        animal_feed: { type: 'number' },
-        animal_feed_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        compost: { type: 'number' },
-        compost_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] }, 
-        gift: { type: 'number' },
-        gift_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        exchange: { type: 'number' },
-        exchange_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        saved_for_seed: { type: 'number' },
-        saved_for_seed_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
-        other: { type: 'number' },
-        other_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
         harvest_everything: { type: 'boolean' },
       },
       additionalProperties: false,
@@ -77,19 +59,13 @@ class HarvestTaskModel extends Model {
 
       },
 
-      harvestUseType:{
-        modelClass:require('./harvestUseTypeModel'),
-        relation:Model.ManyToManyRelation,
-        join:{
+      harvestUses: {
+        modelClass: require('./harvestUseModel'),
+        relation: Model.HasManyRelation,
+        join: {
           from: 'harvest_task.task_id',
-          through: {
-            modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.task_id',
-            to: 'harvestUse.harvest_use_type_id',
-          },
-          to: 'harvestUseType.harvest_use_type_id',
+          to: 'harvest_use.task_id',
         },
-
       },
 
     };

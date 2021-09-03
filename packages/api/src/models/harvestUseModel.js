@@ -43,26 +43,12 @@ class HarvestUse extends Model {
 
   static get relationMappings() {
     return {
-      harvest_task: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./harvestTaskModel'),
-        join: {
-          from: 'harvestUse.task_id',
-          to: 'harvest_task.task_id',
-        },
-      },
-      harvestUseType: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
+      harvest_use_type: {
+        relation: Model.HasOneRelation,
         modelClass: require('./harvestUseTypeModel'),
         join: {
-          from: 'harvestUse.harvest_use_type_id',
-          to: 'harvestUseType.harvest_use_type_id',
+          from: 'harvest_use.harvest_use_type_id',
+          to: 'harvest_use_type.harvest_use_type_id',
         },
       },
     }

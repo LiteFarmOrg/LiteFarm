@@ -16,8 +16,6 @@
 const baseController = require('../controllers/baseController');
 const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
-const knex = require('../util/knex');
-
 
 const taskTypeController = {
   addType() {

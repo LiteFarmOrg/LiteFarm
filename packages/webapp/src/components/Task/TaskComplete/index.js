@@ -41,29 +41,16 @@ export default function PureTaskComplete({
 
   const DURATION = 'duration';
   const COMPLETION_NOTES = 'completion_notes';
-
-  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
-  const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
-
   const HAPPINESS = 'happiness';
+  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
+
+  const duration = watch(DURATION);
+  const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
+  const happiness = watch(HAPPINESS);
 
   const notes = watch(COMPLETION_NOTES);
 
-  const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
-  const setDuration = (value) => {
-    _setDuration(value > 0 ? value : '');
-  };
-
-  const [rating, _setRating] = useState(
-    persistedFormData?.happiness === undefined ? 0 : persistedFormData?.happiness,
-  );
-
-  const setRating = (value) => {
-    _setRating(value);
-    setValue(HAPPINESS, value);
-  };
-
-  const disabled = !prefer_not_to_say && rating === 0;
+  const disabled = !prefer_not_to_say && happiness === 0;
 
   return (
     <Form
@@ -77,7 +64,7 @@ export default function PureTaskComplete({
           taskData: {
             completed_time: new Date().toISOString(),
             duration: duration,
-            happiness: prefer_not_to_say ? null : rating,
+            happiness: prefer_not_to_say ? null : happiness,
             completion_notes: notes,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,
@@ -104,10 +91,7 @@ export default function PureTaskComplete({
       <TimeSlider
         style={{ marginBottom: '40px' }}
         label={t('TASK.DURATION')}
-        setValue={(durationInMinutes) => {
-          setDuration(durationInMinutes);
-          setValue(DURATION, durationInMinutes);
-        }}
+        setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
         initialTime={persistedFormData?.duration}
       />
 
@@ -119,7 +103,7 @@ export default function PureTaskComplete({
         label={t('TASK.PROVIDE_RATING')}
         disabled={prefer_not_to_say}
         initialRating={persistedFormData?.happiness}
-        onRate={setRating}
+        onRate={(value) => setValue(HAPPINESS, value)}
       />
 
       <Checkbox

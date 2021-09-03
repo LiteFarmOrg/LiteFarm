@@ -16,6 +16,7 @@ export default function PureManagementDetail({
   onCompleted,
   onAbandon,
   onBack,
+  onAddTask,
   variety,
   plan,
   isAdmin,
@@ -97,12 +98,7 @@ export default function PureManagementDetail({
       )}
 
       {isAdmin && (
-        <AddLink
-          style={{ marginTop: '16px', marginBottom: '14px' }}
-          onClick={() => {
-            console.log('Go to add task page');
-          }}
-        >
+        <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>
       )}

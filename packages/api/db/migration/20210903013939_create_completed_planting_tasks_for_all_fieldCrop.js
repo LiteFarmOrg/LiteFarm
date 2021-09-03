@@ -18,6 +18,7 @@ exports.up = async function(knex) {
         task_type_id,
         owner_user_id: plantingManagementPlan.created_by_user_id,
         completed_time: knex.fn.now(),
+        deleted: plantingManagementPlan.deleted,
       }).returning('*');
       await knex('plant_task').insert({
         task_id,

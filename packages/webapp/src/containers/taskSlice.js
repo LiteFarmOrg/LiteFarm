@@ -163,10 +163,11 @@ export const taskEntitiesSelector = createSelector(
         const subtask = subTaskEntities[task_id];
         farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
-          console.log(subtask);
-          taskEntities[task_id].locations = [subtask.planting_management_plan.location_id];
+          taskEntities[task_id].locations = [
+            locationEntities[subtask.planting_management_plan.location_id],
+          ];
           taskEntities[task_id].managementPlans = [
-            subtask.planting_management_plan.management_plan_id,
+            managementPlanEntities[subtask.planting_management_plan.management_plan_id],
           ];
         }
       }

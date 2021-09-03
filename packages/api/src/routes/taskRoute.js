@@ -59,6 +59,9 @@ router.post('/scouting_task', modelMapping['scouting_task'],
 router.post('/soil_task', modelMapping['soil_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('soil_task'));
 
+router.post('/custom/other_task', modelMapping['soil_task'],
+  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('soil_task'));
+
 router.post('/field_work_task', modelMapping['field_work_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('field_work_task'));
 

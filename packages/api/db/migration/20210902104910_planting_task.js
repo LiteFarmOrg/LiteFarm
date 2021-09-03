@@ -1,10 +1,66 @@
-exports.up = function(knex) {
-  return knex.schema.createTable('planting_task', t => {
-    t.uuid('planting_management_plan_id').primary().references('planting_management_plan_id').inTable('planting_management_plan');
-    t.integer('task_id').references('task_id').inTable('task');
+exports.up = async function(knex) {
+  const plantTasks = await knex('plant_task').rightJoin('management_tasks', 'management_tasks.task_id', 'plant_task.task_id')
+    .join('planting_management_plan', 'planting_management_plan.management_plan_id', 'management_tasks.management_plan_id');
+  const bedPlantingManagementPlans = plantTasks.filter(({
+    planting_method,
+    space_length_cm,
+    space_depth_cm,
+    space_width_cm,
+  }) => planting_method === 'BED_METHOD' && (space_length_cm || space_depth_cm || space_width_cm));
+
+  const getBedSpacing = ({ space_length_cm, space_width_cm }) => {
+    if (!space_length_cm) {
+      return Number(space_width_cm) / 100;
+    } else if (!space_width_cm) {
+      return Number(space_length_cm) / 100;
+    } else {
+      return (Number(space_length_cm) + Number(space_width_cm)) / 2 / 100;
+    }
+  };
+  for (const bedMethod of bedPlantingManagementPlans) {
+    await knex('bed_method').where('planting_management_plan_id',
+      bedMethod.planting_management_plan_id).update({
+      planting_depth: Number(bedMethod.space_depth_cm) / 100,
+      plant_spacing: getBedSpacing(bedMethod),
+    });
+  }
+
+  // const broadcastManagementPlans = plantTasks.filter(({
+  //   planting_method,
+  //   ...plantTask
+  // }) => planting_method === 'BROADCAST_METHOD' && plantTask['rate_seeds/m2']);
+  // for(const broadcastMethod of broadcastMethod){
+  //   await knex('broadcast_method').where('planting_management_plan_id',
+  //     broadcastMethod.planting_management_plan_id).update({
+  //
+  //   });
+  // }
+
+
+  const tasksToDelete = await knex('plant_task');
+  const taskIdsToDelete = tasksToDelete.map(({ task_id }) => task_id);
+  await knex('plant_task').delete();
+  await knex('management_tasks').whereIn('task_id', taskIdsToDelete).delete();
+  await knex('task').whereIn('task_id', taskIdsToDelete).delete();
+
+  await knex.schema.alterTable('plant_task', t => {
+    t.dropColumn('type');
+    t.dropColumn('space_depth_cm');
+    t.dropColumn('space_length_cm');
+    t.dropColumn('space_width_cm');
+    t.dropColumn('rate_seeds/m2');
+    t.uuid('planting_management_plan_id').references('planting_management_plan_id').inTable('planting_management_plan');
   });
+
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTable('planting_task');
+  return knex.schema.alterTable('plant_task', t => {
+    t.float('space_depth_cm');
+    t.float('space_length_cm');
+    t.float('space_width_cm');
+    t.float('rate_seeds/m2');
+    t.enu('type', []);
+    t.dropColumn('planting_management_plan_id');
+  });
 };

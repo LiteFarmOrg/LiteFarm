@@ -19,6 +19,13 @@ const addManyTaskTypes = (state, { payload: taskTypes }) => {
   );
 };
 
+const softDeleteTaskType = (state, { payload: task_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskTypeAdapter.updateOne(state, { id: task_id, changes: { deleted: true } });
+};
+
 const taskTypeAdapter = createEntityAdapter({
   selectId: (taskType) => taskType.task_type_id,
 });
@@ -34,7 +41,7 @@ const taskTypeSlice = createSlice({
     onLoadingProductStart: onLoadingStart,
     onLoadingProductFail: onLoadingFail,
     getTaskTypesSuccess: addManyTaskTypes,
-    deleteTaskTypeSuccess: taskTypeAdapter.removeOne,
+    deleteTaskTypeSuccess: softDeleteTaskType,
   },
 });
 export const {

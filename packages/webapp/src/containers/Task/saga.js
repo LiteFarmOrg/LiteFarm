@@ -273,10 +273,9 @@ export const completeTask = createAction('completeTaskSaga');
 export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const task_translation_key = data.task_translation_key;
-  const taskData = data.taskData;
+  const { task_translation_key, taskData, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
-  const endpoint = task_translation_key.toLowerCase();
+  const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
   try {
     const result = yield call(
       axios.patch,

@@ -81,6 +81,7 @@ export default function PureTaskComplete({
             completion_notes: notes,
           },
           task_translation_key: persistedFormData?.taskType.task_translation_key,
+          isCustomTaskType: !!persistedFormData?.taskType.farm_id,
         };
         if (persistedFormData?.need_changes) {
           let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();

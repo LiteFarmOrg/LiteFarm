@@ -10,7 +10,7 @@ function TaskComplete({ history, match }) {
   const persistedPaths = [`/tasks/${task_id}/before_complete`];
 
   const onSave = (data) => {
-    dispatch(completeTask({task_id, data}));
+    dispatch(completeTask({ task_id, data }));
   };
 
   const onCancel = () => {
@@ -18,7 +18,7 @@ function TaskComplete({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.push(persistedPaths[0]);
+    history.goBack();
   };
 
   return (

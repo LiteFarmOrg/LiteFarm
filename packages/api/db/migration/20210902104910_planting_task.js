@@ -9,13 +9,7 @@ exports.up = async function(knex) {
   }) => planting_method === 'BED_METHOD' && (space_length_cm || space_depth_cm || space_width_cm));
 
   const getBedSpacing = ({ space_length_cm, space_width_cm }) => {
-    if (!space_length_cm) {
-      return Number(space_width_cm) / 100;
-    } else if (!space_width_cm) {
-      return Number(space_length_cm) / 100;
-    } else {
-      return (Number(space_length_cm) + Number(space_width_cm)) / 2 / 100;
-    }
+    return Number(space_length_cm) / 100;
   };
   for (const bedMethod of bedPlantingManagementPlans) {
     await knex('bed_method').where('planting_management_plan_id',

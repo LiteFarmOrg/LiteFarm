@@ -2,13 +2,15 @@ const TaskModel = require('../models/taskModel');
 const userFarmModel = require('../models/userFarmModel');
 const managementPlanModel = require('../models/managementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
+const transplantTaskModel = require('../models/transplantTaskModel');
+const plantTaskModel = require('../models/plantTaskModel');
 const HarvestTaskModel = require('../models/harvestTaskModel');
 const LocationTaskModel = require('../models/locationTasksModel');
 const { transaction, Model, UniqueViolationError } = require('objection');
 const baseController = require('../controllers/baseController');
 
-const { typesOfTask } = require('./../middleware/validation/task')
-const adminRoles = [ 1, 2, 5 ];
+const { typesOfTask } = require('./../middleware/validation/task');
+const adminRoles = [1, 2, 5];
 
 const taskController = {
 
@@ -31,13 +33,13 @@ const taskController = {
         }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           assignee_user_id,
-          wage_at_moment: wage.amount === 0 ? 0 : wage.amount
+          wage_at_moment: wage.amount === 0 ? 0 : wage.amount,
         });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
         return res.status(400).json({ error });
       }
-    }
+    };
   },
 
   assignAllTasksOnDate() {
@@ -58,12 +60,12 @@ const taskController = {
         let available_tasks = await TaskModel.query().context(req.user)
           .select('task_id')
           .where((builder) => {
-            builder.where('due_date', date)
+            builder.where('due_date', date);
             builder.whereIn('task_id', taskIds);
             if (assignee_user_id !== null) {
-              builder.where('assignee_user_id', null)
+              builder.where('assignee_user_id', null);
             }
-          })
+          });
         available_tasks = available_tasks.map(({ task_id }) => task_id);
         const result = await TaskModel.query().context(req.user).patch({
           assignee_user_id,
@@ -73,7 +75,7 @@ const taskController = {
       } catch (error) {
         return res.status(400).json({ error });
       }
-    }
+    };
   },
 
   abandonTask() {
@@ -103,7 +105,7 @@ const taskController = {
         console.log(error);
         return res.status(400).json({ error });
       }
-    }
+    };
   },
 
   createTask(typeOfTask) {
@@ -128,9 +130,9 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: [ 'locations', 'managementPlans' ],
+              relate: ['locations', 'managementPlans'],
             });
-          const [ task ] = await TaskModel.query(trx).withGraphFetched(`
+          const [task] = await TaskModel.query(trx).withGraphFetched(`
           [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task, 
           field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `).where({ task_id });
@@ -141,7 +143,7 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
+    };
   },
 
   createHarvestTasks() {
@@ -183,7 +185,7 @@ const taskController = {
         console.log(error);
         return res.status(400).json({ error });
       }
-    }
+    };
   },
 
   completeTask(typeOfTask) {
@@ -195,7 +197,7 @@ const taskController = {
         const { task_id } = req.params;
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const result = await TaskModel.transaction(async trx =>
           await TaskModel.query(trx).context({ user_id: req.user.user_id })
@@ -209,11 +211,11 @@ const taskController = {
           const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time, })
+            await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
-              .where('start_date', null)
+              .where('start_date', null);
           }
-          return res.status(200).send(result)
+          return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
         }
@@ -221,7 +223,7 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
+    };
   },
 
   getTasksByFarmId() {
@@ -231,7 +233,7 @@ const taskController = {
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().withGraphFetched(`
-          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task]
+          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task, plant_task, transplant_task]
         `).whereIn('task_id', taskIds);
         const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {
@@ -242,31 +244,45 @@ const taskController = {
         return res.status(400).send({ error });
 
       }
-    }
+    };
   },
 
 
-}
+};
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
-  return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan' ].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
 }
 
 function removeNullTypes(task, i, arr) {
   const filtered = Object.keys(task)
     .filter((k) => typesOfTask.includes(k))
-    .reduce((reducer, k) => ({ ...reducer, [k]: task[k] === null ? undefined : task[k] }), {})
+    .reduce((reducer, k) => ({ ...reducer, [k]: task[k] === null ? undefined : task[k] }), {});
   return { ...task, ...filtered };
 }
 
-function getTasksForFarm(farm_id) {
-  return TaskModel.query().select('task.task_id').whereNotDeleted()
-    .distinct('task.task_id')
-    .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-    .join('location', 'location.location_id', 'location_tasks.location_id')
-    .join('userFarm', 'userFarm.farm_id', '=', 'location.farm_id')
-    .where('userFarm.farm_id', farm_id);
+//TODO: optimize after plant_task and transplant_task refactor
+async function getTasksForFarm(farm_id) {
+  const [tasks, plantTasks, transplantTasks] = await Promise.all([
+    TaskModel.query().select('task.task_id').whereNotDeleted()
+      .distinct('task.task_id')
+      .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+      .join('location', 'location.location_id', 'location_tasks.location_id')
+      .where('location.farm_id', farm_id),
+    plantTaskModel.query().select('plant_task.task_id')
+      .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'plant_task.planting_management_plan_id')
+      .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan. management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
+    transplantTaskModel.query().select('transplant_task.task_id')
+      .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'transplant_task.planting_management_plan_id')
+      .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan. management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
+
+  ]);
+  return [...tasks, ...plantTasks, ...transplantTasks];
 }
 
 module.exports = taskController;

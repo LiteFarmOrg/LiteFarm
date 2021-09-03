@@ -16,9 +16,9 @@
 const Model = require('objection').Model;
 
 
-class PlantTaskModel extends Model {
+class transplantTaskModel extends Model {
   static get tableName() {
-    return 'plant_task';
+    return 'transplant_task';
   }
 
   static get idColumn() {
@@ -50,7 +50,7 @@ class PlantTaskModel extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: require('./taskModel'),
         join: {
-          from: 'plant_task.task_id',
+          from: 'transplant_task.task_id',
           to: 'task.task_id',
         },
       },
@@ -58,4 +58,4 @@ class PlantTaskModel extends Model {
   }
 }
 
-module.exports = PlantTaskModel;
+module.exports = transplantTaskModel;

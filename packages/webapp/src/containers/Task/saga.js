@@ -42,6 +42,16 @@ import {
   onLoadingHarvestTaskFail,
   onLoadingHarvestTaskStart,
 } from '../slice/taskSlice/harvestTaskSlice';
+import {
+  getPlantTasksSuccess,
+  onLoadingPlantTaskFail,
+  onLoadingPlantTaskStart,
+} from '../slice/taskSlice/plantTaskSlice';
+import {
+  getTransplantTasksSuccess,
+  onLoadingTransplantTaskFail,
+  onLoadingTransplantTaskStart,
+} from '../slice/taskSlice/transplantTaskSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -127,6 +137,8 @@ const taskTypeActionMap = {
     fail: onLoadingSoilAmendmentTaskFail,
   },
   HARVEST_TASK: { success: getHarvestTasksSuccess, fail: onLoadingHarvestTaskFail },
+  PLANT_TASK: { success: getPlantTasksSuccess, fail: onLoadingPlantTaskFail },
+  TRANSPLANT_TASK: { success: getTransplantTasksSuccess, fail: onLoadingTransplantTaskFail },
 };
 
 export const onLoadingTaskStart = createAction('onLoadingTaskStartSaga');
@@ -137,6 +149,8 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPestControlTaskStart());
   yield put(onLoadingSoilAmendmentTaskStart());
   yield put(onLoadingHarvestTaskStart());
+  yield put(onLoadingPlantTaskStart());
+  yield put(onLoadingTransplantTaskStart());
 }
 
 export const postTasksSuccess = createAction('postTasksSuccessSaga');

@@ -16,6 +16,7 @@
 const baseController = require('../controllers/baseController');
 const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
+const knex = require('../util/knex');
 
 
 const taskTypeController = {
@@ -43,10 +44,9 @@ const taskTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({
-          farm_id,
-          deleted: false,
-        });
+        const rows = await knex('task_type')
+          .select('task_type_id', 'task_name', 'farm_id', 'task_translation_key', 'deleted')
+          .where('farm_id', null).orWhere({ farm_id });
         if (!rows.length) {
           return res.sendStatus(404);
         } else {
@@ -54,6 +54,7 @@ const taskTypeController = {
         }
       } catch (error) {
         //handle more exceptions
+        console.log(error);
         return res.status(400).json({
           error,
         });

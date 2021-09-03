@@ -488,6 +488,7 @@
       "WATERCOURSE": "Watercourse",
       "WATERCOURSE_TITLE": "What are the following widths ?"
     },
+    "LOCATION_CREATION_FLOW": "location creation",
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",

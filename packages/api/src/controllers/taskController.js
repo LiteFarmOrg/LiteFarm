@@ -81,7 +81,7 @@ const taskController = {
       try {
         const { task_id } = req.params;
         const { user_id } = req.headers;
-        const { abandonment_reason, other_abandonment_reason, abandonment_notes } = req.body;
+        const { abandonment_reason, other_abandonment_reason, abandonment_notes, happiness, duration } = req.body;
 
         const { owner_user_id, assignee_user_id } = await TaskModel.query()
           .select('owner_user_id', 'assignee_user_id')
@@ -97,6 +97,8 @@ const taskController = {
           abandonment_reason,
           other_abandonment_reason,
           abandonment_notes,
+          happiness,
+          duration,
         });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {

@@ -21,6 +21,7 @@ import { ReactComponent as SocialEvent } from '../../../assets/images/task/Socia
 import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
 import { ReactComponent as Transplant } from '../../../assets/images/task/Transplant.svg';
 import { ReactComponent as WashAndPack } from '../../../assets/images/task/WashAndPack.svg';
+import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import Button from '../../Form/Button';
@@ -36,6 +37,7 @@ const PureTaskTypeSelection = ({
   onContinue,
   onError,
   taskTypes,
+  customTasks,
 }) => {
   const { t } = useTranslation();
   const icons = {
@@ -105,7 +107,7 @@ const PureTaskTypeSelection = ({
                   onClick={() => {
                     onTileClick(task_type_id);
                   }}
-                  key={task_translation_key}
+                  key={task_type_id}
                 >
                   <div
                     className={clsx(
@@ -119,6 +121,26 @@ const PureTaskTypeSelection = ({
                 </div>
               );
             })}
+          {customTasks?.map(({ task_translation_key, task_type_id, task_name }) => {
+            return (
+              <div
+                onClick={() => {
+                  onTileClick(task_type_id);
+                }}
+                key={task_type_id}
+              >
+                <div
+                  className={clsx(
+                    styles.typeContainer,
+                    task === task_type_id && styles.typeContainerSelected,
+                  )}
+                >
+                  <CustomTask />
+                  <div>{task_name}</div>
+                </div>
+              </div>
+            );
+          })}
           {/*<div*/}
           {/*  id={'collect_soil_sample'}*/}
           {/*  onClick={() => {*/}

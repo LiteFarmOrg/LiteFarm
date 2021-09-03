@@ -22,7 +22,7 @@ function PageTitle({ title, onGoBack, onCancel, onEdit, style, cancelModalTitle,
           {editLink}{' '}
         </EditLink>
       )}
-      {!!onCancel && <CancelButton onClick={onCancel} cancelModalTitle={cancelModalTitle} />}
+      {!!onCancel && <CancelButton onCancel={onCancel} cancelModalTitle={cancelModalTitle} />}
     </div>
   );
 }

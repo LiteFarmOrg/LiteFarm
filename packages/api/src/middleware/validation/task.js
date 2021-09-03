@@ -23,6 +23,7 @@ const modelMapping = {
   harvest_task: modelValidation('harvest_task'),
   plant_task: modelValidation('plant_task'),
   cleaning_task: modelValidation('cleaning_task'),
+  custom_task: modelValidation('custom_task'),
 };
 
 function modelValidation(asset) {

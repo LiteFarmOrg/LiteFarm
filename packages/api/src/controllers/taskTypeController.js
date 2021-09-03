@@ -44,9 +44,7 @@ const taskTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await knex('task_type')
-          .select('task_type_id', 'task_name', 'farm_id', 'task_translation_key', 'deleted')
-          .where('farm_id', null).orWhere({ farm_id });
+        const rows = await TaskTypeModel.query().where('farm_id', null).orWhere({ farm_id });
         if (!rows.length) {
           return res.sendStatus(404);
         } else {

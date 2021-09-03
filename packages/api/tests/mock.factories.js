@@ -1003,7 +1003,7 @@ async function task_typeFactory({ promisedFarm = farmFactory() } = {}, taskType 
   return knex('task_type').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
-async function harvestUseTypeFactory({ promisedFarm = farmFactory() } = {}, harvestUseType = fakeHarvestUseType()) {
+async function harvest_use_typeFactory({ promisedFarm = farmFactory() } = {}, harvest_use_type = fakeHarvestUseType()) {
   const [farm] = await Promise.all([promisedFarm, usersFactory()]);
   let farm_id;
   if (farm.farm_id) {
@@ -1011,7 +1011,7 @@ async function harvestUseTypeFactory({ promisedFarm = farmFactory() } = {}, harv
   } else {
     farm_id = null;
   }
-  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
+  return knex('harvest_use_type').insert({ farm_id, ...harvest_use_type }).returning('*');
 }
 
 function fakeHarvestUseType(defaultData = {}) {
@@ -1023,7 +1023,7 @@ function fakeHarvestUseType(defaultData = {}) {
 
 function fakeHarvestUse(defaultData = {}) {
   return {
-    quantity_kg: faker.random.number(200),
+    quantity: faker.random.number(200),
     ...defaultData,
   };
 }
@@ -1036,7 +1036,7 @@ async function createDefaultState() {
     let data = {
       harvest_use_type_name: type,
     };
-    const [use] = await knex('harvestUseType').insert(data).returning('*');
+    const [use] = await knex('harvest_use_type').insert(data).returning('*');
     return use;
   }));
   return uses;
@@ -1108,9 +1108,9 @@ function fakeHarvestTasks(defaultData = {}, number) {
   );
 }
 
-async function harvestUseFactory({
+async function harvest_useFactory({
   promisedHarvestLog = harvest_taskFactory(),
-  promisedHarvestUseType = harvestUseTypeFactory(),
+  promisedHarvestUseType = harvest_use_typeFactory(),
   promisedManagementPlan = management_planFactory(),
 } = {},
   harvestUse = fakeHarvestUse()) {
@@ -1119,7 +1119,7 @@ async function harvestUseFactory({
   const [{ task_id }] = harvestLog;
   const [{ management_plan_id }] = managementPlan;
   await knex('management_tasks').insert({ task_id, management_plan_id });
-  return knex('harvestUse').insert({ task_id, harvest_use_type_id, ...harvestUse }).returning('*');
+  return knex('harvest_use').insert({ task_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 
 async function plant_taskFactory({ promisedTask = taskFactory() } = {}, plant_task = fakePlantTask()) {
@@ -1648,9 +1648,9 @@ module.exports = {
   bed_methodFactory, fakeBedMethod,
   fertilizerFactory, fakeFertilizer,
   taskFactory, fakeTask,
-  harvestUseTypeFactory, fakeHarvestUseType,
+  harvest_use_typeFactory, fakeHarvestUseType,
   createDefaultState,
-  harvestUseFactory, fakeHarvestUse,
+  harvest_useFactory, fakeHarvestUse,
   productFactory, fakeProduct,
   soil_amendment_taskFactory, fakeSoilAmendmentTask,
   pesticideFactory, fakePesticide,

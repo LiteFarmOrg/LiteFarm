@@ -4,7 +4,7 @@ import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
 
 export const getTaskType = (obj) => {
-  return pick(obj, ['task_type_id', 'task_name', 'task_translation_key', 'farm_id']);
+  return pick(obj, ['task_type_id', 'task_name', 'task_translation_key', 'farm_id', 'deleted']);
 };
 
 const noCropsTaskTypes = ['CLEANING'];
@@ -17,6 +17,13 @@ const addManyTaskTypes = (state, { payload: taskTypes }) => {
     state,
     taskTypes.map((types) => getTaskType(types)),
   );
+};
+
+const softDeleteTaskType = (state, { payload: task_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  taskTypeAdapter.updateOne(state, { id: task_id, changes: { deleted: true } });
 };
 
 const taskTypeAdapter = createEntityAdapter({
@@ -34,10 +41,15 @@ const taskTypeSlice = createSlice({
     onLoadingProductStart: onLoadingStart,
     onLoadingProductFail: onLoadingFail,
     getTaskTypesSuccess: addManyTaskTypes,
-    deleteTaskTypeSuccess: taskTypeAdapter.removeOne,
+    deleteTaskTypeSuccess: softDeleteTaskType,
   },
 });
-export const { onLoadingProductFail, taskTypes, getTaskTypesSuccess, deleteTaskTypeSuccess } = taskTypeSlice.actions;
+export const {
+  onLoadingProductFail,
+  taskTypes,
+  getTaskTypesSuccess,
+  deleteTaskTypeSuccess,
+} = taskTypeSlice.actions;
 export default taskTypeSlice.reducer;
 
 export const taskTypeReducerSelector = (state) => state.entitiesReducer[taskTypeSlice.name];
@@ -49,11 +61,11 @@ const taskTypeSelectors = taskTypeAdapter.getSelectors(
 export const taskTypeEntitiesSelector = taskTypeSelectors.selectEntities;
 
 export const defaultTaskTypesSelector = createSelector([taskTypeSelectors.selectAll], (taskTypes) =>
-  taskTypes.filter(({ farm_id }) => farm_id === null),
+  taskTypes.filter(({ farm_id, deleted }) => farm_id === null && !deleted),
 );
 
 export const userCreatedTaskTypes = createSelector([taskTypeSelectors.selectAll], (taskTypes) =>
-  taskTypes.filter(({ farm_id }) => farm_id !== null),
+  taskTypes.filter(({ farm_id, deleted }) => farm_id !== null && !deleted),
 );
 
 export const taskTypesSelector = createSelector(

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import {
   isAdminSelector,
@@ -10,9 +10,11 @@ import {
 import { taskWithProductById } from '../../taskSlice';
 import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
+import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
+  const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const task = useSelector(taskWithProductById(task_id));
   const products = useSelector(productEntitiesSelector);
@@ -20,6 +22,7 @@ function TaskReadOnly({ history, match }) {
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const isCompleted = task.completed_time !== null;
+  const isTaskTypeCustom = !!task.taskType.farm_id;
 
   const task_locations = task.locations.map(({ location_id }) => ({ location_id }));
   const managementPlanIds = task.managementPlans.map(
@@ -35,7 +38,12 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onComplete = () => {
-    history.push(`/tasks/${task_id}/before_complete`);
+    if (isTaskTypeCustom) {
+      dispatch(setFormData({ task_id, taskType: task.taskType }));
+      history.push(`/tasks/${task_id}/complete`);
+    } else {
+      history.push(`/tasks/${task_id}/before_complete`);
+    }
   };
 
   const onEdit = () => {
@@ -62,6 +70,7 @@ function TaskReadOnly({ history, match }) {
       managementPlansByLocationIds={managementPlansByLocationIds}
       hasManagementPlans={task.managementPlans?.length > 0}
       isCompleted={isCompleted}
+      isTaskTypeCustom={isTaskTypeCustom}
     />
   );
 }

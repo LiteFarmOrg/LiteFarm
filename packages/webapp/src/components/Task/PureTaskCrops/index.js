@@ -175,7 +175,7 @@ const PureTaskCrops = ({
           value={57}
         />
 
-        <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_CROPS')}</Main>
+        <Main style={{ paddingBottom: '20px' }}>{t('ADD_TASK.AFFECT_PLANS')}</Main>
         <Input
           value={filter}
           onChange={onFilterChange}
@@ -188,11 +188,11 @@ const PureTaskCrops = ({
             {selectedManagementPlanIds.length}
           </Square>
           <Underlined onClick={selectAllCrops} style={{ marginRight: '5px' }}>
-            {t('ADD_TASK.SELECT_ALL_CROPS')}
+            {t('ADD_TASK.SELECT_ALL_PLANS')}
           </Underlined>
           {'|'}
           <Underlined onClick={clearAllCrops} style={{ marginLeft: '5px' }}>
-            {t('ADD_TASK.CLEAR_ALL_CROPS')}
+            {t('ADD_TASK.CLEAR_ALL_PLANS')}
           </Underlined>
         </div>
 

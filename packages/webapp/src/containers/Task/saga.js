@@ -242,21 +242,33 @@ const taskTypeProcessFunctionMap = {
   HARVEST_TASK: harvestProcessFunction,
 };
 
+const getTaskReqBody = (data, endpoint, task_translation_key, isCustomTask) => {
+  if (isCustomTask) return defaultProcessFunction(data, endpoint);
+  return taskTypeProcessFunctionMap[task_translation_key](data, endpoint);
+};
+
 export const createTask = createAction('createTaskSaga');
 
 export function* createTaskSaga({ payload: data }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key } = yield select(taskTypeById(data.task_type_id));
+  const { task_translation_key, farm_id: task_farm_id } = yield select(
+    taskTypeById(data.task_type_id),
+  );
 
   const header = getHeader(user_id, farm_id);
+  const isCustomTask = !!task_farm_id;
   const isHarvest = task_translation_key === 'HARVEST_TASK';
-  const endpoint = isHarvest ? 'harvest_tasks' : task_translation_key.toLowerCase();
+  const endpoint = isCustomTask
+    ? 'custom_task'
+    : isHarvest
+    ? 'harvest_tasks'
+    : task_translation_key.toLowerCase();
   try {
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
-      taskTypeProcessFunctionMap[task_translation_key](data, endpoint),
+      getTaskReqBody(data, endpoint, task_translation_key, isCustomTask),
       header,
     );
     if (result) {
@@ -275,10 +287,9 @@ export const completeTask = createAction('completeTaskSaga');
 export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const task_translation_key = data.task_translation_key;
-  const taskData = data.taskData;
+  const { task_translation_key, taskData, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
-  const endpoint = task_translation_key.toLowerCase();
+  const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
   try {
     const result = yield call(
       axios.patch,
@@ -317,7 +328,7 @@ export function* abandonTaskSaga({ payload: data }) {
   }
 }
 
-export const addCustomTask = createAction('addTaskTypeSaga');
+export const addCustomTaskType = createAction('addTaskTypeSaga');
 
 export function* addTaskTypeSaga({ payload: data }) {
   const { taskTypeUrl } = apiConfig;
@@ -377,7 +388,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
 }
 
 export default function* taskSaga() {
-  yield takeLeading(addCustomTask.type, addTaskTypeSaga);
+  yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
   yield takeLeading(getTaskTypes.type, getTaskTypesSaga);

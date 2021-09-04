@@ -4,12 +4,13 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
-import { defaultTaskTypesSelector } from '../../taskTypeSlice';
+import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
+  const customTasks = useSelector(userCreatedTaskTypes);
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
@@ -47,6 +48,7 @@ function TaskTypeSelection({ history, match }) {
         onContinue={onContinue}
         onError={onError}
         taskTypes={taskTypes}
+        customTasks={customTasks}
       />
     </HookFormPersistProvider>
   );

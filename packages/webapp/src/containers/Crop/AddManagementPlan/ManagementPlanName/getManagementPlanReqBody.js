@@ -77,22 +77,35 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
       ...pick(initial, plantingManagementPlanPropertiesV0),
       container_method: getContainerMethodReqBody(initial.container_method),
       is_final_planting_management_plan: false,
+      planting_task_type: 'PLANT_TASK',
       planting_method: 'CONTAINER_METHOD',
     });
     planting_management_plans.push(
-      getPlantingMethodReqBody(final, { is_final_planting_management_plan: true }),
+      getPlantingMethodReqBody(final, {
+        is_final_planting_management_plan: true,
+        planting_task_type: 'TRANSPLANT_TASK',
+      }),
     );
   } else if (!already_in_ground) {
     planting_management_plans.push(
-      getPlantingMethodReqBody(final, { is_final_planting_management_plan: true }),
+      getPlantingMethodReqBody(final, {
+        is_final_planting_management_plan: true,
+        planting_task_type: needs_transplant ? 'TRANSPLANT_TASK' : 'PLANT_TASK',
+      }),
     );
     needs_transplant &&
       planting_management_plans.push(
-        getPlantingMethodReqBody(initial, { is_final_planting_management_plan: false }),
+        getPlantingMethodReqBody(initial, {
+          is_final_planting_management_plan: false,
+          planting_task_type: 'PLANT_TASK',
+        }),
       );
   } else if (already_in_ground && !is_wild && needs_transplant) {
     planting_management_plans.push(
-      getPlantingMethodReqBody(final, { is_final_planting_management_plan: true }),
+      getPlantingMethodReqBody(final, {
+        is_final_planting_management_plan: true,
+        planting_task_type: 'TRANSPLANT_TASK',
+      }),
     );
     planting_management_plans.push(
       initial.is_planting_method_known
@@ -124,7 +137,10 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
   } else {
     planting_management_plans.push(
       needs_transplant
-        ? getPlantingMethodReqBody(final, { is_final_planting_management_plan: true })
+        ? getPlantingMethodReqBody(final, {
+            is_final_planting_management_plan: true,
+            planting_task_type: 'TRANSPLANT_TASK',
+          })
         : {
             estimated_yield: for_cover ? undefined : final.estimated_yield,
             estimated_yield_unit: for_cover ? undefined : final.estimated_yield_unit,

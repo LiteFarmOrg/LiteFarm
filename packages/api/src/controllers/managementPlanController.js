@@ -68,12 +68,12 @@ const managementPlanController = {
             const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, { transplant_task: { planting_management_plan_id } }));
             tasks.push(transplantTask);
           }
+          const location_id = management_plan.crop_management_plan.planting_management_plans.find(
+            planting_management_plan => management_plan.crop_management_plan.needs_transplant ?
+              planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK').location_id;
           const taskManagementPlansAndLocations = {
-            locations: [{
-              location_id: management_plan.crop_management_plan.planting_management_plans.find(
-                planting_management_plan => management_plan.crop_management_plan.needs_transplant ?
-                  planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK').location_id,
-            }],
+            //TODO: already_in_ground && is_wild && !needs_transplant test (pin location)
+            locations: location_id ? [{ location_id }] : undefined,
             managementPlans: [{ management_plan_id: management_plan.management_plan_id }],
           };
           if (!req.body.crop_management_plan.for_cover) {

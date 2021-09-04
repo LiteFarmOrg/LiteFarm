@@ -41,6 +41,90 @@ describe('ManagementPlan Tests', () => {
     token = global.token;
   });
 
+  beforeAll(async () => {
+    const translationKeys = [
+      {
+        'task_translation_key': 'BED_PREPARATION_TASK',
+        'task_name': 'Bed Preparation',
+      },
+      {
+        'task_translation_key': 'SALE_TASK',
+        'task_name': 'Sales',
+      },
+      {
+        'task_translation_key': 'SCOUTING_TASK',
+        'task_name': 'Scouting',
+      },
+      {
+        'task_translation_key': 'HARVEST_TASK',
+        'task_name': 'Harvesting',
+      },
+      {
+        'task_translation_key': 'WASH_AND_PACK_TASK',
+        'task_name': 'Wash and Pack',
+      },
+      {
+        'task_translation_key': 'PEST_CONTROL_TASK',
+        'task_name': 'Pest Control',
+      },
+      {
+        'task_translation_key': 'OTHER_TASK',
+        'task_name': 'Other',
+      },
+      {
+        'task_translation_key': 'BREAK_TASK',
+        'task_name': 'Break',
+      },
+      {
+        'task_translation_key': 'SOIL_TASK',
+        'task_name': 'Soil Sample Results',
+      },
+      {
+        'task_translation_key': 'IRRIGATION_TASK',
+        'task_name': 'Irrigation',
+      },
+      {
+        'task_translation_key': 'TRANSPORT_TASK',
+        'task_name': 'Transport',
+      },
+      {
+        'task_translation_key': 'FIELD_WORK_TASK',
+        'task_name': 'Field Work',
+      },
+      {
+        'task_translation_key': 'SOCIAL_TASK',
+        'task_name': 'Social',
+      },
+      {
+        'task_translation_key': 'CLEANING_TASK',
+        'task_name': 'Cleaning',
+      },
+      {
+        'task_translation_key': 'SOIL_AMENDMENT_TASK',
+        'task_name': 'Soil Amendment',
+      },
+      {
+        'task_translation_key': 'PLANT_TASK',
+        'task_name': 'Planting',
+      },
+      {
+        'task_translation_key': 'TRANSPLANT_TASK',
+        'task_name': 'Transplant',
+      },
+    ];
+    for (const translationKey of translationKeys) {
+      const { task_translation_key } = translationKey;
+      const [taskTypeInDb] = await knex('task_type').where({ farm_id: null, task_translation_key });
+      if (!taskTypeInDb) {
+        await knex('task_type').insert({
+          ...translationKey,
+          created_by_user_id: null,
+          updated_by_user_id: null,
+        }).returning('*');
+      }
+    }
+  });
+
 
   function postManagementPlanRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/management_plan`)
@@ -730,18 +814,20 @@ describe('ManagementPlan Tests', () => {
       [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [userFarm], promisedCrop: [crop] });
     });
 
-    function getBody(finalMethod = 'broadcast_method', initialMethod) {
+    function getBody(finalMethod = 'broadcast_method', initialMethod, { already_in_ground = false } = {}) {
       return {
         crop_variety_id: cropVariety.crop_variety_id,
         ...mocks.fakeManagementPlan(),
         crop_management_plan: {
           ...mocks.fakeCropManagementPlan(),
-          needs_transplant: false,
+          needs_transplant: !!initialMethod,
+          already_in_ground,
           planting_management_plans: [finalMethod, initialMethod].reduce((planting_methods, method, index) => {
             return method ? [...planting_methods, {
               ...mocks.fakePlantingManagementPlan(),
               location_id: field.location_id,
               is_final_planting_management_plan: index === 0,
+              planting_task_type: initialMethod && index === 1 ? 'TRANSPLANT_TASK' : 'PLANT_TASK',
               planting_method: method.toUpperCase(),
               [method]: fakeMethodMap[method](),
             }] : planting_methods;
@@ -752,19 +838,36 @@ describe('ManagementPlan Tests', () => {
 
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
-      const { planting_management_plan_id } = await knex('planting_management_plan').where({
-        management_plan_id: res.body.management_plan_id,
-        is_final_planting_management_plan: true,
-      }).first();
-      const plantingMethod = await knex(final_planting_method).where({ planting_management_plan_id }).first();
-      expect(plantingMethod).toBeDefined();
+      const { management_plan_id } = res.body;
+      const { already_in_ground, for_cover } = res.body.crop_management_plan;
+      if (!already_in_ground) {
+        const { planting_management_plan_id } = await knex('planting_management_plan').where({
+          management_plan_id: res.body.management_plan_id,
+          planting_task_type: 'PLANT_TASK',
+        }).first();
+        const plantingMethod = await knex(final_planting_method).where({ planting_management_plan_id }).first();
+        expect(plantingMethod).toBeDefined();
+
+        const plant_task = await knex('plant_task').where({ planting_management_plan_id }).first();
+        expect(plant_task).toBeDefined();
+      }
       if (initial_planting_method) {
         const { planting_management_plan_id } = await knex('planting_management_plan').where({
           management_plan_id: res.body.management_plan_id,
-          is_final_planting_management_plan: false,
+          planting_task_type: 'TRANSPLANT_TASK',
         }).first();
-        const initialPlantingMethod = await knex(initial_planting_method).where({ planting_management_plan_id }).first();
-        expect(initialPlantingMethod).toBeDefined();
+        const plantingMethod = await knex(initial_planting_method).where({ planting_management_plan_id }).first();
+        expect(plantingMethod).toBeDefined();
+
+        const transplant_task = await knex('transplant_task').where({ planting_management_plan_id }).first();
+        expect(transplant_task).toBeDefined();
+      }
+      if (for_cover) {
+        const fieldWorkTask = await knex('management_tasks').join('field_work_task', 'field_work_task.task_id', 'management_tasks.task_id').where({ management_plan_id }).first();
+        expect(fieldWorkTask).toBeDefined();
+      } else {
+        const harvestTask = await knex('management_tasks').join('harvest_task', 'harvest_task.task_id', 'management_tasks.task_id').where({ management_plan_id }).first();
+        expect(harvestTask).toBeDefined();
       }
     }
 
@@ -814,7 +917,8 @@ describe('ManagementPlan Tests', () => {
       });
     });
 
-    test('should not allow multiple types of plantation', async (done) => {
+    //TODO: post management plan middle ware that checks there are maximum 1 plant_task and 1 transplant_task
+    xtest('should not allow multiple types of plantation', async (done) => {
       const managementPlantWith4plantingManagementPlan = getBody('broadcast_method', 'container_method');
       managementPlantWith4plantingManagementPlan.crop_management_plan.planting_management_plans = [...managementPlantWith4plantingManagementPlan.crop_management_plan.planting_management_plans, ...managementPlantWith4plantingManagementPlan.crop_management_plan.planting_management_plans];
       postManagementPlanRequest(managementPlantWith4plantingManagementPlan, userFarm, async (err, res) => {

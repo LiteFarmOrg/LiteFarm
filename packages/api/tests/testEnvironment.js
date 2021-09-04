@@ -54,6 +54,7 @@ async function tableCleanup(knex) {
     DELETE FROM "soil_amendment_task";
     DELETE FROM "product";
     DELETE FROM "plant_task";
+    DELETE FROM "transplant_task";
     DELETE FROM "soil_task";
     DELETE FROM "task";
     DELETE FROM "yield";

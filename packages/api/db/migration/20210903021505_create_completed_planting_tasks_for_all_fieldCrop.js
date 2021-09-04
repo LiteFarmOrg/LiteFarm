@@ -14,22 +14,23 @@ exports.up = async function(knex) {
     'farm_id': null,
     'task_translation_key': 'PLANT_TASK',
   });
-  const { task_type_id } = plantType;
-  for (const plantingManagementPlan of plantingPlantingManagementPlans) {
-    const planned_time = plantingManagementPlan.plant_date || plantingManagementPlan.seed_date;
-    const [{ task_id }] = await knex('task').insert({
-      due_date: planned_time,
-      planned_time,
-      task_type_id,
-      owner_user_id: plantingManagementPlan.created_by_user_id,
-      completed_time: knex.fn.now(),
-      deleted: plantingManagementPlan.deleted,
-    }).returning('*');
-    await knex('plant_task').insert({
-      task_id,
-      planting_management_plan_id: plantingManagementPlan.planting_management_plan_id,
-    });
-
+  if (plantType) {
+    const { task_type_id } = plantType;
+    for (const plantingManagementPlan of plantingPlantingManagementPlans) {
+      const planned_time = plantingManagementPlan.plant_date || plantingManagementPlan.seed_date;
+      const [{ task_id }] = await knex('task').insert({
+        due_date: planned_time,
+        planned_time,
+        task_type_id,
+        owner_user_id: plantingManagementPlan.created_by_user_id,
+        completed_time: knex.fn.now(),
+        deleted: plantingManagementPlan.deleted,
+      }).returning('*');
+      await knex('plant_task').insert({
+        task_id,
+        planting_management_plan_id: plantingManagementPlan.planting_management_plan_id,
+      });
+    }
   }
 };
 

@@ -38,6 +38,7 @@ const managementPlanController = {
               due_date: planned_time,
               planned_time,
               task_type_id,
+              owner_user_id: req.user.user_id,
               ...task,
             };
           };
@@ -54,7 +55,7 @@ const managementPlanController = {
             await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, plantTaskType.task_type_id, { plant_task: { planting_management_plan_id } }));
           }
 
-          if (!req.body.crop_management_plan.needs_transplant) {
+          if (req.body.crop_management_plan.needs_transplant) {
             const planned_time = req.body.crop_management_plan.transplant_date;
             const { planting_management_plan_id } = managementPlan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
@@ -79,14 +80,18 @@ const managementPlanController = {
               'farm_id': null,
               'task_translation_key': 'HARVEST_TASK',
             }).first();
-            await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, harvestTaskType.task_type_id, { harvest_task: { harvest_everything: true }, ...taskManagementPlansAndLocations }));
+            await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, harvestTaskType.task_type_id, { harvest_task: { harvest_everything: true }, ...taskManagementPlansAndLocations }), {
+              relate: ['locations', 'managementPlans'],
+            });
           } else {
             const planned_time = req.body.crop_management_plan.termination_date;
             const fieldWorkTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'FIELD_WORK_TASK',
             }).first();
-            await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, fieldWorkTaskType.task_type_id, { field_work_task: { type: 'TERMINATION' }, ...taskManagementPlansAndLocations }));
+            await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, fieldWorkTaskType.task_type_id, { field_work_task: { type: 'TERMINATION' }, ...taskManagementPlansAndLocations }), {
+              relate: ['locations', 'managementPlans'],
+            });
           }
           return managementPlan;
         });

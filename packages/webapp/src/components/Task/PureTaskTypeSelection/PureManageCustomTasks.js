@@ -4,13 +4,11 @@ import { useForm } from 'react-hook-form';
 import Form from '../../Form';
 import PageTitle from '../../PageTitle/v2';
 import { AddLink } from '../../Typography';
-import { useSelector } from 'react-redux';
-import { userCreatedTaskTypes } from '../../../containers/taskTypeSlice';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom.svg';
 
-const PureManageCustomTasks = ({
+export const PureManageCustomTasks = ({
   handleGoBack,
   onAddCustomTask,
   onError,
@@ -19,32 +17,24 @@ const PureManageCustomTasks = ({
   useHookFormPersist,
   history,
   onEditCustomTask,
+  customTasks,
 }) => {
   const { t } = useTranslation();
 
-  const {
-    handleSubmit,
-    getValues,
-    watch,
-    control,
-    setValue,
-    register,
-    formState: { errors, isValid },
-  } = useForm({
+  const { getValues, setValue, register, watch } = useForm({
+    defaultValues: persistedFormData,
     mode: 'onChange',
   });
 
-  const customTasks = useSelector(userCreatedTaskTypes);
   useHookFormPersist(getValues, persistedPaths);
 
-  const CUSTOM_TASK_TYPE = 'type';
-  register(CUSTOM_TASK_TYPE, { required: true });
-  let selected_custom_task_type = watch(CUSTOM_TASK_TYPE);
-  let task = persistedFormData?.type;
+  const TASK_TYPE_ID = 'task_type_id';
+  register(TASK_TYPE_ID);
+  const selected_task_type = watch(TASK_TYPE_ID);
 
   const onTileClick = (task_type_id) => {
     // pass task_type_id to pfd so custom task page knows which custom task is being edited
-    setValue(CUSTOM_TASK_TYPE, task_type_id);
+    setValue(TASK_TYPE_ID, task_type_id);
     onEditCustomTask();
   };
 
@@ -60,7 +50,7 @@ const PureManageCustomTasks = ({
           {t('ADD_TASK.ADD_CUSTOM_TASK')}
         </AddLink>
 
-        <div className={styles.tileContainer}>
+        <div className={styles.matrixContainer}>
           {customTasks.map(({ task_translation_key, task_type_id, task_name }) => {
             return (
               <div
@@ -72,7 +62,7 @@ const PureManageCustomTasks = ({
                 <div
                   className={clsx(
                     styles.typeContainer,
-                    task === task_type_id && styles.typeContainerSelected,
+                    selected_task_type === task_type_id && styles.typeContainerSelected,
                   )}
                 >
                   <CustomTask />
@@ -86,5 +76,3 @@ const PureManageCustomTasks = ({
     </>
   );
 };
-
-export default PureManageCustomTasks;

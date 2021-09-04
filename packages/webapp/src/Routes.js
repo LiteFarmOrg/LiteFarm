@@ -34,28 +34,6 @@ const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
 const Profile = React.lazy(() => import('./containers/Profile'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
-const Log = React.lazy(() => import('./containers/Log'));
-const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
-const FertilizingLog = React.lazy(() => import('./containers/Log/FertilizingLog'));
-const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'));
-const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));
-const HarvestLog = React.lazy(() => import('./containers/Log/HarvestLog'));
-const HarvestUseType = React.lazy(() => import('./containers/Log/HarvestUseType'));
-const AddHarvestUse = React.lazy(() => import('./containers/Log/AddHarvestUse'));
-const HarvestAllocation = React.lazy(() => import('./containers/Log/HarvestAllocation'));
-const IrrigationLog = React.lazy(() => import('./containers/Log/IrrigationLog'));
-const ScoutingLog = React.lazy(() => import('./containers/Log/ScoutingLog'));
-const SeedingLog = React.lazy(() => import('./containers/Log/SeedingLog'));
-const soilDataLog = React.lazy(() => import('./containers/Log/soilDataLog'));
-const OtherLog = React.lazy(() => import('./containers/Log/OtherLog'));
-const EditFertilizingLog = React.lazy(() => import('./containers/Log/EditLog/fertilizing'));
-const EditPestControlLog = React.lazy(() => import('./containers/Log/EditLog/pestControl'));
-const EditFieldWorkLog = React.lazy(() => import('./containers/Log/EditLog/fieldWork'));
-const EditIrrigationLog = React.lazy(() => import('./containers/Log/EditLog/irrigation'));
-const EditScoutingLog = React.lazy(() => import('./containers/Log/EditLog/scouting'));
-const EditSeedingLog = React.lazy(() => import('./containers/Log/EditLog/seeding'));
-const EditSoilDataLog = React.lazy(() => import('./containers/Log/EditLog/soilData'));
-const EditOtherLog = React.lazy(() => import('./containers/Log/EditLog/other'));
 const Shift = React.lazy(() => import('./containers/Shift'));
 const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne'));
 const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
@@ -92,7 +70,6 @@ const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/Add
 const TempEditExpense = React.lazy(() =>
   import('./containers/Finances/EditExpense/TempEditExpense'),
 );
-const LogDetail = React.lazy(() => import('./containers/Log/LogDetail'));
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
@@ -374,28 +351,6 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
@@ -647,7 +602,6 @@ const Routes = () => {
 
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
@@ -699,29 +653,7 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
@@ -958,7 +890,6 @@ const Routes = () => {
             <Route path="/insights/erosion" exact component={Erosion} />
             <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
@@ -1059,32 +990,10 @@ const Routes = () => {
             <Route path="/gate/:location_id/details" exact component={EditGateForm} />
             <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
             <Route path="/map" exact component={Map} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />

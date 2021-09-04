@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
-import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
@@ -44,7 +43,6 @@ import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
 
-import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import taskReducer from '../containers/taskSlice';
@@ -196,7 +194,6 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
-  logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,
   filterReducer,
@@ -222,7 +219,6 @@ const appReducer = combineReducers({
   persistedStateReducer,
   tempStateReducer,
   baseReducer,
-  logReducer,
   shiftReducer,
   insightReducer,
   financeReducer,

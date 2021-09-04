@@ -1,4 +1,4 @@
-import PureTaskTypeSelection from '../../../components/Task/PureTaskTypeSelection';
+import { PureTaskTypeSelection } from '../../../components/Task/PureTaskTypeSelection/PureTaskTypeSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -23,8 +23,14 @@ function TaskTypeSelection({ history, match }) {
     history.push(customTaskPath);
   };
 
-  const onContinue = () => {
-    history.push(continuePath);
+  const onContinue = (task_type_id) => {
+    const { task_translation_key, farm_id } =
+      taskTypes.find((taskType) => taskType.task_type_id === task_type_id) || {};
+    if (!farm_id && task_translation_key === 'PLANT_TASK') {
+      history.push('/crop_catalogue');
+    } else {
+      history.push(continuePath);
+    }
   };
 
   const handleGoBack = () => {

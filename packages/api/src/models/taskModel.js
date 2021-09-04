@@ -137,14 +137,7 @@ class TaskModel extends BaseModel {
           to: 'cleaning_task.task_id',
         },
       },
-      harvestUse: {
-        relation: Model.HasManyRelation,
-        modelClass: require('./harvestUseModel'),
-        join: {
-          from: 'task.task_id',
-          to: 'harvestUse.task_id',
-        },
-      },
+
       taskType: {
         relation: Model.HasManyRelation,
         modelClass: require('./taskTypeModel'),

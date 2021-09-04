@@ -110,7 +110,7 @@ describe('harvestUseType Tests', () => {
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
         defaultState = await mocks.createDefaultState();
-        [customUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
+        [customUseType] = await mocks.harvest_use_typeFactory({ promisedFarm: farm });
       })
 
       test('Owner should get harvestUseType by farm id', async (done) => {
@@ -171,7 +171,7 @@ describe('harvestUseType Tests', () => {
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
         fakeHarvestUseType = mocks.fakeHarvestUseType();
-        [existingCustomUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
+        [existingCustomUseType] = await mocks.harvest_use_typeFactory({ promisedFarm: farm });
       })
 
       test('Owner should add harvestUseType', async (done) => {

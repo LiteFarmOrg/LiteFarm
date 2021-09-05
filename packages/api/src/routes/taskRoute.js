@@ -30,11 +30,14 @@ router.patch('/assign_all_tasks_on_date/:task_id', hasFarmAccess({ params: 'task
 router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.abandonTask());
 
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
+router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId());
 /**
  * endpoint name should follow
  * /task/task_type.task_translation_key.toLowerCase()
  */
+router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
+  taskController.createHarvestTasks());
+
 router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
   taskController.createHarvestTasks());
 
@@ -68,8 +71,8 @@ router.post('/field_work_task', modelMapping['field_work_task'],
 router.post('/harvest_task', modelMapping['harvest_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('harvest_task'));
 
-router.post('/plant_task', modelMapping['plant_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('plant_task'));
+router.post('/transplant_tasks', modelMapping['transplant_task'],
+  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createHarvestTasks);
 
 router.post('/custom_task', modelMapping['custom_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('custom_task'));

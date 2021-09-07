@@ -1511,6 +1511,7 @@ function fakeBarn(defaultData = {}) {
   return {
     wash_and_pack: faker.random.boolean(),
     cold_storage: faker.random.boolean(),
+    used_for_animals: faker.random.boolean(),
     ...defaultData,
   };
 }

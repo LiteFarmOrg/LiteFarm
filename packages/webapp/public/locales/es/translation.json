@@ -398,7 +398,8 @@
       "TOTAL_AREA": "Area total"
     },
     "BARN": {
-      "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
+      "ANIMALS": "Se usa este granero para abrigar animales?",
+      "COLD_STORAGE": "Tiene este granero almacenamiento en frio?",
       "EDIT_TITLE": "Editar granero",
       "NAME": "Nombre de granero",
       "TITLE": "Agregar Granero",
@@ -1467,7 +1468,8 @@
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",
-    "UNASSIGNED": "MISSING"
+    "UNASSIGNED": "MISSING",
+    "COMPLETE_HARVEST_QUANTITY": "MISSING"
   },
   "UNIT": {
     "TIME": {

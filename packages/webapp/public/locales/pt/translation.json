@@ -398,6 +398,7 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
+      "ANIMALS": "MISSING",
       "COLD_STORAGE": "Este galpão tem câmara fria?",
       "EDIT_TITLE": "Editar galpão",
       "NAME": "Galpão",
@@ -1467,7 +1468,8 @@
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",
-    "UNASSIGNED": "MISSING"
+    "UNASSIGNED": "MISSING",
+    "COMPLETE_HARVEST_QUANTITY": "MISSING"
   },
   "UNIT": {
     "TIME": {

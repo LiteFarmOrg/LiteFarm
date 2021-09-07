@@ -95,18 +95,18 @@ class Insights extends Component {
           route: 'Prices',
           data_point: 'Prices',
         },
-        {
-          label: props.t('INSIGHTS.WATER_BALANCE.TITLE'),
-          image: water_balance,
-          route: 'WaterBalance',
-          data_point: 'WaterBalance',
-        },
-        {
-          label: props.t('INSIGHTS.NITROGEN_BALANCE.TITLE'),
-          image: nitrogen_balance,
-          route: 'NitrogenBalance',
-          data_point: 'NitrogenBalance',
-        },
+        // {
+        //   label: props.t('INSIGHTS.WATER_BALANCE.TITLE'),
+        //   image: water_balance,
+        //   route: 'WaterBalance',
+        //   data_point: 'WaterBalance',
+        // },
+        // {
+        //   label: props.t('INSIGHTS.NITROGEN_BALANCE.TITLE'),
+        //   image: nitrogen_balance,
+        //   route: 'NitrogenBalance',
+        //   data_point: 'NitrogenBalance',
+        // },
         //{label: "Erosion", image: erosion, route: "Erosion", data_point: "Erosion"},
       ],
     };

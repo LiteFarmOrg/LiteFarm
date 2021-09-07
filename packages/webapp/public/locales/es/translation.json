@@ -398,7 +398,8 @@
       "TOTAL_AREA": "Area total"
     },
     "BARN": {
-      "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
+      "ANIMALS": "Se usa este granero para abrigar animales?",
+      "COLD_STORAGE": "Tiene este granero almacenamiento en frio?",
       "EDIT_TITLE": "Editar granero",
       "NAME": "Nombre de granero",
       "TITLE": "Agregar Granero",

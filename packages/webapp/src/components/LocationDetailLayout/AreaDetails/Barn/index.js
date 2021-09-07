@@ -54,7 +54,6 @@ export default function PureBarn({
     const washPackSelection = data[barnEnum.wash_and_pack];
     const coldStorage = data[barnEnum.cold_storage];
     const usedForAnimals = data[barnEnum.used_for_animals];
-    console.log(usedForAnimals);
     data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit]?.value;
     data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit]?.value;
     const formData = {
@@ -63,8 +62,8 @@ export default function PureBarn({
       perimeter,
       ...data,
       type: 'barn',
-      wash_and_pack: washPackSelection !== null ? washPackSelection === 'true' : null,
-      cold_storage: coldStorage !== null ? coldStorage === 'true' : null,
+      wash_and_pack: washPackSelection,
+      cold_storage: coldStorage,
       used_for_animals: usedForAnimals,
     };
     submitForm({ formData });

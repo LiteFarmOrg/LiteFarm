@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
-import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 const PureTaskDetails = ({
   handleGoBack,
@@ -141,7 +141,7 @@ const PureTaskDetails = ({
             register,
           })}
         {!isHarvest && (
-          <Input
+          <InputAutoSize
             style={{ paddingTop: '20px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}

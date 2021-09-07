@@ -31,7 +31,7 @@ class transplantTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['task_id', 'planting_management_plan_id'],
+      required: ['task_id'],
 
       properties: {
         task_id: { type: 'integer' },
@@ -52,6 +52,14 @@ class transplantTaskModel extends Model {
         join: {
           from: 'transplant_task.task_id',
           to: 'task.task_id',
+        },
+      },
+      planting_management_plan: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./plantingManagementPlanModel'),
+        join: {
+          from: 'transplant_task.planting_management_plan_id',
+          to: 'planting_management_plan.planting_management_plan_id',
         },
       },
     };

@@ -42,6 +42,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   } else {
     id_name = body;
     if (Array.isArray(req.body)) {
+      //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
       id = req.body[0][id_name];
     } else {
       id = req.body[id_name];

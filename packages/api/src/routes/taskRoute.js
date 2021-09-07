@@ -72,7 +72,7 @@ router.post('/harvest_task', modelMapping['harvest_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('harvest_task'));
 
 router.post('/transplant_tasks', modelMapping['transplant_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createHarvestTasks);
+  hasFarmAccess({ mix: 'transplant_task' }), isWorkerToSelfOrAdmin, taskController.createTransplantTasks());
 
 router.post('/custom_task', modelMapping['custom_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('custom_task'));

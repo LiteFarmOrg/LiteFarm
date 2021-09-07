@@ -61,6 +61,7 @@ const managementPlanController = {
             const { planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
             );
+            //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'TRANSPLANT_TASK',

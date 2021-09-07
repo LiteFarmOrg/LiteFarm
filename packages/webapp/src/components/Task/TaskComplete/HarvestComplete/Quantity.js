@@ -40,7 +40,7 @@ export default function PureHarvestCompleteQuantity({
   const ACTUAL_HARVEST_QUANTITY = 'actual_quantity';
   const ACTUAL_HARVEST_QUANTITY_UNIT = 'actual_quantity_unit';
 
-  const disabled = isValid;
+  const disabled = !isValid;
   
   return (
     <Form

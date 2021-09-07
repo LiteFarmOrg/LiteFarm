@@ -11,7 +11,7 @@ function HarvestCompleteQuantity({ history, match }) {
   const task = useSelector(taskWithProductById(task_id));
 
   const onContinue = (data) => {
-
+    // TODO - Add step 2
   };
 
   const onCancel = () => {

@@ -73,10 +73,10 @@ function PureCropDetail({
             ]}
           />
 
-          <Button style={{ marginBottom: '32px', width: '100%' }} color={'success'}>
+          {/* <Button style={{ marginBottom: '32px', width: '100%' }} color={'success'}>
             <Document style={{ marginRight: '1px' }} /> {t('CROP_DETAIL.COMPLIANCE_DOC')}
             <Leaf style={{ marginLeft: '14px' }} />
-          </Button>
+          </Button> */}
         </>
       )}
       {isEditing && (

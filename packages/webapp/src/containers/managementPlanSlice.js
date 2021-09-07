@@ -196,7 +196,7 @@ const getManagementPlanEndTime = (managementPlan) =>
   (managementPlan.abandon_date || managementPlan.complete_date) &&
   new Date(managementPlan.abandon_date || managementPlan.complete_date).getTime();
 
-const isExpiredManagementPlan = (managementPlan, time) => {
+export const isExpiredManagementPlan = (managementPlan, time) => {
   const endTime = getManagementPlanEndTime(managementPlan);
   return endTime && getManagementPlanEndTime(managementPlan) <= time;
 };
@@ -211,7 +211,7 @@ export const currentManagementPlansSelector = createSelector(
   },
 );
 
-const isCurrentManagementPlan = (managementPlan, time) => {
+export const isCurrentManagementPlan = (managementPlan, time) => {
   return (
     !isExpiredManagementPlan(managementPlan, time) &&
     managementPlan.start_date &&
@@ -230,7 +230,7 @@ export const plannedManagementPlansSelector = createSelector(
   },
 );
 
-const isPlannedManagementPlan = (managementPlan, time) => {
+export const isPlannedManagementPlan = (managementPlan, time) => {
   return (
     !isExpiredManagementPlan(managementPlan, time) && !isCurrentManagementPlan(managementPlan, time)
   );
@@ -246,13 +246,6 @@ export const currentAndPlannedManagementPlansSelector = createSelector(
     return [...planedManagementPlans, ...currentManagementPlans];
   },
 );
-
-export const currentAndPlannedManagementPlansWithTimeSelector = (time) =>
-  createSelector([managementPlansSelector], (managementPlans) => {
-    let currentPlans = getCurrentManagementPlans(managementPlans, time);
-    let plannedPlans = getPlannedManagementPlans(managementPlans, time);
-    return [...currentPlans, ...plannedPlans];
-  });
 
 export const cropsWithVarietyWithoutManagementPlanSelector = createSelector(
   [managementPlansSelector, cropVarietiesSelector],

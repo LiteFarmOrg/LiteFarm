@@ -1,13 +1,17 @@
 import { useSelector } from 'react-redux';
 import {
-  currentAndPlannedManagementPlansWithTimeSelector,
   filterManagementPlansByLocationId,
+  isCurrentManagementPlan,
+  isPlannedManagementPlan,
   managementPlanEntitiesSelector,
+  managementPlansSelector,
 } from '../../managementPlanSlice';
 import { useMemo } from 'react';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { getTasksMinMaxDate } from '../getTasksMinMaxDate';
 import produce from 'immer';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getDateUTC } from '../../../util/moment';
 
 export const useManagementPlanTilesByLocationIds = (locationIds = [], managementPlanIds) => {
   const managementPlanEntities = useSelector(managementPlanEntitiesSelector);
@@ -40,29 +44,20 @@ export const useManagementPlanTilesByLocationIds = (locationIds = [], management
   );
 };
 
-export const useActiveAndCurrentManagementPlansByLocationIds = (locationIds = [], time) => {
-  const managementPlans = useSelector(currentAndPlannedManagementPlansWithTimeSelector(time));
-  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
-  return useMemo(
+export const useActiveAndCurrentManagementPlanTilesByLocationIds = (locationIds = []) => {
+  const { due_date } = useSelector(hookFormPersistSelector);
+  const utcDate = getDateUTC(due_date);
+  const managementPlans = useSelector(managementPlansSelector);
+  const activeAndPlanedManagementPlanIds = useMemo(
     () =>
-      locationIds.reduce((managementPlansByLocationIds, { location_id }) => {
-        const filteredManagementPlans = filterManagementPlansByLocationId(
-          location_id,
-          managementPlans,
-        ).map((managementPlan) => {
-          return produce(managementPlan, (managementPlan) => {
-            const tasks = tasksByManagementPlanId[managementPlan.management_plan_id];
-            managementPlan.firstTaskDate = getTasksMinMaxDate(tasks).startDate;
-            managementPlan.status = managementPlan.start_date ? 'active' : 'planned';
-          });
-        });
-        return filteredManagementPlans.length
-          ? {
-              ...managementPlansByLocationIds,
-              [location_id]: filteredManagementPlans,
-            }
-          : { ...managementPlansByLocationIds };
-      }, {}),
-    [locationIds, managementPlans],
+      managementPlans
+        .filter(
+          (managementPlan) =>
+            isCurrentManagementPlan(managementPlan, utcDate) ||
+            isPlannedManagementPlan(managementPlan, utcDate),
+        )
+        .map(({ management_plan_id }) => management_plan_id),
+    [due_date],
   );
+  return useManagementPlanTilesByLocationIds(locationIds, activeAndPlanedManagementPlanIds);
 };

@@ -2,12 +2,7 @@ import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { taskTypeById } from '../../taskTypeSlice';
-import { getDateUTC } from '../../../util/moment';
-import {
-  useActiveAndCurrentManagementPlansByLocationIds,
-  useManagementPlanTilesByLocationIds,
-} from './useManagementPlanTilesByLocationIds';
+import { useActiveAndCurrentManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
 
 function TaskCrops({ history, match }) {
   const onContinuePath = '/add_task/task_details';
@@ -25,17 +20,8 @@ function TaskCrops({ history, match }) {
   const onError = () => {
     console.log('onError called');
   };
-
-  const HARVEST_TYPE = 'HARVEST_TASK';
-
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
-  const due_date = persistedFormData.due_date;
-  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(
-    persistedFormData.locations,
-    getDateUTC(due_date).toDate().getTime(),
-  );
-  const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
+  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
     persistedFormData.locations,
   );
 
@@ -47,11 +33,7 @@ function TaskCrops({ history, match }) {
         onError={onError}
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
-        managementPlansByLocationIds={
-          selectedTaskType.task_translation_key === HARVEST_TYPE
-            ? activeAndCurrentManagementPlansByLocationIds
-            : managementPlansByLocationIds
-        }
+        managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
       />
     </HookFormPersistProvider>

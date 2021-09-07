@@ -8,9 +8,12 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { cropLocationsSelector, locationsSelector } from '../../locationSlice';
-import { useActiveAndCurrentManagementPlansByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-import { getDateUTC } from '../../../util/moment';
+import {
+  cropLocationEntitiesSelector,
+  cropLocationsSelector,
+  locationsSelector,
+} from '../../locationSlice';
+import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
@@ -24,17 +27,14 @@ export default function TaskLocationsSwitch({ history, match }) {
 }
 
 function TaskCropLocations({ history, persistedFormData }) {
-  const due_date = persistedFormData.due_date;
   const cropLocations = useSelector(cropLocationsSelector);
+  const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
   const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
   const activeAndPlannedLocationsIds = Object.keys(
-    useActiveAndCurrentManagementPlansByLocationIds(
-      cropLocationsIds,
-      getDateUTC(due_date).toDate().getTime(),
-    ),
+    useActiveAndCurrentManagementPlanTilesByLocationIds(cropLocationsIds),
   );
-  const activeAndPlannedLocations = cropLocations.filter(({ location_id }) =>
-    activeAndPlannedLocationsIds.includes(location_id),
+  const activeAndPlannedLocations = activeAndPlannedLocationsIds.map(
+    (location_id) => cropLocationEntities[location_id],
   );
   return <TaskLocations locations={activeAndPlannedLocations} history={history} />;
 }

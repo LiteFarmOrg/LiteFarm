@@ -37,14 +37,14 @@ class TaskModel extends BaseModel {
         task_id: { type: 'integer' },
         task_type_id: { type: 'integer' },
         due_date: { type: 'date-time' },
-        notes: { type: 'string' },
+        notes: { type: ['string', null], maxLength: 10000 },
         completion_notes: { type: ['string', null], maxLength: 10000 },
         owner_user_id: { type: 'string' },
         assignee_user_id: { type: ['string', null] },
         coordinates: { type: 'object' },
-        duration: { type: 'number' },
+        duration: { type: ['number', null] },
         wage_at_moment: { type: 'number' },
-        happiness: { type: 'integer', minimum: 0, maximum: 5 },
+        happiness: { anyOf: [{ type: 'integer', minimum: 0, maximum: 5 }, { type: 'null' }] },
         planned_time: { type: 'date-time' },
         completed_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
         late_time: { type: ['date-time', null] },
@@ -137,14 +137,7 @@ class TaskModel extends BaseModel {
           to: 'cleaning_task.task_id',
         },
       },
-      harvestUse: {
-        relation: Model.HasManyRelation,
-        modelClass: require('./harvestUseModel'),
-        join: {
-          from: 'task.task_id',
-          to: 'harvestUse.task_id',
-        },
-      },
+
       taskType: {
         relation: Model.HasManyRelation,
         modelClass: require('./taskTypeModel'),

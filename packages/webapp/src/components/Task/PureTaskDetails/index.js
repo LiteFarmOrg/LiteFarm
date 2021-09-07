@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
-import Input from '../../Form/Input';
 import PureCleaningTask from '../CleaningTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 const PureTaskDetails = ({
   handleGoBack,
@@ -28,6 +28,8 @@ const PureTaskDetails = ({
 }) => {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
+  const taskName = selectedTaskType.task_name;
+  const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = taskType === 'HARVEST_TASK';
 
   const taskComponents = {
@@ -126,19 +128,20 @@ const PureTaskDetails = ({
             ? t('ADD_TASK.HOW_MUCH_IS_HARVESTED')
             : t('ADD_TASK.TELL_US_ABOUT_YOUR_TASK_TYPE_ONE') +
               ' ' +
-              t(`task:${taskType}_LOWER`) +
+              (isCustomType ? taskName.toLowerCase() : t(`task:${taskType}_LOWER`)) +
               ' ' +
               t('ADD_TASK.TASK')}
         </Main>
-        {taskComponents[taskType]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-        })}
+        {!isCustomType &&
+          taskComponents[taskType]({
+            setValue,
+            getValues,
+            watch,
+            control,
+            register,
+          })}
         {!isHarvest && (
-          <Input
+          <InputAutoSize
             style={{ paddingTop: '20px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}

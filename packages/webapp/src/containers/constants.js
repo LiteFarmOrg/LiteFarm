@@ -34,6 +34,7 @@ export const barnEnum = {
   perimeter_unit: 'perimeter_unit',
   wash_and_pack: 'wash_and_pack',
   cold_storage: 'cold_storage',
+  used_for_animals: 'used_for_animals'
 };
 export const watercourseEnum = {
   farm_id: 'farm_id',

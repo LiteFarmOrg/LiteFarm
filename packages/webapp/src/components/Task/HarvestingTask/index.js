@@ -34,8 +34,8 @@ const PureHarvestingTask = ({
     name: 'harvest_tasks',
     shouldUnregister: false,
   });
-  const HARVEST_QUANTITY = 'quantity';
-  const HARVEST_QUANTITY_UNIT = 'quantity_unit';
+  const HARVEST_QUANTITY = 'projected_quantity';
+  const HARVEST_QUANTITY_UNIT = 'projected_quantity_unit';
   const NOTES = 'notes';
   const HARVEST_EVERYTHING = 'harvest_everything';
 

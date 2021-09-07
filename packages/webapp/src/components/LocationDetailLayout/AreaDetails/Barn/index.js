@@ -9,6 +9,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import { getPersistPath } from '../../utils';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureBarn({
   history,
@@ -52,6 +53,7 @@ export default function PureBarn({
   const onSubmit = (data) => {
     const washPackSelection = data[barnEnum.wash_and_pack];
     const coldStorage = data[barnEnum.cold_storage];
+    const usedForAnimals = data[barnEnum.used_for_animals];
     data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit]?.value;
     data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit]?.value;
     const formData = {
@@ -60,8 +62,9 @@ export default function PureBarn({
       perimeter,
       ...data,
       type: 'barn',
-      wash_and_pack: washPackSelection !== null ? washPackSelection === 'true' : null,
-      cold_storage: coldStorage !== null ? coldStorage === 'true' : null,
+      wash_and_pack: washPackSelection,
+      cold_storage: coldStorage,
+      used_for_animals: usedForAnimals,
     };
     submitForm({ formData });
   };
@@ -129,19 +132,7 @@ export default function PureBarn({
             </Label>
           </div>
           <div>
-            <Radio
-              label={t('common:YES')}
-              hookFormRegister={register(barnEnum.wash_and_pack, { required: false })}
-              value={true}
-              disabled={isViewLocationPage}
-            />
-            <Radio
-              style={{ marginLeft: '40px' }}
-              label={t('common:NO')}
-              hookFormRegister={register(barnEnum.wash_and_pack, { required: false })}
-              value={false}
-              disabled={isViewLocationPage}
-            />
+            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.wash_and_pack} hookFormControl={control} />
           </div>
         </div>
         <div>
@@ -161,19 +152,27 @@ export default function PureBarn({
             </Label>
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <Radio
-              label={t('common:YES')}
-              hookFormRegister={register(barnEnum.cold_storage, { required: false })}
-              value={true}
-              disabled={isViewLocationPage}
-            />
-            <Radio
-              style={{ marginLeft: '40px' }}
-              label={t('common:NO')}
-              hookFormRegister={register(barnEnum.cold_storage, { required: false })}
-              value={false}
-              disabled={isViewLocationPage}
-            />
+            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.cold_storage} hookFormControl={control} />
+          </div>
+        </div>
+        <div>
+          <div style={{ marginBottom: '20px' }}>
+            <Label
+              style={{
+                paddingRight: '10px',
+                fontSize: '16px',
+                lineHeight: '20px',
+                display: 'inline-block',
+              }}
+            >
+              {t('FARM_MAP.BARN.ANIMALS')}
+            </Label>
+            <Label style={{ display: 'inline-block' }} sm>
+              {t('common:OPTIONAL')}
+            </Label>
+          </div>
+          <div style={{ marginBottom: '16px' }}>
+            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.used_for_animals} hookFormControl={control} />
           </div>
         </div>
       </AreaDetails>

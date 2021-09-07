@@ -120,11 +120,11 @@ xdescribe('insights test', () => {
           percentrefuse: 0, ...emptyNutrients,
           energy: 250,
         }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
           harvest_use_type_id: 2,
           harvest_use_type_name: 'test',
         });
-        await mocks.harvestUseFactory({
+        await mocks.harvest_useFactory({
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
@@ -144,11 +144,11 @@ xdescribe('insights test', () => {
           percentrefuse: 0, ...emptyNutrients,
           protein: 5.2,
         }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
           harvest_use_type_id: 2,
           harvest_use_type_name: 'test',
         });
-        await mocks.harvestUseFactory({
+        await mocks.harvest_useFactory({
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
@@ -168,11 +168,11 @@ xdescribe('insights test', () => {
           percentrefuse: 0, ...emptyNutrients,
           lipid: 75,
         }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
           harvest_use_type_id: 2,
           harvest_use_type_name: 'test',
         });
-        await mocks.harvestUseFactory({
+        await mocks.harvest_useFactory({
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
@@ -192,11 +192,11 @@ xdescribe('insights test', () => {
           percentrefuse: 0, ...emptyNutrients,
           vitc: 9,
         }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
           harvest_use_type_id: 2,
           harvest_use_type_name: 'test',
         });
-        await mocks.harvestUseFactory({
+        await mocks.harvest_useFactory({
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },
@@ -216,11 +216,11 @@ xdescribe('insights test', () => {
           percentrefuse: 0, ...emptyNutrients,
           vita_rae: 90,
         }, 1);
-        const harvestUseType = await mocks.harvestUseTypeFactory({}, {
+        const harvestUseType = await mocks.harvest_use_typeFactory({}, {
           harvest_use_type_id: 2,
           harvest_use_type_name: 'test',
         });
-        await mocks.harvestUseFactory({
+        await mocks.harvest_useFactory({
             promisedManagementPlan: [{ management_plan_id }],
             promisedHarvestUseType: harvestUseType,
           },

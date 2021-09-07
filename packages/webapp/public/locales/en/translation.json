@@ -22,7 +22,7 @@
     "ADD_A_CUSTOM_TASK": "Add a custom task",
     "ADD_A_TASK": "Add a task",
     "ADD_CUSTOM_TASK": "Add custom task",
-    "AFFECT_CROPS": "Will this task affect any crops?",
+    "AFFECT_PLANS": "Will this task affect any plans?",
     "ASSIGN_ALL_TO_PERSON": "Assign all unassigned tasks on this date to this person",
     "ASSIGN_TASK": "Assign task",
     "ASSIGNEE": "Assignee",
@@ -34,7 +34,7 @@
       "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used"
     },
     "CLEAR_ALL": "Clear all",
-    "CLEAR_ALL_CROPS": "Clear all crops",
+    "CLEAR_ALL_PLANS": "Clear all plans",
     "CUSTOM_TASK": "Custom Task",
     "CUSTOM_TASK_NAME": "Custom task name",
     "CUSTOM_TASK_TYPE": "Custom Task Type",
@@ -79,7 +79,7 @@
     "RETIRE_CUSTOM_TASK": "Retire custom task?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Are you sure you want to delete this custom task?",
     "SELECT_ALL": "Select all",
-    "SELECT_ALL_CROPS": "Select all crops",
+    "SELECT_ALL_PLANS": "Select all plans",
     "SELECT_TASK_TYPE": "Select task type",
     "SOIL_AMENDMENT_VIEW": {
       "IS_PERMITTED": "Is the soil amendment in the permitted substances list?",
@@ -399,6 +399,7 @@
       "TOTAL_AREA": "Total area"
     },
     "BARN": {
+      "ANIMALS": "Is this area used for housing animals?",
       "COLD_STORAGE": "Does this barn have cold storage?",
       "EDIT_TITLE": "Edit barn",
       "NAME": "Barn name",
@@ -488,6 +489,7 @@
       "WATERCOURSE": "Watercourse",
       "WATERCOURSE_TITLE": "What are the following widths ?"
     },
+    "LOCATION_CREATION_FLOW": "location creation",
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
@@ -997,7 +999,7 @@
     },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
-    "HARVEST": "Harvest",
+    "HARVEST": "Initial harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",
@@ -1450,6 +1452,7 @@
     "EDIT_TASK": "Edit Task",
     "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
+    "NO_WORK_DONE": "No work was completed",
     "PAGE_TITLE": "Tasks",
     "PREFER_NOT_TO_SAY": "I prefer not to say",
     "PROVIDE_RATING": "Provide a rating",

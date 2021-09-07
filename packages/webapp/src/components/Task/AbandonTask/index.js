@@ -9,6 +9,10 @@ import ReactSelect from '../../Form/ReactSelect';
 import { Controller, useForm } from 'react-hook-form';
 import InputAutoSize from '../../Form/InputAutoSize';
 import Input from '../../Form/Input';
+import { Main } from '../../Typography';
+import TimeSlider from '../../Form/Slider/TimeSlider';
+import Checkbox from '../../Form/Checkbox';
+import Rating from '../../Rating';
 // import { cloneObject } from '../../util';
 
 const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
@@ -18,12 +22,21 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
   const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
   const TASK_ABANDONMENT_NOTES = 'abandonment_notes';
+  const DURATION = 'duration';
+  const HAPPINESS = 'happiness';
+  const NO_WORK_COMPLETED = 'no_work_completed';
+  const PREFER_NOT_TO_SAY = 'prefer_not_to_say';
 
   const reason_for_abandonment = watch(REASON_FOR_ABANDONMENT);
+  const prefer_not_to_say = watch(PREFER_NOT_TO_SAY);
+  const no_work_completed = watch(NO_WORK_COMPLETED);
+  const happiness = watch(HAPPINESS);
+
   // TODO: replace with isValid when ReactSelect bug is fixed
   const disabled =
     !reason_for_abandonment ||
-    (reason_for_abandonment?.value === 'OTHER' && !watch(OTHER_REASON_FOR_ABANDONMENT));
+    (reason_for_abandonment?.value === 'OTHER' && !watch(OTHER_REASON_FOR_ABANDONMENT)) ||
+    (!prefer_not_to_say && happiness === 0);
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -70,6 +83,37 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
           style={{ marginBottom: '24px' }}
         />
       )}
+
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
+
+      {!no_work_completed && (
+        <TimeSlider
+          style={{ marginBottom: '20px' }}
+          label={t('TASK.DURATION')}
+          setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
+        />
+      )}
+
+      <Checkbox
+        style={{ marginBottom: '42px' }}
+        label={t('TASK.NO_WORK_DONE')}
+        hookFormRegister={register(NO_WORK_COMPLETED)}
+      />
+
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+
+      <Rating
+        style={{ display: 'flex', marginBottom: '27px' }}
+        label={t('TASK.PROVIDE_RATING')}
+        disabled={prefer_not_to_say}
+        onRate={(value) => setValue(HAPPINESS, value)}
+      />
+
+      <Checkbox
+        style={{ marginBottom: '42px' }}
+        label={t('TASK.PREFER_NOT_TO_SAY')}
+        hookFormRegister={register(PREFER_NOT_TO_SAY)}
+      />
 
       <InputAutoSize
         optional={true}

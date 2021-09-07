@@ -22,7 +22,7 @@
     "ADD_A_CUSTOM_TASK": "MISSING",
     "ADD_A_TASK": "MISSING",
     "ADD_CUSTOM_TASK": "MISSING",
-    "AFFECT_CROPS": "MISSING",
+    "AFFECT_PLANS": "MISSING",
     "ASSIGN_ALL_TO_PERSON": "MISSING",
     "ASSIGN_TASK": "MISSING",
     "ASSIGNEE": "MISSING",
@@ -34,7 +34,7 @@
       "WILL_CLEANER_BE_USED": "MISSING"
     },
     "CLEAR_ALL": "MISSING",
-    "CLEAR_ALL_CROPS": "MISSING",
+    "CLEAR_ALL_PLANS": "MISSING",
     "CUSTOM_TASK": "MISSING",
     "CUSTOM_TASK_NAME": "MISSING",
     "CUSTOM_TASK_TYPE": "MISSING",
@@ -79,7 +79,7 @@
     "RETIRE_CUSTOM_TASK": "MISSING",
     "RETIRE_CUSTOM_TASK_CONTENT": "MISSING",
     "SELECT_ALL": "MISSING",
-    "SELECT_ALL_CROPS": "MISSING",
+    "SELECT_ALL_PLANS": "MISSING",
     "SELECT_TASK_TYPE": "MISSING",
     "SOIL_AMENDMENT_VIEW": {
       "IS_PERMITTED": "MISSING",
@@ -398,6 +398,7 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
+      "ANIMALS": "MISSING",
       "COLD_STORAGE": "Este galpão tem câmara fria?",
       "EDIT_TITLE": "Editar galpão",
       "NAME": "Galpão",
@@ -487,6 +488,7 @@
       "WATERCOURSE": "Curso d'água",
       "WATERCOURSE_TITLE": "Quais são as larguras?"
     },
+    "LOCATION_CREATION_FLOW": "MISSING",
     "MAP_FILTER": {
       "ADD_TITLE": "Adicionar to your map",
       "AREAS": "Áreas",
@@ -1449,6 +1451,7 @@
     "EDIT_TASK": "MISSING",
     "LOCATIONS": "MISSING",
     "NO_TASKS_TO_DISPLAY": "MISSING",
+    "NO_WORK_DONE": "MISSING",
     "PAGE_TITLE": "MISSING",
     "PREFER_NOT_TO_SAY": "MISSING",
     "PROVIDE_RATING": "MISSING",

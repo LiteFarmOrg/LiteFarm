@@ -23,9 +23,12 @@ function TaskAbandon({ history, match }) {
   }, []);
 
   const onSubmit = (data) => {
+    const { no_work_completed, prefer_not_to_say } = data;
     let patchData = {
       abandonment_reason: data.reason_for_abandonment.value,
       abandonment_notes: data.abandonment_notes,
+      duration: no_work_completed ? null : data.duration,
+      happiness: prefer_not_to_say ? null : data.happiness,
     };
     if (patchData.abandonment_reason === 'OTHER') {
       patchData.other_abandonment_reason = data.other_abandonment_reason;

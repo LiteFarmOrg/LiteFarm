@@ -330,7 +330,7 @@ describe('Task tests', () => {
           }, { start_date: null }),
         ));
         const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
-        const harvest_tasks = mocks.fakeHarvestTasks({ quantity: 300 }, 3).map((harvest_task, i) => {
+        const harvest_tasks = mocks.fakeHarvestTasks({ projected_quantity: 300 }, 3).map((harvest_task, i) => {
           return {
             harvest_task,
             due_date: faker.date.future(),
@@ -358,7 +358,7 @@ describe('Task tests', () => {
             const created_harvest_task = await knex('harvest_task').where({ task_id: task_ids[i] });
             expect(created_harvest_task.length).toBe(1);
             expect(created_harvest_task[0].task_id).toBe(Number(task_ids[i]));
-            expect(created_harvest_task[0].quantity).toBe(300);
+            expect(created_harvest_task[0].projected_quantity).toBe(300);
           }
           done();
         });

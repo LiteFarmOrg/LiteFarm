@@ -17,7 +17,6 @@ const baseController = require('../controllers/baseController');
 const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
 
-
 const taskTypeController = {
   addType() {
     return async (req, res) => {
@@ -43,10 +42,7 @@ const taskTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({
-          farm_id,
-          deleted: false,
-        });
+        const rows = await TaskTypeModel.query().where('farm_id', null).orWhere({ farm_id });
         if (!rows.length) {
           return res.sendStatus(404);
         } else {
@@ -54,6 +50,7 @@ const taskTypeController = {
         }
       } catch (error) {
         //handle more exceptions
+        console.log(error);
         return res.status(400).json({
           error,
         });

@@ -7,6 +7,7 @@ import {
   setPosition,
 } from '../../containers/mapSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export default function LocationPageHeader({
   history,
@@ -16,6 +17,7 @@ export default function LocationPageHeader({
   isEditLocationPage,
   title,
 }) {
+  const { t } = useTranslation();
   const onCancel = () => {
     history.push('/map');
   };
@@ -41,6 +43,7 @@ export default function LocationPageHeader({
     <PageTitle
       title={title}
       onCancel={isCreateLocationPage && onCancel}
+      cancelModalTitle={t('FARM_MAP.LOCATION_CREATION_FLOW')}
       onGoBack={onGoBack}
       style={{ marginBottom: '24px' }}
     />

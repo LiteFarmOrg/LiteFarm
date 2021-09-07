@@ -152,7 +152,7 @@ export const taskEntitiesSelector = createSelector(
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
-        farm_id &&
+        !farm_id &&
           (taskEntities[task_id][task_translation_key.toLowerCase()] = subTaskEntities[task_id]);
       }
     });

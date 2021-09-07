@@ -399,6 +399,7 @@
       "TOTAL_AREA": "Total area"
     },
     "BARN": {
+      "ANIMALS": "Is this area used for housing animals?",
       "COLD_STORAGE": "Does this barn have cold storage?",
       "EDIT_TITLE": "Edit barn",
       "NAME": "Barn name",
@@ -998,7 +999,7 @@
     },
     "FOR_HARVEST": "For harvest",
     "GERMINATION": "Germination",
-    "HARVEST": "Harvest",
+    "HARVEST": "Initial harvest",
     "HARVEST_DATE": "When do you expect your next harvest?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Was it planted in a container or in the ground?",
     "IN_GROUND": "In ground",

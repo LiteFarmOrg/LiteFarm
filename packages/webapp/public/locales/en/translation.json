@@ -1469,7 +1469,8 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "COMPLETE_HARVEST_QUANTITY": "How much was harvested?"
   },
   "UNIT": {
     "TIME": {

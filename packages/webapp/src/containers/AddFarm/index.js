@@ -29,13 +29,13 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const farmName = watch(FARMNAME, undefined);
   const farmAddress = watch(ADDRESS, undefined);
-  const disabled = !farmName || !farmAddress;
+  const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
@@ -113,6 +113,7 @@ const AddFarm = () => {
           component.types.includes('country'),
         ).long_name;
         setCountry(country);
+        callback();
       } else {
         console.error(
           'Error getting geocoding results, or no country was found at given coordinates',
@@ -120,7 +121,6 @@ const AddFarm = () => {
         setError(ADDRESS, { type: 'countryFound' });
         setCountry('');
       }
-      callback();
     });
   };
 

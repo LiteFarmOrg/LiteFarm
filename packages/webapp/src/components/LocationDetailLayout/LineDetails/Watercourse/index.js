@@ -11,6 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureWatercourse({
   history,
@@ -215,7 +216,7 @@ export default function PureWatercourse({
                 {t('common:OPTIONAL')}
               </Label>
             </div>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ display: 'flex', marginBottom: '16px' }}>
               <Radio
                 label={t('common:YES')}
                 hookFormRegister={register(watercourseEnum.used_for_irrigation, {
@@ -234,6 +235,10 @@ export default function PureWatercourse({
                 disabled={isViewLocationPage}
               />
             </div>
+            {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
+            {/* <div style={{ marginBottom: '16px' }}>
+              <RadioGroup row disabled={isViewLocationPage} name={watercourseEnum.used_for_irrigation} hookFormControl={control} />
+            </div> */}
           </div>
         </div>
       </LineDetails>

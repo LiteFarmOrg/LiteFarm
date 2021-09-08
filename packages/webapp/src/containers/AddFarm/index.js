@@ -35,7 +35,7 @@ const AddFarm = () => {
   const ADDRESS = 'address';
   const farmName = watch(FARMNAME, undefined);
   const farmAddress = watch(ADDRESS, undefined);
-  const disabled = !farmName || !farmAddress || !isValid;
+  const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});

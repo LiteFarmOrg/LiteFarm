@@ -272,7 +272,9 @@ const Tasks = React.lazy(() => import('./containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('./containers/Task/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('./containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
-const HarvestCompleteQuantity = React.lazy(() => import('./containers/Task/TaskComplete/HarvestComplete/Quantity'));
+const HarvestCompleteQuantity = React.lazy(() =>
+  import('./containers/Task/TaskComplete/HarvestComplete/Quantity'),
+);
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
@@ -492,16 +494,15 @@ const Routes = () => {
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -631,6 +632,11 @@ const Routes = () => {
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path="/export/:id" exact component={ExportDownload} />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -792,8 +798,7 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
+
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -919,13 +924,19 @@ const Routes = () => {
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path={'/export/:id'} exact component={ExportDownload} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -955,13 +966,12 @@ const Routes = () => {
               exact
               component={ManagementDetail}
             />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
 
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
@@ -1013,13 +1023,19 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />

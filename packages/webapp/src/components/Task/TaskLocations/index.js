@@ -17,7 +17,8 @@ export default function PureTaskLocations({
   farmCenterCoordinate,
   persistedFormData,
   useHookFormPersist,
-  persistedPath,
+  isMulti = true,
+  title,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -32,25 +33,32 @@ export default function PureTaskLocations({
     defaultValues: cloneObject({ ...persistedFormData, locations: defaultLocations }),
     shouldUnregister: false,
   });
-  useHookFormPersist(getValues, persistedPath);
+  useHookFormPersist(getValues);
   const LOCATIONS = 'locations';
   const selectedLocations = watch(LOCATIONS);
   const selectedLocationIds = useMemo(
     () => selectedLocations?.map(({ location_id }) => location_id),
     [selectedLocations],
   );
+
   const onSelectLocation = (location_id) => {
+    setValue(
+      LOCATIONS,
+      isMulti ? getSelectedLocations(location_id, selectedLocations) : [{ location_id }],
+    );
+  };
+
+  const getSelectedLocations = (location_id, selectedLocations) => {
     const isSelected = selectedLocations
       .map((location) => location.location_id)
       .includes(location_id);
-    setValue(
-      LOCATIONS,
-      isSelected
-        ? selectedLocations.filter((location) => location.location_id !== location_id)
-        : [...selectedLocations, { location_id }],
-    );
+    return isSelected
+      ? selectedLocations.filter((location) => location.location_id !== location_id)
+      : [...selectedLocations, { location_id }];
   };
+
   const clearLocations = () => setValue(LOCATIONS, []);
+
   return (
     <>
       <Layout
@@ -71,7 +79,7 @@ export default function PureTaskLocations({
         />
 
         <Main style={{ marginTop: '24px', marginBottom: '24px' }}>
-          {t('TASK.SELECT_TASK_LOCATIONS')}
+          {title || t('TASK.SELECT_TASK_LOCATIONS')}
         </Main>
         <LocationPicker
           onSelectLocation={onSelectLocation}
@@ -94,5 +102,6 @@ PureTaskLocations.prototype = {
   farmCenterCoordinate: PropTypes.object,
   persistedFormData: PropTypes.object,
   useHookFormPersist: PropTypes.func,
-  persistedPath: PropTypes.arrayOf(PropTypes.string),
+  isMulti: PropTypes.bool,
+  title: PropTypes.string,
 };

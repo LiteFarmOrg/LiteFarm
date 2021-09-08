@@ -11,8 +11,8 @@ import { getProductsSuccess, onLoadingProductFail, onLoadingProductStart } from 
 import {
   deleteTaskTypeSuccess,
   getTaskTypesSuccess,
-  taskTypeById,
   taskTypeEntitiesSelector,
+  taskTypeSelector,
 } from '../taskTypeSlice';
 import { pick } from '../../util/pick';
 import produce from 'immer';
@@ -253,7 +253,7 @@ export function* createTaskSaga({ payload: data }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const { task_translation_key, farm_id: task_farm_id } = yield select(
-    taskTypeById(data.task_type_id),
+    taskTypeSelector(data.task_type_id),
   );
 
   const header = getHeader(user_id, farm_id);

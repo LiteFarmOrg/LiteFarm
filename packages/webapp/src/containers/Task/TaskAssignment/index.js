@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { taskTypeById } from '../../taskTypeSlice';
+import { taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { createTask, createCustomTask } from '../saga';
+import { createTask } from '../saga';
 
 export default function TaskManagement({ history, match }) {
   const userFarms = useSelector(userFarmEntitiesSelector);
@@ -17,7 +17,7 @@ export default function TaskManagement({ history, match }) {
   const users = userFarms[farm_id];
   const userData = Object.values(users);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
+  const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const isCustomType = !!selectedTaskType.farm_id;
   const [options, setOptions] = useState([{ label: 'Unassigned', value: null }]);
   const [wageData, setWageData] = useState([

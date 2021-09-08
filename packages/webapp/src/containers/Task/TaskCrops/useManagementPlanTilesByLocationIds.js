@@ -45,10 +45,15 @@ export const useManagementPlanTilesByLocationIds = (locationIds = [], management
 };
 
 export const useActiveAndCurrentManagementPlanTilesByLocationIds = (locationIds = []) => {
+  const activeAndPlanedManagementPlanIds = useActiveAndCurrentManagementPlansByTaskDate();
+  return useManagementPlanTilesByLocationIds(locationIds, activeAndPlanedManagementPlanIds);
+};
+
+const useActiveAndCurrentManagementPlansByTaskDate = () => {
   const { due_date } = useSelector(hookFormPersistSelector);
   const utcDate = getDateUTC(due_date);
   const managementPlans = useSelector(managementPlansSelector);
-  const activeAndPlanedManagementPlanIds = useMemo(
+  return useMemo(
     () =>
       managementPlans
         .filter(
@@ -59,5 +64,4 @@ export const useActiveAndCurrentManagementPlanTilesByLocationIds = (locationIds 
         .map(({ management_plan_id }) => management_plan_id),
     [due_date],
   );
-  return useManagementPlanTilesByLocationIds(locationIds, activeAndPlanedManagementPlanIds);
 };

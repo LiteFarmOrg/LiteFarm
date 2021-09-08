@@ -7,7 +7,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
-import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  resetAndUnLockFormData,
+  setPersistedPaths,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { tasksSelector } from '../taskSlice';
 import { getProducts, getTasks } from './saga';
 import TaskCard from './TaskCard';
@@ -57,6 +60,31 @@ export default function TaskPage({ history }) {
     }
   }, [tasks, activeTab]);
 
+  const onAddTask = () => {
+    //TODO: remove all persistedPath in add task flow
+    dispatch(
+      setPersistedPaths([
+        '/add_task/task_type_selection',
+        '/add_task/task_assignment',
+        '/add_task/task_crops',
+        '/add_task/manage_custom_tasks',
+        '/add_task/add_custom_task',
+        '/add_task/edit_custom_task',
+        '/add_task/edit_custom_task_update',
+        '/add_task/task_details',
+        '/add_task/task_locations',
+        '/add_task/task_date',
+        '/add_task/planting_method',
+        '/add_task/container_method',
+        '/add_task/bed_method',
+        '/add_task/bed_guidance',
+        '/add_task/row_method',
+        '/add_task/row_guidance',
+      ]),
+    );
+    history.push('/add_task/task_type_selection');
+  };
+
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('TASK.PAGE_TITLE')} style={{ paddingBottom: '20px' }} />
@@ -83,9 +111,7 @@ export default function TaskPage({ history }) {
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: tasksToDisplay.length })}
         </div>
-        <AddLink onClick={() => history.push('/add_task/task_type_selection')}>
-          {t('TASK.ADD_TASK')}
-        </AddLink>
+        <AddLink onClick={onAddTask}>{t('TASK.ADD_TASK')}</AddLink>
       </div>
       {tasksToDisplay.length > 0 ? (
         tasksToDisplay.map((task) => (

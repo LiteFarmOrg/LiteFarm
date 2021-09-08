@@ -3,10 +3,40 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useActiveAndCurrentManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
+import { cropLocationsSelector } from '../../locationSlice';
+import { useIsTaskType } from '../useIsTaskType';
 
-function TaskCrops({ history, match }) {
-  const onContinuePath = '/add_task/task_details';
-  const goBackPath = '/add_task/task_locations';
+export default function ManagementPlanSelector({ history, match }) {
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  return isTransplantTask ? (
+    <TransplantManagementPlansSelector history={history} match={match} />
+  ) : (
+    <TaskCrops history={history} match={match} />
+  );
+}
+
+function TransplantManagementPlansSelector({ history, match }) {
+  const locations = useSelector(cropLocationsSelector);
+  const onContinuePath = '/add_task/task_locations';
+  const goBackPath = '/add_task/task_date';
+  return (
+    <TaskCrops
+      locations={locations}
+      onContinuePath={onContinuePath}
+      goBackPath={goBackPath}
+      history={history}
+      match={match}
+    />
+  );
+}
+
+function TaskCrops({
+  history,
+  match,
+  goBackPath = '/add_task/task_locations',
+  onContinuePath = '/add_task/task_details',
+  locations,
+}) {
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
     history.push(persistedPaths[0]);
@@ -17,12 +47,10 @@ function TaskCrops({ history, match }) {
   const onContinue = () => {
     history.push(persistedPaths[1]);
   };
-  const onError = () => {
-    console.log('onError called');
-  };
+  const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
-    persistedFormData.locations,
+    locations || persistedFormData.locations,
   );
 
   return (
@@ -39,5 +67,3 @@ function TaskCrops({ history, match }) {
     </HookFormPersistProvider>
   );
 }
-
-export default TaskCrops;

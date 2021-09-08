@@ -13,6 +13,7 @@ import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
 import { getPersistPath } from '../../utils';
 import { getDateInputFormat } from '../../../../util/moment';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureGreenhouse({
   history,
@@ -210,7 +211,11 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                <div>
+                {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
+                {/* <div style={{ marginBottom: '16px' }}>
+                  <RadioGroup row disabled={isViewLocationPage} name={greenhouseEnum.supplemental_lighting} hookFormControl={control} />
+                </div> */}
+                <div style={{ display: 'flex' }}>
                   <Radio
                     label={t('common:YES')}
                     hookFormRegister={register(greenhouseEnum.supplemental_lighting, {
@@ -238,7 +243,7 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                <div>
+                <div style={{ display: 'flex' }}>
                   <Radio
                     label={t('common:YES')}
                     hookFormRegister={register(greenhouseEnum.co2_enrichment, { required: false })}
@@ -262,7 +267,7 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                <div style={{ marginBottom: '16px' }}>
+                <div style={{ display: 'flex', marginBottom: '16px' }}>
                   <Radio
                     label={t('common:YES')}
                     hookFormRegister={register(greenhouseEnum.greenhouse_heated, {

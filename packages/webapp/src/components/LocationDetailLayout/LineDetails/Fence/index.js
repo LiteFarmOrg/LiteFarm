@@ -12,6 +12,7 @@ import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureFence({
   history,
@@ -141,7 +142,7 @@ export default function PureFence({
                 {t('common:OPTIONAL')}
               </Label>
             </div>
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ display: 'flex', marginBottom: '16px' }}>
               <Radio
                 label={t('common:YES')}
                 hookFormRegister={register(fenceEnum.pressure_treated, { required: false })}
@@ -156,6 +157,10 @@ export default function PureFence({
                 disabled={isViewLocationPage}
               />
             </div>
+            {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
+            {/* <div style={{ marginBottom: '16px' }}>
+              <RadioGroup row disabled={isViewLocationPage} name={fenceEnum.pressure_treated} hookFormControl={control} />
+            </div> */}
           </div>
         </div>
       </LineDetails>

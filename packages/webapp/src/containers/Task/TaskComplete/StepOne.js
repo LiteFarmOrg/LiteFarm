@@ -24,7 +24,7 @@ function TaskCompleteStepOne({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.push(`/tasks/${task_id}/read_only`);
+    history.goBack();
   };
 
   return (

@@ -102,12 +102,14 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
-      <Rating
-        style={{ display: 'flex', marginBottom: '27px' }}
-        label={t('TASK.PROVIDE_RATING')}
-        disabled={prefer_not_to_say}
-        onRate={(value) => setValue(HAPPINESS, value)}
-      />
+      {!prefer_not_to_say && (
+        <Rating
+          style={{ display: 'flex', marginBottom: '27px' }}
+          label={t('TASK.PROVIDE_RATING')}
+          disabled={prefer_not_to_say}
+          onRate={(value) => setValue(HAPPINESS, value)}
+        />
+      )}
 
       <Checkbox
         style={{ marginBottom: '42px' }}

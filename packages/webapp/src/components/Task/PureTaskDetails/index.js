@@ -145,8 +145,11 @@ const PureTaskDetails = ({
             style={{ paddingTop: '20px' }}
             label={t('LOG_COMMON.NOTES')}
             optional={true}
-            hookFormRegister={register(NOTES)}
+            hookFormRegister={register(NOTES, {
+              maxLength: { value: 10000, message: t('ADD_TASK.TASK_NOTES_CHAR_LIMIT') },
+            })}
             name={NOTES}
+            errors={errors[NOTES]?.message}
           />
         )}
       </Form>

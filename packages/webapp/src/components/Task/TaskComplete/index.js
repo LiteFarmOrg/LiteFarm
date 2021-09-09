@@ -28,7 +28,7 @@ export default function PureTaskComplete({
     watch,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
@@ -50,7 +50,7 @@ export default function PureTaskComplete({
 
   const notes = watch(COMPLETION_NOTES);
 
-  const disabled = !prefer_not_to_say && happiness === 0;
+  const disabled = !isValid;
 
   return (
     <Form
@@ -113,10 +113,13 @@ export default function PureTaskComplete({
       />
 
       <InputAutoSize
-        hookFormRegister={register(COMPLETION_NOTES)}
+        hookFormRegister={register(COMPLETION_NOTES, {
+          maxLength: { value: 10000, message: t('TASK.COMPLETION_NOTES_CHAR_LIMIT') },
+        })}
         name={COMPLETION_NOTES}
         label={t('TASK.COMPLETION_NOTES')}
         optional
+        errors={errors[COMPLETION_NOTES]?.message}
       />
     </Form>
   );

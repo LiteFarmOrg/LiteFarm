@@ -93,6 +93,7 @@
       "STRUCTURE": "Structure"
     },
     "TASK": "task",
+    "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about the",
     "WAGE_OVERRIDE": "Wage override"
   },
@@ -339,6 +340,7 @@
       "TYPE": "Type",
       "VALID_ON": "Valid on"
     },
+    "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "SPOTLIGHT": {
       "CDC": "When it comes time to generate your certification export, LiteFarm will automatically export all compliance documents that are valid on the export date you specify. Compliance documents will be automatically archived when they expire.",
       "HERE_YOU_CAN": "Here you can:",
@@ -520,6 +522,7 @@
       "NAME": "Natural area name",
       "TITLE": "Add natural area"
     },
+    "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "RESIDENCE": {
       "EDIT_TITLE": "Edit residence",
       "NAME": "Residence name",
@@ -964,6 +967,7 @@
       "ABANDON_REASON": "Reason for abandoning",
       "COMPLETE_PLAN": "Complete plan",
       "DATE_OF_CHANGE": "Date of status change",
+      "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
       "RATING": "Rate this management plan",
       "REASON": {
         "CROP_FAILURE": "Crop failure",
@@ -1015,6 +1019,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Create and assign tasks",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Management",
     "NEXT_HARVEST": "When do you expect your next harvest?",
+    "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "NUMBER_OF_CONTAINER": "# of containers",
     "PENDING_TASK": "Pending tasks",
     "PLAN_AND_ID": "Plan {{id}}",
@@ -1421,6 +1426,7 @@
       "ABANDON": "Abandon",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
       "NOTES": "Task abandonment notes",
+      "NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
       "REASON_FOR_ABANDONMENT": "Reason for abandoning",
       "REASON": {
         "CROP_FAILURE": "Crop failure",
@@ -1447,6 +1453,7 @@
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
     "COMPLETE_TASK_FLOW": "task completion",
     "COMPLETION_NOTES": "Task completion notes",
+    "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
     "DUE_DATE": "Due date",

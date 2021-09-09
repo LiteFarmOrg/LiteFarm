@@ -30,8 +30,6 @@ const PureAddCustomTask = ({
 
   const CUSTOM_TASK_TYPE = 'task_name';
 
-  console.log({ errors });
-
   return (
     <>
       <Form

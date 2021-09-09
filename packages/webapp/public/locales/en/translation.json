@@ -259,7 +259,6 @@
     "ANNUAL": "Annual",
     "ANNUAL_PERENNIAL": "Is the crop an annual or perennial?",
     "COMMERCIAL_AVAILABILITY": "Did you perform a commercial availability search?",
-    "COMPLIANCE_DOC": "Compliance Documents",
     "DETAIL_TAB": "Details",
     "EDIT_CROP_DETAIL": "Edit crop details",
     "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
@@ -1441,9 +1440,11 @@
       "MULTIPLE_CROPS": "Multiple crops",
       "MULTIPLE_LOCATIONS": "Multiple locations"
     },
+    "COMPLETE_HARVEST_QUANTITY": "How much was harvested?",
     "COMPLETE_TASK": "Complete task",
     "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
+    "COMPLETE_TASK_FLOW": "task completion",
     "COMPLETION_NOTES": "Task completion notes",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
@@ -1469,8 +1470,7 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned",
-    "COMPLETE_HARVEST_QUANTITY": "How much was harvested?"
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

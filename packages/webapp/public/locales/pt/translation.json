@@ -259,7 +259,6 @@
     "ANNUAL": "Anual",
     "ANNUAL_PERENNIAL": "O cultivo é anual ou perene?",
     "COMMERCIAL_AVAILABILITY": "Você fez uma busca de disponibilidade comercial?",
-    "COMPLIANCE_DOC": "Documentos de conformidade",
     "DETAIL_TAB": "Detalhes",
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
@@ -1440,9 +1439,11 @@
       "MULTIPLE_CROPS": "MISSING",
       "MULTIPLE_LOCATIONS": "MISSING"
     },
+    "COMPLETE_HARVEST_QUANTITY": "MISSING",
     "COMPLETE_TASK": "MISSING",
     "COMPLETE_TASK_CHANGES": "MISSING",
     "COMPLETE_TASK_DURATION": "MISSING",
+    "COMPLETE_TASK_FLOW": "MISSING",
     "COMPLETION_NOTES": "MISSING",
     "DETAILS": "MISSING",
     "DID_YOU_ENJOY": "MISSING",
@@ -1468,8 +1469,7 @@
     "TASKS_COUNT": "MISSING",
     "TASKS_COUNT_plural": "MISSING",
     "TODO": "MISSING",
-    "UNASSIGNED": "MISSING",
-    "COMPLETE_HARVEST_QUANTITY": "MISSING"
+    "UNASSIGNED": "MISSING"
   },
   "UNIT": {
     "TIME": {

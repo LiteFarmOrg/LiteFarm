@@ -5,11 +5,15 @@ import { pick } from '../../../util/pick';
 
 const cleaningTaskProperties = [
   'other_purpose',
+  'purpose',
+  'task_id',
   'product_id',
   'product_quantity',
   'product_quantity_unit',
-  'purpose',
-  'task_id',
+  'agent_used',
+  'cleaning_target',
+  'water_usage',
+  'water_usage_unit',
 ];
 
 const getCleaningTask = (task) => {

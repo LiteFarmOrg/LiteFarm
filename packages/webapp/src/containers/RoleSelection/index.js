@@ -10,9 +10,6 @@ import { userFarmSelector } from '../userFarmSlice';
 
 function RoleSelection() {
   const { t } = useTranslation();
-  const { register, handleSubmit, setValue } = useForm();
-  const ROLE = 'role';
-  const OWNER_OPERATED = 'owner_operated';
   const { role, owner_operated } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
 
@@ -25,48 +22,16 @@ function RoleSelection() {
     );
   };
 
-  useEffect(() => {
-    setValue(ROLE, role);
-    setValue(OWNER_OPERATED, owner_operated?.toString());
-  }, []);
-
   const onGoBack = () => {
     history.push('/add_farm');
   };
   return (
     <PureRoleSelection
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
       onGoBack={onGoBack}
-      inputs={[
-        {
-          label: t('ROLE_SELECTION.FARM_OWNER'),
-          value: 'Owner',
-          hookFormRegister: register(ROLE, { required: true }),
-
-          defaultChecked: true,
-        },
-        {
-          label: t('ROLE_SELECTION.FARM_MANAGER'),
-          value: 'Manager',
-          hookFormRegister: register(ROLE, { required: true }),
-        },
-        {
-          label: t('ROLE_SELECTION.FARM_EO'),
-          value: 'Extension Officer',
-          hookFormRegister: register(ROLE, { required: true }),
-        },
-        {
-          label: t('common:YES'),
-          value: true,
-          hookFormRegister: register(OWNER_OPERATED),
-        },
-        {
-          label: t('common:NO'),
-          value: false,
-          hookFormRegister: register(OWNER_OPERATED),
-        },
-      ]}
       title={t('ROLE_SELECTION.TITLE')}
+      defaultRole={role}
+      defaultOwnerOperated={owner_operated}
     />
   );
 }

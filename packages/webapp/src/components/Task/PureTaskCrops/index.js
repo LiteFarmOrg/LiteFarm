@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
-import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import Input from '../../Form/Input';
 import Square from '../../Square';
@@ -24,6 +23,7 @@ const PureTaskCrops = ({
   persistedPaths,
   useHookFormPersist,
   managementPlansByLocationIds,
+  isMulti = true,
 }) => {
   const { t } = useTranslation();
 
@@ -40,7 +40,6 @@ const PureTaskCrops = ({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([]);
   useHookFormPersist(getValues, persistedPaths);
 
   const [filter, setFilter] = useState();
@@ -68,7 +67,6 @@ const PureTaskCrops = ({
 
   const MANAGEMENT_PLANS = 'managementPlans';
   register(MANAGEMENT_PLANS, { required: false });
-  let selected_management_plans = watch(MANAGEMENT_PLANS);
 
   const onSubmit = () => {
     setValue(
@@ -85,6 +83,10 @@ const PureTaskCrops = ({
   const onSelectManagementPlan = (management_plan_id) => {
     setSelectedManagementPlanIds(
       produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
+        if (!isMulti) {
+          selectedManagementPlanIds = [{ management_plan_id }];
+          return;
+        }
         if (selectedManagementPlanIds.includes(management_plan_id)) {
           selectedManagementPlanIds = selectedManagementPlanIds.splice(
             selectedManagementPlanIds.indexOf(management_plan_id),
@@ -183,18 +185,20 @@ const PureTaskCrops = ({
           style={{ paddingBottom: '25px' }}
         />
 
-        <div style={{ paddingBottom: '16px' }}>
-          <Square style={{ marginRight: '15px' }} color={'counter'}>
-            {selectedManagementPlanIds.length}
-          </Square>
-          <Underlined onClick={selectAllCrops} style={{ marginRight: '5px' }}>
-            {t('ADD_TASK.SELECT_ALL_PLANS')}
-          </Underlined>
-          {'|'}
-          <Underlined onClick={clearAllCrops} style={{ marginLeft: '5px' }}>
-            {t('ADD_TASK.CLEAR_ALL_PLANS')}
-          </Underlined>
-        </div>
+        {isMulti && (
+          <div style={{ paddingBottom: '16px' }}>
+            <Square style={{ marginRight: '15px' }} color={'counter'}>
+              {selectedManagementPlanIds.length}
+            </Square>
+            <Underlined onClick={selectAllCrops} style={{ marginRight: '5px' }}>
+              {t('ADD_TASK.SELECT_ALL_PLANS')}
+            </Underlined>
+            {'|'}
+            <Underlined onClick={clearAllCrops} style={{ marginLeft: '5px' }}>
+              {t('ADD_TASK.CLEAR_ALL_PLANS')}
+            </Underlined>
+          </div>
+        )}
 
         {Object.keys(managementPlansFilteredByInput).map((location_id) => {
           let location_name =
@@ -206,11 +210,15 @@ const PureTaskCrops = ({
                 <PageBreak
                   style={{ paddingBottom: '16px' }}
                   label={location_name}
-                  onSelectAll={() => selectAllManagementPlansOfALocation(location_id)}
-                  onClearAll={() => clearAllManagementPlansOfALocation(location_id)}
+                  onSelectAll={
+                    isMulti ? () => selectAllManagementPlansOfALocation(location_id) : undefined
+                  }
+                  onClearAll={
+                    isMulti ? () => clearAllManagementPlansOfALocation(location_id) : undefined
+                  }
                 />
               </div>
-              <PureCropTileContainer gap={gap} padding={padding}>
+              <PureCropTileContainer gap={24} padding={0}>
                 {managementPlansFilteredByInput[location_id].map((managementPlan) => {
                   return (
                     <PureManagementPlanTile

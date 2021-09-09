@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -9,7 +9,6 @@ import { container_planting_depth } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
-import { getBedGuidancePaths, getRowGuidancePaths } from '../getAddManagementPlanPath';
 
 function PurePlanGuidance({
   system,
@@ -18,7 +17,12 @@ function PurePlanGuidance({
   isBed,
   variety_id,
   isFinalPage,
+  prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   history,
+  goBackPath,
+  submitPath,
+  cancelPath,
+  onSubmit = () => history.push(submitPath),
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -35,10 +39,6 @@ function PurePlanGuidance({
     mode: 'onChange',
   });
   useHookFormPersist(getValues);
-
-  const prefix = `crop_management_plan.planting_management_plans.${
-    isFinalPage ? 'final' : 'initial'
-  }`;
 
   const SPECIFY = `${prefix}.${isBed ? `bed_method.specify_beds` : `row_method.specify_rows`}`;
   const PLANTING_DEPTH = `${prefix}.${
@@ -62,14 +62,6 @@ function PurePlanGuidance({
 
   const SPECIFY_LIMIT = 40;
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
-    () =>
-      isBed
-        ? getBedGuidancePaths(variety_id, isFinalPage)
-        : getRowGuidancePaths(variety_id, isFinalPage),
-    [],
-  );
-  const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
 

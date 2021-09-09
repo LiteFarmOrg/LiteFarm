@@ -13,7 +13,6 @@ import { container_plant_spacing, container_planting_depth, seedYield } from '..
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
-import { getContainerMethodPaths } from '../getAddManagementPlanPath';
 import {
   hookFormMaxLengthValidation,
   hookFormMaxValidation,
@@ -26,6 +25,11 @@ export default function PurePlantInContainer({
   history,
   crop_variety,
   isFinalPage,
+  prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
+  goBackPath,
+  submitPath,
+  cancelPath,
+  onSubmit = () => history.push(submitPath),
 }) {
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistorical =
@@ -36,12 +40,7 @@ export default function PurePlantInContainer({
     return 50;
   }, []);
 
-  const prefix = `crop_management_plan.planting_management_plans.${
-    isFinalPage ? 'final' : 'initial'
-  }`;
-
   const { t } = useTranslation();
-  const variety_id = crop_variety.crop_variety_id;
 
   const IN_GROUND = `${prefix}.container_method.in_ground`;
   const NUMBER_OF_CONTAINERS = `${prefix}.container_method.number_of_containers`;
@@ -73,11 +72,6 @@ export default function PurePlantInContainer({
   });
   useHookFormPersist(getValues);
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getContainerMethodPaths(variety_id, persistedFormData, isFinalPage),
-    [],
-  );
-  const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
   const onError = () => {};

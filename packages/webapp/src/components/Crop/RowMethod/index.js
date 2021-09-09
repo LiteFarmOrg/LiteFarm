@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -12,7 +12,6 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import PropTypes from 'prop-types';
-import { getRowMethodPaths } from '../getAddManagementPlanPath';
 
 export default function PureRowMethod({
   system,
@@ -21,6 +20,10 @@ export default function PureRowMethod({
   persistedFormData,
   isFinalPage,
   history,
+  prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
+  goBackPath,
+  submitPath,
+  cancelPath,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -38,10 +41,6 @@ export default function PureRowMethod({
   });
 
   useHookFormPersist(getValues);
-
-  const prefix = `crop_management_plan.planting_management_plans.${
-    isFinalPage ? 'final' : 'initial'
-  }`;
 
   const SAME_LENGTH = `${prefix}.row_method.same_length`;
   const NUMBER_OF_ROWS = `${prefix}.row_method.number_of_rows`;
@@ -99,10 +98,6 @@ export default function PureRowMethod({
     }
   }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getRowMethodPaths(variety.crop_variety_id, isFinalPage),
-    [],
-  );
   const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
@@ -248,4 +243,7 @@ PureRowMethod.prototype = {
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
   history: PropTypes.object,
+  goBackPath: PropTypes.string,
+  submitPath: PropTypes.string,
+  cancelPath: PropTypes.string,
 };

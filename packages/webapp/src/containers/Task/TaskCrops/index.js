@@ -26,6 +26,7 @@ function TransplantManagementPlansSelector({ history, match }) {
       goBackPath={goBackPath}
       history={history}
       match={match}
+      isMulti={false}
     />
   );
 }
@@ -39,13 +40,13 @@ function TaskCrops({
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
-    history.push(persistedPaths[0]);
+    history.push(goBackPath);
   };
   const handleCancel = () => {
     history.push('/tasks');
   };
   const onContinue = () => {
-    history.push(persistedPaths[1]);
+    history.push(onContinuePath);
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);

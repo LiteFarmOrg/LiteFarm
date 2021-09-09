@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
@@ -12,7 +12,6 @@ import Unit from '../../Form/Unit';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
-import { getBedMethodPaths } from '../getAddManagementPlanPath';
 
 function PureBedPlan({
   history,
@@ -21,6 +20,10 @@ function PureBedPlan({
   useHookFormPersist,
   persistedFormData,
   isFinalPage,
+  prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
+  goBackPath,
+  submitPath,
+  cancelPath,
 }) {
   const { t } = useTranslation();
   const {
@@ -38,10 +41,6 @@ function PureBedPlan({
     mode: 'onChange',
   });
   useHookFormPersist(getValues);
-  //TODO: getPrefix()
-  const prefix = `crop_management_plan.planting_management_plans.${
-    isFinalPage ? 'final' : 'initial'
-  }`;
 
   const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
   const NUMBER_OF_ROWS_IN_BED = `${prefix}.bed_method.number_of_rows_in_bed`;
@@ -92,10 +91,6 @@ function PureBedPlan({
     }
   }, [number_of_beds, number_of_rows_in_bed, bed_length, plant_spacing]);
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
-    [],
-  );
   const onSubmit = () => history.push(submitPath);
   const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);

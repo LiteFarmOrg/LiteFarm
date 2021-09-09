@@ -280,6 +280,24 @@ const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
 const EditCustomTaskUpdate = React.lazy(() => import('./containers/Task/EditCustomTaskUpdate'));
+const TaskTransplantMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
+);
+const TaskBedMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskBedMethod'),
+);
+const TaskBedGuidance = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskBedGuidance'),
+);
+const TaskRowMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskRowMethod'),
+);
+const TaskRowGuidance = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskRowGuidance'),
+);
+const TaskContainerMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskContainerMethod'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -378,7 +396,6 @@ const Routes = () => {
               exact
               component={Transplant}
             />
-
             <Route
               path="/crop/:variety_id/add_management_plan/plant_date"
               exact
@@ -404,7 +421,6 @@ const Routes = () => {
               exact
               component={PlantingMethod}
             />
-
             <Route
               path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
               exact
@@ -470,7 +486,6 @@ const Routes = () => {
               exact
               component={ManagementPlanName}
             />
-
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
@@ -488,9 +503,7 @@ const Routes = () => {
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-
             <Route path="/documents" exact component={Documents} />
-
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
@@ -521,11 +534,9 @@ const Routes = () => {
               exact
               component={EditFarmSiteBoundaryForm}
             />
-
             <Route path="/create_location/barn" exact component={PostBarnForm} />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
-
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
             <Route
               path="/natural_area/:location_id/details"
@@ -533,7 +544,6 @@ const Routes = () => {
               component={EditNaturalAreaForm}
             />
             <Route path="/natural_area/:location_id/edit" exact component={EditNaturalAreaForm} />
-
             <Route path="/create_location/surface_water" exact component={PostSurfaceWaterForm} />
             <Route
               path="/surface_water/:location_id/details"
@@ -541,11 +551,9 @@ const Routes = () => {
               component={EditSurfaceWaterForm}
             />
             <Route path="/surface_water/:location_id/edit" exact component={EditSurfaceWaterForm} />
-
             <Route path="/create_location/residence" exact component={PostResidenceForm} />
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/residence/:location_id/edit" exact component={EditResidenceForm} />
-
             <Route path="/create_location/ceremonial_area" exact component={PostCeremonialForm} />
             <Route
               path="/ceremonial_area/:location_id/details"
@@ -553,34 +561,26 @@ const Routes = () => {
               component={EditCeremonialForm}
             />
             <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
-
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
-
             <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
-
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/gate/:location_id/details" exact component={EditGateForm} />
             <Route path="/gate/:location_id/edit" exact component={EditGateForm} />
-
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
             <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
             <Route path="/water_valve/:location_id/edit" exact component={EditWaterValveForm} />
-
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
             <Route path="/fence/:location_id/edit" exact component={EditFenceForm} />
-
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
-
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
             <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
-
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -602,7 +602,6 @@ const Routes = () => {
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/edit_expense" exact component={TempEditExpense} />
-
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/callback" component={Callback} />
@@ -646,6 +645,13 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -798,7 +804,6 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -946,6 +951,13 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -960,19 +972,16 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route
@@ -988,7 +997,6 @@ const Routes = () => {
               exact
               component={EditSurfaceWaterForm}
             />
-
             <Route
               path="/natural_area/:location_id/details"
               exact
@@ -1045,6 +1053,13 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

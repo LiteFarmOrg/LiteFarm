@@ -59,11 +59,14 @@ export default function PointDetailsLayout({
 
       {children}
       <InputAutoSize
-        optional={true}
         label={t('common:NOTES')}
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(pointEnum.notes)}
+        hookFormRegister={register(pointEnum.notes, {
+          maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
+        })}
         disabled={isViewLocationPage}
+        optional
+        errors={errors[pointEnum.notes]?.message}
       />
     </>
   );

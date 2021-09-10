@@ -17,7 +17,16 @@ import Rating from '../../Rating';
 
 const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, control, setValue } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+  });
 
   const REASON_FOR_ABANDONMENT = 'reason_for_abandonment';
   const OTHER_REASON_FOR_ABANDONMENT = 'other_abandonment_reason';
@@ -32,11 +41,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const no_work_completed = watch(NO_WORK_COMPLETED);
   const happiness = watch(HAPPINESS);
 
-  // TODO: replace with isValid when ReactSelect bug is fixed
-  const disabled =
-    !reason_for_abandonment ||
-    (reason_for_abandonment?.value === 'OTHER' && !watch(OTHER_REASON_FOR_ABANDONMENT)) ||
-    (!prefer_not_to_say && happiness === 0);
+  const disabled = !isValid;
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -79,8 +84,9 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
       {reason_for_abandonment?.value === 'OTHER' && (
         <Input
           label={t('TASK.ABANDON.WHAT_HAPPENED')}
-          hookFormRegister={register(OTHER_REASON_FOR_ABANDONMENT)}
+          hookFormRegister={register(OTHER_REASON_FOR_ABANDONMENT, { required: true })}
           style={{ marginBottom: '24px' }}
+          required
         />
       )}
 
@@ -116,9 +122,14 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
       />
 
       <InputAutoSize
-        optional={true}
+        style={{ marginBottom: '40px' }}
+        hookFormRegister={register(TASK_ABANDONMENT_NOTES, {
+          maxLength: { value: 10000, message: t('TASK.ABANDON.NOTES_CHAR_LIMIT') },
+        })}
+        name={TASK_ABANDONMENT_NOTES}
         label={t('TASK.ABANDON.NOTES')}
-        hookFormRegister={register(TASK_ABANDONMENT_NOTES)}
+        optional
+        errors={errors[TASK_ABANDONMENT_NOTES]?.message}
       />
     </Layout>
   );

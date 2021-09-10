@@ -101,7 +101,7 @@ export default function PureHarvestUses({
         value={progress}
       />
 
-      <Main style={{ marginBottom: '24px' }}>{t('TASK.HARVEST_USE')}</Main>
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.HOW_WILL_HARVEST_BE_USED')}</Main>
 
 
       <Label style={{ marginBottom: '16px' }}>
@@ -160,7 +160,7 @@ export default function PureHarvestUses({
                   remove(index);
                 }}
               >
-                {t('TASK.REMOVE')}
+                {t('TASK.REMOVE_HARVEST_USE')}
               </SubtractLink>
             )}
           </div>

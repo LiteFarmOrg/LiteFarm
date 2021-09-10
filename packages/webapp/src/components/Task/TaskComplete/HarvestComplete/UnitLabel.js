@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     backgroundColor: colors.blue700,
   },
   zero: {
-    backgroundColor: colors.green700,
+    backgroundColor: colors.brightGreen700,
   },
   negative: {
     backgroundColor: colors.red700,

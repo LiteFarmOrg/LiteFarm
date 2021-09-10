@@ -22,6 +22,8 @@ function PurePlanGuidance({
   goBackPath,
   submitPath,
   cancelPath,
+  //TODO: always use history.goBack() in management plan flow LF-1972
+  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
   onSubmit = () => history.push(submitPath),
 }) {
   const { t } = useTranslation(['translation']);
@@ -62,7 +64,6 @@ function PurePlanGuidance({
 
   const SPECIFY_LIMIT = 40;
 
-  const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
 
   return (

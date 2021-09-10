@@ -190,38 +190,33 @@ const taskController = {
     };
   },
 
-  createTransplantTasks() {
+  createTransplantTask() {
     const nonModifiable = getNonModifiable('transplant_task');
 
     return async (req, res, next) => {
       try {
-        const transplant_tasks = req.body;
+        const transplant_task = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
         //TODO: use cases of planned_time and due_date
 
         const result = await TaskModel.transaction(async trx => {
-          const result = [];
-          for (const transplant_task of transplant_tasks) {
-            transplant_task.planned_time = transplant_task.due_date;
-            transplant_task.owner_user_id = user_id;
-            if (transplant_task.assignee_user_id && !transplant_task.wage_at_moment) {
-              const { wage } = await userFarmModel.query().where({
-                user_id: transplant_task.assignee_user_id,
-                farm_id,
-              }).first();
-              transplant_task.wage_at_moment = wage.amount;
-            }
-            //TODO: noInsert on planting_management_plan planting methods LF-1864
-            const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
-              .upsertGraph(transplant_task, {
-                noUpdate: true,
-                noDelete: true,
-                noInsert: nonModifiable,
-              });
-            result.push(removeNullTypes(task));
+          transplant_task.planned_time = transplant_task.due_date;
+          transplant_task.owner_user_id = user_id;
+          if (transplant_task.assignee_user_id && !transplant_task.wage_at_moment) {
+            const { wage } = await userFarmModel.query().where({
+              user_id: transplant_task.assignee_user_id,
+              farm_id,
+            }).first();
+            transplant_task.wage_at_moment = wage.amount;
           }
-          return result;
+          //TODO: noInsert on planting_management_plan planting methods LF-1864
+          return await TaskModel.query(trx).context({ user_id: req.user.user_id })
+            .upsertGraph(transplant_task, {
+              noUpdate: true,
+              noDelete: true,
+              noInsert: nonModifiable,
+            });
         });
         return res.status(201).send(result);
       } catch (error) {

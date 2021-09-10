@@ -9,7 +9,7 @@ function ManageCustomTasks({ history, match }) {
   const onGoBackPath = '/add_task/task_type_selection';
   const persistedPaths = [onGoBackPath, onAddCustomTaskPath, onEditCustomTaskPath];
   const handleGoBack = () => {
-    history.push(onGoBackPath);
+    history.goBack();
   };
 
   const onEditCustomTask = () => {

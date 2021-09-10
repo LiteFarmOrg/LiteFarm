@@ -28,7 +28,7 @@ class plantingManagementPlanModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'is_final_planting_management_plan'],
+      required: ['management_plan_id'],
       properties: {
         planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },

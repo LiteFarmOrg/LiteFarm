@@ -9,6 +9,7 @@ import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookForm
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
@@ -31,10 +32,9 @@ function TaskDetails({ history, match }) {
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const handleGoBack = () => {
-    taskTypesBypassCrops.includes(persistedFormData.task_type_id)
-      ? history.push('/add_task/task_locations')
-      : history.push('/add_task/task_crops');
+    history.goBack();
   };
 
   const handleCancel = () => {

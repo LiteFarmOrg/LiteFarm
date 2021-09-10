@@ -26,8 +26,6 @@ export default function TaskManagement({ history, match }) {
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
-  const goBackPath = '/add_task/task_details';
-  const persistPaths = [goBackPath];
 
   useEffect(() => {
     let wage_data = [];
@@ -70,7 +68,7 @@ export default function TaskManagement({ history, match }) {
   };
 
   const handleGoBack = () => {
-    history.push(persistPaths[0]);
+    history.goBack();
   };
   const handleCancel = () => {
     history.push('/tasks');
@@ -90,7 +88,6 @@ export default function TaskManagement({ history, match }) {
         wageData={wageData}
         isFarmWorker={isFarmWorker}
         currencySymbol={currencySymbol}
-        persistPaths={persistPaths}
       />
     </HookFormPersistProvider>
   );

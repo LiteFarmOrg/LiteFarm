@@ -23,7 +23,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
     defaultValues: cloneObject(persistedFormData),
   });
 
-  const PLANTING_METHOD = `planting_management_plan.planting_method`;
+  const PLANTING_METHOD = `transplant_task.planting_management_plan.planting_method`;
   const planting_method = watch(PLANTING_METHOD);
 
   useHookFormPersist(getValues);
@@ -31,7 +31,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
   const onError = () => {};
 
   const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`);
-  const onGoBack = () => history.push(`/add_task/task_locations`);
+  const onGoBack = () => history.goBack();
   const onCancel = () => history.push('/tasks');
 
   const disabled = !isValid;

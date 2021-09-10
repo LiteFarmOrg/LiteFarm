@@ -76,16 +76,18 @@ const PureTaskCrops = ({
     onContinue();
   };
   const [selectedManagementPlanIds, setSelectedManagementPlanIds] = useState(
-    (getValues(MANAGEMENT_PLANS) || []).map(
-      (management_plan) => management_plan.management_plan_id,
-    ),
+    isMulti
+      ? (getValues(MANAGEMENT_PLANS) || []).map(
+          (management_plan) => management_plan.management_plan_id,
+        )
+      : [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id],
   );
   const onSelectManagementPlan = (management_plan_id) => {
     setSelectedManagementPlanIds(
       produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
         if (!isMulti) {
-          selectedManagementPlanIds = [{ management_plan_id }];
-          return;
+          selectedManagementPlanIds = [management_plan_id];
+          return selectedManagementPlanIds;
         }
         if (selectedManagementPlanIds.includes(management_plan_id)) {
           selectedManagementPlanIds = selectedManagementPlanIds.splice(
@@ -94,10 +96,10 @@ const PureTaskCrops = ({
           );
         }
         selectedManagementPlanIds.push(management_plan_id);
+        return selectedManagementPlanIds;
       }),
     );
   };
-
   const selectAllCrops = () => {
     setSelectedManagementPlanIds((prevManagementPlanIds) =>
       Object.keys(managementPlansFilteredByInput).reduce((managementPlanIds, location_id) => {

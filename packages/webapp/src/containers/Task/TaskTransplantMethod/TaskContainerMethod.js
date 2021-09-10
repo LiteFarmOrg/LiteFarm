@@ -9,10 +9,10 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 export default function TaskPlantInContainer({ history, match }) {
   const system = useSelector(measurementSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const { variety_id } = useSelector(
+  const { crop_variety_id } = useSelector(
     managementPlanSelector(persistedFormData.managementPlans[0].management_plan_id),
   );
-  const crop_variety = useSelector(cropVarietySelector(variety_id));
+  const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
 
   return (
     <HookFormPersistProvider>
@@ -22,11 +22,10 @@ export default function TaskPlantInContainer({ history, match }) {
         system={system}
         crop_variety={crop_variety}
         isFinalPage={true}
-        goBackPath={'/add_task/planting_method'}
         cancelPath={'/tasks'}
         submitPath={'/add_task/task_assignment'}
+        prefix={'transplant_task.planting_management_plan'}
       />
     </HookFormPersistProvider>
   );
 }
-v;

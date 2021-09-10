@@ -24,6 +24,8 @@ function PureBedPlan({
   goBackPath,
   submitPath,
   cancelPath,
+  //TODO: always use history.goBack() in management plan flow LF-1972
+  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
 }) {
   const { t } = useTranslation();
   const {
@@ -92,7 +94,6 @@ function PureBedPlan({
   }, [number_of_beds, number_of_rows_in_bed, bed_length, plant_spacing]);
 
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
 
   return (

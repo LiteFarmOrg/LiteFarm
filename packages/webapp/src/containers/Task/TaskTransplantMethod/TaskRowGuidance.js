@@ -7,7 +7,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskRowGuidance({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const { variety_id } = useSelector(
+  const { crop_variety_id } = useSelector(
     managementPlanSelector(persistedFormData.managementPlans[0].management_plan_id),
   );
   const system = useSelector(measurementSelector);
@@ -17,11 +17,11 @@ export default function TaskRowGuidance({ history, match }) {
       <PurePlanGuidance
         system={system}
         history={history}
-        variety_id={variety_id}
+        variety_id={crop_variety_id}
         isFinalPage={true}
-        goBackPath={'/add_task/row_method'}
         cancelPath={'/tasks'}
         submitPath={'/add_task/task_assignment'}
+        prefix={'transplant_task.planting_management_plan'}
       />
     </HookFormPersistProvider>
   );

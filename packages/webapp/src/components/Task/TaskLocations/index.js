@@ -24,10 +24,17 @@ export default function PureTaskLocations({
   const progress = 43;
   const defaultLocations = useMemo(() => {
     const locationIdsSet = new Set(locations.map(({ location_id }) => location_id));
-    return (
-      persistedFormData.locations?.filter(({ location_id }) => locationIdsSet.has(location_id)) ||
-      []
-    );
+    if (isMulti) {
+      return (
+        persistedFormData.locations?.filter(({ location_id }) => locationIdsSet.has(location_id)) ||
+        []
+      );
+    } else {
+      const location = persistedFormData.locations?.find(({ location_id }) =>
+        locationIdsSet.has(location_id),
+      );
+      return location ? [location] : [];
+    }
   }, []);
   const { getValues, watch, setValue } = useForm({
     defaultValues: cloneObject({ ...persistedFormData, locations: defaultLocations }),

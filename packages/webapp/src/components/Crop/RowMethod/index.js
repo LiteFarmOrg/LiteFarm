@@ -24,6 +24,9 @@ export default function PureRowMethod({
   goBackPath,
   submitPath,
   cancelPath,
+  //TODO: always use history.goBack() in management plan flow LF-1972
+  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  isHistoricalPage,
 }) {
   const { t } = useTranslation(['translation']);
   const {
@@ -99,11 +102,8 @@ export default function PureRowMethod({
   }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
 
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.push(goBackPath);
   const onCancel = () => history.push(cancelPath);
-  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
-  const isHistoricalPage =
-    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
+
   return (
     <Form
       buttonGroup={

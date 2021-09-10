@@ -16,6 +16,9 @@ export default function PlantInContainer({ history, match }) {
     () => getContainerMethodPaths(match.params.variety_id, persistedFormData, isFinalPage),
     [],
   );
+  const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
+  const isHistorical =
+    already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   return (
     <HookFormPersistProvider>
       <PurePlantInContainer
@@ -24,6 +27,7 @@ export default function PlantInContainer({ history, match }) {
         system={system}
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
+        isHistorical={isHistorical}
         goBackPath={goBackPath}
         submitPath={submitPath}
         cancelPath={cancelPath}

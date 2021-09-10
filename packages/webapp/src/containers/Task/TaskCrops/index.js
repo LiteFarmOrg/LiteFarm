@@ -40,7 +40,7 @@ function TaskCrops({
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
-    history.push(goBackPath);
+    history.goBack();
   };
   const handleCancel = () => {
     history.push('/tasks');
@@ -53,6 +53,7 @@ function TaskCrops({
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
     locations || persistedFormData.locations,
   );
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
 
   return (
     <HookFormPersistProvider>
@@ -64,6 +65,7 @@ function TaskCrops({
         persistedPaths={persistedPaths}
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
+        isMulti={!isTransplantTask}
       />
     </HookFormPersistProvider>
   );

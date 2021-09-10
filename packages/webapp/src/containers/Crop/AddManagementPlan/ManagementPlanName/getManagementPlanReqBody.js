@@ -38,7 +38,7 @@ const plantingManagementPlanPropertiesV0 = [
   'estimated_seeds_unit',
 ];
 
-const getPlantingMethodReqBody = (plantingManagementPlan, propertiesOverWrite = {}) => {
+export const getPlantingMethodReqBody = (plantingManagementPlan, propertiesOverWrite = {}) => {
   if (plantingManagementPlan.planting_method === 'CONTAINER_METHOD') {
     return {
       container_method: getContainerMethodReqBody(plantingManagementPlan.container_method),

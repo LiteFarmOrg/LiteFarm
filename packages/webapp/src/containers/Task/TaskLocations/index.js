@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
-  const isTransplantLocation = useIsTaskType('TRANSPORT_TASK');
+  const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
   if (isCropLocation) {
     return <TaskActiveAndPlannedCropLocations history={history} />;
   } else if (isTransplantLocation) {
@@ -45,7 +45,7 @@ function TaskActiveAndPlannedCropLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.push('/add_task/task_date');
+    history.goBack();
   };
   return (
     <TaskLocations
@@ -65,7 +65,7 @@ function TaskTransplantLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.push('/add_task/task_crops');
+    history.goBack();
   };
   return (
     <TaskLocations
@@ -94,7 +94,7 @@ function TaskAllLocations({ history }) {
   };
 
   const onGoBack = () => {
-    history.push('/add_task/task_date');
+    history.goBack();
   };
   return (
     <TaskLocations

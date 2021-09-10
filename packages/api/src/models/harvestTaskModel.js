@@ -33,8 +33,10 @@ class HarvestTaskModel extends Model {
 
       properties: {
         task_id: { type: 'integer' },
-        quantity: { type: 'number' },
-        quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
+        projected_quantity: { type: 'number' },
+        projected_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
+        actual_quantity: { type: 'number' },
+        actual_quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
         harvest_everything: { type: 'boolean' },
       },
       additionalProperties: false,
@@ -57,19 +59,13 @@ class HarvestTaskModel extends Model {
 
       },
 
-      harvestUseType:{
-        modelClass:require('./harvestUseTypeModel'),
-        relation:Model.ManyToManyRelation,
-        join:{
+      harvestUses: {
+        modelClass: require('./harvestUseModel'),
+        relation: Model.HasManyRelation,
+        join: {
           from: 'harvest_task.task_id',
-          through: {
-            modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.task_id',
-            to: 'harvestUse.harvest_use_type_id',
-          },
-          to: 'harvestUseType.harvest_use_type_id',
+          to: 'harvest_use.task_id',
         },
-
       },
 
     };

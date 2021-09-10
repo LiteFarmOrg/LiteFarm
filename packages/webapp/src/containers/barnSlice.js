@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 import { pick } from '../util/pick';
 
-const barnProperties = ['wash_and_pack', 'cold_storage', 'location_id'];
+const barnProperties = ['wash_and_pack', 'cold_storage', 'used_for_animals', 'location_id'];
 export const getLocationObjectFromBarn = (data) => {
   return {
     figure: {

@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class HarvestUseType extends Model {
   static get tableName() {
-    return 'harvestUseType';
+    return 'harvest_use_type';
   }
 
   static get idColumn() {

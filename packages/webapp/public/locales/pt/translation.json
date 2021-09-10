@@ -36,6 +36,7 @@
     "CLEAR_ALL": "MISSING",
     "CLEAR_ALL_PLANS": "MISSING",
     "CUSTOM_TASK": "MISSING",
+    "CUSTOM_TASK_CHAR_LIMIT": "MISSING",
     "CUSTOM_TASK_NAME": "MISSING",
     "CUSTOM_TASK_TYPE": "MISSING",
     "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
@@ -92,6 +93,7 @@
       "STRUCTURE": "MISSING"
     },
     "TASK": "MISSING",
+    "TASK_NOTES_CHAR_LIMIT": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
     "WAGE_OVERRIDE": "MISSING"
   },
@@ -259,7 +261,6 @@
     "ANNUAL": "Anual",
     "ANNUAL_PERENNIAL": "O cultivo é anual ou perene?",
     "COMMERCIAL_AVAILABILITY": "Você fez uma busca de disponibilidade comercial?",
-    "COMPLIANCE_DOC": "Documentos de conformidade",
     "DETAIL_TAB": "Detalhes",
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
@@ -338,6 +339,7 @@
       "TYPE": "Tipo",
       "VALID_ON": "Válido em"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "SPOTLIGHT": {
       "CDC": "Quando chegar a hora de gerar sua exportação de certificação, a LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
       "HERE_YOU_CAN": "Aqui você pode:",
@@ -398,9 +400,10 @@
       "TOTAL_AREA": "Área total"
     },
     "BARN": {
+      "ANIMALS": "MISSING",
       "COLD_STORAGE": "Este galpão tem câmara fria?",
       "EDIT_TITLE": "Editar galpão",
-      "NAME": "Galpão",
+      "NAME": "Nome do galpão",
       "TITLE": "Adicionar galpão",
       "WASH_PACK": "Este galpão tem uma estação de lavação e embalagem?"
     },
@@ -473,7 +476,7 @@
       "EDIT_TITLE": "Editar estufa",
       "GREENHOUSE_HEATED": "A estufa é aquecida?",
       "GREENHOUSE_TYPE": "Qual tipo de estufa é esta?",
-      "NAME": "Greenhouse",
+      "NAME": "Nome da estufa",
       "NON_ORGANIC": "Não orgânico",
       "ORGANIC": "Orgânico",
       "SUPPLEMENTAL_LIGHTING": "Há luz suplementar?",
@@ -518,6 +521,7 @@
       "NAME": "nome da área natural",
       "TITLE": "Adicionar área natural"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residência",
       "NAME": "nome da residência",
@@ -962,6 +966,7 @@
       "ABANDON_REASON": "MISSING",
       "COMPLETE_PLAN": "MISSING",
       "DATE_OF_CHANGE": "MISSING",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "RATING": "MISSING",
       "REASON": {
         "CROP_FAILURE": "MISSING",
@@ -1013,6 +1018,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
+    "NOTES_CHAR_LIMIT": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
@@ -1419,6 +1425,7 @@
       "ABANDON": "MISSING",
       "INFO": "MISSING",
       "NOTES": "MISSING",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "REASON_FOR_ABANDONMENT": "MISSING",
       "REASON": {
         "CROP_FAILURE": "MISSING",
@@ -1439,10 +1446,13 @@
       "MULTIPLE_CROPS": "MISSING",
       "MULTIPLE_LOCATIONS": "MISSING"
     },
+    "COMPLETE_HARVEST_QUANTITY": "MISSING",
     "COMPLETE_TASK": "MISSING",
     "COMPLETE_TASK_CHANGES": "MISSING",
     "COMPLETE_TASK_DURATION": "MISSING",
+    "COMPLETE_TASK_FLOW": "MISSING",
     "COMPLETION_NOTES": "MISSING",
+    "COMPLETION_NOTES_CHAR_LIMIT": "MISSING",
     "DETAILS": "MISSING",
     "DID_YOU_ENJOY": "MISSING",
     "DUE_DATE": "MISSING",

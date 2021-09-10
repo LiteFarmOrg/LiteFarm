@@ -110,11 +110,14 @@ export default function AreaDetails({
       </div>
       {children}
       <InputAutoSize
-        optional={true}
         label={t('common:NOTES')}
         style={{ marginBottom: '40px' }}
-        hookFormRegister={register(areaEnum.notes)}
+        hookFormRegister={register(areaEnum.notes, {
+          maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
+        })}
         disabled={isViewLocationPage}
+        optional
+        errors={errors[areaEnum.notes]?.message}
       />
     </>
   );

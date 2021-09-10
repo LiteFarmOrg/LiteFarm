@@ -33,12 +33,17 @@ function TaskReadOnly({ history, match }) {
     managementPlanIds,
   );
 
+  const selectedTaskType = task.taskType;
+  const isHarvest = selectedTaskType?.task_translation_key === 'HARVEST_TASK';
+
   const onGoBack = () => {
     history.goBack();
   };
 
   const onComplete = () => {
-    if (isTaskTypeCustom) {
+    if (isHarvest) {
+      history.push(`/tasks/${task_id}/complete_harvest_quantity`);
+    } else if (isTaskTypeCustom) {
       dispatch(setFormData({ task_id, taskType: task.taskType }));
       history.push(`/tasks/${task_id}/complete`);
     } else {

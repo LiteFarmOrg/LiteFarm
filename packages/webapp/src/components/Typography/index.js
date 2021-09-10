@@ -20,11 +20,11 @@ Underlined.propTypes = {
   style: PropTypes.object,
 };
 
-export const AddLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+export const AddLink = ({ children = 'Link', className = '', style, onClick, color, ...props }) => {
   return (
     <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
       +{' '}
-      <span className={clsx(styles.underlined)} onClick={onClick}>
+      <span className={clsx(styles.underlined)} style={{color : color}} onClick={onClick}>
         {children}
       </span>
     </p>
@@ -32,6 +32,23 @@ export const AddLink = ({ children = 'Link', className = '', style, onClick, ...
 };
 
 AddLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export const SubtractLink = ({ children = 'Link', className = '', style, onClick, color, ...props }) => {
+  return (
+    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
+      -{' '}
+      <span className={clsx(styles.underlined)} style={{color : color}} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+SubtractLink.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,

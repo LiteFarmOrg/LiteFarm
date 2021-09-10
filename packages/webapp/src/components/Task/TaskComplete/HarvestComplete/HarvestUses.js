@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import Button from '../../../Form/Button';
-import { Label, Main, AddLink } from '../../../Typography';
+import { Label, Main, AddLink, SubtractLink } from '../../../Typography';
 import Unit from '../../../Form/Unit';
 import { harvestAmounts } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
@@ -52,7 +52,7 @@ export default function PureHarvestUses({
   const disabled = !isValid;
 
   const [allocated_amount, setAllocatedAmount] = useState(amount);
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'harvest_uses',
     shouldUnregister: false,
@@ -132,15 +132,27 @@ export default function PureHarvestUses({
               control={control}
               required
             />
+            {fields.length > 1 && (
+              <SubtractLink
+                style={{ float: 'right', color: '#AA5F04', marginBottom: '24px' }}
+                color={'#AA5F04'}
+                onClick={() => {
+                  remove(index);
+                }}
+              >
+                {t('TASK.REMOVE')}
+              </SubtractLink>
+            )}
           </div>
         )
       })}
 
       <AddLink 
-        style={ {marginTop: '16px' }}
+        style={ { color: '#0669E1' }}
         onClick={() => {
           append({ amount: '', unit: '' });
         }}
+        color={'#0669E1'}
       >
         {t('TASK.ADD_HARVEST_USE')}
       </AddLink>

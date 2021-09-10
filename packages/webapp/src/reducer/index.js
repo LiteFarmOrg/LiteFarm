@@ -53,7 +53,7 @@ import fieldWorkTaskReducer from '../containers/slice/taskSlice/fieldWorkTaskSli
 import harvestTaskReducer from '../containers/slice/taskSlice/harvestTaskSlice';
 import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTaskSlice';
 import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
-
+import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
@@ -182,6 +182,7 @@ const entitiesReducer = combineReducers({
   pestControlTaskReducer,
   soilAmendmentTaskReducer,
   taskTypeReducer,
+  harvestUseTypeReducer,
   productReducer,
 });
 

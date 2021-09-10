@@ -20,6 +20,7 @@ export default function PureHarvestUses({
   useHookFormPersist,
   amount,
   unit,
+  harvestUseTypes,
 }) {
   const { t } = useTranslation();
 
@@ -56,6 +57,11 @@ export default function PureHarvestUses({
     name: 'harvest_uses',
     shouldUnregister: false,
   });
+
+  const harvest_uses_options = harvestUseTypes.map((harvestUseType) => ({
+    value: harvestUseType.harvest_use_type_id,
+    label: harvestUseType.harvest_use_type_name,
+  }));
 
   return (
     <Form
@@ -104,7 +110,7 @@ export default function PureHarvestUses({
               name={`harvest_uses.${index}.` + HARVEST_USE_TYPE}
               render={({ field }) => (
                 <ReactSelect
-                  //options={}
+                  options={harvest_uses_options}
                   label={t('TASK.HARVEST_USE')}
                   required={true}
                   {...field}
@@ -129,6 +135,15 @@ export default function PureHarvestUses({
           </div>
         )
       })}
+
+      <AddLink 
+        style={ {marginTop: '16px' }}
+        onClick={() => {
+          append({ amount: '', unit: '' });
+        }}
+      >
+        {t('TASK.ADD_HARVEST_USE')}
+      </AddLink>
     </Form>
   );
 }

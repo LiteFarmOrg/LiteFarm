@@ -43,6 +43,12 @@ import {
   onLoadingHarvestTaskStart,
 } from '../slice/taskSlice/harvestTaskSlice';
 
+import {
+  onLoadingHarvestUseTypeStart,
+  onLoadingHarvestUseTypeFail,
+  getHarvestUseTypesSuccess,
+} from '../harvestUseTypeSlice';
+
 const taskTypeEndpoint = [
   'cleaning_task',
   'field_work_task',
@@ -373,6 +379,33 @@ export function* deleteTaskTypeSaga({ payload: id }) {
   }
 }
 
+export const onLoadingHarvestUseTypesStart = createAction('onLoadingHarvestUseTypesStartSaga');
+
+export function* onLoadingHarvestUseTypesStartSaga() {
+  yield put(onLoadingHarvestUseTypeStart());
+}
+
+
+export const getHarvestUseTypes = createAction('getHarvestUseTypesSaga');
+
+export function* getHarvestUseTypesSaga() {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingHarvestUseTypesStart());
+    const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
+    if (result) {
+      yield put(getHarvestUseTypesSuccess(result.data));
+    }
+  } catch (e) {
+    console.log('failed to get harvest use types');
+    yield put(onLoadingHarvestUseTypeFail());
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -387,4 +420,6 @@ export default function* taskSaga() {
   yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
+  yield takeLeading(getHarvestUseTypes.type, getHarvestUseTypesSaga);
+  yield takeLeading(onLoadingHarvestUseTypesStart.type, onLoadingHarvestUseTypesStartSaga);
 }

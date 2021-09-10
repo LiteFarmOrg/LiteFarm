@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -37,7 +37,7 @@ export default function PureHarvestUses({
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      harvest_uses: [{ amount: '', unit: '' }],
+      harvest_uses: [{}],
     },
   });
 
@@ -49,9 +49,10 @@ export default function PureHarvestUses({
   const HARVEST_USE_QUANTITY = 'harvest_use_quantity';
   const HARVEST_USE_TYPE = 'harvest_use_type';
 
-  const disabled = !isValid;
+  const [allocated_amount, setAllocatedAmount] = useState(0);
 
-  const [allocated_amount, setAllocatedAmount] = useState(amount);
+  const [amount_to_allocate, setAmountToAllocate] = useState(amount);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'harvest_uses',
@@ -62,6 +63,25 @@ export default function PureHarvestUses({
     value: harvestUseType.harvest_use_type_id,
     label: harvestUseType.harvest_use_type_name,
   }));
+
+  const watchFields = watch('harvest_uses');
+  
+  useEffect(() => {
+    let all_q = 0;
+    for (let field of watchFields) {
+      let q = field[HARVEST_USE_QUANTITY];
+      if (q !== undefined) {
+        all_q += q;
+      }
+    }
+    setAllocatedAmount(all_q);
+  }, [watchFields]);
+
+  useEffect(() => {
+    setAmountToAllocate(amount - allocated_amount);
+  }, [allocated_amount]);
+
+  const disabled = !isValid || amount_to_allocate !== 0;
 
   return (
     <Form
@@ -88,7 +108,7 @@ export default function PureHarvestUses({
         {t('TASK.AMOUNT_TO_ALLOCATE')}
         <UnitLabel
           style={{ marginLeft: '12px' }}
-          amount={allocated_amount}
+          amount={amount_to_allocate}
           unitLabel={unit}
         />
       </Label>
@@ -150,7 +170,7 @@ export default function PureHarvestUses({
       <AddLink 
         style={ { color: '#0669E1' }}
         onClick={() => {
-          append({ amount: '', unit: '' });
+          append({});
         }}
         color={'#0669E1'}
       >

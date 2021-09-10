@@ -28,9 +28,9 @@ const useStyles = makeStyles({
   }
 });
 
-const UnitLabel = ({ status = 'positive', unitLabel = "kg", amount, style }) => {
+const UnitLabel = ({ unitLabel = "kg", amount, style }) => {
   const classes = useStyles();
-
+  const status = amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'zero';
   return <div className={clsx(classes.container, classes[status])} style={style}>{`${amount} ${unitLabel}`}</div>;
 };
 

@@ -93,6 +93,7 @@
       "STRUCTURE": "MISSING"
     },
     "TASK": "MISSING",
+    "TASK_NOTES_CHAR_LIMIT": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "MISSING",
     "WAGE_OVERRIDE": "MISSING"
   },
@@ -338,6 +339,7 @@
       "TYPE": "Tipo",
       "VALID_ON": "Válido em"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "SPOTLIGHT": {
       "CDC": "Quando chegar a hora de gerar sua exportação de certificação, a LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
       "HERE_YOU_CAN": "Aqui você pode:",
@@ -519,6 +521,7 @@
       "NAME": "nome da área natural",
       "TITLE": "Adicionar área natural"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residência",
       "NAME": "nome da residência",
@@ -963,6 +966,7 @@
       "ABANDON_REASON": "MISSING",
       "COMPLETE_PLAN": "MISSING",
       "DATE_OF_CHANGE": "MISSING",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "RATING": "MISSING",
       "REASON": {
         "CROP_FAILURE": "MISSING",
@@ -1014,6 +1018,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
+    "NOTES_CHAR_LIMIT": "MISSING",
     "NUMBER_OF_CONTAINER": "# dos recipientes",
     "PENDING_TASK": "MISSING",
     "PLAN_AND_ID": "Plan {{id}}",
@@ -1420,6 +1425,7 @@
       "ABANDON": "MISSING",
       "INFO": "MISSING",
       "NOTES": "MISSING",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "REASON_FOR_ABANDONMENT": "MISSING",
       "REASON": {
         "CROP_FAILURE": "MISSING",
@@ -1446,6 +1452,7 @@
     "COMPLETE_TASK_DURATION": "MISSING",
     "COMPLETE_TASK_FLOW": "MISSING",
     "COMPLETION_NOTES": "MISSING",
+    "COMPLETION_NOTES_CHAR_LIMIT": "MISSING",
     "DETAILS": "MISSING",
     "DID_YOU_ENJOY": "MISSING",
     "DUE_DATE": "MISSING",

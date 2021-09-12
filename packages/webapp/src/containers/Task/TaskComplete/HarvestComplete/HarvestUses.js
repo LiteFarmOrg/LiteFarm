@@ -5,18 +5,18 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import PureHarvestUses from '../../../../components/Task/TaskComplete/HarvestComplete/HarvestUses';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
+import { taskWithProductById } from '../../../taskSlice';
 
 function HarvestUses({ history, match }) {
   const system = useSelector(measurementSelector);
   const task_id = match.params.task_id;
-  const persistedPaths = [`/tasks/${task_id}/complete_harvest_quantity`];
+  const persistedPaths = [`/tasks/${task_id}/complete_harvest_quantity`, `/tasks/${task_id}/complete`];
   const persistedFormData = useSelector(hookFormPersistSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
-
-  console.log(harvestUseTypes);
+  const task = useSelector(taskWithProductById(task_id));
 
   const onContinue = (data) => {
-
+    history.push(`/tasks/${task_id}/complete`);
   };
 
   const onCancel = () => {
@@ -38,6 +38,7 @@ function HarvestUses({ history, match }) {
         amount={persistedFormData?.actual_quantity}
         unit={persistedFormData?.actual_quantity_unit?.label}
         harvestUseTypes={harvestUseTypes}
+        task={task}
       />
     </HookFormPersistProvider>
   );

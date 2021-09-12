@@ -7,10 +7,11 @@ import { completeTask } from '../saga';
 function TaskComplete({ history, match }) {
   const dispatch = useDispatch();
   const task_id = match.params.task_id;
-  const persistedPaths = [`/tasks/${task_id}/before_complete`];
+  const persistedPaths = [`/tasks/${task_id}/before_complete`, `/tasks/${task_id}/harvest_uses`];
 
   const onSave = (data) => {
     dispatch(completeTask({ task_id, data }));
+    //console.log('onSave', data);
   };
 
   const onCancel = () => {

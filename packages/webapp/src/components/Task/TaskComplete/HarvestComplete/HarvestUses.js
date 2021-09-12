@@ -9,6 +9,7 @@ import Unit from '../../../Form/Unit';
 import { harvestAmounts } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
+import { cloneObject } from '../../../../util';
 
 export default function PureHarvestUses({
   onContinue,
@@ -21,6 +22,7 @@ export default function PureHarvestUses({
   amount,
   unit,
   harvestUseTypes,
+  task,
 }) {
   const { t } = useTranslation();
 
@@ -37,7 +39,8 @@ export default function PureHarvestUses({
     shouldUnregister: false,
     defaultValues: {
       ...persistedFormData,
-      harvest_uses: [{}],
+      harvest_uses: persistedFormData?.harvest_uses ?? [{}],
+      ...cloneObject(task),
     },
   });
 

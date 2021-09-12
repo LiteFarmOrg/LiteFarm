@@ -74,6 +74,9 @@ export default function PureTaskComplete({
           let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
         }
+        if (data.task_translation_key === 'HARVEST_TASK') {
+          data.harvest_uses = persistedFormData?.harvest_uses;
+        }
         onSave(data);
       })}
     >

@@ -97,8 +97,8 @@ describe('Task tests', () => {
 
 
   afterAll(async (done) => {
-    //await tableCleanup(knex);
-    //await knex.destroy();
+    await tableCleanup(knex);
+    await knex.destroy();
     done();
   });
 
@@ -808,7 +808,7 @@ describe('Task tests', () => {
         harvest_uses.push(harvest_use);
         actual_quantity += harvest_use.quantity;
       });
-      completeTaskRequest({ user_id, farm_id }, { task: {...fakeCompletionData, harvest_task: {actual_quantity} }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
+      completeTaskRequest({ user_id, farm_id }, { task: {...fakeCompletionData, harvest_task: {task_id, actual_quantity} }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
         expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
@@ -819,7 +819,7 @@ describe('Task tests', () => {
         expect(new_harvest_uses.length).toBe(harvest_uses.length);
         const patched_harvest_task = await knex('harvest_task').where({ task_id }).first();
         expect(patched_harvest_task.actual_quantity).toBe(actual_quantity);
-        const harvest_uses_quantity = 0;
+        let harvest_uses_quantity = 0;
         new_harvest_uses.forEach(({ quantity }) => harvest_uses_quantity += quantity);
         expect(harvest_uses_quantity).toBe(actual_quantity);
         done();

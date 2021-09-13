@@ -97,8 +97,8 @@ describe('Task tests', () => {
 
 
   afterAll(async (done) => {
-    await tableCleanup(knex);
-    await knex.destroy();
+    //await tableCleanup(knex);
+    //await knex.destroy();
     done();
   });
 
@@ -773,6 +773,55 @@ describe('Task tests', () => {
         expect(patched_pest_control_task.product_quantity).toBe(new_pest_control_task.product_quantity);
         expect(patched_pest_control_task.pest_target).toBe(new_pest_control_task.pest_target);
         expect(patched_pest_control_task.control_method).toBe(new_pest_control_task.control_method);
+        done();
+      });
+    });
+
+    test.only('should be able to complete a harvest task', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      const fakeTask = mocks.fakeTask({
+        task_type_id: task_type_id,
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+      })
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] }, fakeTask);
+      await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
+      await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
+      const harvest_uses = [];
+      const promisedHarvestUseTypes = await Promise.all([...Array(3)].map(async () =>
+        mocks.harvest_use_typeFactory({
+          promisedFarm: [{ farm_id }],
+        })
+      ));
+      const harvest_types = promisedHarvestUseTypes.reduce((a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }), []);
+
+      let actual_quantity = 0;
+      harvest_types.forEach(({ harvest_use_type_id }) => {
+        let harvest_use = mocks.fakeHarvestUse({
+          task_id: task_id,
+          harvest_use_type_id,
+        });
+        harvest_uses.push(harvest_use);
+        actual_quantity += harvest_use.quantity;
+      });
+      completeTaskRequest({ user_id, farm_id }, { task: {...fakeCompletionData, harvest_task: {actual_quantity} }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
+        expect(res.status).toBe(200);
+        const completed_task = await knex('task').where({ task_id }).first();
+        expect(completed_task.completed_time.toString()).toBe(completed_time.toString());
+        expect(completed_task.duration).toBe(duration);
+        expect(completed_task.happiness).toBe(happiness);
+        expect(completed_task.completion_notes).toBe(notes);
+        const new_harvest_uses = await knex('harvest_use').where({ task_id });
+        expect(new_harvest_uses.length).toBe(harvest_uses.length);
+        const patched_harvest_task = await knex('harvest_task').where({ task_id }).first();
+        expect(patched_harvest_task.actual_quantity).toBe(actual_quantity);
+        const harvest_uses_quantity = 0;
+        new_harvest_uses.forEach(({ quantity }) => harvest_uses_quantity += quantity);
+        expect(harvest_uses_quantity).toBe(actual_quantity);
         done();
       });
     });

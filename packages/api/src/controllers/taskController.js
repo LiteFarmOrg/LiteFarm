@@ -6,9 +6,10 @@ const HarvestTaskModel = require('../models/harvestTaskModel');
 const LocationTaskModel = require('../models/locationTasksModel');
 const { transaction, Model, UniqueViolationError } = require('objection');
 const baseController = require('../controllers/baseController');
+const HarvestUse = require('../models/harvestUseModel');
 
 const { typesOfTask } = require('./../middleware/validation/task')
-const adminRoles = [ 1, 2, 5 ];
+const adminRoles = [1, 2, 5];
 
 const taskController = {
 
@@ -130,9 +131,9 @@ const taskController = {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
-              relate: [ 'locations', 'managementPlans' ],
+              relate: ['locations', 'managementPlans'],
             });
-          const [ task ] = await TaskModel.query(trx).withGraphFetched(`
+          const [task] = await TaskModel.query(trx).withGraphFetched(`
           [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task, 
           field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `).where({ task_id });
@@ -226,6 +227,55 @@ const taskController = {
     }
   },
 
+  completeHarvestTask() {
+    const nonModifiable = getNonModifiable('harvest_task');
+    return async (req, res, next) => {
+      try {
+        const data = req.body;
+        const { user_id } = req.headers;
+        const { task_id } = req.params;
+        const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
+        if (assignee_user_id !== user_id) {
+          return res.status(403).send("Not authorized to complete other people's task");
+        }
+        const harvest_uses = data.harvest_uses;
+        const task = data.task;
+        const result = {};
+
+        await TaskModel.transaction(async trx => {
+          const updated_task =  await TaskModel.query(trx).context({ user_id: req.user.user_id })
+            .upsertGraph({ task_id: parseInt(task_id), ...task }, {
+              noUpdate: nonModifiable,
+              noDelete: true,
+              noInsert: true,
+            });
+          result.task = removeNullTypes(updated_task);
+
+          const updated_harvest_uses = await HarvestUse.query(trx).context({ user_id: req.user.user_id })
+            .insert(harvest_uses);
+          result.harvest_uses = updated_harvest_uses;
+        });
+        console.log(result);
+        if (Object.keys(result).length > 0) {
+          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+          const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+          if (management_plan_ids.length > 0) {
+            await managementPlanModel.query().context(req.user).patch({ start_date: task.completed_time, })
+              .whereIn('management_plan_id', management_plan_ids)
+              .where('start_date', null)
+          }
+          return res.status(200).send(result)
+        } else {
+          return res.status(404).send('Task not found');
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  },
+
+
   getTasksByFarmId() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
@@ -252,7 +302,7 @@ const taskController = {
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
-  return [ 'createdByUser', 'updatedByUser', 'location', 'management_plan' ].concat(nonModifiableAssets);
+  return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
 }
 
 function removeNullTypes(task, i, arr) {

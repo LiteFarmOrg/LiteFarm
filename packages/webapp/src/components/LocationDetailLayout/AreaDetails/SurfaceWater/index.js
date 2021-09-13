@@ -9,6 +9,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import { getPersistPath } from '../../utils';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureSurfaceWater({
   history,
@@ -120,7 +121,7 @@ export default function PureSurfaceWater({
               {t('common:OPTIONAL')}
             </Label>
           </div>
-          <div>
+          <div style={{ display: 'flex' }}>
             <Radio
               style={{ marginBottom: '25px' }}
               label={t('common:YES')}
@@ -137,6 +138,10 @@ export default function PureSurfaceWater({
               disabled={isViewLocationPage}
             />
           </div>
+          {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
+          {/* <div style={{ marginBottom: '16px' }}>
+            <RadioGroup row disabled={isViewLocationPage} name={surfaceWaterEnum.used_for_irrigation} hookFormControl={control} />
+          </div> */}
         </div>
       </AreaDetails>
     </Form>

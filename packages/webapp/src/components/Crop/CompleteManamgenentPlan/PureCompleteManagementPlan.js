@@ -135,8 +135,11 @@ export function PureCompleteManagementPlan({
       <InputAutoSize
         style={{ marginBottom: '40px' }}
         label={t('MANAGEMENT_PLAN.PLAN_NOTES')}
-        hookFormRegister={register(NOTES)}
+        hookFormRegister={register(NOTES, {
+          maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.COMPLETE_PLAN.NOTES_CHAR_LIMIT') },
+        })}
         optional
+        errors={errors[NOTES]?.message}
       />
       {showAbandonModal && isAbandonPage && (
         <AbandonManagementPlanModal

@@ -223,11 +223,14 @@ function PureDocumentDetailView({
           onUploadEnd: onFileUpdateEnd,
         })}
       <InputAutoSize
-        hookFormRegister={register(NOTES)}
+        hookFormRegister={register(NOTES, {
+          maxLength: { value: 10000, message: t('DOCUMENTS.NOTES_CHAR_LIMIT') },
+        })}
         name={NOTES}
         label={t('common:NOTES')}
         optional
         classes={{ container: { paddingBottom: '40px' } }}
+        errors={errors[NOTES]?.message}
       />
     </Form>
   );

@@ -79,7 +79,12 @@ export function PureCertificationSelection({
         onGoBack={onGoBack}
         style={{ marginBottom: '20px' }}
       />
-      <RadioGroup name={CERTIFICATION_ID} hookFormControl={control} radios={radioOptions} />
+      <RadioGroup
+        name={CERTIFICATION_ID}
+        hookFormControl={control}
+        radios={radioOptions}
+        required
+      />
 
       {certification_id === 0 && (
         <Input

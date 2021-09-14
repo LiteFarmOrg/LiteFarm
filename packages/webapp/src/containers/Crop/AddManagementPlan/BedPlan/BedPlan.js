@@ -1,4 +1,4 @@
-import PureBedPlan from '../../../../components/Crop/BedPlan/BedPlan';
+import PureBedPlan from '../../../../components/Crop/BedPlan/PureBedPlan';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';

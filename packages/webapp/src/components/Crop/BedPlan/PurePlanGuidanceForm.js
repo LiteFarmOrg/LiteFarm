@@ -1,46 +1,23 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
-import Form from '../../Form';
-import Button from '../../Form/Button';
-import { useForm } from 'react-hook-form';
 import { container_planting_depth } from '../../../util/unit';
 import Unit from '../../Form/Unit';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { cloneObject } from '../../../util';
+import PropTypes from 'prop-types';
 
-function PurePlanGuidance({
+export function PurePlanGuidanceForm({
   system,
-  persistedFormData,
-  useHookFormPersist,
   isBed,
-  variety_id,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  history,
-  goBackPath,
-  submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
-  onSubmit = () => history.push(submitPath),
+  register,
+  getValues,
+  watch,
+  control,
+  setValue,
+  errors,
 }) {
   const { t } = useTranslation(['translation']);
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    control,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm({
-    defaultValues: cloneObject(persistedFormData),
-    shouldUnregister: false,
-    mode: 'onChange',
-  });
-  useHookFormPersist(getValues);
 
   const SPECIFY = `${prefix}.${isBed ? `bed_method.specify_beds` : `row_method.specify_rows`}`;
   const PLANTING_DEPTH = `${prefix}.${
@@ -64,27 +41,8 @@ function PurePlanGuidance({
 
   const SPECIFY_LIMIT = 40;
 
-  const onCancel = () => history.push(cancelPath);
-
   return (
-    <Form
-      buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
-      }
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={onCancel}
-        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={isFinalPage ? 81.25 : 58}
-        title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        style={{ marginBottom: '24px' }}
-      />
-      <Main style={{ paddingBottom: '24px' }}>{t('PLAN_GUIDANCE.ADDITIONAL_GUIDANCE')}</Main>
-
+    <>
       <Input
         toolTipContent={t('PLAN_GUIDANCE.TOOLTIP')}
         label={t('PLAN_GUIDANCE.SPECIFY', { types: TYPES })}
@@ -154,8 +112,19 @@ function PurePlanGuidance({
         optional={true}
         hookFormRegister={register(PLANTING_NOTES)}
       />
-    </Form>
+    </>
   );
 }
 
-export default PurePlanGuidance;
+PurePlanGuidanceForm.prototype = {
+  system: PropTypes.oneOf(['imperial', 'metric']),
+  isFinalPage: PropTypes.bool,
+  prefix: PropTypes.string,
+  register: PropTypes.func,
+  getValues: PropTypes.func,
+  watch: PropTypes.func,
+  control: PropTypes.any,
+  setValue: PropTypes.func,
+  errors: PropTypes.object,
+  isBed: PropTypes.bool,
+};

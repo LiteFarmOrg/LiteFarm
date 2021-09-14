@@ -1,49 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import Form from '../../Form';
-import Button from '../../Form/Button';
-import { useForm } from 'react-hook-form';
 import { container_planting_depth, seedYield } from '../../../util/unit';
 import clsx from 'clsx';
 import Unit from '../../Form/Unit';
-import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
-import { cloneObject } from '../../../util';
 import { isNonNegativeNumber } from '../../Form/validations';
+import PropTypes from 'prop-types';
 
-function PureBedPlan({
-  history,
+export function PureBedForm({
   system,
   crop_variety,
-  useHookFormPersist,
-  persistedFormData,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  goBackPath,
-  submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  register,
+  getValues,
+  watch,
+  control,
+  setValue,
+  errors,
 }) {
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    control,
-    setValue,
-    setError,
-    formState: { errors, isValid },
-  } = useForm({
-    defaultValues: cloneObject(persistedFormData),
-    shouldUnregister: false,
-    mode: 'onChange',
-  });
-  useHookFormPersist(getValues);
-
   const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
   const NUMBER_OF_ROWS_IN_BED = `${prefix}.bed_method.number_of_rows_in_bed`;
   const PLANT_SPACING_UNIT = `${prefix}.bed_method.plant_spacing_unit`;
@@ -82,8 +59,6 @@ function PureBedPlan({
       const estimated_seed_required_in_weight =
         ((number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing) *
         average_seed_weight;
-      const estimated_seed_required_in_seeds =
-        (number_of_beds * number_of_rows_in_bed * bed_length) / plant_spacing;
 
       average_seed_weight && setValue(ESTIMATED_SEED, estimated_seed_required_in_weight);
       yield_per_plant && setValue(ESTIMATED_YIELD, estimated_yield);
@@ -93,28 +68,8 @@ function PureBedPlan({
     }
   }, [number_of_beds, number_of_rows_in_bed, bed_length, plant_spacing]);
 
-  const onSubmit = () => history.push(submitPath);
-  const onCancel = () => history.push(cancelPath);
-
   return (
-    <Form
-      buttonGroup={
-        <Button type={'submit'} disabled={!isValid} fullLength>
-          {t('common:CONTINUE')}
-        </Button>
-      }
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <MultiStepPageTitle
-        onGoBack={onGoBack}
-        onCancel={onCancel}
-        cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
-        value={isFinalPage ? 75 : 55}
-        title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
-        style={{ marginBottom: '24px' }}
-      />
-      <Main style={{ paddingBottom: '24px' }}>{t('BED_PLAN.PLANTING_DETAILS')}</Main>
-
+    <>
       <div className={clsx(styles.row)}>
         <Input
           label={t('BED_PLAN.NUMBER_0F_BEDS')}
@@ -186,23 +141,36 @@ function PureBedPlan({
             control={control}
             required={false}
           />
-          <Unit
-            register={register}
-            label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-            name={ESTIMATED_YIELD}
-            displayUnitName={ESTIMATED_YIELD_UNIT}
-            unitType={seedYield}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFromWatch={watch}
-            control={control}
-            required={isFinalPage}
-          />
+          {isFinalPage && (
+            <Unit
+              register={register}
+              label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+              name={ESTIMATED_YIELD}
+              displayUnitName={ESTIMATED_YIELD_UNIT}
+              unitType={seedYield}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFromWatch={watch}
+              control={control}
+              required={isFinalPage}
+            />
+          )}
         </div>
       )}
-    </Form>
+    </>
   );
 }
 
-export default PureBedPlan;
+PureBedForm.prototype = {
+  crop_variety: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']),
+  isFinalPage: PropTypes.bool,
+  prefix: PropTypes.string,
+  register: PropTypes.func,
+  getValues: PropTypes.func,
+  watch: PropTypes.func,
+  control: PropTypes.any,
+  setValue: PropTypes.func,
+  errors: PropTypes.object,
+};

@@ -1,4 +1,4 @@
-import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader } from '../saga';
@@ -44,9 +44,9 @@ import {
 } from '../slice/taskSlice/harvestTaskSlice';
 
 import {
-  onLoadingHarvestUseTypeStart,
-  onLoadingHarvestUseTypeFail,
   getHarvestUseTypesSuccess,
+  onLoadingHarvestUseTypeFail,
+  onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
 
 const taskTypeEndpoint = [
@@ -274,6 +274,7 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+//TODO: change req shape to {...task, harvestUses}
 const harvestCompleteProcessFunction = (data, task_id) => {
   let taskData = {};
   taskData.task = data.taskData;
@@ -395,13 +396,6 @@ export function* deleteTaskTypeSaga({ payload: id }) {
   }
 }
 
-export const onLoadingHarvestUseTypesStart = createAction('onLoadingHarvestUseTypesStartSaga');
-
-export function* onLoadingHarvestUseTypesStartSaga() {
-  yield put(onLoadingHarvestUseTypeStart());
-}
-
-
 export const getHarvestUseTypes = createAction('getHarvestUseTypesSaga');
 
 export function* getHarvestUseTypesSaga() {
@@ -410,7 +404,7 @@ export function* getHarvestUseTypesSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingHarvestUseTypesStart());
+    yield put(onLoadingHarvestUseTypeStart());
     const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
     if (result) {
       yield put(getHarvestUseTypesSuccess(result.data));
@@ -426,16 +420,15 @@ export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
-  yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
+  yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
-  yield takeLeading(getTasks.type, getTasksSaga);
-  yield takeLeading(getTasksSuccess.type, getTasksSuccessSaga);
+  yield takeLatest(getTasks.type, getTasksSaga);
+  yield takeLatest(getTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(postTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(onLoadingTaskStart.type, onLoadingTaskStartSaga);
-  yield takeLeading(getProducts.type, getProductsSaga);
+  yield takeLatest(getProducts.type, getProductsSaga);
   yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
-  yield takeLeading(getHarvestUseTypes.type, getHarvestUseTypesSaga);
-  yield takeLeading(onLoadingHarvestUseTypesStart.type, onLoadingHarvestUseTypesStartSaga);
+  yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
 }

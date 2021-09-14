@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
-import { Controller, useForm, useFieldArray } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
-import { Label, Main, AddLink, SubtractLink } from '../../../Typography';
+import { AddLink, Label, Main, SubtractLink } from '../../../Typography';
 import Unit from '../../../Form/Unit';
 import { harvestAmounts } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { cloneObject } from '../../../../util';
+import { colors } from '../../../../assets/theme';
 
 export default function PureHarvestUses({
   onContinue,
@@ -52,10 +53,6 @@ export default function PureHarvestUses({
   const HARVEST_USE_QUANTITY = 'quantity';
   const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
-  const [allocated_amount, setAllocatedAmount] = useState(0);
-
-  const [amount_to_allocate, setAmountToAllocate] = useState(amount);
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'harvest_uses',
@@ -64,26 +61,23 @@ export default function PureHarvestUses({
 
   const harvest_uses_options = harvestUseTypes.map((harvestUseType) => ({
     value: harvestUseType.harvest_use_type_id,
-    label: harvestUseType.harvest_use_type_name,
+    label: t(`harvest_uses:${harvestUseType.harvest_use_type_translation_key}`),
   }));
 
   const watchFields = watch('harvest_uses');
-  
-  useEffect(() => {
-    let all_q = 0;
+
+  const { allocated_amount, amount_to_allocate } = useMemo(() => {
+    let allocated_amount = 0;
     for (let field of watchFields) {
       let q = field[HARVEST_USE_QUANTITY];
       if (q !== undefined) {
-        all_q += q;
+        allocated_amount += q;
       }
     }
-    setAllocatedAmount(all_q);
+    return { allocated_amount, amount_to_allocate: amount - allocated_amount };
   }, [watchFields]);
 
-  useEffect(() => {
-    setAmountToAllocate(amount - allocated_amount);
-  }, [allocated_amount]);
-
+  //TODO: test imperial and fraction numbers
   const disabled = !isValid || amount_to_allocate !== 0;
 
   return (
@@ -106,14 +100,9 @@ export default function PureHarvestUses({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.HOW_WILL_HARVEST_BE_USED')}</Main>
 
-
       <Label style={{ marginBottom: '16px' }}>
         {t('TASK.AMOUNT_TO_ALLOCATE')}
-        <UnitLabel
-          style={{ marginLeft: '12px' }}
-          amount={amount_to_allocate}
-          unitLabel={unit}
-        />
+        <UnitLabel style={{ marginLeft: '12px' }} amount={amount_to_allocate} unitLabel={unit} />
       </Label>
 
       <AddLink
@@ -126,6 +115,7 @@ export default function PureHarvestUses({
       </AddLink>
 
       {fields.map((field, index) => {
+        //TODO: use harvest_use_id as key
         return (
           <div>
             <Controller
@@ -167,15 +157,14 @@ export default function PureHarvestUses({
               </SubtractLink>
             )}
           </div>
-        )
+        );
       })}
 
-      <AddLink 
-        style={ { color: '#0669E1' }}
+      <AddLink
+        style={{ color: colors.blue700 }}
         onClick={() => {
           append({});
         }}
-        color={'#0669E1'}
       >
         {t('TASK.ADD_HARVEST_USE')}
       </AddLink>

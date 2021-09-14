@@ -138,7 +138,7 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import { getTasks, getTaskTypes } from './Task/saga';
+import { getHarvestUseTypes, getProducts, getTasks, getTaskTypes } from './Task/saga';
 import {
   getCertificationSurveysSuccess,
   onLoadingCertifierSurveyFail,
@@ -530,6 +530,8 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       put(getAllUserFarmsByFarmId()),
       put(getTaskTypes()),
       put(getTasks()),
+      put(getHarvestUseTypes()),
+      put(getProducts()),
     ];
 
     yield all([

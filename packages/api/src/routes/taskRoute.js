@@ -102,7 +102,7 @@ router.patch('/complete/field_work_task/:task_id', modelMapping['field_work_task
   checkScope(['edit:task']), taskController.completeTask('field_work_task'));
 
 router.patch('/complete/harvest_task/:task_id', modelMapping['harvest_task'], hasFarmAccess({ params: 'task_id' }),
-  checkScope(['edit:task']), taskController.completeTask('harvest_task'));
+  checkScope(['edit:task']), taskController.completeHarvestTask());
 
 router.patch('/complete/plant_task/:task_id', modelMapping['plant_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('plant_task'));

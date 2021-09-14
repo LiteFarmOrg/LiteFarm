@@ -275,6 +275,9 @@ const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
 const HarvestCompleteQuantity = React.lazy(() =>
   import('./containers/Task/TaskComplete/HarvestComplete/Quantity'),
 );
+const HarvestUses = React.lazy(() =>
+  import('./containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
+);
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
@@ -516,6 +519,7 @@ const Routes = () => {
               exact
               component={HarvestCompleteQuantity}
             />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -937,6 +941,7 @@ const Routes = () => {
               exact
               component={HarvestCompleteQuantity}
             />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
@@ -1039,6 +1044,7 @@ const Routes = () => {
               exact
               component={HarvestCompleteQuantity}
             />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />

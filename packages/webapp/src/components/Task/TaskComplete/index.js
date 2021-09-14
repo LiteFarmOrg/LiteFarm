@@ -97,14 +97,16 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
-      <Rating
-        className={styles.rating}
-        style={{ marginBottom: '27px' }}
-        label={t('TASK.PROVIDE_RATING')}
-        disabled={prefer_not_to_say}
-        initialRating={persistedFormData?.happiness}
-        onRate={(value) => setValue(HAPPINESS, value)}
-      />
+      {!prefer_not_to_say && (
+        <Rating
+          className={styles.rating}
+          style={{ marginBottom: '27px' }}
+          label={t('TASK.PROVIDE_RATING')}
+          disabled={prefer_not_to_say}
+          initialRating={persistedFormData?.happiness}
+          onRate={(value) => setValue(HAPPINESS, value)}
+        />
+      )}
 
       <Checkbox
         style={{ marginBottom: '42px' }}

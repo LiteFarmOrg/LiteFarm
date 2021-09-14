@@ -20,14 +20,36 @@ Underlined.propTypes = {
   style: PropTypes.object,
 };
 
-export const AddLink = ({ children = 'Link', className = '', style, onClick, color, ...props }) => {
+export const IconLink = ({
+  children = 'IconLink',
+  className = '',
+  style,
+  onClick,
+  icon,
+  ...props
+}) => {
   return (
     <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
-      +{' '}
-      <span className={clsx(styles.underlined)} style={{color : color}} onClick={onClick}>
+      {icon}{' '}
+      <span className={clsx(styles.underlined, styles.iconLinkText)} onClick={onClick}>
         {children}
       </span>
     </p>
+  );
+};
+
+IconLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  icon: PropTypes.node,
+};
+
+export const AddLink = ({ children = 'AddLink', className = '', style, onClick, ...props }) => {
+  return (
+    <IconLink className={className} style={style} onClick={onClick} icon={'+'} {...props}>
+      {children}
+    </IconLink>
   );
 };
 
@@ -37,14 +59,18 @@ AddLink.propTypes = {
   style: PropTypes.object,
 };
 
-export const SubtractLink = ({ children = 'Link', className = '', style, onClick, color, ...props }) => {
+export const SubtractLink = ({
+  children = 'SubtractLink',
+  className = '',
+  style,
+  onClick,
+  color,
+  ...props
+}) => {
   return (
-    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
-      -{' '}
-      <span className={clsx(styles.underlined)} style={{color : color}} onClick={onClick}>
-        {children}
-      </span>
-    </p>
+    <IconLink className={className} style={style} onClick={onClick} icon={'-'} {...props}>
+      {children}
+    </IconLink>
   );
 };
 

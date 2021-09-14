@@ -1478,7 +1478,13 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
+    "HARVEST_USE": "Harvest use",
+    "AMOUNT_TO_ALLOCATE": "Amount to allocate",
+    "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
+    "REMOVE_HARVEST_USE": "Remove",
+    "ADD_HARVEST_USE": "Add another harvest use"
   },
   "UNIT": {
     "TIME": {

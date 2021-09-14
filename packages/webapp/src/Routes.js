@@ -295,9 +295,8 @@ const Tasks = React.lazy(() => import('./containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('./containers/Task/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('./containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
-const HarvestCompleteQuantity = React.lazy(() =>
-  import('./containers/Task/TaskComplete/HarvestComplete/Quantity'),
-);
+const HarvestCompleteQuantity = React.lazy(() => import('./containers/Task/TaskComplete/HarvestComplete/Quantity'));
+const HarvestUses = React.lazy(() => import('./containers/Task/TaskComplete/HarvestComplete/HarvestUses'));
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
@@ -548,11 +547,8 @@ const Routes = () => {
             <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              exact
-              component={HarvestCompleteQuantity}
-            />
+            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
@@ -1000,11 +996,8 @@ const Routes = () => {
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              exact
-              component={HarvestCompleteQuantity}
-            />
+            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -1120,11 +1113,8 @@ const Routes = () => {
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route
-              path="/tasks/:task_id/complete_harvest_quantity"
-              exact
-              component={HarvestCompleteQuantity}
-            />
+            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />

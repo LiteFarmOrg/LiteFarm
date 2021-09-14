@@ -274,14 +274,30 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+const harvestCompleteProcessFunction = (data, task_id) => {
+  let taskData = {};
+  taskData.task = data.taskData;
+  let harvest_uses = [];
+  data.harvest_uses.forEach((harvest_use) => {
+    harvest_uses.push({
+      ...getObjectInnerValues(harvest_use),
+      task_id: parseInt(task_id),
+    });
+  });
+  taskData.harvest_uses = harvest_uses;
+  return taskData;
+};
+
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, taskData, isCustomTaskType } = data;
+  const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const isHarvest = task_translation_key === 'HARVEST_TASK';
+  const taskData = isHarvest ? harvestCompleteProcessFunction(data, task_id) : data.taskData;
   try {
     const result = yield call(
       axios.patch,

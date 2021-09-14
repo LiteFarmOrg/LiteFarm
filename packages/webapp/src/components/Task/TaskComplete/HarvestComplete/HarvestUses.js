@@ -48,9 +48,9 @@ export default function PureHarvestUses({
 
   const progress = 50;
 
-  const HARVEST_USE_QUANTITY_UNIT = 'harvest_use_quantity_unit';
-  const HARVEST_USE_QUANTITY = 'harvest_use_quantity';
-  const HARVEST_USE_TYPE = 'harvest_use_type';
+  const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
+  const HARVEST_USE_QUANTITY = 'quantity';
+  const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
   const [allocated_amount, setAllocatedAmount] = useState(0);
 

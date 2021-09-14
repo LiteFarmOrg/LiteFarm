@@ -11,7 +11,6 @@ function TaskComplete({ history, match }) {
 
   const onSave = (data) => {
     dispatch(completeTask({ task_id, data }));
-    //console.log('onSave', data);
   };
 
   const onCancel = () => {

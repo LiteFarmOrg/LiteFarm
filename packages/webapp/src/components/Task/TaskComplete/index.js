@@ -70,12 +70,17 @@ export default function PureTaskComplete({
           task_translation_key: persistedFormData?.taskType.task_translation_key,
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
         };
+        let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
         if (persistedFormData?.need_changes) {
-          let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
         }
-        if (data.task_translation_key === 'HARVEST_TASK') {
+        if (task_type_name === 'harvest_task') {
           data.harvest_uses = persistedFormData?.harvest_uses;
+          data.taskData[task_type_name] = {
+            ...persistedFormData?.harvest_task,
+            actual_quantity: persistedFormData?.actual_quantity,
+            actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
+          }
         }
         onSave(data);
       })}

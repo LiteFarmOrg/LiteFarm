@@ -777,7 +777,7 @@ describe('Task tests', () => {
       });
     });
 
-    test.only('should be able to complete a harvest task', async (done) => {
+    test('should be able to complete a harvest task', async (done) => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });

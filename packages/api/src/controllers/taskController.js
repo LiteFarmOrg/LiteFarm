@@ -255,7 +255,7 @@ const taskController = {
             .insert(harvest_uses);
           result.harvest_uses = updated_harvest_uses;
         });
-        
+
         if (Object.keys(result).length > 0) {
           const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);

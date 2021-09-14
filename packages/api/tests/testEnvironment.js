@@ -59,7 +59,7 @@ async function tableCleanup(knex) {
     DELETE FROM "yield";
     DELETE FROM "cropDisease";
     DELETE FROM "price";
-    DELETE FROM "cropSale";
+    DELETE FROM "crop_variety_sale";
     DELETE FROM "sale";
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";

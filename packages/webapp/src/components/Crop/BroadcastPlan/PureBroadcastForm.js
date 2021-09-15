@@ -23,6 +23,7 @@ export function PureBroadcastForm({
   setValue,
   errors,
   prefix,
+  disabled,
 }) {
   const { t } = useTranslation(['translation']);
 
@@ -116,6 +117,7 @@ export function PureBroadcastForm({
         style={{ paddingBottom: '40px' }}
         errors={getErrorMessage(PERCENTAGE_PLANTED, 1, 100)}
         label={t('BROADCAST_PLAN.PERCENTAGE_LABEL')}
+        disabled={disabled}
       />
       {/*TODO: refactor and create new unit component with 2 disabled input field*/}
       <div className={clsx(styles.row, styles.paddingBottom40)}>
@@ -131,7 +133,7 @@ export function PureBroadcastForm({
                 ...greenInput,
               },
             }}
-            disabled
+            disabled={true}
           />
         </div>
         <Unit
@@ -151,6 +153,7 @@ export function PureBroadcastForm({
           hookFromWatch={watch}
           control={control}
           style={{ flex: '1 1 0px' }}
+          disabled={disabled}
         />
       </div>
       <Input
@@ -161,6 +164,7 @@ export function PureBroadcastForm({
         style={{ paddingBottom: '40px' }}
         defaultValue={initialSeedingRate}
         errors={getErrorMessage(SEEDING_RATE, 0)}
+        disabled={disabled}
       />
       <input
         {...register(SEEDING_RATE, {
@@ -169,10 +173,11 @@ export function PureBroadcastForm({
           validate: (value) => Number(value) > 0,
         })}
         style={{ display: 'none' }}
+        disabled={disabled}
       />
 
       {areaUsed > 0 && seedingRateFormInKgM2 > 0 && (
-        <div className={clsx(styles.row)} style={{ columnGap: '16px' }}>
+        <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -185,6 +190,7 @@ export function PureBroadcastForm({
             hookFromWatch={watch}
             control={control}
             required={false}
+            disabled={disabled}
           />
           {isFinalPage && (
             <Unit
@@ -199,6 +205,7 @@ export function PureBroadcastForm({
               hookFromWatch={watch}
               control={control}
               required={isFinalPage}
+              disabled={disabled}
             />
           )}
         </div>
@@ -211,6 +218,7 @@ export function PureBroadcastForm({
         })}
         optional
         errors={errors[NOTES]?.message}
+        disabled={disabled}
       />
     </>
   );

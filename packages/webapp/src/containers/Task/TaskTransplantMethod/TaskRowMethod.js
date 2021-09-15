@@ -17,7 +17,7 @@ export default function TaskRowMethod({ history, match }) {
     <HookFormPersistProvider>
       <PureRowMethod
         system={system}
-        variety={crop_variety}
+        crop_variety={crop_variety}
         isFinalPage={true}
         history={history}
         submitPath={'/add_task/row_guidance'}

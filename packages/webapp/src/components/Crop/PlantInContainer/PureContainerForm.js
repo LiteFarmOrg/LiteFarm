@@ -11,6 +11,8 @@ import {
   hookFormMaxLengthValidation,
   hookFormMaxValidation,
 } from '../../Form/hookformValidationUtils';
+import clsx from 'clsx';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function PureContainerForm({
   system,
@@ -23,6 +25,7 @@ export default function PureContainerForm({
   control,
   setValue,
   errors,
+  disabled,
 }) {
   const { t } = useTranslation();
   const IN_GROUND = `${prefix}.container_method.in_ground`;
@@ -93,6 +96,7 @@ export default function PureContainerForm({
         ]}
         required
         style={{ paddingBottom: '16px' }}
+        disabled={disabled}
       />
       {(in_ground === true || in_ground === false) && (
         <>
@@ -109,6 +113,7 @@ export default function PureContainerForm({
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, NUMBER_OF_CONTAINERS)}
+                disabled={disabled}
               />
               <Input
                 label={t('MANAGEMENT_PLAN.PLANTS_PER_CONTAINER')}
@@ -121,6 +126,7 @@ export default function PureContainerForm({
                 type={'number'}
                 onKeyDown={integerOnKeyDown}
                 errors={getInputErrors(errors, PLANTS_PER_CONTAINER)}
+                disabled={disabled}
               />
             </div>
           )}
@@ -137,10 +143,11 @@ export default function PureContainerForm({
               type={'number'}
               onKeyDown={integerOnKeyDown}
               errors={getInputErrors(errors, TOTAL_PLANTS)}
+              disabled={disabled}
             />
           )}
 
-          <div className={in_ground ? styles.row : styles.marginBottom}>
+          <div className={in_ground ? styles.row : styles.paddingBottom40}>
             <Unit
               register={register}
               label={t('MANAGEMENT_PLAN.PLANTING_DEPTH')}
@@ -154,6 +161,7 @@ export default function PureContainerForm({
               hookFromWatch={watch}
               control={control}
               optional
+              disabled={disabled}
             />
             {in_ground && (
               <Unit
@@ -169,6 +177,7 @@ export default function PureContainerForm({
                 hookFromWatch={watch}
                 control={control}
                 required
+                disabled={disabled}
               />
             )}
           </div>
@@ -184,6 +193,7 @@ export default function PureContainerForm({
                 errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
                 hasLeaf
+                disabled={disabled}
               />
               <Input
                 label={t('MANAGEMENT_PLAN.CONTAINER_TYPE')}
@@ -193,11 +203,12 @@ export default function PureContainerForm({
                 style={{ paddingBottom: '40px' }}
                 errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
+                disabled={disabled}
               />
             </>
           )}
           {showEstimatedValue && (
-            <div className={styles.row}>
+            <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
               <Unit
                 register={register}
                 label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -211,28 +222,36 @@ export default function PureContainerForm({
                 hookFromWatch={watch}
                 control={control}
                 required={false}
+                disabled={disabled}
               />
-              <Unit
-                register={register}
-                label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-                name={ESTIMATED_YIELD}
-                displayUnitName={ESTIMATED_YIELD_UNIT}
-                errors={errors[ESTIMATED_YIELD]}
-                unitType={seedYield}
-                system={system}
-                hookFormSetValue={setValue}
-                hookFormGetValue={getValues}
-                hookFromWatch={watch}
-                control={control}
-                required={isFinalPage}
-              />
+              {isFinalPage && (
+                <Unit
+                  register={register}
+                  label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+                  name={ESTIMATED_YIELD}
+                  displayUnitName={ESTIMATED_YIELD_UNIT}
+                  errors={errors[ESTIMATED_YIELD]}
+                  unitType={seedYield}
+                  system={system}
+                  hookFormSetValue={setValue}
+                  hookFormGetValue={getValues}
+                  hookFromWatch={watch}
+                  control={control}
+                  required={isFinalPage}
+                  disabled={disabled}
+                />
+              )}
             </div>
           )}
 
-          <Input
+          <InputAutoSize
             label={t('MANAGEMENT_PLAN.PLANTING_NOTE')}
-            hookFormRegister={register(NOTES)}
+            hookFormRegister={register(NOTES, {
+              maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+            })}
+            errors={errors[NOTES]?.message}
             optional
+            disabled={disabled}
           />
         </>
       )}

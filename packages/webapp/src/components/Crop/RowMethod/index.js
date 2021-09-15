@@ -11,7 +11,7 @@ import PureRowForm from './PureRowForm';
 
 export default function PureRowMethod({
   system,
-  variety,
+  crop_variety,
   useHookFormPersist,
   persistedFormData,
   isFinalPage,
@@ -70,7 +70,7 @@ export default function PureRowMethod({
         prefix={prefix}
         isFinalPage={isFinalPage}
         system={system}
-        variety={variety}
+        crop_variety={crop_variety}
         {...{
           register,
           handleSubmit,
@@ -88,7 +88,7 @@ export default function PureRowMethod({
 PureRowMethod.prototype = {
   useHookFormPersist: PropTypes.func,
   persistedFormData: PropTypes.object,
-  variety: PropTypes.object,
+  crop_variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
   history: PropTypes.object,

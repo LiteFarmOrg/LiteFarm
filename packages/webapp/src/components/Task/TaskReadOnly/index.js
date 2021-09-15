@@ -18,6 +18,7 @@ import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
+import { PurePlantingTask } from '../PlantingTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -52,18 +53,6 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-  };
 
   const self = user.user_id;
 
@@ -153,7 +142,12 @@ export default function PureTaskReadOnly({
           watch,
           control,
           register,
+          errors,
           disabled: true,
+          farm: user,
+          system,
+          products,
+          task,
         })}
       <InputAutoSize
         style={{ marginBottom: '40px' }}
@@ -180,3 +174,12 @@ export default function PureTaskReadOnly({
     </Layout>
   );
 }
+
+const taskComponents = {
+  CLEANING_TASK: (props) => <PureCleaningTask {...props} />,
+  FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+  SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
+  PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
+  PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
+  TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+};

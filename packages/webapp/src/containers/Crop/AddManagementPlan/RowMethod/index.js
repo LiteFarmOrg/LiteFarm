@@ -10,21 +10,21 @@ import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookF
 export default function RowMethod({ history, match }) {
   const system = useSelector(measurementSelector);
   const variety_id = match.params.variety_id;
-  const variety = useSelector(cropVarietySelector(variety_id));
+  const crop_variety = useSelector(cropVarietySelector(variety_id));
   const persistedFormData = useSelector(hookFormPersistSelector);
   const isFinalPage = match.path === '/crop/:variety_id/add_management_plan/row_method';
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
     already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
   const { goBackPath, submitPath, cancelPath } = useMemo(
-    () => getRowMethodPaths(variety.crop_variety_id, isFinalPage),
+    () => getRowMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],
   );
   return (
     <HookFormPersistProvider>
       <PureRowMethod
         system={system}
-        variety={variety}
+        crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         isHistoricalPage={isHistoricalPage}
         history={history}

@@ -6,10 +6,11 @@ import { container_plant_spacing, container_planting_depth, seedYield } from '..
 import Unit from '../../Form/Unit';
 import RadioGroup from '../../Form/RadioGroup';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
 export default function PureRowForm({
   system,
-  variety,
+  crop_variety,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   register,
@@ -18,6 +19,7 @@ export default function PureRowForm({
   control,
   setValue,
   errors,
+  disabled,
 }) {
   const { t } = useTranslation(['translation']);
 
@@ -46,7 +48,7 @@ export default function PureRowForm({
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
 
   useEffect(() => {
-    const { average_seed_weight = 0, yield_per_plant = 0 } = variety;
+    const { average_seed_weight = 0, yield_per_plant = 0 } = crop_variety;
     const shouldCalculatedSameLengthEstimatedValues =
       same_length &&
       IsValidNumberInput(num_of_rows) &&
@@ -95,6 +97,7 @@ export default function PureRowForm({
                   onKeyDown={integerOnKeyDown}
                   max={999}
                   errors={getInputErrors(errors, NUMBER_OF_ROWS)}
+                  disabled={disabled}
                 />
                 <Unit
                   register={register}
@@ -109,6 +112,7 @@ export default function PureRowForm({
                   hookFromWatch={watch}
                   control={control}
                   required
+                  disabled={disabled}
                 />
               </div>
             </>
@@ -128,6 +132,7 @@ export default function PureRowForm({
                 hookFromWatch={watch}
                 control={control}
                 required
+                disabled={disabled}
               />
             </div>
           )}
@@ -145,11 +150,12 @@ export default function PureRowForm({
               hookFromWatch={watch}
               control={control}
               required
+              disabled={disabled}
             />
           </div>
           {showEstimatedValue && (
             <>
-              <div className={styles.row} style={{ marginTop: '40px' }}>
+              <div className={clsx(styles.paddingBottom40)}>
                 <Unit
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -163,21 +169,25 @@ export default function PureRowForm({
                   hookFromWatch={watch}
                   control={control}
                   required={false}
+                  disabled={disabled}
                 />
-                <Unit
-                  register={register}
-                  label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
-                  name={ESTIMATED_YIELD}
-                  displayUnitName={ESTIMATED_YIELD_UNIT}
-                  errors={errors[ESTIMATED_YIELD]}
-                  unitType={seedYield}
-                  system={system}
-                  hookFormSetValue={setValue}
-                  hookFormGetValue={getValues}
-                  hookFromWatch={watch}
-                  control={control}
-                  required={isFinalPage}
-                />
+                {isFinalPage && (
+                  <Unit
+                    register={register}
+                    label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
+                    name={ESTIMATED_YIELD}
+                    displayUnitName={ESTIMATED_YIELD_UNIT}
+                    errors={errors[ESTIMATED_YIELD]}
+                    unitType={seedYield}
+                    system={system}
+                    hookFormSetValue={setValue}
+                    hookFormGetValue={getValues}
+                    hookFromWatch={watch}
+                    control={control}
+                    required={isFinalPage}
+                    disabled={disabled}
+                  />
+                )}
               </div>
             </>
           )}
@@ -188,7 +198,7 @@ export default function PureRowForm({
 }
 
 PureRowForm.prototype = {
-  variety: PropTypes.object,
+  crop_variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
   prefix: PropTypes.string,

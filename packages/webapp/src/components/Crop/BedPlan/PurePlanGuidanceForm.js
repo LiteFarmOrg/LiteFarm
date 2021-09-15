@@ -4,6 +4,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import { container_planting_depth } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import PropTypes from 'prop-types';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export function PurePlanGuidanceForm({
   system,
@@ -16,6 +17,7 @@ export function PurePlanGuidanceForm({
   control,
   setValue,
   errors,
+  disabled,
 }) {
   const { t } = useTranslation(['translation']);
 
@@ -56,6 +58,7 @@ export function PurePlanGuidanceForm({
         optional={true}
         placeholder={t('PLAN_GUIDANCE.SPECIFY_PLACEHOLDER', { types: TYPES })}
         errors={getInputErrors(errors, SPECIFY)}
+        disabled={disabled}
       />
 
       <div style={{ marginBottom: '40px' }}>
@@ -71,6 +74,7 @@ export function PurePlanGuidanceForm({
           hookFromWatch={watch}
           control={control}
           optional={true}
+          disabled={disabled}
         />
       </div>
 
@@ -87,6 +91,7 @@ export function PurePlanGuidanceForm({
           hookFromWatch={watch}
           control={control}
           optional={true}
+          disabled={disabled}
         />
       </div>
 
@@ -103,14 +108,19 @@ export function PurePlanGuidanceForm({
           hookFromWatch={watch}
           control={control}
           optional={true}
+          disabled={disabled}
         />
       </div>
 
-      <Input
+      <InputAutoSize
         label={t('PLAN_GUIDANCE.NOTES')}
+        hookFormRegister={register(PLANTING_NOTES, {
+          maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+        })}
+        errors={errors[PLANTING_NOTES]?.message}
         style={{ paddingBottom: '40px' }}
         optional={true}
-        hookFormRegister={register(PLANTING_NOTES)}
+        disabled={disabled}
       />
     </>
   );

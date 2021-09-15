@@ -1,7 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
 import { cropVarietiesSelector, cropVarietyEntitiesSelector } from './cropVarietySlice';
 import { cropCatalogueFilterDateSelector } from './filterSlice';
@@ -116,14 +115,12 @@ const managementPlanSelectors = managementPlanAdapter.getSelectors(
 export const managementPlanEntitiesSelector = createSelector(
   [
     managementPlanSelectors.selectEntities,
-    cropEntitiesSelector,
     cropVarietyEntitiesSelector,
     cropManagementPlanSelectors.selectEntities,
     plantingManagementPlanEntitiesByManagementPlanIdSelector,
   ],
   (
     managementPlanEntities,
-    cropEntities,
     cropVarietyEntities,
     cropManagementPlanEntities,
     plantingManagementPlanEntities,
@@ -134,10 +131,9 @@ export const managementPlanEntitiesSelector = createSelector(
       const crop_management_plan = cropManagementPlanEntities[management_plan_id];
       const planting_management_plans = plantingManagementPlanEntities[management_plan_id];
       const crop_variety = cropVarietyEntities[management_plan.crop_variety_id];
-      const crop = cropEntities[crop_variety.crop_id];
+      const crop = crop_variety.crop;
 
       entities[management_plan_id] = {
-        ...crop,
         ...crop_variety,
         ...management_plan,
         ...crop_management_plan,

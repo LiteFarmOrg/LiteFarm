@@ -19,6 +19,7 @@ export function PureBedForm({
   control,
   setValue,
   errors,
+  disabled,
 }) {
   const { t } = useTranslation();
   const NUMBER_OF_BEDS = `${prefix}.bed_method.number_of_beds`;
@@ -81,6 +82,7 @@ export function PureBedForm({
           onKeyDown={integerOnKeyDown}
           max={999}
           errors={getInputErrors(errors, NUMBER_OF_BEDS)}
+          disabled={disabled}
         />
 
         <Input
@@ -93,6 +95,7 @@ export function PureBedForm({
           onKeyDown={integerOnKeyDown}
           max={999}
           errors={getInputErrors(errors, NUMBER_OF_ROWS_IN_BED)}
+          disabled={disabled}
         />
       </div>
 
@@ -109,6 +112,7 @@ export function PureBedForm({
           hookFromWatch={watch}
           control={control}
           required
+          disabled={disabled}
         />
 
         <Unit
@@ -123,11 +127,12 @@ export function PureBedForm({
           hookFromWatch={watch}
           control={control}
           required
+          disabled={disabled}
         />
       </div>
 
       {showEstimatedValue && (
-        <div className={clsx(styles.row)}>
+        <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -140,6 +145,7 @@ export function PureBedForm({
             hookFromWatch={watch}
             control={control}
             required={false}
+            disabled={disabled}
           />
           {isFinalPage && (
             <Unit
@@ -154,6 +160,7 @@ export function PureBedForm({
               hookFromWatch={watch}
               control={control}
               required={isFinalPage}
+              disabled={disabled}
             />
           )}
         </div>

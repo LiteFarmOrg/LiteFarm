@@ -18,6 +18,7 @@ import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
+import PureHarvestingTaskReadOnly from '../HarvestingTask/ReadOnly';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -62,6 +63,9 @@ export default function PureTaskReadOnly({
     ),
     PEST_CONTROL_TASK: (props) => (
       <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    HARVEST_TASK: (props) => (
+      <PureHarvestingTaskReadOnly system={system} isCompleted={isCompleted} {...props} />
     ),
   };
 

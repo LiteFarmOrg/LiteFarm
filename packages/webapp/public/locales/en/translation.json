@@ -1084,8 +1084,7 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "PLAN_AND_ID_plural": "MISSING"
+    "TRANSPLANT_LOCATION": "Where will you transplant to?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

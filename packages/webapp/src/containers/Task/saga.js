@@ -1,4 +1,4 @@
-import { call, put, select, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { axios, getHeader } from '../saga';
@@ -42,6 +42,12 @@ import {
   onLoadingHarvestTaskFail,
   onLoadingHarvestTaskStart,
 } from '../slice/taskSlice/harvestTaskSlice';
+
+import {
+  getHarvestUseTypesSuccess,
+  onLoadingHarvestUseTypeFail,
+  onLoadingHarvestUseTypeStart,
+} from '../harvestUseTypeSlice';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -268,14 +274,31 @@ export function* createTaskSaga({ payload: data }) {
   }
 }
 
+//TODO: change req shape to {...task, harvestUses}
+const harvestCompleteProcessFunction = (data, task_id) => {
+  let taskData = {};
+  taskData.task = data.taskData;
+  let harvest_uses = [];
+  data.harvest_uses.forEach((harvest_use) => {
+    harvest_uses.push({
+      ...getObjectInnerValues(harvest_use),
+      task_id: parseInt(task_id),
+    });
+  });
+  taskData.harvest_uses = harvest_uses;
+  return taskData;
+};
+
 export const completeTask = createAction('completeTaskSaga');
 
 export function* completeTaskSaga({ payload: { task_id, data } }) {
   const { taskUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const { task_translation_key, taskData, isCustomTaskType } = data;
+  const { task_translation_key, isCustomTaskType } = data;
   const header = getHeader(user_id, farm_id);
   const endpoint = isCustomTaskType ? 'custom_task' : task_translation_key.toLowerCase();
+  const isHarvest = task_translation_key === 'HARVEST_TASK';
+  const taskData = isHarvest ? harvestCompleteProcessFunction(data, task_id) : data.taskData;
   try {
     const result = yield call(
       axios.patch,
@@ -373,18 +396,39 @@ export function* deleteTaskTypeSaga({ payload: id }) {
   }
 }
 
+export const getHarvestUseTypes = createAction('getHarvestUseTypesSaga');
+
+export function* getHarvestUseTypesSaga() {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingHarvestUseTypeStart());
+    const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
+    if (result) {
+      yield put(getHarvestUseTypesSuccess(result.data));
+    }
+  } catch (e) {
+    console.log('failed to get harvest use types');
+    yield put(onLoadingHarvestUseTypeFail());
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
   yield takeLeading(createTask.type, createTaskSaga);
-  yield takeLeading(getTaskTypes.type, getTaskTypesSaga);
+  yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
-  yield takeLeading(getTasks.type, getTasksSaga);
-  yield takeLeading(getTasksSuccess.type, getTasksSuccessSaga);
+  yield takeLatest(getTasks.type, getTasksSaga);
+  yield takeLatest(getTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(postTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(onLoadingTaskStart.type, onLoadingTaskStartSaga);
-  yield takeLeading(getProducts.type, getProductsSaga);
+  yield takeLatest(getProducts.type, getProductsSaga);
   yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
+  yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
 }

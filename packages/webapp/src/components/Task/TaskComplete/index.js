@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
@@ -28,7 +28,7 @@ export default function PureTaskComplete({
     watch,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
@@ -50,7 +50,7 @@ export default function PureTaskComplete({
 
   const notes = watch(COMPLETION_NOTES);
 
-  const disabled = !prefer_not_to_say && happiness === 0;
+  const disabled = !isValid;
 
   return (
     <Form
@@ -70,9 +70,18 @@ export default function PureTaskComplete({
           task_translation_key: persistedFormData?.taskType.task_translation_key,
           isCustomTaskType: !!persistedFormData?.taskType.farm_id,
         };
+        let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
         if (persistedFormData?.need_changes) {
-          let task_type_name = persistedFormData?.taskType.task_translation_key.toLowerCase();
           data.taskData[task_type_name] = getObjectInnerValues(persistedFormData[task_type_name]);
+        }
+        //TODO: replace with useIsTaskType
+        if (task_type_name === 'harvest_task') {
+          data.harvest_uses = persistedFormData?.harvest_uses;
+          data.taskData[task_type_name] = {
+            ...persistedFormData?.harvest_task,
+            actual_quantity: persistedFormData?.actual_quantity,
+            actual_quantity_unit: persistedFormData?.actual_quantity_unit.value,
+          };
         }
         onSave(data);
       })}
@@ -81,7 +90,7 @@ export default function PureTaskComplete({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={onCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
+        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />
@@ -97,14 +106,16 @@ export default function PureTaskComplete({
 
       <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
 
-      <Rating
-        className={styles.rating}
-        style={{ marginBottom: '27px' }}
-        label={t('TASK.PROVIDE_RATING')}
-        disabled={prefer_not_to_say}
-        initialRating={persistedFormData?.happiness}
-        onRate={(value) => setValue(HAPPINESS, value)}
-      />
+      {!prefer_not_to_say && (
+        <Rating
+          className={styles.rating}
+          style={{ marginBottom: '27px' }}
+          label={t('TASK.PROVIDE_RATING')}
+          disabled={prefer_not_to_say}
+          initialRating={persistedFormData?.happiness}
+          onRate={(value) => setValue(HAPPINESS, value)}
+        />
+      )}
 
       <Checkbox
         style={{ marginBottom: '42px' }}
@@ -113,10 +124,13 @@ export default function PureTaskComplete({
       />
 
       <InputAutoSize
-        hookFormRegister={register(COMPLETION_NOTES)}
+        hookFormRegister={register(COMPLETION_NOTES, {
+          maxLength: { value: 10000, message: t('TASK.COMPLETION_NOTES_CHAR_LIMIT') },
+        })}
         name={COMPLETION_NOTES}
         label={t('TASK.COMPLETION_NOTES')}
         optional
+        errors={errors[COMPLETION_NOTES]?.message}
       />
     </Form>
   );

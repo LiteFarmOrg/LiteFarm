@@ -3,15 +3,14 @@ import { useSelector } from 'react-redux';
 import PureHarvestCompleteQuantity from '../../../../components/Task/TaskComplete/HarvestComplete/Quantity';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { taskWithProductById } from '../../../taskSlice';
 
 function HarvestCompleteQuantity({ history, match }) {
   const system = useSelector(measurementSelector);
   const task_id = match.params.task_id;
-  const task = useSelector(taskWithProductById(task_id));
+  const persistedPaths = [`/tasks/${task_id}/harvest_uses`];
 
   const onContinue = (data) => {
-    // TODO - Add step 2
+    history.push(`/tasks/${task_id}/harvest_uses`);
   };
 
   const onCancel = () => {
@@ -29,6 +28,7 @@ function HarvestCompleteQuantity({ history, match }) {
         onGoBack={onGoBack}
         onContinue={onContinue}
         system={system}
+        persistedPaths={persistedPaths}
       />
     </HookFormPersistProvider>
   );

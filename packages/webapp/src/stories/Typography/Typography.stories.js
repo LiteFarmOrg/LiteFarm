@@ -3,6 +3,7 @@ import {
   AddLink,
   EditLink,
   Error,
+  IconLink,
   Info,
   Label,
   Main,
@@ -12,6 +13,7 @@ import {
   Underlined,
 } from '../../components/Typography';
 import { componentDecorators } from '../Pages/config/decorators';
+import { FiSlash } from 'react-icons/all';
 
 export default {
   title: 'Components/Typography',
@@ -27,7 +29,6 @@ const Template = (args) => (
       is unpredictable
     </p>
     {AllFontTemplate(args)}
-    <Underlined style={args.style} />
   </>
 );
 
@@ -49,17 +50,17 @@ const AllFontTemplate = (args) => (
     <Text style={args.style} />
     <Info style={args.style} />
     <Error style={args.style} />
-    <EditLink style={args.style}></EditLink>
+    <EditLink style={args.style} />
     <Underlined style={args.style} />
-    <div>
-      <AddLink style={args.style} />
-    </div>
+
+    <AddLink style={args.style} />
+    <IconLink style={args.style} icon={<FiSlash />} />
   </>
 );
 
 export const Override = Template.bind({});
 Override.args = {
-  style: { marginBottom: 0 },
+  style: { marginBottom: 0, display: 'block' },
 };
 
 export const Primary = AllFontTemplate.bind({});

@@ -51,6 +51,7 @@ const PureAddCustomTask = ({
           label={t('ADD_TASK.CUSTOM_TASK_TYPE')}
           hookFormRegister={register(CUSTOM_TASK_TYPE, {
             required: true,
+            maxLength: { value: 25, message: t('ADD_TASK.CUSTOM_TASK_CHAR_LIMIT') },
           })}
           name={CUSTOM_TASK_TYPE}
           hookFormSetValue={setValue}

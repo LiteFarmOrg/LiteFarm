@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, select, take, race, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
@@ -138,7 +138,7 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import { getTasks, getTaskTypes } from './Task/saga';
+import { getHarvestUseTypes, getProducts, getTasks, getTaskTypes } from './Task/saga';
 import {
   getCertificationSurveysSuccess,
   onLoadingCertifierSurveyFail,
@@ -523,6 +523,8 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       put(getAllUserFarmsByFarmId()),
       put(getTaskTypes()),
       put(getTasks()),
+      put(getHarvestUseTypes()),
+      put(getProducts()),
     ];
 
     yield all([

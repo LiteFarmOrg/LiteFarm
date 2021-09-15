@@ -254,10 +254,13 @@ function PureBroadcastPlan({
         </div>
       )}
       <InputAutoSize
-        optional={true}
         label={t('BROADCAST_PLAN.PLANTING_NOTES')}
         style={{ paddingBottom: '40px' }}
-        hookFormRegister={register(NOTES)}
+        hookFormRegister={register(NOTES, {
+          maxLength: { value: 10000, message: t('MANAGEMENT_PLAN.NOTES_CHAR_LIMIT') },
+        })}
+        optional
+        errors={errors[NOTES]?.message}
       />
     </Form>
   );

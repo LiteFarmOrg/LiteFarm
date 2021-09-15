@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { tasksSelector } from '../taskSlice';
-import { getProducts, getTasks } from './saga';
+import { getProducts, getTasks, getHarvestUseTypes } from './saga';
 import TaskCard from './TaskCard';
 import StateTab from '../../components/RouterTab/StateTab';
 import { ALL, TODO, UNASSIGNED } from './constants';
@@ -35,6 +35,7 @@ export default function TaskPage({ history }) {
     dispatch(getTasks());
     dispatch(getProducts());
     dispatch(getManagementPlans());
+    dispatch(getHarvestUseTypes());
   }, []);
 
   useEffect(() => {

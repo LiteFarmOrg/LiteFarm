@@ -36,6 +36,7 @@
     "CLEAR_ALL": "Borrar todo",
     "CLEAR_ALL_PLANS": "Borrar todos los planes",
     "CUSTOM_TASK": "Tarea personalizada",
+    "CUSTOM_TASK_CHAR_LIMIT": "MISSING",
     "CUSTOM_TASK_NAME": "Nombre de tarea personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarea personalizada",
     "DO_YOU_NEED_TO_OVERRIDE": "¿Necesita alterar el salario de los cesionarios para esta tarea?",
@@ -92,6 +93,7 @@
       "STRUCTURE": "Estructura"
     },
     "TASK": "tarea",
+    "TASK_NOTES_CHAR_LIMIT": "MISSING",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
     "WAGE_OVERRIDE": "Alterar el salario"
   },
@@ -259,7 +261,6 @@
     "ANNUAL": "Anual",
     "ANNUAL_PERENNIAL": "¿El cultivo es anual o perenne?",
     "COMMERCIAL_AVAILABILITY": "¿Realizó una búsqueda de disponibilidad comercial?",
-    "COMPLIANCE_DOC": "Documentos de cumplimiento",
     "DETAIL_TAB": "Detalles",
     "EDIT_CROP_DETAIL": "Editar los detalles del cultivo",
     "GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
@@ -338,6 +339,7 @@
       "TYPE": "Tipo",
       "VALID_ON": "Válido en"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "SPOTLIGHT": {
       "CDC": "Cuando llegue el momento de generar su exportación de certificación, LiteFarm exportará automáticamente todos los documentos de cumplimiento que sean válidos en la fecha de exportación que especifique. Los documentos de cumplimiento se archivarán automáticamente cuando expiran.",
       "HERE_YOU_CAN": "Aca uno puede:",
@@ -519,6 +521,7 @@
       "NAME": "Nombre de area natural",
       "TITLE": "Agregar area natural"
     },
+    "NOTES_CHAR_LIMIT": "MISSING",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residencia",
       "NAME": "Nombre de residencia",
@@ -963,6 +966,7 @@
       "ABANDON_REASON": "Razón para abandonar",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "RATING": "Califica este plan de manejo",
       "REASON": {
         "CROP_FAILURE": "Falla del cultivo",
@@ -1014,6 +1018,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
+    "NOTES_CHAR_LIMIT": "MISSING",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PENDING_TASK": "Tareas pendientes",
     "PLAN_AND_ID": "Plan {{id}}",
@@ -1419,6 +1424,7 @@
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
+      "NOTES_CHAR_LIMIT": "MISSING",
       "REASON_FOR_ABANDONMENT": "Razón para abandonar",
       "REASON": {
         "CROP_FAILURE": "Falla del cultivo",
@@ -1439,10 +1445,13 @@
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
     },
+    "COMPLETE_HARVEST_QUANTITY": "¿Cuánto se cosechó?",
     "COMPLETE_TASK": "Completar tarea",
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
+    "COMPLETE_TASK_FLOW": "MISSING",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
+    "COMPLETION_NOTES_CHAR_LIMIT": "MISSING",
     "DETAILS": "Detalles",
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
@@ -1468,7 +1477,12 @@
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "UNASSIGNED": "Sin asignar",
-    "COMPLETE_HARVEST_QUANTITY": "¿Cuánto se cosechó?"
+    "HOW_WILL_HARVEST_BE_USED": "MISSING",
+    "HARVEST_USE": "MISSING",
+    "AMOUNT_TO_ALLOCATE": "MISSING",
+    "ADD_CUSTOM_HARVEST_USE": "MISSING",
+    "REMOVE_HARVEST_USE": "MISSING",
+    "ADD_HARVEST_USE": "MISSING"
   },
   "UNIT": {
     "TIME": {

@@ -28,6 +28,11 @@ export default function ManagementDetail({ history, match }) {
   const onAbandon = () =>
     history.push(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`);
 
+  const handleAddTask = () => {
+    // TODO: add management plan and location to formData
+    history.push(`/add_task/task_type_selection`);
+  };
+
   const showSpotlight = history.location.state?.fromCreation;
 
   const allTasks = useSelector(tasksByManagementPlanIdSelector(management_plan_id));
@@ -38,6 +43,7 @@ export default function ManagementDetail({ history, match }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
+        onAddTask={handleAddTask}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

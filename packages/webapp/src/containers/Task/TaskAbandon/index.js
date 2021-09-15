@@ -37,7 +37,7 @@ function TaskAbandon({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.push(backPath);
+    history.goBack();
   };
 
   return <PureAbandonTask onSubmit={onSubmit} onGoBack={onGoBack} />;

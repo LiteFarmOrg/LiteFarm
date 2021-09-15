@@ -107,10 +107,11 @@ router.patch('/complete/harvest_task/:task_id', modelMapping['harvest_task'], ha
 router.patch('/complete/plant_task/:task_id', modelMapping['plant_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('plant_task'));
 
+router.patch('/complete/transplant_task/:task_id', modelMapping['plant_task'], hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('transplant_task'));
+
 router.patch('/complete/custom_task/:task_id', modelMapping['custom_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('custom_task'));
-
-
 
 
 module.exports = router;

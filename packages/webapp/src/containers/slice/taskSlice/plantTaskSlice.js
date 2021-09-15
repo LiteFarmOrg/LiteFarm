@@ -72,6 +72,20 @@ export const plantTaskEntitiesSelector = createSelector(
   },
 );
 
+export const plantTasksByManagementPlanIdEntitiesSelector = createSelector(
+  [plantTaskEntitiesSelector],
+  (plantTaskEntities) => {
+    return Object.values(plantTaskEntities).reduce(
+      (plantTasksByManagementPlanIdEntities, plantTask) => {
+        const { management_plan_id } = plantTask.planting_management_plan;
+        plantTasksByManagementPlanIdEntities[management_plan_id] = plantTask;
+        return plantTasksByManagementPlanIdEntities;
+      },
+      {},
+    );
+  },
+);
+
 export const plantTaskStatusSelector = createSelector(
   [plantTaskReducerSelector],
   ({ loading, error, loaded }) => {

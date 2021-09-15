@@ -427,7 +427,6 @@ export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManage
       ROW_METHOD: [],
     },
   );
-  console.log(plantingMethods);
   yield put(getPlantingManagementPlansSuccess(plantingManagementPlans));
   for (const planting_method in plantingMethodActionMap) {
     try {

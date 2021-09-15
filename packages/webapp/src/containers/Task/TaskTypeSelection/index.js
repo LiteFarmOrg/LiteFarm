@@ -1,10 +1,13 @@
 import { PureTaskTypeSelection } from '../../../components/Task/PureTaskTypeSelection/PureTaskTypeSelection';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
+import { showedSpotlightSelector } from '../../showedSpotlightSlice';
+import { PlantingTaskModal } from '../../../components/Modals/PlantingTaskModal';
+import { setSpotlightToShown } from '../../Map/saga';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
@@ -14,6 +17,8 @@ function TaskTypeSelection({ history, match }) {
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
+  const { planting_task } = useSelector(showedSpotlightSelector);
+  const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -43,20 +48,31 @@ function TaskTypeSelection({ history, match }) {
 
   const onError = () => {};
 
+  const dismissPlantingTaskModal = () => dispatch(setSpotlightToShown('planting_task'));
+  const goToCatalogue = () => {
+    dismissPlantingTaskModal();
+    history.push('/crop_catalogue');
+  };
+
   return (
-    <HookFormPersistProvider>
-      <PureTaskTypeSelection
-        history={history}
-        onCustomTask={onCustomTask}
-        handleCancel={handleCancel}
-        handleGoBack={handleGoBack}
-        persistedPaths={persistedPaths}
-        onContinue={onContinue}
-        onError={onError}
-        taskTypes={taskTypes}
-        customTasks={customTasks}
-      />
-    </HookFormPersistProvider>
+    <>
+      <HookFormPersistProvider>
+        <PureTaskTypeSelection
+          history={history}
+          onCustomTask={onCustomTask}
+          handleCancel={handleCancel}
+          handleGoBack={handleGoBack}
+          persistedPaths={persistedPaths}
+          onContinue={onContinue}
+          onError={onError}
+          taskTypes={taskTypes}
+          customTasks={customTasks}
+        />
+      </HookFormPersistProvider>
+      {isAdmin && !planting_task && (
+        <PlantingTaskModal goToCatalogue={goToCatalogue} dismissModal={dismissPlantingTaskModal} />
+      )}
+    </>
   );
 }
 

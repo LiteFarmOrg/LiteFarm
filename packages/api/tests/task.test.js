@@ -47,7 +47,7 @@ describe('Task tests', () => {
   }
 
   function postTransplantTaskRequest({ user_id, farm_id }, data, callback) {
-    chai.request(server).post(`/task/transplant_tasks`)
+    chai.request(server).post(`/task/transplant_task`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)

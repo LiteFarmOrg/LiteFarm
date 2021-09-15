@@ -55,6 +55,7 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
 }
 
 export const setSpotlightToShown = createAction(`setSpotlightToShownSaga`);
+
 export function* setSpotlightToShownSaga({ payload: spotlight }) {
   try {
     const { user_id } = yield select(loginSelector);
@@ -63,11 +64,8 @@ export function* setSpotlightToShownSaga({ payload: spotlight }) {
     patchContent[spotlight] = true;
     patchContent[`${spotlight}_end`] = new Date().toISOString();
     yield put(spotlightLoading());
+    yield put(patchSpotlightFlagsSuccess({ [spotlight]: true }));
     const result = yield call(axios.patch, showedSpotlightUrl(), patchContent, header);
-    if (result) {
-      delete patchContent[`${spotlight}_end`];
-      yield put(patchSpotlightFlagsSuccess(patchContent));
-    }
   } catch (error) {
     yield put(patchSpotlightFlagsFailure());
     console.log('failed to patch spotlight flags');

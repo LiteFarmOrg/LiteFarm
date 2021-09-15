@@ -11,12 +11,12 @@ import {
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
+import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
+import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
   currentManagementPlansByLocationIdSelector,
   plannedManagementPlansByLocationIdSelector,
-} from '../../../managementPlanSlice';
-import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
-import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
+} from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditGreenhouseDetailForm({ history, match }) {
   const dispatch = useDispatch();

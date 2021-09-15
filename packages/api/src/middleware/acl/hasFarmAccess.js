@@ -58,6 +58,8 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
     // Is getting a seeded table and accessing community data. Go through.
     if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
       return next();
+    } else if (farmIdObjectFromEntity?.next) {
+      return next();
     }
     return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
   } catch (e) {
@@ -110,7 +112,7 @@ function fromNitrogenSchedule(nitrogenScheduleId) {
 async function fromCropManagement(crop_management_plan, next) {
   const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id).filter(location_id => location_id);
   const hasLocationId = locationIds.length;
-  if (!hasLocationId) return next();
+  if (!hasLocationId) return { next: true };
   const locations = await knex('location').whereIn('location_id', locationIds);
   const farm_id = locations.reduce((farm_id, location) => {
     if (farm_id) {

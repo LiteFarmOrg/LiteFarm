@@ -114,7 +114,7 @@ export default function PureTaskReadOnly({
                 <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id].map((managementPlan) => {
+                {managementPlansByLocationIds[location_id]?.map((managementPlan) => {
                   return (
                     <PureManagementPlanTile
                       key={managementPlan.management_plan_id}

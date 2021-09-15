@@ -1215,10 +1215,6 @@ async function plant_taskFactory({ promisedTask = taskFactory() } = {}, plant_ta
 
 function fakePlantTask(defaultData = {}) {
   return {
-    space_depth_cm: faker.random.number(1000),
-    space_length_cm: faker.random.number(1000),
-    space_width_cm: faker.random.number(1000),
-    'rate_seeds/m2': faker.random.number(1000),
     ...defaultData,
   };
 }

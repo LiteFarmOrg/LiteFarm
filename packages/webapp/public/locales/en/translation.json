@@ -57,6 +57,7 @@
         "WEEDING": "Weeding"
       }
     },
+    "GO_TO_CATALOGUE": "Go to Crop Catalogue",
     "HARVEST_EVERYTHING": "Harvest everything that is ready",
     "HARVESTING_INFO": "Each plan will generate an individual harvest task",
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
@@ -78,6 +79,8 @@
     },
     "PLANTING": "Planting",
     "PLANTING_METHOD": "What is the transplanting method?",
+    "PLANTING_TASK": "Planting Task",
+    "PLANTING_TASK_MODAL": "Starting a new planting task creates a new management plan. Go to the crop catalogue to select the crop you would like to plant.",
     "QUANTITY": "Quantity",
     "RETIRE_CUSTOM_TASK": "Retire custom task?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Are you sure you want to delete this custom task?",

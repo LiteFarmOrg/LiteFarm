@@ -41,7 +41,6 @@ const PureTaskCrops = ({
   });
 
   useHookFormPersist(getValues, persistedPaths);
-
   const [filter, setFilter] = useState();
   const onFilterChange = (e) => {
     setFilter(e.target.value);
@@ -87,16 +86,15 @@ const PureTaskCrops = ({
       produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
         if (!isMulti) {
           selectedManagementPlanIds = [management_plan_id];
-          return selectedManagementPlanIds;
+        } else {
+          if (selectedManagementPlanIds.includes(management_plan_id)) {
+            selectedManagementPlanIds = selectedManagementPlanIds.splice(
+              selectedManagementPlanIds.indexOf(management_plan_id),
+              1,
+            );
+          }
+          selectedManagementPlanIds.push(management_plan_id);
         }
-        if (selectedManagementPlanIds.includes(management_plan_id)) {
-          selectedManagementPlanIds = selectedManagementPlanIds.splice(
-            selectedManagementPlanIds.indexOf(management_plan_id),
-            1,
-          );
-        }
-        selectedManagementPlanIds.push(management_plan_id);
-        return selectedManagementPlanIds;
       }),
     );
   };
@@ -203,9 +201,7 @@ const PureTaskCrops = ({
         )}
 
         {Object.keys(managementPlansFilteredByInput).map((location_id) => {
-          let location_name =
-            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
-              .name;
+          let location_name = managementPlansByLocationIds[location_id][0].location.name;
           return (
             <div key={location_id}>
               <div style={{ paddingBottom: '16px' }}>

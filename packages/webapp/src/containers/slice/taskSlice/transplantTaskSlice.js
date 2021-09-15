@@ -73,6 +73,23 @@ export const transplantTaskEntitiesSelector = createSelector(
   },
 );
 
+export const transplantTasksByManagementPlanIdEntitiesSelector = createSelector(
+  [transplantTaskEntitiesSelector],
+  (transplantTaskEntities) => {
+    return Object.values(transplantTaskEntities).reduce(
+      (transplantTasksByManagementPlanIdEntities, transplantTask) => {
+        const { management_plan_id } = transplantTask.planting_management_plan;
+        if (!transplantTasksByManagementPlanIdEntities[management_plan_id]) {
+          transplantTasksByManagementPlanIdEntities[management_plan_id] = [];
+        }
+        transplantTasksByManagementPlanIdEntities[management_plan_id].push(transplantTask);
+        return transplantTasksByManagementPlanIdEntities;
+      },
+      {},
+    );
+  },
+);
+
 export const transplantTaskStatusSelector = createSelector(
   [transplantTaskReducerSelector],
   ({ loading, error, loaded }) => {

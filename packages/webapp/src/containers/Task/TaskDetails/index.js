@@ -24,11 +24,13 @@ function TaskDetails({ history, match }) {
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
-  const locations = persistedFormData.locations;
-  const managementPlans = persistedFormData.managementPlans?.map(
+  const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );
-  const managementPlanByLocations = useManagementPlanTilesByLocationIds(locations, managementPlans);
+  const managementPlanByLocations = useManagementPlanTilesByLocationIds(
+    persistedFormData.locations,
+    managementPlanIds,
+  );
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 

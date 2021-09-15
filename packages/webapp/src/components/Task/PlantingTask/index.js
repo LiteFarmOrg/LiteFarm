@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Text } from '../../Typography';
+import { Main } from '../../Typography';
 import { PureBroadcastForm } from '../../Crop/BroadcastPlan/PureBroadcastForm';
 import PureContainerForm from '../../Crop/PlantInContainer/PureContainerForm';
 import PureRowForm from '../../Crop/RowMethod/PureRowForm';
@@ -34,10 +34,10 @@ export function PurePlantingTask({
   };
   return (
     <>
-      <Text style={{ marginBottom: '24px' }}>
+      <Main style={{ marginBottom: '24px' }}>
         {isPlantTask ? t('ADD_TASK.TRANSPLANTING') : t('ADD_TASK.PLANTING')}:{' '}
         {plantingMethodTranslation[plantingMethod]}{' '}
-      </Text>
+      </Main>
       {plantingMethodForm[plantingMethod]({
         system,
         locationSize,

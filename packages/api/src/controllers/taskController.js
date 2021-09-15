@@ -19,14 +19,12 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const { task_id } = req.params;
-        const { user_id } = req.headers;
+        const { user_id, farm_id } = req.headers;
         const { assignee_user_id } = req.body;
         if (!adminRoles.includes(req.role) && user_id !== assignee_user_id && assignee_user_id !== null) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
-        const { farm_id } = await TaskModel.query().select('location.farm_id').whereNotDeleted()
-          .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
-          .join('location', 'location.location_id', 'location_tasks.location_id').where('task.task_id', task_id).first();
+
         let wage = { amount: 0 };
         if (assignee_user_id !== null) {
           const userFarm = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
@@ -38,6 +36,7 @@ const taskController = {
         });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
+        console.log(error);
         return res.status(400).json({ error });
       }
     };

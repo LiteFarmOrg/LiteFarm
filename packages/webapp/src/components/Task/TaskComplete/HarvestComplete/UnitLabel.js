@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import convert from 'convert-units';
+import { roundToTwoDecimal } from '../../../../util/unit';
 
 const useStyles = makeStyles({
   container: {
@@ -30,12 +30,12 @@ const useStyles = makeStyles({
 
 const UnitLabel = ({ unitLabel = 'kg', amount, style }) => {
   const classes = useStyles();
-  const status = amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'zero';
+  const status =
+    amount > 0 || Math.abs(amount) < 0.01 ? 'positive' : amount < 0 ? 'negative' : 'zero';
   return (
-    <div
-      className={clsx(classes.container, classes[status])}
-      style={style}
-    >{`${amount} ${unitLabel}`}</div>
+    <div className={clsx(classes.container, classes[status])} style={style}>{`${roundToTwoDecimal(
+      convert(amount).from('kg').to(unitLabel),
+    )} ${unitLabel}`}</div>
   );
 };
 

@@ -23,11 +23,12 @@ function HarvestUses({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push(`/tasks/${task_id}/read_only`);
+    history.goBack();
+    history.goBack();
   };
 
   const onGoBack = () => {
-    history.push(`/tasks/${task_id}/complete_harvest_quantity`);
+    history.goBack();
   };
 
   return (

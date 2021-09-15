@@ -153,7 +153,6 @@ export function PureBroadcastForm({
           hookFromWatch={watch}
           control={control}
           style={{ flex: '1 1 0px' }}
-          disabled={disabled}
         />
       </div>
       <Input

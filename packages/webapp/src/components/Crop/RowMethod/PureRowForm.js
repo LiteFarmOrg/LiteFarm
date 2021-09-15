@@ -7,11 +7,13 @@ import Unit from '../../Form/Unit';
 import RadioGroup from '../../Form/RadioGroup';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { Main } from '../../Typography';
 
 export default function PureRowForm({
   system,
   crop_variety,
   isFinalPage,
+  isHistoricalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   register,
   getValues,
@@ -81,7 +83,12 @@ export default function PureRowForm({
 
   return (
     <>
-      <RadioGroup hookFormControl={control} name={SAME_LENGTH} required />
+      <Main style={{ paddingBottom: '24px' }}>
+        {isHistoricalPage
+          ? t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')
+          : t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
+      </Main>
+      <RadioGroup hookFormControl={control} name={SAME_LENGTH} required disabled={disabled} />
       {(same_length === true || same_length === false) && (
         <>
           {same_length && (
@@ -136,7 +143,7 @@ export default function PureRowForm({
               />
             </div>
           )}
-          <div>
+          <div className={clsx(styles.paddingBottom40)}>
             <Unit
               register={register}
               label={t('MANAGEMENT_PLAN.PLANT_SPACING')}
@@ -155,7 +162,7 @@ export default function PureRowForm({
           </div>
           {showEstimatedValue && (
             <>
-              <div className={clsx(styles.paddingBottom40)}>
+              <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
                 <Unit
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -201,6 +208,7 @@ PureRowForm.prototype = {
   crop_variety: PropTypes.object,
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
+  isHistoricalPage: PropTypes.bool,
   prefix: PropTypes.string,
   register: PropTypes.func,
   getValues: PropTypes.func,

@@ -60,19 +60,29 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
       return next();
     }
     return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
-  } catch(e) {
+  } catch (e) {
     notAuthorizedResponse(res);
   }
 };
 
-async function fromTaskId(taskId) {
+async function fromTaskId(task_id) {
+  const taskType = await knex('task').join('task_type', 'task.task_type_id', 'task_type.task_type_id').where({ task_id }).first();
+  //TODO: planting transplant task authorization test
+  if (['PLANT_TASK', 'TRANSPLANT_TASK'].includes(taskType?.task_translation_key)) {
+    const task_type = taskType.task_translation_key.toLowerCase();
+    return await knex('task').join(task_type, `${task_type}.task_id`, 'task.task_id')
+      .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', `${task_type}.planting_management_plan_id`)
+      .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('task.task_id', task_id).first();
+  }
   const userFarm = await userFarmModel.query()
-  .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
-  .join('location', 'userFarm.farm_id', 'location.farm_id')
-  .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
-  .skipUndefined()
-  .where('location_tasks.task_id', taskId)
-  .first();
+    .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+    .join('location', 'userFarm.farm_id', 'location.farm_id')
+    .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
+    .skipUndefined()
+    .where('location_tasks.task_id', task_id)
+    .first();
   if (!userFarm) return {};
   return userFarm;
 }
@@ -82,7 +92,7 @@ function fromTask(taskTypeId) {
 }
 
 function fromDocument(document_id) {
-  return  knex('document').where({ document_id }).first();
+  return knex('document').where({ document_id }).first();
 }
 
 function fromShift(shiftId) {

@@ -32,10 +32,10 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
-  hasManagementPlans,
   isCompleted,
 }) {
   const { t } = useTranslation();
+  const hasManagementPlans = task.managementPlans?.length > 0;
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
   const locations = task.locations.map(({ location_id }) => location_id);
@@ -106,10 +106,8 @@ export default function PureTaskReadOnly({
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
       {hasManagementPlans &&
-        Object.keys(managementPlansByLocationIds).map((location_id) => {
-          let location_name =
-            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
-              .name;
+        task.locations.map((location) => {
+          const { name: location_name, location_id } = location;
           return (
             <div key={location_id}>
               <div style={{ paddingBottom: '16px' }}>

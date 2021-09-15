@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Main } from '../../Typography';
 import Form from '../../Form';
 import Button from '../../Form/Button';
 import { useForm } from 'react-hook-form';
@@ -61,16 +60,13 @@ export default function PureRowMethod({
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         style={{ marginBottom: '24px' }}
       />
-      <Main style={{ paddingBottom: '24px' }}>
-        {isHistoricalPage
-          ? t('MANAGEMENT_PLAN.ROW_METHOD.HISTORICAL_SAME_LENGTH')
-          : t('MANAGEMENT_PLAN.ROW_METHOD.SAME_LENGTH')}
-      </Main>
+
       <PureRowForm
         prefix={prefix}
         isFinalPage={isFinalPage}
         system={system}
         crop_variety={crop_variety}
+        isHistoricalPage={isHistoricalPage}
         {...{
           register,
           handleSubmit,

@@ -36,7 +36,7 @@
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_PLANS": "Clear all plans",
     "CUSTOM_TASK": "Custom Task",
-    "CUSTOM_TASK_CHAR_LIMIT": "Custom task type cannot exceed 25 characters",
+    "CUSTOM_TASK_CHAR_LIMIT": "Custom task type name cannot exceed 25 characters",
     "CUSTOM_TASK_NAME": "Custom task name",
     "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",
@@ -1091,8 +1091,7 @@
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
-    "TRANSPLANT_LOCATION": "Where will you transplant to?",
-    "PLAN_AND_ID_plural": "MISSING"
+    "TRANSPLANT_LOCATION": "Where will you transplant to?"
   },
   "MY_FARM": {
     "CERTIFICATIONS": "Certifications",

@@ -112,6 +112,7 @@ function fromNitrogenSchedule(nitrogenScheduleId) {
 async function fromCropManagement(crop_management_plan, next) {
   const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id).filter(location_id => location_id);
   const hasLocationId = locationIds.length;
+  //TODO: find a proper way by pass farm id check
   if (!hasLocationId) return { next: true };
   const locations = await knex('location').whereIn('location_id', locationIds);
   const farm_id = locations.reduce((farm_id, location) => {

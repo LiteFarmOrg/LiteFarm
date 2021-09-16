@@ -61,8 +61,6 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
             managementPlans[index].planting_management_plan = planting_management_plan;
           }
         }
-        if (!managementPlans[index].planting_management_plan)
-          console.log(plantingManagementPlanByManagementPlanEntities[management_plan_id]);
       }
     });
   },

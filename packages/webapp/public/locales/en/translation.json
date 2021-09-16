@@ -1361,7 +1361,7 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
-    "TRANSPLANT_LOCATIONS": "MISSING",
+    "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned"
   },
   "UNIT": {

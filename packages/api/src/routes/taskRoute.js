@@ -38,9 +38,6 @@ router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.get
 router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
   taskController.createHarvestTasks());
 
-router.post('/harvest_tasks', hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
-  taskController.createHarvestTasks());
-
 router.post('/soil_amendment_task', modelMapping['soil_amendment_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin,
   createOrPatchProduct('soil_amendment_task'), taskController.createTask('soil_amendment_task'));
@@ -60,9 +57,6 @@ router.post('/scouting_task', modelMapping['scouting_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('scouting_task'));
 
 router.post('/soil_task', modelMapping['soil_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('soil_task'));
-
-router.post('/custom/other_task', modelMapping['soil_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('soil_task'));
 
 router.post('/field_work_task', modelMapping['field_work_task'],

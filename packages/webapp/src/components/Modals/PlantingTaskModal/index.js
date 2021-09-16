@@ -22,7 +22,7 @@ export function PlantingTaskModal({ dismissModal, goToCatalogue }) {
           >
             {t('common:CANCEL')}
           </Button>
-          <Button className={styles.button} onClick={goToCatalogue} type={'submit'} sm>
+          <Button onClick={goToCatalogue} type={'submit'} sm>
             {t('ADD_TASK.GO_TO_CATALOGUE')}
           </Button>
         </>

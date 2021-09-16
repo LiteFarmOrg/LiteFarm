@@ -153,8 +153,10 @@ function PhysiologyAnatomyDropDown({ register, isPhysiologyAnatomyDropDownOpen }
   return (
     <div className={styles.dropdownContainer}>
       <div className={styles.dropdownHead} onClick={() => setOpen(!open)}>
-        <Semibold>{'Physiology and Anatomy'}</Semibold>
-        <BsChevronDown style={open ? { transform: 'scaleY(-1)', marginLeft: '8px' } : {marginLeft: '8px'}} />
+        <Semibold>{t('CROP.PHYSIOLOGY_AND_ANATOMY')}</Semibold>
+        <BsChevronDown
+          style={open ? { transform: 'scaleY(-1)', marginLeft: '8px' } : { marginLeft: '8px' }}
+        />
       </div>
       <div className={styles.dropdownBody} style={{ display: open ? 'flex' : 'none' }}>
         <div className={styles.paFieldContainer} style={{ marginBottom: '40px' }}>
@@ -171,7 +173,7 @@ function PhysiologyAnatomyDropDown({ register, isPhysiologyAnatomyDropDownOpen }
           })}
         </div>
         <Semibold className={styles.nutrientsHeader}>
-          {'Nutrients in edible portion (per 100g)'}
+          {t('CROP.NUTRIENTS_IN_EDIBLE_PORTION')}
         </Semibold>
         <div className={styles.paFieldContainer} style={{ marginBottom: '40px' }}>
           {SECOND_NUTRIENT_ARRAY.map((nutrient) => {

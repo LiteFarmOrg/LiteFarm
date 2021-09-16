@@ -307,8 +307,10 @@
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Your certifier may ask for documentation supporting your claim this crop isn't genetically engineered.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Your certifier may ask for documentation supporting your search.",
     "NEED_DOCUMENT_TREATED": "Your certifier may ask for documentation describing any treatments.",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrients in edible portion (per 100g)",
     "PERENNIAL": "Perennial",
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
+    "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well"
   },

@@ -1317,9 +1317,12 @@
       "TITLE": "Abandonar tarea",
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
+    "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
+    "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
     "ADD_TASK": "Crea una tarea",
     "ADD_TASK_FLOW": "creación de tareas",
     "ALL": "Todas",
+    "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiples cultivos",
       "MULTIPLE_LOCATIONS": "Múltiples ubicaciones"
@@ -1336,12 +1339,15 @@
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
     "EDIT_TASK": "Editar tarea",
+    "HARVEST_USE": "Usa de la cosecha?",
+    "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
     "NO_WORK_DONE": "No se completó ningún trabajo",
     "PAGE_TITLE": "Tareas",
     "PREFER_NOT_TO_SAY": "Prefiero no decir",
     "PROVIDE_RATING": "Proveer una calificación",
+    "REMOVE_HARVEST_USE": "Quitar",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",
     "STATUS": {
@@ -1355,13 +1361,8 @@
     "TASKS_COUNT": "{{count}} tarea",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
-    "UNASSIGNED": "Sin asignar",
-    "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
-    "HARVEST_USE": "Usa de la cosecha?",
-    "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
-    "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
-    "REMOVE_HARVEST_USE": "Quitar",
-    "ADD_HARVEST_USE": "Agregar otro uso de la cosecha"
+    "TRANSPLANT_LOCATIONS": "MISSING",
+    "UNASSIGNED": "Sin asignar"
   },
   "UNIT": {
     "TIME": {

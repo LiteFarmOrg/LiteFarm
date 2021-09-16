@@ -628,6 +628,13 @@ describe('Task tests', () => {
       });
     });
 
+    describe('GET harvest uses', () => {
+      test.only('should get all harvest_uses for a farm', async (done) => {
+        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+        done();
+      });
+    })
+
     describe('GET tasks', () => {
 
       test('should get all tasks for a farm ', async (done) => {

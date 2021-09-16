@@ -297,6 +297,16 @@ const taskController = {
     }
   },
 
+  getHarvestUsesByFarmId() {
+    return async (req, res, next) => {
+      try {
+        return res.status(200);
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  }
 
 }
 

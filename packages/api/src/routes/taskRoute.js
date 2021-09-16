@@ -104,7 +104,6 @@ router.patch('/complete/plant_task/:task_id', modelMapping['plant_task'], hasFar
 router.patch('/complete/custom_task/:task_id', modelMapping['custom_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('custom_task'));
 
-
-
+router.get('/harvest_uses/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getHarvestUsesByFarmId());
 
 module.exports = router;

@@ -19,17 +19,6 @@ exports.up = async function(knex) {
     });
   }
 
-  // const broadcastManagementPlans = plantTasks.filter(({
-  //   planting_method,
-  //   ...plantTask
-  // }) => planting_method === 'BROADCAST_METHOD' && plantTask['rate_seeds/m2']);
-  // for(const broadcastMethod of broadcastMethod){
-  //   await knex('broadcast_method').where('planting_management_plan_id',
-  //     broadcastMethod.planting_management_plan_id).update({
-  //
-  //   });
-  // }
-
 
   const tasksToDelete = await knex('plant_task');
   const taskIdsToDelete = tasksToDelete.map(({ task_id }) => task_id);

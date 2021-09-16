@@ -44,7 +44,7 @@ const iconDict = {
   CLEANING_TASK: Clean, // for release
   HARVEST_TASK: Harvest, // for release
   PEST_CONTROL_TASK: PestControl, // for release
-  PLANTING_TASK: Plant, // for release
+  PLANT_TASK: Plant, // for release
   FIELD_WORK_TASK: FieldWork, // for release
   TRANSPLANT_TASK: Transplant, // for release
   SOIL_AMENDMENT_TASK: SoilAmendment, // for release

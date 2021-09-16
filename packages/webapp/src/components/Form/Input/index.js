@@ -33,6 +33,7 @@ const Input = ({
   onChange,
   onBlur,
   hasLeaf,
+  placeholder,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -113,7 +114,7 @@ const Input = ({
         max={inputType === 'date' ? max : undefined}
         onKeyDown={onKeyDown}
         name={name}
-        placeholder={isSearchBar && t('common:SEARCH')}
+        placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}
         size={'1'}
         onChange={(e) => {
           onChange?.(e);
@@ -174,6 +175,7 @@ Input.propTypes = {
   hasLeaf: PropTypes.bool,
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  placeholder: PropTypes.string,
 };
 
 export default Input;

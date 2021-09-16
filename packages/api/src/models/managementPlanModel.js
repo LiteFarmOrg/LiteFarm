@@ -80,14 +80,6 @@ class ManagementPlan extends baseModel {
           to: 'crop_management_plan.management_plan_id',
         },
       },
-      transplant_container: {
-        relation: Model.HasOneRelation,
-        modelClass: require('./transplantContainerModel'),
-        join: {
-          from: 'management_plan.management_plan_id',
-          to: 'transplant_container.management_plan_id',
-        },
-      },
 
       task: {
         relation: Model.ManyToManyRelation,

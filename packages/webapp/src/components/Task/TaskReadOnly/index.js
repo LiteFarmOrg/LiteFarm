@@ -6,19 +6,23 @@ import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import LocationViewer from '../../LocationViewer';
-import { Label, Semibold, Underlined } from '../../Typography';
+import { Label, Semibold, Underlined, Main } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
+import TimeSlider from '../../Form/Slider/TimeSlider';
+import Rating from '../../Rating';
+import Checkbox from '../../Form/Checkbox';
 import { cloneObject } from '../../../util';
 import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
-import PureHarvestingTaskReadOnly from '../HarvestingTask/ReadOnly';
+import { PureHarvestingTaskReadOnly } from '../HarvestingTask/ReadOnly';
+
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -167,13 +171,46 @@ export default function PureTaskReadOnly({
         disabled
       />
       {isCompleted && (
-        <InputAutoSize
-          style={{ marginBottom: '40px' }}
-          label={t('TASK.COMPLETION_NOTES')}
-          value={task.completion_notes}
-          optional
-          disabled
-        />
+        <div>
+          <Semibold style={{ marginBottom: '24px' }}>
+            {t('TASK.COMPLETION_DETAILS')}
+          </Semibold>
+          <TimeSlider
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.DURATION')}
+            initialTime={task.duration}
+            setValue={() => { }}
+            disabled={true}
+          />
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+          {task.happiness > 0 && (
+            <div>
+              <Label style={{ marginBottom: '12px' }}>
+                {t('TASK.RATE_THIS_TASK')}
+              </Label>
+              <Rating
+                className={styles.rating}
+                style={{ width: '24px', height: '24px' }}
+                viewOnly={true}
+                stars={task.happiness}
+              />
+            </div>
+          )}
+          {(!task.happiness) && (
+            <Checkbox
+              label={t('TASK.PREFER_NOT_TO_SAY')}
+              disabled={true}
+              defaultChecked={true}
+            />
+          )}
+          <InputAutoSize
+            style={{ marginTop: '40px', marginBottom: '40px' }}
+            label={t('TASK.COMPLETION_NOTES')}
+            value={task.completion_notes}
+            optional
+            disabled
+          />
+        </div>
       )}
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (

@@ -4,7 +4,7 @@ import { harvestAmounts } from '../../../util/unit';
 import Checkbox from '../../Form/Checkbox';
 import Unit from '../../Form/Unit';
 
-const PureHarvestingTaskReadOnly = ({
+export const PureHarvestingTaskReadOnly = ({
   system,
   register,
   control,
@@ -58,4 +58,15 @@ const PureHarvestingTaskReadOnly = ({
   );
 };
 
-export default PureHarvestingTaskReadOnly;
+export const PureHavestTaskCompleted = ({
+  system,
+  register,
+  control,
+  setValue,
+  getValues,
+  watch,
+  isCompleted,
+  disabled = false,
+}) => {
+
+};

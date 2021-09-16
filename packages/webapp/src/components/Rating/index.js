@@ -36,6 +36,7 @@ const Rating = ({
               <RatingStar
                 key={index}
                 className={clsx(styles.empty, index <= stars && styles.filled)}
+                style={style}
               />
             );
           } else {

@@ -1,7 +1,7 @@
 {
   "ASSIGN_TASK": {
-    "ERROR": "MISSING",
-    "SUCCESS": "MISSING"
+    "ERROR": "Error al asignar tareas",
+    "SUCCESS": "Tareas asignadas con éxito"
   },
   "ATTACHMENTS": {
     "ERROR": {
@@ -93,13 +93,13 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
+      "ABANDON": "¡No se pudo abandonar el plan de manejo!",
+      "COMPLETE": "¡No se pudo completar el plan de manejo!",
       "POST": "No se pudo agregar plan de manejo"
     },
     "SUCCESS": {
-      "ABANDON": "MISSING",
-      "COMPLETE": "MISSING",
+      "ABANDON": "¡Plan de gestión abandonado con éxito!",
+      "COMPLETE": "¡Plan de gestión completado con éxito!",
       "POST": "Plan de manejo agregado exitosamente"
     }
   },
@@ -147,26 +147,26 @@
   },
   "TASK_TYPE": {
     "CREATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo crear la tarea personalizada",
+      "SUCCESS": "Tarea personalizada creada con éxito"
     },
     "DELETE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo borrar la tarea personalizada",
+      "SUCCESS": "Tarea personalizada borrada con éxito"
     }
   },
   "TASK": {
     "ABANDON": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo abandonar la tarea",
+      "SUCCESS": "Tarea abandonada con éxito"
     },
     "COMPLETE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea completada con éxito"
     },
     "CREATE": {
-      "FAILED": "MISSING",
-      "SUCCESS": "MISSING"
+      "FAILED": "No se pudo crear la tarea",
+      "SUCCESS": "Tarea creada con éxito"
     }
   },
   "USER": {

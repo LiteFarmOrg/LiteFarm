@@ -312,8 +312,10 @@
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "MISSING",
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
+    "PHYSIOLOGY_AND_ANATOMY": "MISSING",
     "TREATED": "As sementes desta cultivo foram tratadas?",
     "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
   },

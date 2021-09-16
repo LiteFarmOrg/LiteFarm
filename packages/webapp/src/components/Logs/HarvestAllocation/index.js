@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Input, { getInputErrors } from '../../Form/Input';
 import { convertToMetric } from '../../../util';
-import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 import { enqueueErrorSnackbar } from '../../../containers/Snackbar/snackbarSlice';
 
 export default function PureHarvestAllocation({
@@ -67,13 +66,11 @@ export default function PureHarvestAllocation({
         item.quantity_kg = quant;
       }
     });
-    dispatch(harvestLogData(tempProps));
   };
 
   const onError = () => {};
 
   const onBack = () => {
-    dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
   };
 

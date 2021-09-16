@@ -11,8 +11,9 @@ import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import { cloneObject } from '../../../util';
+import { PurePlantingTask } from '../PlantingTask';
 
-function PureCompleteStepOne({
+export default function PureCompleteStepOne({
   persistedFormData,
   onContinue,
   onGoBack,
@@ -42,19 +43,6 @@ function PureCompleteStepOne({
     shouldUnregister: false,
     defaultValues: { need_changes: false, ...defaultsToUse },
   });
-
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
-    ),
-  };
 
   useHookFormPersist(getValues, persistedPaths);
   const CHANGES_NEEDED = 'need_changes';
@@ -88,10 +76,22 @@ function PureCompleteStepOne({
           watch,
           control,
           register,
+          errors,
+          system,
+          products,
+          farm,
+          task: selectedTask,
           disabled: !changesRequired,
         })}
     </Form>
   );
 }
 
-export default PureCompleteStepOne;
+const taskComponents = {
+  CLEANING_TASK: (props) => <PureCleaningTask {...props} />,
+  FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+  SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
+  PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
+  PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
+  TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+};

@@ -36,7 +36,7 @@
     "CLEAR_ALL": "Borrar todo",
     "CLEAR_ALL_PLANS": "Borrar todos los planes",
     "CUSTOM_TASK": "Tarea personalizada",
-    "CUSTOM_TASK_CHAR_LIMIT": "MISSING",
+    "CUSTOM_TASK_CHAR_LIMIT": "El nombre del tipo de tarea personalizada no puede superar los 25 caracteres",
     "CUSTOM_TASK_NAME": "Nombre de tarea personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarea personalizada",
     "DO_YOU_NEED_TO_OVERRIDE": "¿Necesita alterar el salario de los cesionarios para esta tarea?",
@@ -93,7 +93,7 @@
       "STRUCTURE": "Estructura"
     },
     "TASK": "tarea",
-    "TASK_NOTES_CHAR_LIMIT": "MISSING",
+    "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
     "WAGE_OVERRIDE": "Alterar el salario"
   },
@@ -339,7 +339,7 @@
       "TYPE": "Tipo",
       "VALID_ON": "Válido en"
     },
-    "NOTES_CHAR_LIMIT": "MISSING",
+    "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "SPOTLIGHT": {
       "CDC": "Cuando llegue el momento de generar su exportación de certificación, LiteFarm exportará automáticamente todos los documentos de cumplimiento que sean válidos en la fecha de exportación que especifique. Los documentos de cumplimiento se archivarán automáticamente cuando expiran.",
       "HERE_YOU_CAN": "Aca uno puede:",
@@ -521,7 +521,7 @@
       "NAME": "Nombre de area natural",
       "TITLE": "Agregar area natural"
     },
-    "NOTES_CHAR_LIMIT": "MISSING",
+    "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residencia",
       "NAME": "Nombre de residencia",
@@ -966,7 +966,7 @@
       "ABANDON_REASON": "Razón para abandonar",
       "COMPLETE_PLAN": "Completar plan",
       "DATE_OF_CHANGE": "Fecha de cambio de estado",
-      "NOTES_CHAR_LIMIT": "MISSING",
+      "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
       "RATING": "Califica este plan de manejo",
       "REASON": {
         "CROP_FAILURE": "Falla del cultivo",
@@ -1018,7 +1018,7 @@
     "MANAGEMENT_SPOTLIGHT_3": "Crea y asigna tareas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "¿Cuándo espera su próxima cosecha?",
-    "NOTES_CHAR_LIMIT": "MISSING",
+    "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "NUMBER_OF_CONTAINER": "# de macetas",
     "PENDING_TASK": "Tareas pendientes",
     "PLAN_AND_ID": "Plan {{id}}",
@@ -1424,7 +1424,7 @@
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
       "NOTES": "Notas de abandono de tarea",
-      "NOTES_CHAR_LIMIT": "MISSING",
+      "NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
       "REASON_FOR_ABANDONMENT": "Razón para abandonar",
       "REASON": {
         "CROP_FAILURE": "Falla del cultivo",
@@ -1449,9 +1449,9 @@
     "COMPLETE_TASK": "Completar tarea",
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
-    "COMPLETE_TASK_FLOW": "MISSING",
+    "COMPLETE_TASK_FLOW": "la terminación de la tarea",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
-    "COMPLETION_NOTES_CHAR_LIMIT": "MISSING",
+    "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "DETAILS": "Detalles",
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
@@ -1477,12 +1477,12 @@
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "UNASSIGNED": "Sin asignar",
-    "HOW_WILL_HARVEST_BE_USED": "MISSING",
-    "HARVEST_USE": "MISSING",
-    "AMOUNT_TO_ALLOCATE": "MISSING",
-    "ADD_CUSTOM_HARVEST_USE": "MISSING",
-    "REMOVE_HARVEST_USE": "MISSING",
-    "ADD_HARVEST_USE": "MISSING"
+    "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
+    "HARVEST_USE": "Usa de la cosecha?",
+    "AMOUNT_TO_ALLOCATE": "Cantidad a asignar",
+    "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
+    "REMOVE_HARVEST_USE": "Quitar",
+    "ADD_HARVEST_USE": "Agregar otro uso de la cosecha"
   },
   "UNIT": {
     "TIME": {

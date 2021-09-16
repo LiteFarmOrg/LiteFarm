@@ -36,7 +36,7 @@
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_PLANS": "Clear all plans",
     "CUSTOM_TASK": "Custom Task",
-    "CUSTOM_TASK_CHAR_LIMIT": "Custom task type cannot exceed 25 characters",
+    "CUSTOM_TASK_CHAR_LIMIT": "Custom task type name cannot exceed 25 characters",
     "CUSTOM_TASK_NAME": "Custom task name",
     "CUSTOM_TASK_TYPE": "Custom Task Type",
     "DO_YOU_NEED_TO_OVERRIDE": "Do you need to override the assignees wage for this task?",

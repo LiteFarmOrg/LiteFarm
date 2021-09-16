@@ -61,6 +61,8 @@ class ShowedSpotlight extends Model {
         transplant_end: { type: ['string', 'null'] },
         management_plan_creation: { type: 'boolean' },
         management_plan_creation_end: { type: ['string', 'null'] },
+        planting_task: { type: 'boolean' },
+        planting_task_end: { type: ['string', 'null'] },
       },
     };
   }

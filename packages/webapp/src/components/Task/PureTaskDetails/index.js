@@ -12,7 +12,7 @@ import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
 import InputAutoSize from '../../Form/InputAutoSize';
 
-const PureTaskDetails = ({
+export default function PureTaskDetails({
   handleGoBack,
   handleCancel,
   onSubmit,
@@ -25,33 +25,13 @@ const PureTaskDetails = ({
   selectedTaskType,
   farm,
   managementPlanByLocations,
-}) => {
+}) {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
   const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
   const isHarvest = taskType === 'HARVEST_TASK';
 
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={farm} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={farm} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={farm} system={system} products={products} {...props} />
-    ),
-    HARVEST_TASK: (props) => (
-      <PureHarvestingTask
-        persistedFormData={persistedFormData}
-        system={system}
-        managementPlanByLocations={managementPlanByLocations}
-        {...props}
-      />
-    ),
-  };
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
   };
@@ -139,6 +119,11 @@ const PureTaskDetails = ({
             watch,
             control,
             register,
+            farm,
+            system,
+            products,
+            persistedFormData,
+            managementPlanByLocations,
           })}
         {!isHarvest && (
           <InputAutoSize
@@ -155,6 +140,12 @@ const PureTaskDetails = ({
       </Form>
     </>
   );
-};
+}
 
-export default PureTaskDetails;
+const taskComponents = {
+  CLEANING_TASK: (props) => <PureCleaningTask {...props} />,
+  FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+  SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
+  PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
+  HARVEST_TASK: (props) => <PureHarvestingTask {...props} />,
+};

@@ -2,42 +2,58 @@ import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { taskTypeById } from '../../taskTypeSlice';
-import { getDateUTC } from '../../../util/moment';
-import {
-  useActiveAndCurrentManagementPlansByLocationIds,
-  useManagementPlanTilesByLocationIds,
-} from './useManagementPlanTilesByLocationIds';
+import { useActiveAndCurrentManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
+import { cropLocationsSelector } from '../../locationSlice';
+import { useIsTaskType } from '../useIsTaskType';
 
-function TaskCrops({ history, match }) {
-  const onContinuePath = '/add_task/task_details';
-  const goBackPath = '/add_task/task_locations';
+export default function ManagementPlanSelector({ history, match }) {
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  return isTransplantTask ? (
+    <TransplantManagementPlansSelector history={history} match={match} />
+  ) : (
+    <TaskCrops history={history} match={match} />
+  );
+}
+
+function TransplantManagementPlansSelector({ history, match }) {
+  const locations = useSelector(cropLocationsSelector);
+  const onContinuePath = '/add_task/task_locations';
+  const goBackPath = '/add_task/task_date';
+  return (
+    <TaskCrops
+      locations={locations}
+      onContinuePath={onContinuePath}
+      goBackPath={goBackPath}
+      history={history}
+      match={match}
+      isMulti={false}
+    />
+  );
+}
+
+function TaskCrops({
+  history,
+  match,
+  goBackPath = '/add_task/task_locations',
+  onContinuePath = '/add_task/task_details',
+  locations,
+}) {
   const persistedPaths = [goBackPath, onContinuePath];
   const handleGoBack = () => {
-    history.push(persistedPaths[0]);
+    history.goBack();
   };
   const handleCancel = () => {
     history.push('/tasks');
   };
   const onContinue = () => {
-    history.push(persistedPaths[1]);
+    history.push(onContinuePath);
   };
-  const onError = () => {
-    console.log('onError called');
-  };
-
-  const HARVEST_TYPE = 'HARVEST_TASK';
-
+  const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
-  const due_date = persistedFormData.due_date;
-  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlansByLocationIds(
-    persistedFormData.locations,
-    getDateUTC(due_date).toDate().getTime(),
+  const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
+    locations || persistedFormData.locations,
   );
-  const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
-    persistedFormData.locations,
-  );
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
 
   return (
     <HookFormPersistProvider>
@@ -47,15 +63,10 @@ function TaskCrops({ history, match }) {
         onError={onError}
         onSubmit={onContinue}
         persistedPaths={persistedPaths}
-        managementPlansByLocationIds={
-          selectedTaskType.task_translation_key === HARVEST_TYPE
-            ? activeAndCurrentManagementPlansByLocationIds
-            : managementPlansByLocationIds
-        }
+        managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
+        isMulti={!isTransplantTask}
       />
     </HookFormPersistProvider>
   );
 }
-
-export default TaskCrops;

@@ -1,5 +1,5 @@
 import React from 'react';
-import PureBedPlan from '../../../components/Crop/BedPlan/BedPlan';
+import PureBedPlan from '../../../components/Crop/BedPlan/PureBedPlan';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 

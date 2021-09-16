@@ -16,6 +16,7 @@ const initialState = {
   compliance_docs_and_certification: false,
   transplant: false,
   management_plan_creation: false,
+  planting_task: false,
 };
 
 const showedSpotlightSlice = createSlice({

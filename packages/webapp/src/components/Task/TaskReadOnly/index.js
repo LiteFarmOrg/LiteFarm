@@ -18,6 +18,7 @@ import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
+import { PurePlantingTask } from '../PlantingTask';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -31,10 +32,10 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
-  hasManagementPlans,
   isCompleted,
 }) {
   const { t } = useTranslation();
+  const hasManagementPlans = task.managementPlans?.length > 0;
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
   const locations = task.locations.map(({ location_id }) => location_id);
@@ -52,18 +53,6 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-  };
 
   const self = user.user_id;
 
@@ -117,17 +106,15 @@ export default function PureTaskReadOnly({
       <LocationViewer className={styles.mapContainer} viewLocations={locations} />
 
       {hasManagementPlans &&
-        Object.keys(managementPlansByLocationIds).map((location_id) => {
-          let location_name =
-            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
-              .name;
+        task.locations.map((location) => {
+          const { name: location_name, location_id } = location;
           return (
             <div key={location_id}>
               <div style={{ paddingBottom: '16px' }}>
                 <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id].map((managementPlan) => {
+                {managementPlansByLocationIds[location_id]?.map((managementPlan) => {
                   return (
                     <PureManagementPlanTile
                       key={managementPlan.management_plan_id}
@@ -153,7 +140,12 @@ export default function PureTaskReadOnly({
           watch,
           control,
           register,
+          errors,
           disabled: true,
+          farm: user,
+          system,
+          products,
+          task,
         })}
       <InputAutoSize
         style={{ marginBottom: '40px' }}
@@ -180,3 +172,12 @@ export default function PureTaskReadOnly({
     </Layout>
   );
 }
+
+const taskComponents = {
+  CLEANING_TASK: (props) => <PureCleaningTask {...props} />,
+  FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+  SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
+  PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
+  PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
+  TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+};

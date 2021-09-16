@@ -4,7 +4,12 @@ import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
 
 export const getHarvestUseType = (obj) => {
-  return pick(obj, ['harvest_use_type_id', 'harvest_use_type_name', 'farm_id', 'harvest_use_type_translation_key']);
+  return pick(obj, [
+    'harvest_use_type_id',
+    'harvest_use_type_name',
+    'farm_id',
+    'harvest_use_type_translation_key',
+  ]);
 };
 
 const addManyHarvestUseTypes = (state, { payload: harvestUseTypes }) => {
@@ -16,7 +21,6 @@ const addManyHarvestUseTypes = (state, { payload: harvestUseTypes }) => {
     harvestUseTypes.map((types) => getHarvestUseType(types)),
   );
 };
-
 
 const harvestUseTypeAdapter = createEntityAdapter({
   selectId: (harvestUseType) => harvestUseType.harvest_use_type_id,
@@ -44,7 +48,8 @@ export const {
 } = harvestUseTypeSlice.actions;
 export default harvestUseTypeSlice.reducer;
 
-export const harvestUseTypeReducerSelector = (state) => state.entitiesReducer[harvestUseTypeSlice.name];
+export const harvestUseTypeReducerSelector = (state) =>
+  state.entitiesReducer[harvestUseTypeSlice.name];
 
 const harvestUseTypeSelectors = harvestUseTypeAdapter.getSelectors(
   (state) => state.entitiesReducer[harvestUseTypeSlice.name],
@@ -52,21 +57,24 @@ const harvestUseTypeSelectors = harvestUseTypeAdapter.getSelectors(
 
 export const harvestUseTypeEntitiesSelector = harvestUseTypeSelectors.selectEntities;
 
-export const defaultHarvestUseTypesSelector = createSelector([harvestUseTypeSelectors.selectAll], (harvestUseTypes) =>
-  harvestUseTypes.filter(({ farm_id }) => farm_id === null),
+export const defaultHarvestUseTypesSelector = createSelector(
+  [harvestUseTypeSelectors.selectAll],
+  (harvestUseTypes) => harvestUseTypes.filter(({ farm_id }) => farm_id === null),
 );
 
-export const userCreatedTaskTypes = createSelector([harvestUseTypeSelectors.selectAll], (harvestUseTypes) =>
-  harvestUseTypes.filter(({ farm_id }) => farm_id !== null),
+export const userCreatedTaskTypes = createSelector(
+  [harvestUseTypeSelectors.selectAll],
+  (harvestUseTypes) => harvestUseTypes.filter(({ farm_id }) => farm_id !== null),
 );
 
 export const harvestUseTypesSelector = createSelector(
   [harvestUseTypeSelectors.selectAll, loginSelector],
   (harvestUseTypes, { farm_id }) => {
-    return harvestUseTypes.filter((harvestUseType) => harvestUseType.farm_id === farm_id || !harvestUseType.farm_id);
+    return harvestUseTypes.filter(
+      (harvestUseType) => harvestUseType.farm_id === farm_id || !harvestUseType.farm_id,
+    );
   },
 );
 
 export const harvestUseTypeById = (harvest_use_type_id) => (state) =>
   harvestUseTypeSelectors.selectById(state, harvest_use_type_id);
-

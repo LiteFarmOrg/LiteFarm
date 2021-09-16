@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -13,6 +13,7 @@ export default function PureHarvestCompleteQuantity({
   onCancel,
   onGoBack,
   system,
+  task,
   persistedFormData,
   persistedPaths,
   useHookFormPersist,
@@ -41,6 +42,12 @@ export default function PureHarvestCompleteQuantity({
   const ACTUAL_HARVEST_QUANTITY_UNIT = 'actual_quantity_unit';
 
   const disabled = !isValid;
+
+  useEffect(() => {
+    if (getValues(ACTUAL_HARVEST_QUANTITY) === undefined) {
+      setValue(ACTUAL_HARVEST_QUANTITY, task.harvest_task.projected_quantity);
+    }
+  }, []);
   
   return (
     <Form
@@ -55,7 +62,7 @@ export default function PureHarvestCompleteQuantity({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={onCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
+        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />

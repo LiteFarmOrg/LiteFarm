@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
-import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
@@ -44,7 +43,6 @@ import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
 
-import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import cropVarietyReducer from '../containers/cropVarietySlice';
 import taskReducer from '../containers/taskSlice';
@@ -53,6 +51,8 @@ import fieldWorkTaskReducer from '../containers/slice/taskSlice/fieldWorkTaskSli
 import harvestTaskReducer from '../containers/slice/taskSlice/harvestTaskSlice';
 import pestControlTaskReducer from '../containers/slice/taskSlice/pestControlTaskSlice';
 import soilAmendmentTaskReducer from '../containers/slice/taskSlice/soilAmendmentTaskSlice';
+import plantTaskReducer from '../containers/slice/taskSlice/plantTaskSlice';
+import transplantTaskReducer from '../containers/slice/taskSlice/transplantTaskSlice';
 import harvestUseTypeReducer from '../containers/harvestUseTypeSlice';
 import taskTypeReducer from '../containers/taskTypeSlice';
 import productReducer from '../containers/productSlice';
@@ -181,6 +181,8 @@ const entitiesReducer = combineReducers({
   harvestTaskReducer,
   pestControlTaskReducer,
   soilAmendmentTaskReducer,
+  plantTaskReducer,
+  transplantTaskReducer,
   taskTypeReducer,
   harvestUseTypeReducer,
   productReducer,
@@ -194,7 +196,6 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
-  logSliceReducer,
   mapLocationReducer,
   hookFormPersistReducer,
   filterReducer,
@@ -220,7 +221,6 @@ const appReducer = combineReducers({
   persistedStateReducer,
   tempStateReducer,
   baseReducer,
-  logReducer,
   shiftReducer,
   insightReducer,
   financeReducer,

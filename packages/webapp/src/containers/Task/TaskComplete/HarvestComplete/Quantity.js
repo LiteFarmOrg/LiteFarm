@@ -14,11 +14,11 @@ function HarvestCompleteQuantity({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push(`/tasks/${task_id}/read_only`);
+    history.goBack();
   };
 
   const onGoBack = () => {
-    history.push(`/tasks/${task_id}/read_only`);
+    history.goBack();
   };
 
   return (

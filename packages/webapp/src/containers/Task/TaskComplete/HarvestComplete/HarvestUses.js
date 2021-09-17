@@ -10,7 +10,10 @@ import { taskWithProductById } from '../../../taskSlice';
 function HarvestUses({ history, match }) {
   const system = useSelector(measurementSelector);
   const task_id = match.params.task_id;
-  const persistedPaths = [`/tasks/${task_id}/complete_harvest_quantity`, `/tasks/${task_id}/complete`];
+  const persistedPaths = [
+    `/tasks/${task_id}/complete_harvest_quantity`,
+    `/tasks/${task_id}/complete`,
+  ];
   const persistedFormData = useSelector(hookFormPersistSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
   const task = useSelector(taskWithProductById(task_id));
@@ -20,11 +23,12 @@ function HarvestUses({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push(`/tasks/${task_id}/read_only`);
+    history.goBack();
+    history.goBack();
   };
 
   const onGoBack = () => {
-    history.push(`/tasks/${task_id}/complete_harvest_quantity`);
+    history.goBack();
   };
 
   return (

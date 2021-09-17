@@ -154,6 +154,14 @@ class TaskModel extends BaseModel {
           to: 'plant_task.task_id',
         },
       },
+      transplant_task: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./transplantTaskModel'),
+        join: {
+          from: 'task.task_id',
+          to: 'transplant_task.task_id',
+        },
+      },
       managementPlans: {
         modelClass: require('./managementPlanModel'),
         relation: Model.ManyToManyRelation,

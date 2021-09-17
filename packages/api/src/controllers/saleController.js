@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const saleModel = require('../models/saleModel');
-const cropSaleModel = require('../models/cropSaleModel');
+const cropVarietySaleModel = require('../models/cropVarietySaleModel');
 const { transaction, Model } = require('objection');
 
 const SaleController = {
@@ -58,7 +58,7 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
+        const deletedExistingCropSale = await cropVarietySaleModel.query(trx).where('sale_id', sale_id).delete();
         if (!deletedExistingCropSale) {
           await trx.rollback();
           return res.status(400).send('failed to delete existing crop sales');
@@ -67,7 +67,7 @@ const SaleController = {
         const { cropSale } = req.body;
         for (const cs of cropSale) {
           cs.sale_id = parseInt(sale_id);
-          await cropSaleModel.query(trx).context(req.user).insert(cs);
+          await cropVarietySaleModel.query(trx).context(req.user).insert(cs);
         }
 
         await trx.commit();
@@ -86,31 +86,29 @@ const SaleController = {
   getSaleByFarmId() {
     return async (req, res) => {
       try {
-        const farm_id = req.params.farm_id;
-        const sales = await SaleController.getSalesOfFarm(farm_id);
-        // eslint-disable-next-line no-console
+        const { farm_id } = req.params;
+        const sales = await saleModel.query().whereNotDeleted().where({ farm_id })
+          .withGraphFetched('crop_variety_sale');
         if (!sales.length) {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
-          // eslint-disable-next-line no-console
           res.status(200).send([]);
         } else {
-          for (const sale of sales) {
-            // load related prices and yields of this sale
-            await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
-              getFarm: (builder) => {
-                builder.where('farm_id', farm_id);
-              },
-            });
-          }
+          // for (const sale of sales) {
+          //   // load related prices and yields of this sale
+          //   await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
+          //     getFarm: (builder) => {
+          //       builder.where('farm_id', farm_id);
+          //     },
+          //   });
+          // }
           res.status(200).send(sales);
         }
       } catch (error) {
+        console.log(error);
         //handle more exceptions
         res.status(400).json({
           error,
         });
-        // eslint-disable-next-line no-console
-        console.log(error);
       }
     };
   },

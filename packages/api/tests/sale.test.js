@@ -26,7 +26,7 @@ const mocks = require('./mock.factories');
 
 
 const saleModel = require('../src/models/saleModel');
-const cropSaleModel = require('../src/models/cropSaleModel');
+const cropSaleModel = require('../src/models/cropVarietySaleModel');
 
 describe('Sale Tests', () => {
   let middleware;
@@ -34,6 +34,7 @@ describe('Sale Tests', () => {
   let farm;
   let ownerFarm;
   let crop;
+  let cropVariety;
 
   beforeAll(() => {
     token = global.token;
@@ -82,6 +83,7 @@ describe('Sale Tests', () => {
       promisedFarm: [farm],
     }, fakeUserFarm(1));
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
+    [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -100,11 +102,13 @@ describe('Sale Tests', () => {
   describe('Get && delete sale', () => {
     let sale;
     let crop1;
+    let cropVariety1;
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
-      let [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+      let [cropSale] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety], promisedSale: [sale] });
       [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop1], promisedSale: [sale] });
+      [cropVariety1] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop1] });
+      [cropSale] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety1], promisedSale: [sale] });
     })
 
     test('Should filter out deleted sale', async (done) => {
@@ -147,8 +151,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: owner.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -157,8 +161,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -167,8 +171,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: newWorker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -250,7 +254,7 @@ describe('Sale Tests', () => {
 
         test('Worker should delete their own sale', async (done) => {
           let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+          let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({ promisedVarietyCrop: [cropVariety], promisedSale: [workersSale] });
           deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', workersSale.sale_id);

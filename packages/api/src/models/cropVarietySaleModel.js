@@ -21,7 +21,7 @@ class CropVarietySale extends Model {
   }
 
   static get idColumn() {
-    return ['sale_id', 'crop_id'];
+    return ['sale_id', 'crop_variety_id'];
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,7 +29,7 @@ class CropVarietySale extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['sale_id', 'crop_id'],
+      required: ['sale_id', 'crop_variety_id'],
 
       properties: {
         // management_plan_id: { type: 'integer' },

@@ -398,19 +398,26 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
       managementPlans.map((managementPlan) => managementPlan.crop_management_plan),
     ),
   );
-  const plantingMethods = managementPlans.reduce(
-    (plantingMethods, managementPlan) => {
-      plantingMethods.PLANTING_MANAGEMENT_PLAN = [
-        ...plantingMethods.PLANTING_MANAGEMENT_PLAN,
-        ...managementPlan.crop_management_plan.planting_management_plans,
-      ];
+  const plantingManagementPlans = managementPlans.reduce(
+    (plantingManagementPlans, managementPlan) => {
       for (const planting_management_plan of managementPlan.crop_management_plan
         .planting_management_plans) {
-        planting_management_plan.planting_method &&
-          plantingMethods[planting_management_plan.planting_method].push(
-            planting_management_plan[planting_management_plan.planting_method.toLowerCase()],
-          );
+        plantingManagementPlans.push(planting_management_plan);
       }
+      return plantingManagementPlans;
+    },
+    [],
+  );
+  yield all([getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans })]);
+}
+
+export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
+  const plantingMethods = plantingManagementPlans.reduce(
+    (plantingMethods, planting_management_plan) => {
+      planting_management_plan.planting_method &&
+        plantingMethods[planting_management_plan.planting_method].push(
+          planting_management_plan[planting_management_plan.planting_method.toLowerCase()],
+        );
       return plantingMethods;
     },
     {
@@ -418,10 +425,9 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
       CONTAINER_METHOD: [],
       BED_METHOD: [],
       ROW_METHOD: [],
-      PLANTING_MANAGEMENT_PLAN: [],
     },
   );
-  yield put(getPlantingManagementPlansSuccess(plantingMethods.PLANTING_MANAGEMENT_PLAN));
+  yield put(getPlantingManagementPlansSuccess(plantingManagementPlans));
   for (const planting_method in plantingMethodActionMap) {
     try {
       if (plantingMethods[planting_method]?.length) {

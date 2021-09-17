@@ -1,9 +1,7 @@
 import {
   getCurrentManagementPlans,
   getExpiredManagementPlans,
-  getLocationIdFromManagementPlan,
   getPlannedManagementPlans,
-  managementPlansSelector,
 } from '../managementPlanSlice';
 import { useSelector } from 'react-redux';
 import { cropCatalogueFilterDateSelector, cropCatalogueFilterSelector } from '../filterSlice';
@@ -13,13 +11,16 @@ import { ACTIVE, COMPLETE, LOCATION, PLANNED, STATUS, SUPPLIERS } from '../Filte
 import { useTranslation } from 'react-i18next';
 import useFilterNoPlan from './useFilterNoPlan';
 import useSortByCropTranslation from './useSortByCropTranslation';
+import { managementPlansWithCurrentLocationSelector } from '../Task/TaskCrops/managementPlansWithLocationSelector';
 
 export default function useCropCatalogue(filterString) {
-  const managementPlans = useSelector(managementPlansSelector);
+  const managementPlansWithCurrentLocation = useSelector(
+    managementPlansWithCurrentLocationSelector,
+  );
   const cropCatalogFilterDate = useSelector(cropCatalogueFilterDateSelector);
   const cropCatalogueFilter = useSelector(cropCatalogueFilterSelector);
   const managementPlansFilteredByFilterString = useStringFilteredCrops(
-    managementPlans,
+    managementPlansWithCurrentLocation,
     filterString,
   );
 
@@ -31,7 +32,7 @@ export default function useCropCatalogue(filterString) {
     }
     if (included.size === 0) return managementPlansFilteredByFilterString;
     return managementPlansFilteredByFilterString.filter((managementPlan) =>
-      included.has(getLocationIdFromManagementPlan(managementPlan)),
+      included.has(managementPlan.location?.location_id),
     );
   }, [cropCatalogueFilter[LOCATION], managementPlansFilteredByFilterString]);
 

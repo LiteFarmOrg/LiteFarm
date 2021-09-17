@@ -17,3 +17,6 @@ Primary.args = {
   onSubmit: () => console.log('onSubmit called'),
   onGoBack: () => console.log('handleGoBack called'),
 };
+Primary.parameters = {
+  ...chromaticSmallScreen,
+};

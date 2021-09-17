@@ -28,11 +28,12 @@ class plantingManagementPlanModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id', 'is_final_planting_management_plan'],
+      required: ['management_plan_id'],
       properties: {
         planting_management_plan_id: { type: 'string' },
         management_plan_id: { type: 'integer' },
         is_final_planting_management_plan: { type: 'boolean' },
+        planting_task_type: { type: ['string', null], enum: ['TRANSPLANT_TASK', 'PLANT_TASK', null] },
         planting_method: {
           type: ['string', null],
           enum: ['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD', null],

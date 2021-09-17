@@ -1,15 +1,15 @@
 import React from 'react';
-import PurePlantingMethod from '../../../components/Crop/PlantingMethod';
+import PureManagementPlanPlantingMethod from '../../../components/Crop/PlantingMethod/PureManagementPlanPlantingMethod';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/ManagementPlan/PlantingMethod',
   decorators: decorators,
-  component: PurePlantingMethod,
+  component: PureManagementPlanPlantingMethod,
 };
 
-const Template = (args) => <PurePlantingMethod {...args} />;
+const Template = (args) => <PureManagementPlanPlantingMethod {...args} />;
 
 export const SeedForHarvestTransplantFinal = Template.bind({});
 SeedForHarvestTransplantFinal.args = {

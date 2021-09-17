@@ -43,8 +43,7 @@ const PureHarvestingTask = ({
     <>
       <Info style={{ marginBottom: '24px' }}>{t('ADD_TASK.HARVESTING_INFO')}</Info>
       {Object.keys(managementPlanByLocations).map((location_id) => {
-        let location_name =
-          managementPlanByLocations[location_id][0].planting_management_plans.final.location.name;
+        const location_name = managementPlanByLocations[location_id][0].location.name;
         return (
           <div key={location_id}>
             <div style={{ paddingBottom: '16px' }} key={location_id}>

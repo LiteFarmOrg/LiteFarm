@@ -1003,6 +1003,90 @@ async function task_typeFactory({ promisedFarm = farmFactory() } = {}, taskType 
   return knex('task_type').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
+async function populateTaskTypes() {
+  const translationKeys = [
+    {
+      'task_translation_key': 'BED_PREPARATION_TASK',
+      'task_name': 'Bed Preparation',
+    },
+    {
+      'task_translation_key': 'SALE_TASK',
+      'task_name': 'Sales',
+    },
+    {
+      'task_translation_key': 'SCOUTING_TASK',
+      'task_name': 'Scouting',
+    },
+    {
+      'task_translation_key': 'HARVEST_TASK',
+      'task_name': 'Harvesting',
+    },
+    {
+      'task_translation_key': 'WASH_AND_PACK_TASK',
+      'task_name': 'Wash and Pack',
+    },
+    {
+      'task_translation_key': 'PEST_CONTROL_TASK',
+      'task_name': 'Pest Control',
+    },
+    {
+      'task_translation_key': 'OTHER_TASK',
+      'task_name': 'Other',
+    },
+    {
+      'task_translation_key': 'BREAK_TASK',
+      'task_name': 'Break',
+    },
+    {
+      'task_translation_key': 'SOIL_TASK',
+      'task_name': 'Soil Sample Results',
+    },
+    {
+      'task_translation_key': 'IRRIGATION_TASK',
+      'task_name': 'Irrigation',
+    },
+    {
+      'task_translation_key': 'TRANSPORT_TASK',
+      'task_name': 'Transport',
+    },
+    {
+      'task_translation_key': 'FIELD_WORK_TASK',
+      'task_name': 'Field Work',
+    },
+    {
+      'task_translation_key': 'SOCIAL_TASK',
+      'task_name': 'Social',
+    },
+    {
+      'task_translation_key': 'CLEANING_TASK',
+      'task_name': 'Cleaning',
+    },
+    {
+      'task_translation_key': 'SOIL_AMENDMENT_TASK',
+      'task_name': 'Soil Amendment',
+    },
+    {
+      'task_translation_key': 'PLANT_TASK',
+      'task_name': 'Planting',
+    },
+    {
+      'task_translation_key': 'TRANSPLANT_TASK',
+      'task_name': 'Transplant',
+    },
+  ];
+  for (const translationKey of translationKeys) {
+    const { task_translation_key } = translationKey;
+    const [taskTypeInDb] = await knex('task_type').where({ farm_id: null, task_translation_key });
+    if (!taskTypeInDb) {
+      await knex('task_type').insert({
+        ...translationKey,
+        created_by_user_id: null,
+        updated_by_user_id: null,
+      }).returning('*');
+    }
+  }
+}
+
 async function harvest_use_typeFactory({ promisedFarm = farmFactory() } = {}, harvest_use_type = fakeHarvestUseType()) {
   const [farm] = await Promise.all([promisedFarm, usersFactory()]);
   let farm_id;
@@ -1131,10 +1215,6 @@ async function plant_taskFactory({ promisedTask = taskFactory() } = {}, plant_ta
 
 function fakePlantTask(defaultData = {}) {
   return {
-    space_depth_cm: faker.random.number(1000),
-    space_length_cm: faker.random.number(1000),
-    space_width_cm: faker.random.number(1000),
-    'rate_seeds/m2': faker.random.number(1000),
     ...defaultData,
   };
 }
@@ -1668,7 +1748,7 @@ module.exports = {
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
   locationFactory, fakeLocation,
-  fakeTaskType, task_typeFactory,
+  fakeTaskType, task_typeFactory, populateTaskTypes,
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance,

@@ -159,14 +159,8 @@ export const plantingManagementPlanEntitiesSelector = createSelector(
 );
 /**
  * {
- *
- * management_plan_id:{
- *
- *    final: planting_management_plan,
- *
- *    initial: planting_management_plan
- *
- *   }}
+ * management_plan_id: [...planting_management_plans]
+ * }
  */
 export const plantingManagementPlanEntitiesByManagementPlanIdSelector = createSelector(
   [plantingManagementPlanEntitiesSelector],
@@ -174,16 +168,11 @@ export const plantingManagementPlanEntitiesByManagementPlanIdSelector = createSe
     const entitiesByManagementPlanId = {};
     for (const planting_management_plan_id in plantingManagementPlanEntities) {
       const plantingManagementPlan = plantingManagementPlanEntities[planting_management_plan_id];
-      const { management_plan_id, is_final_planting_management_plan } = plantingManagementPlan;
-      const plantingManagementPlanKey = is_final_planting_management_plan ? 'final' : 'initial';
+      const { management_plan_id } = plantingManagementPlan;
       if (entitiesByManagementPlanId[management_plan_id]) {
-        entitiesByManagementPlanId[management_plan_id][
-          plantingManagementPlanKey
-        ] = plantingManagementPlan;
+        entitiesByManagementPlanId[management_plan_id].push(plantingManagementPlan);
       } else {
-        entitiesByManagementPlanId[management_plan_id] = {
-          [plantingManagementPlanKey]: plantingManagementPlan,
-        };
+        entitiesByManagementPlanId[management_plan_id] = [plantingManagementPlan];
       }
     }
     return entitiesByManagementPlanId;

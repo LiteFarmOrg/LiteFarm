@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
+import { isAdminSelector } from '../../userFarmSlice';
+import { cropLocationByIdSelector } from '../../locationSlice';
 import {
   currentManagementPlansByLocationIdSelector,
   expiredManagementPlansByLocationIdSelector,
   plannedManagementPlansByLocationIdSelector,
-} from '../../managementPlanSlice';
-import { isAdminSelector } from '../../userFarmSlice';
-import { cropLocationByIdSelector } from '../../locationSlice';
+} from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function LocationManagementPlan({ history, match }) {
   const [filter, setFilter] = useState();

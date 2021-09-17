@@ -1,13 +1,18 @@
-import PurePlanGuidance from '../../../../components/Crop/BedPlan/BedPlanGuidance';
+import PurePlanGuidance from '../../../../components/Crop/BedPlan/PurePlanGuidance';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
+import { useMemo } from 'react';
+import { getRowGuidancePaths } from '../../../../components/Crop/getAddManagementPlanPath';
 
 export default function RowGuidance({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/row_guidance';
-
+  const { goBackPath, submitPath, cancelPath } = useMemo(
+    () => getRowGuidancePaths(variety_id, isFinalPage),
+    [],
+  );
   return (
     <HookFormPersistProvider>
       <PurePlanGuidance
@@ -16,6 +21,9 @@ export default function RowGuidance({ history, match }) {
         isBed={false}
         isFinalPage={isFinalPage}
         variety_id={variety_id}
+        goBackPath={goBackPath}
+        submitPath={submitPath}
+        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

@@ -1,11 +1,4 @@
-.logContainer {
-  width: 100%;
-  max-width: 1024px;
-  height: 100vh;
-  padding: 24px 24px 0 24px;
-  display: flex;
-  flex-direction: column;
-}
+
 
 .typeContainer {
   display: flex;
@@ -17,6 +10,9 @@
   border-radius: 4px;
   width: 24.4vw;
   height: 24.4vw;
+  padding: 0 4px;
+  overflow: hidden;
+  cursor: pointer;
   text-align: center;
 
 
@@ -45,17 +41,22 @@
   color: var(--teal900);
 }
 
-.tileContainer {
+.matrixContainer {
   display: inline-flex;
   flex-flow: row wrap;
   row-gap: 6.6vw;
-  justify-content: space-between;
+
+  --emptySpace: calc(26.8vw - 48px);
+  --gap: calc(var(--emptySpace) / 2);
+  column-gap: var(--gap);
 }
 
 @media only screen and (min-width: 480px) {
-  .tileContainer {
-
+  .matrixContainer {
     row-gap: 5.2vw;
+    --emptySpace: calc(23.76vw - 48px);
+    --gap: calc(var(--emptySpace) / 3);
+    column-gap: var(--gap);
   }
   .typeContainer {
     width: 19.06vw;
@@ -72,7 +73,7 @@
 }
 
 @media only screen and (min-width: 600px) {
-  .tileContainer {
+  .matrixContainer {
     justify-content: flex-start;
 
     --emptySpace: calc(100% - 472px);
@@ -98,7 +99,7 @@
 }
 
 @media only screen and (min-width: 734px) {
-  .tileContainer {
+  .matrixContainer {
     --emptySpace: calc(100% - 590px);
     --gap: calc(var(--emptySpace) / 4);
     column-gap: var(--gap);
@@ -107,7 +108,7 @@
 
 
 @media only screen and (min-width: 876px) {
-  .tileContainer {
+  .matrixContainer {
     --emptySpace: calc(100% - 708px);
     --gap: calc(var(--emptySpace) / 5);
     column-gap: var(--gap);
@@ -116,7 +117,7 @@
 
 
 @media only screen and (min-width: 1024px) {
-  .tileContainer {
+  .matrixContainer {
     gap: 25px
   }
 }

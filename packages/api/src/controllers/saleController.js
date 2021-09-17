@@ -32,11 +32,11 @@ const SaleController = {
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
+        console.log(error);
         res.status(400).json({
           error,
         });
         // eslint-disable-next-line no-console
-        console.log(error);
       }
     };
   },
@@ -44,7 +44,7 @@ const SaleController = {
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
-      const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
+      const { customer_name, sale_date } = req.body;
       const saleData = {};
 
       if (customer_name) saleData.customer_name = customer_name;
@@ -58,16 +58,16 @@ const SaleController = {
           return res.status(400).send('failed to patch data');
         }
 
-        const deletedExistingCropSale = await cropVarietySaleModel.query(trx).where('sale_id', sale_id).delete();
-        if (!deletedExistingCropSale) {
+        const deletedExistingCropVarietySale = await cropVarietySaleModel.query(trx).where('sale_id', sale_id).delete();
+        if (!deletedExistingCropVarietySale) {
           await trx.rollback();
-          return res.status(400).send('failed to delete existing crop sales');
+          return res.status(400).send('failed to delete existing crop variety sales');
         }
 
-        const { cropSale } = req.body;
-        for (const cs of cropSale) {
-          cs.sale_id = parseInt(sale_id);
-          await cropVarietySaleModel.query(trx).context(req.user).insert(cs);
+        const { crop_variety_sale } = req.body;
+        for (const cvs of crop_variety_sale) {
+          cvs.sale_id = parseInt(sale_id);
+          await cropVarietySaleModel.query(trx).context(req.user).insert(cvs);
         }
 
         await trx.commit();

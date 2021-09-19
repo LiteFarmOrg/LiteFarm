@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import convert from 'convert-units';
 
 const useStyles = makeStyles({
   container: {
@@ -31,7 +30,8 @@ const useStyles = makeStyles({
 const UnitLabel = ({ unitLabel = "kg", amount, style }) => {
   const classes = useStyles();
   const status = amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'zero';
-  return <div className={clsx(classes.container, classes[status])} style={style}>{`${amount} ${unitLabel}`}</div>;
+  const displayed_amount = convert(amount).from('kg').to(unitLabel);
+  return <div className={clsx(classes.container, classes[status])} style={style}>{`${Math.round(displayed_amount)} ${unitLabel}`}</div>;
 };
 
 export default UnitLabel;

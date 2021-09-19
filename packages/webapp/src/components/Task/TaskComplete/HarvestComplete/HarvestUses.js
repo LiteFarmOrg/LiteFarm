@@ -6,7 +6,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
 import { AddLink, Label, Main, SubtractLink } from '../../../Typography';
 import Unit from '../../../Form/Unit';
-import { harvestAmounts } from '../../../../util/unit';
+import { harvestAmounts, roundToTwoDecimal } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { cloneObject } from '../../../../util';
@@ -59,12 +59,8 @@ export default function PureHarvestUses({
     shouldUnregister: false,
   });
 
-  const harvest_uses_options = harvestUseTypes.map((harvestUseType) => ({
-    value: harvestUseType.harvest_use_type_id,
-    label: t(`harvest_uses:${harvestUseType.harvest_use_type_translation_key}`),
-  }));
-
   const watchFields = watch('harvest_uses');
+  const quantities = watchFields.map((field) => field[HARVEST_USE_QUANTITY]);
 
   const { allocated_amount, amount_to_allocate } = useMemo(() => {
     let allocated_amount = 0;
@@ -75,10 +71,20 @@ export default function PureHarvestUses({
       }
     }
     return { allocated_amount, amount_to_allocate: amount - allocated_amount };
-  }, [watchFields]);
+  }, [quantities]);
 
-  //TODO: test imperial and fraction numbers
-  const disabled = !isValid || amount_to_allocate !== 0;
+  const harvestUseIds = watchFields.map((field) => field?.[HARVEST_USE_TYPE]?.value);
+
+  const harvest_uses_options = useMemo(() => {
+    return harvestUseTypes
+      .map((harvestUseType) => ({
+        value: harvestUseType.harvest_use_type_id,
+        label: t(`harvest_uses:${harvestUseType.harvest_use_type_translation_key}`),
+      }))
+      .filter((harvestUseType) => !harvestUseIds.includes(harvestUseType.value));
+  }, [harvestUseIds]);
+
+  const disabled = !isValid || roundToTwoDecimal(amount_to_allocate) !== 0;
 
   return (
     <Form
@@ -115,7 +121,6 @@ export default function PureHarvestUses({
       </AddLink>
 
       {fields.map((field, index) => {
-        //TODO: use harvest_use_id as key
         return (
           <div>
             <Controller

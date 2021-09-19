@@ -31,6 +31,7 @@ import {
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
+import { getTasksSuccessSaga } from '../../../Task/saga';
 
 const DEC = 10;
 
@@ -59,8 +60,11 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
   const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.post, managementPlanURL, managementPlan, header);
-    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [result.data] });
-    const management_plan_id = [result.data][0].management_plan_id;
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, {
+      payload: [result.data.management_plan],
+    });
+    yield call(getTasksSuccessSaga, { payload: result.data.tasks });
+    const management_plan_id = result.data.management_plan.management_plan_id;
     history.push(
       `/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`,
       { fromCreation: true },

@@ -12,6 +12,8 @@ import { pestControlTaskEntitiesSelector } from './slice/taskSlice/pestControlTa
 import { soilAmendmentTaskEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskSlice';
 import produce from 'immer';
 import { taskTypeEntitiesSelector } from './taskTypeSlice';
+import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
+import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -120,6 +122,8 @@ export const taskEntitiesSelector = createSelector(
     harvestTaskEntitiesSelector,
     pestControlTaskEntitiesSelector,
     soilAmendmentTaskEntitiesSelector,
+    plantTaskEntitiesSelector,
+    transplantTaskEntitiesSelector,
   ],
   (
     taskEntities,
@@ -131,6 +135,8 @@ export const taskEntitiesSelector = createSelector(
     harvestTaskEntities,
     pestControlTaskEntities,
     soilAmendmentTaskEntities,
+    plantTaskEntities,
+    transplantTaskEntities,
   ) => {
     const subTaskEntities = {
       ...cleaningTaskEntities,
@@ -138,6 +144,8 @@ export const taskEntitiesSelector = createSelector(
       ...harvestTaskEntities,
       ...pestControlTaskEntities,
       ...soilAmendmentTaskEntities,
+      ...plantTaskEntities,
+      ...transplantTaskEntities,
     };
 
     return produce(taskEntities, (taskEntities) => {
@@ -152,8 +160,16 @@ export const taskEntitiesSelector = createSelector(
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
-        !farm_id &&
-          (taskEntities[task_id][task_translation_key.toLowerCase()] = subTaskEntities[task_id]);
+        const subtask = subTaskEntities[task_id];
+        !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
+        if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
+          taskEntities[task_id].locations = [
+            locationEntities[subtask.planting_management_plan.location_id],
+          ];
+          taskEntities[task_id].managementPlans = [
+            managementPlanEntities[subtask.planting_management_plan.management_plan_id],
+          ];
+        }
       }
     });
   },

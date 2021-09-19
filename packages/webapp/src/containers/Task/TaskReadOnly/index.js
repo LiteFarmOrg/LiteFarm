@@ -73,7 +73,6 @@ function TaskReadOnly({ history, match }) {
       system={system}
       products={products}
       managementPlansByLocationIds={managementPlansByLocationIds}
-      hasManagementPlans={task.managementPlans?.length > 0}
       isCompleted={isCompleted}
       isTaskTypeCustom={isTaskTypeCustom}
     />

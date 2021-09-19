@@ -9,7 +9,6 @@ import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
 import ConfirmModal from '../../Modals/Confirm';
 
@@ -144,7 +143,6 @@ export default function PureHarvestLog({
 
   const onSubmit = (data) => {
     const validQuantity = !!isTwoDecimalPlaces(data.quantity);
-    dispatch(harvestLogData({ ...defaultData, validQuantity }));
 
     if (validQuantity) {
       const selectedUseTypes = defaultData?.selectedUseTypes?.length
@@ -190,12 +188,10 @@ export default function PureHarvestLog({
     });
     setFilteredCropOptions(data);
     defaultData.filteredCropOptions = data;
-    dispatch(harvestLogData(defaultData));
   };
 
   const handleCropChange = (crop) => {
     defaultData.resetCrop = false;
-    dispatch(harvestLogData(defaultData));
     setCrop(crop);
     let data = {
       label: crop.label,

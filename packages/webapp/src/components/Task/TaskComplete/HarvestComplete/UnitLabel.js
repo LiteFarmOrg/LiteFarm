@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
 import convert from 'convert-units';
+import { roundToTwoDecimal } from '../../../../util/unit';
 
 const useStyles = makeStyles({
   container: {
@@ -24,14 +25,21 @@ const useStyles = makeStyles({
   },
   negative: {
     backgroundColor: colors.red700,
-  }
+  },
 });
 
-const UnitLabel = ({ unitLabel = "kg", amount, style }) => {
+const UnitLabel = ({ unitLabel = 'kg', amount, style }) => {
   const classes = useStyles();
-  const status = amount > 0 ? 'positive' : amount < 0 ? 'negative' : 'zero';
-  const displayed_amount = convert(amount).from('kg').to(unitLabel);
-  return <div className={clsx(classes.container, classes[status])} style={style}>{`${Math.round(displayed_amount)} ${unitLabel}`}</div>;
+  const status =
+    amount > 0 || Math.abs(amount) < 0.01 ? 'positive' : amount < 0 ? 'negative' : 'zero';
+
+  console.log(Math.abs(amount) < 0.01);
+  console.log(status);
+  return (
+    <div className={clsx(classes.container, classes[status])} style={style}>{`${roundToTwoDecimal(
+      convert(amount).from('kg').to(unitLabel),
+    )} ${unitLabel}`}</div>
+  );
 };
 
 export default UnitLabel;

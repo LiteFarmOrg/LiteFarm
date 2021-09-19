@@ -5,54 +5,85 @@ import {
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
-import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
+import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import { cropLocationsSelector, locationsSelector } from '../../locationSlice';
-import { useActiveAndCurrentManagementPlansByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
-import { getDateUTC } from '../../../util/moment';
+import {
+  cropLocationEntitiesSelector,
+  cropLocationsSelector,
+  locationsSelector,
+} from '../../locationSlice';
+import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import { useIsTaskType } from '../useIsTaskType';
+import { useTranslation } from 'react-i18next';
 
 export default function TaskLocationsSwitch({ history, match }) {
-  const persistedFormData = useSelector(hookFormPersistSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
-  const isCropLocation = selectedTaskType.task_translation_key === 'HARVEST_TASK';
-  return isCropLocation ? (
-    <TaskCropLocations history={history} persistedFormData={persistedFormData} />
-  ) : (
-    <TaskAllLocations history={history} />
+  const isCropLocation = useIsTaskType('HARVEST_TASK');
+  const isTransplantLocation = useIsTaskType('TRANSPLANT_TASK');
+  if (isCropLocation) {
+    return <TaskActiveAndPlannedCropLocations history={history} />;
+  } else if (isTransplantLocation) {
+    return <TaskTransplantLocations history={history} />;
+  } else {
+    return <TaskAllLocations history={history} />;
+  }
+}
+
+function TaskActiveAndPlannedCropLocations({ history }) {
+  const cropLocations = useSelector(cropLocationsSelector);
+  const cropLocationEntities = useSelector(cropLocationEntitiesSelector);
+  const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
+  const activeAndPlannedLocationsIds = Object.keys(
+    useActiveAndCurrentManagementPlanTilesByLocationIds(cropLocationsIds),
+  );
+  const activeAndPlannedLocations = activeAndPlannedLocationsIds.map(
+    (location_id) => cropLocationEntities[location_id],
+  );
+
+  const onContinue = () => {
+    history.push('/add_task/task_crops');
+  };
+
+  const onGoBack = () => {
+    history.goBack();
+  };
+  return (
+    <TaskLocations
+      locations={activeAndPlannedLocations}
+      history={history}
+      onContinue={onContinue}
+      onGoBack={onGoBack}
+    />
   );
 }
 
-function TaskCropLocations({ history, persistedFormData }) {
-  const due_date = persistedFormData.due_date;
+function TaskTransplantLocations({ history }) {
+  const { t } = useTranslation();
   const cropLocations = useSelector(cropLocationsSelector);
-  const cropLocationsIds = cropLocations.map(({ location_id }) => ({ location_id }));
-  const activeAndPlannedLocationsIds = Object.keys(
-    useActiveAndCurrentManagementPlansByLocationIds(
-      cropLocationsIds,
-      getDateUTC(due_date).toDate().getTime(),
-    ),
+  const onContinue = () => {
+    history.push('/add_task/planting_method');
+  };
+
+  const onGoBack = () => {
+    history.goBack();
+  };
+  return (
+    <TaskLocations
+      locations={cropLocations}
+      history={history}
+      isMulti={false}
+      title={t('TASK.TRANSPLANT_LOCATIONS')}
+      onContinue={onContinue}
+      onGoBack={onGoBack}
+    />
   );
-  const activeAndPlannedLocations = cropLocations.filter(({ location_id }) =>
-    activeAndPlannedLocationsIds.includes(location_id),
-  );
-  return <TaskLocations locations={activeAndPlannedLocations} history={history} />;
 }
 
 function TaskAllLocations({ history }) {
-  const locations = useSelector(locationsSelector);
-  return <TaskLocations locations={locations} history={history} />;
-}
-
-function TaskLocations({ history, locations }) {
   const dispatch = useDispatch();
+  const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
-  const persistedPath = ['/add_task/task_date', '/add_task/task_details', '/add_task/task_crops'];
-
-  const onCancel = () => {
-    history.push('/tasks');
-  };
 
   const onContinue = () => {
     if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
@@ -63,9 +94,22 @@ function TaskLocations({ history, locations }) {
   };
 
   const onGoBack = () => {
-    history.push('/add_task/task_date');
+    history.goBack();
   };
+  return (
+    <TaskLocations
+      locations={locations}
+      history={history}
+      onGoBack={onGoBack}
+      onContinue={onContinue}
+    />
+  );
+}
 
+function TaskLocations({ history, locations, isMulti, title, onContinue, onGoBack }) {
+  const onCancel = () => {
+    history.push('/tasks');
+  };
   const { grid_points } = useSelector(userFarmSelector);
 
   return (
@@ -74,9 +118,10 @@ function TaskLocations({ history, locations }) {
         onCancel={onCancel}
         onContinue={onContinue}
         onGoBack={onGoBack}
-        persistedPath={persistedPath}
         farmCenterCoordinate={grid_points}
         locations={locations}
+        isMulti={isMulti}
+        title={title}
       />
     </HookFormPersistProvider>
   );

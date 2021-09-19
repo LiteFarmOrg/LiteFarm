@@ -10,7 +10,7 @@ function AddCustomTask({ history, match }) {
   const dispatch = useDispatch();
 
   const handleGoBack = () => {
-    history.push(onGoBackPath);
+    history.goBack();
   };
 
   const onSave = (payload) => {

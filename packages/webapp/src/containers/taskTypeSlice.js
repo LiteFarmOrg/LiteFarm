@@ -75,7 +75,7 @@ export const taskTypesSelector = createSelector(
   },
 );
 
-export const taskTypeById = (task_type_id) => (state) =>
+export const taskTypeSelector = (task_type_id) => (state) =>
   taskTypeSelectors.selectById(state, task_type_id);
 
 export const taskTypeIdNoCropsSelector = createSelector([taskTypesSelector], (taskTypes) =>

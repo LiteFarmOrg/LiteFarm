@@ -65,6 +65,10 @@ const SaleController = {
         }
 
         const { crop_variety_sale } = req.body;
+        if (!crop_variety_sale.length) {
+          await trx.rollback();
+          return res.status(400).send('should not patch sale with no crop variety sales');
+        }
         for (const cvs of crop_variety_sale) {
           cvs.sale_id = parseInt(sale_id);
           await cropVarietySaleModel.query(trx).context(req.user).insert(cvs);

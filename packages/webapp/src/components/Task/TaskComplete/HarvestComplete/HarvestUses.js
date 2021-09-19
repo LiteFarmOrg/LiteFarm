@@ -49,11 +49,6 @@ export default function PureHarvestUses({
 
   const progress = 50;
 
-  const display_unit = {
-    metric: 'kg',
-    imperial: 'lb',
-  }
-
   const HARVEST_USE_QUANTITY_UNIT = 'quantity_unit';
   const HARVEST_USE_QUANTITY = 'quantity';
   const HARVEST_USE_TYPE = 'harvest_use_type_id';
@@ -113,7 +108,7 @@ export default function PureHarvestUses({
 
       <Label style={{ marginBottom: '16px' }}>
         {t('TASK.AMOUNT_TO_ALLOCATE')}
-        <UnitLabel style={{ marginLeft: '12px' }} amount={amount_to_allocate} unitLabel={display_unit[system]} />
+        <UnitLabel style={{ marginLeft: '12px' }} amount={amount_to_allocate} unitLabel={unit} />
       </Label>
 
       <AddLink

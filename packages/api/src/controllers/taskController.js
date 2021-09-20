@@ -336,8 +336,16 @@ const taskController = {
 
   getHarvestUsesByFarmId() {
     return async (req, res, next) => {
+      const { farm_id } = req.params;
       try {
-        return res.status(200);
+        const harvest_uses = await HarvestUse.query().select()
+          .join('task', 'harvest_use.task_id', 'task.task_id')
+          .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+          .join('location', 'location.location_id', 'location_tasks.location_id')
+          .where('location.farm_id', farm_id);
+        if (harvest_uses) {
+          return res.status(200).send(harvest_uses);
+        }
       } catch (error) {
         console.log(error);
         return res.status(400).send({ error });

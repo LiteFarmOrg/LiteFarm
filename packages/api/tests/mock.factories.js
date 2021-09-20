@@ -1193,14 +1193,14 @@ function fakeHarvestTasks(defaultData = {}, number) {
 }
 
 async function harvest_useFactory({
-  promisedHarvestLog = harvest_taskFactory(),
+  promisedHarvestTask = harvest_taskFactory(),
   promisedHarvestUseType = harvest_use_typeFactory(),
   promisedManagementPlan = management_planFactory(),
 } = {},
   harvestUse = fakeHarvestUse()) {
-  const [harvestLog, harvestUseType, managementPlan] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedManagementPlan]);
+  const [harvestTask, harvestUseType, managementPlan] = await Promise.all([promisedHarvestTask, promisedHarvestUseType, promisedManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
-  const [{ task_id }] = harvestLog;
+  const [{ task_id }] = harvestTask;
   const [{ management_plan_id }] = managementPlan;
   await knex('management_tasks').insert({ task_id, management_plan_id });
   return knex('harvest_use').insert({ task_id, harvest_use_type_id, ...harvestUse }).returning('*');

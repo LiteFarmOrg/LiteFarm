@@ -61,6 +61,13 @@ describe('Task tests', () => {
       .end(callback);
   }
 
+  function getHarvestUsesRequest({ user_id, farm_id }, callback) {
+    chai.request(server).get(`/task/harvest_uses/${farm_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function assignAllTasksOnDateRequest({ user_id, farm_id }, data, task_id, callback) {
     chai.request(server).patch(`/task/assign_all_tasks_on_date/${task_id}`)
       .set('user_id', user_id)
@@ -328,6 +335,85 @@ describe('Task tests', () => {
       });
     });
   });
+
+  describe('GET harvest uses', () => {
+    test('should get all harvest_uses for a farm', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
+      const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      const fakeTask = mocks.fakeTask({
+        task_type_id: task_type_id,
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+      });
+      await Promise.all([...Array(3)].map(async () => {
+        const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] }, fakeTask);
+        await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
+        await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
+        const promisedHarvestUseTypes = await Promise.all([...Array(3)].map(async () =>
+          mocks.harvest_use_typeFactory({
+            promisedFarm: { farm_id },
+          })
+        ));
+        const harvest_types = promisedHarvestUseTypes.reduce((a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }), []);
+        const harvest_uses = [];
+        for (let i = 0; i < harvest_types.length; i++) {
+          let [harvest_use] = await mocks.harvest_useFactory({
+            promisedHarvestTask: [{ task_id }],
+            promisedHarvestUseType: [{ harvest_use_type_id: harvest_types[i].harvest_use_type_id }]
+          });
+          harvest_uses.push(harvest_use);
+        }
+      }));
+      getHarvestUsesRequest({ user_id, farm_id }, async (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(9);
+        done();
+      });
+    });
+
+    test('should get all harvest uses related to a farm, but not different farms of that user', async (done) => {
+      const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
+      const [firstUserFarm] = await mocks.userFarmFactory({}, userFarm);
+      const [secondUserFarm] = await mocks.userFarmFactory({}, userFarm);
+      await Promise.all([...Array(2)].map(async (_, i) => {
+        const { user_id, farm_id } = i > 0 ? secondUserFarm : firstUserFarm;
+        const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
+        const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+        const fakeTask = mocks.fakeTask({
+          task_type_id: task_type_id,
+          owner_user_id: user_id,
+          assignee_user_id: user_id,
+        });
+      
+        const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] }, fakeTask);
+        await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
+        await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });
+        const promisedHarvestUseTypes = await Promise.all([...Array(3)].map(async () =>
+          mocks.harvest_use_typeFactory({
+            promisedFarm: { farm_id },
+          })
+        ));
+        const harvest_types = promisedHarvestUseTypes.reduce((a, b) => a.concat({ harvest_use_type_id: b[0].harvest_use_type_id }), []);
+        const harvest_uses = [];
+        for (let i = 0; i < harvest_types.length; i++) {
+          let [harvest_use] = await mocks.harvest_useFactory({
+            promisedHarvestTask: [{ task_id }],
+            promisedHarvestUseType: [{ harvest_use_type_id: harvest_types[i].harvest_use_type_id }]
+          });
+          harvest_uses.push(harvest_use);
+        }
+      }));
+      getHarvestUsesRequest({ user_id: firstUserFarm.user_id, farm_id: firstUserFarm.farm_id }, async (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(3);
+        done();
+      });
+    });
+  })
 
   describe('GET tasks', () => {
 
@@ -776,13 +862,6 @@ describe('Task tests', () => {
         });
       });
     });
-
-    describe('GET harvest uses', () => {
-      test.only('should get all harvest_uses for a farm', async (done) => {
-        const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
-        done();
-      });
-    })
   })
 
   describe('Patch tasks completion tests', () => {
@@ -941,7 +1020,7 @@ describe('Task tests', () => {
         harvest_uses.push(harvest_use);
         actual_quantity += harvest_use.quantity;
       });
-      completeTaskRequest({ user_id, farm_id }, { task: {...fakeCompletionData, harvest_task: {task_id, actual_quantity} }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
+      completeTaskRequest({ user_id, farm_id }, { task: { ...fakeCompletionData, harvest_task: { task_id, actual_quantity } }, harvest_uses: harvest_uses }, task_id, 'harvest_task', async (err, res) => {
         expect(res.status).toBe(200);
         const completed_task = await knex('task').where({ task_id }).first();
         expect(completed_task.completed_time.toString()).toBe(completed_time.toString());

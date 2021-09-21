@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
-import { PlantingTaskModal } from '../../../components/Modals/PlantingTaskModal';
 import { setSpotlightToShown } from '../../Map/saga';
 
 function TaskTypeSelection({ history, match }) {
@@ -17,7 +16,7 @@ function TaskTypeSelection({ history, match }) {
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
-  const { planting_task: shouldNotShowPlantTaskSpotLight } = useSelector(showedSpotlightSelector);
+  const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
@@ -40,11 +39,7 @@ function TaskTypeSelection({ history, match }) {
 
   const onError = () => {};
 
-  const dismissPlantingTaskModal = () => dispatch(setSpotlightToShown('planting_task'));
-  const goToCatalogue = () => {
-    dismissPlantingTaskModal();
-    history.push('/crop_catalogue');
-  };
+  const updatePlantTaskSpotlight = () => dispatch(setSpotlightToShown('planting_task'));
 
   return (
     <>
@@ -60,13 +55,9 @@ function TaskTypeSelection({ history, match }) {
           taskTypes={taskTypes}
           customTasks={customTasks}
           isAdmin={isAdmin}
-          shouldNotShowPlantTaskSpotLight={shouldNotShowPlantTaskSpotLight}
-        >
-          <PlantingTaskModal
-            goToCatalogue={goToCatalogue}
-            dismissModal={dismissPlantingTaskModal}
-          />
-        </PureTaskTypeSelection>
+          shouldShowPlantTaskSpotLight={!planting_task}
+          updatePlantTaskSpotlight={updatePlantTaskSpotlight}
+        />
       </HookFormPersistProvider>
     </>
   );

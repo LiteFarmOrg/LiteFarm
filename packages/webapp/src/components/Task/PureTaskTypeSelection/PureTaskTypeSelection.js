@@ -25,6 +25,7 @@ import { ReactComponent as CustomTask } from '../../../assets/images/task/Custom
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import Button from '../../Form/Button';
+import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -77,8 +78,8 @@ export const PureTaskTypeSelection = ({
   taskTypes,
   customTasks,
   isAdmin,
-  shouldNotShowPlantTaskSpotLight,
-  children,
+  shouldShowPlantTaskSpotLight,
+  updatePlantTaskSpotlight,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -95,16 +96,15 @@ export const PureTaskTypeSelection = ({
     onContinue();
   };
 
-  const [isPlantTaskTileClicked, setPlantTaskTileClicked] = useState();
-  const onPlantTaskTypeClick = (task_type_id) => {
-    if (shouldNotShowPlantTaskSpotLight) {
-      setValue(TASK_TYPE_ID, task_type_id);
-      history.push('/crop_catalogue');
+  const [showPlantTaskModal, setShowPlantTaskModal] = useState();
+  const goToCatalogue = () => history.push('/crop_catalogue');
+  const onPlantTaskTypeClick = () => {
+    if (shouldShowPlantTaskSpotLight) {
+      setShowPlantTaskModal(true);
     } else {
-      setPlantTaskTileClicked(true);
+      goToCatalogue();
     }
   };
-
   return (
     <>
       <Form>
@@ -171,7 +171,13 @@ export const PureTaskTypeSelection = ({
           </Button>
         )}
       </Form>
-      {isPlantTaskTileClicked && !shouldNotShowPlantTaskSpotLight && children}
+      {showPlantTaskModal && shouldShowPlantTaskSpotLight && (
+        <PlantingTaskModal
+          goToCatalogue={goToCatalogue}
+          dismissModal={() => setShowPlantTaskModal(false)}
+          updatePlantTaskSpotlight={updatePlantTaskSpotlight}
+        />
+      )}
     </>
   );
 };

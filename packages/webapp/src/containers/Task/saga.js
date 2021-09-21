@@ -357,7 +357,7 @@ export function* createTaskSaga({ payload: data }) {
 
 //TODO: change req shape to {...task, harvestUses}
 const getCompleteHarvestTaskBody = (data) => {
-  const task_id = data.taskData.harvest_task.task_id;
+  const task_id = data.taskData.task_id;
   let taskData = {};
   taskData.task = data.taskData;
   let harvest_uses = [];

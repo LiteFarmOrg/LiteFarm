@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
-import { PlantingTaskModal } from '../../../components/Modals/PlantingTaskModal';
 import { setSpotlightToShown } from '../../Map/saga';
 
 function TaskTypeSelection({ history, match }) {
@@ -28,15 +27,7 @@ function TaskTypeSelection({ history, match }) {
     history.push(customTaskPath);
   };
 
-  const onContinue = (task_type_id) => {
-    const { task_translation_key, farm_id } =
-      taskTypes.find((taskType) => taskType.task_type_id === task_type_id) || {};
-    if (!farm_id && task_translation_key === 'PLANT_TASK') {
-      history.push('/crop_catalogue');
-    } else {
-      history.push(continuePath);
-    }
-  };
+  const onContinue = () => history.push(continuePath);
 
   const handleGoBack = () => {
     history.push('/tasks');
@@ -48,11 +39,7 @@ function TaskTypeSelection({ history, match }) {
 
   const onError = () => {};
 
-  const dismissPlantingTaskModal = () => dispatch(setSpotlightToShown('planting_task'));
-  const goToCatalogue = () => {
-    dismissPlantingTaskModal();
-    history.push('/crop_catalogue');
-  };
+  const updatePlantTaskSpotlight = () => dispatch(setSpotlightToShown('planting_task'));
 
   return (
     <>
@@ -67,11 +54,11 @@ function TaskTypeSelection({ history, match }) {
           onError={onError}
           taskTypes={taskTypes}
           customTasks={customTasks}
+          isAdmin={isAdmin}
+          shouldShowPlantTaskSpotLight={!planting_task}
+          updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       </HookFormPersistProvider>
-      {isAdmin && !planting_task && (
-        <PlantingTaskModal goToCatalogue={goToCatalogue} dismissModal={dismissPlantingTaskModal} />
-      )}
     </>
   );
 }

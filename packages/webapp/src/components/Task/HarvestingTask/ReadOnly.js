@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { harvestAmounts } from '../../../util/unit';
 import Checkbox from '../../Form/Checkbox';
 import Unit from '../../Form/Unit';
+import ReactSelect from '../../Form/ReactSelect';
 
 export const PureHarvestingTaskReadOnly = ({
   system,
@@ -49,11 +50,6 @@ export const PureHarvestingTaskReadOnly = ({
           />
         </>
       )}
-      {isCompleted && (
-        <>
-          
-        </>
-      )}
     </>
   );
 };
@@ -65,8 +61,50 @@ export const PureHavestTaskCompleted = ({
   setValue,
   getValues,
   watch,
-  isCompleted,
+  task,
+  harvestUseTypes,
   disabled = false,
 }) => {
+  const { t } = useTranslation();
+  const havrest_uses = task.harvest_task.harvest_use;
+  console.log(havrest_uses);
+  const harvest_uses_type_map = {};
+  for (let i = 0; i < harvestUseTypes.length; i++) {
+    harvest_uses_type_map[harvestUseTypes[i].harvest_use_type_id] = harvestUseTypes[i];
+  }
 
+  console.log(harvest_uses_type_map);
+
+  return (
+    <>
+      {havrest_uses.map((use, index) => (
+        <div>
+          <ReactSelect
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.HARVEST_USE')}
+            defaultValue={{
+              label: harvest_uses_type_map[use.harvest_use_type_id].harvest_use_type_name, 
+              value: use.harvest_use_type_id
+            }}
+            isDisabled={disabled}
+          />
+          <Unit
+            register={register}
+            style={{ marginBottom: '40px' }}
+            label={t('ADD_TASK.QUANTITY')}
+            name={`harvest_uses.${index}.quantity`}
+            displayUnitName={`harvest_uses.${index}.quantity_unit`}
+            unitType={harvestAmounts}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFromWatch={watch}
+            control={control}
+            disabled={disabled}
+            defaultValue={use.quantity}
+          />
+        </div>
+      ))}
+    </>
+  )
 };

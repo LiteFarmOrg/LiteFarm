@@ -21,7 +21,7 @@ import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
-import { PureHarvestingTaskReadOnly } from '../HarvestingTask/ReadOnly';
+import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
 
 export default function PureTaskReadOnly({
@@ -36,6 +36,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
+  harvestUseTypes,
   isCompleted,
 }) {
   const { t } = useTranslation();
@@ -70,6 +71,12 @@ export default function PureTaskReadOnly({
     ),
     HARVEST_TASK: (props) => (
       <PureHarvestingTaskReadOnly system={system} isCompleted={isCompleted} {...props} />
+    ),
+  };
+
+  const taskAfterCompleteComponents = {
+    HARVEST_TASK: (props) => (
+      <PureHavestTaskCompleted system={system} {...props} harvestUseTypes={harvestUseTypes} />
     ),
   };
 
@@ -213,6 +220,20 @@ export default function PureTaskReadOnly({
             optional
             disabled
           />
+          {taskAfterCompleteComponents[taskType.task_translation_key] !== undefined &&
+            taskAfterCompleteComponents[taskType.task_translation_key]({
+              setValue,
+              getValues,
+              watch,
+              control,
+              register,
+              errors,
+              disabled: true,
+              farm: user,
+              system,
+              products,
+              task,
+            })}
         </div>
       )}
 

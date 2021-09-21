@@ -92,7 +92,6 @@ export function* assignTaskSaga({ payload: { task_id, assignee_user_id } }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    console.log({ task_id, assignee_user_id });
     const result = yield call(
       axios.patch,
       `${taskUrl}/assign/${task_id}`,

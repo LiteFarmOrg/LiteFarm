@@ -139,6 +139,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  defaultUnit,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -169,7 +170,7 @@ const Unit = ({
     const options = getOptions(unitType, system);
     const hookFormValue = hookFormGetValue(name);
     const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
-    const isSelectDisabled = options.length <= 1;
+    const isSelectDisabled = options.length <= 1 || disabled;
     const measure = convert().describe(databaseUnit)?.measure;
     const reactSelectWidth = getReactSelectWidth(measure);
     return to && convert().describe(to)?.system === system

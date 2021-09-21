@@ -320,7 +320,7 @@ const taskController = {
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().whereNotDeleted().withGraphFetched(`
-          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task, plant_task, transplant_task]
+          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task]
         `).whereIn('task_id', taskIds);
         const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {

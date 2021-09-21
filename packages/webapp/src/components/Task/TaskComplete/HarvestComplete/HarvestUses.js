@@ -65,9 +65,9 @@ export default function PureHarvestUses({
   const { allocated_amount, amount_to_allocate } = useMemo(() => {
     let allocated_amount = 0;
     for (let field of watchFields) {
-      let q = field[HARVEST_USE_QUANTITY];
-      if (q !== undefined) {
-        allocated_amount += q;
+      const quantity = field[HARVEST_USE_QUANTITY] || 0;
+      if (quantity !== undefined) {
+        allocated_amount += quantity;
       }
     }
     return { allocated_amount, amount_to_allocate: amount - allocated_amount };
@@ -99,7 +99,7 @@ export default function PureHarvestUses({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={onCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
+        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />

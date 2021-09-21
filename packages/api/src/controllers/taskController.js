@@ -312,7 +312,6 @@ const taskController = {
     }
   },
 
-
   getTasksByFarmId() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
@@ -334,6 +333,7 @@ const taskController = {
     };
   },
 
+  //TODO: evaluate getHarvestUsesByFarmId use cases
   getHarvestUsesByFarmId() {
     return async (req, res, next) => {
       const { farm_id } = req.params;

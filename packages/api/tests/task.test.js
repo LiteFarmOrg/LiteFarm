@@ -62,7 +62,7 @@ describe('Task tests', () => {
   }
 
   function getHarvestUsesRequest({ user_id, farm_id }, callback) {
-    chai.request(server).get(`/task/harvest_uses/${farm_id}`)
+    chai.request(server).get(`/task/harvest_uses/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
@@ -388,7 +388,7 @@ describe('Task tests', () => {
           owner_user_id: user_id,
           assignee_user_id: user_id,
         });
-      
+
         const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }], promisedTaskType: [{ task_type_id }] }, fakeTask);
         await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
         await mocks.harvest_taskFactory({ promisedTask: [{ task_id }] });

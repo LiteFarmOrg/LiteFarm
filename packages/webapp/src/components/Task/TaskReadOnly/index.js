@@ -6,18 +6,22 @@ import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import LocationViewer from '../../LocationViewer';
-import { Label, Semibold, Underlined } from '../../Typography';
+import { Label, Semibold, Underlined, Main } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
+import TimeSlider from '../../Form/Slider/TimeSlider';
+import Rating from '../../Rating';
+import Checkbox from '../../Form/Checkbox';
 import { cloneObject } from '../../../util';
 import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
+import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
 
 export default function PureTaskReadOnly({
@@ -32,6 +36,7 @@ export default function PureTaskReadOnly({
   system,
   products,
   managementPlansByLocationIds,
+  harvestUseTypes,
   isCompleted,
 }) {
   const { t } = useTranslation();
@@ -53,6 +58,27 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
+  const taskComponents = {
+    CLEANING_TASK: (props) => (
+      <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+    SOIL_AMENDMENT_TASK: (props) => (
+      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    PEST_CONTROL_TASK: (props) => (
+      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
+    ),
+    HARVEST_TASK: (props) => (
+      <PureHarvestingTaskReadOnly system={system} isCompleted={isCompleted} {...props} />
+    ),
+  };
+
+  const taskAfterCompleteComponents = {
+    HARVEST_TASK: (props) => (
+      <PureHavestTaskCompleted system={system} {...props} harvestUseTypes={harvestUseTypes} />
+    ),
+  };
 
   const self = user.user_id;
 
@@ -155,13 +181,60 @@ export default function PureTaskReadOnly({
         disabled
       />
       {isCompleted && (
-        <InputAutoSize
-          style={{ marginBottom: '40px' }}
-          label={t('TASK.COMPLETION_NOTES')}
-          value={task.completion_notes}
-          optional
-          disabled
-        />
+        <div>
+          <Semibold style={{ marginBottom: '24px' }}>
+            {t('TASK.COMPLETION_DETAILS')}
+          </Semibold>
+          <TimeSlider
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.DURATION')}
+            initialTime={task.duration}
+            setValue={() => { }}
+            disabled={true}
+          />
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+          {task.happiness > 0 && (
+            <div>
+              <Label style={{ marginBottom: '12px' }}>
+                {t('TASK.RATE_THIS_TASK')}
+              </Label>
+              <Rating
+                className={styles.rating}
+                style={{ width: '24px', height: '24px' }}
+                viewOnly={true}
+                stars={task.happiness}
+              />
+            </div>
+          )}
+          {(!task.happiness) && (
+            <Checkbox
+              label={t('TASK.PREFER_NOT_TO_SAY')}
+              disabled={true}
+              defaultChecked={true}
+            />
+          )}
+          <InputAutoSize
+            style={{ marginTop: '40px', marginBottom: '40px' }}
+            label={t('TASK.COMPLETION_NOTES')}
+            value={task.completion_notes}
+            optional
+            disabled
+          />
+          {taskAfterCompleteComponents[taskType.task_translation_key] !== undefined &&
+            taskAfterCompleteComponents[taskType.task_translation_key]({
+              setValue,
+              getValues,
+              watch,
+              control,
+              register,
+              errors,
+              disabled: true,
+              farm: user,
+              system,
+              products,
+              task,
+            })}
+        </div>
       )}
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (

@@ -58,8 +58,8 @@ class HarvestTaskModel extends Model {
         },
 
       },
-
-      harvestUses: {
+      //TODO: revert back to harvestUses
+      harvest_use: {
         modelClass: require('./harvestUseModel'),
         relation: Model.HasManyRelation,
         join: {

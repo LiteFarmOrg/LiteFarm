@@ -65,9 +65,9 @@ export default function PureHarvestUses({
   const { allocated_amount, amount_to_allocate } = useMemo(() => {
     let allocated_amount = 0;
     for (let field of watchFields) {
-      let q = field[HARVEST_USE_QUANTITY];
-      if (q !== undefined) {
-        allocated_amount += isNaN(q) ? 0 : q;
+      const quantity = field[HARVEST_USE_QUANTITY] || 0;
+      if (quantity !== undefined) {
+        allocated_amount += quantity;
       }
     }
     return { allocated_amount, amount_to_allocate: amount - allocated_amount };

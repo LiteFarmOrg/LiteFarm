@@ -42,9 +42,7 @@ export const PureHarvestingTaskReadOnly = ({
           <Checkbox
             style={{ marginBottom: '19px' }}
             label={t('ADD_TASK.HARVEST_EVERYTHING')}
-            hookFormRegister={register(
-              HARVEST_EVERYTHING
-            )}
+            hookFormRegister={register(HARVEST_EVERYTHING)}
             sm
             disabled={disabled}
           />
@@ -80,8 +78,8 @@ export const PureHavestTaskCompleted = ({
             style={{ marginBottom: '40px' }}
             label={t('TASK.HARVEST_USE')}
             defaultValue={{
-              label: harvest_uses_type_map[use.harvest_use_type_id].harvest_use_type_name, 
-              value: use.harvest_use_type_id
+              label: harvest_uses_type_map[use.harvest_use_type_id].harvest_use_type_name,
+              value: use.harvest_use_type_id,
             }}
             isDisabled={disabled}
           />
@@ -98,11 +96,9 @@ export const PureHavestTaskCompleted = ({
             hookFromWatch={watch}
             control={control}
             disabled={disabled}
-            defaultValue={use.quantity}
-            defaultUnit={use.quantity_unit}
           />
         </div>
       ))}
     </>
-  )
+  );
 };

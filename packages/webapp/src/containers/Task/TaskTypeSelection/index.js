@@ -17,7 +17,7 @@ function TaskTypeSelection({ history, match }) {
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
-  const { planting_task } = useSelector(showedSpotlightSelector);
+  const { planting_task: shouldNotShowPlantTaskSpotLight } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
 
   useEffect(() => {
@@ -28,15 +28,7 @@ function TaskTypeSelection({ history, match }) {
     history.push(customTaskPath);
   };
 
-  const onContinue = (task_type_id) => {
-    const { task_translation_key, farm_id } =
-      taskTypes.find((taskType) => taskType.task_type_id === task_type_id) || {};
-    if (!farm_id && task_translation_key === 'PLANT_TASK') {
-      history.push('/crop_catalogue');
-    } else {
-      history.push(continuePath);
-    }
-  };
+  const onContinue = () => history.push(continuePath);
 
   const handleGoBack = () => {
     history.push('/tasks');
@@ -67,11 +59,15 @@ function TaskTypeSelection({ history, match }) {
           onError={onError}
           taskTypes={taskTypes}
           customTasks={customTasks}
-        />
+          isAdmin={isAdmin}
+          shouldNotShowPlantTaskSpotLight={shouldNotShowPlantTaskSpotLight}
+        >
+          <PlantingTaskModal
+            goToCatalogue={goToCatalogue}
+            dismissModal={dismissPlantingTaskModal}
+          />
+        </PureTaskTypeSelection>
       </HookFormPersistProvider>
-      {isAdmin && !planting_task && (
-        <PlantingTaskModal goToCatalogue={goToCatalogue} dismissModal={dismissPlantingTaskModal} />
-      )}
     </>
   );
 }

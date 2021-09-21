@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
@@ -45,15 +45,24 @@ const icons = {
   COLLECT_SOIL_SAMPLE_TASK: <CollectSoilSample />,
   MAINTENANCE_TASK: <Maintenance />,
 };
-const showOnly = [
-  'SOIL_AMENDMENT_TASK',
-  'FIELD_WORK_TASK',
-  'PEST_CONTROL_TASK',
-  'CLEANING_TASK',
-  'HARVEST_TASK',
-  'PLANT_TASK',
-  'TRANSPLANT_TASK',
-];
+
+/**
+ *
+ * @param isAdmin {boolean}
+ * @return {Set<string>}
+ */
+const getSupportedTaskTypes = (isAdmin) => {
+  const supportedTaskTypes = new Set([
+    'SOIL_AMENDMENT_TASK',
+    'FIELD_WORK_TASK',
+    'PEST_CONTROL_TASK',
+    'CLEANING_TASK',
+    'HARVEST_TASK',
+    'TRANSPLANT_TASK',
+  ]);
+  isAdmin && supportedTaskTypes.add('PLANT_TASK');
+  return supportedTaskTypes;
+};
 
 export const PureTaskTypeSelection = ({
   onCustomTask,
@@ -67,9 +76,11 @@ export const PureTaskTypeSelection = ({
   onError,
   taskTypes,
   customTasks,
+  isAdmin,
+  shouldNotShowPlantTaskSpotLight,
+  children,
 }) => {
   const { t } = useTranslation();
-  console.log(customTasks);
   const { watch, getValues, register, setValue } = useForm({
     defaultValues: persistedFormData,
   });
@@ -81,7 +92,17 @@ export const PureTaskTypeSelection = ({
 
   const onTileClick = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
-    onContinue(task_type_id);
+    onContinue();
+  };
+
+  const [isPlantTaskTileClicked, setPlantTaskTileClicked] = useState();
+  const onPlantTaskTypeClick = (task_type_id) => {
+    if (shouldNotShowPlantTaskSpotLight) {
+      setValue(TASK_TYPE_ID, task_type_id);
+      history.push('/crop_catalogue');
+    } else {
+      setPlantTaskTileClicked(true);
+    }
   };
 
   return (
@@ -100,15 +121,17 @@ export const PureTaskTypeSelection = ({
 
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
-            ?.filter(
-              ({ farm_id, task_translation_key }) =>
-                farm_id === null && showOnly.includes(task_translation_key),
-            )
-            .map(({ task_translation_key, task_type_id }) => {
+            ?.filter(({ farm_id, task_translation_key }) => {
+              const supportedTaskTypes = getSupportedTaskTypes(isAdmin);
+              return farm_id === null && supportedTaskTypes.has(task_translation_key);
+            })
+            .map(({ task_translation_key, task_type_id, farm_id }) => {
               return (
                 <div
                   onClick={() => {
-                    onTileClick(task_type_id);
+                    task_translation_key === 'PLANT_TASK' && !farm_id
+                      ? onPlantTaskTypeClick(task_type_id)
+                      : onTileClick(task_type_id);
                   }}
                   key={task_type_id}
                   className={clsx(
@@ -147,6 +170,7 @@ export const PureTaskTypeSelection = ({
           {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
         </Button>
       </Form>
+      {isPlantTaskTileClicked && !shouldNotShowPlantTaskSpotLight && children}
     </>
   );
 };

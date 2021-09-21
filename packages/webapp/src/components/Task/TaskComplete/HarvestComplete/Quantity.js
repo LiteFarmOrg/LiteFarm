@@ -31,7 +31,10 @@ export default function PureHarvestCompleteQuantity({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData },
+    defaultValues: { 
+      ...persistedFormData,
+      actual_quantity: persistedFormData.actual_quantity || task.harvest_task.projected_quantity,
+    },
   });
 
   useHookFormPersist(getValues, persistedPaths);
@@ -42,12 +45,6 @@ export default function PureHarvestCompleteQuantity({
   const ACTUAL_HARVEST_QUANTITY_UNIT = 'actual_quantity_unit';
 
   const disabled = !isValid;
-
-  useEffect(() => {
-    if (getValues(ACTUAL_HARVEST_QUANTITY) === undefined) {
-      setValue(ACTUAL_HARVEST_QUANTITY, task.harvest_task.projected_quantity);
-    }
-  }, []);
   
   return (
     <Form

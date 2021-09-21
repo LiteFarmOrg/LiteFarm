@@ -66,18 +66,15 @@ export const PureHavestTaskCompleted = ({
   disabled = false,
 }) => {
   const { t } = useTranslation();
-  const havrest_uses = task.harvest_task.harvest_use;
-  console.log(havrest_uses);
+  const harvest_uses = task.harvest_task.harvest_use;
   const harvest_uses_type_map = {};
   for (let i = 0; i < harvestUseTypes.length; i++) {
     harvest_uses_type_map[harvestUseTypes[i].harvest_use_type_id] = harvestUseTypes[i];
   }
 
-  console.log(harvest_uses_type_map);
-
   return (
     <>
-      {havrest_uses.map((use, index) => (
+      {harvest_uses.map((use, index) => (
         <div>
           <ReactSelect
             style={{ marginBottom: '40px' }}
@@ -102,6 +99,7 @@ export const PureHavestTaskCompleted = ({
             control={control}
             disabled={disabled}
             defaultValue={use.quantity}
+            defaultUnit={use.quantity_unit}
           />
         </div>
       ))}

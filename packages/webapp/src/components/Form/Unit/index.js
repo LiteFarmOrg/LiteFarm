@@ -148,6 +148,8 @@ const Unit = ({
     hookFormSetHiddenValue('', { shouldClearError: !optional, shouldValidate: optional });
   };
 
+  console.log(defaultUnit);
+
   const [showError, setShowError] = useState();
   const [isDirty, setDirty] = useState();
   const { errors } = useFormState({ control });
@@ -347,7 +349,7 @@ const Unit = ({
               customStyles
               styles={reactSelectStyles}
               isSearchable={false}
-              options={options}
+              options={defaultUnit? options[defaultUnit] : options}
               isDisabled={isSelectDisabled}
             />
           )}

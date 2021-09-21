@@ -74,10 +74,10 @@ const managementPlanController = {
               planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK').location_id;
           const taskManagementPlansAndLocations = {
             //TODO: already_in_ground && is_wild && !needs_transplant test (pin location)
-            locations: [{ location_id }],
+            locations: location_id ? [{ location_id }] : undefined,
             managementPlans: [{ management_plan_id: management_plan.management_plan_id }],
           };
-          if (!req.body.crop_management_plan.for_cover && location_id) {
+          if (!req.body.crop_management_plan.for_cover) {
             const planned_time = req.body.crop_management_plan.harvest_date;
             const harvestTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
@@ -87,7 +87,7 @@ const managementPlanController = {
               relate: ['locations', 'managementPlans'],
             });
             tasks.push(harvestTask);
-          } else if (location_id) {
+          } else {
             const planned_time = req.body.crop_management_plan.termination_date;
             const fieldWorkTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,

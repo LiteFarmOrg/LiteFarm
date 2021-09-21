@@ -165,10 +165,11 @@ export const PureTaskTypeSelection = ({
             );
           })}
         </div>
-
-        <Button color={'success'} onClick={onCustomTask}>
-          {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
-        </Button>
+        {isAdmin && (
+          <Button color={'success'} onClick={onCustomTask}>
+            {t('ADD_TASK.MANAGE_CUSTOM_TASKS')}
+          </Button>
+        )}
       </Form>
       {isPlantTaskTileClicked && !shouldNotShowPlantTaskSpotLight && children}
     </>

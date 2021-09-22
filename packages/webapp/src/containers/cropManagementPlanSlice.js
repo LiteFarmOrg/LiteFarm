@@ -19,6 +19,8 @@ export const cropManagementPlanProperties = [
   'seed_date',
   'termination_date',
   'transplant_date',
+  'estimated_yield_unit',
+  'estimated_yield',
 ];
 
 export const getCropManagementPlan = (obj) => {

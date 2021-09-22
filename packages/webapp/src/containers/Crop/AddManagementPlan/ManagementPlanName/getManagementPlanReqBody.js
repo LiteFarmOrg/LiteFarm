@@ -31,8 +31,6 @@ const getRowMethodReqBody = (row_method) =>
 const plantingManagementPlanPropertiesV0 = [
   'notes',
   'planting_method',
-  'estimated_yield',
-  'estimated_yield_unit',
   'location_id',
   'estimated_seeds',
   'estimated_seeds_unit',
@@ -128,8 +126,6 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
           })
         : {
             location_id: final.location_id,
-            estimated_yield: final.estimated_yield,
-            estimated_yield_unit: final.estimated_yield_unit,
             is_planting_method_known: false,
             is_final_planting_management_plan: true,
           },
@@ -142,8 +138,6 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
             planting_task_type: 'TRANSPLANT_TASK',
           })
         : {
-            estimated_yield: for_cover ? undefined : final.estimated_yield,
-            estimated_yield_unit: for_cover ? undefined : final.estimated_yield_unit,
             pin_coordinate: final.pin_coordinate,
             location_id: final.location_id,
             is_final_planting_management_plan: true,
@@ -151,8 +145,6 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
     );
     needs_transplant &&
       planting_management_plans.push({
-        estimated_yield: for_cover ? undefined : initial.estimated_yield,
-        estimated_yield_unit: for_cover ? undefined : initial.estimated_yield_unit,
         pin_coordinate: initial.pin_coordinate,
         location_id: initial.location_id,
         is_final_planting_management_plan: false,
@@ -162,7 +154,15 @@ export const getPlantingManagementPlansReqBody = (crop_management_plan) => {
 };
 
 const getCropManagementPlanReqBody = (crop_management_plan) => {
-  const { already_in_ground, is_wild, for_cover, needs_transplant, is_seed } = crop_management_plan;
+  const {
+    already_in_ground,
+    is_wild,
+    for_cover,
+    needs_transplant,
+    is_seed,
+    estimated_yield,
+    estimated_yield_unit,
+  } = crop_management_plan;
   return {
     needs_transplant,
     for_cover,
@@ -178,6 +178,8 @@ const getCropManagementPlanReqBody = (crop_management_plan) => {
         : undefined,
     termination_date: for_cover ? crop_management_plan.termination_date : undefined,
     harvest_date: for_cover ? undefined : crop_management_plan.harvest_date,
+    estimated_yield: for_cover ? undefined : estimated_yield,
+    estimated_yield_unit: for_cover ? undefined : estimated_yield_unit,
     planting_management_plans: getPlantingManagementPlansReqBody(crop_management_plan),
   };
 };

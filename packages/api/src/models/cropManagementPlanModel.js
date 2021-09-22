@@ -44,6 +44,8 @@ class CropManagementPlanModel extends Model {
         is_wild: { type: ['boolean', null] },
         //TODO: deprecate estimated_revenue
         estimated_revenue: { type: ['number', null] },
+        estimated_yield: { type: ['number', null] },
+        estimated_yield_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
       },
       additionalProperties: false,
     };

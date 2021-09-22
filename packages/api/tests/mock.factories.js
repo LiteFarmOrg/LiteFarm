@@ -528,6 +528,7 @@ async function insertPlantingMethod(plantingMethod = {
 function fakeCropManagementPlan(defaultData = {}) {
   return {
     estimated_revenue: faker.random.number(10000),
+    estimated_yield: faker.random.number(10000),
     seed_date: faker.date.past(),
     plant_date: faker.date.past(),
     germination_date: faker.date.past(),
@@ -589,7 +590,6 @@ function fakePlantingManagementPlan(defaultData = {}) {
     planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
     is_planting_method_known: true,
     estimated_seeds: faker.random.number(10000),
-    estimated_yield: faker.random.number(10000),
     notes: faker.lorem.words(),
     ...defaultData,
   };

@@ -3,7 +3,7 @@ import { onLoadingFail, onLoadingStart, onLoadingSuccess } from '../../userFarmS
 import { createSelector } from 'reselect';
 import { pick } from '../../../util/pick';
 
-const harvestTaskProperties = ['harvest_everything', 'quantity', 'quantity_unit', 'task_id'];
+const harvestTaskProperties = ['harvest_everything', 'projected_quantity', 'projected_quantity_unit', 'actual_quantity', 'actual_quantity_unit', 'task_id', 'harvest_use'];
 
 const getHarvestTask = (task) => {
   return pick(task, harvestTaskProperties);

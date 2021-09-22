@@ -11,6 +11,7 @@ import { taskWithProductById } from '../../taskSlice';
 import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
 import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -35,6 +36,7 @@ function TaskReadOnly({ history, match }) {
 
   const selectedTaskType = task.taskType;
   const isHarvest = selectedTaskType?.task_translation_key === 'HARVEST_TASK';
+  const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
     history.goBack();
@@ -74,6 +76,7 @@ function TaskReadOnly({ history, match }) {
       products={products}
       managementPlansByLocationIds={managementPlansByLocationIds}
       isCompleted={isCompleted}
+      harvestUseTypes={harvestUseTypes}
       isTaskTypeCustom={isTaskTypeCustom}
     />
   );

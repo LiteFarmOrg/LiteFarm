@@ -79,14 +79,17 @@ const PureTaskCrops = ({
       ? (getValues(MANAGEMENT_PLANS) || []).map(
           (management_plan) => management_plan.management_plan_id,
         )
-      : [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id],
+      : getValues(MANAGEMENT_PLANS)?.length
+      ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
+      : [],
   );
+
   const onSelectManagementPlan = (management_plan_id) => {
-    setSelectedManagementPlanIds(
-      produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
-        if (!isMulti) {
-          selectedManagementPlanIds = [management_plan_id];
-        } else {
+    setSelectedManagementPlanIds((selectedManagementPlanIds) => {
+      if (!isMulti) {
+        return [management_plan_id];
+      } else {
+        return produce(selectedManagementPlanIds, (selectedManagementPlanIds) => {
           if (selectedManagementPlanIds.includes(management_plan_id)) {
             selectedManagementPlanIds = selectedManagementPlanIds.splice(
               selectedManagementPlanIds.indexOf(management_plan_id),
@@ -94,9 +97,9 @@ const PureTaskCrops = ({
             );
           }
           selectedManagementPlanIds.push(management_plan_id);
-        }
-      }),
-    );
+        });
+      }
+    });
   };
   const selectAllCrops = () => {
     setSelectedManagementPlanIds((prevManagementPlanIds) =>

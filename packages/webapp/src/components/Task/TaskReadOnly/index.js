@@ -188,7 +188,7 @@ export default function PureTaskReadOnly({
             </div>
           )}
           {!task.happiness && (
-            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled={true} defaultChecked={true} />
+            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled defaultChecked />
           )}
           <InputAutoSize
             style={{ marginTop: '40px', marginBottom: '40px' }}

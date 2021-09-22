@@ -69,7 +69,7 @@ export default function PureCropManagement({
                   : () =>
                       //TODO: change string status to enum
                       history.push(
-                        `/crop/${variety.crop_variety_id}/${managementPlan.management_plan_id}/management_detail`,
+                        `/crop/${variety.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/tasks`,
                       )
               }
               {...managementPlan}

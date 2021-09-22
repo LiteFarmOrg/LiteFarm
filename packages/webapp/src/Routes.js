@@ -254,7 +254,15 @@ const ViewCertification = React.lazy(() =>
 const RenderSurvey = React.lazy(() => import('./containers/RenderSurvey/RenderSurvey'));
 const ExportDownload = React.lazy(() => import('./containers/ExportDownload'));
 
-const ManagementDetail = React.lazy(() => import('./containers/Crop/ManagementDetail'));
+const ManagementTasks = React.lazy(() =>
+  import('./containers/Crop/ManagementDetail/ManagementTasks'),
+);
+const ManagementDetails = React.lazy(() =>
+  import('./containers/Crop/ManagementDetail/ManagementDetails'),
+);
+const EditManagementDetails = React.lazy(() =>
+  import('./containers/Crop/ManagementDetail/EditManagementDetails'),
+);
 const CompleteManagementPlan = React.lazy(() =>
   import('./containers/Crop/CompleteManagementPlan/CompleteManagementPlan'),
 );
@@ -490,9 +498,19 @@ const Routes = () => {
               component={ManagementPlanName}
             />
             <Route
-              path="/crop/:variety_id/:management_plan_id/management_detail"
+              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact
-              component={ManagementDetail}
+              component={ManagementTasks}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/details"
+              exact
+              component={ManagementDetails}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/edit"
+              exact
+              component={EditManagementDetails}
             />
             <Route
               path="/crop/:variety_id/:management_plan_id/complete_management_plan"
@@ -785,9 +803,19 @@ const Routes = () => {
               component={ManagementPlanName}
             />
             <Route
-              path="/crop/:variety_id/:management_plan_id/management_detail"
+              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact
-              component={ManagementDetail}
+              component={ManagementTasks}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/details"
+              exact
+              component={ManagementDetails}
+            />
+            <Route
+              path="/crop/:variety_id/management_plan/:management_plan_id/edit"
+              exact
+              component={EditManagementDetails}
             />
             <Route
               path="/crop/:variety_id/:management_plan_id/complete_management_plan"
@@ -978,14 +1006,14 @@ const Routes = () => {
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
             <Route
-              path="/crop/:variety_id/:management_plan_id/management_detail"
+              path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact
-              component={ManagementDetail}
+              component={ManagementTasks}
             />
             <Route
-              path="/crop/:variety_id/:management_plan_id/management_detail"
+              path="/crop/:variety_id/management_plan/:management_plan_id/details"
               exact
-              component={ManagementDetail}
+              component={ManagementDetails}
             />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />

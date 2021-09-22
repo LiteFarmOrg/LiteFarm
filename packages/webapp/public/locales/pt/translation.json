@@ -827,10 +827,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plano de manejo",
     "ADD_A_TASK": "Adicione uma tarefa",
-    "ASSOCIATED_TASKS": "Tarefas associadas",
-    "EDIT_PLAN": "Editar plano",
+    "DETAILS": "MISSING",
     "FAILED_CROP": "Colheita falhou?",
-    "PLAN_NOTES": "Notas do plano"
+    "TASKS": "MISSING"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "MISSING",
@@ -960,6 +959,7 @@
         "TEXT": "{{fill}} local"
       }
     },
+    "UPDATE_DATE_THROUGH_TASK": "MISSING",
     "VARIETY": "MISSING",
     "WHAT_IS_AGE": "Qual é a idade da safra?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
@@ -1333,6 +1333,7 @@
     "COMPLETE_TASK_CHANGES": "MISSING",
     "COMPLETE_TASK_DURATION": "MISSING",
     "COMPLETE_TASK_FLOW": "MISSING",
+    "COMPLETION_DETAILS": "MISSING",
     "COMPLETION_NOTES": "MISSING",
     "COMPLETION_NOTES_CHAR_LIMIT": "MISSING",
     "DETAILS": "MISSING",
@@ -1348,6 +1349,7 @@
     "PAGE_TITLE": "MISSING",
     "PREFER_NOT_TO_SAY": "MISSING",
     "PROVIDE_RATING": "MISSING",
+    "RATE_THIS_TASK": "MISSING",
     "REMOVE_HARVEST_USE": "MISSING",
     "SELECT_DATE": "MISSING",
     "SELECT_TASK_LOCATIONS": "MISSING",

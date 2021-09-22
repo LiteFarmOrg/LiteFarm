@@ -270,12 +270,12 @@ const taskController = {
       try {
         const data = req.body;
         const { user_id } = req.headers;
-        const { task_id } = req.params;
+        const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
           return res.status(403).send("Not authorized to complete other people's task");
         }
-        const harvest_uses = data.harvest_uses;
+        const harvest_uses = data.harvest_uses.map(harvest_use => ({ ...harvest_use, task_id }));
         const task = data.task;
         const result = {};
 
@@ -297,9 +297,9 @@ const taskController = {
           const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: task.completed_time, })
+            await managementPlanModel.query().context(req.user).patch({ start_date: task.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
-              .where('start_date', null)
+              .where('start_date', null);
           }
           return res.status(200).send(result)
         } else {
@@ -312,7 +312,6 @@ const taskController = {
     }
   },
 
-
   getTasksByFarmId() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
@@ -320,7 +319,7 @@ const taskController = {
         const tasks = await getTasksForFarm(farm_id);
         const taskIds = tasks.map(({ task_id }) => task_id);
         const graphTasks = await TaskModel.query().whereNotDeleted().withGraphFetched(`
-          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task, plant_task, transplant_task]
+          [locations, managementPlans, soil_amendment_task, field_work_task, cleaning_task, pest_control_task, harvest_task.[harvest_use], plant_task, transplant_task]
         `).whereIn('task_id', taskIds);
         const filteredTasks = graphTasks.map(removeNullTypes);
         if (graphTasks) {
@@ -334,6 +333,25 @@ const taskController = {
     };
   },
 
+  //TODO: evaluate getHarvestUsesByFarmId use cases
+  getHarvestUsesByFarmId() {
+    return async (req, res, next) => {
+      const { farm_id } = req.params;
+      try {
+        const harvest_uses = await HarvestUse.query().select()
+          .join('task', 'harvest_use.task_id', 'task.task_id')
+          .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+          .join('location', 'location.location_id', 'location_tasks.location_id')
+          .where('location.farm_id', farm_id);
+        if (harvest_uses) {
+          return res.status(200).send(harvest_uses);
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).send({ error });
+      }
+    }
+  }
 
 };
 

@@ -1362,7 +1362,9 @@
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "TRANSPLANT_LOCATIONS": "MISSING",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "COMPLETION_DETAILS": "MISSING",
+    "RATE_THIS_TASK": "MISSING"
   },
   "UNIT": {
     "TIME": {

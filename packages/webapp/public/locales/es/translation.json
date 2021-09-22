@@ -839,10 +839,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plan de manejo",
     "ADD_A_TASK": "Agregar una tarea",
-    "ASSOCIATED_TASKS": "Tareas asociadas",
-    "EDIT_PLAN": "Editar plan",
+    "DETAILS": "MISSING",
     "FAILED_CROP": "¿Cultivo fallido?",
-    "PLAN_NOTES": "Notas del plan"
+    "TASKS": "MISSING"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de manejo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
@@ -972,6 +971,7 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
+    "UPDATE_DATE_THROUGH_TASK": "MISSING",
     "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
@@ -1344,6 +1344,7 @@
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
     "COMPLETE_TASK_FLOW": "la terminación de la tarea",
+    "COMPLETION_DETAILS": "MISSING",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "DETAILS": "Detalles",
@@ -1363,6 +1364,7 @@
     "PAGE_TITLE": "Tareas",
     "PREFER_NOT_TO_SAY": "Prefiero no decir",
     "PROVIDE_RATING": "Proveer una calificación",
+    "RATE_THIS_TASK": "MISSING",
     "REMOVE_HARVEST_USE": "Quitar",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -124,6 +124,7 @@ export default function PureHarvestUses({
         return (
           <div>
             <Controller
+              style={{ zIndex: '1' }}
               control={control}
               name={`harvest_uses.${index}.` + HARVEST_USE_TYPE}
               render={({ field }) => (
@@ -138,7 +139,7 @@ export default function PureHarvestUses({
             />
             <Unit
               register={register}
-              style={{ marginBottom: '14px', marginTop: '40px' }}
+              style={{ marginBottom: '14px', marginTop: '40px', zIndex: '0' }}
               label={t('ADD_TASK.QUANTITY')}
               name={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY}
               displayUnitName={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY_UNIT}

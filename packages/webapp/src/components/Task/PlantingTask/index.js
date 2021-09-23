@@ -32,10 +32,11 @@ export function PurePlantingTask({
     CONTAINER_METHOD: t('MANAGEMENT_PLAN.INDIVIDUAL_CONTAINER'),
     BROADCAST_METHOD: t('MANAGEMENT_PLAN.BROADCAST'),
   };
+
   return (
     <>
       <Main style={{ marginBottom: '24px' }}>
-        {isPlantTask ? t('ADD_TASK.TRANSPLANTING') : t('ADD_TASK.PLANTING')}:{' '}
+        {isPlantTask ? t('ADD_TASK.PLANTING_METHOD') : t('ADD_TASK.TRANSPLANT_METHOD')}:{' '}
         {plantingMethodTranslation[plantingMethod]}{' '}
       </Main>
       {plantingMethodForm[plantingMethod]({

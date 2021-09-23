@@ -20,32 +20,38 @@ export const PureHarvestingTaskReadOnly = ({
   const HARVEST_QUANTITY_UNIT = 'harvest_task.projected_quantity_unit';
   const HARVEST_EVERYTHING = 'harvest_task.harvest_everything';
 
+  const harvest_everything = watch(HARVEST_EVERYTHING);
+
   return (
     <>
       {!isCompleted && (
         <>
-          <Unit
-            register={register}
-            style={{ marginBottom: '12px' }}
-            label={t('ADD_TASK.QUANTITY')}
-            name={HARVEST_QUANTITY}
-            displayUnitName={HARVEST_QUANTITY_UNIT}
-            unitType={harvestAmounts}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFromWatch={watch}
-            control={control}
-            optional
-            disabled={disabled}
-          />
-          <Checkbox
-            style={{ marginBottom: '19px' }}
-            label={t('ADD_TASK.HARVEST_EVERYTHING')}
-            hookFormRegister={register(HARVEST_EVERYTHING)}
-            sm
-            disabled={disabled}
-          />
+          {!harvest_everything && (
+            <Unit
+              register={register}
+              style={{ marginBottom: '40px' }}
+              label={t('ADD_TASK.QUANTITY')}
+              name={HARVEST_QUANTITY}
+              displayUnitName={HARVEST_QUANTITY_UNIT}
+              unitType={harvestAmounts}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFromWatch={watch}
+              control={control}
+              optional
+              disabled={disabled}
+            />
+          )}
+          {harvest_everything && (
+            <Checkbox
+              style={{ marginBottom: '19px' }}
+              label={t('ADD_TASK.HARVEST_EVERYTHING')}
+              hookFormRegister={register(HARVEST_EVERYTHING)}
+              sm
+              disabled={disabled}
+            />
+          )}
         </>
       )}
     </>

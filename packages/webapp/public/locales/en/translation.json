@@ -1366,7 +1366,9 @@
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "COMPLETION_DETAILS": "Task completion details",
+    "RATE_THIS_TASK": "Rate this task"
   },
   "UNIT": {
     "TIME": {

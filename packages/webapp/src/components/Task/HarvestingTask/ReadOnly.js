@@ -29,7 +29,7 @@ export const PureHarvestingTaskReadOnly = ({
           {!harvest_everything && (
             <Unit
               register={register}
-              style={{ marginBottom: '12px' }}
+              style={{ marginBottom: '40px' }}
               label={t('ADD_TASK.QUANTITY')}
               name={HARVEST_QUANTITY}
               displayUnitName={HARVEST_QUANTITY_UNIT}

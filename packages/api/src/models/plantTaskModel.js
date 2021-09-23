@@ -54,6 +54,14 @@ class PlantTaskModel extends Model {
           to: 'task.task_id',
         },
       },
+      planting_management_plan: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./plantingManagementPlanModel'),
+        join: {
+          from: 'plant_task.planting_management_plan_id',
+          to: 'planting_management_plan.planting_management_plan_id',
+        },
+      },
     };
   }
 }

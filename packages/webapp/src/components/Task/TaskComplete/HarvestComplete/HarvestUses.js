@@ -55,7 +55,7 @@ export default function PureHarvestUses({
   const HARVEST_USE_QUANTITY = 'quantity';
   const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'harvest_uses',
     shouldUnregister: false,
@@ -124,7 +124,7 @@ export default function PureHarvestUses({
 
       {fields.map((field, index) => {
         return (
-          <div>
+          <div key={field.id}>
             <Controller
               style={{ zIndex: '1' }}
               control={control}
@@ -154,18 +154,22 @@ export default function PureHarvestUses({
               required
             />
             {fields.length > 1 && (
-              <SubtractLink
-                style={{ float: 'right', color: '#AA5F04', marginBottom: '24px' }}
-                color={'#AA5F04'}
-                onClick={() => {
-                  remove(index);
-                }}
-              >
-                {t('TASK.REMOVE_HARVEST_USE')}
-              </SubtractLink>
+              <div>
+                <SubtractLink
+                  style={{ float: 'right', color: '#AA5F04', marginBottom: '24px' }}
+                  color={'#AA5F04'}
+                  onClick={() => {
+                    remove(index);
+                  }}
+                >
+                  {t('TASK.REMOVE_HARVEST_USE')}
+                </SubtractLink>
+              </div>
             )}
             {index !== fields.length - 1 && (
-              <PageBreak style={{ marginTop: '16px' }}/>
+              <div style={{ marginTop: '40px', marginBottom: '24px' }}>
+                <PageBreak />
+              </div>
             )}
           </div>
         );

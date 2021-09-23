@@ -495,14 +495,14 @@ describe('Task tests', () => {
         const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
         const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
         const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+        const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-          mocks.management_planFactory({
+          mocks.planting_management_planFactory({
             promisedFarm: [{ farm_id }],
-            promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
           }, { start_date: null }),
         ));
-        const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({ planting_management_plan_id }));
         const harvest_tasks = mocks.fakeHarvestTasks({ projected_quantity: 300 }, 3).map((harvest_task, i) => {
           return {
             harvest_task,
@@ -511,7 +511,7 @@ describe('Task tests', () => {
             owner_user_id: user_id,
             assignee_user_id: user_id,
             locations: [{ location_id }],
-            managementPlans: [{ management_plan_id: managementPlans[i].management_plan_id }],
+            managementPlans: [managementPlans[i]],
             notes: faker.lorem.words(),
           };
         });
@@ -1080,15 +1080,15 @@ describe('Task tests', () => {
       const userFarm = { ...fakeUserFarm(1), wage: { type: '', amount: 30 } };
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
       const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
-      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const [{ location_id }] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
 
       const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-        mocks.management_planFactory({
+        mocks.planting_management_planFactory({
           promisedFarm: [{ farm_id }],
-          promisedLocation: [{ location_id }],
+          promisedField: [{ location_id }],
         }, { start_date: null }),
       ));
-      const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+      const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({ planting_management_plan_id }));
       const fakeTask = mocks.fakeTask({
         task_type_id: task_type_id,
         owner_user_id: user_id,
@@ -1103,15 +1103,15 @@ describe('Task tests', () => {
 
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [{ management_plan_id: managementPlans[0].management_plan_id }],
+        promisedManagementPlan: [managementPlans[0]],
       });
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [{ management_plan_id: managementPlans[1].management_plan_id }],
+        promisedManagementPlan: [managementPlans[1]],
       });
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [{ management_plan_id: managementPlans[2].management_plan_id }],
+        promisedManagementPlan: [managementPlans[2]],
       });
 
       const new_soil_amendment_task = fakeTaskData.soil_amendment_task();
@@ -1129,9 +1129,9 @@ describe('Task tests', () => {
         const patched_soil_amendment_task = await knex('soil_amendment_task').where({ task_id }).first();
         expect(patched_soil_amendment_task.product_quantity).toBe(new_soil_amendment_task.product_quantity);
         expect(patched_soil_amendment_task.purpose).toBe(new_soil_amendment_task.purpose);
-        const management_plan_1 = await knex('management_plan').where({ management_plan_id: managementPlans[0].management_plan_id }).first();
-        const management_plan_2 = await knex('management_plan').where({ management_plan_id: managementPlans[1].management_plan_id }).first();
-        const management_plan_3 = await knex('management_plan').where({ management_plan_id: managementPlans[2].management_plan_id }).first();
+        const management_plan_1 = await knex('management_plan').where({ management_plan_id: promisedManagement[0][0].management_plan_id }).first();
+        const management_plan_2 = await knex('management_plan').where({ management_plan_id: promisedManagement[1][0].management_plan_id }).first();
+        const management_plan_3 = await knex('management_plan').where({ management_plan_id: promisedManagement[2][0].management_plan_id }).first();
         expect(management_plan_1.start_date.toISOString().split('T')[0]).toBe(completed_date);
         expect(management_plan_2.start_date.toISOString().split('T')[0]).toBe(completed_date);
         expect(management_plan_3.start_date.toISOString().split('T')[0]).toBe(completed_date);

@@ -237,22 +237,25 @@ const taskController = {
         if (assignee_user_id !== user_id) {
           return res.status(403).send('Not authorized to complete other people\'s task');
         }
-        const result = await TaskModel.transaction(async trx =>
-          await TaskModel.query(trx).context({ user_id: req.user.user_id })
+        const result = await TaskModel.transaction(async trx => {
+          const result = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph({ task_id: parseInt(task_id), ...data }, {
               noUpdate: nonModifiable,
               noDelete: true,
               noInsert: true,
-            }),
-        );
-        if (result) {
-          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+            });
+          const management_plans = await managementTasksModel.query(trx).select('planting_management_plan.management_plan_id')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+            .where('task_id', task_id);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time })
+            await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
               .where('start_date', null);
           }
+          return result;
+        });
+        if (result) {
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -273,35 +276,37 @@ const taskController = {
         const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const harvest_uses = data.harvest_uses.map(harvest_use => ({ ...harvest_use, task_id }));
         const task = data.task;
-        const result = {};
 
-        await TaskModel.transaction(async trx => {
-          const updated_task =  await TaskModel.query(trx).context({ user_id: req.user.user_id })
+
+        const result = await TaskModel.transaction(async trx => {
+          const result = {};
+          const updated_task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph({ task_id: parseInt(task_id), ...task }, {
               noUpdate: nonModifiable,
               noDelete: true,
               noInsert: true,
             });
           result.task = removeNullTypes(updated_task);
-
           const updated_harvest_uses = await HarvestUse.query(trx).context({ user_id: req.user.user_id })
             .insert(harvest_uses);
           result.harvest_uses = updated_harvest_uses;
-        });
-
-        if (Object.keys(result).length > 0) {
-          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+          const management_plans = await managementTasksModel.query(trx).context(req.user).where('task_id', task_id)
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id');
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: task.completed_time })
+            await managementPlanModel.query(trx).context(req.user).patch({ start_date: task.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
               .where('start_date', null);
           }
-          return res.status(200).send(result)
+          return result;
+        });
+
+        if (Object.keys(result).length > 0) {
+          return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
         }
@@ -309,7 +314,7 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
+    };
   },
 
   getTasksByFarmId() {
@@ -350,10 +355,12 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
-  }
+    };
+  },
 
 };
+
+//TODO: tests where location and management_plan inserts should fail
 
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);

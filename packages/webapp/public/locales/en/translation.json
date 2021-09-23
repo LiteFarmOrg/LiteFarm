@@ -77,8 +77,8 @@
       "SYSTEMIC_SPRAY": "Systemic spray",
       "WHAT_PESTS": "What pest(s) are you trying to control"
     },
-    "PLANTING": "Planting",
-    "PLANTING_METHOD": "What is the transplanting method?",
+    "PLANTING_METHOD": "Planting method",
+    "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "PLANTING_TASK": "Planting Task",
     "PLANTING_TASK_MODAL": "Starting a new planting task creates a new management plan. Go to the crop catalogue to select the crop you would like to plant.",
     "QUANTITY": "Quantity",
@@ -100,7 +100,7 @@
     "TASK": "task",
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about the",
-    "TRANSPLANTING": "Transplanting",
+    "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override"
   },
   "BED_PLAN": {
@@ -1363,7 +1363,9 @@
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "COMPLETION_DETAILS": "Task completion details",
+    "RATE_THIS_TASK": "Rate this task"
   },
   "UNIT": {
     "TIME": {

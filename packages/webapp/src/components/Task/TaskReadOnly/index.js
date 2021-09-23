@@ -6,7 +6,7 @@ import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
 import LocationViewer from '../../LocationViewer';
-import { Label, Semibold, Underlined, Main } from '../../Typography';
+import { Label, Main, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
@@ -37,7 +37,6 @@ export default function PureTaskReadOnly({
   products,
   managementPlansByLocationIds,
   harvestUseTypes,
-  isCompleted,
 }) {
   const { t } = useTranslation();
   const hasManagementPlans = task.managementPlans?.length > 0;
@@ -58,21 +57,6 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    HARVEST_TASK: (props) => (
-      <PureHarvestingTaskReadOnly system={system} isCompleted={isCompleted} {...props} />
-    ),
-  };
 
   const taskAfterCompleteComponents = {
     HARVEST_TASK: (props) => (
@@ -91,6 +75,7 @@ export default function PureTaskReadOnly({
 
   const { ref: gap, padding } = useCropTileListGap([]);
 
+  const isCompleted = !!task.completed_time;
   return (
     <Layout
       buttonGroup={
@@ -137,7 +122,7 @@ export default function PureTaskReadOnly({
           return (
             <div key={location_id}>
               <div style={{ paddingBottom: '16px' }}>
-                <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
+                <PageBreak label={location_name} />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
                 {managementPlansByLocationIds[location_id]?.map((managementPlan) => {
@@ -182,22 +167,18 @@ export default function PureTaskReadOnly({
       />
       {isCompleted && (
         <div>
-          <Semibold style={{ marginBottom: '24px' }}>
-            {t('TASK.COMPLETION_DETAILS')}
-          </Semibold>
+          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
           <TimeSlider
             style={{ marginBottom: '40px' }}
             label={t('TASK.DURATION')}
             initialTime={task.duration}
-            setValue={() => { }}
+            setValue={() => {}}
             disabled={true}
           />
           <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
           {task.happiness > 0 && (
             <div>
-              <Label style={{ marginBottom: '12px' }}>
-                {t('TASK.RATE_THIS_TASK')}
-              </Label>
+              <Label style={{ marginBottom: '12px' }}>{t('TASK.RATE_THIS_TASK')}</Label>
               <Rating
                 className={styles.rating}
                 style={{ width: '24px', height: '24px' }}
@@ -206,12 +187,8 @@ export default function PureTaskReadOnly({
               />
             </div>
           )}
-          {(!task.happiness) && (
-            <Checkbox
-              label={t('TASK.PREFER_NOT_TO_SAY')}
-              disabled={true}
-              defaultChecked={true}
-            />
+          {!task.happiness && (
+            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled defaultChecked />
           )}
           <InputAutoSize
             style={{ marginTop: '40px', marginBottom: '40px' }}
@@ -233,6 +210,7 @@ export default function PureTaskReadOnly({
               system,
               products,
               task,
+              isCompleted,
             })}
         </div>
       )}
@@ -253,4 +231,5 @@ const taskComponents = {
   PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
   PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
   TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+  HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
 };

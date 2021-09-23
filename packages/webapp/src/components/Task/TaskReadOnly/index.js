@@ -122,7 +122,7 @@ export default function PureTaskReadOnly({
           return (
             <div key={location_id}>
               <div style={{ paddingBottom: '16px' }}>
-                <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
+                <PageBreak label={location_name} />
               </div>
               <PureCropTileContainer gap={gap} padding={padding}>
                 {managementPlansByLocationIds[location_id]?.map((managementPlan) => {

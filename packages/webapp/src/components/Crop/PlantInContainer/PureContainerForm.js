@@ -252,6 +252,7 @@ export default function PureContainerForm({
             errors={errors[NOTES]?.message}
             optional
             disabled={disabled}
+            style={{ paddingBottom: '40px' }}
           />
         </>
       )}

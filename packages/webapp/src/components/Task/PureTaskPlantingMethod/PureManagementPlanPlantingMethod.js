@@ -57,7 +57,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
       <PurePlantingMethod
         planting_method={planting_method}
         PLANTING_METHOD={PLANTING_METHOD}
-        title={t('ADD_TASK.PLANTING_METHOD')}
+        title={t('ADD_TASK.WHAT_PLANTING_METHOD')}
         control={control}
       />
     </Form>

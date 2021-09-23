@@ -11,6 +11,7 @@ import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { cloneObject } from '../../../../util';
 import { colors } from '../../../../assets/theme';
+import PageBreak from '../../../PageBreak';
 
 export default function PureHarvestUses({
   onContinue,
@@ -24,6 +25,7 @@ export default function PureHarvestUses({
   unit,
   harvestUseTypes,
   task,
+  onAddHarvestType,
 }) {
   const { t } = useTranslation();
 
@@ -114,7 +116,7 @@ export default function PureHarvestUses({
       <AddLink
         style={{ marginBottom: '24px' }}
         onClick={() => {
-          // TODO - Add custom harvest use
+          onAddHarvestType();
         }}
       >
         {t('TASK.ADD_CUSTOM_HARVEST_USE')}
@@ -161,6 +163,9 @@ export default function PureHarvestUses({
               >
                 {t('TASK.REMOVE_HARVEST_USE')}
               </SubtractLink>
+            )}
+            {index !== fields.length - 1 && (
+              <PageBreak style={{ marginTop: '16px' }}/>
             )}
           </div>
         );

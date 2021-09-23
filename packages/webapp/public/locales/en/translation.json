@@ -1343,6 +1343,8 @@
     "HARVEST_USE": "Harvest use",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
+    "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
+    "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",

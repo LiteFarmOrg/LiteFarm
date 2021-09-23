@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
-import { AddLink, Label, Main, SubtractLink } from '../../../Typography';
+import { AddLink, Label, Main, SubtractLink, Error } from '../../../Typography';
 import Unit from '../../../Form/Unit';
 import { harvestAmounts, roundToTwoDecimal } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
@@ -165,6 +165,11 @@ export default function PureHarvestUses({
           </div>
         );
       })}
+      {amount_to_allocate < 0 && (
+        <Error style={{ marginBottom: '20px' }}>
+          {t('TASK.QUANTITY_CANNOT_EXCEED')}
+        </Error>
+      )}
 
       <AddLink
         style={{ color: colors.blue700 }}

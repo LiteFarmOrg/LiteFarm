@@ -1341,6 +1341,7 @@
     "EDIT_TASK": "Editar tarea",
     "HARVEST_USE": "Usa de la cosecha?",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
+    "QUANTITY_CANNOT_EXCEED": "MISSING",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
     "NO_WORK_DONE": "No se completó ningún trabajo",

@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Unit from '../Unit';
 import { Fieldset } from 'react-redux-form';
 
-const CropSale = ({
+const CropVarietySale = ({
   label,
   model,
   quantityModel,
@@ -33,4 +33,4 @@ const CropSale = ({
   );
 };
 
-export default CropSale;
+export default CropVarietySale;

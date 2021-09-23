@@ -2,14 +2,14 @@ import Text from '../../Inputs/Text';
 import styles from './styles.module.scss';
 import { Control, Errors, Form } from 'react-redux-form';
 import DropDown from '../../Inputs/DropDown';
-import CropSale from '../../Inputs/CropSale';
+import CropVarietySale from '../../Inputs/CropVarietySale';
 import React from 'react';
 import footerStyles from '../../LogFooter/styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
 const SaleForm = ({
   currencySymbol,
-  cropOptions,
+  cropVarietyOptions,
   chosenOptions,
   handleChooseCrop,
   model,
@@ -38,11 +38,11 @@ const SaleForm = ({
       />
       <div className={styles.defaultFormDropDown}>
         <Control
-          label={t('SALE.ADD_SALE.CROP')}
+          label={t('SALE.ADD_SALE.CROP_VARIETY')}
           component={DropDown}
-          options={cropOptions}
-          searchable={true}
-          isMulti={true}
+          options={cropVarietyOptions}
+          searchable
+          isMulti
           placeholder={t('SALE.ADD_SALE.CROP_PLACEHOLDER')}
           model=".managementPlan"
           onChange={(option) => handleChooseCrop(option)}
@@ -59,14 +59,14 @@ const SaleForm = ({
       </div>
       <hr className={styles.thinHr} />
       <div className={styles.banner}>
-        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.CROPS')}</p>
+        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.CROP_VARIETIES')}</p>
         <p>{t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}</p>
         <p>{`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currencySymbol})`}</p>
       </div>
       <hr className={styles.thinHr2} />
       {chosenOptions?.map((c) => {
         return (
-          <CropSale
+          <CropVarietySale
             key={c.label}
             label={c.label}
             model={c.label}

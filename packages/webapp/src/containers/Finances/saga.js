@@ -44,6 +44,7 @@ export function* getSales() {
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
     if (result) {
+      // TODO: change this after sale slice reducer is remade
       yield put(setSalesInState(result.data));
     }
   } catch (e) {
@@ -64,13 +65,9 @@ export function* addSale(action) {
     : i18n.t('message:SALE.ERROR.ADD');
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
-    if (result) {
-      yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-    }
+    yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
+    yield put(getSales);
+    history.push('/finances');
   } catch (e) {
     yield put(enqueueErrorSnackbar(addOrUpdateFail));
   }

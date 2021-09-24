@@ -528,6 +528,7 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
   try {
     const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, data, header);
     if (result) {
+      // TODO - add postHarvestUseTypeSuccess
       yield put(getHarvestUseTypes());
       yield put(enqueueSuccessSnackbar(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE')));
     }

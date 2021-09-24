@@ -301,6 +301,7 @@ const TaskRowGuidance = React.lazy(() =>
 const TaskContainerMethod = React.lazy(() =>
   import('./containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
+const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualRevenue'));
 
 const Routes = () => {
   useScrollToTop();
@@ -596,7 +597,8 @@ const Routes = () => {
             <Route path="/insights/erosion" exact component={Erosion} />
             {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/sales_summary" exact component={SalesSummary} />
+            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
+            <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
@@ -873,7 +875,8 @@ const Routes = () => {
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
             <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
             <Route path="/finances" exact component={Finances} />
-            <Route path="/sales_summary" exact component={SalesSummary} />
+            {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
+            <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />

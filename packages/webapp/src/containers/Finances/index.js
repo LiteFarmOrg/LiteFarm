@@ -432,7 +432,7 @@ class Finances extends Component {
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
             number={this.state.currencySymbol + totalRevenue}
-            onClick={() => history.push('/sales_summary')}
+            onClick={() => history.push('/finances/actual_revenue')}
           />
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')}

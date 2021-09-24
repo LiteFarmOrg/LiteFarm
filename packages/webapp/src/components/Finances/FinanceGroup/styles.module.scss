@@ -13,16 +13,16 @@
   align-self: center;
 }
 
-.subtitle {
-  font-size: 12px;
-  line-height: 16px;
-  margin-top: 4px;
-}
-
 .groupHeader {
   background: var(--grey100);
   border-radius: 4px 4px 0px 0px;
   padding: 12px 8px;
+
+  .subtitle {
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 4px;
+  }
 
   .headerChevron {
     font-size: 1.5em;
@@ -36,18 +36,25 @@
 
   .subtitleContainer {
     display: flex;
-    align-items: center;
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 4px;
+
+    .iconContainer {
+      margin-right: 4px;
+      margin-top: 2px;
+    }
+
+    .icon {
+      fill: var(--teal700);
+      align-self: center;
+    }
   }
 
   .itemChevron {
     font-size: 1em;
     justify-self: center;
   }
-}
-
-.icon {
-  margin-right: 4px;
-  fill: var(--teal700)
 }
 
 .rightChevron {

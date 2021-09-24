@@ -13,8 +13,12 @@ const FinanceItem = ({ title, subtitle, amount, isPlan, onClickForward }) => {
         <Text style={{ lineHeight: '16px' }}>{title}</Text>
         {subtitle && (
           <div className={styles.subtitleContainer}>
-            {isPlan && <CalendarIcon className={clsx(styles.icon)} />}
-            <div className={clsx(styles.subtitle)}>{subtitle}</div>
+            {isPlan && (
+              <div className={clsx(styles.iconContainer)}>
+                <CalendarIcon className={clsx(styles.icon)} />
+              </div>
+            )}
+            <div>{subtitle}</div>
           </div>
         )}
       </div>

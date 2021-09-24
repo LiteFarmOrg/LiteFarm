@@ -1,0 +1,55 @@
+.groupContainer {
+  border: 1px solid var(--grey400);
+  border-radius: 4px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 7fr 3fr 24px;
+  column-gap: 12px;
+}
+
+.gridItem {
+  align-self: center;
+}
+
+.subtitle {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 4px;
+}
+
+.groupHeader {
+  background: var(--grey100);
+  border-radius: 4px 4px 0px 0px;
+  padding: 12px 8px;
+
+  .headerChevron {
+    font-size: 1.5em;
+    justify-self: center;
+  }
+}
+
+.groupItem {
+  padding: 10px 8px;
+  border-top: 1px solid var(--grey400);
+
+  .subtitleContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .itemChevron {
+    font-size: 1em;
+    justify-self: center;
+  }
+}
+
+.icon {
+  margin-right: 4px;
+  fill: var(--teal700)
+}
+
+.rightChevron {
+  fill: var(--teal700)
+}

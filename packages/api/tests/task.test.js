@@ -1086,6 +1086,10 @@ describe('Task tests', () => {
         mocks.planting_management_planFactory({
           promisedFarm: [{ farm_id }],
           promisedField: [{ location_id }],
+          promisedManagementPlan: mocks.management_planFactory({ promisedFarm: [{ farm_id }] }, {
+            ...mocks.fakeManagementPlan,
+            start_date: null,
+          }),
         }, { start_date: null }),
       ));
       const managementPlans = promisedManagement.map(([{ planting_management_plan_id }]) => ({ planting_management_plan_id }));
@@ -1103,15 +1107,15 @@ describe('Task tests', () => {
 
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [managementPlans[0]],
+        promisedPlantingManagementPlan: [managementPlans[0]],
       });
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [managementPlans[1]],
+        promisedPlantingManagementPlan: [managementPlans[1]],
       });
       await mocks.management_tasksFactory({
         promisedTask: [{ task_id: task_id }],
-        promisedManagementPlan: [managementPlans[2]],
+        promisedPlantingManagementPlan: [managementPlans[2]],
       });
 
       const new_soil_amendment_task = fakeTaskData.soil_amendment_task();

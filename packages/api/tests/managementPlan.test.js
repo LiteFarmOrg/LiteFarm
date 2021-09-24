@@ -569,6 +569,13 @@ describe('ManagementPlan Tests', () => {
         };
       }
 
+      async function getFinalPlantingManagementPlan(cropManagementPlan) {
+        return knex('planting_management_plan').where({
+          is_final_planting_management_plan: true,
+          management_plan_id: cropManagementPlan.management_plan_id,
+        });
+      }
+
       test('Abandon management plan', async (done) => {
         const reqBody = getCompleteReqBody(true);
         abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
@@ -613,29 +620,30 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with one pending task that reference this management plan and another management_plan', async (done) => {
         const reqBody = getCompleteReqBody();
+        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
-          promisedManagementPlan: [transplantManagementPlan],
+          promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
         });
 
         const [managementTaskToKeep] = await mocks.management_tasksFactory({
-          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
+          promisedPlantingManagementPlan: mocks.planting_management_planFactory({ promisedFarm: [farm] }),
           promisedTask: [managementTaskToBeDeleted],
         });
 
         const [anotherManagementTask] = await mocks.management_tasksFactory({
-          promisedManagementPlan: mocks.crop_management_planFactory({ promisedFarm: [farm] }),
+          promisedPlantingManagementPlan: mocks.planting_management_planFactory({ promisedFarm: [farm] }),
         });
 
         abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
-          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['management_plan_id', 'task_id'])).first();
+          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id'])).first();
           expect(deletedManagementPlan).toBeUndefined();
-          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['management_plan_id', 'task_id'])).first();
+          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask0).toBeDefined();
-          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['management_plan_id', 'task_id'])).first();
+          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask1).toBeDefined();
           done();
         });
@@ -643,8 +651,9 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with two pending task that reference this management plan and another management_plan', async (done) => {
         const reqBody = getCompleteReqBody(true);
+        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [managementTaskToBeDeleted] = await mocks.management_tasksFactory({
-          promisedManagementPlan: [transplantManagementPlan],
+          promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
         });
 
@@ -654,7 +663,7 @@ describe('ManagementPlan Tests', () => {
         });
 
         const [taskToAbandon] = await mocks.management_tasksFactory({
-          promisedManagementPlan: [transplantManagementPlan],
+          promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
         });
 
@@ -666,13 +675,13 @@ describe('ManagementPlan Tests', () => {
           expect(res.status).toBe(200);
           const newManagementPlan = await managementPlanModel.query().context({ showHidden: true }).where('management_plan_id', transplantManagementPlan.management_plan_id).first();
           expect(newManagementPlan.complete_notes).toBe(reqBody.complete_notes);
-          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['management_plan_id', 'task_id'])).first();
+          const deletedManagementPlan = await knex('management_tasks').where(lodash.pick(managementTaskToBeDeleted, ['planting_management_plan_id', 'task_id'])).first();
           expect(deletedManagementPlan).toBeUndefined();
-          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['management_plan_id', 'task_id'])).first();
+          const keptManagementTask0 = await knex('management_tasks').where(lodash.pick(managementTaskToKeep, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask0).toBeDefined();
-          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['management_plan_id', 'task_id'])).first();
+          const keptManagementTask1 = await knex('management_tasks').where(lodash.pick(anotherManagementTask, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask1).toBeDefined();
-          const keptManagementTask2 = await knex('management_tasks').where(lodash.pick(taskToAbandon, ['management_plan_id', 'task_id'])).first();
+          const keptManagementTask2 = await knex('management_tasks').where(lodash.pick(taskToAbandon, ['planting_management_plan_id', 'task_id'])).first();
           expect(keptManagementTask2).toBeDefined();
           const abandonedTask = await knex('task').where(lodash.pick(taskToAbandon, ['task_id'])).first();
           expect(getDateInputFormat(abandonedTask.abandoned_time)).toBe(reqBody.abandon_date);
@@ -682,8 +691,9 @@ describe('ManagementPlan Tests', () => {
 
       test('Abandon management plan with one pending task that reference this management plan and no location', async (done) => {
         const reqBody = getCompleteReqBody(true);
+        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(transplantManagementPlan);
         const [task] = await mocks.management_tasksFactory({
-          promisedManagementPlan: [transplantManagementPlan],
+          promisedPlantingManagementPlan: [plantingManagementPlan],
           promisedTask: mocks.taskFactory({ promisedUser: [owner] }, { ...mocks.fakeTask() }),
         });
         abandonManagementPlanRequest(reqBody, {}, async (err, res) => {
@@ -699,8 +709,9 @@ describe('ManagementPlan Tests', () => {
 
       test('Should return 400 when complete management plan with pending tasks', async (done) => {
         const reqBody = getCompleteReqBody();
+        const [plantingManagementPlan] = await getFinalPlantingManagementPlan(transplantManagementPlan);
         const pendingTask = await mocks.management_tasksFactory({
-          promisedManagementPlan: [transplantManagementPlan],
+          promisedPlantingManagementPlan: [plantingManagementPlan],
         });
 
         completeManagementPlanRequest(reqBody, {}, async (err, res) => {
@@ -759,7 +770,7 @@ describe('ManagementPlan Tests', () => {
     async function expectPlantingMethodPosted(res, final_planting_method, initial_planting_method) {
       expect(res.status).toBe(201);
       const { management_plan_id } = res.body.management_plan;
-      const { already_in_ground, for_cover } = res.body.management_plan.crop_management_plan;
+      const { already_in_ground, for_cover, needs_transplant } = res.body.management_plan.crop_management_plan;
       if (!already_in_ground) {
         const { planting_management_plan_id } = await knex('planting_management_plan').where({
           management_plan_id: res.body.management_plan.management_plan_id,
@@ -782,11 +793,16 @@ describe('ManagementPlan Tests', () => {
         const transplant_task = await knex('transplant_task').where({ planting_management_plan_id }).first();
         expect(transplant_task).toBeDefined();
       }
+
+      const { planting_management_plan_id } = await knex('planting_management_plan').where({
+        management_plan_id: res.body.management_plan.management_plan_id,
+        planting_task_type: needs_transplant ? 'TRANSPLANT_TASK' : 'PLANT_TASK',
+      }).first();
       if (for_cover) {
-        const fieldWorkTask = await knex('management_tasks').join('field_work_task', 'field_work_task.task_id', 'management_tasks.task_id').where({ management_plan_id }).first();
+        const fieldWorkTask = await knex('management_tasks').join('field_work_task', 'field_work_task.task_id', 'management_tasks.task_id').where({ planting_management_plan_id }).first();
         expect(fieldWorkTask).toBeDefined();
       } else {
-        const harvestTask = await knex('management_tasks').join('harvest_task', 'harvest_task.task_id', 'management_tasks.task_id').where({ management_plan_id }).first();
+        const harvestTask = await knex('management_tasks').join('harvest_task', 'harvest_task.task_id', 'management_tasks.task_id').where({ planting_management_plan_id }).first();
         expect(harvestTask).toBeDefined();
       }
     }

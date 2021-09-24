@@ -69,13 +69,16 @@ const managementPlanController = {
             const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, { transplant_task: { planting_management_plan_id } }));
             tasks.push(transplantTask);
           }
-          const location_id = management_plan.crop_management_plan.planting_management_plans.find(
+          const {
+            location_id,
+            planting_management_plan_id,
+          } = management_plan.crop_management_plan.planting_management_plans.find(
             planting_management_plan => management_plan.crop_management_plan.needs_transplant ?
-              planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK').location_id;
+              planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK') || {};
           const taskManagementPlansAndLocations = {
             //TODO: already_in_ground && is_wild && !needs_transplant test (pin location)
             locations: location_id ? [{ location_id }] : undefined,
-            managementPlans: [{ management_plan_id: management_plan.management_plan_id }],
+            managementPlans: [{ planting_management_plan_id }],
           };
           if (!req.body.crop_management_plan.for_cover) {
             const planned_time = req.body.crop_management_plan.harvest_date;
@@ -159,9 +162,13 @@ const managementPlanController = {
            * Get all related task_ids and number of related management plans of each task_id
            * @type {{task_id: string, count: string}[]}
            */
-          const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
-              .groupBy('task_id').count('management_plan_id').select('task_id'));
+          const tasksWithManagementPlanCount = await managementTasksModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+            .where('planting_management_plan.management_plan_id', management_plan_id).distinct('task_id')
+            .then(tasks => managementTasksModel.query()
+              .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+              .whereIn('task_id', tasks.map(({ task_id }) => task_id))
+              .groupBy('task_id').count('planting_management_plan.management_plan_id').select('task_id'));
 
           const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1')
             .map(({ task_id }) => task_id);
@@ -173,10 +180,8 @@ const managementPlanController = {
               other_abandonment_reason: 'Crop management plan abandoned',
             });
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount.filter(({ count }) => Number(count) > 1).map(({ task_id }) => task_id);
-          const deletedManagementPlans = await managementTasksModel.query(trx).context(req.user)
-            .where({ management_plan_id })
-            .whereIn('task_id', taskIdsRelatedToManyManagementPlans)
-            .delete();
+          //TODO: fix when knex implemented deletion on joined for postgres https://github.com/knex/knex/issues/873
+          taskIdsRelatedToManyManagementPlans.length && await trx.raw('delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)', [management_plan_id, taskIdsRelatedToManyManagementPlans]);
           return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
         });
 

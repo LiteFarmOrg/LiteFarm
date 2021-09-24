@@ -90,6 +90,7 @@ const taskController = {
           .where({ task_id }).first();
         const isUserTaskOwner = user_id === owner_user_id;
         const isUserTaskAssignee = user_id === assignee_user_id;
+        //TODO: move to middleware
         // cannot abandon task if user is worker and not assignee and not creator
         if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
           return res.status(403).send('A worker who is not assignee or owner of task cannot abandon it');
@@ -249,10 +250,11 @@ const taskController = {
             .where('task_id', task_id);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
+            const plans = await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
-              .where('start_date', null);
+              .where('start_date', null).returning('*');
           }
+
           return result;
         });
         if (result) {

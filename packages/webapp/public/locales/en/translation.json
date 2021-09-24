@@ -1099,18 +1099,18 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Crop",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
-      "CUSTOMER_NAME": "Customer Name",
+      "CROP_VARIETY": "Crop variety",
+      "CUSTOMER_NAME": "Customer name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
       "TABLE_HEADERS": {
-        "CROPS": "Crops",
+        "CROP_VARIETIES": "Crop variety",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add New Sale"
+      "TITLE": "Add new income"
     },
     "DETAIL": {
       "ACTION": "Action",

@@ -1099,14 +1099,14 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Selecione cultivo",
       "CROP_REQUIRED": "Cultivo é necessário",
+      "CROP_VARIETY": "MISSING",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
       "TABLE_HEADERS": {
-        "CROPS": "Cultivos",
+        "CROP_VARIETIES": "MISSING",
         "QUANTITY": "Quantidade",
         "TOTAL": "Total"
       },

@@ -51,6 +51,7 @@ function HarvestUses({ history, match }) {
       </HookFormPersistProvider>
       {showAddHarvestTypeModal && (
         <AddHarvestUseTypeModal
+          harvestUseTypes={harvestUseTypes.map((harvestUseType) => harvestUseType.harvest_use_type_name)}
           dismissModal={() => setShowAddHarvestTypeModal(false)}
         />
       )}

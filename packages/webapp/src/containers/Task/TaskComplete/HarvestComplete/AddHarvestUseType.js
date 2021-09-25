@@ -5,15 +5,26 @@ import Button from '../../../../components/Form/Button';
 import { useDispatch } from 'react-redux';
 import Input from '../../../../components/Form/Input';
 import { addCustomHarvestUse } from '../../saga';
+import { Error } from '../../../../components/Typography';
 
-export default function AddHarvestUseTypeModal({ dismissModal }) {
+export default function AddHarvestUseTypeModal({ dismissModal, harvestUseTypes }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [harvestUseName, setHarvestUseName] = useState('');
+  const [duplicateError, setDuplicateError] = useState(false);
 
   const onAdd = () => {
     dispatch(addCustomHarvestUse({name: harvestUseName}));
     dismissModal();
+  }
+
+  const onHarvestUseInputChange = (e) => {
+    setHarvestUseName(e.target.value);
+    if (harvestUseTypes.includes(e.target.value)) {
+      setDuplicateError(true);
+    } else {
+      setDuplicateError(false);
+    }
   }
 
   return (
@@ -25,7 +36,7 @@ export default function AddHarvestUseTypeModal({ dismissModal }) {
           <Button onClick={dismissModal} color="secondary" sm>
             {t('common:CANCEL')}
           </Button>
-          <Button onClick={onAdd} color="primary" sm>
+          <Button onClick={onAdd} color="primary" sm disabled={duplicateError}>
             {t('common:ADD')}
           </Button>
         </>
@@ -34,8 +45,9 @@ export default function AddHarvestUseTypeModal({ dismissModal }) {
       <Input
         style={{ marginBottom: '12px', marginTop: '8px' }}
         label={t('TASK.DESCRIBE_HARVEST_USE')}
-        onChange={(e) => setHarvestUseName(e.target.value)}
+        onChange={(e) => onHarvestUseInputChange(e)}
       />
+      {duplicateError && <Error>{t('TASK.HARVEST_USE_ALREADY_EXISTS')}</Error>}
     </ModalComponent>
   );
 }

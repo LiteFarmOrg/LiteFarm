@@ -4,6 +4,7 @@ import PageTitle from '../../../components/PageTitle/v2';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
+import moment from 'moment';
 import { salesSelector } from '../selectors';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
@@ -33,9 +34,8 @@ export default function ActualRevenue({ history, match }) {
     mode: 'onBlur',
     shouldUnregister: true,
     defaultValues: {
-      // TODO: set default date range dynamically
-      from_date: '2021-01-01',
-      to_date: '2021-12-31',
+      from_date: moment().startOf('year').format('YYYY-MM-DD'),
+      to_date: moment().endOf('year').format('YYYY-MM-DD'),
     },
   });
 
@@ -44,9 +44,8 @@ export default function ActualRevenue({ history, match }) {
 
   const filteredSales = useMemo(() => {
     return sales.filter((sale) => {
-      const saleDate = new Date(sale.sale_date);
-      // TODO: perform proper check (utc?)
-      return saleDate >= new Date(fromDate) && saleDate <= new Date(toDate);
+      const saleDate = moment(new Date(sale.sale_date)).utc().format('YYYY-MM-DD');
+      return new Date(saleDate) >= new Date(fromDate) && new Date(saleDate) <= new Date(toDate);
     });
   }, [sales, fromDate, toDate]);
 

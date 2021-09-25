@@ -7,6 +7,7 @@ import { salesSelector } from '../selectors';
 import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
+import ActualCropRevenue from '../ActualCropRevenue';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -37,10 +38,12 @@ export default function ActualRevenue({ history, match }) {
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
       />
+
       <WholeFarmRevenue amount={600} style={{ marginBottom: '14px' }} />
       <AddLink onClick={onAddRevenue} style={{ marginBottom: '32px' }}>
         {t('FINANCES.ACTUAL_REVENUE.ADD_REVENUE')}
       </AddLink>
+
       <Semibold style={{ marginBottom: '24px' }} sm>
         {t('FINANCES.ACTUAL_REVENUE.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
@@ -49,6 +52,10 @@ export default function ActualRevenue({ history, match }) {
         control={control}
         getValues={getValues}
       /> */}
+
+      {sales.map((sale) => (
+        <ActualCropRevenue key={sale.sale_id} sale={sale} style={{ marginBottom: '16px' }} />
+      ))}
     </Layout>
   );
 }

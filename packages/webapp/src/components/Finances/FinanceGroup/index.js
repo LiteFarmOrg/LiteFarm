@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import styles from './styles.module.scss';
 import FinanceGroupHeader from './Header';
 import FinancesItem from './GroupItem';
@@ -11,11 +12,13 @@ const FinanceGroup = ({
   totalAmount,
   isDropDown,
   financeItemsProps = [],
+  className,
+  ...props
 }) => {
   const [open, setOpen] = useState(!isDropDown);
 
   return (
-    <div className={styles.groupContainer}>
+    <div className={clsx(styles.groupContainer, className)} {...props}>
       <FinanceGroupHeader
         title={headerTitle}
         subtitle={headerSubtitle}
@@ -25,7 +28,7 @@ const FinanceGroup = ({
         setOpen={setOpen}
         onClickForward={headerClickForward}
       />
-      {open && financeItemsProps.map((props) => <FinancesItem {...props} />)}
+      {open && financeItemsProps.map((itemProps) => <FinancesItem {...itemProps} />)}
     </div>
   );
 };

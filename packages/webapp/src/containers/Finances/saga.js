@@ -66,7 +66,7 @@ export function* addSale(action) {
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
     yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
-    yield put(getSales);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     yield put(enqueueErrorSnackbar(addOrUpdateFail));
@@ -85,7 +85,7 @@ export function* updateSaleSaga(action) {
   try {
     const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
-    yield put(getSales);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     console.log(`failed to update sale`);
@@ -101,7 +101,7 @@ export function* deleteSale(action) {
   try {
     const result = yield call(axios.delete, salesURL + '/' + action.sale.sale_id, header);
     yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
-    yield put(getSales);
+    yield call(getSales);
     history.push('/finances');
   } catch (e) {
     console.log(`failed to delete sale`);

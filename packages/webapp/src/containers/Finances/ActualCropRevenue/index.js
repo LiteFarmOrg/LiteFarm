@@ -8,7 +8,7 @@ import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
 const ActualCropRevenue = ({ sale, ...props }) => {
   const { sale_id, sale_date, customer_name, crop_variety_sale } = sale;
 
-  // TODO: optimize this - put in parent component or something similar
+  // TODO: optimize this - put in parent component or seek by id
   const cropVarietyEntities = useSelector(cropVarietyEntitiesSelector);
 
   let total = 0;

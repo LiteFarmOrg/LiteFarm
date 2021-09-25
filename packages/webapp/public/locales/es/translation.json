@@ -195,15 +195,12 @@
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
     "FLOW_TITLE": "exportar de documentos de certificación",
-    "FROM": "Desde",
     "GOOD_NEWS": "¡Buenas noticias!",
     "HAVE_ALL_INFO": "Parece que LiteFarm tiene toda la información que necesitamos para procesar sus documentos de certificación. Se los enviaremos a:",
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
-    "TO": "Hasta",
-    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
     "UH_OH": "¡Oh, no!",
     "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
@@ -318,6 +315,11 @@
     "PHYSIOLOGY_AND_ANATOMY": "MISSING",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "Desde",
+    "TO": "Hasta",
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -614,6 +616,16 @@
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
+  },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "MISSING",
+      "DATE": "MISSING",
+      "REVENUE": "MISSING",
+      "TITLE": "MISSING",
+      "VIEW_WITHIN_DATE_RANGE": "MISSING"
+    },
+    "WHOLE_FARM_REVENUE": "MISSING"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",

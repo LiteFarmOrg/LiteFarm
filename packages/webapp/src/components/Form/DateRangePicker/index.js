@@ -29,7 +29,7 @@ const DateRangePicker = ({ register, getValues, control, className, ...props }) 
     <div className={className} {...props}>
       <div className={styles.dateContainer}>
         <Input
-          label={t('CERTIFICATIONS.FROM')}
+          label={t('DATE_RANGE_PICKER.FROM')}
           type="date"
           hookFormRegister={fromDateRegister}
           classes={{
@@ -38,7 +38,7 @@ const DateRangePicker = ({ register, getValues, control, className, ...props }) 
         />
         <div className={styles.dateDivider} />
         <Input
-          label={t('CERTIFICATIONS.TO')}
+          label={t('DATE_RANGE_PICKER.TO')}
           type="date"
           hookFormRegister={toDateRegister}
           classes={{
@@ -46,7 +46,7 @@ const DateRangePicker = ({ register, getValues, control, className, ...props }) 
           }}
         />
       </div>
-      <DateError control={control} errorMessage={t('CERTIFICATIONS.TO_MUST_BE_AFTER_FROM')} />
+      <DateError control={control} errorMessage={t('DATE_RANGE_PICKER.TO_MUST_BE_AFTER_FROM')} />
     </div>
   );
 };

@@ -195,15 +195,12 @@
     "EXPORT_DOCS": "Export certification docs",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
-    "FROM": "From",
     "GOOD_NEWS": "Good news!",
     "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
-    "TO": "To",
-    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
     "UH_OH": "Uh oh!",
     "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
@@ -319,6 +316,11 @@
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well"
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "From",
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
@@ -615,6 +617,16 @@
   },
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Clear all filters"
+  },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "Add revenue",
+      "DATE": "Date",
+      "REVENUE": "Revenue",
+      "TITLE": "Actual Revenue",
+      "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range"
+    },
+    "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",

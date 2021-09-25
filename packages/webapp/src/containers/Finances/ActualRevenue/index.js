@@ -9,6 +9,7 @@ import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
 import { AddLink, Semibold } from '../../../components/Typography';
 import DateRangePicker from '../../../components/Form/DateRangePicker';
 import ActualCropRevenue from '../ActualCropRevenue';
+import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 
 export default function ActualRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -72,6 +73,11 @@ export default function ActualRevenue({ history, match }) {
         style={{ marginBottom: '24px' }}
       />
 
+      <FinanceListHeader
+        firstColumn={t('FINANCES.ACTUAL_REVENUE.DATE')}
+        secondColumn={t('FINANCES.ACTUAL_REVENUE.REVENUE')}
+        style={{ marginBottom: '8px' }}
+      />
       {filteredSales.map((sale) => (
         <ActualCropRevenue key={sale.sale_id} sale={sale} style={{ marginBottom: '16px' }} />
       ))}

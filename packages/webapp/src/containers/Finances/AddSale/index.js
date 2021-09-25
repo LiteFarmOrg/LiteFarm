@@ -40,13 +40,9 @@ class AddSale extends Component {
       return {
         sale_value: sale ? sale[c.label].value && parseFloat(sale[c.label].value).toFixed(2) : 0,
         quantity: sale
-          ? sale[c.label].quantity_kg &&
+          ? sale[c.label].quantity &&
             parseFloat(
-              convertToMetric(
-                parseFloat(sale[c.label].quantity_kg),
-                this.state.quantity_unit,
-                'kg',
-              ),
+              convertToMetric(parseFloat(sale[c.label].quantity), this.state.quantity_unit, 'kg'),
             )
           : 0,
         quantity_unit: this.state.quantity_unit,

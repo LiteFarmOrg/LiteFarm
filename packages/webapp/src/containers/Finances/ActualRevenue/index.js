@@ -79,7 +79,12 @@ export default function ActualRevenue({ history, match }) {
         style={{ marginBottom: '8px' }}
       />
       {filteredSales.map((sale) => (
-        <ActualCropRevenue key={sale.sale_id} sale={sale} style={{ marginBottom: '16px' }} />
+        <ActualCropRevenue
+          key={sale.sale_id}
+          sale={sale}
+          history={history}
+          style={{ marginBottom: '16px' }}
+        />
       ))}
     </Layout>
   );

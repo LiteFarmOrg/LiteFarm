@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
@@ -6,6 +6,7 @@ import PureHarvestUses from '../../../../components/Task/TaskComplete/HarvestCom
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
 import { taskWithProductById } from '../../../taskSlice';
+import AddHarvestUseTypeModal from './AddHarvestUseType';
 
 function HarvestUses({ history, match }) {
   const system = useSelector(measurementSelector);
@@ -17,6 +18,7 @@ function HarvestUses({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
   const task = useSelector(taskWithProductById(task_id));
+  const [showAddHarvestTypeModal, setShowAddHarvestTypeModal] = useState(false);
 
   const onContinue = (data) => {
     history.push(`/tasks/${task_id}/complete`);
@@ -32,19 +34,27 @@ function HarvestUses({ history, match }) {
   };
 
   return (
-    <HookFormPersistProvider>
-      <PureHarvestUses
-        system={system}
-        onCancel={onCancel}
-        onGoBack={onGoBack}
-        onContinue={onContinue}
-        persistedPaths={persistedPaths}
-        amount={persistedFormData?.actual_quantity}
-        unit={persistedFormData?.actual_quantity_unit?.label}
-        harvestUseTypes={harvestUseTypes}
-        task={task}
-      />
-    </HookFormPersistProvider>
+    <>
+      <HookFormPersistProvider>
+        <PureHarvestUses
+          system={system}
+          onCancel={onCancel}
+          onGoBack={onGoBack}
+          onContinue={onContinue}
+          persistedPaths={persistedPaths}
+          amount={persistedFormData?.actual_quantity}
+          unit={persistedFormData?.actual_quantity_unit?.label}
+          harvestUseTypes={harvestUseTypes}
+          onAddHarvestType={() => setShowAddHarvestTypeModal(true)}
+          task={task}
+        />
+      </HookFormPersistProvider>
+      {showAddHarvestTypeModal && (
+        <AddHarvestUseTypeModal
+          dismissModal={() => setShowAddHarvestTypeModal(false)}
+        />
+      )}
+    </>
   );
 }
 

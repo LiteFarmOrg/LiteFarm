@@ -51,5 +51,6 @@
   "TO": "Para",
   "UPDATE": "Actualizar",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
-  "YES": "Si"
+  "YES": "Si",
+  "ADD": "MISSING"
 }

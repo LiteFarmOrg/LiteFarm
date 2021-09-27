@@ -43,7 +43,7 @@ export default function AddHarvestUseTypeModal({ dismissModal, harvestUseTypes }
       }
     >
       <Input
-        style={{ marginBottom: '12px', marginTop: '8px' }}
+        style={{ marginTop: '8px' }}
         label={t('TASK.DESCRIBE_HARVEST_USE')}
         onChange={(e) => onHarvestUseInputChange(e)}
       />

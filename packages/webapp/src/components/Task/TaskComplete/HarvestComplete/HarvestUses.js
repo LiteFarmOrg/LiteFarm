@@ -156,7 +156,7 @@ export default function PureHarvestUses({
             {fields.length > 1 && (
               <div>
                 <SubtractLink
-                  style={{ float: 'right', color: '#AA5F04', marginBottom: '24px' }}
+                  style={{ float: 'right', color: '#AA5F04'}}
                   color={'#AA5F04'}
                   onClick={() => {
                     remove(index);

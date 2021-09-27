@@ -115,7 +115,10 @@ const logController = {
       const { name } = req.body;
       const trx = await transaction.start(Model.knex());
       try {
-        const check = await HarvestUseTypeModel.query().where({ farm_id, harvest_use_type_name: name }).first();
+        const check = await HarvestUseTypeModel.query()
+          .where(builder => builder.where('farm_id', farm_id).orWhere('farm_id', null))
+          .where('harvest_use_type_name', name)
+          .first();
         if (check) {
           await trx.rollback();
           return res.status(400).send('Cannot make duplicate type for this farm');

@@ -1345,6 +1345,7 @@
     "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
     "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "DESCRIBE_HARVEST_USE": "Describe harvest use",
+    "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",

@@ -11,6 +11,7 @@ import { taskWithProductById } from '../../taskSlice';
 import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
 import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -21,7 +22,6 @@ function TaskReadOnly({ history, match }) {
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const isCompleted = task.completed_time !== null;
   const isTaskTypeCustom = !!task.taskType.farm_id;
 
   const task_locations = task.locations.map(({ location_id }) => ({ location_id }));
@@ -35,6 +35,7 @@ function TaskReadOnly({ history, match }) {
 
   const selectedTaskType = task.taskType;
   const isHarvest = selectedTaskType?.task_translation_key === 'HARVEST_TASK';
+  const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
     history.goBack();
@@ -73,7 +74,7 @@ function TaskReadOnly({ history, match }) {
       system={system}
       products={products}
       managementPlansByLocationIds={managementPlansByLocationIds}
-      isCompleted={isCompleted}
+      harvestUseTypes={harvestUseTypes}
       isTaskTypeCustom={isTaskTypeCustom}
     />
   );

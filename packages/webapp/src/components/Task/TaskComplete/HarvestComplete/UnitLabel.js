@@ -30,8 +30,7 @@ const useStyles = makeStyles({
 
 const UnitLabel = ({ unitLabel = 'kg', amount, style }) => {
   const classes = useStyles();
-  const status =
-    amount > 0 || Math.abs(amount) < 0.01 ? 'positive' : amount < 0 ? 'negative' : 'zero';
+  const status = Math.abs(amount) < 0.01 ? 'zero' : amount > 0 ? 'positive' : 'negative';
   return (
     <div className={clsx(classes.container, classes[status])} style={style}>{`${roundToTwoDecimal(
       convert(amount).from('kg').to(unitLabel),

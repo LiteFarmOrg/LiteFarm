@@ -653,7 +653,6 @@ const Routes = () => {
             />
             <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
             <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
-            />
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
@@ -961,7 +960,6 @@ const Routes = () => {
             />
             <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
             <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
-            />
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
@@ -1064,7 +1062,6 @@ const Routes = () => {
             />
             <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
             <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
-            />
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />

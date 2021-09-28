@@ -1353,6 +1353,10 @@
     "EDIT_TASK": "Editar tarea",
     "HARVEST_USE": "Usa de la cosecha?",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
+    "QUANTITY_CANNOT_EXCEED": "MISSING",
+    "CREATE_CUSTOM_HARVEST_USE": "MISSING",
+    "DESCRIBE_HARVEST_USE": "MISSING",
+    "HARVEST_USE_ALREADY_EXISTS": "MISSING",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
     "NO_WORK_DONE": "No se completó ningún trabajo",
@@ -1374,7 +1378,9 @@
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "TRANSPLANT_LOCATIONS": "MISSING",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "COMPLETION_DETAILS": "MISSING",
+    "RATE_THIS_TASK": "MISSING"
   },
   "UNIT": {
     "TIME": {

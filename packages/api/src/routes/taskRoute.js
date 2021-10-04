@@ -30,7 +30,7 @@ router.patch('/assign_all_tasks_on_date/:task_id', hasFarmAccess({ params: 'task
 router.patch('/abandon/:task_id', hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.abandonTask());
 
-router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId())
+router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getTasksByFarmId());
 /**
  * endpoint name should follow
  * /task/task_type.task_translation_key.toLowerCase()
@@ -65,8 +65,8 @@ router.post('/field_work_task', modelMapping['field_work_task'],
 router.post('/harvest_task', modelMapping['harvest_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('harvest_task'));
 
-router.post('/plant_task', modelMapping['plant_task'],
-  hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('plant_task'));
+router.post('/transplant_task', modelMapping['transplant_task'],
+  hasFarmAccess({ mix: 'transplant_task' }), isWorkerToSelfOrAdmin, taskController.createTransplantTask());
 
 router.post('/custom_task', modelMapping['custom_task'],
   hasFarmAccess({ body: 'locations' }), isWorkerToSelfOrAdmin, taskController.createTask('custom_task'));
@@ -101,10 +101,12 @@ router.patch('/complete/harvest_task/:task_id', modelMapping['harvest_task'], ha
 router.patch('/complete/plant_task/:task_id', modelMapping['plant_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('plant_task'));
 
+router.patch('/complete/transplant_task/:task_id', modelMapping['plant_task'], hasFarmAccess({ params: 'task_id' }),
+  checkScope(['edit:task']), taskController.completeTask('transplant_task'));
+
 router.patch('/complete/custom_task/:task_id', modelMapping['custom_task'], hasFarmAccess({ params: 'task_id' }),
   checkScope(['edit:task']), taskController.completeTask('custom_task'));
 
-
-
+router.get('/harvest_uses/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), taskController.getHarvestUsesByFarmId());
 
 module.exports = router;

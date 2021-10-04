@@ -1,5 +1,5 @@
 import React from 'react';
-import PurePlanGuidance from '../../../components/Crop/BedPlan/BedPlanGuidance';
+import PurePlanGuidance from '../../../components/Crop/BedPlan/PurePlanGuidance';
 import decorators from '../config/decorators';
 
 export default {

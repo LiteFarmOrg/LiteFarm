@@ -34,28 +34,6 @@ const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
 const Profile = React.lazy(() => import('./containers/Profile'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
-const Log = React.lazy(() => import('./containers/Log'));
-const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
-const FertilizingLog = React.lazy(() => import('./containers/Log/FertilizingLog'));
-const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'));
-const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));
-const HarvestLog = React.lazy(() => import('./containers/Log/HarvestLog'));
-const HarvestUseType = React.lazy(() => import('./containers/Log/HarvestUseType'));
-const AddHarvestUse = React.lazy(() => import('./containers/Log/AddHarvestUse'));
-const HarvestAllocation = React.lazy(() => import('./containers/Log/HarvestAllocation'));
-const IrrigationLog = React.lazy(() => import('./containers/Log/IrrigationLog'));
-const ScoutingLog = React.lazy(() => import('./containers/Log/ScoutingLog'));
-const SeedingLog = React.lazy(() => import('./containers/Log/SeedingLog'));
-const soilDataLog = React.lazy(() => import('./containers/Log/soilDataLog'));
-const OtherLog = React.lazy(() => import('./containers/Log/OtherLog'));
-const EditFertilizingLog = React.lazy(() => import('./containers/Log/EditLog/fertilizing'));
-const EditPestControlLog = React.lazy(() => import('./containers/Log/EditLog/pestControl'));
-const EditFieldWorkLog = React.lazy(() => import('./containers/Log/EditLog/fieldWork'));
-const EditIrrigationLog = React.lazy(() => import('./containers/Log/EditLog/irrigation'));
-const EditScoutingLog = React.lazy(() => import('./containers/Log/EditLog/scouting'));
-const EditSeedingLog = React.lazy(() => import('./containers/Log/EditLog/seeding'));
-const EditSoilDataLog = React.lazy(() => import('./containers/Log/EditLog/soilData'));
-const EditOtherLog = React.lazy(() => import('./containers/Log/EditLog/other'));
 const Shift = React.lazy(() => import('./containers/Shift'));
 const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne'));
 const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
@@ -92,7 +70,6 @@ const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/Add
 const TempEditExpense = React.lazy(() =>
   import('./containers/Finances/EditExpense/TempEditExpense'),
 );
-const LogDetail = React.lazy(() => import('./containers/Log/LogDetail'));
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
@@ -295,13 +272,35 @@ const Tasks = React.lazy(() => import('./containers/Task'));
 const ManageCustomTasks = React.lazy(() => import('./containers/Task/ManageCustomTasks'));
 const AddCustomTask = React.lazy(() => import('./containers/Task/AddCustomTask'));
 const TaskComplete = React.lazy(() => import('./containers/Task/TaskComplete'));
-const HarvestCompleteQuantity = React.lazy(() => import('./containers/Task/TaskComplete/HarvestComplete/Quantity'));
-const HarvestUses = React.lazy(() => import('./containers/Task/TaskComplete/HarvestComplete/HarvestUses'));
+const HarvestCompleteQuantity = React.lazy(() =>
+  import('./containers/Task/TaskComplete/HarvestComplete/Quantity'),
+);
+const HarvestUses = React.lazy(() =>
+  import('./containers/Task/TaskComplete/HarvestComplete/HarvestUses'),
+);
 const TaskCompleteStepOne = React.lazy(() => import('./containers/Task/TaskComplete/StepOne'));
 const TaskReadOnly = React.lazy(() => import('./containers/Task/TaskReadOnly'));
 const EditCustomTask = React.lazy(() => import('./containers/Task/EditCustomTask'));
 const TaskAbandon = React.lazy(() => import('./containers/Task/TaskAbandon'));
 const EditCustomTaskUpdate = React.lazy(() => import('./containers/Task/EditCustomTaskUpdate'));
+const TaskTransplantMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskTransplantMethod'),
+);
+const TaskBedMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskBedMethod'),
+);
+const TaskBedGuidance = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskBedGuidance'),
+);
+const TaskRowMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskRowMethod'),
+);
+const TaskRowGuidance = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskRowGuidance'),
+);
+const TaskContainerMethod = React.lazy(() =>
+  import('./containers/Task/TaskTransplantMethod/TaskContainerMethod'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -376,28 +375,6 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
@@ -422,7 +399,6 @@ const Routes = () => {
               exact
               component={Transplant}
             />
-
             <Route
               path="/crop/:variety_id/add_management_plan/plant_date"
               exact
@@ -448,7 +424,6 @@ const Routes = () => {
               exact
               component={PlantingMethod}
             />
-
             <Route
               path="/crop/:variety_id/add_management_plan/initial_broadcast_method"
               exact
@@ -514,7 +489,6 @@ const Routes = () => {
               exact
               component={ManagementPlanName}
             />
-
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
@@ -532,22 +506,19 @@ const Routes = () => {
             />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-
             <Route path="/documents" exact component={Documents} />
-
             <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/map" exact component={Map} />
@@ -567,11 +538,9 @@ const Routes = () => {
               exact
               component={EditFarmSiteBoundaryForm}
             />
-
             <Route path="/create_location/barn" exact component={PostBarnForm} />
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
-
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
             <Route
               path="/natural_area/:location_id/details"
@@ -579,7 +548,6 @@ const Routes = () => {
               component={EditNaturalAreaForm}
             />
             <Route path="/natural_area/:location_id/edit" exact component={EditNaturalAreaForm} />
-
             <Route path="/create_location/surface_water" exact component={PostSurfaceWaterForm} />
             <Route
               path="/surface_water/:location_id/details"
@@ -587,11 +555,9 @@ const Routes = () => {
               component={EditSurfaceWaterForm}
             />
             <Route path="/surface_water/:location_id/edit" exact component={EditSurfaceWaterForm} />
-
             <Route path="/create_location/residence" exact component={PostResidenceForm} />
             <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
             <Route path="/residence/:location_id/edit" exact component={EditResidenceForm} />
-
             <Route path="/create_location/ceremonial_area" exact component={PostCeremonialForm} />
             <Route
               path="/ceremonial_area/:location_id/details"
@@ -599,34 +565,26 @@ const Routes = () => {
               component={EditCeremonialForm}
             />
             <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
-
             <Route path="/create_location/garden" exact component={PostGardenForm} />
             <Route path="/garden/:location_id" component={GardenDetails} />
-
             <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
-
             <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
             <Route path="/gate/:location_id/details" exact component={EditGateForm} />
             <Route path="/gate/:location_id/edit" exact component={EditGateForm} />
-
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
             <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
             <Route path="/water_valve/:location_id/edit" exact component={EditWaterValveForm} />
-
             <Route path="/create_location/fence" exact component={PostFenceForm} />
             <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
             <Route path="/fence/:location_id/edit" exact component={EditFenceForm} />
-
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
-
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
             <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
             <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
-
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -648,10 +606,8 @@ const Routes = () => {
             <Route path="/expense_categories" exact component={ExpenseCategories} />
             <Route path="/add_expense" exact component={AddExpense} />
             <Route path="/edit_expense" exact component={TempEditExpense} />
-
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
@@ -679,6 +635,11 @@ const Routes = () => {
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path="/export/:id" exact component={ExportDownload} />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -688,6 +649,12 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -703,29 +670,7 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/add_harvest_use_type" exact component={AddHarvestUse} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
@@ -862,8 +807,6 @@ const Routes = () => {
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
             <Route path="/documents/add_document" exact component={AddDocument} />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -962,7 +905,6 @@ const Routes = () => {
             <Route path="/insights/erosion" exact component={Erosion} />
             {/* <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} /> */}
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/callback" component={Callback} />
             <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
             <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
@@ -990,14 +932,20 @@ const Routes = () => {
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
             <Route path={'/export/:id'} exact component={ExportDownload} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -1007,6 +955,12 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1021,20 +975,16 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
-
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-            <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route
               path="/crop/:variety_id/:management_plan_id/management_detail"
               exact
               component={ManagementDetail}
             />
-            <Route path="/add_task/task_date" exact component={TaskDate} />
-
             <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
             <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
             <Route
@@ -1050,7 +1000,6 @@ const Routes = () => {
               exact
               component={EditSurfaceWaterForm}
             />
-
             <Route
               path="/natural_area/:location_id/details"
               exact
@@ -1065,32 +1014,10 @@ const Routes = () => {
             <Route path="/gate/:location_id/details" exact component={EditGateForm} />
             <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
             <Route path="/map" exact component={Map} />
-            <Route path="/log" exact component={Log} />
-            <Route path="/new_log" exact component={NewLog} />
-            <Route path="/fertilizing_log" exact component={FertilizingLog} />
-            <Route path="/pest_control_log" exact component={PestControlLog} />
-            <Route path="/field_work_log" exact component={FieldWorkLog} />
-            <Route path="/harvest_log" exact component={HarvestLog} />
-            <Route path="/harvest_use_type" exact component={HarvestUseType} />
-            <Route path="/harvest_allocation" exact component={HarvestAllocation} />
-            <Route path="/irrigation_log" exact component={IrrigationLog} />
-            <Route path="/scouting_log" exact component={ScoutingLog} />
-            <Route path="/seeding_log" exact component={SeedingLog} />
-            <Route path="/soil_data_log" exact component={soilDataLog} />
-            <Route path="/other_log" exact component={OtherLog} />
-            <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
-            <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
-            <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
-            <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
-            <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
-            <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
-            <Route path="/other_log/edit" exact component={EditOtherLog} />
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -1107,14 +1034,20 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
-            <Route path="/add_task/task_details" exact component={TaskDetails} />
-            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
-            <Route path="/tasks/:task_id/complete_harvest_quantity" exact component={HarvestCompleteQuantity} />
+            <Route
+              path="/tasks/:task_id/complete_harvest_quantity"
+              exact
+              component={HarvestCompleteQuantity}
+            />
             <Route path="/tasks/:task_id/harvest_uses" exact component={HarvestUses} />
+            <Route path="/add_task/task_locations" exact component={TaskLocations} />
+            <Route path="/add_task/task_date" exact component={TaskDate} />
+            <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
+            <Route path="/add_task/task_details" exact component={TaskDetails} />
+            <Route path="/add_task/task_type_selection" exact component={TaskTypeSelection} />
             <Route path="/add_task/task_crops" exact component={TaskCrops} />
             <Route path="/add_task/manage_custom_tasks" exact component={ManageCustomTasks} />
             <Route path="/add_task/add_custom_task" exact component={AddCustomTask} />
@@ -1124,6 +1057,12 @@ const Routes = () => {
               exact
               component={EditCustomTaskUpdate}
             />
+            <Route path="/add_task/planting_method" exact component={TaskTransplantMethod} />
+            <Route path="/add_task/bed_method" exact component={TaskBedMethod} />
+            <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
+            <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
+            <Route path="/add_task/row_method" exact component={TaskRowMethod} />
+            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

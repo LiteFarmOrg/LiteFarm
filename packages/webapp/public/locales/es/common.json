@@ -1,5 +1,5 @@
 {
-  "ABANDON": "MISSING",
+  "ABANDON": "Abandonar",
   "ACTIVE": "Activo",
   "ALL": "Todo",
   "APPLY": "Aplicar",
@@ -11,6 +11,7 @@
   "CONTINUE": "Continuar",
   "DATE": "Fecha",
   "DELETE": "Borrar",
+  "DO_NOT_SHOW": "MISSING",
   "EDIT": "Editar",
   "EDIT_DATE": "Editar fecha",
   "EG": "Ejemplo",
@@ -22,8 +23,8 @@
   "HOURS": "Horas",
   "LOADING": "Cargando...",
   "LOCATION": "Ubicacion",
-  "MARK_ABANDON": "MISSING",
-  "MARK_COMPLETE": "MISSING",
+  "MARK_ABANDON": "Abandonar",
+  "MARK_COMPLETE": "Completar",
   "MARK_COMPLETED": "Marca completada",
   "MAX_ERROR": "Por favor, ingrese un valor menor que {{value}}",
   "MIN_ERROR": "Por favor, ingrese un valor mayor que {{value}}",
@@ -43,12 +44,13 @@
   "SAVE": "Guardar",
   "SAVE_CHANGES": "Guardar cambios",
   "SEARCH": "Buscar",
-  "SELECT": "MISSING",
+  "SELECT": "Seleccionar",
   "SORRY": "Disculpa",
   "SUBMIT": "Enviar",
   "SUBMITTING": "Submitting...",
   "TO": "Para",
   "UPDATE": "Actualizar",
-  "WORD_LIMIT_ERROR": "MISSING",
-  "YES": "Si"
+  "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
+  "YES": "Si",
+  "ADD": "MISSING"
 }

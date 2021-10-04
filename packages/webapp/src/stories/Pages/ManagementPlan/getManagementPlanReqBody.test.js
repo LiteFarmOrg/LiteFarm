@@ -172,6 +172,7 @@ const formDataAndReqBody = [
               estimated_yield_unit: 'kg',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
+              planting_task_type: 'PLANT_TASK',
             },
             {
               container_method: {
@@ -190,6 +191,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -374,6 +376,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               broadcast_method: {
@@ -390,6 +393,7 @@ const formDataAndReqBody = [
               planting_method: 'BROADCAST_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -577,6 +581,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -760,6 +765,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -942,6 +948,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               bed_method: {
@@ -967,6 +974,7 @@ const formDataAndReqBody = [
               planting_method: 'BED_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -1156,6 +1164,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               row_method: {
@@ -1180,6 +1189,7 @@ const formDataAndReqBody = [
               planting_method: 'ROW_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -1368,6 +1378,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -1552,6 +1563,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'PLANT_TASK',
             },
           ],
           seed_date: '2021-08-09',
@@ -1737,6 +1749,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               is_planting_method_known: false,
@@ -1929,6 +1942,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               row_method: {
@@ -2504,6 +2518,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               estimated_yield: 0,
@@ -2700,6 +2715,7 @@ const formDataAndReqBody = [
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
               is_final_planting_management_plan: true,
+              planting_task_type: 'TRANSPLANT_TASK',
             },
             {
               pin_coordinate: {

@@ -11,6 +11,7 @@
   "CONTINUE": "Continuar",
   "DATE": "Data",
   "DELETE": "Excluir",
+  "DO_NOT_SHOW": "MISSING",
   "EDIT": "Editar",
   "EDIT_DATE": "Editar data",
   "EG": "e.g.",
@@ -50,5 +51,6 @@
   "TO": "Para",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
-  "YES": "Sim"
+  "YES": "Sim",
+  "ADD": "MISSING"
 }

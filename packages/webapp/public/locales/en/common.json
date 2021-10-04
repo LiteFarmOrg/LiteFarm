@@ -11,6 +11,7 @@
   "CONTINUE": "Continue",
   "DATE": "Date",
   "DELETE": "Delete",
+  "DO_NOT_SHOW": "Don’t show this message again.",
   "EDIT": "Edit",
   "EDIT_DATE": "Edit date",
   "EG": "E.g.",
@@ -50,5 +51,6 @@
   "TO": "to",
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
-  "YES": "Yes"
+  "YES": "Yes",
+  "ADD": "Add"
 }

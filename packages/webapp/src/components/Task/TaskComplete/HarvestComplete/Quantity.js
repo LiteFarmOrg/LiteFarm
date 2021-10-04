@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -13,6 +13,7 @@ export default function PureHarvestCompleteQuantity({
   onCancel,
   onGoBack,
   system,
+  task,
   persistedFormData,
   persistedPaths,
   useHookFormPersist,
@@ -30,7 +31,10 @@ export default function PureHarvestCompleteQuantity({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { ...persistedFormData },
+    defaultValues: {
+      ...persistedFormData,
+      actual_quantity: persistedFormData.actual_quantity || task.harvest_task.projected_quantity,
+    },
   });
 
   useHookFormPersist(getValues, persistedPaths);
@@ -41,7 +45,7 @@ export default function PureHarvestCompleteQuantity({
   const ACTUAL_HARVEST_QUANTITY_UNIT = 'actual_quantity_unit';
 
   const disabled = !isValid;
-  
+
   return (
     <Form
       buttonGroup={
@@ -55,7 +59,7 @@ export default function PureHarvestCompleteQuantity({
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
         onCancel={onCancel}
-        cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
+        cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}
       />
@@ -66,7 +70,7 @@ export default function PureHarvestCompleteQuantity({
         register={register}
         label={t('ADD_TASK.QUANTITY')}
         name={ACTUAL_HARVEST_QUANTITY}
-        displayUnitName={ACTUAL_HARVEST_QUANTITY_UNIT} 
+        displayUnitName={ACTUAL_HARVEST_QUANTITY_UNIT}
         unitType={harvestAmounts}
         system={system}
         hookFormSetValue={setValue}
@@ -75,7 +79,6 @@ export default function PureHarvestCompleteQuantity({
         control={control}
         required
       />
-
     </Form>
   );
 }

@@ -31,20 +31,12 @@ class PlantTaskModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
+      required: ['task_id', 'planting_management_plan_id'],
 
       properties: {
         task_id: { type: 'integer' },
-        space_depth_cm: {
-          type: 'float',
-        },
-        space_length_cm: {
-          type: 'float',
-        },
-        space_width_cm: {
-          type: 'float',
-        },
-        'rate_seeds/m2': {
-          type: 'float',
+        planting_management_plan_id: {
+          type: 'string',
         },
       },
       additionalProperties: false,
@@ -56,15 +48,19 @@ class PlantTaskModel extends Model {
     return {
       task: {
         relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
         modelClass: require('./taskModel'),
         join: {
           from: 'plant_task.task_id',
           to: 'task.task_id',
         },
-
+      },
+      planting_management_plan: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./plantingManagementPlanModel'),
+        join: {
+          from: 'plant_task.planting_management_plan_id',
+          to: 'planting_management_plan.planting_management_plan_id',
+        },
       },
     };
   }

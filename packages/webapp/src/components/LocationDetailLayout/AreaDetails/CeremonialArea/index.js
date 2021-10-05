@@ -93,7 +93,6 @@ export default function PureCeremonialArea({
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         register={register}
-        handleSubmit={handleSubmit}
         setValue={setValue}
         getValues={getValues}
         watch={watch}

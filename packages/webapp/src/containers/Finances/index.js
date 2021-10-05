@@ -34,6 +34,7 @@ import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
+import { tasksSelector } from '../taskSlice';
 
 const moment = extendMoment(Moment);
 
@@ -369,7 +370,7 @@ class Finances extends Component {
   render() {
     const totalRevenue = this.getRevenue();
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
-    const { shifts, expenses } = this.props;
+    const { tasks, expenses } = this.props;
     const {
       balanceByCrop,
       startDate,
@@ -378,7 +379,7 @@ class Finances extends Component {
       showUnTip,
       unTipButton,
     } = this.state;
-    const labourExpense = roundToTwoDecimal(calcTotalLabour(shifts, startDate, endDate));
+    const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
     return (
@@ -416,7 +417,7 @@ class Finances extends Component {
           </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
-            number={this.state.currencySymbol + labourExpense.toString()}
+            number={this.state.currencySymbol + labourExpense.toFixed(2).toString()}
             onClick={() => history.push('/labour')}
           />
           <DescriptiveButton
@@ -550,6 +551,7 @@ const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
+    tasks: tasksSelector(state),
     expenses: expenseSelector(state),
     managementPlans: currentAndPlannedManagementPlansSelector(state),
     dateRange: dateRangeSelector(state),

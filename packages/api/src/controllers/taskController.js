@@ -237,22 +237,40 @@ const taskController = {
         if (assignee_user_id !== user_id) {
           return res.status(403).send('Not authorized to complete other people\'s task');
         }
-        const result = await TaskModel.transaction(async trx =>
-          await TaskModel.query(trx).context({ user_id: req.user.user_id })
+        const result = await TaskModel.transaction(async trx => {
+          const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph({ task_id: parseInt(task_id), ...data }, {
               noUpdate: nonModifiable,
               noDelete: true,
               noInsert: true,
-            }),
-        );
-        if (result) {
-          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
+            });
+
+          async function getManagementPlans(task_id, typeOfTask) {
+            switch (typeOfTask) {
+            case 'plant_task':
+              return plantTaskModel.query()
+                .join('planting_management_plan', 'plant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+                .where({ task_id }).select('*');
+
+            case 'transplant_task':
+              return transplantTaskModel.query()
+                .join('planting_management_plan', 'transplant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+                .where({ task_id }).select('*');
+            default:
+              return managementTasksModel.query().where('task_id', task_id);
+            }
+          }
+
+          const management_plans = await getManagementPlans(task_id, typeOfTask);
           const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
           if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: data.completed_time })
+            await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
               .whereIn('management_plan_id', management_plan_ids)
               .where('start_date', null);
           }
+          return task;
+        });
+        if (result) {
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -264,6 +282,7 @@ const taskController = {
     };
   },
 
+
   completeHarvestTask() {
     const nonModifiable = getNonModifiable('harvest_task');
     return async (req, res, next) => {
@@ -273,14 +292,14 @@ const taskController = {
         const task_id = parseInt(req.params.task_id);
         const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
         if (assignee_user_id !== user_id) {
-          return res.status(403).send("Not authorized to complete other people's task");
+          return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const harvest_uses = data.harvest_uses.map(harvest_use => ({ ...harvest_use, task_id }));
         const task = data.task;
         const result = {};
 
         await TaskModel.transaction(async trx => {
-          const updated_task =  await TaskModel.query(trx).context({ user_id: req.user.user_id })
+          const updated_task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph({ task_id: parseInt(task_id), ...task }, {
               noUpdate: nonModifiable,
               noDelete: true,
@@ -301,7 +320,7 @@ const taskController = {
               .whereIn('management_plan_id', management_plan_ids)
               .where('start_date', null);
           }
-          return res.status(200).send(result)
+          return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
         }
@@ -309,7 +328,7 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
+    };
   },
 
   getTasksByFarmId() {
@@ -350,8 +369,8 @@ const taskController = {
         console.log(error);
         return res.status(400).send({ error });
       }
-    }
-  }
+    };
+  },
 
 };
 

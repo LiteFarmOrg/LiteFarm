@@ -35,8 +35,8 @@ export default function PureRowForm({
   const TOTAL_LENGTH_UNIT = `${prefix}.row_method.total_rows_length_unit`;
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
 
   const same_length = watch(SAME_LENGTH);
   const num_of_rows = watch(NUMBER_OF_ROWS);

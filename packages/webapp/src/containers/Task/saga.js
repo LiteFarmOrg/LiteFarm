@@ -518,6 +518,26 @@ export function* getHarvestUseTypesSaga() {
   }
 }
 
+export const addCustomHarvestUse = createAction('addCustomHarvestUseSaga');
+
+export function* addCustomHarvestUseSaga({ payload: data }) {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, data, header);
+    if (result) {
+      // TODO - add postHarvestUseTypeSuccess
+      yield put(getHarvestUseTypes());
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE')));
+    }
+  } catch (e) {
+    console.log('failed to add custom harvest use type');
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.ADD_USE_TYPE')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -533,6 +553,7 @@ export default function* taskSaga() {
   yield takeLeading(abandonTask.type, abandonTaskSaga);
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
   yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
+  yield takeLeading(addCustomHarvestUse.type, addCustomHarvestUseSaga);
   yield takeLatest(
     getTransplantTasksAndPlantingManagementPlansSuccess.type,
     getTransplantTasksAndPlantingManagementPlansSuccessSaga,

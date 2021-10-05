@@ -52,11 +52,11 @@ class HarvestUseType extends Model {
         relation: Model.ManyToManyRelation,
 
         join: {
-          from: 'harvestUseType.harvest_use_type_id',
+          from: 'harvest_use_type.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.task_id',
-            to: 'harvestUse.harvest_use_type_id',
+            from: 'harvest_use.task_id',
+            to: 'harvest_use.harvest_use_type_id',
           },
 
           to: 'harvest_task.task_id',

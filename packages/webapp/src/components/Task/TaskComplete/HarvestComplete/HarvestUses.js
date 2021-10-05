@@ -1,16 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
-import { AddLink, Label, Main, SubtractLink } from '../../../Typography';
+import { AddLink, Label, Main, SubtractLink, Error } from '../../../Typography';
 import Unit from '../../../Form/Unit';
 import { harvestAmounts, roundToTwoDecimal } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { cloneObject } from '../../../../util';
 import { colors } from '../../../../assets/theme';
+import PageBreak from '../../../PageBreak';
 
 export default function PureHarvestUses({
   onContinue,
@@ -24,6 +25,7 @@ export default function PureHarvestUses({
   unit,
   harvestUseTypes,
   task,
+  onAddHarvestType,
 }) {
   const { t } = useTranslation();
 
@@ -53,7 +55,7 @@ export default function PureHarvestUses({
   const HARVEST_USE_QUANTITY = 'quantity';
   const HARVEST_USE_TYPE = 'harvest_use_type_id';
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: 'harvest_uses',
     shouldUnregister: false,
@@ -114,7 +116,7 @@ export default function PureHarvestUses({
       <AddLink
         style={{ marginBottom: '24px' }}
         onClick={() => {
-          // TODO - Add custom harvest use
+          onAddHarvestType();
         }}
       >
         {t('TASK.ADD_CUSTOM_HARVEST_USE')}
@@ -122,8 +124,9 @@ export default function PureHarvestUses({
 
       {fields.map((field, index) => {
         return (
-          <div>
+          <div key={field.id}>
             <Controller
+              style={{ zIndex: '1' }}
               control={control}
               name={`harvest_uses.${index}.` + HARVEST_USE_TYPE}
               render={({ field }) => (
@@ -138,7 +141,7 @@ export default function PureHarvestUses({
             />
             <Unit
               register={register}
-              style={{ marginBottom: '14px', marginTop: '40px' }}
+              style={{ marginBottom: '14px', marginTop: '40px', zIndex: '0' }}
               label={t('ADD_TASK.QUANTITY')}
               name={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY}
               displayUnitName={`harvest_uses.${index}.` + HARVEST_USE_QUANTITY_UNIT}
@@ -151,19 +154,31 @@ export default function PureHarvestUses({
               required
             />
             {fields.length > 1 && (
-              <SubtractLink
-                style={{ float: 'right', color: '#AA5F04', marginBottom: '24px' }}
-                color={'#AA5F04'}
-                onClick={() => {
-                  remove(index);
-                }}
-              >
-                {t('TASK.REMOVE_HARVEST_USE')}
-              </SubtractLink>
+              <div>
+                <SubtractLink
+                  style={{ float: 'right', color: '#AA5F04'}}
+                  color={'#AA5F04'}
+                  onClick={() => {
+                    remove(index);
+                  }}
+                >
+                  {t('TASK.REMOVE_HARVEST_USE')}
+                </SubtractLink>
+              </div>
+            )}
+            {index !== fields.length - 1 && (
+              <div style={{ marginTop: '40px', marginBottom: '24px' }}>
+                <PageBreak />
+              </div>
             )}
           </div>
         );
       })}
+      {amount_to_allocate < 0 && (
+        <Error style={{ marginBottom: '20px' }}>
+          {t('TASK.QUANTITY_CANNOT_EXCEED')}
+        </Error>
+      )}
 
       <AddLink
         style={{ color: colors.blue700 }}

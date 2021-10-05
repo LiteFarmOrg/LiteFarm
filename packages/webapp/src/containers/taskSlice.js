@@ -14,6 +14,7 @@ import produce from 'immer';
 import { taskTypeEntitiesSelector } from './taskTypeSlice';
 import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
 import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
+import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -86,7 +87,10 @@ const taskSlice = createSlice({
           ...task,
           locations: task.locations?.map(({ location_id }) => location_id) || [],
           managementPlans:
-            task.managementPlans?.map(({ management_plan_id }) => management_plan_id) || [],
+            task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
+              management_plan_id,
+              planting_management_plan_id,
+            })) || [],
         })),
       }),
     putTaskSuccess: updateOneTask,
@@ -111,6 +115,7 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
+//TODO: refactor
 export const taskEntitiesSelector = createSelector(
   [
     taskSelectors.selectEntities,
@@ -124,6 +129,7 @@ export const taskEntitiesSelector = createSelector(
     soilAmendmentTaskEntitiesSelector,
     plantTaskEntitiesSelector,
     transplantTaskEntitiesSelector,
+    plantingManagementPlanEntitiesSelector,
   ],
   (
     taskEntities,
@@ -137,6 +143,7 @@ export const taskEntitiesSelector = createSelector(
     soilAmendmentTaskEntities,
     plantTaskEntities,
     transplantTaskEntities,
+    plantingManagementPlanEntities,
   ) => {
     const subTaskEntities = {
       ...cleaningTaskEntities,
@@ -148,12 +155,22 @@ export const taskEntitiesSelector = createSelector(
       ...transplantTaskEntities,
     };
 
+    const getManagementPlanByPlantingManagementPlan = ({
+      management_plan_id,
+      planting_management_plan_id,
+    }) =>
+      produce(
+        managementPlanEntities[management_plan_id],
+        (managementPlan) =>
+          (managementPlan.planting_management_plan =
+            plantingManagementPlanEntities[planting_management_plan_id]),
+      );
+
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
         taskEntities[task_id].managementPlans =
-          taskEntities[task_id].managementPlans?.map(
-            (management_plan_id) => managementPlanEntities[management_plan_id],
-          ) || [];
+          taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
+          [];
         taskEntities[task_id].locations =
           taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
           [];
@@ -167,7 +184,7 @@ export const taskEntitiesSelector = createSelector(
             locationEntities[subtask.planting_management_plan.location_id],
           ];
           taskEntities[task_id].managementPlans = [
-            managementPlanEntities[subtask.planting_management_plan.management_plan_id],
+            getManagementPlanByPlantingManagementPlan(subtask.planting_management_plan),
           ];
         }
       }

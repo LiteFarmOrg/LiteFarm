@@ -13,7 +13,7 @@ import { transplantTasksByManagementPlanIdEntitiesSelector } from '../../slice/t
 import produce from 'immer';
 import { lastActiveDatetimeSelector } from '../../userLogSlice';
 import { plantingManagementPlanEntitiesByManagementPlanIdSelector } from '../../plantingManagementPlanSlice';
-
+//TODO: remember current planting_management_plan/location on database level instead of selector
 export const managementPlansWithCurrentLocationSelector = createSelector(
   [
     managementPlansSelector,

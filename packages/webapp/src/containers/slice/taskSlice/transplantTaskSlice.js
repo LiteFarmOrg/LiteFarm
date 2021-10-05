@@ -5,7 +5,11 @@ import { pick } from '../../../util/pick';
 import { plantingManagementPlanEntitiesSelector } from '../../plantingManagementPlanSlice';
 import produce from 'immer';
 
-const transplantTaskProperties = ['planting_management_plan_id', 'task_id'];
+const transplantTaskProperties = [
+  'planting_management_plan_id',
+  'task_id',
+  'prev_planting_management_plan_id',
+];
 
 const getTransplantTask = (task) => {
   return pick(task, transplantTaskProperties);

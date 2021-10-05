@@ -5,7 +5,7 @@ const rp = require('request-promise');
 const knex = require('./../../util/knex')
 const endPoints = require('../../endPoints');
 
-async function mapFarmsToCountryId() {
+async function mapFarmsToCountryId(knex = knex) {
   const countries = await knex('countries').select('id', 'country_name');
   const farms = farmsWithNoCountryId();
   console.log(countries);

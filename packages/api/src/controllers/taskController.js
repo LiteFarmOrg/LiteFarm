@@ -238,39 +238,38 @@ const taskController = {
           return res.status(403).send('Not authorized to complete other people\'s task');
         }
         const result = await TaskModel.transaction(async trx => {
-            const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
-              .upsertGraph({ task_id: parseInt(task_id), ...data }, {
-                noUpdate: nonModifiable,
-                noDelete: true,
-                noInsert: true,
-              });
+          const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
+            .upsertGraph({ task_id: parseInt(task_id), ...data }, {
+              noUpdate: nonModifiable,
+              noDelete: true,
+              noInsert: true,
+            });
 
-            async function getManagementPlans(task_id, typeOfTask) {
-              switch (typeOfTask) {
-              case 'plant_task':
-                return plantTaskModel.query()
-                  .join('planting_management_plan', 'plant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
-                  .where({ task_id }).select('*');
+          async function getManagementPlans(task_id, typeOfTask) {
+            switch (typeOfTask) {
+            case 'plant_task':
+              return plantTaskModel.query()
+                .join('planting_management_plan', 'plant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+                .where({ task_id }).select('*');
 
-              case 'transplant_task':
-                return transplantTaskModel.query()
-                  .join('planting_management_plan', 'transplant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
-                  .where({ task_id }).select('*');
-              default:
-                return managementTasksModel.query().where('task_id', task_id);
-              }
+            case 'transplant_task':
+              return transplantTaskModel.query()
+                .join('planting_management_plan', 'transplant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+                .where({ task_id }).select('*');
+            default:
+              return managementTasksModel.query().where('task_id', task_id);
             }
+          }
 
-            const management_plans = await getManagementPlans(task_id, typeOfTask);
-            const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
-            if (management_plan_ids.length > 0) {
-              await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
-                .whereIn('management_plan_id', management_plan_ids)
-                .where('start_date', null);
-            }
-            return task;
-          },
-        );
+          const management_plans = await getManagementPlans(task_id, typeOfTask);
+          const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+          if (management_plan_ids.length > 0) {
+            await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
+              .whereIn('management_plan_id', management_plan_ids)
+              .where('start_date', null);
+          }
+          return task;
+        });
         if (result) {
           return res.status(200).send(result);
         } else {

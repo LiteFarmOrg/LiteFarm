@@ -15,6 +15,7 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import { Main } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import DropdownButton from '../../../components/Form/DropDownButton';
+import { tasksSelector } from '../../taskSlice';
 
 class Labour extends Component {
   constructor(props) {
@@ -73,7 +74,7 @@ class Labour extends Component {
         text: this.props.t('SALE.LABOUR.EMPLOYEES'),
         onClick: () => this.sortBy('EMPLOYEES'),
       },
-      { text: this.props.t('SALE.LABOUR.CROPS'), onClick: () => this.sortBy('CROPS') },
+      // { text: this.props.t('SALE.LABOUR.CROPS'), onClick: () => this.sortBy('CROPS') },
       { text: this.props.t('SALE.LABOUR.TASKS'), onClick: () => this.sortBy('TASKS') },
     ];
 
@@ -92,12 +93,12 @@ class Labour extends Component {
         {dropDownTitle === 'EMPLOYEES' && (
           <Employee
             currencySymbol={symbol}
-            shifts={this.props.shifts}
+            tasks={this.props.tasks}
             startDate={this.state.startDate}
             endDate={this.state.endDate}
           />
         )}
-        {dropDownTitle === 'CROPS' && (
+        {/* {dropDownTitle === 'CROPS' && (
           <Crop
             currencySymbol={symbol}
             shifts={this.props.shifts}
@@ -105,11 +106,11 @@ class Labour extends Component {
             endDate={this.state.endDate}
             managementPlans={this.props.managementPlans}
           />
-        )}
+        )} */}
         {dropDownTitle === 'TASKS' && (
           <Task
             currencySymbol={symbol}
-            shifts={this.props.shifts}
+            tasks={this.props.tasks}
             startDate={this.state.startDate}
             endDate={this.state.endDate}
           />
@@ -122,6 +123,7 @@ class Labour extends Component {
 const mapStateToProps = (state) => {
   return {
     shifts: shiftSelector(state),
+    tasks: tasksSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
     managementPlans: currentAndPlannedManagementPlansSelector(state),

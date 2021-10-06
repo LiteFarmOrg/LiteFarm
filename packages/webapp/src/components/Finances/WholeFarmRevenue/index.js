@@ -22,7 +22,8 @@ const WholeFarmRevenue = ({ amount, className, ...props }) => {
 };
 
 WholeFarmRevenue.prototype = {
-  isDropDown: PropTypes.bool,
+  amount: PropTypes.number,
+  className: PropTypes.string,
 };
 
 export default WholeFarmRevenue;

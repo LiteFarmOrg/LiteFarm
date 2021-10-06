@@ -41,7 +41,13 @@ const FinanceGroupHeader = ({
 };
 
 FinanceGroupHeader.prototype = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  currencyAmount: PropTypes.number,
   isDropDown: PropTypes.bool,
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+  onClickForward: PropTypes.func,
 };
 
 export default FinanceGroupHeader;

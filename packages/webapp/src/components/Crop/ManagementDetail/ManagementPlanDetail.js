@@ -126,8 +126,10 @@ export default function PureManagementDetail({
 
 PureManagementDetail.prototype = {
   onBack: PropTypes.func,
-  onCompleted: PropTypes.func,
+  variety: PropTypes.object,
   plan: PropTypes.object,
   isAdmin: PropTypes.bool,
-  onAbandon: PropTypes.func,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
 };

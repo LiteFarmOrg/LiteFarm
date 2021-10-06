@@ -34,7 +34,11 @@ const FinanceItem = ({ title, subtitle, amount, isPlan, onClickForward }) => {
 };
 
 FinanceItem.prototype = {
-  isDropDown: PropTypes.bool,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  amount: PropTypes.number,
+  isPlan: PropTypes.bool,
+  onClickForward: PropTypes.func,
 };
 
 export default FinanceItem;

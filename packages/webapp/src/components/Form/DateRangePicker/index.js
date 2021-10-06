@@ -61,7 +61,10 @@ const DateError = ({ control, errorMessage }) => {
 };
 
 DateRangePicker.prototype = {
-  isDropDown: PropTypes.bool,
+  register: PropTypes.func.isRequired,
+  getValues: PropTypes.func.isRequired,
+  control: PropTypes.object.isRequired,
+  className: PropTypes.string,
 };
 
 export default DateRangePicker;

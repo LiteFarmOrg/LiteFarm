@@ -108,8 +108,8 @@ export default function PureEditManagementDetail({ onBack, variety, plan, system
 
 PureEditManagementDetail.prototype = {
   onBack: PropTypes.func,
-  onCompleted: PropTypes.func,
+  variety: PropTypes.object,
   plan: PropTypes.object,
-  isAdmin: PropTypes.bool,
-  onAbandon: PropTypes.func,
+  system: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+  onSubmit: PropTypes.func,
 };

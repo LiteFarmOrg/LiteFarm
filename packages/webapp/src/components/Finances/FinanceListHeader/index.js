@@ -20,7 +20,9 @@ const FinanceListHeader = ({ firstColumn, secondColumn, className, style, ...pro
 };
 
 FinanceListHeader.prototype = {
-  isDropDown: PropTypes.bool,
+  firstColumn: PropTypes.string,
+  secondColumn: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default FinanceListHeader;

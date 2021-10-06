@@ -34,7 +34,13 @@ const FinanceGroup = ({
 };
 
 FinanceGroup.prototype = {
+  headerTitle: PropTypes.string,
+  headerSubtitle: PropTypes.string,
+  headerClickForward: PropTypes.func,
+  totalAmount: PropTypes.number,
   isDropDown: PropTypes.bool,
+  financeItemsProps: PropTypes.arrayOf(PropTypes.object),
+  className: PropTypes.string,
 };
 
 export default FinanceGroup;

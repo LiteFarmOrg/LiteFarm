@@ -1,6 +1,7 @@
 import React from 'react';
-import PureTaskCard from '../../components/TaskCard';
+import { PureTaskCard } from '../../components/CardWithStatus/TaskCard';
 import { componentDecorators } from '../Pages/config/decorators';
+import { getTaskCardDate } from '../../util/moment';
 
 export default {
   title: 'Components/TaskCard',
@@ -15,26 +16,20 @@ const templateData = {
     task_translation_key: 'TRANSPORT',
   },
   status: 'planned',
-  locations: [
-    {
-      farm_id: '1',
-      location_id: '1',
-      name: 'Location 1',
-    },
-  ],
-  dueDate: '2021-04-20T16:22:41.108Z',
+  locationName: 'Location 1',
+  completeOrDueDate: getTaskCardDate('2021-04-20T16:22:41.108Z'),
   assignee: {
     first_name: 'First',
     last_name: 'Last',
   },
-  cropVarietyNames: ['CARROT'],
+  cropVarietyName: 'Carrot',
   onClick: null,
   onClickAssignee: (e) => {
     e.stopPropagation();
     console.log('clicked assignee');
   },
   selected: false,
-  happiness: null,
+  score: null,
 };
 
 export const Planned = Template.bind({});
@@ -64,7 +59,7 @@ export const CompletedWithRating = Template.bind({});
 CompletedWithRating.args = {
   ...templateData,
   status: 'completed',
-  happiness: 4,
+  score: 4,
 };
 
 export const Abandoned = Template.bind({});
@@ -106,7 +101,7 @@ CompletedSelectedWithSadRating.args = {
   ...templateData,
   status: 'completed',
   selected: true,
-  happiness: 0,
+  score: 0,
 };
 
 export const AbandonedSelected = Template.bind({});

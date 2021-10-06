@@ -38,8 +38,8 @@ export default function PureContainerForm({
   const PLANTING_DEPTH_UNIT = `${prefix}.container_method.planting_depth_unit`;
   const PLANTING_SOIL = `${prefix}.container_method.planting_soil`;
   const CONTAINER_TYPE = `${prefix}.container_method.container_type`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const NOTES = `${prefix}.notes`;

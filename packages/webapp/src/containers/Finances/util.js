@@ -15,19 +15,23 @@
 
 import moment from 'moment';
 
-export function calcTotalLabour(shifts, startDate, endDate) {
+export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0;
-  if (Array.isArray(shifts)) {
-    for (let s of shifts) {
+  if (Array.isArray(tasks)) {
+    for (let t of tasks) {
       if (
-        moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
-        moment(s.shift_date).isSameOrBefore(moment(endDate))
+        (moment(t.completed_time).isSameOrAfter(moment(startDate)) &&
+          moment(t.completed_time).isSameOrBefore(moment(endDate)) &&
+          t.duration) ||
+        (moment(t.abandoned_time).isSameOrAfter(moment(startDate)) &&
+          moment(t.abandoned_time).isSameOrBefore(moment(endDate)) &&
+          t.duration)
       ) {
-        if (s.wage.type === 'hourly') {
-          let rate = parseFloat(s.wage_at_moment).toFixed(2);
-          let hoursWorked = Number((s.duration / 60).toFixed(2));
-          total += rate * hoursWorked;
-        }
+        // TODO: possibly implement check when wage can be yearly
+        // if (s.wage.type === 'hourly')
+        let rate = parseFloat(t.wage_at_moment).toFixed(2);
+        let hoursWorked = Number((t.duration / 60).toFixed(2));
+        total += rate * hoursWorked;
       }
     }
   }

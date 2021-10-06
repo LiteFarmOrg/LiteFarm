@@ -40,9 +40,8 @@ export default function PurePlantingDate({
   const HARVEST_DAYS = 'crop_management_plan.harvest_days';
   const TRANSPLANT_DAYS = 'crop_management_plan.transplant_days';
   const TERMINATION_DAYS = 'crop_management_plan.termination_days';
-  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
-  const ESTIMATED_YIELD_UNIT =
-    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
+  const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
+  const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
   const {
     already_in_ground,

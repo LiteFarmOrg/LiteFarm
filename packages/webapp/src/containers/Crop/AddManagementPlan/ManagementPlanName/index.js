@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import PureManagementPlanName from '../../../../components/Crop/ManagementPlanName';
 import { managementPlansByCropVarietyIdSelector } from '../../../managementPlanSlice';
-import { patchFarmDefaultInitialLocation, postManagementPlan } from './saga';
+import { patchFarmDefaultInitialLocation, postManagementPlan } from '../../saga';
 import { getProcessedFormData } from '../../../hooks/useHookFormPersist/utils';
 import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { getDefaultLocationReqBody } from './getManagementPlanReqBody';

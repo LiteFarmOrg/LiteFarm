@@ -3,23 +3,28 @@ import Table from '../../../../components/Table';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 
-const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
+const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
   let data = [];
   let sortObj = {};
   const { t } = useTranslation(['translation', 'task']);
-  for (let s of shifts) {
+  for (let task of tasks) {
     if (
-      moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
-      moment(s.shift_date).isSameOrBefore(moment(endDate))
+      (moment(task.completed_time).isSameOrAfter(moment(startDate)) &&
+        moment(task.completed_time).isSameOrBefore(moment(endDate)) &&
+        task.duration) ||
+      (moment(task.abandoned_time).isSameOrAfter(moment(startDate)) &&
+        moment(task.abandoned_time).isSameOrBefore(moment(endDate)) &&
+        task.duration)
     ) {
-      if (sortObj.hasOwnProperty(s.task_id)) {
-        sortObj[s.task_id].time += parseInt(s.duration, 10);
-        sortObj[s.task_id].labour_cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
+      if (sortObj.hasOwnProperty(task.task_type_id)) {
+        sortObj[task.task_type_id].time += parseInt(task.duration, 10);
+        sortObj[task.task_type_id].labour_cost +=
+          parseFloat(task.wage_at_moment) * (task.duration / 60);
       } else {
-        sortObj[s.task_id] = {
-          time: parseInt(s.duration, 10),
-          labour_cost: parseFloat(s.wage_at_moment) * (s.duration / 60),
-          task: t(`task:${s.task_translation_key}`),
+        sortObj[task.task_type_id] = {
+          time: parseInt(task.duration, 10),
+          labour_cost: parseFloat(task.wage_at_moment) * (task.duration / 60),
+          task: t(`task:${task.taskType.task_translation_key}`),
         };
       }
     }

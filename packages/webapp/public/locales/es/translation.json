@@ -195,15 +195,12 @@
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
     "FLOW_TITLE": "exportar de documentos de certificación",
-    "FROM": "Desde",
     "GOOD_NEWS": "¡Buenas noticias!",
     "HAVE_ALL_INFO": "Parece que LiteFarm tiene toda la información que necesitamos para procesar sus documentos de certificación. Se los enviaremos a:",
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
-    "TO": "Hasta",
-    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
     "UH_OH": "¡Oh, no!",
     "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
@@ -318,6 +315,11 @@
     "PHYSIOLOGY_AND_ANATOMY": "MISSING",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "Desde",
+    "TO": "Hasta",
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -615,6 +617,16 @@
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
   },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "MISSING",
+      "DATE": "MISSING",
+      "REVENUE": "MISSING",
+      "TITLE": "MISSING",
+      "VIEW_WITHIN_DATE_RANGE": "MISSING"
+    },
+    "WHOLE_FARM_REVENUE": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
@@ -827,10 +839,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plan de manejo",
     "ADD_A_TASK": "Agregar una tarea",
-    "ASSOCIATED_TASKS": "Tareas asociadas",
-    "EDIT_PLAN": "Editar plan",
+    "DETAILS": "MISSING",
     "FAILED_CROP": "¿Cultivo fallido?",
-    "PLAN_NOTES": "Notas del plan"
+    "TASKS": "MISSING"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de manejo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
@@ -960,6 +971,7 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
+    "UPDATE_DATE_THROUGH_TASK": "MISSING",
     "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
@@ -1098,14 +1110,14 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Seleccionar cultivo",
       "CROP_REQUIRED": "Cultivo es requerida",
+      "CROP_VARIETY": "MISSING",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "DATE": "Fecha",
       "TABLE_HEADERS": {
-        "CROPS": "Cultivos",
+        "CROP_VARIETIES": "MISSING",
         "QUANTITY": "Cantidad",
         "TOTAL": "Total"
       },
@@ -1332,6 +1344,7 @@
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
     "COMPLETE_TASK_FLOW": "la terminación de la tarea",
+    "COMPLETION_DETAILS": "MISSING",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "DETAILS": "Detalles",
@@ -1351,6 +1364,7 @@
     "PAGE_TITLE": "Tareas",
     "PREFER_NOT_TO_SAY": "Prefiero no decir",
     "PROVIDE_RATING": "Proveer una calificación",
+    "RATE_THIS_TASK": "MISSING",
     "REMOVE_HARVEST_USE": "Quitar",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",

@@ -621,11 +621,14 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Add revenue",
-      "DATE": "Date",
-      "REVENUE": "Revenue",
-      "TITLE": "Actual Revenue",
-      "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range"
+      "TITLE": "Actual Revenue"
     },
+    "DATE": "Date",
+    "ESTIMATED_REVENUE": {
+      "TITLE": "Estimated Revenue"
+    },
+    "REVENUE": "Revenue",
+    "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "HELP": {

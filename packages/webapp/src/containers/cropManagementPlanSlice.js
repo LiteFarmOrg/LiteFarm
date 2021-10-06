@@ -81,3 +81,5 @@ export const cropManagementPlanReducerSelector = (state) =>
 export const cropManagementPlanSelectors = cropManagementPlanAdapter.getSelectors(
   (state) => state.entitiesReducer[cropManagementPlanSlice.name],
 );
+
+export const cropManagementPlanEntitiesSelector = cropManagementPlanSelectors.selectEntities;

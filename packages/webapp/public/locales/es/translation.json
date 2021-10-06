@@ -620,11 +620,14 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "MISSING",
-      "DATE": "MISSING",
-      "REVENUE": "MISSING",
-      "TITLE": "MISSING",
-      "VIEW_WITHIN_DATE_RANGE": "MISSING"
+      "TITLE": "MISSING"
     },
+    "DATE": "MISSING",
+    "ESTIMATED_REVENUE": {
+      "TITLE": "MISSING"
+    },
+    "REVENUE": "MISSING",
+    "VIEW_WITHIN_DATE_RANGE": "MISSING",
     "WHOLE_FARM_REVENUE": "MISSING"
   },
   "HELP": {

@@ -13,7 +13,7 @@ const Template = (args) => <PureTaskCard {...args} />;
 const templateData = {
   taskType: {
     task_name: 'Transport',
-    task_translation_key: 'TRANSPORT',
+    task_translation_key: 'TRANSPORT_TASK',
   },
   status: 'planned',
   locationName: 'Location 1',

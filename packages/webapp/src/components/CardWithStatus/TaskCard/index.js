@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ReactComponent as CalendarIcon } from '../../../assets/images/task/Calendar.svg';
+import { ReactComponent as UnassignedIcon } from '../../../assets/images/task/Unassigned.svg';
 import { ReactComponent as CustomIcon } from '../../../assets/images/task/Custom.svg';
 import { ReactComponent as RecordSoilSample } from '../../../assets/images/task/RecordSoilSample.svg';
 import { ReactComponent as Sales } from '../../../assets/images/task/Sales.svg';
@@ -15,10 +17,12 @@ import { ReactComponent as Plant } from '../../../assets/images/task/Plant.svg';
 import { ReactComponent as SocialEvent } from '../../../assets/images/task/SocialEvent.svg';
 import { ReactComponent as Clean } from '../../../assets/images/task/Clean.svg';
 import { ReactComponent as SoilAmendment } from '../../../assets/images/task/SoilAmendment.svg';
+import styles from './styles.module.scss';
 
 import { useTranslation } from 'react-i18next';
 import { CardWithStatus } from '../index';
 import i18n from '../../../locales/i18n';
+import clsx from 'clsx';
 
 const statusColorMap = {
   planned: 'secondary',
@@ -80,8 +84,7 @@ export const PureTaskCard = ({
 }) => {
   const { t } = useTranslation();
   const isCustomType = !!taskType.farm_id;
-  // const TaskIcon = isCustomType ? CustomIcon : iconDict[taskType.task_translation_key];
-  console.log(taskType.task_translation_key);
+  const TaskIcon = isCustomType ? CustomIcon : iconDict[taskType.task_translation_key];
 
   return (
     <CardWithStatus
@@ -89,46 +92,57 @@ export const PureTaskCard = ({
       style={style}
       status={status}
       label={taskStatusText[status]}
-      classes={{ ...classes, card: { padding: '12px', ...classes.card } }}
+      classes={{
+        ...classes,
+        card: {
+          display: 'flex',
+          flexDirection: 'row',
+          minHeight: '98px',
+          minWidth: '312px',
+          padding: '16px',
+          ...classes.card,
+        },
+      }}
       onClick={onClick}
       score={score}
     >
-      {/*<TaskIcon className={styles.taskIcon} />*/}
-      {/*<div className={styles.info}>*/}
-      {/*  <div className={styles.mainTypographySansColor}>*/}
-      {/*    {t(`task:${taskType.task_translation_key}`)}*/}
-      {/*  </div>*/}
-      {/*  <div className={styles.subMain}>*/}
-      {/*    {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')} {cropVarietyName && `| ${cropVarietyName || t('TASK.CARD.MULTIPLE_CROPS')}`}*/}
-      {/*  </div>*/}
-      {/*  <div className={styles.dateUserContainer}>*/}
-      {/*    <div className={styles.iconTextContainer}>*/}
-      {/*      <CalendarIcon />*/}
-      {/*      <div>{completeOrDueDate}</div>*/}
-      {/*    </div>*/}
-      {/*    {assignee ? (*/}
-      {/*      <div*/}
-      {/*        className={styles.iconTextContainer}*/}
-      {/*        onClick={onClickAssignee}*/}
-      {/*        style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}*/}
-      {/*      >*/}
-      {/*        <div className={clsx(styles.firstInitial, styles.icon)}>*/}
-      {/*          {assignee.first_name.toUpperCase().charAt(0)}*/}
-      {/*        </div>*/}
-      {/*        <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>*/}
-      {/*      </div>*/}
-      {/*    ) : (*/}
-      {/*      <div*/}
-      {/*        className={clsx(styles.iconTextContainer, styles.unassigned)}*/}
-      {/*        onClick={onClickAssignee}*/}
-      {/*        style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}*/}
-      {/*      >*/}
-      {/*        <UnassignedIcon />*/}
-      {/*        <div>{t('TASK.UNASSIGNED')}</div>*/}
-      {/*      </div>*/}
-      {/*    )}*/}
-      {/*  </div>*/}
-      {/*</div>*/}
+      <TaskIcon className={styles.taskIcon} />
+      <div className={styles.info}>
+        <div className={styles.mainTypographySansColor}>
+          {t(`task:${taskType.task_translation_key}`)}
+        </div>
+        <div className={styles.subMain}>
+          {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}{' '}
+          {cropVarietyName && `| ${cropVarietyName || t('TASK.CARD.MULTIPLE_CROPS')}`}
+        </div>
+        <div className={styles.dateUserContainer}>
+          <div className={styles.iconTextContainer}>
+            <CalendarIcon />
+            <div>{completeOrDueDate}</div>
+          </div>
+          {assignee ? (
+            <div
+              className={styles.iconTextContainer}
+              onClick={onClickAssignee}
+              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
+            >
+              <div className={clsx(styles.firstInitial, styles.icon)}>
+                {assignee.first_name.toUpperCase().charAt(0)}
+              </div>
+              <div>{`${assignee.first_name} ${assignee.last_name.charAt(0)}.`}</div>
+            </div>
+          ) : (
+            <div
+              className={clsx(styles.iconTextContainer, styles.unassigned)}
+              onClick={onClickAssignee}
+              style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
+            >
+              <UnassignedIcon />
+              <div>{t('TASK.UNASSIGNED')}</div>
+            </div>
+          )}
+        </div>
+      </div>
     </CardWithStatus>
   );
 };

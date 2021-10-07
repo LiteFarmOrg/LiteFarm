@@ -35,6 +35,12 @@ const upsertManyBufferZoneWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteBufferZone = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  bufferZoneAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const bufferZoneAdapter = createEntityAdapter({
   selectId: (bufferZone) => bufferZone.location_id,
@@ -54,7 +60,7 @@ const bufferZoneSlice = createSlice({
     getBufferZonesSuccess: upsertManyBufferZoneWithLocation,
     postBufferZoneSuccess: upsertOneBufferZoneWithLocation,
     editBufferZoneSuccess: upsertOneBufferZoneWithLocation,
-    deleteBufferZoneSuccess: bufferZoneAdapter.removeOne,
+    deleteBufferZoneSuccess: softDeleteBufferZone,
   },
 });
 export const {
@@ -77,7 +83,9 @@ export const bufferZoneEntitiesSelector = bufferZoneSelectors.selectEntities;
 export const bufferZonesSelector = createSelector(
   [bufferZoneSelectors.selectAll, loginSelector],
   (bufferZones, { farm_id }) => {
-    return bufferZones.filter((bufferZone) => bufferZone.farm_id === farm_id);
+    return bufferZones.filter(
+      (bufferZone) => bufferZone.farm_id === farm_id && !bufferZone.deleted,
+    );
   },
 );
 

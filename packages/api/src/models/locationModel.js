@@ -25,6 +25,10 @@ class Location extends baseModel {
     return 'location_id';
   }
 
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',

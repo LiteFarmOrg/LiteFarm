@@ -20,11 +20,11 @@ async function mapFarmsToCountryId(knex = knex) {
         }),
         finalize(() => resolve()),
       ).subscribe(async (farmData) => {
-        const { farm_id, results } = farmData;
-        const country = results[0].address_components.find((component) =>
-          component.types.includes('country'),
-        ).long_name;
-        await insertCountryIdToFarm(farm_id, country, countries);
+      const { farm_id, results } = farmData;
+      const country = results[0].address_components.find((component) =>
+        component.types.includes('country'),
+      )?.long_name;
+      country && await insertCountryIdToFarm(farm_id, country, countries);
     })
 
   })

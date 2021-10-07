@@ -19,11 +19,6 @@ export default function ActualRevenue({ history, match }) {
   // TODO: refactor sale data after finance reducer is remade
   const sales = useSelector(salesSelector);
 
-  const total = sales.reduce((acc, sale) => {
-    const { crop_variety_sale } = sale;
-    return acc + crop_variety_sale.reduce((acc, cvs) => acc + cvs.sale_value, 0);
-  }, 0);
-
   const {
     register,
     getValues,
@@ -48,6 +43,11 @@ export default function ActualRevenue({ history, match }) {
       return new Date(saleDate) >= new Date(fromDate) && new Date(saleDate) <= new Date(toDate);
     });
   }, [sales, fromDate, toDate]);
+
+  const total = filteredSales.reduce((acc, sale) => {
+    const { crop_variety_sale } = sale;
+    return acc + crop_variety_sale.reduce((acc, cvs) => acc + cvs.sale_value, 0);
+  }, 0);
 
   return (
     <Layout>

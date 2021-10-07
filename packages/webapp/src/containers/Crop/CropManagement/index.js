@@ -45,7 +45,7 @@ function CropManagement({ history, match }) {
     history.push(`/crop_varieties/crop/${selectedVariety.crop_id}`);
   };
   const onAddManagementPlan = () => {
-    const estimated_yield_unit = { value: 'kg', label: 'kg' };
+    const estimated_seeds_unit = { value: 'kg', label: 'kg' };
     dispatch(
       setFormData({
         crop_management_plan: {
@@ -55,7 +55,7 @@ function CropManagement({ history, match }) {
 
           planting_management_plans: {
             final: {
-              estimated_yield_unit,
+              estimated_seeds_unit,
               planting_method: selectedVariety.planting_method,
               bed_method: {
                 plant_spacing: selectedVariety.plant_spacing,
@@ -68,7 +68,7 @@ function CropManagement({ history, match }) {
               broadcast_method: { seeding_rate: selectedVariety.seeding_rate },
               container_method: { planting_depth: selectedVariety.planting_depth },
             },
-            initial: { estimated_yield_unit },
+            initial: { estimated_seeds_unit },
           },
         },
       }),

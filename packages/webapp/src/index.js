@@ -30,7 +30,7 @@ import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
 import documentSaga from './containers/Documents/saga';
-import managementPlanSaga from './containers/Crop/AddManagementPlan/ManagementPlanName/saga';
+import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
 import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';

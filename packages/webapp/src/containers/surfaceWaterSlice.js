@@ -34,6 +34,12 @@ const upsertManySurfaceWaterWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteSurfaceWater = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  surfaceWaterAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const surfaceWaterAdapter = createEntityAdapter({
   selectId: (surfaceWater) => surfaceWater.location_id,
@@ -53,7 +59,7 @@ const surfaceWaterSlice = createSlice({
     getSurfaceWatersSuccess: upsertManySurfaceWaterWithLocation,
     postSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
     editSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
-    deleteSurfaceWaterSuccess: surfaceWaterAdapter.removeOne,
+    deleteSurfaceWaterSuccess: softDeleteSurfaceWater,
   },
 });
 export const {
@@ -76,7 +82,9 @@ export const surfaceWaterEntitiesSelector = surfaceWaterSelectors.selectEntities
 export const surfaceWatersSelector = createSelector(
   [surfaceWaterSelectors.selectAll, loginSelector],
   (surfaceWaters, { farm_id }) => {
-    return surfaceWaters.filter((surfaceWater) => surfaceWater.farm_id === farm_id);
+    return surfaceWaters.filter(
+      (surfaceWater) => surfaceWater.farm_id === farm_id && !surfaceWater.deleted,
+    );
   },
 );
 

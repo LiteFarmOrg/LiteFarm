@@ -59,6 +59,7 @@ import {
   onLoadingHarvestUseTypeFail,
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
+import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -262,7 +263,7 @@ export function* getTasksSaga() {
   }
 }
 
-const getPostTaskBody = (data, endpoint) => {
+const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return getObjectInnerValues(
     produce(data, (data) => {
       const propertiesToRemove = taskTypeEndpoint.filter((taskType) => taskType !== endpoint);
@@ -270,12 +271,17 @@ const getPostTaskBody = (data, endpoint) => {
         delete data[key];
       }
       data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : undefined;
+      data.managementPlans = data.managementPlans.map(({ management_plan_id }) => ({
+        planting_management_plan_id:
+          managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
+            .planting_management_plan_id,
+      }));
       delete data['override_hourly_wage'];
     }),
   );
 };
 
-const getPostHavestTaskBody = (data, endpoint) => {
+const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return data.harvest_tasks.map((harvest_task) => {
     const [location_id, management_plan_id] = harvest_task.id.split('.');
     return getObjectInnerValues({
@@ -288,7 +294,13 @@ const getPostHavestTaskBody = (data, endpoint) => {
       ),
       wage_at_moment: data.override_hourly_wage ? data.wage_at_moment : undefined,
       locations: [{ location_id }],
-      managementPlans: [{ management_plan_id: Number(management_plan_id) }],
+      managementPlans: [
+        {
+          planting_management_plan_id:
+            managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
+              .planting_management_plan_id,
+        },
+      ],
       notes: harvest_task.notes,
     });
   });
@@ -311,13 +323,23 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   FIELD_WORK_TASK: getPostTaskBody,
   PEST_CONTROL_TASK: getPostTaskBody,
   SOIL_AMENDMENT_TASK: getPostTaskBody,
-  HARVEST_TASK: getPostHavestTaskBody,
+  HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
 };
 
-const getPostTaskReqBody = (data, endpoint, task_translation_key, isCustomTask) => {
+const getPostTaskReqBody = (
+  data,
+  endpoint,
+  task_translation_key,
+  isCustomTask,
+  managementPlanWithCurrentLocationEntities,
+) => {
   if (isCustomTask) return getPostTaskBody(data, endpoint);
-  return taskTypeGetPostTaskBodyFunctionMap[task_translation_key](data, endpoint);
+  return taskTypeGetPostTaskBodyFunctionMap[task_translation_key](
+    data,
+    endpoint,
+    managementPlanWithCurrentLocationEntities,
+  );
 };
 
 export const createTask = createAction('createTaskSaga');
@@ -338,10 +360,19 @@ export function* createTaskSaga({ payload: data }) {
     ? 'harvest_tasks'
     : task_translation_key.toLowerCase();
   try {
+    const managementPlanWithCurrentLocationEntities = yield select(
+      managementPlanWithCurrentLocationEntitiesSelector,
+    );
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
-      getPostTaskReqBody(data, endpoint, task_translation_key, isCustomTask),
+      getPostTaskReqBody(
+        data,
+        endpoint,
+        task_translation_key,
+        isCustomTask,
+        managementPlanWithCurrentLocationEntities,
+      ),
       header,
     );
     if (result) {
@@ -526,7 +557,12 @@ export function* addCustomHarvestUseSaga({ payload: data }) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, data, header);
+    const result = yield call(
+      axios.post,
+      logURL + `/harvest_use_types/farm/${farm_id}`,
+      data,
+      header,
+    );
     if (result) {
       // TODO - add postHarvestUseTypeSuccess
       yield put(getHarvestUseTypes());

@@ -4,10 +4,10 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import {
-  tasksByManagementPlanIdSelector,
-  pendingTasksByManagementPlanIdSelector,
-} from '../../taskSlice';
+import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
+import TaskCard from '../../Task/TaskCard';
+import React from 'react';
+import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 
 export default function ManagementDetail({ history, match }) {
   const variety_id = match.params.variety_id;
@@ -35,8 +35,8 @@ export default function ManagementDetail({ history, match }) {
 
   const showSpotlight = history.location.state?.fromCreation;
 
-  const allTasks = useSelector(tasksByManagementPlanIdSelector(management_plan_id));
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
+  const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
   return (
     <>
       <PureManagementDetail
@@ -47,10 +47,18 @@ export default function ManagementDetail({ history, match }) {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
-        tasks={allTasks}
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
-      />
+      >
+        {taskCardContents.map((task) => (
+          <TaskCard
+            key={task.task_id}
+            onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+            style={{ marginBottom: '14px' }}
+            {...task}
+          />
+        ))}
+      </PureManagementDetail>
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>
   );

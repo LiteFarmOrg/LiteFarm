@@ -5,14 +5,10 @@ import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 import { getTasksMinMaxDate } from '../getTasksMinMaxDate';
 import produce from 'immer';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './managementPlansWithLocationSelector';
-import { plantingManagementPlanEntitiesByManagementPlanIdSelector } from '../../plantingManagementPlanSlice';
 
 export const useManagementPlanTilesByLocationIds = (locationIds = [], managementPlanIds = []) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
-  const plantingManagementPlanEntitiesByManagementPlanId = useSelector(
-    plantingManagementPlanEntitiesByManagementPlanIdSelector,
-  );
   return useMemo(
     () =>
       managementPlanIds.reduce((managementPlansByLocationIds, management_plan_id) => {
@@ -21,11 +17,6 @@ export const useManagementPlanTilesByLocationIds = (locationIds = [], management
           locationIds.find(({ location_id }) => {
             if (managementPlan?.location?.location_id === location_id) {
               return true;
-            }
-            for (const { location } of plantingManagementPlanEntitiesByManagementPlanId[
-              management_plan_id
-            ]) {
-              if (location?.location_id === location_id) return true;
             }
             return false;
           }) || {};

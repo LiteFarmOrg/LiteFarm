@@ -1,5 +1,5 @@
 import React from 'react';
-import { PureTaskCard } from '../../components/CardWithStatus/TaskCard';
+import { PureTaskCard } from '../../components/CardWithStatus/TaskCard/TaskCard';
 import { componentDecorators } from '../Pages/config/decorators';
 import { getTaskCardDate } from '../../util/moment';
 
@@ -29,7 +29,7 @@ const templateData = {
     console.log('clicked assignee');
   },
   selected: false,
-  score: null,
+  happiness: null,
 };
 
 export const Planned = Template.bind({});
@@ -59,7 +59,7 @@ export const CompletedWithRating = Template.bind({});
 CompletedWithRating.args = {
   ...templateData,
   status: 'completed',
-  score: 4,
+  happiness: 4,
 };
 
 export const Abandoned = Template.bind({});
@@ -101,7 +101,7 @@ CompletedSelectedWithSadRating.args = {
   ...templateData,
   status: 'completed',
   selected: true,
-  score: 0,
+  happiness: 0,
 };
 
 export const AbandonedSelected = Template.bind({});

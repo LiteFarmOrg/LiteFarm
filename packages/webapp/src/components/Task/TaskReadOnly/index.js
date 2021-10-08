@@ -35,14 +35,12 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
-  managementPlansByLocationIds,
   harvestUseTypes,
 }) {
   const { t } = useTranslation();
-  const hasManagementPlans = task.managementPlans?.length > 0;
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
-  const locations = task.locations.map(({ location_id }) => location_id);
+  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner = task.owner_user_id;
   const {
     register,
@@ -114,31 +112,47 @@ export default function PureTaskReadOnly({
 
       <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
-      <LocationViewer className={styles.mapContainer} viewLocations={locations} />
+      <LocationViewer className={styles.mapContainer} viewLocations={locationIds} />
 
-      {hasManagementPlans &&
-        task.locations.map((location) => {
-          const { name: location_name, location_id } = location;
-          return (
-            <div key={location_id}>
-              <div style={{ paddingBottom: '16px' }}>
-                <PageBreak label={location_name} />
-              </div>
-              <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id]?.map((managementPlan) => {
-                  return (
-                    <PureManagementPlanTile
-                      key={managementPlan.management_plan_id}
-                      managementPlan={managementPlan}
-                      date={managementPlan.firstTaskDate}
-                      status={managementPlan.status}
-                    />
-                  );
-                })}
-              </PureCropTileContainer>
+      {Object.keys(task.managementPlansByLocation).map((location_id) => {
+        return (
+          <div key={location_id}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={task.locationsById[location_id].name} />
             </div>
-          );
-        })}
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {task.managementPlansByLocation[location_id]?.map((managementPlan) => {
+                return (
+                  <PureManagementPlanTile
+                    key={managementPlan.management_plan_id}
+                    managementPlan={managementPlan}
+                    date={managementPlan.firstTaskDate}
+                    status={managementPlan.status}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
+
+      {Object.keys(task.managementPlansByPinCoordinate).map((pin_coordinate) => {
+        const managementPlan = task.managementPlansByPinCoordinate[pin_coordinate];
+        return (
+          <div key={pin_coordinate}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={`${pin_coordinate.lat}, ${pin_coordinate.lng}`} />
+            </div>
+            <PureCropTileContainer gap={gap} padding={padding}>
+              <PureManagementPlanTile
+                managementPlan={managementPlan}
+                date={managementPlan.firstTaskDate}
+                status={managementPlan.status}
+              />
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
 
       <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}

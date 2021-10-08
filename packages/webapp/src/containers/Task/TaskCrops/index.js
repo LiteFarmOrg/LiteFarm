@@ -54,7 +54,6 @@ function TaskCrops({
     locations || persistedFormData.locations,
   );
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
-
   return (
     <HookFormPersistProvider>
       <PureTaskCrops

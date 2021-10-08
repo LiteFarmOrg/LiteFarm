@@ -156,15 +156,19 @@ export const taskEntitiesSelector = createSelector(
     };
 
     const getManagementPlanByPlantingManagementPlan = ({
-      management_plan_id,
       planting_management_plan_id,
-    }) =>
-      produce(
-        managementPlanEntities[management_plan_id],
-        (managementPlan) =>
-          (managementPlan.planting_management_plan =
-            plantingManagementPlanEntities[planting_management_plan_id]),
-      );
+      prev_planting_management_plan_id,
+    }) => {
+      const management_plan_id =
+        plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
+      return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
+        managementPlan.planting_management_plan =
+          plantingManagementPlanEntities[planting_management_plan_id];
+        prev_planting_management_plan_id &&
+          (managementPlan.prev_planting_management_plan =
+            plantingManagementPlanEntities[prev_planting_management_plan_id]);
+      });
+    };
 
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
@@ -267,7 +271,7 @@ export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandone
 
 export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 
-export const taskWithProductById = (task_id) =>
+export const taskWithProductSelector = (task_id) =>
   createSelector([taskSelector(task_id), productEntitiesSelector], (task, products) => {
     const taskTypeLowerCase = task.taskType.task_translation_key.toLowerCase();
     const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;

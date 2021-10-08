@@ -9,8 +9,6 @@ import styles from './styles.module.scss';
 import Card from '../../Card';
 import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
-import TaskCard from '../../../containers/Task/TaskCard';
-import TaskQuickAssignModal from '../../Task/QuickAssign';
 
 export default function PureManagementDetail({
   onCompleted,
@@ -20,9 +18,8 @@ export default function PureManagementDetail({
   variety,
   plan,
   isAdmin,
-  tasks,
   hasPendingTasks,
-  history,
+  children,
 }) {
   const { t } = useTranslation();
 
@@ -31,7 +28,6 @@ export default function PureManagementDetail({
   const notes = plan.notes;
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
-  const [quickAssignInfo, setQuickAssignInfo] = useState(null);
 
   const onMarkComplete = () => {
     if (hasPendingTasks) {
@@ -39,10 +35,6 @@ export default function PureManagementDetail({
     } else {
       onCompleted();
     }
-  };
-
-  const handleClickAssignee = (taskId, dueDate, isAssigned) => {
-    setQuickAssignInfo({ taskId, dueDate, isAssigned });
   };
 
   return (
@@ -102,16 +94,7 @@ export default function PureManagementDetail({
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>
       )}
-
-      {tasks.map((task) => (
-        <TaskCard
-          task={task}
-          key={task.task_id}
-          onClickAssignee={handleClickAssignee}
-          onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
-          style={{ marginBottom: '14px' }}
-        />
-      ))}
+      {children}
 
       {isAdmin && (
         <div className={styles.abandonwrapper} style={{ marginTop: '24px' }}>
@@ -123,14 +106,6 @@ export default function PureManagementDetail({
       )}
       {showCompleteFailModal && (
         <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
-      )}
-      {quickAssignInfo && (
-        <TaskQuickAssignModal
-          dismissModal={() => setQuickAssignInfo(null)}
-          taskId={quickAssignInfo.taskId}
-          dueDate={quickAssignInfo.dueDate}
-          isAssigned={quickAssignInfo.isAssigned}
-        />
       )}
     </Layout>
   );

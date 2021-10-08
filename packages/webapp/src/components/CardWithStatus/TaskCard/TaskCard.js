@@ -78,14 +78,17 @@ export const PureTaskCard = ({
   onClick = null,
   onClickAssignee = null,
   selected,
-  score,
+  happiness,
   classes = { card: {} },
   ...props
 }) => {
   const { t } = useTranslation();
   const isCustomType = !!taskType.farm_id;
   const TaskIcon = isCustomType ? CustomIcon : iconDict[taskType.task_translation_key];
-
+  const onAssignTask = (e) => {
+    e.stopPropagation();
+    onClickAssignee?.();
+  };
   return (
     <CardWithStatus
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
@@ -104,7 +107,7 @@ export const PureTaskCard = ({
         },
       }}
       onClick={onClick}
-      score={score}
+      happiness={happiness}
     >
       <TaskIcon className={styles.taskIcon} />
       <div className={styles.info}>
@@ -123,7 +126,7 @@ export const PureTaskCard = ({
           {assignee ? (
             <div
               className={styles.iconTextContainer}
-              onClick={onClickAssignee}
+              onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <div className={clsx(styles.firstInitial, styles.icon)}>
@@ -134,7 +137,7 @@ export const PureTaskCard = ({
           ) : (
             <div
               className={clsx(styles.iconTextContainer, styles.unassigned)}
-              onClick={onClickAssignee}
+              onClick={onAssignTask}
               style={{ cursor: onClickAssignee ? 'pointer' : 'default' }}
             >
               <UnassignedIcon />
@@ -152,9 +155,9 @@ PureTaskCard.propTypes = {
   status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
   classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
   onClick: PropTypes.func,
-  score: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
+  happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
   locationName: PropTypes.string,
-  taskType: PropTypes.string,
+  taskType: PropTypes.object,
   cropVarietyName: PropTypes.string,
   completeOrDueDate: PropTypes.string,
   assignee: PropTypes.object,

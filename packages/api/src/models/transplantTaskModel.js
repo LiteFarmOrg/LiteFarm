@@ -38,6 +38,9 @@ class transplantTaskModel extends Model {
         planting_management_plan_id: {
           type: 'string',
         },
+        prev_planting_management_plan_id: {
+          type: 'string',
+        },
       },
       additionalProperties: false,
     };

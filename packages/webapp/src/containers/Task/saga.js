@@ -306,16 +306,25 @@ const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
   });
 };
 
-const getTransplantTaskBody = (data) => {
-  return produce(getPostTaskBody(data, 'transplant_task'), (data) => {
-    data.transplant_task.planting_management_plan.location_id = data.locations[0].location_id;
-    data.transplant_task.planting_management_plan = getPlantingMethodReqBody(
-      data.transplant_task.planting_management_plan,
-      { management_plan_id: data.managementPlans[0].management_plan_id },
-    );
-    delete data.managementPlans;
-    delete data.locations;
-  });
+const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+  const management_plan_id = data.managementPlans[0].management_plan_id;
+  return produce(
+    getPostTaskBody(data, 'transplant_task', managementPlanWithCurrentLocationEntities),
+    (data) => {
+      data.transplant_task.planting_management_plan.location_id = data.locations[0].location_id;
+      data.transplant_task.prev_planting_management_plan_id =
+        managementPlanWithCurrentLocationEntities[
+          management_plan_id
+        ].planting_management_plan.planting_management_plan_id;
+      data.transplant_task.planting_management_plan = getPlantingMethodReqBody(
+        data.transplant_task.planting_management_plan,
+        { management_plan_id },
+      );
+      delete data.crop_management_plan;
+      delete data.managementPlans;
+      delete data.locations;
+    },
+  );
 };
 
 const taskTypeGetPostTaskBodyFunctionMap = {
@@ -376,7 +385,7 @@ export function* createTaskSaga({ payload: data }) {
       header,
     );
     if (result) {
-      yield put(postTasksSuccess(isHarvest ? result.data : [result.data]));
+      yield call(postTasksSuccess, isHarvest ? result.data : [result.data]);
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
       history.push('/tasks');
     }

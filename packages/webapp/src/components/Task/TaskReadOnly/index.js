@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import LocationViewer from '../../LocationViewer';
 import { Label, Main, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
@@ -23,6 +22,7 @@ import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
 import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -112,7 +112,14 @@ export default function PureTaskReadOnly({
 
       <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
-      <LocationViewer className={styles.mapContainer} viewLocations={locationIds} />
+      <LocationPicker
+        onSelectLocation={() => {}}
+        readOnlyPinCoordinates={task.pinCoordinates}
+        style={{ minHeight: '160px', marginBottom: '40px' }}
+        locations={task.locations}
+        selectedLocationIds={task.selectedLocationIds || []}
+        farmCenterCoordinate={user.grid_points}
+      />
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {
         return (
@@ -141,7 +148,7 @@ export default function PureTaskReadOnly({
         return (
           <div key={pin_coordinate}>
             <div style={{ paddingBottom: '16px' }}>
-              <PageBreak label={`${pin_coordinate.lat}, ${pin_coordinate.lng}`} />
+              <PageBreak label={pin_coordinate} />
             </div>
             <PureCropTileContainer gap={gap} padding={padding}>
               <PureManagementPlanTile

@@ -157,16 +157,16 @@ export const taskEntitiesSelector = createSelector(
 
     const getManagementPlanByPlantingManagementPlan = ({
       planting_management_plan_id,
-      prev_planting_management_plan_id,
+      planting_management_plan,
+      prev_planting_management_plan,
     }) => {
       const management_plan_id =
         plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
       return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
         managementPlan.planting_management_plan =
           plantingManagementPlanEntities[planting_management_plan_id];
-        prev_planting_management_plan_id &&
-          (managementPlan.prev_planting_management_plan =
-            plantingManagementPlanEntities[prev_planting_management_plan_id]);
+        prev_planting_management_plan &&
+          (managementPlan.prev_planting_management_plan = prev_planting_management_plan);
       });
     };
 
@@ -184,11 +184,11 @@ export const taskEntitiesSelector = createSelector(
         const subtask = subTaskEntities[task_id];
         !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
         if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
-          taskEntities[task_id].locations = [
-            locationEntities[subtask.planting_management_plan.location_id],
-          ];
+          taskEntities[task_id].locations = subtask.planting_management_plan.location_id
+            ? [locationEntities[subtask.planting_management_plan.location_id]]
+            : [];
           taskEntities[task_id].managementPlans = [
-            getManagementPlanByPlantingManagementPlan(subtask.planting_management_plan),
+            getManagementPlanByPlantingManagementPlan(subtask),
           ];
         }
       }

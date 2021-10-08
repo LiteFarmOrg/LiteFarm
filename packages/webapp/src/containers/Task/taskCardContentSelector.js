@@ -5,6 +5,7 @@ import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/m
 import { isTaskType } from './useIsTaskType';
 import { getTaskCardDate } from '../../util/moment';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
+import { getLocationName } from '../Crop/CropManagement/useManagementPlanCardContents';
 
 const getTaskContents = (tasks, managementPlanEntities, userFarmEntities, { farm_id }) => {
   return tasks
@@ -100,9 +101,7 @@ const getLocationNameOfTask = (managementPlans, locations, taskType) => {
   if (isTaskType(taskType, 'PLANT_TASK')) return getLocationNameOfPlantTask(managementPlans);
   const locationNameSet = new Set();
   for (const managementPlan of managementPlans) {
-    const locationNameName = getLocationNameOfPlantingManagementPlan(
-      managementPlan.planting_management_plan,
-    );
+    const locationNameName = getLocationName(managementPlan.planting_management_plan);
     locationNameSet.add(locationNameName);
     if (locationNameSet.size > 1) return i18n.t('TASK.CARD.MULTIPLE_LOCATIONS');
   }
@@ -116,12 +115,9 @@ const getLocationNameOfTask = (managementPlans, locations, taskType) => {
 };
 
 const getLocationNameOfTransplantTask = (managementPlans) => {
-  return getLocationNameOfPlantingManagementPlan(managementPlans[0].planting_management_plan);
+  return getLocationName(managementPlans[0].planting_management_plan);
 };
 
 const getLocationNameOfPlantTask = (managementPlans) => {
-  return getLocationNameOfPlantingManagementPlan(managementPlans[0].planting_management_plan);
+  return getLocationName(managementPlans[0].planting_management_plan);
 };
-
-const getLocationNameOfPlantingManagementPlan = (plantingManagementPlan) =>
-  plantingManagementPlan.pin_coordinate || plantingManagementPlan.location.name;

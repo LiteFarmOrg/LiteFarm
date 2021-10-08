@@ -62,12 +62,20 @@ const managementPlanController = {
             const { planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
             );
+            const { planting_management_plan_id: prev_planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
+              planting_management_plan => planting_management_plan.is_final_planting_management_plan === false,
+            );
             //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'TRANSPLANT_TASK',
             }).first();
-            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, { transplant_task: { planting_management_plan_id } }));
+            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, {
+              transplant_task: {
+                planting_management_plan_id,
+                prev_planting_management_plan_id,
+              },
+            }));
             tasks.push(transplantTask);
           }
           const {

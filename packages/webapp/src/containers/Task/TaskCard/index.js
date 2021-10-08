@@ -67,13 +67,13 @@ TaskCard.propTypes = {
   onClick: PropTypes.func,
   happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
   locationName: PropTypes.string,
-  taskType: PropTypes.string,
+  taskType: PropTypes.object,
   cropVarietyName: PropTypes.string,
   completeOrDueDate: PropTypes.string,
   assignee: PropTypes.object,
   onClickAssignee: PropTypes.func,
   selected: PropTypes.bool,
-  task_id: PropTypes.string,
+  task_id: PropTypes.number,
 };
 
 export default TaskCard;

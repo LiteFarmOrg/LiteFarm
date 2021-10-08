@@ -34,6 +34,12 @@ const upsertManyBarnWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteBarn = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  barnAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const barnAdapter = createEntityAdapter({
   selectId: (barn) => barn.location_id,
@@ -53,7 +59,7 @@ const barnSlice = createSlice({
     getBarnsSuccess: upsertManyBarnWithLocation,
     postBarnSuccess: upsertOneBarnWithLocation,
     editBarnSuccess: upsertOneBarnWithLocation,
-    deleteBarnSuccess: barnAdapter.removeOne,
+    deleteBarnSuccess: softDeleteBarn,
   },
 });
 export const {
@@ -74,7 +80,7 @@ export const barnEntitiesSelector = barnSelectors.selectEntities;
 export const barnsSelector = createSelector(
   [barnSelectors.selectAll, loginSelector],
   (barns, { farm_id }) => {
-    return barns.filter((barn) => barn.farm_id === farm_id);
+    return barns.filter((barn) => barn.farm_id === farm_id && !barn.deleted);
   },
 );
 

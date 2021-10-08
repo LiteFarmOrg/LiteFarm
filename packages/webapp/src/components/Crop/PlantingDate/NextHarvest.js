@@ -41,9 +41,8 @@ export default function PureNextHarvest({
   const progress = 37.5;
 
   const NEXT_HARVEST_DATE = 'crop_management_plan.harvest_date';
-  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
-  const ESTIMATED_YIELD_UNIT =
-    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
+  const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
+  const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),

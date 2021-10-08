@@ -6,11 +6,12 @@ import { AddLink, Label, Underlined } from '../../Typography';
 import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import Card from '../../Card';
-import { ReactComponent as Pencil } from '../../../assets/images/managementPlans/pencil.svg';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
+import TaskCard from '../../../containers/Task/TaskCard';
+import TaskQuickAssignModal from '../../Task/QuickAssign';
+import RouterTab from '../../RouterTab';
 
-export default function PureManagementDetail({
+export default function PureManagementTasks({
   onCompleted,
   onAbandon,
   onBack,
@@ -19,13 +20,13 @@ export default function PureManagementDetail({
   plan,
   isAdmin,
   hasPendingTasks,
+  history,
+  match,
   children,
 }) {
   const { t } = useTranslation();
 
   const title = plan.name;
-
-  const notes = plan.notes;
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
 
@@ -61,33 +62,22 @@ export default function PureManagementDetail({
         <Label className={styles.title} style={{ marginTop: '24px' }}>
           {title}
         </Label>
-        {isAdmin && (
-          <div>
-            <Pencil className={styles.pencil} style={{ marginRight: '5px' }} />
-            <Underlined
-              onClick={() => {
-                console.log('Go to edit page');
-              }}
-            >
-              {t('MANAGEMENT_DETAIL.EDIT_PLAN')}
-            </Underlined>
-          </div>
-        )}
       </div>
 
-      {notes.length > 0 && (
-        <>
-          <Label style={{ marginTop: '24px' }}>{t('MANAGEMENT_DETAIL.PLAN_NOTES')}</Label>
-          <Card className={styles.notes} color={'info'} style={{ marginTop: '4px' }}>
-            <Label className={styles.notescontent} style={{ marginTop: '14px', marginLeft: '8px' }}>
-              {notes}
-            </Label>
-          </Card>
-          <Label className={styles.subtitle} style={{ marginTop: '32px' }}>
-            {t('MANAGEMENT_DETAIL.ASSOCIATED_TASKS')}
-          </Label>
-        </>
-      )}
+      <RouterTab
+        classes={{ container: { margin: '24px 0 26px 0' } }}
+        history={history}
+        tabs={[
+          {
+            label: t('MANAGEMENT_DETAIL.TASKS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/tasks`,
+          },
+          {
+            label: t('MANAGEMENT_DETAIL.DETAILS'),
+            path: `/crop/${match.params.variety_id}/management_plan/${match.params.management_plan_id}/details`,
+          },
+        ]}
+      />
 
       {isAdmin && (
         <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
@@ -97,7 +87,7 @@ export default function PureManagementDetail({
       {children}
 
       {isAdmin && (
-        <div className={styles.abandonwrapper} style={{ marginTop: '24px' }}>
+        <div className={styles.abandonwrapper} style={{ marginTop: '24px', marginBottom: '26px' }}>
           <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
           <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>
             {t('MANAGEMENT_DETAIL.ABANDON_PLAN')}
@@ -111,7 +101,7 @@ export default function PureManagementDetail({
   );
 }
 
-PureManagementDetail.prototype = {
+PureManagementTasks.prototype = {
   onBack: PropTypes.func,
   onCompleted: PropTypes.func,
   plan: PropTypes.object,

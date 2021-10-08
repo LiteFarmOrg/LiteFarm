@@ -31,8 +31,8 @@ export function PureBedForm({
 
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);

@@ -527,6 +527,7 @@ async function insertPlantingMethod(plantingMethod = {
 function fakeCropManagementPlan(defaultData = {}) {
   return {
     estimated_revenue: faker.random.number(10000),
+    estimated_yield: faker.random.number(10000),
     seed_date: faker.date.past(),
     plant_date: faker.date.past(),
     germination_date: faker.date.past(),
@@ -588,7 +589,6 @@ function fakePlantingManagementPlan(defaultData = {}) {
     planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
     is_planting_method_known: true,
     estimated_seeds: faker.random.number(10000),
-    estimated_yield: faker.random.number(10000),
     notes: faker.lorem.words(),
     ...defaultData,
   };
@@ -1400,22 +1400,23 @@ async function nitrogenScheduleFactory({ promisedFarm = farmFactory() } = {}, ni
   return knex('nitrogenSchedule').insert({ farm_id, ...nitrogenSchedule }).returning('*');
 }
 
-function fakeCropSale(defaultData = {}) {
+function fakeCropVarietySale(defaultData = {}) {
   return {
     sale_value: faker.random.number(1000),
-    quantity_kg: faker.random.number(1000),
+    quantity: faker.random.number(1000),
+    quantity_unit: faker.random.arrayElement(['kg', 'mt', 'lb', 't']),
     ...defaultData,
   };
 }
 
-async function cropSaleFactory({
-  promisedCrop = cropFactory(),
+async function crop_variety_saleFactory({
+  promisedCropVariety = crop_varietyFactory(),
   promisedSale = saleFactory(),
-} = {}, cropSale = fakeCropSale()) {
-  const [crop, sale] = await Promise.all([promisedCrop, promisedSale]);
-  const [{ crop_id }] = crop;
+} = {}, cropVarietySale = fakeCropVarietySale()) {
+  const [cropVariety, sale] = await Promise.all([promisedCropVariety, promisedSale]);
+  const [{ crop_variety_id }] = cropVariety;
   const [{ sale_id }] = sale;
-  return knex('cropSale').insert({ crop_id, sale_id, ...cropSale }).returning('*');
+  return knex('crop_variety_sale').insert({ crop_variety_id, sale_id, ...cropVarietySale }).returning('*');
 }
 
 function fakeSupportTicket(farm_id, defaultData = {}) {
@@ -1750,7 +1751,7 @@ module.exports = {
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance,
-  fakeCropSale, cropSaleFactory,
+  fakeCropVarietySale, crop_variety_saleFactory,
   farmExpenseTypeFactory, fakeExpenseType,
   farmExpenseFactory, fakeExpense,
   fakeFieldForTests,

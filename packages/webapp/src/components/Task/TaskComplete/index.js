@@ -50,7 +50,7 @@ export default function PureTaskComplete({
 
   const notes = watch(COMPLETION_NOTES);
 
-  const disabled = !isValid;
+  const disabled = !isValid || (!happiness && !prefer_not_to_say);
 
   return (
     <Form
@@ -121,6 +121,7 @@ export default function PureTaskComplete({
         style={{ marginBottom: '42px' }}
         label={t('TASK.PREFER_NOT_TO_SAY')}
         hookFormRegister={register(PREFER_NOT_TO_SAY)}
+        onChange={() => setValue(HAPPINESS, null)}
       />
 
       <InputAutoSize

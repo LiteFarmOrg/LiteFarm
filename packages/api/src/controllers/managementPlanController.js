@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
+const cropManagementPlanModel = require('../models/cropManagementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
 const taskModel = require('../models/taskModel');
 const taskTypeModel = require('../models/taskTypeModel');
@@ -201,19 +202,28 @@ const managementPlanController = {
 
   updateManagementPlan() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(managementPlanModel, req.params.management_plan_id, req.body, req, { trx });
-        await trx.commit();
-        if (!updated.length) {
-          return res.sendStatus(404);
+        const management_plan_id = req.params.management_plan_id;
+        const { name, notes } = req.body;
+        const { estimated_yield, estimated_yield_unit } = req.body?.crop_management_plan || {};
+        const crop_management_plan = { estimated_yield, estimated_yield_unit };
+        const management_plan = { name, notes };
+        const result = await managementPlanModel.transaction(async trx => {
+          const managementPlan = await managementPlanModel.query(trx)
+            .context({ user_id: req.user.user_id })
+            .findById(management_plan_id)
+            .patch(management_plan).returning('*');
+          return await cropManagementPlanModel.query(trx).context(req.user).findById(management_plan_id).patch(crop_management_plan).returning('*');
+        });
+        if (result) {
+          return res.sendStatus(200);
         } else {
-          return res.status(200).send(updated);
+          return res.sendStatus(404);
         }
 
       } catch (error) {
         console.log(error);
-        await trx.rollback();
+
         return res.status(400).json({
           error,
         });

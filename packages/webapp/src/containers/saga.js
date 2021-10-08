@@ -400,8 +400,8 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   );
   const plantingManagementPlans = managementPlans.reduce(
     (plantingManagementPlans, managementPlan) => {
-      for (const planting_management_plan of managementPlan.crop_management_plan
-        .planting_management_plans) {
+      for (const planting_management_plan of managementPlan?.crop_management_plan
+        ?.planting_management_plans || []) {
         plantingManagementPlans.push(planting_management_plan);
       }
       return plantingManagementPlans;

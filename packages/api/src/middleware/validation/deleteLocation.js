@@ -22,13 +22,18 @@ async function validateLocationDependency(req, res, next) {
   const location_id = req?.params?.location_id;
   const managementPlans = await plantingManagementPlanModel.query()
     .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
-    .where('planting_management_plan.location_id', location_id).where('management_plan.deleted', false).whereNull('complete_date').whereNull('abandon_date');
+    .where('planting_management_plan.location_id', location_id)
+    .where('management_plan.deleted', false).whereNull('complete_date').whereNull('abandon_date');
 
   if (managementPlans.length) {
     return res.status(400).send('Location cannot be deleted when it has a managementPlan');
   }
-  const activityLogs = await taskModel.query().whereNotDeleted().join('location_tasks', 'location_tasks.task_id', 'task.task_id').where('location_tasks.location_id', location_id).andWhere('task.due_date', '>=', 'NOW()');
-  if (activityLogs.length) {
+  const tasks = await taskModel.query().whereNotDeleted()
+    .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
+    .where('location_tasks.location_id', location_id)
+    .whereNull('task.completed_time')
+    .whereNull('task.abandoned_time');
+  if (tasks.length) {
     return res.status(400).send('Location cannot be deleted when it is referenced by a task');
   }
 

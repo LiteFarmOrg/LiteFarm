@@ -1,15 +1,18 @@
-import PureManagementDetail from '../../../components/Crop/ManagementDetail';
+import PureManagementTasks from '../../../components/Crop/ManagementDetail/ManagementPlanTasks';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
+import {
+  pendingTasksByManagementPlanIdSelector,
+  tasksByManagementPlanIdSelector,
+} from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import React from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 
-export default function ManagementDetail({ history, match }) {
+export default function ManagementTasks({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
@@ -39,7 +42,7 @@ export default function ManagementDetail({ history, match }) {
   const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
   return (
     <>
-      <PureManagementDetail
+      <PureManagementTasks
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
@@ -49,6 +52,7 @@ export default function ManagementDetail({ history, match }) {
         plan={plan}
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
+        match={match}
       >
         {taskCardContents.map((task) => (
           <TaskCard

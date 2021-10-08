@@ -7,8 +7,6 @@ import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
-import TaskCard from '../../../containers/Task/TaskCard';
-import TaskQuickAssignModal from '../../Task/QuickAssign';
 import RouterTab from '../../RouterTab';
 
 export default function PureManagementTasks({

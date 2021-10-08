@@ -4,10 +4,7 @@ import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import {
-  pendingTasksByManagementPlanIdSelector,
-  tasksByManagementPlanIdSelector,
-} from '../../taskSlice';
+import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import React from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
@@ -62,7 +59,7 @@ export default function ManagementTasks({ history, match }) {
             {...task}
           />
         ))}
-      </PureManagementDetail>
+      </PureManagementTasks>
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>
   );

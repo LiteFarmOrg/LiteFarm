@@ -2,7 +2,10 @@ import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useActiveAndCurrentManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
+import {
+  useActiveAndCurrentManagementPlanTilesByLocationIds,
+  useWildManagementPlanTiles,
+} from './useManagementPlanTilesByLocationIds';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 
@@ -50,10 +53,13 @@ function TaskCrops({
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
+  const wildManagementPlanTiles = useWildManagementPlanTiles();
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
     locations || persistedFormData.locations,
+    showWildCrops,
   );
-  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   return (
     <HookFormPersistProvider>
       <PureTaskCrops
@@ -65,6 +71,7 @@ function TaskCrops({
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
         isMulti={!isTransplantTask}
+        wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
       />
     </HookFormPersistProvider>
   );

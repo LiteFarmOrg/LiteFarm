@@ -1,7 +1,12 @@
-import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
-import { axios, getHeader, getPlantingManagementPlansSuccessSaga } from '../saga';
+import {
+  axios,
+  getHeader,
+  getManagementPlans,
+  getPlantingManagementPlansSuccessSaga,
+} from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
@@ -277,6 +282,7 @@ const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntiti
             .planting_management_plan_id,
       }));
       delete data['override_hourly_wage'];
+      delete data['show_wild_crop'];
     }),
   );
 };
@@ -385,8 +391,14 @@ export function* createTaskSaga({ payload: data }) {
       header,
     );
     if (result) {
-      yield call(postTasksSuccess, isHarvest ? result.data : [result.data]);
+      //TODO: can't handle post transplant task correctly
+      // yield put(postTasksSuccess( isHarvest ? result.data : [result.data]));
+      yield delay(500);
+      yield put(getManagementPlans());
+      yield put(getTasks());
+      yield delay(500);
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
+
       history.push('/tasks');
     }
   } catch (e) {

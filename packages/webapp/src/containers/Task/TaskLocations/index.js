@@ -16,6 +16,7 @@ import {
 import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
+import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
@@ -84,6 +85,7 @@ function TaskAllLocations({ history }) {
   const locations = useSelector(locationsSelector);
   const persistedFormData = useSelector(hookFormPersistSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
+  const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
     if (taskTypesBypassCrops.includes(persistedFormData.task_type_id)) {
@@ -102,11 +104,20 @@ function TaskAllLocations({ history }) {
       history={history}
       onGoBack={onGoBack}
       onContinue={onContinue}
+      readOnlyPinCoordinates={readOnlyPinCoordinates}
     />
   );
 }
 
-function TaskLocations({ history, locations, isMulti, title, onContinue, onGoBack }) {
+function TaskLocations({
+  history,
+  locations,
+  isMulti,
+  title,
+  onContinue,
+  onGoBack,
+  readOnlyPinCoordinates,
+}) {
   const onCancel = () => {
     history.push('/tasks');
   };
@@ -122,6 +133,7 @@ function TaskLocations({ history, locations, isMulti, title, onContinue, onGoBac
         locations={locations}
         isMulti={isMulti}
         title={title}
+        readOnlyPinCoordinates={readOnlyPinCoordinates}
       />
     </HookFormPersistProvider>
   );

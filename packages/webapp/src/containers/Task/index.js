@@ -21,7 +21,7 @@ import TaskCard from './TaskCard';
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
-  const { user_id } = useSelector(loginSelector);
+  const { user_id, farm_id } = useSelector(loginSelector);
   const tasks = useSelector(taskCardContentSelector);
   const dispatch = useDispatch();
 
@@ -29,6 +29,7 @@ export default function TaskPage({ history }) {
   const [activeTab, setTab] = useState(defaultTab);
 
   useEffect(() => {
+    //TODO: can't handle post transplant task correctly
     dispatch(getTasks());
     dispatch(getProducts());
     dispatch(getManagementPlans());

@@ -6,6 +6,13 @@ import { getTasksMinMaxDate } from '../getTasksMinMaxDate';
 import produce from 'immer';
 import { managementPlanWithCurrentLocationEntitiesSelector } from './managementPlansWithLocationSelector';
 
+const getManagementPlanTile = (managementPlan, tasksByManagementPlanId) =>
+  produce(managementPlan, (managementPlan) => {
+    const tasks = tasksByManagementPlanId[managementPlan.management_plan_id];
+    managementPlan.firstTaskDate = getTasksMinMaxDate(tasks).startDate;
+    managementPlan.status = managementPlan.start_date ? 'active' : 'planned';
+  });
+
 export const useManagementPlanTilesByLocationIds = (locationIds = [], managementPlanIds = []) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
@@ -24,11 +31,7 @@ export const useManagementPlanTilesByLocationIds = (locationIds = [], management
           if (!managementPlansByLocationIds[location_id])
             managementPlansByLocationIds[location_id] = [];
           managementPlansByLocationIds[location_id].push(
-            produce(managementPlan, (managementPlan) => {
-              const tasks = tasksByManagementPlanId[managementPlan.management_plan_id];
-              managementPlan.firstTaskDate = getTasksMinMaxDate(tasks).startDate;
-              managementPlan.status = managementPlan.start_date ? 'active' : 'planned';
-            }),
+            getManagementPlanTile(managementPlan, tasksByManagementPlanId),
           );
         }
         return managementPlansByLocationIds;
@@ -42,5 +45,23 @@ export const useActiveAndCurrentManagementPlanTilesByLocationIds = (locationIds 
   return useManagementPlanTilesByLocationIds(
     locationIds,
     managementPlans.map(({ management_plan_id }) => management_plan_id),
+  );
+};
+
+export const useWildManagementPlanTiles = () => {
+  const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
+  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector);
+  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
+  return useMemo(
+    () =>
+      managementPlans.reduce((wildManagementPlans, { management_plan_id }) => {
+        const managementPlan = managementPlanEntities[management_plan_id];
+        const pin_coordinate = managementPlan.planting_management_plan.pin_coordinate;
+        if (pin_coordinate) {
+          wildManagementPlans.push(getManagementPlanTile(managementPlan, tasksByManagementPlanId));
+        }
+        return wildManagementPlans;
+      }, []),
+    [],
   );
 };

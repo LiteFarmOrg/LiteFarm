@@ -394,12 +394,7 @@ export function* createTaskSaga({ payload: data }) {
       header,
     );
     if (result) {
-      // TODO: can't handle post transplant task correctly
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
-      // yield delay(500);
-      // yield put(getManagementPlans());
-      // yield put(getTasks());
-      // yield delay(500);
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
 
       history.push('/tasks');

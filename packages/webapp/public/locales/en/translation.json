@@ -102,7 +102,7 @@
     "TRANSPLANT_METHOD": "Transplant method",
     "WAGE_OVERRIDE": "Wage override",
     "WHAT_PLANTING_METHOD": "What is the transplanting method?",
-    "WILD_CROP": "Wild crop"
+    "WILD_CROP": "Wild crops"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -1352,7 +1352,7 @@
     "REMOVE_HARVEST_USE": "Remove",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
-    "SELECT_WILD_CROP": "Select wild crop",
+    "SELECT_WILD_CROP": "This task targets a wild crop",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",

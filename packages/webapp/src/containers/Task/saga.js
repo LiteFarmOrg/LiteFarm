@@ -1,12 +1,7 @@
-import { all, call, delay, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
-import {
-  axios,
-  getHeader,
-  getManagementPlans,
-  getPlantingManagementPlansSuccessSaga,
-} from '../saga';
+import { axios, getHeader, getPlantingManagementPlansSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
@@ -179,30 +174,43 @@ export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ paylo
       })),
     ),
   );
-  yield all([
-    getPlantingManagementPlansSuccessSaga({
-      payload: tasks
-        .map((task) => task.planting_management_plan)
-        .filter((planting_management_plan) => planting_management_plan),
-    }),
-  ]);
+  yield call(getPlantingManagementPlansSuccessSaga, {
+    payload: tasks
+      .map((task) => task.planting_management_plan)
+      .filter((planting_management_plan) => planting_management_plan),
+  });
 }
 
+// TODO: fix call(getTransplantTasksAndPlantingManagementPlansSuccessSaga) racing condition walk around
 const taskTypeActionMap = {
-  CLEANING_TASK: { success: getCleaningTasksSuccess, fail: onLoadingCleaningTaskFail },
-  FIELD_WORK_TASK: { success: getFieldWorkTasksSuccess, fail: onLoadingFieldWorkTaskFail },
-  PEST_CONTROL_TASK: { success: getPestControlTasksSuccess, fail: onLoadingPestControlTaskFail },
+  CLEANING_TASK: {
+    success: (tasks) => put(getCleaningTasksSuccess(tasks)),
+    fail: onLoadingCleaningTaskFail,
+  },
+  FIELD_WORK_TASK: {
+    success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
+    fail: onLoadingFieldWorkTaskFail,
+  },
+  PEST_CONTROL_TASK: {
+    success: (tasks) => put(getPestControlTasksSuccess(tasks)),
+    fail: onLoadingPestControlTaskFail,
+  },
   SOIL_AMENDMENT_TASK: {
-    success: getSoilAmendmentTasksSuccess,
+    success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
   },
-  HARVEST_TASK: { success: getHarvestTasksSuccess, fail: onLoadingHarvestTaskFail },
+  HARVEST_TASK: {
+    success: (tasks) => put(getHarvestTasksSuccess(tasks)),
+    fail: onLoadingHarvestTaskFail,
+  },
   PLANT_TASK: {
-    success: getPlantingTasksAndPlantingManagementPlansSuccess,
+    success: (tasks) =>
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingPlantTaskFail,
   },
   TRANSPLANT_TASK: {
-    success: getTransplantTasksAndPlantingManagementPlansSuccess,
+    success: (tasks) =>
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingTransplantTaskFail,
   },
 };
@@ -218,9 +226,6 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
 }
-
-export const postTasksSuccess = createAction('postTasksSuccessSaga');
-export const getTasksSuccess = createAction('getTasksSuccessSaga');
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
   yield put(addManyTasksFromGetReq(tasks));
@@ -241,10 +246,8 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
   }, tasksByTranslationKeyDefault);
   for (const task_translation_key in taskTypeActionMap) {
     try {
-      yield put(
-        taskTypeActionMap[task_translation_key].success(
-          tasksByTranslationKey[task_translation_key],
-        ),
+      yield taskTypeActionMap[task_translation_key].success(
+        tasksByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));
@@ -262,7 +265,7 @@ export function* getTasksSaga() {
   try {
     yield put(onLoadingTaskStart());
     const result = yield call(axios.get, `${taskUrl}/${farm_id}`, header);
-    yield put(getTasksSuccess(result.data));
+    yield call(getTasksSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
   }
@@ -391,12 +394,12 @@ export function* createTaskSaga({ payload: data }) {
       header,
     );
     if (result) {
-      //TODO: can't handle post transplant task correctly
-      // yield put(postTasksSuccess( isHarvest ? result.data : [result.data]));
-      yield delay(500);
-      yield put(getManagementPlans());
-      yield put(getTasks());
-      yield delay(500);
+      // TODO: can't handle post transplant task correctly
+      yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
+      // yield delay(500);
+      // yield put(getManagementPlans());
+      // yield put(getTasks());
+      // yield delay(500);
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
 
       history.push('/tasks');
@@ -602,8 +605,6 @@ export default function* taskSaga() {
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLatest(getTasks.type, getTasksSaga);
-  yield takeLatest(getTasksSuccess.type, getTasksSuccessSaga);
-  yield takeLeading(postTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(onLoadingTaskStart.type, onLoadingTaskStartSaga);
   yield takeLatest(getProducts.type, getProductsSaga);
   yield takeLeading(completeTask.type, completeTaskSaga);

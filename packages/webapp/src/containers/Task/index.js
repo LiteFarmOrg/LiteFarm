@@ -29,13 +29,12 @@ export default function TaskPage({ history }) {
   const [activeTab, setTab] = useState(defaultTab);
 
   useEffect(() => {
-    //TODO: can't handle post transplant task correctly
-    dispatch(getTasks());
-    dispatch(getProducts());
-    dispatch(getManagementPlans());
-    dispatch(getHarvestUseTypes());
-    dispatch(getCropVarieties());
     dispatch(getLocations());
+    dispatch(getCropVarieties());
+    dispatch(getManagementPlans());
+    dispatch(getProducts());
+    dispatch(getHarvestUseTypes());
+    dispatch(getTasks());
   }, []);
 
   useEffect(() => {

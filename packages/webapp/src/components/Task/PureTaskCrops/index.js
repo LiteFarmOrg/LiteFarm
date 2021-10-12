@@ -240,18 +240,16 @@ const PureTaskCrops = ({
           let location_name = managementPlansByLocationIds[location_id][0].location.name;
           return (
             <div key={location_id}>
-              <div style={{ paddingBottom: '16px' }}>
-                <PageBreak
-                  style={{ paddingBottom: '16px' }}
-                  label={location_name}
-                  onSelectAll={
-                    isMulti ? () => selectAllManagementPlansOfALocation(location_id) : undefined
-                  }
-                  onClearAll={
-                    isMulti ? () => clearAllManagementPlansOfALocation(location_id) : undefined
-                  }
-                />
-              </div>
+              <PageBreak
+                style={{ paddingBottom: '16px' }}
+                label={location_name}
+                onSelectAll={
+                  isMulti ? () => selectAllManagementPlansOfALocation(location_id) : undefined
+                }
+                onClearAll={
+                  isMulti ? () => clearAllManagementPlansOfALocation(location_id) : undefined
+                }
+              />
               <PureCropTileContainer gap={24} padding={0}>
                 {managementPlansFilteredByInput[location_id].map((managementPlan) => {
                   return (
@@ -273,14 +271,12 @@ const PureTaskCrops = ({
         })}
         {wildCropTilesFilteredByInput?.length > 0 && (
           <div>
-            <div style={{ paddingBottom: '16px' }}>
-              <PageBreak
-                style={{ paddingBottom: '16px' }}
-                label={t('ADD_TASK.WILD_CROP')}
-                onSelectAll={isMulti ? selectAllWildManagementPlans : undefined}
-                onClearAll={isMulti ? clearAllWildManagementPlans : undefined}
-              />
-            </div>
+            <PageBreak
+              style={{ paddingBottom: '16px' }}
+              label={t('ADD_TASK.WILD_CROP')}
+              onSelectAll={isMulti ? selectAllWildManagementPlans : undefined}
+              onClearAll={isMulti ? clearAllWildManagementPlans : undefined}
+            />
             <PureCropTileContainer gap={24} padding={0}>
               {wildCropTilesFilteredByInput.map((managementPlan) => {
                 return (

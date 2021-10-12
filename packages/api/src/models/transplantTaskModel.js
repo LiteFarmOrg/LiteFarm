@@ -58,7 +58,7 @@ class transplantTaskModel extends Model {
         },
       },
       planting_management_plan: {
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         modelClass: require('./plantingManagementPlanModel'),
         join: {
           from: 'transplant_task.planting_management_plan_id',

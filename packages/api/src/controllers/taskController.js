@@ -209,21 +209,12 @@ const taskController = {
             transplant_task.wage_at_moment = wage.amount;
           }
           //TODO: noInsert on planting_management_plan planting methods LF-1864
-          const plantingManagementPlan = await plantingManagementPlanModel.query(trx).context({ user_id: req.user.user_id })
-            .upsertGraph(transplant_task.transplant_task.planting_management_plan, {
-              noUpdate: true,
-              noDelete: true,
-            });
-          delete transplant_task.transplant_task.planting_management_plan;
-          transplant_task.transplant_task.planting_management_plan_id = plantingManagementPlan.planting_management_plan_id;
-          const result = await TaskModel.query(trx).context({ user_id: req.user.user_id })
+          return await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph(transplant_task, {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
             });
-          result.transplant_task.planting_management_plan = plantingManagementPlan;
-          return result;
         });
         return res.status(201).send(result);
       } catch (error) {

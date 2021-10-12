@@ -22,7 +22,7 @@ const getTransplantTask = (task) => {
     task.pinCoordinates.push(pin_coordinate);
     task.managementPlansByPinCoordinate[getLocationName({ pin_coordinate }, 6)] = managementPlan;
   } else {
-    task.managementPlansByLocation[prev_planting_management_plan.location_id] = managementPlan;
+    task.managementPlansByLocation[prev_planting_management_plan.location_id] = [managementPlan];
   }
   task.locationsById = getLocationsById(task);
   task.selectedLocationIds = planting_management_plan.location_id;

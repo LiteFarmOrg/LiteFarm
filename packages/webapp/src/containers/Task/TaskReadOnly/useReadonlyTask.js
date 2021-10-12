@@ -23,6 +23,7 @@ const getTransplantTask = (task) => {
     task.managementPlansByPinCoordinate[getLocationName({ pin_coordinate }, 6)] = managementPlan;
   } else {
     task.managementPlansByLocation[prev_planting_management_plan.location_id] = [managementPlan];
+    task.locations.push(prev_planting_management_plan.location);
   }
   task.locationsById = getLocationsById(task);
   task.selectedLocationIds = planting_management_plan.location_id;
@@ -63,6 +64,8 @@ const getLocationsById = (task) => {
   for (const managementPlan of task.managementPlans) {
     const location = managementPlan?.planting_management_plan?.location;
     location && (locationsById[location.location_id] = location);
+    const prevLocation = managementPlan?.prev_planting_management_plan?.location;
+    prevLocation && (locationsById[prevLocation.location_id] = location);
   }
   return locationsById;
 };

@@ -27,6 +27,7 @@ const entitiesGetters = {
   document_id: fromDocument,
   default_initial_location_id: fromLocation,
   task_id: fromTaskId,
+  taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
 };
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -88,6 +89,7 @@ async function fromTaskId(task_id) {
   if (!userFarm) return {};
   return userFarm;
 }
+
 
 function fromTask(taskTypeId) {
   return knex('task_type').where({ task_type_id: taskTypeId }).first();
@@ -260,4 +262,21 @@ function sameFarm(object, farm) {
 
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
+}
+
+async function fromTaskManagementPlanAndLocation(req) {
+  const { managementPlans, locations } = req.body;
+  const farm_id = req.headers.farm_id;
+  for (const { location_id } of locations || []) {
+    const location = await knex('location').where({ location_id }).first();
+    if (location.farm_id !== farm_id) return {};
+  }
+  for (const { planting_management_plan_id } of managementPlans || []) {
+    const managementPlan = await knex('management_plan')
+      .join('planting_management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('planting_management_plan.planting_management_plan_id', planting_management_plan_id).first();
+    if (managementPlan.farm_id !== farm_id) return {};
+  }
+  return { farm_id };
 }

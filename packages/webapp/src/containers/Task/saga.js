@@ -430,6 +430,7 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
       data.taskData[taskType].planting_management_plan.planting_management_plan_id =
         data.taskData[taskType].planting_management_plan_id;
       delete data.taskData[taskType].planting_management_plan_id;
+      delete data.taskData[taskType].prev_planting_management_plan;
     }
   }).taskData;
 };

@@ -70,7 +70,7 @@ export default function PureTaskLocations({
 
   const clearLocations = () => setValue(LOCATIONS, []);
 
-  const showWildCropCheckBox = readOnlyPinCoordinates?.length;
+  const showWildCropCheckBox = !!readOnlyPinCoordinates?.length;
 
   return (
     <>

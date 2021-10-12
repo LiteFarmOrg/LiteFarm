@@ -54,8 +54,9 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
             managementPlans[index].planting_management_plan = plant_task.planting_management_plan;
           } else {
             //In ground wild crop location and planting method
-            const planting_management_plan =
-              plantingManagementPlanByManagementPlanEntities[management_plan_id]?.[0];
+            const planting_management_plan = plantingManagementPlanByManagementPlanEntities[
+              management_plan_id
+            ]?.find((planting_management_plan) => planting_management_plan?.pin_coordinate);
             managementPlans[index].pin_coordinate = planting_management_plan?.pin_coordinate;
             managementPlans[index].location = planting_management_plan?.location;
             managementPlans[index].planting_management_plan = planting_management_plan;

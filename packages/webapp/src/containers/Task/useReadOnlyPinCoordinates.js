@@ -1,13 +1,19 @@
 import { useSelector } from 'react-redux';
-import { managementPlansWithCurrentLocationSelector } from './TaskCrops/managementPlansWithLocationSelector';
+import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 import { useMemo } from 'react';
+import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
 
 export const useReadOnlyPinCoordinates = () => {
-  const managementPlans = useSelector(managementPlansWithCurrentLocationSelector);
+  const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
+  const currentManagementPlans = useSelector(currentAndPlannedManagementPlansSelector);
+
   return useMemo(
     () =>
-      managementPlans
-        .map((managementPlan) => managementPlan.planting_management_plan.pin_coordinate)
+      currentManagementPlans
+        .map(
+          ({ management_plan_id }) =>
+            managementPlanEntities[management_plan_id].planting_management_plan.pin_coordinate,
+        )
         .filter((pin_coordinate) => pin_coordinate),
     [],
   );

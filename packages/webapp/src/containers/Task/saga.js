@@ -302,7 +302,7 @@ const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
         ),
       ),
       wage_at_moment: data.override_hourly_wage ? data.wage_at_moment : undefined,
-      locations: [{ location_id }],
+      locations: location_id === 'PIN_LOCATION' ? undefined : [{ location_id }],
       managementPlans: [
         {
           planting_management_plan_id:
@@ -311,6 +311,7 @@ const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocatio
         },
       ],
       notes: harvest_task.notes,
+      show_wild_crop: undefined,
     });
   });
 };

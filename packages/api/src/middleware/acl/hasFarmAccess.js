@@ -79,6 +79,14 @@ async function fromTaskId(task_id) {
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .where('task.task_id', task_id).first();
   }
+  const cropVariety = await knex('crop_variety')
+    .distinct('crop_variety.farm_id')
+    .join('management_plan', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+    .join('planting_management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
+    .join('management_tasks', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+    .where('management_tasks.task_id', task_id)
+    .first();
+
   const userFarm = await userFarmModel.query()
     .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
     .join('location', 'userFarm.farm_id', 'location.farm_id')
@@ -86,8 +94,9 @@ async function fromTaskId(task_id) {
     .skipUndefined()
     .where('location_tasks.task_id', task_id)
     .first();
-  if (!userFarm) return {};
-  return userFarm;
+
+  if (!userFarm && !cropVariety) return {};
+  return userFarm || cropVariety;
 }
 
 

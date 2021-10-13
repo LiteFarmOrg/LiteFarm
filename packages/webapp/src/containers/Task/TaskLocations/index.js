@@ -40,6 +40,7 @@ function TaskActiveAndPlannedCropLocations({ history }) {
   const activeAndPlannedLocations = activeAndPlannedLocationsIds.map(
     (location_id) => cropLocationEntities[location_id],
   );
+  const readOnlyPinCoordinates = useReadOnlyPinCoordinates();
 
   const onContinue = () => {
     history.push('/add_task/task_crops');
@@ -54,6 +55,7 @@ function TaskActiveAndPlannedCropLocations({ history }) {
       history={history}
       onContinue={onContinue}
       onGoBack={onGoBack}
+      readOnlyPinCoordinates={readOnlyPinCoordinates}
     />
   );
 }

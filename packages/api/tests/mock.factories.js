@@ -464,7 +464,7 @@ async function crop_management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
   promisedManagementPlan = management_planFactory({
     promisedFarm,
     promisedLocation,

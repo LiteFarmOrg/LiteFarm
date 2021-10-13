@@ -102,11 +102,15 @@ describe('Task tests', () => {
     const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, userFarm);
     const [{ task_type_id }] = await mocks.task_typeFactory({ promisedFarm: [{ farm_id }] });
     const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
-    const [{ management_plan_id }] = linkPlan ? await mocks.management_planFactory({
+    const [{ crop_variety_id }] = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] });
+
+    const [{ management_plan_id }] = linkPlan ? await mocks.crop_management_planFactory({
       promisedFarm: [{ farm_id }],
       promisedLocation: [{ location_id }],
+      crop_variety: [{ crop_variety_id }],
     }) : [{ management_plan_id: null }];
-    return { user_id, farm_id, location_id, management_plan_id, task_type_id };
+    const [{ planting_management_plan_id }] = linkPlan ? await knex('planting_management_plan').where({ management_plan_id }) : [{ planting_management_plan_id: null }];
+    return { user_id, farm_id, location_id, management_plan_id, planting_management_plan_id, task_type_id };
   }
 
   async function getTask(task_id) {
@@ -637,7 +641,14 @@ describe('Task tests', () => {
 
       Object.keys(fakeTaskData).map((type) => {
         test(`should successfully create a ${type} with a management plan`, async (done) => {
-          const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator();
+          const {
+            user_id,
+            farm_id,
+            location_id,
+            management_plan_id,
+            planting_management_plan_id,
+            task_type_id,
+          } = await userFarmTaskGenerator();
           const data = {
             ...mocks.fakeTask({
               [type]: { ...fakeTaskData[type]() },
@@ -645,7 +656,7 @@ describe('Task tests', () => {
               owner_user_id: user_id,
             }),
             locations: [{ location_id }],
-            managementPlans: [{ management_plan_id }],
+            managementPlans: [{ planting_management_plan_id }],
           };
 
           postTaskRequest({ user_id, farm_id }, type, data, async (err, res) => {
@@ -669,12 +680,18 @@ describe('Task tests', () => {
       test('should create a task (i.e soilamendment)  with multiple management plans', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-          mocks.management_planFactory({
+          mocks.crop_management_planFactory({
             promisedFarm: [{ farm_id }],
             promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
+          }, {
+            cropManagementPlan: { ...mocks.fakeCropManagementPlan(), needs_transplant: false },
           }),
         ));
-        const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const managementPlanIds = promisedManagement.map(([{ management_plan_id }]) => management_plan_id);
+        const plantingManagementPlans = await knex('planting_management_plan').whereIn('management_plan_id', managementPlanIds);
+        const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({ planting_management_plan_id }));
+
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
@@ -702,12 +719,17 @@ describe('Task tests', () => {
       test('should create a task (i.e soilamendment) and override wage', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-          mocks.management_planFactory({
+          mocks.crop_management_planFactory({
             promisedFarm: [{ farm_id }],
             promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
+          }, {
+            cropManagementPlan: { ...mocks.fakeCropManagementPlan(), needs_transplant: false },
           }),
         ));
-        const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const managementPlanIds = promisedManagement.map(([{ management_plan_id }]) => management_plan_id);
+        const plantingManagementPlans = await knex('planting_management_plan').whereIn('management_plan_id', managementPlanIds);
+        const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({ planting_management_plan_id }));
         const data = {
           ...mocks.fakeTask({
             soil_amendment_task: { ...fakeTaskData.soil_amendment_task() },
@@ -737,12 +759,18 @@ describe('Task tests', () => {
       test('should create a task (i.e soilamendment) and patch a product', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-          mocks.management_planFactory({
+          mocks.crop_management_planFactory({
             promisedFarm: [{ farm_id }],
             promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
+
+          }, {
+            cropManagementPlan: { ...mocks.fakeCropManagementPlan(), needs_transplant: false },
           }),
         ));
-        const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const managementPlanIds = promisedManagement.map(([{ management_plan_id }]) => management_plan_id);
+        const plantingManagementPlans = await knex('planting_management_plan').whereIn('management_plan_id', managementPlanIds);
+        const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({ planting_management_plan_id }));
         const soilAmendmentProduct = mocks.fakeProduct();
         soilAmendmentProduct.name = 'soilProduct';
         const data = {
@@ -777,12 +805,18 @@ describe('Task tests', () => {
       test('should create a task (i.e soilamendment) and create a product', async (done) => {
         const { user_id, farm_id, location_id, management_plan_id, task_type_id } = await userFarmTaskGenerator(true);
         const promisedManagement = await Promise.all([...Array(3)].map(async () =>
-          mocks.management_planFactory({
+          mocks.crop_management_planFactory({
             promisedFarm: [{ farm_id }],
             promisedLocation: [{ location_id }],
+            promisedField: [{ location_id }],
+
+          }, {
+            cropManagementPlan: { ...mocks.fakeCropManagementPlan(), needs_transplant: false },
           }),
         ));
-        const managementPlans = promisedManagement.reduce((a, b) => a.concat({ management_plan_id: b[0].management_plan_id }), []);
+        const managementPlanIds = promisedManagement.map(([{ management_plan_id }]) => management_plan_id);
+        const plantingManagementPlans = await knex('planting_management_plan').whereIn('management_plan_id', managementPlanIds);
+        const managementPlans = plantingManagementPlans.map(({ planting_management_plan_id }) => ({ planting_management_plan_id }));
         const soilAmendmentProduct = mocks.fakeProduct();
         soilAmendmentProduct.name = 'soilProduct2';
         soilAmendmentProduct.farm_id = farm_id;

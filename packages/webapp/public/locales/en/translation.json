@@ -1295,6 +1295,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandon this task",
+    "ABANDON_TASK_DURATION": "Was any work completed for this task?",
     "ABANDON": {
       "ABANDON": "Abandon",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",

@@ -1295,6 +1295,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "MISSING",
+    "ABANDON_TASK_DURATION": "MISSING",
     "ABANDON": {
       "ABANDON": "MISSING",
       "INFO": "MISSING",

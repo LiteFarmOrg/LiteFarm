@@ -1294,6 +1294,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandonar esta tarea",
+    "ABANDON_TASK_DURATION": "MISSING",
     "ABANDON": {
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",

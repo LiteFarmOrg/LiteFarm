@@ -363,7 +363,14 @@ function removeNullTypes(task, i, arr) {
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [tasks, plantTasks, transplantTasks] = await Promise.all([
+  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
+    TaskModel.query().select('task.task_id').whereNotDeleted()
+      .distinct('task.task_id')
+      .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
+      .join('planting_management_plan', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+      .join('management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
     TaskModel.query().select('task.task_id').whereNotDeleted()
       .distinct('task.task_id')
       .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
@@ -381,7 +388,7 @@ async function getTasksForFarm(farm_id) {
       .where('crop_variety.farm_id', farm_id),
 
   ]);
-  return [...tasks, ...plantTasks, ...transplantTasks];
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
 }
 
 async function getManagementPlans(task_id, typeOfTask) {

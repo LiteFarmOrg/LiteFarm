@@ -76,11 +76,13 @@ export default function PureTaskReadOnly({
   const { ref: gap, padding } = useCropTileListGap([]);
 
   const isCompleted = !!task.completed_time;
+  const isAbandoned = !!task.abandoned_time;
+  const isCurrent = !isCompleted && !isAbandoned;
   return (
     <Layout
       buttonGroup={
         self === task.assignee_user_id &&
-        !isCompleted && (
+        isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
               {t('common:MARK_COMPLETE')}
@@ -93,7 +95,7 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={(isAdmin || owner === self) && !isCompleted ? onEdit : false}
+        onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
       />
 
@@ -215,7 +217,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
+      {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
           {t('TASK.ABANDON_TASK')}
         </Underlined>

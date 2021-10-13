@@ -88,17 +88,21 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 
 LiteFarm utiliza la información de gestión que ingresa en la aplicación para generar ideas sobre los beneficios económicos, ambientales y sociales, o los impactos de sus decisiones de gestión. Los datos son anónimos para la realización de investigaciones académicas no comerciales sobre sistemas alimentarios sostenibles. Como estos datos son anónimos cuando se utilizan en nuestras encuestas, no se pueden rastrear hasta usted o su granja/finca. Estos datos incluyen:
 
-- Información del campo: diferentes tipos de ubicación en la propiedad, incluido el tamaño, el nombre, los cultivos sembrados en los campos, si es orgánico o no, y otros atributos específicos del tipo de campo;
+- Información del campo: diferentes tipos de ubicación en la propiedad, incluido el tamaño, el nombre, los cultivos sembrados en los campos, tareas atribuidas a áreas, si es orgánico o no, y otros atributos específicos del tipo de campo;
 
-- Información sobre cultivos: tipo de variedad, proveedor, nombres comunes, especie, género, grupo de cultivo, estado de certificación orgánica e información de asistencia;
+- Información sobre cultivos: tipo de variedad, proveedor, nombres comunes, especie, género, grupo de cultivo, estado del tratamiento de las semillas, estado de certificación orgánica e información de asistencia;
 
-- Información de manejo de cultivos: incluyendo fechas de inicio y finalización, método de siembra, método de trasplante, duración del cultivo, tareas asociadas con el plan de manejo, precio estimado del cultivo; rendimientos estimados de cultivos, otros;
+- Información de manejo de cultivos: incluyendo fechas de inicio y finalización, método de siembra, método de trasplante, duración del cultivo, tareas relacionadas con el manejo del cultivo, precio estimado del cultivo; rendimientos estimados de cultivos, otros;
 
-- Información sobre las tareas realizadas en la propiedad: administrador (a), obtentor (a), duración, ubicaciones, cultivos impactados, entradas, notas, fechas, condiciones de finalización, etc.
+- Información sobre las tareas realizadas en la propiedad: administrador (a), obtentor (a), duración, ubicaciones, cultivos impactados, entradas, notas, fechas, condiciones de finalización, sentimiento del trabajador (satisfecho, contento, descontento), etc.
 
-- Información del registro de control de plagas: nombre del producto, cantidad aplicada del producto, objetivo de aplicación (es decir, el nombre de la plaga o enfermedad), nombre común, nombre científico, grupo, nombre del ingrediente activo, intervalo de cosecha, rango de entrada, tipo de control (aspersión sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico), campo/parcela y cultura de aplicación;
+- Información de tareas para el control de plagas: nombre del producto, cantidad aplicada del producto, objetivo de aplicación (es decir, el nombre de la plaga o enfermedad), nombre común, nombre científico, grupo, nombre del ingrediente activo, intervalo de cosecha, rango de entrada, tipo de control (aspersión sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico), campo/parcela y cultura de aplicación;
 
-- Información del registro inicial: campo inicial, cultivo sembrado, relación de profundidad, longitud, anchura y espaciado;
+- Información de limpieza: nombre del producto, cantidad aplicada, donde va a ser la aplicación (o sea, cajas o mesas), uso estimado del agua, áreas.
+
+- Información sobre las tareas de cosecha: área(s) de cosecha, cultivo(s) cosechados, cantidad estimada y cantidad actual de cosecha, usos estimados y usos actuales de la cosecha;
+
+- Información de plantío: áreas de plantío, cultivos plantados, relación de profundidad, longitud, anchura y espaciado;
 
 - Información de registro de trabajo en campos/parcelas: campo, tipo de trabajo (arar, plantar en crestas, plantar en zonas, plantar en mantillo, plantar cincelado);
 

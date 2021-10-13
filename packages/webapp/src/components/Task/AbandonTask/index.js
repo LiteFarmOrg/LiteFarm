@@ -90,7 +90,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         />
       )}
 
-      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
 
       {!no_work_completed && (
         <TimeSlider

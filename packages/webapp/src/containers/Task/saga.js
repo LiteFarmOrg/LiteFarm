@@ -352,7 +352,8 @@ const getPostTaskReqBody = (
   isCustomTask,
   managementPlanWithCurrentLocationEntities,
 ) => {
-  if (isCustomTask) return getPostTaskBody(data, endpoint);
+  if (isCustomTask)
+    return getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
   return taskTypeGetPostTaskBodyFunctionMap[task_translation_key](
     data,
     endpoint,

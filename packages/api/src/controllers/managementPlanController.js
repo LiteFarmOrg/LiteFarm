@@ -13,12 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
 const cropManagementPlanModel = require('../models/cropManagementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
 const taskModel = require('../models/taskModel');
 const taskTypeModel = require('../models/taskTypeModel');
+const transplantTaskModel = require('../models/transplantTaskModel');
+const plantTaskModel = require('../models/plantTaskModel');
 
 const { transaction, Model, raw, ref } = require('objection');
 
@@ -176,10 +179,24 @@ const managementPlanController = {
             .where('planting_management_plan.management_plan_id', management_plan_id).distinct('task_id')
             .then(tasks => managementTasksModel.query()
               .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
-              .whereIn('task_id', tasks.map(({ task_id }) => task_id))
-              .groupBy('task_id').count('planting_management_plan.management_plan_id').select('task_id'));
+              .join('task', 'task.task_id', 'management_tasks.task_id')
+              .whereNull('task.completed_time')
+              .whereIn('management_tasks.task_id', tasks.map(({ task_id }) => task_id))
+              .groupBy('management_tasks.task_id').count('planting_management_plan.management_plan_id').select('management_tasks.task_id'));
 
-          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1')
+          const transplantTasks = await transplantTaskModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'transplant_task.planting_management_plan_id')
+            .join('task', 'task.task_id', 'transplant_task.task_id')
+            .whereNull('task.completed_time')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const plantTasks = await plantTaskModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'plant_task.planting_management_plan_id')
+            .join('task', 'task.task_id', 'plant_task.task_id')
+            .whereNull('task.completed_time')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const taskIdsRelatedToOneManagementPlan = [...tasksWithManagementPlanCount.filter(({ count }) => count === '1'), ...transplantTasks, ...plantTasks]
             .map(({ task_id }) => task_id);
           const abandonedTasks = await taskModel.query(trx).context(req.user)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)

@@ -34,7 +34,7 @@ function TaskDetails({ history, match }) {
     persistedFormData.locations,
     managementPlanIds,
   );
-  const wildManagementPlanTiles = useWildManagementPlanTiles();
+  const wildManagementPlanTiles = useWildManagementPlanTiles(persistedFormData.managementPlans);
   const showWildCrops = persistedFormData.show_wild_crop;
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];

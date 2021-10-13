@@ -48,9 +48,13 @@ export const useActiveAndCurrentManagementPlanTilesByLocationIds = (locationIds 
   );
 };
 
-export const useWildManagementPlanTiles = () => {
+export const useCurrentWildManagementPlanTiles = () => {
+  const currentAndPlannedManagementPlans = useSelector(currentAndPlannedManagementPlansSelector);
+  return useWildManagementPlanTiles(currentAndPlannedManagementPlans);
+};
+
+export const useWildManagementPlanTiles = (managementPlans) => {
   const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
-  const managementPlans = useSelector(currentAndPlannedManagementPlansSelector);
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   return useMemo(
     () =>
@@ -62,6 +66,6 @@ export const useWildManagementPlanTiles = () => {
         }
         return wildManagementPlans;
       }, []),
-    [],
+    [managementPlans],
   );
 };

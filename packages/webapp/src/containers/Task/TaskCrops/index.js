@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
-  useWildManagementPlanTiles,
+  useCurrentWildManagementPlanTiles,
 } from './useManagementPlanTilesByLocationIds';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
@@ -55,7 +55,7 @@ function TaskCrops({
   const persistedFormData = useSelector(hookFormPersistSelector);
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
-  const wildManagementPlanTiles = useWildManagementPlanTiles();
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
     locations || persistedFormData.locations,
     showWildCrops,

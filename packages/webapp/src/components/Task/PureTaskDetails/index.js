@@ -62,7 +62,7 @@ export default function PureTaskDetails({
       [],
     );
 
-    const allHarvestTasks = wildManagementPlanTiles.reduce((harvest_tasks, managementPlan) => {
+    const allHarvestTasks = wildManagementPlanTiles?.reduce((harvest_tasks, managementPlan) => {
       const id = `PIN_LOCATION.${managementPlan.management_plan_id}`;
       harvest_tasks.push(
         harvestTasksById?.[id] || {

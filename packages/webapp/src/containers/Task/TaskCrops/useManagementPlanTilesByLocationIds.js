@@ -58,14 +58,14 @@ export const useWildManagementPlanTiles = (managementPlans) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
   return useMemo(
     () =>
-      managementPlans.reduce((wildManagementPlans, { management_plan_id }) => {
+      managementPlans?.reduce((wildManagementPlans, { management_plan_id }) => {
         const managementPlan = managementPlanEntities[management_plan_id];
         const pin_coordinate = managementPlan.planting_management_plan.pin_coordinate;
         if (pin_coordinate) {
           wildManagementPlans.push(getManagementPlanTile(managementPlan, tasksByManagementPlanId));
         }
         return wildManagementPlans;
-      }, []),
+      }, []) || [],
     [managementPlans],
   );
 };

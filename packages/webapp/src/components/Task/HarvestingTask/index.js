@@ -77,7 +77,7 @@ const PureHarvestingTask = ({
           </div>
         );
       })}
-      {
+      {wildManagementPlanTiles?.length && (
         <div>
           <div style={{ paddingBottom: '16px' }}>
             <PageBreak label={t('ADD_TASK.WILD_CROP')} />
@@ -108,7 +108,7 @@ const PureHarvestingTask = ({
             })}
           </div>
         </div>
-      }
+      )}
     </>
   );
 };

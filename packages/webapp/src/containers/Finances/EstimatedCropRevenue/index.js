@@ -35,6 +35,8 @@ const EstimatedCropRevenue = ({ cropVarietyId, plans, history, ...props }) => {
           subtitle: `first task date how to get | bed notes?`,
           amount: plan.estimated_revenue || 0,
           isPlan: true,
+          onClickForward: () =>
+            history.push(`/finances/estimated_revenue/plan/${plan.management_plan_id}`),
         };
       })}
       isDropDown

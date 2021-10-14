@@ -12,7 +12,7 @@ import EstimatedCropRevenue from '../EstimatedCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
 
-export default function ActualRevenue({ history, match }) {
+export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
   const onGoBack = () => history.goBack();
   const managementPlans = useSelector(managementPlansSelector);

@@ -313,6 +313,9 @@ const TaskContainerMethod = React.lazy(() =>
   import('./containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
 const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualRevenue'));
+const UpdateEstimatedCropRevenue = React.lazy(() =>
+  import('./containers/Finances/UpdateEstimatedCropRevenue'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -620,6 +623,11 @@ const Routes = () => {
             <Route path="/help" exact component={HelpRequest} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+            <Route
+              path="/finances/estimated_revenue/plan/:management_plan_id"
+              exact
+              component={UpdateEstimatedCropRevenue}
+            />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
@@ -908,6 +916,11 @@ const Routes = () => {
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+            <Route
+              path="/finances/estimated_revenue/plan/:management_plan_id"
+              exact
+              component={UpdateEstimatedCropRevenue}
+            />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
             <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />

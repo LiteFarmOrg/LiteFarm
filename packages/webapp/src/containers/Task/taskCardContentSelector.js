@@ -1,13 +1,12 @@
 import { createSelector } from 'reselect';
 import { tasksByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 import i18n from '../../locales/i18n';
-import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 import { isTaskType } from './useIsTaskType';
 import { getTaskCardDate } from '../../util/moment';
 import { loginSelector, userFarmEntitiesSelector } from '../userFarmSlice';
 import { getLocationName } from '../Crop/CropManagement/useManagementPlanCardContents';
 
-const getTaskContents = (tasks, managementPlanEntities, userFarmEntities, { farm_id }) => {
+const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
   return tasks
     .sort((taskA, taskB) => {
       if (
@@ -58,23 +57,13 @@ const getTaskContents = (tasks, managementPlanEntities, userFarmEntities, { farm
 };
 
 export const taskCardContentSelector = createSelector(
-  [
-    tasksSelector,
-    managementPlanWithCurrentLocationEntitiesSelector,
-    userFarmEntitiesSelector,
-    loginSelector,
-  ],
+  [tasksSelector, userFarmEntitiesSelector, loginSelector],
   getTaskContents,
 );
 
 export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
   createSelector(
-    [
-      tasksByManagementPlanIdSelector(management_plan_id),
-      managementPlanWithCurrentLocationEntitiesSelector,
-      userFarmEntitiesSelector,
-      loginSelector,
-    ],
+    [tasksByManagementPlanIdSelector(management_plan_id), userFarmEntitiesSelector, loginSelector],
     getTaskContents,
   );
 

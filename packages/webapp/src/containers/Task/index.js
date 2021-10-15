@@ -7,56 +7,79 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
-import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { tasksSelector } from '../taskSlice';
-import { getProducts, getTasks, getHarvestUseTypes } from './saga';
-import TaskCard from './TaskCard';
+import {
+  resetAndUnLockFormData,
+  setPersistedPaths,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getHarvestUseTypes, getProducts, getTasks } from './saga';
 import StateTab from '../../components/RouterTab/StateTab';
 import { ALL, TODO, UNASSIGNED } from './constants';
-import TaskQuickAssignModal from '../../components/Task/QuickAssign';
-import { getManagementPlans } from '../saga';
+import { getCropVarieties, getLocations, getManagementPlans } from '../saga';
+import { taskCardContentSelector } from './taskCardContentSelector';
+import TaskCard from './TaskCard';
 
 export default function TaskPage({ history }) {
   const { t } = useTranslation();
   const isAdmin = useSelector(isAdminSelector);
-  const { user_id } = useSelector(loginSelector);
-  const tasks = useSelector(tasksSelector);
+  const { user_id, farm_id } = useSelector(loginSelector);
+  const tasks = useSelector(taskCardContentSelector);
   const dispatch = useDispatch();
 
   const defaultTab = TODO;
   const [activeTab, setTab] = useState(defaultTab);
-  const [quickAssignInfo, setQuickAssignInfo] = useState(null);
-
-  const handleClickAssignee = (taskId, dueDate, isAssigned) => {
-    setQuickAssignInfo({ taskId, dueDate, isAssigned });
-  };
 
   useEffect(() => {
-    dispatch(getTasks());
-    dispatch(getProducts());
+    dispatch(getLocations());
+    dispatch(getCropVarieties());
     dispatch(getManagementPlans());
+    dispatch(getProducts());
     dispatch(getHarvestUseTypes());
+    dispatch(getTasks());
   }, []);
 
   useEffect(() => {
     dispatch(resetAndUnLockFormData());
   }, []);
 
-  const tasksToDisplay = useMemo(() => {
+  const taskCardContents = useMemo(() => {
     switch (activeTab) {
       case ALL:
         return tasks;
       case TODO:
         return tasks.filter(
-          (task) =>
-            task.assignee_user_id === user_id && !task.abandoned_time && !task.completed_time,
+          (task) => task.assignee?.user_id === user_id && ['planned', 'late'].includes(task.status),
         );
       case UNASSIGNED:
-        return tasks.filter((task) => !task.assignee_user_id);
+        return tasks.filter((task) => !task.assignee);
       default:
         return [];
     }
   }, [tasks, activeTab]);
+
+  const onAddTask = () => {
+    //TODO: remove all persistedPath in add task flow
+    dispatch(
+      setPersistedPaths([
+        '/add_task/task_type_selection',
+        '/add_task/task_assignment',
+        '/add_task/task_crops',
+        '/add_task/manage_custom_tasks',
+        '/add_task/add_custom_task',
+        '/add_task/edit_custom_task',
+        '/add_task/edit_custom_task_update',
+        '/add_task/task_details',
+        '/add_task/task_locations',
+        '/add_task/task_date',
+        '/add_task/planting_method',
+        '/add_task/container_method',
+        '/add_task/bed_method',
+        '/add_task/bed_guidance',
+        '/add_task/row_method',
+        '/add_task/row_guidance',
+      ]),
+    );
+    history.push('/add_task/task_type_selection');
+  };
 
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
@@ -82,32 +105,21 @@ export default function TaskPage({ history }) {
       />
       <div className={styles.taskCountContainer}>
         <div className={styles.taskCount}>
-          {t('TASK.TASKS_COUNT', { count: tasksToDisplay.length })}
+          {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
         </div>
-        <AddLink onClick={() => history.push('/add_task/task_type_selection')}>
-          {t('TASK.ADD_TASK')}
-        </AddLink>
+        <AddLink onClick={onAddTask}>{t('TASK.ADD_TASK')}</AddLink>
       </div>
-      {tasksToDisplay.length > 0 ? (
-        tasksToDisplay.map((task) => (
+      {taskCardContents.length > 0 ? (
+        taskCardContents.map((task) => (
           <TaskCard
-            task={task}
             key={task.task_id}
-            onClickAssignee={handleClickAssignee}
             onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
             style={{ marginBottom: '14px' }}
+            {...task}
           />
         ))
       ) : (
         <Semibold style={{ color: 'var(--teal700)' }}>{t('TASK.NO_TASKS_TO_DISPLAY')}</Semibold>
-      )}
-      {quickAssignInfo && (
-        <TaskQuickAssignModal
-          dismissModal={() => setQuickAssignInfo(null)}
-          taskId={quickAssignInfo.taskId}
-          dueDate={quickAssignInfo.dueDate}
-          isAssigned={quickAssignInfo.isAssigned}
-        />
       )}
     </Layout>
   );

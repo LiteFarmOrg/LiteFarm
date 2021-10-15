@@ -4,16 +4,16 @@ import {
   abandonedManagementPlansSelector,
   completedManagementPlansSelector,
   currentManagementPlansSelector,
-  managementPlansSelector,
   plannedManagementPlansSelector,
 } from '../../managementPlanSlice';
 import { useMemo } from 'react';
 import { lastActiveDatetimeSelector } from '../../userLogSlice';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
+import { managementPlanWithCurrentLocationEntitiesSelector } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 export const useManagementPlanCardContents = (crop_variety_id) => {
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
-  const managementPlans = useSelector(managementPlansSelector);
+  const managementPlanEntities = useSelector(managementPlanWithCurrentLocationEntitiesSelector);
   const lastActiveTime = useSelector(lastActiveDatetimeSelector);
   const plannedManagementPlans = useSelector(plannedManagementPlansSelector);
   const activeManagementPlans = useSelector(currentManagementPlansSelector);
@@ -23,14 +23,8 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
     managementPlans
       .filter((management_plan) => management_plan.crop_variety_id === crop_variety_id)
       .map((management_plan) => {
-        const { needs_transplant, transplant_date } = management_plan;
-        const shouldDisplayFinalPlantingMethod =
-          !needs_transplant ||
-          new Date(transplant_date).getTime() >= new Date(lastActiveTime).getTime();
         const planting_management_plan =
-          management_plan.planting_management_plans[
-            shouldDisplayFinalPlantingMethod ? 'final' : 'initial'
-          ];
+          managementPlanEntities[management_plan.management_plan_id].planting_management_plan;
         const tasks = tasksByManagementPlanId[management_plan.management_plan_id] || [];
         return {
           managementPlanName: management_plan.name,
@@ -51,14 +45,17 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
       ...getManagementPlanCards(completedManagementPlans, 'completed'),
       ...getManagementPlanCards(abandonedManagementPlans, 'abandoned'),
     ];
-  }, [tasksByManagementPlanId, managementPlans, lastActiveTime, crop_variety_id]);
+  }, [tasksByManagementPlanId, managementPlanEntities, lastActiveTime, crop_variety_id]);
 };
 
-const getLocationName = ({ location, pin_coordinate }) => {
+export const getLocationName = ({ location, pin_coordinate }, numberOfDecimals) => {
   if (location) {
     return location.name;
   } else if (pin_coordinate) {
-    return `${roundToDecimals(pin_coordinate.lat)}, ${roundToDecimals(pin_coordinate.lng)}`;
+    return `${roundToDecimals(pin_coordinate.lat, numberOfDecimals)}, ${roundToDecimals(
+      pin_coordinate.lng,
+      numberOfDecimals,
+    )}`;
   }
 };
 

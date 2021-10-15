@@ -5,19 +5,24 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import LocationViewer from '../../LocationViewer';
-import { Label, Semibold, Underlined } from '../../Typography';
+import { Label, Main, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
 import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
+import TimeSlider from '../../Form/Slider/TimeSlider';
+import Rating from '../../Rating';
+import Checkbox from '../../Form/Checkbox';
 import { cloneObject } from '../../../util';
 import PureCleaningTask from '../CleaningTask';
 import PureFieldWorkTask from '../FieldWorkTask';
 import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
+import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
+import { PurePlantingTask } from '../PlantingTask';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -30,14 +35,12 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
-  managementPlansByLocationIds,
-  hasManagementPlans,
-  isCompleted,
+  harvestUseTypes,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
-  const locations = task.locations.map(({ location_id }) => location_id);
+  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner = task.owner_user_id;
   const {
     register,
@@ -52,16 +55,10 @@ export default function PureTaskReadOnly({
     shouldUnregister: false,
     defaultValues: cloneObject(task),
   });
-  const taskComponents = {
-    CLEANING_TASK: (props) => (
-      <PureCleaningTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
-    SOIL_AMENDMENT_TASK: (props) => (
-      <PureSoilAmendmentTask farm={user.farm_id} system={system} products={products} {...props} />
-    ),
-    PEST_CONTROL_TASK: (props) => (
-      <PurePestControlTask farm={user.farm_id} system={system} products={products} {...props} />
+
+  const taskAfterCompleteComponents = {
+    HARVEST_TASK: (props) => (
+      <PureHavestTaskCompleted system={system} {...props} harvestUseTypes={harvestUseTypes} />
     ),
   };
 
@@ -76,11 +73,14 @@ export default function PureTaskReadOnly({
 
   const { ref: gap, padding } = useCropTileListGap([]);
 
+  const isCompleted = !!task.completed_time;
+  const isAbandoned = !!task.abandoned_time;
+  const isCurrent = !isCompleted && !isAbandoned;
   return (
     <Layout
       buttonGroup={
         self === task.assignee_user_id &&
-        !isCompleted && (
+        isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
               {t('common:MARK_COMPLETE')}
@@ -93,7 +93,7 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={(isAdmin || owner === self) && !isCompleted ? onEdit : false}
+        onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
       />
 
@@ -114,33 +114,54 @@ export default function PureTaskReadOnly({
 
       <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
-      <LocationViewer className={styles.mapContainer} viewLocations={locations} />
+      <LocationPicker
+        onSelectLocation={() => {}}
+        readOnlyPinCoordinates={task.pinCoordinates}
+        style={{ minHeight: '160px', marginBottom: '40px' }}
+        locations={task.locations}
+        selectedLocationIds={task.selectedLocationIds || []}
+        farmCenterCoordinate={user.grid_points}
+      />
 
-      {hasManagementPlans &&
-        Object.keys(managementPlansByLocationIds).map((location_id) => {
-          let location_name =
-            managementPlansByLocationIds[location_id][0].planting_management_plans.final.location
-              .name;
-          return (
-            <div key={location_id}>
-              <div style={{ paddingBottom: '16px' }}>
-                <PageBreak style={{ paddingBottom: '16px' }} label={location_name} />
-              </div>
-              <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id].map((managementPlan) => {
-                  return (
-                    <PureManagementPlanTile
-                      key={managementPlan.management_plan_id}
-                      managementPlan={managementPlan}
-                      date={managementPlan.firstTaskDate}
-                      status={managementPlan.status}
-                    />
-                  );
-                })}
-              </PureCropTileContainer>
+      {Object.keys(task.managementPlansByLocation).map((location_id) => {
+        return (
+          <div key={location_id}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={task.locationsById[location_id].name} />
             </div>
-          );
-        })}
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {task.managementPlansByLocation[location_id]?.map((managementPlan) => {
+                return (
+                  <PureManagementPlanTile
+                    key={managementPlan.management_plan_id}
+                    managementPlan={managementPlan}
+                    date={managementPlan.firstTaskDate}
+                    status={managementPlan.status}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
+
+      {Object.keys(task.managementPlansByPinCoordinate).map((pin_coordinate) => {
+        const managementPlan = task.managementPlansByPinCoordinate[pin_coordinate];
+        return (
+          <div key={pin_coordinate}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={pin_coordinate} />
+            </div>
+            <PureCropTileContainer gap={gap} padding={padding}>
+              <PureManagementPlanTile
+                managementPlan={managementPlan}
+                date={managementPlan.firstTaskDate}
+                status={managementPlan.status}
+              />
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
 
       <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
@@ -153,7 +174,12 @@ export default function PureTaskReadOnly({
           watch,
           control,
           register,
+          errors,
           disabled: true,
+          farm: user,
+          system,
+          products,
+          task,
         })}
       <InputAutoSize
         style={{ marginBottom: '40px' }}
@@ -163,16 +189,56 @@ export default function PureTaskReadOnly({
         disabled
       />
       {isCompleted && (
-        <InputAutoSize
-          style={{ marginBottom: '40px' }}
-          label={t('TASK.COMPLETION_NOTES')}
-          value={task.completion_notes}
-          optional
-          disabled
-        />
+        <div>
+          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
+          <TimeSlider
+            style={{ marginBottom: '40px' }}
+            label={t('TASK.DURATION')}
+            initialTime={task.duration}
+            setValue={() => {}}
+            disabled={true}
+          />
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+          {task.happiness > 0 && (
+            <div>
+              <Label style={{ marginBottom: '12px' }}>{t('TASK.RATE_THIS_TASK')}</Label>
+              <Rating
+                className={styles.rating}
+                style={{ width: '24px', height: '24px' }}
+                viewOnly={true}
+                stars={task.happiness}
+              />
+            </div>
+          )}
+          {!task.happiness && (
+            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled defaultChecked />
+          )}
+          <InputAutoSize
+            style={{ marginTop: '40px', marginBottom: '40px' }}
+            label={t('TASK.COMPLETION_NOTES')}
+            value={task.completion_notes}
+            optional
+            disabled
+          />
+          {taskAfterCompleteComponents[taskType.task_translation_key] !== undefined &&
+            taskAfterCompleteComponents[taskType.task_translation_key]({
+              setValue,
+              getValues,
+              watch,
+              control,
+              register,
+              errors,
+              disabled: true,
+              farm: user,
+              system,
+              products,
+              task,
+              isCompleted,
+            })}
+        </div>
       )}
 
-      {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
+      {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
           {t('TASK.ABANDON_TASK')}
         </Underlined>
@@ -180,3 +246,13 @@ export default function PureTaskReadOnly({
     </Layout>
   );
 }
+
+const taskComponents = {
+  CLEANING_TASK: (props) => <PureCleaningTask {...props} />,
+  FIELD_WORK_TASK: (props) => <PureFieldWorkTask {...props} />,
+  SOIL_AMENDMENT_TASK: (props) => <PureSoilAmendmentTask {...props} />,
+  PEST_CONTROL_TASK: (props) => <PurePestControlTask {...props} />,
+  PLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={true} {...props} />,
+  TRANSPLANT_TASK: (props) => <PurePlantingTask disabled isPlantTask={false} {...props} />,
+  HARVEST_TASK: (props) => <PureHarvestingTaskReadOnly {...props} />,
+};

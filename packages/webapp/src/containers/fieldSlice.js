@@ -34,6 +34,12 @@ const upsertManyFieldWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteField = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  fieldAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const fieldAdapter = createEntityAdapter({
   selectId: (field) => field.location_id,
@@ -53,7 +59,7 @@ const fieldSlice = createSlice({
     getFieldsSuccess: upsertManyFieldWithLocation,
     postFieldSuccess: upsertOneFieldWithLocation,
     editFieldSuccess: upsertOneFieldWithLocation,
-    deleteFieldSuccess: fieldAdapter.removeOne,
+    deleteFieldSuccess: softDeleteField,
   },
 });
 export const {
@@ -74,7 +80,7 @@ export const fieldEntitiesSelector = fieldSelectors.selectEntities;
 export const fieldsSelector = createSelector(
   [fieldSelectors.selectAll, loginSelector],
   (fields, { farm_id }) => {
-    return fields.filter((field) => field.farm_id === farm_id);
+    return fields.filter((field) => field.farm_id === farm_id && !field.deleted);
   },
 );
 

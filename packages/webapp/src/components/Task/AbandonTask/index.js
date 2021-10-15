@@ -41,7 +41,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const no_work_completed = watch(NO_WORK_COMPLETED);
   const happiness = watch(HAPPINESS);
 
-  const disabled = !isValid;
+  const disabled = !isValid || (!happiness && !prefer_not_to_say);
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -90,7 +90,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         />
       )}
 
-      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
+      <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
 
       {!no_work_completed && (
         <TimeSlider
@@ -121,6 +121,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         style={{ marginBottom: '42px' }}
         label={t('TASK.PREFER_NOT_TO_SAY')}
         hookFormRegister={register(PREFER_NOT_TO_SAY)}
+        onChange={() => setValue(HAPPINESS, null)}
       />
 
       <InputAutoSize

@@ -15,7 +15,8 @@
   "IRRIGATION_TASK": "Irrigación ",
   "TRANSPORT_TASK": "Transporte ",
   "FIELD_WORK_TASK": "Trabajo de campo",
-  "PLANTING_TASK": "Siembra",
+  "PLANT_TASK": "Siembra",
+  "TRANSPLANT_TASK": "MISSING",
   "SOCIAL_TASK": "Social",
   "CLEANING_TASK": "Limpieza",
   "SOIL_AMENDMENT_TASK": "Enmienda del suelo"

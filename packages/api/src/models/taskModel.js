@@ -154,17 +154,26 @@ class TaskModel extends BaseModel {
           to: 'plant_task.task_id',
         },
       },
+      transplant_task: {
+        relation: Model.HasOneRelation,
+        modelClass: require('./transplantTaskModel'),
+        join: {
+          from: 'task.task_id',
+          to: 'transplant_task.task_id',
+        },
+      },
+      //TODO: rename to plantingManagementPlans
       managementPlans: {
-        modelClass: require('./managementPlanModel'),
+        modelClass: require('./plantingManagementPlanModel'),
         relation: Model.ManyToManyRelation,
         join: {
           from: 'task.task_id',
           through: {
             modelClass: require('./managementTasksModel'),
             from: 'management_tasks.task_id',
-            to: 'management_tasks.management_plan_id',
+            to: 'management_tasks.planting_management_plan_id',
           },
-          to: 'management_plan.management_plan_id',
+          to: 'planting_management_plan.planting_management_plan_id',
         },
 
       },

@@ -12,7 +12,7 @@ export default function CompleteManagementPlan({ match, history }) {
   const dispatch = useDispatch();
 
   const onGoBack = () => {
-    history.push(`/crop/${crop_variety_id}/${management_plan_id}/management_detail`);
+    history.push(`/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`);
   };
   const onSubmit = (data) => {
     dispatch(completeManagementPlan({ crop_variety_id, management_plan_id, ...data }));

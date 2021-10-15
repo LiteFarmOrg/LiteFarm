@@ -28,6 +28,7 @@ const LocationPicker = ({
   locations,
   farmCenterCoordinate,
   style,
+  readOnlyPinCoordinates,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
@@ -97,6 +98,17 @@ const LocationPicker = ({
   const onSelectionModalClick = (location_id) => {
     onSelectLocationRef.current(location_id);
     dismissSelectionModal();
+  };
+
+  const drawWildCropPins = (map, maps, mapBounds) => {
+    for (const pinCoordinate of readOnlyPinCoordinates || []) {
+      new maps.Marker({
+        icon: MapPin,
+        position: pinCoordinate,
+        map: map,
+      });
+      mapBounds.extend(pinCoordinate);
+    }
   };
 
   const drawLocations = (map, maps, mapBounds) => {
@@ -250,6 +262,7 @@ const LocationPicker = ({
 
     // Drawing locations on map
     drawLocations(map, maps, mapBounds);
+    drawWildCropPins(map, maps, mapBounds);
 
     setGoogleMapInitiated(true);
   };
@@ -286,6 +299,9 @@ LocationPicker.prototype = {
   setSelectedLocation: PropTypes.object,
   selectedLocationIds: PropTypes.arrayOf(PropTypes.string),
   farmCenterCoordinate: PropTypes.object,
+  readOnlyPinCoordinates: PropTypes.arrayOf(
+    PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
+  ),
 };
 
 export default LocationPicker;

@@ -7,34 +7,26 @@ import {
   userFarmsByFarmSelector,
   userFarmSelector,
 } from '../../userFarmSlice';
-import { taskWithProductById } from '../../taskSlice';
-import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { productEntitiesSelector } from '../../productSlice';
 import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
+import { useReadonlyTask } from './useReadonlyTask';
+import { isTaskType } from '../useIsTaskType';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const task = useSelector(taskWithProductById(task_id));
+  const task = useReadonlyTask(task_id);
   const products = useSelector(productEntitiesSelector);
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const isCompleted = task.completed_time !== null;
   const isTaskTypeCustom = !!task.taskType.farm_id;
 
-  const task_locations = task.locations.map(({ location_id }) => ({ location_id }));
-  const managementPlanIds = task.managementPlans.map(
-    ({ management_plan_id }) => management_plan_id,
-  );
-  const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
-    task_locations,
-    managementPlanIds,
-  );
-
   const selectedTaskType = task.taskType;
-  const isHarvest = selectedTaskType?.task_translation_key === 'HARVEST_TASK';
+  const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
+  const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
     history.goBack();
@@ -72,9 +64,7 @@ function TaskReadOnly({ history, match }) {
       isAdmin={isAdmin}
       system={system}
       products={products}
-      managementPlansByLocationIds={managementPlansByLocationIds}
-      hasManagementPlans={task.managementPlans?.length > 0}
-      isCompleted={isCompleted}
+      harvestUseTypes={harvestUseTypes}
       isTaskTypeCustom={isTaskTypeCustom}
     />
   );

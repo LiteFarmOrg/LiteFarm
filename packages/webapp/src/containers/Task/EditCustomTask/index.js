@@ -3,7 +3,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTaskType } from '../saga';
 import useHookFormPersist from '../../hooks/useHookFormPersist';
-import { taskTypeById } from '../../taskTypeSlice';
+import { taskTypeSelector } from '../../taskTypeSlice';
 
 function EditCustomTask({ history, match }) {
   const dispatch = useDispatch();
@@ -11,16 +11,16 @@ function EditCustomTask({ history, match }) {
   const onEditPath = '/add_task/edit_custom_task_update';
   const persistedPaths = [onGoBackPath, onEditPath];
   const { persistedData } = useHookFormPersist();
-  const selectedTaskType = useSelector(taskTypeById(persistedData.type));
+  const selectedTaskType = useSelector(taskTypeSelector(persistedData.task_type_id));
   const handleGoBack = () => {
-    history.push(onGoBackPath);
+    history.goBack();
   };
 
   const handleEdit = () => {
     history.push(onEditPath);
   };
   const handleRetire = () => {
-    dispatch(deleteTaskType(persistedData.type));
+    dispatch(deleteTaskType(persistedData.task_type_id));
   };
 
   return (

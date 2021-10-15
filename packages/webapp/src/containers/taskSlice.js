@@ -12,6 +12,9 @@ import { pestControlTaskEntitiesSelector } from './slice/taskSlice/pestControlTa
 import { soilAmendmentTaskEntitiesSelector } from './slice/taskSlice/soilAmendmentTaskSlice';
 import produce from 'immer';
 import { taskTypeEntitiesSelector } from './taskTypeSlice';
+import { plantTaskEntitiesSelector } from './slice/taskSlice/plantTaskSlice';
+import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTaskSlice';
+import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 
 export const getTask = (obj) => {
   return pick(obj, [
@@ -84,7 +87,10 @@ const taskSlice = createSlice({
           ...task,
           locations: task.locations?.map(({ location_id }) => location_id) || [],
           managementPlans:
-            task.managementPlans?.map(({ management_plan_id }) => management_plan_id) || [],
+            task.managementPlans?.map(({ management_plan_id, planting_management_plan_id }) => ({
+              management_plan_id,
+              planting_management_plan_id,
+            })) || [],
         })),
       }),
     putTaskSuccess: updateOneTask,
@@ -109,6 +115,7 @@ export const taskSelectors = taskAdapter.getSelectors(
   (state) => state.entitiesReducer[taskSlice.name],
 );
 
+//TODO: refactor
 export const taskEntitiesSelector = createSelector(
   [
     taskSelectors.selectEntities,
@@ -120,6 +127,9 @@ export const taskEntitiesSelector = createSelector(
     harvestTaskEntitiesSelector,
     pestControlTaskEntitiesSelector,
     soilAmendmentTaskEntitiesSelector,
+    plantTaskEntitiesSelector,
+    transplantTaskEntitiesSelector,
+    plantingManagementPlanEntitiesSelector,
   ],
   (
     taskEntities,
@@ -131,6 +141,9 @@ export const taskEntitiesSelector = createSelector(
     harvestTaskEntities,
     pestControlTaskEntities,
     soilAmendmentTaskEntities,
+    plantTaskEntities,
+    transplantTaskEntities,
+    plantingManagementPlanEntities,
   ) => {
     const subTaskEntities = {
       ...cleaningTaskEntities,
@@ -138,22 +151,46 @@ export const taskEntitiesSelector = createSelector(
       ...harvestTaskEntities,
       ...pestControlTaskEntities,
       ...soilAmendmentTaskEntities,
+      ...plantTaskEntities,
+      ...transplantTaskEntities,
+    };
+
+    const getManagementPlanByPlantingManagementPlan = ({
+      planting_management_plan_id,
+      planting_management_plan,
+      prev_planting_management_plan,
+    }) => {
+      const management_plan_id =
+        plantingManagementPlanEntities[planting_management_plan_id]?.management_plan_id;
+      return produce(managementPlanEntities[management_plan_id], (managementPlan) => {
+        managementPlan.planting_management_plan =
+          plantingManagementPlanEntities[planting_management_plan_id];
+        prev_planting_management_plan &&
+          (managementPlan.prev_planting_management_plan = prev_planting_management_plan);
+      });
     };
 
     return produce(taskEntities, (taskEntities) => {
       for (const task_id in taskEntities) {
         taskEntities[task_id].managementPlans =
-          taskEntities[task_id].managementPlans?.map(
-            (management_plan_id) => managementPlanEntities[management_plan_id],
-          ) || [];
+          taskEntities[task_id].managementPlans?.map(getManagementPlanByPlantingManagementPlan) ||
+          [];
         taskEntities[task_id].locations =
           taskEntities[task_id].locations?.map((location_id) => locationEntities[location_id]) ||
           [];
         const taskType = taskTypeEntities[taskEntities[task_id].task_type_id];
         taskEntities[task_id].taskType = taskType;
         const { task_translation_key, farm_id } = taskType;
-        !farm_id &&
-          (taskEntities[task_id][task_translation_key.toLowerCase()] = subTaskEntities[task_id]);
+        const subtask = subTaskEntities[task_id];
+        !farm_id && (taskEntities[task_id][task_translation_key.toLowerCase()] = subtask);
+        if (!farm_id && ['PLANT_TASK', 'TRANSPLANT_TASK'].includes(task_translation_key)) {
+          taskEntities[task_id].locations = subtask.planting_management_plan.location_id
+            ? [locationEntities[subtask.planting_management_plan.location_id]]
+            : [];
+          taskEntities[task_id].managementPlans = [
+            getManagementPlanByPlantingManagementPlan(subtask),
+          ];
+        }
       }
     });
   },
@@ -234,7 +271,7 @@ export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandone
 
 export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 
-export const taskWithProductById = (task_id) =>
+export const taskWithProductSelector = (task_id) =>
   createSelector([taskSelector(task_id), productEntitiesSelector], (task, products) => {
     const taskTypeLowerCase = task.taskType.task_translation_key.toLowerCase();
     const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;

@@ -4,11 +4,15 @@ import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productEntitiesSelector } from '../../productSlice';
-import { taskTypeById, taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
+import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import {
+  useManagementPlanTilesByLocationIds,
+  useWildManagementPlanTiles,
+} from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
@@ -22,19 +26,22 @@ function TaskDetails({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const products = useSelector(productEntitiesSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
-  const selectedTaskType = useSelector(taskTypeById(persistedFormData.task_type_id));
-  const locations = persistedFormData.locations;
-  const managementPlans = persistedFormData.managementPlans?.map(
+  const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
+  const managementPlanIds = persistedFormData.managementPlans?.map(
     ({ management_plan_id }) => management_plan_id,
   );
-  const managementPlanByLocations = useManagementPlanTilesByLocationIds(locations, managementPlans);
+  const managementPlanByLocations = useManagementPlanTilesByLocationIds(
+    persistedFormData.locations,
+    managementPlanIds,
+  );
+  const wildManagementPlanTiles = useWildManagementPlanTiles(persistedFormData.managementPlans);
+  const showWildCrops = persistedFormData.show_wild_crop;
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
   const handleGoBack = () => {
-    taskTypesBypassCrops.includes(persistedFormData.task_type_id)
-      ? history.push('/add_task/task_locations')
-      : history.push('/add_task/task_crops');
+    history.goBack();
   };
 
   const handleCancel = () => {
@@ -64,6 +71,7 @@ function TaskDetails({ history, match }) {
         products={products}
         farm={{ farm_id, country_id, interested }}
         managementPlanByLocations={managementPlanByLocations}
+        wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}
       />
     </HookFormPersistProvider>
   );

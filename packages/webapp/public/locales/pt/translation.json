@@ -57,6 +57,7 @@
         "WEEDING": "Capina"
       }
     },
+    "GO_TO_CATALOGUE": "MISSING",
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
@@ -76,6 +77,9 @@
       "SYSTEMIC_SPRAY": "Aspersão sistêmica",
       "WHAT_PESTS": "Qual (is) praga (s) você está tentando controlar?"
     },
+    "PLANTING_METHOD": "MISSING",
+    "PLANTING_TASK": "MISSING",
+    "PLANTING_TASK_MODAL": "MISSING",
     "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
@@ -95,7 +99,10 @@
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre o/a",
-    "WAGE_OVERRIDE": "Substituição de salário"
+    "TRANSPLANT_METHOD": "MISSING",
+    "WAGE_OVERRIDE": "Substituição de salário",
+    "WHAT_PLANTING_METHOD": "MISSING",
+    "WILD_CROP": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -965,6 +972,7 @@
         "TEXT": "{{fill}} local"
       }
     },
+    "UPDATE_DATE_THROUGH_TASK": "MISSING",
     "VARIETY": "Variedade",
     "WHAT_IS_AGE": "Qual é a idade da safra?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
@@ -1287,6 +1295,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandonar esta tarefa",
+    "ABANDON_TASK_DURATION": "MISSING",
     "ABANDON": {
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarefa mudará seu 'status' para abandonada e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
@@ -1305,9 +1314,12 @@
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?"
     },
+    "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
+    "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
     "ADD_TASK": "Criar tarefa",
     "ADD_TASK_FLOW": "criação de tarefa",
     "ALL": "Todas",
+    "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
     "CARD": {
       "MULTIPLE_CROPS": "Múltiplos cultivos",
       "MULTIPLE_LOCATIONS": "Múltiplos locais"
@@ -1317,21 +1329,31 @@
     "COMPLETE_TASK_CHANGES": "Você teve que fazer alguma alteração nesta tarefa?",
     "COMPLETE_TASK_DURATION": "Quanto tempo a tarefa demorou para ser concluída?",
     "COMPLETE_TASK_FLOW": "conclusão da tarefa",
+    "COMPLETION_DETAILS": "MISSING",
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
+    "CREATE_CUSTOM_HARVEST_USE": "MISSING",
+    "DESCRIBE_HARVEST_USE": "MISSING",
     "DETAILS": "Detalhes",
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "EDIT_TASK": "Editar tarefa",
+    "HARVEST_USE": "Uso da colheita",
+    "HARVEST_USE_ALREADY_EXISTS": "MISSING",
+    "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",
     "LOCATIONS": "Local (is)",
     "NO_TASKS_TO_DISPLAY": "Não há tarefas para exibir.",
     "NO_WORK_DONE": "Nenhum trabalho foi concluído",
     "PAGE_TITLE": "Tasks",
     "PREFER_NOT_TO_SAY": "Prefiro não dizer",
     "PROVIDE_RATING": "Fornecer uma classificação",
+    "QUANTITY_CANNOT_EXCEED": "MISSING",
+    "RATE_THIS_TASK": "MISSING",
+    "REMOVE_HARVEST_USE": "Remover",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
+    "SELECT_WILD_CROP": "MISSING",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completa",
@@ -1343,13 +1365,8 @@
     "TASKS_COUNT": "{{count}} tarefa",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
-    "UNASSIGNED": "Não atribuída",
-    "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",
-    "HARVEST_USE": "Uso da colheita",
-    "AMOUNT_TO_ALLOCATE": "Quantidade a ser alocada",
-    "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
-    "REMOVE_HARVEST_USE": "Remover",
-    "ADD_HARVEST_USE": "Adicionar outro uso para a colheita"
+    "TRANSPLANT_LOCATIONS": "MISSING",
+    "UNASSIGNED": "Não atribuída"
   },
   "UNIT": {
     "TIME": {

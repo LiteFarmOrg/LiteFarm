@@ -58,32 +58,14 @@
       "UPDATE": "Informação da fazenda atualizada com sucesso!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "falhou em adicionar fertilizante"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
       "AMOUNT_TOTAL": "O total não é igual ao valor a ser alocado.",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita",
-      "REQUIRED_TASK": "É necessário nomear o tipo de uso da colheita"
+      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "Falha na adição do Registro",
-      "DELETE": "Falha na exclusão do Registro",
-      "EDIT": "Falha na edição do Registro"
-    },
-    "SUCCESS": {
-      "ADD": "Registro adicionado com sucesso!",
-      "DELETE": "Registro excluído com sucesso!",
-      "EDIT": "Registro editado com sucesso!"
     }
   },
   "LOGIN": {

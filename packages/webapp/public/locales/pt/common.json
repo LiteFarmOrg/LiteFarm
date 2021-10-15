@@ -1,6 +1,7 @@
 {
   "ABANDON": "Abandonar",
   "ACTIVE": "Ativo",
+  "ADD": "MISSING",
   "ALL": "Tudo",
   "APPLY": "Aplicar",
   "BACK": "Voltar",
@@ -51,6 +52,5 @@
   "TO": "Para",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
-  "YES": "Sim",
-  "ADD": "MISSING"
+  "YES": "Sim"
 }

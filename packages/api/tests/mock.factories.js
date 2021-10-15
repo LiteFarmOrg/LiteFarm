@@ -529,6 +529,7 @@ function fakeCropManagementPlan(defaultData = {}) {
   return {
     estimated_revenue: faker.random.number(10000),
     estimated_yield: faker.random.number(10000),
+    estimated_price_per_mass: faker.random.number(10000),
     seed_date: faker.date.past(),
     plant_date: faker.date.past(),
     germination_date: faker.date.past(),

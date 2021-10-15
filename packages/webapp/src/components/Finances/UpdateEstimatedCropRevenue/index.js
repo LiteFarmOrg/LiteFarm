@@ -13,7 +13,16 @@ import { seedYield } from '../../../util/unit';
 function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
 
-  const { crop, crop_variety, name } = plan;
+  const {
+    crop,
+    crop_variety,
+    estimated_price_per_mass,
+    estimated_price_per_mass_unit,
+    estimated_revenue,
+    estimated_yield,
+    estimated_yield_unit,
+    name,
+  } = plan;
 
   const {
     register,
@@ -29,15 +38,17 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
     shouldUnregister: false,
     defaultValues: {
       crop_management_plan: {
-        estimated_yield: plan.estimated_yield,
-        estimated_yield_unit: plan.estimated_yield_unit,
-        estimated_revenue: plan.estimated_revenue,
+        estimated_price_per_mass,
+        estimated_price_per_mass_unit,
+        estimated_yield,
+        estimated_yield_unit,
+        estimated_revenue,
       },
     },
   });
 
-  const ESTIMATED_PRICE_PER_UNIT = 'crop_management_plan.estimated_price_per_unit';
-  const ESTIMATED_PRICE_PER_UNIT_UNIT = 'crop_management_plan.estimated_price_per_unit_unit';
+  const ESTIMATED_PRICE_PER_UNIT = 'crop_management_plan.estimated_price_per_mass';
+  const ESTIMATED_PRICE_PER_UNIT_UNIT = 'crop_management_plan.estimated_price_per_mass_unit';
   const ESTIMATED_ANNUAL_YIELD = 'crop_management_plan.estimated_yield';
   const ESTIMATED_ANNUAL_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
   const ESTIMATED_ANNUAL_REVENUE = 'crop_management_plan.estimated_revenue';
@@ -91,6 +102,8 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         hookFormRegister={register(ESTIMATED_ANNUAL_REVENUE, {
           required: true,
         })}
+        // todo: make currency variable
+        currency={'$'}
         // style={{ marginBottom: '28px' }}
         // errors={errors[ESTIMATED_ANNUAL_REVENUE]}
       />

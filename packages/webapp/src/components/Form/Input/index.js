@@ -34,6 +34,7 @@ const Input = ({
   onBlur,
   hasLeaf,
   placeholder,
+  currency,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -99,6 +100,7 @@ const Input = ({
           <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
+      {currency && <div className={styles.currency}>{currency}</div>}
       <input
         disabled={disabled}
         className={clsx(
@@ -106,7 +108,11 @@ const Input = ({
           showError && styles.inputError,
           isSearchBar && styles.searchBar,
         )}
-        style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
+        style={{
+          paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
+          paddingLeft: `${currency ? currency.length * 8 + 12 : 4}px`,
+          ...classes.input,
+        }}
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}

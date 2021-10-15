@@ -43,8 +43,8 @@ const cropVarietyController = {
       try {
         const result = await CropVarietyModel.transaction(async trx => {
           const deletedManagementPlans = await managementPlanModel.query(trx).context(req.user).where({ crop_variety_id }).delete().returning('management_plan_id');
-          await managementTasksModel.query(trx).context(req.user)
-            .whereIn('management_plan_id', deletedManagementPlans.map(({ management_plan_id }) => management_plan_id)).delete();
+          //TODO: fix when knex implemented deletion on joined for postgres https://github.com/knex/knex/issues/873
+          deletedManagementPlans.length && await trx.raw('delete from management_tasks using planting_management_plan where planting_management_plan.planting_management_plan_id = management_tasks.planting_management_plan_id and planting_management_plan.management_plan_id = any(?)', [deletedManagementPlans.map(({ management_plan_id }) => management_plan_id)]);
           return await CropVarietyModel.query(trx).context(req.user).findById(crop_variety_id).delete();
         });
         //TODO: If a task is not related to a location or a management plan, delete or keep the task?

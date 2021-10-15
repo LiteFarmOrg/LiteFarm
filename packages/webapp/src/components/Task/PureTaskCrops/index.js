@@ -23,6 +23,7 @@ const PureTaskCrops = ({
   persistedPaths,
   useHookFormPersist,
   managementPlansByLocationIds,
+  wildManagementPlanTiles,
   isMulti = true,
 }) => {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ const PureTaskCrops = ({
     mode: 'onChange',
     defaultValues: cloneObject(persistedFormData),
   });
-
+  //TODO managementPlans should be an array or management_plan_id
   useHookFormPersist(getValues, persistedPaths);
   const [filter, setFilter] = useState();
   const onFilterChange = (e) => {
@@ -47,6 +48,9 @@ const PureTaskCrops = ({
   };
 
   const locationIds = Object.keys(managementPlansByLocationIds);
+  const filterManagementPlansByCropVarietyName = (mp) =>
+    mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
+    mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase());
   const managementPlansFilteredByInput = useMemo(() => {
     if (!filter) {
       return managementPlansByLocationIds;
@@ -54,15 +58,16 @@ const PureTaskCrops = ({
       return locationIds.reduce((filteredManagementPlansByLocationId, locationId) => {
         filteredManagementPlansByLocationId[locationId] = managementPlansByLocationIds[
           locationId
-        ].filter(
-          (mp) =>
-            mp.crop_variety_name.toLowerCase().includes(filter?.toLowerCase()) ||
-            mp.crop_common_name.toLowerCase().includes(filter?.toLowerCase()),
-        );
+        ].filter(filterManagementPlansByCropVarietyName);
         return filteredManagementPlansByLocationId;
       }, {});
     }
   }, [filter, managementPlansByLocationIds]);
+
+  const wildCropTilesFilteredByInput = useMemo(() => {
+    if (!filter) return wildManagementPlanTiles;
+    else return wildManagementPlanTiles.filter(filterManagementPlansByCropVarietyName);
+  }, [wildManagementPlanTiles, filter]);
 
   const MANAGEMENT_PLANS = 'managementPlans';
   register(MANAGEMENT_PLANS, { required: false });
@@ -114,6 +119,7 @@ const PureTaskCrops = ({
         return getArrayWithUniqueValues(managementPlanIds);
       }, []),
     );
+    selectAllWildManagementPlans();
   };
 
   const selectAllManagementPlansOfALocation = (location_id) => {
@@ -138,6 +144,28 @@ const PureTaskCrops = ({
     );
   };
 
+  const selectAllWildManagementPlans = () => {
+    wildCropTilesFilteredByInput?.length &&
+      setSelectedManagementPlanIds((prevManagementPlanIds) =>
+        getArrayWithUniqueValues([
+          ...prevManagementPlanIds,
+          ...wildCropTilesFilteredByInput.map(({ management_plan_id }) => management_plan_id),
+        ]),
+      );
+  };
+
+  const clearAllWildManagementPlans = () => {
+    const managementPlanIds = wildCropTilesFilteredByInput?.map(
+      ({ management_plan_id }) => management_plan_id,
+    );
+    managementPlanIds?.length &&
+      setSelectedManagementPlanIds(
+        selectedManagementPlanIds.filter(
+          (management_plan_id) => !managementPlanIds.includes(management_plan_id),
+        ),
+      );
+  };
+
   const clearAllCrops = () => {
     const managementPlanIds = Object.values(managementPlansFilteredByInput).reduce(
       (managementPlanIds, managementPlans) => [
@@ -146,9 +174,14 @@ const PureTaskCrops = ({
       ],
       [],
     );
+    const wildManagementPlanIds = wildCropTilesFilteredByInput?.map(
+      ({ management_plan_id }) => management_plan_id,
+    );
     setSelectedManagementPlanIds(
       selectedManagementPlanIds.filter(
-        (management_plan_id) => !managementPlanIds.includes(management_plan_id),
+        (management_plan_id) =>
+          !managementPlanIds.includes(management_plan_id) &&
+          !wildManagementPlanIds?.includes(management_plan_id),
       ),
     );
   };
@@ -207,18 +240,16 @@ const PureTaskCrops = ({
           let location_name = managementPlansByLocationIds[location_id][0].location.name;
           return (
             <div key={location_id}>
-              <div style={{ paddingBottom: '16px' }}>
-                <PageBreak
-                  style={{ paddingBottom: '16px' }}
-                  label={location_name}
-                  onSelectAll={
-                    isMulti ? () => selectAllManagementPlansOfALocation(location_id) : undefined
-                  }
-                  onClearAll={
-                    isMulti ? () => clearAllManagementPlansOfALocation(location_id) : undefined
-                  }
-                />
-              </div>
+              <PageBreak
+                style={{ paddingBottom: '16px' }}
+                label={location_name}
+                onSelectAll={
+                  isMulti ? () => selectAllManagementPlansOfALocation(location_id) : undefined
+                }
+                onClearAll={
+                  isMulti ? () => clearAllManagementPlansOfALocation(location_id) : undefined
+                }
+              />
               <PureCropTileContainer gap={24} padding={0}>
                 {managementPlansFilteredByInput[location_id].map((managementPlan) => {
                   return (
@@ -238,6 +269,32 @@ const PureTaskCrops = ({
             </div>
           );
         })}
+        {wildCropTilesFilteredByInput?.length > 0 && (
+          <div>
+            <PageBreak
+              style={{ paddingBottom: '16px' }}
+              label={t('ADD_TASK.WILD_CROP')}
+              onSelectAll={isMulti ? selectAllWildManagementPlans : undefined}
+              onClearAll={isMulti ? clearAllWildManagementPlans : undefined}
+            />
+            <PureCropTileContainer gap={24} padding={0}>
+              {wildCropTilesFilteredByInput.map((managementPlan) => {
+                return (
+                  <PureManagementPlanTile
+                    key={managementPlan.management_plan_id}
+                    isSelected={selectedManagementPlanIds.includes(
+                      managementPlan.management_plan_id,
+                    )}
+                    onClick={() => onSelectManagementPlan(managementPlan.management_plan_id)}
+                    managementPlan={managementPlan}
+                    date={managementPlan.firstTaskDate}
+                    status={managementPlan.status}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </div>
+        )}
       </Form>
     </>
   );

@@ -437,7 +437,6 @@ function fakeExpense(defaultData = {}) {
 
 async function management_planFactory({
   promisedFarm = farmFactory(),
-  promisedLocation = locationFactory({ promisedFarm }),
   promisedCrop = cropFactory({ promisedFarm }),
   promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
 } = {}, managementPlan = fakeManagementPlan()) {
@@ -465,7 +464,7 @@ async function crop_management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedCrop, promisedFarm }),
   promisedManagementPlan = management_planFactory({
     promisedFarm,
     promisedLocation,
@@ -951,12 +950,12 @@ function fakeSoilAmendmentTask(defaultData = {}) {
 
 async function management_tasksFactory({
   promisedTask = taskFactory(),
-  promisedManagementPlan = management_planFactory(),
+  promisedPlantingManagementPlan = planting_management_planFactory(),
 } = {}) {
-  const [task, managementPlan] = await Promise.all([promisedTask, promisedManagementPlan]);
+  const [task, plantingManagementPlan] = await Promise.all([promisedTask, promisedPlantingManagementPlan]);
   const [{ task_id }] = task;
-  const [{ management_plan_id }] = managementPlan;
-  return knex('management_tasks').insert({ task_id, management_plan_id }).returning('*');
+  const [{ planting_management_plan_id }] = plantingManagementPlan;
+  return knex('management_tasks').insert({ task_id, planting_management_plan_id }).returning('*');
 }
 
 async function location_tasksFactory({
@@ -1193,16 +1192,16 @@ function fakeHarvestTasks(defaultData = {}, number) {
 }
 
 async function harvest_useFactory({
-  promisedHarvestTask = harvest_taskFactory(),
-  promisedHarvestUseType = harvest_use_typeFactory(),
-  promisedManagementPlan = management_planFactory(),
-} = {},
+    promisedHarvestTask = harvest_taskFactory(),
+    promisedHarvestUseType = harvest_use_typeFactory(),
+    promisedPlantingManagementPlan = planting_management_planFactory(),
+  } = {},
   harvestUse = fakeHarvestUse()) {
-  const [harvestTask, harvestUseType, managementPlan] = await Promise.all([promisedHarvestTask, promisedHarvestUseType, promisedManagementPlan]);
+  const [harvestTask, harvestUseType, plantingManagementPlan] = await Promise.all([promisedHarvestTask, promisedHarvestUseType, promisedPlantingManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
   const [{ task_id }] = harvestTask;
-  const [{ management_plan_id }] = managementPlan;
-  await knex('management_tasks').insert({ task_id, management_plan_id });
+  const [{ planting_management_plan_id }] = plantingManagementPlan;
+  await knex('management_tasks').insert({ task_id, planting_management_plan_id });
   return knex('harvest_use').insert({ task_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 

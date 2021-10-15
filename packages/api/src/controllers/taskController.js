@@ -4,10 +4,7 @@ const managementPlanModel = require('../models/managementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
 const transplantTaskModel = require('../models/transplantTaskModel');
 const plantTaskModel = require('../models/plantTaskModel');
-const HarvestTaskModel = require('../models/harvestTaskModel');
-const LocationTaskModel = require('../models/locationTasksModel');
-const { transaction, Model, UniqueViolationError } = require('objection');
-const baseController = require('../controllers/baseController');
+const plantingManagementPlanModel = require('../models/plantingManagementPlanModel');
 const HarvestUse = require('../models/harvestUseModel');
 
 const { typesOfTask } = require('./../middleware/validation/task');
@@ -90,6 +87,7 @@ const taskController = {
           .where({ task_id }).first();
         const isUserTaskOwner = user_id === owner_user_id;
         const isUserTaskAssignee = user_id === assignee_user_id;
+        //TODO: move to middleware
         // cannot abandon task if user is worker and not assignee and not creator
         if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
           return res.status(403).send('A worker who is not assignee or owner of task cannot abandon it');
@@ -245,29 +243,8 @@ const taskController = {
               noInsert: true,
             });
 
-          async function getManagementPlans(task_id, typeOfTask) {
-            switch (typeOfTask) {
-            case 'plant_task':
-              return plantTaskModel.query()
-                .join('planting_management_plan', 'plant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
-                .where({ task_id }).select('*');
+          await patchManagementPlanStartDate(trx, req, typeOfTask);
 
-            case 'transplant_task':
-              return transplantTaskModel.query()
-                .join('planting_management_plan', 'transplant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
-                .where({ task_id }).select('*');
-            default:
-              return managementTasksModel.query().where('task_id', task_id);
-            }
-          }
-
-          const management_plans = await getManagementPlans(task_id, typeOfTask);
-          const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
-          if (management_plan_ids.length > 0) {
-            await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
-              .whereIn('management_plan_id', management_plan_ids)
-              .where('start_date', null);
-          }
           return task;
         });
         if (result) {
@@ -296,9 +273,10 @@ const taskController = {
         }
         const harvest_uses = data.harvest_uses.map(harvest_use => ({ ...harvest_use, task_id }));
         const task = data.task;
-        const result = {};
 
-        await TaskModel.transaction(async trx => {
+
+        const result = await TaskModel.transaction(async trx => {
+          const result = {};
           const updated_task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph({ task_id: parseInt(task_id), ...task }, {
               noUpdate: nonModifiable,
@@ -306,20 +284,15 @@ const taskController = {
               noInsert: true,
             });
           result.task = removeNullTypes(updated_task);
-
           const updated_harvest_uses = await HarvestUse.query(trx).context({ user_id: req.user.user_id })
             .insert(harvest_uses);
           result.harvest_uses = updated_harvest_uses;
+          await patchManagementPlanStartDate(trx, req, 'harvest_task');
+
+          return result;
         });
 
         if (Object.keys(result).length > 0) {
-          const management_plans = await managementTasksModel.query().context(req.user).where('task_id', task_id);
-          const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
-          if (management_plan_ids.length > 0) {
-            await managementPlanModel.query().context(req.user).patch({ start_date: task.completed_time })
-              .whereIn('management_plan_id', management_plan_ids)
-              .where('start_date', null);
-          }
           return res.status(200).send(result);
         } else {
           return res.status(404).send('Task not found');
@@ -374,6 +347,8 @@ const taskController = {
 
 };
 
+//TODO: tests where location and management_plan inserts should fail
+
 function getNonModifiable(asset) {
   const nonModifiableAssets = typesOfTask.filter(a => a !== asset);
   return ['createdByUser', 'updatedByUser', 'location', 'management_plan'].concat(nonModifiableAssets);
@@ -388,7 +363,14 @@ function removeNullTypes(task, i, arr) {
 
 //TODO: optimize after plant_task and transplant_task refactor
 async function getTasksForFarm(farm_id) {
-  const [tasks, plantTasks, transplantTasks] = await Promise.all([
+  const [managementTasks, locationTasks, plantTasks, transplantTasks] = await Promise.all([
+    TaskModel.query().select('task.task_id').whereNotDeleted()
+      .distinct('task.task_id')
+      .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
+      .join('planting_management_plan', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+      .join('management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('crop_variety.farm_id', farm_id),
     TaskModel.query().select('task.task_id').whereNotDeleted()
       .distinct('task.task_id')
       .join('location_tasks', 'location_tasks.task_id', 'task.task_id')
@@ -406,7 +388,37 @@ async function getTasksForFarm(farm_id) {
       .where('crop_variety.farm_id', farm_id),
 
   ]);
-  return [...tasks, ...plantTasks, ...transplantTasks];
+  return [...managementTasks, ...locationTasks, ...plantTasks, ...transplantTasks];
+}
+
+async function getManagementPlans(task_id, typeOfTask) {
+  switch (typeOfTask) {
+  case 'plant_task':
+    return plantTaskModel.query()
+      .join('planting_management_plan', 'plant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+      .where({ task_id }).select('*');
+
+  case 'transplant_task':
+    return transplantTaskModel.query()
+      .join('planting_management_plan', 'transplant_task.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+      .where({ task_id }).select('*');
+  default:
+    return managementTasksModel.query().select('planting_management_plan.management_plan_id')
+      .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+      .where('task_id', task_id);
+  }
+}
+
+async function patchManagementPlanStartDate(trx, req, typeOfTask) {
+  const data = req.body;
+  const task_id = parseInt(req.params.task_id);
+  const management_plans = await getManagementPlans(task_id, typeOfTask);
+  const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
+  if (management_plan_ids.length > 0) {
+    await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
+      .whereIn('management_plan_id', management_plan_ids)
+      .where('start_date', null).returning('*');
+  }
 }
 
 module.exports = taskController;

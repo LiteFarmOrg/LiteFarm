@@ -5,7 +5,7 @@ import { HookFormPersistProvider } from '../../../hooks/useHookFormPersist/HookF
 import PureHarvestUses from '../../../../components/Task/TaskComplete/HarvestComplete/HarvestUses';
 import { hookFormPersistSelector } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../../harvestUseTypeSlice';
-import { taskWithProductById } from '../../../taskSlice';
+import { taskWithProductSelector } from '../../../taskSlice';
 import AddHarvestUseTypeModal from './AddHarvestUseType';
 
 function HarvestUses({ history, match }) {
@@ -17,7 +17,7 @@ function HarvestUses({ history, match }) {
   ];
   const persistedFormData = useSelector(hookFormPersistSelector);
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
-  const task = useSelector(taskWithProductById(task_id));
+  const task = useSelector(taskWithProductSelector(task_id));
   const [showAddHarvestTypeModal, setShowAddHarvestTypeModal] = useState(false);
 
   const onContinue = (data) => {
@@ -51,7 +51,9 @@ function HarvestUses({ history, match }) {
       </HookFormPersistProvider>
       {showAddHarvestTypeModal && (
         <AddHarvestUseTypeModal
-          harvestUseTypes={harvestUseTypes.map((harvestUseType) => harvestUseType.harvest_use_type_name)}
+          harvestUseTypes={harvestUseTypes.map(
+            (harvestUseType) => harvestUseType.harvest_use_type_name,
+          )}
           dismissModal={() => setShowAddHarvestTypeModal(false)}
         />
       )}

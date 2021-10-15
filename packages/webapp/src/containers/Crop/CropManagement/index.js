@@ -29,6 +29,9 @@ import {
   plantingDatePath,
 } from '../../../components/Crop/addManagementPlanPaths';
 import { useManagementPlanCardContents } from './useManagementPlanCardContents';
+import { useEffect } from 'react';
+import { getManagementPlans } from '../../saga';
+import { getTasks, getTaskTypes } from '../../Task/saga';
 
 const seedingTypeIsSeedMap = {
   SEED: true,
@@ -99,6 +102,12 @@ function CropManagement({ history, match }) {
     );
     history.push(plantedAlreadyPath(variety_id));
   };
+
+  useEffect(() => {
+    dispatch(getTaskTypes());
+    dispatch(getManagementPlans());
+    dispatch(getTasks());
+  }, []);
   return (
     <>
       <PureCropManagement

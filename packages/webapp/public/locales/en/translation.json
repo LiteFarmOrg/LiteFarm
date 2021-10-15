@@ -78,7 +78,6 @@
       "WHAT_PESTS": "What pest(s) are you trying to control"
     },
     "PLANTING_METHOD": "Planting method",
-    "WHAT_PLANTING_METHOD": "What is the transplanting method?",
     "PLANTING_TASK": "Planting Task",
     "PLANTING_TASK_MODAL": "Starting a new planting task creates a new management plan. Go to the crop catalogue to select the crop you would like to plant.",
     "QUANTITY": "Quantity",
@@ -101,7 +100,9 @@
     "TASK_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Tell us about the",
     "TRANSPLANT_METHOD": "Transplant method",
-    "WAGE_OVERRIDE": "Wage override"
+    "WAGE_OVERRIDE": "Wage override",
+    "WHAT_PLANTING_METHOD": "What is the transplanting method?",
+    "WILD_CROP": "Wild crops"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Length of beds",
@@ -195,15 +196,12 @@
     "EXPORT_DOCS": "Export certification docs",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
-    "FROM": "From",
     "GOOD_NEWS": "Good news!",
     "HAVE_ALL_INFO": "It looks like LiteFarm has all the information we need to process your certification documents. We’ll send them to you at:",
     "NEXT_WE_WILL_CHECK": "Next we'll check if your certifier requires any additional information to process your certification submission.",
     "NOTE_CANNOT_RESUBMIT": "Note: Once you submit the survey you will not be able to edit your answers. To change them after submission, begin a new export.",
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
-    "TO": "To",
-    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date",
     "UH_OH": "Uh oh!",
     "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
@@ -319,6 +317,11 @@
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
     "UPLOAD_LATER": "You can upload files at a later time as well"
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "From",
+    "TO": "To",
+    "TO_MUST_BE_AFTER_FROM": "'To' date must come after the 'From' date"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
@@ -616,6 +619,16 @@
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Clear all filters"
   },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "Add revenue",
+      "DATE": "Date",
+      "REVENUE": "Revenue",
+      "TITLE": "Actual Revenue",
+      "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range"
+    },
+    "WHOLE_FARM_REVENUE": "Whole farm revenue"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
@@ -828,10 +841,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandon this management plan",
     "ADD_A_TASK": "Add a task",
-    "ASSOCIATED_TASKS": "Associated tasks",
-    "EDIT_PLAN": "Edit plan",
+    "DETAILS": "Details",
     "FAILED_CROP": "Failed crop?",
-    "PLAN_NOTES": "Plan notes"
+    "TASKS": "Tasks"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandoning this management plan will abandon all the incomplete tasks associated with it and remove it from your farm map.",
@@ -961,6 +973,7 @@
         "TEXT": "{{fill}} location"
       }
     },
+    "UPDATE_DATE_THROUGH_TASK": "Select individual tasks to change dates or task details.",
     "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
@@ -1099,18 +1112,18 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Crop",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
-      "CUSTOMER_NAME": "Customer Name",
+      "CROP_VARIETY": "Crop variety",
+      "CUSTOMER_NAME": "Customer name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
       "TABLE_HEADERS": {
-        "CROPS": "Crops",
+        "CROP_VARIETIES": "Crop variety",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
       },
-      "TITLE": "Add New Sale"
+      "TITLE": "Add new income"
     },
     "DETAIL": {
       "ACTION": "Action",
@@ -1146,28 +1159,10 @@
       "ADD_NEW_EXPENSE": "Add New Expense",
       "ADD_NEW_SALE": "Add New Sale",
       "BALANCE": "Balance",
-      "BALANCE_BY_CROP": "Balance (By Crop)",
       "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
-      "ENSURE_ONE_CROP_WARNING": "Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.",
       "EXPENSES": "Expenses",
       "FINANCE_HELP": "Finance Help",
-      "HAS_UNALLOCATED_LINE1": "*Unallocated means that work has been done on an empty field for the selected date range.",
-      "HAS_UNALLOCATED_LINE10_1": "If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later than April 1st, then Corn will be allocated with a full amount of ",
-      "HAS_UNALLOCATED_LINE10_2": "From Field1.",
-      "HAS_UNALLOCATED_LINE2": "If one or more crops were added to an empty field later and there exists a shift related to the crops, then the work done on that empty field will be evenly distributed to each crop.",
-      "HAS_UNALLOCATED_LINE3_1": "For date range",
-      "HAS_UNALLOCATED_LINE3_2": "January 1st",
-      "HAS_UNALLOCATED_LINE3_3": "April 1st",
-      "HAS_UNALLOCATED_LINE4": "And two empty fields",
-      "HAS_UNALLOCATED_LINE5_1": "Assume shifts has been submitted for both fields(cost=",
-      "HAS_UNALLOCATED_LINE5_2": "30 for each field)",
-      "HAS_UNALLOCATED_LINE6_1": "then the Unallocated value would be",
-      "HAS_UNALLOCATED_LINE6_2": "Field1's work + Field2's work = -",
-      "HAS_UNALLOCATED_LINE7_1": "Later corn and lettuce has been planted on",
-      "HAS_UNALLOCATED_LINE7_2": "and related shifts have been submitted within the date range, then the Unallocated value would be",
-      "HAS_UNALLOCATED_LINE8": "Field2's work = -",
-      "HAS_UNALLOCATED_LINE9": "Corn and lettuce will each be allocated with an extra cost of",
       "LABOUR_LABEL": "Labour",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
@@ -1300,6 +1295,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandon this task",
+    "ABANDON_TASK_DURATION": "Was any work completed for this task?",
     "ABANDON": {
       "ABANDON": "Abandon",
       "INFO": "Abandoning this task will change its' status to abandoned and remove it from all users ‘To do’ and ‘Unassigned’ lists.",
@@ -1333,28 +1329,31 @@
     "COMPLETE_TASK_CHANGES": "Did you have to make any changes to this task?",
     "COMPLETE_TASK_DURATION": "How long did the task take to complete?",
     "COMPLETE_TASK_FLOW": "task completion",
+    "COMPLETION_DETAILS": "Task completion details",
     "COMPLETION_NOTES": "Task completion notes",
     "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
+    "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
+    "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
     "EDIT_TASK": "Edit Task",
     "HARVEST_USE": "Harvest use",
-    "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
-    "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
-    "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
-    "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
+    "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
     "LOCATIONS": "Location(s)",
     "NO_TASKS_TO_DISPLAY": "There are no tasks to display.",
     "NO_WORK_DONE": "No work was completed",
     "PAGE_TITLE": "Tasks",
     "PREFER_NOT_TO_SAY": "I prefer not to say",
     "PROVIDE_RATING": "Provide a rating",
+    "QUANTITY_CANNOT_EXCEED": "Harvest quantity used cannot exceed amount to allocate",
+    "RATE_THIS_TASK": "Rate this task",
     "REMOVE_HARVEST_USE": "Remove",
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
+    "SELECT_WILD_CROP": "This task targets a wild crop",
     "STATUS": {
       "ABANDONED": "Abandoned",
       "COMPLETED": "Completed",
@@ -1367,9 +1366,7 @@
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned",
-    "COMPLETION_DETAILS": "Task completion details",
-    "RATE_THIS_TASK": "Rate this task"
+    "UNASSIGNED": "Unassigned"
   },
   "UNIT": {
     "TIME": {

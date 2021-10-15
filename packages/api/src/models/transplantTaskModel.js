@@ -38,6 +38,9 @@ class transplantTaskModel extends Model {
         planting_management_plan_id: {
           type: 'string',
         },
+        prev_planting_management_plan_id: {
+          type: 'string',
+        },
       },
       additionalProperties: false,
     };
@@ -55,7 +58,7 @@ class transplantTaskModel extends Model {
         },
       },
       planting_management_plan: {
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         modelClass: require('./plantingManagementPlanModel'),
         join: {
           from: 'transplant_task.planting_management_plan_id',

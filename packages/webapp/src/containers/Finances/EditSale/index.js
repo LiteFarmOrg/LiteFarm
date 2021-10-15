@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import { actions } from 'react-redux-form';
@@ -16,7 +16,7 @@ import { withTranslation } from 'react-i18next';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { getManagementPlans } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
-import { grabQuantityAmount } from './saleUtil';
+import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
 
 class EditSale extends Component {
   constructor(props) {
@@ -25,48 +25,40 @@ class EditSale extends Component {
     const sale = this.props.sale || {};
     const chosenOptions =
       sale &&
-      sale.cropSale.map((cs) => {
-        const crop = this.props.t(`crop:${cs.crop.crop_translation_key}`);
-        return { label: crop, value: cs.crop.crop_id, sale_id: cs.sale_id };
+      sale.crop_variety_sale.map((cvs) => {
+        const cropVariety = this.props.cropVarietyEntities[cvs.crop_variety_id].crop_variety_name;
+        return { label: cropVariety, value: cvs.crop_variety_id };
       });
+    const quantity_unit =
+      sale?.crop_variety_sale[0].quantity_unit || getUnit(this.props.farm, 'kg', 'lb');
     this.state = {
-      date: moment.utc(sale && sale.date),
-      quantity_unit: getUnit(this.props.farm, 'kg', 'lb'),
+      date: moment.utc(sale && sale.sale_date),
+      quantity_unit,
       chosenOptions,
       currencySymbol: grabCurrencySymbol(this.props.farm),
-      quantityAndSaleAmount: sale
-        ? grabQuantityAmount(sale.cropSale, getUnit(this.props.farm, 'kg', 'lb'))
-        : null,
     };
-    sale &&
-      sale.cropSale.forEach((cs) => {
-        const crop = this.props.t(`crop:${cs.crop_translation_key}`);
-        this.props.dispatch(
-          actions.change(
-            `financeReducer.forms.editSale.${crop}.quantity_kg`,
-            cs.quantity_kg.toString(),
+    sale?.crop_variety_sale.forEach((cvs) => {
+      const cropVariety = this.props.cropVarietyEntities[cvs.crop_variety_id].crop_variety_name;
+      this.props.dispatch(
+        actions.change(
+          `financeReducer.forms.editSale.${cropVariety}.value`,
+          cvs.sale_value.toString(),
+        ),
+      );
+      this.props.dispatch(
+        actions.change(
+          `financeReducer.forms.editSale.${cropVariety}.quantity`,
+          roundToTwoDecimal(
+            convertFromMetric(cvs.quantity.toString(), this.state.quantity_unit, 'kg').toString(),
           ),
-        );
-        this.props.dispatch(
-          actions.change(`financeReducer.forms.editSale.${crop}.value`, cs.sale_value.toString()),
-        );
-        this.props.dispatch(
-          actions.change(
-            `financeReducer.forms.editSale.${crop}.quantity_kg`,
-            roundToTwoDecimal(
-              convertFromMetric(
-                cs.quantity_kg.toString(),
-                this.state.quantity_unit,
-                'kg',
-              ).toString(),
-            ),
-          ),
-        );
-      });
-    this.props.dispatch(actions.change('financeReducer.forms.editSale.name', sale.customerName));
+        ),
+      );
+    });
+    this.props.dispatch(actions.change('financeReducer.forms.editSale.name', sale.customer_name));
     this.props.dispatch(
       actions.change('financeReducer.forms.editSale.managementPlan', chosenOptions),
     );
+
     this.handleChooseCrop = this.handleChooseCrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -84,59 +76,61 @@ class EditSale extends Component {
   handleSubmit(form) {
     const { dispatch, sale } = this.props;
 
-    const cropSale = this.state.chosenOptions.map((c) => {
+    const crop_variety_sale = this.state.chosenOptions.map((c) => {
       return {
-        sale_value:
-          form && form[c.label] && form[c.label].value.length
-            ? parseFloat(form[c.label].value).toFixed(2)
-            : 0,
-        quantity_kg:
-          form && form[c.label] && form[c.label].quantity_kg.length
-            ? convertToMetric(parseFloat(form[c.label].quantity_kg), this.state.quantity_unit, 'kg')
-            : 0,
-        crop_id: c.value,
-        sale_id: sale.id,
+        sale_value: form?.[c.label]?.value ? parseFloat(form[c.label].value).toFixed(2) : 0,
+        quantity: form?.[c.label]?.quantity
+          ? convertToMetric(parseFloat(form[c.label].quantity), this.state.quantity_unit, 'kg')
+          : 0,
+        quantity_unit: this.state.quantity_unit,
+        crop_variety_id: c.value,
       };
     });
 
     const editedSale = {
-      sale_id: sale.id,
+      sale_id: sale.sale_id,
       customer_name: form.name,
       sale_date: this.state.date,
       farm_id: this.props.farm.farm_id,
-      cropSale,
+      crop_variety_sale,
     };
     dispatch(updateSale(editedSale));
     history.push('/finances');
   }
 
-  getCropOptions = (managementPlans) => {
+  getCropVarietyOptions = (managementPlans) => {
     if (!managementPlans || managementPlans.length === 0) {
       return;
     }
 
-    let cropOptions = [];
-    let cropSet = new Set();
+    let cropVarietyOptions = [];
+    let cropVarietySet = new Set();
 
-    for (let fc of managementPlans) {
-      if (!cropSet.has(fc.crop_id)) {
-        cropOptions.push({
-          label: this.props.t(`crop:${fc.crop_translation_key}`),
-          value: fc.crop_id,
+    for (let mp of managementPlans) {
+      if (!cropVarietySet.has(mp.crop_variety_id)) {
+        cropVarietyOptions.push({
+          label: `${mp.crop_variety_name}, ${this.props.t(`crop:${mp.crop_translation_key}`)}`,
+          value: mp.crop_variety_id,
         });
-        cropSet.add(fc.crop_id);
+        cropVarietySet.add(mp.crop_variety_id);
       }
     }
 
-    return cropOptions;
+    cropVarietyOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+
+    return cropVarietyOptions;
   };
 
   render() {
     let managementPlans = this.props.managementPlans || [];
-    const cropOptions = this.getCropOptions(managementPlans);
+    const cropVarietyOptions = this.getCropVarietyOptions(managementPlans);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/sale_detail" title={this.props.t('SALE.EDIT_SALE.TITLE')} />
+        <PageTitle
+          title={this.props.t('SALE.EDIT_SALE.TITLE')}
+          style={{ marginBottom: '24px' }}
+          onGoBack={() => history.goBack()}
+        />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.EDIT_SALE.DATE')}</label>
           <DateContainer
@@ -148,7 +142,7 @@ class EditSale extends Component {
         </span>
         <SaleForm
           model="financeReducer.forms.editSale"
-          cropOptions={cropOptions}
+          cropVarietyOptions={cropVarietyOptions}
           chosenOptions={this.state.chosenOptions}
           handleChooseCrop={this.handleChooseCrop}
           onSubmit={this.handleSubmit}
@@ -156,15 +150,12 @@ class EditSale extends Component {
           footerOnClick={() => this.setState({ showModal: true })}
           footerText={this.props.t('common:DELETE')}
           currencySymbol={this.state.currencySymbol}
-          quantityAmount={this.state.quantityAndSaleAmount.quantityAmount}
-          saleAmount={this.state.quantityAndSaleAmount.saleAmount}
         />
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {
             this.props.dispatch(deleteSale(this.props.sale));
-            history.push('/finances');
           }}
           message={this.props.t('SALE.EDIT_SALE.DELETE_CONFIRMATION')}
         />
@@ -178,6 +169,7 @@ const mapStateToProps = (state) => {
     sale: selectedSaleSelector(state),
     managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
+    cropVarietyEntities: cropVarietyEntitiesSelector(state),
   };
 };
 

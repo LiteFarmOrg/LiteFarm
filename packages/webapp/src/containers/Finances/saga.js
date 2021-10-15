@@ -44,6 +44,7 @@ export function* getSales() {
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
     if (result) {
+      // TODO: change this after sale slice reducer is remade
       yield put(setSalesInState(result.data));
     }
   } catch (e) {
@@ -64,13 +65,9 @@ export function* addSale(action) {
     : i18n.t('message:SALE.ERROR.ADD');
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
-    if (result) {
-      yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-    }
+    yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     yield put(enqueueErrorSnackbar(addOrUpdateFail));
   }
@@ -87,13 +84,9 @@ export function* updateSaleSaga(action) {
 
   try {
     const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
-    if (result) {
-      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-    }
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     console.log(`failed to update sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
@@ -106,17 +99,13 @@ export function* deleteSale(action) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, salesURL + '/' + action.sale.id, header);
-    if (result) {
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
-    }
+    const result = yield call(axios.delete, salesURL + '/' + action.sale.sale_id, header);
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     console.log(`failed to delete sale`);
-    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
   }
 }
 

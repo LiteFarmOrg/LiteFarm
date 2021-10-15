@@ -48,11 +48,14 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
   }, [tasksByManagementPlanId, managementPlanEntities, lastActiveTime, crop_variety_id]);
 };
 
-const getLocationName = ({ location, pin_coordinate }) => {
+export const getLocationName = ({ location, pin_coordinate }, numberOfDecimals) => {
   if (location) {
     return location.name;
   } else if (pin_coordinate) {
-    return `${roundToDecimals(pin_coordinate.lat)}, ${roundToDecimals(pin_coordinate.lng)}`;
+    return `${roundToDecimals(pin_coordinate.lat, numberOfDecimals)}, ${roundToDecimals(
+      pin_coordinate.lng,
+      numberOfDecimals,
+    )}`;
   }
 };
 

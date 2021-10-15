@@ -39,8 +39,9 @@ const insightController = {
           `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
                 FROM "harvestUse" hu 
                 JOIN "task" al ON hu.task_id = al.task_id
-                JOIN "management_tasks" ac ON hu.task_id = ac.task_id 
-                JOIN "management_plan" mp ON mp.management_plan_id = ac.management_plan_id
+                JOIN "management_tasks" mt ON hu.task_id = mt.task_id 
+                JOIN "planting_management_plan" pmp ON mt.planting_management_plan_id = pmp.planting_management_plan_id
+                JOIN "management_plan" mp ON mp.management_plan_id = pmp.management_plan_id
                 JOIN "location" ON mp.location_id = location.location_id
                 JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
                 JOIN "crop" c ON mp.crop_id = c.crop_id

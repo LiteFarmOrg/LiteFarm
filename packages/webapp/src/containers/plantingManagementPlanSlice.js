@@ -13,8 +13,6 @@ import { broadcastMethodSelectors } from './broadcastMethodSlice';
 export const plantingManagementPlanProperties = [
   'estimated_seeds',
   'estimated_seeds_unit',
-  'estimated_yield',
-  'estimated_yield_unit',
   'is_final_planting_management_plan',
   'is_planting_method_known',
   'location_id',

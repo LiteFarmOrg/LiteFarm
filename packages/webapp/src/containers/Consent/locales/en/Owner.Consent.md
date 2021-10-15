@@ -83,19 +83,21 @@ Depending on which parts of the LiteFarm platform you use, we may collect differ
 
 LiteFarm uses the management information that you enter into the app to generate insights about the financial, environmental, and social benefits or impacts of your management decisions. We anonymize this data to conduct non-commercial academic research on sustainable food systems. Because this data is anonymized when used in our research, it cannot be traced to you or your farm. This data includes:
 
-- Farm location information: different types of locations on the farm, including size; names; crops planted in locations; organic status; and other attributes specific to location type.
+- Farm location information: different types of locations on the farm, including size; names; crops planted in locations; tasks assigned to locations; organic status; and other attributes specific to location type.
 
-- Crop information: crop type, varietal, supplier, common names, species, genus, crop group, organic certification status and supporting information.
+- Crop information: crop type, varietal, supplier, common names, species, genus, crop group, seed treatment status, organic certification status and supporting information.
 
-- Crop management information: Including start and end dates; planting method; transplanting method; age of crop; tasks associated with the plan; estimated price of crops; estimated yield of crops, and others.
+- Crop management information: Including start and end dates; planting method; transplanting method; age of crop; tasks associated with the management of the crop; estimated price of crops; estimated yield of crops, and others.
 
-- Information about tasks performed on the farm: assignee, creator, duration, location(s), crop(s) impacted, inputs, notes, dates, completion status, etc.
+- Information about tasks performed on the farm: assignee, creator, duration, location(s), crop(s) impacted, inputs, notes, dates, completion status, worker satisfaction, etc.
 
-- Pest control information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control; location(s) and crop(s) targeted.
+- Pest control task information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control; location(s) and crop(s) targeted.
 
-- Harvest information: field harvested; crop harvested; quantity harvested, uses of harvests.
+- Cleaning task information: product name; amount of product applied; application target (i.e., bins or tables), estimated water usage, location(s).
 
-- Seeding information: location(s) seeded; crop(s) seeded; spacing depth, length, width, and rate.
+- Harvest task information: location(s) harvested; crop(s) harvested; estimated and actual quantity harvested, estimated and actual uses of harvests.
+
+- Planting information: location(s) planted; crop(s) planted; plant spacing, planting depth, and rate.
 
 - Field work information: location(s), crops(s); type of work, notes.
 

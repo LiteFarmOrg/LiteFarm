@@ -13,25 +13,21 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
-import apiConfig from '../../../../apiConfig';
-import { loginSelector, patchFarmSuccess } from '../../../userFarmSlice';
-import {
-  axios,
-  getHeader,
-  getManagementPlanAndPlantingMethodSuccess,
-  getManagementPlanAndPlantingMethodSuccessSaga,
-} from '../../../saga';
+import { call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
+import apiConfig from '../../apiConfig';
+import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
   onLoadingManagementPlanFail,
   onLoadingManagementPlanStart,
-} from '../../../managementPlanSlice';
-import i18n from '../../../../locales/i18n';
-import history from '../../../../history';
-import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../../../Snackbar/snackbarSlice';
-import { getTasksSuccessSaga } from '../../../Task/saga';
+} from '../managementPlanSlice';
+import i18n from '../../locales/i18n';
+import history from '../../history';
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { getTasksSuccessSaga } from '../Task/saga';
+import { getCropManagementPlansSuccess } from '../cropManagementPlanSlice';
 
 const DEC = 10;
 
@@ -45,7 +41,7 @@ export function* getExpiredManagementPlansSaga() {
   try {
     yield put(onLoadingManagementPlanStart());
     const result = yield call(axios.get, managementPlanURL + '/expired/farm/' + farm_id, header);
-    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [result.data] });
   } catch (e) {
     yield put(onLoadingManagementPlanFail());
     console.error('failed to fetch expired crops from database');
@@ -66,7 +62,7 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
     const management_plan_id = result.data.management_plan.management_plan_id;
     history.push(
-      `/crop/${managementPlan.crop_variety_id}/${management_plan_id}/management_detail`,
+      `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/tasks`,
       { fromCreation: true },
     );
     yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST')));
@@ -93,22 +89,26 @@ export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
   } catch (e) {}
 }
 
-export const putManagementPlan = createAction(`putManagementPlanSaga`);
+export const patchManagementPlan = createAction(`patchManagementPlanSaga`);
 
-export function* putManagementPlanSaga({ payload: managementPlan }) {
+export function* patchManagementPlanSaga({ payload: managementPlan }) {
   const { managementPlanURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(
-      axios.put,
+      axios.patch,
       managementPlanURL + `/${managementPlan.management_plan_id}`,
       managementPlan,
       header,
     );
-    yield put(getManagementPlanAndPlantingMethodSuccess([managementPlan]));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.EDIT')));
+    yield race([take(getCropManagementPlansSuccess.type)]);
+    history.push(
+      `/crop/${managementPlan.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/details`,
+    );
   } catch (e) {
     console.log('Failed to add managementPlan to database');
     yield put(enqueueErrorSnackbar(i18n.t('message:CROP.ERROR.EDIT')));
@@ -133,47 +133,6 @@ export function* deleteManagementPlanSaga({ payload: management_plan_id }) {
   }
 }
 
-export const createYield = createAction(`createYieldSaga`);
-
-export function* createYieldSaga({ payload: yieldData }) {
-  const { yieldURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  const data = {
-    crop_id: parseInt(yieldData.crop_id, DEC),
-    'quantity_kg/m2': parseInt(yieldData['quantity_kg/m2'], DEC),
-    date: yieldData.date,
-    farm_id: farm_id,
-  };
-
-  try {
-    const result = yield call(axios.post, yieldURL, data, header);
-  } catch (e) {
-    console.log('Error: Could Not Emit Create Yield Action');
-  }
-}
-
-export const createPrice = createAction(`createPriceSaga`);
-
-export function* createPriceSaga({ payload: price }) {
-  const { priceURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  const data = {
-    crop_id: parseInt(price.crop_id, DEC),
-    'value_$/kg': parseInt(price.value, DEC),
-    date: price.date,
-    farm_id: farm_id,
-  };
-  try {
-    const result = yield call(axios.post, priceURL, data, header);
-  } catch (e) {
-    console.log('Error: Could not Emit Create Price Action');
-  }
-}
-
 const formatDate = (currDate) => {
   const d = currDate;
   let year = d.getFullYear(),
@@ -191,7 +150,5 @@ export default function* managementPlanSaga() {
   yield takeLeading(patchFarmDefaultInitialLocation.type, patchFarmDefaultInitialLocationSaga);
   yield takeLatest(getExpiredManagementPlans.type, getExpiredManagementPlansSaga);
   yield takeLeading(deleteManagementPlan.type, deleteManagementPlanSaga);
-  yield takeLeading(createYield.type, createYieldSaga);
-  yield takeLeading(createPrice.type, createPriceSaga);
-  yield takeLeading(putManagementPlan.type, putManagementPlanSaga);
+  yield takeLeading(patchManagementPlan.type, patchManagementPlanSaga);
 }

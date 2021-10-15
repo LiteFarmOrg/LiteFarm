@@ -1,15 +1,15 @@
 import React from 'react';
-import PureManagementDetail from '../../../components/Crop/ManagementDetail';
+import PureManagementTasks from '../../../components/Crop/ManagementDetail/ManagementPlanTasks';
 import decorators from '../config/decorators';
 import { chromaticSmallScreen } from '../config/chromatic';
 
 export default {
   title: 'Form/ManagementPlan/Detail',
   decorators: decorators,
-  component: PureManagementDetail,
+  component: PureManagementTasks,
 };
 
-const Template = (args) => <PureManagementDetail {...args} />;
+const Template = (args) => <PureManagementTasks {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

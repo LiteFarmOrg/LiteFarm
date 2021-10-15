@@ -85,19 +85,21 @@ Dependendo de quais partes da plataforma LiteFarm você usar, poderemos coletar 
 
 A LiteFarm usa as informações de gestão que você insere no aplicativo para gerar ideias sobre os benefícios financeiros, ambientais e sociais, ou sobre os impactos de suas decisões de gestão. Os dados serão anônimos para a realização de pesquisas acadêmicas não comerciais sobre sistemas alimentares sustentáveis. Como esses dados são anonimizados quando usados em nossas pesquisas, eles não podem ser rastreados até você ou sua fazenda/sítio. Esses dados incluem:
 
-- Informação dos campos: diferentes tipos de localização na propriedade, incluindo tamanho, nome, cultivos plantados nos campos, se é orgânico ou não, e outros atributos específicos do tipo de campo;
+- Informação dos campos: diferentes tipos de localização na propriedade, incluindo tamanho, nome, cultivos plantados nos campos, tarefas atribuídas a áreas, se é orgânico ou não, e outros atributos específicos do tipo de campo;
 
-- Informações de cultivo: tipo de cultivo, variedade, fornecedor, nomes comuns, espécies, gênero, grupo de cultivo, situação da certificação orgânica e informações de assistência;
+- Informações de cultivo: tipo de cultivo, variedade, fornecedor, nomes comuns, espécies, gênero, grupo de cultivo, situação do tratamento de sementes, situação da certificação orgânica e informações de assistência;
 
-- Informações de manejo do cultivo: incluindo datas de início e fim, método de plantio, método de transplante, duração do cultivo, tarefas associadas ao plano de manejo, preço estimado do cultivo; rendimento estimado das safras, outros;
+- Informações de manejo do cultivo: incluindo datas de início e fim, método de plantio, método de transplante, duração do cultivo, tarefas associadas ao manejo do cultivo, preço estimado do cultivo; rendimento estimado das safras, outros;
 
-- Informações das tarefas realizadas na propriedade: administrador (a), criador (a), duração, localizações, cultivos impactados, entradas, notas, datas, condições de conclusão, etc.
+- Informações das tarefas realizadas na propriedade: administrador (a), criador (a), duração, localizações, cultivos impactados, entradas, notas, datas, condições de conclusão, sentimento do agricultor (satisfeito, alegre, desgostoso), etc.
 
-- Informações de registro de controle de pragas: nome do produto; quantidade aplicada do produto; alvo da aplicação (ou seja, o nome da praga ou doença), nome comum, nome científico, grupo; nome do ingrediente ativo; concentração do ingrediente ativo; intervalo de colheita; intervalo de entrada; tipo de controle (aspersão sistêmica, aspersão foliar, fumigação, queima, controle biológico, coleta manual ou tratamento térmico); campo/parcela e cultura de aplicação;
+- Informações de tarefas para o controle de pragas: nome do produto; quantidade aplicada do produto; alvo da aplicação (ou seja, o nome da praga ou doença), nome comum, nome científico, grupo; nome do ingrediente ativo; concentração do ingrediente ativo; intervalo de colheita; intervalo de entrada; tipo de controle (aspersão sistêmica, aspersão foliar, fumigação, queima, controle biológico, coleta manual ou tratamento térmico); campo/parcela e cultura de aplicação;
 
-- Informações de registro de colheitas: campo colhido; cultura colhida; quantidade colhida;
+- Informações de limpeza: nome do produto, quantidade aplicada, alvo de aplicação (ou seja, caixas ou mesas), uso estimado de água, locais.
 
-- Informações de registro de semeaduras: campo semeado; cultura semeada; profundidade, comprimento, largura e proporção do espaçamento;
+- Informações sobre tarefas de colheitas: área(s) de colheita; cultura(s) colhida(s); quantidade estimada e quantidade atual de colheita, usos estimados e usos atuais da colheita;
+
+- Informações de plantio: área(s) plantada(s); cultura(s) plantada; profundidade, comprimento, largura e proporção do espaçamento;
 
 - Informações de registro de trabalho nos campos/parcelas: campo; tipo de trabalho (aragem, plantio em camalhões, plantio em zonas, plantio em cobertura morta, plantio escarificado);
 

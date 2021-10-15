@@ -1,71 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import PureTaskCard from '../../../components/TaskCard';
-import { getNameFromUserIdSelector } from '../../userFarmSlice';
-import { managementPlanEntitiesSelector } from '../../managementPlanSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
+import { PureTaskCard } from '../../../components/CardWithStatus/TaskCard/TaskCard';
+import TaskQuickAssignModal from '../../../components/Modals/QuickAssignModal';
+import { assignTask, assignTasksOnDate } from '../saga';
 
-const TaskCard = ({ task, onClick, className, style, onClickAssignee, ...props }) => {
-  const { t } = useTranslation();
-
-  const {
-    task_id,
-    assignee_user_id,
-    abandoned_time,
-    completed_time,
-    // planned_time, aka initial due date
-    // for_review_time,
-    due_date,
-    // coordinates, (TODO: for pin drop)
-    taskType,
-    locations,
-    managementPlans,
-    happiness,
-  } = task;
-
-  const managementPlanEntities = useSelector(managementPlanEntitiesSelector);
-  const assignee = useSelector(getNameFromUserIdSelector(assignee_user_id));
-
-  const cropVarietyNames = managementPlans.map((mp) => {
-    return managementPlanEntities[mp.management_plan_id].crop_variety_name;
-  });
-
-  const handleClickAssignee = (e) => {
-    e.stopPropagation();
-    onClickAssignee(task_id, due_date, !!assignee);
-  };
-
-  let status;
-  if (completed_time) status = 'completed';
-  else if (abandoned_time) status = 'abandoned';
-  else if (new Date(due_date) > Date.now()) status = 'planned';
-  else status = 'late';
-
+const TaskCard = ({
+  task_id,
+  taskType,
+  status,
+  locationName,
+  cropVarietyName,
+  completeOrDueDate,
+  assignee = null,
+  style,
+  onClick = null,
+  selected,
+  happiness,
+  classes = { card: {} },
+  ...props
+}) => {
+  const [showTaskAssignModal, setShowTaskAssignModal] = useState();
+  const dispatch = useDispatch();
+  const onAssignTasksOnDate = (task) => dispatch(assignTasksOnDate(task));
+  const onAssignTask = (task) => dispatch(assignTask(task));
+  const users = useSelector(userFarmsByFarmSelector);
+  const user = useSelector(userFarmSelector);
   return (
-    <PureTaskCard
-      taskType={taskType}
-      status={status}
-      cropVarietyNames={cropVarietyNames}
-      locations={locations}
-      dueDate={due_date}
-      assignee={assignee}
-      style={style}
-      happiness={happiness}
-      onClickAssignee={handleClickAssignee}
-      onClick={onClick}
-    />
+    <>
+      <PureTaskCard
+        taskType={taskType}
+        status={status}
+        locationName={locationName}
+        cropVarietyName={cropVarietyName}
+        completeOrDueDate={completeOrDueDate}
+        assignee={assignee}
+        style={style}
+        onClick={onClick}
+        onClickAssignee={() => setShowTaskAssignModal(true)}
+        selected={selected}
+        happiness={happiness}
+        classes={classes}
+      />
+      {showTaskAssignModal && (
+        <TaskQuickAssignModal
+          task_id={task_id}
+          due_date={completeOrDueDate}
+          isAssigned={!!assignee}
+          onAssignTasksOnDate={onAssignTasksOnDate}
+          onAssignTask={onAssignTask}
+          users={users}
+          user={user}
+          dismissModal={() => setShowTaskAssignModal(false)}
+        />
+      )}
+    </>
   );
 };
 
 TaskCard.propTypes = {
-  color: PropTypes.oneOf(['secondary', 'active', 'disabled']),
-  onClick: PropTypes.func,
-  ownerName: PropTypes.string,
-  farmName: PropTypes.string,
-  address: PropTypes.arrayOf(PropTypes.string),
   style: PropTypes.object,
+  status: PropTypes.oneOf(['late', 'planned', 'completed', 'abandoned', 'forReview']),
+  classes: PropTypes.shape({ container: PropTypes.object, card: PropTypes.object }),
+  onClick: PropTypes.func,
+  happiness: PropTypes.oneOf([1, 2, 3, 4, 5, 0, null]),
+  locationName: PropTypes.string,
+  taskType: PropTypes.object,
+  cropVarietyName: PropTypes.string,
+  completeOrDueDate: PropTypes.string,
+  assignee: PropTypes.object,
+  onClickAssignee: PropTypes.func,
+  selected: PropTypes.bool,
+  task_id: PropTypes.number,
 };
 
 export default TaskCard;

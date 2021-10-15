@@ -35,6 +35,9 @@ const useStyles = makeStyles({
     backgroundColor: colors.grey200,
     color: colors.grey600,
   },
+  forReview: {
+    backgroundColor: colors.brightGreen700,
+  },
   sm: {
     height: '16px',
     fontSize: '11px',

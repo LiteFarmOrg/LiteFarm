@@ -64,9 +64,17 @@ export default function PageBreak({ label, square, children, style, onSelectAll,
         <div className={classes.break} />
       </div>
       <>
-        {onSelectAll && <Underlined onClick={onSelectAll}>{t('ADD_TASK.SELECT_ALL')}</Underlined>}
+        {onSelectAll && (
+          <Underlined style={{ color: colors.brown700 }} onClick={onSelectAll}>
+            {t('ADD_TASK.SELECT_ALL')}
+          </Underlined>
+        )}
         {onSelectAll && onClearAll && ' | '}
-        {onClearAll && <Underlined onClick={onClearAll}>{t('ADD_TASK.CLEAR_ALL')}</Underlined>}
+        {onClearAll && (
+          <Underlined style={{ color: colors.brown700 }} onClick={onClearAll}>
+            {t('ADD_TASK.CLEAR_ALL')}
+          </Underlined>
+        )}
       </>
     </div>
   );

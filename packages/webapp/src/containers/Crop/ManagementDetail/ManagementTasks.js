@@ -1,15 +1,15 @@
-import PureManagementDetail from '../../../components/Crop/ManagementDetail';
+import PureManagementTasks from '../../../components/Crop/ManagementDetail/ManagementPlanTasks';
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
 import { useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
-import {
-  tasksByManagementPlanIdSelector,
-  pendingTasksByManagementPlanIdSelector,
-} from '../../taskSlice';
+import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
+import TaskCard from '../../Task/TaskCard';
+import React from 'react';
+import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
 
-export default function ManagementDetail({ history, match }) {
+export default function ManagementTasks({ history, match }) {
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
@@ -35,11 +35,11 @@ export default function ManagementDetail({ history, match }) {
 
   const showSpotlight = history.location.state?.fromCreation;
 
-  const allTasks = useSelector(tasksByManagementPlanIdSelector(management_plan_id));
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
+  const taskCardContents = useSelector(taskCardContentByManagementPlanSelector(management_plan_id));
   return (
     <>
-      <PureManagementDetail
+      <PureManagementTasks
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
@@ -47,10 +47,19 @@ export default function ManagementDetail({ history, match }) {
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}
-        tasks={allTasks}
         hasPendingTasks={!!pendingTasks?.length}
         history={history}
-      />
+        match={match}
+      >
+        {taskCardContents.map((task) => (
+          <TaskCard
+            key={task.task_id}
+            onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
+            style={{ marginBottom: '14px' }}
+            {...task}
+          />
+        ))}
+      </PureManagementTasks>
       {showSpotlight && <FirstManagementPlanSpotlight />}
     </>
   );

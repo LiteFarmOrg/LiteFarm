@@ -34,6 +34,12 @@ const upsertManyGardenWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteGarden = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  gardenAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const gardenAdapter = createEntityAdapter({
   selectId: (garden) => garden.location_id,
@@ -53,7 +59,7 @@ const gardenSlice = createSlice({
     getGardensSuccess: upsertManyGardenWithLocation,
     postGardenSuccess: upsertOneGardenWithLocation,
     editGardenSuccess: upsertOneGardenWithLocation,
-    deleteGardenSuccess: gardenAdapter.removeOne,
+    deleteGardenSuccess: softDeleteGarden,
   },
 });
 export const {
@@ -76,7 +82,7 @@ export const gardenEntitiesSelector = gardenSelectors.selectEntities;
 export const gardensSelector = createSelector(
   [gardenSelectors.selectAll, loginSelector],
   (gardens, { farm_id }) => {
-    return gardens.filter((garden) => garden.farm_id === farm_id);
+    return gardens.filter((garden) => garden.farm_id === farm_id && !garden.deleted);
   },
 );
 

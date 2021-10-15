@@ -5,7 +5,11 @@ import { pick } from '../../../util/pick';
 import { plantingManagementPlanEntitiesSelector } from '../../plantingManagementPlanSlice';
 import produce from 'immer';
 
-const transplantTaskProperties = ['planting_management_plan_id', 'task_id'];
+const transplantTaskProperties = [
+  'planting_management_plan_id',
+  'task_id',
+  'prev_planting_management_plan_id',
+];
 
 const getTransplantTask = (task) => {
   return pick(task, transplantTaskProperties);
@@ -65,9 +69,15 @@ export const transplantTaskEntitiesSelector = createSelector(
   (transplantTaskEntities, plantManagementPlanTaskEntities) => {
     return produce(transplantTaskEntities, (transplantTaskEntities) => {
       for (const task_id in transplantTaskEntities) {
-        const { planting_management_plan_id } = transplantTaskEntities[task_id];
+        const {
+          planting_management_plan_id,
+          prev_planting_management_plan_id,
+        } = transplantTaskEntities[task_id];
         transplantTaskEntities[task_id].planting_management_plan =
           plantManagementPlanTaskEntities[planting_management_plan_id];
+        prev_planting_management_plan_id &&
+          (transplantTaskEntities[task_id].prev_planting_management_plan =
+            plantManagementPlanTaskEntities[prev_planting_management_plan_id]);
       }
     });
   },

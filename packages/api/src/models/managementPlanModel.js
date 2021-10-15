@@ -80,19 +80,6 @@ class ManagementPlan extends baseModel {
           to: 'crop_management_plan.management_plan_id',
         },
       },
-
-      task: {
-        relation: Model.ManyToManyRelation,
-        modelClass: require('./taskModel.js'),
-        join: {
-          to: 'task.task_id',
-          through: {
-            from: 'management_tasks.task_id',
-            to: 'management_tasks.management_plan_id',
-          },
-          from: 'management_plan.management_plan_id',
-        },
-      },
     };
   }
 }

@@ -14,7 +14,7 @@ Welcome to LiteFarm! We understand that your privacy and the protection of your 
 
 &nbsp;
 
-LiteFarm is a participatory science project developed to help improve access to digital agricultural technology for farming communities. LiteFarm aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity. We aim to serve the farming community through improving agricultural decision-support and research. 
+LiteFarm is a participatory science project developed to help improve access to digital agricultural technology for farming communities. LiteFarm aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity. We aim to serve the farming community through improving agricultural decision-support and research.
 
 &nbsp;
 
@@ -86,19 +86,19 @@ LiteFarm uses the management information that you enter into the app to generate
 
 - Seeding information: location(s) seeded; crop(s) seeded; spacing depth, length, width, and rate.
 
--	Field work information: location(s), crops(s); type of work, notes.
+- Field work information: location(s), crops(s); type of work, notes.
 
--	Soil analysis information: location; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density.
+- Soil analysis information: location; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density.
 
 - Irrigation information: location(s), crop(s); irrigation type, flow rate; total time flowing.
 
--	Scouting information: location(s); crop(s); type; action needed (yes/no).
+- Scouting information: location(s); crop(s); type; action needed (yes/no).
 
--	Other information: location(s); crop(s); notes.
+- Other information: location(s); crop(s); notes.
 
--	Information relating to the completion of tasks including: date; duration of work; mood (happy, very happy, sad, very sad, neutral); notes on work.
+- Information relating to the completion of tasks including: date; duration of work; mood (happy, very happy, sad, very sad, neutral); notes on work.
 
- &nbsp;
+&nbsp;
 
 &nbsp;
 
@@ -152,7 +152,7 @@ In some areas of our site, a cookie might be placed on your computer or device. 
 
 &nbsp;
 
-Our application is hosted on Digital Ocean to quickly and reliably serve our website to an unpredictable number of people. This means that your data will potentially be stored in multiple data centers and locations within Canada and the United States of America (USA). While our application is non-commercial, we note that Digital Ocean is a participant in the Privacy Shield program developed by the USA Department of Commerce and the European Union (EU) and offers services for EU General Data Protection Regulation (GDPR) compliance. In addition to our cloud storage a local copy of the LiteFarm database is housed on an encrypted and password protected server at the University of British Columbia. Anonymized copies of the LiteFarm database can be stored on public repositories following publishing standards for scientific reproducibility. 
+Our application is hosted on Digital Ocean to quickly and reliably serve our website to an unpredictable number of people. This means that your data will potentially be stored in multiple data centers and locations within Canada and the United States of America (USA). While our application is non-commercial, we note that Digital Ocean is a participant in the Privacy Shield program developed by the USA Department of Commerce and the European Union (EU) and offers services for EU General Data Protection Regulation (GDPR) compliance. In addition to our cloud storage a local copy of the LiteFarm database is housed on an encrypted and password protected server at the University of British Columbia. Anonymized copies of the LiteFarm database can be stored on public repositories following publishing standards for scientific reproducibility.
 &nbsp;
 
 &nbsp;
@@ -227,7 +227,7 @@ Although most changes are likely to be minor, LiteFarm may occasionally change i
 
 &nbsp;
 
-If you create a LiteFarm account, we will occasionally send email to announce new features in LiteFarm, explain any changes to the app, invite you to special events, or tell you about research projects that LiteFarm data is helping make possible. We might also email you occasionally to ask for your feedback about the platform or website. Your participation in any such request is entirely optional and will not affect your use of the platform. 
+If you create a LiteFarm account, we will occasionally send email to announce new features in LiteFarm, explain any changes to the app, invite you to special events, or tell you about research projects that LiteFarm data is helping make possible. We might also email you occasionally to ask for your feedback about the platform or website. Your participation in any such request is entirely optional and will not affect your use of the platform.
 &nbsp;
 
 &nbsp;

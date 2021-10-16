@@ -58,32 +58,14 @@
       "UPDATE": "Successfully updated farm info!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "failed to add fertilizer"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
       "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types",
-      "REQUIRED_TASK": "A harvest use type name is required"
+      "GET_TYPES": "Failed to fetch harvest use types"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "Failed to add Log",
-      "DELETE": "Failed to delete Log",
-      "EDIT": "Failed to edit Log"
-    },
-    "SUCCESS": {
-      "ADD": "Successfully added Log!",
-      "DELETE": "Successfully deleted Log!",
-      "EDIT": "Successfully edited Log!"
     }
   },
   "LOGIN": {

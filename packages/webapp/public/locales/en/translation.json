@@ -583,7 +583,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
+      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {

@@ -7,8 +7,6 @@ import Layout from '../../Layout';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import IncompleteTaskModal from '../../Modals/IncompleteTaskModal';
-import TaskCard from '../../../containers/Task/TaskCard';
-import TaskQuickAssignModal from '../../Task/QuickAssign';
 import RouterTab from '../../RouterTab';
 
 export default function PureManagementTasks({
@@ -19,17 +17,16 @@ export default function PureManagementTasks({
   variety,
   plan,
   isAdmin,
-  tasks,
   hasPendingTasks,
   history,
   match,
+  children,
 }) {
   const { t } = useTranslation();
 
   const title = plan.name;
 
   const [showCompleteFailModal, setShowCompleteFailModal] = useState(false);
-  const [quickAssignInfo, setQuickAssignInfo] = useState(null);
 
   const onMarkComplete = () => {
     if (hasPendingTasks) {
@@ -37,10 +34,6 @@ export default function PureManagementTasks({
     } else {
       onCompleted();
     }
-  };
-
-  const handleClickAssignee = (taskId, dueDate, isAssigned) => {
-    setQuickAssignInfo({ taskId, dueDate, isAssigned });
   };
 
   return (
@@ -89,16 +82,7 @@ export default function PureManagementTasks({
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>
       )}
-
-      {tasks.map((task) => (
-        <TaskCard
-          task={task}
-          key={task.task_id}
-          onClickAssignee={handleClickAssignee}
-          onClick={() => history.push(`/tasks/${task.task_id}/read_only`)}
-          style={{ marginBottom: '14px' }}
-        />
-      ))}
+      {children}
 
       {isAdmin && (
         <div className={styles.abandonwrapper} style={{ marginTop: '24px', marginBottom: '26px' }}>
@@ -110,14 +94,6 @@ export default function PureManagementTasks({
       )}
       {showCompleteFailModal && (
         <IncompleteTaskModal dismissModal={() => setShowCompleteFailModal(false)} />
-      )}
-      {quickAssignInfo && (
-        <TaskQuickAssignModal
-          dismissModal={() => setQuickAssignInfo(null)}
-          taskId={quickAssignInfo.taskId}
-          dueDate={quickAssignInfo.dueDate}
-          isAssigned={quickAssignInfo.isAssigned}
-        />
       )}
     </Layout>
   );

@@ -263,7 +263,6 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   for (let by_user of Object.values(byFarmIdUserId)) {
     by_user[user_id] && userFarms.push(by_user[user_id]);
   }
-  //TODO order should be defined in farmIdUserIdTuple
   return userFarms.sort((userFarm1, userFarm2) =>
     userFarm1.farm_name > userFarm2.farm_name ? 1 : 0,
   );
@@ -273,10 +272,4 @@ export const getUserFarmSelector = (farmId, userId) => {
   return createSelector(userFarmReducerSelector, ({ byFarmIdUserId }) =>
     byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {},
   );
-};
-
-export const getNameFromUserIdSelector = (userId) => {
-  return createSelector(userFarmsByFarmSelector, (usersInFarm) => {
-    return usersInFarm.find(({ user_id }) => user_id === userId);
-  });
 };

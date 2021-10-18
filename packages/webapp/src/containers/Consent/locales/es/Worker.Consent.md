@@ -91,8 +91,8 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Otra información de registro: campo; cultivos
 
-- Información relacionada con la realización de tareas, incluyendo: fecha, duración del trabajo, estado de ánimo (feliz, muy feliz, triste, muy triste, neutral), notas de trabajo. 
-&nbsp;
+- Información relacionada con la realización de tareas, incluyendo: fecha, duración del trabajo, estado de ánimo (feliz, muy feliz, triste, muy triste, neutral), notas de trabajo.
+  &nbsp;
 
 &nbsp;
 
@@ -111,7 +111,7 @@ Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuari
 
 &nbsp;
 
-Como describimos anteriormente, usamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que ésta brinda. 
+Como describimos anteriormente, usamos sus datos de uso (es decir, información general sobre cómo interactúa con la plataforma LiteFarm) para mejorar la plataforma LiteFarm y los servicios que ésta brinda.
 La información que proporciona al completar las tareas se presenta em forma agregada (sin ninguna información de identificación personal) a los administradores de propriedades y com fines de inversigación.
 
 &nbsp;
@@ -143,7 +143,7 @@ Desde algunas áreas de nuestro sitio podríamos instalar una galleta informáti
 
 &nbsp;
 
-Nuestra aplicación está alojada en Digital Ocean para servir nuestro sitio web de manera rápida y confiable a un número impredecible de personas. Esto significa que sus datos se almacenarán potencialmente en múltiples centros de datos y ubicaciones en Canadá y los Estados Unidos de América. Aunque nuestra aplicación no es comercial, observamos que Digital Ocean participa en el programa Privacy Shield, desarrollado por el Departamento de Comercio de EEUU y la Unión Europea (UE) y proporciona servicios de conformidad con el Reglamento General de Protección de Datos (GDPR) de la UE. Además de nuestro almacenamiento en la nube, una copia local de la base de datos de LiteFarm está alojada en un servidor encriptado y protegido con contraseña en la Universidad de Columbia Británica. Se pueden almacenar copias anónimas de la base de datos LIteFarm en repositorios públicos de acuerdo con los estándares de publicación para la reproducibilidad científica. 
+Nuestra aplicación está alojada en Digital Ocean para servir nuestro sitio web de manera rápida y confiable a un número impredecible de personas. Esto significa que sus datos se almacenarán potencialmente en múltiples centros de datos y ubicaciones en Canadá y los Estados Unidos de América. Aunque nuestra aplicación no es comercial, observamos que Digital Ocean participa en el programa Privacy Shield, desarrollado por el Departamento de Comercio de EEUU y la Unión Europea (UE) y proporciona servicios de conformidad con el Reglamento General de Protección de Datos (GDPR) de la UE. Además de nuestro almacenamiento en la nube, una copia local de la base de datos de LiteFarm está alojada en un servidor encriptado y protegido con contraseña en la Universidad de Columbia Británica. Se pueden almacenar copias anónimas de la base de datos LIteFarm en repositorios públicos de acuerdo con los estándares de publicación para la reproducibilidad científica.
 &nbsp;
 
 &nbsp;
@@ -153,7 +153,7 @@ Nuestra aplicación está alojada en Digital Ocean para servir nuestro sitio web
 
 &nbsp;
 
-Seguimos las mejores prácticas para proteger los datos de los usuarios, y hemos construido y continuamos manteniendo nuestra aplicación en línea con el estándar de verificación de seguridad de aplicaciones de Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos está limitado a los miembros del personal de LiteFarm que hayan recibido capacitación en ética (Declaración de Política del Consejo Triple: Conducta Ética para Investigaciones que Involucra a Seres Humanos, TCPS2) y que hayan firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personel, no podemos garantizar que no se pueda transmitir ninguna información mientras se usa LiteFarm. 
+Seguimos las mejores prácticas para proteger los datos de los usuarios, y hemos construido y continuamos manteniendo nuestra aplicación en línea con el estándar de verificación de seguridad de aplicaciones de Nivel 2 del Estándar de Verificación de Seguridad de Aplicaciones Anotadas de Open Web Application Security. El acceso a la base de datos está limitado a los miembros del personal de LiteFarm que hayan recibido capacitación en ética (Declaración de Política del Consejo Triple: Conducta Ética para Investigaciones que Involucra a Seres Humanos, TCPS2) y que hayan firmado acuerdos de confidencialidad. Sin embargo, no podemos garantizar que los datos transmitidos a través de internet sean siempre seguros. Como resultado, aunque nos esforzamos por proteger su información personel, no podemos garantizar que no se pueda transmitir ninguna información mientras se usa LiteFarm.
 &nbsp;
 
 &nbsp;
@@ -183,9 +183,9 @@ Nuestro objetivo es conservar sus datos indefinidamente en aras de la productivi
 
 &nbsp;
 
-Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. 
+Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos.
 Su uso en la aplicación LiteFarm es completamente voluntario. Si decide utilizar LiteFarm, puede optar por desactivar su cuenta en cualquier momento, incluso si no tiene ningún motivo y sin ninguna otra acción por parte del investigador. Si desea eliminar todos sus datos de la base de datos de LiteFarm, puede enviar una solicitud a la dirección de correo electrónico: data@litefarm.org.
- &nbsp;
+&nbsp;
 
 &nbsp;
 
@@ -194,7 +194,7 @@ Su uso en la aplicación LiteFarm es completamente voluntario. Si decide utiliza
 
 &nbsp;
 
-Si Ud. retira el consentimiento que ha otorgado a este Formulario de Consentimiento Informado y Acuerdo de Política de Privacidad, su(s) cuenta(s) en la plataforma LiteFarm se identificarán como inactivas y no podrá utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee regresar más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a data@litefarm.org. Si desea retirar el consentimiento y desea una copia de sus datos, solicítelo cuando retire su consentimiento. 
+Si Ud. retira el consentimiento que ha otorgado a este Formulario de Consentimiento Informado y Acuerdo de Política de Privacidad, su(s) cuenta(s) en la plataforma LiteFarm se identificarán como inactivas y no podrá utilizar la plataforma LiteFarm. Sin embargo, su información no se eliminará en caso de que desee regresar más adelante. Puede solicitar que sus datos se eliminen de forma permanente e irrevocable enviando una solicitud a data@litefarm.org. Si desea retirar el consentimiento y desea una copia de sus datos, solicítelo cuando retire su consentimiento.
 &nbsp;
 
 &nbsp;
@@ -260,7 +260,7 @@ Comuníquese con la Línea de Quejas del(a) Participante de Investigación de la
 
 &nbsp;
 
-Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio. 
+Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.
 
 Número de Identificación (ID) de la aprobación ética otorgada al estudio UBC: H19-01482
 &nbsp;

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../PageTitle/v2';
 import Input from '../../Form/Input';
 import InputAutoSize from '../../Form/InputAutoSize';
-import LocationViewer from '../../LocationViewer';
 import { Label, Main, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
@@ -23,6 +22,7 @@ import PureSoilAmendmentTask from '../SoilAmendmentTask';
 import PurePestControlTask from '../PestControlTask';
 import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
+import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -35,14 +35,12 @@ export default function PureTaskReadOnly({
   isAdmin,
   system,
   products,
-  managementPlansByLocationIds,
   harvestUseTypes,
 }) {
   const { t } = useTranslation();
-  const hasManagementPlans = task.managementPlans?.length > 0;
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
-  const locations = task.locations.map(({ location_id }) => location_id);
+  const locationIds = task.locations.map(({ location_id }) => location_id);
   const owner = task.owner_user_id;
   const {
     register,
@@ -76,11 +74,13 @@ export default function PureTaskReadOnly({
   const { ref: gap, padding } = useCropTileListGap([]);
 
   const isCompleted = !!task.completed_time;
+  const isAbandoned = !!task.abandoned_time;
+  const isCurrent = !isCompleted && !isAbandoned;
   return (
     <Layout
       buttonGroup={
         self === task.assignee_user_id &&
-        !isCompleted && (
+        isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
               {t('common:MARK_COMPLETE')}
@@ -93,7 +93,7 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={(isAdmin || owner === self) && !isCompleted ? onEdit : false}
+        onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
         editLink={t('TASK.EDIT_TASK')}
       />
 
@@ -114,31 +114,54 @@ export default function PureTaskReadOnly({
 
       <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
 
-      <LocationViewer className={styles.mapContainer} viewLocations={locations} />
+      <LocationPicker
+        onSelectLocation={() => {}}
+        readOnlyPinCoordinates={task.pinCoordinates}
+        style={{ minHeight: '160px', marginBottom: '40px' }}
+        locations={task.locations}
+        selectedLocationIds={task.selectedLocationIds || []}
+        farmCenterCoordinate={user.grid_points}
+      />
 
-      {hasManagementPlans &&
-        task.locations.map((location) => {
-          const { name: location_name, location_id } = location;
-          return (
-            <div key={location_id}>
-              <div style={{ paddingBottom: '16px' }}>
-                <PageBreak label={location_name} />
-              </div>
-              <PureCropTileContainer gap={gap} padding={padding}>
-                {managementPlansByLocationIds[location_id]?.map((managementPlan) => {
-                  return (
-                    <PureManagementPlanTile
-                      key={managementPlan.management_plan_id}
-                      managementPlan={managementPlan}
-                      date={managementPlan.firstTaskDate}
-                      status={managementPlan.status}
-                    />
-                  );
-                })}
-              </PureCropTileContainer>
+      {Object.keys(task.managementPlansByLocation).map((location_id) => {
+        return (
+          <div key={location_id}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={task.locationsById[location_id].name} />
             </div>
-          );
-        })}
+            <PureCropTileContainer gap={gap} padding={padding}>
+              {task.managementPlansByLocation[location_id]?.map((managementPlan) => {
+                return (
+                  <PureManagementPlanTile
+                    key={managementPlan.management_plan_id}
+                    managementPlan={managementPlan}
+                    date={managementPlan.firstTaskDate}
+                    status={managementPlan.status}
+                  />
+                );
+              })}
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
+
+      {Object.keys(task.managementPlansByPinCoordinate).map((pin_coordinate) => {
+        const managementPlan = task.managementPlansByPinCoordinate[pin_coordinate];
+        return (
+          <div key={pin_coordinate}>
+            <div style={{ paddingBottom: '16px' }}>
+              <PageBreak label={pin_coordinate} />
+            </div>
+            <PureCropTileContainer gap={gap} padding={padding}>
+              <PureManagementPlanTile
+                managementPlan={managementPlan}
+                date={managementPlan.firstTaskDate}
+                status={managementPlan.status}
+              />
+            </PureCropTileContainer>
+          </div>
+        );
+      })}
 
       <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
@@ -215,7 +238,7 @@ export default function PureTaskReadOnly({
         </div>
       )}
 
-      {(self === task.assignee_user_id || self === owner || isAdmin) && !isCompleted && (
+      {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
           {t('TASK.ABANDON_TASK')}
         </Underlined>

@@ -30,7 +30,7 @@ A equipe LiteFarm é um grupo interdisciplinar de cientistas, pesquisadores, pro
 
 &nbsp;
 
-A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://ubcfarm.ubc.ca/litefarm/. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações. 
+A LiteFarm é financiada pelo Centro em prol dos Sistemas Alimentares Sustentáveis da UBC e outras fontes. Para ver uma lista completa, visite: https://ubcfarm.ubc.ca/litefarm/. Nossos financiadores não têm influência sobre a operação e a gestão da LiteFarm e não conseguem acessar nenhuma das informações pessoais contidas na plataforma. Atualmente, nosso modelo de financiamento é direcionado para doadores e doações.
 
 &nbsp;
 
@@ -97,8 +97,8 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 
 - Outras informações de registro: campo/parcela; culturas;
 
-- Informações relacionadas à conclusão das tarefas, incluindo: data, duração do trabalho, humor (feliz, muito feliz, triste, muito triste, neutro), notas de trabalho. 
-&nbsp;
+- Informações relacionadas à conclusão das tarefas, incluindo: data, duração do trabalho, humor (feliz, muito feliz, triste, muito triste, neutro), notas de trabalho.
+  &nbsp;
 
 &nbsp;
 
@@ -117,7 +117,7 @@ Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões 
 
 &nbsp;
 
-Como descrito acima, usamos seus dados de uso (ex.: informações gerais sobre como você interage com a plataforma LiteFarm) para melhorar a plataforma LiteFarm e os serviços que ela oferece. 
+Como descrito acima, usamos seus dados de uso (ex.: informações gerais sobre como você interage com a plataforma LiteFarm) para melhorar a plataforma LiteFarm e os serviços que ela oferece.
 As informações fornecidas por você sobre a conclusão das tarefas são apresentadas de forma agregada (sem nenhuma informação de identificação pessoal) aos gerentes da propriedade e para fins de pesquisa.
 &nbsp;
 
@@ -136,7 +136,7 @@ Compartilharemos seus dados com terceiros somente se eles forem anônimos (isto 
 
 &nbsp;
 
-Em algumas áreas de nosso site, é possível que um cookie seja colocado em seu computador ou dispositivo. Um cookie é um pequeno arquivo que fica no disco rígido de seu computador ou dispositivo e que nos permite melhorar a qualidade de sua visita a nossos sites, respondendo a você como a um indivíduo. Usamos cookies para identificar quais páginas estão sendo usadas e para melhorar nosso site. Usamos essas informações apenas para fins de análise estatística; elas não são compartilhadas com outros sites e não são usadas para anúncios. Você pode optar por aceitar ou não esses cookies. A maioria dos navegadores da web aceita cookies automaticamente, mas, se você preferir, geralmente é possível modificar a configuração de seu navegador para recusar cookies. No entanto, se você optar por recusar os cookies da LiteFarm, a funcionalidade que inclui sua capacidade de fazer login e usar o aplicativo será prejudicada. A aceitação dos cookies será implícita se você continuar acessando nosso site sem ajustar as configurações de seu navegador. 
+Em algumas áreas de nosso site, é possível que um cookie seja colocado em seu computador ou dispositivo. Um cookie é um pequeno arquivo que fica no disco rígido de seu computador ou dispositivo e que nos permite melhorar a qualidade de sua visita a nossos sites, respondendo a você como a um indivíduo. Usamos cookies para identificar quais páginas estão sendo usadas e para melhorar nosso site. Usamos essas informações apenas para fins de análise estatística; elas não são compartilhadas com outros sites e não são usadas para anúncios. Você pode optar por aceitar ou não esses cookies. A maioria dos navegadores da web aceita cookies automaticamente, mas, se você preferir, geralmente é possível modificar a configuração de seu navegador para recusar cookies. No entanto, se você optar por recusar os cookies da LiteFarm, a funcionalidade que inclui sua capacidade de fazer login e usar o aplicativo será prejudicada. A aceitação dos cookies será implícita se você continuar acessando nosso site sem ajustar as configurações de seu navegador.
 &nbsp;
 
 &nbsp;
@@ -146,7 +146,7 @@ Em algumas áreas de nosso site, é possível que um cookie seja colocado em seu
 
 &nbsp;
 
-Nosso aplicativo está hospedado no Digital Ocean para atender nosso site de forma rápida e confiável a um número imprevisível de pessoas. Isso significa que seus dados serão potencialmente armazenados em vários centros de dados e locais no Canadá e nos Estados unidos da América (EUA). Embora nosso aplicativo não seja comercial, observamos que a Digital Ocean participa do Programa Privacy Shield (Escudo de Proteção da Privacidade) desenvolvido pelo Departamento de Comércio dos EUA e União Europeia (EU) e oferece serviços em conformidade com o Regulamento Geral de Proteção de Dados (GDPR) da EU. Além de nosso armazenamento na nuvem, uma cópia local do banco de dados LiteFarm está alojada em um servidor criptografado e protegido por senha na Universidade da Colúmbia Britânica. Cópias anônimas do banco de dados LiteFarm podem ser armazenadas em repositórios públicos de acordo com os padrões de publicação para reprodutibilidade científica. 
+Nosso aplicativo está hospedado no Digital Ocean para atender nosso site de forma rápida e confiável a um número imprevisível de pessoas. Isso significa que seus dados serão potencialmente armazenados em vários centros de dados e locais no Canadá e nos Estados unidos da América (EUA). Embora nosso aplicativo não seja comercial, observamos que a Digital Ocean participa do Programa Privacy Shield (Escudo de Proteção da Privacidade) desenvolvido pelo Departamento de Comércio dos EUA e União Europeia (EU) e oferece serviços em conformidade com o Regulamento Geral de Proteção de Dados (GDPR) da EU. Além de nosso armazenamento na nuvem, uma cópia local do banco de dados LiteFarm está alojada em um servidor criptografado e protegido por senha na Universidade da Colúmbia Britânica. Cópias anônimas do banco de dados LiteFarm podem ser armazenadas em repositórios públicos de acordo com os padrões de publicação para reprodutibilidade científica.
 &nbsp;
 
 &nbsp;
@@ -166,7 +166,7 @@ Seguimos as melhores práticas do setor para proteger os dados dos usuários, e 
 
 &nbsp;
 
-Embora tenhamos feito todos os esforços razoáveis para garantir que nosso aplicativo seja seguro, reconhecemos que seu uso da LiteFarm oferece alguns riscos à privacidade de suas informações pessoais (conforme definido acima). Não aceitamos responsabilidade por tais riscos. Se você tiver alguma dúvida e não for capaz de consentir com a possibilidade do surgimento desses riscos, pedimos que não assine o consentimento ao final desta página ou que não se registre para usar este produto. 
+Embora tenhamos feito todos os esforços razoáveis para garantir que nosso aplicativo seja seguro, reconhecemos que seu uso da LiteFarm oferece alguns riscos à privacidade de suas informações pessoais (conforme definido acima). Não aceitamos responsabilidade por tais riscos. Se você tiver alguma dúvida e não for capaz de consentir com a possibilidade do surgimento desses riscos, pedimos que não assine o consentimento ao final desta página ou que não se registre para usar este produto.
 &nbsp;
 
 &nbsp;
@@ -196,7 +196,7 @@ Você tem o direito de saber quais dados temos sobre você, solicitar uma cópia
 
 &nbsp;
 
-O seu uso no aplicativo LiteFarm é totalmente voluntário. Se você decidir usar a LiteFarm, você pode escolher desativar sua conta a qualquer momento, mesmo se não tiver motivos, e sem nenhuma ação adicional do pesquisador. Se você deseja remover todos os seus dados da base de dados do LiteFarm, você pode enviar uma solicitação para o endereço de e-mail: data@litefarm.org. 
+O seu uso no aplicativo LiteFarm é totalmente voluntário. Se você decidir usar a LiteFarm, você pode escolher desativar sua conta a qualquer momento, mesmo se não tiver motivos, e sem nenhuma ação adicional do pesquisador. Se você deseja remover todos os seus dados da base de dados do LiteFarm, você pode enviar uma solicitação para o endereço de e-mail: data@litefarm.org.
 Se você retirar seu consentimento enviando um e-mail para data@litefarm.org, sua(s) conta(s) na plataforma LiteFarm serão marcadas como inativas e você não poderá usar a plataforma LiteFarm. No entanto, suas informações não serão excluídas caso você queira retornar posteriormente. Você pode solicitar que seus dados sejam permanentemente e irrevogavelmente excluídos, enviando uma solicitação para data@litefarm.org. Se você pretende retirar o consentimento e deseja uma cópia dos seus dados, solicite-o ao retirar o seu consentimento.
 
 &nbsp;

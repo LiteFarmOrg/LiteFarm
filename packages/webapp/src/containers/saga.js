@@ -366,10 +366,6 @@ const figureTypeActionMap = {
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
 };
 
-export const onLoadingManagementPlanAndPlantingMethodStart = createAction(
-  'onLoadingManagementPlanAndPlantingMethodStartSaga',
-);
-
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
   yield put(onLoadingBroadcastMethodStart());
   yield put(onLoadingBedMethodStart());
@@ -408,7 +404,7 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
     },
     [],
   );
-  yield all([getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans })]);
+  yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
 }
 
 export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
@@ -450,9 +446,9 @@ export function* getManagementPlansSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingManagementPlanAndPlantingMethodStart());
+    yield call(onLoadingManagementPlanAndPlantingMethodStartSaga);
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
-    yield put(getManagementPlanAndPlantingMethodSuccess(result.data));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));
@@ -591,10 +587,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(
     getManagementPlanAndPlantingMethodSuccess.type,
     getManagementPlanAndPlantingMethodSuccessSaga,
-  );
-  yield takeLatest(
-    onLoadingManagementPlanAndPlantingMethodStart.type,
-    onLoadingManagementPlanAndPlantingMethodStartSaga,
   );
   yield takeLatest(
     waitForCertificationSurveyResultAndPushToHome.type,

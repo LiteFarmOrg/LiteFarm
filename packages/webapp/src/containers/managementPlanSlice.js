@@ -174,9 +174,13 @@ export const abandonedManagementPlansSelector = createSelector(
  * @return {number}
  */
 
-const getManagementPlanEndTime = (managementPlan) =>
-  (managementPlan.abandon_date || managementPlan.complete_date) &&
-  new Date(managementPlan.abandon_date || managementPlan.complete_date).getTime();
+const getManagementPlanEndTime = (managementPlan) => {
+  const date =
+    (managementPlan.abandon_date || managementPlan.complete_date) &&
+    new Date(managementPlan.abandon_date || managementPlan.complete_date);
+  date?.setUTCHours(0, 0, 0, 0);
+  return date?.getTime();
+};
 
 export const isExpiredManagementPlan = (managementPlan, time) => {
   const endTime = getManagementPlanEndTime(managementPlan);

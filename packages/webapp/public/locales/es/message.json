@@ -58,32 +58,14 @@
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "Nose pudo agregar fertilizante"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
       "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total",
-      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha",
-      "REQUIRED_TASK": "Es necesario un nombre para este nuevo uso de cosecha"
+      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "No se pudo agregar registro",
-      "DELETE": "No se pudo eliminar registro",
-      "EDIT": "No se pudo editar registro"
-    },
-    "SUCCESS": {
-      "ADD": "Registro agregado exitosamente!",
-      "DELETE": "Registro borrado exitosamente!",
-      "EDIT": "Registro editado exitosamente!"
     }
   },
   "LOGIN": {

@@ -80,6 +80,7 @@ export default function PureRowForm({
       setShowEstimatedValue(false);
     }
   }, [num_of_rows, length_of_row, total_length, plant_spacing, same_length]);
+  const showEstimatedYield = prefix.endsWith('final');
 
   return (
     <>
@@ -162,7 +163,7 @@ export default function PureRowForm({
           </div>
           {showEstimatedValue && (
             <>
-              <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
+              <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
                 <Unit
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -178,7 +179,7 @@ export default function PureRowForm({
                   required={false}
                   disabled={disabled}
                 />
-                {isFinalPage && (
+                {showEstimatedYield && (
                   <Unit
                     register={register}
                     label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
@@ -191,7 +192,7 @@ export default function PureRowForm({
                     hookFormGetValue={getValues}
                     hookFromWatch={watch}
                     control={control}
-                    required={isFinalPage}
+                    required={showEstimatedYield}
                     disabled={disabled}
                   />
                 )}

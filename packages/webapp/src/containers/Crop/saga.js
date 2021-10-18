@@ -16,12 +16,7 @@
 import { call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
-import {
-  axios,
-  getHeader,
-  getManagementPlanAndPlantingMethodSuccess,
-  getManagementPlanAndPlantingMethodSuccessSaga,
-} from '../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -46,7 +41,7 @@ export function* getExpiredManagementPlansSaga() {
   try {
     yield put(onLoadingManagementPlanStart());
     const result = yield call(axios.get, managementPlanURL + '/expired/farm/' + farm_id, header);
-    yield put(getManagementPlanAndPlantingMethodSuccess([result.data]));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [result.data] });
   } catch (e) {
     yield put(onLoadingManagementPlanFail());
     console.error('failed to fetch expired crops from database');
@@ -108,7 +103,7 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
       managementPlan,
       header,
     );
-    yield put(getManagementPlanAndPlantingMethodSuccess([managementPlan]));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:CROP.SUCCESS.EDIT')));
     yield race([take(getCropManagementPlansSuccess.type)]);
     history.push(

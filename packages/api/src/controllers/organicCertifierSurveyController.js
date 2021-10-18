@@ -234,13 +234,14 @@ const organicCertifierSurveyController = {
       .select('name', 'location_tasks.task_id')
       .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
       .whereIn('location_tasks.task_id', tasks);
-    const managementPlans = await knex('management_plan')
-      .distinct('management_plan.management_plan_id')
+    const managementPlans = await knex('planting_management_plan')
+      .distinct('planting_management_plan.management_plan_id')
       .select('crop_variety_name', 'management_tasks.task_id')
-      .join('management_tasks', 'management_tasks.management_plan_id', 'management_plan.management_plan_id')
+      .join('management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
+      .join('management_tasks', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .whereIn('management_tasks.task_id', tasks);
-    return { locations, managementPlans }
+    return { locations, managementPlans };
   },
 
   filterLocationsAndManagementPlans(task, locations, managementPlans){

@@ -27,11 +27,11 @@ class ManagementTasksModel extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['management_plan_id'],
+      required: ['planting_management_plan_id'],
 
       properties: {
         task_id: { type: 'integer' },
-        management_plan_id: { type: 'integer' },
+        planting_management_plan_id: { type: 'string' },
       },
       additionalProperties: false,
     };

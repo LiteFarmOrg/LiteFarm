@@ -1,6 +1,7 @@
 {
   "ABANDON": "Abandon",
   "ACTIVE": "Active",
+  "ADD": "Add",
   "ALL": "All",
   "APPLY": "Apply",
   "BACK": "Go Back",
@@ -51,6 +52,5 @@
   "TO": "to",
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
-  "YES": "Yes",
-  "ADD": "Add"
+  "YES": "Yes"
 }

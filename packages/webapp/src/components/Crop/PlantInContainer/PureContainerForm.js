@@ -81,6 +81,7 @@ export default function PureContainerForm({
       setShowEstimatedValue(false);
     }
   }, [in_ground, number_of_container, plants_per_container, total_plants, plant_spacing]);
+  const showEstimatedYield = prefix.endsWith('final');
 
   return (
     <>
@@ -208,7 +209,7 @@ export default function PureContainerForm({
             </>
           )}
           {showEstimatedValue && (
-            <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
+            <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
               <Unit
                 register={register}
                 label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -224,7 +225,7 @@ export default function PureContainerForm({
                 required={false}
                 disabled={disabled}
               />
-              {isFinalPage && (
+              {showEstimatedYield && (
                 <Unit
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
@@ -237,7 +238,7 @@ export default function PureContainerForm({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
-                  required={isFinalPage}
+                  required={showEstimatedYield}
                   disabled={disabled}
                 />
               )}

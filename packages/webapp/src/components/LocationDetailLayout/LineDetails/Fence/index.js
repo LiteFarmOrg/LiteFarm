@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../../Form/Radio';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/unit';
@@ -51,13 +50,13 @@ export default function PureFence({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const isPressureTreated = watch(fenceEnum.pressure_treated);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    const isPressureTreated = data[fenceEnum.pressure_treated];
     const formData = {
       ...data,
       line_points: line_points,
-      pressure_treated: isPressureTreated !== null ? isPressureTreated === 'true' : null,
+      pressure_treated: isPressureTreated,
       type: 'fence',
     };
     formData[fenceEnum.width] = 0;
@@ -142,25 +141,14 @@ export default function PureFence({
                 {t('common:OPTIONAL')}
               </Label>
             </div>
-            <div style={{ display: 'flex', marginBottom: '16px' }}>
-              <Radio
-                label={t('common:YES')}
-                hookFormRegister={register(fenceEnum.pressure_treated, { required: false })}
-                value={true}
+            <div style={{ marginBottom: '16px' }}>
+              <RadioGroup
+                row
                 disabled={isViewLocationPage}
-              />
-              <Radio
-                style={{ marginLeft: '40px' }}
-                label={t('common:NO')}
-                hookFormRegister={register(fenceEnum.pressure_treated, { required: false })}
-                value={false}
-                disabled={isViewLocationPage}
+                name={fenceEnum.pressure_treated}
+                hookFormControl={control}
               />
             </div>
-            {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
-            {/* <div style={{ marginBottom: '16px' }}>
-              <RadioGroup row disabled={isViewLocationPage} name={fenceEnum.pressure_treated} hookFormControl={control} />
-            </div> */}
           </div>
         </div>
       </LineDetails>

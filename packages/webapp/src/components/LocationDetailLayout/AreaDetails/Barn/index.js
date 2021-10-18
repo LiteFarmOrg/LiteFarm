@@ -132,7 +132,12 @@ export default function PureBarn({
             </Label>
           </div>
           <div>
-            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.wash_and_pack} hookFormControl={control} />
+            <RadioGroup
+              row={true}
+              disabled={isViewLocationPage}
+              name={barnEnum.wash_and_pack}
+              hookFormControl={control}
+            />
           </div>
         </div>
         <div>
@@ -152,7 +157,12 @@ export default function PureBarn({
             </Label>
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.cold_storage} hookFormControl={control} />
+            <RadioGroup
+              row={true}
+              disabled={isViewLocationPage}
+              name={barnEnum.cold_storage}
+              hookFormControl={control}
+            />
           </div>
         </div>
         <div>
@@ -172,7 +182,12 @@ export default function PureBarn({
             </Label>
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <RadioGroup row={true} disabled={isViewLocationPage} name={barnEnum.used_for_animals} hookFormControl={control} />
+            <RadioGroup
+              row
+              disabled={isViewLocationPage}
+              name={barnEnum.used_for_animals}
+              hookFormControl={control}
+            />
           </div>
         </div>
       </AreaDetails>

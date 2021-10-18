@@ -133,7 +133,7 @@ export default function PureBarn({
           </div>
           <div>
             <RadioGroup
-              row={true}
+              row
               disabled={isViewLocationPage}
               name={barnEnum.wash_and_pack}
               hookFormControl={control}
@@ -158,7 +158,7 @@ export default function PureBarn({
           </div>
           <div style={{ marginBottom: '16px' }}>
             <RadioGroup
-              row={true}
+              row
               disabled={isViewLocationPage}
               name={barnEnum.cold_storage}
               hookFormControl={control}

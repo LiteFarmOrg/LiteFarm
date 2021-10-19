@@ -17,8 +17,8 @@
   "FIELD_WORK_TASK": "Trabalho de campo",
   "PLANTING_TASK": "Plantio",
   "PLANT_TASK": "Plantio",
-  "TRANSPLANT_TASK": "MISSING",
+  "TRANSPLANT_TASK": "Transplante",
   "SOCIAL_TASK": "Social",
-  "CLEANING_TASK": "Cleaning",
-  "SOIL_AMENDMENT_TASK": "Soil Amendment"
+  "CLEANING_TASK": "Limpar",
+  "SOIL_AMENDMENT_TASK": "Emenda do solo"
 }

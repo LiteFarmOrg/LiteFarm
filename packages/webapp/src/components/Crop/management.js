@@ -16,6 +16,7 @@ export default function PureCropManagement({
   variety,
   onAddManagementPlan,
   managementPlanCardContents,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const [searchString, setSearchString] = useState('');
@@ -58,7 +59,7 @@ export default function PureCropManagement({
           isSearchBar
         />
       )}
-      <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>
+      {isAdmin && <AddLink onClick={onAddManagementPlan}> {t('CROP_DETAIL.ADD_PLAN')}</AddLink>}
       {managementPlanCardContents && (
         <CardWithStatusContainer style={{ paddingTop: '16px' }}>
           {filteredManagementPlanCardContents.map((managementPlan, index) => (
@@ -100,4 +101,5 @@ PureCropManagement.propTypes = {
   onBack: PropTypes.func,
   variety: PropTypes.object,
   onAddManagementPlan: PropTypes.func,
+  isAdmin: PropTypes.bool,
 };

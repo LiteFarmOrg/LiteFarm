@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import { actions } from 'react-redux-form';
@@ -92,7 +92,7 @@ class AddSale extends Component {
     const cropVarietyOptions = this.getCropVarietyOptions(managementPlans);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('SALE.ADD_SALE.TITLE')} />
+        <PageTitle title={this.props.t('SALE.ADD_SALE.TITLE')} onGoBack={() => history.goBack()} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer

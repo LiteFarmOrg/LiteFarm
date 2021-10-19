@@ -29,6 +29,7 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
+    trigger,
     formState: { errors, isValid },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
@@ -220,6 +221,12 @@ const AddFarm = () => {
     setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
+
+  useEffect(() => {
+    if (farmAddress) {
+      trigger(ADDRESS);
+    }
+  }, [farmAddress]);
 
   return (
     <>

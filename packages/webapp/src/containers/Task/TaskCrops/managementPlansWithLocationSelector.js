@@ -58,7 +58,7 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
               management_plan_id
             ]?.find(
               (planting_management_plan) =>
-                !transplantTasksByManagementPlanId[management_plan_id].find(
+                !transplantTasksByManagementPlanId[management_plan_id]?.find?.(
                   (transplantTask) =>
                     planting_management_plan.planting_management_plan_id ===
                     transplantTask.planting_management_plan_id,

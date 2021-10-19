@@ -293,7 +293,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(gridPoints && gridPoints.lat && (
+      {(!isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}

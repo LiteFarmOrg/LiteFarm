@@ -32,6 +32,7 @@ import { useManagementPlanCardContents } from './useManagementPlanCardContents';
 import { useEffect } from 'react';
 import { getManagementPlans } from '../../saga';
 import { getTasks, getTaskTypes } from '../../Task/saga';
+import { isAdminSelector } from '../../userFarmSlice';
 
 const seedingTypeIsSeedMap = {
   SEED: true,
@@ -108,6 +109,8 @@ function CropManagement({ history, match }) {
     dispatch(getManagementPlans());
     dispatch(getTasks());
   }, []);
+
+  const isAdmin = useSelector(isAdminSelector);
   return (
     <>
       <PureCropManagement
@@ -117,6 +120,7 @@ function CropManagement({ history, match }) {
         onBack={goBack}
         onAddManagementPlan={onAddManagementPlan}
         managementPlanCardContents={managementPlanCardContents}
+        isAdmin={isAdmin}
       />
       <CropVarietySpotlight />
     </>

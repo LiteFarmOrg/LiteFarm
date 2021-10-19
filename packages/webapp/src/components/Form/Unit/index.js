@@ -70,7 +70,6 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
       ...reactSelectDefaultStyles,
       container: (provided, state) => ({
         ...provided,
-        zIndex: 1,
       }),
       control: (provided, state) => ({
         display: 'flex',

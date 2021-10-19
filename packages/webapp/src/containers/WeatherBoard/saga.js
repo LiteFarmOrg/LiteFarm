@@ -45,7 +45,7 @@ export function* getWeatherSaga({ payload: args }) {
     ) {
       yield put(onLoadingWeatherStart(farm_id));
       const apikey = process.env.REACT_APP_WEATHER_API_KEY;
-      const baseUri = '//api.openweathermap.org/data/2.5';
+      const baseUri = 'https://cors-anywhere.litefarm.workers.dev/';
       const params = {
         ...args,
         appid: apikey,
@@ -55,8 +55,19 @@ export function* getWeatherSaga({ payload: args }) {
         lat: lat,
         lon: lon,
       };
-      const endPointToday = `${baseUri}/weather`;
-      const weatherRes = yield call(axios.get, endPointToday, { params });
+
+      const openWeatherUrl = new URL('https://api.openweathermap.org/data/2.5/weather');
+      for (const key in params) {
+        openWeatherUrl.searchParams.append(key, params[key]);
+      }
+      const endPointToday = `${baseUri}?${openWeatherUrl.toString()}`;
+      const config = {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
+        },
+        method: 'GET',
+      };
+      const weatherRes = yield call(axios.get, endPointToday, config);
       const weatherResData = weatherRes.data;
       const weatherPayload = {
         humidity: `${weatherResData.main?.humidity}%`,

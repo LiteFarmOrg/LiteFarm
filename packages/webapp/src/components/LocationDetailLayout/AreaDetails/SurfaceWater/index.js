@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
@@ -48,10 +47,10 @@ export default function PureSurfaceWater({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const showPerimeter = true;
   const onSubmit = (data) => {
+    const usedForIrrigation = data[surfaceWaterEnum.used_for_irrigation];
     data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit]?.value;
     data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit]?.value;
     const formData = {
@@ -59,9 +58,8 @@ export default function PureSurfaceWater({
       total_area,
       perimeter,
       ...data,
-
       type: 'surface_water',
-      used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
+      used_for_irrigation: usedForIrrigation,
     };
     submitForm({ formData });
   };
@@ -121,27 +119,14 @@ export default function PureSurfaceWater({
               {t('common:OPTIONAL')}
             </Label>
           </div>
-          <div style={{ display: 'flex' }}>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('common:YES')}
-              hookFormRegister={register(surfaceWaterEnum.used_for_irrigation, { required: false })}
-              optional
-              value={true}
+          <div style={{ marginBottom: '16px' }}>
+            <RadioGroup
+              row
               disabled={isViewLocationPage}
-            />
-            <Radio
-              style={{ marginBottom: '25px', marginLeft: '40px' }}
-              label={t('common:NO')}
-              hookFormRegister={register(surfaceWaterEnum.used_for_irrigation, { required: false })}
-              value={false}
-              disabled={isViewLocationPage}
+              name={surfaceWaterEnum.used_for_irrigation}
+              hookFormControl={control}
             />
           </div>
-          {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
-          {/* <div style={{ marginBottom: '16px' }}>
-            <RadioGroup row disabled={isViewLocationPage} name={surfaceWaterEnum.used_for_irrigation} hookFormControl={control} />
-          </div> */}
         </div>
       </AreaDetails>
     </Form>

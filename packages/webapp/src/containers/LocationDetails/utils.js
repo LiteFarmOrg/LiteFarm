@@ -25,30 +25,9 @@ const boolToString = (bool) => {
 export const getFormData = (location) => {
   const result = { ...location };
   result[fieldEnum.transition_date] &&
-    (result[fieldEnum.transition_date] = moment(
-      result[fieldEnum.transition_date],
-    ).utc().format('YYYY-MM-DD'));
-  result.hasOwnProperty(barnEnum.wash_and_pack) &&
-    (result[barnEnum.wash_and_pack] = boolToString(result[barnEnum.wash_and_pack]));
-  result.hasOwnProperty(barnEnum.cold_storage) &&
-    (result[barnEnum.cold_storage] = boolToString(result[barnEnum.cold_storage]));
-  result.hasOwnProperty(greenhouseEnum.supplemental_lighting) &&
-    (result[greenhouseEnum.supplemental_lighting] = boolToString(
-      result[greenhouseEnum.supplemental_lighting],
-    ));
-  result.hasOwnProperty(greenhouseEnum.co2_enrichment) &&
-    (result[greenhouseEnum.co2_enrichment] = boolToString(result[greenhouseEnum.co2_enrichment]));
-  result.hasOwnProperty(greenhouseEnum.greenhouse_heated) &&
-    (result[greenhouseEnum.greenhouse_heated] = boolToString(
-      result[greenhouseEnum.greenhouse_heated],
-    ));
-  result.hasOwnProperty(surfaceWaterEnum.used_for_irrigation) &&
-    (result[surfaceWaterEnum.used_for_irrigation] = boolToString(
-      result[surfaceWaterEnum.used_for_irrigation],
-    ));
-  result.hasOwnProperty(fenceEnum.pressure_treated) &&
-    (result[fenceEnum.pressure_treated] = boolToString(result[fenceEnum.pressure_treated]));
+    (result[fieldEnum.transition_date] = moment(result[fieldEnum.transition_date])
+      .utc()
+      .format('YYYY-MM-DD'));
 
   return result;
 };
-

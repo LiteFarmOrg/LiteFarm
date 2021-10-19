@@ -39,7 +39,7 @@
     "CUSTOM_TASK_CHAR_LIMIT": "Nome do tipo de tarefa personalizada não pode exceder 25 caractéres",
     "CUSTOM_TASK_NAME": "Nome da tarefa personalizada",
     "CUSTOM_TASK_TYPE": "Tipo de tarefa personalizada",
-    "DO_YOU_NEED_TO_OVERRIDE": "MISSING",
+    "DO_YOU_NEED_TO_OVERRIDE": "Você precisa substituir o salário dos trabalhadores para esta tarefa?",
     "DO_YOU_WANT_TO_ASSIGN": "Você quer atribuir a tarefa agora?",
     "EDIT_CUSTOM_TASK": "Editar tarefa personalizada",
     "FIELD_WORK_VIEW": {
@@ -57,7 +57,7 @@
         "WEEDING": "Capina"
       }
     },
-    "GO_TO_CATALOGUE": "MISSING",
+    "GO_TO_CATALOGUE": "Vá ao catálogo de cultivos",
     "HARVEST_EVERYTHING": "Colher tudo que estiver pronto",
     "HARVESTING_INFO": "Cada plano irá gerar uma tarefa de colheita individual",
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
@@ -77,9 +77,9 @@
       "SYSTEMIC_SPRAY": "Aspersão sistêmica",
       "WHAT_PESTS": "Qual (is) praga (s) você está tentando controlar?"
     },
-    "PLANTING_METHOD": "MISSING",
-    "PLANTING_TASK": "MISSING",
-    "PLANTING_TASK_MODAL": "MISSING",
+    "PLANTING_METHOD": "Método de plantio",
+    "PLANTING_TASK": "Tarefa de plantio",
+    "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa, um novo plano de manejo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
     "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
@@ -99,10 +99,10 @@
     "TASK": "tarefa",
     "TASK_NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Conte-nos sobre o/a",
-    "TRANSPLANT_METHOD": "MISSING",
+    "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
-    "WHAT_PLANTING_METHOD": "MISSING",
-    "WILD_CROP": "MISSING"
+    "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
+    "WILD_CROP": "Cultivos selvagens"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -310,10 +310,10 @@
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
-    "NUTRIENTS_IN_EDIBLE_PORTION": "MISSING",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrientes da parte ingerida (por 100g)",
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
-    "PHYSIOLOGY_AND_ANATOMY": "MISSING",
+    "PHYSIOLOGY_AND_ANATOMY": "Fisiologia e Anatomia",
     "TREATED": "As sementes desta cultivo foram tratadas?",
     "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
   },
@@ -582,8 +582,8 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
-      "TITLE": "Unable to retire"
+      "BODY": "Você só pode retirar locais que não tenham culturas, tarefas ativas ou planejadas.",
+      "TITLE": "Não é possível retirar"
     },
     "WATER_VALVE": {
       "EDIT_TITLE": "Editar ponto de bombeamento",
@@ -620,13 +620,13 @@
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
-      "ADD_REVENUE": "MISSING",
-      "DATE": "MISSING",
-      "REVENUE": "MISSING",
-      "TITLE": "MISSING",
-      "VIEW_WITHIN_DATE_RANGE": "MISSING"
+      "ADD_REVENUE": "Adicionar Receita",
+      "DATE": "Data",
+      "REVENUE": "Receita",
+      "TITLE": "Receita atual",
+      "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas"
     },
-    "WHOLE_FARM_REVENUE": "MISSING"
+    "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
@@ -840,9 +840,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plano de manejo",
     "ADD_A_TASK": "Adicione uma tarefa",
-    "DETAILS": "MISSING",
+    "DETAILS": "Detalhes",
     "FAILED_CROP": "Colheita falhou?",
-    "TASKS": "MISSING"
+    "TASKS": "Tarefas"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plano de manejo ira abandonar todas as tarefas incompletas associadas a ele e removê-lo do mapa de sua propriedade",
@@ -972,7 +972,7 @@
         "TEXT": "{{fill}} local"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "MISSING",
+    "UPDATE_DATE_THROUGH_TASK": "Selecione tarefas individuais para alterar datas ou detalhes da tarefa.",
     "VARIETY": "Variedade",
     "WHAT_IS_AGE": "Qual é a idade da safra?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
@@ -1114,12 +1114,12 @@
     "ADD_SALE": {
       "CROP_PLACEHOLDER": "Selecione cultivo",
       "CROP_REQUIRED": "Cultivo é necessário",
-      "CROP_VARIETY": "MISSING",
+      "CROP_VARIETY": "Variedade de cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "MISSING",
+        "CROP_VARIETIES": "Variedades de cultivo",
         "QUANTITY": "Quantidade",
         "TOTAL": "Total"
       },
@@ -1295,7 +1295,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandonar esta tarefa",
-    "ABANDON_TASK_DURATION": "MISSING",
+    "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
     "ABANDON": {
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarefa mudará seu 'status' para abandonada e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
@@ -1329,18 +1329,18 @@
     "COMPLETE_TASK_CHANGES": "Você teve que fazer alguma alteração nesta tarefa?",
     "COMPLETE_TASK_DURATION": "Quanto tempo a tarefa demorou para ser concluída?",
     "COMPLETE_TASK_FLOW": "conclusão da tarefa",
-    "COMPLETION_DETAILS": "MISSING",
+    "COMPLETION_DETAILS": "Detalhes de conclusão da tarefa",
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
-    "CREATE_CUSTOM_HARVEST_USE": "MISSING",
-    "DESCRIBE_HARVEST_USE": "MISSING",
+    "CREATE_CUSTOM_HARVEST_USE": "Criar um uso personalizado da colheita",
+    "DESCRIBE_HARVEST_USE": "Descrever o uso da colheita",
     "DETAILS": "Detalhes",
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
     "EDIT_TASK": "Editar tarefa",
     "HARVEST_USE": "Uso da colheita",
-    "HARVEST_USE_ALREADY_EXISTS": "MISSING",
+    "HARVEST_USE_ALREADY_EXISTS": "Uso de colheita já existe",
     "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",
     "LOCATIONS": "Local (is)",
     "NO_TASKS_TO_DISPLAY": "Não há tarefas para exibir.",
@@ -1348,12 +1348,12 @@
     "PAGE_TITLE": "Tasks",
     "PREFER_NOT_TO_SAY": "Prefiro não dizer",
     "PROVIDE_RATING": "Fornecer uma classificação",
-    "QUANTITY_CANNOT_EXCEED": "MISSING",
-    "RATE_THIS_TASK": "MISSING",
+    "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",
+    "RATE_THIS_TASK": "Avalie esta tarefa",
     "REMOVE_HARVEST_USE": "Remover",
     "SELECT_DATE": "Selecionar a data da tarefa",
     "SELECT_TASK_LOCATIONS": "Selecionar o(s) local(is) da tarefa",
-    "SELECT_WILD_CROP": "MISSING",
+    "SELECT_WILD_CROP": "Esta tarefa é para um cultivo silvestre",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completa",
@@ -1365,7 +1365,7 @@
     "TASKS_COUNT": "{{count}} tarefa",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
-    "TRANSPLANT_LOCATIONS": "MISSING",
+    "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída"
   },
   "UNIT": {

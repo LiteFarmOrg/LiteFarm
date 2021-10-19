@@ -1006,6 +1006,8 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
+            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route
               path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact

@@ -17,11 +17,6 @@ export default function EstimatedRevenue({ history, match }) {
   const onGoBack = () => history.goBack();
   const managementPlans = useSelector(managementPlansSelector);
 
-  const total = managementPlans.reduce((acc, plan) => {
-    const { estimated_revenue } = plan;
-    return acc + estimated_revenue;
-  }, 0);
-
   const {
     register,
     getValues,
@@ -56,6 +51,14 @@ export default function EstimatedRevenue({ history, match }) {
       return acc;
     }, {});
   }, [managementPlans, fromDate, toDate]);
+
+  const total = Object.entries(estimatedRevenueItems).reduce((acc, [crop_variety_id, plans]) => {
+    const varietyTotal = plans.reduce((acc, plan) => {
+      const { estimated_revenue } = plan;
+      return acc + estimated_revenue;
+    }, 0);
+    return acc + varietyTotal;
+  }, 0);
 
   return (
     <Layout>

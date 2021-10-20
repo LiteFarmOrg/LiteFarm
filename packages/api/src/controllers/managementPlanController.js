@@ -230,8 +230,20 @@ const managementPlanController = {
       try {
         const management_plan_id = req.params.management_plan_id;
         const { name, notes } = req.body;
-        const { estimated_yield, estimated_yield_unit, estimated_revenue } = req.body?.crop_management_plan || {};
-        const crop_management_plan = { estimated_yield, estimated_yield_unit, estimated_revenue };
+        const {
+          estimated_yield,
+          estimated_yield_unit,
+          estimated_revenue,
+          estimated_price_per_mass,
+          estimated_price_per_mass_unit,
+        } = req.body?.crop_management_plan || {};
+        const crop_management_plan = {
+          estimated_yield,
+          estimated_yield_unit,
+          estimated_revenue,
+          estimated_price_per_mass,
+          estimated_price_per_mass_unit,
+        };
         const management_plan = { name, notes };
         const result = await managementPlanModel.transaction(async trx => {
           const managementPlan = await managementPlanModel.query(trx)

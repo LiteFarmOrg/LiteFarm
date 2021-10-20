@@ -38,7 +38,7 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
     shouldUnregister: false,
     defaultValues: {
       crop_management_plan: {
-        estimated_price_per_mass,
+        estimated_price_per_mass: estimated_price_per_mass ?? undefined,
         estimated_price_per_mass_unit,
         estimated_yield,
         estimated_yield_unit,

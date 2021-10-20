@@ -62,13 +62,17 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         </Button>
       }
     >
-      <PageTitle title={'Estimated crop revenue'} onGoBack={onGoBack} />
+      <PageTitle
+        title={'Estimated crop revenue'}
+        onGoBack={onGoBack}
+        style={{ marginBottom: '24px' }}
+      />
 
-      <Semibold>
+      <Semibold style={{ color: 'var(--teal700)' }}>
         {`${crop_variety.crop_variety_name}, ${t(`crop:${crop.crop_translation_key}`)}`}
       </Semibold>
 
-      <Text>{name}</Text>
+      <Text style={{ marginBottom: '24px', color: 'var(--teal700)' }}>{name}</Text>
 
       <Unit
         register={register}
@@ -81,6 +85,7 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         hookFormGetValue={getValues}
         hookFromWatch={watch}
         control={control}
+        style={{ marginBottom: '40px' }}
       />
       <Unit
         register={register}
@@ -95,16 +100,18 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         hookFromWatch={watch}
         control={control}
         required
+        style={{ marginBottom: '40px' }}
       />
       <Input
         label={t('FINANCES.ESTIMATED_REVENUE.ESTIMATED_ANNUAL_REVENUE')}
         type="number"
         hookFormRegister={register(ESTIMATED_ANNUAL_REVENUE, {
           required: true,
+          valueAsNumber: true,
         })}
         // todo: make currency variable
         currency={'$'}
-        // style={{ marginBottom: '28px' }}
+        style={{ marginBottom: '40px' }}
         // errors={errors[ESTIMATED_ANNUAL_REVENUE]}
       />
     </Form>

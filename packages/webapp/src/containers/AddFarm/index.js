@@ -29,6 +29,7 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
+    trigger,
     formState: { errors, isValid },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
@@ -221,6 +222,12 @@ const AddFarm = () => {
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
 
+  useEffect(() => {
+    if (farmAddress) {
+      trigger(ADDRESS);
+    }
+  }, [farmAddress]);
+
   return (
     <>
       <Script
@@ -286,7 +293,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(gridPoints && gridPoints.lat && (
+      {(!isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}

@@ -583,7 +583,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
+      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -659,7 +659,7 @@
       "BIRDS": "Birds",
       "CROPS": "Crops",
       "HEADER": "Number of species",
-      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from your farm boundary. You can increase the crop biodiversity on your farm by adding additional crops. You can increase the non-crop biodiversity count on your farm by recording sitings on https://inaturalist.org/app",
       "INSECTS": "Insects",
       "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",

@@ -1,7 +1,7 @@
 {
   "ABANDON": "Abandonar",
   "ACTIVE": "Ativo",
-  "ADD": "MISSING",
+  "ADD": "Adicionar",
   "ALL": "Tudo",
   "APPLY": "Aplicar",
   "BACK": "Voltar",
@@ -12,7 +12,7 @@
   "CONTINUE": "Continuar",
   "DATE": "Data",
   "DELETE": "Excluir",
-  "DO_NOT_SHOW": "MISSING",
+  "DO_NOT_SHOW": "Não mostrar esta mensagem novamente",
   "EDIT": "Editar",
   "EDIT_DATE": "Editar data",
   "EG": "e.g.",

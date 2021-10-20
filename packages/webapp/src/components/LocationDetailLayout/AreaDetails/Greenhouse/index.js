@@ -60,14 +60,14 @@ export default function PureGreenhouse({
   const onError = (data) => {};
 
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);
-  const supplementalLighting = watch(greenhouseEnum.supplemental_lighting);
-  const co2Enrichment = watch(greenhouseEnum.co2_enrichment);
-  const greenhouseHeated = watch(greenhouseEnum.greenhouse_heated);
 
   const disabled = !isValid || !isDirty;
   console.log(isValid, isDirty, errors);
   const showPerimeter = false;
   const onSubmit = (data) => {
+    const supplementalLighting = data[greenhouseEnum.supplemental_lighting];
+    const co2Enrichment = data[greenhouseEnum.co2_enrichment];
+    const greenhouseHeated = data[greenhouseEnum.greenhouse_heated];
     data[greenhouseEnum.total_area_unit] = data[greenhouseEnum.total_area_unit]?.value;
     data[greenhouseEnum.perimeter_unit] = data[greenhouseEnum.perimeter_unit]?.value;
     const formData = {
@@ -77,16 +77,9 @@ export default function PureGreenhouse({
       ...data,
 
       type: 'greenhouse',
-      supplemental_lighting:
-        supplementalLighting !== null && supplementalLighting !== undefined
-          ? supplementalLighting === 'true'
-          : null,
-      co2_enrichment:
-        co2Enrichment !== null && co2Enrichment !== undefined ? co2Enrichment === 'true' : null,
-      greenhouse_heated:
-        greenhouseHeated !== null && greenhouseHeated !== undefined
-          ? greenhouseHeated === 'true'
-          : null,
+      supplemental_lighting: supplementalLighting,
+      co2_enrichment: co2Enrichment,
+      greenhouse_heated: greenhouseHeated,
     };
     submitForm({ formData });
   };
@@ -211,27 +204,12 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
-                {/* <div style={{ marginBottom: '16px' }}>
-                  <RadioGroup row disabled={isViewLocationPage} name={greenhouseEnum.supplemental_lighting} hookFormControl={control} />
-                </div> */}
-                <div style={{ display: 'flex' }}>
-                  <Radio
-                    label={t('common:YES')}
-                    hookFormRegister={register(greenhouseEnum.supplemental_lighting, {
-                      required: false,
-                    })}
-                    value={true}
+                <div style={{ marginBottom: '16px' }}>
+                  <RadioGroup
+                    row
                     disabled={isViewLocationPage}
-                  />
-                  <Radio
-                    style={{ marginLeft: '40px' }}
-                    label={t('common:NO')}
-                    hookFormRegister={register(greenhouseEnum.supplemental_lighting, {
-                      required: false,
-                    })}
-                    value={false}
-                    disabled={isViewLocationPage}
+                    name={greenhouseEnum.supplemental_lighting}
+                    hookFormControl={control}
                   />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
@@ -243,19 +221,12 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                <div style={{ display: 'flex' }}>
-                  <Radio
-                    label={t('common:YES')}
-                    hookFormRegister={register(greenhouseEnum.co2_enrichment, { required: false })}
-                    value={true}
+                <div style={{ marginBottom: '16px' }}>
+                  <RadioGroup
+                    row
                     disabled={isViewLocationPage}
-                  />
-                  <Radio
-                    style={{ marginLeft: '40px' }}
-                    label={t('common:NO')}
-                    hookFormRegister={register(greenhouseEnum.co2_enrichment, { required: false })}
-                    value={false}
-                    disabled={isViewLocationPage}
+                    name={greenhouseEnum.co2_enrichment}
+                    hookFormControl={control}
                   />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
@@ -267,23 +238,12 @@ export default function PureGreenhouse({
                     {t('common:OPTIONAL')}
                   </Label>
                 </div>
-                <div style={{ display: 'flex', marginBottom: '16px' }}>
-                  <Radio
-                    label={t('common:YES')}
-                    hookFormRegister={register(greenhouseEnum.greenhouse_heated, {
-                      required: false,
-                    })}
-                    value={true}
+                <div style={{ marginBottom: '16px' }}>
+                  <RadioGroup
+                    row
                     disabled={isViewLocationPage}
-                  />
-                  <Radio
-                    style={{ marginLeft: '40px' }}
-                    label={t('common:NO')}
-                    hookFormRegister={register(greenhouseEnum.greenhouse_heated, {
-                      required: false,
-                    })}
-                    value={false}
-                    disabled={isViewLocationPage}
+                    name={greenhouseEnum.greenhouse_heated}
+                    hookFormControl={control}
                   />
                 </div>
               </div>

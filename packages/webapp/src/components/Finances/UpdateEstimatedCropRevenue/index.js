@@ -6,7 +6,7 @@ import PageTitle from '../../PageTitle/v2';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { Semibold, Text } from '../../Typography';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/unit';
 
@@ -111,8 +111,8 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         })}
         // todo: make currency variable
         currency={'$'}
+        errors={getInputErrors(errors, ESTIMATED_ANNUAL_REVENUE)}
         style={{ marginBottom: '40px' }}
-        // errors={errors[ESTIMATED_ANNUAL_REVENUE]}
       />
     </Form>
   );

@@ -625,6 +625,9 @@
     },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
       "TITLE": "MISSING"
     },
     "REVENUE": "Receita",

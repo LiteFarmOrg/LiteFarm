@@ -28,12 +28,10 @@
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo",
-      "EDIT": "No se pudo editar campo de cultivo"
+      "DELETE": "No se pudo borrar campo de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente",
-      "EDIT": "Cultivo editado exitosamente"
+      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "EXPENSE": {
@@ -96,6 +94,22 @@
     "ERROR": {
       "CREATE": "No se pudo crear la certificación.",
       "UPDATE": "No se pudo actualizar la certificación."
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
     }
   },
   "SALE": {

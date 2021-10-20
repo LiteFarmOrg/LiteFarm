@@ -28,12 +28,10 @@
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Falha na exclusão do cultivo de campo",
-      "EDIT": "Falha na edição do cultivo de campo"
+      "DELETE": "Falha na exclusão do cultivo de campo"
     },
     "SUCCESS": {
-      "DELETE": "Cultivo excluído com sucesso",
-      "EDIT": "Cultivo editado com sucesso"
+      "DELETE": "Cultivo excluído com sucesso"
     }
   },
   "EXPENSE": {
@@ -96,6 +94,22 @@
     "ERROR": {
       "CREATE": "Falha ao criar a certificação",
       "UPDATE": "Falha ao atualizar a certificação"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
     }
   },
   "SALE": {

@@ -626,6 +626,9 @@
     },
     "DATE": "Date",
     "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
+      "ESTIMATED_ANNUAL_YIELD": "Estimated annual yield",
+      "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
       "TITLE": "Estimated Revenue"
     },
     "REVENUE": "Revenue",

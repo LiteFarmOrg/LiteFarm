@@ -28,12 +28,10 @@
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field Crop",
-      "EDIT": "Failed To Edit Field Crop"
+      "DELETE": "Failed To Delete Field Crop"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop",
-      "EDIT": "Successfully Edited Crop"
+      "DELETE": "Successfully Deleted Crop"
     }
   },
   "EXPENSE": {
@@ -96,6 +94,22 @@
     "ERROR": {
       "CREATE": "Failed to create certification.",
       "UPDATE": "Failed to update certification!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Failed to update management plan"
+    },
+    "SUCCESS": {
+      "EDIT": "Management plan successfully updated"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Failed to update revenue"
+    },
+    "SUCCESS": {
+      "EDIT": "Revenue successfully updated"
     }
   },
   "SALE": {

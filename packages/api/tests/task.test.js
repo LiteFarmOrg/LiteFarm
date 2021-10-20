@@ -202,7 +202,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: another_id }, task_id, async (err, res) => {
-        expect(res.status).toBe(404);
+        expect(res.status).toBe(406);
         done();
       });
     });
@@ -218,7 +218,7 @@ describe('Task tests', () => {
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: another_id }, task_id, async (err, res) => {
-        expect(res.status).toBe(404);
+        expect(res.status).toBe(406);
         done();
       });
     });
@@ -371,7 +371,7 @@ describe('Task tests', () => {
       });
     });
 
-    test.only('Should only re-assign multiple non-completed or abandoned tasks on date', async (done) => {
+    test('Should only re-assign multiple non-completed or abandoned tasks on date', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
       const date = faker.date.future().toISOString().split('T')[0];
@@ -397,7 +397,16 @@ describe('Task tests', () => {
         assignee_user_id: another_id,
         date: date,
       }, task_1.task_id, async (err, res) => {
-        expect(res.status).toBe(404);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(2);
+        const updated_task_1 = await getTask(task_1.task_id);
+        const updated_task_2 = await getTask(task_2.task_id);
+        expect(updated_task_1.assignee_user_id).toBe(another_id);
+        expect(updated_task_2.assignee_user_id).toBe(another_id);
+        const updated_completed_task = await getTask(completed_task.task_id);
+        expect(updated_completed_task.assignee_user_id).toBe(null);
+        const updated_abandoned_task = await getTask(abandoned_task.task_id);
+        expect(updated_abandoned_task.assignee_user_id).toBe(null);
         done();
       });
     });

@@ -31,7 +31,7 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           locationName: getLocationName(planting_management_plan),
           notes: getNotes(planting_management_plan),
           ...getTasksMinMaxDate(tasks),
-          numberOfPendingTask: tasks.length,
+          numberOfPendingTask: tasks.filter((task) => (task.abandoned_time === null && task.completed_time === null)).length,
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,

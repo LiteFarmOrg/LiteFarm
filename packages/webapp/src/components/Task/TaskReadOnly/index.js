@@ -23,6 +23,8 @@ import PurePestControlTask from '../PestControlTask';
 import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
+import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLocationLabel';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -112,8 +114,14 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
-
+      <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+      {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+        <TransplantLocationLabel
+          locations={task.locations}
+          selectedLocationId={task.selectedLocationIds[0]}
+          pinCoordinate={task.pinCoordinates[0]}
+        />
+      )}
       <LocationPicker
         onSelectLocation={() => {}}
         readOnlyPinCoordinates={task.pinCoordinates}
@@ -168,6 +176,7 @@ export default function PureTaskReadOnly({
       </Semibold>
 
       {taskComponents[taskType.task_translation_key] !== undefined &&
+        !taskType.farm_id &&
         taskComponents[taskType.task_translation_key]({
           setValue,
           getValues,
@@ -221,6 +230,7 @@ export default function PureTaskReadOnly({
             disabled
           />
           {taskAfterCompleteComponents[taskType.task_translation_key] !== undefined &&
+            !taskType.farm_id &&
             taskAfterCompleteComponents[taskType.task_translation_key]({
               setValue,
               getValues,

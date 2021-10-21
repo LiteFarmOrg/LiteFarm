@@ -1339,6 +1339,7 @@
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
     "CREATE_CUSTOM_HARVEST_USE": "Criar um uso personalizado da colheita",
+    "CURRENT": "MISSING",
     "DESCRIBE_HARVEST_USE": "Descrever o uso da colheita",
     "DETAILS": "Detalhes",
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
@@ -1371,6 +1372,7 @@
     "TASKS_COUNT": "{{count}} tarefa",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
+    "TRANSPLANT": "MISSING",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída"
   },

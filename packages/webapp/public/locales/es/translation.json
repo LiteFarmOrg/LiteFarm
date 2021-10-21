@@ -891,6 +891,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FIRST_MP_SPOTLIGHT": {
@@ -978,7 +979,6 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "Seleccione tareas individuales para cambiar fechas o detalles de tareas.",
     "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",

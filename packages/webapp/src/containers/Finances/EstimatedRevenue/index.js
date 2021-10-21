@@ -11,11 +11,13 @@ import DateRangePicker from '../../../components/Form/DateRangePicker';
 import EstimatedCropRevenue from '../EstimatedCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
+import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
   const onGoBack = () => history.push(`/finances`);
   const managementPlans = useSelector(managementPlansSelector);
+  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   const {
     register,
@@ -40,11 +42,18 @@ export default function EstimatedRevenue({ history, match }) {
       const { crop_variety_id } = plan;
       if (!acc[crop_variety_id]) acc[crop_variety_id] = [];
 
-      // TODO: update harvest date filter condition to be based on task
-      const harvestDate = moment(plan.harvest_date).utc().format('YYYY-MM-DD');
+      const harvestTasks = tasksByManagementPlanId[plan.management_plan_id]?.filter(
+        (task) => task.task_type_id === 8,
+      );
+      const harvestDates = harvestTasks?.map((task) =>
+        moment(task.due_date).utc().format('YYYY-MM-DD'),
+      );
       if (
-        new Date(harvestDate) >= new Date(fromDate) &&
-        new Date(harvestDate) <= new Date(toDate)
+        harvestDates.some(
+          (harvestDate) =>
+            new Date(harvestDate) >= new Date(fromDate) &&
+            new Date(harvestDate) <= new Date(toDate),
+        )
       ) {
         acc[crop_variety_id].push(plan);
       }

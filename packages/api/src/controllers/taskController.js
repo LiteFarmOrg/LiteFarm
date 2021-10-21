@@ -27,6 +27,10 @@ const taskController = {
           const userFarm = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
           wage = userFarm.wage;
         }
+        const checkTaskStatus = await TaskModel.query().select('completed_time', 'abandoned_time').where({ task_id }).first();
+        if (checkTaskStatus.completed_time || checkTaskStatus.abandoned_time) {
+          return res.status(406).send('Task has already been completed or abandoned');
+        }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           assignee_user_id,
           wage_at_moment: wage.amount === 0 ? 0 : wage.amount,
@@ -62,6 +66,8 @@ const taskController = {
             if (assignee_user_id !== null) {
               builder.where('assignee_user_id', null);
             }
+            builder.where('completed_time', null);
+            builder.where('abandoned_time', null);
           });
         available_tasks = available_tasks.map(({ task_id }) => task_id);
         const result = await TaskModel.query().context(req.user).patch({

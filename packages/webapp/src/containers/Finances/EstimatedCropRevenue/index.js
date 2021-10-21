@@ -10,17 +10,20 @@ import { useTranslation } from 'react-i18next';
 import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 
-const EstimatedCropRevenue = ({ cropVarietyId, plans, history, ...props }) => {
+const EstimatedCropRevenue = ({ cropVarietyId, managementPlans, history, ...props }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const cropVariety = useSelector(cropVarietySelector(cropVarietyId));
   const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
-  let total = 0;
-  for (const plan of plans) {
-    total += plan.estimated_revenue;
-  }
+  const total = managementPlans.reduce((acc, plan) => {
+    const { estimated_revenue } = plan;
+    if (estimated_revenue) {
+      return acc + estimated_revenue;
+    }
+    return acc;
+  }, 0);
 
   const { crop } = cropVariety;
   const groupTitle = cropVariety.crop_variety_name
@@ -31,10 +34,9 @@ const EstimatedCropRevenue = ({ cropVarietyId, plans, history, ...props }) => {
     <FinanceGroup
       headerTitle={groupTitle}
       totalAmount={total}
-      financeItemsProps={plans.map((plan) => {
+      financeItemsProps={managementPlans.map((plan) => {
         const tasks = tasksByManagementPlanId[plan.management_plan_id];
         const firstTaskDate = getTasksMinMaxDate(tasks).startDate;
-        // TODO: set proper subtitle and pass onclick
         return {
           title: plan.name,
           subtitle: `${getManagementPlanTileDate(firstTaskDate)}`,

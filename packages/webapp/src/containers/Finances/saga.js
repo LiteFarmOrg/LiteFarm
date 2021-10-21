@@ -271,8 +271,6 @@ export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
     );
     yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE.SUCCESS.EDIT')));
-    // TODO: put back race after identifying why it hangs
-    // yield race([take(getCropManagementPlansSuccess.type)]);
     history.push(`/estimated_revenue`);
   } catch (e) {
     console.log('Failed to update managementPlan to database');

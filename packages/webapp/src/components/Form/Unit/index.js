@@ -264,7 +264,6 @@ const Unit = ({
       });
     }
     if (!isDirty) setDirty(true);
-    onBlur && onBlur(e);
   };
   useEffect(() => {
     if (databaseUnit && hookFormUnit) {
@@ -326,7 +325,14 @@ const Unit = ({
           value={visibleInputValue}
           size={1}
           onKeyDown={getOnKeyDown(measure)}
-          onBlur={mode === 'onBlur' ? inputOnBlur : onBlur}
+          onBlur={
+            mode === 'onBlur'
+              ? (e) => {
+                  inputOnBlur(e);
+                  onBlur && onBlur(e);
+                }
+              : onBlur
+          }
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}
           {...props}
@@ -377,7 +383,6 @@ const Unit = ({
           required: required && t('common:REQUIRED'),
           valueAsNumber: true,
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
-          // onBlur: (e) => console.log(e),
         })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

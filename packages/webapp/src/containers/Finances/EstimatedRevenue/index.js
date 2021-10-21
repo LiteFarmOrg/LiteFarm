@@ -100,7 +100,7 @@ export default function EstimatedRevenue({ history, match }) {
             <EstimatedCropRevenue
               key={crop_variety_id}
               cropVarietyId={crop_variety_id}
-              plans={plans}
+              managementPlans={plans}
               history={history}
               style={{ marginBottom: '16px' }}
             />

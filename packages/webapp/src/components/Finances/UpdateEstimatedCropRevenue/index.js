@@ -12,7 +12,7 @@ import { seedYield } from '../../../util/unit';
 import convert from 'convert-units';
 import { roundToTwoDecimal } from '../../../util';
 
-function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
+function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
 
   const {
@@ -24,7 +24,7 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
     estimated_yield,
     estimated_yield_unit,
     name,
-  } = plan;
+  } = managementPlan;
 
   const {
     register,

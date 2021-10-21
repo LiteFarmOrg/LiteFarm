@@ -105,8 +105,6 @@ export function* patchManagementPlanSaga({ payload: managementPlan }) {
     );
     yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
     yield put(enqueueSuccessSnackbar(i18n.t('message:PLAN.SUCCESS.EDIT')));
-    // TODO: put back race after identifying why it hangs
-    // yield race([take(getCropManagementPlansSuccess.type)]);
     history.push(
       `/crop/${managementPlan.crop_variety_id}/management_plan/${managementPlan.management_plan_id}/details`,
     );

@@ -2,7 +2,7 @@
 exports.up = async function(knex) {
   await knex.schema.alterTable('crop_management_plan', (t) => {
     t.decimal('estimated_price_per_mass', 36, 12);
-    t.enu('estimated_price_per_mass_unit', ['g', 'lb', 'kg', 'oz', 'l', 'gal']).defaultTo('kg');
+    t.enu('estimated_price_per_mass_unit', ['kg', 'lb', 'mt', 't']).defaultTo('kg');
   });
   const cmp = await knex.raw(`
     select mp.management_plan_id, f.units

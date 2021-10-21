@@ -70,13 +70,13 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
       convert(annualYield).from(seedYield.databaseUnit).to(annualYieldUnit.value),
     );
     if (pricePerMassUnit.value === annualYieldUnit.value) {
-      const revenue = convertedPricePerMass * convertedAnnualYield;
+      const revenue = roundToTwoDecimal(convertedPricePerMass * convertedAnnualYield);
       setValue(ESTIMATED_ANNUAL_REVENUE, revenue);
     } else {
       const adjustedAnnualYield = roundToTwoDecimal(
         convert(convertedAnnualYield).from(annualYieldUnit.value).to(pricePerMassUnit.value),
       );
-      const revenue = convertedPricePerMass * adjustedAnnualYield;
+      const revenue = roundToTwoDecimal(convertedPricePerMass * adjustedAnnualYield);
       setValue(ESTIMATED_ANNUAL_REVENUE, revenue);
     }
   };

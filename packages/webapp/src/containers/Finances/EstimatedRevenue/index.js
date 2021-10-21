@@ -14,7 +14,7 @@ import { managementPlansSelector } from '../../managementPlanSlice';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
-  const onGoBack = () => history.goBack();
+  const onGoBack = () => history.push(`/finances`);
   const managementPlans = useSelector(managementPlansSelector);
 
   const {

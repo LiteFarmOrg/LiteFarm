@@ -7,12 +7,15 @@ import { cropVarietyEntitiesSelector, cropVarietySelector } from '../../cropVari
 import { setSelectedSale } from '../actions';
 import { convertFromMetric, roundToTwoDecimal } from '../../../util';
 import { useTranslation } from 'react-i18next';
+import { getTasksMinMaxDate } from '../../Task/getTasksMinMaxDate';
+import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 
 const EstimatedCropRevenue = ({ cropVarietyId, plans, history, ...props }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const cropVariety = useSelector(cropVarietySelector(cropVarietyId));
+  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
   let total = 0;
   for (const plan of plans) {
@@ -29,10 +32,12 @@ const EstimatedCropRevenue = ({ cropVarietyId, plans, history, ...props }) => {
       headerTitle={groupTitle}
       totalAmount={total}
       financeItemsProps={plans.map((plan) => {
+        const tasks = tasksByManagementPlanId[plan.management_plan_id];
+        const firstTaskDate = getTasksMinMaxDate(tasks).startDate;
         // TODO: set proper subtitle and pass onclick
         return {
           title: plan.name,
-          subtitle: `first task date how to get | bed notes?`,
+          subtitle: `${getManagementPlanTileDate(firstTaskDate)}`,
           amount: plan.estimated_revenue || 0,
           isPlan: true,
           onClickForward: () =>

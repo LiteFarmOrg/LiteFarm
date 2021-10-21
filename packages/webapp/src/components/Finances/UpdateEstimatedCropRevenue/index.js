@@ -9,6 +9,8 @@ import { Semibold, Text } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
 import { seedYield } from '../../../util/unit';
+import convert from 'convert-units';
+import { roundToTwoDecimal } from '../../../util';
 
 function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
   const { t } = useTranslation();
@@ -53,11 +55,37 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
   const ESTIMATED_ANNUAL_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
   const ESTIMATED_ANNUAL_REVENUE = 'crop_management_plan.estimated_revenue';
 
+  const disabled = !isValid;
+
+  const calculateRevenue = (e) => {
+    const pricePerMass = getValues(ESTIMATED_PRICE_PER_UNIT);
+    const pricePerMassUnit = getValues(ESTIMATED_PRICE_PER_UNIT_UNIT);
+    const annualYield = getValues(ESTIMATED_ANNUAL_YIELD);
+    const annualYieldUnit = getValues(ESTIMATED_ANNUAL_YIELD_UNIT);
+    if (!pricePerMass || !annualYield) return;
+    const convertedPricePerMass = roundToTwoDecimal(
+      convert(pricePerMass).from(seedYield.databaseUnit).to(pricePerMassUnit.value),
+    );
+    const convertedAnnualYield = roundToTwoDecimal(
+      convert(annualYield).from(seedYield.databaseUnit).to(annualYieldUnit.value),
+    );
+    if (pricePerMassUnit.value === annualYieldUnit.value) {
+      const revenue = convertedPricePerMass * convertedAnnualYield;
+      setValue(ESTIMATED_ANNUAL_REVENUE, revenue);
+    } else {
+      const adjustedAnnualYield = roundToTwoDecimal(
+        convert(convertedAnnualYield).from(annualYieldUnit.value).to(pricePerMassUnit.value),
+      );
+      const revenue = convertedPricePerMass * adjustedAnnualYield;
+      setValue(ESTIMATED_ANNUAL_REVENUE, revenue);
+    }
+  };
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
       buttonGroup={
-        <Button disabled={false} fullLength type={'submit'}>
+        <Button disabled={disabled} fullLength type={'submit'}>
           {t('common:UPDATE')}
         </Button>
       }
@@ -86,6 +114,7 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         hookFromWatch={watch}
         control={control}
         style={{ marginBottom: '40px' }}
+        onBlur={calculateRevenue}
       />
       <Unit
         register={register}
@@ -101,6 +130,7 @@ function PureUpdateEstimatedCropRevenue({ system, plan, onGoBack, onSubmit }) {
         control={control}
         required
         style={{ marginBottom: '40px' }}
+        onBlur={calculateRevenue}
       />
       <Input
         label={t('FINANCES.ESTIMATED_REVENUE.ESTIMATED_ANNUAL_REVENUE')}

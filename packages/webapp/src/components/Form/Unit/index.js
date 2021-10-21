@@ -138,6 +138,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  onBlur,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -263,6 +264,7 @@ const Unit = ({
       });
     }
     if (!isDirty) setDirty(true);
+    onBlur && onBlur(e);
   };
   useEffect(() => {
     if (databaseUnit && hookFormUnit) {
@@ -324,7 +326,7 @@ const Unit = ({
           value={visibleInputValue}
           size={1}
           onKeyDown={getOnKeyDown(measure)}
-          onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
+          onBlur={mode === 'onBlur' ? inputOnBlur : onBlur}
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}
           {...props}
@@ -375,6 +377,7 @@ const Unit = ({
           required: required && t('common:REQUIRED'),
           valueAsNumber: true,
           max: { value: getMax(), message: t('UNIT.VALID_VALUE') + max },
+          // onBlur: (e) => console.log(e),
         })}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}

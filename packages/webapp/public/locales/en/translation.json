@@ -622,11 +622,17 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Add revenue",
-      "DATE": "Date",
-      "REVENUE": "Revenue",
-      "TITLE": "Actual Revenue",
-      "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range"
+      "TITLE": "Actual Revenue"
     },
+    "DATE": "Date",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
+      "ESTIMATED_ANNUAL_YIELD": "Estimated annual yield",
+      "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
+      "TITLE": "Estimated Revenue"
+    },
+    "REVENUE": "Revenue",
+    "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "HELP": {
@@ -886,6 +892,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify any tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
     "FIRST_MP_SPOTLIGHT": {
@@ -973,7 +980,6 @@
         "TEXT": "{{fill}} location"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "Select individual tasks to change dates or task details.",
     "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",

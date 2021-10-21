@@ -138,6 +138,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  onBlur,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -324,7 +325,14 @@ const Unit = ({
           value={visibleInputValue}
           size={1}
           onKeyDown={getOnKeyDown(measure)}
-          onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
+          onBlur={
+            mode === 'onBlur'
+              ? (e) => {
+                  inputOnBlur(e);
+                  onBlur && onBlur(e);
+                }
+              : onBlur
+          }
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}
           {...props}

@@ -46,6 +46,8 @@ class CropManagementPlanModel extends Model {
         estimated_revenue: { type: ['number', null] },
         estimated_yield: { type: ['number', null] },
         estimated_yield_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
+        estimated_price_per_mass: { type: ['number', null] },
+        estimated_price_per_mass_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
       },
       additionalProperties: false,
     };

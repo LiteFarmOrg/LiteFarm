@@ -621,11 +621,17 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Adicionar Receita",
-      "DATE": "Data",
-      "REVENUE": "Receita",
-      "TITLE": "Receita atual",
-      "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas"
+      "TITLE": "Receita atual"
     },
+    "DATE": "Data",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "REVENUE": "Receita",
+    "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
     "WHOLE_FARM_REVENUE": "Receita de toda a propriedade"
   },
   "HELP": {
@@ -885,6 +891,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Você deseja abandonar este plano?",
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
     "FIRST_MP_SPOTLIGHT": {
@@ -972,7 +979,6 @@
         "TEXT": "{{fill}} local"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "Selecione tarefas individuais para alterar datas ou detalhes da tarefa.",
     "VARIETY": "Variedade",
     "WHAT_IS_AGE": "Qual é a idade da safra?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",

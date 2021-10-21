@@ -1,157 +1,111 @@
-import styles from '../styles.module.scss';
-import React, { Component } from 'react';
-import PageTitle from '../../../components/PageTitle';
-import Table from '../../../components/Table';
-import connect from 'react-redux/es/connect/connect';
+import React, { useMemo } from 'react';
+import Layout from '../../../components/Layout';
+import PageTitle from '../../../components/PageTitle/v2';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 import moment from 'moment';
-import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
-import { userFarmSelector } from '../../userFarmSlice';
-import { withTranslation } from 'react-i18next';
-import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
-import { getManagementPlans } from '../../saga';
-import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import WholeFarmRevenue from '../../../components/Finances/WholeFarmRevenue';
+import { Semibold } from '../../../components/Typography';
+import DateRangePicker from '../../../components/Form/DateRangePicker';
+import EstimatedCropRevenue from '../EstimatedCropRevenue';
+import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
+import { managementPlansSelector } from '../../managementPlanSlice';
+import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
 
-class EstimatedRevenue extends Component {
-  constructor(props) {
-    super(props);
-    this.formatData = this.formatData.bind(this);
-    this.changeDate = this.changeDate.bind(this);
-    let startDate, endDate;
-    const { dateRange } = this.props;
-    if (dateRange && dateRange.startDate && dateRange.endDate) {
-      startDate = moment(dateRange.startDate);
-      endDate = moment(dateRange.endDate);
-    } else {
-      startDate = moment().startOf('year');
-      endDate = moment().endOf('year');
-    }
+export default function EstimatedRevenue({ history, match }) {
+  const { t } = useTranslation();
+  const onGoBack = () => history.push(`/finances`);
+  const managementPlans = useSelector(managementPlansSelector);
+  const tasksByManagementPlanId = useSelector(taskEntitiesByManagementPlanIdSelector);
 
-    this.state = {
-      startDate,
-      endDate,
-      totalRevenue: 0,
-      switchYear: true,
-      currencySymbol: grabCurrencySymbol(this.props.farm),
-    };
-  }
+  const {
+    register,
+    getValues,
+    watch,
+    control,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onBlur',
+    shouldUnregister: true,
+    defaultValues: {
+      from_date: moment().startOf('year').format('YYYY-MM-DD'),
+      to_date: moment().endOf('year').format('YYYY-MM-DD'),
+    },
+  });
 
-  componentDidMount() {
-    this.props.dispatch(getManagementPlans());
-  }
+  const fromDate = watch('from_date');
+  const toDate = watch('to_date');
 
-  changeDate(type, date) {
-    if (type === 'start') {
-      this.setState({ startDate: date });
-    } else if (type === 'end') {
-      this.setState({ endDate: date });
-    } else {
-      console.log('Error, type not specified');
-    }
-  }
+  const estimatedRevenueItems = useMemo(() => {
+    return managementPlans.reduce((acc, plan) => {
+      const { crop_variety_id } = plan;
+      if (!acc[crop_variety_id]) acc[crop_variety_id] = [];
 
-  // format data to insert into revenue table
-  formatData(managementPlans) {
-    // let visited = [];
-    let totalRevenue = 0;
-    let cropRevenueMap = {};
-    managementPlans.forEach((f) => {
-      // check if this field crop existed during this year
-      const endDate = new Date(f.harvest_date);
-      // get all field crops with end dates belonging to the chosen year
+      const harvestTasks = tasksByManagementPlanId[plan.management_plan_id]?.filter(
+        (task) => task.task_type_id === 8,
+      );
+      const harvestDates = harvestTasks?.map((task) =>
+        moment(task.due_date).utc().format('YYYY-MM-DD'),
+      );
       if (
-        (this.state.startDate && this.state.startDate._d) <= endDate &&
-        (this.state.endDate && this.state.endDate._d) >= endDate
+        harvestDates.some(
+          (harvestDate) =>
+            new Date(harvestDate) >= new Date(fromDate) &&
+            new Date(harvestDate) <= new Date(toDate),
+        )
       ) {
-        const key = this.props.t(`crop:${f.crop_translation_key}`);
-        if (!cropRevenueMap[key]) {
-          cropRevenueMap[key] = f.estimated_revenue;
-        } else {
-          const curRevenue = cropRevenueMap[key];
-          cropRevenueMap[key] = f.estimated_revenue + curRevenue;
-        }
-        totalRevenue += f.estimated_revenue;
+        acc[crop_variety_id].push(plan);
       }
-    });
+      return acc;
+    }, {});
+  }, [managementPlans, fromDate, toDate]);
 
-    if (this.state.switchYear) {
-      this.setState({
-        totalRevenue,
-        switchYear: false,
-      });
-    }
-    let result = [];
-    Object.keys(cropRevenueMap).forEach((k) => {
-      result.push({ crop: k, estimated_revenue: cropRevenueMap[k] });
-    });
-    return result;
-  }
+  const total = Object.entries(estimatedRevenueItems).reduce((acc, [crop_variety_id, plans]) => {
+    const varietyTotal = plans.reduce((acc, plan) => {
+      const { estimated_revenue } = plan;
+      return acc + estimated_revenue;
+    }, 0);
+    return acc + varietyTotal;
+  }, 0);
 
-  render() {
-    const managementPlans = this.props.managementPlans || [];
-    this.formatData(managementPlans);
+  return (
+    <Layout>
+      <PageTitle
+        title={t('FINANCES.ESTIMATED_REVENUE.TITLE')}
+        style={{ marginBottom: '24px' }}
+        onGoBack={onGoBack}
+      />
 
-    // columns config for Summary Table
-    const revenueColumns = [
-      {
-        id: 'crop',
-        Header: this.props.t('SALE.LABOUR.TABLE.CROP'),
-        accessor: (d) => d.crop,
-        minWidth: 70,
-        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
-      },
-      {
-        id: 'estimatedRevenue',
-        Header: this.props.t('SALE.LABOUR.TABLE.EST_REVENUE'),
-        accessor: 'estimated_revenue',
-        Cell: (d) => (
-          <span>{`${this.state.currencySymbol}${
-            d.value ? d.value.toFixed(2).toString() : ''
-          }`}</span>
-        ),
-        minWidth: 75,
-        Footer: (
-          <div>
-            {this.state.currencySymbol + parseFloat(this.state.totalRevenue).toFixed(2) || 'none'}
-          </div>
-        ),
-      },
-    ];
+      <WholeFarmRevenue amount={total} style={{ marginBottom: '14px' }} />
 
-    return (
-      <div className={styles.financesContainer}>
-        <PageTitle
-          backUrl="/Finances"
-          title={this.props.t('SALE.ESTIMATED_REVENUE.TITLE')}
-          rightIcon
-          rightIconTitle={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION')}
-          rightIconBody={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION_DESCRIPTION')}
-        />
-        <DateRangeSelector changeDateMethod={this.changeDate} hideTooltip />
-        <Table
-          columns={revenueColumns}
-          data={this.formatData(managementPlans)}
-          showPagination={true}
-          pageSizeOptions={[10, 20, 50]}
-          defaultPageSize={10}
-          minRows={5}
-          className="-striped -highlight"
-        />
-      </div>
-    );
-  }
+      <Semibold style={{ marginBottom: '24px' }} sm>
+        {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
+      </Semibold>
+      <DateRangePicker
+        register={register}
+        control={control}
+        getValues={getValues}
+        style={{ marginBottom: '24px' }}
+      />
+
+      <FinanceListHeader
+        firstColumn={t('FINANCES.DATE')}
+        secondColumn={t('FINANCES.REVENUE')}
+        style={{ marginBottom: '8px' }}
+      />
+      {Object.entries(estimatedRevenueItems).map(
+        ([crop_variety_id, plans]) =>
+          plans.length > 0 && (
+            <EstimatedCropRevenue
+              key={crop_variety_id}
+              cropVarietyId={crop_variety_id}
+              managementPlans={plans}
+              history={history}
+              style={{ marginBottom: '16px' }}
+            />
+          ),
+      )}
+    </Layout>
+  );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    managementPlans: currentAndPlannedManagementPlansSelector(state),
-    farm: userFarmSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EstimatedRevenue));

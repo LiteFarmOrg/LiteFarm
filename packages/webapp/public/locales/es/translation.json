@@ -621,11 +621,17 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Agregar ingresos",
-      "DATE": "Fecha",
-      "REVENUE": "Ingresos",
-      "TITLE": "Título",
-      "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas"
+      "TITLE": "MISSING"
     },
+    "DATE": "Fecha",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "REVENUE": "Ingresos",
+    "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
     "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },
   "HELP": {
@@ -885,6 +891,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FIRST_MP_SPOTLIGHT": {
@@ -972,7 +979,6 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "Seleccione tareas individuales para cambiar fechas o detalles de tareas.",
     "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",

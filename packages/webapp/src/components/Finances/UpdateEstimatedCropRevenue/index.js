@@ -81,6 +81,10 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
     }
   };
 
+  const cropText = crop_variety.crop_variety_name
+    ? `${crop_variety.crop_variety_name}, ${t(`crop:${crop.crop_translation_key}`)}`
+    : t(`crop:${crop.crop_translation_key}`);
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
@@ -96,9 +100,7 @@ function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSu
         style={{ marginBottom: '24px' }}
       />
 
-      <Semibold style={{ color: 'var(--teal700)' }}>
-        {`${crop_variety.crop_variety_name}, ${t(`crop:${crop.crop_translation_key}`)}`}
-      </Semibold>
+      <Semibold style={{ color: 'var(--teal700)' }}>{cropText}</Semibold>
 
       <Text style={{ marginBottom: '24px', color: 'var(--teal700)' }}>{name}</Text>
 

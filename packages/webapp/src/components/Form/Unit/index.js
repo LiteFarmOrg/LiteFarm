@@ -285,7 +285,7 @@ const Unit = ({
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={{ position: 'absolute', bottom: 0 }}>
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>

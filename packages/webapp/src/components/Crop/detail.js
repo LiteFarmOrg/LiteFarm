@@ -39,9 +39,10 @@ function PureCropDetail({
       buttonGroup={
         isAdmin && (
           <>
-            <Button color={'secondary'} fullLength onClick={onRetire}>
-              {t('common:RETIRE')}
-            </Button>
+            {/*TODO: LF-2003 rework task/management plan/location/crop_variety soft delete*/}
+            {/*<Button color={'secondary'} fullLength onClick={onRetire}>*/}
+            {/*  {t('common:RETIRE')}*/}
+            {/*</Button>*/}
             <Button onClick={onEdit} fullLength>
               {t('common:EDIT')}
             </Button>

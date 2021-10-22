@@ -244,7 +244,7 @@
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
-    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group.",
+    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
@@ -894,7 +894,7 @@
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
     "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify any tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated yield",
+    "ESTIMATED_YIELD": "Estimated annual yield",
     "FIRST_MP_SPOTLIGHT": {
       "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
       "TITLE": "Congrats! You’ve made your first management plan!"

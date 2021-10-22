@@ -93,8 +93,6 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
-        editLink={t('TASK.EDIT_TASK')}
       />
 
       <Input

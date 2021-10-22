@@ -101,7 +101,7 @@ export default function PureEditManagementDetail({ onBack, variety, plan, system
         style={{ marginBottom: '40px' }}
       />
 
-      <Info style={{ marginBottom: '16px' }}>
+      <Info className={styles.bottomText} style={{ marginBottom: '16px' }}>
         {t('MANAGEMENT_PLAN.EDITING_PLAN_WILL_NOT_MODIFY')}
       </Info>
     </Form>

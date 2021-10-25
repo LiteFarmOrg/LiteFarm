@@ -44,7 +44,7 @@ function TaskAbandon({ history, match }) {
     <PureAbandonTask
       onSubmit={onSubmit}
       onGoBack={onGoBack}
-      hasAssignee={task.assignee_user_id !== null}
+      hasAssignee={!!task.assignee_user_id}
     />
   );
 }

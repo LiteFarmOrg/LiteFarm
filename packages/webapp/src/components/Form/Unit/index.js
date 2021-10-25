@@ -241,13 +241,15 @@ const Unit = ({
         shouldValidate: false,
         shouldDirty: false,
       });
-      setTimeout(() => {
-        hookFormSetValue(name, value, {
-          shouldValidate: !shouldClearError && shouldValidate,
-          shouldDirty,
-        });
-        shouldClearError && setShowError(false);
-      }, 0);
+      //TODO: refactor location form pages to use hookForm default value and <HookFormPersistProvider/>
+      !disabled &&
+        setTimeout(() => {
+          hookFormSetValue(name, value, {
+            shouldValidate: !shouldClearError && shouldValidate,
+            shouldDirty,
+          });
+          shouldClearError && setShowError(false);
+        }, 0);
     },
     [name],
   );

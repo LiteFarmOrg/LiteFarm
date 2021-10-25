@@ -76,7 +76,9 @@ const Input = ({
             )}
             {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
-          {toolTipContent && <Infoi content={toolTipContent} />}
+          {toolTipContent && (
+            <Infoi style={{ position: 'absolute', right: 0 }} content={toolTipContent} />
+          )}
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}

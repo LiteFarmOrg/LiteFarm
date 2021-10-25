@@ -15,16 +15,16 @@ module.exports = (emailQueue) => (job, done) => {
   const args = [
     's3', // command
     'cp', //sub command
-    `${farm_name}.zip`, // destination
-    `s3://${fileIdentifier}.zip`, // location
+    `temp/${farm_name}.zip`, // location
+    `s3://${fileIdentifier}.zip`, // destination
     '--endpoint=https://nyc3.digitaloceanspaces.com',
   ]
   const awsCopyProcess = spawn('aws', args, { cwd: process.env.EXPORT_WD });
   awsCopyProcess.on('exit', childProcessExitCheck(() => {
     done();
     emailQueue.add({ ...job.data, file: fileIdentifier }, { removeOnComplete: true });
-    fs.rmdir(path.join(process.env.EXPORT_WD, 'temp', farm_id), { recursive: true }, (err) => {
-      if(!err) console.log('deleted temp folder', farm_id);
+    fs.rmdir(path.join(process.env.EXPORT_WD, 'temp', farm_name), { recursive: true }, (err) => {
+      if(!err) console.log('deleted temp folder', farm_name);
     })
   }, ()=> {
     done();

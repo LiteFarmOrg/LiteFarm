@@ -162,6 +162,8 @@ const getCropManagementPlanReqBody = (crop_management_plan) => {
     is_seed,
     estimated_yield,
     estimated_yield_unit,
+    estimated_price_per_mass,
+    estimated_price_per_mass_unit,
   } = crop_management_plan;
   return {
     needs_transplant,
@@ -180,6 +182,8 @@ const getCropManagementPlanReqBody = (crop_management_plan) => {
     harvest_date: for_cover ? undefined : crop_management_plan.harvest_date,
     estimated_yield: for_cover ? undefined : estimated_yield,
     estimated_yield_unit: for_cover ? undefined : estimated_yield_unit,
+    estimated_price_per_mass,
+    estimated_price_per_mass_unit,
     planting_management_plans: getPlantingManagementPlansReqBody(crop_management_plan),
   };
 };

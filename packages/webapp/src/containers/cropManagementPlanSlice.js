@@ -21,6 +21,8 @@ export const cropManagementPlanProperties = [
   'transplant_date',
   'estimated_yield_unit',
   'estimated_yield',
+  'estimated_price_per_mass',
+  'estimated_price_per_mass_unit',
 ];
 
 export const getCropManagementPlan = (obj) => {
@@ -81,3 +83,5 @@ export const cropManagementPlanReducerSelector = (state) =>
 export const cropManagementPlanSelectors = cropManagementPlanAdapter.getSelectors(
   (state) => state.entitiesReducer[cropManagementPlanSlice.name],
 );
+
+export const cropManagementPlanEntitiesSelector = cropManagementPlanSelectors.selectEntities;

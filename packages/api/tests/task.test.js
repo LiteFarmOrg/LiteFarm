@@ -181,12 +181,44 @@ describe('Task tests', () => {
 
     test('Worker should not be able to assign another person to task', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-      const [{ other_user_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(3));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(3));
       const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] });
       const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: other_user_id }, task_id, async (err, res) => {
         expect(res.status).toBe(403);
+        done();
+      });
+    });
+
+    test('Should not be able to re-assign completed tasks', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
+      const fakeTask = mocks.fakeTask({
+        assignee_user_id: user_id,
+        completed_time: faker.date.future(),
+      });
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask);
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
+      assignTaskRequest({ user_id, farm_id }, { assignee_user_id: another_id }, task_id, async (err, res) => {
+        expect(res.status).toBe(406);
+        done();
+      });
+    });
+
+    test('Should not be able to re-assign abandoned tasks', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
+      const fakeTask = mocks.fakeTask({
+        assignee_user_id: user_id,
+        abandoned_time: faker.date.future(),
+      });
+      const [{ task_id }] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask);
+      const [{ location_id }] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [{ task_id }], promisedField: [{ location_id }] });
+      assignTaskRequest({ user_id, farm_id }, { assignee_user_id: another_id }, task_id, async (err, res) => {
+        expect(res.status).toBe(406);
         done();
       });
     });
@@ -322,7 +354,7 @@ describe('Task tests', () => {
 
     test('Worker should not be able to assign other person to multiple tasks on date', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(3));
-      const [{ other_user_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(3));
+      const [{ user_id: other_user_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(3));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task_1] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
       const [task_2] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
@@ -335,6 +367,46 @@ describe('Task tests', () => {
         date: date,
       }, task_1.task_id, async (err, res) => {
         expect(res.status).toBe(403);
+        done();
+      });
+    });
+
+    test('Should only re-assign multiple non-completed or abandoned tasks on date', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const [{ user_id: another_id }] = await mocks.userFarmFactory({ promisedFarm: [{ farm_id }] }, fakeUserFarm(2));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const fakeTask_completed = mocks.fakeTask({
+        completed_time: faker.date.future(),
+        due_date: date,
+      });
+      const fakeTask_abandoned = mocks.fakeTask({
+        abandoned_time: faker.date.future(),
+        due_date: date,
+      });
+      const [task_1] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [task_2] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [completed_task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask_completed);
+      const [abandoned_task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, task = fakeTask_abandoned);
+      const [location_1] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      const [location_2] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task_1], promisedField: [location_1] });
+      await mocks.location_tasksFactory({ promisedTask: [task_2], promisedField: [location_2] });
+      await mocks.location_tasksFactory({ promisedTask: [completed_task], promisedField: [location_1] });
+      await mocks.location_tasksFactory({ promisedTask: [abandoned_task], promisedField: [location_2] });
+      assignAllTasksOnDateRequest({ user_id, farm_id }, {
+        assignee_user_id: another_id,
+        date: date,
+      }, task_1.task_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(2);
+        const updated_task_1 = await getTask(task_1.task_id);
+        const updated_task_2 = await getTask(task_2.task_id);
+        expect(updated_task_1.assignee_user_id).toBe(another_id);
+        expect(updated_task_2.assignee_user_id).toBe(another_id);
+        const updated_completed_task = await getTask(completed_task.task_id);
+        expect(updated_completed_task.assignee_user_id).toBe(null);
+        const updated_abandoned_task = await getTask(abandoned_task.task_id);
+        expect(updated_abandoned_task.assignee_user_id).toBe(null);
         done();
       });
     });
@@ -1194,10 +1266,49 @@ describe('Task tests', () => {
       abandonment_notes: sampleNote,
     };
 
-    test('Owner should be able to abandon a task', async (done) => {
+    beforeEach(async () => {
+      [{ product_id: product }] = await mocks.productFactory({}, mocks.fakeProduct({ supplier: 'mock' }));
+      productData = mocks.fakeProduct({ supplier: 'test' });
+    });
+
+    test('An unassigned task should not abandoned with a rating', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      const abandonTaskBodyWithRating = {
+        ...abandonTaskBody,
+        happiness: faker.random.number({ min: 1, max: 5 }),
+      };
+      abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithRating, task.task_id, async (err, res) => {
+        expect(res.status).toBe(406);
+        done();
+      });
+    });
+
+    test('An unassigned task should not abandoned with a duration', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      const abandonTaskBodyWithDuration = {
+        ...abandonTaskBody,
+        duration: faker.random.number(1000),
+      };
+      abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithDuration, task.task_id, async (err, res) => {
+        expect(res.status).toBe(406);
+        done();
+      });
+    });
+
+    test('Owner should be able to abandon a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+      }, mocks.fakeTask({ due_date: date, assignee_user_id: user_id }));
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {

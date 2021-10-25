@@ -28,6 +28,8 @@ const TaskCard = ({
   const onAssignTask = (task) => dispatch(assignTask(task));
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
+  const immutableStatus = ['completed', 'abandoned'];
+
   return (
     <>
       <PureTaskCard
@@ -39,7 +41,11 @@ const TaskCard = ({
         assignee={assignee}
         style={style}
         onClick={onClick}
-        onClickAssignee={() => setShowTaskAssignModal(true)}
+        onClickAssignee={() => {
+          if (!immutableStatus.includes(status)) {
+            setShowTaskAssignModal(true);
+          }
+        }}
         selected={selected}
         happiness={happiness}
         classes={classes}

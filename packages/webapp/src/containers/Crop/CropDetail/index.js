@@ -13,6 +13,7 @@ import RetireCropWarning from '../../../components/Modals/CropModals/RetireCropW
 import EditCropVarietyModal from '../../../components/Modals/EditCropVarietyModal';
 import UnableToRetireCropModal from '../../../components/Modals/CropModals/UnableToRetireCropModal';
 import { deleteVarietal } from '../../AddCropVariety/saga';
+import { isAdminSelector } from '../../userFarmSlice';
 
 function CropDetail({ history, match }) {
   const { variety_id } = match.params;
@@ -54,6 +55,8 @@ function CropDetail({ history, match }) {
     }
   };
 
+  const isAdmin = useSelector(isAdminSelector);
+
   return (
     <>
       <PureCropDetail
@@ -64,6 +67,7 @@ function CropDetail({ history, match }) {
         onBack={goBack}
         onRetire={() => warningModal()}
         onEdit={handleEdit}
+        isAdmin={isAdmin}
       />
       <CropVarietySpotlight />
       {showWarningBox && (

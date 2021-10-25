@@ -29,12 +29,15 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
+import {
+  currentAndPlannedManagementPlansSelector,
+  managementPlansSelector,
+} from '../managementPlanSlice';
 import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
-import { tasksSelector } from '../taskSlice';
+import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 
 const moment = extendMoment(Moment);
 
@@ -133,16 +136,23 @@ class Finances extends Component {
   getEstimatedRevenue(managementPlans) {
     let totalRevenue = 0;
     if (managementPlans) {
-      managementPlans.forEach((f) => {
-        // check if this field crop existed during this year
-        const endDate = new Date(f.harvest_date);
+      managementPlans.forEach((plan) => {
+        // check if this plan has a harvest task projected within the time frame
+        const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
+          (task) => task.task_type_id === 8,
+        );
+        const harvestDates = harvestTasks?.map((task) =>
+          moment(task.due_date).utc().format('YYYY-MM-DD'),
+        );
 
-        // get all field crops with end dates belonging to the chosen date window
         if (
-          moment(this.state.startDate).isSameOrBefore(endDate, 'day') &&
-          moment(this.state.endDate).isSameOrAfter(endDate, 'day')
+          harvestDates.some(
+            (harvestDate) =>
+              moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
+              moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
+          )
         ) {
-          totalRevenue += f.estimated_revenue;
+          totalRevenue += plan.estimated_revenue;
         }
       });
     }
@@ -553,9 +563,10 @@ const mapStateToProps = (state) => {
     shifts: shiftSelector(state),
     tasks: tasksSelector(state),
     expenses: expenseSelector(state),
-    managementPlans: currentAndPlannedManagementPlansSelector(state),
+    managementPlans: managementPlansSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
+    tasksByManagementPlanId: taskEntitiesByManagementPlanIdSelector(state),
   };
 };
 

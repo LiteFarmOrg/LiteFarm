@@ -29,6 +29,7 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
+    trigger,
     formState: { errors, isValid },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
@@ -55,6 +56,7 @@ const AddFarm = () => {
     placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
     countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
     noAddress: t('ADD_FARM.NO_ADDRESS'),
+    geolocationDisabled: t('ADD_FARM.DISABLE_GEO_LOCATION'),
   };
 
   const addressErrors = errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type];
@@ -192,7 +194,10 @@ const AddFarm = () => {
   };
 
   const handleGetGeoError = (e) => {
-    console.log(e);
+    setIsGettingLocation(false);
+    setError(ADDRESS, {
+      type: 'geolocationDisabled',
+    });
   };
 
   const getGeoOptions = {
@@ -220,6 +225,12 @@ const AddFarm = () => {
     setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
+
+  useEffect(() => {
+    if (farmAddress) {
+      trigger(ADDRESS);
+    }
+  }, [farmAddress]);
 
   return (
     <>
@@ -286,7 +297,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(gridPoints && gridPoints.lat && (
+      {(!isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}

@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
+    "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
     "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
     "FARM_IS_REQUIRED": "Farm name is required",
@@ -31,7 +32,7 @@
       "ESTIMATED_WATER": "Estimated water usage",
       "IS_PERMITTED": "Is the cleaning agent in the permitted substances list?",
       "WHAT_NEEDS_TO_BE": "What needs to be cleaned?",
-      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used"
+      "WILL_CLEANER_BE_USED": "Will a cleaner or sanitizing agent be used?"
     },
     "CLEAR_ALL": "Clear all",
     "CLEAR_ALL_PLANS": "Clear all plans",
@@ -583,7 +584,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "You can only retire locations that have no active or planned crops, logs, or shifts.",
+      "BODY": "You can only retire locations that have no active or planned crops or tasks.",
       "TITLE": "Unable to retire"
     },
     "WATER_VALVE": {
@@ -622,11 +623,17 @@
   "FINANCES": {
     "ACTUAL_REVENUE": {
       "ADD_REVENUE": "Add revenue",
-      "DATE": "Date",
-      "REVENUE": "Revenue",
-      "TITLE": "Actual Revenue",
-      "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range"
+      "TITLE": "Actual Revenue"
     },
+    "DATE": "Date",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "Estimated annual revenue",
+      "ESTIMATED_ANNUAL_YIELD": "Estimated annual yield",
+      "ESTIMATED_PRICE_PER_UNIT": "Estimated price per unit",
+      "TITLE": "Estimated Revenue"
+    },
+    "REVENUE": "Revenue",
+    "VIEW_WITHIN_DATE_RANGE": "View revenue within this date range",
     "WHOLE_FARM_REVENUE": "Whole farm revenue"
   },
   "HELP": {
@@ -656,7 +663,7 @@
       "BIRDS": "Birds",
       "CROPS": "Crops",
       "HEADER": "Number of species",
-      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from your farm boundary. You can increase the crop biodiversity on your farm by adding additional crops. You can increase the non-crop biodiversity count on your farm by recording sitings on https://inaturalist.org/app",
       "INSECTS": "Insects",
       "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",
@@ -886,6 +893,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
     "FIRST_MP_SPOTLIGHT": {
@@ -973,7 +981,6 @@
         "TEXT": "{{fill}} location"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "Select individual tasks to change dates or task details.",
     "VARIETY": "Variety",
     "WHAT_IS_AGE": "What is the age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",

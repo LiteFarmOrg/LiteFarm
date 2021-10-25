@@ -14,9 +14,9 @@ export default function AddHarvestUseTypeModal({ dismissModal, harvestUseTypes }
   const [duplicateError, setDuplicateError] = useState(false);
 
   const onAdd = () => {
-    dispatch(addCustomHarvestUse({name: harvestUseName}));
+    dispatch(addCustomHarvestUse({ name: harvestUseName }));
     dismissModal();
-  }
+  };
 
   const onHarvestUseInputChange = (e) => {
     setHarvestUseName(e.target.value);
@@ -25,7 +25,7 @@ export default function AddHarvestUseTypeModal({ dismissModal, harvestUseTypes }
     } else {
       setDuplicateError(false);
     }
-  }
+  };
 
   return (
     <ModalComponent

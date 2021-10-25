@@ -28,13 +28,14 @@ import {
   UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { axios, getHeader } from '../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { createAction } from '@reduxjs/toolkit';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -255,6 +256,28 @@ export function* tempEditExpenseSaga(action) {
   }
 }
 
+export const patchEstimatedCropRevenue = createAction(`patchEstimatedCropRevenueSaga`);
+export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
+  const { managementPlanURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.patch,
+      managementPlanURL + `/${managementPlan.management_plan_id}`,
+      managementPlan,
+      header,
+    );
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE.SUCCESS.EDIT')));
+    history.push(`/estimated_revenue`);
+  } catch (e) {
+    console.log('Failed to update managementPlan to database');
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.EDIT')));
+  }
+}
+
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
@@ -268,4 +291,5 @@ export default function* financeSaga() {
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
   yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
 }

@@ -56,6 +56,7 @@ const AddFarm = () => {
     placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
     countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
     noAddress: t('ADD_FARM.NO_ADDRESS'),
+    geolocationDisabled: t('ADD_FARM.DISABLE_GEO_LOCATION'),
   };
 
   const addressErrors = errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type];
@@ -193,7 +194,10 @@ const AddFarm = () => {
   };
 
   const handleGetGeoError = (e) => {
-    console.log(e);
+    setIsGettingLocation(false);
+    setError(ADDRESS, {
+      type: 'geolocationDisabled',
+    });
   };
 
   const getGeoOptions = {

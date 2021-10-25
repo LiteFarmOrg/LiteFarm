@@ -93,10 +93,15 @@ const taskController = {
           .where({ task_id }).first();
         const isUserTaskOwner = user_id === owner_user_id;
         const isUserTaskAssignee = user_id === assignee_user_id;
-        //TODO: move to middleware
+        const hasAssignee = assignee_user_id !== null;
+        // TODO: move to middleware
         // cannot abandon task if user is worker and not assignee and not creator
         if (!adminRoles.includes(req.role) && !isUserTaskOwner && !isUserTaskAssignee) {
           return res.status(403).send('A worker who is not assignee or owner of task cannot abandon it');
+        }
+        // cannot abandon an unassigned task with rating or duration
+        if (!hasAssignee && (happiness || duration)) {
+          return res.status(406).send('An unassigned task should not be rated or have time clocked');
         }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           abandoned_time: new Date(Date.now()),

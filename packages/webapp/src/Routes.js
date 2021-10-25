@@ -59,6 +59,9 @@ const NitrogenBalance = React.lazy(() => import('./containers/Insights/NitrogenB
 const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
+const LegacyEstimatedRevenue = React.lazy(() =>
+  import('./containers/Finances/LegacyEstimatedRevenue'),
+);
 const EstimatedRevenue = React.lazy(() => import('./containers/Finances/EstimatedRevenue'));
 const Labour = React.lazy(() => import('./containers/Finances/Labour'));
 const OtherExpense = React.lazy(() => import('./containers/Finances/OtherExpense'));
@@ -310,6 +313,9 @@ const TaskContainerMethod = React.lazy(() =>
   import('./containers/Task/TaskTransplantMethod/TaskContainerMethod'),
 );
 const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualRevenue'));
+const UpdateEstimatedCropRevenue = React.lazy(() =>
+  import('./containers/Finances/UpdateEstimatedCropRevenue'),
+);
 
 const Routes = () => {
   useScrollToTop();
@@ -617,8 +623,14 @@ const Routes = () => {
             <Route path="/help" exact component={HelpRequest} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+            <Route
+              path="/finances/estimated_revenue/plan/:management_plan_id"
+              exact
+              component={UpdateEstimatedCropRevenue}
+            />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
+            <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
@@ -834,9 +846,9 @@ const Routes = () => {
             <Route path="/crop/:variety_id/management" component={CropManagement} />
             <Route path="/crop/:variety_id/edit_crop_variety" exact component={EditCrop} />
             <Route path="/documents" exact component={Documents} />
+            <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/documents/:document_id/edit_document" exact component={EditDocument} />
             <Route path="/documents/:document_id" exact component={MainDocument} />
-            <Route path="/documents/add_document" exact component={AddDocument} />
             <Route path="/map" exact component={Map} />
             <Route path="/map/videos" exact component={MapVideo} />
             <Route
@@ -904,8 +916,14 @@ const Routes = () => {
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
+            <Route
+              path="/finances/estimated_revenue/plan/:management_plan_id"
+              exact
+              component={UpdateEstimatedCropRevenue}
+            />
             <Route path="/add_sale" exact component={AddSale} />
             <Route path="/edit_sale" exact component={EditSale} />
+            <Route path="/temp_estimated_revenue" exact component={LegacyEstimatedRevenue} />
             <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
             <Route path="/labour" exact component={Labour} />
             <Route path="/other_expense" exact component={OtherExpense} />
@@ -1006,6 +1024,8 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/crop_catalogue" exact component={CropCatalogue} />
             <Route path="/crop_varieties/crop/:crop_id" exact component={CropVarieties} />
+            <Route path="/crop/:variety_id/detail" exact component={CropDetail} />
+            <Route path="/crop/:variety_id/management" exact component={CropManagement} />
             <Route
               path="/crop/:variety_id/management_plan/:management_plan_id/tasks"
               exact

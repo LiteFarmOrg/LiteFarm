@@ -91,6 +91,7 @@
   display: flex;
   justify-content: space-between;
   min-height: 20px;
+  position: relative;
 }
 
 .unit {
@@ -103,6 +104,18 @@
   position: absolute;
   right: 0;
   transform: translate(-8px, 33px);
+}
+
+.currency {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  left: 0;
+  transform: translate(8px, 34px);
 }
 
 .leaf {

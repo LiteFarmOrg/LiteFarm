@@ -63,7 +63,7 @@ export default function ActualRevenue({ history, match }) {
       </AddLink>
 
       <Semibold style={{ marginBottom: '24px' }} sm>
-        {t('FINANCES.ACTUAL_REVENUE.VIEW_WITHIN_DATE_RANGE')}
+        {t('FINANCES.VIEW_WITHIN_DATE_RANGE')}
       </Semibold>
       <DateRangePicker
         register={register}
@@ -73,8 +73,8 @@ export default function ActualRevenue({ history, match }) {
       />
 
       <FinanceListHeader
-        firstColumn={t('FINANCES.ACTUAL_REVENUE.DATE')}
-        secondColumn={t('FINANCES.ACTUAL_REVENUE.REVENUE')}
+        firstColumn={t('FINANCES.DATE')}
+        secondColumn={t('FINANCES.REVENUE')}
         style={{ marginBottom: '8px' }}
       />
       {filteredSales.map((sale) => (

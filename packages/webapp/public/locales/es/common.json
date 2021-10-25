@@ -1,6 +1,7 @@
 {
   "ABANDON": "Abandonar",
   "ACTIVE": "Activo",
+  "ADD": "Agregar",
   "ALL": "Todo",
   "APPLY": "Aplicar",
   "BACK": "Atrás",
@@ -11,7 +12,7 @@
   "CONTINUE": "Continuar",
   "DATE": "Fecha",
   "DELETE": "Borrar",
-  "DO_NOT_SHOW": "MISSING",
+  "DO_NOT_SHOW": "No vuelva a mostrar este mensaje.",
   "EDIT": "Editar",
   "EDIT_DATE": "Editar fecha",
   "EG": "Ejemplo",
@@ -51,6 +52,5 @@
   "TO": "Para",
   "UPDATE": "Actualizar",
   "WORD_LIMIT_ERROR": "Solo se pueden mostrar {{value}} caracteres",
-  "YES": "Si",
-  "ADD": "MISSING"
+  "YES": "Si"
 }

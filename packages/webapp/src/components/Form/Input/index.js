@@ -34,6 +34,7 @@ const Input = ({
   onBlur,
   hasLeaf,
   placeholder,
+  currency,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -66,7 +67,7 @@ const Input = ({
     >
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={{ position: 'absolute', bottom: 0 }}>
             {label}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
@@ -75,7 +76,9 @@ const Input = ({
             )}
             {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
-          {toolTipContent && <Infoi content={toolTipContent} />}
+          {toolTipContent && (
+            <Infoi style={{ position: 'absolute', right: 0 }} content={toolTipContent} />
+          )}
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
@@ -99,6 +102,7 @@ const Input = ({
           <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
         ))}
       {unit && <div className={styles.unit}>{unit}</div>}
+      {currency && <div className={styles.currency}>{currency}</div>}
       <input
         disabled={disabled}
         className={clsx(
@@ -106,7 +110,11 @@ const Input = ({
           showError && styles.inputError,
           isSearchBar && styles.searchBar,
         )}
-        style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
+        style={{
+          paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`,
+          paddingLeft: currency ? `${currency.length * 8 + 12}px` : undefined,
+          ...classes.input,
+        }}
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
@@ -163,6 +171,7 @@ Input.propTypes = {
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
   unit: PropTypes.string,
+  currency: PropTypes.string,
   name: PropTypes.string,
   hookFormRegister: PropTypes.exact({
     ref: PropTypes.func,

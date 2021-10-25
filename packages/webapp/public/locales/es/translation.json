@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es requerida",
+    "DISABLE_GEO_LOCATION": "MISSING",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
     "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
     "FARM_IS_REQUIRED": "Nombre de finca es requerida",
@@ -57,7 +58,7 @@
         "WEEDING": "Desyerbar"
       }
     },
-    "GO_TO_CATALOGUE": "MISSING",
+    "GO_TO_CATALOGUE": "Ir al catálogo de cultivos",
     "HARVEST_EVERYTHING": "Cosecha todo lo que esté listo",
     "HARVESTING_INFO": "Cada plan generará una tarea individual de cosecha",
     "HOW_MUCH_IS_HARVESTED": "¿Cuánto se está cosechando?",
@@ -77,9 +78,9 @@
       "SYSTEMIC_SPRAY": "Spray sistémico",
       "WHAT_PESTS": "¿Qué plaga (s) está tratando de controlar?"
     },
-    "PLANTING_METHOD": "MISSING",
-    "PLANTING_TASK": "MISSING",
-    "PLANTING_TASK_MODAL": "MISSING",
+    "PLANTING_METHOD": "Método de plantar",
+    "PLANTING_TASK": "Tarea de plantar",
+    "PLANTING_TASK_MODAL": "Comenzar una nueva tarea de plantar crea un nuevo plan de manejo. Vaya al catálogo de cultivos para seleccionar el cultivo que le gustaría plantar.",
     "QUANTITY": "Cantidad",
     "RETIRE_CUSTOM_TASK": "¿Retirar tarea personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "¿Está seguro de que desea eliminar esta tarea personalizada?",
@@ -99,10 +100,10 @@
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
-    "TRANSPLANT_METHOD": "MISSING",
+    "TRANSPLANT_METHOD": "Método de trasplantar",
     "WAGE_OVERRIDE": "Alterar el salario",
-    "WHAT_PLANTING_METHOD": "MISSING",
-    "WILD_CROP": "MISSING"
+    "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
+    "WILD_CROP": "Cultivos silvestres"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
@@ -310,10 +311,10 @@
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Su certificador puede solicitar documentación que respalde su afirmación de que este cultivo no está modificado genéticamente.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Su certificador puede solicitar documentación que respalde su búsqueda.",
     "NEED_DOCUMENT_TREATED": "Su certificador puede solicitar documentación que describa cualquier tratamiento.",
-    "NUTRIENTS_IN_EDIBLE_PORTION": "MISSING",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrientes en porción comestible (por 100g)",
     "PERENNIAL": "Perenne",
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
-    "PHYSIOLOGY_AND_ANATOMY": "MISSING",
+    "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento."
   },
@@ -582,7 +583,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos activos o planificados.",
+      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos o tareas activos o planificados.",
       "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {
@@ -620,13 +621,19 @@
   },
   "FINANCES": {
     "ACTUAL_REVENUE": {
-      "ADD_REVENUE": "MISSING",
-      "DATE": "MISSING",
-      "REVENUE": "MISSING",
-      "TITLE": "MISSING",
-      "VIEW_WITHIN_DATE_RANGE": "MISSING"
+      "ADD_REVENUE": "Agregar ingresos",
+      "TITLE": "MISSING"
     },
-    "WHOLE_FARM_REVENUE": "MISSING"
+    "DATE": "Fecha",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "REVENUE": "Ingresos",
+    "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
+    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
@@ -840,9 +847,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plan de manejo",
     "ADD_A_TASK": "Agregar una tarea",
-    "DETAILS": "MISSING",
+    "DETAILS": "Detalles",
     "FAILED_CROP": "¿Cultivo fallido?",
-    "TASKS": "MISSING"
+    "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de manejo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
@@ -885,6 +892,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FIRST_MP_SPOTLIGHT": {
@@ -972,7 +980,6 @@
         "TEXT": "{{fill}} ubicacion"
       }
     },
-    "UPDATE_DATE_THROUGH_TASK": "MISSING",
     "VARIETY": "Variedad",
     "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
@@ -1113,12 +1120,12 @@
     "ADD_SALE": {
       "CROP_PLACEHOLDER": "Seleccionar cultivo",
       "CROP_REQUIRED": "Cultivo es requerida",
-      "CROP_VARIETY": "MISSING",
+      "CROP_VARIETY": "Variedad de cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "DATE": "Fecha",
       "TABLE_HEADERS": {
-        "CROP_VARIETIES": "MISSING",
+        "CROP_VARIETIES": "Variedad de cultivo",
         "QUANTITY": "Cantidad",
         "TOTAL": "Total"
       },
@@ -1294,7 +1301,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandonar esta tarea",
-    "ABANDON_TASK_DURATION": "MISSING",
+    "ABANDON_TASK_DURATION": "¿Se completó algún trabajo para esta tarea?",
     "ABANDON": {
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
@@ -1328,18 +1335,18 @@
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
     "COMPLETE_TASK_FLOW": "la terminación de la tarea",
-    "COMPLETION_DETAILS": "MISSING",
+    "COMPLETION_DETAILS": "Detalles de finalización de la tarea",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
-    "CREATE_CUSTOM_HARVEST_USE": "MISSING",
-    "DESCRIBE_HARVEST_USE": "MISSING",
+    "CREATE_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado",
+    "DESCRIBE_HARVEST_USE": "Describe el uso de la cosecha",
     "DETAILS": "Detalles",
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
     "EDIT_TASK": "Editar tarea",
     "HARVEST_USE": "Usa de la cosecha?",
-    "HARVEST_USE_ALREADY_EXISTS": "MISSING",
+    "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
@@ -1347,12 +1354,12 @@
     "PAGE_TITLE": "Tareas",
     "PREFER_NOT_TO_SAY": "Prefiero no decir",
     "PROVIDE_RATING": "Proveer una calificación",
-    "QUANTITY_CANNOT_EXCEED": "MISSING",
-    "RATE_THIS_TASK": "MISSING",
+    "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
+    "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",
-    "SELECT_WILD_CROP": "MISSING",
+    "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completada",
@@ -1364,7 +1371,7 @@
     "TASKS_COUNT": "{{count}} tarea",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
-    "TRANSPLANT_LOCATIONS": "MISSING",
+    "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
     "UNASSIGNED": "Sin asignar"
   },
   "UNIT": {

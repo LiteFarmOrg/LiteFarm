@@ -9,13 +9,13 @@ const bucketNames = {
 
 module.exports = (emailQueue) => (job, done) => {
   console.log('STEP 5 > Upload', job.id);
-  const { farm_id, email } = job.data;
+  const { farm_id, farm_name, email } = job.data;
   const dateIdentifier = Date.now();
   const fileIdentifier = `${getS3BucketName()}/${farm_id}/document/exports/${dateIdentifier}`
   const args = [
     's3', // command
     'cp', //sub command
-    `${farm_id}.zip`, // destination
+    `${farm_name}.zip`, // destination
     `s3://${fileIdentifier}.zip`, // location
     '--endpoint=https://nyc3.digitaloceanspaces.com',
   ]

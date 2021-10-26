@@ -30,7 +30,7 @@ export default function PureAddFarm({
         </Button>
       }
     >
-      <PageTitle onGoBack={onGoBack} title={title} />
+      <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
       {map}

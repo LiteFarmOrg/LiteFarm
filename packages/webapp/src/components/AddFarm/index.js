@@ -19,7 +19,6 @@ export default function PureAddFarm({
   loading,
   disabled,
 }) {
-  // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation(['translation', 'common']);
   return (
     <Form

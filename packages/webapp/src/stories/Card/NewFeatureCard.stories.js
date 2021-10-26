@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewReleaseCard } from '../../components/Card/NewReleaseCard';
+import { NewReleaseCard } from '../../components/Card/NewReleaseCard/NewReleaseCard';
 import { componentDecorators } from '../Pages/config/decorators';
 
 export default {

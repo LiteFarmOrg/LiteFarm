@@ -8,7 +8,7 @@ import Footer from '../Footer';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Error } from '../Typography';
-import { NewReleaseCard } from '../Card/NewReleaseCard';
+import { NewReleaseCard } from '../Card/NewReleaseCard/NewReleaseCard';
 
 const inputClasses = {
   container: {

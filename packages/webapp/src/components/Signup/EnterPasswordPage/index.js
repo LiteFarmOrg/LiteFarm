@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
-import { NewReleaseCard } from '../../Card/NewReleaseCard';
+import { NewReleaseCard } from '../../Card/NewReleaseCard/NewReleaseCard';
 
 export default function PureEnterPasswordPage({
   title,

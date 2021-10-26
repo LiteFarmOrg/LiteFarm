@@ -181,13 +181,13 @@ const callSoilGridAPI = async (data) => {
       lat: data['grid_points'][0]['lat'],
       property: 'soc',
       depth: '5-15cm',
-      value:'mean',
+      value: 'mean',
     },
   };
   return await rp(options)
     .then((data) => {
       const parsedObject = JSON.parse(data);
-      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean']
+      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean'];
       soil_om *= 2 * 0.01;
       return Math.floor(soil_om);
     })

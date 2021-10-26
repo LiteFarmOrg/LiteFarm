@@ -1,7 +1,7 @@
 import { PureManageCustomTasks } from '../../../components/Task/PureTaskTypeSelection/PureManageCustomTasks';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
-import { userCreatedTaskTypes } from '../../taskTypeSlice';
+import { userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 
 function ManageCustomTasks({ history, match }) {
   const onAddCustomTaskPath = '/add_task/add_custom_task';
@@ -22,7 +22,7 @@ function ManageCustomTasks({ history, match }) {
   const onError = () => {
     console.log('onError called');
   };
-  const customTasks = useSelector(userCreatedTaskTypes);
+  const customTasks = useSelector(userCreatedTaskTypesSelector);
 
   return (
     <HookFormPersistProvider>

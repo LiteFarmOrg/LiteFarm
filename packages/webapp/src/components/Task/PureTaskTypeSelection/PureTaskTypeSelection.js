@@ -140,7 +140,9 @@ export const PureTaskTypeSelection = ({
                   )}
                 >
                   {icons[task_translation_key]}
-                  <div>{t(`task:${task_translation_key}`)}</div>
+                  <div className={styles.taskTypeLabelContainer}>
+                    {t(`task:${task_translation_key}`)}
+                  </div>
                 </div>
               );
             })}
@@ -159,7 +161,7 @@ export const PureTaskTypeSelection = ({
                   )}
                 >
                   <CustomTask />
-                  <div>{task_name}</div>
+                  <div className={styles.taskTypeLabelContainer}>{task_name}</div>
                 </div>
               </div>
             );

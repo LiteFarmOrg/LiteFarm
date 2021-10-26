@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
+    "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
     "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
     "FARM_IS_REQUIRED": "Farm name is required",
@@ -892,7 +893,7 @@
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
-    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify any tasks assigned to it.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated yield",
     "FIRST_MP_SPOTLIGHT": {

@@ -39,9 +39,10 @@ function PureCropDetail({
       buttonGroup={
         isAdmin && (
           <>
-            <Button color={'secondary'} fullLength onClick={onRetire}>
-              {t('common:RETIRE')}
-            </Button>
+            {/*TODO: LF-2003 rework task/management plan/location/crop_variety soft delete*/}
+            {/*<Button color={'secondary'} fullLength onClick={onRetire}>*/}
+            {/*  {t('common:RETIRE')}*/}
+            {/*</Button>*/}
             <Button onClick={onEdit} fullLength>
               {t('common:EDIT')}
             </Button>
@@ -54,7 +55,7 @@ function PureCropDetail({
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplierName={variety.supplier}
+        supplier={variety.supplier}
       />
       {!isEditing && (
         <>

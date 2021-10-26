@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es requerida",
+    "DISABLE_GEO_LOCATION": "MISSING",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
     "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
     "FARM_IS_REQUIRED": "Nombre de finca es requerida",

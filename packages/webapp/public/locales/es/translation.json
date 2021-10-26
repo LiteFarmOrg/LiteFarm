@@ -175,8 +175,7 @@
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Estas interesado en aplicar para:",
       "YOUR_CERTIFICATION": "Tu certificación"
-    },
-    "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Quizas mas tarde",
@@ -1259,11 +1258,13 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
+    "CHANGES": "MISSING",
     "EMAIL_INVALID": "Correo invalido",
     "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Faltante",
+    "LITEFARM_UPDATED": "MISSING",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
@@ -1344,7 +1345,6 @@
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
-    "EDIT_TASK": "Editar tarea",
     "HARVEST_USE": "Usa de la cosecha?",
     "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",

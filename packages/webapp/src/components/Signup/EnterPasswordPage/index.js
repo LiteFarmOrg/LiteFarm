@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
+import { NewReleaseCard } from '../../Card/NewReleaseCard';
 
 export default function PureEnterPasswordPage({
   title,
@@ -74,7 +75,8 @@ export default function PureEnterPasswordPage({
         </>
       }
     >
-      <Title style={{ marginBottom: '32px' }}>{title}</Title>
+      <Title style={{ marginBottom: '24px' }}>{title}</Title>
+      <NewReleaseCard style={{ marginBottom: '28px' }} />
       {!isChrome && (
         <div className={styles.otherBrowserMessageTop}>
           {wrongBrowserTop}

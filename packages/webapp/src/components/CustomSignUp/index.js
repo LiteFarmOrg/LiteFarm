@@ -8,6 +8,7 @@ import Footer from '../Footer';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Error } from '../Typography';
+import { NewReleaseCard } from '../Card/NewReleaseCard/NewReleaseCard';
 
 const inputClasses = {
   container: {
@@ -32,6 +33,7 @@ export default function PureCustomSignUp({
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
+          <NewReleaseCard style={{ marginTop: '32px', maxWidth: '312px' }} />
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
               {!!errorMessage ? (

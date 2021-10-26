@@ -175,8 +175,7 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    },
-    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Maybe later",
@@ -1260,11 +1259,13 @@
     "TITLE": "Shifts"
   },
   "SIGNUP": {
+    "CHANGES": "Read about the changes",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
+    "LITEFARM_UPDATED": "We've updated LiteFarm!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
@@ -1345,7 +1346,6 @@
     "DID_YOU_ENJOY": "Did you enjoy this task?",
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
-    "EDIT_TASK": "Edit Task",
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",

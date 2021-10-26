@@ -175,8 +175,7 @@
       "INFORMATION": "Nós indicaremos estas informações no aplicativo com um ícone de folha.",
       "TITLE": "Você está interessado(a) em aplicar para:",
       "YOUR_CERTIFICATION": "Sua certificação"
-    },
-    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta período. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Talvez mais tarde",
@@ -1260,11 +1259,13 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
+    "CHANGES": "MISSING",
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
+    "LITEFARM_UPDATED": "MISSING",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
@@ -1345,7 +1346,6 @@
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
     "DUE_DATE": "Data de finalização",
     "DURATION": "Duração",
-    "EDIT_TASK": "Editar tarefa",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_ALREADY_EXISTS": "Uso de colheita já existe",
     "HOW_WILL_HARVEST_BE_USED": "Como a colheita vai ser utilizada?",

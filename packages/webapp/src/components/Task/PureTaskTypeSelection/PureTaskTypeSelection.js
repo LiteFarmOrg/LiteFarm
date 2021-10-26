@@ -52,16 +52,19 @@ const icons = {
  * @param isAdmin {boolean}
  * @return {Set<string>}
  */
-const getSupportedTaskTypes = (isAdmin) => {
+const getSupportedTaskTypesSet = (isAdmin) => {
   const supportedTaskTypes = new Set([
     'SOIL_AMENDMENT_TASK',
     'FIELD_WORK_TASK',
     'PEST_CONTROL_TASK',
     'CLEANING_TASK',
     'HARVEST_TASK',
-    'TRANSPLANT_TASK',
   ]);
-  isAdmin && supportedTaskTypes.add('PLANT_TASK');
+
+  if (isAdmin) {
+    supportedTaskTypes.add('PLANT_TASK');
+    supportedTaskTypes.add('TRANSPLANT_TASK');
+  }
   return supportedTaskTypes;
 };
 
@@ -122,7 +125,7 @@ export const PureTaskTypeSelection = ({
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
             ?.filter(({ farm_id, task_translation_key }) => {
-              const supportedTaskTypes = getSupportedTaskTypes(isAdmin);
+              const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
               return farm_id === null && supportedTaskTypes.has(task_translation_key);
             })
             .map(({ task_translation_key, task_type_id, farm_id }) => {

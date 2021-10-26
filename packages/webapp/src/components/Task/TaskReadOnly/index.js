@@ -23,6 +23,9 @@ import PurePestControlTask from '../PestControlTask';
 import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
+import { StatusLabel } from '../../CardWithStatus/StatusLabel';
+import { getTaskStatus } from '../../../containers/Task/taskCardContentSelector';
+import { taskStatusText } from '../../CardWithStatus/TaskCard/TaskCard';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -76,6 +79,7 @@ export default function PureTaskReadOnly({
   const isCompleted = !!task.completed_time;
   const isAbandoned = !!task.abandoned_time;
   const isCurrent = !isCompleted && !isAbandoned;
+  const taskStatus = getTaskStatus(task);
   return (
     <Layout
       buttonGroup={
@@ -93,6 +97,7 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
+        label={!isCurrent && <StatusLabel label={taskStatusText[taskStatus]} color={taskStatus} />}
         // TODO: Evaluate edit tasks
         // onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
         // editLink={t('TASK.EDIT_TASK')}

@@ -65,12 +65,12 @@ class Insights extends Component {
     super(props);
     this.state = {
       items: [
-        {
-          label: props.t('INSIGHTS.PEOPLE_FED.TITLE'),
-          image: people_fed,
-          route: 'PeopleFed',
-          data_point: 'PeopleFed',
-        },
+        // {
+        //   label: props.t('INSIGHTS.PEOPLE_FED.TITLE'),
+        //   image: people_fed,
+        //   route: 'PeopleFed',
+        //   data_point: 'PeopleFed',
+        // },
         {
           label: props.t('INSIGHTS.SOIL_OM.TITLE'),
           image: soil_om,
@@ -180,17 +180,17 @@ class Insights extends Component {
 
   componentDidMount() {
     //TODO fetch userFarm
-    this.props.dispatch(getCropsSoldNutrition());
-    this.props.dispatch(getSoilOMData());
+    // this.props.dispatch(getCropsSoldNutrition());
+    // this.props.dispatch(getSoilOMData());
     this.props.dispatch(getLabourHappinessData());
     this.props.dispatch(getBiodiversityData());
-    this.props.dispatch(
-      getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance),
-    );
-    this.props.dispatch(getWaterBalanceData());
-    this.props.dispatch(getWaterBalanceSchedule());
-    this.props.dispatch(getNitrogenBalanceData());
-    this.props.dispatch(getFrequencyNitrogenBalance());
+    // this.props.dispatch(
+    //   getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance),
+    // );
+    // this.props.dispatch(getWaterBalanceData());
+    // this.props.dispatch(getWaterBalanceSchedule());
+    // this.props.dispatch(getNitrogenBalanceData());
+    // this.props.dispatch(getFrequencyNitrogenBalance());
   }
 
   render() {

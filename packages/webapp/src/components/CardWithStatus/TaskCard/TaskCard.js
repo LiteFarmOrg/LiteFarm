@@ -38,7 +38,7 @@ const activeCardColorMap = {
   abandoned: 'taskMarkedActive',
 };
 
-const taskStatusText = {
+export const taskStatusText = {
   forReview: i18n.t('TASK.STATUS.FOR_REVIEW'),
   planned: i18n.t('TASK.STATUS.PLANNED'),
   completed: i18n.t('TASK.STATUS.COMPLETED'),

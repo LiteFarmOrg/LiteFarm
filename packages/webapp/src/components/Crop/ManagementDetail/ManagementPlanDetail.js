@@ -71,7 +71,7 @@ export default function PureManagementDetail({
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplierName={variety.supplier}
+        supplier={variety.supplier}
       />
 
       <div className={styles.titlewrapper}>

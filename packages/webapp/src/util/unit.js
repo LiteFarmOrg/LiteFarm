@@ -213,16 +213,16 @@ export const harvestAmounts = {
 
 export const pest = {
   metric: {
-    units: ['ml', 'l'],
-    defaultUnit: 'l',
-    breakpoints: [1000],
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1, 1000],
   },
   imperial: {
-    units: ['fl-oz', 'gal'],
-    defaultUnit: 'gal',
-    breakpoints: [128],
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [1, 2000],
   },
-  databaseUnit: databaseUnit.volume,
+  databaseUnit: databaseUnit.mass,
 };
 
 //TODO move to storybook

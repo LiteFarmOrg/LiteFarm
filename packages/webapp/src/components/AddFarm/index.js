@@ -3,9 +3,8 @@ import Button from '../Form/Button';
 import Input from '../Form/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
-import PageTitle from '../PageTitle';
+import PageTitle from '../PageTitle/v2';
 
 const style = {
   marginBottom: '28px',
@@ -31,11 +30,7 @@ export default function PureAddFarm({
         </Button>
       }
     >
-      <PageTitle
-        style={{zIndex: '1'}}
-        onGoBack={onGoBack}
-        title={title}
-      />
+      <PageTitle style={{ zIndex: '1' }} onGoBack={onGoBack} title={title} />
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
       {map}

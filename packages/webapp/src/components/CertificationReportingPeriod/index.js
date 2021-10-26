@@ -10,7 +10,7 @@ import Input from '../Form/Input';
 import { Main } from '../Typography';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 import DateRangePicker from '../Form/DateRangePicker';
-import { addDaysToDate, getDateUTC } from '../../util/moment';
+import { addDaysToDate } from '../../util/moment';
 
 const EMAIL = 'email';
 
@@ -75,7 +75,7 @@ const PureCertificationReportingPeriod = ({
           control={control}
           getValues={getValues}
           style={{ marginBottom: '40px' }}
-          fromProps={{ max: addDaysToDate(getDateUTC(), -2) }}
+          fromProps={{ max: addDaysToDate(new Date(), -1, { toUTC: false }) }}
         />
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>

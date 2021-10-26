@@ -104,7 +104,7 @@ const insightController = {
           JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "location_tasks" af, "soil_task" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
             and al.task_id = sdl.task_id
@@ -138,7 +138,7 @@ const insightController = {
           JOIN "line" on line.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "location_tasks" af, "soil_task" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
             and al.task_id = sdl.task_id

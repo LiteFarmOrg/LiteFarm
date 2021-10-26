@@ -56,7 +56,9 @@ const farmExpenseTypeController = {
   getDefaultTypes() {
     return async (req, res) => {
       try {
-        const result = await expenseTypeModel.query().where('farm_id', null).whereNotDeleted();
+        const result = await expenseTypeModel.query()
+          .where('farm_id', null).whereNotDeleted()
+          .orderBy('expense_type_id', 'asc');
         res.status(200).send(result);
       } catch (error) {
         res.status(400).json({

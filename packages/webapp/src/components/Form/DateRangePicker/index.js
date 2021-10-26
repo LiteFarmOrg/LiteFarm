@@ -9,7 +9,15 @@ import { useWatch } from 'react-hook-form';
 const FROM_DATE = 'from_date';
 const TO_DATE = 'to_date';
 
-const DateRangePicker = ({ register, getValues, control, className, ...props }) => {
+const DateRangePicker = ({
+  register,
+  getValues,
+  control,
+  className,
+  fromProps = {},
+  toProps = {},
+  ...props
+}) => {
   const { t } = useTranslation();
 
   const fromDateRegister = register(FROM_DATE, {
@@ -35,6 +43,7 @@ const DateRangePicker = ({ register, getValues, control, className, ...props }) 
           classes={{
             container: { flex: '1' },
           }}
+          {...fromProps}
         />
         <div className={styles.dateDivider} />
         <Input
@@ -44,6 +53,7 @@ const DateRangePicker = ({ register, getValues, control, className, ...props }) 
           classes={{
             container: { flex: '1' },
           }}
+          {...toProps}
         />
       </div>
       <DateError control={control} errorMessage={t('DATE_RANGE_PICKER.TO_MUST_BE_AFTER_FROM')} />

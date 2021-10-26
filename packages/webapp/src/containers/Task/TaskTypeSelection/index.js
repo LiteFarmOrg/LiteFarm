@@ -4,7 +4,7 @@ import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
-import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
+import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 
@@ -12,7 +12,7 @@ function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
-  const customTasks = useSelector(userCreatedTaskTypes);
+  const customTasks = useSelector(userCreatedTaskTypesSelector);
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];

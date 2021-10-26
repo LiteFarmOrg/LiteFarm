@@ -66,7 +66,7 @@ export const PureManageCustomTasks = ({
                   )}
                 >
                   <CustomTask />
-                  <div>{task_name}</div>
+                  <div className={styles.taskTypeLabelContainer}>{task_name}</div>
                 </div>
               </div>
             );

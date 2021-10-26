@@ -41,6 +41,12 @@
   color: var(--teal900);
 }
 
+.taskTypeLabelContainer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
 .matrixContainer {
   display: inline-flex;
   flex-flow: row wrap;

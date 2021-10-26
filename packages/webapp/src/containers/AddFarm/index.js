@@ -4,7 +4,11 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmReducerSelector, userFarmSelector, userFarmsByUserSelector } from '../userFarmSlice';
+import {
+  userFarmReducerSelector,
+  userFarmSelector,
+  userFarmsByUserSelector,
+} from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -23,7 +27,6 @@ const AddFarm = () => {
   const farm = useSelector(userFarmSelector);
   const farms = useSelector(userFarmsByUserSelector);
   const isFirstFarm = !farms.length;
-  console.log(isFirstFarm);
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const {
     register,
@@ -247,7 +250,7 @@ const AddFarm = () => {
         onLoad={handleScriptLoad}
       />
       <PureAddFarm
-        onGoBack={isFirstFarm? null : onGoBack}
+        onGoBack={isFirstFarm ? null : onGoBack}
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
         disabled={disabled}

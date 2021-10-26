@@ -108,7 +108,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/iCertify-RecordD.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
     })
 }
 

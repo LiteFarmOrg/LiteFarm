@@ -45,7 +45,7 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       return {
         task_id: task.task_id,
         taskType: task.taskType,
-        status: getStatus(task),
+        status: getTaskStatus(task),
         cropVarietyNames: getCropVarietyName(managementPlans),
         locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
         completeOrDueDate: getTaskCardDate(task.completed_time || task.due_date),
@@ -67,7 +67,7 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
     getTaskContents,
   );
 
-const getStatus = (task) => {
+export const getTaskStatus = (task) => {
   if (task.completed_time) return 'completed';
   if (task.abandoned_time) return 'abandoned';
   if (new Date(task.due_date) > Date.now()) return 'planned';

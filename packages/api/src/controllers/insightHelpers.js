@@ -205,24 +205,17 @@ exports.getLabourHappiness = (data) => {
     data: [],
   };
 
-  // the DB datatype for mood is assigned as a string, so I need to quantify it
-  const mappingTypes = {
-    'very sad': 1,
-    'sad': 2,
-    'neutral': 3,
-    'happy': 4,
-    'very happy': 5,
-  };
-
   const tasks = {};
   // parse by shift_id first in order to do the algorithm discussed with Zia on the whiteboard
+  // TODO: during october release, this has been refactored.
+  //       need to check if we should account for any task with happiness set, or any with duration set
   data.map((element) => {
-    const currentValueMood = element['mood'] ? mappingTypes[element['mood']] : 0;
-    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] };
-    if (!(element['shift_id'] in tasks)) {
-      tasks[element['shift_id']] = { mood: currentValueMood, tasks: [taskObject] };
+    const currentValueMood = element['happiness'];
+    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] ?? 0 };
+    if (!(element['task_id'] in tasks)) {
+      tasks[element['task_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
-      tasks[element['shift_id']]['tasks'].push(taskObject)
+      tasks[element['task_id']]['tasks'].push(taskObject)
     }
   });
 
@@ -234,7 +227,7 @@ exports.getLabourHappiness = (data) => {
     let currentDurationAverage = 0;
     currentTasks.map((element) => currentDurationAverage += element['duration']);
     currentTasks.map((element) => {
-      const weighted = (element['duration'] / currentDurationAverage);
+      const weighted = currentDurationAverage ? (element['duration'] / currentDurationAverage) : 1;
       if (!(element['taskName'] in weightedTasks)) {
         weightedTasks[element['taskName']] = [{ mood: currentMood, weight: weighted }]
       } else {

@@ -33,8 +33,10 @@ export const getDateDifference = (pastDate, futureDate) => {
  * @return {string}
  */
 
-export const addDaysToDate = (date, days) => {
-  return moment(date).add(days, 'days').utc().format('YYYY-MM-DD');
+export const addDaysToDate = (date, days, { toUTC = true } = {}) => {
+  return toUTC
+    ? moment(date).add(days, 'days').utc().format('YYYY-MM-DD')
+    : moment(date).add(days, 'days').format('YYYY-MM-DD');
 };
 /**
  *

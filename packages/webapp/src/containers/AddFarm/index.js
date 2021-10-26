@@ -13,6 +13,7 @@ import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_er
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import history from '../../history';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -82,6 +83,10 @@ const AddFarm = () => {
       farm_id: farm ? farm.farm_id : undefined,
     };
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
+  };
+
+  const onGoBack = () => {
+    history.push('/farm_selection');
   };
 
   let autocomplete;
@@ -239,6 +244,7 @@ const AddFarm = () => {
         onLoad={handleScriptLoad}
       />
       <PureAddFarm
+        onGoBack={onGoBack}
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
         disabled={disabled}

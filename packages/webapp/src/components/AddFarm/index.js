@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
+import PageTitle from '../PageTitle';
 
 const style = {
   marginBottom: '28px',
@@ -13,6 +14,7 @@ const style = {
 export default function PureAddFarm({
   title,
   inputs = [{}, {}],
+  onGoBack,
   onSubmit,
   map,
   loading,
@@ -29,7 +31,11 @@ export default function PureAddFarm({
         </Button>
       }
     >
-      <Title>{title}</Title>
+      <PageTitle
+        style={{zIndex: '1'}}
+        onGoBack={onGoBack}
+        title={title}
+      />
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
       {map}

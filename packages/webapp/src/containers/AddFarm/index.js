@@ -4,7 +4,11 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmReducerSelector, userFarmSelector } from '../userFarmSlice';
+import {
+  userFarmReducerSelector,
+  userFarmSelector,
+  userFarmsByUserSelector,
+} from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -13,6 +17,7 @@ import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_er
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import history from '../../history';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -20,6 +25,8 @@ const AddFarm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
+  const farms = useSelector(userFarmsByUserSelector);
+  const isFirstFarm = !farms.length;
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const {
     register,
@@ -82,6 +89,10 @@ const AddFarm = () => {
       farm_id: farm ? farm.farm_id : undefined,
     };
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
+  };
+
+  const onGoBack = () => {
+    history.push('/farm_selection');
   };
 
   let autocomplete;
@@ -239,6 +250,7 @@ const AddFarm = () => {
         onLoad={handleScriptLoad}
       />
       <PureAddFarm
+        onGoBack={isFirstFarm ? null : onGoBack}
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
         disabled={disabled}

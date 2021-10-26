@@ -40,7 +40,13 @@ function TaskAbandon({ history, match }) {
     history.goBack();
   };
 
-  return <PureAbandonTask onSubmit={onSubmit} onGoBack={onGoBack} />;
+  return (
+    <PureAbandonTask
+      onSubmit={onSubmit}
+      onGoBack={onGoBack}
+      hasAssignee={!!task.assignee_user_id}
+    />
+  );
 }
 
 export default TaskAbandon;

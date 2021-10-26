@@ -67,7 +67,7 @@ const Input = ({
     >
       {(label || toolTipContent || icon) && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={{ position: 'absolute', bottom: 0 }}>
             {label}
             {optional && (
               <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
@@ -76,7 +76,9 @@ const Input = ({
             )}
             {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
-          {toolTipContent && <Infoi content={toolTipContent} />}
+          {toolTipContent && (
+            <Infoi style={{ position: 'absolute', right: 0 }} content={toolTipContent} />
+          )}
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}

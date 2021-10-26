@@ -266,17 +266,16 @@ const insightController = {
   async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
-          SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
+        SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cvs.quantity) as sale_quant, SUM(cvs.sale_value) as sale_value, fa.farm_id, fa.grid_points
           FROM "sale" s
-          JOIN "cropSale" cs on cs.sale_id = s.sale_id
-          JOIN "crop" c on c.crop_id = cs.crop_id
+        JOIN "crop_variety_sale" cvs on cvs.sale_id = s.sale_id
+        JOIN "crop_variety" cv on cvs.crop_variety_id = cv.crop_variety_id
+        JOIN "crop" c on c.crop_id = cv.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT crop_variety.crop_id
-          FROM "management_plan" mp 
-          join "location" on mp.location_id = location.location_id
-          join "crop_variety" on crop_variety.crop_variety_id = mp.crop_variety_id
-          where location.farm_id = ?)
+        FROM "crop_variety"
+        where crop_variety.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
   },

@@ -181,12 +181,12 @@ class Insights extends Component {
   componentDidMount() {
     //TODO fetch userFarm
     // this.props.dispatch(getCropsSoldNutrition());
-    // this.props.dispatch(getSoilOMData());
+    this.props.dispatch(getSoilOMData());
     this.props.dispatch(getLabourHappinessData());
     this.props.dispatch(getBiodiversityData());
-    // this.props.dispatch(
-    //   getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance),
-    // );
+    this.props.dispatch(
+      getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance),
+    );
     // this.props.dispatch(getWaterBalanceData());
     // this.props.dispatch(getWaterBalanceSchedule());
     // this.props.dispatch(getNitrogenBalanceData());

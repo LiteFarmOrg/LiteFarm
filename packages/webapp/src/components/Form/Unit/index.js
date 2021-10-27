@@ -293,7 +293,11 @@ const Unit = ({
               </Label>
             )}
           </Label>
-          {toolTipContent && <Infoi content={toolTipContent} />}
+          {toolTipContent && (
+            <div className={styles.tooltipIconContainer}>
+              <Infoi content={toolTipContent} />
+            </div>
+          )}
         </div>
       )}
       {showError && (

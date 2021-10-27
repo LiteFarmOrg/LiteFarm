@@ -156,11 +156,9 @@ const ReactSelect = React.forwardRef(
               )}
             </Label>
             {toolTipContent && (
-              <Infoi
-                style={{ position: 'absolute', right: 0 }}
-                content={toolTipContent}
-                autoOpen={autoOpen}
-              />
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                <Infoi content={toolTipContent} autoOpen={autoOpen} />
+              </div>
             )}
             {icon && (
               <span style={{ marginRight: 'auto', marginLeft: '8px' }} className={styles.icon}>

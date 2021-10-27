@@ -980,7 +980,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
-            <Route path={'/export/:id'} exact component={ExportDownload} />
+            <Route path="/export/:id/from/:from/to/:to" exact component={ExportDownload} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />

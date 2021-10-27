@@ -24,7 +24,7 @@ export function* downloadExportSaga({ payload }) {
     farm_name
   } = yield select(userFarmSelector);
   try {
-    const fileName = farm_name ? `${farm_name}.zip` : undefined;
+    const fileName = farm_name ? `${farm_name}${payload.from}-${payload.to}.zip` : undefined;
     const config = {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('farm_token'),

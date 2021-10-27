@@ -211,15 +211,17 @@ const insightController = {
           WHERE location.farm_id = ?
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
-        const cropCount = await knex.raw(
-          `SELECT DISTINCT crop_variety.crop_id
-          FROM "location" l
-          LEFT JOIN "management_plan" mp
-            on mp.location_id = l.location_id
-          LEFT JOIN "crop_variety"
-            on mp.crop_variety_id = crop_variety.crop_variety_id
-          WHERE l.farm_id = ?
-            and mp.end_date >= NOW() and mp.start_date <= NOW()`, [farmID]);
+        // const cropCount = await knex.raw(
+        //   `SELECT DISTINCT crop_variety.crop_id
+        //   FROM "location" l
+        //   LEFT JOIN "management_plan" mp
+        //     on mp.location_id = l.location_id
+        //   LEFT JOIN "crop_variety"
+        //     on mp.crop_variety_id = crop_variety.crop_variety_id
+        //   WHERE l.farm_id = ?
+        //     and mp.end_date >= NOW() and mp.start_date <= NOW()`, [farmID]);
+        // TODO: count crop or crop variety?
+        const cropCount = { rows: [1] };
         if (dataPoints.rows && cropCount.rows) {
           const count = cropCount.rows.length;
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);

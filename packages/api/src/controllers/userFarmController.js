@@ -279,6 +279,9 @@ const userFarmController = {
           }).orWhere({
             role_id: 2,
             farm_id,
+          }).orWhere({
+            role_id: 5,
+            farm_id,
           });
           if (admins.length === 1)
             return res.status(404).send('Cannot update last admin of farm to worker');

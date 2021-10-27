@@ -31,7 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "notistack": "^1.0.9",
     "nuka-carousel": "^4.5.12",
     "prop-types": "^15.7.2",
@@ -78,7 +78,8 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "precommit": "lint-staged",
-    "npm6install": "npx -p npm@6 npm install"
+    "npm6install": "npx -p npm@6 npm install",
+    "preinstall": "npx npm-force-resolutions"
   },
   "lint-staged": {
     "*.{js}": [
@@ -137,8 +138,16 @@
     "i18next-parser": "^3.6.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
-    "jest-watch-typeahead": "0.4.2",
+    "jest-watch-typeahead": "^1.0.0",
     "lint-staged": "^10.5.4"
   },
-  "resolutions": {}
+  "resolutions": {
+    "ssri": "^8.0.1",
+    "ansi-regex": "^5.0.1",
+    "nth-check": "^2.0.1",
+    "set-value": "^4.1.0",
+    "immer": "^9.0.6",
+    "glob-parent": "^6.0.2",
+    "trim": "^1.0.1"
+  }
 }

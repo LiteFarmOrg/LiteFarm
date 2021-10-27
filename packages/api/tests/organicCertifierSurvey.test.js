@@ -578,23 +578,6 @@ describe('organicCertifierSurvey Tests', () => {
       })
     });
 
-    test('Should get no records if is not a canadian farm' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
-      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 10 }));
-      getExportRequest({
-        from_date: '2021-02-01',
-        to_date: '2021-05-20',
-        email: faker.internet.email(),
-        farm_id: farm_id
-      }, {farm_id, user_id} , (err,res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.recordD).not.toBeDefined();
-        done();
-      })
-    });
-
-
-
 
   })
 

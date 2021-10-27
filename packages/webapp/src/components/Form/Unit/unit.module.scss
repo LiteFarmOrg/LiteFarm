@@ -126,3 +126,9 @@
 .noBorderRadius {
   border-radius: 0px;
 }
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

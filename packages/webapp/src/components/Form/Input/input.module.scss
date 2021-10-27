@@ -122,3 +122,9 @@
   transform: translate(4px, 3px);
   margin-left: 4px;
 }
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

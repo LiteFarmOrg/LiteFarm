@@ -87,6 +87,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Active'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>
@@ -106,6 +107,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Planned'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>
@@ -125,6 +127,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Past'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>

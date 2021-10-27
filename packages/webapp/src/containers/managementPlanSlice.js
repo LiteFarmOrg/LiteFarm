@@ -200,8 +200,8 @@ export const currentManagementPlansSelector = createSelector(
 export const isCurrentManagementPlan = (managementPlan, time) => {
   return (
     !isExpiredManagementPlan(managementPlan, time) &&
-    managementPlan.start_date &&
-    new Date(managementPlan.start_date).getTime() <= time
+    (managementPlan.crop_management_plan.already_in_ground ||
+      (managementPlan.start_date && new Date(managementPlan.start_date).getTime() <= time))
   );
 };
 

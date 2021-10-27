@@ -15,7 +15,7 @@ export default function DownloadExport({ match }) {
   }, [])
 
   useEffect(() => {
-    const fileName = farm?.name ? `${farm.farm_name}.zip` : null;
+    const fileName = farm?.farm_name ? `${farm.farm_name}.zip` : undefined;
     const config = {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('farm_token'),

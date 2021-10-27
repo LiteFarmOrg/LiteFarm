@@ -28,6 +28,7 @@ import { getTaskStatus } from '../../../containers/Task/taskCardContentSelector'
 import { taskStatusText } from '../../CardWithStatus/TaskCard/TaskCard';
 import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLocationLabel';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import ReactSelect from '../../Form/ReactSelect';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -251,6 +252,56 @@ export default function PureTaskReadOnly({
               task,
               isCompleted,
             })}
+        </div>
+      )}
+
+      {isAbandoned && (
+        <div>
+          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
+
+          <ReactSelect
+            label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
+            required={true}
+            style={{ marginBottom: '24px' }}
+            isDisabled={true}
+            value={{
+              label: t(`TASK.ABANDON.REASON.${task.abandonment_reason}`),
+              value: task.abandonment_reason,
+            }}
+          />
+
+          {task.duration > 0 && (
+            <TimeSlider
+              style={{ marginBottom: '40px' }}
+              label={t('TASK.DURATION')}
+              initialTime={task.duration}
+              setValue={() => {}}
+              disabled={true}
+            />
+          )}
+
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+          {task.happiness > 0 && (
+            <div>
+              <Label style={{ marginBottom: '12px' }}>{t('TASK.RATE_THIS_TASK')}</Label>
+              <Rating
+                className={styles.rating}
+                style={{ width: '24px', height: '24px' }}
+                viewOnly={true}
+                stars={task.happiness}
+              />
+            </div>
+          )}
+          {!task.happiness && (
+            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled defaultChecked />
+          )}
+          <InputAutoSize
+            style={{ marginTop: '40px', marginBottom: '40px' }}
+            label={t('TASK.ABANDON.NOTES')}
+            value={task.abandonment_notes}
+            optional
+            disabled
+          />
         </div>
       )}
 

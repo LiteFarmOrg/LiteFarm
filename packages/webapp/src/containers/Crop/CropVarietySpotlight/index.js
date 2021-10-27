@@ -34,11 +34,7 @@ export default function CropVarietySpotlight() {
               },
               {
                 title: t('MANAGEMENT_PLAN.DETAIL_SPOTLIGHT_TITLE'),
-                contents: [t('MANAGEMENT_PLAN.SPOTLIGHT_HERE_YOU_CAN')],
-                list: [
-                  t('MANAGEMENT_PLAN.DETAILS_SPOTLIGHT_1'),
-                  t('MANAGEMENT_PLAN.DETAILS_SPOTLIGHT_2')
-                ],
+                contents: [t('MANAGEMENT_PLAN.DETAIL_SPOTLIGHT_CONTENTS')],
                 target: detailId,
                 placement: 'bottom',
                 disableBeacon: true,

@@ -666,7 +666,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
-            <Route path="/export/:id" exact component={ExportDownload} />
+            <Route path="/export/:id/from/:from/to/:to" exact component={ExportDownload} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />

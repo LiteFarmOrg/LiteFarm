@@ -107,7 +107,7 @@ export const PureTaskCard = ({
         },
       }}
       onClick={onClick}
-      happiness={happiness}
+      score={happiness}
     >
       <TaskIcon className={styles.taskIcon} />
       <div className={styles.info}>

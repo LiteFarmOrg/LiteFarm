@@ -1,10 +1,21 @@
 import { useEffect } from 'react';
+import { getUserFarms } from '../ChooseFarm/saga';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFarmSelector } from '../userFarmSlice';
 
 export default function DownloadExport({ match }) {
   const exportSource = match.params.id;
   let fileSrc = atob(exportSource);
+  const dispatch = useDispatch();
+  const farm = useSelector(userFarmSelector);
   fileSrc = `https://${process.env.REACT_APP_DO_BUCKET_NAME}.nyc3.digitaloceanspaces.com/${fileSrc}.zip`;
+
   useEffect(() => {
+    dispatch(getUserFarms());
+  }, [])
+
+  useEffect(() => {
+    const fileName = farm?.name ? `${farm.farm_name}.zip` : null;
     const config = {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
@@ -19,9 +30,9 @@ export default function DownloadExport({ match }) {
     async function getResponse(url, config) {
       const response = await fetch(url, config);
       const newBlob = await response.blob();
-      downloadBlob(newBlob);
+      downloadBlob(newBlob, fileName);
     }
-  }, []);
+  }, [farm]);
 
   return <>Loading...</>;
 }

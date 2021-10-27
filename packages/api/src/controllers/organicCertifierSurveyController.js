@@ -139,12 +139,8 @@ const organicCertifierSurveyController = {
       }))).reduce((a, b) => a.concat(b), []);
       const { first_name } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
-      let extraInfo = {};
-      const isCanadianFarm = await this.isCanadianFarm(farm_id);
-      if(isCanadianFarm) {
-        const data = await this.canadianFarmInfo(to_date, from_date, farm_id)
-        extraInfo = { ...data, isCanadianFarm };
-      }
+      const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
+      const extraInfo = { ...data };
       const body = {
         ...extraInfo,
         files, farm_id, email, first_name, farm_name,
@@ -156,7 +152,7 @@ const organicCertifierSurveyController = {
     }
   },
 
-  async canadianFarmInfo(to_date, from_date, farm_id) {
+  async recordIAndDInfo(to_date, from_date, farm_id) {
     const recordD = await this.recordDQuery(to_date, from_date, farm_id);
     const recordICrops = await this.recordICropsQuery(to_date, from_date, farm_id);
     const recordICleaners = await this.recordICleanersQuery(to_date, from_date, farm_id);

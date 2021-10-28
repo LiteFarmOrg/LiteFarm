@@ -163,9 +163,9 @@ export default function ComplianceInfo({
         }}
         onClick={() => {}}
       >
-        <AddLink>{t('CROP.ADD_COMPLIANCE_FILE')}</AddLink>
+        {/* <AddLink>{t('CROP.ADD_COMPLIANCE_FILE')}</AddLink> */}
       </div>
-      <div>
+      {/* <div>
         <Info
           style={{
             fontSize: '11px',
@@ -174,7 +174,7 @@ export default function ComplianceInfo({
         >
           {t('CROP.UPLOAD_LATER')}
         </Info>
-      </div>
+      </div> */}
     </Form>
   );
 }

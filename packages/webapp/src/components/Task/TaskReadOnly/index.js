@@ -178,7 +178,7 @@ export default function PureTaskReadOnly({
         );
       })}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+      <Semibold style={{ marginTop: '8px', marginBottom: '24px' }}>
         {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
       </Semibold>
 

@@ -193,7 +193,7 @@ export default function PureContainerForm({
                 style={{ paddingBottom: '40px' }}
                 errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
-                hasLeaf
+                // TODO connect this later: hasLeaf
                 disabled={disabled}
               />
               <Input

@@ -673,7 +673,7 @@
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",
-      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
     "NITROGEN_BALANCE": {

@@ -27,6 +27,7 @@ export default function PurePlantingDate({
   crop_variety,
   history,
   system,
+  language,
 }) {
   const { t } = useTranslation();
 
@@ -385,6 +386,7 @@ export default function PurePlantingDate({
       )}
       {main_date && !harvestIsMain && !terminationIsMain && (
         <FullYearCalendarView
+          language={language}
           {...{
             seed_date: [PLANT_DATE, SEED_DATE].includes(MAIN_DATE) ? seed_date : undefined,
             germination_date: showGerminationOffset ? germination_date : undefined,

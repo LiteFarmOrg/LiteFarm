@@ -26,7 +26,7 @@
     "AFFECT_PLANS": "Esta tarefa influenciará em algum plano",
     "ASSIGN_ALL_TO_PERSON": "Atribuir todas as tarefas não atribuídas nesta data a esta pessoa",
     "ASSIGN_TASK": "Atribuir tarefa",
-    "ASSIGNEE": "Gerente",
+    "ASSIGNEE": "Responsável",
     "CANCEL": "criação de tarefa",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso estimado de água",
@@ -54,7 +54,7 @@
         "PRUNING": "Poda",
         "SHADE_CLOTH": "Sombreamento",
         "TERMINATION": "Conclusão",
-        "TILLAGE": "Lavoura",
+        "TILLAGE": "Preparo do solo/cultivo",
         "WEEDING": "Capina"
       }
     },
@@ -107,8 +107,8 @@
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
-    "NUMBER_0F_BEDS": "# de canteiros",
-    "NUMBER_OF_ROWS": "# de linhas",
+    "NUMBER_0F_BEDS": "Nº de canteiros",
+    "NUMBER_OF_ROWS": "Nº de linhas",
     "PLANT_SPACING": "Espaçamento",
     "PLANTING_DETAILS": "Por favor, especifique os detalhes do plantio"
   },
@@ -118,7 +118,7 @@
     "LOCATION_SIZE": "Tamanho da localização",
     "PERCENTAGE_LABEL": "% da localização",
     "PERCENTAGE_LOCATION": "Que porcentagem do local você está plantando?",
-    "PLANTING_NOTES": "Notas de semear",
+    "PLANTING_NOTES": "Observações do plantio",
     "SEEDING_RATE": "Taxa de semeadura"
   },
   "CANCEL_FLOW_MODAL": {
@@ -289,7 +289,7 @@
     "RETIRE": {
       "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de manejo de seu catálogo de cultivos. Você quer prosseguir?",
       "RETIRE_CROP_TITLE": "Retirar colheita?",
-      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar esta safra",
+      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
     },
     "SUPPLIER": "Fornecedor"
@@ -364,7 +364,7 @@
       "FERTILIZING_PRODUCT": "Produto fertilizante",
       "OTHER": "Outro",
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
-      "SOIL_AMENDMENT": "Emenda do solo"
+      "SOIL_AMENDMENT": "Adubação e correção do solo"
     },
     "VALID": "Válido"
   },
@@ -528,7 +528,7 @@
       "WV": "Ponto de bombeamento"
     },
     "NATURAL_AREA": {
-      "EDIT_TITLE": "Editarar área natural",
+      "EDIT_TITLE": "Editar área natural",
       "NAME": "nome da área natural",
       "TITLE": "Adicionar área natural"
     },
@@ -907,7 +907,7 @@
     "INCOMPLETE_TASK_TITLE": "Você tem tarefas incompletas",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantada?",
-    "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como a safra foi plantada?",
+    "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "criação do plano de manejo",
     "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
@@ -916,13 +916,13 @@
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-    "NUMBER_OF_CONTAINER": "# dos recipientes",
+    "NUMBER_OF_CONTAINER": "Nº dos recipientes",
     "PENDING_TASK": "Tarefas pendentes",
     "PLAN_AND_ID": "Plan {{id}}",
     "PLAN_NAME": "Nome do plano de manejo",
-    "PLAN_NOTES": "Notas de plan",
+    "PLAN_NOTES": "Notas do plano",
     "PLANT_SPACING": "Espaçamento de plantas",
-    "PLANTED_ALREADY": "Você vai plantar esta safra ou ela já está plantada?",
+    "PLANTED_ALREADY": "Você vai plantar este cultivo ou ele já está plantado?",
     "PLANTING": "Plantando",
     "PLANTING_DATE": "Qual é a sua data de plantio?",
     "PLANTING_DATE_INFO": "Data de semeadura com base na idade da colheita: {{seed_date}}",
@@ -932,26 +932,26 @@
     "PLANTING_METHOD_TOOLTIP": "Selecionar o método de plantio correto ajudará a LiteFarm a estimar com mais precisão a quantidade de sementes necessária, rendimento e outras percepções úteis.",
     "PLANTING_NOTE": "Notas de plantio",
     "PLANTING_SOIL": "Solo de plantio a ser usado",
-    "PLANTS_PER_CONTAINER": "# de plantas /recipiente",
+    "PLANTS_PER_CONTAINER": "Nº de plantas /recipiente",
     "REMOVE_PIN": "Remover alfinete",
     "ROW_METHOD": {
       "HISTORICAL_SAME_LENGTH": "As linhas eram todas do mesmo comprimento?",
       "LENGTH_OF_ROW": "Comprimento da linha",
-      "NUMBER_OF_ROWS": "# de linhas",
+      "NUMBER_OF_ROWS": "Nº de linhas",
       "SAME_LENGTH": "As linhas são do mesmo comprimento?",
       "TOTAL_LENGTH": "Comprimento total das linhas"
     },
     "ROWS": "Linhas",
     "SEED_DATE": "Qual é a sua data de semeadura?",
-    "SEED_OR_SEEDLING": "Como você vai plantar esta safra?",
+    "SEED_OR_SEEDLING": "Como você vai plantar este cultivo?",
     "SEEDING_DATE": "Data da semeadura",
     "SEEDLING": "Estoque de mudas ou plantio",
     "SEEDLING_AGE": "Qual é a idade da muda ou do estoque de plantio?",
     "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Você pode pular esta questão para outros tipos de estoque de plantio.",
     "SELECT_A_PLANTING_LOCATION": "Selecione um local de plantio",
     "SELECT_A_SEEDING_LOCATION": "Selecione um local de semeadura",
-    "SELECT_CURRENT_LOCATION": "Selecione o local atual da safra",
-    "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para as safras que serão transplantadas ",
+    "SELECT_CURRENT_LOCATION": "Selecione o local atual do cultivo",
+    "SELECTED_STARTING_LOCATION": "Sempre selecione este como o local de início para os cultivos que serão transplantados ",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui você pode:",
     "STARTED": "Vamos começar",
     "STATUS": {
@@ -963,14 +963,14 @@
     "SUPPLIER": "Fornecedor",
     "TERMINATION": "Terminação",
     "TERMINATION_DATE": "Quando você encerrará esta colheita?",
-    "TOTAL_PLANTS": "# de plantas",
+    "TOTAL_PLANTS": "Nº de plantas",
     "TRANSPLANT": "Transplantar",
     "TRANSPLANT_DATE": "Qual é a sua data de transplante?",
     "TRANSPLANT_SPOTLIGHT": {
       "BODY": {
         "PLANTED": "Plantado",
         "SEEDED": "Semeado",
-        "TEXT": "Por favor, indique onde esta safra ficará inicialmente <1>{{fill}}</1>. Nós vamos perguntar sobre onde você irá transplantar depois."
+        "TEXT": "Por favor, indique onde este cultivo ficará inicialmente <1>{{fill}}</1>. Nós vamos perguntar sobre onde você irá transplantar depois."
       },
       "TITLE": {
         "PLANTING": "Plantando",
@@ -979,11 +979,11 @@
       }
     },
     "VARIETY": "Variedade",
-    "WHAT_IS_AGE": "Qual é a idade da safra?",
+    "WHAT_IS_AGE": "Qual é a idade do cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
-    "WILD_CROP": "Você está colhendo uma safra selvagem?",
+    "WILD_CROP": "Você está colhendo uma planta selvagem?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": ""
@@ -1110,7 +1110,7 @@
   },
   "ROLE_SELECTION": {
     "FARM_EO": "Agente de Extensão/Técnico",
-    "FARM_MANAGER": "Gerente de sítio/Fazenda",
+    "FARM_MANAGER": "Gerente do sítio/fazenda",
     "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
     "IS_OWNER_OPERATED": "Este sítio/fazenda é operada pelo dono(a)?",
     "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
@@ -1164,7 +1164,7 @@
       "ADD_NEW_EXPENSE": "Adicionar nova despesa",
       "ADD_NEW_SALE": "Adicionar nova venda",
       "BALANCE": "Saldo",
-      "BALANCE_EXPLANATION": "Calculamos o balanço financeiro (\"custo de produção\") em tempo real para cada safra em sua fazenda a partir de uma equação simples de despesas menos receita. As despesas de cada safra são calculadas em duas partes: uma parte corresponde às despesas com mão de obra calculadas a partir das horas registradas para atividades da fazenda, a outra parte é das demais despesas registradas para toda a fazenda. Onde as despesas são registradas para toda a fazenda, nós as dividimos igualmente entre as safras existentes. Não alocado significa que um turno de trabalho foi registrado em um campo onde ainda não havia nenhum cultivo. O custo com mão de obra deste turno será atribuído a uma safra na medida em que cultivos forem adicionados ao campo onde o trabalho foi realizado, considerando a janela de tempo do relatório financeiro.",
+      "BALANCE_EXPLANATION": "Calculamos o balanço financeiro (\"custo de produção\") em tempo real para cada safra em sua fazenda a partir de uma equação simples de despesas menos receita. As despesas de cada safra são calculadas em duas partes: uma parte corresponde às despesas com mão de obra calculadas a partir das horas registradas para atividades da fazenda, a outra parte é das demais despesas registradas para toda a fazenda. Onde as despesas são registradas para toda a fazenda, nós as dividimos igualmente entre os cultivos existentes. Não alocado significa que um turno de trabalho foi registrado em um campo onde ainda não havia nenhum cultivo. O custo com mão de obra deste turno será atribuído a uma safra na medida em que cultivos forem adicionados ao campo onde o trabalho foi realizado, considerando a janela de tempo do relatório financeiro.",
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
       "EXPENSES": "Despesas",
       "FINANCE_HELP": "Ajuda Financeira",
@@ -1305,7 +1305,7 @@
     "ABANDON_TASK_DURATION": "Algum trabalho foi concluído para esta tarefa?",
     "ABANDON": {
       "ABANDON": "Abandonar",
-      "INFO": "Abandonar esta tarefa mudará seu 'status' para abandonada e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
+      "INFO": "Abandonar esta tarefa mudará seu estado para abandonado e a removerá das listas de 'Tarefas' e 'Não atribuídas' de todos os usuários.",
       "NOTES": "Observações de abandono de tarefa",
       "NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
       "REASON_FOR_ABANDONMENT": "Razão de abandono",
@@ -1352,7 +1352,7 @@
     "LOCATIONS": "Local (is)",
     "NO_TASKS_TO_DISPLAY": "Não há tarefas para exibir.",
     "NO_WORK_DONE": "Nenhum trabalho foi concluído",
-    "PAGE_TITLE": "Tasks",
+    "PAGE_TITLE": "Tarefas",
     "PREFER_NOT_TO_SAY": "Prefiro não dizer",
     "PROVIDE_RATING": "Fornecer uma classificação",
     "QUANTITY_CANNOT_EXCEED": "A quantidade de colheita usada não pode exceder a quantidade a ser alocada",

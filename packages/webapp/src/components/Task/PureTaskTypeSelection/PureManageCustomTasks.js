@@ -51,7 +51,9 @@ export const PureManageCustomTasks = ({
         </AddLink>
 
         <div className={styles.matrixContainer}>
-          {customTasks.map(({ task_translation_key, task_type_id, task_name }) => {
+          {customTasks
+            .sort((firstEl, secondEl) => firstEl.task_name.localeCompare(secondEl.task_name))
+            .map(({ task_translation_key, task_type_id, task_name }) => {
             return (
               <div
                 onClick={() => {

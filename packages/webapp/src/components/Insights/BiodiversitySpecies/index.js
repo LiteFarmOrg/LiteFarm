@@ -14,7 +14,7 @@ class BiodiversitySpecies extends Component {
       Insects: props.t('INSIGHTS.BIODIVERSITY.INSECTS'),
       Plants: props.t('INSIGHTS.BIODIVERSITY.PLANTS'),
       Amphibians: props.t('INSIGHTS.BIODIVERSITY.AMPHIBIANS'),
-      Crops: props.t('INSIGHTS.BIODIVERSITY.CROPS'),
+      CropVarieties: props.t('INSIGHTS.BIODIVERSITY.CROP_VARIETIES'),
     };
   }
 

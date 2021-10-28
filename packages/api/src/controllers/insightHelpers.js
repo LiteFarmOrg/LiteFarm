@@ -279,7 +279,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insects: 0,
     Plants: 0,
     Amphibians: 0,
-    Crops: 0,
+    CropVarieties: 0,
   };
 
   const sortLats = new Array(pointData.length);
@@ -305,7 +305,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  speciesCount['Crops'] = parseInt(countData);
+  speciesCount['CropVarieties'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {

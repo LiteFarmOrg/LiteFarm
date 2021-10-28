@@ -45,7 +45,7 @@ export default function PureNaturalArea({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     data[naturalAreaEnum.total_area_unit] = data[naturalAreaEnum.total_area_unit]?.value;

@@ -58,7 +58,7 @@ export default function PureGarden({
 
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     data[gardenEnum.total_area_unit] = data[gardenEnum.total_area_unit]?.value;

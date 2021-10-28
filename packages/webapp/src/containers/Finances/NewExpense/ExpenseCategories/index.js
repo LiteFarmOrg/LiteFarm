@@ -90,7 +90,14 @@ class ExpenseCategories extends Component {
           }}
         >
           {expenseTypes.length > 0 &&
-            expenseTypes.map((type) => {
+            expenseTypes
+              .sort((firstEl, secondEl) => {
+                if (firstEl.expense_translation_key === secondEl.expense_translation_key) return 0;
+                if (firstEl.expense_translation_key === 'OTHER') return 1;
+                if (secondEl.expense_translation_key === 'OTHER') return -1;
+                return this.props.t(`expense:${firstEl.expense_translation_key}`).localeCompare(this.props.t(`expense:${secondEl.expense_translation_key}`));
+              })
+              .map((type) => {
               return (
                 <Grid
                   item

@@ -197,7 +197,7 @@ const userFarmController = {
             template_path = emails.WITHHELD_CONSENT;
           } else {
             template_path = emails.CONFIRMATION;
-            replacements['role'] = userFarm.role;
+            replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
           }
           return sendEmail(template_path, replacements, userFarm.email, { sender });
         } catch (e) {

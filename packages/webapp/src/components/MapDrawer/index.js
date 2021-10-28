@@ -274,7 +274,9 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {areaImgDict.map(({ key, name, icon }) => {
+          {areaImgDict
+            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
+            .map(({ key, name, icon }) => {
             return (
               <MapDrawerMenuItem
                 key={key}
@@ -294,7 +296,9 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {lineImgDict.map(({ key, name, icon }) => (
+          {lineImgDict
+            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
+            .map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
               name={name}
@@ -312,7 +316,9 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {pointImgDict.map(({ key, name, icon }) => (
+          {pointImgDict
+            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
+            .map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
               name={name}

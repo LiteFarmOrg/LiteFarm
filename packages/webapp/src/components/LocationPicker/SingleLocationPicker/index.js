@@ -151,7 +151,6 @@ const LocationPicker = ({
         index: isSelected ? 2 : 1,
       };
     });
-    locations.length > 0 && map.fitBounds(mapBounds);
   };
 
   const setSelectedGeometryStyle = (assetGeometry) => {
@@ -261,8 +260,9 @@ const LocationPicker = ({
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map
-    drawLocations(map, maps, mapBounds);
     drawWildCropPins(map, maps, mapBounds);
+    drawLocations(map, maps, mapBounds);
+    map.fitBounds(mapBounds);
 
     setGoogleMapInitiated(true);
   };

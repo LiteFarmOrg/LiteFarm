@@ -150,7 +150,7 @@ export default function ComplianceInfo({
         )}
       </div>
 
-      <div
+      {/* <div
         style={{
           marginTop: '17px',
           marginBottom: '3px',
@@ -163,9 +163,9 @@ export default function ComplianceInfo({
         }}
         onClick={() => {}}
       >
-        {/* <AddLink>{t('CROP.ADD_COMPLIANCE_FILE')}</AddLink> */}
+        <AddLink>{t('CROP.ADD_COMPLIANCE_FILE')}</AddLink>
       </div>
-      {/* <div>
+      <div>
         <Info
           style={{
             fontSize: '11px',

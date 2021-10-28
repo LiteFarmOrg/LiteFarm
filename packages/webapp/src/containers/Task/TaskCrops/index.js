@@ -54,6 +54,7 @@ function TaskCrops({
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
   const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isHarvestTask = useIsTaskType('HARVEST_TASK');
   const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
   const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
@@ -71,6 +72,7 @@ function TaskCrops({
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
         isMulti={!isTransplantTask}
+        isRequired={isHarvestTask || isTransplantTask}
         wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
       />
     </HookFormPersistProvider>

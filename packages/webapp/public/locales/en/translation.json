@@ -662,7 +662,7 @@
       "BIRDS": "Birds",
       "CROPS": "Crops",
       "HEADER": "Number of species",
-      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from your farm boundary. You can increase the crop biodiversity on your farm by adding additional crops. You can increase the non-crop biodiversity count on your farm by recording sitings on https://inaturalist.org/app",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",
       "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",
@@ -886,9 +886,8 @@
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
+    "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
-    "DETAILS_SPOTLIGHT_1": "Edit your crop details",
-    "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
@@ -999,8 +998,8 @@
     "SPOTLIGHT": {
       "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
       "FARM_TITLE": "This is your farm profile",
-      "NOTIFICATION": "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities",
-      "NOTIFICATION_TITLE": "This is your Notification Centre",
+      "NOTIFICATION": "Here you can:, • Manage your tasks, • See what else is going on, • Coordinate farm activities",
+      "NOTIFICATION_TITLE": "This is your farm tasks",
       "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
       "PROFILE_TITLE": "This is your profile"
     }
@@ -1322,6 +1321,7 @@
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?"
     },
+    "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",

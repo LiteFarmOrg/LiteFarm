@@ -50,7 +50,7 @@ export default function PureFence({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const onSubmit = (data) => {
     const isPressureTreated = data[fenceEnum.pressure_treated];
     const formData = {

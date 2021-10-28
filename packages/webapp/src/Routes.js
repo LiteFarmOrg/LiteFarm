@@ -77,111 +77,81 @@ const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const MapVideo = React.lazy(() => import('./components/Map/Videos'));
+
 const PostFarmSiteBoundaryForm = React.lazy(() =>
   import(
     './containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'
   ),
 );
+const FarmSiteBoundaryDetails = React.lazy(() => import('./routes/FarmSiteBoundaryDetailsRoutes'));
 
-const EditFarmSiteBoundaryForm = React.lazy(() =>
-  import(
-    './containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/EditFarmSiteBoundary'
-  ),
-);
 const PostFieldForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
 );
-
 const FieldDetails = React.lazy(() => import('./routes/FieldDetailsRoutes'));
+
 const PostGardenForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GardenDetailForm/PostGarden'),
 );
-
 const GardenDetails = React.lazy(() => import('./routes/GardenDetailsRoutes'));
 
 const PostGateForm = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/GateDetailForm/PostGate'),
 );
-
-const EditGateForm = React.lazy(() =>
-  import('./containers/LocationDetails/PointDetails/GateDetailForm/EditGate'),
-);
+const GateDetails = React.lazy(() => import('./routes/GateDetailsRoutes'));
 
 const PostWaterValveForm = React.lazy(() =>
   import('./containers/LocationDetails/PointDetails/WaterValveDetailForm/PostWaterValve'),
 );
+const WaterValveDetails = React.lazy(() => import('./routes/WaterValveDetailsRoutes'));
 
-const EditWaterValveForm = React.lazy(() =>
-  import('./containers/LocationDetails/PointDetails/WaterValveDetailForm/EditWaterValve'),
-);
 const PostBarnForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/BarnDetailForm/PostBarn'),
 );
-
-const EditBarnForm = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/BarnDetailForm/EditBarn'),
-);
+const BarnDetails = React.lazy(() => import('./routes/BarnDetailsRoutes'));
 
 const PostNaturalAreaForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/PostNaturalArea'),
 );
-
-const EditNaturalAreaForm = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/NaturalAreaDetailForm/EditNaturalArea'),
-);
+const NaturalAreaDetails = React.lazy(() => import('./routes/NaturalAreaDetailsRoutes'));
 
 const PostSurfaceWaterForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/PostSurfaceWater'),
 );
-
-const EditSurfaceWaterForm = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm/EditSurfaceWater'),
-);
+const SurfaceWaterDetails = React.lazy(() => import('./routes/SurfaceWaterDetailsRoutes'));
 
 const PostResidenceForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/ResidenceDetailForm/PostResidence'),
 );
-
-const EditResidenceForm = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/ResidenceDetailForm/EditResidence'),
-);
+const ResidenceDetails = React.lazy(() => import('./routes/ResidenceDetailsRoutes'));
 
 const PostCeremonialForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/PostCeremonialArea'),
 );
-
-const EditCeremonialForm = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm/EditCeremonialArea'),
-);
+const CeremonialAreaDetails = React.lazy(() => import('./routes/CeremonialAreaDetailsRoutes'));
 
 const PostGreenhouseForm = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm/PostGreenhouse'),
 );
+const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
+
 const CropManagement = React.lazy(() => import('./containers/Crop/CropManagement'));
 const CropDetail = React.lazy(() => import('./containers/Crop/CropDetail/index'));
 
-const GreenhouseDetails = React.lazy(() => import('./routes/GreenhouseDetailsRoutes'));
 const PostFenceForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/FenceDetailForm/PostFence'),
 );
-
-const EditFenceForm = React.lazy(() =>
-  import('./containers/LocationDetails/LineDetails/FenceDetailForm/EditFence'),
-);
+const FenceDetails = React.lazy(() => import('./routes/FenceDetailsRoutes'));
 
 const PostBufferZoneForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/BufferZoneDetailForm/PostBufferZone'),
 );
-
 const BufferZoneDetails = React.lazy(() => import('./routes/BufferZoneDetailsRoutes'));
 
 const PostWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/PostWatercourse'),
 );
-
-const EditWatercourseForm = React.lazy(() =>
-  import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/EditWatercourse'),
-);
+const WatercourseDetails = React.lazy(() => import('./routes/WatercourseDetailsRoutes'));
 
 const CropCatalogue = React.lazy(() => import('./containers/CropCatalogue'));
 const CropVarieties = React.lazy(() => import('./containers/CropVarieties'));
@@ -553,63 +523,34 @@ const Routes = () => {
               exact
               component={PostFarmSiteBoundaryForm}
             />
-            <Route
-              path="/farm_site_boundary/:location_id/details"
-              exact
-              component={EditFarmSiteBoundaryForm}
-            />
-            <Route
-              path="/farm_site_boundary/:location_id/edit"
-              exact
-              component={EditFarmSiteBoundaryForm}
-            />
             <Route path="/create_location/barn" exact component={PostBarnForm} />
-            <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
-            <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
-            <Route
-              path="/natural_area/:location_id/details"
-              exact
-              component={EditNaturalAreaForm}
-            />
-            <Route path="/natural_area/:location_id/edit" exact component={EditNaturalAreaForm} />
             <Route path="/create_location/surface_water" exact component={PostSurfaceWaterForm} />
-            <Route
-              path="/surface_water/:location_id/details"
-              exact
-              component={EditSurfaceWaterForm}
-            />
-            <Route path="/surface_water/:location_id/edit" exact component={EditSurfaceWaterForm} />
             <Route path="/create_location/residence" exact component={PostResidenceForm} />
-            <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
-            <Route path="/residence/:location_id/edit" exact component={EditResidenceForm} />
             <Route path="/create_location/ceremonial_area" exact component={PostCeremonialForm} />
-            <Route
-              path="/ceremonial_area/:location_id/details"
-              exact
-              component={EditCeremonialForm}
-            />
-            <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
-            <Route path="/garden/:location_id" component={GardenDetails} />
             <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
-            <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
             <Route path="/create_location/field" exact component={PostFieldForm} />
-            <Route path="/field/:location_id" component={FieldDetails} />
             <Route path="/create_location/gate" exact component={PostGateForm} />
-            <Route path="/gate/:location_id/details" exact component={EditGateForm} />
-            <Route path="/gate/:location_id/edit" exact component={EditGateForm} />
             <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
-            <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
-            <Route path="/water_valve/:location_id/edit" exact component={EditWaterValveForm} />
             <Route path="/create_location/fence" exact component={PostFenceForm} />
-            <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
-            <Route path="/fence/:location_id/edit" exact component={EditFenceForm} />
             <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
-            <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
-            <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
-            <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
+            <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
+            <Route path="/barn/:location_id" component={BarnDetails} />
+            <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
+            <Route path="/surface_water/:location_id" component={SurfaceWaterDetails} />
+            <Route path="/residence/:location_id" component={ResidenceDetails} />
+            <Route path="/ceremonial_area/:location_id" component={CeremonialAreaDetails} />
+            <Route path="/garden/:location_id" component={GardenDetails} />
+            <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
+            <Route path="/field/:location_id" component={FieldDetails} />
+            <Route path="/gate/:location_id" component={GateDetails} />
+            <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route path="/fence/:location_id" component={FenceDetails} />
+            <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
+            <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+
             <Route path="/finances" exact component={Finances} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -666,7 +607,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
-            <Route path="/export/:id" exact component={ExportDownload} />
+            <Route path="/export/:id/from/:from/to/:to" exact component={ExportDownload} />
             <Route path="/add_task/task_locations" exact component={TaskLocations} />
             <Route path="/add_task/task_date" exact component={TaskDate} />
             <Route path="/add_task/task_assignment" exact component={TaskAssignment} />
@@ -856,63 +797,34 @@ const Routes = () => {
               exact
               component={PostFarmSiteBoundaryForm}
             />
-            <Route
-              path="/farm_site_boundary/:location_id/details"
-              exact
-              component={EditFarmSiteBoundaryForm}
-            />
-            <Route
-              path="/farm_site_boundary/:location_id/edit"
-              exact
-              component={EditFarmSiteBoundaryForm}
-            />
             <Route path="/create_location/barn" exact component={PostBarnForm} />
-            <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
-            <Route path="/barn/:location_id/edit" exact component={EditBarnForm} />
             <Route path="/create_location/natural_area" exact component={PostNaturalAreaForm} />
-            <Route
-              path="/natural_area/:location_id/details"
-              exact
-              component={EditNaturalAreaForm}
-            />
-            <Route path="/natural_area/:location_id/edit" exact component={EditNaturalAreaForm} />
             <Route path="/create_location/surface_water" exact component={PostSurfaceWaterForm} />
-            <Route
-              path="/surface_water/:location_id/details"
-              exact
-              component={EditSurfaceWaterForm}
-            />
-            <Route path="/surface_water/:location_id/edit" exact component={EditSurfaceWaterForm} />
             <Route path="/create_location/residence" exact component={PostResidenceForm} />
-            <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
-            <Route path="/residence/:location_id/edit" exact component={EditResidenceForm} />
             <Route path="/create_location/ceremonial_area" exact component={PostCeremonialForm} />
-            <Route
-              path="/ceremonial_area/:location_id/details"
-              exact
-              component={EditCeremonialForm}
-            />
-            <Route path="/ceremonial_area/:location_id/edit" exact component={EditCeremonialForm} />
-            <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
             <Route path="/create_location/garden" exact component={PostGardenForm} />
+            <Route path="/create_location/greenhouse" exact component={PostGreenhouseForm} />
+            <Route path="/create_location/field" exact component={PostFieldForm} />
+            <Route path="/create_location/gate" exact component={PostGateForm} />
+            <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
+            <Route path="/create_location/fence" exact component={PostFenceForm} />
+            <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
+            <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
+            <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
+            <Route path="/barn/:location_id" component={BarnDetails} />
+            <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
+            <Route path="/surface_water/:location_id" component={SurfaceWaterDetails} />
+            <Route path="/residence/:location_id" component={ResidenceDetails} />
+            <Route path="/ceremonial_area/:location_id" component={CeremonialAreaDetails} />
             <Route path="/garden/:location_id" component={GardenDetails} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
-            <Route path="/create_location/field" exact component={PostFieldForm} />
             <Route path="/field/:location_id" component={FieldDetails} />
-            <Route path="/create_location/gate" exact component={PostGateForm} />
-            <Route path="/gate/:location_id/details" exact component={EditGateForm} />
-            <Route path="/gate/:location_id/edit" exact component={EditGateForm} />
-            <Route path="/create_location/water_valve" exact component={PostWaterValveForm} />
-            <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
-            <Route path="/water_valve/:location_id/edit" exact component={EditWaterValveForm} />
-            <Route path="/create_location/fence" exact component={PostFenceForm} />
-            <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
-            <Route path="/fence/:location_id/edit" exact component={EditFenceForm} />
-            <Route path="/create_location/buffer_zone" exact component={PostBufferZoneForm} />
+            <Route path="/gate/:location_id" component={GateDetails} />
+            <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
-            <Route path="/create_location/watercourse" exact component={PostWatercourseForm} />
-            <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
-            <Route path="/watercourse/:location_id/edit" exact component={EditWatercourseForm} />
+            <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+
             <Route path="/finances" exact component={Finances} />
             {/* <Route path="/sales_summary" exact component={SalesSummary} /> */}
             <Route path="/finances/actual_revenue" exact component={ActualRevenue} />
@@ -980,7 +892,7 @@ const Routes = () => {
             />
             <Route path="/certification/certifier/request" exact component={RequestCertifier} />
             <Route path="/certification/summary" exact component={SetCertificationSummary} />
-            <Route path={'/export/:id'} exact component={ExportDownload} />
+            <Route path="/export/:id/from/:from/to/:to" exact component={ExportDownload} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />
@@ -1036,35 +948,22 @@ const Routes = () => {
               exact
               component={ManagementDetails}
             />
-            <Route path="/barn/:location_id/details" exact component={EditBarnForm} />
-            <Route path="/ceremonial/:location_id/details" exact component={EditCeremonialForm} />
-            <Route
-              path="/farm_site_boundary/:location_id/details"
-              exact
-              component={EditFarmSiteBoundaryForm}
-            />
-            <Route path="/field/:location_id" component={FieldDetails} />
+            <Route path="/map" exact component={Map} />
+            <Route path="/farm_site_boundary/:location_id" component={FarmSiteBoundaryDetails} />
+            <Route path="/barn/:location_id" component={BarnDetails} />
+            <Route path="/natural_area/:location_id" component={NaturalAreaDetails} />
+            <Route path="/surface_water/:location_id" component={SurfaceWaterDetails} />
+            <Route path="/residence/:location_id" component={ResidenceDetails} />
+            <Route path="/ceremonial_area/:location_id" component={CeremonialAreaDetails} />
             <Route path="/garden/:location_id" component={GardenDetails} />
             <Route path="/greenhouse/:location_id" component={GreenhouseDetails} />
-            <Route
-              path="/surface_water/:location_id/details"
-              exact
-              component={EditSurfaceWaterForm}
-            />
-            <Route
-              path="/natural_area/:location_id/details"
-              exact
-              component={EditNaturalAreaForm}
-            />
-            <Route path="/tasks" exact component={Tasks} />
-            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
-            <Route path="/residence/:location_id/details" exact component={EditResidenceForm} />
+            <Route path="/field/:location_id" component={FieldDetails} />
+            <Route path="/gate/:location_id" component={GateDetails} />
+            <Route path="/water_valve/:location_id" component={WaterValveDetails} />
+            <Route path="/fence/:location_id" component={FenceDetails} />
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
-            <Route path="/watercourse/:location_id/details" exact component={EditWatercourseForm} />
-            <Route path="/fence/:location_id/details" exact component={EditFenceForm} />
-            <Route path="/gate/:location_id/details" exact component={EditGateForm} />
-            <Route path="/water_valve/:location_id/details" exact component={EditWaterValveForm} />
-            <Route path="/map" exact component={Map} />
+            <Route path="/watercourse/:location_id" component={WatercourseDetails} />
+
             <Route path="/shift" exact component={Shift} />
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
@@ -1085,6 +984,8 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/help" exact component={HelpRequest} />
+            <Route path="/tasks" exact component={Tasks} />
+            <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
             <Route path="/tasks/:task_id/abandon" exact component={TaskAbandon} />
             <Route path="/tasks/:task_id/complete" exact component={TaskComplete} />
             <Route path="/tasks/:task_id/before_complete" exact component={TaskCompleteStepOne} />

@@ -76,7 +76,11 @@
   },
   "COMMON": {
     "JOIN": "Junte",
-    "LOG_IN": "Conecte-se"
+    "LOG_IN": "Conecte-se",
+    "OWNER": "MISSING",
+    "EXTENSION_OFFICER": "MISSING",
+    "WORKER": "MISSING",
+    "MANAGER": "MISSING"
   },
   "EXPORT_MAP": {
     "EXPORT": "Aqui está a exportação do mapa da fazenda para",

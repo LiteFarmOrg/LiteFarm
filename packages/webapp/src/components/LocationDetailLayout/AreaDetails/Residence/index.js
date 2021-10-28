@@ -45,7 +45,7 @@ export default function PureResidence({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = false;
   const onSubmit = (data) => {
     data[residenceEnum.total_area_unit] = data[residenceEnum.total_area_unit]?.value;

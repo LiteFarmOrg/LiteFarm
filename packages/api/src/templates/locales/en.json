@@ -92,6 +92,10 @@
   },
   "COMMON": {
     "JOIN": "Join",
-    "LOG_IN": "Log In"
+    "LOG_IN": "Log In",
+    "OWNER": "Owner",
+    "MANAGER": "Manager",
+    "WORKER": "Worker",
+    "EXTENSION_OFFICER": "Extension Officer"
   }
 }

@@ -47,7 +47,7 @@ function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
   function checkWageAndAssignee(task, user_id) {
     if (!!task.wage_at_moment) {
       throw new Error('Worker is not allowed to modify its wage');
-    } else if (task.assignee_user_id !== user_id) {
+    } else if (task.assignee_user_id && task.assignee_user_id !== user_id) {
       throw new Error('Worker is not allowed to add tasks to another user');
     }
   }

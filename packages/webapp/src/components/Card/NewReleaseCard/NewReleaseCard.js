@@ -28,6 +28,8 @@ export function NewReleaseCard({ style }) {
           {t('SIGNUP.CHANGES')}{' '}
           <a
             href={'https://www.litefarm.org/post/litefarm-now-heavy-with-features'}
+            target="_blank"
+            rel="noreferrer"
             className={styles.underlined}
           >
             {t('common:HERE')}

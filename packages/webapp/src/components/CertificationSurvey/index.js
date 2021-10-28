@@ -17,6 +17,7 @@ const PureCertificationSurveyPage = ({
   requested_certifier,
   persistedFormData,
   onSurveyComplete,
+  email,
 }) => {
   const { t } = useTranslation();
   const [submissionId, setSubmissionId] = useState(persistedFormData?.submission_id);
@@ -28,13 +29,10 @@ const PureCertificationSurveyPage = ({
 
   useEffect(() => {
     const handler = (event) => {
-      // console.log(event);
       // if (typeof event.data !== 'string') return; // TODO: figure out better way to filter iframe message. maybe source?
       // const data = JSON.parse(event.data);
-      // console.log('Hello World?', data);
       const { type, payload } = event.data;
       if (type === 'SUBMISSION_RESULT_SUCCESS_CLOSE') {
-        // setSubmissionId('60df45608b55990001f24afd');
         setSubmissionId(payload.submissionId);
         onSurveyComplete(payload.submissionId);
       }
@@ -80,7 +78,9 @@ const PureCertificationSurveyPage = ({
           certifier_acronym={certifier_acronym}
           surveyId={survey_id}
           submissionId={submissionId}
-          email={persistedFormData.email}
+          email={email}
+          // TODO: use hook form email when we make it dynamic
+          // email={persistedFormData.email}
         />
       </Layout>
     </>

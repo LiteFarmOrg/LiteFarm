@@ -28,13 +28,14 @@ export function PureCertifierSelectionScreen({
   };
 
   const filteredCertifiers = useMemo(() => {
-    return filter
+    const results = filter
       ? certifiers.filter(
           (certifier) =>
             certifier.certifier_name.toLowerCase().includes(filter?.toLowerCase()) ||
             certifier.certifier_acronym.toLowerCase().includes(filter?.toLowerCase()),
         )
       : certifiers;
+    return results.sort((firstEl, secondEl) => firstEl.certifier_name.localeCompare(secondEl.certifier_name));
   }, [filter, certifiers]);
 
   return (

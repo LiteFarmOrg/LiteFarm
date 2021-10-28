@@ -308,8 +308,8 @@ const Unit = ({
             right: 0,
             transform: isSelectDisabled
               ? 'translate(-1px, 23px)'
-              : unitType.databaseUnit === 'week'
-              ? 'translate(-95px, 23px)'
+              : unitType.databaseUnit === 'd'
+              ? 'translate(-95px, 23px)' // long date unit component
               : 'translate(-62px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',

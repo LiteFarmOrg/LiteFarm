@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import { Semibold } from '../Typography';
 import YearSelectorModal from '../Modals/YearSelectorModal';
 import { getNewDate } from '../Form/InputDuration/utils';
+import 'rc-year-calendar/locales/rc-year-calendar.es';
+import 'rc-year-calendar/locales/rc-year-calendar.pt';
+import 'rc-year-calendar/locales/rc-year-calendar.fr';
 
 function FullYearCalendarView({
   seed_date,
@@ -15,6 +18,7 @@ function FullYearCalendarView({
   termination_date,
   plant_date,
   initial,
+  language,
 }) {
   const { t } = useTranslation();
   const [customYearSelected, setCustomYear] = useState(null);
@@ -116,7 +120,12 @@ function FullYearCalendarView({
                 {customYearSelected}{' '}
               </Semibold>
             </div>
-            <Calendar dataSource={dataSource} year={customYearSelected} displayHeader={false} />
+            <Calendar
+              dataSource={dataSource}
+              year={customYearSelected}
+              displayHeader={false}
+              language={language}
+            />
           </>
         )}
         {!customYearSelected && (
@@ -126,7 +135,12 @@ function FullYearCalendarView({
                 {initYear}{' '}
               </Semibold>
             </div>
-            <Calendar dataSource={dataSource} year={initYear} displayHeader={false} />
+            <Calendar
+              dataSource={dataSource}
+              year={initYear}
+              displayHeader={false}
+              language={language}
+            />
             {initYear !== endYear && !isNaN(endYear) && (
               <>
                 <div className={styles.yearBox}>
@@ -134,7 +148,12 @@ function FullYearCalendarView({
                     {endYear}{' '}
                   </Semibold>
                 </div>
-                <Calendar dataSource={dataSource} year={endYear} displayHeader={false} />
+                <Calendar
+                  dataSource={dataSource}
+                  year={endYear}
+                  displayHeader={false}
+                  language={language}
+                />
               </>
             )}
           </>

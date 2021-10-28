@@ -128,6 +128,7 @@ export const PureTaskTypeSelection = ({
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
               return farm_id === null && supportedTaskTypes.has(task_translation_key);
             })
+            .sort((firstEl, secondEl) => t(`task:${firstEl.task_translation_key}`).localeCompare(t(`task:${secondEl.task_translation_key}`)))
             .map(({ task_translation_key, task_type_id, farm_id }) => {
               return (
                 <div
@@ -149,7 +150,8 @@ export const PureTaskTypeSelection = ({
                 </div>
               );
             })}
-          {customTasks?.map(({ task_translation_key, task_type_id, task_name }) => {
+          {customTasks?.sort((firstEl, secondEl) => firstEl.task_name.localeCompare(secondEl.task_name))
+            .map(({ task_translation_key, task_type_id, task_name }) => {
             return (
               <div
                 onClick={() => {

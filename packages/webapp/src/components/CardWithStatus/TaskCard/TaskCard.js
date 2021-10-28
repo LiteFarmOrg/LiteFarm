@@ -115,8 +115,8 @@ export const PureTaskCard = ({
           {t(`task:${taskType.task_translation_key}`)}
         </div>
         <div className={styles.subMain}>
-          {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}{' '}
-          {cropVarietyName && `| ${cropVarietyName || t('TASK.CARD.MULTIPLE_CROPS')}`}
+          {locationName || t('TASK.CARD.MULTIPLE_LOCATIONS')}
+          {cropVarietyName && ` | ${cropVarietyName}`}
         </div>
         <div className={styles.dateUserContainer}>
           <div className={styles.iconTextContainer}>

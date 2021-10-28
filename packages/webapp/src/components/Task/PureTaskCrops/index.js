@@ -59,7 +59,7 @@ const PureTaskCrops = ({
       return locationIds.reduce((filteredManagementPlansByLocationId, locationId) => {
         filteredManagementPlansByLocationId[locationId] = managementPlansByLocationIds[
           locationId
-        ].filter(filterManagementPlansByCropVarietyName);
+        ]?.filter(filterManagementPlansByCropVarietyName);
         return filteredManagementPlansByLocationId;
       }, {});
     }
@@ -67,7 +67,7 @@ const PureTaskCrops = ({
 
   const wildCropTilesFilteredByInput = useMemo(() => {
     if (!filter) return wildManagementPlanTiles;
-    else return wildManagementPlanTiles.filter(filterManagementPlansByCropVarietyName);
+    else return wildManagementPlanTiles?.filter(filterManagementPlansByCropVarietyName);
   }, [wildManagementPlanTiles, filter]);
 
   const MANAGEMENT_PLANS = 'managementPlans';

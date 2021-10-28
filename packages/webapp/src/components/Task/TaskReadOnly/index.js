@@ -178,32 +178,6 @@ export default function PureTaskReadOnly({
         );
       })}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '24px' }}>
-        {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
-      </Semibold>
-
-      {taskComponents[taskType.task_translation_key] !== undefined &&
-        !taskType.farm_id &&
-        taskComponents[taskType.task_translation_key]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-          errors,
-          disabled: true,
-          farm: user,
-          system,
-          products,
-          task,
-        })}
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t('common:NOTES')}
-        value={task.notes}
-        optional
-        disabled
-      />
       {isCompleted && (
         <div>
           <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
@@ -304,6 +278,33 @@ export default function PureTaskReadOnly({
           />
         </div>
       )}
+
+      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+        {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
+      </Semibold>
+
+      {taskComponents[taskType.task_translation_key] !== undefined &&
+        !taskType.farm_id &&
+        taskComponents[taskType.task_translation_key]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+          errors,
+          disabled: true,
+          farm: user,
+          system,
+          products,
+          task,
+        })}
+      <InputAutoSize
+        style={{ marginBottom: '40px' }}
+        label={t('common:NOTES')}
+        value={task.notes}
+        optional
+        disabled
+      />
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>

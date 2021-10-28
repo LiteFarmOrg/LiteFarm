@@ -51,7 +51,8 @@ export default function PurePlantedAlready({
   const IS_SEED = 'crop_management_plan.is_seed';
   const IS_WILD = 'crop_management_plan.is_wild';
 
-  const MAX_AGE = 999;
+  const MAX_AGE = 99999;
+  const MAX_SEEDLING_AGE = 999;
 
   useEffect(() => {
     if (persistedFormData.crop_management_plan.seed_date) {
@@ -190,7 +191,7 @@ export default function PurePlantedAlready({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                max={MAX_AGE}
+                max={MAX_SEEDLING_AGE}
                 toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
                 optional
               />
@@ -218,7 +219,7 @@ export default function PurePlantedAlready({
             control={control}
             max={MAX_AGE}
             style={{ marginBottom: '40px' }}
-            optional
+            required
           />
 
           <Label className={styles.label} style={{ marginBottom: '18px' }}>

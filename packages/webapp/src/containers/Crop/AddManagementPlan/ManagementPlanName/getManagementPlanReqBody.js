@@ -1,5 +1,6 @@
 import produce from 'immer';
 import { pick } from '../../../../util/pick';
+import { addDaysToDate, getDateInputFormat } from '../../../../util/moment';
 
 const getContainerMethodReqBody = (container_method) =>
   produce(container_method, (container_method) => {
@@ -193,6 +194,11 @@ const getManagementPlanReqBody = (formData) => ({
   crop_variety_id: formData.crop_variety_id,
   notes: formData.notes,
   name: formData.name,
+  start_date: formData.crop_management_plan.already_in_ground
+    ? getDateInputFormat(
+        addDaysToDate(new Date(), -formData.crop_management_plan.crop_age, { toUTC: false }),
+      )
+    : undefined,
 });
 
 export const getDefaultLocationReqBody = (formData) => {

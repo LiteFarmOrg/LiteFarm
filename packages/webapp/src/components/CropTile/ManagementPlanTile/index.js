@@ -35,7 +35,9 @@ export default function PureManagementPlanTile({
   } = managementPlan;
   const displayDate = date || start_date;
 
-  const notes = managementPlan?.planting_management_plan?.notes;
+  const notes =
+    managementPlan?.planting_management_plan?.bed_method?.specify_beds ||
+    managementPlan?.planting_management_plan?.row_method?.specify_rows;
 
   const imageKey = crop_translation_key.toLowerCase();
   return (

@@ -85,5 +85,5 @@ const roundToDecimals = (number, numberOfDecimals = 2) => {
 const getNotes = (planting_management_plan) => {
   if (planting_management_plan.row_method) return planting_management_plan.row_method.specify_rows;
   if (planting_management_plan.bed_method) return planting_management_plan.bed_method.specify_beds;
-  return planting_management_plan.notes;
+  return undefined;
 };

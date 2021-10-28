@@ -52,7 +52,7 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
             return managementPlanName0 > managementPlanName1 ? 1 : -1;
           const startTime0 = new Date(startDate0).getTime();
           const startTime1 = new Date(startDate1).getTime();
-          return startTime1 - startTime0;
+          return startTime0 - startTime1;
         },
       );
 

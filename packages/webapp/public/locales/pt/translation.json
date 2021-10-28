@@ -886,8 +886,7 @@
     "DAYS_TO_HARVEST": "Dias para a próxima colheita",
     "DAYS_TO_TERMINATION": "Dias para rescisão",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
-    "DETAILS_SPOTLIGHT_1": "Edite os detalhes do seu cultivo",
-    "DETAILS_SPOTLIGHT_2": "Faça upload ou vincule documentos de conformidade",
+    "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Você deseja abandonar este plano?",
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
@@ -1000,7 +999,7 @@
       "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
       "FARM_TITLE": "O perfil de fazenda",
       "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver atualizações importantes, • Coordenar as atividades da fazenda",
-      "NOTIFICATION_TITLE": "Central de Notificações",
+      "NOTIFICATION_TITLE": "MISSING",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"
     }

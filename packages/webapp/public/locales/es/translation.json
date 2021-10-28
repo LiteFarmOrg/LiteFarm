@@ -997,7 +997,7 @@
     "SPOTLIGHT": {
       "FARM": "Aquí tu puedes:, • Editar las características de su finca, • Recorre el mapa su finca, • Manejar sus trabajadores",
       "FARM_TITLE": "Este es el perfil de su finca",
-      "NOTIFICATION": "Aqui puedes:, • Manejar sus tareas, • Ver actualizaciones importantes, • Coordinar actividades de la finca",
+      "NOTIFICATION": "Aqui puedes:, • Manejar sus tareas, • MISSING, • Coordinar actividades de la finca",
       "NOTIFICATION_TITLE": "MISSING",
       "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil"

@@ -886,8 +886,8 @@
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
-    "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
+    "DETAIL_SPOTLIGHT_TITLE": "Details",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
@@ -1321,6 +1321,7 @@
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?"
     },
+    "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",

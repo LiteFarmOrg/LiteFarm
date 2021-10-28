@@ -885,8 +885,8 @@
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
     "DAYS_TO_TERMINATION": "Días hasta la terminación:",
-    "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
+    "DETAIL_SPOTLIGHT_TITLE": "Detalles",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
@@ -1320,6 +1320,7 @@
       "TITLE": "Abandonar tarea",
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
+    "ABANDONMENT_DETAILS": "MISSING",
     "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
     "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
     "ADD_TASK": "Crea una tarea",

@@ -885,8 +885,8 @@
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
     "DAYS_TO_HARVEST": "Dias para a próxima colheita",
     "DAYS_TO_TERMINATION": "Dias para rescisão",
-    "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
+    "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Você deseja abandonar este plano?",
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
@@ -1321,6 +1321,7 @@
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?"
     },
+    "ABANDONMENT_DETAILS": "MISSING",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
     "ADD_TASK": "Criar tarefa",

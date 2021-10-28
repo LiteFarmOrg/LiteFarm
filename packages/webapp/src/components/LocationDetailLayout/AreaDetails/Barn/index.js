@@ -48,7 +48,7 @@ export default function PureBarn({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = false;
   const onSubmit = (data) => {
     const washPackSelection = data[barnEnum.wash_and_pack];

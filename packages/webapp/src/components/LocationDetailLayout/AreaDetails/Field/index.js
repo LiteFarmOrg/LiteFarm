@@ -58,7 +58,7 @@ export default function PureField({
 
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit]?.value;

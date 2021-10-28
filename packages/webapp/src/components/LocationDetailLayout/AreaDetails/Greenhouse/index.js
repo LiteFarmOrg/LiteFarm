@@ -61,7 +61,7 @@ export default function PureGreenhouse({
 
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);
 
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   console.log(isValid, isDirty, errors);
   const showPerimeter = false;
   const onSubmit = (data) => {

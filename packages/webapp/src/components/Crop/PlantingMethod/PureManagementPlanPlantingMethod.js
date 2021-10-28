@@ -38,8 +38,8 @@ export default function PureManagementPlanPlantingMethod({
       (already_in_ground && !is_wild && for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && needs_transplant && !isFinalPlantingMethod);
     const showBroadcast =
-      (!already_in_ground && is_seed && for_cover && needs_transplant && !isFinalPlantingMethod) ||
-      (!already_in_ground && is_seed && !for_cover && !needs_transplant && isFinalPlantingMethod) ||
+      (!already_in_ground && is_seed && needs_transplant && !isFinalPlantingMethod) ||
+      (!already_in_ground && is_seed && !needs_transplant && isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && !needs_transplant && isFinalPlantingMethod) ||

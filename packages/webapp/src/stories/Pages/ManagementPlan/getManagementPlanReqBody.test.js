@@ -2,6 +2,7 @@ import {
   getDefaultLocationReqBody,
   getPlantingManagementPlansReqBody,
 } from '../../../containers/Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
+import { addDaysToDate, getDateInputFormat } from '../../../util/moment';
 
 const formDataAndReqBody = [
   {
@@ -1764,6 +1765,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
       farm: {
         default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
@@ -1975,6 +1977,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
       farm: {
         default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
@@ -2153,6 +2156,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2338,6 +2342,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2534,6 +2539,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2728,6 +2734,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2899,6 +2906,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -3078,6 +3086,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },

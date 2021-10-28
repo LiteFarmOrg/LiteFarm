@@ -42,7 +42,8 @@ const userFarmController = {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id)
+        const rows = await userFarmModel.query().context({ user_id: req.user.user_id })
+          .select('*').where('userFarm.user_id', user_id).andWhereNot('farm.deleted', 'true')
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');

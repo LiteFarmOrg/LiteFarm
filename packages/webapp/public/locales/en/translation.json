@@ -195,6 +195,8 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
+    "EMAIL": "Email",
+    "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
@@ -206,6 +208,7 @@
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
     "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
   },
   "CHOOSE_FARM": {
@@ -247,6 +250,7 @@
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
+    "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
       "LOCATION": "Location",
@@ -298,6 +302,7 @@
     "SUPPLIER": "Supplier"
   },
   "CROP": {
+    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
@@ -316,7 +321,8 @@
     "PERENNIAL": "Perennial",
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
-    "TREATED": "Have the seeds for this crop been treated?"
+    "TREATED": "Have the seeds for this crop been treated?",
+    "UPLOAD_LATER": "You can upload files at a later time as well"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "From",
@@ -1288,10 +1294,6 @@
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
     "INVITED": "Invited"
-  },
-  "SURVEY_STACK": {
-    "PRODUCED": "MISSING",
-    "TITLE": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Let's Go!",

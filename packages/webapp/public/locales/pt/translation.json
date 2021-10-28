@@ -195,6 +195,8 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
+    "EMAIL": "Email",
+    "EMAIL_ERROR": "É necessário um e-mail válido",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos da certificação",
     "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
@@ -206,6 +208,7 @@
     "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
     "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
     "UH_OH": "Uh oh!",
+    "WHERE_TO_SEND_DOCS": "Para onde você quer que os seus documentos sejam enviados?",
     "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
   },
   "CHOOSE_FARM": {
@@ -247,6 +250,7 @@
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
+    "CROP_STATUS": "Status de cultivo ativo ",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
     "FILTER": {
       "LOCATION": "Localização",
@@ -297,6 +301,7 @@
     "SUPPLIER": "Fornecedor"
   },
   "CROP": {
+    "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
     "ADD_CROP": "Adicionar um cultivo",
     "ADD_IMAGE": "Adicionar imagem personalizada",
     "ANNUAL": "Anual",
@@ -315,7 +320,8 @@
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiologia e Anatomia",
-    "TREATED": "As sementes desta cultivo foram tratadas?"
+    "TREATED": "As sementes desta cultivo foram tratadas?",
+    "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
@@ -1288,10 +1294,6 @@
     "ACTIVE": "Ativo",
     "INACTIVE": "Inativo",
     "INVITED": "Convidado"
-  },
-  "SURVEY_STACK": {
-    "PRODUCED": "MISSING",
-    "TITLE": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",

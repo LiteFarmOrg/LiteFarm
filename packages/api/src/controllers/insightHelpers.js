@@ -279,7 +279,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insects: 0,
     Plants: 0,
     Amphibians: 0,
-    Crops: 0,
+    CropVarieties: 0,
   };
 
   const sortLats = new Array(pointData.length);
@@ -305,10 +305,11 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  speciesCount['Crops'] = parseInt(countData);
+  speciesCount['CropVarieties'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {
+    // TODO: figure out how to fetch past limit. ST-46
     const options = {
       uri: endPoints.gbifAPI,
       qs: {
@@ -321,14 +322,13 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
         .then((data) => {
           const jsonfied = JSON.parse(data);
           const results = jsonfied['results'];
-          results.map((currentSpecies) => {
-            if (currentSpecies['kingdom'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['kingdom']]]++;
-            } else if (currentSpecies['class'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['class']]]++;
-            }
-          });
-          resolve()
+          const infoFiltered = results.map((currentSpecies) => ({
+            key: currentSpecies['key'],
+            identificationID: currentSpecies['identificationID'],
+            kingdom: currentSpecies['kingdom'],
+            class: currentSpecies['class'],
+          }));
+          resolve(infoFiltered);
         })
         .catch((error) => {
           reject(error)
@@ -336,7 +336,15 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     }));
   });
   return await Promise.all(apiCalls)
-    .then(() => {
+    .then((apiResult) => {
+      const mergedResults = mergeSpeciesObjects(apiResult);
+      mergedResults.map((currentSpecies) => {
+        if (currentSpecies['kingdom'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['kingdom']]]++;
+        } else if (currentSpecies['class'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['class']]]++;
+        }
+      });
       let runningTotal = 0;
       let maxSpecies = 0;
       for (const key in speciesCount) {
@@ -353,6 +361,15 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     .catch((error) => {
       return error
     });
+};
+
+const mergeSpeciesObjects = (objects) => {
+  let merged = objects[0];
+  for (let i = 1; i < objects.length; i++) {
+    const keys = new Set(merged.map(item => item.key));
+    merged = [...merged, ...objects[i].filter(item => !keys.has(item.key))];
+  }
+  return merged;
 };
 
 exports.formatPricesData = (data) => {

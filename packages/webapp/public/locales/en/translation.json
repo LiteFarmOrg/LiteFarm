@@ -660,7 +660,7 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibians",
       "BIRDS": "Birds",
-      "CROPS": "Crops",
+      "CROP_VARIETIES": "Crop varieties",
       "HEADER": "Number of species",
       "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",

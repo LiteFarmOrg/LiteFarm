@@ -659,7 +659,7 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfibio",
       "BIRDS": "Aves",
-      "CROPS": "Cultivos",
+      "CROP_VARIETIES": "MISSING",
       "HEADER": "Numero de especies",
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",

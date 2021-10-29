@@ -38,27 +38,29 @@ export default function EstimatedRevenue({ history, match }) {
   const toDate = watch('to_date');
 
   const estimatedRevenueItems = useMemo(() => {
-    return managementPlans.reduce((acc, plan) => {
-      const { crop_variety_id } = plan;
-      if (!acc[crop_variety_id]) acc[crop_variety_id] = [];
+    return managementPlans
+      .filter(({ abandon_date }) => !abandon_date)
+      .reduce((acc, plan) => {
+        const { crop_variety_id } = plan;
+        if (!acc[crop_variety_id]) acc[crop_variety_id] = [];
 
-      const harvestTasks = tasksByManagementPlanId[plan.management_plan_id]?.filter(
-        (task) => task.task_type_id === 8,
-      );
-      const harvestDates = harvestTasks?.map((task) =>
-        moment(task.due_date).utc().format('YYYY-MM-DD'),
-      );
-      if (
-        harvestDates.some(
-          (harvestDate) =>
-            new Date(harvestDate) >= new Date(fromDate) &&
-            new Date(harvestDate) <= new Date(toDate),
-        )
-      ) {
-        acc[crop_variety_id].push(plan);
-      }
-      return acc;
-    }, {});
+        const harvestTasks = tasksByManagementPlanId[plan.management_plan_id]?.filter(
+          (task) => task.task_type_id === 8,
+        );
+        const harvestDates = harvestTasks?.map((task) =>
+          moment(task.due_date).utc().format('YYYY-MM-DD'),
+        );
+        if (
+          harvestDates.some(
+            (harvestDate) =>
+              new Date(harvestDate) >= new Date(fromDate) &&
+              new Date(harvestDate) <= new Date(toDate),
+          )
+        ) {
+          acc[crop_variety_id].push(plan);
+        }
+        return acc;
+      }, {});
   }, [managementPlans, fromDate, toDate]);
 
   const total = Object.entries(estimatedRevenueItems).reduce((acc, [crop_variety_id, plans]) => {

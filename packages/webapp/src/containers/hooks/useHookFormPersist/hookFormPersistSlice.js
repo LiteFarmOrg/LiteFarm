@@ -8,12 +8,14 @@ export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
   persistedPaths: [],
+  entryPath: '',
 };
 
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
   persistedPaths: [],
+  entryPath: '',
 };
 
 const getCorrectedPayload = (payload) => {
@@ -64,6 +66,9 @@ const hookFormPersistSlice = createSlice({
     },
     setPersistedPaths: (state, { payload: persistedPaths }) => {
       state.persistedPaths = persistedPaths;
+    },
+    setEntryPath: (state, { payload: entryPath }) => {
+      state.entryPath = entryPath;
     },
     //Prevent useHookPersistUnMount from updating formData after reset
     resetAndLockFormData: (state) => resetState,
@@ -125,6 +130,7 @@ export const {
   upsertFormData,
   setFormData,
   setPersistedPaths,
+  setEntryPath,
   resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
@@ -144,6 +150,8 @@ const hookFormPersistReducerSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name];
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
+export const hookFormPersistEntryPathSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name].entryPath;
 export const hookFormPersistedPathsSetSelector = createSelector(
   [hookFormPersistReducerSelector],
   (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),

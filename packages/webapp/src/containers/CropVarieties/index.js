@@ -140,7 +140,7 @@ export default function CropVarieties({ history, match }) {
         />
       )}
 
-      <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} />
+      {/* <CropStatusInfoBox style={{ marginBottom: '16px' }} date={date} setDate={setDate} /> */}
 
       <div ref={containerRef}>
         {!!cropVarietiesWithoutManagementPlan.length && (

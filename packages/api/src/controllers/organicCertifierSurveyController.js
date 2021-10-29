@@ -129,7 +129,12 @@ const organicCertifierSurveyController = {
           message: 'Bad request. Missing properties',
         })
       }
-      const documents = await documentModel.query().debug()
+      const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
+      const certification = organicCertifierSurvey.certification_id ? await knex('certifications')
+        .where({ certification_id: organicCertifierSurvey.certification_id }).first() : undefined;
+      const certifier = organicCertifierSurvey.certifier_id ? await knex('certifiers')
+        .where({ certifier_id: organicCertifierSurvey.certifier_id }).first() : undefined;
+      const documents = await documentModel.query()
         .withGraphJoined('files')
         .where((builder) => {
           builder.whereBetween('valid_until', [ from_date, to_date ]).orWhere({ no_expiration: true })
@@ -143,7 +148,7 @@ const organicCertifierSurveyController = {
       const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
       const extraInfo = { ...data };
       const body = {
-        ...extraInfo,
+        ...extraInfo, organicCertifierSurvey, certifier, certification,
         files, farm_id, email, first_name, farm_name,
         from_date, to_date, submission: submission_id,
       };
@@ -164,11 +169,21 @@ const organicCertifierSurveyController = {
     return knex.raw(`SELECT cp.crop_variety_name, cp.supplier, cp.organic, cp.searched, cp.treated,
             CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
             cp.genetically_engineered
-            FROM management_plan mp JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id 
+            FROM management_plan mp 
+            JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id 
+            JOIN crop_management_plan cpm ON cpm.management_plan_id = mp.management_plan_id
             JOIN farm f ON cp.farm_id = f.farm_id
             WHERE (mp.complete_date IS NULL OR mp.complete_date > :from_date::date)
-            AND (mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date)
-            AND mp.start_date IS NOT NULL AND mp.start_date < :to_date::date
+            AND ( mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date )
+            AND ( mp.start_date IS NULL OR mp.start_date < :to_date::date )
+            AND ( mp.start_date IS NOT NULL AND (
+                cpm.seed_date < :to_date::date OR
+                cpm.plant_date < :to_date::date OR
+                cpm.germination_date < :to_date::date OR
+                cpm.transplant_date < :to_date::date OR
+                cpm.harvest_date < :to_date::date OR
+                cpm.termination_date < :to_date::date
+            ) )
             AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id })
   },
 

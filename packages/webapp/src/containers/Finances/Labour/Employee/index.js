@@ -13,11 +13,11 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   for (let task of tasks) {
     const assignee = userFarmsOfFarm.find((user) => user.user_id === task.assignee_user_id);
     if (
-      (moment(task.completed_time).isSameOrAfter(moment(startDate)) &&
-        moment(task.completed_time).isSameOrBefore(moment(endDate)) &&
+      (moment(task.completed_time).utc().isSameOrAfter(moment(startDate)) &&
+        moment(task.completed_time).utc().isSameOrBefore(moment(endDate)) &&
         task.duration) ||
-      (moment(task.abandoned_time).isSameOrAfter(moment(startDate)) &&
-        moment(task.abandoned_time).isSameOrBefore(moment(endDate)) &&
+      (moment(task.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
+        moment(task.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
         task.duration)
     ) {
       if (sortObj.hasOwnProperty(task.assignee_user_id)) {

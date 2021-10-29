@@ -2,7 +2,7 @@ import PurePlanGuidance from '../../../components/Crop/BedPlan/PurePlanGuidance'
 import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskRowGuidance({ history, match }) {
@@ -11,6 +11,7 @@ export default function TaskRowGuidance({ history, match }) {
     managementPlanSelector(persistedFormData.managementPlans[0].management_plan_id),
   );
   const system = useSelector(measurementSelector);
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
 
   return (
     <HookFormPersistProvider>
@@ -19,7 +20,7 @@ export default function TaskRowGuidance({ history, match }) {
         history={history}
         variety_id={crop_variety_id}
         isFinalPage={true}
-        cancelPath={'/tasks'}
+        cancelPath={entryPath}
         submitPath={'/add_task/task_assignment'}
         prefix={'transplant_task.planting_management_plan'}
       />

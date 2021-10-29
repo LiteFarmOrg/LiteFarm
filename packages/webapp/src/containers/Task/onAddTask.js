@@ -1,4 +1,4 @@
-import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setPersistedPaths, setEntryPath } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 /**
  *
@@ -6,7 +6,7 @@ import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSl
  * @param history
  * @return {(function(): void)|*}
  */
-export const onAddTask = (dispatch, history) => () => {
+export const onAddTask = (dispatch, history, entryPath) => () => {
   //TODO: remove all persistedPath in add task flow
   dispatch(
     setPersistedPaths([
@@ -28,5 +28,6 @@ export const onAddTask = (dispatch, history) => () => {
       '/add_task/row_guidance',
     ]),
   );
+  dispatch(setEntryPath(entryPath));
   history.push('/add_task/task_type_selection');
 };

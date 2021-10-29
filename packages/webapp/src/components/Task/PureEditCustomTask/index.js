@@ -33,9 +33,9 @@ const PureEditCustomTask = ({ handleGoBack, handleEdit, handleRetire, selectedTy
             >
               {t('common:RETIRE')}
             </Button>
-            <Button color={'primary'} fullLength onClick={handleEdit}>
+            {/* <Button color={'primary'} fullLength onClick={handleEdit}>
               {t('common:EDIT')}
-            </Button>
+            </Button> */}
           </>
         }
       >

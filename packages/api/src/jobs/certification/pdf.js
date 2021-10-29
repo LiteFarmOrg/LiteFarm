@@ -6,7 +6,7 @@ const knex = Model.knex();
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
-  const { farm_id } = job.data;
+  const { farm_id, organicCertifierSurvey, certification, certifier } = job.data;
   const browser = await puppeteer.launch({ headless: true, ignoreDefaultArgs: ['--disable-extensions'] });
   const submission = await rp({ uri: `${surveyStackURL}/submissions/${job.data.submission}`, json: true });
   const survey = await rp({ uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`, json: true });
@@ -20,15 +20,7 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
   }), {});
 
   try {
-    const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
-    const certification = organicCertifierSurvey.certification_id ? await knex('certification')
-      .where({ certification_id: organicCertifierSurvey.certification_id }).first() : undefined;
-    const certifier = organicCertifierSurvey.certifier_id ? await knex('certifier')
-      .where({ certifier_id: organicCertifierSurvey.certifier_id }).first() : undefined;
-
     const data = { questionAnswerMap, organicCertifierSurvey, certification, certifier };
-
-
     const page = await browser.newPage();
     await page.evaluateOnNewDocument((data) => {
       window.data = data;

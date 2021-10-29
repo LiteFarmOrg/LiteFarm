@@ -128,7 +128,12 @@ const organicCertifierSurveyController = {
           message: 'Bad request. Missing properties',
         })
       }
-      const documents = await documentModel.query().debug()
+      const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
+      const certification = organicCertifierSurvey.certification_id ? await knex('certification')
+        .where({ certification_id: organicCertifierSurvey.certification_id }).first() : undefined;
+      const certifier = organicCertifierSurvey.certifier_id ? await knex('certifier')
+        .where({ certifier_id: organicCertifierSurvey.certifier_id }).first() : undefined;
+      const documents = await documentModel.query()
         .withGraphJoined('files')
         .where((builder) => {
           builder.whereBetween('valid_until', [ from_date, to_date ]).orWhere({ no_expiration: true })
@@ -146,7 +151,7 @@ const organicCertifierSurveyController = {
         extraInfo = { ...data, isCanadianFarm };
       }
       const body = {
-        ...extraInfo,
+        ...extraInfo, organicCertifierSurvey, certifier, certification,
         files, farm_id, email, first_name, farm_name,
         from_date, to_date, submission: submission_id
       };

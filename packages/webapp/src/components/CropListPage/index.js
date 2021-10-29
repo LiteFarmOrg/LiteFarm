@@ -9,6 +9,7 @@ import useCropTileListGap from '../CropTile/useCropTileListGap';
 import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
+import { AddLink } from '../Typography';
 
 export default function PureCropList({
   onFilterChange,
@@ -56,22 +57,21 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
-      {/*TODO: figure out how to deal with creation flow with cancel button with multiple entry point*/}
-      {/*{isAdmin && (*/}
-      {/*  <div*/}
-      {/*    style={{*/}
-      {/*      marginBottom: '20px',*/}
-      {/*      width: 'fit-content',*/}
-      {/*      fontSize: '16px',*/}
-      {/*      color: 'var(--iconActive)',*/}
-      {/*      lineHeight: '16px',*/}
-      {/*      cursor: 'pointer',*/}
-      {/*    }}*/}
-      {/*    onClick={onAddCrop}*/}
-      {/*  >*/}
-      {/*    <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>*/}
-      {/*  </div>*/}
-      {/*)}*/}
+      {isAdmin && (
+        <div
+          style={{
+            marginBottom: '20px',
+            width: 'fit-content',
+            fontSize: '16px',
+            color: 'var(--iconActive)',
+            lineHeight: '16px',
+            cursor: 'pointer',
+          }}
+          onClick={onAddCrop}
+        >
+          <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>
+        </div>
+      )}
 
       <div ref={containerRef}>
         {activeCrops.length > 0 && (

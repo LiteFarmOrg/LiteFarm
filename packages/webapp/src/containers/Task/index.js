@@ -80,7 +80,7 @@ export default function TaskPage({ history }) {
         <div className={styles.taskCount}>
           {t('TASK.TASKS_COUNT', { count: taskCardContents.length })}
         </div>
-        <AddLink onClick={onAddTask(dispatch, history)}>{t('TASK.ADD_TASK')}</AddLink>
+        <AddLink onClick={onAddTask(dispatch, history, `/tasks`)}>{t('TASK.ADD_TASK')}</AddLink>
       </div>
       {taskCardContents.length > 0 ? (
         taskCardContents.map((task) => (

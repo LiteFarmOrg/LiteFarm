@@ -2,8 +2,11 @@ import React from 'react';
 import PureTaskDate from '../../../components/Task/TaskDate';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useIsTaskType } from '../useIsTaskType';
+import { hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useSelector } from 'react-redux';
 
 function TaskDate({ history, match }) {
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const onGoBack = () => {
     history.push('/add_task/task_type_selection');
   };
@@ -13,7 +16,7 @@ function TaskDate({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
   return (

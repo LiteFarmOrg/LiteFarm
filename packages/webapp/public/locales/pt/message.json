@@ -98,18 +98,18 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "Falha ao atualizar o plano de manejo"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Plano de manejo atualizado com sucesso"
     }
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "Falha ao atualizar a receita"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Receita atualizada com sucesso"
     }
   },
   "SALE": {

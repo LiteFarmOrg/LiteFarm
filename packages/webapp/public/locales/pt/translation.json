@@ -1,7 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
-    "DISABLE_GEO_LOCATION": "MISSING",
+    "DISABLE_GEO_LOCATION": "Os serviços de localização devem estar ativados para encontrar sua localização atual.",
     "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
     "ENTER_LOCATION_PLACEHOLDER": "Selecione a localização",
     "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
@@ -78,15 +78,15 @@
       "SYSTEMIC_SPRAY": "Aspersão sistêmica",
       "WHAT_PESTS": "Qual (is) praga (s) você está tentando controlar?"
     },
-    "PLANTING_FROM": "MISSING",
+    "PLANTING_FROM": "Plantando de",
     "PLANTING_METHOD": "Método de plantio",
-    "PLANTING_STOCK": "MISSING",
+    "PLANTING_STOCK": "Muda",
     "PLANTING_TASK": "Tarefa de plantio",
     "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa, um novo plano de manejo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
     "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
-    "SEED": "MISSING",
+    "SEED": "Semente",
     "SELECT_ALL": "Selecionar tudo",
     "SELECT_ALL_PLANS": "Selecionar todos os planos",
     "SELECT_TASK_TYPE": "Selecionar tipo de tarefa",
@@ -628,10 +628,10 @@
     },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
-      "ESTIMATED_ANNUAL_YIELD": "MISSING",
-      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
-      "TITLE": "MISSING"
+      "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
+      "ESTIMATED_ANNUAL_YIELD": "Rendimento anual estimado",
+      "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
+      "TITLE": "Receita Estimada"
     },
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
@@ -662,7 +662,7 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",
       "BIRDS": "Aves",
-      "CROP_VARIETIES": "MISSING",
+      "CROP_VARIETIES": "Variedades de cultivos",
       "HEADER": "Número de espécies",
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
@@ -888,12 +888,12 @@
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
     "DAYS_TO_HARVEST": "Dias para a próxima colheita",
     "DAYS_TO_TERMINATION": "Dias para rescisão",
-    "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
+    "DETAIL_SPOTLIGHT_CONTENTS": "Aqui você pode editar os detalhes do seu cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Você deseja abandonar este plano?",
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
-    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editar este plano não irá modificar as tarefas atribuídas a ele.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
     "FIRST_MP_SPOTLIGHT": {
@@ -1001,8 +1001,8 @@
     "SPOTLIGHT": {
       "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
       "FARM_TITLE": "O perfil de fazenda",
-      "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • MISSING, • Coordenar as atividades da fazenda",
-      "NOTIFICATION_TITLE": "MISSING",
+      "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
+      "NOTIFICATION_TITLE": "Essas são as tarefas da sua propriedade",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"
     }
@@ -1261,13 +1261,13 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
-    "CHANGES": "MISSING",
+    "CHANGES": "Leia sobre as mudanças",
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
-    "LITEFARM_UPDATED": "MISSING",
+    "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
@@ -1324,7 +1324,7 @@
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?"
     },
-    "ABANDONMENT_DETAILS": "MISSING",
+    "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
     "ADD_TASK": "Criar tarefa",
@@ -1344,7 +1344,7 @@
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
     "CREATE_CUSTOM_HARVEST_USE": "Criar um uso personalizado da colheita",
-    "CURRENT": "MISSING",
+    "CURRENT": "Atual",
     "DESCRIBE_HARVEST_USE": "Descrever o uso da colheita",
     "DETAILS": "Detalhes",
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
@@ -1376,7 +1376,7 @@
     "TASKS_COUNT": "{{count}} tarefa",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
-    "TRANSPLANT": "MISSING",
+    "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída"
   },

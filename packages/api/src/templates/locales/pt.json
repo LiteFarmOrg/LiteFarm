@@ -77,10 +77,10 @@
   "COMMON": {
     "JOIN": "Junte",
     "LOG_IN": "Conecte-se",
-    "OWNER": "MISSING",
-    "EXTENSION_OFFICER": "MISSING",
-    "WORKER": "MISSING",
-    "MANAGER": "MISSING"
+    "OWNER": "Proprietário(a)",
+    "EXTENSION_OFFICER": "Técnico(a) de Extensão",
+    "WORKER": "Trabalhador(a)",
+    "MANAGER": "Gerente"
   },
   "EXPORT_MAP": {
     "EXPORT": "Aqui está a exportação do mapa da fazenda para",
@@ -90,11 +90,12 @@
     "SUBJECT1": "em LiteFarm"
   },
   "EXPORT": {
-    "HI": "EXPORT.HI",
-    "SEASON": "EXPORT.SEASON",
-    "CERTIFICATION": "EXPORT.CERTIFICATION",
-    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
-    "SUBJECT": "EXPORT.SUBJECT",
-    "PRIVACY": "EXPORT.PRIVACY"
+    "HI": "Olá",
+    "SEASON": "Esperamos que você tenha tido uma safra fantástica em",
+    "CERTIFICATION": "Você pode clicar no link abaixo para baixar seus documentos de certificação e outros documentos de apoio (fotos dos pacotes de sementes, seus recibos digitalizados, etc.) para o período do relatório.",
+    "GET_YOUR_EXPORT": "Obter documentos",
+    "SUBJECT": "Seus documentos de certificação são exportados do LiteFarm",
+    "PRIVACY": "No LiteFarm, consideramos a sua privacidade importante, então você precisa estar logado antes de acessar sua exportação. Desculpe por qualquer inconveniente. Boa sorte com seu envio e agradecemos a você por usar o LiteFarm!",
+    "LANGUAGE_DELAY": "Os registros de cultivos e insumos são exportados atualmente em inglês, mas em breve estarão disponíveis em português. Pedimos desculpas pelo transtorno."
   }
 }

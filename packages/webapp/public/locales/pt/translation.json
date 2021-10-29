@@ -1,7 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
-    "DISABLE_GEO_LOCATION": "MISSING",
+    "DISABLE_GEO_LOCATION": "Os serviços de localização devem estar ativados para encontrar sua localização atual.",
     "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
     "ENTER_LOCATION_PLACEHOLDER": "Selecione a localização",
     "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
@@ -78,15 +78,15 @@
       "SYSTEMIC_SPRAY": "Aspersão sistêmica",
       "WHAT_PESTS": "Qual (is) praga (s) você está tentando controlar?"
     },
-    "PLANTING_FROM": "MISSING",
+    "PLANTING_FROM": "Plantando de",
     "PLANTING_METHOD": "Método de plantio",
-    "PLANTING_STOCK": "MISSING",
+    "PLANTING_STOCK": "Muda",
     "PLANTING_TASK": "Tarefa de plantio",
     "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa, um novo plano de manejo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
     "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
-    "SEED": "MISSING",
+    "SEED": "Semente",
     "SELECT_ALL": "Selecionar tudo",
     "SELECT_ALL_PLANS": "Selecionar todos os planos",
     "SELECT_TASK_TYPE": "Selecionar tipo de tarefa",
@@ -106,7 +106,7 @@
     "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
-    "WILD_CROP": "Cultivos selvagens"
+    "WILD_CROP": "Cultivos silvestres"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -260,7 +260,7 @@
     "LETS_BEGIN": "Vamos começar!",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
-    "SELECT_A_CROP": "Selecione um cultivo para adicioná-la à sua fazenda. Use a busca e os filtros para encontrar as colheitas mais rapidamente.",
+    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar as culturas mais rapidamente.",
     "FILTER_TITLE": "Filtro de catálogo de cultivo"
   },
   "CROP_DETAIL": {
@@ -273,9 +273,9 @@
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
     "MANAGEMENT_PLANS": "Planos de Manejo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "O cultivo é certificada como orgânica?",
+    "ORGANIC": "O cultivo é certificado como orgânico?",
     "PERENNIAL": "Perene",
-    "TREATED": "As sementes desta cultivo foram tratadas?"
+    "TREATED": "As sementes desta cultura foram tratadas?"
   },
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
@@ -355,9 +355,9 @@
     },
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "SPOTLIGHT": {
-      "CDC": "Quando chegar a hora de gerar sua exportação de certificação, a LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
+      "CDC": "Quando chegar a hora de gerar sua exportação de certificação, o LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
       "HERE_YOU_CAN": "Aqui você pode:",
-      "YOU_CAN_ONE": "Faça upload dos documentos que deseja incluir na exportação de certificação",
+      "YOU_CAN_ONE": "Fazer upload dos documentos que deseja incluir na exportação de certificação",
       "YOU_CAN_THREE": "Arquivar documentos desnecessários",
       "YOU_CAN_TWO": "Categorizar e controlar as datas de validade do seu documento"
     },
@@ -532,13 +532,13 @@
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar área natural",
-      "NAME": "nome da área natural",
+      "NAME": "Nome da área natural",
       "TITLE": "Adicionar área natural"
     },
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residência",
-      "NAME": "nome da residência",
+      "NAME": "Nome da residência",
       "TITLE": "Adicionar residência"
     },
     "SPOTLIGHT": {
@@ -553,7 +553,7 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "Editar água superficial",
       "IRRIGATION": "Esta área é usada para irrigação?",
-      "NAME": "nome da água superficial",
+      "NAME": "Nome da água superficial",
       "TITLE": "Adicionar água superficial"
     },
     "TAB": {
@@ -628,10 +628,10 @@
     },
     "DATE": "Data",
     "ESTIMATED_REVENUE": {
-      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
-      "ESTIMATED_ANNUAL_YIELD": "MISSING",
-      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
-      "TITLE": "MISSING"
+      "ESTIMATED_ANNUAL_REVENUE": "Receita anual estimada",
+      "ESTIMATED_ANNUAL_YIELD": "Rendimento anual estimado",
+      "ESTIMATED_PRICE_PER_UNIT": "Preço por unidade estimado",
+      "TITLE": "Receita Estimada"
     },
     "REVENUE": "Receita",
     "VIEW_WITHIN_DATE_RANGE": "Veja a receita neste intervalo de datas",
@@ -662,7 +662,7 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfíbios",
       "BIRDS": "Aves",
-      "CROP_VARIETIES": "MISSING",
+      "CROP_VARIETIES": "Variedades de cultivos",
       "HEADER": "Número de espécies",
       "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
       "INSECTS": "Insetos",
@@ -888,16 +888,16 @@
     "DAYS_FROM_SEEDING": "Dias desde a semente até:",
     "DAYS_TO_HARVEST": "Dias para a próxima colheita",
     "DAYS_TO_TERMINATION": "Dias para rescisão",
-    "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
+    "DETAIL_SPOTLIGHT_CONTENTS": "Aqui você pode editar os detalhes do seu cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalhes",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Você deseja abandonar este plano?",
     "DROP_PIN": "Alfinetar",
     "DURATION_TOOLTIP": "Esses são valores sugeridos. Ajuste de acordo com as condições locais.",
-    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editar este plano não irá modificar as tarefas atribuídas a ele.",
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "O LiteFarm gerou algumas tarefas com base em seu plano. Você pode editá-los ou atribuí-los nesta tela. Além disso, você pode adicionar mais tarefas a este plano ou editá-lo.",
+      "BODY": "O LiteFarm gerou algumas tarefas com base em seu plano. Você pode editá-las ou atribuí-las nesta tela. Além disso, você pode adicionar mais tarefas a este plano ou editá-lo.",
       "TITLE": "Parabéns! Você realizou o seu primeiro plano de manejo!"
     },
     "FOR_HARVEST": "Para a colheita",
@@ -909,12 +909,12 @@
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de manejo da cultura. ",
     "INCOMPLETE_TASK_TITLE": "Você tem tarefas incompletas",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
-    "IS_TRANSPLANT": "Este cultivo será transplantada?",
+    "IS_TRANSPLANT": "Este cultivo será transplantado?",
     "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "criação do plano de manejo",
-    "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
-    "MANAGEMENT_SPOTLIGHT_2": "Visualize e modifique os planos para este cultivo",
+    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para esta cultura",
+    "MANAGEMENT_SPOTLIGHT_2": "Visualizar e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
@@ -986,7 +986,7 @@
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
-    "WILD_CROP": "Você está colhendo uma planta selvagem?",
+    "WILD_CROP": "Você está colhendo uma planta silvestre?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": ""
@@ -994,15 +994,15 @@
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
-    "FARM_MAP": "Mapa de fazenda/sitio",
+    "FARM_MAP": "Mapa da fazenda/sitio",
     "PEOPLE": "Pessoas"
   },
   "NAVIGATION": {
     "SPOTLIGHT": {
       "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
       "FARM_TITLE": "O perfil de fazenda",
-      "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • MISSING, • Coordenar as atividades da fazenda",
-      "NOTIFICATION_TITLE": "MISSING",
+      "NOTIFICATION": "Aqui você pode:, • Administrar suas tarefas, • Ver o que mais está acontecendo, • Coordenar as atividades da fazenda",
+      "NOTIFICATION_TITLE": "Essas são as tarefas da sua propriedade",
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"
     }
@@ -1040,7 +1040,7 @@
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
     "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de manejo esteja visível. ",
-    "WIDTH": "{{types}} largura",
+    "WIDTH": "{{types}} Largura",
     "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
   },
   "PREPARING_EXPORT": {
@@ -1083,7 +1083,7 @@
     "PEOPLE": {
       "EO": "Agente de Extensão",
       "FARM_MANAGER": "Gerente de sítio/fazenda",
-      "FARM_OWNER": "Dono do sítio/fazenda",
+      "FARM_OWNER": "Dono(a) do sítio/fazenda",
       "FARM_WORKER": "Trabalhador",
       "HOURLY": "por hora",
       "INVITE_USER": "Convidar Usuário",
@@ -1261,13 +1261,13 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
-    "CHANGES": "MISSING",
+    "CHANGES": "Leia sobre as mudanças",
     "EMAIL_INVALID": "Email é inválido",
     "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
-    "LITEFARM_UPDATED": "MISSING",
+    "LITEFARM_UPDATED": "Nós atualizamos o LiteFarm!",
     "PASSWORD_ERROR": "Senha incorreta",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
@@ -1324,7 +1324,7 @@
       "TITLE": "Abandonar tarefa",
       "WHAT_HAPPENED": "O que aconteceu?"
     },
-    "ABANDONMENT_DETAILS": "MISSING",
+    "ABANDONMENT_DETAILS": "Detalhes do abandono da tarefa",
     "ADD_CUSTOM_HARVEST_USE": "Crie um uso de colheita personalizado",
     "ADD_HARVEST_USE": "Adicionar outro uso para a colheita",
     "ADD_TASK": "Criar tarefa",
@@ -1344,7 +1344,7 @@
     "COMPLETION_NOTES": "Observações de conclusão de tarefa",
     "COMPLETION_NOTES_CHAR_LIMIT": "Observações não devem exceder 10.000 caractéres",
     "CREATE_CUSTOM_HARVEST_USE": "Criar um uso personalizado da colheita",
-    "CURRENT": "MISSING",
+    "CURRENT": "Atual",
     "DESCRIBE_HARVEST_USE": "Descrever o uso da colheita",
     "DETAILS": "Detalhes",
     "DID_YOU_ENJOY": "Você gostou dessa tarefa?",
@@ -1376,7 +1376,7 @@
     "TASKS_COUNT": "{{count}} tarefa",
     "TASKS_COUNT_plural": "{{count}} tarefas",
     "TODO": "A fazer",
-    "TRANSPLANT": "MISSING",
+    "TRANSPLANT": "Transplantar",
     "TRANSPLANT_LOCATIONS": "Selecione um local de transplante",
     "UNASSIGNED": "Não atribuída"
   },

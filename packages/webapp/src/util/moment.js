@@ -58,3 +58,5 @@ export const getManagementPlanTileDate = (date) =>
 
 export const getTaskCardDate = (date) =>
   moment(date).locale(getLanguageFromLocalStorage()).utc().format('MMM D, YYYY');
+
+export const getCurrentDateLong = (date) => moment().utc().format('L');

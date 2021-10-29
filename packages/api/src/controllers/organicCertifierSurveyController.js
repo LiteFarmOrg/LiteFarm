@@ -130,9 +130,9 @@ const organicCertifierSurveyController = {
         })
       }
       const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
-      const certification = organicCertifierSurvey.certification_id ? await knex('certification')
+      const certification = organicCertifierSurvey.certification_id ? await knex('certifications')
         .where({ certification_id: organicCertifierSurvey.certification_id }).first() : undefined;
-      const certifier = organicCertifierSurvey.certifier_id ? await knex('certifier')
+      const certifier = organicCertifierSurvey.certifier_id ? await knex('certifiers')
         .where({ certifier_id: organicCertifierSurvey.certifier_id }).first() : undefined;
       const documents = await documentModel.query()
         .withGraphJoined('files')

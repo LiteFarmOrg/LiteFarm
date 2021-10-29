@@ -25,7 +25,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).range('A1:G1').style({
         bold: true,
         fontSize: 20,
-        fill: 'F2F2F2'
+        fill: 'F2F2F2',
       });
       // workbook.sheet(0).range('A6:G9').style({
       //   fill: 'F2F2F2',
@@ -47,7 +47,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           color: '000000',
           style: 'thin',
         },
-        horizontalAlignment: 'center'
+        horizontalAlignment: 'center',
       });
 
       const title = isInputs ? 'INPUTS' : 'CLEANERS';
@@ -79,7 +79,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).cell('A9').value(rowNine).style({ wrapText: false });
       workbook.sheet(0).cell('A10').value('Product name');
       workbook.sheet(0).cell('B10').value('Brand Name or Source/Supplier');
-      workbook.sheet(0).cell('C10').value('Quantity');
+      workbook.sheet(0).cell('C10').value('Quantity (kg)');
       workbook.sheet(0).cell('D10').value('Date Used');
       workbook.sheet(0).cell('E10').value('Crop / Field Applied to or Production Unit used in');
       workbook.sheet(0).cell('F10').value('Notes');

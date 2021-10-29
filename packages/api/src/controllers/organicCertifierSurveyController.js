@@ -206,7 +206,7 @@ const organicCertifierSurveyController = {
         WHERE 
         ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
         ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
-        AND p.farm_id = ?
+        AND p.farm_id = :farm_id
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
     const taskIds = soilTasks.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
@@ -230,7 +230,7 @@ const organicCertifierSurveyController = {
         WHERE 
         ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
         ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
-        AND p.farm_id = ?
+        AND p.farm_id = :farm_id
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
     const taskIds = cleaningTask.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));

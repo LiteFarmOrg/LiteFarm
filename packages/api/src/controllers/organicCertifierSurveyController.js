@@ -176,7 +176,7 @@ const organicCertifierSurveyController = {
             WHERE (mp.complete_date IS NULL OR mp.complete_date > :from_date::date)
             AND ( mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date )
             AND ( mp.start_date IS NULL OR mp.start_date < :to_date::date )
-            AND ( mp.start_date IS NOT NULL AND (
+            AND ( mp.start_date IS NOT NULL OR (
                 cpm.seed_date < :to_date::date OR
                 cpm.plant_date < :to_date::date OR
                 cpm.germination_date < :to_date::date OR

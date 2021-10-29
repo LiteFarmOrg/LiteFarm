@@ -30,15 +30,13 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           managementPlanName: management_plan.name,
           locationName: getLocationName(planting_management_plan),
           notes: getNotes(planting_management_plan),
-          ...getTasksMinMaxDate(tasks),
+          ...getManagementPlanStartEndDate(management_plan, tasks),
           numberOfPendingTask: tasks.filter(
             (task) => task.abandoned_time === null && task.completed_time === null,
           ).length,
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,
-          completeDate: management_plan.complete_date,
-          abandonDate: management_plan.abandon_date,
         };
       })
       .sort(
@@ -88,4 +86,11 @@ const getNotes = (planting_management_plan) => {
   if (planting_management_plan.row_method) return planting_management_plan.row_method.specify_rows;
   if (planting_management_plan.bed_method) return planting_management_plan.bed_method.specify_beds;
   return undefined;
+};
+
+const getManagementPlanStartEndDate = (management_plan, tasks) => {
+  const { startDate, endDate } = getTasksMinMaxDate(tasks);
+  const { complete_date, abandon_date } = management_plan;
+  const managementPlanEndDate = complete_date ? complete_date : abandon_date ? abandon_date : endDate;
+  return { startDate, endDate: managementPlanEndDate };
 };

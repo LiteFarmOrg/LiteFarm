@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -108,90 +108,114 @@ export default function MapDrawer({
 
   const classes = useStyles();
 
-  let areaImgDict = [
-    {
-      name: t('FARM_MAP.MAP_FILTER.BARN'),
-      icon: () => <Barn className={classes.icon} />,
-      key: locationEnum.barn,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.CA'),
-      icon: () => <CeremonialArea className={classes.icon} />,
-      key: locationEnum.ceremonial_area,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.FSB'),
-      icon: () => <FarmSiteBoundary className={classes.icon} />,
-      key: locationEnum.farm_site_boundary,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.FIELD'),
-      icon: () => <Field className={classes.icon} />,
-      key: locationEnum.field,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.GARDEN'),
-      icon: () => <Garden className={classes.icon} />,
-      key: locationEnum.garden,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
-      icon: () => <Greenhouse className={classes.icon} />,
-      key: locationEnum.greenhouse,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.SURFACE_WATER'),
-      icon: () => <SurfaceWater className={classes.icon} />,
-      key: locationEnum.surface_water,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.NA'),
-      icon: () => <NaturalArea className={classes.icon} />,
-      key: locationEnum.natural_area,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.RESIDENCE'),
-      icon: () => <Residence className={classes.icon} />,
-      key: locationEnum.residence,
-    },
-  ];
+  const areaImgDict = useMemo(
+    () =>
+      [
+        {
+          name: t('FARM_MAP.MAP_FILTER.BARN'),
+          icon: () => <Barn className={classes.icon} />,
+          key: locationEnum.barn,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.CA'),
+          icon: () => <CeremonialArea className={classes.icon} />,
+          key: locationEnum.ceremonial_area,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.FSB'),
+          icon: () => <FarmSiteBoundary className={classes.icon} />,
+          key: locationEnum.farm_site_boundary,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.FIELD'),
+          icon: () => <Field className={classes.icon} />,
+          key: locationEnum.field,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.GARDEN'),
+          icon: () => <Garden className={classes.icon} />,
+          key: locationEnum.garden,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
+          icon: () => <Greenhouse className={classes.icon} />,
+          key: locationEnum.greenhouse,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.SURFACE_WATER'),
+          icon: () => <SurfaceWater className={classes.icon} />,
+          key: locationEnum.surface_water,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.NA'),
+          icon: () => <NaturalArea className={classes.icon} />,
+          key: locationEnum.natural_area,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.RESIDENCE'),
+          icon: () => <Residence className={classes.icon} />,
+          key: locationEnum.residence,
+        },
+      ]
+        .sort((firstLocationType, secondLocationType) =>
+          firstLocationType.name.localeCompare(secondLocationType.name),
+        )
+        .filter(
+          ({ key }) => !availableFilterSettings || availableFilterSettings.area.includes(key),
+        ),
+    [availableFilterSettings?.area],
+  );
 
-  let lineImgDict = [
-    {
-      name: t('FARM_MAP.MAP_FILTER.BZ'),
-      icon: () => <BufferZone className={classes.icon} />,
-      key: locationEnum.buffer_zone,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
-      icon: () => <Watercourse className={classes.icon} />,
-      key: locationEnum.watercourse,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.FENCE'),
-      icon: () => <Fence className={classes.icon} />,
-      key: locationEnum.fence,
-    },
-  ];
+  const lineImgDict = useMemo(
+    () =>
+      [
+        {
+          name: t('FARM_MAP.MAP_FILTER.BZ'),
+          icon: () => <BufferZone className={classes.icon} />,
+          key: locationEnum.buffer_zone,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
+          icon: () => <Watercourse className={classes.icon} />,
+          key: locationEnum.watercourse,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.FENCE'),
+          icon: () => <Fence className={classes.icon} />,
+          key: locationEnum.fence,
+        },
+      ]
+        .sort((firstLocationType, secondLocationType) =>
+          firstLocationType.name.localeCompare(secondLocationType.name),
+        )
+        .filter(
+          ({ key }) => !availableFilterSettings || availableFilterSettings.line.includes(key),
+        ),
+    [availableFilterSettings?.line],
+  );
 
-  let pointImgDict = [
-    {
-      name: t('FARM_MAP.MAP_FILTER.GATE'),
-      icon: () => <Gate className={classes.icon} />,
-      key: locationEnum.gate,
-    },
-    {
-      name: t('FARM_MAP.MAP_FILTER.WV'),
-      icon: () => <WaterValve className={classes.icon} />,
-      key: locationEnum.water_valve,
-    },
-  ];
-
-  if (availableFilterSettings) {
-    areaImgDict = areaImgDict.filter(({ key }) => availableFilterSettings.area.includes(key));
-    lineImgDict = lineImgDict.filter(({ key }) => availableFilterSettings.line.includes(key));
-    pointImgDict = pointImgDict.filter(({ key }) => availableFilterSettings.point.includes(key));
-  }
+  const pointImgDict = useMemo(
+    () =>
+      [
+        {
+          name: t('FARM_MAP.MAP_FILTER.GATE'),
+          icon: () => <Gate className={classes.icon} />,
+          key: locationEnum.gate,
+        },
+        {
+          name: t('FARM_MAP.MAP_FILTER.WV'),
+          icon: () => <WaterValve className={classes.icon} />,
+          key: locationEnum.water_valve,
+        },
+      ]
+        .sort((firstLocationType, secondLocationType) =>
+          firstLocationType.name.localeCompare(secondLocationType.name),
+        )
+        .filter(
+          ({ key }) => !availableFilterSettings || availableFilterSettings.point.includes(key),
+        ),
+    [availableFilterSettings?.point],
+  );
 
   const [initHeight, setInitHeight] = useState(drawerDefaultHeight);
   const controls = useAnimation();
@@ -274,9 +298,7 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {areaImgDict
-            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
-            .map(({ key, name, icon }) => {
+          {areaImgDict.map(({ key, name, icon }) => {
             return (
               <MapDrawerMenuItem
                 key={key}
@@ -296,9 +318,7 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {lineImgDict
-            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
-            .map(({ key, name, icon }) => (
+          {lineImgDict.map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
               name={name}
@@ -316,9 +336,7 @@ export default function MapDrawer({
               <span className={classes.labelDivider} />
             </Label>
           )}
-          {pointImgDict
-            .sort((firstEl, secondEl) => firstEl.name.localeCompare(secondEl.name))
-            .map(({ key, name, icon }) => (
+          {pointImgDict.map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
               name={name}

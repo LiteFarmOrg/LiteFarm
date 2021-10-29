@@ -1058,6 +1058,7 @@
     "ACCOUNT_TAB": "Conta",
     "ACCOUNT": {
       "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
+      "EDIT_USER": "Editar usuário",
       "EMAIL": "Email",
       "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",

@@ -88,7 +88,8 @@
     "GET_EXPORT": "Get your export",
     "SUBJECT": "Your certification documents export from LiteFarm",
     "HI": "Hi",
-    "GET_YOUR_EXPORT": "Get documents"
+    "GET_YOUR_EXPORT": "Get documents",
+    "LANGUAGE_DELAY": ""
   },
   "COMMON": {
     "JOIN": "Join",

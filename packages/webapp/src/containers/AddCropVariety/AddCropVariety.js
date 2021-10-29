@@ -4,7 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
 import { postCropAndVarietal, postVarietal } from './saga';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
-import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import ImagePickerWrapper from '../ImagePickerWrapper';
 import { AddLink } from '../../components/Typography';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ function AddCropVarietyForm({ history, match }) {
   const persistedFormData = useSelector(hookFormPersistSelector);
   const isNewCrop = crop_id === 'new';
   const crop = isNewCrop ? persistedFormData : existingCropInfo;
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const onError = (error) => {
     console.log(error);
   };
@@ -57,7 +58,7 @@ function AddCropVarietyForm({ history, match }) {
           </ImagePickerWrapper>
         }
         handleGoBack={() => history.push(isNewCrop ? `/crop/new` : `/crop_catalogue`)}
-        handleCancel={() => history.push(`/crop_catalogue`)}
+        handleCancel={() => history.push(entryPath)}
       />
     </HookFormPersistProvider>
   );

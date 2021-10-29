@@ -105,6 +105,7 @@ const AddProduct = ({
         style={{ marginBottom: '40px' }}
         disabled={disabled}
         hasLeaf={true}
+        errors={watch(SUPPLIER).match(/^\s*$/) && t('common:REQUIRED')}
       />
       {isInterestedInCanada && (
         <>

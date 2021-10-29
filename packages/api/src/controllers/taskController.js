@@ -298,7 +298,7 @@ const taskController = {
           const updated_harvest_uses = await HarvestUse.query(trx).context({ user_id: req.user.user_id })
             .insert(harvest_uses);
           result.harvest_uses = updated_harvest_uses;
-          await patchManagementPlanStartDate(trx, req, 'harvest_task');
+          await patchManagementPlanStartDate(trx, req, 'harvest_task', req.body.task);
 
           return result;
         });
@@ -420,13 +420,12 @@ async function getManagementPlans(task_id, typeOfTask) {
   }
 }
 
-async function patchManagementPlanStartDate(trx, req, typeOfTask) {
-  const data = req.body;
+async function patchManagementPlanStartDate(trx, req, typeOfTask, task = req.body) {
   const task_id = parseInt(req.params.task_id);
   const management_plans = await getManagementPlans(task_id, typeOfTask);
   const management_plan_ids = management_plans.map(({ management_plan_id }) => management_plan_id);
   if (management_plan_ids.length > 0) {
-    await managementPlanModel.query(trx).context(req.user).patch({ start_date: data.completed_time })
+    await managementPlanModel.query(trx).context(req.user).patch({ start_date: task.completed_time })
       .whereIn('management_plan_id', management_plan_ids)
       .where('start_date', null).returning('*');
   }

@@ -6,7 +6,7 @@ const knex = Model.knex();
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
-  const { farm_id, organicCertifierSurvey, certification, certifier } = job.data;
+  const { farm_name, organicCertifierSurvey, certification, certifier } = job.data;
   const browser = await puppeteer.launch({ headless: true, ignoreDefaultArgs: ['--disable-extensions'] });
   const submission = await rp({ uri: `${surveyStackURL}/submissions/${job.data.submission}`, json: true });
   const survey = await rp({ uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`, json: true });

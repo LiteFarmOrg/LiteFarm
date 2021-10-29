@@ -32,7 +32,7 @@ function TaskTypeSelection({ history, match }) {
   const onContinue = () => history.push(continuePath);
 
   const handleGoBack = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
   const handleCancel = () => {

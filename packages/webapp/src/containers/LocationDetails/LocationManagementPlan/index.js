@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PureCropList from '../../../components/CropListPage';
 import { isAdminSelector } from '../../userFarmSlice';
 import { cropLocationByIdSelector } from '../../locationSlice';
@@ -8,10 +8,8 @@ import {
   expiredManagementPlansByLocationIdSelector,
   plannedManagementPlansByLocationIdSelector,
 } from '../../Task/TaskCrops/managementPlansWithLocationSelector';
-import { setEntryPath } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 function LocationManagementPlan({ history, match }) {
-  const dispatch = useDispatch();
   const [filter, setFilter] = useState();
   const isAdmin = useSelector(isAdminSelector);
   const { location_id } = match.params;
@@ -24,8 +22,7 @@ function LocationManagementPlan({ history, match }) {
   };
 
   const onAddCrop = () => {
-    dispatch(setEntryPath(`/field/${location_id}/crops`));
-    history.push(`/crop/new`);
+    history.push(`/crop_catalogue`);
   };
   const location = useSelector(cropLocationByIdSelector(location_id));
 

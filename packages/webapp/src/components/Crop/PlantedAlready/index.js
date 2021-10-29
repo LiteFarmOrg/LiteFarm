@@ -193,7 +193,7 @@ export default function PurePlantedAlready({
                 control={control}
                 max={MAX_SEEDLING_AGE}
                 toolTipContent={t('MANAGEMENT_PLAN.SEEDLING_AGE_INFO')}
-                optional
+                required
               />
             </>
           )}

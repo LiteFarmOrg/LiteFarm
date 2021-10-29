@@ -18,10 +18,13 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
+      "ADD": "Error: failed to add varietal to database",
+      "ADD_ALREADY_EXISTS": "Error: Varietal exists",
       "DELETE": "Failed to delete crop variety",
       "UPDATE": "Failed to update crop variety"
     },
     "SUCCESS": {
+      "ADD": "Successfully saved varietal!",
       "DELETE": "Deleted crop variety",
       "UPDATE": "Successfully updated crop variety"
     }

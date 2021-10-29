@@ -18,10 +18,13 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
+      "ADD": "MISSING",
+      "ADD_ALREADY_EXISTS": "MISSING",
       "DELETE": "Falha ao deletar variedade de cultivo",
       "UPDATE": "Falha ao atualizar variedade de cultivo"
     },
     "SUCCESS": {
+      "ADD": "MISSING",
       "DELETE": "Variedade de cultivo deletado",
       "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }

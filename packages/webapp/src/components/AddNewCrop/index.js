@@ -102,7 +102,7 @@ export default function PureAddNewCrop({
 
       <Input
         style={{ marginBottom: '40px' }}
-        label={'New Crop Name'} //TODO: i18n
+        label={t('CROP_CATALOGUE.NEW_CROP_NAME')}
         hookFormRegister={register('crop_common_name', { required: true })}
         errors={getInputErrors(errors, 'crop_common_name')}
       />

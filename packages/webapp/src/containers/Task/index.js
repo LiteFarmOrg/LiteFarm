@@ -8,10 +8,9 @@ import styles from './styles.module.scss';
 
 import { isAdminSelector, loginSelector } from '../userFarmSlice';
 import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getHarvestUseTypes, getProducts, getTasks } from './saga';
 import StateTab from '../../components/RouterTab/StateTab';
 import { ALL, TODO, UNASSIGNED } from './constants';
-import { getCropVarieties, getLocations, getManagementPlans } from '../saga';
+import { getManagementPlansAndTasks } from '../saga';
 import { taskCardContentSelector } from './taskCardContentSelector';
 import TaskCard from './TaskCard';
 import { onAddTask } from './onAddTask';
@@ -27,12 +26,7 @@ export default function TaskPage({ history }) {
   const [activeTab, setTab] = useState(defaultTab);
 
   useEffect(() => {
-    dispatch(getLocations());
-    dispatch(getCropVarieties());
-    dispatch(getManagementPlans());
-    dispatch(getProducts());
-    dispatch(getHarvestUseTypes());
-    dispatch(getTasks());
+    dispatch(getManagementPlansAndTasks());
   }, []);
 
   useEffect(() => {

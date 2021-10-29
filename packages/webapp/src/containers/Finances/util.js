@@ -20,11 +20,11 @@ export function calcTotalLabour(tasks, startDate, endDate) {
   if (Array.isArray(tasks)) {
     for (let t of tasks) {
       if (
-        (moment(t.completed_time).isSameOrAfter(moment(startDate)) &&
-          moment(t.completed_time).isSameOrBefore(moment(endDate)) &&
+        (moment(t.completed_time).utc().isSameOrAfter(moment(startDate)) &&
+          moment(t.completed_time).utc().isSameOrBefore(moment(endDate)) &&
           t.duration) ||
-        (moment(t.abandoned_time).isSameOrAfter(moment(startDate)) &&
-          moment(t.abandoned_time).isSameOrBefore(moment(endDate)) &&
+        (moment(t.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
+          moment(t.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
           t.duration)
       ) {
         // TODO: possibly implement check when wage can be yearly
@@ -59,8 +59,8 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   if (Array.isArray(expenses)) {
     for (let e of expenses) {
       if (
-        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).isSameOrBefore(moment(endDate))
+        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
       ) {
         total += parseFloat(e.value);
       }

@@ -80,8 +80,8 @@ class OtherExpense extends Component {
 
     for (let e of expenses) {
       if (
-        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).isSameOrBefore(moment(endDate))
+        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
       ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {
@@ -119,8 +119,8 @@ class OtherExpense extends Component {
 
     for (let e of expenses) {
       if (
-        moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).isSameOrBefore(moment(endDate))
+        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
       ) {
         let amount = parseFloat(e.value);
         subTotal += amount;

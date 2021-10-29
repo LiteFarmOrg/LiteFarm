@@ -37,6 +37,8 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,
+          completeDate: management_plan.complete_date,
+          abandonDate: management_plan.abandon_date,
         };
       })
       .sort(

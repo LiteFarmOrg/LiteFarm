@@ -28,15 +28,15 @@ export function* postVarietalSaga({ payload: varietal }) {
     const result = yield call(axios.post, cropVarietyURL + '/', { ...varietal, farm_id }, header);
     yield put(postCropVarietySuccess(result.data));
     history.push(`/crop/${result.data.crop_variety_id}/management`);
-    yield put(enqueueSuccessSnackbar('Successfully saved varietal!'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     //TODO remove toastr messages
     if (e.response.data.violationError) {
-      yield put(enqueueErrorSnackbar('Error: Varietal exists'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
       console.log('failed to add varietal to database');
     } else {
       console.log('failed to add varietal to database');
-      yield put(enqueueErrorSnackbar('Error: failed to add varietal to database'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD')));
     }
   }
 }
@@ -91,14 +91,14 @@ export function* postCropAndVarietalSaga({ payload: cropData }) {
     yield put(postCropVarietySuccess(result.data.variety));
     yield put(postCropSuccess(result.data.crop));
     history.push(`/crop/${result.data.variety.crop_variety_id}/management`);
-    yield put(enqueueSuccessSnackbar('Successfully saved varietal!'));
+    yield put(enqueueSuccessSnackbar(i18n.t('message:CROP_VARIETY.SUCCESS.ADD')));
   } catch (e) {
     if (e.response.data.violationError) {
-      yield put(enqueueErrorSnackbar('Error: Varietal exists'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD_ALREADY_EXISTS')));
       console.log('failed to add varietal to database');
     } else {
       console.log('failed to add varietal to database');
-      yield put(enqueueErrorSnackbar('Error: failed to add varietal to database'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:CROP_VARIETY.ERROR.ADD')));
     }
   }
 }

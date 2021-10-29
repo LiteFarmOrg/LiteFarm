@@ -106,7 +106,7 @@
     "TRANSPLANT_METHOD": "Método de transplante",
     "WAGE_OVERRIDE": "Substituição de salário",
     "WHAT_PLANTING_METHOD": "Qual é o método de transplante?",
-    "WILD_CROP": "Cultivos selvagens"
+    "WILD_CROP": "Cultivos silvestres"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Comprimento dos canteiros ",
@@ -260,7 +260,7 @@
     "LETS_BEGIN": "Vamos começar!",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
-    "SELECT_A_CROP": "Selecione um cultivo para adicioná-la à sua fazenda. Use a busca e os filtros para encontrar as colheitas mais rapidamente.",
+    "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar as culturas mais rapidamente.",
     "FILTER_TITLE": "Filtro de catálogo de cultivo"
   },
   "CROP_DETAIL": {
@@ -273,9 +273,9 @@
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
     "MANAGEMENT_PLANS": "Planos de Manejo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "O cultivo é certificada como orgânica?",
+    "ORGANIC": "O cultivo é certificado como orgânico?",
     "PERENNIAL": "Perene",
-    "TREATED": "As sementes desta cultivo foram tratadas?"
+    "TREATED": "As sementes desta cultura foram tratadas?"
   },
   "CROP_MANAGEMENT": {
     "GERMINATE": "Germinar",
@@ -355,9 +355,9 @@
     },
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "SPOTLIGHT": {
-      "CDC": "Quando chegar a hora de gerar sua exportação de certificação, a LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
+      "CDC": "Quando chegar a hora de gerar sua exportação de certificação, o LiteFarm exportará automaticamente todos os documentos de conformidade que são válidos na data de exportação que você especificar. Os documentos de conformidade serão arquivados automaticamente quando expirarem.",
       "HERE_YOU_CAN": "Aqui você pode:",
-      "YOU_CAN_ONE": "Faça upload dos documentos que deseja incluir na exportação de certificação",
+      "YOU_CAN_ONE": "Fazer upload dos documentos que deseja incluir na exportação de certificação",
       "YOU_CAN_THREE": "Arquivar documentos desnecessários",
       "YOU_CAN_TWO": "Categorizar e controlar as datas de validade do seu documento"
     },
@@ -532,13 +532,13 @@
     },
     "NATURAL_AREA": {
       "EDIT_TITLE": "Editar área natural",
-      "NAME": "nome da área natural",
+      "NAME": "Nome da área natural",
       "TITLE": "Adicionar área natural"
     },
     "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
     "RESIDENCE": {
       "EDIT_TITLE": "Editar residência",
-      "NAME": "nome da residência",
+      "NAME": "Nome da residência",
       "TITLE": "Adicionar residência"
     },
     "SPOTLIGHT": {
@@ -553,7 +553,7 @@
     "SURFACE_WATER": {
       "EDIT_TITLE": "Editar água superficial",
       "IRRIGATION": "Esta área é usada para irrigação?",
-      "NAME": "nome da água superficial",
+      "NAME": "Nome da água superficial",
       "TITLE": "Adicionar água superficial"
     },
     "TAB": {
@@ -897,7 +897,7 @@
     "ESTIMATED_SEED": "Semente estimada necessária",
     "ESTIMATED_YIELD": "Rendimento estimado",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "O LiteFarm gerou algumas tarefas com base em seu plano. Você pode editá-los ou atribuí-los nesta tela. Além disso, você pode adicionar mais tarefas a este plano ou editá-lo.",
+      "BODY": "O LiteFarm gerou algumas tarefas com base em seu plano. Você pode editá-las ou atribuí-las nesta tela. Além disso, você pode adicionar mais tarefas a este plano ou editá-lo.",
       "TITLE": "Parabéns! Você realizou o seu primeiro plano de manejo!"
     },
     "FOR_HARVEST": "Para a colheita",
@@ -909,12 +909,12 @@
     "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de manejo da cultura. ",
     "INCOMPLETE_TASK_TITLE": "Você tem tarefas incompletas",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
-    "IS_TRANSPLANT": "Este cultivo será transplantada?",
+    "IS_TRANSPLANT": "Este cultivo será transplantado?",
     "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
     "MANAGEMENT_PLAN_FLOW": "criação do plano de manejo",
-    "MANAGEMENT_SPOTLIGHT_1": "Crie novos planos para esta cultura",
-    "MANAGEMENT_SPOTLIGHT_2": "Visualize e modifique os planos para este cultivo",
+    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para esta cultura",
+    "MANAGEMENT_SPOTLIGHT_2": "Visualizar e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
     "NEXT_HARVEST": "Quando será a próxima colheita?",
@@ -986,7 +986,7 @@
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
-    "WILD_CROP": "Você está colhendo uma planta selvagem?",
+    "WILD_CROP": "Você está colhendo uma planta silvestre?",
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecionando corretamente o método de plantio vai ajudar o LiteFarm a estimar com mais precisão a quantidade de sementes necessárias, a produção e outros conhecimentos úteis.",
     "TRANSPLANT_LOCATION": "Para onde você fará o transplante?",
     "PLAN_AND_ID_plural": ""
@@ -994,7 +994,7 @@
   "MY_FARM": {
     "CERTIFICATIONS": "Certificações",
     "FARM_INFO": "Informação da fazenda",
-    "FARM_MAP": "Mapa de fazenda/sitio",
+    "FARM_MAP": "Mapa da fazenda/sitio",
     "PEOPLE": "Pessoas"
   },
   "NAVIGATION": {
@@ -1040,7 +1040,7 @@
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
     "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de manejo esteja visível. ",
-    "WIDTH": "{{types}} largura",
+    "WIDTH": "{{types}} Largura",
     "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
   },
   "PREPARING_EXPORT": {
@@ -1083,7 +1083,7 @@
     "PEOPLE": {
       "EO": "Agente de Extensão",
       "FARM_MANAGER": "Gerente de sítio/fazenda",
-      "FARM_OWNER": "Dono do sítio/fazenda",
+      "FARM_OWNER": "Dono(a) do sítio/fazenda",
       "FARM_WORKER": "Trabalhador",
       "HOURLY": "por hora",
       "INVITE_USER": "Convidar Usuário",

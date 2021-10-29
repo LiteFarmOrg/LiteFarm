@@ -31,15 +31,11 @@ export function ManagementPlanCard({
   numberOfPendingTask,
   style,
   status,
-  completeDate,
-  abandonDate,
   classes = { card: {} },
   onClick,
   score,
 }) {
   const { t } = useTranslation();
-
-  const definitiveEndDate = completeDate ? completeDate : abandonDate ? abandonDate : endDate;
 
   return (
     <CardWithStatus
@@ -63,7 +59,7 @@ export function ManagementPlanCard({
                 <CalendarIcon />
                 <div>
                   {getManagementPlanCardDate(startDate)}
-                  {definitiveEndDate && ` - ${getManagementPlanCardDate(definitiveEndDate)}`}
+                  {endDate && ` - ${getManagementPlanCardDate(endDate)}`}
                 </div>
               </div>
               <div className={styles.gap} />

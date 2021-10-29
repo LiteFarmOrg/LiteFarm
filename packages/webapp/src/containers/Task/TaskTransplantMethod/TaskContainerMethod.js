@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { cropVarietySelector } from '../../cropVarietySlice';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 
 export default function TaskPlantInContainer({ history, match }) {
@@ -13,6 +13,7 @@ export default function TaskPlantInContainer({ history, match }) {
     managementPlanSelector(persistedFormData.managementPlans[0].management_plan_id),
   );
   const crop_variety = useSelector(cropVarietySelector(crop_variety_id));
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
 
   return (
     <HookFormPersistProvider>
@@ -22,7 +23,7 @@ export default function TaskPlantInContainer({ history, match }) {
         system={system}
         crop_variety={crop_variety}
         isFinalPage={true}
-        cancelPath={'/tasks'}
+        cancelPath={entryPath}
         submitPath={'/add_task/task_assignment'}
         prefix={'transplant_task.planting_management_plan'}
       />

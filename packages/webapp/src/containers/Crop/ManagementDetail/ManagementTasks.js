@@ -40,7 +40,7 @@ export default function ManagementTasks({ history, match }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(dispatch, history)}
+        onAddTask={onAddTask(dispatch, history, `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`)}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

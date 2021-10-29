@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  hookFormPersistEntryPathSelector,
   hookFormPersistSelector,
   setManagementPlansData,
 } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -120,8 +121,9 @@ function TaskLocations({
   onGoBack,
   readOnlyPinCoordinates,
 }) {
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const onCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
   const { grid_points } = useSelector(userFarmSelector);
 

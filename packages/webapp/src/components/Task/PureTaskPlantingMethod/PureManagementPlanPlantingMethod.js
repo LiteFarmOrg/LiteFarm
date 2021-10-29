@@ -8,7 +8,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import { cloneObject } from '../../../util';
 import { PurePlantingMethod } from '../../Crop/PlantingMethod/PurePlantingMethod';
 
-export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, history }) {
+export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, history, entryPath}) {
   const { t } = useTranslation();
 
   const {
@@ -32,7 +32,7 @@ export function PureTaskPlantingMethod({ useHookFormPersist, persistedFormData, 
 
   const onSubmit = () => history.push(`/add_task/${planting_method.toLowerCase()}`);
   const onGoBack = () => history.goBack();
-  const onCancel = () => history.push('/tasks');
+  const onCancel = () => history.push(entryPath);
 
   const disabled = !isValid;
 

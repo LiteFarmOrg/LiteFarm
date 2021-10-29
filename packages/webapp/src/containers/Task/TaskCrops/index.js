@@ -1,7 +1,7 @@
 import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import {
   useActiveAndCurrentManagementPlanTilesByLocationIds,
   useCurrentWildManagementPlanTiles,
@@ -42,11 +42,12 @@ function TaskCrops({
   locations,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const handleGoBack = () => {
     history.goBack();
   };
   const handleCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
   const onContinue = () => {
     history.push(onContinuePath);

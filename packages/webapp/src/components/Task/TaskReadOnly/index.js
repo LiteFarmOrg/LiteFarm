@@ -23,6 +23,12 @@ import PurePestControlTask from '../PestControlTask';
 import { PureHarvestingTaskReadOnly, PureHavestTaskCompleted } from '../HarvestingTask/ReadOnly';
 import { PurePlantingTask } from '../PlantingTask';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
+import { StatusLabel } from '../../CardWithStatus/StatusLabel';
+import { getTaskStatus } from '../../../containers/Task/taskCardContentSelector';
+import { taskStatusText } from '../../CardWithStatus/TaskCard/TaskCard';
+import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLocationLabel';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import ReactSelect from '../../Form/ReactSelect';
 
 export default function PureTaskReadOnly({
   onGoBack,
@@ -76,6 +82,7 @@ export default function PureTaskReadOnly({
   const isCompleted = !!task.completed_time;
   const isAbandoned = !!task.abandoned_time;
   const isCurrent = !isCompleted && !isAbandoned;
+  const taskStatus = getTaskStatus(task);
   return (
     <Layout
       buttonGroup={
@@ -93,8 +100,10 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
-        editLink={t('TASK.EDIT_TASK')}
+        label={!isCurrent && <StatusLabel label={taskStatusText[taskStatus]} color={taskStatus} />}
+        // TODO: Evaluate edit tasks
+        // onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
+        // editLink={t('TASK.EDIT_TASK')}
       />
 
       <Input
@@ -112,8 +121,14 @@ export default function PureTaskReadOnly({
         disabled
       />
 
-      <Label style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Label>
-
+      <Semibold style={{ marginBottom: '12px' }}>{t('TASK.LOCATIONS')}</Semibold>
+      {isTaskType(taskType, 'TRANSPLANT_TASK') && (
+        <TransplantLocationLabel
+          locations={task.locations}
+          selectedLocationId={task.selectedLocationIds[0]}
+          pinCoordinate={task.pinCoordinates[0]}
+        />
+      )}
       <LocationPicker
         onSelectLocation={() => {}}
         readOnlyPinCoordinates={task.pinCoordinates}
@@ -163,31 +178,6 @@ export default function PureTaskReadOnly({
         );
       })}
 
-      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
-        {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
-      </Semibold>
-
-      {taskComponents[taskType.task_translation_key] !== undefined &&
-        taskComponents[taskType.task_translation_key]({
-          setValue,
-          getValues,
-          watch,
-          control,
-          register,
-          errors,
-          disabled: true,
-          farm: user,
-          system,
-          products,
-          task,
-        })}
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t('common:NOTES')}
-        value={task.notes}
-        optional
-        disabled
-      />
       {isCompleted && (
         <div>
           <Semibold style={{ marginBottom: '24px' }}>{t('TASK.COMPLETION_DETAILS')}</Semibold>
@@ -221,6 +211,7 @@ export default function PureTaskReadOnly({
             disabled
           />
           {taskAfterCompleteComponents[taskType.task_translation_key] !== undefined &&
+            !taskType.farm_id &&
             taskAfterCompleteComponents[taskType.task_translation_key]({
               setValue,
               getValues,
@@ -237,6 +228,83 @@ export default function PureTaskReadOnly({
             })}
         </div>
       )}
+
+      {isAbandoned && (
+        <div>
+          <Semibold style={{ marginBottom: '24px' }}>{t('TASK.ABANDONMENT_DETAILS')}</Semibold>
+
+          <ReactSelect
+            label={t('TASK.ABANDON.REASON_FOR_ABANDONMENT')}
+            required={true}
+            style={{ marginBottom: '24px' }}
+            isDisabled={true}
+            value={{
+              label: t(`TASK.ABANDON.REASON.${task.abandonment_reason}`),
+              value: task.abandonment_reason,
+            }}
+          />
+
+          {task.duration > 0 && (
+            <TimeSlider
+              style={{ marginBottom: '40px' }}
+              label={t('TASK.DURATION')}
+              initialTime={task.duration}
+              setValue={() => {}}
+              disabled={true}
+            />
+          )}
+
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+          {task.happiness > 0 && (
+            <div>
+              <Label style={{ marginBottom: '12px' }}>{t('TASK.RATE_THIS_TASK')}</Label>
+              <Rating
+                className={styles.rating}
+                style={{ width: '24px', height: '24px' }}
+                viewOnly={true}
+                stars={task.happiness}
+              />
+            </div>
+          )}
+          {!task.happiness && (
+            <Checkbox label={t('TASK.PREFER_NOT_TO_SAY')} disabled defaultChecked />
+          )}
+          <InputAutoSize
+            style={{ marginTop: '40px', marginBottom: '40px' }}
+            label={t('TASK.ABANDON.NOTES')}
+            value={task.abandonment_notes}
+            optional
+            disabled
+          />
+        </div>
+      )}
+
+      <Semibold style={{ marginTop: '8px', marginBottom: '18px' }}>
+        {t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.DETAILS')}
+      </Semibold>
+
+      {taskComponents[taskType.task_translation_key] !== undefined &&
+        !taskType.farm_id &&
+        taskComponents[taskType.task_translation_key]({
+          setValue,
+          getValues,
+          watch,
+          control,
+          register,
+          errors,
+          disabled: true,
+          farm: user,
+          system,
+          products,
+          task,
+        })}
+      <InputAutoSize
+        style={{ marginBottom: '40px' }}
+        label={t('common:NOTES')}
+        value={task.notes}
+        optional
+        disabled
+      />
 
       {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
         <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>

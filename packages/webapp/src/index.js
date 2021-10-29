@@ -55,6 +55,7 @@ import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
+import exportSaga from './containers/ExportDownload/saga';
 import { Provider } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -166,6 +167,7 @@ sagaMiddleware.run(cropVarietyImageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
 sagaMiddleware.run(taskSaga);
 sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
+sagaMiddleware.run(exportSaga);
 
 const persistor = persistStore(store);
 

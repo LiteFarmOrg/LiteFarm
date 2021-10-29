@@ -7,6 +7,7 @@ import { certifierSelector } from '../../OrganicCertifierSurvey/certifierSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { exportCertificationData } from '../saga';
 import { setSubmissionIdCertificationFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { userFarmSelector } from '../../userFarmSlice';
 
 function CertificationSurveyPage({ history, match }) {
   const { t } = useTranslation();
@@ -23,6 +24,8 @@ function CertificationSurveyPage({ history, match }) {
   const certifier = useSelector(certifierSelector);
   const { interested, requested_certifier } = certifierSurvey;
 
+  const { email } = useSelector(userFarmSelector);
+
   return (
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
@@ -34,6 +37,7 @@ function CertificationSurveyPage({ history, match }) {
         certifier={certifier}
         requested_certifier={requested_certifier}
         onSurveyComplete={onSurveyComplete}
+        email={email}
       />
     </HookFormPersistProvider>
   );

@@ -51,7 +51,7 @@ export function useFilterDocuments(documents) {
       const filterDate = Date.parse(validOnDate);
       return documentsFilteredByType.filter((document) => {
         const documentDate = Date.parse(document.valid_until);
-        return documentDate >= filterDate;
+        return document.no_expiration || documentDate >= filterDate;
       });
     }
     return documentsFilteredByType;

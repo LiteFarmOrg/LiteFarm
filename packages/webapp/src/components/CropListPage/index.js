@@ -9,7 +9,6 @@ import useCropTileListGap from '../CropTile/useCropTileListGap';
 import PureCropTileContainer from '../CropTile/CropTileContainer';
 import PageBreak from '../PageBreak';
 import Square from '../Square';
-import { AddLink } from '../Typography';
 
 export default function PureCropList({
   onFilterChange,
@@ -57,21 +56,22 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
-      {isAdmin && (
-        <div
-          style={{
-            marginBottom: '20px',
-            width: 'fit-content',
-            fontSize: '16px',
-            color: 'var(--iconActive)',
-            lineHeight: '16px',
-            cursor: 'pointer',
-          }}
-          onClick={onAddCrop}
-        >
-          <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>
-        </div>
-      )}
+      {/*TODO: figure out how to deal with creation flow with cancel button with multiple entry point*/}
+      {/*{isAdmin && (*/}
+      {/*  <div*/}
+      {/*    style={{*/}
+      {/*      marginBottom: '20px',*/}
+      {/*      width: 'fit-content',*/}
+      {/*      fontSize: '16px',*/}
+      {/*      color: 'var(--iconActive)',*/}
+      {/*      lineHeight: '16px',*/}
+      {/*      cursor: 'pointer',*/}
+      {/*    }}*/}
+      {/*    onClick={onAddCrop}*/}
+      {/*  >*/}
+      {/*    <AddLink>{t('LOCATION_CROPS.ADD_NEW')}</AddLink>*/}
+      {/*  </div>*/}
+      {/*)}*/}
 
       <div ref={containerRef}>
         {activeCrops.length > 0 && (
@@ -87,6 +87,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Active'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>
@@ -106,6 +107,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Planned'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>
@@ -125,6 +127,7 @@ export default function PureCropList({
                   managementPlan={fc}
                   status={'Past'}
                   style={{ width: `${cardWidth}px` }}
+                  onClick={() => history.push(`/crop/${fc.crop_variety_id}/management`)}
                 />
               ))}
             </PureCropTileContainer>

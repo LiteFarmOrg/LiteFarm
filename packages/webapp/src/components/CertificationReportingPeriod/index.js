@@ -6,10 +6,11 @@ import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import Input from '../Form/Input';
+// import Input from '../Form/Input';
 import { Main } from '../Typography';
 import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 import DateRangePicker from '../Form/DateRangePicker';
+import { addDaysToDate } from '../../util/moment';
 
 const EMAIL = 'email';
 
@@ -33,7 +34,7 @@ const PureCertificationReportingPeriod = ({
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
-      email: defaultEmail,
+      // email: defaultEmail,
       ...persistedFormData,
     },
   });
@@ -41,11 +42,11 @@ const PureCertificationReportingPeriod = ({
 
   useHookFormPersist(getValues, persistedPath);
 
-  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  const emailRegister = register(EMAIL, {
-    required: true,
-    pattern: validEmailRegex,
-  });
+  // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  // const emailRegister = register(EMAIL, {
+  //   required: true,
+  //   pattern: validEmailRegex,
+  // });
 
   const progress = 33;
   return (
@@ -74,15 +75,16 @@ const PureCertificationReportingPeriod = ({
           control={control}
           getValues={getValues}
           style={{ marginBottom: '40px' }}
+          fromProps={{ max: addDaysToDate(new Date(), -1, { toUTC: false }) }}
         />
 
-        <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
+        {/* <Main className={styles.mainText}>{t('CERTIFICATIONS.WHERE_TO_SEND_DOCS')}</Main>
         <Input
           style={{ marginBottom: '40px' }}
           label={t('CERTIFICATIONS.EMAIL')}
           hookFormRegister={emailRegister}
           errors={errors[EMAIL] && t('CERTIFICATIONS.EMAIL_ERROR')}
-        />
+        /> */}
 
         <Main className={styles.mainText}>{t('CERTIFICATIONS.NEXT_WE_WILL_CHECK')}</Main>
       </Form>

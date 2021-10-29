@@ -31,12 +31,30 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           locationName: getLocationName(planting_management_plan),
           notes: getNotes(planting_management_plan),
           ...getTasksMinMaxDate(tasks),
-          numberOfPendingTask: tasks.filter((task) => (task.abandoned_time === null && task.completed_time === null)).length,
+          numberOfPendingTask: tasks.filter(
+            (task) => task.abandoned_time === null && task.completed_time === null,
+          ).length,
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,
         };
-      });
+      })
+      .sort(
+        (
+          { startDate: startDate0, managementPlanName: managementPlanName0 },
+          { startDate: startDate1, managementPlanName: managementPlanName1 },
+        ) => {
+          if (startDate0 && !startDate1) {
+            return 1;
+          } else if (!startDate0 && startDate1) {
+            return -1;
+          } else if (startDate0 === startDate1)
+            return managementPlanName0 > managementPlanName1 ? 1 : -1;
+          const startTime0 = new Date(startDate0).getTime();
+          const startTime1 = new Date(startDate1).getTime();
+          return startTime0 - startTime1;
+        },
+      );
 
   return useMemo(() => {
     return [
@@ -67,5 +85,5 @@ const roundToDecimals = (number, numberOfDecimals = 2) => {
 const getNotes = (planting_management_plan) => {
   if (planting_management_plan.row_method) return planting_management_plan.row_method.specify_rows;
   if (planting_management_plan.bed_method) return planting_management_plan.bed_method.specify_beds;
-  return planting_management_plan.notes;
+  return undefined;
 };

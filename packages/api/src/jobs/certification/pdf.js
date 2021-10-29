@@ -27,7 +27,7 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
     }, data);
     await page.goto(process.env.REPORT_URL, { waitUntil: 'networkidle2' });
     const readablePDF = await page.createPDFStream({ format: 'a4' });
-    const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${farm_id}/Additional_survey_questions.pdf`);
+    const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${farm_name}/Additional survey questions.pdf`);
     readablePDF.pipe(writePDFStream);
     nextQueue.add(job.data);
     setTimeout(() => {

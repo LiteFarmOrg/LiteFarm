@@ -76,6 +76,7 @@
   display: flex;
   justify-content: space-between;
   height: 20px;
+  position: relative;
 }
 
 .hiddenInput {
@@ -124,4 +125,10 @@
 
 .noBorderRadius {
   border-radius: 0px;
+}
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

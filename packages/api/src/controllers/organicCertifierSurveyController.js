@@ -121,8 +121,9 @@ const organicCertifierSurveyController = {
 
   triggerExport() {
     return async (req, res) => {
-      const { farm_id, from_date, to_date, email, submission_id } = req.body;
-      const invalid = [ farm_id, from_date, to_date, email ].some(property => !property)
+      // TODO: getting email from request body is commented out for now
+      const { farm_id, from_date, to_date, submission_id } = req.body;
+      const invalid = [ farm_id, from_date, to_date ].some(property => !property)
       if (invalid) {
         return res.status(400).json({
           message: 'Bad request. Missing properties',
@@ -142,18 +143,14 @@ const organicCertifierSurveyController = {
       const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
         url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
-      const { first_name } = await userModel.query().where({ user_id }).first();
+      const { first_name, email } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
-      let extraInfo = {};
-      const isCanadianFarm = await this.isCanadianFarm(farm_id);
-      if(isCanadianFarm) {
-        const data = await this.canadianFarmInfo(to_date, from_date, farm_id)
-        extraInfo = { ...data, isCanadianFarm };
-      }
+      const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
+      const extraInfo = { ...data };
       const body = {
         ...extraInfo, organicCertifierSurvey, certifier, certification,
         files, farm_id, email, first_name, farm_name,
-        from_date, to_date, submission: submission_id
+        from_date, to_date, submission: submission_id,
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
       const retrieveQueue = new Queue('retrieve', redisConf);
@@ -161,7 +158,7 @@ const organicCertifierSurveyController = {
     }
   },
 
-  async canadianFarmInfo(to_date, from_date, farm_id) {
+  async recordIAndDInfo(to_date, from_date, farm_id) {
     const recordD = await this.recordDQuery(to_date, from_date, farm_id);
     const recordICrops = await this.recordICropsQuery(to_date, from_date, farm_id);
     const recordICleaners = await this.recordICleanersQuery(to_date, from_date, farm_id);

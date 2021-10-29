@@ -25,6 +25,7 @@ const PureTaskCrops = ({
   managementPlansByLocationIds,
   wildManagementPlanTiles,
   isMulti = true,
+  isRequired,
 }) => {
   const { t } = useTranslation();
 
@@ -58,7 +59,7 @@ const PureTaskCrops = ({
       return locationIds.reduce((filteredManagementPlansByLocationId, locationId) => {
         filteredManagementPlansByLocationId[locationId] = managementPlansByLocationIds[
           locationId
-        ].filter(filterManagementPlansByCropVarietyName);
+        ]?.filter(filterManagementPlansByCropVarietyName);
         return filteredManagementPlansByLocationId;
       }, {});
     }
@@ -66,7 +67,7 @@ const PureTaskCrops = ({
 
   const wildCropTilesFilteredByInput = useMemo(() => {
     if (!filter) return wildManagementPlanTiles;
-    else return wildManagementPlanTiles.filter(filterManagementPlansByCropVarietyName);
+    else return wildManagementPlanTiles?.filter(filterManagementPlansByCropVarietyName);
   }, [wildManagementPlanTiles, filter]);
 
   const MANAGEMENT_PLANS = 'managementPlans';
@@ -79,11 +80,30 @@ const PureTaskCrops = ({
     );
     onContinue();
   };
+
+  const managementPlanIds = useMemo(() => {
+    const locationManagementPlans = Object.keys(managementPlansByLocationIds).reduce(
+      (managementPlanIds, location_id) => {
+        return [
+          ...managementPlanIds,
+          ...managementPlansByLocationIds[location_id].map(
+            ({ management_plan_id }) => management_plan_id,
+          ),
+        ];
+      },
+      [],
+    );
+
+    const wildManagementPlanIds =
+      wildManagementPlanTiles?.map(({ management_plan_id }) => management_plan_id) || [];
+    return [...locationManagementPlans, ...wildManagementPlanIds];
+  }, []);
+
   const [selectedManagementPlanIds, setSelectedManagementPlanIds] = useState(
     isMulti
-      ? (getValues(MANAGEMENT_PLANS) || []).map(
-          (management_plan) => management_plan.management_plan_id,
-        )
+      ? (getValues(MANAGEMENT_PLANS) || [])
+          .map((management_plan) => management_plan.management_plan_id)
+          .filter((management_plan_id) => managementPlanIds.includes(management_plan_id))
       : getValues(MANAGEMENT_PLANS)?.length
       ? [getValues(MANAGEMENT_PLANS)?.[0]?.management_plan_id]
       : [],
@@ -186,12 +206,14 @@ const PureTaskCrops = ({
     );
   };
 
+  const disabled = isRequired && !selectedManagementPlanIds?.length;
+
   return (
     <>
       <Form
         buttonGroup={
           <div style={{ display: 'flex', flexDirection: 'column', rowGap: '16px', flexGrow: 1 }}>
-            <Button color={'primary'} fullLength>
+            <Button disabled={disabled} color={'primary'} fullLength>
               {t('common:CONTINUE')}
             </Button>
           </div>

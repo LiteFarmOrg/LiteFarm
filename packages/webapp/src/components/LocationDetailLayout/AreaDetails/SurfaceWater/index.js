@@ -47,7 +47,7 @@ export default function PureSurfaceWater({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     const usedForIrrigation = data[surfaceWaterEnum.used_for_irrigation];

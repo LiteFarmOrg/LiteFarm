@@ -98,3 +98,12 @@
   position: absolute;
   flex-direction: column;
 }
+
+.note {
+  font-size: 10px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}

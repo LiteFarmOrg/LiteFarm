@@ -45,7 +45,7 @@ export default function PureFarmSiteBoundary({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     data[farmSiteBoundaryEnum.total_area_unit] = data[farmSiteBoundaryEnum.total_area_unit]?.value;

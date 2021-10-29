@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address is required",
+    "DISABLE_GEO_LOCATION": "Location services must be enabled to find your current location.",
     "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
     "ENTER_LOCATION_PLACEHOLDER": "Enter Location",
     "FARM_IS_REQUIRED": "Farm name is required",
@@ -77,12 +78,15 @@
       "SYSTEMIC_SPRAY": "Systemic spray",
       "WHAT_PESTS": "What pest(s) are you trying to control"
     },
+    "PLANTING_FROM": "Planting from",
     "PLANTING_METHOD": "Planting method",
+    "PLANTING_STOCK": "Planting stock",
     "PLANTING_TASK": "Planting Task",
     "PLANTING_TASK_MODAL": "Starting a new planting task creates a new management plan. Go to the crop catalogue to select the crop you would like to plant.",
     "QUANTITY": "Quantity",
     "RETIRE_CUSTOM_TASK": "Retire custom task?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Are you sure you want to delete this custom task?",
+    "SEED": "Seed",
     "SELECT_ALL": "Select all",
     "SELECT_ALL_PLANS": "Select all plans",
     "SELECT_TASK_TYPE": "Select task type",
@@ -174,8 +178,7 @@
       "INFORMATION": "We'll indicate this information throughout the app with a leaf icon.",
       "TITLE": "You are interested in applying for:",
       "YOUR_CERTIFICATION": "Your certification"
-    },
-    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it is ready."
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Maybe later",
@@ -244,7 +247,7 @@
     "CREATE_MANAGEMENT_PLANS": "Create management plans",
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
-    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated yield. Don't worry, you can change these values below once you've selected a crop group.",
+    "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
     "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
@@ -660,9 +663,9 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibians",
       "BIRDS": "Birds",
-      "CROPS": "Crops",
+      "CROP_VARIETIES": "Crop varieties",
       "HEADER": "Number of species",
-      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from your farm boundary. You can increase the crop biodiversity on your farm by adding additional crops. You can increase the non-crop biodiversity count on your farm by recording sitings on https://inaturalist.org/app",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity within your farm boundary(ies). You can increase the crop biodiversity on your farm by planting new varieties. You can increase the non-crop biodiversity count on your farm by recording sightings on https://inaturalist.org/app",
       "INSECTS": "Insects",
       "PLANTS": "Plants",
       "SPECIES_COUNT": "{{count}} species",
@@ -673,7 +676,7 @@
     "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
     "LABOUR_HAPPINESS": {
       "HEADER": "Tasks",
-      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "INFO": "LiteFarm estimates labour happiness by averaging the satisfaction scores individuals enter when marking a task as completed.",
       "TITLE": "Labour Happiness"
     },
     "NITROGEN_BALANCE": {
@@ -719,7 +722,7 @@
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Soil OM Content",
       "HEADER": "Soil Organic Matter",
-      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
+      "INFO": "Soil organic matter is needed to maintain a healthy soil environment for your crops. We populate this insight from your most recent soil analysis task results. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "TITLE": "Soil OM"
     },
     "TITLE": "Insights",
@@ -886,15 +889,14 @@
     "DAYS_FROM_SEEDING": "Days from seed to:",
     "DAYS_TO_HARVEST": "Days from transplant to next harvest:",
     "DAYS_TO_TERMINATION": "Days from transplant to termination:",
+    "DETAIL_SPOTLIGHT_CONTENTS": "Here you can edit your crop details.",
     "DETAIL_SPOTLIGHT_TITLE": "Details",
-    "DETAILS_SPOTLIGHT_1": "Edit your crop details",
-    "DETAILS_SPOTLIGHT_2": "Upload or link compliance documents",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Do you want to abandon this plan?",
     "DROP_PIN": "Drop pin",
     "DURATION_TOOLTIP": "These are suggested values. Please adjust for your local conditions.",
-    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify any tasks assigned to it.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "Editing this plan will not modify tasks assigned to it.",
     "ESTIMATED_SEED": "Estimated seed required",
-    "ESTIMATED_YIELD": "Estimated yield",
+    "ESTIMATED_YIELD": "Estimated annual yield",
     "FIRST_MP_SPOTLIGHT": {
       "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
       "TITLE": "Congrats! You’ve made your first management plan!"
@@ -948,8 +950,8 @@
     "SEED_OR_SEEDLING": "How will you plant this crop?",
     "SEEDING_DATE": "Seeding date",
     "SEEDLING": "Seedling or planting stock",
-    "SEEDLING_AGE": "What age is the seedling or planting stock?",
-    "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. You can skip this question for other types of planting stock.",
+    "SEEDLING_AGE": "What is the approximate age of the seedling or planting stock?",
+    "SEEDLING_AGE_INFO": "Approximate age will help LiteFarm estimate harvest dates for seedlings. For cuttings and other planting stock without an obvious age, you can enter 0.",
     "SELECT_A_PLANTING_LOCATION": "Select a planting location",
     "SELECT_A_SEEDING_LOCATION": "Select a seeding location",
     "SELECT_CURRENT_LOCATION": "Select the crop's current location",
@@ -981,7 +983,7 @@
       }
     },
     "VARIETY": "Variety",
-    "WHAT_IS_AGE": "What is the age of the crop?",
+    "WHAT_IS_AGE": "What is the approximate age of the crop?",
     "WHAT_WAS_PLANTING_METHOD": "What was the planting method?",
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
@@ -999,8 +1001,8 @@
     "SPOTLIGHT": {
       "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
       "FARM_TITLE": "This is your farm profile",
-      "NOTIFICATION": "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities",
-      "NOTIFICATION_TITLE": "This is your Notification Centre",
+      "NOTIFICATION": "Here you can:, • Manage your tasks, • See what else is going on, • Coordinate farm activities",
+      "NOTIFICATION_TITLE": "This is your farm tasks",
       "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
       "PROFILE_TITLE": "This is your profile"
     }
@@ -1259,11 +1261,13 @@
     "TITLE": "Shifts"
   },
   "SIGNUP": {
+    "CHANGES": "Read about the changes",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
+    "LITEFARM_UPDATED": "We've updated LiteFarm!",
     "PASSWORD_ERROR": "Password incorrect",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
@@ -1320,6 +1324,7 @@
       "TITLE": "Abandon task",
       "WHAT_HAPPENED": "What happened?"
     },
+    "ABANDONMENT_DETAILS": "Task abandonment details",
     "ADD_CUSTOM_HARVEST_USE": "Create a custom harvest use",
     "ADD_HARVEST_USE": "Add another harvest use",
     "ADD_TASK": "Create a task",
@@ -1339,12 +1344,12 @@
     "COMPLETION_NOTES": "Task completion notes",
     "COMPLETION_NOTES_CHAR_LIMIT": "Notes must be less than 10,000 characters",
     "CREATE_CUSTOM_HARVEST_USE": "Create a custom harvest use",
+    "CURRENT": "Current",
     "DESCRIBE_HARVEST_USE": "Describe harvest use",
     "DETAILS": "Details",
     "DID_YOU_ENJOY": "Did you enjoy this task?",
     "DUE_DATE": "Due date",
     "DURATION": "Duration",
-    "EDIT_TASK": "Edit Task",
     "HARVEST_USE": "Harvest use",
     "HARVEST_USE_ALREADY_EXISTS": "Harvest use already exists",
     "HOW_WILL_HARVEST_BE_USED": "How will the harvest be used?",
@@ -1371,6 +1376,7 @@
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
+    "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
     "UNASSIGNED": "Unassigned"
   },

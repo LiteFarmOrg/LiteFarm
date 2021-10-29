@@ -181,13 +181,13 @@ const callSoilGridAPI = async (data) => {
       lat: data['grid_points'][0]['lat'],
       property: 'soc',
       depth: '5-15cm',
-      value:'mean',
+      value: 'mean',
     },
   };
   return await rp(options)
     .then((data) => {
       const parsedObject = JSON.parse(data);
-      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean']
+      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean'];
       soil_om *= 2 * 0.01;
       return Math.floor(soil_om);
     })
@@ -205,24 +205,17 @@ exports.getLabourHappiness = (data) => {
     data: [],
   };
 
-  // the DB datatype for mood is assigned as a string, so I need to quantify it
-  const mappingTypes = {
-    'very sad': 1,
-    'sad': 2,
-    'neutral': 3,
-    'happy': 4,
-    'very happy': 5,
-  };
-
   const tasks = {};
   // parse by shift_id first in order to do the algorithm discussed with Zia on the whiteboard
+  // TODO: during october release, this has been refactored.
+  //       need to check if we should account for any task with happiness set, or any with duration set
   data.map((element) => {
-    const currentValueMood = element['mood'] ? mappingTypes[element['mood']] : 0;
-    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] };
-    if (!(element['shift_id'] in tasks)) {
-      tasks[element['shift_id']] = { mood: currentValueMood, tasks: [taskObject] };
+    const currentValueMood = element['happiness'];
+    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] ?? 0 };
+    if (!(element['task_id'] in tasks)) {
+      tasks[element['task_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
-      tasks[element['shift_id']]['tasks'].push(taskObject)
+      tasks[element['task_id']]['tasks'].push(taskObject)
     }
   });
 
@@ -234,7 +227,7 @@ exports.getLabourHappiness = (data) => {
     let currentDurationAverage = 0;
     currentTasks.map((element) => currentDurationAverage += element['duration']);
     currentTasks.map((element) => {
-      const weighted = (element['duration'] / currentDurationAverage);
+      const weighted = currentDurationAverage ? (element['duration'] / currentDurationAverage) : 1;
       if (!(element['taskName'] in weightedTasks)) {
         weightedTasks[element['taskName']] = [{ mood: currentMood, weight: weighted }]
       } else {
@@ -286,7 +279,7 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     Insects: 0,
     Plants: 0,
     Amphibians: 0,
-    Crops: 0,
+    CropVarieties: 0,
   };
 
   const sortLats = new Array(pointData.length);
@@ -312,10 +305,11 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  speciesCount['Crops'] = parseInt(countData);
+  speciesCount['CropVarieties'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {
+    // TODO: figure out how to fetch past limit. ST-46
     const options = {
       uri: endPoints.gbifAPI,
       qs: {
@@ -328,14 +322,13 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
         .then((data) => {
           const jsonfied = JSON.parse(data);
           const results = jsonfied['results'];
-          results.map((currentSpecies) => {
-            if (currentSpecies['kingdom'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['kingdom']]]++;
-            } else if (currentSpecies['class'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['class']]]++;
-            }
-          });
-          resolve()
+          const infoFiltered = results.map((currentSpecies) => ({
+            key: currentSpecies['key'],
+            identificationID: currentSpecies['identificationID'],
+            kingdom: currentSpecies['kingdom'],
+            class: currentSpecies['class'],
+          }));
+          resolve(infoFiltered);
         })
         .catch((error) => {
           reject(error)
@@ -343,7 +336,15 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     }));
   });
   return await Promise.all(apiCalls)
-    .then(() => {
+    .then((apiResult) => {
+      const mergedResults = mergeSpeciesObjects(apiResult);
+      mergedResults.map((currentSpecies) => {
+        if (currentSpecies['kingdom'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['kingdom']]]++;
+        } else if (currentSpecies['class'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['class']]]++;
+        }
+      });
       let runningTotal = 0;
       let maxSpecies = 0;
       for (const key in speciesCount) {
@@ -360,6 +361,15 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
     .catch((error) => {
       return error
     });
+};
+
+const mergeSpeciesObjects = (objects) => {
+  let merged = objects[0];
+  for (let i = 1; i < objects.length; i++) {
+    const keys = new Set(merged.map(item => item.key));
+    merged = [...merged, ...objects[i].filter(item => !keys.has(item.key))];
+  }
+  return merged;
 };
 
 exports.formatPricesData = (data) => {

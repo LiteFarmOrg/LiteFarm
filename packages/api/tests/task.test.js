@@ -519,7 +519,7 @@ describe('Task tests', () => {
       });
     });
 
-    test('should get all tasks that are related to a farm, but not from different farms of that user', async (done) => {
+    xtest('should get all tasks that are related to a farm, but not from different farms of that user', async (done) => {
       const [firstUserFarm] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const [secondUserFarmWithSameUser] = await mocks.userFarmFactory({ promisedUser: [{ user_id: firstUserFarm.user_id }] }, fakeUserFarm(1));
       await Promise.all([...Array(20)].map(async (_, i) => {
@@ -1266,10 +1266,49 @@ describe('Task tests', () => {
       abandonment_notes: sampleNote,
     };
 
-    test('Owner should be able to abandon a task', async (done) => {
+    beforeEach(async () => {
+      [{ product_id: product }] = await mocks.productFactory({}, mocks.fakeProduct({ supplier: 'mock' }));
+      productData = mocks.fakeProduct({ supplier: 'test' });
+    });
+
+    test('An unassigned task should not abandoned with a rating', async (done) => {
       const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
       const date = faker.date.future().toISOString().split('T')[0];
       const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      const abandonTaskBodyWithRating = {
+        ...abandonTaskBody,
+        happiness: faker.random.number({ min: 1, max: 5 }),
+      };
+      abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithRating, task.task_id, async (err, res) => {
+        expect(res.status).toBe(406);
+        done();
+      });
+    });
+
+    test('An unassigned task should not abandoned with a duration', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory({ promisedUser: [{ user_id }] }, mocks.fakeTask({ due_date: date }));
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
+      const abandonTaskBodyWithDuration = {
+        ...abandonTaskBody,
+        duration: faker.random.number(1000),
+      };
+      abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithDuration, task.task_id, async (err, res) => {
+        expect(res.status).toBe(406);
+        done();
+      });
+    });
+
+    test('Owner should be able to abandon a task', async (done) => {
+      const [{ user_id, farm_id }] = await mocks.userFarmFactory({}, fakeUserFarm(1));
+      const date = faker.date.future().toISOString().split('T')[0];
+      const [task] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+      }, mocks.fakeTask({ due_date: date, assignee_user_id: user_id }));
       const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBody, task.task_id, async (err, res) => {

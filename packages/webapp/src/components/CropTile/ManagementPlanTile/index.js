@@ -35,6 +35,10 @@ export default function PureManagementPlanTile({
   } = managementPlan;
   const displayDate = date || start_date;
 
+  const notes =
+    managementPlan?.planting_management_plan?.bed_method?.specify_beds ||
+    managementPlan?.planting_management_plan?.row_method?.specify_rows;
+
   const imageKey = crop_translation_key.toLowerCase();
   return (
     <PureCropTile
@@ -53,6 +57,7 @@ export default function PureManagementPlanTile({
           <div style={{ fontSize: '12px' }}>{t(`crop:${crop_translation_key}`)}</div>
         </div>
         <div style={{ flexGrow: '1' }} />
+        {notes && <div className={styles.note}>{notes}</div>}
         {displayDate && (
           <div className={styles.dateContainer}>
             <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon)} />

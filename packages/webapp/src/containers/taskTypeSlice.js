@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { loginSelector, onLoadingFail, onLoadingStart, userFarmSelector } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
 
@@ -64,8 +64,10 @@ export const defaultTaskTypesSelector = createSelector([taskTypeSelectors.select
   taskTypes.filter(({ farm_id, deleted }) => farm_id === null && !deleted),
 );
 
-export const userCreatedTaskTypes = createSelector([taskTypeSelectors.selectAll], (taskTypes) =>
-  taskTypes.filter(({ farm_id, deleted }) => farm_id !== null && !deleted),
+export const userCreatedTaskTypesSelector = createSelector(
+  [taskTypeSelectors.selectAll, userFarmSelector],
+  (taskTypes, userFarm) =>
+    taskTypes.filter(({ farm_id, deleted }) => farm_id === userFarm.farm_id && !deleted),
 );
 
 export const taskTypesSelector = createSelector(

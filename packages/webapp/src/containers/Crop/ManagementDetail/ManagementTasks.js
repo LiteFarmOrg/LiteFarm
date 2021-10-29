@@ -2,14 +2,16 @@ import PureManagementTasks from '../../../components/Crop/ManagementDetail/Manag
 import { cropVarietySelector } from '../../cropVarietySlice';
 import { managementPlanSelector } from '../../managementPlanSlice';
 import { isAdminSelector } from '../../userFarmSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FirstManagementPlanSpotlight from './FirstManagementPlanSpotlight';
 import { pendingTasksByManagementPlanIdSelector } from '../../taskSlice';
 import TaskCard from '../../Task/TaskCard';
 import React from 'react';
 import { taskCardContentByManagementPlanSelector } from '../../Task/taskCardContentSelector';
+import { onAddTask } from '../../Task/onAddTask';
 
 export default function ManagementTasks({ history, match }) {
+  const dispatch = useDispatch();
   const variety_id = match.params.variety_id;
   const variety = useSelector(cropVarietySelector(variety_id));
 
@@ -28,11 +30,6 @@ export default function ManagementTasks({ history, match }) {
   const onAbandon = () =>
     history.push(`/crop/${variety_id}/${management_plan_id}/abandon_management_plan`);
 
-  const handleAddTask = () => {
-    // TODO: add management plan and location to formData
-    history.push(`/add_task/task_type_selection`);
-  };
-
   const showSpotlight = history.location.state?.fromCreation;
 
   const pendingTasks = useSelector(pendingTasksByManagementPlanIdSelector(management_plan_id));
@@ -43,7 +40,7 @@ export default function ManagementTasks({ history, match }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={handleAddTask}
+        onAddTask={onAddTask(dispatch, history, `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`)}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

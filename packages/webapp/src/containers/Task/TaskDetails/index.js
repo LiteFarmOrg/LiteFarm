@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productEntitiesSelector } from '../../productSlice';
 import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
@@ -17,6 +17,7 @@ import { useIsTaskType } from '../useIsTaskType';
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const dispatch = useDispatch();
   const {
     country_id,
@@ -45,7 +46,7 @@ function TaskDetails({ history, match }) {
   };
 
   const handleCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
   const onSubmit = () => {

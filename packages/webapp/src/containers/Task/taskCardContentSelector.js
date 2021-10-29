@@ -45,8 +45,8 @@ const getTaskContents = (tasks, userFarmEntities, { farm_id }) => {
       return {
         task_id: task.task_id,
         taskType: task.taskType,
-        status: getStatus(task),
-        cropVarietyNames: getCropVarietyName(managementPlans),
+        status: getTaskStatus(task),
+        cropVarietyName: getCropVarietyName(managementPlans),
         locationName: getLocationNameOfTask(managementPlans, task.locations, task.taskType),
         completeOrDueDate: getTaskCardDate(task.completed_time || task.due_date),
         assignee: userFarmEntities[farm_id][task.assignee_user_id],
@@ -67,7 +67,7 @@ export const taskCardContentByManagementPlanSelector = (management_plan_id) =>
     getTaskContents,
   );
 
-const getStatus = (task) => {
+export const getTaskStatus = (task) => {
   if (task.completed_time) return 'completed';
   if (task.abandoned_time) return 'abandoned';
   if (new Date(task.due_date) > Date.now()) return 'planned';
@@ -81,7 +81,8 @@ const getCropVarietyName = (managementPlans) => {
     cropVarietyNameSet.add(cropVarietyName);
     if (cropVarietyNameSet.size > 1) return i18n.t('TASK.CARD.MULTIPLE_CROPS');
   }
-  return cropVarietyNameSet.values()[0];
+  // get first element of set
+  return cropVarietyNameSet.values()?.next()?.value;
 };
 
 const getLocationNameOfTask = (managementPlans, locations, taskType) => {

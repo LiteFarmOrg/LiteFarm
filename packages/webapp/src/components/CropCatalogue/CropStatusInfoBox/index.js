@@ -46,7 +46,7 @@ export default function CropStatusInfoBox({
 
   return (
     <Card color={'info'} className={clsx(classes.container)} {...props}>
-      <NativeDatePickerWrapper
+      {/* <NativeDatePickerWrapper
         style={{
           position: 'absolute',
           right: '0',
@@ -56,13 +56,13 @@ export default function CropStatusInfoBox({
         onChange={onDateChange}
       >
         <Underlined>{t('common:EDIT_DATE')}</Underlined>
-      </NativeDatePickerWrapper>
-      <Text>
+      </NativeDatePickerWrapper> */}
+      {/* <Text>
         {t('CROP_CATALOGUE.CROP_STATUS')}{' '}
         <span className={classes.semibold}>
           {moment(date).locale(getLanguageFromLocalStorage()).format('MMMM DD, YYYY')}
         </span>{' '}
-      </Text>
+      </Text> */}
       {status && (
         <div className={classes.secondRowContainer}>
           <div className={classes.cropCountContainer}>

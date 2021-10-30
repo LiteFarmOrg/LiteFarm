@@ -899,7 +899,8 @@
     "ESTIMATED_SEED": "Estimated seed required",
     "ESTIMATED_YIELD": "Estimated annual yield",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "LiteFarm has generated a few tasks based on your plan. You can edit or assign them on this screen. Additionally, you can add more tasks to this plan or edit your plan.",
+      "BODY_PART1": "LiteFarm has generated a few tasks based on your plan. You can add more tasks or assign them on this screen.",
+      "BODY_PART2": "Your plan will become active once you complete a task.",
       "TITLE": "Congrats! You’ve made your first management plan!"
     },
     "FOR_HARVEST": "For harvest",

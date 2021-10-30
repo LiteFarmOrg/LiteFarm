@@ -291,6 +291,7 @@ export default function PureTaskReadOnly({
           watch,
           control,
           register,
+          formState: { errors, isValid },
           errors,
           disabled: true,
           farm: user,

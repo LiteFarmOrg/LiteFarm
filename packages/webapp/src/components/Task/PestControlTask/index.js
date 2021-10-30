@@ -12,6 +12,7 @@ const PurePestControlTask = ({
   control,
   setValue,
   getValues,
+  formState,
   watch,
   farm,
   disabled = false,
@@ -106,6 +107,7 @@ const PurePestControlTask = ({
           getValues={getValues}
           setValue={setValue}
           control={control}
+          formState={formState}
           products={filtered}
           farm={farm}
           disabled={disabled}

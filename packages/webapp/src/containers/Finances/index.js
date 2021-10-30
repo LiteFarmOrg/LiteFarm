@@ -136,25 +136,27 @@ class Finances extends Component {
   getEstimatedRevenue(managementPlans) {
     let totalRevenue = 0;
     if (managementPlans) {
-      managementPlans.forEach((plan) => {
-        // check if this plan has a harvest task projected within the time frame
-        const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
-          (task) => task.task_type_id === 8,
-        );
-        const harvestDates = harvestTasks?.map((task) =>
-          moment(task.due_date).utc().format('YYYY-MM-DD'),
-        );
+      managementPlans
+        .filter(({ abandoned_plan }) => !abandoned_plan)
+        .forEach((plan) => {
+          // check if this plan has a harvest task projected within the time frame
+          const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
+            (task) => task.task_type_id === 8,
+          );
+          const harvestDates = harvestTasks?.map((task) =>
+            moment(task.due_date).utc().format('YYYY-MM-DD'),
+          );
 
-        if (
-          harvestDates.some(
-            (harvestDate) =>
-              moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
-              moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
-          )
-        ) {
-          totalRevenue += plan.estimated_revenue;
-        }
-      });
+          if (
+            harvestDates.some(
+              (harvestDate) =>
+                moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
+            )
+          ) {
+            totalRevenue += plan.estimated_revenue;
+          }
+        });
     }
     return parseFloat(totalRevenue).toFixed(2);
   }

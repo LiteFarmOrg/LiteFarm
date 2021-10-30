@@ -10,9 +10,12 @@ const dataToCellMapping = {
   treated_doc: 'G',
   genetically_engineered: 'H',
 }
+
+const treatedTransformationMap = { YES: 'YES', NOT_SURE: 'NOT SURE', NO: 'N/A' };
 const dataTransformsMapping = {
   organic: boolToStringTransformation,
   searched: boolToStringTransformation,
+  treated: (treated) => treatedTransformationMap[treated],
   treated_doc: treatmentDocTransformation,
   genetically_engineered: boolToStringTransformation,
 }

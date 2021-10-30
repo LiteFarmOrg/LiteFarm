@@ -388,9 +388,7 @@ class People extends Component {
               <a className={styles.close} onClick={this.closeEditModal}>
                 <img src={closeButton} alt="" />
               </a>
-              <h3>
-                {this.props.t('common:EDIT')} {editTitle}
-              </h3>
+              <h3>{this.props.t('PROFILE.ACCOUNT.EDIT_USER')}</h3>
             </div>
             {this.state.editUser && (
               <div className={styles.formContainer}>

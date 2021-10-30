@@ -24,7 +24,7 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
-import { resetAndUnLockFormData, setEntryPath } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 
@@ -190,9 +190,9 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink onClick={() => {
-                dispatch(setEntryPath('/crop_catalogue'));
-                history.push('/crop/new')
+            <AddLink
+              onClick={() => {
+                history.push('/crop/new');
               }}
             >
               {t('CROP_CATALOGUE.ADD_CROP')}

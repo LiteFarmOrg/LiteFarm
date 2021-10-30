@@ -2,7 +2,7 @@ import React from 'react';
 import ComplianceInfo from '../../components/AddCropVariety/ComplianceInfo';
 import { useDispatch, useSelector } from 'react-redux';
 import { postCropAndVarietal, postVarietal } from './saga';
-import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import { HookFormPersistProvider } from '../hooks/useHookFormPersist/HookFormPersistProvider';
 
 function ComplianceInfoForm({ history, match }) {
@@ -12,7 +12,6 @@ function ComplianceInfoForm({ history, match }) {
   //TODO: create two different route for creating crop / crop_variety
   const crop_id = match.params.crop_id;
   const isNewCrop = crop_id === 'new';
-  const entryPath = useSelector(hookFormPersistEntryPathSelector);
 
   const onError = (err) => {
     console.log(err);
@@ -36,7 +35,7 @@ function ComplianceInfoForm({ history, match }) {
   };
 
   const onCancel = () => {
-    history.push(entryPath);
+    history.push(`/crop_catalogue`);
   };
 
   return (

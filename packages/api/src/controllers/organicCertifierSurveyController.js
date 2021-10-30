@@ -143,13 +143,13 @@ const organicCertifierSurveyController = {
       const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
         url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
-      const { first_name, email } = await userModel.query().where({ user_id }).first();
+      const { first_name, email, language_preference } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
       const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
       const extraInfo = { ...data };
       const body = {
         ...extraInfo, organicCertifierSurvey, certifier, certification,
-        files, farm_id, email, first_name, farm_name,
+        files, farm_id, email, first_name, farm_name, language_preference,
         from_date, to_date, submission: submission_id,
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
@@ -176,7 +176,7 @@ const organicCertifierSurveyController = {
             WHERE (mp.complete_date IS NULL OR mp.complete_date > :from_date::date)
             AND ( mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date )
             AND ( mp.start_date IS NULL OR mp.start_date < :to_date::date )
-            AND ( mp.start_date IS NOT NULL AND (
+            AND ( mp.start_date IS NOT NULL OR (
                 cpm.seed_date < :to_date::date OR
                 cpm.plant_date < :to_date::date OR
                 cpm.germination_date < :to_date::date OR
@@ -203,9 +203,11 @@ const organicCertifierSurveyController = {
             UNION 
             SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
         ) lu ON lu.location_id = l.location_id
-        WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
-        AND p.farm_id = ?
-    `, [ to_date, from_date, farm_id ]);
+        WHERE 
+        ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
+        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
+        AND p.farm_id = :farm_id
+    `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
     const taskIds = soilTasks.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
     if(!taskIds.length) {
@@ -225,9 +227,11 @@ const organicCertifierSurveyController = {
         FROM task t 
         JOIN cleaning_task ct ON ct.task_id = t.task_id
         JOIN product p ON p.product_id = ct.product_id 
-        WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
-        AND p.farm_id = ?
-    `, [ to_date, from_date, farm_id ]);
+        WHERE 
+        ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
+        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
+        AND p.farm_id = :farm_id
+    `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
     const taskIds = cleaningTask.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
     if(!taskIds.length) {

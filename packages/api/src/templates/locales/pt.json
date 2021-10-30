@@ -38,7 +38,7 @@
     "RESTORED": "renovou seu acesso ao seu sítio no LiteFarm. Bem-vindo de volta!",
     "CLICK_BELOW": "Você pode entrar novamente clicando abaixo",
     "SUBJECT0": "Seu acesso a",
-    "SUBJECT1": "foi restaurada!"
+    "SUBJECT1": "foi restaurado!"
   },
   "REVOKE_ACCESS": {
     "ADMIN": "Parece que um dos administradores em",
@@ -47,7 +47,7 @@
     "SUBJECT1": "em LiteFarm!"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
-    "CONGRATS": "Parabéns por ser o mais novo",
+    "CONGRATS": "Parabéns por ser o(a) mais novo(a)",
     "AT": "em",
     "CLICK_BELOW": "Você pode fazer login (em qualquer dispositivo) usando o botão abaixo",
     "SUBJECT": "Você juntou com sucesso a"

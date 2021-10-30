@@ -9,8 +9,8 @@ const dataToCellMapping = {
   on_permitted_substances_list: 'G',
 }
 const dataTransformsMapping = {
-  date_used: (date) => date.split('T')[0],
-  product_quantity: (quantity) => quantity.toFixed(2),
+  date_used: (date) => date ? date.split('T')[0] : '',
+  product_quantity: (quantity) => quantity ? quantity.toFixed(2) : 0,
 }
 
 module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {

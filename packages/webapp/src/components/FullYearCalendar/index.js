@@ -55,7 +55,7 @@ function FullYearCalendarView({
   );
 
   const stageToColor = {
-    seed_date: '#037A0F',
+    seed_date: '#89D1C7',
     plant_date: '#037A0F',
     germination_date: '#AA5F04',
     harvest_date: '#8F26F0',

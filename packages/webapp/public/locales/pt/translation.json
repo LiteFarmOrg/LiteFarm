@@ -258,7 +258,7 @@
     },
     "HERE_YOU_CAN": "Aqui você pode:",
     "LETS_BEGIN": "Vamos começar!",
-    "NEW_CROP_NAME": "MISSING",
+    "NEW_CROP_NAME": "Nome novo da cultura",
     "NO_RESULTS_FOUND": "Nenhum resultado encontrado. Por favor, mude seus filtros.",
     "ON_YOUR_FARM": "Em sua fazenda",
     "SELECT_A_CROP": "Selecione um cultivo para adicioná-lo à sua fazenda. Use a busca e os filtros para encontrar as culturas mais rapidamente.",
@@ -951,7 +951,7 @@
     "SEEDING_DATE": "Data da semeadura",
     "SEEDLING": "Estoque de mudas ou plantio",
     "SEEDLING_AGE": "Qual é a idade da muda ou do estoque de plantio?",
-    "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Você pode pular esta questão para outros tipos de estoque de plantio.",
+    "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Para estacas e outras mudas que não se saiba a idade exata, você pode colocar 0.",
     "SELECT_A_PLANTING_LOCATION": "Selecione um local de plantio",
     "SELECT_A_SEEDING_LOCATION": "Selecione um local de semeadura",
     "SELECT_CURRENT_LOCATION": "Selecione o local atual do cultivo",
@@ -1083,7 +1083,7 @@
     },
     "PEOPLE_TAB": "Pessoas",
     "PEOPLE": {
-      "DO_YOU_WANT_TO_REMOVE": "MISSING",
+      "DO_YOU_WANT_TO_REMOVE": "Você quer remover este usuário de sua propriedade?",
       "EO": "Agente de Extensão",
       "FARM_MANAGER": "Gerente de sítio/fazenda",
       "FARM_OWNER": "Dono(a) do sítio/fazenda",
@@ -1096,7 +1096,7 @@
       "ROLE": "Papel",
       "ROLE_CHANGE_ALERT": "A mudança de papel terá efeito no próximo login. Os trabalhadores não podem se definir como administradores.",
       "SEARCH": "Pesquisar",
-      "THIS_WILL_REMOVE": "MISSING",
+      "THIS_WILL_REMOVE": "Esta ação removerá o usuário de sua propriedade.",
       "USERS_FOUND": "Usuários encontrados"
     },
     "TABLE": {

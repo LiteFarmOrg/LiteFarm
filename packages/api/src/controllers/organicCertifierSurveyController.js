@@ -204,8 +204,8 @@ const organicCertifierSurveyController = {
             SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
         ) lu ON lu.location_id = l.location_id
         WHERE 
-        ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
-        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
+        ( ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
+        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ))
         AND p.farm_id = :farm_id
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
@@ -228,8 +228,8 @@ const organicCertifierSurveyController = {
         JOIN cleaning_task ct ON ct.task_id = t.task_id
         JOIN product p ON p.product_id = ct.product_id 
         WHERE 
-        ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
-        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date )
+        ( ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
+        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
         AND p.farm_id = :farm_id
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
@@ -292,8 +292,9 @@ const organicCertifierSurveyController = {
           UNION 
           SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
       )  lu ON lu.location_id = l.location_id
-      WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
-      AND p.farm_id = ?`, [to_date, from_date, farm_id]);
+      WHERE ( (completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR 
+            ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
+      AND p.farm_id = :farm_id`, { to_date, from_date, farm_id });
   },
 
   pestTaskOnNonCropEnabled(to_date, from_date, farm_id) {
@@ -326,8 +327,9 @@ const organicCertifierSurveyController = {
           UNION 
           SELECT location_id FROM residence
       )  lu ON lu.location_id = l.location_id
-      WHERE completed_time::date <= ?::date AND completed_time::date >= ?::date
-      AND p.farm_id = ?`, [to_date, from_date, farm_id]);
+      WHERE (( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
+        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
+      AND p.farm_id = :farm_id`, { to_date, from_date, farm_id });
   },
 
   delOrganicCertifierSurvey() {

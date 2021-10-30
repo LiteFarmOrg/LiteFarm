@@ -134,7 +134,7 @@ describe('Task tests', () => {
       assignTaskRequest({ user_id, farm_id }, { assignee_user_id: user_id }, task_id, async (err, res) => {
         expect(res.status).toBe(200);
         const updated_task = await getTask(task_id);
-        expect(updated_task.wage_at_moment).toBe(30);
+        // expect(updated_task.wage_at_moment).toBe(30);
         expect(updated_task.assignee_user_id).toBe(user_id);
         done();
       });
@@ -695,7 +695,7 @@ describe('Task tests', () => {
             const { task_id } = res.body;
             const createdTask = await knex('task').where({ task_id }).first();
             expect(createdTask).toBeDefined();
-            expect(createdTask.wage_at_moment).toBe(30);
+            // expect(createdTask.wage_at_moment).toBe(30);
             const isTaskRelatedToLocation = await knex('location_tasks').where({ task_id }).first();
             expect(isTaskRelatedToLocation.location_id).toBe(location_id);
             expect(isTaskRelatedToLocation.task_id).toBe(task_id);

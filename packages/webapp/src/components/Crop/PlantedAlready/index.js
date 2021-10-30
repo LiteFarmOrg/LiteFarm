@@ -77,7 +77,7 @@ export default function PurePlantedAlready({
       const SEED_DATE = 'crop_management_plan.seed_date';
       if (age === 0 || age > 0) {
         const seedDate = new Date();
-        seedDate.setDate(seedDate.getDate() + getValues(AGE));
+        seedDate.setDate(seedDate.getDate() - getValues(AGE));
         setValue(SEED_DATE, getDateInputFormat(seedDate));
       } else {
         setValue(SEED_DATE, undefined);

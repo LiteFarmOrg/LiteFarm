@@ -127,7 +127,8 @@ export default function PurePlantingDate({
     showEstimatedYield,
   } = useMemo(
     () => ({
-      showGerminationOffset: !already_in_ground && (is_seed || (!for_cover && needs_transplant)),
+      // showGerminationOffset: !already_in_ground && (is_seed || (!for_cover && needs_transplant)),
+      showGerminationOffset: !already_in_ground && is_seed,
       showTransplantOffset: needs_transplant && !transplantIsMain,
       showHarvestTerminationOffset: !harvestIsMain && !terminationIsMain,
       showHarvestOffset: !for_cover && !harvestIsMain && !terminationIsMain,

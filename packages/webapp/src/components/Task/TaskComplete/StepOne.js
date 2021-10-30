@@ -76,6 +76,7 @@ export default function PureCompleteStepOne({
           watch,
           control,
           register,
+          formState: { errors, isValid },
           errors,
           system,
           products,

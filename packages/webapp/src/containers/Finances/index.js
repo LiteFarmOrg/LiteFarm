@@ -137,7 +137,7 @@ class Finances extends Component {
     let totalRevenue = 0;
     if (managementPlans) {
       managementPlans
-        .filter(({ abandoned_plan }) => !abandoned_plan)
+        .filter(({ abandon_date }) => !abandon_date)
         .forEach((plan) => {
           // check if this plan has a harvest task projected within the time frame
           const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(

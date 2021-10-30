@@ -128,7 +128,11 @@ export const PureTaskTypeSelection = ({
               const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
               return farm_id === null && supportedTaskTypes.has(task_translation_key);
             })
-            .sort((firstEl, secondEl) => t(`task:${firstEl.task_translation_key}`).localeCompare(t(`task:${secondEl.task_translation_key}`)))
+            .sort((firstTaskType, secondTaskType) =>
+              t(`task:${firstTaskType.task_translation_key}`).localeCompare(
+                t(`task:${secondTaskType.task_translation_key}`),
+              ),
+            )
             .map(({ task_translation_key, task_type_id, farm_id }) => {
               return (
                 <div
@@ -150,27 +154,30 @@ export const PureTaskTypeSelection = ({
                 </div>
               );
             })}
-          {customTasks?.sort((firstEl, secondEl) => firstEl.task_name.localeCompare(secondEl.task_name))
+          {customTasks
+            ?.sort((firstTaskType, secondTaskType) =>
+              firstTaskType.task_name.localeCompare(secondTaskType.task_name),
+            )
             .map(({ task_translation_key, task_type_id, task_name }) => {
-            return (
-              <div
-                onClick={() => {
-                  onTileClick(task_type_id);
-                }}
-                key={task_type_id}
-              >
+              return (
                 <div
-                  className={clsx(
-                    styles.typeContainer,
-                    selected_task_type === task_type_id && styles.typeContainerSelected,
-                  )}
+                  onClick={() => {
+                    onTileClick(task_type_id);
+                  }}
+                  key={task_type_id}
                 >
-                  <CustomTask />
-                  <div className={styles.taskTypeLabelContainer}>{task_name}</div>
+                  <div
+                    className={clsx(
+                      styles.typeContainer,
+                      selected_task_type === task_type_id && styles.typeContainerSelected,
+                    )}
+                  >
+                    <CustomTask />
+                    <div className={styles.taskTypeLabelContainer}>{task_name}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
         {isAdmin && (
           <Button color={'success'} onClick={onCustomTask}>

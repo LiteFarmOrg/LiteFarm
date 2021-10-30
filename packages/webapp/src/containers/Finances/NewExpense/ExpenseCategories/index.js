@@ -90,39 +90,49 @@ class ExpenseCategories extends Component {
           }}
         >
           {expenseTypes.length > 0 &&
-            expenseTypes.map((type) => {
-              return (
-                <Grid
-                  item
-                  xs={4}
-                  md={3}
-                  lg={2}
-                  key={type.expense_type_id}
-                  style={{ marginBottom: '12px' }}
-                >
-                  <div>
-                    <div
-                      style={
-                        selectedTypes.includes(type.expense_type_id)
-                          ? selectedStyle
-                          : unSelectedStyle
-                      }
-                      onClick={() => this.addRemoveType(type.expense_type_id)}
-                      className={styles.greenCircle}
-                    >
-                      <img
-                        src={iconMap[type.expense_translation_key]}
-                        alt=""
-                        className={styles.circleImg}
-                      />
+            expenseTypes
+              .sort((firstExpenseType, secondExpenseType) => {
+                if (firstExpenseType.expense_translation_key === 'OTHER') return 1;
+                if (secondExpenseType.expense_translation_key === 'OTHER') return -1;
+                return this.props
+                  .t(`expense:${firstExpenseType.expense_translation_key}`)
+                  .localeCompare(
+                    this.props.t(`expense:${secondExpenseType.expense_translation_key}`),
+                  );
+              })
+              .map((type) => {
+                return (
+                  <Grid
+                    item
+                    xs={4}
+                    md={3}
+                    lg={2}
+                    key={type.expense_type_id}
+                    style={{ marginBottom: '12px' }}
+                  >
+                    <div>
+                      <div
+                        style={
+                          selectedTypes.includes(type.expense_type_id)
+                            ? selectedStyle
+                            : unSelectedStyle
+                        }
+                        onClick={() => this.addRemoveType(type.expense_type_id)}
+                        className={styles.greenCircle}
+                      >
+                        <img
+                          src={iconMap[type.expense_translation_key]}
+                          alt=""
+                          className={styles.circleImg}
+                        />
+                      </div>
+                      <div className={styles.typeName}>
+                        {this.props.t(`expense:${type.expense_translation_key}`)}
+                      </div>
                     </div>
-                    <div className={styles.typeName}>
-                      {this.props.t(`expense:${type.expense_translation_key}`)}
-                    </div>
-                  </div>
-                </Grid>
-              );
-            })}
+                  </Grid>
+                );
+              })}
         </Grid>
         <div className={styles.bottomContainer}>
           <button className="btn btn-primary" onClick={() => this.nextPage()}>

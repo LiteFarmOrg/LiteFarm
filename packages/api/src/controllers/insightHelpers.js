@@ -364,6 +364,9 @@ exports.getBiodiversityAPI = async (pointData, countData) => {
 };
 
 const mergeSpeciesObjects = (objects) => {
+  if (objects.length === 0) {
+    return [];
+  }
   let merged = objects[0];
   for (let i = 1; i < objects.length; i++) {
     const keys = new Set(merged.map(item => item.key));

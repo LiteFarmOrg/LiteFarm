@@ -18,13 +18,13 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "MISSING",
-      "ADD_ALREADY_EXISTS": "MISSING",
+      "ADD": "Error: no se pudo agregar variedad a la base de datos",
+      "ADD_ALREADY_EXISTS": "Error: existe variedad",
       "DELETE": "No se pudo eliminar la variedad de cultivo",
       "UPDATE": "No se pudo actualizar la variedad de cultivo"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
+      "ADD": "¡Variedad guardada con éxito!",
       "DELETE": "Cultivo eliminado exitosamente",
       "UPDATE": "Cultivo actualizado exitosamente"
     }
@@ -101,18 +101,18 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "No se pudo actualizar el plan de manejo"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Plan de manejo actualizado con éxito"
     }
   },
   "REVENUE": {
     "ERROR": {
-      "EDIT": "MISSING"
+      "EDIT": "No se pudieron actualizar los ingresos"
     },
     "SUCCESS": {
-      "EDIT": "MISSING"
+      "EDIT": "Ingresos actualizados correctamente"
     }
   },
   "SALE": {

@@ -951,7 +951,7 @@
     "SEEDING_DATE": "Data da semeadura",
     "SEEDLING": "Estoque de mudas ou plantio",
     "SEEDLING_AGE": "Qual é a idade da muda ou do estoque de plantio?",
-    "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Você pode pular esta questão para outros tipos de estoque de plantio.",
+    "SEEDLING_AGE_INFO": "A data aproximada vai ajudar o LiteFarm a estimar as datas de colheita das mudas. Para estacas e outros materiais de plantio sem idade óbvia, você pode inserir 0.",
     "SELECT_A_PLANTING_LOCATION": "Selecione um local de plantio",
     "SELECT_A_SEEDING_LOCATION": "Selecione um local de semeadura",
     "SELECT_CURRENT_LOCATION": "Selecione o local atual do cultivo",
@@ -983,7 +983,7 @@
       }
     },
     "VARIETY": "Variedade",
-    "WHAT_IS_AGE": "Qual é a idade do cultivo?",
+    "WHAT_IS_AGE": "Qual é a idade aproximada da colheita?",
     "WHAT_WAS_PLANTING_METHOD": "Qual foi o método de plantio?",
     "WHERE_START_LOCATION": "Onde é o seu local de partida?",
     "WHERE_TRANSPLANT_LOCATION": "Onde você fará o transplante?",
@@ -1082,7 +1082,7 @@
     },
     "PEOPLE_TAB": "Pessoas",
     "PEOPLE": {
-      "DO_YOU_WANT_TO_REMOVE": "MISSING",
+      "DO_YOU_WANT_TO_REMOVE": "Você deseja remover este usuário de sua fazenda?",
       "EO": "Agente de Extensão",
       "FARM_MANAGER": "Gerente de sítio/fazenda",
       "FARM_OWNER": "Dono(a) do sítio/fazenda",

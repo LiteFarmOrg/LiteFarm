@@ -26,10 +26,10 @@
   "COMMON": {
     "JOIN": "Unete",
     "LOG_IN": "Iniciar Sesión",
-    "OWNER": "MISSING",
-    "EXTENSION_OFFICER": "MISSING",
-    "WORKER": "MISSING",
-    "MANAGER": "MISSING"
+    "OWNER": "Dueño/a",
+    "EXTENSION_OFFICER": "Oficial de extensión",
+    "WORKER": "Trabajador/a",
+    "MANAGER": "Gerente"
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
@@ -90,9 +90,10 @@
     "SUBJECT1": "en LiteFarm"
   },
   "EXPORT": {
-    "HI": "EXPORT.HI",
+    "HI": "Missing",
     "SEASON": "EXPORT.SEASON",
     "CERTIFICATION": "EXPORT.CERTIFICATION",
+    "LANGUAGE_DELAY": "MISSING",
     "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
     "SUBJECT": "EXPORT.SUBJECT",
     "PRIVACY": "EXPORT.PRIVACY"

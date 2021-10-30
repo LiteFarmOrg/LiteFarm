@@ -16,24 +16,18 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const { task_id } = req.params;
-        const { user_id, farm_id } = req.headers;
+        const { user_id } = req.headers;
         const { assignee_user_id } = req.body;
         if (!adminRoles.includes(req.role) && user_id !== assignee_user_id && assignee_user_id !== null) {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
 
-        let wage = { amount: 0 };
-        if (assignee_user_id !== null) {
-          const userFarm = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
-          wage = userFarm.wage;
-        }
         const checkTaskStatus = await TaskModel.query().select('completed_time', 'abandoned_time').where({ task_id }).first();
         if (checkTaskStatus.completed_time || checkTaskStatus.abandoned_time) {
           return res.status(406).send('Task has already been completed or abandoned');
         }
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           assignee_user_id,
-          wage_at_moment: wage.amount === 0 ? 0 : wage.amount,
         });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
@@ -52,11 +46,6 @@ const taskController = {
           return res.status(403).send('Not authorized to assign other people for this task');
         }
         const tasks = await getTasksForFarm(farm_id);
-        let wage = { amount: 0 };
-        if (assignee_user_id !== null) {
-          const userFarm = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
-          wage = userFarm.wage;
-        }
         const taskIds = tasks.map(({ task_id }) => task_id);
         let available_tasks = await TaskModel.query().context(req.user)
           .select('task_id')
@@ -72,7 +61,6 @@ const taskController = {
         available_tasks = available_tasks.map(({ task_id }) => task_id);
         const result = await TaskModel.query().context(req.user).patch({
           assignee_user_id,
-          wage_at_moment: wage.amount === 0 ? 0 : wage.amount,
         }).whereIn('task_id', available_tasks);
         return result ? res.status(200).send(available_tasks) : res.status(404).send('Tasks not found');
       } catch (error) {
@@ -85,11 +73,11 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const { task_id } = req.params;
-        const { user_id } = req.headers;
+        const { user_id, farm_id } = req.headers;
         const { abandonment_reason, other_abandonment_reason, abandonment_notes, happiness, duration } = req.body;
 
-        const { owner_user_id, assignee_user_id } = await TaskModel.query()
-          .select('owner_user_id', 'assignee_user_id')
+        const { owner_user_id, assignee_user_id, wage_at_moment, override_hourly_wage } = await TaskModel.query()
+          .select('owner_user_id', 'assignee_user_id', 'wage_at_moment', 'override_hourly_wage')
           .where({ task_id }).first();
         const isUserTaskOwner = user_id === owner_user_id;
         const isUserTaskAssignee = user_id === assignee_user_id;
@@ -103,6 +91,13 @@ const taskController = {
         if (!hasAssignee && (happiness || duration)) {
           return res.status(406).send('An unassigned task should not be rated or have time clocked');
         }
+
+        let wage = { amount: 0 };
+        if (assignee_user_id) {
+          const assigneeUserFarm = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
+          wage = assigneeUserFarm.wage;
+        }
+
         const result = await TaskModel.query().context(req.user).findById(task_id).patch({
           abandoned_time: new Date(Date.now()),
           abandonment_reason,
@@ -110,6 +105,7 @@ const taskController = {
           abandonment_notes,
           happiness,
           duration,
+          wage_at_moment: override_hourly_wage ? wage_at_moment : wage.amount,
         });
         return result ? res.sendStatus(200) : res.status(404).send('Task not found');
       } catch (error) {
@@ -127,14 +123,9 @@ const taskController = {
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
         const data = req.body;
-        const { farm_id } = req.headers;
         const { user_id } = req.user;
         data.planned_time = data.due_date;
         data.owner_user_id = user_id;
-        if (data.assignee_user_id && !data.wage_at_moment) {
-          const { wage } = await userFarmModel.query().where({ user_id: data.assignee_user_id, farm_id }).first();
-          data.wage_at_moment = wage.amount;
-        }
         const result = await TaskModel.transaction(async trx => {
           const { task_id } = await TaskModel.query(trx).context({ user_id: req.user.user_id })
             .upsertGraph(req.body, {
@@ -240,15 +231,21 @@ const taskController = {
     return async (req, res, next) => {
       try {
         const data = req.body;
-        const { user_id } = req.headers;
+        const { user_id, farm_id } = req.headers;
         const { task_id } = req.params;
-        const { assignee_user_id } = await TaskModel.query().context(req.user).findById(task_id);
+        const { assignee_user_id, wage_at_moment, override_hourly_wage } = await TaskModel.query()
+          .context(req.user)
+          .findById(task_id);
         if (assignee_user_id !== user_id) {
           return res.status(403).send('Not authorized to complete other people\'s task');
         }
+        const { wage } = await userFarmModel.query().where({ user_id: assignee_user_id, farm_id }).first();
+        const wagePatchData = override_hourly_wage ?
+          { wage_at_moment } :
+          { wage_at_moment: wage.amount };
         const result = await TaskModel.transaction(async trx => {
           const task = await TaskModel.query(trx).context({ user_id: req.user.user_id })
-            .upsertGraph({ task_id: parseInt(task_id), ...data }, {
+            .upsertGraph({ task_id: parseInt(task_id), ...data, ...wagePatchData }, {
               noUpdate: nonModifiable,
               noDelete: true,
               noInsert: true,

@@ -898,7 +898,8 @@
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "LiteFarm ha generado algunas tareas basadas en su plan. Puede editarlos o asignarlos en esta pantalla. Además, puede agregar más tareas a este plan o editar su plan.",
+      "BODY_PART1": "MISSING",
+      "BODY_PART2": "MISSING",
       "TITLE": "Felicitaciones!¡Ha hecho su primer plan de manejo!"
     },
     "FOR_HARVEST": "Para la cosecha",

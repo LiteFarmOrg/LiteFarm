@@ -137,6 +137,7 @@ export default function PureTaskDetails({
             watch,
             control,
             register,
+            formState: { errors, isValid },
             farm,
             system,
             products,

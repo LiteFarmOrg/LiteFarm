@@ -2,7 +2,7 @@ import ReactSelect from '../../Form/ReactSelect';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Leaf.svg';
 import { useTranslation } from 'react-i18next';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import { pest, soilAmounts, waterUsage } from '../../../util/unit';
 import Unit from '../../Form/Unit';
@@ -18,6 +18,7 @@ const AddProduct = ({
   watch,
   control,
   register,
+  formState: { errors },
   farm,
   disabled,
 }) => {
@@ -105,7 +106,7 @@ const AddProduct = ({
         style={{ marginBottom: '40px' }}
         disabled={disabled}
         hasLeaf={true}
-        errors={watch(SUPPLIER).match(/^\s*$/) && t('common:REQUIRED')}
+        errors={getInputErrors(errors, SUPPLIER)}
       />
       {isInterestedInCanada && (
         <>

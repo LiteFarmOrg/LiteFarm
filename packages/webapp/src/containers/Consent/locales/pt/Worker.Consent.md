@@ -60,6 +60,7 @@ Dependendo de quais partes da plataforma LiteFarm você usar, poderemos coletar 
 
 - Informações de contato (nome, endereço, número de telefone, endereço de e-mail)
 
+<<<<<<< HEAD
 - Dados demográficos (gênero, ano de nascimento, idioma de preferência, país, moeda corrente)
 
 - Fotos
@@ -100,7 +101,7 @@ A LiteFarm usa as informações de gestão que você insere no aplicativo para g
 - Informações relacionadas à conclusão das tarefas, incluindo: data, duração do trabalho, humor (feliz, muito feliz, triste, muito triste, neutro), notas de trabalho.
   &nbsp;
 
-&nbsp;
+- Informações de deslocamentos: data; distância do deslocamento; horários de início e término; duração do intervalo; atividade de deslocamento (preparação de leitos, entrega, venda, semeadura, colheita, fertilização, prospecção, controle de pragas, lavagem e embalagem, erradicação de ervas daninhas, outros, tarefa customizada); alocação de tempo para cada atividade (por campo/parcela ou por cultura); humor (contente, muito contente, triste, muito triste, neutro)
 
 **Dados de uso**
 &nbsp;
@@ -113,13 +114,11 @@ Coletamos dados de uso (ou seja, estatísticas gerais sobre usuários, padrões 
 &nbsp;
 
 **Como usamos os dados?**
-&nbsp;
 
 &nbsp;
 
 Como descrito acima, usamos seus dados de uso (ex.: informações gerais sobre como você interage com a plataforma LiteFarm) para melhorar a plataforma LiteFarm e os serviços que ela oferece.
 As informações fornecidas por você sobre a conclusão das tarefas são apresentadas de forma agregada (sem nenhuma informação de identificação pessoal) aos gerentes da propriedade e para fins de pesquisa.
-&nbsp;
 
 **O que compartilhamos?**
 &nbsp;
@@ -159,7 +158,6 @@ Nosso aplicativo está hospedado no Digital Ocean para atender nosso site de for
 Seguimos as melhores práticas do setor para proteger os dados dos usuários, e construímos e continuamos mantendo nosso aplicativo alinhado ao Padrão de Verificação de Segurança de Aplicativos Comentado de Nível 2, do Projeto de Segurança de Aplicativos da Web Aberta. O acesso à base de dados é limitado aos membros da equipe LiteFarm que passaram pelo treinamento de ética (Declaração da Política do Conselho Triplo: Conduta Ética para Pesquisas Envolvendo Seres Humanos, TCPS2) e que assinaram acordos de confidencialidade. Entretanto, não podemos garantir que os dados transmitidos pela Internet estarão sempre seguros. Como resultado, embora nos esforcemos para proteger suas informações pessoais, não podemos garantir que alguma informação não possa ser transmitida durante o uso da LiteFarm.
 &nbsp;
 
-&nbsp;
 
 **Quais outros riscos estão envolvidos no uso da LiteFarm?**
 &nbsp;
@@ -209,7 +207,6 @@ Se você retirar seu consentimento enviando um e-mail para data@litefarm.org, su
 &nbsp;
 
 Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar sua Política de Privacidade ocasionalmente. Postaremos uma versão atualizada e revisada da Política de Privacidade no site da LiteFarm (www.litefarm.org) e o notificaremos através do aplicativo quando fizermos alguma alteração. Você será solicitado a aceitar o novo formulário de consentimento para continuar usando o software. Se você não aceitar as alterações, poderá baixar seus dados, mas não conseguirá inserir novos dados no aplicativo. Depois de um mês, sua conta e seus dados serão marcados como inativos. As revisões terão efeito imediatamente após a postagem. A continuação de seu uso deste site após qualquer alteração desta Política de Privacidade implicará em sua aceitação de tal alteração.
-
 &nbsp;
 
 &nbsp;

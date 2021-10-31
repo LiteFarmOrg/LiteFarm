@@ -33,6 +33,12 @@ Disabled.args = {
   children: 'Disabled',
 };
 
+export const Info = Template.bind({});
+Info.args = {
+  color: 'info',
+  children: 'info',
+};
+
 export const Blue = Template.bind({});
 Blue.args = {
   color: 'blue',
@@ -43,4 +49,22 @@ export const BlueActive = Template.bind({});
 BlueActive.args = {
   color: 'blueActive',
   children: 'blueActive',
+};
+
+export const Completed = Template.bind({});
+Completed.args = {
+  color: 'completed',
+  children: 'completed',
+};
+
+export const CompletedActive = Template.bind({});
+CompletedActive.args = {
+  color: 'completedActive',
+  children: 'completedActive',
+};
+
+export const None = Template.bind({});
+None.args = {
+  color: 'none',
+  children: 'none',
 };

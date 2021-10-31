@@ -9,7 +9,6 @@ import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 import { convertFromMetric, getMass, roundToTwoDecimal } from '../../../util';
 import ConfirmModal from '../../Modals/Confirm';
 
@@ -43,12 +42,12 @@ export default function PureHarvestLog({
     setFilteredCropOptions(setDefaultCropOptions);
   }, []);
 
-  let locationOptions = locations.map(({ name, location_id }) => ({
+  let locationOptions = locations?.map(({ name, location_id }) => ({
     label: name,
     value: location_id,
   }));
 
-  let cropOptions = crops.map(
+  let cropOptions = crops?.map(
     ({ crop_translation_key, crop_id, location: { name: location_name, location_id } }) => ({
       label: t(`crop:${crop_translation_key}`),
       value: crop_id,
@@ -57,7 +56,13 @@ export default function PureHarvestLog({
     }),
   );
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+
+    formState: { errors },
+  } = useForm({
     mode: 'onTouched',
   });
 
@@ -72,14 +77,14 @@ export default function PureHarvestLog({
     if (isEdit.isEditStepOne) {
       return { label: selectedLog.location[0].name, value: selectedLog.location[0].location_id };
     }
-    return defaultData.defaultField ? defaultData.defaultField : null;
+    return defaultData?.defaultField ? defaultData.defaultField : null;
   };
 
   const selectedCropValue = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].field_crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].management_plan_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -88,8 +93,8 @@ export default function PureHarvestLog({
   const setDefaultCrop = () => {
     if (isEdit.isEditStepOne) {
       return {
-        label: selectedLog.fieldCrop[0].crop.crop_common_name,
-        value: selectedLog.fieldCrop[0].crop.crop_id,
+        label: selectedLog.managementPlan[0].crop.crop_common_name,
+        value: selectedLog.managementPlan[0].crop.crop_id,
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
@@ -122,7 +127,6 @@ export default function PureHarvestLog({
   const NOTES = 'notes';
   const notes = watch(NOTES, undefined);
   const optional = watch(NOTES, false) || watch(NOTES, true);
-  const refInputNotes = register({ required: optional });
 
   const isTwoDecimalPlaces = (val) => {
     let decimals;
@@ -139,7 +143,6 @@ export default function PureHarvestLog({
 
   const onSubmit = (data) => {
     const validQuantity = !!isTwoDecimalPlaces(data.quantity);
-    dispatch(harvestLogData({ ...defaultData, validQuantity }));
 
     if (validQuantity) {
       const selectedUseTypes = defaultData?.selectedUseTypes?.length
@@ -169,7 +172,7 @@ export default function PureHarvestLog({
     let value = 0;
     crops.map((item) => {
       if (item.crop_id === crop.value) {
-        value = item.field_crop_id;
+        value = item.management_plan_id;
       }
     });
     return value;
@@ -185,12 +188,10 @@ export default function PureHarvestLog({
     });
     setFilteredCropOptions(data);
     defaultData.filteredCropOptions = data;
-    dispatch(harvestLogData(defaultData));
   };
 
   const handleCropChange = (crop) => {
     defaultData.resetCrop = false;
-    dispatch(harvestLogData(defaultData));
     setCrop(crop);
     let data = {
       label: crop.label,
@@ -222,7 +223,7 @@ export default function PureHarvestLog({
               </Button>
             )}
             <Button type={'submit'} disabled={!location || !crop || !quant} fullLength>
-              {isEdit.isEdit ? t('common:UPDATE') : t('common:NEXT')}
+              {isEdit?.isEdit ? t('common:UPDATE') : t('common:NEXT')}
             </Button>
           </>
         }
@@ -246,7 +247,7 @@ export default function PureHarvestLog({
           onChange={(e) => handleFieldChange(e)}
           value={location}
           style={{ marginBottom: '24px' }}
-          defaultValue={defaultData.defaultField}
+          defaultValue={defaultData?.defaultField}
         />
         {location && (
           <ReactSelect
@@ -264,9 +265,8 @@ export default function PureHarvestLog({
           style={{ marginBottom: '24px' }}
           type="number"
           unit={unit}
-          name={QUANTITY}
           step={0.01}
-          inputRef={register({
+          hookFormRegister={register(QUANTITY, {
             required: true,
           })}
           defaultValue={setDefaultQuantity()}
@@ -285,8 +285,7 @@ export default function PureHarvestLog({
           <Input
             label={t('common:NOTES')}
             optional
-            name={NOTES}
-            inputRef={refInputNotes}
+            hookFormRegister={register(NOTES, { required: optional })}
             defaultValue={!isEdit.isEditStepOne ? defaultData.defaultNotes : selectedLog.notes}
           />
         </div>

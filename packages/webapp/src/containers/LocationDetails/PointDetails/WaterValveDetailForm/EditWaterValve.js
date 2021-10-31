@@ -8,15 +8,15 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { waterValveSelector } from '../../../waterValveSlice';
 import {
   hookFormPersistSelector,
-  setAreaDetailFormData,
+  setPointDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
-import {
-  currentFieldCropsByLocationIdSelector,
-  plannedFieldCropsByLocationIdSelector,
-} from '../../../fieldCropSlice';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
+import {
+  currentManagementPlansByLocationIdSelector,
+  plannedManagementPlansByLocationIdSelector,
+} from '../../../Task/TaskCrops/managementPlansWithLocationSelector';
 
 function EditWaterValveDetailForm({ history, match }) {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function EditWaterValveDetailForm({ history, match }) {
   const waterValve = useSelector(waterValveSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    dispatch(setAreaDetailFormData(getFormData(waterValve)));
+    dispatch(setPointDetailFormData(getFormData(waterValve)));
   }, []);
 
   useEffect(() => {
@@ -51,8 +51,8 @@ function EditWaterValveDetailForm({ history, match }) {
   const [showCannotRetireModal, setShowCannotRetireModal] = useState(false);
   const [showConfirmRetireModal, setShowConfirmRetireModal] = useState(false);
   const { location_id } = match.params;
-  const activeCrops = useSelector(currentFieldCropsByLocationIdSelector(location_id));
-  const plannedCrops = useSelector(plannedFieldCropsByLocationIdSelector(location_id));
+  const activeCrops = useSelector(currentManagementPlansByLocationIdSelector(location_id));
+  const plannedCrops = useSelector(plannedManagementPlansByLocationIdSelector(location_id));
   const handleRetire = () => {
     // approach 1: redux store check for dependencies
     // if (activeCrops.length === 0 && plannedCrops.length === 0) {
@@ -62,7 +62,13 @@ function EditWaterValveDetailForm({ history, match }) {
     // }
 
     // approach 2: call backend for dependency check
-    dispatch(checkLocationDependencies({ location_id, setShowConfirmRetireModal, setShowCannotRetireModal }));
+    dispatch(
+      checkLocationDependencies({
+        location_id,
+        setShowConfirmRetireModal,
+        setShowCannotRetireModal,
+      }),
+    );
   };
 
   const confirmRetire = () => {

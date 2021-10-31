@@ -1,22 +1,40 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "Error al asignar tareas",
+    "SUCCESS": "Tareas asignadas con éxito"
+  },
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
+      "CREATE": "No se pudo crear el documento",
+      "FAILED_ARCHIVE": "No se pudo archivar el documento",
+      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos",
+      "UPDATE": "No se pudo actualizar el documento"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Documento archivado exitosamente",
+      "CREATE": "Documento creado exitosamente",
+      "UPDATE": "Documento actualizado exitosamente"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Error: no se pudo agregar variedad a la base de datos",
+      "ADD_ALREADY_EXISTS": "Error: existe variedad",
+      "DELETE": "No se pudo eliminar la variedad de cultivo",
+      "UPDATE": "No se pudo actualizar la variedad de cultivo"
+    },
+    "SUCCESS": {
+      "ADD": "¡Variedad guardada con éxito!",
+      "DELETE": "Cultivo eliminado exitosamente",
+      "UPDATE": "Cultivo actualizado exitosamente"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "No se pudo borrar campo de cultivo",
-      "EDIT": "No se pudo editar campo de cultivo"
+      "DELETE": "No se pudo borrar campo de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "Cultivo borrado exitosamente",
-      "EDIT": "Cultivo editado exitosamente"
-    }
-  },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio"
+      "DELETE": "Cultivo borrado exitosamente"
     }
   },
   "EXPENSE": {
@@ -41,41 +59,14 @@
       "UPDATE": "Información sobre la finca actualizada exitosamente!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "Nose pudo agregar fertilizante"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "El nombre de campo no puede quedar vacío",
-      "UPDATE_NAME": "No se pudo actualizar nombre del campo"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Nombre del campo cambiado exitosamente"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
       "AMOUNT_TOTAL": "El total ingresado no es igual a la cosecha total",
-      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha",
-      "REQUIRED_TASK": "Es necesario un nombre para este nuevo uso de cosecha"
+      "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "No se pudo agregar registro",
-      "DELETE": "No se pudo eliminar registro",
-      "EDIT": "No se pudo editar registro"
-    },
-    "SUCCESS": {
-      "ADD": "Registro agregado exitosamente!",
-      "DELETE": "Registro borrado exitosamente!",
-      "EDIT": "Registro editado exitosamente!"
     }
   },
   "LOGIN": {
@@ -83,21 +74,45 @@
       "LOGIN_FAIL": "No se pudo iniciar sesión con información del usuario"
     }
   },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "¡No se pudo abandonar el plan de manejo!",
+      "COMPLETE": "¡No se pudo completar el plan de manejo!",
+      "POST": "No se pudo agregar plan de manejo"
+    },
+    "SUCCESS": {
+      "ABANDON": "¡Plan de gestión abandonado con éxito!",
+      "COMPLETE": "¡Plan de gestión completado con éxito!",
+      "POST": "Plan de manejo agregado exitosamente"
+    }
+  },
   "MAP": {
     "FAIL_PATCH": "Fallo al actualizar",
     "FAIL_POST": "Fallo al crear",
-    "SUCCESS_DELETE": " se retiro exitosamente",
-    "SUCCESS_PATCH": " se actualizo exitosamente",
-    "SUCCESS_POST": " se creo exitosamente"
+    "SUCCESS_DELETE": " se retiro exitosamente.",
+    "SUCCESS_PATCH": " se actualizo exitosamente.",
+    "SUCCESS_POST": " se creo exitosamente."
   },
-  "NEW_FIELD_CROP": {
+  "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "GENERAL": "No se pudo agregar campo de cultivo a la base de datos",
-      "NOT_FILLED": "Esto no esta completado",
-      "VARIETY_EXISTS": "Un cultivo con ese nombre de variedad ya existe. Por favor intente otro."
+      "CREATE": "No se pudo crear la certificación.",
+      "UPDATE": "No se pudo actualizar la certificación."
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "No se pudo actualizar el plan de manejo"
     },
     "SUCCESS": {
-      "SAVE": "Cultivo ingresado exitosamente!"
+      "EDIT": "Plan de manejo actualizado con éxito"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "No se pudieron actualizar los ingresos"
+    },
+    "SUCCESS": {
+      "EDIT": "Ingresos actualizados correctamente"
     }
   },
   "SALE": {
@@ -129,6 +144,30 @@
       "UPDATE": "Turno agregado exitosamente!"
     }
   },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "No se pudo crear la tarea personalizada",
+      "SUCCESS": "Tarea personalizada creada con éxito"
+    },
+    "DELETE": {
+      "FAILED": "No se pudo borrar la tarea personalizada",
+      "SUCCESS": "Tarea personalizada borrada con éxito"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "No se pudo abandonar la tarea",
+      "SUCCESS": "Tarea abandonada con éxito"
+    },
+    "COMPLETE": {
+      "FAILED": "No se pudo completar la tarea",
+      "SUCCESS": "Tarea completada con éxito"
+    },
+    "CREATE": {
+      "FAILED": "No se pudo crear la tarea",
+      "SUCCESS": "Tarea creada con éxito"
+    }
+  },
   "USER": {
     "ERROR": {
       "ADD": "No se pudo agregar usuario",
@@ -146,7 +185,7 @@
       "ADD": "Usuario(a) de la finca agregado exitosamente!",
       "RESTORE": "Acceso de usuario(a) restaurado exitosamente",
       "REVOKE": "Acceso de usuario(a) revocado!",
-      "UPDATE": "Información del(a) usuario(a) actualizao exitosamente!"
+      "UPDATE": "Información del(a) usuario(a) actualizado exitosamente!"
     }
   }
 }

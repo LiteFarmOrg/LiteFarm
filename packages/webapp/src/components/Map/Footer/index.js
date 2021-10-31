@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Joyride, { ACTIONS, LIFECYCLE, STATUS } from 'react-joyride';
+import Joyride, { ACTIONS, LIFECYCLE } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -111,6 +111,7 @@ export default function PureMapFooter({
   return (
     <>
       {showSpotlight && (
+        //Deprecated
         <Joyride
           steps={steps}
           continuous

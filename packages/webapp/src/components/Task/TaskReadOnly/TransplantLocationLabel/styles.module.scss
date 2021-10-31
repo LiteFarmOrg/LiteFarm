@@ -1,0 +1,25 @@
+.square {
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+.container {
+  display: flex;
+  gap: 14px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+
+}
+
+.labelContainer {
+  display: flex;
+  gap: 4px
+}
+
+.pin {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px)
+}

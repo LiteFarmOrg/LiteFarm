@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import PureCertifierSelectionScreen from '../../../../components/CertifierSelection';
+import { PureCertifierSelectionScreen } from '../../../../components/OrganicCertifierSurvey/CertifierSelection/PureCertifierSelectionScreen';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/PureCertifierSelectionScreen',
@@ -10,40 +11,91 @@ export default {
 
 const certifiers = [
   {
-    certifier_id: 'Islands Organic Producers Association (IOPA)',
-    certifierTranslation: 'Islands Organic Producers Association (IOPA)',
+    certifier_id: 5,
+    certification_type: 1,
+    certifier_name: 'Bio-Dynamic Agricultural Society of British Columbia',
+    certifier_acronym: 'BDASBC',
+    certifier_country_id: 5,
+    country_id: 37,
+    farm_id: 'ea8eda4e-bdad-11eb-9e63-318a4efb8273',
+    farm_name: 'new organic',
+    address: '49.267847499999995, -123.1745952',
+    units: {
+      currency: 'CAD',
+      measurement: 'metric',
+    },
+    grid_points: {
+      lat: 49.267847499999995,
+      lng: -123.1745952,
+    },
+    deleted: false,
+    farm_phone_number: null,
+    created_by_user_id: '104942873090979111002',
+    updated_by_user_id: '104942873090979111002',
+    created_at: '2021-05-25T23:07:02.713Z',
+    updated_at: '2021-05-25T23:07:06.436Z',
+    sandbox_farm: false,
+    owner_operated: true,
   },
   {
-    certifier_id: 'Similkameen Okanagan Organic Producers Association (SOOPA)',
-    certifierTranslation: 'Similkameen Okanagan Organic Producers Association (SOOPA)',
+    certifier_id: 4,
+    certification_type: 1,
+    certifier_name: 'British Columbia Association for Regenerative Agriculture',
+    certifier_acronym: 'BCARA',
+    certifier_country_id: 4,
+    country_id: 37,
+    farm_id: 'ea8eda4e-bdad-11eb-9e63-318a4efb8273',
+    farm_name: 'new organic',
+    address: '49.267847499999995, -123.1745952',
+    units: {
+      currency: 'CAD',
+      measurement: 'metric',
+    },
+    grid_points: {
+      lat: 49.267847499999995,
+      lng: -123.1745952,
+    },
+    deleted: false,
+    farm_phone_number: null,
+    created_by_user_id: '104942873090979111002',
+    updated_by_user_id: '104942873090979111002',
+    created_at: '2021-05-25T23:07:02.713Z',
+    updated_at: '2021-05-25T23:07:06.436Z',
+    sandbox_farm: false,
+    owner_operated: true,
+  },
+];
+const certifications = [
+  {
+    certification_id: 1,
+    certification_type: 'Organic',
+    certification_translation_key: 'ORGANIC',
   },
   {
-    certifier_id: 'Fraser Valley Organic Producers Association (FVOPA)',
-    certifierTranslation: 'Fraser Valley Organic Producers Association (FVOPA)',
+    certification_id: 2,
+    certification_type: 'Participatory Guarantee System',
+    certification_translation_key: 'PGS',
   },
-  {
-    certifier_id: 'North Okanagan Organic Association (NOOA)',
-    certifierTranslation: 'North Okanagan Organic Association (NOOA)',
-  },
-  {
-    certifier_id: 'Kootenay Organic Growers Society (KOGS)',
-    certifierTranslation: 'Kootenay Organic Growers Society (KOGS)',
-  },
-  { certifier_id: 'Certifier', certifierTranslation: 'Certifier' },
 ];
 
 const Template = (args) => <PureCertifierSelectionScreen {...args} />;
 
 export const NotSearchable = Template.bind({});
-NotSearchable.args = {};
+NotSearchable.args = {
+  persistedFormData: {},
+  certifications: certifications,
+  certifiers: certifiers.slice(0, 1),
+};
 NotSearchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const Searchable = Template.bind({});
 Searchable.args = {
+  persistedFormData: {},
+  certifications: certifications,
   certifiers,
 };
 Searchable.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

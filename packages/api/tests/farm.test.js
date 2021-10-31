@@ -21,6 +21,8 @@ const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
 const farmModel = require('../src/models/farmModel');
+const { mock } = require('sinon');
+const mocks = require('./mock.factories');
 let checkJwt;
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -233,6 +235,27 @@ describe('Farm Tests', () => {
         });
     });
   });
+  describe('Patch default location test', () => {
+    test('should patch default_initial_location_id', async (done) => {
+      const [farm] = await farmFactory();
+      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      const [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
+      patchDefaultLocationRequest(farm.farm_id, { default_initial_location_id: field.location_id }, async (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.default_initial_location_id).toBe(field.location_id);
+        done();
+      });
+    });
+    test('should fail to update default_initial_location_id when the location is not part of the farm', async (done) => {
+      const [farm] = await farmFactory();
+      await userFarmFactory({ promisedUser: [newUser], promisedFarm: [farm] }, { role_id: 1, status: 'Active' });
+      const [field] = await mocks.fieldFactory();
+      patchDefaultLocationRequest(farm.farm_id, { default_initial_location_id: field.location_id }, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+  });
 });
 
 
@@ -269,4 +292,12 @@ function deleteRequest(data, user, callback) {
 
 function minimalDeleteRequest(farmId) {
   return chai.request(server).delete(`/farm/${farmId}`);
+}
+
+function patchDefaultLocationRequest(farm_id, data, callback) {
+  chai.request(server).patch(`/farm/${farm_id}/default_initial_location`)
+    .set('Content-Type', 'application/json')
+    .set('farm_id', farm_id)
+    .send(data)
+    .end(callback);
 }

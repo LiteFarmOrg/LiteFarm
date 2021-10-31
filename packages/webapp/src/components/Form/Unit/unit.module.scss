@@ -54,11 +54,10 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
-  flex-grow: 1;
 }
 
 .sm {
-  margin-left: 8px;
+  margin-left: 0px;
 }
 
 .input:focus:enabled ~ .pseudoInputContainer .verticleDivider {
@@ -77,6 +76,7 @@
   display: flex;
   justify-content: space-between;
   height: 20px;
+  position: relative;
 }
 
 .hiddenInput {
@@ -99,6 +99,7 @@
   z-index: 0;
   display: flex;
   justify-content: flex-end;
+  pointer-events: none;
 }
 
 .verticleDivider {
@@ -120,4 +121,14 @@
 
 .disableBackground {
   background-color: var(--inputDisabled);
+}
+
+.noBorderRadius {
+  border-radius: 0px;
+}
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

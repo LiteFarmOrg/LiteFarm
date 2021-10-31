@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import { fenceEnum as lineEnum } from '../../../containers/constants';
+import { fenceEnum as lineEnum, fieldEnum as areaEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function LineDetails({
   name,
@@ -47,22 +48,21 @@ export default function LineDetails({
         label={name}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={lineEnum.name}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(lineEnum.name, { required: true })}
         errors={errors[lineEnum.name] && t('common:REQUIRED')}
         showCross={false}
         disabled={isViewLocationPage}
       />
       {children}
-      <Input
+      <InputAutoSize
         label={t('common:NOTES')}
-        type="text"
-        optional
-        inputRef={register}
-        name={lineEnum.notes}
         style={{ marginBottom: '40px' }}
-        hookFormSetValue={setValue}
+        hookFormRegister={register(lineEnum.notes, {
+          maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
+        })}
         disabled={isViewLocationPage}
+        optional
+        errors={errors[lineEnum.notes]?.message}
       />
     </>
   );

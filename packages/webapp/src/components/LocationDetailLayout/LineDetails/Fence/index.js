@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../../Form/Radio';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/unit';
@@ -12,6 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureFence({
   history,
@@ -30,14 +30,15 @@ export default function PureFence({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('fence', match, {
     isCreateLocationPage,
@@ -45,28 +46,30 @@ export default function PureFence({
     isEditLocationPage,
   });
   const {
-    persistedData: { line_points, length },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+    persistedData: { name, line_points, length },
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const isPressureTreated = watch(fenceEnum.pressure_treated);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const onSubmit = (data) => {
-    data[fenceEnum.length_unit] = data[fenceEnum.length_unit].value;
-    data[fenceEnum.width] = 0;
+    const isPressureTreated = data[fenceEnum.pressure_treated];
     const formData = {
       ...data,
       line_points: line_points,
-      pressure_treated: isPressureTreated !== null ? isPressureTreated === 'true' : null,
+      pressure_treated: isPressureTreated,
       type: 'fence',
     };
+    formData[fenceEnum.width] = 0;
+    formData[fenceEnum.width_unit] = formData[fenceEnum.width_unit]?.value;
+    formData[fenceEnum.length_unit] = formData[fenceEnum.length_unit]?.value;
+    delete formData[bufferZoneEnum.total_area_unit];
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.FENCE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -122,7 +125,6 @@ export default function PureFence({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -140,20 +142,11 @@ export default function PureFence({
               </Label>
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <Radio
-                label={t('common:YES')}
-                inputRef={register({ required: false })}
-                value={true}
-                name={fenceEnum.pressure_treated}
+              <RadioGroup
+                row
                 disabled={isViewLocationPage}
-              />
-              <Radio
-                style={{ marginLeft: '40px' }}
-                label={t('common:NO')}
-                inputRef={register({ required: false })}
-                value={false}
                 name={fenceEnum.pressure_treated}
-                disabled={isViewLocationPage}
+                hookFormControl={control}
               />
             </div>
           </div>

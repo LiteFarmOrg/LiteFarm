@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
+import { pick } from '../util/pick';
 
 const naturalAreaProperties = ['location_id'];
 export const getLocationObjectFromNaturalArea = (data) => {
@@ -34,6 +34,12 @@ const upsertManyNaturalAreaWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteNaturalArea = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  naturalAreaAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const naturalAreaAdapter = createEntityAdapter({
   selectId: (naturalArea) => naturalArea.location_id,
@@ -53,7 +59,7 @@ const naturalAreaSlice = createSlice({
     getNaturalAreasSuccess: upsertManyNaturalAreaWithLocation,
     postNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
     editNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
-    deleteNaturalAreaSuccess: naturalAreaAdapter.removeOne,
+    deleteNaturalAreaSuccess: softDeleteNaturalArea,
   },
 });
 export const {
@@ -76,7 +82,9 @@ export const naturalAreaEntitiesSelector = naturalAreaSelectors.selectEntities;
 export const naturalAreasSelector = createSelector(
   [naturalAreaSelectors.selectAll, loginSelector],
   (naturalAreas, { farm_id }) => {
-    return naturalAreas.filter((naturalArea) => naturalArea.farm_id === farm_id);
+    return naturalAreas.filter(
+      (naturalArea) => naturalArea.farm_id === farm_id && !naturalArea.deleted,
+    );
   },
 );
 

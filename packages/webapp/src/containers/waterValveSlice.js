@@ -2,9 +2,9 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { figureProperties, locationProperties, pointProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
+import { pick } from '../util/pick';
 
-const waterValveProperties = ['source', 'flow_rate', 'location_id'];
+const waterValveProperties = ['source', 'flow_rate', 'flow_rate_unit', 'location_id'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {
@@ -34,6 +34,12 @@ const upsertManyWaterValveWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteWaterValve = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  waterValveAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const waterValveAdapter = createEntityAdapter({
   selectId: (waterValve) => waterValve.location_id,
@@ -53,7 +59,7 @@ const waterValveSlice = createSlice({
     getWaterValvesSuccess: upsertManyWaterValveWithLocation,
     postWaterValveSuccess: upsertOneWaterValveWithLocation,
     editWaterValveSuccess: upsertOneWaterValveWithLocation,
-    deleteWaterValveSuccess: waterValveAdapter.removeOne,
+    deleteWaterValveSuccess: softDeleteWaterValve,
   },
 });
 export const {
@@ -76,7 +82,9 @@ export const waterValveEntitiesSelector = waterValveSelectors.selectEntities;
 export const waterValvesSelector = createSelector(
   [waterValveSelectors.selectAll, loginSelector],
   (waterValves, { farm_id }) => {
-    return waterValves.filter((waterValve) => waterValve.farm_id === farm_id);
+    return waterValves.filter(
+      (waterValve) => waterValve.farm_id === farm_id && !waterValve.deleted,
+    );
   },
 );
 

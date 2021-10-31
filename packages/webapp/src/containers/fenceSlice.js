@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { figureProperties, lineProperties, locationProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
+import { pick } from '../util/pick';
 
 const fenceProperties = ['pressure_treated', 'location_id'];
 export const getLocationObjectFromFence = (data) => {
@@ -34,6 +34,12 @@ const upsertManyFenceWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteFence = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  fenceAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const fenceAdapter = createEntityAdapter({
   selectId: (fence) => fence.location_id,
@@ -53,7 +59,7 @@ const fenceSlice = createSlice({
     getFencesSuccess: upsertManyFenceWithLocation,
     postFenceSuccess: upsertOneFenceWithLocation,
     editFenceSuccess: upsertOneFenceWithLocation,
-    deleteFenceSuccess: fenceAdapter.removeOne,
+    deleteFenceSuccess: softDeleteFence,
   },
 });
 export const {
@@ -74,7 +80,7 @@ export const fenceEntitiesSelector = fenceSelectors.selectEntities;
 export const fencesSelector = createSelector(
   [fenceSelectors.selectAll, loginSelector],
   (fences, { farm_id }) => {
-    return fences.filter((fence) => fence.farm_id === farm_id);
+    return fences.filter((fence) => fence.farm_id === farm_id && !fence.deleted);
   },
 );
 

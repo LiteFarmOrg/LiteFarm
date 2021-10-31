@@ -46,32 +46,30 @@ class Sale extends baseModel {
 
   static get relationMappings() {
     return {
-      crop:{
-        modelClass:require('./cropModel'),
-        relation: Model.ManyToManyRelation,
-        join:{
-          from: 'sale.sale_id',
-          through: {
-            modelClass: require('./cropSaleModel'),
-            from: 'cropSale.sale_id',
-            to: 'cropSale.crop_id',
-          },
-          to: 'crop.crop_id',
-        },
-
-      },
-      cropSale: {
+      // crop: {
+      //   modelClass:require('./cropModel'),
+      //   relation: Model.ManyToManyRelation,
+      //   join:{
+      //     from: 'sale.sale_id',
+      //     through: {
+      //       modelClass: require('./cropVarietySaleModel'),
+      //       from: 'crop_variety_sale.sale_id',
+      //       to: 'crop_variety_sale.crop_id',
+      //     },
+      //     to: 'crop.crop_id',
+      //   },
+      // },
+      crop_variety_sale: {
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./cropSaleModel'),
+        modelClass: require('./cropVarietySaleModel'),
         join: {
           from: 'sale.sale_id',
-          to: 'cropSale.sale_id',
+          to: 'crop_variety_sale.sale_id',
         },
       },
-      ...this.baseRelationMappings('sale'),
     }
   }
 }

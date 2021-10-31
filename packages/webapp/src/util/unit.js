@@ -1,13 +1,18 @@
 import convert from 'convert-units';
+import { getUnitOptionMap } from '../components/Form/Unit';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';
-
+/**
+ * seeding_rate: kg/m2
+ */
 const databaseUnit = {
   area: 'm2',
   length: 'm',
   mass: 'kg',
   volumeFlowRate: 'l/min',
+  volume: 'l',
+  time: 'd',
 };
 
 export const area_total_area = {
@@ -94,7 +99,49 @@ export const watercourse_width = {
   databaseUnit: databaseUnit.length,
 };
 
-const seedAmounts = {
+export const container_planting_depth = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [12],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const container_plant_spacing = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'cm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'in',
+    breakpoints: [20],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const crop_age = {
+  metric: {
+    units: ['d', 'week', 'month', 'year'],
+    defaultUnit: 'week',
+    breakpoints: [7, 30, 365],
+  },
+  imperial: {
+    units: ['d', 'week', 'month', 'year'],
+    defaultUnit: 'week',
+    breakpoints: [7, 30, 365],
+  },
+  databaseUnit: databaseUnit.time,
+};
+
+export const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
     defaultUnit: 'g',
@@ -104,6 +151,76 @@ const seedAmounts = {
     units: ['oz', 'lb'],
     defaultUnit: 'oz',
     breakpoints: [16],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+export const soilAmounts = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [16],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+export const seedYield = {
+  metric: {
+    units: ['kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [2000],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+export const waterUsage = {
+  metric: {
+    units: ['ml', 'l'],
+    defaultUnit: 'l',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['fl-oz', 'gal'],
+    defaultUnit: 'gal',
+    breakpoints: [128],
+  },
+  databaseUnit: databaseUnit.volume,
+};
+
+export const harvestAmounts = {
+  metric: {
+    units: ['kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [2000],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+export const pest = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [1, 2000],
   },
   databaseUnit: databaseUnit.mass,
 };
@@ -197,3 +314,10 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
 };
 
 export const roundToTwoDecimal = (number) => Math.round(number * 100) / 100;
+
+export const getDurationInDaysDefaultUnit = (days) => {
+  if (days % 365 === 0 && days >= 365) return getUnitOptionMap()['year'];
+  if (days % 30 === 0 && days >= 30) return getUnitOptionMap()['month'];
+  if (days % 7 === 0 && days >= 7) return getUnitOptionMap()['week'];
+  return getUnitOptionMap()['d'];
+};

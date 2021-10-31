@@ -12,7 +12,7 @@ import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import spanishOwnerConsent from './locales/es/Owner.Consent.md';
 import spanishWorkerConsent from './locales/es/Worker.Consent.md';
-import { getLanguageFromLocalStorage } from '../../util';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const languageConsent = {
   en: { worker: englishWorkerConsent, owner: englishOwnerConsent },
@@ -24,19 +24,26 @@ const getLanguageConsent = (language) => languageConsent[language] || languageCo
 
 function ConsentForm({
   goBackTo = '/role_selection',
-  goForwardTo = '/interested_in_organic',
+  goForwardTo = '/certification/interested_in_organic',
   history,
 }) {
   const { t, i18n } = useTranslation();
   const language = getLanguageFromLocalStorage();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors, watch, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+
+    formState: { errors },
+  } = useForm();
   const [consentVersion] = useState('3.0');
   const [consent, setConsentText] = useState('');
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);
-  const checkBoxRef = register({
+  const checkBoxRegister = register(checkboxName, {
     required: {
       value: true,
       message: 'You must accept terms and conditions to use the app',
@@ -64,9 +71,8 @@ function ConsentForm({
   return (
     <PureConsent
       checkboxArgs={{
-        inputRef: checkBoxRef,
+        hookFormRegister: checkBoxRegister,
         label: t('CONSENT.LABEL'),
-        name: checkboxName,
         errors: errors[checkboxName] && errors[checkboxName].message,
       }}
       onSubmit={handleSubmit(updateConsent)}

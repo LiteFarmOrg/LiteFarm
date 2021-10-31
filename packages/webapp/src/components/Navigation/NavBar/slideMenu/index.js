@@ -5,6 +5,8 @@ import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/v
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core';
+import { isAdminSelector } from '../../../../containers/userFarmSlice';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +38,7 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
     history.push(link);
     closeDrawer();
   };
+  const isAdmin = useSelector(isAdminSelector);
   return (
     <div role="presentation" className={classes.container}>
       <List>
@@ -53,20 +56,32 @@ function SlideMenu({ history, manageOpen, closeDrawer, toggleManage, showFinance
               className={classes.subListItem}
               button
               onClick={() => {
-                handleClick('/Log');
+                handleClick('/crop_catalogue');
               }}
             >
               <ListItemText
                 classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.LOGS')}
+                primary={t('SLIDE_MENU.CROPS')}
               />
             </ListItem>
-            <ListItem className={classes.subListItem} button onClick={() => handleClick('/Shift')}>
+            <ListItem className={classes.subListItem} button onClick={() => handleClick('/tasks')}>
               <ListItemText
                 classes={{ primary: classes.subListItemText }}
-                primary={t('SLIDE_MENU.SHIFTS')}
+                primary={t('SLIDE_MENU.TASKS')}
               />
             </ListItem>
+            {isAdmin && (
+              <ListItem
+                className={classes.subListItem}
+                button
+                onClick={() => handleClick('/documents')}
+              >
+                <ListItemText
+                  classes={{ primary: classes.subListItemText }}
+                  primary={t('SLIDE_MENU.DOCUMENTS')}
+                />
+              </ListItem>
+            )}
           </>
         )}
         {showFinances && (

@@ -3,11 +3,11 @@ import { call, put, takeLeading } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
 import history from '../../history';
-import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
 import { axios } from '../saga';
-import { getLanguageFromLocalStorage } from '../../util';
 import { ENTER_PASSWORD_PAGE } from '../CustomSignUp/constants';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const loginUrl = () => `${url}/google`;
 
@@ -28,7 +28,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       { language_preference: getLanguageFromLocalStorage() },
       header,
     );
-    const { id_token, user } = result.data;
+    const { id_token, user, isSignUp } = result.data;
     localStorage.setItem('id_token', id_token);
     localStorage.setItem('litefarm_lang', user.language_preference);
     if (id_token === '') {
@@ -38,11 +38,18 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       });
     } else {
       yield put(loginSuccess(user));
-      history.push('/farm_selection');
+      if (isSignUp) {
+        history.push({
+          pathname: '/sso_signup_information',
+          state: { user },
+        });
+      } else {
+        history.push('/farm_selection');
+      }
     }
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
   }
 }
 

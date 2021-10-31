@@ -4,51 +4,35 @@ import history from '../../history';
 import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { patchOutroStep } from './saga';
-import {
-  finishedSelectingCertificationTypeSelector,
-  requestedCertifierSelector,
-  selectedCertification,
-  selectedCertifier,
-  requestedCertifier,
-} from '../OrganicCertifierSurvey/organicCertifierSurveySlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { useCertifierName } from '../OrganicCertifierSurvey/useCertifierName';
 
 function Outro() {
   const dispatch = useDispatch();
-  const requestCertifierData = useSelector(requestedCertifierSelector);
   const survey = useSelector(certifierSurveySelector);
-  const selected = useSelector(finishedSelectingCertificationTypeSelector);
+  const { isRequestedCertifier } = useCertifierName();
   const { navigation } = useSelector(showedSpotlightSelector);
   const toShowSpotlight = !navigation;
   const onGoBack = () => {
     history.push(
-      !survey.interested || !selected
-        ? '/interested_in_organic'
-        : requestCertifierData
-        ? '/requested_certifier'
-        : '/certifier_selection_menu',
+      !survey.interested
+        ? '/certification/interested_in_organic'
+        : isRequestedCertifier
+        ? '/certification/certifier/request'
+        : '/certification/certifier/selection',
     );
   };
   const onContinue = () => {
-    dispatch(
-      selectedCertification({
-        certificationName: null,
-        certificationID: null,
-        requestedCertification: null,
-      }),
-    );
-    dispatch(
-      selectedCertifier({
-        certifierName: null,
-        certifierID: null,
-        isRequestingCertifier: null,
-      }),
-    );
-    dispatch(requestedCertifier(null));
     dispatch(patchOutroStep());
   };
 
-  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} toShowSpotlight={toShowSpotlight} />;
+  return (
+    <PureOutroSplash
+      onGoBack={onGoBack}
+      onContinue={onContinue}
+      toShowSpotlight={toShowSpotlight}
+    />
+  );
 }
 
 export default Outro;

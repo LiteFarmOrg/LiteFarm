@@ -17,7 +17,6 @@ const baseController = require('../controllers/baseController');
 const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
 
-
 const taskTypeController = {
   addType() {
     return async (req, res) => {
@@ -28,11 +27,11 @@ const taskTypeController = {
         data.task_translation_key = data.task_name;
         const result = await baseController.postWithResponse(TaskTypeModel, data, req, { trx });
         await trx.commit();
-        res.status(201).send(result);
+        return res.status(201).send(result);
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }
@@ -43,18 +42,16 @@ const taskTypeController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({
-          farm_id,
-          deleted: false,
-        });
+        const rows = await TaskTypeModel.query().where('farm_id', null).orWhere({ farm_id });
         if (!rows.length) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         } else {
-          res.status(200).send(rows);
+          return res.status(200).send(rows);
         }
       } catch (error) {
         //handle more exceptions
-        res.status(400).json({
+        console.log(error);
+        return res.status(400).json({
           error,
         });
       }
@@ -67,13 +64,13 @@ const taskTypeController = {
         const id = req.params.task_type_id;
         const row = await baseController.getIndividual(TaskTypeModel, id);
         if (!row.length) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         } else {
-          res.status(200).send(row);
+          return res.status(200).send(row);
         }
       } catch (error) {
         //handle more exceptions
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }
@@ -87,13 +84,13 @@ const taskTypeController = {
         const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
-          res.sendStatus(200);
+          return res.sendStatus(200);
         } else {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         }
       } catch (error) {
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

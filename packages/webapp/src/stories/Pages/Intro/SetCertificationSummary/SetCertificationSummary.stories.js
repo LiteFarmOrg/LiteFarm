@@ -1,6 +1,7 @@
 import React from 'react';
-import PureSetCertificationSummary from '../../../../components/SetCertificationSummary';
+import { PureSetCertificationSummary } from '../../../../components/OrganicCertifierSurvey/SetCertificationSummary/PureSetCertificationSummary';
 import decorators from '../../config/decorators';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/SetCertificationSummary',
@@ -10,8 +11,24 @@ export default {
 
 const Template = (args) => <PureSetCertificationSummary {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+export const RequestedCertifier = Template.bind({});
+RequestedCertifier.args = {
+  certificationName: 'Participatory Guarantee System',
+  certifierName: 'Certifier',
+  isRequestedCertifier: true,
+  onGoBack: () => {},
+};
+RequestedCertifier.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const SupportedCertifier = Template.bind({});
+SupportedCertifier.args = {
+  certificationName: 'Participatory Guarantee System',
+  certifierName: 'Supported Certifier',
+  isRequestedCertifier: false,
+  onGoBack: () => {},
+};
+SupportedCertifier.parameters = {
+  ...chromaticSmallScreen,
 };

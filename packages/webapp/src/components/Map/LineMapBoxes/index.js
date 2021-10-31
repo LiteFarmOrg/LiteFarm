@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
@@ -10,11 +10,7 @@ import Button from '../../Form/Button';
 import { watercourseEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
 import { line_width } from '../../../util/unit';
-
-const distanceOptions = {
-  metric: 'm',
-  imperial: 'ft',
-};
+import { cloneObject } from '../../../util';
 
 export default function PureLineBox({
   typeOfLine,
@@ -29,16 +25,17 @@ export default function PureLineBox({
   const {
     register,
     handleSubmit,
-    errors,
     setValue,
     getValues,
     setError,
     control,
     watch,
     trigger,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    defaultValues: cloneObject(locationData),
   });
 
   const { t } = useTranslation();
@@ -56,11 +53,8 @@ export default function PureLineBox({
     confirmLine(data);
   };
 
-  const widthValue = watch(watercourseEnum.width, locationData[watercourseEnum.width]);
-  const bufferWidthValue = watch(
-    watercourseEnum.buffer_width,
-    locationData[watercourseEnum.buffer_width],
-  );
+  const widthValue = watch(watercourseEnum.width);
+  const bufferWidthValue = watch(watercourseEnum.buffer_width);
 
   useEffect(() => {
     trigger();
@@ -94,12 +88,9 @@ export default function PureLineBox({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required
-            defaultValue={locationData[watercourseEnum.width]}
-            to={locationData[watercourseEnum.width_unit]?.value}
             mode={'onChange'}
           />
         </div>
@@ -116,12 +107,9 @@ export default function PureLineBox({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
-              defaultValue={locationData[watercourseEnum.buffer_width]}
-              to={locationData[watercourseEnum.buffer_width_unit]?.value}
               mode={'onChange'}
             />
           </div>

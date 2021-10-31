@@ -1,0 +1,15 @@
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+  padding-bottom: 40px;
+}
+
+.inline {
+  padding-inline: 20px;
+}
+
+
+.paddingBottom40 {
+  padding-bottom: 40px;
+}

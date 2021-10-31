@@ -16,7 +16,7 @@ import {
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
-import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
+import { PureSnackbarWithoutBorder } from '../../components/PureSnackbar';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
@@ -338,12 +338,13 @@ export default function Map({ history }) {
           className={styles.mapHeader}
           farmName={farm_name}
           showVideo={handleShowVideo}
+          isAdmin={is_admin}
         />
       )}
       {showSuccessHeader && (
-        <PureMapSuccessHeader
+        <PureSnackbarWithoutBorder
           className={styles.mapHeader}
-          closeSuccessHeader={handleCloseSuccessHeader}
+          onDismiss={handleCloseSuccessHeader}
           title={successMessage}
         />
       )}

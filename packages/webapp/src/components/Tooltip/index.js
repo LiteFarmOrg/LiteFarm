@@ -46,7 +46,6 @@ export default function OverlayTooltip({
   content = 'LiteFarm',
   placement,
   arrowOffset,
-  eventDelay,
   autoOpen,
   isChildrenIcon,
   icon,
@@ -61,7 +60,6 @@ export default function OverlayTooltip({
       classes={{ tooltip: classes.tooltip, arrow: classes.arrow }}
       enterTouchDelay={10}
       leaveTouchDelay={900000}
-      eventDelay={eventDelay}
     >
       <span className={classes.childrenContainer}>{icon || children}</span>
     </Tooltip>
@@ -73,7 +71,6 @@ OverlayTooltip.propTypes = {
   content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   placement: PropTypes.string,
   arrowOffset: PropTypes.number,
-  eventDelay: PropTypes.number,
   style: PropTypes.objectOf(PropTypes.string),
   autoOpen: PropTypes.bool,
 };

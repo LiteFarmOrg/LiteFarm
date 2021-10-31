@@ -12,7 +12,6 @@
   // set lastpass fill password icon
   background-position: calc(100% - 36px) calc(50%) !important;
   font-family: 'Open Sans', 'SansSerif', serif;
-  flex-grow: 1;
 }
 
 .input::-webkit-inner-spin-button,
@@ -47,6 +46,7 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
+  min-width: 0;
 }
 
 .inputError {
@@ -91,6 +91,7 @@
   display: flex;
   justify-content: space-between;
   min-height: 20px;
+  position: relative;
 }
 
 .unit {
@@ -103,4 +104,27 @@
   position: absolute;
   right: 0;
   transform: translate(-8px, 33px);
+}
+
+.currency {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  left: 0;
+  transform: translate(8px, 34px);
+}
+
+.leaf {
+  transform: translate(4px, 3px);
+  margin-left: 4px;
+}
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

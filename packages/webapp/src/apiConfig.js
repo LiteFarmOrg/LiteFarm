@@ -35,9 +35,10 @@ const apiConfig = {
   fieldURL: `${URI}/field`,
   locationURL: `${URI}/location`,
   cropURL: `${URI}/crop`,
+  cropVarietyURL: `${URI}/crop_variety`,
   logURL: `${URI}/log`,
   fertUrl: `${URI}/fertilizer`,
-  fieldCropURL: `${URI}/field_crop`,
+  managementPlanURL: `${URI}/management_plan`,
   pesticideUrl: `${URI}/pesticide`,
   diseaseUrl: `${URI}/disease`,
   taskTypeUrl: `${URI}/task_type`,
@@ -45,6 +46,7 @@ const apiConfig = {
   priceURL: `${URI}/price`,
   yieldURL: `${URI}/yield`,
   insightUrl: `${URI}/insight`,
+  documentUrl: `${URI}/document`,
   salesURL: URI + '/sale',
   cropSalesURL: URI + '/crop_sale',
   farmShiftUrl: URI + '/shift/farm/',
@@ -60,6 +62,8 @@ const apiConfig = {
   loginUrl: `${URI}/login`,
   resetPasswordUrl: `${URI}/password_reset`,
   spotlightUrl: `${URI}/showed_spotlight`,
+  taskUrl: `${URI}/task`,
+  productsUrl: `${URI}/product`,
   url: URI,
 };
 

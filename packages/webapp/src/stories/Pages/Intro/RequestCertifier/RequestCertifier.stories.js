@@ -1,6 +1,7 @@
 import React from 'react';
-import PureRequestCertifier from '../../../../components/RequestCertifier';
+import { PureRequestCertifier } from '../../../../components/OrganicCertifierSurvey/RequestCertifier/PureRequestCertifier';
 import decorators from '../../config/decorators';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/RequestCertifier',
@@ -10,8 +11,38 @@ export default {
 
 const Template = (args) => <PureRequestCertifier {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+export const RequestedCertification = Template.bind({});
+RequestedCertification.args = {
+  certificationName: 'Other',
+  isRequestedCertification: true,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
+  onGoBack: () => {},
+};
+RequestedCertification.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const WithSupportedCertifier = Template.bind({});
+WithSupportedCertifier.args = {
+  certificationName: 'Organic',
+  isRequestedCertification: false,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
+  onGoBack: () => {},
+};
+WithSupportedCertifier.parameters = {
+  ...chromaticSmallScreen,
+};
+
+export const NoSupportedCertifier = Template.bind({});
+NoSupportedCertifier.args = {
+  certificationName: 'Organic',
+  isRequestedCertification: false,
+  hasSupportedCertifiers: true,
+  requestedCertification: 'Certification',
+  onGoBack: () => {},
+};
+NoSupportedCertifier.parameters = {
+  ...chromaticSmallScreen,
 };

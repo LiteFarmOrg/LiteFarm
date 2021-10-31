@@ -32,6 +32,7 @@ class Barn extends Model {
         location_id: { type: 'string' },
         wash_and_pack: { type: ['boolean', null] },
         cold_storage: { type: ['boolean', null] },
+        used_for_animals: { type: ['boolean', null] },
       },
       additionalProperties: false,
     };

@@ -2,15 +2,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import { Label } from '../../../Typography';
-import { line_length, line_width, watercourse_width, area_total_area } from '../../../../util/unit';
+import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
-import { bufferZoneEnum, watercourseEnum } from '../../../../containers/constants';
+import { watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureWatercourse({
   history,
@@ -30,14 +30,15 @@ export default function PureWatercourse({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('watercourse', match, {
     isCreateLocationPage,
@@ -46,6 +47,7 @@ export default function PureWatercourse({
   });
   const {
     persistedData: {
+      name,
       line_points,
       length,
       width,
@@ -53,13 +55,12 @@ export default function PureWatercourse({
       buffer_width,
       total_area,
     },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const onSubmit = (data) => {
-    data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
+    const usedForIrrigation = data[watercourseEnum.used_for_irrigation];
     const formData = {
       line_points,
       length,
@@ -67,19 +68,20 @@ export default function PureWatercourse({
       buffer_width,
       ...data,
       type: 'watercourse',
-      used_for_irrigation: usedForIrrigation !== null ? usedForIrrigation === 'true' : null,
+      used_for_irrigation: usedForIrrigation,
     };
-    formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit].value;
-    formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit].value;
-    formData[watercourseEnum.buffer_width_unit] = formData[watercourseEnum.buffer_width_unit].value;
-    formData[watercourseEnum.total_area_unit] = formData[watercourseEnum.total_area_unit].value;
+    formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit]?.value;
+    formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit]?.value;
+    formData[watercourseEnum.buffer_width_unit] =
+      formData[watercourseEnum.buffer_width_unit]?.value;
+    formData[watercourseEnum.total_area_unit] = formData[watercourseEnum.total_area_unit]?.value;
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.WATERCOURSE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.WATERCOURSE.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(bufferZoneEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -135,7 +137,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -162,7 +163,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               required
@@ -182,7 +182,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
@@ -201,7 +200,6 @@ export default function PureWatercourse({
               system={system}
               hookFormSetValue={setValue}
               hookFormGetValue={getValues}
-              hookFormSetError={setError}
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
@@ -218,20 +216,11 @@ export default function PureWatercourse({
               </Label>
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <Radio
-                label={t('common:YES')}
-                inputRef={register({ required: false })}
-                value={true}
-                name={watercourseEnum.used_for_irrigation}
+              <RadioGroup
+                row
                 disabled={isViewLocationPage}
-              />
-              <Radio
-                style={{ marginLeft: '40px' }}
-                label={t('common:NO')}
-                inputRef={register({ required: false })}
-                value={false}
                 name={watercourseEnum.used_for_irrigation}
-                disabled={isViewLocationPage}
+                hookFormControl={control}
               />
             </div>
           </div>

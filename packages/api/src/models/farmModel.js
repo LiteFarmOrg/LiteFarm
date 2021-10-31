@@ -71,6 +71,7 @@ class Farm extends baseModel {
             },
           },
         },
+        default_initial_location_id: { type: ['string', null] },
         ...this.baseProperties,
         // sandbox_bool: { type: 'boolean' },
       },
@@ -80,6 +81,7 @@ class Farm extends baseModel {
 
   static get relationMappings() {
     return {
+      //TODO: remove price and yield
       price: {
         relation: Model.HasManyRelation,
         // The related model. This can be either a Model
@@ -102,7 +104,6 @@ class Farm extends baseModel {
           to: 'yield.farm_id',
         },
       },
-      ...this.baseRelationMappings('farm'),
     };
   }
 

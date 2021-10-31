@@ -1,10 +1,11 @@
 import React from 'react';
-import Unit from '../../../components/Form/Unit';
+import Unit, { getUnitOptionMap } from '../../../components/Form/Unit';
 import { componentDecorators } from '../../Pages/config/decorators';
 import { bufferZoneEnum, fieldEnum, waterValveEnum } from '../../../containers/constants';
 import {
   area_perimeter,
   area_total_area,
+  crop_age,
   line_width,
   water_valve_flow_rate,
 } from '../../../util/unit';
@@ -12,11 +13,20 @@ import { useForm } from 'react-hook-form';
 import convert from 'convert-units';
 
 const UnitWithHookForm = (props) => {
-  const { register, errors, setValue, getValues, watch, setError, control, handleSubmit } = useForm(
-    {
-      mode: 'onChange',
-    },
-  );
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    setError,
+    control,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: props.defaultValues,
+  });
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Unit
@@ -24,7 +34,6 @@ const UnitWithHookForm = (props) => {
         errors={errors[props.name]}
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
-        hookFormSetError={setError}
         hookFromWatch={watch}
         control={control}
         {...props}
@@ -83,6 +92,17 @@ WithOneUnitDisabled.args = {
   system: 'imperial',
   required: true,
   disabled: true,
+};
+
+export const WithToolTip = Template.bind({});
+WithToolTip.args = {
+  label: 'WithToolTip',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'imperial',
+  required: true,
+  toolTipContent: 'toolTip',
 };
 
 export const SquareMeterAreaTotalArea = Template.bind({});
@@ -205,4 +225,45 @@ gallonPerMinWaterValveFlowRate.args = {
   unitType: water_valve_flow_rate,
   system: 'imperial',
   required: true,
+};
+
+export const WeeksCropAge = Template.bind({});
+WeeksCropAge.args = {
+  label: 'Weeks',
+  name: 'age',
+  displayUnitName: 'age_unit',
+  defaultValue: 4,
+  unitType: crop_age,
+  system: 'metric',
+  required: true,
+};
+
+export const DisabledWithDefaultValues = Template.bind({});
+DisabledWithDefaultValues.args = {
+  label: 'SquareMeter',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'metric',
+  required: true,
+  defaultValues: {
+    [fieldEnum?.total_area]: 999,
+    [fieldEnum?.total_area_unit]: getUnitOptionMap()['m2'],
+  },
+  disabled: true,
+};
+
+export const StringAsUnit = Template.bind({});
+StringAsUnit.args = {
+  label: 'SquareMeter',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'metric',
+  required: true,
+  defaultValues: {
+    [fieldEnum?.total_area]: 999,
+    [fieldEnum?.total_area_unit]: 'm2',
+  },
+  disabled: true,
 };

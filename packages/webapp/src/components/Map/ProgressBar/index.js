@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { colors } from '../../../assets/theme';
 
 const useStyles = makeStyles({
   root: {
@@ -9,41 +10,49 @@ const useStyles = makeStyles({
   colorPrimary: {
     backgroundColor: 'transparent',
   },
-  barColorPrimary: {
-    backgroundColor: '#037A0F',
+  success: {
+    backgroundColor: colors.brightGreen700,
+  },
+  error: {
+    backgroundColor: colors.red700,
   },
 });
 
-export default function ProgressBar({ closeSuccessHeader }) {
+export default function ProgressBar({ onDismiss, type = 'success' }) {
   const classes = useStyles();
   const [progress, setProgress] = useState(0);
+
+  const INCREMENT = 12.5;
+  const MAX_PROGRESS = 100 + INCREMENT;
 
   useEffect(() => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          closeSuccessHeader();
-          return 0;
+        if (oldProgress >= MAX_PROGRESS) {
+          return MAX_PROGRESS;
         }
-        const diff = Math.random() * 28;
-        return Math.min(oldProgress + diff, 100);
+        return Math.min(oldProgress + INCREMENT, MAX_PROGRESS);
       });
     }, 250);
-
     return () => {
       clearInterval(timer);
     };
   }, []);
 
+  useEffect(() => {
+    if (progress >= MAX_PROGRESS) {
+      onDismiss?.();
+    }
+  }, [progress]);
+
   return (
     <div className={classes.root}>
       <LinearProgress
         variant="determinate"
-        value={progress}
+        value={Math.min(progress, 100)}
         classes={{
           colorPrimary: classes.colorPrimary,
-          barColorPrimary: classes.barColorPrimary,
-          height: classes.height,
+          barColorPrimary: classes[type],
         }}
       />
     </div>

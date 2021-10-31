@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
+import { pick } from '../util/pick';
 
 const greenHouseProperties = [
   'organic_status',
@@ -41,6 +41,12 @@ const upsertManyGreenhouseWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteGreenhouse = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  greenhouseAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const greenhouseAdapter = createEntityAdapter({
   selectId: (greenhouse) => greenhouse.location_id,
@@ -60,7 +66,7 @@ const greenhouseSlice = createSlice({
     getGreenhousesSuccess: upsertManyGreenhouseWithLocation,
     postGreenhouseSuccess: upsertOneGreenhouseWithLocation,
     editGreenhouseSuccess: upsertOneGreenhouseWithLocation,
-    deleteGreenhouseSuccess: greenhouseAdapter.removeOne,
+    deleteGreenhouseSuccess: softDeleteGreenhouse,
   },
 });
 export const {
@@ -83,7 +89,9 @@ export const greenhouseEntitiesSelector = greenhouseSelectors.selectEntities;
 export const greenhousesSelector = createSelector(
   [greenhouseSelectors.selectAll, loginSelector],
   (greenhouses, { farm_id }) => {
-    return greenhouses.filter((greenhouse) => greenhouse.farm_id === farm_id);
+    return greenhouses.filter(
+      (greenhouse) => greenhouse.farm_id === farm_id && !greenhouse.deleted,
+    );
   },
 );
 

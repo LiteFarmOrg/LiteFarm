@@ -1,7 +1,8 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import PureInviteSignup from '../../../../components/InviteSignup';
-import { Button } from '../../../index';
+import Button from '../../../../components/Form/Button';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Page/PureInviteSignUpScreen',
@@ -19,7 +20,7 @@ WithoutError.args = {
   email: 'example@litefarm.org',
 };
 WithoutError.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const SelectGoogle = Template.bind({});
@@ -30,7 +31,7 @@ SelectGoogle.args = {
   email: 'example@litefarm.org',
 };
 SelectGoogle.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const WithError = Template.bind({});
@@ -41,7 +42,7 @@ WithError.args = {
   email: 'example@litefarm.org',
 };
 SelectGoogle.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const WithErrorAndIsNotChrome = Template.bind({});
@@ -53,7 +54,7 @@ WithErrorAndIsNotChrome.args = {
   isChrome: false,
 };
 WithErrorAndIsNotChrome.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };
 
 export const isNotChrome = Template.bind({});
@@ -64,5 +65,5 @@ isNotChrome.args = {
   isChrome: false,
 };
 isNotChrome.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

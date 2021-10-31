@@ -6,6 +6,7 @@ import { Label } from '../../Typography';
 import Unit from '../../Form/Unit';
 import { fieldEnum as areaEnum } from '../../../containers/constants';
 import { area_perimeter, area_total_area } from '../../../util/unit';
+import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function AreaDetails({
   name,
@@ -56,8 +57,7 @@ export default function AreaDetails({
         label={`${name}`}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={areaEnum.name}
-        inputRef={register({ required: true })}
+        hookFormRegister={register(areaEnum.name, { required: true })}
         errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
         disabled={isViewLocationPage}
@@ -82,7 +82,6 @@ export default function AreaDetails({
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
-          hookFormSetError={setError}
           hookFromWatch={watch}
           control={control}
           required
@@ -101,7 +100,6 @@ export default function AreaDetails({
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
-            hookFormSetError={setError}
             hookFromWatch={watch}
             control={control}
             required
@@ -111,15 +109,15 @@ export default function AreaDetails({
         )}
       </div>
       {children}
-      <Input
+      <InputAutoSize
         label={t('common:NOTES')}
-        type="text"
-        optional
-        inputRef={register}
-        name={areaEnum.notes}
         style={{ marginBottom: '40px' }}
-        hookFormSetValue={setValue}
+        hookFormRegister={register(areaEnum.notes, {
+          maxLength: { value: 10000, message: t('FARM_MAP.NOTES_CHAR_LIMIT') },
+        })}
         disabled={isViewLocationPage}
+        optional
+        errors={errors[areaEnum.notes]?.message}
       />
     </>
   );

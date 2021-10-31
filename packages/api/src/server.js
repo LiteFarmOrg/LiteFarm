@@ -34,21 +34,17 @@ Model.knex(knex);
 // import routes
 const loginRoutes = require('./routes/loginRoute');
 const cropRoutes = require('./routes/cropRoute');
+const cropVarietyRoutes = require('./routes/cropVarietyRoute');
 const fieldRoutes = require('./routes/fieldRoute');
-// const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
-//const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
-// const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
 const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
-// const notificationRoutes = require('./routes/notificationRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
 const shiftRoutes = require('./routes/shiftRoute');
-// const notificationSettingRoutes = require('./routes/notificationSettingRoute');
-const fieldCropRoutes = require('./routes/fieldCropRoute');
+const managementPlanRoute = require('./routes/managementPlanRoute');
 const fertilizerRoutes = require('./routes/fertilizerRoute');
 const diseaseRoutes = require('./routes/diseaseRoute');
 const pesticideRoutes = require('./routes/pesticideRoute');
@@ -56,7 +52,6 @@ const yieldRoutes = require('./routes/yieldRoute');
 const priceRoutes = require('./routes/priceRoute');
 const insightRoutes = require('./routes/insightRoute');
 const locationRoute = require('./routes/locationRoute');
-const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
@@ -66,10 +61,14 @@ const showedSpotlightRoutes = require('./routes/showedSpotlightRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
-const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+// const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 const exportRoute = require('./routes/exportRoute');
+const farmTokenRoute = require('./routes/farmTokenRoute');
+const documentRoute = require('./routes/documentRoute');
+const taskRoute = require('./routes/taskRoute');
+const productRoute = require('./routes/productRoute');
 
 // register API
 const router = promiseRouter();
@@ -97,7 +96,6 @@ app.use(bodyParser.json())
   })
   .use(router)
   .set('json spaces', 2)
-  .use('/stats', statsRoutes)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   // ACL middleware
@@ -107,6 +105,7 @@ app.use(bodyParser.json())
   .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
+  .use('/crop_variety', cropVarietyRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
@@ -121,7 +120,7 @@ app.use(bodyParser.json())
   .use('/log', logRoutes)
   .use('/shift', shiftRoutes)
   // .use('/notification_setting', notificationSettingRoutes)
-  .use('/field_crop', fieldCropRoutes)
+  .use('/management_plan', managementPlanRoute)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
   .use('/pesticide', pesticideRoutes)
@@ -135,6 +134,10 @@ app.use(bodyParser.json())
   .use('/support_ticket', supportTicketRoute)
   .use('/export', exportRoute)
   .use('/showed_spotlight', showedSpotlightRoutes)
+  .use('/farm_token', farmTokenRoute)
+  .use('/document', documentRoute)
+  .use('/task', taskRoute)
+  .use('/product', productRoute)
 
   // handle errors
   .use((req, res, next) => {
@@ -158,12 +161,12 @@ if (environment === 'development' || environment === 'production' || environment
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');
   });
-  waterBalanceScheduler.registerHourlyJob();
-  waterBalanceScheduler.registerDailyJob();
+  // waterBalanceScheduler.registerHourlyJob();
+  // waterBalanceScheduler.registerDailyJob();
+  //
+  // nitrogenBalanceScheduler.registerDailyJob();
 
-  nitrogenBalanceScheduler.registerDailyJob();
-
-  farmDataScheduler.registerJob();
+  // farmDataScheduler.registerJob();
   // eslint-disable-next-line no-console
   console.log('LiteFarm Water Balance Scheduler Enabled');
 }

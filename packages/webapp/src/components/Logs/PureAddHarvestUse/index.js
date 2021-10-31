@@ -41,8 +41,7 @@ export default function PureAddHarvestUse({
     >
       <PageTitle style={{ paddingBottom: '28px' }} title={title} onGoBack={onGoBack} />
       <Input
-        inputRef={register({ required: true })}
-        name={'harvestUseName'}
+        hookFormRegister={register('harvestUseName', { required: true })}
         defaultValue={defaultHarvestUseName}
         label={t('LOG_HARVEST.CUSTOM_HARVEST_USE')}
       />

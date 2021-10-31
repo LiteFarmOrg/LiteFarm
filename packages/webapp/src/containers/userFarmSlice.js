@@ -150,9 +150,9 @@ const userFarmSlice = createSlice({
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
     },
-    patchFarmSuccess: (state, { payload: farm }) => {
-      const { farm_id, user_id } = farm;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
+    patchFarmSuccess: (state, { payload: userFarm }) => {
+      const { farm_id, user_id } = userFarm;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
     },
     acceptInvitationSuccess: (state, { payload: userFarm }) => {
       addUserFarm(state, { payload: userFarm });
@@ -263,7 +263,6 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   for (let by_user of Object.values(byFarmIdUserId)) {
     by_user[user_id] && userFarms.push(by_user[user_id]);
   }
-  //TODO order should be defined in farmIdUserIdTuple
   return userFarms.sort((userFarm1, userFarm2) =>
     userFarm1.farm_name > userFarm2.farm_name ? 1 : 0,
   );

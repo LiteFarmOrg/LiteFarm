@@ -83,6 +83,18 @@
   },
   "COMMON": {
     "JOIN": "Join",
-    "LOG_IN": "Log In"
+    "LOG_IN": "Log In",
+    "OWNER": "MISSING",
+    "EXTENSION_OFFICER": "MISSING",
+    "WORKER": "MISSING",
+    "MANAGER": "MISSING"
+  },
+  "EXPORT": {
+    "HI": "EXPORT.HI",
+    "SEASON": "EXPORT.SEASON",
+    "CERTIFICATION": "EXPORT.CERTIFICATION",
+    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
+    "SUBJECT": "EXPORT.SUBJECT",
+    "PRIVACY": "EXPORT.PRIVACY"
   }
 }

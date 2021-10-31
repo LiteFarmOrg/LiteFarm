@@ -26,7 +26,7 @@ const mocks = require('./mock.factories');
 
 
 const saleModel = require('../src/models/saleModel');
-const cropSaleModel = require('../src/models/cropSaleModel');
+const cropVarietySaleModel = require('../src/models/cropVarietySaleModel');
 
 describe('Sale Tests', () => {
   let middleware;
@@ -34,6 +34,7 @@ describe('Sale Tests', () => {
   let farm;
   let ownerFarm;
   let crop;
+  let cropVariety;
 
   beforeAll(() => {
     token = global.token;
@@ -82,6 +83,7 @@ describe('Sale Tests', () => {
       promisedFarm: [farm],
     }, fakeUserFarm(1));
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
+    [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -100,11 +102,13 @@ describe('Sale Tests', () => {
   describe('Get && delete sale', () => {
     let sale;
     let crop1;
+    let cropVariety1;
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
-      let [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+      let [cropSale] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety], promisedSale: [sale] });
       [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop1], promisedSale: [sale] });
+      [cropVariety1] = await mocks.crop_varietyFactory({ promisedFarm: [farm], promisedCrop: [crop1] });
+      [cropSale] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety1], promisedSale: [sale] });
     })
 
     test('Should filter out deleted sale', async (done) => {
@@ -147,8 +151,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: owner.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -157,8 +161,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -167,8 +171,8 @@ describe('Sale Tests', () => {
         getRequest({ user_id: newWorker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].sale_id).toBe(sale.sale_id);
-          expect(res.body[0].cropSale.length).toBe(2);
-          expect(res.body[0].cropSale[1].crop_id).toBe(crop1.crop_id);
+          expect(res.body[0].crop_variety_sale.length).toBe(2);
+          expect(res.body[0].crop_variety_sale[1].crop_variety_id).toBe(cropVariety1.crop_variety_id);
           done();
         });
       })
@@ -250,7 +254,7 @@ describe('Sale Tests', () => {
 
         test('Worker should delete their own sale', async (done) => {
           let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+          let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({ promisedVarietyCrop: [cropVariety], promisedSale: [workersSale] });
           deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', workersSale.sale_id);
@@ -303,46 +307,53 @@ describe('Sale Tests', () => {
   describe('Post sale', () => {
     let sampleReqBody;
     let crop2;
+    let cropVariety2;
     let someoneElsecrop;
+    let someoneElseVariety;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
+      [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop2] });
       [someoneElsecrop] = await mocks.cropFactory();
+      [someoneElseVariety] = await mocks.crop_varietyFactory({ promisedCrop: [someoneElsecrop] });
       sampleReqBody = {
         ...mocks.fakeSale(),
-        'farm_id': farm.farm_id,
-        'cropSale': [{ ...mocks.fakeCropSale(), 'crop_id': crop.crop_id }, {
-          ...mocks.fakeCropSale(),
-          'crop_id': crop2.crop_id,
+        farm_id: farm.farm_id,
+        crop_variety_sale: [{
+          ...mocks.fakeCropVarietySale(),
+          crop_variety_id: cropVariety.crop_variety_id,
+        }, {
+          ...mocks.fakeCropVarietySale(),
+          crop_variety_id: cropVariety2.crop_variety_id,
         }],
       }
     })
 
-    test('Should return 400 if cropSale is undefined', async (done) => {
-      sampleReqBody.cropSale = undefined;
+    test('Should return 400 if crop_variety_sale is undefined', async (done) => {
+      sampleReqBody.crop_variety_sale = undefined;
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();
       })
     });
 
-    test('Should return 400 if cropSale is empty[]', async (done) => {
-      sampleReqBody.cropSale = [];
+    test('Should return 400 if crop_variety_sale is empty[]', async (done) => {
+      sampleReqBody.crop_variety_sale = [];
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();
       })
     });
 
-    test('Should return 400 if cropSale is empty[{}]', async (done) => {
-      sampleReqBody.cropSale = [{}];
+    test('Should return 400 if crop_variety_sale is empty[{}]', async (done) => {
+      sampleReqBody.crop_variety_sale = [{}];
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();
       })
     });
 
-    test('Should return 400 if crop_id is invalid', async (done) => {
-      sampleReqBody.cropSale[0].crop_id = 9999999;
+    test('Should return 400 if crop_variety_id is invalid', async (done) => {
+      sampleReqBody.crop_variety_sale[0].crop_variety_id = 9999999;
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -358,10 +369,10 @@ describe('Sale Tests', () => {
     //   })
     // });
 
-    test('Should return 400 if body.cropSale[i].crop exist', async (done) => {
-      delete sampleReqBody.cropSale[0].crop_id;
-      sampleReqBody.cropSale[0].crop={...mocks.fakeCrop(), farm_id: farm.farm_id};
-      // Should not allow upsertGraph to post new farm/crop/fieldCrop through post sale request
+    test('Should return 400 if body.crop_variety_sale[i].crop exist', async (done) => {
+      delete sampleReqBody.crop_variety_sale[0].crop_variety_id;
+      sampleReqBody.crop_variety_sale[0].crop_variety = { ...mocks.fakeCropVariety(), farm_id: farm.farm_id };
+      // Should not allow upsertGraph to post new farm/crop/managementPlan through post sale request
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();
@@ -403,9 +414,9 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
-          const cropSales = await cropSaleModel.query().where('sale_id', sales[0].sale_id);
-          expect(cropSales.length).toBe(2);
-          expect(cropSales[1].crop_id).toBe(sampleReqBody.cropSale[1].crop_id);
+          const cropVarietySales = await cropVarietySaleModel.query().where('sale_id', sales[0].sale_id);
+          expect(cropVarietySales.length).toBe(2);
+          expect(cropVarietySales[1].crop_variety_id).toBe(sampleReqBody.crop_variety_sale[1].crop_variety_id);
           done();
         })
       });
@@ -416,9 +427,9 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
-          const cropSales = await cropSaleModel.query().where('sale_id', sales[0].sale_id);
-          expect(cropSales.length).toBe(2);
-          expect(cropSales[1].crop_id).toBe(sampleReqBody.cropSale[1].crop_id);
+          const cropVarietySales = await cropVarietySaleModel.query().where('sale_id', sales[0].sale_id);
+          expect(cropVarietySales.length).toBe(2);
+          expect(cropVarietySales[1].crop_variety_id).toBe(sampleReqBody.crop_variety_sale[1].crop_variety_id);
           done();
         })
       });
@@ -429,9 +440,9 @@ describe('Sale Tests', () => {
           const sales = await saleModel.query().where('farm_id', farm.farm_id);
           expect(sales.length).toBe(1);
           expect(sales[0].customer_name).toBe(sampleReqBody.customer_name);
-          const cropSales = await cropSaleModel.query().where('sale_id', sales[0].sale_id);
-          expect(cropSales.length).toBe(2);
-          expect(cropSales[1].crop_id).toBe(sampleReqBody.cropSale[1].crop_id);
+          const cropVarietySales = await cropVarietySaleModel.query().where('sale_id', sales[0].sale_id);
+          expect(cropVarietySales.length).toBe(2);
+          expect(cropVarietySales[1].crop_variety_id).toBe(sampleReqBody.crop_variety_sale[1].crop_variety_id);
           done();
         })
       });
@@ -455,222 +466,173 @@ describe('Sale Tests', () => {
       });
 
     })
-
-
   });
 
-  describe('Patch sale authorization tests', () => {
-    let worker;
-    let workerFarm;
-    let manager;
-    let managerFarm;
-    let unauthorizedUser;
-    let otherFarm;
-    let unauthorizedUserFarm;
-
+  describe('Patch sale', () => {
+    let patchData;
     let sale;
-    let cropSale1;
-    let cropSale2;
+    let cropVariety2;
+    let cropVarietySale1;
+    let cropVarietySale2;
     let newCrop;
+    let newCropVariety;
 
     beforeEach(async () => {
-      [worker] = await mocks.usersFactory();
-      [workerFarm] = await mocks.userFarmFactory({
-        promisedUser: [worker],
-        promisedFarm: [farm],
-      }, fakeUserFarm(3));
-      [manager] = await mocks.usersFactory();
-      [managerFarm] = await mocks.userFarmFactory({
-        promisedUser: [manager],
-        promisedFarm: [farm],
-      }, fakeUserFarm(2));
-
-
-      [unauthorizedUser] = await mocks.usersFactory();
-      [otherFarm] = await mocks.farmFactory();
-      [unauthorizedUserFarm] = await mocks.userFarmFactory({
-        promisedUser: [unauthorizedUser],
-        promisedFarm: [otherFarm],
-      }, fakeUserFarm(1));
-
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
-      [cropSale1] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
-      [cropSale2] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+      [cropVariety2] = await mocks.crop_varietyFactory({ promisedCrop: [crop] });
+      [cropVarietySale1] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety], promisedSale: [sale] });
+      [cropVarietySale2] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety2], promisedSale: [sale] });
       [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
-    });
+      [newCropVariety] = await mocks.crop_varietyFactory({ promisedCrop: [newCrop] });
 
-    test('Owner should patch a sale', async (done) => {
-      const patchData = {
+      patchData = {
         customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
-        cropSale: [
+        crop_variety_sale: [
           {
-            crop_id: cropSale1.crop_id,
-            quantity_kg: cropSale1.quantity_kg + 5,
-            sale_value: cropSale1.sale_value + 5,
+            crop_variety_id: cropVariety.crop_variety_id,
+            quantity: cropVarietySale1.quantity + 5,
+            quantity_unit: 'lb',
+            sale_value: cropVarietySale1.sale_value + 5,
           },
           {
-            crop_id: cropSale2.crop_id,
-            quantity_kg: cropSale2.quantity_kg + 5,
-            sale_value: cropSale2.sale_value + 5,
+            crop_variety_id: cropVariety2.crop_variety_id,
+            quantity: cropVarietySale1.quantity_kg + 5,
+            quantity_unit: 'lb',
+            sale_value: cropVarietySale1.sale_value + 5,
           },
           {
-            crop_id: newCrop.crop_id,
-            quantity_kg: 777,
+            crop_variety_id: newCropVariety.crop_variety_id,
+            quantity: 777,
+            quantity_unit: 'lb',
             sale_value: 7777,
           },
         ],
-      };
+      }
+    })
 
+    test('Should return 400 if more than one crop_variety_sale with duplicate sale_id and crop_variety_id pair (pkey violation)', async (done) => {
+      patchData.crop_variety_sale = [
+        {
+          crop_variety_id: cropVariety2.crop_variety_id,
+          quantity: cropVarietySale1.quantity + 5,
+          quantity_unit: cropVarietySale1.quantity_unit,
+          sale_value: cropVarietySale1.sale_value + 5,
+        },
+        {
+          crop_variety_id: cropVariety2.crop_variety_id,
+          quantity: cropVarietySale1.quantity_kg + 5,
+          quantity_unit: cropVarietySale1.quantity_unit,
+          sale_value: cropVarietySale1.sale_value + 5,
+        },
+      ];
       patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
-        expect(res.status).toBe(200);
-        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
-        expect(saleRes.customer_name).toBe(patchData.customer_name);
-
-        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id);
-        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
-        for (i = 0; i < cropSaleRes.length; i++) {
-          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
-          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
-        }
+        expect(res.status).toBe(400);
         done();
       });
     });
 
-    test('Manager should patch a sale', async (done) => {
-      const patchData = {
-        customer_name: 'patched customer name',
-        // sale_date: Date.now().toString(),
-        cropSale: [
-          {
-            crop_id: cropSale1.crop_id,
-            quantity_kg: cropSale1.quantity_kg + 5,
-            sale_value: cropSale1.sale_value + 5,
-          },
-          {
-            crop_id: cropSale2.crop_id,
-            quantity_kg: cropSale2.quantity_kg + 5,
-            sale_value: cropSale2.sale_value + 5,
-          },
-          {
-            crop_id: newCrop.crop_id,
-            quantity_kg: 777,
-            sale_value: 7777,
-          },
-        ],
-      };
-
-      patchRequest(patchData, sale.sale_id, { user_id: manager.user_id }, async (err, res) => {
-        expect(res.status).toBe(200);
-        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
-        expect(saleRes.customer_name).toBe(patchData.customer_name);
-
-        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id);
-        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
-        for (i = 0; i < cropSaleRes.length; i++) {
-          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
-          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
-        }
+    test('Should return 400 if there are no crop variety sales in patch data', async (done) => {
+      patchData.crop_variety_sale = [];
+      patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+        expect(res.status).toBe(400);
         done();
       });
     });
 
-    test('Worker should patch a sale that they created', async (done) => {
-      let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-      let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+    describe('Patch sale authorization tests', () => {
+      let worker;
+      let workerFarm;
+      let manager;
+      let managerFarm;
+      let unauthorizedUser;
+      let otherFarm;
+      let unauthorizedUserFarm;
 
-      const patchData = {
-        customer_name: 'patched customer name',
-        // sale_date: Date.now().toString(),
-        cropSale: [
-          {
-            crop_id: cropSale1.crop_id,
-            quantity_kg: cropSale1.quantity_kg + 5,
-            sale_value: cropSale1.sale_value + 5,
-          },
-          {
-            crop_id: cropSale2.crop_id,
-            quantity_kg: cropSale2.quantity_kg + 5,
-            sale_value: cropSale2.sale_value + 5,
-          },
-          {
-            crop_id: newCrop.crop_id,
-            quantity_kg: 777,
-            sale_value: 7777,
-          },
-        ],
-      };
+      beforeEach(async () => {
+        [worker] = await mocks.usersFactory();
+        [workerFarm] = await mocks.userFarmFactory({
+          promisedUser: [worker],
+          promisedFarm: [farm],
+        }, fakeUserFarm(3));
+        [manager] = await mocks.usersFactory();
+        [managerFarm] = await mocks.userFarmFactory({
+          promisedUser: [manager],
+          promisedFarm: [farm],
+        }, fakeUserFarm(2));
 
-      patchRequest(patchData, workersSale.sale_id, { user_id: worker.user_id }, async (err, res) => {
-        expect(res.status).toBe(200);
-        const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
-        expect(saleRes.customer_name).toBe(patchData.customer_name);
 
-        const cropSaleRes = await cropSaleModel.query().where('sale_id', workersSale.sale_id);
-        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
-        for (i = 0; i < cropSaleRes.length; i++) {
-          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
-          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
-        }
-        done();
+        [unauthorizedUser] = await mocks.usersFactory();
+        [otherFarm] = await mocks.farmFactory();
+        [unauthorizedUserFarm] = await mocks.userFarmFactory({
+          promisedUser: [unauthorizedUser],
+          promisedFarm: [otherFarm],
+        }, fakeUserFarm(1));
       });
-    });
 
-    test('Should return 403 if worker tries to patch another member\'s sale', async (done) => {
-      const patchData = {
-        customer_name: 'patched customer name',
-        // sale_date: Date.now().toString(),
-        cropSale: [
-          {
-            crop_id: cropSale1.crop_id,
-            quantity_kg: cropSale1.quantity_kg + 5,
-            sale_value: cropSale1.sale_value + 5,
-          },
-          {
-            crop_id: cropSale2.crop_id,
-            quantity_kg: cropSale2.quantity_kg + 5,
-            sale_value: cropSale2.sale_value + 5,
-          },
-          {
-            crop_id: newCrop.crop_id,
-            quantity_kg: 777,
-            sale_value: 7777,
-          },
-        ],
-      };
+      test('Owner should patch a sale', async (done) => {
+        patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+          expect(saleRes.customer_name).toBe(patchData.customer_name);
 
-      patchRequest(patchData, sale.sale_id, { user_id: worker.user_id }, async (err, res) => {
-        expect(res.status).toBe(403);
-        done();
+          const cropVarietySaleRes = await cropVarietySaleModel.query().where('sale_id', sale.sale_id);
+          expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
+          for (var i = 0; i < cropVarietySaleRes.length; i++) {
+            expect(cropVarietySaleRes[i].quantity_kg).toBe(patchData.crop_variety_sale[i].quantity_kg);
+            expect(cropVarietySaleRes[i].sale_value).toBe(patchData.crop_variety_sale[i].sale_value);
+          }
+          done();
+        });
       });
-    });
 
-    test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
-      const patchData = {
-        customer_name: 'patched customer name',
-        // sale_date: Date.now().toString(),
-        cropSale: [
-          {
-            crop_id: cropSale1.crop_id,
-            quantity_kg: cropSale1.quantity_kg + 5,
-            sale_value: cropSale1.sale_value + 5,
-          },
-          {
-            crop_id: cropSale2.crop_id,
-            quantity_kg: cropSale2.quantity_kg + 5,
-            sale_value: cropSale2.sale_value + 5,
-          },
-          {
-            crop_id: newCrop.crop_id,
-            quantity_kg: 777,
-            sale_value: 7777,
-          },
-        ],
-      };
+      test('Manager should patch a sale', async (done) => {
+        patchRequest(patchData, sale.sale_id, { user_id: manager.user_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+          expect(saleRes.customer_name).toBe(patchData.customer_name);
 
-      patchRequest(patchData, sale.sale_id, { user_id: unauthorizedUser.user_id }, async (err, res) => {
-        expect(res.status).toBe(403);
-        done();
+          const cropVarietySaleRes = await cropVarietySaleModel.query().where('sale_id', sale.sale_id);
+          expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
+          for (var i = 0; i < cropVarietySaleRes.length; i++) {
+            expect(cropVarietySaleRes[i].quantity_kg).toBe(patchData.crop_variety_sale[i].quantity_kg);
+            expect(cropVarietySaleRes[i].sale_value).toBe(patchData.crop_variety_sale[i].sale_value);
+          }
+          done();
+        });
+      });
+
+      test('Worker should patch a sale that they created', async (done) => {
+        let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+        let [workersCropVarietySale] = await mocks.crop_variety_saleFactory({ promisedCropVariety: [cropVariety], promisedSale: [workersSale] });
+
+        patchRequest(patchData, workersSale.sale_id, { user_id: worker.user_id }, async (err, res) => {
+          expect(res.status).toBe(200);
+          const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
+          expect(saleRes.customer_name).toBe(patchData.customer_name);
+
+          const cropVarietySaleRes = await cropVarietySaleModel.query().where('sale_id', workersSale.sale_id);
+          expect(cropVarietySaleRes.length).toBe(patchData.crop_variety_sale.length);
+          for (var i = 0; i < cropVarietySaleRes.length; i++) {
+            expect(cropVarietySaleRes[i].quantity_kg).toBe(patchData.crop_variety_sale[i].quantity_kg);
+            expect(cropVarietySaleRes[i].sale_value).toBe(patchData.crop_variety_sale[i].sale_value);
+          }
+          done();
+        });
+      });
+
+      test('Should return 403 if worker tries to patch another member\'s sale', async (done) => {
+        patchRequest(patchData, sale.sale_id, { user_id: worker.user_id }, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
+      test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
+        patchRequest(patchData, sale.sale_id, { user_id: unauthorizedUser.user_id }, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
     });
   });

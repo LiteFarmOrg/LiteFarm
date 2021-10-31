@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class HarvestUseType extends Model {
   static get tableName() {
-    return 'harvestUseType';
+    return 'harvest_use_type';
   }
 
   static get idColumn() {
@@ -46,20 +46,20 @@ class HarvestUseType extends Model {
     // Import models here to prevent require loops.
     return {
 
-      harvestLog: {
+      harvestTask: {
 
-        modelClass: require('./harvestLogModel'),
+        modelClass: require('./harvestTaskModel'),
         relation: Model.ManyToManyRelation,
 
         join: {
-          from: 'harvestUseType.harvest_use_type_id',
+          from: 'harvest_use_type.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.activity_id',
-            to: 'harvestUse.harvest_use_type_id',
+            from: 'harvest_use.task_id',
+            to: 'harvest_use.harvest_use_type_id',
           },
 
-          to: 'harvestLog.activity_id',
+          to: 'harvest_task.task_id',
         },
 
       },

@@ -25,6 +25,10 @@ class Location extends baseModel {
     return 'location_id';
   }
 
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
+  }
+
   static get jsonSchema() {
     return {
       type: 'object',
@@ -33,26 +37,16 @@ class Location extends baseModel {
         location_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string', minLength: 1, maxLength: 255 },
-        notes: { type: 'string', maxLength: 255},
+        notes: { type: 'string', maxLength: 10000 },
         ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fieldCrop:{
-        modelClass: require('./fieldCropModel.js'),
-        relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        join: {
-          from: 'fieldCrop.location_id',
-          to:'location.location_id',
-        },
-      },
       figure: {
         modelClass: require('./figureModel'),
         relation: Model.HasOneRelation,
@@ -165,6 +159,14 @@ class Location extends baseModel {
           to: 'residence.location_id',
         },
       },
+      pin: {
+        modelClass: require('./pinModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'pin.location_id',
+        },
+      },
       water_valve: {
         modelClass: require('./waterValveModel'),
         relation: Model.HasOneRelation,
@@ -172,8 +174,20 @@ class Location extends baseModel {
           from: 'location.location_id',
           to: 'water_valve.location_id',
         },
+        task: {
+          modelClass: require('./taskModel'),
+          relation: Model.ManyToManyRelation,
+          join: {
+            from: 'location.location_id',
+            through: {
+              modelClass: require('./locationTasksModel'),
+              from: 'location_tasks.task_id',
+              to: 'location_tasks.location_id',
+            },
+            to: 'task.task_id',
+          },
+        },
       },
-      ...this.baseRelationMappings('location'),
     };
   }
 }

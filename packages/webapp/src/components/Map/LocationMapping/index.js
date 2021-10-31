@@ -78,3 +78,20 @@ export const areaImgDict = [
     key: locationEnum.residence,
   },
 ];
+
+export const locationImgMap = {
+  [locationEnum.gate]: <Gate />,
+  [locationEnum.water_valve]: <WaterValve />,
+  [locationEnum.barn]: <Barn />,
+  [locationEnum.ceremonial_area]: <CeremonialArea />,
+  [locationEnum.farm_site_boundary]: <FarmSiteBoundary />,
+  [locationEnum.field]: <Field />,
+  [locationEnum.garden]: <Garden />,
+  [locationEnum.greenhouse]: <Greenhouse />,
+  [locationEnum.surface_water]: <SurfaceWater />,
+  [locationEnum.natural_area]: <NaturalArea />,
+  [locationEnum.residence]: <Residence />,
+  [locationEnum.buffer_zone]: <BufferZone />,
+  [locationEnum.watercourse]: <Watercourse />,
+  [locationEnum.fence]: <Fence />,
+};

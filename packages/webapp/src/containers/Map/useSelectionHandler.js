@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import { canShowSelection, canShowSelectionSelector, locations } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
+import { cloneObject } from '../../util';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
     area: [],
@@ -22,7 +27,7 @@ const useSelectionHandler = () => {
       dispatch(canShowSelection(false));
     }
     if (dismissSelection) {
-      setOverlappedLocations(clone(initOverlappedLocations));
+      setOverlappedLocations(cloneObject(initOverlappedLocations));
       setDismissSelection(false);
       return;
     }
@@ -75,7 +80,7 @@ const useSelectionHandler = () => {
   }, [overlappedLocations, dismissSelection]);
 
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
-    let overlappedLocationsCopy = clone(initOverlappedLocations);
+    let overlappedLocationsCopy = cloneObject(initOverlappedLocations);
     if (isLocationAsset) {
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType) || isAreaLine(locationType)) {
@@ -131,7 +136,7 @@ const useSelectionHandler = () => {
         }
       });
 
-      setOverlappedLocations(clone(overlappedLocationsCopy));
+      setOverlappedLocations(cloneObject(overlappedLocationsCopy));
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));
@@ -142,9 +147,5 @@ const useSelectionHandler = () => {
 
   return { handleSelection, dismissSelectionModal };
 };
-
-function clone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
 
 export default useSelectionHandler;

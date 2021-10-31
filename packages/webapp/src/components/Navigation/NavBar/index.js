@@ -6,7 +6,7 @@ import PureProfileFloater from '../../ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
 import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
 import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
-import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
+import { ReactComponent as TaskIcon } from '../../../assets/images/task_icon.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import PureMyFarmFloater from '../../MyFarmFloater';
@@ -18,15 +18,19 @@ import SmallLogo from '../../../assets/images/small_logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import { BiMenu } from 'react-icons/all';
+import { BiMenu } from 'react-icons/bi';
 import { colors } from '../../../assets/theme';
 import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
-import { getLanguageFromLocalStorage } from '../../../util';
 import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
+import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
+import {
+  isIntroducingCertificationsSelector,
+  setIntroducingCertifications,
+} from '../../../containers/Navigation/navbarSlice';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -114,9 +118,11 @@ export default function PureNavBar({
     'harvest_uses',
     'soil',
     'certifications',
+    'crop_group',
   ]);
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const isIntroducingFarmMap = !introduce_map && navigation;
+  const isIntroducingCertifications = useSelector(isIntroducingCertificationsSelector);
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -134,10 +140,14 @@ export default function PureNavBar({
   const isFarmFloaterOpen = openFloater === FARM;
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
   const isProfileFloaterOpen = openFloater === PROFILE;
-  const closeFloater = () => setOpenFloater(null);
+  const closeFloater = () => {
+    setOpenFloater(null);
+    dispatch(setIntroducingCertifications(false));
+  };
   const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
-  const notificationButtonOnClick = () =>
-    setOpenFloater(isNotificationFloaterOpen ? null : NOTIFICATION);
+  const taskIconClick = () => {
+    history.push('/tasks');
+  };
   const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
   const onClickAway = () => {
     setOpenFloater(null);
@@ -152,7 +162,7 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
-    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'))
+    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'));
     history.push('/map');
     closeFloater();
   };
@@ -162,6 +172,11 @@ export default function PureNavBar({
       pathname: '/Profile',
       state: 'people',
     });
+    closeFloater();
+  };
+  const certificationClick = () => {
+    if (!introduce_map) return;
+    history.push('/certification');
     closeFloater();
   };
 
@@ -292,7 +307,9 @@ export default function PureNavBar({
               farmInfoClick={farmInfoClick}
               farmMapClick={farmMapClick}
               peopleClick={peopleClick}
+              certificationClick={certificationClick}
               isIntroducingFarmMap={isIntroducingFarmMap}
+              isIntroducingCertifications={isIntroducingCertifications}
             >
               <IconButton
                 aria-label="farm-icon"
@@ -318,11 +335,11 @@ export default function PureNavBar({
                 aria-label="notification icon"
                 color="inherit"
                 id="secondStep"
-                onClick={notificationButtonOnClick}
+                onClick={taskIconClick}
                 className={classes.iconButton}
                 classes={{ root: classes.notificationButton }}
               >
-                <NotifIcon />
+                <TaskIcon />
               </IconButton>
             </PureNotificationFloater>
 
@@ -348,6 +365,7 @@ export default function PureNavBar({
           </div>
         </ClickAwayListener>
         {showSpotLight && (
+          //Deprecated
           <ReactJoyride
             steps={steps}
             continuous

@@ -4,10 +4,9 @@ import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import Input from '../../Form/Input';
+import Input, { getInputErrors } from '../../Form/Input';
 import { convertToMetric } from '../../../util';
-import { toastr } from 'react-redux-toastr';
-import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
+import { enqueueErrorSnackbar } from '../../../containers/Snackbar/snackbarSlice';
 
 export default function PureHarvestAllocation({
   onGoBack,
@@ -18,9 +17,25 @@ export default function PureHarvestAllocation({
   isEdit,
 }) {
   const { t } = useTranslation(['translation', 'message', 'common', 'harvest_uses']);
-  const { register, handleSubmit, watch, errors, formState } = useForm({
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    for (const type of defaultData.selectedUseTypes) {
+      const key = type.harvest_use_type_name;
+      const value =
+        (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
+        type.quantity_kg ||
+        '';
+      defaultValues[key] = value;
+    }
+    return defaultValues;
+  };
+  const { register, handleSubmit, watch, formState } = useForm({
     mode: 'onChange',
+    defaultValues: getDefaultValues(),
   });
+
+  const { errors } = formState;
+
   const tempProps = JSON.parse(JSON.stringify(defaultData));
 
   const onSubmit = (val) => {
@@ -42,7 +57,7 @@ export default function PureHarvestAllocation({
       });
       onNext(tempProps);
     } else {
-      toastr.error(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL'));
+      dispatch(enqueueErrorSnackbar(t('message:LOG_HARVEST.ERROR.AMOUNT_TOTAL')));
     }
   };
   const handleChange = (typeName, quant) => {
@@ -51,13 +66,11 @@ export default function PureHarvestAllocation({
         item.quantity_kg = quant;
       }
     });
-    dispatch(harvestLogData(tempProps));
   };
 
   const onError = () => {};
 
   const onBack = () => {
-    dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
   };
 
@@ -90,6 +103,7 @@ export default function PureHarvestAllocation({
           const quant = type.quantity_kg;
           return (
             <div
+              key={index}
               style={
                 index === defaultData.selectedUseTypes.length - 1
                   ? { marginBottom: '100px', paddingTop: '20px' }
@@ -101,14 +115,10 @@ export default function PureHarvestAllocation({
                 style={{ marginBottom: '24px' }}
                 type="number"
                 unit={unit}
-                name={type.harvest_use_type_name}
                 step={0.01}
                 onChange={(e) => handleChange(typeName, e.target.value)}
-                inputRef={register({ required: true })}
-                defaultValue={
-                  (defaultData.selectedUseTypes.length === 1 && defaultData.defaultQuantity) ||
-                  quant
-                }
+                hookFormRegister={register(type.harvest_use_type_name, { required: true })}
+                errors={getInputErrors(errors, type.harvest_use_type_name)}
               />
             </div>
           );

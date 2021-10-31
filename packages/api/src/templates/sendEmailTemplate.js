@@ -28,6 +28,7 @@ const emails = {
   PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation' },
   HELP_REQUEST_EMAIL: { path: 'help_request_email' },
   MAP_EXPORT_EMAIL: { path: 'map_export_email' },
+  EXPORT_EMAIL: { path: 'export_email' },
 };
 
 function homeUrl(defaultUrl = 'http://localhost:3000') {
@@ -95,7 +96,7 @@ function sendEmail(template_path, replacements, email_to, {
         content: file.buffer,
       }));
     }
-    emailTransporter.send(mailOptions).then(console.log).catch(console.error);
+    return emailTransporter.send(mailOptions).then(console.log).catch(console.error);
   } catch (error) {
     console.log(error);
   }

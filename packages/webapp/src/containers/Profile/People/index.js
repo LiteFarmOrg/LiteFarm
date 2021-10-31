@@ -16,12 +16,12 @@ import { actions, Control, Form } from 'react-redux-form';
 import { Alert, Button } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Cleave from 'cleave.js/react.js';
-import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import history from '../../../history';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import MuiFullPagePopup from '../../../components/MuiFullPagePopup';
+import { enqueueSuccessSnackbar } from '../../Snackbar/snackbarSlice';
 
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
@@ -144,7 +144,9 @@ class People extends Component {
       this.props.dispatch(updateUserFarm(finalUser));
       this.closeEditModal();
     } else {
-      toastr.success(this.props.t('message:USER.ERROR.NOTHING_CHANGED'));
+      this.props.dispatch(
+        enqueueSuccessSnackbar(this.props.t('message:USER.ERROR.NOTHING_CHANGED')),
+      );
       this.closeEditModal();
     }
   }
@@ -156,8 +158,8 @@ class People extends Component {
   }
 
   deactivate = (user_id) => {
-    if (window.confirm('Do you want to remove this user from your farm?')) {
-      if (window.confirm('This action will remove the user from your farm.')) {
+    if (window.confirm(this.props.t('PROFILE.PEOPLE.DO_YOU_WANT_TO_REMOVE'))) {
+      if (window.confirm(this.props.t('PROFILE.PEOPLE.THIS_WILL_REMOVE'))) {
         this.props.dispatch(deactivateUser(user_id));
         this.closeEditModal();
       }
@@ -386,9 +388,7 @@ class People extends Component {
               <a className={styles.close} onClick={this.closeEditModal}>
                 <img src={closeButton} alt="" />
               </a>
-              <h3>
-                {this.props.t('common:EDIT')} {editTitle}
-              </h3>
+              <h3>{this.props.t('PROFILE.ACCOUNT.EDIT_USER')}</h3>
             </div>
             {this.state.editUser && (
               <div className={styles.formContainer}>

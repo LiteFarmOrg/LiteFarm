@@ -117,17 +117,18 @@ export const isChrome = () => {
   return isChrome;
 };
 
-export const pick = (object = {}, properties = []) => {
-  const result = {};
-  for (const key of properties) {
-    if (object.hasOwnProperty(key)) {
-      result[key] = object[key];
-    }
-  }
-  return result;
-};
+export const cloneObject = (obj) => JSON.parse(JSON.stringify(obj));
 
-export const getLanguageFromLocalStorage = () => {
-  const selectedLanguage = localStorage.getItem('litefarm_lang');
-  return selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+export const getObjectInnerValues = (data) => {
+  return Object.keys(data).reduce((reduced, k) => {
+    if (data[k] instanceof Object && Object.keys(data[k]).includes('label')) {
+      if (data[k].value instanceof Object && Object.keys(data[k].value).includes('label')) {
+        return { ...reduced, [k]: data[k].value.value };
+      }
+      return { ...reduced, [k]: data[k].value };
+    } else if (data[k] instanceof Object && !(data[k] instanceof Array)) {
+      return { ...reduced, [k]: getObjectInnerValues({ ...data[k] }) };
+    }
+    return { ...reduced, [k]: data[k] };
+  }, {});
 };

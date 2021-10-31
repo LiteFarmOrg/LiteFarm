@@ -29,6 +29,13 @@ WithUnit.args = {
   unit: 'unit',
 };
 
+export const WithCurrency = Template.bind({});
+WithCurrency.args = {
+  label: 'number',
+  type: 'number',
+  currency: '$',
+};
+
 export const WithTooltip = Template.bind({});
 WithTooltip.args = {
   label: 'With Tooltip',
@@ -46,6 +53,12 @@ export const Optional = Template.bind({});
 Optional.args = {
   label: 'optional',
   optional: true,
+};
+
+export const HasLeaf = Template.bind({});
+HasLeaf.args = {
+  label: 'Leaf',
+  hasLeaf: true,
 };
 
 export const Disabled = Template.bind({});

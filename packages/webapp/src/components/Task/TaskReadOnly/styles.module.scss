@@ -1,0 +1,22 @@
+.mapContainer {
+  position: relative;
+  height: 160px;
+  width: 100%;
+  margin-bottom: 40px;
+  flex-grow: 1;
+  display: flex;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pencil {
+  width: 15.06px;
+  height: 15.02px;
+}
+
+.rating {
+  display: table-row;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import PageTitle from '../../../components/PageTitle';
+import PageTitle from '../../../components/PageTitle/v2';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import { actions } from 'react-redux-form';
@@ -11,8 +11,8 @@ import { convertToMetric, getUnit } from '../../../util';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedFieldCropsSelector } from '../../fieldCropSlice';
-import { getFieldCrops } from '../../saga';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
+import { getManagementPlans } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class AddSale extends Component {
@@ -30,36 +30,32 @@ class AddSale extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getFieldCrops());
+    this.props.dispatch(getManagementPlans());
     //TODO fetch farm
   }
 
   handleSubmit(sale) {
     const { dispatch } = this.props;
-    const cropSale = this.state.chosenOptions.map((c) => {
+    const crop_variety_sale = this.state.chosenOptions.map((c) => {
       return {
         sale_value: sale ? sale[c.label].value && parseFloat(sale[c.label].value).toFixed(2) : 0,
-        quantity_kg: sale
-          ? sale[c.label].quantity_kg &&
+        quantity: sale
+          ? sale[c.label].quantity &&
             parseFloat(
-              convertToMetric(
-                parseFloat(sale[c.label].quantity_kg),
-                this.state.quantity_unit,
-                'kg',
-              ),
+              convertToMetric(parseFloat(sale[c.label].quantity), this.state.quantity_unit, 'kg'),
             )
           : 0,
-        crop_id: c.value,
+        quantity_unit: this.state.quantity_unit,
+        crop_variety_id: c.value,
       };
     });
     const newSale = {
       customer_name: sale.name,
       sale_date: this.state.date,
       farm_id: this.props.farm.farm_id,
-      cropSale,
+      crop_variety_sale,
     };
     dispatch(addOrUpdateSale(newSale));
-    history.push('/finances');
   }
 
   handleChooseCrop(option) {
@@ -68,35 +64,35 @@ class AddSale extends Component {
     });
   }
 
-  getCropOptions = (fieldCrops) => {
-    if (!fieldCrops || fieldCrops.length === 0) {
+  getCropVarietyOptions = (managementPlans) => {
+    if (!managementPlans || managementPlans.length === 0) {
       return;
     }
 
-    let cropOptions = [];
-    let cropSet = new Set();
+    let cropVarietyOptions = [];
+    let cropVarietySet = new Set();
 
-    for (let fc of fieldCrops) {
-      if (!cropSet.has(fc.crop_id)) {
-        cropOptions.push({
-          label: this.props.t(`crop:${fc.crop_translation_key}`),
-          value: fc.crop_id,
+    for (let mp of managementPlans) {
+      if (!cropVarietySet.has(mp.crop_variety_id)) {
+        cropVarietyOptions.push({
+          label: `${mp.crop_variety_name}, ${this.props.t(`crop:${mp.crop_translation_key}`)}`,
+          value: mp.crop_variety_id,
         });
-        cropSet.add(fc.crop_id);
+        cropVarietySet.add(mp.crop_variety_id);
       }
     }
 
-    cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
+    cropVarietyOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
 
-    return cropOptions;
+    return cropVarietyOptions;
   };
 
   render() {
-    let fieldCrops = this.props.fieldCrops || [];
-    const cropOptions = this.getCropOptions(fieldCrops);
+    let managementPlans = this.props.managementPlans || [];
+    const cropVarietyOptions = this.getCropVarietyOptions(managementPlans);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('SALE.ADD_SALE.TITLE')} />
+        <PageTitle title={this.props.t('SALE.ADD_SALE.TITLE')} onGoBack={() => history.goBack()} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer
@@ -108,7 +104,7 @@ class AddSale extends Component {
         </span>
         <SaleForm
           model="financeReducer.forms.addSale"
-          cropOptions={cropOptions}
+          cropVarietyOptions={cropVarietyOptions}
           onSubmit={this.handleSubmit}
           chosenOptions={this.state.chosenOptions}
           handleChooseCrop={this.handleChooseCrop}
@@ -124,7 +120,7 @@ class AddSale extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: currentAndPlannedFieldCropsSelector(state),
+    managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
   };
 };

@@ -17,6 +17,10 @@ import {
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 
+/**
+ *
+ * Do not modify, copy or reuse
+ */
 const useMapAssetRenderer = ({ isClickable }) => {
   const { handleSelection, dismissSelectionModal } = useSelectionHandler();
   const dispatch = useDispatch();
@@ -28,8 +32,8 @@ const useMapAssetRenderer = ({ isClickable }) => {
     }
     return nextAssetGeometries;
   };
-  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
 
+  const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
   useEffect(() => {
@@ -109,7 +113,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       textLineHeight: 20,
       height: 28,
       width: 28,
-      className: styles.clusterIcon,
+      className: styles.selectedClusterIcon,
     };
     const clusterStyles = [clusterStyle, clusterStyle, clusterStyle, clusterStyle, clusterStyle];
 
@@ -196,7 +200,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
             ),
           );
     });
-
     setAssetGeometries(newState);
     // Create marker clusters
     const pointsArray = [...assetGeometries.gate, ...assetGeometries.water_valve];
@@ -276,7 +279,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
       },
     });
     marker.setMap(map);
-
     // Event listener for area click
     maps.event.addListener(polygon, 'click', function (mapsMouseEvent) {
       const latlng = map.getCenter().toJSON();
@@ -290,6 +292,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
     marker.setOptions({ visible: filterSettings?.label && isVisible });
     polygon.setOptions({ visible: isVisible });
     polyline.setOptions({ visible: isVisible });
+
     return {
       polygon,
       polyline,
@@ -441,6 +444,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       type: point.type,
     };
   };
+
   return { drawAssets, drawArea, drawPoint, drawLine };
 };
 

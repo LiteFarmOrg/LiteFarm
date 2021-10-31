@@ -1,0 +1,48 @@
+.container {
+  border: 1px solid var(--grey400);
+  border-radius: 4px;
+}
+.openContainer {
+  border: 1px solid var(--teal500);
+}
+
+.head {
+  background-color: white;
+  border-radius: 4px;
+  padding: 12px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+}
+.openHead {
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid var(--teal500);
+}
+
+.dropdown {
+  background-color: var(--grey200);
+  border-radius: 0 0 4px 4px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border: 0;
+}
+
+.circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--teal700);
+  margin-left: 6px;
+  margin-top: 3px;
+}
+
+.counter {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--teal700);
+  margin-right: 6px;
+}

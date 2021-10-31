@@ -30,10 +30,11 @@ class Certifier extends Model {
       required: ['location_id'],
       properties: {
         certifier_id: { type: 'integer' },
-        certification_type: { type: 'integer' },
+        certification_id: { type: 'integer' },
         certifier_name: { type: 'string' },
         certifier_acronym: { type: 'string' },
         supported: { type: 'boolean' },
+        survey_id: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -46,9 +47,9 @@ class Certifier extends Model {
             modelClass: require('./certificationModel'),
             relation: Model.BelongsToOneRelation,
             join: {
-                from: 'certifierModel.certification_type',
-                to: 'certificationModel.certification_id',
-              },
+              from: 'certifierModel.certification_id',
+              to: 'certificationModel.certification_id',
+            },
         }
     };
   }

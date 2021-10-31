@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { figureProperties, locationProperties, pointProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
+import { pick } from '../util/pick';
 
 const gateProperties = ['location_id'];
 export const getLocationObjectFromGate = (data) => {
@@ -34,6 +34,12 @@ const upsertManyGateWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteGate = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  gateAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const gateAdapter = createEntityAdapter({
   selectId: (gate) => gate.location_id,
@@ -53,7 +59,7 @@ const gateSlice = createSlice({
     getGatesSuccess: upsertManyGateWithLocation,
     postGateSuccess: upsertOneGateWithLocation,
     editGateSuccess: upsertOneGateWithLocation,
-    deleteGateSuccess: gateAdapter.removeOne,
+    deleteGateSuccess: softDeleteGate,
   },
 });
 export const {
@@ -74,7 +80,7 @@ export const gateEntitiesSelector = gateSelectors.selectEntities;
 export const gatesSelector = createSelector(
   [gateSelectors.selectAll, loginSelector],
   (gates, { farm_id }) => {
-    return gates.filter((gate) => gate.farm_id === farm_id);
+    return gates.filter((gate) => gate.farm_id === farm_id && !gate.deleted);
   },
 );
 

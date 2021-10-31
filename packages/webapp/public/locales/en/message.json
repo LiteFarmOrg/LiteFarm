@@ -1,22 +1,40 @@
 {
+  "ASSIGN_TASK": {
+    "ERROR": "Failed to assign tasks",
+    "SUCCESS": "Successfully assigned tasks"
+  },
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "Failed to upload attachments"
+      "CREATE": "Failed to create document",
+      "FAILED_ARCHIVE": "Failed to archive document",
+      "FAILED_UPLOAD": "Failed to upload attachments",
+      "UPDATE": "Failed to update document"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "Successfully archived document",
+      "CREATE": "Successfully created document",
+      "UPDATE": "Successfully updated document"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "Error: failed to add varietal to database",
+      "ADD_ALREADY_EXISTS": "Error: Varietal exists",
+      "DELETE": "Failed to delete crop variety",
+      "UPDATE": "Failed to update crop variety"
+    },
+    "SUCCESS": {
+      "ADD": "Successfully saved varietal!",
+      "DELETE": "Deleted crop variety",
+      "UPDATE": "Successfully updated crop variety"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field Crop",
-      "EDIT": "Failed To Edit Field Crop"
+      "DELETE": "Failed To Delete Field Crop"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop",
-      "EDIT": "Successfully Edited Crop"
-    }
-  },
-  "EDIT_FIELD_CROP": {
-    "ERROR": {
-      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date"
+      "DELETE": "Successfully Deleted Crop"
     }
   },
   "EXPENSE": {
@@ -41,46 +59,31 @@
       "UPDATE": "Successfully updated farm info!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "failed to add fertilizer"
-    }
-  },
-  "FIELD": {
-    "ERROR": {
-      "EMPTY_NAME": "Field name cannot be empty",
-      "UPDATE_NAME": "Failed To update Field name"
-    },
-    "SUCCESS": {
-      "UPDATE_NAME": "Successfully changed field name"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
       "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types",
-      "REQUIRED_TASK": "A harvest use type name is required"
+      "GET_TYPES": "Failed to fetch harvest use types"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"
     }
   },
-  "LOG": {
-    "ERROR": {
-      "ADD": "Failed to add Log",
-      "DELETE": "Failed to delete Log",
-      "EDIT": "Failed to edit Log"
-    },
-    "SUCCESS": {
-      "ADD": "Successfully added Log!",
-      "DELETE": "Successfully deleted Log!",
-      "EDIT": "Successfully edited Log!"
-    }
-  },
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Failed to login user info"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "Failed to abandon management plan!",
+      "COMPLETE": "Failed to complete management plan!",
+      "POST": "Failed to add management plan!"
+    },
+    "SUCCESS": {
+      "ABANDON": "Successfully abandoned management plan!",
+      "COMPLETE": "Successfully completed management plan!",
+      "POST": "Successfully added management plan!"
     }
   },
   "MAP": {
@@ -90,14 +93,26 @@
     "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
   },
-  "NEW_FIELD_CROP": {
+  "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "GENERAL": "failed to add fieldCrop to database",
-      "NOT_FILLED": "is not filled out",
-      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
+      "CREATE": "Failed to create certification.",
+      "UPDATE": "Failed to update certification!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Failed to update management plan"
     },
     "SUCCESS": {
-      "SAVE": "Successfully saved Crop!"
+      "EDIT": "Management plan successfully updated"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Failed to update revenue"
+    },
+    "SUCCESS": {
+      "EDIT": "Revenue successfully updated"
     }
   },
   "SALE": {
@@ -127,6 +142,30 @@
       "ADD": "Successfully added new shift!",
       "DELETE": "Deleted shift!",
       "UPDATE": "Successfully updated shift!"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "Failed to create custom task",
+      "SUCCESS": "Successfully created custom task"
+    },
+    "DELETE": {
+      "FAILED": "Failed to delete custom task",
+      "SUCCESS": "Successfully deleted custom task"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "Failed to abandon task",
+      "SUCCESS": "Successfully abandoned task"
+    },
+    "COMPLETE": {
+      "FAILED": "Failed to complete task",
+      "SUCCESS": "Successfully completed task"
+    },
+    "CREATE": {
+      "FAILED": "Failed to create task",
+      "SUCCESS": "Successfully created task"
     }
   },
   "USER": {

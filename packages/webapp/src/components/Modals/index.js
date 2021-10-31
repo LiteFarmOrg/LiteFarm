@@ -11,6 +11,7 @@ function Modal({ children, dismissModal }) {
         styles={{ floaterCentered: { transform: 'translate(-50%, -70%)', zIndex: 1300 } }}
         component={children}
       />
+
       <div
         onClick={dismissModal}
         style={{

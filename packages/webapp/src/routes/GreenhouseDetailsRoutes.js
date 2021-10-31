@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 import EditGreenhouseDetailForm from '../containers/LocationDetails/AreaDetails/GreenhouseDetailForm/EditGreenhouse';
-import LocationFieldCrop from '../containers/LocationDetails/LocationFieldCrop';
+import LocationManagementPlan from '../containers/LocationDetails/LocationManagementPlan';
 import { useSelector } from 'react-redux';
 import { isAdminSelector } from '../containers/userFarmSlice';
 
@@ -13,7 +13,7 @@ export default function GreenhouseDetailsRoutes() {
       {isAdmin && (
         <Route path="/greenhouse/:location_id/edit" exact component={EditGreenhouseDetailForm} />
       )}
-      <Route path="/greenhouse/:location_id/crops" exact component={LocationFieldCrop} />
+      <Route path="/greenhouse/:location_id/crops" exact component={LocationManagementPlan} />
     </>
   );
 }

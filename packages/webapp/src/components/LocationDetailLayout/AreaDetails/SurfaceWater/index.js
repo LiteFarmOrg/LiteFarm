@@ -2,13 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import { getPersistPath } from '../../utils';
+import RadioGroup from '../../../Form/RadioGroup';
 
 export default function PureSurfaceWater({
   history,
@@ -27,14 +27,15 @@ export default function PureSurfaceWater({
     register,
     handleSubmit,
     watch,
-    errors,
     setValue,
     getValues,
     setError,
     control,
-    formState: { isValid, isDirty },
+
+    formState: { isValid, isDirty, errors },
   } = useForm({
     mode: 'onChange',
+    shouldUnregister: true,
   });
   const persistedPath = getPersistPath('surface_water', match, {
     isCreateLocationPage,
@@ -42,25 +43,23 @@ export default function PureSurfaceWater({
     isEditLocationPage,
   });
   const {
-    persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
+    persistedData: { name, grid_points, total_area, perimeter },
+  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
-    data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit].value;
-    showPerimeter &&
-      (data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit].value);
+    const usedForIrrigation = data[surfaceWaterEnum.used_for_irrigation];
+    data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit]?.value;
+    data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit]?.value;
     const formData = {
       grid_points,
       total_area,
       perimeter,
       ...data,
-
       type: 'surface_water',
-      used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
+      used_for_irrigation: usedForIrrigation,
     };
     submitForm({ formData });
   };
@@ -68,7 +67,7 @@ export default function PureSurfaceWater({
   const title =
     (isCreateLocationPage && t('FARM_MAP.SURFACE_WATER.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.SURFACE_WATER.EDIT_TITLE')) ||
-    (isViewLocationPage && getValues(surfaceWaterEnum.name));
+    (isViewLocationPage && name);
 
   return (
     <Form
@@ -120,23 +119,12 @@ export default function PureSurfaceWater({
               {t('common:OPTIONAL')}
             </Label>
           </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('common:YES')}
-              inputRef={register({ required: false })}
-              optional
-              value={true}
-              name={surfaceWaterEnum.used_for_irrigation}
+          <div style={{ marginBottom: '16px' }}>
+            <RadioGroup
+              row
               disabled={isViewLocationPage}
-            />
-            <Radio
-              style={{ marginBottom: '25px', marginLeft: '40px' }}
-              label={t('common:NO')}
-              inputRef={register({ required: false })}
-              value={false}
               name={surfaceWaterEnum.used_for_irrigation}
-              disabled={isViewLocationPage}
+              hookFormControl={control}
             />
           </div>
         </div>

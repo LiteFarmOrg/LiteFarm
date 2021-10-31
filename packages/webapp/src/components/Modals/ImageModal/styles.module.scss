@@ -1,0 +1,12 @@
+
+.imageModal {
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  width: calc(100% - 48px);
+  max-width: 480px;
+  padding: 20px;
+  outline: none;
+  z-index: 1301;
+}

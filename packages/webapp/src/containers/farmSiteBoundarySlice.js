@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
+import { pick } from '../util/pick';
 
 const farmSiteBoundaryProperties = ['location_id'];
 export const getLocationObjectFromFarmSiteBoundary = (data) => {
@@ -35,6 +35,12 @@ const upsertManyFarmSiteBoundaryWithLocation = (state, { payload: locations }) =
   );
   onLoadingSuccess(state);
 };
+const softDeleteFarmSiteBoundary = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  farmSiteBoundaryAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const farmSiteBoundaryAdapter = createEntityAdapter({
   selectId: (farmSiteBoundary) => farmSiteBoundary.location_id,
@@ -54,7 +60,7 @@ const farmSiteBoundarySlice = createSlice({
     getFarmSiteBoundarysSuccess: upsertManyFarmSiteBoundaryWithLocation,
     postFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
     editFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
-    deleteFarmSiteBoundarySuccess: farmSiteBoundaryAdapter.removeOne,
+    deleteFarmSiteBoundarySuccess: softDeleteFarmSiteBoundary,
   },
 });
 export const {
@@ -78,7 +84,9 @@ export const farmSiteBoundaryEntitiesSelector = farmSiteBoundarySelectors.select
 export const farmSiteBoundarysSelector = createSelector(
   [farmSiteBoundarySelectors.selectAll, loginSelector],
   (farmSiteBoundarys, { farm_id }) => {
-    return farmSiteBoundarys.filter((farmSiteBoundary) => farmSiteBoundary.farm_id === farm_id);
+    return farmSiteBoundarys.filter(
+      (farmSiteBoundary) => farmSiteBoundary.farm_id === farm_id && !farmSiteBoundary.deleted,
+    );
   },
 );
 

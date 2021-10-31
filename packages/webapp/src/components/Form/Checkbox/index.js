@@ -10,17 +10,35 @@ const Checkbox = ({
   classes = {},
   children,
   style,
-  inputRef,
+  onChange,
+  onBlur,
+  hookFormRegister,
   errors,
+  sm,
   ...props
 }) => {
+  const name = hookFormRegister?.name ?? props?.name;
   return (
     <label
       className={clsx(styles.container, disabled && styles.disabled)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      <input type={'checkbox'} ref={inputRef} {...props} disabled={disabled} />
-      <Main className={clsx(styles.label)} style={classes.label}>
+      <input
+        type={'checkbox'}
+        ref={hookFormRegister?.ref}
+        name={name}
+        onChange={(e) => {
+          onChange?.(e);
+          hookFormRegister?.onChange(e);
+        }}
+        onBlur={(e) => {
+          onBlur?.(e);
+          hookFormRegister?.onBlur(e);
+        }}
+        {...props}
+        disabled={disabled}
+      />
+      <Main className={clsx(styles.label, sm && styles.smallLabel)} style={classes.label}>
         {label}
       </Main>
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />
@@ -43,6 +61,15 @@ Checkbox.propTypes = {
     container: PropTypes.object,
     error: PropTypes.object,
   }),
+  hookFormRegister: PropTypes.exact({
+    ref: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    name: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  sm: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 

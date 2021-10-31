@@ -217,16 +217,10 @@ O seu uso no aplicativo LiteFarm é totalmente voluntário. Se você decidir usa
 
 &nbsp;
 
-&nbsp;
-
 **O que acontece se eu retirar meu consentimento?**
 &nbsp;
 
-&nbsp;
-
 Se você retirar seu consentimento deste acordo de Formulário de Consentimento Livre e Esclarecido e Política de Privacidade, sua(s) conta(s) na plataforma LiteFarm serão marcadas como inativas e você não poderá usar a plataforma LiteFarm. Porém, suas informações não serão excluídas, caso você queira retornar futuramente. Você pode solicitar que seus dados sejam permanente e irrevogavelmente excluídos enviando uma solicitação para data@litefarm.org. Se você pretende retirar o consentimento e deseja uma cópia dos seus dados, solicite-o ao retirar o seu consentimento.
-&nbsp;
-
 &nbsp;
 
 **Como fazemos alterações na Política de Privacidade?**
@@ -242,9 +236,7 @@ Embora a maior parte das alterações seja pequena, a LiteFarm poderá alterar s
 **Com faremos contato com você?**
 &nbsp;
 
-&nbsp;
-
-Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma.
+Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails para anunciar novos recursos da LiteFarm, explicar alterações feitas no aplicativo, convidá-lo para eventos especiais ou informá-lo sobre projetos de pesquisa que os dados da LiteFarm estão ajudando a concretizar. Também poderemos enviar a você e-mails ocasionais solicitando seu feedback sobre a plataforma ou o site. Sua participação respondendo a essas solicitações será totalmente opcional e não afetará seu uso da plataforma. Você poderá escolher os tipos de comunicação que deseja receber, ou então poderá desativar todas as comunicações visitando a página da LiteFarm para cancelamento de inscrições.
 &nbsp;
 
 &nbsp;
@@ -252,11 +244,7 @@ Se você criar uma conta na LiteFarm, lhe enviaremos, ocasionalmente, e-mails pa
 **Licenciamento**
 &nbsp;
 
-&nbsp;
-
-O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Licença Pública GNUv3, que é uma licença gratuita e de fonte aberta (https://www.gnu.org/licenses/quick-guide-gplv3.en.html).
-&nbsp;
-
+O uso do site da LiteFarm é gratuito. O software em si é licenciado sob a Licença Pública GNUv3, que é uma licença gratuita e de fonte aberta (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 &nbsp;
 
 **Para mais informações**
@@ -281,8 +269,6 @@ Com relação ao aplicativo, contate:
 &nbsp;
 
 Contate a Central de Reclamações para Participantes de Pesquisas no Escritório Ética em Pesquisa da UBC pelo telefone 604-822-8598, ou se estiver a longa distância, envie um e-mail para RSIL@ors.ubc.ca ou telefone para o atendimento gratuito no número 1-877-822-8598.
-
-&nbsp;
 
 &nbsp;
 

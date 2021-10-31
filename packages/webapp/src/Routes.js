@@ -77,7 +77,6 @@ const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const MapVideo = React.lazy(() => import('./components/Map/Videos'));
-
 const PostFarmSiteBoundaryForm = React.lazy(() =>
   import(
     './containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm/PostFarmSiteBoundary'

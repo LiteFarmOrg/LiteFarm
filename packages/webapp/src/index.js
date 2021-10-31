@@ -120,6 +120,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   });
 }
 
+
 sagaMiddleware.run(homeSaga);
 // sagaMiddleware.run(createAccount);
 sagaMiddleware.run(addFarmSaga);

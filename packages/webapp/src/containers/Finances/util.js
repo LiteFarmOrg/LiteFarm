@@ -31,6 +31,14 @@ export function calcTotalLabour(tasks, startDate, endDate) {
         // if (s.wage.type === 'hourly')
         let rate = parseFloat(t.wage_at_moment).toFixed(2);
         let hoursWorked = Number((t.duration / 60).toFixed(2));
+
+        // Putting this check for ST-429 - print error when NaN appears
+        // const totalLabour = Number((rate * hoursWorked).toFixed(2));
+        const totalLabour = rate * hoursWorked;
+        if (isNaN(totalLabour)) {
+          console.error('Product of rate and hoursWorked is NaN: ', rate, hoursWorked);
+        }
+
         total += rate * hoursWorked;
       }
     }

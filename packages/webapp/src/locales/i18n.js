@@ -18,6 +18,9 @@ i18n
     react: {
       useSuspense: true,
     },
+    backend: {
+      queryStringParams: { v: '3.0.1' },
+    },
   });
 
 export default i18n;

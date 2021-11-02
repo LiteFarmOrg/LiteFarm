@@ -16,6 +16,7 @@ import {
 } from './constants';
 import useSelectionHandler from './useSelectionHandler';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
+import { useMaxZoom } from './useMaxZoom';
 
 /**
  *
@@ -88,6 +89,7 @@ const useMapAssetRenderer = ({ isClickable }) => {
       : drawPoint;
   };
 
+  const { maxZoomRef } = useMaxZoom();
   const markerClusterRef = useRef();
   useEffect(() => {
     dismissSelectionModal();
@@ -124,7 +126,8 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
+      console.log(maxZoomRef?.current);
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],
           water_valve: [],

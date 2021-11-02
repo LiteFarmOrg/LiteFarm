@@ -29,6 +29,8 @@ const LocationPicker = ({
   farmCenterCoordinate,
   style,
   readOnlyPinCoordinates,
+  maxZoomRef,
+  getMaxZoom,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
@@ -132,7 +134,7 @@ const LocationPicker = ({
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
         setOverlappedPositions(
           cluster.markers_.map((marker) => ({
             location_id: marker.location_id,
@@ -217,6 +219,7 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
+    getMaxZoom?.(maps);
     const mapBounds = new maps.LatLngBounds();
     pinMarkerRef.current = new maps.Marker({
       icon: MapPin,
@@ -302,6 +305,8 @@ LocationPicker.prototype = {
   readOnlyPinCoordinates: PropTypes.arrayOf(
     PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
   ),
+  maxZoomRef: PropTypes.object,
+  getMaxZoom: PropTypes.func,
 };
 
 export default LocationPicker;

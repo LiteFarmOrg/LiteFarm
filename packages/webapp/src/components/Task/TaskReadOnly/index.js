@@ -42,6 +42,8 @@ export default function PureTaskReadOnly({
   system,
   products,
   harvestUseTypes,
+  maxZoomRef,
+  getMaxZoom,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -130,12 +132,15 @@ export default function PureTaskReadOnly({
         />
       )}
       <LocationPicker
-        onSelectLocation={() => {}}
+        onSelectLocation={() => {
+        }}
         readOnlyPinCoordinates={task.pinCoordinates}
         style={{ minHeight: '160px', marginBottom: '40px' }}
         locations={task.locations}
         selectedLocationIds={task.selectedLocationIds || []}
         farmCenterCoordinate={user.grid_points}
+        maxZoomRef={maxZoomRef}
+        getMaxZoom={getMaxZoom}
       />
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {

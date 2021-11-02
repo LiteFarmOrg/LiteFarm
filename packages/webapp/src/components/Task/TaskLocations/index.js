@@ -21,6 +21,8 @@ export default function PureTaskLocations({
   useHookFormPersist,
   isMulti = true,
   title,
+  maxZoomRef,
+  getMaxZoom,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -105,6 +107,8 @@ export default function PureTaskLocations({
           locations={locations}
           farmCenterCoordinate={farmCenterCoordinate}
           readOnlyPinCoordinates={readOnlyPinCoordinates}
+          maxZoomRef={maxZoomRef}
+          getMaxZoom={getMaxZoom}
         />
         {showWildCropCheckBox && (
           <Checkbox
@@ -130,4 +134,6 @@ PureTaskLocations.prototype = {
   isMulti: PropTypes.bool,
   title: PropTypes.string,
   readOnlyPinCoordinates: PropTypes.array,
+  maxZoomRef: PropTypes.object,
+  getMaxZoom: PropTypes.func,
 };

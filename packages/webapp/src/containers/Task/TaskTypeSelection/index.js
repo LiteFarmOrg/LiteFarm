@@ -8,6 +8,7 @@ import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../ta
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
 import { hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
@@ -39,9 +40,12 @@ function TaskTypeSelection({ history, match }) {
     history.push(entryPath);
   };
 
-  const onError = () => {};
+  const onError = () => {
+  };
 
   const updatePlantTaskSpotlight = () => dispatch(setSpotlightToShown('planting_task'));
+
+  const hasCurrentManagementPlans = useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
 
   return (
     <>
@@ -59,6 +63,7 @@ function TaskTypeSelection({ history, match }) {
           isAdmin={isAdmin}
           shouldShowPlantTaskSpotLight={!planting_task}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
+          hasCurrentManagementPlans={hasCurrentManagementPlans}
         />
       </HookFormPersistProvider>
     </>

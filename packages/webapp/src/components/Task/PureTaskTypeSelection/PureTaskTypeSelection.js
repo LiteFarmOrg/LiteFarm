@@ -26,6 +26,8 @@ import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import Button from '../../Form/Button';
 import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -83,6 +85,7 @@ export const PureTaskTypeSelection = ({
   isAdmin,
   shouldShowPlantTaskSpotLight,
   updatePlantTaskSpotlight,
+  hasCurrentManagementPlans,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -94,7 +97,8 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
-  const onTileClick = (task_type_id) => {
+
+  const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
     onContinue();
   };
@@ -107,6 +111,18 @@ export const PureTaskTypeSelection = ({
     } else {
       goToCatalogue();
     }
+  };
+  const [showNoManagementPlanModal, setShowNoManagementPlanModal] = useState();
+  const onHarvestTransplantTaskClick = (task_type_id) => {
+    hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
+  };
+
+  const onTileClick = (taskType) => {
+    if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
+    if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
+      return onHarvestTransplantTaskClick(taskType.task_type_id);
+    }
+    return onSelectTask(taskType.task_type_id);
   };
   return (
     <>
@@ -133,13 +149,12 @@ export const PureTaskTypeSelection = ({
                 t(`task:${secondTaskType.task_translation_key}`),
               ),
             )
-            .map(({ task_translation_key, task_type_id, farm_id }) => {
+            .map((taskType) => {
+              const { task_translation_key, task_type_id, farm_id } = taskType;
               return (
                 <div
                   onClick={() => {
-                    task_translation_key === 'PLANT_TASK' && !farm_id
-                      ? onPlantTaskTypeClick(task_type_id)
-                      : onTileClick(task_type_id);
+                    onTileClick(taskType);
                   }}
                   key={task_type_id}
                   className={clsx(
@@ -162,7 +177,7 @@ export const PureTaskTypeSelection = ({
               return (
                 <div
                   onClick={() => {
-                    onTileClick(task_type_id);
+                    onSelectTask(task_type_id);
                   }}
                   key={task_type_id}
                 >
@@ -192,6 +207,12 @@ export const PureTaskTypeSelection = ({
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       )}
+      {showNoManagementPlanModal &&
+      <NoCropManagementPlanModal
+        dismissModal={() => setShowNoManagementPlanModal(false)}
+        goToCatalogue={goToCatalogue}
+      />
+      }
     </>
   );
 };

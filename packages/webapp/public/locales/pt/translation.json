@@ -64,6 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
+    "NEED_MANAGEMENT_PLAN": "MISSING",
+    "NO_MANAGEMENT_PLAN": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -193,8 +195,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
-    "EMAIL": "Email",
-    "EMAIL_ERROR": "É necessário um e-mail válido",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos da certificação",
     "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
@@ -206,7 +206,6 @@
     "ORGANIC_CERTIFICATION_FROM": "Certificação orgânica de",
     "SELECT_REPORTING_PERIOD": "Selecione o período do seu relatório",
     "UH_OH": "Uh oh!",
-    "WHERE_TO_SEND_DOCS": "Para onde você quer que os seus documentos sejam enviados?",
     "WOULD_LIKE_ANSWERS": "A certificadora gostaria que você respondesse algumas perguntas extras antes de nós exportarmos seus documentos."
   },
   "CHOOSE_FARM": {
@@ -248,7 +247,6 @@
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
-    "CROP_STATUS": "Status de cultivo ativo ",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documente as informações necessárias para a produção orgânica",
     "FILTER": {
       "LOCATION": "Localização",
@@ -299,7 +297,6 @@
     "SUPPLIER": "Fornecedor"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Link para um arquivo de conformidade",
     "ADD_CROP": "Adicionar um cultivo",
     "ADD_IMAGE": "Adicionar imagem personalizada",
     "ANNUAL": "Anual",
@@ -318,8 +315,7 @@
     "PERENNIAL": "Perene",
     "PERFORM_SEARCH": "Você fez uma busca de disponibilidade comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiologia e Anatomia",
-    "TREATED": "As sementes desta cultivo foram tratadas?",
-    "UPLOAD_LATER": "Você também pode fazer upload de arquivos posteriormente"
+    "TREATED": "As sementes desta cultivo foram tratadas?"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "De",
@@ -792,21 +788,41 @@
     "PLANNED_CROPS": "Cultivos planejados"
   },
   "LOG_COMMON": {
+    "ACTION": "MISSING",
+    "ACTIVITY": "MISSING",
     "ADD_A_LOG": "Adicione um registro",
+    "ADD_NEW_LOG": "MISSING",
+    "ALL": "MISSING",
     "ALL_CROPS": "Todos os cultivos",
     "ALL_LOCATIONS": "Todos os locais",
     "CROP": "Cultivos",
+    "DATE": "MISSING",
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
     "EDIT_A_LOG": "Editar um registro",
+    "FARM_LOG": "MISSING",
+    "FERTILIZING": "MISSING",
+    "FIELD_WORK": "MISSING",
     "FROM": "De",
+    "HARVEST": "MISSING",
+    "IRRIGATION": "MISSING",
     "LOCATION": "Local",
     "LOCATIONS": "Locais",
+    "LOG_ALL_CROPS": "MISSING",
+    "LOG_HELP": "MISSING",
+    "LOG_HELP_EXPLANATION": "MISSING",
+    "LOG_HISTORY": "MISSING",
     "NOTES": "Notas",
+    "OTHER": "MISSING",
+    "PEST": "MISSING",
     "QUANTITY": "Quantidade",
+    "SCOUTING": "MISSING",
+    "SEARCH_BY_ACTIVITY": "MISSING",
+    "SEEDING": "MISSING",
     "SELECT_CROP": "selecione cultivo",
     "SELECT_LOCATION": "Selecione local",
     "SELECT_LOCATIONS": "Selecione locais",
     "SELECT_TYPE": "Selecionar Tipo",
+    "SOIL_DATA": "MISSING",
     "TO": "Para",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro, você deve adicionar cultivos aos campos. Você pode fazer isso navegando em Campos -> Seu campo -> Novo cultivo de campo"
@@ -1292,6 +1308,10 @@
     "ACTIVE": "Ativo",
     "INACTIVE": "Inativo",
     "INVITED": "Convidado"
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "MISSING",
+    "TITLE": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",

@@ -14,7 +14,6 @@
   "DELETE": "Delete",
   "DO_NOT_SHOW": "Don’t show this message again.",
   "EDIT": "Edit",
-  "EDIT_DATE": "Edit date",
   "EXPORT": "Export",
   "FINISH": "Finish",
   "FROM": "from",
@@ -23,6 +22,7 @@
   "HIDE": "Hide",
   "HOURS": "Hours",
   "LOADING": "Loading...",
+  "LOCATION": "MISSING",
   "MARK_ABANDON": "Abandon",
   "MARK_COMPLETE": "Mark Complete",
   "MARK_COMPLETED": "Mark completed",
@@ -50,5 +50,6 @@
   "SUBMITTING": "Submitting...",
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
-  "YES": "Yes"
+  "YES": "Yes",
+  "EDIT_DATE": "Edit date"
 }

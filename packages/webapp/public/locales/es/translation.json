@@ -64,6 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "¿Cuánto se está cosechando?",
     "HR": "/h.",
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
+    "NEED_MANAGEMENT_PLAN": "MISSING",
+    "NO_MANAGEMENT_PLAN": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Control biológico",
       "FLAME_WEEDING": "Deshierbe de llama",
@@ -193,8 +195,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Parece que LiteFarm no exporta actualmente en el formato de su certificador. Aún puede exportar sus documentos, pero su certificador puede requerir información adicional. Se los enviaremos a:",
-    "EMAIL": "Correo electrónico",
-    "EMAIL_ERROR": "Se requiere un correo válido",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
@@ -206,7 +206,6 @@
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
     "UH_OH": "¡Oh, no!",
-    "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
   },
   "CHOOSE_FARM": {
@@ -248,7 +247,6 @@
     "CROP_CATALOGUE": "Catálogo de cultivos",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "La selección de un grupo de cultivos permite que LiteFarm rellene previamente mucha información sobre este cultivo, como la temporada de crecimiento, los valores nutricionales y el rendimiento estimado. No se preocupe, puede cambiar estos valores a continuación una vez que haya seleccionado un grupo de cultivos.",
-    "CROP_STATUS": "Estatus del cultivo activo",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documentar la información necesaria para la producción orgánica",
     "FILTER": {
       "LOCATION": "Ubicación",
@@ -299,7 +297,6 @@
     "SUPPLIER": "Proveedor/a"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
     "ADD_CROP": "Agregar un cultivo",
     "ADD_IMAGE": "Agregar imagen personalizada",
     "ANNUAL": "Anual",
@@ -318,8 +315,7 @@
     "PERENNIAL": "Perenne",
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
-    "TREATED": "¿Se han tratado las semillas de este cultivo?",
-    "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+    "TREATED": "¿Se han tratado las semillas de este cultivo?"
   },
   "DATE_RANGE_PICKER": {
     "FROM": "Desde",
@@ -792,21 +788,41 @@
     "PLANNED_CROPS": "Cultivos planificados"
   },
   "LOG_COMMON": {
+    "ACTION": "MISSING",
+    "ACTIVITY": "MISSING",
     "ADD_A_LOG": "Agregar registro",
+    "ADD_NEW_LOG": "MISSING",
+    "ALL": "MISSING",
     "ALL_CROPS": "Todos los cultivos",
     "ALL_LOCATIONS": "Todas las ubicaciones ",
     "CROP": "Cultivo",
+    "DATE": "MISSING",
     "DELETE_CONFIRMATION": "Está seguro(a) que quiere borrar este registro?",
     "EDIT_A_LOG": "Editar registro",
+    "FARM_LOG": "MISSING",
+    "FERTILIZING": "MISSING",
+    "FIELD_WORK": "MISSING",
     "FROM": "Desde",
+    "HARVEST": "MISSING",
+    "IRRIGATION": "MISSING",
     "LOCATION": "Ubicacion",
     "LOCATIONS": "Ubicaciones",
+    "LOG_ALL_CROPS": "MISSING",
+    "LOG_HELP": "MISSING",
+    "LOG_HELP_EXPLANATION": "MISSING",
+    "LOG_HISTORY": "MISSING",
     "NOTES": "Notas",
+    "OTHER": "MISSING",
+    "PEST": "MISSING",
     "QUANTITY": "Cantidad",
+    "SCOUTING": "MISSING",
+    "SEARCH_BY_ACTIVITY": "MISSING",
+    "SEEDING": "MISSING",
     "SELECT_CROP": "Seleccionar cultivo",
     "SELECT_LOCATION": "Seleccionar ubicacion",
     "SELECT_LOCATIONS": "Selecionar ubicaciones",
     "SELECT_TYPE": "Seleccionar Tipo",
+    "SOIL_DATA": "MISSING",
     "TO": "Hasta",
     "TYPE": "Tipo",
     "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo"
@@ -1291,6 +1307,10 @@
     "ACTIVE": "Activo",
     "INACTIVE": "Inactivo",
     "INVITED": "Invitado"
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "MISSING",
+    "TITLE": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos!",

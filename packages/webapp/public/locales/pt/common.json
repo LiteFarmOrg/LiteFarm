@@ -14,7 +14,6 @@
   "DELETE": "Excluir",
   "DO_NOT_SHOW": "Não mostrar esta mensagem novamente",
   "EDIT": "Editar",
-  "EDIT_DATE": "Editar data",
   "EXPORT": "Exportar",
   "FINISH": "Finalizar",
   "FROM": "de",
@@ -23,6 +22,7 @@
   "HIDE": "Ocultar",
   "HOURS": "Horas",
   "LOADING": "Carregando...",
+  "LOCATION": "MISSING",
   "MARK_ABANDON": "Abandonar",
   "MARK_COMPLETE": "Tarefa concluída",
   "MARK_COMPLETED": "Tarefa concluída",
@@ -50,5 +50,6 @@
   "SUBMITTING": "Enviando...",
   "UPDATE": "Atualizar",
   "WORD_LIMIT_ERROR": "Somente {{value}} caractéres podem ser exibidos",
-  "YES": "Sim"
+  "YES": "Sim",
+  "EDIT_DATE": "Editar data"
 }

@@ -75,7 +75,9 @@ class AddSale extends Component {
     for (let mp of managementPlans) {
       if (!cropVarietySet.has(mp.crop_variety_id)) {
         cropVarietyOptions.push({
-          label: `${mp.crop_variety_name}, ${this.props.t(`crop:${mp.crop_translation_key}`)}`,
+          label: mp.crop_variety_name
+            ? `${mp.crop_variety_name}, ${this.props.t(`crop:${mp.crop_translation_key}`)}`
+            : this.props.t(`crop:${mp.crop_translation_key}`),
           value: mp.crop_variety_id,
         });
         cropVarietySet.add(mp.crop_variety_id);

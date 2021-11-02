@@ -17,6 +17,7 @@ import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSl
 import { getManagementPlans } from '../../saga';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
+import { cropEntitiesSelector } from '../../cropSlice';
 
 class EditSale extends Component {
   constructor(props) {
@@ -26,8 +27,14 @@ class EditSale extends Component {
     const chosenOptions =
       sale &&
       sale.crop_variety_sale.map((cvs) => {
-        const cropVariety = this.props.cropVarietyEntities[cvs.crop_variety_id].crop_variety_name;
-        return { label: cropVariety, value: cvs.crop_variety_id };
+        const { crop_variety_name, crop_id } = this.props.cropVarietyEntities[cvs.crop_variety_id];
+        const { crop_translation_key } = this.props.cropEntities[crop_id];
+        return {
+          label: crop_variety_name
+            ? `${crop_variety_name}, ${this.props.t(`crop:${crop_translation_key}`)}`
+            : this.props.t(`crop:${crop_translation_key}`),
+          value: cvs.crop_variety_id,
+        };
       });
     const quantity_unit =
       sale?.crop_variety_sale[0].quantity_unit || getUnit(this.props.farm, 'kg', 'lb');
@@ -38,7 +45,11 @@ class EditSale extends Component {
       currencySymbol: grabCurrencySymbol(this.props.farm),
     };
     sale?.crop_variety_sale.forEach((cvs) => {
-      const cropVariety = this.props.cropVarietyEntities[cvs.crop_variety_id].crop_variety_name;
+      const { crop_variety_name, crop_id } = this.props.cropVarietyEntities[cvs.crop_variety_id];
+      const { crop_translation_key } = this.props.cropEntities[crop_id];
+      const cropVariety = crop_variety_name
+        ? `${crop_variety_name}, ${this.props.t(`crop:${crop_translation_key}`)}`
+        : this.props.t(`crop:${crop_translation_key}`);
       this.props.dispatch(
         actions.change(
           `financeReducer.forms.editSale.${cropVariety}.value`,
@@ -108,8 +119,12 @@ class EditSale extends Component {
 
     for (let mp of managementPlans) {
       if (!cropVarietySet.has(mp.crop_variety_id)) {
+        const { crop_variety_name, crop_id } = this.props.cropVarietyEntities[mp.crop_variety_id];
+        const { crop_translation_key } = this.props.cropEntities[crop_id];
         cropVarietyOptions.push({
-          label: `${mp.crop_variety_name}, ${this.props.t(`crop:${mp.crop_translation_key}`)}`,
+          label: crop_variety_name
+            ? `${crop_variety_name}, ${this.props.t(`crop:${crop_translation_key}`)}`
+            : this.props.t(`crop:${crop_translation_key}`),
           value: mp.crop_variety_id,
         });
         cropVarietySet.add(mp.crop_variety_id);
@@ -170,6 +185,7 @@ const mapStateToProps = (state) => {
     managementPlans: currentAndPlannedManagementPlansSelector(state),
     farm: userFarmSelector(state),
     cropVarietyEntities: cropVarietyEntitiesSelector(state),
+    cropEntities: cropEntitiesSelector(state),
   };
 };
 

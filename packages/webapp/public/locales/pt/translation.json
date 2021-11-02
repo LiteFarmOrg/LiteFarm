@@ -64,6 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
+    "NEED_MANAGEMENT_PLAN": "MISSING",
+    "NO_MANAGEMENT_PLAN": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",

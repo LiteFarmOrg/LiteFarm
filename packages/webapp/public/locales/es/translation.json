@@ -64,6 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "¿Cuánto se está cosechando?",
     "HR": "/h.",
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
+    "NEED_MANAGEMENT_PLAN": "MISSING",
+    "NO_MANAGEMENT_PLAN": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Control biológico",
       "FLAME_WEEDING": "Deshierbe de llama",

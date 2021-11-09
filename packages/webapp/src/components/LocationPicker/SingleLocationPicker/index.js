@@ -218,6 +218,7 @@ const LocationPicker = ({
 
   const handleGoogleMapApi = (map, maps) => {
     const mapBounds = new maps.LatLngBounds();
+    mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({
       icon: MapPin,
       position: pinCoordinate || farmCenterCoordinate,

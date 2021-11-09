@@ -16,71 +16,27 @@
 import { all, call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
-import {
-  loginSelector,
-  patchFarmSuccess,
-  putUserSuccess,
-  selectFarmSuccess,
-  userFarmSelector,
-} from './userFarmSlice';
+import { loginSelector, patchFarmSuccess, putUserSuccess, selectFarmSuccess, userFarmSelector } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
-import {
-  getNaturalAreasSuccess,
-  onLoadingNaturalAreaFail,
-  onLoadingNaturalAreaStart,
-} from './naturalAreaSlice';
-import {
-  getCeremonialsSuccess,
-  onLoadingCeremonialFail,
-  onLoadingCeremonialStart,
-} from './ceremonialSlice';
+import { getNaturalAreasSuccess, onLoadingNaturalAreaFail, onLoadingNaturalAreaStart } from './naturalAreaSlice';
+import { getCeremonialsSuccess, onLoadingCeremonialFail, onLoadingCeremonialStart } from './ceremonialSlice';
 import {
   getFarmSiteBoundarysSuccess,
   onLoadingFarmSiteBoundaryFail,
   onLoadingFarmSiteBoundaryStart,
 } from './farmSiteBoundarySlice';
-import {
-  getResidencesSuccess,
-  onLoadingResidenceFail,
-  onLoadingResidenceStart,
-} from './residenceSlice';
-import {
-  getGreenhousesSuccess,
-  onLoadingGreenhouseFail,
-  onLoadingGreenhouseStart,
-} from './greenhouseSlice';
-import {
-  getSurfaceWatersSuccess,
-  onLoadingSurfaceWaterFail,
-  onLoadingSurfaceWaterStart,
-} from './surfaceWaterSlice';
-import {
-  getBufferZonesSuccess,
-  onLoadingBufferZoneFail,
-  onLoadingBufferZoneStart,
-} from './bufferZoneSlice';
-import {
-  getWatercoursesSuccess,
-  onLoadingWatercourseFail,
-  onLoadingWatercourseStart,
-} from './watercourseSlice';
+import { getResidencesSuccess, onLoadingResidenceFail, onLoadingResidenceStart } from './residenceSlice';
+import { getGreenhousesSuccess, onLoadingGreenhouseFail, onLoadingGreenhouseStart } from './greenhouseSlice';
+import { getSurfaceWatersSuccess, onLoadingSurfaceWaterFail, onLoadingSurfaceWaterStart } from './surfaceWaterSlice';
+import { getBufferZonesSuccess, onLoadingBufferZoneFail, onLoadingBufferZoneStart } from './bufferZoneSlice';
+import { getWatercoursesSuccess, onLoadingWatercourseFail, onLoadingWatercourseStart } from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import {
-  getWaterValvesSuccess,
-  onLoadingWaterValveFail,
-  onLoadingWaterValveStart,
-} from './waterValveSlice';
+import { getWaterValvesSuccess, onLoadingWaterValveFail, onLoadingWaterValveStart } from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
-import {
-  cropVersionSelector,
-  getAllCropsSuccess,
-  onLoadingCropFail,
-  onLoadingCropStart,
-  setCropVersion,
-} from './cropSlice';
+import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
   getManagementPlansSuccess,
   onLoadingManagementPlanFail,
@@ -97,11 +53,7 @@ import {
   getAllSupportedCertifiers,
   getCertificationSurveys,
 } from './OrganicCertifierSurvey/saga';
-import {
-  getAllCropVarietiesSuccess,
-  onLoadingCropVarietyFail,
-  onLoadingCropVarietyStart,
-} from './cropVarietySlice';
+import { getAllCropVarietiesSuccess, onLoadingCropVarietyFail, onLoadingCropVarietyStart } from './cropVarietySlice';
 import {
   getBroadcastMethodsSuccess,
   onLoadingBroadcastMethodFail,
@@ -112,21 +64,9 @@ import {
   onLoadingContainerMethodFail,
   onLoadingContainerMethodStart,
 } from './containerMethodSlice';
-import {
-  getBedMethodsSuccess,
-  onLoadingBedMethodFail,
-  onLoadingBedMethodStart,
-} from './bedMethodSlice';
-import {
-  getRowMethodsSuccess,
-  onLoadingRowMethodFail,
-  onLoadingRowMethodStart,
-} from './rowMethodSlice';
-import {
-  getAllDocumentsSuccess,
-  onLoadingDocumentFail,
-  onLoadingDocumentStart,
-} from './documentSlice';
+import { getBedMethodsSuccess, onLoadingBedMethodFail, onLoadingBedMethodStart } from './bedMethodSlice';
+import { getRowMethodsSuccess, onLoadingRowMethodFail, onLoadingRowMethodStart } from './rowMethodSlice';
+import { getAllDocumentsSuccess, onLoadingDocumentFail, onLoadingDocumentStart } from './documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
   getCropManagementPlansSuccess,
@@ -148,10 +88,9 @@ import {
   getTaskTypes,
   getTaskTypesSaga,
 } from './Task/saga';
-import {
-  getCertificationSurveysSuccess,
-  onLoadingCertifierSurveyFail,
-} from './OrganicCertifierSurvey/slice';
+import { getCertificationSurveysSuccess, onLoadingCertifierSurveyFail } from './OrganicCertifierSurvey/slice';
+import { appVersionSelector, setAppVersion } from './appSettingSlice';
+import { APP_VERSION } from '../util/constants';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -159,7 +98,7 @@ const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
 
 export const axios = require('axios');
 axios.interceptors.response.use(
-  function (response) {
+  function(response) {
     return response;
   },
   function (error) {
@@ -218,14 +157,14 @@ export function* getCropsSaga() {
 
   try {
     yield put(onLoadingCropStart());
-    const crop_version = yield select(cropVersionSelector);
+    const appVersion = yield select(appVersionSelector);
+    const queryString = appVersion === APP_VERSION ? '?fetch_all=false' : '';
     const result = yield call(
       axios.get,
-      `${cropURL}/farm/${farm_id}?crop_version=${crop_version}`,
+      `${cropURL}/farm/${farm_id}${queryString}`,
       header,
     );
     yield put(getAllCropsSuccess(result.data));
-    yield put(setCropVersion());
   } catch (e) {
     yield put(onLoadingCropFail());
     console.error('failed to fetch all crops from database');
@@ -518,7 +457,7 @@ export function* getManagementPlansAndTasksSaga() {
 }
 
 export function* logUserInfoSaga() {
-  let { user_id, farm_id } = yield select(loginSelector);
+  const { user_id, farm_id } = yield select(loginSelector);
   if (!user_id) return;
   const header = getHeader(user_id, farm_id);
   try {
@@ -540,6 +479,12 @@ export function* logUserInfoSaga() {
   } catch (e) {
     console.log('failed to fetch field crops by date');
   }
+}
+
+export function* checkAppVersionSaga() {
+  const appVersion = yield select(appVersionSelector);
+  const isStoreOutdated = appVersion && appVersion !== APP_VERSION;
+  if (isStoreOutdated) logout();
 }
 
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
@@ -580,6 +525,10 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       data: { farm_token },
     } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
     localStorage.setItem('farm_token', farm_token);
+    const appVersion = yield select(appVersionSelector);
+    if (appVersion !== APP_VERSION) {
+      yield put(setAppVersion());
+    }
   } catch (e) {
     console.error('failed to fetch farm info', e);
   }
@@ -609,6 +558,7 @@ const formatDate = (currDate) => {
 
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
+  yield takeLeading('*', checkAppVersionSaga);
   yield takeLeading(updateUser.type, updateUserSaga);
   yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
   yield takeLeading(putFarm.type, putFarmSaga);

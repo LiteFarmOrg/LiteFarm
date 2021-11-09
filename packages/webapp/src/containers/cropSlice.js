@@ -107,6 +107,7 @@ const getCrop = (obj) => {
     'planting_method',
     'plant_spacing',
     'seeding_rate',
+    'hs_code_id',
   ]);
 };
 const addOneCrop = (state, { payload }) => {
@@ -140,7 +141,6 @@ const cropSlice = createSlice({
     loading: false,
     error: undefined,
     loaded: false,
-    crop_version: undefined,
   }),
   reducers: {
     onLoadingCropStart: onLoadingStart,
@@ -154,9 +154,6 @@ const cropSlice = createSlice({
     selectCropSuccess(state, { payload: crop_id }) {
       state.crop_id = crop_id;
     },
-    setCropVersion(state) {
-      state.crop_version = '2.0';
-    },
   },
 });
 export const {
@@ -165,13 +162,10 @@ export const {
   onLoadingCropStart,
   onLoadingCropFail,
   getAllCropsSuccess,
-  setCropVersion,
 } = cropSlice.actions;
 export default cropSlice.reducer;
 
 export const cropReducerSelector = (state) => state.entitiesReducer[cropSlice.name];
-
-export const cropVersionSelector = (state) => state.entitiesReducer[cropSlice.name].crop_version;
 
 const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropSlice.name]);
 

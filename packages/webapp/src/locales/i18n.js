@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 import backend from 'i18next-xhr-backend';
+import { APP_VERSION } from '../util/constants';
 
 i18n
   .use(backend)
@@ -10,6 +11,7 @@ i18n
   .init({
     defaultNS: 'translation',
     fallbackLng: 'en',
+    locales: ['en', 'pt', 'es'],
     debug: false,
     detection: {
       lookupLocalStorage: 'litefarm_lang',
@@ -19,7 +21,7 @@ i18n
       useSuspense: true,
     },
     backend: {
-      queryStringParams: { v: '3.0.1' },
+      queryStringParams: { v: APP_VERSION },
     },
   });
 

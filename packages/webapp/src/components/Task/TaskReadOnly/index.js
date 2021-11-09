@@ -132,7 +132,9 @@ export default function PureTaskReadOnly({
         />
       )}
       <LocationPicker
+
         onSelectLocation={() => {
+          //  TODO: fix onSelectLocationRef in LocationPicker
         }}
         readOnlyPinCoordinates={task.pinCoordinates}
         style={{ minHeight: '160px', marginBottom: '40px' }}

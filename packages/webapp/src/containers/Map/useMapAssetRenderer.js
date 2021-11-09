@@ -126,7 +126,6 @@ const useMapAssetRenderer = ({ isClickable }) => {
 
     markerCluster.addMarkers(markers, true);
     maps.event.addListener(markerCluster, 'click', (cluster) => {
-      console.log(maxZoomRef?.current);
       if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
         const pointAssets = {
           gate: [],

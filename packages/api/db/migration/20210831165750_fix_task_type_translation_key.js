@@ -4,7 +4,7 @@ exports.up = function(knex) {
       {
         'task_name': 'Bed Preparation',
         'farm_id': null,
-        'task_translation_key': 'BED_PREPARATION',
+        // 'task_translation_key': 'BED_PREPARATION',
       },
     ).update({ task_translation_key: 'BED_PREPARATION_TASK' }),
     knex('task_type').where(
@@ -18,29 +18,28 @@ exports.up = function(knex) {
       {
         'task_name': 'Scouting',
         'farm_id': null,
-        'task_translation_key': 'SCOUTING',
+        // 'task_translation_key': 'SCOUTING',
       },
     ).update({ task_translation_key: 'SCOUTING_TASK' }),
     knex('task_type').where(
       {
         'task_name': 'Harvesting',
         'farm_id': null,
-        'task_translation_key': 'HARVESTING',
+        // 'task_translation_key': 'HARVESTING',
       },
     ).update({ task_translation_key: 'HARVEST_TASK' }),
     knex('task_type').where(
       {
         'task_name': 'Wash and Pack',
         'farm_id': null,
-        'task_translation_key': 'WASH_AND_PACK',
-      }
-      ,
+        // 'task_translation_key': 'WASH_AND_PACK',
+      },
     ).update({ task_translation_key: 'WASH_AND_PACK_TASK' }),
     knex('task_type').where(
       {
         'task_name': 'Pest Control',
         'farm_id': null,
-        'task_translation_key': 'PEST_CONTROL',
+        // 'task_translation_key': 'PEST_CONTROL',
       }
       ,
     ).update({ task_translation_key: 'PEST_CONTROL_TASK' }),
@@ -48,7 +47,7 @@ exports.up = function(knex) {
       {
         'task_name': 'Other',
         'farm_id': null,
-        'task_translation_key': 'OTHER',
+        // 'task_translation_key': 'OTHER',
       }
       ,
     ).update({ task_translation_key: 'OTHER_TASK' }),

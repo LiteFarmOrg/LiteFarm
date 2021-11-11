@@ -18,15 +18,15 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
 ## Preliminaries 
 
 1. Install [node.js](https://nodejs.org/en/download/package-manager/) if you do not already have it.
-3. Use the `git clone` command to clone this repository to your computer.
+2. Use the `git clone` command to clone this repository to your computer.
 
 ## Configure LiteFarm applications
 
 The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. Begin with these, and customize as needed.
 
-1. Create file `packages/api/.env` by copying the `.env.default` file in that folder. 
+1. Create the api configuration file by copying `packages/api/env.default` to `packages/api/.env`. 
 
-2. Create file `packages/webapp/.env` by copying the `.env.default` file in that folder. For webapp to work, you must edit your new `.env` file to provide values for two required environment variables:
+2. Create the webapp configuration file by copying `packages/webapp/env.default` to `packages/webapp/.env`. For webapp to work, you must edit your new `.env` file to provide values for two required environment variables:
      - `REACT_APP_GOOGLE_MAPS_API_KEY` is a Google Maps API key. You should obtain your own key value from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
      - `REACT_APP_WEATHER_API_KEY` is an OpenWeather API key. You should obtain your own key value from [OpenWeather](https://openweathermap.org/api). 
 
@@ -58,7 +58,7 @@ This approach runs the LiteFarm applications and database server directly on you
    brew services start postgresql
    ```
 
-2. Set up the PostgreSQL role (account) and databases for development and test (`pg-litefarm` and `test_farm`, respectively). You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres`.
+2. Set up the PostgreSQL role (account) and databases. (The `packages/api/.env.default` file specifies `pg-litefarm` and `test_farm`, respectively, for development and test database names.) You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres`.
 
    - Linux. In a terminal, start the client with `sudo -u postgres psql`, then execute each of the following commands. (The last command terminates the client session.)
        ```sql
@@ -84,9 +84,9 @@ This approach runs the LiteFarm applications and database server directly on you
 
 6. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database. (If you run into issues here, you can try dropping and recreating the database.) 
 
-8. Run `npm start` to launch the api application. 
+7. Run `npm start` to launch the api application. 
 
-9. In a different terminal, navigate to the `packages/webapp` folder and run `npm start` to launch the webapp application. Load it in your browser at http://localhost:3000.
+8. In a different terminal, navigate to the `packages/webapp` folder and run `npm start` to launch the webapp application. Load it in your browser at http://localhost:3000.
 
 # Testing
 
@@ -98,17 +98,17 @@ Since this is a mobile web application, webapp should be viewed in a mobile view
 
 Automated testing for the front-end is done using [cypress](https://www.cypress.io/). 
 
-2. In a terminal, navigate to the `packages/webapp` folder.
+1. In a terminal, navigate to the `packages/webapp` folder.
 2. Execute `npm test` to launch the tests.
 
 ## api
 
 To run [ESLint](https://eslint.org/) checks execute `npm run lint`
 
-The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using a [JWT](https://jwt.io/introduction) obtained through Auth0. The tests use a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses .
+The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using [JWT](https://jwt.io/introduction). The tests use a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses .
 
 1. In a terminal, navigate to the `packages/api` folder. 
-2. Execute `npm run migrate:test:db` to set up the test database.
+2. Execute `npm run migrate:testing:db` to set up the test database.
 3. Execute `npm test` to launch the tests.
 
 It is good practice to use `psql` to `DROP` and `CREATE` the `test_farm` database before repeating this process.

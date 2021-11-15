@@ -31,6 +31,7 @@ import {
   isIntroducingCertificationsSelector,
   setIntroducingCertifications,
 } from '../../../containers/Navigation/navbarSlice';
+import useHomeModalManager from '../../../containers/Home/useHomeModalManager';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -120,9 +121,11 @@ export default function PureNavBar({
     'certifications',
     'crop_group',
   ]);
-  const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
-  const isIntroducingFarmMap = !introduce_map && navigation;
-  const isIntroducingCertifications = useSelector(isIntroducingCertificationsSelector);
+  const { activeModal } = useHomeModalManager(history);
+  const { introduce_map } = useSelector(showedSpotlightSelector);
+  console.log('navbar history', history.location.pathname);
+  const isIntroducingFarmMap = activeModal === 'notifyUpdatedFarm';
+  const isIntroducingCertifications = activeModal === 'certifications';
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

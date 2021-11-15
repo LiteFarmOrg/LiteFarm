@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import ModalComponent from '../ModalComponent/v2';
 import Button from '../../Form/Button';
 
-export function CertificationsModal({ dismissModal, handleClickMaybeLater, handleClickYes }) {
+export default function PureCertificationsModal({
+  dismissStepTwoModal,
+  handleClickMaybeLater,
+  handleClickYes,
+}) {
   const { t } = useTranslation();
 
   const [stepTwo, setStepTwo] = useState(false);
@@ -19,11 +23,11 @@ export function CertificationsModal({ dismissModal, handleClickMaybeLater, handl
       <ModalComponent
         title={t('CERTIFICATIONS_MODAL.STEP_TWO.TITLE')}
         contents={[t('CERTIFICATIONS_MODAL.STEP_TWO.DESCRIPTION')]}
-        dismissModal={dismissModal}
+        dismissModal={dismissStepTwoModal}
         buttonGroup={
           <Button
             style={{ width: '96px', marginRight: '8px' }}
-            onClick={dismissModal}
+            onClick={dismissStepTwoModal}
             type={'submit'}
             sm
           >

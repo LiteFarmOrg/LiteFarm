@@ -11,11 +11,7 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import {
-  getDateDifference,
-  getDateInputFormat,
-  getLocalizedDateString,
-} from '../../../util/moment';
+import { getDateDifference, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -385,7 +381,7 @@ export default function PurePlantingDate({
           style={{ paddingBottom: '16px', paddingTop: '24px' }}
         />
       )}
-      {main_date && !harvestIsMain && !terminationIsMain && (
+      {main_date && Math.abs(new Date(main_date).getFullYear() - new Date().getFullYear()) < 1000 && !harvestIsMain && !terminationIsMain && (
         <FullYearCalendarView
           language={language}
           {...{

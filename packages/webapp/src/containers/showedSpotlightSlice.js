@@ -1,4 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
+import { switchFarmSelector } from './ChooseFarm/chooseFarmFlowSlice';
+import { showHelpRequestModalSelector } from './Home/homeSlice';
+import { doesCertifierSurveyExistSelector } from './OrganicCertifierSurvey/slice';
+import { isAdminSelector } from './userFarmSlice';
 
 const initialState = {
   loaded: false,
@@ -55,3 +60,29 @@ export const {
 } = showedSpotlightSlice.actions;
 export default showedSpotlightSlice.reducer;
 export const showedSpotlightSelector = (state) => state?.entitiesReducer[showedSpotlightSlice.name];
+
+export const activeHomeModalSelector = createSelector(
+  [
+    switchFarmSelector,
+    doesCertifierSurveyExistSelector,
+    showHelpRequestModalSelector,
+    isAdminSelector,
+    showedSpotlightSelector,
+  ],
+  (
+    showSwitchFarmModal,
+    doesCertifierSurveyExist,
+    showHelpRequestModal,
+    isAdmin,
+    { introduce_map, navigation },
+  ) => {
+    const showCertificationsModal = !doesCertifierSurveyExist && isAdmin;
+    const showNotifyUpdatedFarmModal = !introduce_map && navigation;
+
+    if (showSwitchFarmModal) return 'switchFarm';
+    if (showHelpRequestModal) return 'helpRequest';
+    if (showCertificationsModal) return 'certifications';
+    if (showNotifyUpdatedFarmModal) return 'notifyUpdatedFarm';
+    return null;
+  },
+);

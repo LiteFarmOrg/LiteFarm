@@ -10,7 +10,7 @@ import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import CertificationsSpotlight from './modals/CertificationsSpotlight';
 import RequestConfirmationModal from './modals/RequestConfirmation';
 import IntroduceMapSpotlight from './modals/UpdatedFarmSpotlight';
-import useHomeModalManager from './useHomeModalManager';
+import { activeHomeModalSelector } from '../showedSpotlightSlice';
 
 const modalMap = {
   switchFarm: FarmSwitchOutro,
@@ -27,7 +27,7 @@ export default function Home({ history }) {
 
   const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
 
-  const { activeModal } = useHomeModalManager();
+  const activeModal = useSelector(activeHomeModalSelector);
 
   const ActiveModal = activeModal && modalMap[activeModal];
 

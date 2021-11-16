@@ -24,14 +24,10 @@ import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
 import SlideMenu from './slideMenu';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { showedSpotlightSelector } from '../../../containers/showedSpotlightSlice';
 import { setSpotlightToShown } from '../../../containers/Map/saga';
 import { getLanguageFromLocalStorage } from '../../../util/getLanguageFromLocalStorage';
-import {
-  isIntroducingCertificationsSelector,
-  setIntroducingCertifications,
-} from '../../../containers/Navigation/navbarSlice';
-import useHomeModalManager from '../../../containers/Home/useHomeModalManager';
+import { setIntroducingCertifications } from '../../../containers/Navigation/navbarSlice';
+import { activeHomeModalSelector } from '../../../containers/showedSpotlightSlice';
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -121,11 +117,12 @@ export default function PureNavBar({
     'certifications',
     'crop_group',
   ]);
-  const { activeModal } = useHomeModalManager(history);
-  const { introduce_map } = useSelector(showedSpotlightSelector);
-  console.log('navbar history', history.location.pathname);
-  const isIntroducingFarmMap = activeModal === 'notifyUpdatedFarm';
-  const isIntroducingCertifications = activeModal === 'certifications';
+  const activeModal = useSelector(activeHomeModalSelector);
+  // TODO: add useLocation here to track current pathname after react router v5/6 has been added
+  // const isOnHome = history.location.pathname === '/';
+  const isOnHome = true;
+  const isIntroducingFarmMap = activeModal === 'notifyUpdatedFarm' && isOnHome;
+  const isIntroducingCertifications = activeModal === 'certifications' && isOnHome;
   const dispatch = useDispatch();
   //Drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -157,7 +154,7 @@ export default function PureNavBar({
   };
 
   const farmInfoClick = () => {
-    if (!introduce_map) return;
+    if (activeModal) return;
     history.push({
       pathname: '/Profile',
       state: 'farm',
@@ -165,12 +162,13 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
-    if (!introduce_map) dispatch(setSpotlightToShown('introduce_map'));
+    if (isIntroducingFarmMap) dispatch(setSpotlightToShown('introduce_map'));
+    else if (activeModal) return;
     history.push('/map');
     closeFloater();
   };
   const peopleClick = () => {
-    if (!introduce_map) return;
+    if (activeModal) return;
     history.push({
       pathname: '/Profile',
       state: 'people',
@@ -178,7 +176,7 @@ export default function PureNavBar({
     closeFloater();
   };
   const certificationClick = () => {
-    if (!introduce_map) return;
+    if (activeModal) return;
     history.push('/certification');
     closeFloater();
   };

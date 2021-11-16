@@ -1,17 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import {
-  isAdminSelector,
-  measurementSelector,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from '../../userFarmSlice';
+import { isAdminSelector, measurementSelector, userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { productEntitiesSelector } from '../../productSlice';
 import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
+import { useMaxZoom } from '../../Map/useMaxZoom';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
@@ -50,7 +46,7 @@ function TaskReadOnly({ history, match }) {
   const onAbandon = () => {
     history.push(`/tasks/${task_id}/abandon`);
   };
-
+  const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (
     <PureTaskReadOnly
       task_id={task_id}
@@ -66,6 +62,8 @@ function TaskReadOnly({ history, match }) {
       products={products}
       harvestUseTypes={harvestUseTypes}
       isTaskTypeCustom={isTaskTypeCustom}
+      maxZoomRef={maxZoomRef}
+      getMaxZoom={getMaxZoom}
     />
   );
 }

@@ -9,15 +9,12 @@ import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { userFarmSelector } from '../../userFarmSlice';
-import {
-  cropLocationEntitiesSelector,
-  cropLocationsSelector,
-  locationsSelector,
-} from '../../locationSlice';
+import { cropLocationEntitiesSelector, cropLocationsSelector, locationsSelector } from '../../locationSlice';
 import { useActiveAndCurrentManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 import { useTranslation } from 'react-i18next';
 import { useReadOnlyPinCoordinates } from '../useReadOnlyPinCoordinates';
+import { useMaxZoom } from '../../Map/useMaxZoom';
 
 export default function TaskLocationsSwitch({ history, match }) {
   const isCropLocation = useIsTaskType('HARVEST_TASK');
@@ -126,7 +123,7 @@ function TaskLocations({
     history.push(entryPath);
   };
   const { grid_points } = useSelector(userFarmSelector);
-
+  const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (
     <HookFormPersistProvider>
       <PureTaskLocations
@@ -138,6 +135,8 @@ function TaskLocations({
         isMulti={isMulti}
         title={title}
         readOnlyPinCoordinates={readOnlyPinCoordinates}
+        maxZoomRef={maxZoomRef}
+        getMaxZoom={getMaxZoom}
       />
     </HookFormPersistProvider>
   );

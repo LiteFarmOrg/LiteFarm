@@ -25,7 +25,7 @@ import { PurePlantingTask } from '../PlantingTask';
 import LocationPicker from '../../LocationPicker/SingleLocationPicker';
 import { StatusLabel } from '../../CardWithStatus/StatusLabel';
 import { getTaskStatus } from '../../../containers/Task/taskCardContentSelector';
-import { taskStatusText } from '../../CardWithStatus/TaskCard/TaskCard';
+import { taskStatusTranslateKey } from '../../CardWithStatus/TaskCard/TaskCard';
 import { TransplantLocationLabel } from './TransplantLocationLabel/TransplantLocationLabel';
 import { isTaskType } from '../../../containers/Task/useIsTaskType';
 import ReactSelect from '../../Form/ReactSelect';
@@ -42,6 +42,8 @@ export default function PureTaskReadOnly({
   system,
   products,
   harvestUseTypes,
+  maxZoomRef,
+  getMaxZoom,
 }) {
   const { t } = useTranslation();
   const taskType = task.taskType;
@@ -100,7 +102,14 @@ export default function PureTaskReadOnly({
         onGoBack={onGoBack}
         style={{ marginBottom: '24px' }}
         title={t(`task:${taskType.task_translation_key}`) + ' ' + t('TASK.TASK')}
-        label={!isCurrent && <StatusLabel label={taskStatusText[taskStatus]} color={taskStatus} />}
+        label={
+          !isCurrent && (
+            <StatusLabel
+              label={t(`TASK.STATUS.${taskStatusTranslateKey[taskStatus]}`)}
+              color={taskStatus}
+            />
+          )
+        }
         // TODO: Evaluate edit tasks
         // onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
         // editLink={t('TASK.EDIT_TASK')}
@@ -130,12 +139,17 @@ export default function PureTaskReadOnly({
         />
       )}
       <LocationPicker
-        onSelectLocation={() => {}}
+
+        onSelectLocation={() => {
+          //  TODO: fix onSelectLocationRef in LocationPicker
+        }}
         readOnlyPinCoordinates={task.pinCoordinates}
         style={{ minHeight: '160px', marginBottom: '40px' }}
         locations={task.locations}
         selectedLocationIds={task.selectedLocationIds || []}
         farmCenterCoordinate={user.grid_points}
+        maxZoomRef={maxZoomRef}
+        getMaxZoom={getMaxZoom}
       />
 
       {Object.keys(task.managementPlansByLocation).map((location_id) => {

@@ -42,6 +42,6 @@ function childProcessExitCheck(successFn, failFn) {
 }
 
 function getS3BucketName() {
-  const node_env = process.env.NODE_ENV;
+  const node_env = process.env.NODE_ENV || 'development';
   return bucketNames[node_env];
 }

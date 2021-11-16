@@ -14,7 +14,6 @@
   "DELETE": "Delete",
   "DO_NOT_SHOW": "Don’t show this message again.",
   "EDIT": "Edit",
-  "EDIT_DATE": "Edit date",
   "EXPORT": "Export",
   "FINISH": "Finish",
   "FROM": "from",
@@ -50,5 +49,6 @@
   "SUBMITTING": "Submitting...",
   "UPDATE": "Update",
   "WORD_LIMIT_ERROR": "Only {{value}} characters can be displayed",
-  "YES": "Yes"
+  "YES": "Yes",
+  "EDIT_DATE": "Edit date"
 }

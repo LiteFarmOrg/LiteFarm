@@ -59,6 +59,7 @@ import productReducer from '../containers/productSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import mapCacheReducer from '../containers/Map/mapCacheSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 import filterReducer from '../containers/filterSlice';
@@ -192,6 +193,7 @@ const persistedStateReducer = combineReducers({
   userLogReducer,
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
+  mapCacheReducer,
 });
 
 const tempStateReducer = combineReducers({

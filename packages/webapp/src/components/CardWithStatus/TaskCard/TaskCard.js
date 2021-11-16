@@ -38,12 +38,12 @@ const activeCardColorMap = {
   abandoned: 'taskMarkedActive',
 };
 
-export const taskStatusText = {
-  forReview: i18n.t('TASK.STATUS.FOR_REVIEW'),
-  planned: i18n.t('TASK.STATUS.PLANNED'),
-  completed: i18n.t('TASK.STATUS.COMPLETED'),
-  late: i18n.t('TASK.STATUS.LATE'),
-  abandoned: i18n.t('TASK.STATUS.ABANDONED'),
+export const taskStatusTranslateKey = {
+  forReview: 'FOR_REVIEW',
+  planned: 'PLANNED',
+  completed: 'COMPLETED',
+  late: 'LATE',
+  abandoned: 'ABANDONED',
 };
 
 const iconDict = {
@@ -94,7 +94,7 @@ export const PureTaskCard = ({
       color={selected ? activeCardColorMap[status] : statusColorMap[status]}
       style={style}
       status={status}
-      label={taskStatusText[status]}
+      label={t(`TASK.STATUS.${taskStatusTranslateKey[status]}`)}
       classes={{
         ...classes,
         card: {

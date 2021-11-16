@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (harvestLogModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class HarvestUseType extends Model {
   static get tableName() {
-    return 'harvestUseType';
+    return 'harvest_use_type';
   }
 
   static get idColumn() {
@@ -46,20 +46,20 @@ class HarvestUseType extends Model {
     // Import models here to prevent require loops.
     return {
 
-      harvestLog: {
+      harvestTask: {
 
-        modelClass: require('./harvestLogModel'),
+        modelClass: require('./harvestTaskModel'),
         relation: Model.ManyToManyRelation,
 
         join: {
-          from: 'harvestUseType.harvest_use_type_id',
+          from: 'harvest_use_type.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
-            from: 'harvestUse.activity_id',
-            to: 'harvestUse.harvest_use_type_id',
+            from: 'harvest_use.task_id',
+            to: 'harvest_use.harvest_use_type_id',
           },
 
-          to: 'harvestLog.activity_id',
+          to: 'harvest_task.task_id',
         },
 
       },

@@ -14,13 +14,11 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
-import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
-import i18n from '../../lang/i18n';
 import { axios } from '../saga';
 
 const resetPasswordUrl = () => `${url}/password_reset`;
@@ -56,5 +54,5 @@ export function* resetPasswordSaga({
 }
 
 export default function* resetUserPasswordSaga() {
-  yield takeLatest(resetPassword.type, resetPasswordSaga);
+  yield takeLeading(resetPassword.type, resetPasswordSaga);
 }

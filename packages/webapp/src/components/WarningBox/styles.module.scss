@@ -1,0 +1,19 @@
+.warningBox {
+  /* Grey-100 */
+  background: #fafafd;
+  /* Grey-400 */
+  border: 1px solid #d4dae3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.icon {
+  margin-bottom: 10px;
+  color: var(--red700);
+  font-size: 20px;
+}

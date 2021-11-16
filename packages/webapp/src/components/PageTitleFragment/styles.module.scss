@@ -1,0 +1,52 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.titleContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  float: left;
+  margin-bottom: 8px;
+
+  button {
+    padding: 0;
+  }
+
+  button {
+    position: relative;
+    left: 0;
+  }
+}
+
+.buttonContainer {
+  background: none;
+  border: 0;
+}
+
+.titleTextContainer {
+  margin: 0 auto 16px auto;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+
+  text-align: left;
+}

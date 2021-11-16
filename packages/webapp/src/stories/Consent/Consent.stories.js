@@ -1,7 +1,7 @@
 import decorators from '../Pages/config/decorators';
 import React from 'react';
 import PureConsent from '../../components/Consent';
-import text from './../../containers/Consent/Owner.Consent.md';
+import text from '../../containers/Consent/locales/en/Owner.Consent.md';
 export default {
   title: 'Form/Intro/3-Consent',
   decorators: decorators,

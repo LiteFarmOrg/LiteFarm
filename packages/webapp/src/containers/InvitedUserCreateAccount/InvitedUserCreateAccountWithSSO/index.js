@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCreateAccount';
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { acceptInvitationWithSSO } from '../saga';
 
 export default function InvitedUserCreateAccountWithSSO({ history }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const { google_id_token, invite_token, email, name, gender, birth_year } = history.location.state;
   const dispatch = useDispatch();
   const onSubmit = (data) => {

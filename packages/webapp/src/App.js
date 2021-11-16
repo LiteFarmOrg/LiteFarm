@@ -13,41 +13,66 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
-import './lang/i18n';
+import './locales/i18n';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import { SnackbarProvider } from 'notistack';
+import { NotistackSnackbar } from './containers/Snackbar/NotistackSnackbar';
 
-class App extends Component {
-  render() {
-    return (
-      <>
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100vw',
+    flexGrow: 1,
+  },
+  defaultHeight: {
+    minHeight: '100vh',
+  },
+  webkitHeight: {
+    minHeight: '-webkit-fill-available',
+  },
+  root: {
+    width: 'calc(100vw - 48px)',
+    maxWidth: '976px',
+  },
+}));
+
+function App() {
+  const classes = useStyles();
+  return (
+    <>
+      <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
+        <NavBar history={history} />
         <div
+          className="app"
           style={{
+            width: '100%',
+            maxWidth: '1024px',
+            flex: '1',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            minHeight: '100vh',
           }}
         >
-          <NavBar history={history} />
-          <div
-            className="app"
-            style={{
-              width: '100%',
-              maxWidth: '1024px',
-              flex: '1',
-              display: 'flex',
-              flexDirection: 'column',
+          <SnackbarProvider
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
             }}
+            classes={{ root: classes.root, containerRoot: classes.root }}
+            content={(key, message) => <NotistackSnackbar id={key} message={message} />}
           >
             <Routes />
-          </div>
+          </SnackbarProvider>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
 
 export default App;

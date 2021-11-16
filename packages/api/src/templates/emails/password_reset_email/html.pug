@@ -1,0 +1,9 @@
+extends ../template
+block content
+    p
+        span=`${t('PASSWORD_RESET_REQUEST.DID_YOU_FORGET')}`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button=`${t('PASSWORD_RESET_REQUEST.RESET')}`
+    p
+        span=`${t('PASSWORD_RESET_REQUEST.IGNORE')}`

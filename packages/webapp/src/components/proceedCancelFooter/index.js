@@ -14,7 +14,7 @@
  */
 
 import React, { Component } from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 //requires 2 props
 // cancelFunc

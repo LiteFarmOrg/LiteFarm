@@ -19,9 +19,13 @@ import {
   GET_ALL_SHIFT,
   GET_SHIFTS,
   GET_TASK_TYPES,
+  RESET_SHIFT_FILTER,
   SET_SELECTED_SHIFT,
   SET_SELECTED_TASKS,
   SET_SHIFT_DURATION,
+  SET_SHIFT_END_DATE,
+  SET_SHIFT_START_DATE,
+  SET_SHIFT_TYPE,
   SET_SHIFTS_IN_SHIFT,
   SET_START_END_SHIFT,
   SET_TASK_TYPES_IN_STATE,
@@ -123,5 +127,29 @@ export const deleteShift = (shiftId) => {
   return {
     type: DELETE_SHIFT,
     shiftId,
+  };
+};
+export const setShiftType = (shiftType) => {
+  return {
+    type: SET_SHIFT_TYPE,
+    shiftType,
+  };
+};
+export const resetShiftFilter = () => {
+  return {
+    type: RESET_SHIFT_FILTER,
+  };
+};
+export const setShiftStartDate = (startDate) => {
+  return {
+    type: SET_SHIFT_START_DATE,
+    startDate,
+  };
+};
+
+export const setShiftEndDate = (endDate) => {
+  return {
+    type: SET_SHIFT_END_DATE,
+    endDate,
   };
 };

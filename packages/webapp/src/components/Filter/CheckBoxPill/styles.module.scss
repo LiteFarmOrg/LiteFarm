@@ -1,0 +1,25 @@
+.pill {
+  border-radius: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+
+  input {
+    display: none;
+  }
+}
+
+.selected {
+  border: 1px solid var(--teal700);
+  background-color: var(--teal600);
+  color: white;
+}
+
+.deselected {
+  border: 1px solid var(--grey500);
+  background-color: white;
+  color: var(--grey600);
+}

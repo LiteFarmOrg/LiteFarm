@@ -13,33 +13,29 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import history from '../../history';
 import React from 'react';
-import styles from './styles.scss';
 import { withTranslation } from 'react-i18next';
+import Button from '../Form/Button';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit, isHarvestLog } = this.props;
-    let url = isHarvestLog ? '/harvest_use_types' : '/new_log';
+    const { onClick, edit, disabled } = this.props;
 
     return (
-      <div className={styles.bottomContainer}>
-        {edit ? (
-          <div className={styles.cancelButton} onClick={onClick}>
-            {this.props.t('common:DELETE')}
-          </div>
-        ) : (
-          <div className={styles.cancelButton} onClick={() => history.push(url)}>
-            {this.props.t('common:CANCEL')}
-          </div>
-        )}
-        <div className={styles.cancelButton}>
-          <button className="btn btn-primary">
-            {isHarvestLog ? this.props.t('common:NEXT') : this.props.t('common:SAVE')}
-          </button>
+      <>
+        <div style={{ flexGrow: 1 }} />
+        <div style={{ padding: '24px 0', display: 'inline-flex', gap: '8px', width: '100%' }}>
+          {edit && (
+            <Button style={{ margin: 0 }} color={'secondary'} fullLength onClick={onClick}>
+              {this.props.t('common:DELETE')}
+            </Button>
+          )}
+
+          <Button style={{ margin: 0 }} fullLength disabled={disabled}>
+            {edit ? this.props.t('common:UPDATE') : this.props.t('common:SAVE')}
+          </Button>
         </div>
-      </div>
+      </>
     );
   }
 }

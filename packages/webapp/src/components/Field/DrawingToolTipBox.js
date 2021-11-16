@@ -19,7 +19,7 @@ import Carousel from 'nuka-carousel';
 import ReactPlayer from 'react-player';
 import FirstVideo from './drawing.mp4';
 import SecondVideo from './dragging.mp4';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 
 class DrawingToolTipBox extends Component {

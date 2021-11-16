@@ -1,18 +1,13 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
-
-const getFarmState = (payload) => {
-  const { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm, showSwitchFarmModal } = payload;
-  return { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm, showSwitchFarmModal };
-};
 
 const chooseFarmFlowAdapter = createEntityAdapter({
   selectId: (farmState) => farmState.farm_id,
 });
 
 const updateFarmState = (state, payload) => {
-  chooseFarmFlowAdapter.upsertOne(state, getFarmState(payload));
+  chooseFarmFlowAdapter.upsertOne(state, payload);
 };
 
 const chooseFarmFlowSlice = createSlice({
@@ -30,16 +25,15 @@ const chooseFarmFlowSlice = createSlice({
         farm_id,
         isInvitationFlow: false,
         showSpotLight: state.entities[farm_id]?.showSpotLight,
+        showMapSpotlight: state.entities[farm_id]?.showMapSpotlight,
       });
     },
-    startSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, showSpotLight: true });
-    },
-    endSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, showSpotLight: false });
-    },
+
     startInvitationFlowWithSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, isInvitationFlow: true, showSpotLight: true });
+      updateFarmState(state, {
+        farm_id,
+        isInvitationFlow: true,
+      });
     },
     startSwitchFarmModal: (state, { payload: farm_id }) => {
       updateFarmState(state, { farm_id, showSwitchFarmModal: true });
@@ -53,8 +47,6 @@ export const {
   startInvitationFlow,
   startInvitationFlowWithSpotLight,
   endInvitationFlow,
-  startSpotLight,
-  endSpotLight,
   startInvitationFlowOnChooseFarmScreen,
   startSwitchFarmModal,
   endSwitchFarmModal,
@@ -72,10 +64,7 @@ export const chooseFarmFlowSelector = createSelector(
     return chooseFarmFlowEntities[farm_id] || {};
   },
 );
-export const spotLightSelector = createSelector(
-  chooseFarmFlowSelector,
-  (farmState) => farmState.showSpotLight,
-);
+
 export const switchFarmSelector = createSelector(
   chooseFarmFlowSelector,
   (farmState) => farmState.showSwitchFarmModal,

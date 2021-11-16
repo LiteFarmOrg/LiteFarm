@@ -19,9 +19,9 @@ const TaskTypeController = require('../controllers/taskTypeController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.post('/', hasFarmAccess({body:'farm_id'}), checkScope(['add:task_types']), TaskTypeController.addType());
-router.get('/farm/:farm_id', hasFarmAccess({params:'farm_id'}), checkScope(['get:task_types']), TaskTypeController.getAllTypes());
-router.get('/:task_type_id', hasFarmAccess({params:'task_type_id'}), checkScope(['get:task_types']), TaskTypeController.getTypeByID());
-router.delete('/:task_type_id', hasFarmAccess({params:'task_type_id'}), checkScope(['delete:task_types']), TaskTypeController.delType());
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:task_types']), TaskTypeController.addType());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:task_types']), TaskTypeController.getAllTypes());
+router.get('/:task_type_id', hasFarmAccess({ params: 'task_type_id' }), checkScope(['get:task_types']), TaskTypeController.getTypeByID());
+router.delete('/:task_type_id', hasFarmAccess({ params: 'task_type_id' }), checkScope(['delete:task_types']), TaskTypeController.delType());
 
 module.exports = router;

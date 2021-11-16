@@ -1,17 +1,22 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from '../userFarmSlice';
 import { createSelector } from 'reselect';
+import { pick } from '../../util/pick';
 
-const addOneCertifier = (state, { payload }) => {
-  const { certifiers, interested, survey_id, farm_id } = payload;
+export const certifierSurveyProperties = [
+  'certification_id',
+  'certifier_id',
+  'farm_id',
+  'interested',
+  'requested_certification',
+  'requested_certifier',
+  'survey_id',
+];
+
+const upsertOneOrganicCertifierSurvey = (state, { payload }) => {
   state.loading = false;
   state.error = null;
-  certifierSurveyAdapter.upsertOne(state, {
-    certifiers,
-    interested,
-    survey_id,
-    farm_id,
-  });
+  certifierSurveyAdapter.upsertOne(state, pick(payload, certifierSurveyProperties));
 };
 
 const certifierSurveyAdapter = createEntityAdapter({
@@ -27,11 +32,12 @@ const slice = createSlice({
   reducers: {
     onLoadingCertifierSurveyStart: onLoadingStart,
     onLoadingCertifierSurveyFail: onLoadingFail,
-    getCertifiersSuccess: addOneCertifier,
-    postCertifiersSuccess: addOneCertifier,
-    patchCertifiersSuccess(state, { payload: { certifiers, farm_id } }) {
+    getCertificationSurveysSuccess: upsertOneOrganicCertifierSurvey,
+    postOrganicCertifierSurveySuccess: upsertOneOrganicCertifierSurvey,
+    putOrganicCertifierSurveySuccess: upsertOneOrganicCertifierSurvey,
+    patchRequestedCertifiersSuccess(state, { payload: { requested_certifier, farm_id } }) {
       certifierSurveyAdapter.updateOne(state, {
-        changes: { certifiers },
+        changes: { requested_certifier },
         id: farm_id,
       });
     },
@@ -41,12 +47,20 @@ const slice = createSlice({
         id: farm_id,
       });
     },
+    patchRequestedCertificationSuccess(state, { payload: { requested_certification, farm_id } }) {
+      certifierSurveyAdapter.updateOne(state, {
+        changes: { requested_certification },
+        id: farm_id,
+      });
+    },
   },
 });
 export const {
-  getCertifiersSuccess,
-  postCertifiersSuccess,
-  patchCertifiersSuccess,
+  getCertificationSurveysSuccess,
+  postOrganicCertifierSurveySuccess,
+  putOrganicCertifierSurveySuccess,
+  patchRequestedCertifiersSuccess,
+  patchRequestedCertificationSuccess,
   patchInterestedSuccess,
   onLoadingCertifierSurveyStart,
   onLoadingCertifierSurveyFail,
@@ -63,6 +77,11 @@ export const certifierSurveySelector = (state) => {
   const { farm_id } = loginSelector(state);
   return farm_id ? certifierSurveySelectors.selectById(state, farm_id) || {} : {};
 };
+
+export const doesCertifierSurveyExistSelector = createSelector(
+  [certifierSurveySelector],
+  (certifierSurvey) => certifierSurvey?.hasOwnProperty('survey_id'),
+);
 
 export const certifierSurveyStatusSelector = createSelector(
   [certifierSurveyReducerSelector],

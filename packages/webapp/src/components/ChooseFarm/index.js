@@ -19,11 +19,12 @@ export default function PureChooseFarmScreen({
   disabled,
   title = 'Choose your farm',
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <Layout
       hasWhiteBackground
+      classes={{ footer: { position: 'fixed', maxWidth: '1024px' } }}
       buttonGroup={
         <>
           {!isOnBoarding && (
@@ -68,6 +69,7 @@ export default function PureChooseFarmScreen({
             color={farm.color}
             onClick={farm.color === 'disabled' ? undefined : () => onSelectFarm(farm.farm_id)}
             ownerName={farm.ownerName}
+            key={farm.farm_id}
           />
         );
       })}

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
-import Input from '../Form/Input';
+import Input, { getInputErrors } from '../Form/Input';
 import { PasswordError } from '../Form/Errors';
 import { validatePasswordWithErrors } from '../Signup/utils';
 
@@ -21,23 +21,29 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
+  const NAME = 'name';
+  const GENDER = 'gender';
+  const BIRTHYEAR = 'birth_year';
+  const PASSWORD = 'password';
+  const getDefaultValues = () => {
+    const defaultValues = {};
+    defaultValues[NAME] = name;
+    return defaultValues;
+  };
   const {
     register,
     handleSubmit,
     watch,
     control,
-    errors,
     setValue,
-    formState: { isDirty, isValid },
+
+    formState: { isDirty, isValid, errors },
   } = useForm({
     mode: 'onTouched',
+    defaultValues: getDefaultValues(),
   });
-  const NAME = 'name';
-  const GENDER = 'gender';
-  const BIRTHYEAR = 'birth_year';
-  const PASSWORD = 'password';
-  const EMAIL = 'email';
-  const { t } = useTranslation();
+
+  const { t } = useTranslation(['translation', 'gender']);
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -57,9 +63,9 @@ export default function PureInvitedUserCreateAccountPage({
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register();
   const onHandleSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
+    data.email = email;
     onSubmit(data);
   };
   const disabled = !isValid || (isNotSSO && !isPasswordValid);
@@ -78,24 +84,21 @@ export default function PureInvitedUserCreateAccountPage({
       {isNotSSO && (
         <Input
           label={t('INVITATION.EMAIL')}
-          inputRef={register({ required: true, pattern: validEmailRegex })}
-          name={EMAIL}
-          defaultValue={email}
+          value={email}
           disabled
           style={{ marginBottom: '24px' }}
         />
       )}
       <Input
         label={t('INVITATION.FULL_NAME')}
-        inputRef={register({ required: true })}
-        name={NAME}
-        defaultValue={name}
+        hookFormRegister={register(NAME, { required: true })}
         style={{ marginBottom: '24px' }}
+        errors={getInputErrors(errors, NAME)}
       />
       <Controller
         control={control}
         name={GENDER}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             label={t('INVITATION.GENDER')}
             options={genderOptions}
@@ -113,8 +116,11 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
-        name={BIRTHYEAR}
+        hookFormRegister={register(BIRTHYEAR, {
+          min: 1900,
+          max: new Date().getFullYear(),
+          valueAsNumber: true,
+        })}
         toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
         errors={
@@ -124,7 +130,6 @@ export default function PureInvitedUserCreateAccountPage({
         }
         defaultValue={birthYear}
         optional
-        hookFormSetValue={setValue}
       />
       {isNotSSO && (
         <>
@@ -132,8 +137,7 @@ export default function PureInvitedUserCreateAccountPage({
             style={{ marginBottom: '28px' }}
             label={t('INVITATION.PASSWORD')}
             type={PASSWORD}
-            name={PASSWORD}
-            inputRef={inputRegister}
+            hookFormRegister={register(PASSWORD)}
           />
 
           <PasswordError

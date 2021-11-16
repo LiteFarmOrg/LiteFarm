@@ -1,8 +1,10 @@
 import moment from 'moment';
-import autumn from '../../../assets/images/home/home bg-2-min.png';
-import winter from '../../../assets/images/home/home bg-5-min.png';
-import spring from '../../../assets/images/home/home bg-7-min.png';
-import summer from '../../../assets/images/home/home bg-8 2-min.png';
+import { DO_CDN_URL } from '../../../util/constants';
+
+const autumn = `${DO_CDN_URL}/home/fall.webp`;
+const winter = `${DO_CDN_URL}/home/winter.webp`;
+const spring = `${DO_CDN_URL}/home/spring.webp`;
+const summer = `${DO_CDN_URL}/home/summer.webp`;
 
 export const getSeason = (lat) => {
   const isNorth = lat > 0;

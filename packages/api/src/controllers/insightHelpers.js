@@ -41,7 +41,7 @@ exports.getNutritionalData = (cropNutritionData) => {
     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
   };
-  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
+  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 75, 'Vitamin C': 90, 'Vitamin A': 900 };
 
   cropNutritionData.map((item) => {
     const percentRefuse = item.percentrefuse || 0;
@@ -56,7 +56,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now normalize the data values
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY))
+      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY));
     }
   }
 
@@ -98,13 +98,13 @@ exports.getSoilOM = async (data) => {
 
   const returnData = {};
   data.map((element) => {
-    if (!(element.field_id in returnData)) {
+    if (!(element.location_id in returnData)) {
       // The current field is not added to the returnData yet
-      returnData[element.field_id] = initOMData(element)
+      returnData[element.location_id] = initOMData(element)
     } else {
       // If the current field has multiple soil data logs, put them
       // into a list for calculating the average
-      returnData[element.field_id]['activity_oms'].push(grabOM(element))
+      returnData[element.location_id]['activity_oms'].push(grabOM(element))
     }
   });
 
@@ -152,7 +152,7 @@ exports.getSoilOM = async (data) => {
 const initOMData = (element) => {
   const OMData = {};
   // set the field name
-  OMData['field_name'] = element.field_name;
+  OMData['field_name'] = element.name;
   OMData['soil_om'] = 0;
   OMData['grid_points'] = element.grid_points;
   OMData['percentage'] = 0;
@@ -181,13 +181,13 @@ const callSoilGridAPI = async (data) => {
       lat: data['grid_points'][0]['lat'],
       property: 'soc',
       depth: '5-15cm',
-      value:'mean',
+      value: 'mean',
     },
   };
   return await rp(options)
     .then((data) => {
       const parsedObject = JSON.parse(data);
-      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean']
+      let soil_om = parsedObject['properties']['layers'][0]['depths'][0]['values']['mean'];
       soil_om *= 2 * 0.01;
       return Math.floor(soil_om);
     })
@@ -205,24 +205,17 @@ exports.getLabourHappiness = (data) => {
     data: [],
   };
 
-  // the DB datatype for mood is assigned as a string, so I need to quantify it
-  const mappingTypes = {
-    'very sad': 1,
-    'sad': 2,
-    'neutral': 3,
-    'happy': 4,
-    'very happy': 5,
-  };
-
   const tasks = {};
   // parse by shift_id first in order to do the algorithm discussed with Zia on the whiteboard
+  // TODO: during october release, this has been refactored.
+  //       need to check if we should account for any task with happiness set, or any with duration set
   data.map((element) => {
-    const currentValueMood = element['mood'] ? mappingTypes[element['mood']] : 0;
-    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] };
-    if (!(element['shift_id'] in tasks)) {
-      tasks[element['shift_id']] = { mood: currentValueMood, tasks: [taskObject] };
+    const currentValueMood = element['happiness'];
+    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] ?? 0 };
+    if (!(element['task_id'] in tasks)) {
+      tasks[element['task_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
-      tasks[element['shift_id']]['tasks'].push(taskObject)
+      tasks[element['task_id']]['tasks'].push(taskObject)
     }
   });
 
@@ -234,7 +227,7 @@ exports.getLabourHappiness = (data) => {
     let currentDurationAverage = 0;
     currentTasks.map((element) => currentDurationAverage += element['duration']);
     currentTasks.map((element) => {
-      const weighted = (element['duration'] / currentDurationAverage);
+      const weighted = currentDurationAverage ? (element['duration'] / currentDurationAverage) : 1;
       if (!(element['taskName'] in weightedTasks)) {
         weightedTasks[element['taskName']] = [{ mood: currentMood, weight: weighted }]
       } else {
@@ -268,7 +261,7 @@ exports.getLabourHappiness = (data) => {
   return returnValue
 };
 
-exports.getBiodiversityAPI = async (data) => {
+exports.getBiodiversityAPI = async (pointData, countData) => {
   const resultData = {
     preview: 0,
     data: [],
@@ -286,14 +279,14 @@ exports.getBiodiversityAPI = async (data) => {
     Insects: 0,
     Plants: 0,
     Amphibians: 0,
-    Crops: 0,
+    CropVarieties: 0,
   };
 
-  const sortLats = new Array(data.length);
-  const sortLngs = new Array(data.length);
-  for (let i = 0; i < data.length; i++) {
-    if (data[i]['grid_points'] != null) {
-      data[i]['grid_points'].map((grid_point) => {
+  const sortLats = new Array(pointData.length);
+  const sortLngs = new Array(pointData.length);
+  for (let i = 0; i < pointData.length; i++) {
+    if (pointData[i]['grid_points'] != null) {
+      pointData[i]['grid_points'].map((grid_point) => {
         if (Array.isArray(sortLats[i])) {
           sortLats[i].push(Math.round(grid_point['lat'] * 10000) / 10000);
           sortLngs[i].push(Math.round(grid_point['lng'] * 10000) / 10000);
@@ -304,20 +297,19 @@ exports.getBiodiversityAPI = async (data) => {
       })
     }
   }
-  const fieldPoints = new Array(data.length);
+  const fieldPoints = new Array(pointData.length);
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < pointData.length; i++) {
     fieldPoints[i] = [
       [Math.min(...sortLats[i]), Math.max(...sortLats[i])],
       [Math.min(...sortLngs[i]), Math.max(...sortLngs[i])],
     ]
   }
-  for (let i = 0; i < data.length; i++) {
-    speciesCount['Crops'] += parseInt(data[i]['count']);
-  }
+  speciesCount['CropVarieties'] = parseInt(countData);
   const apiCalls = [];
 
   fieldPoints.forEach((fieldPoint) => {
+    // TODO: figure out how to fetch past limit. ST-46
     const options = {
       uri: endPoints.gbifAPI,
       qs: {
@@ -330,14 +322,13 @@ exports.getBiodiversityAPI = async (data) => {
         .then((data) => {
           const jsonfied = JSON.parse(data);
           const results = jsonfied['results'];
-          results.map((currentSpecies) => {
-            if (currentSpecies['kingdom'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['kingdom']]]++;
-            } else if (currentSpecies['class'] in dictionary) {
-              speciesCount[dictionary[currentSpecies['class']]]++;
-            }
-          });
-          resolve()
+          const infoFiltered = results.map((currentSpecies) => ({
+            key: currentSpecies['key'],
+            identificationID: currentSpecies['identificationID'],
+            kingdom: currentSpecies['kingdom'],
+            class: currentSpecies['class'],
+          }));
+          resolve(infoFiltered);
         })
         .catch((error) => {
           reject(error)
@@ -345,7 +336,15 @@ exports.getBiodiversityAPI = async (data) => {
     }));
   });
   return await Promise.all(apiCalls)
-    .then(() => {
+    .then((apiResult) => {
+      const mergedResults = mergeSpeciesObjects(apiResult);
+      mergedResults.map((currentSpecies) => {
+        if (currentSpecies['kingdom'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['kingdom']]]++;
+        } else if (currentSpecies['class'] in dictionary) {
+          speciesCount[dictionary[currentSpecies['class']]]++;
+        }
+      });
       let runningTotal = 0;
       let maxSpecies = 0;
       for (const key in speciesCount) {
@@ -362,6 +361,18 @@ exports.getBiodiversityAPI = async (data) => {
     .catch((error) => {
       return error
     });
+};
+
+const mergeSpeciesObjects = (objects) => {
+  if (objects.length === 0) {
+    return [];
+  }
+  let merged = objects[0];
+  for (let i = 1; i < objects.length; i++) {
+    const keys = new Set(merged.map(item => item.key));
+    merged = [...merged, ...objects[i].filter(item => !keys.has(item.key))];
+  }
+  return merged;
 };
 
 exports.formatPricesData = (data) => {

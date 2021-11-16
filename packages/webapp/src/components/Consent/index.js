@@ -1,25 +1,20 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import clsx from 'clsx';
-import styles from './consent.scss';
+import styles from './consent.module.scss';
 import ReactMarkdown from 'react-markdown';
 import Checkbox from '../Form/Checkbox';
 import React from 'react';
-import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}
       buttonGroup={
         <>
-          {onGoBack && (
-            <Button onClick={onGoBack} color={'secondary'} fullLength>
-              {t('common:BACK')}
-            </Button>
-          )}
           {onSubmit && (
             <Button type={'submit'} fullLength disabled={disabled}>
               {t('common:CONTINUE')}
@@ -28,12 +23,13 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
         </>
       }
     >
-      <Title style={{ marginBottom: '16px' }}>{t('CONSENT.DATA_POLICY')}</Title>
-      <div
-        style={{ width: '90%', overflowY: 'scroll' }}
-        className={clsx(styles.consentText, 'paraText')}
-      >
-        <ReactMarkdown children={text}></ReactMarkdown>
+      <PageTitle
+        title={t('CONSENT.DATA_POLICY')}
+        onGoBack={onGoBack}
+        style={{ marginBottom: '16px' }}
+      />
+      <div className={clsx(styles.consentTextContainer)}>
+        <ReactMarkdown children={text} />
       </div>
       <div
         style={{
@@ -44,7 +40,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
           marginTop: '-28px',
           zIndex: '2000',
         }}
-      ></div>
+      />
       <div>
         <Checkbox style={{ marginBottom: 0 }} {...checkboxArgs} />
       </div>

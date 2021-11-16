@@ -1,10 +1,11 @@
 import React from 'react';
 import { PasswordError } from '../../../components/Form/Errors';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/InputPassword/PasswordError',
   component: PasswordError,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <PasswordError {...args} />;

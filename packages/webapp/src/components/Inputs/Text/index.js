@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import { Control } from 'react-redux-form';
 import Input from '../../Form/Input';
 

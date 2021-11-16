@@ -3,8 +3,7 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_id: fromField,
-  field_crop_id: fromFieldCrop,
+  management_plan_id: fromManagementPlan,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
@@ -15,12 +14,21 @@ const entitiesGetters = {
   expense_type_id: fromFarmExpenseType,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
-  fields: fromFields,
+  locations: fromLocations,
   activity_id: fromActivity,
   sale_id: fromSale,
   shift_id: fromShift,
+  location_id: fromLocation,
+  crop_management_plan: fromCropManagement,
+  //TODO remove
+  field_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
-}
+  crop_variety_id: fromCropVariety,
+  document_id: fromDocument,
+  default_initial_location_id: fromLocation,
+  task_id: fromTaskId,
+  taskManagementPlanAndLocation: fromTaskManagementPlanAndLocation,
+};
 const userFarmModel = require('../../models/userFarmModel');
 
 module.exports = ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
@@ -35,6 +43,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   } else {
     id_name = body;
     if (Array.isArray(req.body)) {
+      //TODO: remove and fix hasFarmAccess on post harvest_tasks middleware. LF-1969
       id = req.body[0][id_name];
     } else {
       id = req.body[id_name];
@@ -45,54 +54,112 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   }
 
   const { farm_id } = req.headers;
-  const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
-  // Is getting a seeded table and accessing community data. Go through.
-  if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
-    return next();
+  try {
+    const farmIdObjectFromEntity = await entitiesGetters[id_name](id, next);
+    // Is getting a seeded table and accessing community data. Go through.
+    if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
+      return next();
+    } else if (farmIdObjectFromEntity?.next) {
+      return next();
+    }
+    return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
+  } catch (e) {
+    notAuthorizedResponse(res);
   }
-  return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
+};
+
+async function fromTaskId(task_id) {
+  const taskType = await knex('task').join('task_type', 'task.task_type_id', 'task_type.task_type_id').where({ task_id }).first();
+  //TODO: planting transplant task authorization test
+  if (['PLANT_TASK', 'TRANSPLANT_TASK'].includes(taskType?.task_translation_key)) {
+    const task_type = taskType.task_translation_key.toLowerCase();
+    return await knex('task').join(task_type, `${task_type}.task_id`, 'task.task_id')
+      .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', `${task_type}.planting_management_plan_id`)
+      .join('management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('task.task_id', task_id).first();
+  }
+  const cropVariety = await knex('crop_variety')
+    .distinct('crop_variety.farm_id')
+    .join('management_plan', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+    .join('planting_management_plan', 'management_plan.management_plan_id', 'planting_management_plan.management_plan_id')
+    .join('management_tasks', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+    .where('management_tasks.task_id', task_id)
+    .first();
+
+  const userFarm = await userFarmModel.query()
+    .distinct('location_tasks.task_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+    .join('location', 'userFarm.farm_id', 'location.farm_id')
+    .join('location_tasks', 'location_tasks.location_id', 'location.location_id')
+    .skipUndefined()
+    .where('location_tasks.task_id', task_id)
+    .first();
+
+  if (!userFarm && !cropVariety) return {};
+  return userFarm || cropVariety;
 }
 
-async function fromTask(taskId) {
-  return knex('taskType').where({ task_id: taskId }).first();
+
+function fromTask(taskTypeId) {
+  return knex('task_type').where({ task_type_id: taskTypeId }).first();
 }
 
-async function fromShift(shiftId) {
+function fromDocument(document_id) {
+  return knex('document').where({ document_id }).first();
+}
+
+function fromShift(shiftId) {
   return knex('shift').where({ shift_id: shiftId }).first();
 }
 
-async function fromPesticide(pesticideId) {
+function fromPesticide(pesticideId) {
   return knex('pesticide').where({ pesticide_id: pesticideId }).first();
 }
 
-async function fromNitrogenSchedule(nitrogenScheduleId) {
+function fromNitrogenSchedule(nitrogenScheduleId) {
   return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
-async function fromDisease(disease_id) {
+async function fromCropManagement(crop_management_plan, next) {
+  const locationIds = crop_management_plan.planting_management_plans.map(planting_management_plan => planting_management_plan.location_id).filter(location_id => location_id);
+  const hasLocationId = locationIds.length;
+  //TODO: find a proper way by pass farm id check
+  if (!hasLocationId) return { next: true };
+  const locations = await knex('location').whereIn('location_id', locationIds);
+  const farm_id = locations.reduce((farm_id, location) => {
+    if (farm_id) {
+      return farm_id === location.farm_id ? location.farm_id : undefined;
+    } else {
+      return location.farm_id;
+    }
+  }, undefined);
+  return { farm_id };
+}
+
+function fromDisease(disease_id) {
   return knex('disease').where({ disease_id }).first();
 }
 
-async function fromCrop(cropId) {
+function fromLocation(location_id) {
+  return knex('location').where({ location_id }).first();
+}
+
+function fromCrop(cropId) {
   return knex('crop').where({ crop_id: cropId }).first();
 }
 
-async function fromFertilizer(fertilizerId) {
+function fromFertilizer(fertilizerId) {
   return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
 }
 
-async function fromField(fieldId) {
-  return knex('field').where({ field_id: fieldId }).first();
-}
-
-async function fromFields(fields) {
-  if (!fields || !fields.length) {
+async function fromLocations(locations) {
+  if (!locations || !locations.length) {
     return {};
   }
-  const field_ids = fields ? fields.map((field) => field.field_id) : undefined;
+  const location_ids = locations ? locations.map((location) => location.location_id) : undefined;
   try {
-    const userFarms = await knex('field').join('userFarm', 'field.farm_id', 'userFarm.farm_id')
-      .whereIn('field.field_id', field_ids).distinct('field.farm_id');
+    const userFarms = await knex('location').join('userFarm', 'location.farm_id', 'userFarm.farm_id')
+      .whereIn('location.location_id', location_ids).distinct('location.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
   } catch (e) {
@@ -101,51 +168,59 @@ async function fromFields(fields) {
 }
 
 async function fromActivity(req) {
-  const user_id = req.user.user_id
+  const user_id = req.user.user_id;
   const { activity_id } = req.params;
   const { farm_id } = req.headers;
 
-  if (req.body.fields) {
-    const fields = [];
-    let fieldCrops;
-    for (const field of req.body.fields) {
-      if (!field.field_id) {
+  if (req.body.locations) {
+    const locations = [];
+    let managementPlans;
+    for (const location of req.body.locations) {
+      if (!location.location_id) {
         return {};
       }
-      fields.push(field.field_id);
+      locations.push(location.location_id);
     }
-    if (fields.length === 0) {
+    if (locations.length === 0) {
       return {};
     }
 
     if (req.body.crops && req.body.crops.length) {
-      fieldCrops = [];
-      for (const fieldCrop of req.body.crops) {
-        if (!fieldCrop.field_crop_id) {
+      managementPlans = [];
+      for (const managementPlan of req.body.crops) {
+        if (!managementPlan.management_plan_id) {
           return {};
         }
-        fieldCrops.push(fieldCrop.field_crop_id);
+        managementPlans.push(managementPlan.management_plan_id);
       }
     }
 
-    const sameFarm = await userFarmModel.query()
-      .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-      .join('field', 'userFarm.farm_id', 'field.farm_id')
-      .leftJoin('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
-      .skipUndefined()
-      .whereIn('field.field_id', fields)
-      .whereIn('fieldCrop.field_crop_id', fieldCrops)
-      .where('userFarm.user_id', user_id)
-      .where('userFarm.farm_id', farm_id)
+    const sameFarm = managementPlans?.length ? await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id', 'managementPlan.management_plan_id')
+        .join('location', 'userFarm.farm_id', 'location.farm_id')
+        .join('managementPlan', 'managementPlan.location_id', 'location.location_id')
+        .skipUndefined()
+        .whereIn('location.location_id', locations)
+        .whereIn('managementPlan.management_plan_id', managementPlans)
+        .where('userFarm.user_id', user_id)
+        .where('userFarm.farm_id', farm_id) :
+      await userFarmModel.query()
+        .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id', 'location.location_id')
+        .join('location', 'userFarm.farm_id', 'location.farm_id')
+        .skipUndefined()
+        .whereIn('location.location_id', locations)
+        .where('userFarm.user_id', user_id)
+        .where('userFarm.farm_id', farm_id);
 
-    if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
+
+    if (!sameFarm.length || sameFarm.length < (managementPlans ? managementPlans.length : 0)) {
       return {};
     }
   }
   const userFarm = await userFarmModel.query()
-    .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-    .join('field', 'userFarm.farm_id', 'field.farm_id')
-    .join('activityFields', 'activityFields.field_id', 'field.field_id')
+    .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+    .join('location', 'userFarm.farm_id', 'location.farm_id')
+    .join('activityFields', 'activityFields.location_id', 'location.location_id')
     .join('activityLog', 'activityFields.activity_id', 'activityLog.activity_id')
     .skipUndefined()
     .where('activityLog.activity_id', activity_id)
@@ -157,33 +232,37 @@ async function fromActivity(req) {
   return userFarm;
 }
 
-async function fromFieldCrop(fieldCropId) {
-  const { field_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
-  return fromField(field_id);
+function fromManagementPlan(managementPlanId) {
+  return knex('management_plan').where('management_plan_id', managementPlanId)
+    .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id').first();
 }
 
-async function fromYield(yieldId) {
-  return await knex('yield').where({ yield_id: yieldId }).first();
+function fromCropVariety(crop_variety_id) {
+  return knex('crop_variety').where({ crop_variety_id }).first();
 }
 
-async function fromPrice(priceId) {
-  return await knex('price').where({ price_id: priceId }).first();
+function fromYield(yieldId) {
+  return knex('yield').where({ yield_id: yieldId }).first();
 }
 
-async function fromFarmExpense(farm_expense_id) {
-  return await knex('farmExpense').where({ farm_expense_id }).first();
+function fromPrice(priceId) {
+  return knex('price').where({ price_id: priceId }).first();
 }
 
-async function fromFarmExpenseType(expense_type_id) {
-  return await knex('farmExpenseType').where({ expense_type_id }).first();
+function fromFarmExpense(farm_expense_id) {
+  return knex('farmExpense').where({ farm_expense_id }).first();
 }
 
-async function fromSale(sale_id) {
-  return await knex('sale').where({ sale_id }).first();
+function fromFarmExpenseType(expense_type_id) {
+  return knex('farmExpenseType').where({ expense_type_id }).first();
 }
 
-async function fromOrganicCertifierSurvey(survey_id) {
-  return await knex('organicCertifierSurvey').where({ survey_id }).first();
+function fromSale(sale_id) {
+  return knex('sale').where({ sale_id }).first();
+}
+
+function fromOrganicCertifierSurvey(survey_id) {
+  return knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
 function sameFarm(object, farm) {
@@ -192,4 +271,21 @@ function sameFarm(object, farm) {
 
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
+}
+
+async function fromTaskManagementPlanAndLocation(req) {
+  const { managementPlans, locations } = req.body;
+  const farm_id = req.headers.farm_id;
+  for (const { location_id } of locations || []) {
+    const location = await knex('location').where({ location_id }).first();
+    if (location.farm_id !== farm_id) return {};
+  }
+  for (const { planting_management_plan_id } of managementPlans || []) {
+    const managementPlan = await knex('management_plan')
+      .join('planting_management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .where('planting_management_plan.planting_management_plan_id', planting_management_plan_id).first();
+    if (managementPlan.farm_id !== farm_id) return {};
+  }
+  return { farm_id };
 }

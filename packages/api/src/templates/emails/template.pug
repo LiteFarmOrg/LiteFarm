@@ -1,0 +1,33 @@
+doctype html
+html
+    head
+        link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap')
+        style
+            include style.css
+    body
+        .background
+            .main-container
+                .header
+                    img#logo(src=`${imgBaseUrl}/logo.png` alt='Logo')
+                .main-content
+                    p
+                        span=`${t('TEMPLATE.DEAR')} `
+                        strong #{first_name}
+                        | ,
+                    block content
+                    p
+                        span=`${t('TEMPLATE.CHEERS')},`
+                        br
+                        span=`${t('TEMPLATE.LITEFARM_TEAM')}`
+            .footer
+                p=`${t('TEMPLATE.NO_RESPONSE')}`
+                p
+                    | &copy; #{year}
+                    |
+                    a(href='https://litefarm.org') LiteFarm.org
+                //p
+                //    span=`${t('TEMPLATE.GET_IN_TOUCH')} `
+                //    a(href='')=`${t('TEMPLATE.HELP')} `
+                //    span=`${t('TEMPLATE.OR')} `
+                //    a(href='')=`${t('TEMPLATE.CONTACT')}`
+                //    | .

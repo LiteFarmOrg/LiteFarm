@@ -17,28 +17,29 @@ const baseController = require('../controllers/baseController');
 const fertilizerModel = require('../models/fertilizerModel');
 const { transaction, Model } = require('objection');
 
-class fertilizerController extends baseController {
-  static getFertilizers() {
+const fertilizerController = {
+  getFertilizers() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         if (!rows.length) {
-          res.sendStatus(404)
-        }
-        else {
+          res.sendStatus(404);
+        } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
-  static addFertilizer(){
+  },
+  addFertilizer() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -47,11 +48,11 @@ class fertilizerController extends baseController {
         const data = req.body;
         data.fertilizer_translation_key = data.fertilizer_type;
         // another check for farm_id after ACL
-        if(farm_id !== body_farm_id){
+        if (farm_id !== body_farm_id) {
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(fertilizerModel, data, trx, { user_id });
+        const user_id = req.user.user_id;
+        const result = await baseController.postWithResponse(fertilizerModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -62,13 +63,13 @@ class fertilizerController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delFertilizer() {
+  delFertilizer() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -81,8 +82,8 @@ class fertilizerController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = fertilizerController;

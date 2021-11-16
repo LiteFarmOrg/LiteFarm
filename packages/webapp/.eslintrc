@@ -1,20 +1,37 @@
 {
-  "extends": [
-    "react-app",
-//    "eslint:recommended",
-//    "plugin:react/recommended",
-    "prettier"
-//    "prettier/react"
-  ],
-  "rules": {
-    "no-unused-vars": "warn",
-    "eqeqeq": "error",
-    "jsx-a11y/accessible-emoji": "off",
-    "radix": "off",
-    "react/prop-types": "warn"
-  },
-  "globals": {
-    "cy": true,
-    "Cypress": true
-  }
+    "env": {
+        "es2021": true,
+        "jest": true
+    },
+    "extends": [
+
+//        "eslint:recommended",
+//        "plugin:react/recommended",
+//        "prettier/react",
+        "prettier",
+        "react-app"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "no-unused-vars": "off",
+        "eqeqeq": "error",
+        "jsx-a11y/accessible-emoji": "off",
+        "radix": "off",
+        "react/prop-types": "off",
+        "import/no-anonymous-default-export": "off",
+        "no-extra-bind": "off"
+    },
+    "globals": {
+        "cy": true,
+        "Cypress": true
+    }
 }

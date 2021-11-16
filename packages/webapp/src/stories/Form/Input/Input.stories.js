@@ -1,11 +1,12 @@
 import React from 'react';
 import Input from '../../../components/Form/Input';
 import { Underlined } from '../../../components/Typography';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Input',
   component: Input,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Input {...args} />;
@@ -28,6 +29,13 @@ WithUnit.args = {
   unit: 'unit',
 };
 
+export const WithCurrency = Template.bind({});
+WithCurrency.args = {
+  label: 'number',
+  type: 'number',
+  currency: '$',
+};
+
 export const WithTooltip = Template.bind({});
 WithTooltip.args = {
   label: 'With Tooltip',
@@ -45,6 +53,12 @@ export const Optional = Template.bind({});
 Optional.args = {
   label: 'optional',
   optional: true,
+};
+
+export const HasLeaf = Template.bind({});
+HasLeaf.args = {
+  label: 'Leaf',
+  hasLeaf: true,
 };
 
 export const Disabled = Template.bind({});

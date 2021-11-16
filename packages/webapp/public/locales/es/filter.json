@@ -1,0 +1,21 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "Ubicación",
+    "STATUS": "Estatus",
+    "SUPPLIERS": "Proveedor",
+    "ACTIVE": "Activo",
+    "ABANDONED": "Abandanado",
+    "COMPLETE": "Terminado",
+    "PLANNED": "Planificado",
+    "NEEDS_PLAN": "Necesita un plan"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "Producto de limpieza",
+    "CROP_COMPLIANCE": "Cumplimiento de cultivos",
+    "FERTILIZING_PRODUCT": "Producto fertilizante",
+    "OTHER": "Otro",
+    "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
+    "SOIL_AMENDMENT": "Aditivo de suelo",
+    "UNCATEGORIZED": "Sin categorizar"
+  }
+}

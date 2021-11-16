@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import PureInviteSignup from '../../components/InviteSignup';
 import jwt from 'jsonwebtoken';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +12,7 @@ function InviteSignUp({ history }) {
   const GOOGLE = 1;
   const LITEFARM = 2;
   const [selectedKey, setSelectedKey] = useState(0);
-  const { i18n, t } = useTranslation();
+  const { i18n, t } = useTranslation(['translation', 'common']);
   const [email, setEmail] = useState();
   const [gender, setGender] = useState();
   const [birth_year, setBirthYear] = useState();

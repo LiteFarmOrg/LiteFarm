@@ -1,20 +1,19 @@
-name: 'Chromatic Deployment'
-# the event that will trigger the action
-on: push
+name: 'Chromatic'
 
-# what the action will do
+on:
+  push:
+    branches: [ develop ]
+
 jobs:
-  test:
-    # the operating system it will run on
+  chromatic-deployment:
     runs-on: ubuntu-latest
-    # the list of steps that the action will go through
+    defaults:
+      run:
+        working-directory: packages/webapp
     steps:
       - uses: actions/checkout@v1
-      - run: yarn
-      - uses: chromaui/action@v1
-        # options required to the GitHub chromatic action
-        with:
-          # our project token, to see how to obtain it
-          # refer to https://www.learnstorybook.com/intro-to-storybook/react/en/deploy/
-          projectToken: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: npm install
+      - name: Publish to Chromatic
+        run: ./node_modules/.bin/chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+

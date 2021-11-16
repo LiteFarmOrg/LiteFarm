@@ -20,12 +20,12 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', hasFarmAccess({params:'farm_id'}), checkScope(['get:fields']), fieldController.getFieldByFarmID());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']), fieldController.getFieldByFarmID());
 
-router.post('/', hasFarmAccess({body:'farm_id'}), checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
 
-router.put('/:field_id', hasFarmAccess({params:'field_id'}), checkScope(['edit:fields']), fieldController.updateField());
+router.put('/:field_id', hasFarmAccess({ params: 'field_id' }), checkScope(['edit:fields']), fieldController.updateField());
 
-router.delete('/:field_id', hasFarmAccess({params:'field_id'}), checkScope(['delete:fields']), fieldController.delField());
+router.delete('/:field_id', hasFarmAccess({ params: 'field_id' }), checkScope(['delete:fields']), fieldController.delField());
 
 module.exports = router;

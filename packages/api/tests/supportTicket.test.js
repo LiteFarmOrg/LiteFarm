@@ -39,11 +39,6 @@ describe('supportTicket Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/support_ticket`)

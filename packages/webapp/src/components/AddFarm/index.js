@@ -3,8 +3,8 @@ import Button from '../Form/Button';
 import Input from '../Form/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
+import PageTitle from '../PageTitle/v2';
 
 const style = {
   marginBottom: '28px',
@@ -13,13 +13,13 @@ const style = {
 export default function PureAddFarm({
   title,
   inputs = [{}, {}],
+  onGoBack,
   onSubmit,
   map,
   loading,
   disabled,
 }) {
-  // const { title: titleClass, ...inputClasses } = styles;
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}
@@ -29,7 +29,7 @@ export default function PureAddFarm({
         </Button>
       }
     >
-      <Title>{title}</Title>
+      <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
       {map}

@@ -25,7 +25,7 @@ const roleModel = require('../models/roleModel');
 const shiftModel = require('../models/shiftModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 const { createToken } = require('../util/jwt');
 
@@ -33,19 +33,17 @@ const { createToken } = require('../util/jwt');
 const validStatusChanges = {
   'Active': ['Inactive'],
   'Inactive': ['Invited', 'Active'],
-  'Invited': ['Inactive']
+  'Invited': ['Inactive'],
 };
 
-class userFarmController extends baseController {
-  constructor() {
-    super();
-  }
+const userFarmController = {
 
-  static getUserFarmByUserID() {
+  getUserFarmByUserID() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id)
+        const rows = await userFarmModel.query().context({ user_id: req.user.user_id })
+          .select('*').where('userFarm.user_id', user_id).andWhereNot('farm.deleted', 'true')
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
@@ -61,16 +59,16 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getUserFarmsByFarmID() {
+  getUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
         let rows;
-        if (userFarm.role_id == 3) {
+        if (userFarm.role_id === 3) {
           rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
             'users.first_name',
             'users.last_name',
@@ -97,16 +95,16 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getActiveUserFarmsByFarmID() {
+  getActiveUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
         let rows;
-        if (userFarm.role_id == 3) {
+        if (userFarm.role_id === 3) {
           rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
             'users.first_name',
             'users.last_name',
@@ -131,51 +129,77 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getFarmInfo() {
+  getFarmInfo() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
         const farm_id = req.params.farm_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        res.status(200).send(rows);
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id === 3) {
+          rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status',
+            'userFarm.farm_id',
+            'userFarm.user_id',
+          ).where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id');
+        } else {
+          rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateConsent() {
+  updateConsent() {
     return async (req, res) => {
       try {
         const { user_id, farm_id } = req.params;
         const { has_consent, consent_version } = req.body;
+        const userFarm = await userFarmModel.query().select('*').where({
+          'userFarm.user_id': user_id,
+          'userFarm.farm_id': farm_id,
+        })
+          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
+        const { step_two_end, step_three_end, step_five_end } = userFarm;
+        const isWelcomeEmailSent = !!step_two_end && !!step_three_end && !step_five_end;
+        if (isWelcomeEmailSent) return;
         try {
-          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
-            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
           let template_path;
           const sender = 'system@litefarm.org';
           const replacements = {
             first_name: userFarm.first_name,
             farm: userFarm.farm_name,
+            locale: userFarm.language_preference,
+            farm_name: userFarm.farm_name,
           };
           if (has_consent === false) {
             template_path = emails.WITHHELD_CONSENT;
           } else {
             template_path = emails.CONFIRMATION;
-            template_path.subjectReplacements = userFarm.farm_name;
-            replacements['role'] = userFarm.role;
+            replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
           }
-          return await sendEmailTemplate.sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+          return sendEmail(template_path, replacements, userFarm.email, { sender });
         } catch (e) {
           console.log(e);
         }
@@ -183,9 +207,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateOnboardingFlags() {
+  updateOnboardingFlags() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.user_id;
@@ -233,9 +257,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateRole() {
+  updateRole() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -256,6 +280,9 @@ class userFarmController extends baseController {
           }).orWhere({
             role_id: 2,
             farm_id,
+          }).orWhere({
+            role_id: 5,
+            farm_id,
           });
           if (admins.length === 1)
             return res.status(404).send('Cannot update last admin of farm to worker');
@@ -263,7 +290,7 @@ class userFarmController extends baseController {
 
         const updateData = {
           role_id,
-          has_consent: false
+          has_consent: false,
         };
         const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
@@ -273,9 +300,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateStatus() {
+  updateStatus() {
     //TODO clean up
     return async (req, res) => {
       const farm_id = req.params.farm_id;
@@ -296,6 +323,8 @@ class userFarmController extends baseController {
         const replacements = {
           first_name: targetUser.first_name,
           farm: targetUser.farm_name,
+          locale: targetUser.language_preference,
+          farm_name: targetUser.farm_name,
         };
         const sender = 'system@litefarm.org';
 
@@ -309,10 +338,8 @@ class userFarmController extends baseController {
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
           template_path = emails.ACCESS_REVOKE;
-          template_path.subjectReplacements = targetUser.farm_name;
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
-          template_path.subjectReplacements = targetUser.farm_name;
         }
         const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
@@ -323,7 +350,7 @@ class userFarmController extends baseController {
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {
-              await sendEmailTemplate.sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+              sendEmail(template_path, replacements, targetUser.email, { sender });
             }
           } catch (e) {
             console.log('Failed to send email: ', e);
@@ -338,9 +365,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static acceptInvitation() {
+  acceptInvitation() {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
@@ -364,17 +391,17 @@ class userFarmController extends baseController {
       const id_token = await createToken('access', { user_id });
       return res.status(200).send({ id_token, user: result });
     };
-  }
+  },
 
-  static acceptInvitationWithAccessToken() {
+  acceptInvitationWithAccessToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
       req.user.farm_id = farm_id;
       return await userFarmController.acceptInvitation()(req, res);
     };
-  }
+  },
 
-  static updateWage() {
+  updateWage() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
@@ -401,9 +428,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static patchPseudoUserEmail() {
+  patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
       const { email } = req.body;
@@ -481,8 +508,8 @@ class userFarmController extends baseController {
         console.log(e);
       }
     };
-  }
-}
+  },
+};
 
 module.exports = userFarmController;
 

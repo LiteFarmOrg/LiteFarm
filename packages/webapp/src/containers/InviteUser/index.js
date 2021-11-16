@@ -1,28 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getRoles, inviteUserToFarm, addPseudoWorker } from './saga';
+import { addPseudoWorker, getRoles, inviteUserToFarm } from './saga';
 import history from '../../history';
 import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector } from '../userFarmSlice';
-
-import i18n from '../../lang/i18n';
+import { useTranslation } from 'react-i18next';
 
 const { v4: uuidv4 } = require('uuid');
 
-const dropDownMap = {
-  1: i18n.t('role:OWNER'),
-  2: i18n.t('role:MANAGER'),
-  3: i18n.t('role:WORKER'),
-  5: i18n.t('role:EXTENSION_OFFICER'),
-};
-
 function InviteUser() {
   const dispatch = useDispatch();
-  const roles = useSelector(rolesSelector);
-  const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const { farm_id } = useSelector(loginSelector);
+  const roles = useSelector(rolesSelector);
+  const { t } = useTranslation('role');
+  const dropDownMap = {
+    1: t('role:OWNER'),
+    2: t('role:MANAGER'),
+    3: t('role:WORKER'),
+    5: t('role:EXTENSION_OFFICER'),
+  };
+  const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const onGoBack = () => {
     history.push({
       pathname: '/Profile',

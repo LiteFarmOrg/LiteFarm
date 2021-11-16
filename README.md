@@ -30,10 +30,14 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
      TEST_DATABASE_USER=postgres
      TEST_DATABASE_HOST=test-db
      TEST_DATABASE_PASSWORD=postgres
+     JWT_SECRET=somerandomand(better-be)securesecret
     ```
+    or you can simply copy `Litefarm/packages/api/.env.sample` into it
     * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
  3. In the terminal, place the current directory into the root folder `LiteFarm/`
  4. Execute `docker-compose -f docker-compose.dev.yml up`
+
+ *Alternatively and if you're working in a linux or macos system you can call `make up`*
    - This will take some time the first time, on the next attempt it should load way faster.
    - It will setup the local development env by running migrations
    - This will also start the backend, frontend and storybook containers.

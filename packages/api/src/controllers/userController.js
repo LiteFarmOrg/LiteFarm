@@ -23,11 +23,12 @@ const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 
 
-class userController extends baseController {
-  static addUser() {
+const userController = {
+  addUser() {
     return async (req, res) => {
       const { email, first_name, last_name, password, gender, birth_year, language_preference } = req.body;
       const userData = {
@@ -39,10 +40,6 @@ class userController extends baseController {
         language_preference,
       };
 
-      // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-      // if (!validEmailRegex.test(email)) {
-      //   userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
-      // }
 
       const trx = await transaction.start(Model.knex());
       try {
@@ -51,13 +48,16 @@ class userController extends baseController {
         const password_hash = await bcrypt.hash(password, salt);
 
         // persist user data
-        const userResult = await baseController.post(userModel, userData, trx);
+        const userResult = await baseController.post(userModel, userData, req, { trx });
+
+        const { user_id } = userResult;
 
         const pwData = {
-          user_id: userResult.user_id,
+          user_id,
           password_hash,
         };
-        const pwResult = await baseController.post(passwordModel, pwData, trx);
+        const pwResult = await baseController.post(passwordModel, pwData, req, { trx });
+        const ssResult = await baseController.post(showedSpotlightModel, { user_id }, req, { trx });
         await trx.commit();
 
         // generate token, set to last a week
@@ -68,11 +68,11 @@ class userController extends baseController {
           const template_path = emails.WELCOME;
           const replacements = {
             first_name: userResult.first_name,
+            locale: language_preference,
           };
           const sender = 'system@litefarm.org';
-          console.log('template_path:', template_path);
           if (userResult.email && template_path) {
-            await sendEmailTemplate.sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
+            sendEmail(template_path, replacements, userResult.email, { sender });
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -91,12 +91,23 @@ class userController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static addInvitedUser() {
+  addInvitedUser() {
     return async (req, res) => {
-      const { first_name, last_name, email: reqEmail, farm_id, role_id, wage, gender, birth_year, phone_number } = req.body;
+      const {
+        last_name,
+        email: reqEmail,
+        farm_id,
+        role_id,
+        wage,
+        gender,
+        birth_year,
+        phone_number,
+      } = req.body;
+      let { first_name } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
+      wage.amount = wageAmount ? wageAmount : 0;
       const email = reqEmail && reqEmail.toLowerCase();
       /* Start of input validation */
       const requiredProps = {
@@ -140,7 +151,7 @@ class userController extends baseController {
         .where('user_id', created_user_id).andWhere('farm_id', farm_id).first();
 
       if (userExistOnThisFarm) {
-        res.status(409).send({ error: 'User already exists on this farm' });
+        res.status(400).send({ error: 'User already exists on this farm' });
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
@@ -156,9 +167,10 @@ class userController extends baseController {
             gender,
             birth_year,
             phone_number,
-          }, trx);
+          }, req, { trx });
         } else {
           user = isUserAlreadyCreated;
+          first_name = user.first_name;
         }
         const { user_id } = user;
         await userFarmModel.query(trx).insert({
@@ -184,7 +196,16 @@ class userController extends baseController {
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
-          await this.createTokenSendEmail({ email, first_name, last_name, gender, birth_year }, userFarm, farm_name);
+          const { language_preference } = await userModel.query().findById(req.user.user_id);
+
+          await this.createTokenSendEmail({
+            email,
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+          }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);
         }
@@ -193,9 +214,9 @@ class userController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static async createTokenSendEmail(user, userFarm, farm_name) {
+  async createTokenSendEmail(user, userFarm, farm_name) {
     let token;
     const emailSent = await emailTokenModel.query().where({
       user_id: userFarm.user_id,
@@ -219,17 +240,16 @@ class userController extends baseController {
       }
       await this.sendTokenEmail(farm_name, user, token);
     }
-  }
+  },
 
-  static async sendTokenEmail(farm, user, token) {
+  async sendTokenEmail(farm, user, token) {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
-    template_path.subjectReplacements = farm;
-    await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
-      user.email, sender, `/callback/?invite_token=${token}`);
-  }
+    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
+      user.email, { sender, buttonLink: `/callback/?invite_token=${token}` });
+  },
 
-  static addPseudoUser() {
+  addPseudoUser() {
     // Add pseudo user endpoint
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -277,7 +297,7 @@ class userController extends baseController {
         }
         /* End of input validation */
 
-        const user = await baseController.post(userModel, req.body, trx);
+        const user = await baseController.post(userModel, req.body, req, { trx });
         await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
@@ -307,9 +327,9 @@ class userController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static getUserByID() {
+  getUserByID() {
     return async (req, res) => {
       try {
         const id = req.params.user_id;
@@ -328,12 +348,10 @@ class userController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
 
-
-
-  static deactivateUser() {
+  deactivateUser() {
     return async (req, res) => {
       const user_id = req.params.id;
       const template_path = emails.ACCESS_REVOKE;
@@ -346,10 +364,11 @@ class userController extends baseController {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        template_path.subjectReplacements = rows[0].farm_name;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
+          locale: rows[0].language_preference,
+          farm_name: rows[0].farm_name,
         };
         const sender = 'help@litefarm.org';
         const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
@@ -361,13 +380,11 @@ class userController extends baseController {
           //send email informing user their access revoked (unless user is no account worker - no email)
           try {
             if (rows[0].email) {
-              await sendEmailTemplate.sendEmail(
+              sendEmail(
                 template_path,
                 replacements,
                 rows[0].email,
-                sender,
-                null,
-                rows[0].language_preference,
+                { sender },
               );
             }
           } catch (e) {
@@ -383,9 +400,9 @@ class userController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static updateConsent() {
+  updateConsent() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
@@ -404,14 +421,14 @@ class userController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateUser() {
+  updateUser() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         delete req.body.status_id;
-        const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
+        const updated = await baseController.put(userModel, req.params.user_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -425,9 +442,9 @@ class userController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static acceptInvitationAndPostPassword() {
+  acceptInvitationAndPostPassword() {
     return async (req, res) => {
       let result;
       try {
@@ -449,7 +466,9 @@ class userController extends baseController {
             user_id,
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
+          await showedSpotlightModel.query(trx).insert({ user_id });
         });
+
         result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
         result = { ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
@@ -467,9 +486,9 @@ class userController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static acceptInvitationWithGoogleAccount() {
+  acceptInvitationWithGoogleAccount() {
     return async (req, res) => {
       let result;
       const { sub, user_id, farm_id, email } = req.user;
@@ -500,8 +519,9 @@ class userController extends baseController {
           }).patch({ status: 'Active' });
           const userFarms = await userFarmModel.query(trx).where({ user_id });
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
-          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub });
+          await shiftModel.query(trx).context({ user_id: sub }).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await showedSpotlightModel.query(trx).insert({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();
         });
@@ -523,32 +543,7 @@ class userController extends baseController {
         });
       }
     };
-  }
-
-  static updateNotificationSetting() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const updated = await userController.updateSetting(req, trx);
-        await trx.commit();
-        if (!updated.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(updated);
-        }
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  }
-
-  static async updateSetting(req, trx) {
-    const notificationSettingModel = require('../models/notificationSettingModel');
-    return await super.put(notificationSettingModel, req, trx);
-  }
-}
+  },
+};
 
 module.exports = userController;

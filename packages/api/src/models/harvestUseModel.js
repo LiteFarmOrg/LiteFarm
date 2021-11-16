@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
- *  This file (cropSaleModel.js) is part of LiteFarm.
- *  
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (harvestUseModel.js) is part of LiteFarm.
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,7 +17,7 @@ const Model = require('objection').Model;
 
 class HarvestUse extends Model {
   static get tableName() {
-    return 'harvestUse';
+    return 'harvest_use';
   }
 
   static get idColumn() {
@@ -29,13 +29,14 @@ class HarvestUse extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['activity_id', 'harvest_use_type_id', 'quantity_kg'],
+      required: ['task_id', 'harvest_use_type_id', 'quantity'],
 
       properties: {
         harvest_use_id: { type: 'integer' },
-        activity_id: { type: 'integer' },
+        task_id: { type: 'integer' },
         harvest_use_type_id: { type: 'integer' },
-        quantity_kg: { type: 'float' },
+        quantity: { type: 'number' },
+        quantity_unit: { type: 'string', enum: ['kg', 'mt', 'lb', 't'] },
       },
       additionalProperties: false,
     };
@@ -43,26 +44,12 @@ class HarvestUse extends Model {
 
   static get relationMappings() {
     return {
-      harvestLog: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./harvestLogModel'),
-        join: {
-          from: 'harvestUse.activity_id',
-          to: 'harvestLog.activity_id',
-        },
-      },
-      harvestUseType: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
+      harvest_use_type: {
+        relation: Model.HasOneRelation,
         modelClass: require('./harvestUseTypeModel'),
         join: {
-          from: 'harvestUse.harvest_use_type_id',
-          to: 'harvestUseType.harvest_use_type_id',
+          from: 'harvest_use.harvest_use_type_id',
+          to: 'harvest_use_type.harvest_use_type_id',
         },
       },
     }

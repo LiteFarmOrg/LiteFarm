@@ -1,22 +1,19 @@
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import {
-  onLoadingUserFarmsStart,
-  onLoadingUserFarmsFail,
   acceptInvitationSuccess,
+  onLoadingUserFarmsFail,
+  onLoadingUserFarmsStart,
 } from '../userFarmSlice';
 import history from '../../history';
-import { loginSuccess } from '../userFarmSlice';
-import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { axios } from '../saga';
-import {
-  startInvitationFlow,
-  startInvitationFlowWithSpotLight,
-} from '../ChooseFarm/chooseFarmFlowSlice';
+import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -34,10 +31,7 @@ export function* acceptInvitationWithSSOSaga({
         Authorization: 'Bearer ' + google_id_token,
       },
     };
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-')
-      ? selectedLanguage.split('-')[0]
-      : selectedLanguage;
+    const language_preference = getLanguageFromLocalStorage();
     const user = {
       ...userForm,
       language_preference,
@@ -53,6 +47,7 @@ export function* acceptInvitationWithSSOSaga({
     );
     const { id_token, user: resUserFarm } = result.data;
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
@@ -68,7 +63,7 @@ export function* acceptInvitationWithSSOSaga({
         error: i18n.t(translateKey),
       });
     } else {
-      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
     }
   }
 }
@@ -84,10 +79,7 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
         Authorization: 'Bearer ' + invite_token,
       },
     };
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-')
-      ? selectedLanguage.split('-')[0]
-      : selectedLanguage;
+    const language_preference = getLanguageFromLocalStorage();
 
     const user = {
       ...userForm,
@@ -98,7 +90,10 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUserFarm } = result.data;
+
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', resUserFarm.language_preference);
+
     purgeState();
     yield put(acceptInvitationSuccess(resUserFarm));
     yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
@@ -114,12 +109,12 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
         error: i18n.t(translateKey),
       });
     } else {
-      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL')));
     }
   }
 }
 
 export default function* inviteSaga() {
-  yield takeLatest(acceptInvitationWithSSO.type, acceptInvitationWithSSOSaga);
-  yield takeLatest(acceptInvitationWithLiteFarm.type, acceptInvitationWithLiteFarmSaga);
+  yield takeLeading(acceptInvitationWithSSO.type, acceptInvitationWithSSOSaga);
+  yield takeLeading(acceptInvitationWithLiteFarm.type, acceptInvitationWithLiteFarmSaga);
 }

@@ -1,10 +1,11 @@
 import React from 'react';
 import Button from '../../components/Form/Button';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Button',
   component: Button,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Button {...args} />;
@@ -28,6 +29,12 @@ export const Secondary = Template.bind({});
 Secondary.args = {
   color: 'secondary',
   children: 'Secondary',
+};
+
+export const Success = Template.bind({});
+Success.args = {
+  color: 'success',
+  children: 'Success',
 };
 
 export const Disabled = Template.bind({});
@@ -68,11 +75,4 @@ InjectStyle.args = {
   color: 'primary',
   label: 'Button',
   style: style,
-};
-
-export const InjectBootstrapClassName = TemplateWithText.bind({});
-InjectBootstrapClassName.args = {
-  label: 'Button',
-  color: 'none',
-  className: 'btn btn-dark',
 };

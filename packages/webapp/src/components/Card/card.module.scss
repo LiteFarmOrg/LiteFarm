@@ -1,0 +1,90 @@
+@import '../../assets/mixin';
+.container {
+  box-sizing: border-box;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+  width: 100%;
+}
+
+.primary {
+  background: var(--white);
+  @include midShadow();
+}
+
+.secondary {
+  background-color: var(--grey100);
+  border-color: var(--grey400);
+  @include smallShadow2();
+}
+
+.active {
+  background-color: var(--green100);
+  border-color: var(--teal600);
+}
+
+.disabled {
+  background: var(--grey400);
+  border-color: var(--grey400);
+}
+
+.blue {
+  background-color: var(--grey100);
+  border-color: var(--blue700);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.blueActive {
+  background: var(--blue200);
+  border-color: var(--blue700);
+}
+
+.info {
+  background-color: var(--grey100);
+  border-color: var(--grey400);
+}
+
+.completed {
+  background-color: var(--grey200);
+  border-color: var(--teal700);
+  @include smallShadow2();
+}
+
+.completedActive {
+  background-color: var(--grey400);
+  border-color: var(--teal700);
+  @include smallShadow2();
+}
+
+.none {
+
+}
+
+// task styles
+.taskCurrent {
+  background-color: var(--grey100);
+  border-color: var(--grey400);
+  color: var(--grey900);
+  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+}
+
+.taskCurrentActive {
+  background-color: var(--green100);
+  border-color: var(--teal600);
+  color: var(--teal900);
+  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+}
+
+.taskMarked {
+  background-color: var(--grey200);
+  border-color: var(--teal700);
+  color: var(--teal900);
+  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+}
+
+.taskMarkedActive {
+  background-color: var(--grey400);
+  border-color: var(--teal700);
+  color: var(--teal900);
+  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsChevronRight } from 'react-icons/bs';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 const DescriptiveButton = ({ label, number, onClick }) => {
   return (

@@ -11,6 +11,12 @@ export function onLoadingFail(state, { payload: error }) {
   state.loaded = true;
 }
 
+export function onLoadingSuccess(state) {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+}
+
 const adminRoles = [1, 2, 5];
 
 export const initialState = {
@@ -90,11 +96,13 @@ const userFarmSlice = createSlice({
     },
     postFarmSuccess: addUserFarm,
     patchRoleStepTwoSuccess: (state, { payload }) => {
-      const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
+      const { step_two, step_two_end, role_id, farm_id, user_id, owner_operated, role } = payload;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_two,
         step_two_end,
         role_id,
+        role,
+        owner_operated,
       });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {
@@ -142,9 +150,9 @@ const userFarmSlice = createSlice({
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
     },
-    patchFarmSuccess: (state, { payload: farm }) => {
-      const { farm_id, user_id } = farm;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
+    patchFarmSuccess: (state, { payload: userFarm }) => {
+      const { farm_id, user_id } = userFarm;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
     },
     acceptInvitationSuccess: (state, { payload: userFarm }) => {
       addUserFarm(state, { payload: userFarm });
@@ -245,12 +253,16 @@ export const userFarmEntitiesSelector = createSelector(
   ({ byFarmIdUserId }) => byFarmIdUserId,
 );
 
+export const measurementSelector = createSelector(
+  userFarmSelector,
+  (userFarm) => userFarm.units.measurement,
+);
+
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {
     by_user[user_id] && userFarms.push(by_user[user_id]);
   }
-  //TODO order should be defined in farmIdUserIdTuple
   return userFarms.sort((userFarm1, userFarm2) =>
     userFarm1.farm_name > userFarm2.farm_name ? 1 : 0,
   );

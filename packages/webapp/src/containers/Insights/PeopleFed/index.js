@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { cropsNutritionSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';

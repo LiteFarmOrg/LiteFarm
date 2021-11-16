@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import styles from './styles.scss';
-import sharedStyles from '../shared.scss';
-import { ProgressBar } from 'react-bootstrap';
+import sharedStyles from '../shared.module.scss';
 import { Main } from '../../Typography';
+import { LinearProgress } from '@material-ui/core';
 
 class LabourHappinessTask extends Component {
   render() {
@@ -16,7 +15,7 @@ class LabourHappinessTask extends Component {
           <Main>{title}</Main>
           <Main className={sharedStyles.rightText}>{`${mood} / 5`}</Main>
         </div>
-        <ProgressBar className={sharedStyles.progress} now={percent} />
+        <LinearProgress value={percent} variant="determinate" />
       </div>
     );
   }

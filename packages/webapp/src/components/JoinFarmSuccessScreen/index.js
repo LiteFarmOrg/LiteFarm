@@ -7,7 +7,7 @@ import { Main, Title } from '../Typography';
 import { ReactComponent } from '../../assets/images/outro/outro.svg';
 
 export default function PureJoinFarmSuccessScreen({ onClick, farm_name, showSpotLight }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Layout
       buttonGroup={

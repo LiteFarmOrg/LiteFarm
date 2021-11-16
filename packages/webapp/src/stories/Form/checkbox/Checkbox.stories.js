@@ -1,10 +1,11 @@
 import React from 'react';
 import Checkbox from '../../../components/Form/Checkbox';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Checkbox',
   component: Checkbox,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Checkbox {...args} />;
@@ -14,10 +15,23 @@ Default.args = {
   label: 'checkbox',
 };
 
+export const Checked = Template.bind({});
+Checked.args = {
+  label: 'checkbox',
+  checked: true,
+};
+
 export const Disabled = Template.bind({});
 Disabled.args = {
   label: 'disabled',
   disabled: true,
+};
+
+export const CheckedAndDisabled = Template.bind({});
+CheckedAndDisabled.args = {
+  label: 'disabled',
+  disabled: true,
+  checked: true,
 };
 
 export const WithError = Template.bind({});
@@ -29,6 +43,12 @@ const classes = {
   checkbox: { backgroundColor: 'yellow' },
   label: { fontSize: '50px' },
   container: { marginLeft: '100px' },
+};
+
+export const SM = Template.bind({});
+SM.args = {
+  label: 'checkbox',
+  sm: true,
 };
 
 export const WithClasses = Template.bind({});

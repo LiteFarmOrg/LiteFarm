@@ -13,17 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from './../../apiConfig';
 import {
-  onLoadingUserFarmsStart,
-  onLoadingUserFarmsFail,
-  getUserFarmsSuccess,
   acceptInvitationSuccess,
+  getUserFarmsSuccess,
+  loginSelector,
+  onLoadingUserFarmsFail,
+  onLoadingUserFarmsStart,
 } from '../userFarmSlice';
+import {
+  getSpotlightFlagsFailure,
+  getSpotlightFlagsSuccess,
+  spotlightLoading,
+} from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import history from '../../history';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
 
@@ -60,7 +65,23 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
   }
 }
 
+export const getSpotlightFlags = createAction('getSpotlightFlagsSaga');
+export function* getSpotlightFlagsSaga() {
+  const { spotlightUrl } = apiConfig;
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id);
+    yield put(spotlightLoading());
+    const result = yield call(axios.get, spotlightUrl, header);
+    yield put(getSpotlightFlagsSuccess(result.data));
+  } catch (error) {
+    yield put(getSpotlightFlagsFailure());
+    console.log('failed to fetch task types from database');
+  }
+}
+
 export default function* chooseFarmSaga() {
   yield takeLatest(getUserFarms.type, getUserFarmsSaga);
-  yield takeLatest(patchUserFarmStatusWithIDToken.type, patchUserFarmStatusWithIDTokenSaga);
+  yield takeLeading(patchUserFarmStatusWithIDToken.type, patchUserFarmStatusWithIDTokenSaga);
+  yield takeLatest(getSpotlightFlags.type, getSpotlightFlagsSaga);
 }

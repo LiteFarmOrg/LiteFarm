@@ -34,11 +34,6 @@ describe('Crop Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  })
 
   function postCropRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post('/crop')
@@ -234,15 +229,15 @@ describe('Crop Tests', () => {
         });
       })
 
-      test('Owner should delete a crop that is referenced by a fieldCrop', async (done) => {
+      test('Owner should delete a crop that is referenced by a managementPlan', async (done) => {
         deleteRequest(`/crop/${crop.crop_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const crops = await cropModel.query().whereDeleted().context({showHidden: true}).where('farm_id', farm.farm_id);
+          const crops = await cropModel.query().whereDeleted().context({ showHidden: true }).where('farm_id', farm.farm_id);
           expect(crops.length).toBe(1);
           expect(crops[0].deleted).toBe(true);
           expect(crops[0].crop_genus).toBe(crop.crop_genus);
           done();
-        })
+        });
       });
 
 

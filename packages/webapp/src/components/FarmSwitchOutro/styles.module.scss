@@ -1,0 +1,94 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.outroContainer {
+  /* Rectangle 49 */
+  display: flex;
+  flex-direction: column;
+  width: 312px;
+  height: 430px;
+  /* Grey-100 */
+  background: #fafafd;
+  border-radius: 7.05466px;
+}
+
+.descriptionTop {
+  margin-top: -40px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  justify-content: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  /* or 160% */
+  display: flex;
+  align-items: center;
+  /* Grey-900 */
+  color: #282b36;
+}
+
+.descriptionBottom {
+  justify-content: center;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.bold {
+  justify-content: center;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.imgContainer {
+  margin-left: 5%;
+  margin-top: -40px;
+}
+
+.title {
+  margin-top: 20px;
+  margin-left: 20%;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 20px;
+  line-height: 32px;
+  /* or 160% */
+  display: flex;
+  align-items: center;
+  /* Grey-900 */
+  color: #028577;
+}
+
+.descriptionFarm {
+  -webkit-font-smoothing: antialiased;
+}
+
+.bottomContainer {
+  margin: 30px auto 0 auto;
+  width: 240px;
+  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.5);
+}

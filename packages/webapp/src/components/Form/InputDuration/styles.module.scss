@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+}
+
+.dateContainer {
+  align-items: center;
+  padding-top: 20px;
+  display: flex;
+  height: 68px;
+}

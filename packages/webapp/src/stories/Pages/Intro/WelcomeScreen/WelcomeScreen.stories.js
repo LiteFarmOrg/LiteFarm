@@ -1,6 +1,7 @@
 import React from 'react';
 import decorators from '../../config/decorators';
 import WelcomeScreen from '../../../../components/WelcomeScreen';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/1-WelcomeScreen',
@@ -13,5 +14,5 @@ const Template = (args) => <WelcomeScreen {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {};
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

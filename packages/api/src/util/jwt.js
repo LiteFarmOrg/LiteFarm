@@ -6,11 +6,14 @@ const tokenType = {
   access: process.env.JWT_SECRET,
   invite: process.env.JWT_INVITE_SECRET,
   passwordReset: process.env.JWT_RESET_SECRET,
+  farm: process.env.JWT_FARM_SECRET,
 }
 const expireTime = {
   access: ACCESS_TOKEN_EXPIRES_IN,
   invite: ACCESS_TOKEN_EXPIRES_IN,
   passwordReset: RESET_PASSWORD_TOKEN_EXPIRES_IN,
+  farm: ACCESS_TOKEN_EXPIRES_IN,
+
 }
 
 function createToken(type, payload) {
@@ -23,5 +26,5 @@ function createToken(type, payload) {
 module.exports = {
   createToken,
   expireTime,
-  tokenType
+  tokenType,
 }

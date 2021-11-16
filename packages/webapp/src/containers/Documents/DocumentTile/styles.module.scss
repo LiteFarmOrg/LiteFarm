@@ -1,0 +1,76 @@
+.container {
+    border: 1px solid var(--grey400);
+    border-radius: 4px;
+    width: 148px;
+    filter: drop-shadow(0px 1px 2px rgba(102, 115, 138, 0.25));
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.img {
+    // background-color: orange;
+    height: 114px;
+    border-radius: 4px 4px 0 0;
+    object-fit: cover;
+}
+
+
+.info {
+    display: flex;
+    background-color: var(--grey100);
+    padding: 4px;
+    border-radius: 0 0 4px 4px;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.titleAndTypeContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.title {
+    color: #282B36;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    margin-left: 4px;
+    margin-top: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.type {
+    color:  #282B36;
+    font-weight: 400;
+    margin-left: 4px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.calendar {
+    transform: translate(0px, 3px);
+    margin-left: 4px;
+    margin-right: 5px;
+    fill: var(--teal700)
+}
+
+.date {
+    color: #282B36;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+}
+
+.documentIconContainer {
+    background-color: var(--grey600);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 114px;
+    border-radius: 4px 4px 0 0;
+}

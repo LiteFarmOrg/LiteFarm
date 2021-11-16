@@ -14,15 +14,16 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './constants';
+import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
-import { toastr } from 'react-redux-toastr';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
+import { enqueueErrorSnackbar } from '../Snackbar/snackbarSlice';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
@@ -38,10 +39,12 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
       localStorage.setItem('litefarm_lang', result.data.language);
       history.push({
         pathname: '/',
-        component: ENTER_PASSWORD_PAGE,
-        user: {
-          first_name: result.data.first_name,
-          email: result.data.email,
+        state: {
+          component: ENTER_PASSWORD_PAGE,
+          user: {
+            first_name: result.data.first_name,
+            email: result.data.email,
+          },
         },
       });
     } else if (result.data.invited) {
@@ -51,8 +54,10 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
     } else if (!result.data.exists && !result.data.sso) {
       history.push({
         pathname: '/',
-        component: CREATE_USER_ACCOUNT,
-        user: { email },
+        state: {
+          component: CREATE_USER_ACCOUNT,
+          user: { email },
+        },
       });
     } else if (result.data.sso) {
       showSSOError(inlineErrors.sso);
@@ -89,7 +94,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
       showPasswordError();
     } else {
       console.log(e);
-      toastr.error(i18n.t('message:USER.ERROR.SIGNUP_UNKNOWN'));
+      yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.SIGNUP_UNKNOWN')));
     }
   }
 }
@@ -100,7 +105,7 @@ export function* customCreateUserSaga({ payload: data }) {
   try {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const selectedLanguage = getLanguageFromLocalStorage();
     const language_preference = selectedLanguage.includes('-')
       ? selectedLanguage.split('-')[0]
       : selectedLanguage;
@@ -130,7 +135,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.INVITE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.INVITE')));
   }
 }
 
@@ -140,13 +145,13 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    toastr.error(i18n.t('message:USER.ERROR.RESET_PASSWORD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:USER.ERROR.RESET_PASSWORD')));
   }
 }
 
 export default function* signUpSaga() {
-  yield takeLatest(customSignUp.type, customSignUpSaga);
-  yield takeLatest(customLoginWithPassword.type, customLoginWithPasswordSaga);
-  yield takeLatest(customCreateUser.type, customCreateUserSaga);
-  yield takeLatest(sendResetPasswordEmail.type, sendResetPasswordEmailSaga);
+  yield takeLeading(customSignUp.type, customSignUpSaga);
+  yield takeLeading(customLoginWithPassword.type, customLoginWithPasswordSaga);
+  yield takeLeading(customCreateUser.type, customCreateUserSaga);
+  yield takeLeading(sendResetPasswordEmail.type, sendResetPasswordEmailSaga);
 }

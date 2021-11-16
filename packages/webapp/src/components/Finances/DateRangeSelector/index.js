@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import DateContainer, { FromToDateContainer } from '../../../components/Inputs/DateContainer';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';

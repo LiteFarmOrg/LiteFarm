@@ -13,11 +13,11 @@ function mapFieldsToStationId(fieldsToSet) {
       mergeMap((fields) => from(fields)),
       concatMap((field) =>
         from(getStationIdFromField(field))
-          .pipe(delay(1000))
+          .pipe(delay(1000)),
       ),
       catchError((error) => {
-        console.error(error)
-      })
+        console.error(error);
+      }),
     ).subscribe(async (fieldData) => {
       console.log('Got city id for field', fieldData.fieldId);
       const fieldWithCityInserted = await insertStationToField(fieldData);

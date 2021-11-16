@@ -15,16 +15,23 @@
 
 import moment from 'moment';
 
-export function calcTotalLabour(shifts, startDate, endDate) {
+export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0;
-  if (Array.isArray(shifts)) {
-    for (let s of shifts) {
-      if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
-        if (s.wage.type === 'hourly') {
-          let rate = parseFloat(s.wage_at_moment).toFixed(2);
-          let hoursWorked = Number((s.duration / 60).toFixed(2));
-          total += rate * hoursWorked;
-        }
+  if (Array.isArray(tasks)) {
+    for (let t of tasks) {
+      if (
+        (moment(t.completed_time).utc().isSameOrAfter(moment(startDate)) &&
+          moment(t.completed_time).utc().isSameOrBefore(moment(endDate)) &&
+          t.duration) ||
+        (moment(t.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
+          moment(t.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
+          t.duration)
+      ) {
+        // TODO: possibly implement check when wage can be yearly
+        // if (s.wage.type === 'hourly')
+        let rate = parseFloat(t.wage_at_moment).toFixed(2);
+        let hoursWorked = Number((t.duration / 60).toFixed(2));
+        total += rate * hoursWorked;
       }
     }
   }
@@ -51,7 +58,10 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   let total = 0;
   if (Array.isArray(expenses)) {
     for (let e of expenses) {
-      if (moment(e.expense_date).isBetween(startDate, endDate, null, '[]')) {
+      if (
+        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
+        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
+      ) {
         total += parseFloat(e.value);
       }
     }
@@ -65,7 +75,10 @@ export function calcSales(sales, startDate, endDate) {
 
   if (Array.isArray(sales)) {
     for (let s of sales) {
-      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+      if (
+        moment(s.sale_date).isSameOrAfter(moment(startDate)) &&
+        moment(s.sale_date).isSameOrBefore(moment(endDate))
+      ) {
         for (let c of s.cropSale) {
           total += parseFloat(c.sale_value);
         }
@@ -83,7 +96,10 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
     for (let s of shifts) {
       let cid = s.crop_id;
       if (cid) {
-        if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
+        if (
+          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+          moment(s.shift_date).isSameOrBefore(moment(endDate))
+        ) {
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
           } else {
@@ -95,11 +111,11 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
           }
         }
       } else {
-        if (s.field_id && s.is_field) {
-          if (unAllocated.hasOwnProperty(s.field_id)) {
-            unAllocated[s.field_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+        if (s.location_id && s.is_field) {
+          if (unAllocated.hasOwnProperty(s.location_id)) {
+            unAllocated[s.location_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
           } else {
-            unAllocated[s.field_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
+            unAllocated[s.location_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
           }
         }
       }
@@ -155,15 +171,18 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 
   if (sales && sales.length) {
     for (let s of sales) {
-      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+      if (
+        moment(s.sale_date).isSameOrAfter(moment(startDate)) &&
+        moment(s.sale_date).isSameOrBefore(moment(endDate))
+      ) {
         for (let cropSale of s.cropSale) {
-          let cid = cropSale.fieldCrop.crop_id;
+          let cid = cropSale.managementPlan.crop_id;
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].revenue += Number(parseFloat(cropSale.sale_value).toFixed(2));
           } else {
             sortObj[cid] = {
               cost: 0,
-              crop: cropSale.fieldCrop.crop.crop_common_name,
+              crop: cropSale.managementPlan.crop.crop_common_name,
               revenue: Number(parseFloat(cropSale.sale_value).toFixed(2)),
             };
           }
@@ -188,7 +207,7 @@ export function getShiftCropOnField(fieldID, shifts) {
   let crops = [];
 
   for (let s of shifts) {
-    if (s.field_id === fieldID && s.crop_id) {
+    if (s.location_id === fieldID && s.crop_id) {
       crops.push(s.crop_id);
     }
   }

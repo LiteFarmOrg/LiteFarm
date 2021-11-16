@@ -24,9 +24,9 @@ describe('Invite user', () => {
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
       req.user.user_id = req.get('user_id');
-      next()
+      next();
     });
-    emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+    emailMiddleware.sendEmail.mockClear();
   })
 
 

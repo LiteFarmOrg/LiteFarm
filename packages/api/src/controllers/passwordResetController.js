@@ -16,13 +16,13 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 
 
-class passwordResetController extends baseController {
-  static sendResetEmail() {
+const passwordResetController = {
+  sendResetEmail() {
     return async (req, res) => {
       const { email } = req.body;
 
@@ -68,9 +68,12 @@ class passwordResetController extends baseController {
         const template_path = emails.PASSWORD_RESET;
         const replacements = {
           first_name: userData.first_name,
+          locale: userData.language_preference,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, userData.language_preference);
+        sendEmail(template_path, replacements, email, {
+          sender, buttonLink: `/callback/?reset_token=${token}`,
+        });
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -78,15 +81,15 @@ class passwordResetController extends baseController {
         return res.status(400).json(error);
       }
     };
-  }
+  },
 
-  static validateToken() {
+  validateToken() {
     return async (req, res) => {
       return res.status(200).json({ isValid: true });
     };
-  }
+  },
 
-  static resetPassword() {
+  resetPassword() {
     return async (req, res) => {
       const { password } = req.body;
       const { user_id, email, first_name, language_preference } = req.user;
@@ -106,9 +109,12 @@ class passwordResetController extends baseController {
         const template_path = emails.PASSWORD_RESET_CONFIRMATION;
         const replacements = {
           first_name,
+          locale: language_preference,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
+        sendEmail(template_path, replacements, email, {
+          sender, buttonLink: `/?email=${encodeURIComponent(email)}`,
+        });
         await userModel.query().findById(user_id).patch({ status_id: 1 });
 
         return res.status(200).send({ id_token });
@@ -118,7 +124,7 @@ class passwordResetController extends baseController {
         });
       }
     };
-  }
-}
+  },
+};
 
 module.exports = passwordResetController;

@@ -1,0 +1,13 @@
+.fromToContainer {
+  flex-direction: row;
+  display: inline-flex;
+  gap: 24px;
+  width: 100%;
+}
+
+@media screen and (max-width: 370px) {
+  .fromToContainer {
+    flex-direction: column;
+    gap: 0;
+  }
+}

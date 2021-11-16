@@ -4,7 +4,7 @@ import { ReactComponent as AddFile } from './../../assets/images/help/AddFile.sv
 import React, { useEffect, useState } from 'react';
 import { Error, Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
 import TextArea from '../Form/TextArea';
@@ -15,15 +15,19 @@ import { Label } from '../Typography/index';
 export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number, isLoading }) {
   const [file, setFile] = useState(null);
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  const { register, handleSubmit, watch, control, errors, setValue, formState } = useForm({
+  const { register, handleSubmit, watch, control, setValue, formState } = useForm({
     mode: 'onTouched',
+    defaultValues: { 'contact_method': 'email' }
   });
+
+  const { errors } = formState;
+
   const CONTACT_METHOD = 'contact_method';
-  const contactMethodSelection = watch(CONTACT_METHOD, 'email');
+  const contactMethodSelection = watch(CONTACT_METHOD);
   const MESSAGE = 'message';
   const SUPPORT_TYPE = 'support_type';
   const CONTACT_INFO = 'contactInfo';
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const supportTypeOptions = [
     { value: 'Request information', label: t('HELP.OPTIONS.REQUEST_INFO') },
     { value: 'Report a bug', label: t('HELP.OPTIONS.REPORT_BUG') },
@@ -71,7 +75,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
         control={control}
         name={SUPPORT_TYPE}
         rules={{ required: true }}
-        render={({ onChange, onBlur, value }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <ReactSelect
             label={t('HELP.TYPE_SUPPORT_LABEL')}
             placeholder={t('HELP.TYPE_SUPPORT_PLACEHOLDER')}
@@ -84,8 +88,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
       {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       <TextArea
         label={t('HELP.MESSAGE_LABEL')}
-        inputRef={register({ required: true })}
-        name={MESSAGE}
+        hookFormRegister={register(MESSAGE, { required: true })}
         style={{ marginTop: '30px', marginBottom: '36px' }}
       />
       {errors[MESSAGE] ? (
@@ -120,25 +123,22 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
       <Radio
         label={t('HELP.EMAIL')}
         value={'email'}
-        inputRef={register({ required: true })}
-        name={CONTACT_METHOD}
+        hookFormRegister={register(CONTACT_METHOD, { required: true })}
         defaultChecked={true}
       />
       <Radio
         label={t('HELP.WHATSAPP')}
         value={'whatsapp'}
-        inputRef={register({ required: true })}
-        name={CONTACT_METHOD}
+        hookFormRegister={register(CONTACT_METHOD, { required: true })}
       />
       <Input
         label={
           contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
         }
-        inputRef={register({
+        hookFormRegister={register(CONTACT_INFO, {
           required: true,
           pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
         })}
-        name={CONTACT_INFO}
       />
       {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
         <Error>{t('HELP.REQUIRED_LABEL')}</Error>

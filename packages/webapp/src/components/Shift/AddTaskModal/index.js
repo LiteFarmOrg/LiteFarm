@@ -1,12 +1,12 @@
-import Popup from 'reactjs-popup';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Button from '../../Form/Button';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import MuiFullPagePopup from '../../MuiFullPagePopup';
 
 function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskRequiredError }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const [taskName, setTaskName] = useState('');
 
   const addCustomTask = () => {
@@ -21,18 +21,7 @@ function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskReq
     setTaskName(value);
   };
   return (
-    <Popup
-      open={showModal}
-      closeOnDocumentClick
-      onClose={() => switchShowModal(false)}
-      contentStyle={{
-        display: 'flex',
-        width: '100%',
-        height: '100vh',
-        padding: '0 5%',
-      }}
-      overlayStyle={{ zIndex: '1060', height: '100vh' }}
-    >
+    <MuiFullPagePopup open={showModal} onClose={() => switchShowModal(false)}>
       <div className={styles.modal}>
         <div className={styles.popupTitle}>
           <a className={styles.close} onClick={() => switchShowModal(false)}>
@@ -50,7 +39,7 @@ function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskReq
           <Button onClick={addCustomTask}>{t('common:FINISH')}</Button>
         </div>
       </div>
-    </Popup>
+    </MuiFullPagePopup>
   );
 }
 

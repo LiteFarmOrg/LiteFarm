@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, Underlined } from '../../components/Typography';
-import OverlayTooltip, { TooltipComponent } from '../../components/Tooltip';
+import { Underlined } from '../../components/Typography';
+import OverlayTooltip from '../../components/Tooltip';
+import { componentDecorators } from '../Pages/config/decorators';
+
 export default {
   title: 'Components/OverlayTooltip',
   component: OverlayTooltip,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <OverlayTooltip {...args} />;
@@ -19,18 +21,7 @@ Tooltip.args = {
   ),
   content:
     'LiteFarm generates forms required for organic certification. Some information will be mandatory.',
-  offset: 8,
+  arrowOffset: 8,
   placement: 'bottom-start',
   autoOpen: true,
-};
-
-const TooltipComponentTemplate = (args) => <TooltipComponent {...args} />;
-export const Component = TooltipComponentTemplate.bind({});
-Component.args = {
-  children: (
-    <Text>
-      LiteFarm generates forms required for organic certification. Some information will be
-      mandatory.
-    </Text>
-  ),
 };

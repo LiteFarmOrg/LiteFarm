@@ -1,31 +1,48 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { areaProperties, figureProperties, locationProperties } from './constants';
+import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
+import { pick } from '../util/pick';
 
-const addOneField = (state, { payload }) => {
-  const { field_name, grid_points, field_id, farm_id, area, station_id } = payload;
+const fieldProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
+export const getLocationObjectFromField = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    field: pick(data, fieldProperties),
+    ...pick(data, locationProperties),
+  };
+};
+const getFieldFromLocationObject = (location) => {
+  return {
+    ...pick(location, locationProperties),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.field, fieldProperties),
+  };
+};
+
+const upsertOneFieldWithLocation = (state, { payload: location }) => {
+  fieldAdapter.upsertOne(state, getFieldFromLocationObject(location));
+};
+const upsertManyFieldWithLocation = (state, { payload: locations }) => {
+  fieldAdapter.upsertMany(
+    state,
+    locations.map((location) => getFieldFromLocationObject(location)),
+  );
+  onLoadingSuccess(state);
+};
+const softDeleteField = (state, { payload: location_id }) => {
   state.loading = false;
   state.error = null;
   state.loaded = true;
-  fieldAdapter.upsertOne(state, { field_name, grid_points, field_id, farm_id, area, station_id });
-};
-
-const updateOneField = (state, { payload }) => {
-  const { field_name, grid_points, field_id, farm_id, area, station_id } = payload;
-  state.loading = false;
-  state.error = null;
-  fieldAdapter.updateOne(state, { field_name, grid_points, field_id, farm_id, area, station_id });
-};
-
-const addManyField = (state, { payload: fields }) => {
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-  fieldAdapter.upsertMany(state, fields);
+  fieldAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
 };
 
 const fieldAdapter = createEntityAdapter({
-  selectId: (field) => field.field_id,
+  selectId: (field) => field.location_id,
 });
 
 const fieldSlice = createSlice({
@@ -33,27 +50,22 @@ const fieldSlice = createSlice({
   initialState: fieldAdapter.getInitialState({
     loading: false,
     error: undefined,
-    field_id: undefined,
+    location_id: undefined,
     loaded: false,
   }),
   reducers: {
     onLoadingFieldStart: onLoadingStart,
     onLoadingFieldFail: onLoadingFail,
-    getFieldsSuccess: addManyField,
-    postFieldSuccess: addOneField,
-    putFieldSuccess(state, { payload: field }) {
-      fieldAdapter.updateOne(state, { changes: field, id: field.field_id });
-    },
-    selectFieldSuccess(state, { payload: field_id }) {
-      state.field_id = field_id;
-    },
-    deleteFieldSuccess: fieldAdapter.removeOne,
+    getFieldsSuccess: upsertManyFieldWithLocation,
+    postFieldSuccess: upsertOneFieldWithLocation,
+    editFieldSuccess: upsertOneFieldWithLocation,
+    deleteFieldSuccess: softDeleteField,
   },
 });
 export const {
   getFieldsSuccess,
   postFieldSuccess,
-  putFieldSuccess,
+  editFieldSuccess,
   onLoadingFieldStart,
   onLoadingFieldFail,
   deleteFieldSuccess,
@@ -68,14 +80,12 @@ export const fieldEntitiesSelector = fieldSelectors.selectEntities;
 export const fieldsSelector = createSelector(
   [fieldSelectors.selectAll, loginSelector],
   (fields, { farm_id }) => {
-    return fields.filter((field) => field.farm_id === farm_id);
+    return fields.filter((field) => field.farm_id === farm_id && !field.deleted);
   },
 );
 
-export const fieldSelector = createSelector(
-  fieldReducerSelector,
-  ({ field_id, entities }) => entities[field_id],
-);
+export const fieldSelector = (location_id) =>
+  createSelector(fieldEntitiesSelector, (entities) => entities[location_id]);
 
 export const fieldStatusSelector = createSelector(
   [fieldReducerSelector],

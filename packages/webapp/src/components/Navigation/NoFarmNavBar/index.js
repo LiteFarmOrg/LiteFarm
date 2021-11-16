@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import MiddleLogo from '../../../assets/images/middle_logo.svg';
 
 export default function NoFarmNavBar({ history }) {

@@ -1,31 +1,38 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
 import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
-import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
-import { loginSelector } from '../userFarmSlice';
-import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
+import { useCertifierName } from '../OrganicCertifierSurvey/useCertifierName';
 
 function Outro() {
-  const userFarm = useSelector(loginSelector);
   const dispatch = useDispatch();
+  const survey = useSelector(certifierSurveySelector);
+  const { isRequestedCertifier } = useCertifierName();
+  const { navigation } = useSelector(showedSpotlightSelector);
+  const toShowSpotlight = !navigation;
   const onGoBack = () => {
-    history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
+    history.push(
+      !survey.interested
+        ? '/certification/interested_in_organic'
+        : isRequestedCertifier
+        ? '/certification/certifier/request'
+        : '/certification/certifier/selection',
+    );
   };
   const onContinue = () => {
     dispatch(patchOutroStep());
-    dispatch(startSpotLight(userFarm.farm_id));
   };
-  const survey = useSelector(certifierSurveySelector);
-  useEffect(() => {
-    if (!survey.survey_id) {
-      dispatch(getCertifiers());
-    }
-  }, []);
 
-  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} />;
+  return (
+    <PureOutroSplash
+      onGoBack={onGoBack}
+      onContinue={onContinue}
+      toShowSpotlight={toShowSpotlight}
+    />
+  );
 }
 
 export default Outro;

@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { userFarmSelector } from '../../userFarmSlice';
-import { stepOneSelector } from '../../shiftSlice';
+import { resetStepOne, stepOneSelector } from '../../shiftSlice';
 import PureStepTwo from '../../../components/Shift/StepTwo';
-import { toastr } from 'react-redux-toastr';
 import history from '../../../history';
 import { submitShift } from '../actions';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 import { useTranslation } from 'react-i18next';
-import { fieldsSelector } from '../../fieldSlice';
+import { locationsSelector } from '../../locationSlice';
+import { enqueueErrorSnackbar } from '../../Snackbar/snackbarSlice';
 
 function StepTwo() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const EXTENSION_OFFICER_ROLE = 5;
   const [currentShiftUSer, allowMoodChange] = useState(false);
   const [finalForm, setFinalForm] = useState({});
   const [cropDurations, setCropDurations] = useState({});
   const [mood, setMood] = useState(null);
-  const crops = useSelector(currentFieldCropsSelector);
+  const crops = useSelector(currentAndPlannedManagementPlansSelector);
   const users = useSelector(userFarmSelector);
-  const fields = useSelector(fieldsSelector);
 
+  const locations = useSelector(locationsSelector);
   const dispatch = useDispatch();
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
@@ -38,6 +39,11 @@ function StepTwo() {
     isCurrentUserInShift();
   }, []);
 
+  const onCancel = () => {
+    dispatch(resetStepOne());
+    history.push('/shift');
+  };
+
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };
     let usersObj = { ...worker };
@@ -45,7 +51,7 @@ function StepTwo() {
       user_id: usersObj.user_id,
       wage_at_moment: Number(usersObj.wage.amount),
       mood: mood || 'na',
-      shift_date,
+      shift_date: moment(shift_date).format('YYYY-MM-DD'),
       tasks: [],
     };
 
@@ -54,26 +60,27 @@ function StepTwo() {
     // keys.map()
     for (let key of keys) {
       let vals = mutatingFinalForm[key].val;
-      let is_field = mutatingFinalForm[key].is_field;
+      let isLocation = mutatingFinalForm[key].is_location;
       let val_num = vals.length;
       if (val_num === 0) {
-        toastr.error(t('message:SHIFT.ERROR.CROP_FIELDS_EACH'));
+        dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.CROP_FIELDS_EACH')));
         return;
       }
       let valIterator = 0;
       for (let val of vals) {
-        if (is_field) {
+        if (isLocation) {
           if (!Number.isInteger(Number(mutatingFinalForm[key].duration))) {
-            toastr.error(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
+            dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS')));
             return;
           }
 
           let duration = Number(
             parseFloat(Number(mutatingFinalForm[key].duration) / val_num).toFixed(3),
           );
+          const calculationOffset = mutatingFinalForm[key].duration - duration * val_num;
           if (valIterator === val_num - 1) {
             if (duration * val_num !== Number(mutatingFinalForm[key].duration)) {
-              duration = Number(mutatingFinalForm[key].duration) - duration * (val_num - 1);
+              duration = duration + calculationOffset;
             }
           }
           // duration / # of crops on field
@@ -81,7 +88,7 @@ function StepTwo() {
           let crops_on_field = [];
           let cropsCopy = [...crops];
           for (let crop of cropsCopy) {
-            if (crop.field_id === val.id) {
+            if (crop.location_id === val.id) {
               crop_num++;
               crops_on_field.push(crop);
             }
@@ -91,25 +98,25 @@ function StepTwo() {
             form.tasks.push({
               task_id: Number(key),
               duration: Number(parseFloat(duration).toFixed(3)),
-              is_field: true,
-              field_id: val.id,
+              is_location: true,
+              location_id: val.id,
             });
           } else {
-            duration = Number(parseFloat(duration).toFixed(3));
-            let sub_duration = Number(duration / crop_num);
+            let sub_duration = parseFloat(Number(duration / crop_num).toFixed(3));
             let i = 0;
             for (let crop of crops_on_field) {
               if (i === crop_num - 1) {
                 if (sub_duration * crop_num !== duration) {
-                  sub_duration = duration - sub_duration * (crop_num - 1);
+                  const cropOffset = duration - sub_duration * crop_num;
+                  sub_duration += Number(cropOffset);
                 }
               }
               form.tasks.push({
                 task_id: Number(key),
-                duration: sub_duration,
-                is_field: true,
-                field_id: val.id,
-                field_crop_id: crop.field_crop_id,
+                duration: parseFloat(sub_duration.toFixed(3)),
+                is_location: true,
+                location_id: val.id,
+                management_plan_id: crop.management_plan_id,
               });
               i++;
             }
@@ -121,11 +128,11 @@ function StepTwo() {
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
-                toastr.error(t('message:SHIFT.ERROR.DURATION_FOR_CROPS'));
+                dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.DURATION_FOR_CROPS')));
                 return;
               }
               if (!Number.isInteger(Number(cdObj.duration))) {
-                toastr.error(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
+                dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS')));
                 return;
               }
               if (cdObj.crop_id === val.id) {
@@ -133,7 +140,7 @@ function StepTwo() {
               }
             }
           } else {
-            toastr.error(t('message:SHIFT.ERROR.SUBMIT_SHIFT'));
+            dispatch(enqueueErrorSnackbar(t('message:SHIFT.ERROR.SUBMIT_SHIFT')));
             return;
           }
 
@@ -150,9 +157,9 @@ function StepTwo() {
             form.tasks.push({
               task_id: Number(key),
               duration: Number(parseFloat(subDuration).toFixed(3)),
-              is_field: false,
-              field_crop_id: a_crop.field_crop_id,
-              field_id: a_crop.field_id,
+              is_location: false,
+              management_plan_id: a_crop.management_plan_id,
+              location_id: a_crop.location_id,
             });
           }
         }
@@ -177,7 +184,8 @@ function StepTwo() {
       finalForm={finalForm}
       setFinalForm={setFinalForm}
       crops={crops}
-      fields={fields}
+      onCancel={onCancel}
+      locations={locations}
       selectedTasks={selectedTasks}
       onNext={finishShift}
       isEO={users.role_id === EXTENSION_OFFICER_ROLE}

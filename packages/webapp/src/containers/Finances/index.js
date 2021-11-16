@@ -15,24 +15,29 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
-import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';
-import { getExpense, getSales, getShifts, getDefaultExpenseType, setDateRange } from './actions';
-import { calcTotalLabour, calcOtherExpense, filterSalesByCurrentYear } from './util';
+import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
+import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
+import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
 import { Alert } from 'react-bootstrap';
-import { roundToTwoDecimal, grabCurrencySymbol } from '../../util';
+import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentFieldCropsSelector } from '../fieldCropSlice';
-import { getFieldCrops } from '../saga';
+import {
+  currentAndPlannedManagementPlansSelector,
+  managementPlansSelector,
+} from '../managementPlanSlice';
+import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
-import { Title, Main, Semibold } from '../../components/Typography';
+import { Semibold, Title } from '../../components/Typography';
+import grabCurrencySymbol from '../../util/grabCurrencySymbol';
+import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 
 const moment = extendMoment(Moment);
 
@@ -59,7 +64,7 @@ class Finances extends Component {
     };
     this.getRevenue = this.getRevenue.bind(this);
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);
-    this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
+    // this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
     this.getShiftCropOnField = this.getShiftCropOnField.bind(this);
     this.toggleTip = this.toggleTip.bind(this);
     this.changeDate = this.changeDate.bind(this);
@@ -67,17 +72,17 @@ class Finances extends Component {
 
   //TODO: filter revenue of cropSales for the current year?
   getRevenue() {
-    let cropSales = [];
+    let cropVarietySale = [];
     if (this.props.sales && Array.isArray(this.props.sales)) {
       filterSalesByCurrentYear(this.props.sales).map((s) => {
-        return s.cropSale.map((cs) => {
-          return cropSales.push(cs);
+        return s.crop_variety_sale.map((cvs) => {
+          return cropVarietySale.push(cvs);
         });
       });
     }
     let totalRevenue = 0;
-    cropSales.map((cs) => {
-      return (totalRevenue += cs.sale_value || 0);
+    cropVarietySale.map((cvs) => {
+      return (totalRevenue += cvs.sale_value || 0);
     });
     return totalRevenue.toFixed(2);
   }
@@ -88,7 +93,7 @@ class Finances extends Component {
     this.props.dispatch(getShifts());
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
-    this.props.dispatch(getFieldCrops());
+    this.props.dispatch(getManagementPlans());
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({
@@ -103,7 +108,7 @@ class Finances extends Component {
         }),
       );
     }
-    this.calcBalanceByCrop();
+    // this.calcBalanceByCrop();
   }
 
   componentDidUpdate(prevProps) {
@@ -114,7 +119,7 @@ class Finances extends Component {
       this.props.expenses !== prevProps.expenses ||
       this.props.dateRange !== prevProps.dateRange
     ) {
-      this.calcBalanceByCrop();
+      // this.calcBalanceByCrop();
     }
   }
 
@@ -128,21 +133,30 @@ class Finances extends Component {
     }
   }
 
-  getEstimatedRevenue(fieldCrops) {
+  getEstimatedRevenue(managementPlans) {
     let totalRevenue = 0;
-    if (fieldCrops) {
-      fieldCrops.forEach((f) => {
-        // check if this field crop existed during this year
-        const endDate = new Date(f.end_date);
+    if (managementPlans) {
+      managementPlans
+        .filter(({ abandon_date }) => !abandon_date)
+        .forEach((plan) => {
+          // check if this plan has a harvest task projected within the time frame
+          const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
+            (task) => task.task_type_id === 8,
+          );
+          const harvestDates = harvestTasks?.map((task) =>
+            moment(task.due_date).utc().format('YYYY-MM-DD'),
+          );
 
-        // get all field crops with end dates belonging to the chosen date window
-        if (
-          moment(this.state.startDate).isSameOrBefore(endDate, 'day') &&
-          moment(this.state.endDate).isSameOrAfter(endDate, 'day')
-        ) {
-          totalRevenue += f.estimated_revenue;
-        }
-      });
+          if (
+            harvestDates.some(
+              (harvestDate) =>
+                moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
+            )
+          ) {
+            totalRevenue += plan.estimated_revenue;
+          }
+        });
     }
     return parseFloat(totalRevenue).toFixed(2);
   }
@@ -154,7 +168,10 @@ class Finances extends Component {
     let total = 0;
     if (expenses && expenses.length) {
       for (let e of expenses) {
-        if (moment(e.expense_date).isBetween(startDate, endDate)) {
+        if (
+          moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
+          moment(e.exports).isSameOrBefore(moment(endDate))
+        ) {
           total += Number(e.value);
         }
       }
@@ -163,6 +180,7 @@ class Finances extends Component {
     return total;
   };
 
+  // TODO: currently commented out all usages of this function, until ful refactor to crop variety
   calcBalanceByCrop() {
     const { shifts, sales, expenses } = this.props;
     const { startDate, endDate } = this.state;
@@ -178,32 +196,35 @@ class Finances extends Component {
 
     if (shifts && shifts.length) {
       for (let s of shifts) {
-        let field_crop_id = s.field_crop_id;
-        if (moment(s.start_time).isBetween(startDate, endDate)) {
-          if (field_crop_id !== null) {
-            if (final.hasOwnProperty(field_crop_id)) {
-              final[field_crop_id].profit =
-                final[field_crop_id].profit +
+        let management_plan_id = s.management_plan_id;
+        if (
+          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
+          moment(s.shift_date).isSameOrBefore(moment(endDate))
+        ) {
+          if (management_plan_id !== null) {
+            if (final.hasOwnProperty(management_plan_id)) {
+              final[management_plan_id].profit =
+                final[management_plan_id].profit +
                 Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1;
             } else {
-              final[field_crop_id] = {
+              final[management_plan_id] = {
                 profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
                 crop_translation_key: s.crop_translation_key,
-                field_id: s.field_id,
+                location_id: s.location_id,
                 crop_id: s.crop_id,
-                field_crop_id: s.field_crop_id,
+                management_plan_id: s.management_plan_id,
               };
             }
           }
           // else it's unallocated
           else {
-            if (unAllocatedShifts.hasOwnProperty(s.field_id)) {
-              unAllocatedShifts[s.field_id].value =
-                unAllocatedShifts[s.field_id].value +
+            if (unAllocatedShifts.hasOwnProperty(s.location_id)) {
+              unAllocatedShifts[s.location_id].value =
+                unAllocatedShifts[s.location_id].value +
                 Number(s.wage_at_moment) * (Number(s.duration) / 60);
             } else {
               unAllocatedShifts = Object.assign(unAllocatedShifts, {
-                [s.field_id]: {
+                [s.location_id]: {
                   value: Number(s.wage_at_moment) * (Number(s.duration) / 60),
                   hasAllocated: false,
                 },
@@ -221,7 +242,7 @@ class Finances extends Component {
     // allocate unallocated to used-to-be fields
     let ukeys = Object.keys(unAllocatedShifts);
     for (let uk of ukeys) {
-      // uk = field_id
+      // uk = location_id
       let uShift = unAllocatedShifts[uk];
 
       // a list of crop ids
@@ -272,13 +293,13 @@ class Finances extends Component {
     });
   }
 
-  getCropsByFieldID = (field_id) => {
-    const { fieldCrops } = this.props;
+  getCropsByFieldID = (location_id) => {
+    const { managementPlans } = this.props;
 
     let result = new Set();
 
-    for (let fc of fieldCrops) {
-      if (fc.field_id === field_id) {
+    for (let fc of managementPlans) {
+      if (fc.location_id === location_id) {
         result.add(fc.crop_id);
       }
     }
@@ -300,7 +321,7 @@ class Finances extends Component {
       } else {
         result[value.crop_id] = {
           crop: this.props.t(`crop:${value.crop_translation_key}`),
-          field_id: value.field_id,
+          location_id: value.location_id,
           crop_id: value.crop_id,
           profit: value.profit,
         };
@@ -309,14 +330,17 @@ class Finances extends Component {
 
     //apply sales
     for (let sale of sales || []) {
-      if (moment(sale.sale_date).isBetween(startDate, endDate)) {
+      if (
+        moment(sale.sale_date).isSameOrAfter(moment(startDate)) &&
+        moment(sale.sale_date).isSameOrBefore(moment(endDate))
+      ) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);
           } else {
             result[cp.crop.crop_id] = {
               crop: this.props.t(`crop:${cp.crop.crop_translation_key}`),
-              field_id: 'not available',
+              location_id: 'not available',
               crop_id: cp.crop.crop_id,
               profit: Number(cp.sale_value),
             };
@@ -328,13 +352,13 @@ class Finances extends Component {
     return result;
   };
 
-  getShiftCropOnField(field_id) {
+  getShiftCropOnField(location_id) {
     const { shifts } = this.props;
 
     let crops = [];
 
     for (let s of shifts) {
-      if (s.field_id === field_id && s.crop_id) {
+      if (s.location_id === location_id && s.crop_id) {
         crops.push(s.crop_id);
       }
     }
@@ -357,8 +381,8 @@ class Finances extends Component {
 
   render() {
     const totalRevenue = this.getRevenue();
-    const estimatedRevenue = this.getEstimatedRevenue(this.props.fieldCrops);
-    const { shifts, expenses } = this.props;
+    const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
+    const { tasks, expenses } = this.props;
     const {
       balanceByCrop,
       startDate,
@@ -367,7 +391,7 @@ class Finances extends Component {
       showUnTip,
       unTipButton,
     } = this.state;
-    const labourExpense = roundToTwoDecimal(calcTotalLabour(shifts, startDate, endDate));
+    const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
     return (
@@ -405,7 +429,7 @@ class Finances extends Component {
           </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
-            number={this.state.currencySymbol + labourExpense.toString()}
+            number={this.state.currencySymbol + labourExpense.toFixed(2).toString()}
             onClick={() => history.push('/labour')}
           />
           <DescriptiveButton
@@ -421,7 +445,7 @@ class Finances extends Component {
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
             number={this.state.currencySymbol + totalRevenue}
-            onClick={() => history.push('/sales_summary')}
+            onClick={() => history.push('/finances/actual_revenue')}
           />
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')}
@@ -461,7 +485,7 @@ class Finances extends Component {
             title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
             body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
           />
-          <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
+          {/* <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
             {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
           </Semibold>
 
@@ -495,8 +519,8 @@ class Finances extends Component {
                 {this.props.t('common:TO')}{' '}
                 <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_3')}</code>
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE4')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code> &{' '}
-                <code>{this.props.t('common:FIELD')}2</code>.<br />
+                <code>{this.props.t('common:LOCATION')}1</code> &{' '}
+                <code>{this.props.t('common:LOCATION')}2</code>.<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE5_1')}
                 {this.state.currencySymbol}
@@ -509,7 +533,7 @@ class Finances extends Component {
                 .<br />
                 <br />
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_1')}{' '}
-                <code>{this.props.t('common:FIELD')}1</code>{' '}
+                <code>{this.props.t('common:LOCATION')}1</code>{' '}
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_2')}
                 <code>
                   {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE8')}
@@ -528,7 +552,7 @@ class Finances extends Component {
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE10_2')}
               </Alert>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -539,10 +563,12 @@ const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
+    tasks: tasksSelector(state),
     expenses: expenseSelector(state),
-    fieldCrops: currentFieldCropsSelector(state),
+    managementPlans: managementPlansSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
+    tasksByManagementPlanId: taskEntitiesByManagementPlanIdSelector(state),
   };
 };
 

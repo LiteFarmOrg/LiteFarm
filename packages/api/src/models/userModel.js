@@ -83,7 +83,6 @@ class User extends Model {
         phone_number: { type: 'string' },
         user_address: { type: 'string' },
         email: { type: 'email' },
-        farm_id: { type: ['string', 'null'] },
         notification_setting: {
           type: 'object',
           required: ['alert_weather', 'alert_worker_finish', 'alert_action_after_scouting', 'alert_before_planned_date', 'alert_pest'],

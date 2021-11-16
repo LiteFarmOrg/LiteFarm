@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './svg.scss';
+import styles from './svg.module.scss';
 import PropTypes from 'prop-types';
 
 const WelcomeSVG = ({ svg, alt }) => {

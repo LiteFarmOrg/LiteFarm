@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import {
   ADD_TASK_TYPE,
@@ -26,27 +26,12 @@ import {
   UPDATE_SHIFT,
 } from './constants';
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
-import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
-
-export function* getTaskTypesSaga() {
-  const { taskTypeUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, taskTypeUrl + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setTaskTypesInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch task types from database');
-  }
-}
+import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 
 export function* addTaskTypeSaga(payload) {
   const { taskTypeUrl } = apiConfig;
@@ -86,10 +71,10 @@ export function* addShift(action) {
     if (result) {
       yield put(resetStepOne());
       history.push('/shift');
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.ADD')));
     }
   } catch (e) {
-    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.ADD')));
   }
 }
 
@@ -103,11 +88,11 @@ export function* addMultiShiftSaga(action) {
     const result = yield call(axios.post, shiftUrl + '/multi', shiftObj, header);
     if (result) {
       history.push('/shift');
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.ADD')));
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.ADD')));
   }
 }
 
@@ -147,9 +132,9 @@ export function* getAllShiftSaga() {
               {
                 task_id: shift.task_id,
                 duration: shift.duration,
-                field_crop_id: shift.field_crop_id,
-                field_id: shift.field_id,
-                is_field: shift.is_field,
+                management_plan_id: shift.management_plan_id,
+                location_id: shift.location_id,
+                is_location: shift.is_location,
                 shift_id: shift.shift_id,
               },
             ],
@@ -158,9 +143,9 @@ export function* getAllShiftSaga() {
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
             duration: shift.duration,
-            field_crop_id: shift.field_crop_id,
-            field_id: shift.field_id,
-            is_field: shift.is_field,
+            management_plan_id: shift.management_plan_id,
+            location_id: shift.location_id,
+            is_location: shift.is_location,
             shift_id: shift.shift_id,
           });
         }
@@ -185,11 +170,11 @@ export function* deleteShiftSaga(action) {
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
     if (result) {
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.DELETE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.DELETE')));
       history.push('/shift');
     }
   } catch (e) {
-    toastr.error(i18n.t('message:SHIFT.ERROR.DELETE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.DELETE')));
   }
 }
 
@@ -209,22 +194,22 @@ export function* updateShiftSaga(action) {
       header,
     );
     if (result) {
-      toastr.success(i18n.t('message:SHIFT.SUCCESS.UPDATE'));
+      yield put(enqueueSuccessSnackbar(i18n.t('message:SHIFT.SUCCESS.UPDATE')));
       history.push('/shift');
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error(i18n.t('message:SHIFT.ERROR.UPDATE'));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SHIFT.ERROR.UPDATE')));
   }
 }
 
 export default function* shiftSaga() {
-  yield takeEvery(GET_TASK_TYPES, getTaskTypesSaga);
-  yield takeEvery(ADD_TASK_TYPE, addTaskTypeSaga);
-  yield takeEvery(SUBMIT_SHIFT, addShift);
-  yield takeEvery(GET_SHIFTS, getShiftsSaga);
-  yield takeEvery(DELETE_SHIFT, deleteShiftSaga);
-  yield takeEvery(UPDATE_SHIFT, updateShiftSaga);
-  yield takeEvery(GET_ALL_SHIFT, getAllShiftSaga);
-  yield takeEvery(SUBMIT_MULTI_SHIFT, addMultiShiftSaga);
+  // yield takeLatest(GET_TASK_TYPES, getTaskTypesSaga);
+  yield takeLeading(ADD_TASK_TYPE, addTaskTypeSaga);
+  yield takeLeading(SUBMIT_SHIFT, addShift);
+  yield takeLatest(GET_SHIFTS, getShiftsSaga);
+  yield takeLeading(DELETE_SHIFT, deleteShiftSaga);
+  yield takeLeading(UPDATE_SHIFT, updateShiftSaga);
+  yield takeLatest(GET_ALL_SHIFT, getAllShiftSaga);
+  yield takeLeading(SUBMIT_MULTI_SHIFT, addMultiShiftSaga);
 }

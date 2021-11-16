@@ -1,10 +1,11 @@
 import React from 'react';
 import Card from '../../components/Card';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Card',
   component: Card,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Card {...args} />;
@@ -32,6 +33,12 @@ Disabled.args = {
   children: 'Disabled',
 };
 
+export const Info = Template.bind({});
+Info.args = {
+  color: 'info',
+  children: 'info',
+};
+
 export const Blue = Template.bind({});
 Blue.args = {
   color: 'blue',
@@ -42,4 +49,22 @@ export const BlueActive = Template.bind({});
 BlueActive.args = {
   color: 'blueActive',
   children: 'blueActive',
+};
+
+export const Completed = Template.bind({});
+Completed.args = {
+  color: 'completed',
+  children: 'completed',
+};
+
+export const CompletedActive = Template.bind({});
+CompletedActive.args = {
+  color: 'completedActive',
+  children: 'completedActive',
+};
+
+export const None = Template.bind({});
+None.args = {
+  color: 'none',
+  children: 'none',
 };

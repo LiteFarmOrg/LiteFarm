@@ -5,6 +5,7 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
     const user_id = context.user_id;
+    if (!user_id) throw new Error('user_id must by passed into context on update');
     if (user_id) {
       this.created_by_user_id = user_id;
       this.updated_by_user_id = user_id;

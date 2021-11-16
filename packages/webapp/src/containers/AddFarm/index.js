@@ -1,10 +1,14 @@
 import { useForm } from 'react-hook-form';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmReducerSelector, userFarmSelector } from '../userFarmSlice';
+import {
+  userFarmReducerSelector,
+  userFarmSelector,
+  userFarmsByUserSelector,
+} from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -12,6 +16,8 @@ import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg
 import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_error_pin.svg';
 import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import history from '../../history';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -19,30 +25,33 @@ const AddFarm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
+  const farms = useSelector(userFarmsByUserSelector);
+  const isFirstFarm = !farms.length;
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
-    errors,
     setError,
     clearErrors,
     watch,
+    trigger,
+    formState: { errors, isValid },
   } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const farmName = watch(FARMNAME, undefined);
   const farmAddress = watch(ADDRESS, undefined);
-  const disabled = !farmName || !farmAddress;
+  const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
   const [country, setCountry] = useState(farm?.country ? farm.country : '');
-  const farmNameRef = register({
+  const farmNameRegister = register(FARMNAME, {
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
   });
-  const addressRef = register({
+  const addressRegister = register(ADDRESS, {
     required: { value: true, message: t('ADD_FARM.ADDRESS_IS_REQUIRED') },
     validate: {
       placeSelected: (data) => address && gridPoints && data[address],
@@ -54,6 +63,7 @@ const AddFarm = () => {
     placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
     countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
     noAddress: t('ADD_FARM.NO_ADDRESS'),
+    geolocationDisabled: t('ADD_FARM.DISABLE_GEO_LOCATION'),
   };
 
   const addressErrors = errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type];
@@ -81,11 +91,15 @@ const AddFarm = () => {
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
   };
 
+  const onGoBack = () => {
+    history.push('/farm_selection');
+  };
+
   let autocomplete;
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
-      language: localStorage.getItem('litefarm_lang'),
+      language: getLanguageFromLocalStorage(),
     }; // To disable any eslint 'google not defined' errors
 
     // Initialize Google Autocomplete
@@ -112,6 +126,7 @@ const AddFarm = () => {
           component.types.includes('country'),
         ).long_name;
         setCountry(country);
+        callback();
       } else {
         console.error(
           'Error getting geocoding results, or no country was found at given coordinates',
@@ -119,7 +134,6 @@ const AddFarm = () => {
         setError(ADDRESS, { type: 'countryFound' });
         setCountry('');
       }
-      callback();
     });
   };
 
@@ -191,7 +205,10 @@ const AddFarm = () => {
   };
 
   const handleGetGeoError = (e) => {
-    console.log(e);
+    setIsGettingLocation(false);
+    setError(ADDRESS, {
+      type: 'geolocationDisabled',
+    });
   };
 
   const getGeoOptions = {
@@ -220,6 +237,12 @@ const AddFarm = () => {
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
 
+  useEffect(() => {
+    if (farmAddress) {
+      trigger(ADDRESS);
+    }
+  }, [farmAddress]);
+
   return (
     <>
       <Script
@@ -227,6 +250,7 @@ const AddFarm = () => {
         onLoad={handleScriptLoad}
       />
       <PureAddFarm
+        onGoBack={isFirstFarm ? null : onGoBack}
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
         disabled={disabled}
@@ -234,19 +258,20 @@ const AddFarm = () => {
         inputs={[
           {
             label: t('ADD_FARM.FARM_NAME'),
-            inputRef: farmNameRef,
+            hookFormRegister: farmNameRegister,
             name: FARMNAME,
             errors: errors[FARMNAME] && errors[FARMNAME].message,
           },
           {
             label: t('ADD_FARM.FARM_LOCATION'),
+            placeholder: t('ADD_FARM.ENTER_LOCATION_PLACEHOLDER'),
             info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
               <span>{t('ADD_FARM.LOCATING')}</span>
             ) : (
               <VscLocation size={27} onClick={getGeoLocation} />
             ),
-            inputRef: addressRef,
+            hookFormRegister: addressRegister,
             id: 'autocomplete',
             name: ADDRESS,
             reset: () => {
@@ -284,7 +309,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         display: 'flex',
       }}
     >
-      {(gridPoints && gridPoints.lat && (
+      {(!isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}

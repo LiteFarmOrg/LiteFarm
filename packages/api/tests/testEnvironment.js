@@ -14,7 +14,7 @@
  */
 
 const NodeEnvironment = require('jest-environment-node');
-const getAuthToken = require('./setup');
+
 
 class TestEnvironment extends NodeEnvironment {
   constructor(config) {
@@ -23,9 +23,7 @@ class TestEnvironment extends NodeEnvironment {
 
   async setup() {
     await super.setup();
-    this.global.token = await getAuthToken();
   }
-
   async teardown() {
     await super.teardown();
   }
@@ -36,43 +34,76 @@ class TestEnvironment extends NodeEnvironment {
 }
 
 async function tableCleanup(knex) {
+  await knex('farm').whereNotNull('default_initial_location_id').update({ default_initial_location_id: null });
   return knex.raw(`
-    update public.users set farm_id = null;
     DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";
+    DELETE FROM "showedSpotlight";
     DELETE FROM "userLog";
-    DELETE FROM "activityFields";
-    DELETE FROM "fieldWorkLog";
-    DELETE FROM "harvestUse";
-    DELETE FROM "harvestLog";
-    DELETE FROM "harvestUseType";
-    DELETE FROM "irrigationLog";
-    DELETE FROM "activityCrops";
-    DELETE FROM "scoutingLog";
-    DELETE FROM "pestControlLog";
-    DELETE FROM "fertilizerLog";
-    DELETE FROM "seedLog";
-    DELETE FROM "soilDataLog";
-    DELETE FROM "activityLog";
+    DELETE FROM "location_tasks";
+    DELETE FROM "field_work_task";
+    DELETE FROM "harvest_use";
+    DELETE FROM "harvest_task";
+    DELETE FROM "harvest_use_type";
+    DELETE FROM "irrigation_task";
+    DELETE FROM "scouting_task";
+    DELETE FROM "pest_control_task";
+    DELETE FROM "social_task";
+    DELETE FROM "transport_task";
+    DELETE FROM "sale_task";
+    DELETE FROM "wash_and_pack_task";
+    DELETE FROM "cleaning_task";
+    DELETE FROM "soil_amendment_task";
+    DELETE FROM "product";
+    DELETE FROM "management_tasks";
+    DELETE FROM "plant_task";
+    DELETE FROM "transplant_task";
+    DELETE FROM "soil_task";
+    DELETE FROM "task";
     DELETE FROM "yield";
     DELETE FROM "cropDisease";
     DELETE FROM "price";
-    DELETE FROM "cropSale";
+    DELETE FROM "crop_variety_sale";
     DELETE FROM "sale";
     DELETE FROM "waterBalance";
     DELETE FROM "nitrogenBalance";
-    DELETE FROM "fieldCrop";
+    DELETE FROM "broadcast_method";
+    DELETE FROM "container_method";
+    DELETE FROM "row_method";
+    DELETE FROM "bed_method";
+    DELETE FROM "planting_management_plan";
+    DELETE FROM "crop_management_plan";
+    DELETE FROM "management_plan";
+    DELETE FROM "crop_variety";
     DELETE FROM "crop";
     DELETE FROM "shiftTask";
     DELETE FROM "shift";
     DELETE FROM "field";
+    DELETE FROM "garden";
+    DELETE FROM "area";
+    DELETE FROM "line";
+    DELETE FROM "point";
+    DELETE FROM "figure";
+    DELETE FROM "barn";
+    DELETE FROM "greenhouse";
+    DELETE FROM "gate";
+    DELETE FROM "water_valve";
+    DELETE FROM "buffer_zone";
+    DELETE FROM "watercourse";
+    DELETE FROM "fence";
+    DELETE FROM "ceremonial_area";
+    DELETE FROM "residence";
+    DELETE FROM "farm_site_boundary";
+    DELETE FROM "surface_water";
+    DELETE FROM "natural_area";
+    DELETE FROM "location";
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";
     DELETE FROM "farmExpenseType";
     DELETE FROM "disease";
     DELETE FROM "pesticide";
-    DELETE FROM "taskType";
+    DELETE FROM "task_type";
     DELETE FROM "farmDataSchedule";
     DELETE FROM "userFarm";
     DELETE FROM "waterBalanceSchedule";
@@ -82,8 +113,6 @@ async function tableCleanup(knex) {
     DELETE FROM "weatherHourly";
     DELETE FROM "weather";
     DELETE FROM "weather_station";
-    
-    
   `);
 }
 

@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import { patchStepFiveSuccess } from '../userFarmSlice';
+import { loginSelector, patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import history from '../../history';
+import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 
@@ -42,11 +42,12 @@ export function* patchOutroStepSaga() {
     );
     yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
     history.push('/');
+    yield put(resetAndUnLockFormData());
   } catch (e) {
     console.error('failed to update table');
   }
 }
 
 export default function* outroSaga() {
-  yield takeLatest(patchOutroStep.type, patchOutroStepSaga);
+  yield takeLeading(patchOutroStep.type, patchOutroStepSaga);
 }

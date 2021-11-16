@@ -1,9 +1,8 @@
 import React from 'react';
-import Loader from '../../assets/images/miscs/loader.svg';
-import styles from './styles.scss';
+import { Loading } from '../Loading/Loading';
 
 function Spinner() {
-  return <img className={styles.loading} src={Loader} alt="loading" />;
+  return <Loading style={{ backgroundColor: 'transparent' }} />;
 }
 
 export default Spinner;

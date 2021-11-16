@@ -1,0 +1,87 @@
+.stagesBox {
+  background: #FAFAFD;
+  border: 1px solid #D4DAE3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  width: 100%;
+  min-height: 48px;
+  max-height: 80px;
+  margin-bottom: 24px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.flexStage{
+  flex: 1;
+  margin: auto;
+}
+
+.colorBox {
+  width: 16px;
+  border-radius: 4px;
+  height: 16px;
+  margin: auto;
+  vertical-align: center;
+}
+
+.colorBoxFont {
+  font-family: Open Sans;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+.targetDateFont {
+  font-family: Open Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 900;
+  color: white;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.calendarBox {
+  border: 1px solid #D4DAE3;
+  border-radius: 4px;
+  max-height: 436px;
+  @media screen and (min-device-width: 667px) {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  overflow-y: scroll;
+}
+
+.calendarBox > * {
+  overflow: hidden;
+}
+
+.yearBox {
+  border: 1px solid #028577;
+  border-radius: 4px;
+  width: 60px;
+  min-height: 24px;
+  margin: 16px auto 16px auto;
+}
+
+.monthBox {
+  border: 1px solid #028577;
+  border-radius: 4px;
+  width: 100px;
+  min-height: 24px;
+  margin: 16px auto 16px auto;
+}
+
+:global .calendar {
+  pointer-events: none;
+}

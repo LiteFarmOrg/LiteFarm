@@ -2,31 +2,43 @@ import React from 'react';
 import Table from '../../../../components/Table';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import { userFarmsByFarmSelector } from '../../../userFarmSlice';
+import { useSelector } from 'react-redux';
 
-const Employee = ({ currencySymbol, shifts, startDate, endDate }) => {
+const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   let data = [];
   let sortObj = {};
   const { t } = useTranslation();
-  for (let s of shifts) {
-    if (moment(s.start_time).isBetween(moment(startDate), moment(endDate))) {
-      if (sortObj.hasOwnProperty(s.user_id)) {
-        let referenceObj = sortObj[s.user_id];
+  const userFarmsOfFarm = useSelector(userFarmsByFarmSelector);
+  for (let task of tasks) {
+    const assignee = userFarmsOfFarm.find((user) => user.user_id === task.assignee_user_id);
+    if (
+      (moment(task.completed_time).utc().isSameOrAfter(moment(startDate)) &&
+        moment(task.completed_time).utc().isSameOrBefore(moment(endDate)) &&
+        task.duration) ||
+      (moment(task.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
+        moment(task.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
+        task.duration)
+    ) {
+      if (sortObj.hasOwnProperty(task.assignee_user_id)) {
+        let referenceObj = sortObj[task.assignee_user_id];
         const currentWorkedTime = hourlyTwoDecimals(referenceObj.time);
         referenceObj.wage_amount =
           (currentWorkedTime * referenceObj.wage_amount +
-            hourlyTwoDecimals(s.duration) * s.wage_at_moment) /
-          (currentWorkedTime + hourlyTwoDecimals(s.duration));
-        referenceObj.time = referenceObj.time + Number(s.duration);
+            hourlyTwoDecimals(task.duration) * task.wage_at_moment) /
+          (currentWorkedTime + hourlyTwoDecimals(task.duration));
+        referenceObj.time = referenceObj.time + Number(task.duration);
       } else {
         let wage_amount = 0;
 
-        if (s.wage.type === 'hourly') {
-          wage_amount = Number(parseFloat(s.wage_at_moment).toFixed(2));
-        }
-        sortObj[s.user_id] = {
-          time: Number(s.duration),
+        // if (s.wage.type === 'hourly') {
+        //   wage_amount = Number(parseFloat(s.wage_at_moment).toFixed(2));
+        // }
+        wage_amount = Number(parseFloat(task.wage_at_moment).toFixed(2));
+        sortObj[task.assignee_user_id] = {
+          time: Number(task.duration),
           wage_amount,
-          employee: s.first_name + ' ' + s.last_name.substring(0, 1).toUpperCase() + '.',
+          employee: `${assignee.first_name} ${assignee.last_name.substring(0, 1).toUpperCase()}.`,
           shift_numbers: 1,
         };
       }

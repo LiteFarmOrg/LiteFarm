@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactSelect from '../../../components/Form/ReactSelect';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -28,7 +29,7 @@ const options = [
 export default {
   title: 'Components/ReactSelect',
   component: ReactSelect,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => (
@@ -62,4 +63,18 @@ Multi.args = {
   placeholder: 'placeholder',
   defaultMenuIsOpen: true,
   isMulti: true,
+};
+export const Creatable = Template.bind({});
+Creatable.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  creatable: true,
+};
+export const Disabled = Template.bind({});
+Disabled.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  isDisabled: true,
 };

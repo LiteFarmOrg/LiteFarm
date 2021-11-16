@@ -1,4 +1,4 @@
-import styles from './home.scss';
+import styles from './home.module.scss';
 import PropTypes from 'prop-types';
 import React from 'react';
 

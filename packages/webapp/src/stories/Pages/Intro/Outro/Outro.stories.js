@@ -1,6 +1,7 @@
 import React from 'react';
 import PureOutroSplash from '../../../../components/Outro';
 import decorators from '../../config/decorators';
+import { chromaticSmallScreen } from '../../config/chromatic';
 
 export default {
   title: 'Form/Intro/6-Outro',
@@ -13,7 +14,8 @@ const Template = (args) => <PureOutroSplash {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   redirectFinish: () => {},
+  onGoBack: () => {},
 };
 Primary.parameters = {
-  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+  ...chromaticSmallScreen,
 };

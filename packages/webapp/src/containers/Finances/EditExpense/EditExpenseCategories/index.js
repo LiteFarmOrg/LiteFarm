@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../../styles.module.scss';
+import styles from './styles.module.scss';
 import { expenseTypeSelector, expensesToEditSelector } from '../../selectors';
 import { Container, Row, Col, Alert } from 'react-bootstrap';
 import EquipImg from '../../../../assets/images/log/equipment.svg';

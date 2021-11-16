@@ -1,7 +1,10 @@
 import React from 'react';
-import styles from './typography.scss';
+import styles from './typography.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import Infoi from '../Tooltip/Infoi';
+import { ReactComponent as Leaf } from '../../assets/images/farmMapFilter/Leaf.svg';
+import { ReactComponent as Pencil } from '../../assets/images/managementPlans/pencil.svg';
 
 export const Underlined = ({ children = 'Link', className = '', style, ...props }) => {
   return (
@@ -12,6 +15,83 @@ export const Underlined = ({ children = 'Link', className = '', style, ...props 
 };
 
 Underlined.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export const IconLink = ({
+  children = 'IconLink',
+  className = '',
+  style,
+  onClick,
+  icon,
+  ...props
+}) => {
+  return (
+    <p style={style} className={clsx(styles.addLinkContainer, className)} {...props}>
+      {icon}{' '}
+      <span className={clsx(styles.underlined, styles.iconLinkText)} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+IconLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  icon: PropTypes.node,
+};
+
+export const AddLink = ({ children = 'AddLink', className = '', style, onClick, ...props }) => {
+  return (
+    <IconLink className={className} style={style} onClick={onClick} icon={'+'} {...props}>
+      {children}
+    </IconLink>
+  );
+};
+
+AddLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export const SubtractLink = ({
+  children = 'SubtractLink',
+  className = '',
+  style,
+  onClick,
+  color,
+  ...props
+}) => {
+  return (
+    <IconLink className={className} style={style} onClick={onClick} icon={'-'} {...props}>
+      {children}
+    </IconLink>
+  );
+};
+
+SubtractLink.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+export const EditLink = ({ children = 'Link', className = '', style, onClick, ...props }) => {
+  return (
+    <p style={style} className={clsx(styles.editLinkContainer, className)} {...props}>
+      <Pencil className={styles.pencil} />
+      <span className={clsx(styles.underlined)} onClick={onClick}>
+        {children}
+      </span>
+    </p>
+  );
+};
+
+EditLink.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
@@ -31,9 +111,9 @@ Title.propTypes = {
   style: PropTypes.object,
 };
 
-export const Semibold = ({ children = 'Semibold', className = '', style, ...props }) => {
+export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }) => {
   return (
-    <h4 className={clsx(styles.semibold, className)} style={style} {...props}>
+    <h4 className={clsx(styles.semibold, sm && styles.sm, className)} style={style} {...props}>
       {children}
     </h4>
   );
@@ -43,6 +123,7 @@ Semibold.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
+  sm: PropTypes.bool,
 };
 
 export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }) => {
@@ -92,10 +173,27 @@ Info.propTypes = {
   style: PropTypes.object,
 };
 
-export const Main = ({ children = 'Main', className = '', style, ...props }) => {
+export const Main = ({
+  children = 'Main',
+  tooltipContent,
+  hasLeaf,
+  className = '',
+  style,
+  ...props
+}) => {
   return (
     <p className={clsx(styles.main, className)} style={style} {...props}>
       {children}
+      {hasLeaf && <Leaf style={{ marginLeft: '8px', transform: 'translateY(3px)' }} />}
+      {tooltipContent && (
+        <>
+          &nbsp;&nbsp;
+          <Infoi
+            style={{ fontSize: '18px', transform: 'translateY(3px)' }}
+            content={tooltipContent}
+          />
+        </>
+      )}
     </p>
   );
 };
@@ -104,6 +202,8 @@ Main.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
+  tooltipContent: PropTypes.string,
+  hasLeaf: PropTypes.bool,
 };
 
 export const Text = ({ children = 'Text', className = '', style, ...props }) => {

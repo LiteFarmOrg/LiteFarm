@@ -16,11 +16,11 @@
 const baseController = require('../controllers/baseController');
 const supportTicketModel = require('../models/supportTicketModel');
 const userModel = require('../models/userModel');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 
-class supportTicketController extends baseController {
+const supportTicketController = {
   // Disabled
-  static getSupportTicketsByFarmId() {
+  getSupportTicketsByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -37,9 +37,9 @@ class supportTicketController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static addSupportTicket() {
+  addSupportTicket() {
     return async (req, res) => {
       try {
         const data = JSON.parse(req.body.data);
@@ -53,10 +53,17 @@ class supportTicketController extends baseController {
           message: result.message,
           contact_method: capitalize(result.contact_method),
           contact: result[result.contact_method],
+          locale: user.language_preference,
         };
         const email = data.contact_method === 'email' && data.email;
-        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
-        email && email !== user.email && await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
+        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
+          sender: 'system@litefarm.org',
+          attachments: [req.file],
+        });
+        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
+          sender: 'system@litefarm.org',
+          attachments: [req.file],
+        });
         res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -65,10 +72,10 @@ class supportTicketController extends baseController {
         });
       }
     };
-  }
+  },
 
   // Disabled
-  static patchStatus() {
+  patchStatus() {
     return async (req, res) => {
       const support_ticket_id = req.params.support_ticket_id;
       try {
@@ -82,8 +89,8 @@ class supportTicketController extends baseController {
         });
       }
     };
-  }
-}
+  },
+};
 
 const capitalize = string => {
   return string[0].toUpperCase() + string.slice(1);

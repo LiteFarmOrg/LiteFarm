@@ -16,18 +16,19 @@
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
 import {
-  selectFarmSuccess,
   deselectFarmSuccess,
   loginSelector,
   userFarmEntitiesSelector,
+  userFarmsByUserSelector,
+  userFarmStatusSelector,
 } from '../userFarmSlice';
-import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
-import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
+import { getSpotlightFlags, getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 import { startSwitchFarmModal } from './chooseFarmFlowSlice';
+import { selectFarmAndFetchAll, waitForCertificationSurveyResultAndPushToHome } from '../saga';
 
 function ChooseFarm() {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ function ChooseFarm() {
 
   useEffect(() => {
     dispatch(getUserFarms());
+    dispatch(getSpotlightFlags());
   }, []);
 
   const farms = useSelector(userFarmsByUserSelector);
@@ -61,11 +63,11 @@ function ChooseFarm() {
   const onProceed = () => {
     const farm = userFarmEntities[selectedFarmId][user_id];
     if (farm.status === 'Active') {
-      dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
       if (currentFarmId) {
         dispatch(startSwitchFarmModal(selectedFarmId));
       }
-      history.push({ pathname: '/' });
+      dispatch(waitForCertificationSurveyResultAndPushToHome());
+      dispatch(selectFarmAndFetchAll({ farm_id: selectedFarmId }));
     } else {
       dispatch(patchUserFarmStatusWithIDToken(farm));
     }

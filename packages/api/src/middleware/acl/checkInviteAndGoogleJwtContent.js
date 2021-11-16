@@ -16,7 +16,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const userFarmModel = require('../../models/userFarmModel');
 const emailTokenModel = require('../../models/emailTokenModel');
-const {tokenType} = require('../../util/jwt');
+const { tokenType } = require('../../util/jwt');
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;

@@ -17,11 +17,15 @@ const baseModel = require('./baseModel');
 
 class TaskName extends baseModel {
   static get tableName() {
-    return 'taskType';
+    return 'task_type';
   }
 
   static get idColumn() {
-    return 'task_id';
+    return 'task_type_id';
+  }
+
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -32,10 +36,10 @@ class TaskName extends baseModel {
       type: 'object',
       required: ['task_name', 'farm_id'],
       properties: {
-        task_id: { type: 'integer' },
+        task_type_id: { type: 'integer' },
         task_name: { type: 'string', minLength: 1, maxLength: 25 },
         farm_id: { type: 'string' },
-        task_translation_key: {type: 'string'},
+        task_translation_key: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

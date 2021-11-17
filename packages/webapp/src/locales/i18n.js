@@ -19,7 +19,7 @@ i18n
       useSuspense: true,
     },
     backend: {
-      queryStringParams: { v: '3.0.1' },
+      queryStringParams: { v: '3.0.3' },
     },
   });
 

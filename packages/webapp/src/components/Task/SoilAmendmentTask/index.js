@@ -12,6 +12,7 @@ const PureSoilAmendmentTask = ({
   control,
   setValue,
   getValues,
+  formState,
   watch,
   farm,
   disabled = false,
@@ -70,6 +71,7 @@ const PureSoilAmendmentTask = ({
         setValue={setValue}
         control={control}
         products={filtered}
+        formState={formState}
         farm={farm}
         disabled={disabled}
       />

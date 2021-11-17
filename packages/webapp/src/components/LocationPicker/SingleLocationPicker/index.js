@@ -28,6 +28,9 @@ const LocationPicker = ({
   locations,
   farmCenterCoordinate,
   style,
+  readOnlyPinCoordinates,
+  maxZoomRef,
+  getMaxZoom,
 }) => {
   const [isGoogleMapInitiated, setGoogleMapInitiated] = useState(false);
   const geometriesRef = useRef({});
@@ -99,6 +102,17 @@ const LocationPicker = ({
     dismissSelectionModal();
   };
 
+  const drawWildCropPins = (map, maps, mapBounds) => {
+    for (const pinCoordinate of readOnlyPinCoordinates || []) {
+      new maps.Marker({
+        icon: MapPin,
+        position: pinCoordinate,
+        map: map,
+      });
+      mapBounds.extend(pinCoordinate);
+    }
+  };
+
   const drawLocations = (map, maps, mapBounds) => {
     locations.forEach((location) => {
       const assetGeometry = drawCropLocation(map, maps, mapBounds, location);
@@ -120,7 +134,7 @@ const LocationPicker = ({
       Object.values(geometriesRef.current).filter(({ location: { type } }) => isPoint(type)),
     );
     maps.event.addListener(markerClusterRef.current, 'click', (cluster) => {
-      if (map.getZoom() >= 20 && cluster.markers_.length > 1) {
+      if (map.getZoom() >= (maxZoomRef?.current || 20) && cluster.markers_.length > 1) {
         setOverlappedPositions(
           cluster.markers_.map((marker) => ({
             location_id: marker.location_id,
@@ -139,7 +153,6 @@ const LocationPicker = ({
         index: isSelected ? 2 : 1,
       };
     });
-    locations.length > 0 && map.fitBounds(mapBounds);
   };
 
   const setSelectedGeometryStyle = (assetGeometry) => {
@@ -206,7 +219,9 @@ const LocationPicker = ({
   };
 
   const handleGoogleMapApi = (map, maps) => {
+    getMaxZoom?.(maps);
     const mapBounds = new maps.LatLngBounds();
+    mapBounds.extend(farmCenterCoordinate);
     pinMarkerRef.current = new maps.Marker({
       icon: MapPin,
       position: pinCoordinate || farmCenterCoordinate,
@@ -249,7 +264,9 @@ const LocationPicker = ({
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // Drawing locations on map
+    drawWildCropPins(map, maps, mapBounds);
     drawLocations(map, maps, mapBounds);
+    map.fitBounds(mapBounds);
 
     setGoogleMapInitiated(true);
   };
@@ -286,6 +303,11 @@ LocationPicker.prototype = {
   setSelectedLocation: PropTypes.object,
   selectedLocationIds: PropTypes.arrayOf(PropTypes.string),
   farmCenterCoordinate: PropTypes.object,
+  readOnlyPinCoordinates: PropTypes.arrayOf(
+    PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
+  ),
+  maxZoomRef: PropTypes.object,
+  getMaxZoom: PropTypes.func,
 };
 
 export default LocationPicker;

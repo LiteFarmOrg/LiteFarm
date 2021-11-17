@@ -13,11 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+
 const baseController = require('../controllers/baseController');
 const managementPlanModel = require('../models/managementPlanModel');
+const cropManagementPlanModel = require('../models/cropManagementPlanModel');
 const managementTasksModel = require('../models/managementTasksModel');
 const taskModel = require('../models/taskModel');
 const taskTypeModel = require('../models/taskTypeModel');
+const transplantTaskModel = require('../models/transplantTaskModel');
+const plantTaskModel = require('../models/plantTaskModel');
 
 const { transaction, Model, raw, ref } = require('objection');
 
@@ -61,23 +65,34 @@ const managementPlanController = {
             const { planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
             );
+            const { planting_management_plan_id: prev_planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
+              planting_management_plan => planting_management_plan.is_final_planting_management_plan === false,
+            );
             //TODO: move get task_type_id to frontend LF-1965
             const transplantTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'TRANSPLANT_TASK',
             }).first();
-            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, { transplant_task: { planting_management_plan_id } }));
+            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, {
+              transplant_task: {
+                planting_management_plan_id,
+                prev_planting_management_plan_id,
+              },
+            }));
             tasks.push(transplantTask);
           }
-          const location_id = management_plan.crop_management_plan.planting_management_plans.find(
+          const {
+            location_id,
+            planting_management_plan_id,
+          } = management_plan.crop_management_plan.planting_management_plans.find(
             planting_management_plan => management_plan.crop_management_plan.needs_transplant ?
-              planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK').location_id;
+              planting_management_plan.planting_task_type === 'TRANSPLANT_TASK' : planting_management_plan.planting_task_type !== 'TRANSPLANT_TASK') || {};
           const taskManagementPlansAndLocations = {
             //TODO: already_in_ground && is_wild && !needs_transplant test (pin location)
-            locations: [{ location_id }],
-            managementPlans: [{ management_plan_id: management_plan.management_plan_id }],
+            locations: location_id ? [{ location_id }] : undefined,
+            managementPlans: [{ planting_management_plan_id }],
           };
-          if (!req.body.crop_management_plan.for_cover && location_id) {
+          if (!req.body.crop_management_plan.for_cover) {
             const planned_time = req.body.crop_management_plan.harvest_date;
             const harvestTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
@@ -87,7 +102,7 @@ const managementPlanController = {
               relate: ['locations', 'managementPlans'],
             });
             tasks.push(harvestTask);
-          } else if (location_id) {
+          } else {
             const planned_time = req.body.crop_management_plan.termination_date;
             const fieldWorkTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
@@ -159,11 +174,29 @@ const managementPlanController = {
            * Get all related task_ids and number of related management plans of each task_id
            * @type {{task_id: string, count: string}[]}
            */
-          const tasksWithManagementPlanCount = await managementTasksModel.query().where({ management_plan_id }).distinct('task_id')
-            .then(tasks => managementTasksModel.query().whereIn('task_id', tasks.map(({ task_id }) => task_id))
-              .groupBy('task_id').count('management_plan_id').select('task_id'));
+          const tasksWithManagementPlanCount = await managementTasksModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+            .where('planting_management_plan.management_plan_id', management_plan_id).distinct('task_id')
+            .then(tasks => managementTasksModel.query()
+              .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+              .join('task', 'task.task_id', 'management_tasks.task_id')
+              .whereNull('task.completed_time')
+              .whereIn('management_tasks.task_id', tasks.map(({ task_id }) => task_id))
+              .groupBy('management_tasks.task_id').count('planting_management_plan.management_plan_id').select('management_tasks.task_id'));
 
-          const taskIdsRelatedToOneManagementPlan = tasksWithManagementPlanCount.filter(({ count }) => count === '1')
+          const transplantTasks = await transplantTaskModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'transplant_task.planting_management_plan_id')
+            .join('task', 'task.task_id', 'transplant_task.task_id')
+            .whereNull('task.completed_time')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const plantTasks = await plantTaskModel.query().select('*')
+            .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'plant_task.planting_management_plan_id')
+            .join('task', 'task.task_id', 'plant_task.task_id')
+            .whereNull('task.completed_time')
+            .where('planting_management_plan.management_plan_id', management_plan_id);
+
+          const taskIdsRelatedToOneManagementPlan = [...tasksWithManagementPlanCount.filter(({ count }) => count === '1'), ...transplantTasks, ...plantTasks]
             .map(({ task_id }) => task_id);
           const abandonedTasks = await taskModel.query(trx).context(req.user)
             .whereIn('task_id', taskIdsRelatedToOneManagementPlan)
@@ -173,10 +206,8 @@ const managementPlanController = {
               other_abandonment_reason: 'Crop management plan abandoned',
             });
           const taskIdsRelatedToManyManagementPlans = tasksWithManagementPlanCount.filter(({ count }) => Number(count) > 1).map(({ task_id }) => task_id);
-          const deletedManagementPlans = await managementTasksModel.query(trx).context(req.user)
-            .where({ management_plan_id })
-            .whereIn('task_id', taskIdsRelatedToManyManagementPlans)
-            .delete();
+          //TODO: fix when knex implemented deletion on joined for postgres https://github.com/knex/knex/issues/873
+          taskIdsRelatedToManyManagementPlans.length && await trx.raw('delete from "management_tasks" using "planting_management_plan" where "planting_management_plan"."planting_management_plan_id" = "management_tasks"."planting_management_plan_id" and "planting_management_plan"."management_plan_id" = ? and "management_tasks"."task_id" = ANY(?)', [management_plan_id, taskIdsRelatedToManyManagementPlans]);
           return await managementPlanModel.query().context(req.user).where({ management_plan_id }).patch(lodash.pick(req.body, ['abandon_date', 'complete_notes', 'rating', 'abandon_reason']));
         });
 
@@ -196,19 +227,40 @@ const managementPlanController = {
 
   updateManagementPlan() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(managementPlanModel, req.params.management_plan_id, req.body, req, { trx });
-        await trx.commit();
-        if (!updated.length) {
-          return res.sendStatus(404);
+        const management_plan_id = req.params.management_plan_id;
+        const { name, notes } = req.body;
+        const {
+          estimated_yield,
+          estimated_yield_unit,
+          estimated_revenue,
+          estimated_price_per_mass,
+          estimated_price_per_mass_unit,
+        } = req.body?.crop_management_plan || {};
+        const crop_management_plan = {
+          estimated_yield,
+          estimated_yield_unit,
+          estimated_revenue,
+          estimated_price_per_mass,
+          estimated_price_per_mass_unit,
+        };
+        const management_plan = { name, notes };
+        const result = await managementPlanModel.transaction(async trx => {
+          const managementPlan = await managementPlanModel.query(trx)
+            .context({ user_id: req.user.user_id })
+            .findById(management_plan_id)
+            .patch(management_plan).returning('*');
+          return await cropManagementPlanModel.query(trx).context(req.user).findById(management_plan_id).patch(crop_management_plan).returning('*');
+        });
+        if (result) {
+          return res.sendStatus(200);
         } else {
-          return res.status(200).send(updated);
+          return res.sendStatus(404);
         }
 
       } catch (error) {
         console.log(error);
-        await trx.rollback();
+
         return res.status(400).json({
           error,
         });

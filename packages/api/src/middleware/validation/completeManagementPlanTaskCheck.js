@@ -18,7 +18,8 @@ const taskModel = require('../../models/taskModel');
 
 const validateManagementPlanTasks = async (req, res, next) => {
   const tasks = await taskModel.query().join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-    .where('management_tasks.management_plan_id', req.params.management_plan_id).whereNull('completed_time').whereNull('abandoned_time');
+    .join('planting_management_plan', 'planting_management_plan.planting_management_plan_id', 'management_tasks.planting_management_plan_id')
+    .where('planting_management_plan.management_plan_id', req.params.management_plan_id).whereNull('completed_time').whereNull('abandoned_time');
   if (tasks.length) return res.status(400).send(`Can't complete or abandon management plans with pending tasks`);
   return next();
 };

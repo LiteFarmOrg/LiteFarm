@@ -14,6 +14,7 @@ const PureCleaningTask = ({
   control,
   setValue,
   getValues,
+  formState,
   watch,
   farm,
   disabled = false,
@@ -63,6 +64,7 @@ const PureCleaningTask = ({
           getValues={getValues}
           setValue={setValue}
           control={control}
+          formState={formState}
           products={filtered}
           farm={farm}
           disabled={disabled}

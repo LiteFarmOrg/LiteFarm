@@ -26,6 +26,8 @@ import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
 import Button from '../../Form/Button';
 import { PlantingTaskModal } from '../../Modals/PlantingTaskModal';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
+import { NoCropManagementPlanModal } from '../../Modals/NoCropManagementPlanModal';
 
 const icons = {
   SOIL_AMENDMENT_TASK: <SoilAmendment />,
@@ -52,16 +54,19 @@ const icons = {
  * @param isAdmin {boolean}
  * @return {Set<string>}
  */
-const getSupportedTaskTypes = (isAdmin) => {
+const getSupportedTaskTypesSet = (isAdmin) => {
   const supportedTaskTypes = new Set([
     'SOIL_AMENDMENT_TASK',
     'FIELD_WORK_TASK',
     'PEST_CONTROL_TASK',
     'CLEANING_TASK',
     'HARVEST_TASK',
-    'TRANSPLANT_TASK',
   ]);
-  isAdmin && supportedTaskTypes.add('PLANT_TASK');
+
+  if (isAdmin) {
+    supportedTaskTypes.add('PLANT_TASK');
+    supportedTaskTypes.add('TRANSPLANT_TASK');
+  }
   return supportedTaskTypes;
 };
 
@@ -80,6 +85,7 @@ export const PureTaskTypeSelection = ({
   isAdmin,
   shouldShowPlantTaskSpotLight,
   updatePlantTaskSpotlight,
+  hasCurrentManagementPlans,
 }) => {
   const { t } = useTranslation();
   const { watch, getValues, register, setValue } = useForm({
@@ -91,7 +97,8 @@ export const PureTaskTypeSelection = ({
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
 
-  const onTileClick = (task_type_id) => {
+
+  const onSelectTask = (task_type_id) => {
     setValue(TASK_TYPE_ID, task_type_id);
     onContinue();
   };
@@ -104,6 +111,18 @@ export const PureTaskTypeSelection = ({
     } else {
       goToCatalogue();
     }
+  };
+  const [showNoManagementPlanModal, setShowNoManagementPlanModal] = useState();
+  const onHarvestTransplantTaskClick = (task_type_id) => {
+    hasCurrentManagementPlans ? onSelectTask(task_type_id) : setShowNoManagementPlanModal(true);
+  };
+
+  const onTileClick = (taskType) => {
+    if (isTaskType(taskType, 'PLANT_TASK')) return onPlantTaskTypeClick(taskType.task_type_id);
+    if (isTaskType(taskType, 'TRANSPLANT_TASK') || isTaskType(taskType, 'HARVEST_TASK')) {
+      return onHarvestTransplantTaskClick(taskType.task_type_id);
+    }
+    return onSelectTask(taskType.task_type_id);
   };
   return (
     <>
@@ -122,16 +141,20 @@ export const PureTaskTypeSelection = ({
         <div style={{ paddingBottom: '20px' }} className={styles.matrixContainer}>
           {taskTypes
             ?.filter(({ farm_id, task_translation_key }) => {
-              const supportedTaskTypes = getSupportedTaskTypes(isAdmin);
+              const supportedTaskTypes = getSupportedTaskTypesSet(isAdmin);
               return farm_id === null && supportedTaskTypes.has(task_translation_key);
             })
-            .map(({ task_translation_key, task_type_id, farm_id }) => {
+            .sort((firstTaskType, secondTaskType) =>
+              t(`task:${firstTaskType.task_translation_key}`).localeCompare(
+                t(`task:${secondTaskType.task_translation_key}`),
+              ),
+            )
+            .map((taskType) => {
+              const { task_translation_key, task_type_id, farm_id } = taskType;
               return (
                 <div
                   onClick={() => {
-                    task_translation_key === 'PLANT_TASK' && !farm_id
-                      ? onPlantTaskTypeClick(task_type_id)
-                      : onTileClick(task_type_id);
+                    onTileClick(taskType);
                   }}
                   key={task_type_id}
                   className={clsx(
@@ -140,30 +163,36 @@ export const PureTaskTypeSelection = ({
                   )}
                 >
                   {icons[task_translation_key]}
-                  <div>{t(`task:${task_translation_key}`)}</div>
+                  <div className={styles.taskTypeLabelContainer}>
+                    {t(`task:${task_translation_key}`)}
+                  </div>
                 </div>
               );
             })}
-          {customTasks?.map(({ task_translation_key, task_type_id, task_name }) => {
-            return (
-              <div
-                onClick={() => {
-                  onTileClick(task_type_id);
-                }}
-                key={task_type_id}
-              >
+          {customTasks
+            ?.sort((firstTaskType, secondTaskType) =>
+              firstTaskType.task_name.localeCompare(secondTaskType.task_name),
+            )
+            .map(({ task_translation_key, task_type_id, task_name }) => {
+              return (
                 <div
-                  className={clsx(
-                    styles.typeContainer,
-                    selected_task_type === task_type_id && styles.typeContainerSelected,
-                  )}
+                  onClick={() => {
+                    onSelectTask(task_type_id);
+                  }}
+                  key={task_type_id}
                 >
-                  <CustomTask />
-                  <div>{task_name}</div>
+                  <div
+                    className={clsx(
+                      styles.typeContainer,
+                      selected_task_type === task_type_id && styles.typeContainerSelected,
+                    )}
+                  >
+                    <CustomTask />
+                    <div className={styles.taskTypeLabelContainer}>{task_name}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
         {isAdmin && (
           <Button color={'success'} onClick={onCustomTask}>
@@ -178,6 +207,12 @@ export const PureTaskTypeSelection = ({
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
         />
       )}
+      {showNoManagementPlanModal &&
+      <NoCropManagementPlanModal
+        dismissModal={() => setShowNoManagementPlanModal(false)}
+        goToCatalogue={goToCatalogue}
+      />
+      }
     </>
   );
 };

@@ -38,8 +38,8 @@ export default function PureManagementPlanPlantingMethod({
       (already_in_ground && !is_wild && for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && needs_transplant && !isFinalPlantingMethod);
     const showBroadcast =
-      (!already_in_ground && is_seed && for_cover && needs_transplant && !isFinalPlantingMethod) ||
-      (!already_in_ground && is_seed && !for_cover && !needs_transplant && isFinalPlantingMethod) ||
+      (!already_in_ground && is_seed && needs_transplant && !isFinalPlantingMethod) ||
+      (!already_in_ground && is_seed && !needs_transplant && isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && for_cover && needs_transplant && !isFinalPlantingMethod) ||
       (already_in_ground && !is_wild && !for_cover && !needs_transplant && isFinalPlantingMethod) ||
@@ -64,8 +64,8 @@ export default function PureManagementPlanPlantingMethod({
   const plantingMethodPrefix = `crop_management_plan.planting_management_plans.${
     isFinalPlantingMethod ? 'final' : 'initial'
   }`;
-  const ESTIMATED_YIELD = `${plantingMethodPrefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${plantingMethodPrefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const PLANTING_METHOD = `${plantingMethodPrefix}.planting_method`;
   const planting_method = watch(PLANTING_METHOD);
   const IS_PLANTING_METHOD_KNOWN = `crop_management_plan.planting_management_plans.${plantingMethodPrefix}.is_planting_method_known`;

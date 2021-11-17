@@ -24,6 +24,10 @@
   order: 2;
   flex-grow: 1;
   display: flex;
+  // TODO: this is a workaround for keeping all locations in view (ST-297)
+  // remove this when we have a better solution
+  // that is dependent to navbar height (viewport)
+  padding-top: 54px;
   // z-index: -1;
 }
 

@@ -11,7 +11,7 @@ function EditCustomTask({ history, match }) {
   const onEditPath = '/add_task/edit_custom_task_update';
   const persistedPaths = [onGoBackPath, onEditPath];
   const { persistedData } = useHookFormPersist();
-  const selectedTaskType = useSelector(taskTypeSelector(persistedData.type));
+  const selectedTaskType = useSelector(taskTypeSelector(persistedData.task_type_id));
   const handleGoBack = () => {
     history.goBack();
   };
@@ -20,7 +20,7 @@ function EditCustomTask({ history, match }) {
     history.push(onEditPath);
   };
   const handleRetire = () => {
-    dispatch(deleteTaskType(persistedData.type));
+    dispatch(deleteTaskType(persistedData.task_type_id));
   };
 
   return (

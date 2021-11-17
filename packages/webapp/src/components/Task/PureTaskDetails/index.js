@@ -25,6 +25,7 @@ export default function PureTaskDetails({
   selectedTaskType,
   farm,
   managementPlanByLocations,
+  wildManagementPlanTiles,
 }) {
   const { t } = useTranslation();
   const taskType = selectedTaskType.task_translation_key;
@@ -45,19 +46,36 @@ export default function PureTaskDetails({
       {},
     );
 
-    return Object.keys(managementPlanByLocations).reduce((harvest_tasks, location_id) => {
-      for (const managementPlan of managementPlanByLocations[location_id]) {
-        const id = `${location_id}.${managementPlan.management_plan_id}`;
+    const harvestTasksWithLocations = Object.keys(managementPlanByLocations).reduce(
+      (harvest_tasks, location_id) => {
+        for (const managementPlan of managementPlanByLocations[location_id]) {
+          const id = `${location_id}.${managementPlan.management_plan_id}`;
+          harvest_tasks.push(
+            harvestTasksById?.[id] || {
+              id,
+              harvest_everything: false,
+            },
+          );
+        }
+        return harvest_tasks;
+      },
+      [],
+    );
+
+    const allHarvestTasks =
+      wildManagementPlanTiles?.reduce?.((harvest_tasks, managementPlan) => {
+        const id = `PIN_LOCATION.${managementPlan.management_plan_id}`;
         harvest_tasks.push(
           harvestTasksById?.[id] || {
             id,
             harvest_everything: false,
           },
         );
-      }
-      return harvest_tasks;
-    }, []);
-  }, []);
+        return harvest_tasks;
+      }, harvestTasksWithLocations) || harvestTasksWithLocations;
+
+    return allHarvestTasks;
+  }, [persistedFormData]);
 
   const formFunctions = useForm({
     mode: 'onChange',
@@ -119,11 +137,13 @@ export default function PureTaskDetails({
             watch,
             control,
             register,
+            formState: { errors, isValid },
             farm,
             system,
             products,
             persistedFormData,
             managementPlanByLocations,
+            wildManagementPlanTiles,
           })}
         {!isHarvest && (
           <InputAutoSize

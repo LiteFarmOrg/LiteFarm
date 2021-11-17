@@ -10,9 +10,12 @@ const dataToCellMapping = {
   treated_doc: 'G',
   genetically_engineered: 'H',
 }
+
+const treatedTransformationMap = { YES: 'YES', NOT_SURE: 'NOT SURE', NO: 'N/A' };
 const dataTransformsMapping = {
   organic: boolToStringTransformation,
   searched: boolToStringTransformation,
+  treated: (treated) => treatedTransformationMap[treated],
   treated_doc: treatmentDocTransformation,
   genetically_engineered: boolToStringTransformation,
 }
@@ -108,7 +111,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/iCertify-RecordD.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
     })
 }
 

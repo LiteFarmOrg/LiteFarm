@@ -31,9 +31,11 @@ export const colors = {
   brightGreen400: '#a6f7ae',
   cyan700: '#03a6ca',
   cayn400: '#4fdbfa',
+  blue200: '#e9f3ff',
   blue700: '#0669E1',
   grey1: '#333333',
   brown700: '#AA5F04',
+  brown900: '#7E4C0E',
 };
 
 const theme = createMuiTheme({

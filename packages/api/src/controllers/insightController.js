@@ -39,8 +39,9 @@ const insightController = {
           `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
                 FROM "harvestUse" hu 
                 JOIN "task" al ON hu.task_id = al.task_id
-                JOIN "management_tasks" ac ON hu.task_id = ac.task_id 
-                JOIN "management_plan" mp ON mp.management_plan_id = ac.management_plan_id
+                JOIN "management_tasks" mt ON hu.task_id = mt.task_id 
+                JOIN "planting_management_plan" pmp ON mt.planting_management_plan_id = pmp.planting_management_plan_id
+                JOIN "management_plan" mp ON mp.management_plan_id = pmp.management_plan_id
                 JOIN "location" ON mp.location_id = location.location_id
                 JOIN "crop_variety" ON mp.crop_variety_id = crop_variety.crop_variety_id
                 JOIN "crop" c ON mp.crop_id = c.crop_id
@@ -103,7 +104,7 @@ const insightController = {
           JOIN "area" on area.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "location_tasks" af, "soil_task" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
             and al.task_id = sdl.task_id
@@ -137,7 +138,7 @@ const insightController = {
           JOIN "line" on line.figure_id = figure.figure_id
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.location_id
-          FROM "task" al, "activityFields" af, "soilDataLog" sdl, "location" location, "figure" figure
+          FROM "task" al, "location_tasks" af, "soil_task" sdl, "location" location, "figure" figure
           WHERE location.farm_id = ?
             and location.location_id = af.location_id
             and al.task_id = sdl.task_id
@@ -177,16 +178,13 @@ const insightController = {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key, mp.management_plan_id, l.location_id
-          FROM "shiftTask" st
-            JOIN "shift" s ON s.shift_id = st.shift_id
-            JOIN "taskType" t ON st.task_id = t.task_id
-            LEFT JOIN "management_plan" mp ON mp.management_plan_id = st.management_plan_id
-            LEFT JOIN "location" l ON l.location_id = st.location_id
-            WHERE s.farm_id = ?
-              and s.mood != 'na'
-              and s.mood != 'no answer'
-              and s.deleted = false`, [farmID]);
+          `SELECT t.task_id, t.happiness, t.duration, tt.task_translation_key
+            FROM "task" t, "task_type" tt, "location_tasks" lt, "location" l
+            WHERE t.task_id = lt.task_id
+              AND t.task_type_id = tt.task_type_id
+              AND lt.location_id = l.location_id
+              AND l.farm_id = ?
+              AND t.happiness is not null;`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -214,14 +212,12 @@ const insightController = {
           AND location.deleted = false
           GROUP BY area.grid_points`, [farmID]);
         const cropCount = await knex.raw(
-          `SELECT DISTINCT crop_variety.crop_id
-          FROM "location" l
-          LEFT JOIN "management_plan" mp
-            on mp.location_id = l.location_id
+          `SELECT DISTINCT crop_variety.crop_variety_id
+          FROM "management_plan" mp
           LEFT JOIN "crop_variety"
             on mp.crop_variety_id = crop_variety.crop_variety_id
-          WHERE l.farm_id = ?
-            and mp.end_date >= NOW() and mp.start_date <= NOW()`, [farmID]);
+          WHERE crop_variety.farm_id = ?
+            and mp.start_date is not null`, [farmID]);
         if (dataPoints.rows && cropCount.rows) {
           const count = cropCount.rows.length;
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows, count);
@@ -268,17 +264,16 @@ const insightController = {
   async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
-          SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
+        SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cvs.quantity) as sale_quant, SUM(cvs.sale_value) as sale_value, fa.farm_id, fa.grid_points
           FROM "sale" s
-          JOIN "cropSale" cs on cs.sale_id = s.sale_id
-          JOIN "crop" c on c.crop_id = cs.crop_id
+        JOIN "crop_variety_sale" cvs on cvs.sale_id = s.sale_id
+        JOIN "crop_variety" cv on cvs.crop_variety_id = cv.crop_variety_id
+        JOIN "crop" c on c.crop_id = cv.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
           WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT crop_variety.crop_id
-          FROM "management_plan" mp 
-          join "location" on mp.location_id = location.location_id
-          join "crop_variety" on crop_variety.crop_variety_id = mp.crop_variety_id
-          where location.farm_id = ?)
+        FROM "crop_variety"
+        where crop_variety.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
   },

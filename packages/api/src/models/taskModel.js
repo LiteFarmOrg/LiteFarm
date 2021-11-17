@@ -43,7 +43,7 @@ class TaskModel extends BaseModel {
         assignee_user_id: { type: ['string', null] },
         coordinates: { type: 'object' },
         duration: { type: ['number', null] },
-        wage_at_moment: { type: 'number' },
+        wage_at_moment: { type: ['number', null] },
         happiness: { anyOf: [{ type: 'integer', minimum: 0, maximum: 5 }, { type: 'null' }] },
         planned_time: { type: 'date-time' },
         completed_time: { anyOf: [{ type: 'null' }, { type: 'date-time' }] },
@@ -64,6 +64,7 @@ class TaskModel extends BaseModel {
         },
         other_abandonment_reason: { type: ['string', null] },
         abandonment_notes: { type: ['string', null], maxLength: 10000 },
+        override_hourly_wage: { type: 'boolean' },
         ...super.baseProperties,
       },
       additionalProperties: false,
@@ -162,17 +163,18 @@ class TaskModel extends BaseModel {
           to: 'transplant_task.task_id',
         },
       },
+      //TODO: rename to plantingManagementPlans
       managementPlans: {
-        modelClass: require('./managementPlanModel'),
+        modelClass: require('./plantingManagementPlanModel'),
         relation: Model.ManyToManyRelation,
         join: {
           from: 'task.task_id',
           through: {
             modelClass: require('./managementTasksModel'),
             from: 'management_tasks.task_id',
-            to: 'management_tasks.management_plan_id',
+            to: 'management_tasks.planting_management_plan_id',
           },
-          to: 'management_plan.management_plan_id',
+          to: 'planting_management_plan.planting_management_plan_id',
         },
 
       },

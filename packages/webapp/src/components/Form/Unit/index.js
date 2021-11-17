@@ -70,7 +70,6 @@ const useReactSelectStyles = (disabled, { reactSelectWidth = DEFAULT_REACT_SELEC
       ...reactSelectDefaultStyles,
       container: (provided, state) => ({
         ...provided,
-        zIndex: 1,
       }),
       control: (provided, state) => ({
         display: 'flex',
@@ -139,6 +138,7 @@ const Unit = ({
   mode = 'onBlur',
   max = 1000000000,
   toolTipContent,
+  onBlur,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -241,13 +241,15 @@ const Unit = ({
         shouldValidate: false,
         shouldDirty: false,
       });
-      setTimeout(() => {
-        hookFormSetValue(name, value, {
-          shouldValidate: !shouldClearError && shouldValidate,
-          shouldDirty,
-        });
-        shouldClearError && setShowError(false);
-      }, 0);
+      //TODO: refactor location form pages to use hookForm default value and <HookFormPersistProvider/>
+      !disabled &&
+        setTimeout(() => {
+          hookFormSetValue(name, value, {
+            shouldValidate: !shouldClearError && shouldValidate,
+            shouldDirty,
+          });
+          shouldClearError && setShowError(false);
+        }, 0);
     },
     [name],
   );
@@ -283,7 +285,7 @@ const Unit = ({
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
         <div className={styles.labelContainer}>
-          <Label>
+          <Label style={{ position: 'absolute', bottom: 0 }}>
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>
@@ -291,7 +293,11 @@ const Unit = ({
               </Label>
             )}
           </Label>
-          {toolTipContent && <Infoi content={toolTipContent} />}
+          {toolTipContent && (
+            <div className={styles.tooltipIconContainer}>
+              <Infoi content={toolTipContent} />
+            </div>
+          )}
         </div>
       )}
       {showError && (
@@ -302,8 +308,8 @@ const Unit = ({
             right: 0,
             transform: isSelectDisabled
               ? 'translate(-1px, 23px)'
-              : unitType.databaseUnit === 'week'
-              ? 'translate(-95px, 23px)'
+              : unitType.databaseUnit === 'd'
+              ? 'translate(-95px, 23px)' // long date unit component
               : 'translate(-62px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
@@ -325,7 +331,14 @@ const Unit = ({
           value={visibleInputValue}
           size={1}
           onKeyDown={getOnKeyDown(measure)}
-          onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
+          onBlur={
+            mode === 'onBlur'
+              ? (e) => {
+                  inputOnBlur(e);
+                  onBlur && onBlur(e);
+                }
+              : onBlur
+          }
           onChange={inputOnChange}
           onWheel={preventNumberScrolling}
           {...props}

@@ -30,7 +30,7 @@ const modelMapping = {
 function modelValidation(asset) {
   return (req, res, next) => {
     const data = req.body;
-    if(!data) {
+    if (!data) {
       return res.status(400).send({
         message: 'Task is a required property',
       });
@@ -43,19 +43,42 @@ function modelValidation(asset) {
   };
 }
 
-async function isWorkerToSelfOrAdmin(req, res, next) {
-  const { farm_id } = req.headers;
-  const { user_id } = req.user;
-  const AdminRoles = [1, 2, 5];
-  const { role_id } = await knex('userFarm').where({ user_id, farm_id }).first();
-  if (AdminRoles.includes(role_id)) {
-    next();
-    return;
+function isWorkerToSelfOrAdmin({ hasManyTasks = false } = {}) {
+  function checkWageAndAssignee(task, user_id) {
+    if (!!task.wage_at_moment) {
+      throw new Error('Worker is not allowed to modify its wage');
+    } else if (task.assignee_user_id && task.assignee_user_id !== user_id) {
+      throw new Error('Worker is not allowed to add tasks to another user');
+    }
   }
-  if(!!req.body.wage_at_moment || req.body.assignee_user_id !== user_id) {
-    return res.status(403).send(req.body.wage_at_moment ? 'Worker is not allowed to modify its wage' : 'Worker is not allowed to add tasks to another user');
+
+  function checkReq(req, res, next) {
+    const { user_id } = req.user;
+    try {
+      if (hasManyTasks) {
+        req.body.map(task => checkWageAndAssignee(task, user_id));
+      } else {
+        checkWageAndAssignee(req.body, user_id);
+      }
+    } catch (e) {
+      return res.status(403).send(e.message);
+    }
+    return next();
+
   }
-  next();
+
+  return async (req, res, next) => {
+    const { farm_id } = req.headers;
+    const { user_id } = req.user;
+    const AdminRoles = [1, 2, 5];
+    const { role_id } = await knex('userFarm').where({ user_id, farm_id }).first();
+    if (AdminRoles.includes(role_id)) {
+      next();
+      return;
+    }
+    return checkReq(req, res, next);
+
+  };
 }
 
 module.exports = {

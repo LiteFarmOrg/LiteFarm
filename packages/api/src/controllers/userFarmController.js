@@ -42,7 +42,8 @@ const userFarmController = {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
-        const rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select('*').where('userFarm.user_id', user_id)
+        const rows = await userFarmModel.query().context({ user_id: req.user.user_id })
+          .select('*').where('userFarm.user_id', user_id).andWhereNot('farm.deleted', 'true')
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
@@ -196,7 +197,7 @@ const userFarmController = {
             template_path = emails.WITHHELD_CONSENT;
           } else {
             template_path = emails.CONFIRMATION;
-            replacements['role'] = userFarm.role;
+            replacements['role'] = userFarm.role.toUpperCase().replace(' ', '_');
           }
           return sendEmail(template_path, replacements, userFarm.email, { sender });
         } catch (e) {
@@ -278,6 +279,9 @@ const userFarmController = {
             farm_id,
           }).orWhere({
             role_id: 2,
+            farm_id,
+          }).orWhere({
+            role_id: 5,
             farm_id,
           });
           if (admins.length === 1)

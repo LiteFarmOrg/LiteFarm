@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import { Label } from '../../../Typography';
 import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
@@ -59,9 +58,9 @@ export default function PureWatercourse({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const onSubmit = (data) => {
+    const usedForIrrigation = data[watercourseEnum.used_for_irrigation];
     const formData = {
       line_points,
       length,
@@ -69,7 +68,7 @@ export default function PureWatercourse({
       buffer_width,
       ...data,
       type: 'watercourse',
-      used_for_irrigation: usedForIrrigation !== null ? usedForIrrigation === 'true' : null,
+      used_for_irrigation: usedForIrrigation,
     };
     formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit]?.value;
     formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit]?.value;
@@ -216,29 +215,14 @@ export default function PureWatercourse({
                 {t('common:OPTIONAL')}
               </Label>
             </div>
-            <div style={{ display: 'flex', marginBottom: '16px' }}>
-              <Radio
-                label={t('common:YES')}
-                hookFormRegister={register(watercourseEnum.used_for_irrigation, {
-                  required: false,
-                })}
-                value={true}
+            <div style={{ marginBottom: '16px' }}>
+              <RadioGroup
+                row
                 disabled={isViewLocationPage}
-              />
-              <Radio
-                style={{ marginLeft: '40px' }}
-                label={t('common:NO')}
-                hookFormRegister={register(watercourseEnum.used_for_irrigation, {
-                  required: false,
-                })}
-                value={false}
-                disabled={isViewLocationPage}
+                name={watercourseEnum.used_for_irrigation}
+                hookFormControl={control}
               />
             </div>
-            {/* TODO: use radio group after release - not putting this in yet since detail page would break */}
-            {/* <div style={{ marginBottom: '16px' }}>
-              <RadioGroup row disabled={isViewLocationPage} name={watercourseEnum.used_for_irrigation} hookFormControl={control} />
-            </div> */}
           </div>
         </div>
       </LineDetails>

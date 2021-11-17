@@ -13,9 +13,8 @@ import { Main } from '../../Typography';
 import TimeSlider from '../../Form/Slider/TimeSlider';
 import Checkbox from '../../Form/Checkbox';
 import Rating from '../../Rating';
-// import { cloneObject } from '../../util';
 
-const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
+const PureAbandonTask = ({ onSubmit, onError, onGoBack, hasAssignee }) => {
   const { t } = useTranslation();
   const {
     register,
@@ -41,7 +40,7 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
   const no_work_completed = watch(NO_WORK_COMPLETED);
   const happiness = watch(HAPPINESS);
 
-  const disabled = !isValid;
+  const disabled = !isValid || (hasAssignee && !happiness && !prefer_not_to_say);
 
   // TODO: bring the options up to the smart component (eventually will be an api call + selector)
   const abandonmentReasonOptions = [
@@ -90,38 +89,43 @@ const PureAbandonTask = ({ onSubmit, onError, onGoBack }) => {
         />
       )}
 
-      <Main style={{ marginBottom: '24px' }}>{t('TASK.COMPLETE_TASK_DURATION')}</Main>
+      {hasAssignee && (
+        <>
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.ABANDON_TASK_DURATION')}</Main>
 
-      {!no_work_completed && (
-        <TimeSlider
-          style={{ marginBottom: '20px' }}
-          label={t('TASK.DURATION')}
-          setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
-        />
+          {!no_work_completed && (
+            <TimeSlider
+              style={{ marginBottom: '20px' }}
+              label={t('TASK.DURATION')}
+              setValue={(durationInMinutes) => setValue(DURATION, durationInMinutes)}
+            />
+          )}
+
+          <Checkbox
+            style={{ marginBottom: '42px' }}
+            label={t('TASK.NO_WORK_DONE')}
+            hookFormRegister={register(NO_WORK_COMPLETED)}
+          />
+
+          <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
+
+          {!prefer_not_to_say && (
+            <Rating
+              style={{ display: 'flex', marginBottom: '27px' }}
+              label={t('TASK.PROVIDE_RATING')}
+              disabled={prefer_not_to_say}
+              onRate={(value) => setValue(HAPPINESS, value)}
+            />
+          )}
+
+          <Checkbox
+            style={{ marginBottom: '42px' }}
+            label={t('TASK.PREFER_NOT_TO_SAY')}
+            hookFormRegister={register(PREFER_NOT_TO_SAY)}
+            onChange={() => setValue(HAPPINESS, null)}
+          />
+        </>
       )}
-
-      <Checkbox
-        style={{ marginBottom: '42px' }}
-        label={t('TASK.NO_WORK_DONE')}
-        hookFormRegister={register(NO_WORK_COMPLETED)}
-      />
-
-      <Main style={{ marginBottom: '24px' }}>{t('TASK.DID_YOU_ENJOY')}</Main>
-
-      {!prefer_not_to_say && (
-        <Rating
-          style={{ display: 'flex', marginBottom: '27px' }}
-          label={t('TASK.PROVIDE_RATING')}
-          disabled={prefer_not_to_say}
-          onRate={(value) => setValue(HAPPINESS, value)}
-        />
-      )}
-
-      <Checkbox
-        style={{ marginBottom: '42px' }}
-        label={t('TASK.PREFER_NOT_TO_SAY')}
-        hookFormRegister={register(PREFER_NOT_TO_SAY)}
-      />
 
       <InputAutoSize
         style={{ marginBottom: '40px' }}

@@ -8,9 +8,11 @@ import { Main } from '../../Typography';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { cloneObject } from '../../../util';
+import Checkbox from '../../Form/Checkbox';
 
 export default function PureTaskLocations({
   locations,
+  readOnlyPinCoordinates,
   onContinue,
   onGoBack,
   onCancel,
@@ -19,6 +21,8 @@ export default function PureTaskLocations({
   useHookFormPersist,
   isMulti = true,
   title,
+  maxZoomRef,
+  getMaxZoom,
 }) {
   const { t } = useTranslation();
   const progress = 43;
@@ -36,11 +40,13 @@ export default function PureTaskLocations({
       return location ? [location] : [];
     }
   }, []);
-  const { getValues, watch, setValue } = useForm({
+  const { getValues, watch, setValue, register } = useForm({
     defaultValues: cloneObject({ ...persistedFormData, locations: defaultLocations }),
     shouldUnregister: false,
   });
   useHookFormPersist(getValues);
+  const SHOW_WILD_CROP = 'show_wild_crop';
+  const show_wild_crop = watch(SHOW_WILD_CROP);
   const LOCATIONS = 'locations';
   const selectedLocations = watch(LOCATIONS);
   const selectedLocationIds = useMemo(
@@ -66,12 +72,18 @@ export default function PureTaskLocations({
 
   const clearLocations = () => setValue(LOCATIONS, []);
 
+  const showWildCropCheckBox = !!readOnlyPinCoordinates?.length;
+
   return (
     <>
       <Layout
         buttonGroup={
           <>
-            <Button disabled={!selectedLocations?.length} onClick={onContinue} fullLength>
+            <Button
+              disabled={!selectedLocations?.length && !(showWildCropCheckBox && show_wild_crop)}
+              onClick={onContinue}
+              fullLength
+            >
               {t('common:CONTINUE')}
             </Button>
           </>
@@ -94,7 +106,17 @@ export default function PureTaskLocations({
           selectedLocationIds={selectedLocationIds}
           locations={locations}
           farmCenterCoordinate={farmCenterCoordinate}
+          readOnlyPinCoordinates={readOnlyPinCoordinates}
+          maxZoomRef={maxZoomRef}
+          getMaxZoom={getMaxZoom}
         />
+        {showWildCropCheckBox && (
+          <Checkbox
+            label={t('TASK.SELECT_WILD_CROP')}
+            style={{ paddingBottom: '25px' }}
+            hookFormRegister={register(SHOW_WILD_CROP)}
+          />
+        )}
       </Layout>
     </>
   );
@@ -111,4 +133,7 @@ PureTaskLocations.prototype = {
   useHookFormPersist: PropTypes.func,
   isMulti: PropTypes.bool,
   title: PropTypes.string,
+  readOnlyPinCoordinates: PropTypes.array,
+  maxZoomRef: PropTypes.object,
+  getMaxZoom: PropTypes.func,
 };

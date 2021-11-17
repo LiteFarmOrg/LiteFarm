@@ -17,12 +17,13 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const { register, handleSubmit, watch, control, setValue, formState } = useForm({
     mode: 'onTouched',
+    defaultValues: { 'contact_method': 'email' }
   });
 
   const { errors } = formState;
 
   const CONTACT_METHOD = 'contact_method';
-  const contactMethodSelection = watch(CONTACT_METHOD, 'email');
+  const contactMethodSelection = watch(CONTACT_METHOD);
   const MESSAGE = 'message';
   const SUPPORT_TYPE = 'support_type';
   const CONTACT_INFO = 'contactInfo';

@@ -9,7 +9,8 @@ const dataToCellMapping = {
   on_permitted_substances_list: 'G',
 }
 const dataTransformsMapping = {
-  // on_permitted_substances_list: boolToStringTransformation,
+  date_used: (date) => date ? date.split('T')[0] : '',
+  product_quantity: (quantity) => quantity ? quantity.toFixed(2) : 0,
 }
 
 module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
@@ -24,7 +25,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).range('A1:G1').style({
         bold: true,
         fontSize: 20,
-        fill: 'F2F2F2'
+        fill: 'F2F2F2',
       });
       // workbook.sheet(0).range('A6:G9').style({
       //   fill: 'F2F2F2',
@@ -46,7 +47,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           color: '000000',
           style: 'thin',
         },
-        horizontalAlignment: 'center'
+        horizontalAlignment: 'center',
       });
 
       const title = isInputs ? 'INPUTS' : 'CLEANERS';
@@ -78,7 +79,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).cell('A9').value(rowNine).style({ wrapText: false });
       workbook.sheet(0).cell('A10').value('Product name');
       workbook.sheet(0).cell('B10').value('Brand Name or Source/Supplier');
-      workbook.sheet(0).cell('C10').value('Quantity');
+      workbook.sheet(0).cell('C10').value('Quantity (kg)');
       workbook.sheet(0).cell('D10').value('Date Used');
       workbook.sheet(0).cell('E10').value('Crop / Field Applied to or Production Unit used in');
       workbook.sheet(0).cell('F10').value('Notes');
@@ -98,7 +99,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).row(7).height(23);
       workbook.sheet(0).row(8).height(23);
       workbook.sheet(0).row(9).height(23);
-      workbook.sheet(0).row(10).height(35);
+      workbook.sheet(0).row(10).height(40);
       data.map((row, i) => {
         const rowN = i + 11;
         Object.keys(row).filter(k => k !== 'task_id').map((k) => {
@@ -107,7 +108,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_id}/iCertify-RecordI-${title}.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordI-${title}.xlsx`);
     })
 }
 

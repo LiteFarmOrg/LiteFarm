@@ -26,7 +26,7 @@ export default function FirstManagementPlanSpotlight() {
           steps={[
             {
               title: t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.TITLE'),
-              contents: [t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.BODY')],
+              contents: [t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.BODY_PART1'), t('MANAGEMENT_PLAN.FIRST_MP_SPOTLIGHT.BODY_PART2')],
               target: 'body',
               placement: 'center',
               disableCloseOnEsc: true,

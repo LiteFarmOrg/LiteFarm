@@ -35,6 +35,7 @@ const PureTaskAssignment = ({
     control,
     setValue,
     formState: { errors, isValid },
+    clearErrors,
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
@@ -54,19 +55,17 @@ const PureTaskAssignment = ({
 
   const override = watch(OVERRIDE_HOURLY_WAGE);
 
-  const currently_assigned = watch(ASSIGNEE);
-
-  useEffect(() => {
-    const currentlyAssignedUserId = currently_assigned?.value;
+  const populateWageData = (assignee) => {
     const wageDataOfCurrentlyAssigned = wageData.find(
-      (userWageObject) => !!userWageObject[currentlyAssignedUserId],
+      (userWageObject) => !!userWageObject[assignee?.value],
     );
     const hourlyWageOfCurrentlyAssigned =
       typeof wageDataOfCurrentlyAssigned === 'undefined'
         ? 0
-        : wageDataOfCurrentlyAssigned[currentlyAssignedUserId].hourly_wage;
+        : wageDataOfCurrentlyAssigned[assignee.value].hourly_wage;
     setValue(WAGE_OVERRIDE, hourlyWageOfCurrentlyAssigned);
-  }, [currently_assigned]);
+    clearErrors(WAGE_OVERRIDE);
+  };
 
   return (
     <>
@@ -94,12 +93,16 @@ const PureTaskAssignment = ({
         <Controller
           control={control}
           name={ASSIGNEE}
-          render={({ field }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <ReactSelect
               options={userFarmOptions}
               label={t('ADD_TASK.ASSIGNEE')}
               required={true}
-              {...field}
+              value={value}
+              onChange={(e) => {
+                onChange(e);
+                populateWageData(e);
+              }}
             />
           )}
           rules={{ required: true }}

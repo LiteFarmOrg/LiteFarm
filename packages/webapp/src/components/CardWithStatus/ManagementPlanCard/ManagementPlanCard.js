@@ -15,11 +15,11 @@ const statusColorMap = {
   abandoned: 'completed',
 };
 
-export const managementPlanStatusText = {
-  active: i18n.t('MANAGEMENT_PLAN.STATUS.ACTIVE'),
-  planned: i18n.t('MANAGEMENT_PLAN.STATUS.PLANNED'),
-  completed: i18n.t('MANAGEMENT_PLAN.STATUS.COMPLETED'),
-  abandoned: i18n.t('MANAGEMENT_PLAN.STATUS.ABANDONED'),
+export const managementPlanStatusTranslateKey = {
+  active: 'ACTIVE',
+  planned: 'PLANNED',
+  completed: 'COMPLETED',
+  abandoned: 'ABANDONED',
 };
 
 export function ManagementPlanCard({
@@ -42,7 +42,7 @@ export function ManagementPlanCard({
       color={statusColorMap[status]}
       style={style}
       status={status}
-      label={managementPlanStatusText[status]}
+      label={t(`MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[status]}`)}
       classes={{ ...classes, card: { padding: '12px', ...classes.card } }}
       onClick={onClick}
       score={score}

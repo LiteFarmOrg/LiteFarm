@@ -85,13 +85,17 @@
     "SEASON": "We hope you've had a fantastic season at",
     "CERTIFICATION": " You can click the link below to download a zip of your certification documents and all supporting documents (photos of seed packages, scans of your input receipts, etc.) for your reporting period.",
     "PRIVACY": "At LiteFarm, we take your privacy seriously, so you’ll need to be logged in before you can access your export. Sorry for any inconvenience. Good luck with your submission and thanks for using LiteFarm!",
-    "GET_EXPORT": "Get your export",
     "SUBJECT": "Your certification documents export from LiteFarm",
     "HI": "Hi",
-    "GET_YOUR_EXPORT": "Get documents"
+    "GET_YOUR_EXPORT": "Get documents",
+    "LANGUAGE_DELAY": ""
   },
   "COMMON": {
     "JOIN": "Join",
-    "LOG_IN": "Log In"
+    "LOG_IN": "Log In",
+    "OWNER": "Owner",
+    "MANAGER": "Manager",
+    "WORKER": "Worker",
+    "EXTENSION_OFFICER": "Extension Officer"
   }
 }

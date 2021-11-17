@@ -29,11 +29,15 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { currentAndPlannedManagementPlansSelector } from '../managementPlanSlice';
+import {
+  currentAndPlannedManagementPlansSelector,
+  managementPlansSelector,
+} from '../managementPlanSlice';
 import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
+import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
 
 const moment = extendMoment(Moment);
 
@@ -60,7 +64,7 @@ class Finances extends Component {
     };
     this.getRevenue = this.getRevenue.bind(this);
     this.getEstimatedRevenue = this.getEstimatedRevenue.bind(this);
-    this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
+    // this.calcBalanceByCrop = this.calcBalanceByCrop.bind(this);
     this.getShiftCropOnField = this.getShiftCropOnField.bind(this);
     this.toggleTip = this.toggleTip.bind(this);
     this.changeDate = this.changeDate.bind(this);
@@ -68,17 +72,17 @@ class Finances extends Component {
 
   //TODO: filter revenue of cropSales for the current year?
   getRevenue() {
-    let cropSales = [];
+    let cropVarietySale = [];
     if (this.props.sales && Array.isArray(this.props.sales)) {
       filterSalesByCurrentYear(this.props.sales).map((s) => {
-        return s.cropSale.map((cs) => {
-          return cropSales.push(cs);
+        return s.crop_variety_sale.map((cvs) => {
+          return cropVarietySale.push(cvs);
         });
       });
     }
     let totalRevenue = 0;
-    cropSales.map((cs) => {
-      return (totalRevenue += cs.sale_value || 0);
+    cropVarietySale.map((cvs) => {
+      return (totalRevenue += cvs.sale_value || 0);
     });
     return totalRevenue.toFixed(2);
   }
@@ -104,7 +108,7 @@ class Finances extends Component {
         }),
       );
     }
-    this.calcBalanceByCrop();
+    // this.calcBalanceByCrop();
   }
 
   componentDidUpdate(prevProps) {
@@ -115,7 +119,7 @@ class Finances extends Component {
       this.props.expenses !== prevProps.expenses ||
       this.props.dateRange !== prevProps.dateRange
     ) {
-      this.calcBalanceByCrop();
+      // this.calcBalanceByCrop();
     }
   }
 
@@ -132,18 +136,27 @@ class Finances extends Component {
   getEstimatedRevenue(managementPlans) {
     let totalRevenue = 0;
     if (managementPlans) {
-      managementPlans.forEach((f) => {
-        // check if this field crop existed during this year
-        const endDate = new Date(f.harvest_date);
+      managementPlans
+        .filter(({ abandon_date }) => !abandon_date)
+        .forEach((plan) => {
+          // check if this plan has a harvest task projected within the time frame
+          const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
+            (task) => task.task_type_id === 8,
+          );
+          const harvestDates = harvestTasks?.map((task) =>
+            moment(task.due_date).utc().format('YYYY-MM-DD'),
+          );
 
-        // get all field crops with end dates belonging to the chosen date window
-        if (
-          moment(this.state.startDate).isSameOrBefore(endDate, 'day') &&
-          moment(this.state.endDate).isSameOrAfter(endDate, 'day')
-        ) {
-          totalRevenue += f.estimated_revenue;
-        }
-      });
+          if (
+            harvestDates.some(
+              (harvestDate) =>
+                moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
+            )
+          ) {
+            totalRevenue += plan.estimated_revenue;
+          }
+        });
     }
     return parseFloat(totalRevenue).toFixed(2);
   }
@@ -167,6 +180,7 @@ class Finances extends Component {
     return total;
   };
 
+  // TODO: currently commented out all usages of this function, until ful refactor to crop variety
   calcBalanceByCrop() {
     const { shifts, sales, expenses } = this.props;
     const { startDate, endDate } = this.state;
@@ -368,7 +382,7 @@ class Finances extends Component {
   render() {
     const totalRevenue = this.getRevenue();
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
-    const { shifts, expenses } = this.props;
+    const { tasks, expenses } = this.props;
     const {
       balanceByCrop,
       startDate,
@@ -377,7 +391,7 @@ class Finances extends Component {
       showUnTip,
       unTipButton,
     } = this.state;
-    const labourExpense = roundToTwoDecimal(calcTotalLabour(shifts, startDate, endDate));
+    const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
     return (
@@ -415,7 +429,7 @@ class Finances extends Component {
           </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
-            number={this.state.currencySymbol + labourExpense.toString()}
+            number={this.state.currencySymbol + labourExpense.toFixed(2).toString()}
             onClick={() => history.push('/labour')}
           />
           <DescriptiveButton
@@ -431,7 +445,7 @@ class Finances extends Component {
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
             number={this.state.currencySymbol + totalRevenue}
-            onClick={() => history.push('/sales_summary')}
+            onClick={() => history.push('/finances/actual_revenue')}
           />
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')}
@@ -471,7 +485,7 @@ class Finances extends Component {
             title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
             body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
           />
-          <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
+          {/* <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
             {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
           </Semibold>
 
@@ -538,7 +552,7 @@ class Finances extends Component {
                 {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE10_2')}
               </Alert>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -549,10 +563,12 @@ const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
+    tasks: tasksSelector(state),
     expenses: expenseSelector(state),
-    managementPlans: currentAndPlannedManagementPlansSelector(state),
+    managementPlans: managementPlansSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
+    tasksByManagementPlanId: taskEntitiesByManagementPlanIdSelector(state),
   };
 };
 

@@ -42,9 +42,6 @@ export function PureInterestedOrganic({
       }
     >
       <PageTitle title={title} onGoBack={onGoBack} style={{ marginBottom: '20px' }} />
-      <PureWarningBox style={{ marginBottom: '24px' }}>
-        <Label>{t('CERTIFICATION.WARNING')}</Label>
-      </PureWarningBox>
       <Main style={{ marginBottom: '24px' }} tooltipContent={content}>
         {paragraph}
       </Main>

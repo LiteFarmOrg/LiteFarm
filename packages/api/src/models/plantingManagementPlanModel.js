@@ -43,8 +43,6 @@ class plantingManagementPlanModel extends Model {
         },
         estimated_seeds: { type: ['number', null] },
         estimated_seeds_unit: { type: ['string'], enum: ['g', 'kg', 'oz', 'lb'] },
-        estimated_yield: { type: ['number', null] },
-        estimated_yield_unit: { type: ['string'], enum: ['kg', 'lb', 'mt', 't'] },
         location_id: { type: ['string', null] },
         pin_coordinate: {
           type: ['object', null],
@@ -99,6 +97,14 @@ class plantingManagementPlanModel extends Model {
         join: {
           from: 'planting_management_plan.planting_management_plan_id',
           to: 'row_method.planting_management_plan_id',
+        },
+      },
+      transplant_task: {
+        modelClass: require('./transplantTaskModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'planting_management_plan.planting_management_plan_id',
+          to: 'transplant_task.planting_management_plan_id',
         },
       },
     };

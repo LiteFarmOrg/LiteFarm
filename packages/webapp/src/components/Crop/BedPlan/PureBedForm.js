@@ -31,8 +31,8 @@ export function PureBedForm({
 
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
 
   const number_of_beds = watch(NUMBER_OF_BEDS);
   const number_of_rows_in_bed = watch(NUMBER_OF_ROWS_IN_BED);
@@ -68,7 +68,7 @@ export function PureBedForm({
       setShowEstimatedValue(false);
     }
   }, [number_of_beds, number_of_rows_in_bed, bed_length, plant_spacing]);
-
+  const showEstimatedYield = prefix.endsWith('final');
   return (
     <>
       <div className={clsx(styles.row)}>
@@ -132,7 +132,7 @@ export function PureBedForm({
       </div>
 
       {showEstimatedValue && (
-        <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
+        <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
           <Unit
             register={register}
             label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -147,7 +147,7 @@ export function PureBedForm({
             required={false}
             disabled={disabled}
           />
-          {isFinalPage && (
+          {showEstimatedYield && (
             <Unit
               register={register}
               label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
@@ -159,7 +159,7 @@ export function PureBedForm({
               hookFormGetValue={getValues}
               hookFromWatch={watch}
               control={control}
-              required={isFinalPage}
+              required={showEstimatedYield}
               disabled={disabled}
             />
           )}

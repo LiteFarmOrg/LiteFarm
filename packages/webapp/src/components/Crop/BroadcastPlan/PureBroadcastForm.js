@@ -38,8 +38,8 @@ export function PureBroadcastForm({
   const SEEDING_RATE = `${prefix}.broadcast_method.seeding_rate`;
   const AREA_USED = `${prefix}.broadcast_method.area_used`;
   const AREA_USED_UNIT = `${prefix}.broadcast_method.area_used_unit`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const NOTES = `${prefix}.notes`;

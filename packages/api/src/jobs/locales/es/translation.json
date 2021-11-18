@@ -1,0 +1,33 @@
+{
+  "RECORD_D": {
+    "HEADER": "Registro D- Semilla y Plántula",
+    "OPERATION_NAME": "NOMBRE DE OPERACIÓN",
+    "DATE_COMPLETED": "Fecha de Finalización",
+    "REPORTING_PERIOD": "Período de registro",
+    "FROM": "Desde",
+    "TO": "Hasta",
+    "NOTE": {
+      "LIST_ALL": "Registre TODAS las semillas y plántulas utilizados durante el período del informe. Tenga en cuenta (Los próximos dos pasos podrían ser innecesarios o diferente dependiente de su proceso de certificación):",
+      "ONE": "Asegúrese de que los recibos de compra, etiquetas, rótulos y certificados orgánicos de todas las semillas/plántulas estén disponibles para su revisión durante la inspección.",
+      "TWO": {
+        "PART_1": "Cuando se utilizan",
+        "PART_2": "semillas/plántulas no orgánicas",
+        "PART_3": "puede ser que se requiere que la siguiente documentación esté disponible en la inspección",
+        "A": "Búsqueda de disponibilidad comercial",
+        "B": "Documentación que confirma la condición de no IG",
+        "C": "Documentación que confirme que cualquier tratamiento, como inoculantes o recubrimientos de semillas, cumple con la lista de sustancias permitidas"
+      }
+    },
+    "TABLE_COLUMN": {
+      "SEED_CROP_OR_PLANTING_STOCK": "Cultivo/variedad de semillas o material de plántula",
+      "SUPPLIER": "Fuente / Proveedor",
+      "LOT_NUMBER": "Número de lote (cuando corresponda)",
+      "STATUS_CERTIFIED_ORGANIC": "Estado de la semilla/plántula = orgánico certificado (S / N)",
+      "IS_SEARCH_COMPLETED": "Si se trata de semillas / existencias sin CO, ¿se completó una búsqueda (S / N)?",
+      "LIST_SEED_TREATMENTS": "Indique los tratamientos de semillas (si corresponde)",
+      "TREATMENT_DOCS_AVAILABLE": "Documentos de tratamiento disponibles (S / N)",
+      "NON_GE_DOCS_AVAILABLE": "Documentos que no son de IG disponibles (S / N)",
+      "NOTES": "Notas / Fechas de plantación perenne / etc."
+    }
+  }
+}

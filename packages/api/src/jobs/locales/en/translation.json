@@ -1,0 +1,33 @@
+{
+  "RECORD_D": {
+    "HEADER": "Record D- Seed and Planting Stock",
+    "OPERATION_NAME": "OPERATION NAME",
+    "DATE_COMPLETED": "Date Completed",
+    "REPORTING_PERIOD": "Reporting Period",
+    "FROM": "From",
+    "TO": "To",
+    "NOTE": {
+      "LIST_ALL": "List ALL seed and planting stock used during the reporting period.  Please note:",
+      "ONE": "Ensure that purchase receipts, labels, tags and organic certificates for all seed/stock is available for review during inspection.",
+      "TWO": {
+        "PART_1": "Where",
+        "PART_2": "non-organic seed/stock",
+        "PART_3": "is used, the following documentation is required to be available at inspection",
+        "A": "Commercial Availability Search per COS 5.3- (Record D1 or equivalent)",
+        "B": "Documentation confirming non-GE status",
+        "C": "Documentation confirming that any treatments, such as inoculants or seed coatings are PSL compliant (note: NOP compliance is not sufficient)"
+      }
+    },
+    "TABLE_COLUMN": {
+      "SEED_CROP_OR_PLANTING_STOCK": "Seed Crop/Variety or Planting Stock",
+      "SUPPLIER": "Source / Supplier",
+      "LOT_NUMBER": "Lot # (where applicable)",
+      "STATUS_CERTIFIED_ORGANIC": "Seed/Stock Status = Certified Organic (Y/N)",
+      "IS_SEARCH_COMPLETED": "If Non-CO Seed/Stock, is a Search completed (Y/N)",
+      "LIST_SEED_TREATMENTS": "List seed Treatments (If Any)",
+      "TREATMENT_DOCS_AVAILABLE": "Treatment Documents available (Y/N)",
+      "NON_GE_DOCS_AVAILABLE": "Non-GE Documents available (Y/N)",
+      "NOTES": "Notes /Perennial planting dates / etc."
+    }
+  }
+}

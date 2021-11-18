@@ -1,12 +1,23 @@
 const recordDGenerator = require('./record_d_generation');
 const recordIGeneration = require('./record_i_generation');
+const i18n = require('../locales/i18n');
 module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
   console.log('STEP 2 > EXCEL GENERATE', job.id);
-  return Promise.all([
-    recordDGenerator(job.data.recordD, job.data.farm_id, job.data.from_date, job.data.to_date, job.data.farm_name),
-    recordIGeneration(job.data.recordICrops, job.data.farm_id, job.data.from_date, job.data.to_date, job.data.farm_name, true),
-    recordIGeneration(job.data.recordICleaners, job.data.farm_id, job.data.from_date, job.data.to_date, job.data.farm_name),
-  ]).then(() => {
+  const {
+    recordD,
+    recordICrops,
+    recordICleaners,
+    farm_id,
+    from_date,
+    to_date,
+    farm_name,
+    language_preference,
+  } = job.data;
+  return i18n.changeLanguage(language_preference).then(() => Promise.all([
+    recordDGenerator(recordD, farm_id, from_date, to_date, farm_name),
+    recordIGeneration(recordICrops, farm_id, from_date, to_date, farm_name, true),
+    recordIGeneration(recordICleaners, farm_id, from_date, to_date, farm_name),
+  ])).then(() => {
     if (job.data.submission) {
       return Promise.resolve(nextQueue.add(job.data, { removeOnComplete: true }));
     }

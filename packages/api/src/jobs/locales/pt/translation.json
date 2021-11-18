@@ -1,0 +1,33 @@
+{
+  "RECORD_D": {
+    "HEADER": "Registro D- Sementes e Mudas",
+    "OPERATION_NAME": "NOME DA OPERAÇÃO",
+    "DATE_COMPLETED": "Data de Conclusão",
+    "REPORTING_PERIOD": "Período de Registro",
+    "FROM": "De",
+    "TO": "Até",
+    "NOTE": {
+      "LIST_ALL": "Liste TODAS as sementes e mudas utilizadas durante o período de registro. Tenha em mente:",
+      "ONE": "Certifique-se de que os recibos de compra, rótulos, etiquetas e certificados orgânicos de todas as sementes/mudas estejam disponíveis para revisão durante a inspeção.",
+      "TWO": {
+        "PART_1": "Quando for utilizada",
+        "PART_2": "semente/muda não orgânica",
+        "PART_3": "a seguinte documentação deve estar disponível na inspeção",
+        "A": "Pesquisa de disponibilidade comercial",
+        "B": "Documentação que comprove que as sementes não são organismos geneticamente modificados (OGMs)",
+        "C": "Documentação que confirme que qualquer tratamento, como inoculantes ou revestimentos de sementes, esteja na lista de substâncias permitidas"
+      }
+    },
+    "TABLE_COLUMN": {
+      "SEED_CROP_OR_PLANTING_STOCK": "Variedade da semente/muda",
+      "SUPPLIER": "Fonte / Fornecedor",
+      "LOT_NUMBER": "Número do Lote (quando aplicável)",
+      "STATUS_CERTIFIED_ORGANIC": "Tipo de semente/muda = Certificado Orgânico (S/N)",
+      "IS_SEARCH_COMPLETED": "Se não existir disponibilidade comercial, foi realizada a pesquisa (S/N)",
+      "LIST_SEED_TREATMENTS": "Listar tratamento de sementes (caso exista)",
+      "TREATMENT_DOCS_AVAILABLE": "Documentos do Tratamento disponíveis (S/N)",
+      "NON_GE_DOCS_AVAILABLE": "Documentos que comprovem que não são OGMs (S/N)",
+      "NOTES": "Observações / Datas do plantio de perenes / etc."
+    }
+  }
+}

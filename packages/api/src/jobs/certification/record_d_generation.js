@@ -69,7 +69,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
         horizontalAlignment: 'center',
       });
 
-      workbook.sheet(0).cell('A2').value(t('RECORD_D.OPERATION_NAME'));
+      workbook.sheet(0).cell('A2').value(t('OPERATION_NAME'));
       workbook.sheet(0).cell('B2').value(farm_name);
       workbook.sheet(0).cell('F2').value(`${t('RECORD_D.DATE_COMPLETED')}: `);
       workbook.sheet(0).cell('H2').value(reportDate);

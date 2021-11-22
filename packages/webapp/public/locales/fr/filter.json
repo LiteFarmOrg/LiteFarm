@@ -1,21 +1,21 @@
 {
   "CROP_CATALOGUE": {
-    "LOCATION": "Location",
+    "LOCATION": "Lieu",
     "STATUS": "Status",
-    "SUPPLIERS": "Suppliers",
-    "ACTIVE": "Active",
-    "ABANDONED": "Abandoned",
-    "COMPLETE": "Complete",
-    "PLANNED": "Planned",
-    "NEEDS_PLAN": "Needs plan"
+    "SUPPLIERS": "Fournisseurs",
+    "ACTIVE": "Actif",
+    "ABANDONED": "Abandoné",
+    "COMPLETE": "Completer",
+    "PLANNED": "Plannifier",
+    "NEEDS_PLAN": "Plan Réquis"
   },
   "DOCUMENTS": {
-    "CLEANING_PRODUCT": "Cleaning product",
-    "CROP_COMPLIANCE": "Crop compliance",
-    "FERTILIZING_PRODUCT": "Fertilizing product",
-    "OTHER": "Other",
-    "PEST_CONTROL_PRODUCT": "Pest control product",
-    "SOIL_AMENDMENT": "Soil amendment",
-    "UNCATEGORIZED": "Uncategorized"
+    "CLEANING_PRODUCT": "Produit Nettoyant",
+    "CROP_COMPLIANCE": "Conformité de Récolte",
+    "FERTILIZING_PRODUCT": "Produits Fertilisants",
+    "OTHER": "Autre",
+    "PEST_CONTROL_PRODUCT": "Produits Antiparasitaires",
+    "SOIL_AMENDMENT": "Amendement de Sol",
+    "UNCATEGORIZED": "Non Classé"
   }
 }

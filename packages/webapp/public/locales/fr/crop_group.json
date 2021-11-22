@@ -1,13 +1,13 @@
 {
-  "BEVERAGE_AND_SPICE_CROPS": "Beverage and spice crops",
-  "CEREALS": "Cereals",
-  "FRUITS_AND_NUTS": "Fruits and nuts",
-  "HIGH_STARCH_ROOT_TUBER_CROP": "High starch root/tuber crops",
-  "LEGUMINOUS_CROPS": "Leguminous crops",
-  "OILSEED_CROPS": "Oilseed crops",
-  "OTHER_CROPS": "Other crops",
-  "POTATOES_AND_YAMS": "Potatoes and yams",
-  "STIMULANT_SPICE_AROMATIC_CROPS": "Stimulant, spice and aromatic crops",
-  "SUGAR_CROPS": "Sugar crops",
-  "VEGETABLE_AND_MELONS": "Vegetable and melons"
+  "BEVERAGE_AND_SPICE_CROPS": "Plantes pour boissons et épices",
+  "CEREALS": "Céréals",
+  "FRUITS_AND_NUTS": "Fruits et noix",
+  "HIGH_STARCH_ROOT_TUBER_CROP": "Plantes à Racines et Tuberculesaute à haute tenneur en amidon",
+  "LEGUMINOUS_CROPS": "Plantes légumineuses",
+  "OILSEED_CROPS": "Plantes Oléagineuses",
+  "OTHER_CROPS": "Autres récoltes",
+  "POTATOES_AND_YAMS": "Patates et Ignames",
+  "STIMULANT_SPICE_AROMATIC_CROPS": "Plantes stimulantes, épicées et aromatiques",
+  "SUGAR_CROPS": "Cultures sucrières",
+  "VEGETABLE_AND_MELONS": "Légumes et melons"
 }

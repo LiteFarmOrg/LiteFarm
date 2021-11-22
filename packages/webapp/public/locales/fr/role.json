@@ -1,7 +1,7 @@
 {
-  "EXTENSION_OFFICER": "Extension Officer",
-  "MANAGER": "Farm Manager",
-  "OWNER": "Farm Owner",
-  "WORKER": "Farm Worker",
-  "WORKER_WITHOUT_ACCOUNT": "Worker Without Account"
+  "EXTENSION_OFFICER": "Agent de Vulgarisation",
+  "MANAGER": "Gérant de Ferme",
+  "OWNER": "Propriétaire de Ferme",
+  "WORKER": "Travailleur Agricole",
+  "WORKER_WITHOUT_ACCOUNT": "Travailleur Sans Compte"
 }

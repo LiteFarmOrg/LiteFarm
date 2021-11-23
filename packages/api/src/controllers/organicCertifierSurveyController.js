@@ -18,16 +18,21 @@ const certificationModel = require('../models/certificationModel');
 const certifierModel = require('../models/certifierModel');
 const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
+const managementPlanModel = require('../models/managementPlanModel');
+const locationModel = require('../models/locationModel');
+
+
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
+const { raw } = require('objection');
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
     password: process.env.REDIS_PASSWORD,
   },
-}
+};
 
 const organicCertifierSurveyController = {
   getCertificationSurveyByFarmId() {
@@ -123,11 +128,11 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       // TODO: getting email from request body is commented out for now
       const { farm_id, from_date, to_date, submission_id } = req.body;
-      const invalid = [ farm_id, from_date, to_date ].some(property => !property)
+      const invalid = [farm_id, from_date, to_date].some(property => !property);
       if (invalid) {
         return res.status(400).json({
           message: 'Bad request. Missing properties',
-        })
+        });
       }
       const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
       const certification = organicCertifierSurvey.certification_id ? await knex('certifications')
@@ -137,15 +142,15 @@ const organicCertifierSurveyController = {
       const documents = await documentModel.query()
         .withGraphJoined('files')
         .where((builder) => {
-          builder.whereBetween('valid_until', [ from_date, to_date ]).orWhere({ no_expiration: true })
-        }).andWhere({ farm_id })
+          builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true });
+        }).andWhere({ farm_id });
       const user_id = req.user.user_id;
       const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
         url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
       const { first_name, email, language_preference } = await userModel.query().where({ user_id }).first();
       const { farm_name } = await farmModel.query().where({ farm_id }).first();
-      const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
+      const data = await this.recordIAndDInfo(to_date, from_date, farm_id);
       const extraInfo = { ...data };
       const body = {
         ...extraInfo, organicCertifierSurvey, certifier, certification,
@@ -155,14 +160,15 @@ const organicCertifierSurveyController = {
       res.status(200).json({ message: 'Processing', ...extraInfo });
       const retrieveQueue = new Queue('retrieve', redisConf);
       retrieveQueue.add(body, { removeOnComplete: true });
-    }
+    };
   },
 
   async recordIAndDInfo(to_date, from_date, farm_id) {
     const recordD = await this.recordDQuery(to_date, from_date, farm_id);
     const recordICrops = await this.recordICropsQuery(to_date, from_date, farm_id);
     const recordICleaners = await this.recordICleanersQuery(to_date, from_date, farm_id);
-    return { recordD: recordD.rows, recordICrops, recordICleaners }
+    await this.recordAQuery(to_date, from_date, farm_id);
+    return { recordD: recordD.rows, recordICrops, recordICleaners };
   },
 
   recordDQuery(to_date, from_date, farm_id) {
@@ -184,7 +190,7 @@ const organicCertifierSurveyController = {
                 cpm.harvest_date < :to_date::date OR
                 cpm.termination_date < :to_date::date
             ) )
-            AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id })
+            AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id`, { to_date, from_date, farm_id });
   },
 
   async recordICropsQuery(to_date, from_date, farm_id) {
@@ -210,7 +216,7 @@ const organicCertifierSurveyController = {
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
     const taskIds = soilTasks.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
-    if(!taskIds.length) {
+    if (!taskIds.length) {
       return [];
     }
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
@@ -234,13 +240,71 @@ const organicCertifierSurveyController = {
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
     const taskIds = cleaningTask.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
-    if(!taskIds.length) {
+    if (!taskIds.length) {
       return [];
     }
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
     const tasks = pestTasks.rows.concat(cleaningTask.rows);
     return tasks.map((task) => {
       return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+    });
+  },
+
+  async recordAQuery(to_date, from_date, farm_id) {
+    const fromDateTime = new Date(from_date).getTime();
+    const toDateTime = new Date(to_date).getTime();
+    const hasBeenTransplanted = (plantingManagementPlans) =>
+      !!plantingManagementPlans.find(plantingManagementPlan => plantingManagementPlan.transplant_task && new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime() < fromDateTime);
+
+
+    const managementPlans = await managementPlanModel.query().whereNotDeleted()
+      .withGraphJoined('[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task]]]]', {
+        aliases: {
+          crop_management_plan: 'cmp',
+          planting_management_plan: 'pmp',
+          planting_management_plans: 'pmps',
+        },
+      })
+      .where('crop_variety.farm_id', farm_id);
+    const locationIdCropMap = {};
+    for (const managementPlan of managementPlans) {
+      const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
+      for (const plantingManagementPlan of plantingManagementPlans) {
+        const location_id = plantingManagementPlan.location_id;
+        !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
+        if (plantingManagementPlan.planting_task_type === 'TRANSPLANT_TASK') {
+          const transplantTaskCompleteTime = new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime();
+          if (fromDateTime < transplantTaskCompleteTime && transplantTaskCompleteTime < toDateTime) {
+            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+          }
+        } else if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
+          const plantTaskCompleteTime = new Date(plantingManagementPlan.plant_task.task.completed_time).getTime();
+          if (fromDateTime < plantTaskCompleteTime && plantTaskCompleteTime < toDateTime) {
+            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+          }
+        } else {
+          if (!hasBeenTransplanted(plantingManagementPlans)) {
+            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+          }
+        }
+      }
+    }
+    const locations = await locationModel.query()
+      .where({ farm_id })
+      .withGraphJoined(`[
+          figure.[area, line, point], 
+          gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
+          ceremonial_area, residence, surface_water, natural_area,
+          greenhouse, barn, farm_site_boundary
+        ]`);
+
+    const { units: { measurement } } = await farmModel.query().where({ farm_id });
+
+    return locations.map(location => {
+      return ({
+        name: location.name,
+        crops: Array.from(locationIdCropMap[location.location_id]),
+      });
     });
   },
 
@@ -260,11 +324,11 @@ const organicCertifierSurveyController = {
     return { locations, managementPlans };
   },
 
-  filterLocationsAndManagementPlans(task, locations, managementPlans){
+  filterLocationsAndManagementPlans(task, locations, managementPlans) {
     const taskLocations = locations.filter(({ task_id }) => task.task_id === task_id);
     const taskManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
-    task.affected = taskLocations.reduce((reducedString, { name }, i) => `${i !== 0 ? ', ' :''}${reducedString} Location: ${name}`, '');
-    task.affected += taskManagementPlans.reduce((reducedString, { crop_variety_name }) => `, ${reducedString} Variety: ${crop_variety_name}`, '')
+    task.affected = taskLocations.reduce((reducedString, { name }, i) => `${i !== 0 ? ', ' : ''}${reducedString} Location: ${name}`, '');
+    task.affected += taskManagementPlans.reduce((reducedString, { crop_variety_name }) => `, ${reducedString} Variety: ${crop_variety_name}`, '');
     return task;
   },
 
@@ -272,7 +336,7 @@ const organicCertifierSurveyController = {
     const certifierCountry = await knex.raw(`SELECT * FROM "organicCertifierSurvey" ocs 
             JOIN certifier_country cf ON ocs.certifier_id = cf.certifier_id
             JOIN countries c ON c.id = cf.country_id 
-            WHERE country_name = 'Canada' AND farm_id = ?`, [ farm_id ]);
+            WHERE country_name = 'Canada' AND farm_id = ?`, [farm_id]);
     return certifierCountry.rows.length > 0;
   },
 

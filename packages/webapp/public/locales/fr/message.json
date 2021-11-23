@@ -1,192 +1,170 @@
 {
   "ASSIGN_TASK": {
-    "ERROR": "Failed to assign tasks",
-    "SUCCESS": "Successfully assigned tasks"
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
   },
   "ATTACHMENTS": {
     "ERROR": {
-      "CREATE": "Failed to create document",
-      "FAILED_ARCHIVE": "Failed to archive document",
-      "FAILED_UPLOAD": "Failed to upload attachments",
-      "UPDATE": "Failed to update document"
+      "CREATE": "MISSING",
+      "FAILED_ARCHIVE": "MISSING",
+      "FAILED_UPLOAD": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ARCHIVE": "Successfully archived document",
-      "CREATE": "Successfully created document",
-      "UPDATE": "Successfully updated document"
+      "ARCHIVE": "MISSING",
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "DELETE": "Failed to delete crop variety",
-      "UPDATE": "Failed to update crop variety"
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "DELETE": "Deleted crop variety",
-      "UPDATE": "Successfully updated crop variety"
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field Crop",
-      "EDIT": "Failed To Edit Field Crop"
+      "DELETE": "MISSING",
+      "EDIT": "MISSING"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop",
-      "EDIT": "Successfully Edited Crop"
+      "DELETE": "MISSING",
+      "EDIT": "MISSING"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Failed to add new expenses",
-      "DELETE": "Failed to delete expenses",
-      "UPDATE": "Failed to update expenses!"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Successfully added new expenses!",
-      "DELETE": "Successfully deleted expenses!",
-      "UPDATE": "Successfully updated expenses!"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Failed to add farm, please contact litefarm for assistance",
-      "FETCH": "failed to fetch farm from database",
-      "UPDATE": "Failed to update farm info"
+      "ADD": "MISSING",
+      "FETCH": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "UPDATE": "Successfully updated farm info!"
-    }
-  },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "failed to add fertilizer"
+      "UPDATE": "MISSING"
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types",
-      "REQUIRED_TASK": "A harvest use type name is required"
-    },
-    "SUCCESS": {
-      "ADD_USE_TYPE": "Successfully added custom harvest use type"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "Failed to add Log",
-      "DELETE": "Failed to delete Log",
-      "EDIT": "Failed to edit Log"
-    },
-    "SUCCESS": {
-      "ADD": "Successfully added Log!",
-      "DELETE": "Successfully deleted Log!",
-      "EDIT": "Successfully edited Log!"
+      "AMOUNT_TOTAL": "MISSING",
+      "GET_TYPES": "MISSING"
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "Failed to login user info"
+      "LOGIN_FAIL": "MISSING"
     }
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Failed to abandon management plan!",
-      "COMPLETE": "Failed to complete management plan!",
-      "POST": "Failed to add management plan!"
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "MISSING"
     },
     "SUCCESS": {
-      "ABANDON": "Successfully abandoned management plan!",
-      "COMPLETE": "Successfully completed management plan!",
-      "POST": "Successfully added management plan!"
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "MISSING"
     }
   },
   "MAP": {
-    "FAIL_PATCH": "Failed to update",
-    "FAIL_POST": "Failed to add new",
-    "SUCCESS_DELETE": " successfully retired",
-    "SUCCESS_PATCH": " successfully updated",
-    "SUCCESS_POST": " successfully saved"
+    "FAIL_PATCH": "MISSING",
+    "FAIL_POST": "MISSING",
+    "SUCCESS_DELETE": "MISSING",
+    "SUCCESS_PATCH": "MISSING",
+    "SUCCESS_POST": "MISSING"
   },
   "ORGANIC_CERTIFIER_SURVEY": {
     "ERROR": {
-      "CREATE": "Failed to create certification.",
-      "UPDATE": "Failed to update certification!"
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SALE": {
     "ERROR": {
-      "ADD": "Failed to add sale",
-      "DELETE": "Failed to delete new sale",
-      "UPDATE": "Failed to update sale"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Successfully added sale",
-      "DELETE": "Successfully deleted sale",
-      "UPDATE": "Successfully updated sale"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "SHIFT": {
     "ERROR": {
-      "ADD": "Failed to add new shift",
-      "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
-      "DELETE": "Failed to delete the shift :(",
-      "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
-      "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
-      "REQUIRED_TASK": "A task name is required",
-      "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
-      "UPDATE": "Failed to update shift"
+      "ADD": "MISSING",
+      "CROP_FIELDS_EACH": "MISSING",
+      "DELETE": "MISSING",
+      "DURATION_FOR_CROPS": "MISSING",
+      "ONLY_INTEGERS_DURATIONS": "MISSING",
+      "REQUIRED_TASK": "MISSING",
+      "SUBMIT_SHIFT": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Successfully added new shift!",
-      "DELETE": "Deleted shift!",
-      "UPDATE": "Successfully updated shift!"
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
     }
   },
   "TASK_TYPE": {
     "CREATE": {
-      "FAILED": "Failed to create custom task",
-      "SUCCESS": "Successfully created custom task"
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     },
     "DELETE": {
-      "FAILED": "Failed to delete custom task",
-      "SUCCESS": "Successfully deleted custom task"
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "TASK": {
     "ABANDON": {
-      "FAILED": "Failed to abandon task",
-      "SUCCESS": "Successfully abandoned task"
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     },
     "COMPLETE": {
-      "FAILED": "Failed to complete task",
-      "SUCCESS": "Successfully completed task"
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     },
     "CREATE": {
-      "FAILED": "Failed to create task",
-      "SUCCESS": "Successfully created task"
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "Failed to add user",
-      "AGREEMENT": "Failed to update user agreement",
-      "EXISTS": "User already exists in LiteFarm Network",
-      "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
-      "NOTHING_CHANGED": "No data has changed",
-      "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
-      "RESTORE": "There was an error restoring access",
-      "REVOKE": "There was an error revoking access",
-      "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
-      "UPDATE": "Failed to update user info"
+      "ADD": "MISSING",
+      "AGREEMENT": "MISSING",
+      "EXISTS": "MISSING",
+      "INVITE": "MISSING",
+      "NOTHING_CHANGED": "MISSING",
+      "RESET_PASSWORD": "MISSING",
+      "RESTORE": "MISSING",
+      "REVOKE": "MISSING",
+      "SIGNUP_UNKNOWN": "MISSING",
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
-      "ADD": "Successfully added user to farm!",
-      "RESTORE": "User access restored",
-      "REVOKE": "User access revoked!",
-      "UPDATE": "Successfully updated user info!"
+      "ADD": "MISSING",
+      "RESTORE": "MISSING",
+      "REVOKE": "MISSING",
+      "UPDATE": "MISSING"
     }
   }
 }

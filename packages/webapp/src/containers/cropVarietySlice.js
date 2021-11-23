@@ -53,6 +53,7 @@ const getCropVariety = (obj) => {
     'harvest_days',
     'termination_days',
     'seeding_rate',
+    'hs_code_id',
   ]);
 };
 const addOneCropVariety = (state, { payload }) => {

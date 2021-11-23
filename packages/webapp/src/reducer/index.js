@@ -75,6 +75,7 @@ import certificationReducer from '../containers/OrganicCertifierSurvey/certifica
 import certifierReducer from '../containers/OrganicCertifierSurvey/certifierSlice';
 import snackbarReducer from '../containers/Snackbar/snackbarSlice';
 import navbarReducer from '../containers/Navigation/navbarSlice';
+import appSettingReducer from '../containers/appSettingSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -194,6 +195,7 @@ const persistedStateReducer = combineReducers({
   chooseFarmFlowReducer,
   mapFilterSettingReducer,
   mapCacheReducer,
+  appSettingReducer,
 });
 
 const tempStateReducer = combineReducers({

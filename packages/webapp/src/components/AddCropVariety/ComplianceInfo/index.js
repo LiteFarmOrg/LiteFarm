@@ -2,13 +2,14 @@ import Button from '../../Form/Button';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { AddLink, Info, Label } from '../../Typography';
+import { Label } from '../../Typography';
 import Form from '../../Form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import RadioGroup from '../../Form/RadioGroup';
 import Infoi from '../../Tooltip/Infoi';
 import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
+import Input, { integerOnKeyDown } from '../../Form/Input';
 
 export default function ComplianceInfo({
   onSubmit,
@@ -39,6 +40,7 @@ export default function ComplianceInfo({
   const COMMERCIAL_AVAILABILITY = 'searched';
   const GENETIC_EGINEERED = 'genetically_engineered';
   const TREATED = 'treated';
+  const HS_CODE_ID = 'hs_code_id';
 
   const organic = watch(CERTIFIED_ORGANIC);
   const disabled = !isValid;
@@ -149,6 +151,18 @@ export default function ComplianceInfo({
           </div>
         )}
       </div>
+      {(organic === true || organic === false) && <Input
+        label={t('CROP_DETAIL.HS_CODE')}
+        style={{ paddingBottom: '16px', paddingTop: '24px' }}
+        hookFormRegister={register(HS_CODE_ID, {
+          valueAsNumber: true,
+        })}
+        type={'number'}
+        onKeyDown={integerOnKeyDown}
+        max={9999999999}
+        optional
+      />}
+
 
       {/* <div
         style={{

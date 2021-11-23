@@ -11,11 +11,7 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import {
-  getDateDifference,
-  getDateInputFormat,
-  getLocalizedDateString,
-} from '../../../util/moment';
+import { getDateDifference, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -385,7 +381,7 @@ export default function PurePlantingDate({
           style={{ paddingBottom: '16px', paddingTop: '24px' }}
         />
       )}
-      {main_date && !harvestIsMain && !terminationIsMain && (
+      {main_date && Math.abs(new Date(main_date).getFullYear() - new Date().getFullYear()) < 1000 && !harvestIsMain && !terminationIsMain && (
         <FullYearCalendarView
           language={language}
           {...{
@@ -400,7 +396,7 @@ export default function PurePlantingDate({
           }}
         />
       )}
-      {((harvestIsMain && harvest_date) || (terminationIsMain && termination_date)) && (
+      {((harvestIsMain && harvest_date && Math.abs(new Date(harvest_date).getFullYear() - new Date().getFullYear()) < 1000) || (terminationIsMain && termination_date && Math.abs(new Date(termination_date).getFullYear() - new Date().getFullYear()) < 1000)) && (
         <FullMonthCalendarView
           date={
             harvestIsMain ? getDateInputFormat(harvest_date) : getDateInputFormat(termination_date)

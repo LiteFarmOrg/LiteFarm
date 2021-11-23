@@ -1,0 +1,191 @@
+{
+  "ASSIGN_TASK": {
+    "ERROR": "MISSING",
+    "SUCCESS": "MISSING"
+  },
+  "ATTACHMENTS": {
+    "ERROR": {
+      "CREATE": "MISSING",
+      "FAILED_ARCHIVE": "MISSING",
+      "FAILED_UPLOAD": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ARCHIVE": "MISSING",
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "CROP_VARIETY": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "ADD_ALREADY_EXISTS": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "CROP": {
+    "ERROR": {
+      "DELETE": "MISSING"
+    },
+    "SUCCESS": {
+      "DELETE": "MISSING"
+    }
+  },
+  "EXPENSE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "FARM": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "FETCH": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "UPDATE": "MISSING"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "AMOUNT_TOTAL": "MISSING",
+      "GET_TYPES": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+    }
+  },
+  "LOGIN": {
+    "ERROR": {
+      "LOGIN_FAIL": "MISSING"
+    }
+  },
+  "MANAGEMENT_PLAN": {
+    "ERROR": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "MISSING"
+    },
+    "SUCCESS": {
+      "ABANDON": "MISSING",
+      "COMPLETE": "MISSING",
+      "POST": "MISSING"
+    }
+  },
+  "MAP": {
+    "FAIL_PATCH": "MISSING",
+    "FAIL_POST": "MISSING",
+    "SUCCESS_DELETE": "MISSING",
+    "SUCCESS_PATCH": "MISSING",
+    "SUCCESS_POST": "MISSING"
+  },
+  "ORGANIC_CERTIFIER_SURVEY": {
+    "ERROR": {
+      "CREATE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
+    }
+  },
+  "SALE": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "SHIFT": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "CROP_FIELDS_EACH": "MISSING",
+      "DELETE": "MISSING",
+      "DURATION_FOR_CROPS": "MISSING",
+      "ONLY_INTEGERS_DURATIONS": "MISSING",
+      "REQUIRED_TASK": "MISSING",
+      "SUBMIT_SHIFT": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "DELETE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  },
+  "TASK_TYPE": {
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "DELETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    }
+  },
+  "TASK": {
+    "ABANDON": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "COMPLETE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    },
+    "CREATE": {
+      "FAILED": "MISSING",
+      "SUCCESS": "MISSING"
+    }
+  },
+  "USER": {
+    "ERROR": {
+      "ADD": "MISSING",
+      "AGREEMENT": "MISSING",
+      "EXISTS": "MISSING",
+      "INVITE": "MISSING",
+      "NOTHING_CHANGED": "MISSING",
+      "RESET_PASSWORD": "MISSING",
+      "RESTORE": "MISSING",
+      "REVOKE": "MISSING",
+      "SIGNUP_UNKNOWN": "MISSING",
+      "UPDATE": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD": "MISSING",
+      "RESTORE": "MISSING",
+      "REVOKE": "MISSING",
+      "UPDATE": "MISSING"
+    }
+  }
+}

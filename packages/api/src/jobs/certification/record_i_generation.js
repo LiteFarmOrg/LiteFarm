@@ -1,4 +1,5 @@
 const XlsxPopulate = require('xlsx-populate');
+const i18n = require('../locales/i18n');
 const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
 const dataToCellMapping = {
   name: 'A',
@@ -50,7 +51,8 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
         horizontalAlignment: 'center',
       });
 
-      const title = isInputs ? 'INPUTS' : 'CLEANERS';
+      const { t } = i18n;
+      const title = isInputs ? t('RECORD_I.INPUTS') : t('RECORD_I.CLEANERS');
       const RichText = XlsxPopulate.RichText;
       const rowFour = new RichText();
       const rowFive = new RichText();
@@ -58,32 +60,34 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       const rowSeven = new RichText();
       const rowEight = new RichText();
       const rowNine = new RichText();
-      rowFour.add('List ALL Inputs used in the last 12 months or since your last submitted Record I.   You may choose to use this document to keep a running record of inputs used throughout the season.', { bold: true })
-      rowFive.add('Please use a separate Input Record for each category of input as described below and upload each in the corresponding upload location of Section 99 - Uploads:', { bold: true })
-      rowSix.add('1. Soil Amendments, crop nutrition, crop production aids and materials: eg.', { bold: true }).add('as mulches, fertilizers, foliar sprays, compost, manure, potting soil mixes or components, peat moss, soil amendments etc.')
-      rowSeven.add('2.  Cleaners, disinfectants, sanitizers, facility pest management substances', { bold: true });
-      rowEight.add('Note: Preparation Inputs:  Food additives, Other ingredients, Processing aids are to be listed on Record PM - Processing Master Ingredients and processing aids list.', { bold: true });
-      rowNine.add('Note: Livestock Inputs: Feed, feed additives and feed supplements, health care products and production aids, animal bedding etc.  are to be listed on Record LI-Livestock Inputs', { bold: true });
-      workbook.sheet(0).cell('A1').value(`Record I- ${title}`);
-      workbook.sheet(0).cell('A2').value('OPERATION NAME');
+      rowFour.add(t('RECORD_I.NOTE.LIST_ALL'), { bold: true })
+      rowFive.add(t('RECORD_I.NOTE.PLEASE_USE_SEPARATE_RECORD'), { bold: true })
+      rowSix
+        .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')} `, { bold: true })
+        .add(t('RECORD_I.NOTE.ONE.PART_2'))
+      rowSeven.add(`2.  ${t('RECORD_I.NOTE.TWO')}`, { bold: true });
+      rowEight.add(t('RECORD_I.NOTE.PREP_INPUTS'), { bold: true });
+      rowNine.add(t('RECORD_I.NOTE.LIVESTOCK_INPUTS'), { bold: true });
+      workbook.sheet(0).cell('A1').value(`${t('RECORD_I.HEADER')}- ${title}`);
+      workbook.sheet(0).cell('A2').value(t('OPERATION_NAME'));
       workbook.sheet(0).cell('B2').value(farm_name);
-      workbook.sheet(0).cell('E2').value('REPORTING PERIOD: ');
+      workbook.sheet(0).cell('E2').value(`${t('RECORD_I.REPORTING_PERIOD')}: `);
       workbook.sheet(0).cell('F2').value(from_date + ' - ' + to_date);
-      workbook.sheet(0).cell('A3').value('Input Category');
-      workbook.sheet(0).cell('B3').value('Both');
+      workbook.sheet(0).cell('A3').value(t('RECORD_I.INPUT_CATEGORY'));
+      workbook.sheet(0).cell('B3').value(t('RECORD_I.BOTH'));
       workbook.sheet(0).cell('A4').value(rowFour).style({ wrapText: false });
       workbook.sheet(0).cell('A5').value(rowFive).style({ wrapText: false });
       workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });
       workbook.sheet(0).cell('A7').value(rowSeven).style({ wrapText: false });
       workbook.sheet(0).cell('A8').value(rowEight).style({ wrapText: false });
       workbook.sheet(0).cell('A9').value(rowNine).style({ wrapText: false });
-      workbook.sheet(0).cell('A10').value('Product name');
-      workbook.sheet(0).cell('B10').value('Brand Name or Source/Supplier');
-      workbook.sheet(0).cell('C10').value('Quantity (kg)');
-      workbook.sheet(0).cell('D10').value('Date Used');
-      workbook.sheet(0).cell('E10').value('Crop / Field Applied to or Production Unit used in');
-      workbook.sheet(0).cell('F10').value('Notes');
-      workbook.sheet(0).cell('G10').value('Listed in the PSL? (Y/N)');
+      workbook.sheet(0).cell('A10').value(t('RECORD_I.TABLE_COLUMN.PRODUCT_NAME'));
+      workbook.sheet(0).cell('B10').value(t('RECORD_I.TABLE_COLUMN.SUPPLIER'));
+      workbook.sheet(0).cell('C10').value(t('RECORD_I.TABLE_COLUMN.QUANTITY'));
+      workbook.sheet(0).cell('D10').value(t('RECORD_I.TABLE_COLUMN.DATE_USED'));
+      workbook.sheet(0).cell('E10').value(t('RECORD_I.TABLE_COLUMN.CROP_FIELD_APPLIED_TO'));
+      workbook.sheet(0).cell('F10').value(t('RECORD_I.TABLE_COLUMN.NOTES'));
+      workbook.sheet(0).cell('G10').value(t('RECORD_I.TABLE_COLUMN.LISTED_IN_PSL'));
       workbook.sheet(0).column('A').width(31);
       workbook.sheet(0).column('B').width(34);
       workbook.sheet(0).column('C').width(19);

@@ -64,7 +64,7 @@
     "HOW_MUCH_IS_HARVESTED": "How much is being harvested?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Manage custom tasks",
-    "NEED_MANAGEMENT_PLAN": "You’ll need an active or planned crop management plan before you can schedule a harvest task. Go to the crop catalogue to create a plan now.",
+    "NEED_MANAGEMENT_PLAN": "You’ll need an active or planned crop management plan before you can schedule a harvest task or transplant task. Go to the crop catalogue to create a plan now.",
     "NO_MANAGEMENT_PLAN": "No eligible crop management plans",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Biological control",
@@ -1406,5 +1406,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "Produced on",
+    "TITLE": "{{certification}} certification from {{certifier}} Survey Adendum"
   }
 }

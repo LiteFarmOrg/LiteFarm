@@ -23,7 +23,7 @@
     "ADD_A_TASK": "Ajouter une tâche",
     "ADD_CUSTOM_TASK": "Ajouter une tâche personnalisée",
     "AFFECT_PLANS": "Cette tâche affectera-t-elle les plans ?",
-    "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne", 
+    "ASSIGN_ALL_TO_PERSON": "Attribuez toutes les tâches non assignées à cette date à cette personne",
     "ASSIGN_TASK": "Attribuer une tâche",
     "ASSIGNEE": "Destinataire",
     "CANCEL": "création de tâches",
@@ -58,50 +58,50 @@
       }
     },
     "GO_TO_CATALOGUE": "Aller au catalogue de cultures",
-      "HARVEST_EVERYTHING": "Récoltez tout ce qui est prêt",
-      "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
-      "HOW_MUCH_IS_HARVESTED": "Combien est récolté ?",
-      "HR": "/h",
-      "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
-      "PEST_CONTROL_VIEW": {
-        "BIOLOGICAL_CONTROL": "Contrôle biologique",
-        "FLAME_WEEDING": "Sarclage à la flamme",
-        "FOLIAR_SPRAY": "Spray foliaire",
-        "HAND_WEEDING": "Sarclage à la main",
-        "HEAT_TREATMENT": "Taille",
-        "IS_PERMITTED": "L'agent nuisible est-il dans la liste des substances autorisées ?",
-        "AUTRE": "Autre",
-        "OTHER_PEST": "Autre méthode",
-        "PEST_CONTROL_METHOD": "Méthode de lutte antiparasitaire",
-        "SOIL_FUMIGATION": "Fumigation du sol",
-        "SYSTEMIC_SPRAY": "Pulvérisation systémique",
-        "WHAT_PESTS": "Quels parasites essayez-vous de contrôler"
+    "HARVEST_EVERYTHING": "Récoltez tout ce qui est prêt",
+    "HARVESTING_INFO": "Chaque plan générera une tâche de récolte individuelle",
+    "HOW_MUCH_IS_HARVESTED": "Combien est récolté ?",
+    "HR": "/h",
+    "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
+    "PEST_CONTROL_VIEW": {
+      "BIOLOGICAL_CONTROL": "Contrôle biologique",
+      "FLAME_WEEDING": "Sarclage à la flamme",
+      "FOLIAR_SPRAY": "Spray foliaire",
+      "HAND_WEEDING": "Sarclage à la main",
+      "HEAT_TREATMENT": "Taille",
+      "IS_PERMITTED": "L'agent nuisible est-il dans la liste des substances autorisées ?",
+      "AUTRE": "Autre",
+      "OTHER_PEST": "Autre méthode",
+      "PEST_CONTROL_METHOD": "Méthode de lutte antiparasitaire",
+      "SOIL_FUMIGATION": "Fumigation du sol",
+      "SYSTEMIC_SPRAY": "Pulvérisation systémique",
+      "WHAT_PESTS": "Quels parasites essayez-vous de contrôler"
     },
     "PLANTING_METHOD": "Méthode de plantation",
-     "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage ?",
-     "PLANTING_TASK": "Tâche de plantation",
-     "PLANTING_TASK_MODAL": "Démarrer une nouvelle tâche de plantation crée un nouveau plan de gestion. Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter.",
-     "QUANTITÉ": "Quantité",
-     "RETIRE_CUSTOM_TASK": "Retirer la tâche personnalisée ?",
-     "RETIRE_CUSTOM_TASK_CONTENT": "Voulez-vous vraiment supprimer cette tâche personnalisée ?",
-     "SELECT_ALL": "Tout sélectionner",
-     "SELECT_ALL_PLANS": "Sélectionner tous les forfaits",
-     "SELECT_TASK_TYPE": "Sélectionnez le type de tâche",
-     "SOIL_AMENDMENT_VIEW" : {
-       "IS_PERMITTED": "L'amendement du sol est-il dans la liste des substances autorisées ?",
-       "MOISTURE_RETENTION": "Rétention d'humidité",
-       "NUTRIENT_AVAILABILITY": "Disponibilité des nutriments",
-       "AUTRE": "Autre",
-       "OTHER_PURPOSE": "Décrivez le but",
-       "PH": "pH",
-       "PURPOSE" : "Objectif",
-       "STRUCTURE": "Structure"
+    "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage ?",
+    "PLANTING_TASK": "Tâche de plantation",
+    "PLANTING_TASK_MODAL": "Démarrer une nouvelle tâche de plantation crée un nouveau plan de gestion. Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter.",
+    "QUANTITÉ": "Quantité",
+    "RETIRE_CUSTOM_TASK": "Retirer la tâche personnalisée ?",
+    "RETIRE_CUSTOM_TASK_CONTENT": "Voulez-vous vraiment supprimer cette tâche personnalisée ?",
+    "SELECT_ALL": "Tout sélectionner",
+    "SELECT_ALL_PLANS": "Sélectionner tous les forfaits",
+    "SELECT_TASK_TYPE": "Sélectionnez le type de tâche",
+    "SOIL_AMENDMENT_VIEW": {
+      "IS_PERMITTED": "L'amendement du sol est-il dans la liste des substances autorisées ?",
+      "MOISTURE_RETENTION": "Rétention d'humidité",
+      "NUTRIENT_AVAILABILITY": "Disponibilité des nutriments",
+      "AUTRE": "Autre",
+      "OTHER_PURPOSE": "Décrivez le but",
+      "PH": "pH",
+      "PURPOSE": "Objectif",
+      "STRUCTURE": "Structure"
     },
     "TASK": "tache",
     "TASK_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
-     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Parlez-nous de",
-     "TRANSPLANT_METHOD": "Méthode de transplantation",
-     "WAGE_OVERRIDE": "Dérogation de salaire"
+    "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Parlez-nous de",
+    "TRANSPLANT_METHOD": "Méthode de transplantation",
+    "WAGE_OVERRIDE": "Dérogation de salaire"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Longueur des lits",
@@ -110,7 +110,7 @@
     "PLANT_SPACING": "Espacement des plantes",
     "PLANTING_DETAILS": "Veuillez spécifier les détails de la plantation"
   },
-  "BROADCAST_PLAN" : {
+  "BROADCAST_PLAN": {
     "AREA_USED": "Zone utilisée",
     "HISTORICAL_PERCENTAGE_LOCATION": "Quel pourcentage de l'emplacement a été planté ?",
     "LOCATION_SIZE": "Taille de l'emplacement",
@@ -142,7 +142,7 @@
       "REQUEST_CERTIFICATION": "Demander un autre type de certification",
       "SUBTITLE_ONE": "Voici une liste de",
       "SUBTITLE_TWO": "les certificateurs avec lesquels nous travaillons dans votre pays.",
-      "TITLE" : "Quel type de certification ?",
+      "TITLE": "Quel type de certification ?",
       "TOOLTIP": "Vous ne voyez pas votre certification ? LiteFarm se consacre au soutien de l'agriculture durable et les certifications en sont une grande partie. Demandez une autre certification ici et nous ferons de notre mieux pour l'intégrer dans l'application."
     },
     "CERTIFIER_SELECTION": {
@@ -152,9 +152,9 @@
       "TITLE": "Qui est votre certificateur ?"
     },
     "INPUT_PLACEHOLDER": "Tapez pour rechercher",
-    "INTERESTED_IN_CERTIFICATION" : {
-      "PARAGRAPH" : "Prévoyez-vous de poursuivre ou de renouveler une certification cette saison ?",
-      "TITLE" : "Intéressé par les certifications ?",
+    "INTERESTED_IN_CERTIFICATION": {
+      "PARAGRAPH": "Prévoyez-vous de poursuivre ou de renouveler une certification cette saison ?",
+      "TITLE": "Intéressé par les certifications ?",
       "WHY_ANSWER": "LiteFarm génère les documents requis pour la certification biologique. Certaines informations seront obligatoires."
     },
     "REQUEST_CERTIFIER": {
@@ -184,8 +184,7 @@
     },
     "STEP_TWO": {
       "DESCRIPTION": "Pas de problème ! Vous pouvez ajouter les certifications et les certificateurs plus tard sous la section « Ma Ferme ».",
-      "TITLE" : "Affichage des certifications",
-    
+      "TITLE": "Affichage des certifications"
     }
   },
   "CERTIFICATIONS": {
@@ -263,7 +262,7 @@
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
     "FILTER_TITLE": "Recadrer le filtre du catalogue"
   },
-  "CROP_DETAIL" : {
+  "CROP_DETAIL": {
     "ADD_PLAN": "Ajouter un plan",
     "ANNUEL": "Annuel",
     "ANNUAL_PERENNIAL": "La culture est-elle annuelle ou pérenne ?",
@@ -273,9 +272,9 @@
     "GENETICALLY_ENGINEERED": "Cette culture est-elle génétiquement modifiée ?",
     "MANAGEMENT_PLANS": "Plans de gestion",
     "MANAGEMENT_TAB": "Gestion",
-    "ORGANIQUE" : "La culture est-elle certifiée biologique ?",
+    "ORGANIQUE": "La culture est-elle certifiée biologique ?",
     "PERENNIAL": "vivace",
-    "TRAITÉ": "Les semences de cette culture ont-elles été traitées ?",
+    "TRAITÉ": "Les semences de cette culture ont-elles été traitées ?",
     "ORGANIC_COMPLIANCE": "Conformité organique"
   },
   "CROP_MANAGEMENT": {
@@ -290,8 +289,8 @@
     "ADD_VARIETY": "Ajouter une nouvelle variété",
     "CROP_VARIETIES": "variété",
     "NEEDS_PLAN": "Planning requis",
-    "RETRAITE" : {
-    "CONFIRMATION": "Retirer cette culture la supprimera ainsi que tous ses plans de gestion de votre catalogue de cultures. Voulez-vous continuer ?",
+    "RETRAITE": {
+      "CONFIRMATION": "Retirer cette culture la supprimera ainsi que tous ses plans de gestion de votre catalogue de cultures. Voulez-vous continuer ?",
       "RETIRE_CROP_TITLE": "Retirer la récolte ?",
       "UNABLE_TO_RETIRE": "Vous ne pouvez retirer que des cultures qui n'ont aucun plan de gestion actif ou futur. Vous devrez terminer ou abandonner ces plans pour retirer cette culture",
       "UNABLE_TO_RETIRE_TITLE": "Impossible de prendre sa retraite"
@@ -318,15 +317,15 @@
     "PERENNIAL": "vivace",
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale ?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
-    "TRAITÉ" : "Les semences de cette culture ont-elles été traitées ?",
+    "TRAITÉ": "Les semences de cette culture ont-elles été traitées ?",
     "UPLOAD_LATER": "Vous pouvez également télécharger des fichiers plus tard"
   },
-  "DATE_RANGE" : {
+  "DATE_RANGE": {
     "HELP_BODY": "Sélectionnez la plage de dates pour créer un rapport financier pour votre ferme pour une fenêtre de temps donnée.",
     "HELP_TITLE": "Aide sur la plage de dates",
     "TITLE": "Filtrer le rapport par date"
   },
-  "DOCUMENTS" : {
+  "DOCUMENTS": {
     "ADD_DOCUMENT": "Ajouter un nouveau document",
     "AJOUTER": {
       "ADD_MORE_PAGES": "Ajouter plus de pages",
@@ -388,26 +387,26 @@
     "EDIT_EXPENSE": {
       "DATE_PLACEHOLDER": "Choisissez une date",
       "DESELECTING_CATEGORY": "La désélection d'une catégorie supprimera les dépenses existantes dans cette catégorie pour ce journal des dépenses.",
-       "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour soumettre.",
-       "TITLE_1": "Modifier les dépenses (1 sur 2)",
-       "TITLE_2": "Modifier la dépense (2 sur 2)"
-     },
-     "ARTICLE" : "élément",
-     "NAME": "nom",
-     "NO_EXPENSE": "Aucune dépense trouvée",
-     "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
-     "OTHER_EXPENSES_TITLE": "Autres dépenses",
-     "SUMMARY": "Résumé",
-     "VALUE": "Valeur"
-   },
-   "EXPIRED_TOKEN" : {
-     "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
-   },
-   "FARM_MAP": {
-     "AREA_DETAILS": {
-       "NETWORK": "Problèmes de connectivité réseau.",
-       "PERIMETER": "Périmètre",
-       "TOTAL_AREA": "Superficie totale"
+      "REMOVE_ALL": "Vous avez supprimé toutes les dépenses, cliquez sur Enregistrer pour soumettre.",
+      "TITLE_1": "Modifier les dépenses (1 sur 2)",
+      "TITLE_2": "Modifier la dépense (2 sur 2)"
+    },
+    "ARTICLE": "élément",
+    "NAME": "nom",
+    "NO_EXPENSE": "Aucune dépense trouvée",
+    "NO_EXPENSE_YEAR": "Vous n'avez enregistré aucune dépense pour cette année",
+    "OTHER_EXPENSES_TITLE": "Autres dépenses",
+    "SUMMARY": "Résumé",
+    "VALUE": "Valeur"
+  },
+  "EXPIRED_TOKEN": {
+    "RESET_PASSWORD_LINK": "Envoyer un nouveau lien de mot de passe."
+  },
+  "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Problèmes de connectivité réseau.",
+      "PERIMETER": "Périmètre",
+      "TOTAL_AREA": "Superficie totale"
     },
     "BARN": {
       "ANIMALS": "Cette zone est-elle utilisée pour loger des animaux ?",
@@ -423,7 +422,7 @@
       "TITLE": "Ajouter une zone tampon",
       "WIDTH": "Largeur de la zone tampon"
     },
-    "CEREMONIAL_AREA" : {
+    "CEREMONIAL_AREA": {
       "EDIT_TITLE": "Modifier la zone de cérémonie",
       "NAME": "Nom de la zone de cérémonie",
       "TITLE": "Ajouter une zone de cérémonie"
@@ -432,7 +431,7 @@
       "BODY": "Retirer cet emplacement le supprimera de la carte de la ferme.",
       "TITLE": "Retirer l'emplacement ?"
     },
-    "DRAWING_MANAGER" : {
+    "DRAWING_MANAGER": {
       "REDRAW": "Redessiner",
       "ZERO_AREA_DETECTED": "Champ sans zone détectée. Veuillez ajouter plus de points au dessin actuel ou dessiner à nouveau."
     },
@@ -456,7 +455,7 @@
       "TITLE": "Ajouter une clôture"
     },
     "CHAMP": {
-      "DATE" : "Date de transition admissible",
+      "DATE": "Date de transition admissible",
       "EDIT_TITLE": "Modifier le champ",
       "FIELD_TYPE": "De quel type de champ s'agit-il ?",
       "NAME": "Nom du champ",
@@ -466,7 +465,7 @@
       "TRANSITIONING": "Transition"
     },
     "GARDEN": {
-      "DATE" : "Date de transition admissible",
+      "DATE": "Date de transition admissible",
       "EDIT_TITLE": "Modifier le jardin",
       "GARDEN_TYPE": "Quel type de jardin est-ce ?",
       "NAME": "Nom du jardin",
@@ -482,7 +481,7 @@
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Y a-t-il un enrichissement en CO₂ ?",
-      "DATE" : "Date de transition admissible",
+      "DATE": "Date de transition admissible",
       "EDIT_TITLE": "Modifier la serre",
       "GREENHOUSE_HEATED": "La serre est-elle chauffée ?",
       "GREENHOUSE_TYPE": "De quel type de serre s'agit-il ?",
@@ -493,7 +492,7 @@
       "TITLE": "Ajouter une serre",
       "TRANSITIONING": "Transition"
     },
-    "LINE_DETAILS" : {
+    "LINE_DETAILS": {
       "BUFFER_TITLE": "Quelle est la largeur ?",
       "BUFFER_ZONE_WIDTH": "Largeur de la zone tampon",
       "RIPARIAN_BUFFER": "Tampon riverain",
@@ -625,15 +624,15 @@
       "OTHER": "Autre",
       "REPORT_BUG": "Signaler un bogue",
       "REQUEST_FEATURE": "Demander une fonctionnalité",
-       "REQUEST_INFO": "Demander des informations"
-     },
-     "PREFERRED_CONTACT": "Méthode de contact préférée",
-     "REQUIRED_LABEL": "Champ obligatoire",
-     "TITLE": "Demander de l'aide",
-     "TYPE_SUPPORT_LABEL": "Type de prise en charge",
-     "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
-     "WHATSAPP": "Whatsapp",
-     "WHATSAPP_NUMBER_LABEL": "Numéro Whatsapp"
+      "REQUEST_INFO": "Demander des informations"
+    },
+    "PREFERRED_CONTACT": "Méthode de contact préférée",
+    "REQUIRED_LABEL": "Champ obligatoire",
+    "TITLE": "Demander de l'aide",
+    "TYPE_SUPPORT_LABEL": "Type de prise en charge",
+    "TYPE_SUPPORT_PLACEHOLDER": "Choisissez le type de support",
+    "WHATSAPP": "Whatsapp",
+    "WHATSAPP_NUMBER_LABEL": "Numéro Whatsapp"
   },
   "HOME": {
     "GREETING": "Bonjour, "
@@ -661,16 +660,16 @@
     "NITROGEN_BALANCE": {
       "ABANDON": "Abandonner l'horaire",
       "CHOOSE_A_FREQUENCY": "Choisissez une fréquence",
-       "CHOOSE_FREQUENCY": "Choisir la fréquence...",
-       "COUNT_MONTHS": "{{count}} mois",
-       "COUNT_MONTHS_plural": "{{count}} mois",
-       "CYCLE_INDICATOR": "Votre balance d'azote est sur un cycle de {{fréquence}} mois et les données s'afficheront le : {{refreshDate}}",
-       "FIRST_TIME": "On dirait que c'est la première fois que vous utilisez cela ! Veuillez sélectionner une fréquence pour calculer votre bilan d'azote.",
-       "GO_BACK": "Retour",
-       "HEADER": "Tous les {{fréquence}} mois : {{refreshDate}}",
-       "INFO_1": "Le bilan d'azote vous indique si vous avez appliqué trop ou trop peu d'engrais. Il repose sur vos journaux de récolte, les crédits d'azote des légumineuses et les journaux de fertilisation. Vous pouvez exécuter le bilan sur l'intervalle de temps souhaité.",
-       "INFO_2": "Cliquez sur le bouton Supprimer pour réinitialiser votre emploi du temps.",
-       "SELECT_FREQUENCY": "Sélectionner la fréquence",
+      "CHOOSE_FREQUENCY": "Choisir la fréquence...",
+      "COUNT_MONTHS": "{{count}} mois",
+      "COUNT_MONTHS_plural": "{{count}} mois",
+      "CYCLE_INDICATOR": "Votre balance d'azote est sur un cycle de {{fréquence}} mois et les données s'afficheront le : {{refreshDate}}",
+      "FIRST_TIME": "On dirait que c'est la première fois que vous utilisez cela ! Veuillez sélectionner une fréquence pour calculer votre bilan d'azote.",
+      "GO_BACK": "Retour",
+      "HEADER": "Tous les {{fréquence}} mois : {{refreshDate}}",
+      "INFO_1": "Le bilan d'azote vous indique si vous avez appliqué trop ou trop peu d'engrais. Il repose sur vos journaux de récolte, les crédits d'azote des légumineuses et les journaux de fertilisation. Vous pouvez exécuter le bilan sur l'intervalle de temps souhaité.",
+      "INFO_2": "Cliquez sur le bouton Supprimer pour réinitialiser votre emploi du temps.",
+      "SELECT_FREQUENCY": "Sélectionner la fréquence",
       "TITLE": "Bilan de l'azote"
     },
     "PEOPLE_FED": {
@@ -687,17 +686,16 @@
       "VITAMIN_C": "Vitamine C"
     },
     "PRICES": {
-
-"INFO": "Nous vous montrons la trajectoire de vos prix de vente par rapport aux prix de vente des mêmes produits à une distance donnée de vous, collectés sur le réseau LiteFarm.",
-       "NEARBY_FARMS": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-       "NEARBY_FARMS_plural": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
-       "NETWORK_PRICE": "Prix du réseau",
-       "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité!",
-       "OWN_PRICE": "Prix propre",
-       "PERCENT_OF_MARKET": "{{percentage}} % du marché",
-       "SALES_FROM_DISTANCE_AWAY": "Ventes à partir de {{distance}} {{unit}} loin",
-       "TITLE": "Prix",
-       "Y_TITLE": "Prix ({{devise}}/{{masse}})" 
+      "INFO": "Nous vous montrons la trajectoire de vos prix de vente par rapport aux prix de vente des mêmes produits à une distance donnée de vous, collectés sur le réseau LiteFarm.",
+      "NEARBY_FARMS": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
+      "NEARBY_FARMS_plural": "Le prix du réseau est basé sur {{count}} fermes dans votre région",
+      "NETWORK_PRICE": "Prix du réseau",
+      "NO_ADDRESS": "Vous n'avez actuellement pas d'adresse à LiteFarm. Veuillez la mettre à jour dans votre profil pour obtenir des informations sur les prix à proximité!",
+      "OWN_PRICE": "Prix propre",
+      "PERCENT_OF_MARKET": "{{percentage}} % du marché",
+      "SALES_FROM_DISTANCE_AWAY": "Ventes à partir de {{distance}} {{unit}} loin",
+      "TITLE": "Prix",
+      "Y_TITLE": "Prix ({{devise}}/{{masse}})"
     },
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Teneur en Matière Organique du Sol",
@@ -705,15 +703,15 @@
       "INFO": "Matière organique du sol est requise pour maintenir un environement sain de sol pour votre récolte. Nous remplissons ces données à partir de vos journaux d'analyse de sol les plus récents. Si vous n'avez pas de données, nous prédisons la matière organique potentielle du sol pour votre emplacement dans le monde.",
       "TITLE": "MO du Sol"
     },
-    "TITLE" : "Aperçus",
-     "UNAVAILABLE": "Indisponible",
-     "WATER_BALANCE" : {
-       "FIRST_TIME": "On dirait que c'est la première fois que vous exécutez cela ! Pour plus d'informations sur ce que cela fait, veuillez cliquer sur le bouton d'information pour voir.",
-       "INFO_1": "Le bilan hydrique vous indique si vos cultures ont trop ou pas assez d'eau. Il s'appuie sur les données météorologiques, et il est mis à jour par vos données d'irrigation et de texture du sol à partir de vos journaux d'analyse de sol.",
-       "INFO_2": "Cette fonctionnalité n'a pas été largement testée dans les fermes avec une faible densité de stations météorologiques environnantes, donc utilisez-la avec prudence. Nous apprécions les commentaires sur ses performances pour votre ferme.",
-       "NO_SCHEDULE_RUN": "Votre bilan hydrique programmé n'a pas encore été exécuté, veuillez vérifier dans deux jours et vous assurer d'avoir au moins une analyse de sol qui enregistre la texture du sol pour un champ pour voir les données de bilan hydrique pour les cultures dans ce champ. Si le le problème persiste, veuillez contacter LiteFarm.",
-       "REGISTER_FARM": "Enregistrer la ferme",
-       "TITLE" : "Equilibre de l'eau"
+    "TITLE": "Aperçus",
+    "UNAVAILABLE": "Indisponible",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "On dirait que c'est la première fois que vous exécutez cela ! Pour plus d'informations sur ce que cela fait, veuillez cliquer sur le bouton d'information pour voir.",
+      "INFO_1": "Le bilan hydrique vous indique si vos cultures ont trop ou pas assez d'eau. Il s'appuie sur les données météorologiques, et il est mis à jour par vos données d'irrigation et de texture du sol à partir de vos journaux d'analyse de sol.",
+      "INFO_2": "Cette fonctionnalité n'a pas été largement testée dans les fermes avec une faible densité de stations météorologiques environnantes, donc utilisez-la avec prudence. Nous apprécions les commentaires sur ses performances pour votre ferme.",
+      "NO_SCHEDULE_RUN": "Votre bilan hydrique programmé n'a pas encore été exécuté, veuillez vérifier dans deux jours et vous assurer d'avoir au moins une analyse de sol qui enregistre la texture du sol pour un champ pour voir les données de bilan hydrique pour les cultures dans ce champ. Si le le problème persiste, veuillez contacter LiteFarm.",
+      "REGISTER_FARM": "Enregistrer la ferme",
+      "TITLE": "Equilibre de l'eau"
     }
   },
   "INTRODUCE_MAP": {
@@ -722,12 +720,12 @@
   },
   "INVITATION": {
     "BIRTH_YEAR": "Année de naissance",
-     "BIRTH_YEAR_ERROR": "L'année de naissance doit être comprise entre 1900 et",
-     "BIRTH_YEAR_TOOLTIP": "Les informations sur l'âge sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
-     "CREATE_ACCOUNT": "Créer un nouveau compte",
-     "CREATE_NEW_ACCOUNT": "Créer un nouveau compte",
-     "EMAIL": "Email",
-     "FULL_NAME": "Prénom et nom",
+    "BIRTH_YEAR_ERROR": "L'année de naissance doit être comprise entre 1900 et",
+    "BIRTH_YEAR_TOOLTIP": "Les informations sur l'âge sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
+    "CREATE_ACCOUNT": "Créer un nouveau compte",
+    "CREATE_NEW_ACCOUNT": "Créer un nouveau compte",
+    "EMAIL": "Email",
+    "FULL_NAME": "Prénom et nom",
     "GENDER": "Genre",
     "GENDER_TOOLTIP": "Les informations sur le genre sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec tous les informations d'identification personnelle supprimées",
     "PASSWORD": "Mot de passe",
@@ -741,7 +739,7 @@
     "SIGN_IN_WITH": "Connectez-vous avec",
     "TITLE": "Créez votre compte"
   },
-  "INVITE_USER" : {
+  "INVITE_USER": {
     "BIRTH_YEAR": "Année de naissance",
     "BIRTH_YEAR_ERROR": "L'année de naissance doit être comprise entre 1900 et",
     "BIRTH_YEAR_TOOLTIP": "Les informations sur l'âge sont collectées à des fins de recherche uniquement et ne seront partagées qu'avec les informations d'identification personnelle supprimées",
@@ -773,11 +771,11 @@
   },
   "LOG_COMMON": {
     "ADD_A_LOG": "Ajouter un journal",
-     "ALL_CROPS": "Toutes les cultures",
-     "ALL_LOCATIONS": "Tous les emplacements",
-     "CROP": "Crop",
-     "DELETE_CONFIRMATION": "Voulez-vous vraiment supprimer ce journal ?",
-     "EDIT_A_LOG": "Modifier un journal",
+    "ALL_CROPS": "Toutes les cultures",
+    "ALL_LOCATIONS": "Tous les emplacements",
+    "CROP": "Crop",
+    "DELETE_CONFIRMATION": "Voulez-vous vraiment supprimer ce journal ?",
+    "EDIT_A_LOG": "Modifier un journal",
     "FROM": "De",
     "LOCATION": "Emplacement",
     "LOCATIONS": "Emplacements",
@@ -815,7 +813,7 @@
     "AUTRE": "Autre",
     "PEST": "Organismes nuisibles",
     "QUANTITY_ERROR": "La quantité doit comporter jusqu'à 2 décimales",
-    "TITLE" : "Journal de récolte",
+    "TITLE": "Journal de récolte",
     "WEED": "Weed",
     "HARVEST_QUANTITY": "Quantité de récolte",
     "HARVEST_USE": "Utilisation de la récolte",
@@ -843,13 +841,13 @@
     "AS_COVER_CROP": "Cultures de couverture",
     "BEDS": "Lits",
     "BROADCAST": "Diffusion ou exercice",
-    "COMPLETE_PLAN" : {
+    "COMPLETE_PLAN": {
       "ABANDON_PLAN": "Abandonner le plan",
       "ABANDON_REASON": "Raison de l'abandon",
       "COMPLETE_PLAN": "Plan complet",
       "DATE_OF_CHANGE": "Date de changement de statut",
       "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
-      "RATING" : "Évaluez ce plan de gestion",
+      "RATING": "Évaluez ce plan de gestion",
       "REASON": {
         "CROP_FAILURE": "Échec de la récolte",
         "LABOUR_ISSUE": "Problème du travail",
@@ -878,9 +876,9 @@
     "DURATION_TOOLTIP": "Ce sont des valeurs suggérées. Veuillez les ajuster en fonction de vos conditions locales.",
     "ESTIMATED_SEED": "Semence estimée requise",
     "ESTIMATED_YIELD": "Rendement estimé",
-    "FIRST_MP_SPOTLIGHT" : {
+    "FIRST_MP_SPOTLIGHT": {
       "BODY": "LiteFarm a généré quelques tâches basées sur votre plan. Vous pouvez les modifier ou les affecter sur cet écran. De plus, vous pouvez ajouter plus de tâches à ce plan ou modifier votre plan.",
-      "TITLE" : "Félicitations ! Vous avez établi votre premier plan de gestion !"
+      "TITLE": "Félicitations ! Vous avez établi votre premier plan de gestion !"
     },
     "FOR_HARVEST": "Pour la récolte",
     "GERMINATION": "Germination",
@@ -898,7 +896,7 @@
     "MANAGEMENT_SPOTLIGHT_1": "Créer de nouveaux plans pour cette culture",
     "MANAGEMENT_SPOTLIGHT_2": "Afficher et modifier les plans pour cette culture",
     "MANAGEMENT_SPOTLIGHT_3": "Créer et attribuer des tâches",
-    "MANAGEMENT_SPOTLIGHT_TITLE" : "Gestion",
+    "MANAGEMENT_SPOTLIGHT_TITLE": "Gestion",
     "NEXT_HARVEST": "Quand prévoyez-vous votre prochaine récolte ?",
     "NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
     "NUMBER_OF_CONTAINER": "# de conteneurs",
@@ -1061,7 +1059,7 @@
     },
     "PEOPLE_TAB": "People",
     "PEOPLE": {
-      « EO »: « Officier de vulgarisation »,
+      "EO": "Officier de vulgarisation",
       "FARM_MANAGER": "Gestionnaire de ferme",
       "FARM_OWNER": "Propriétaire de la ferme",
       "FARM_WORKER": "Ouvrier agricole",
@@ -1096,7 +1094,7 @@
     "FARM_MANAGER": "Gestionnaire de ferme",
     "FARM_OWNER": "Propriétaire de la ferme",
     "IS_OWNER_OPERATED": "Ce propriétaire de la ferme est-il exploité ?",
-    "TITLE" : "Quel est votre rôle à la ferme ?"
+    "TITLE": "Quel est votre rôle à la ferme ?"
   },
   "SALE": {
     "ADD_SALE": {
@@ -1129,13 +1127,14 @@
     },
     "ESTIMATED_REVENUE": {
       "CALCULATION": "Calcul",
-      "CALCULATION_DESCRIPTION": "Nous calculons les revenus estimés à l'aide de la date de fin des cultures estimée dans le module Champs. Pour inclure une culture dans le calcul de vos revenus estimés, assurez-vous de saisir sa date de fin dans la date de fin de votre rapport financier.",
+      "CALCULATION_DESCRIPTION": "Nous calculons les revenus estimés à l'aide de la date de fin des cultures estimée dans le module Champs. Pour inclure une culture dans le calcul de vos revenus estimés, assurez-vous de saisir sa date de fin dans la date de fin de votre rapport financier."
+    },
     "EXPENSE_DETAIL": {
       "ACTION": "Action",
       "COST": "Coût",
       "DESCRIPTION": "Description de la dépense",
       "TEMP_DELETE_CONFIRMATION": "Êtes-vous sûr de vouloir supprimer cette dépense ?",
-      "TITLE": "Détail de la dépense",
+      "TITLE": "Détail de la dépense"
     },
     "FINANCES": {
       "ACTION": "Action",
@@ -1155,10 +1154,6 @@
       "HAS_UNALLOCATED_LINE10_1": "Si la laitue est ajoutée à Field1 mais qu'aucun changement lié à la laitue ou au Field1 n'est soumis, ou soumis après le 1er avril, alors le maïs sera alloué avec un montant total de",
       "HAS_UNALLOCATED_LINE10_2": "De Field1.",
       "HAS_UNALLOCATED_LINE2": "Si une ou plusieurs cultures ont été ajoutées ultérieurement à un champ vide et qu'il existe un décalage lié aux cultures, alors le travail effectué sur ce champ vide sera réparti uniformément sur chaque culture",
-      "HAS_UNALLOCATED_LINE1": "* Non alloué signifie que le travail a été effectué sur un champ vide pour la plage de dates sélectionnée.",
-      "HAS_UNALLOCATED_LINE10_1": "Si la laitue est ajoutée à Field1 mais qu'aucun changement lié à la laitue ou au Field1 n'est soumis, ou soumis après le 1er avril, alors le maïs sera alloué avec un montant total de ",
-      "HAS_UNALLOCATED_LINE10_2": "De Champ1",
-      "HAS_UNALLOCATED_LINE2": "Si une ou plusieurs cultures ont été ajoutées à un champ vide plus tard et qu'il existe un décalage lié aux cultures, alors le travail effectué sur ce champ vide sera réparti uniformément sur chaque culture.",
       "HAS_UNALLOCATED_LINE3_1": "Pour la plage de dates",
       "HAS_UNALLOCATED_LINE3_2": "1er janvier",
       "HAS_UNALLOCATED_LINE3_3": "1er avril",
@@ -1238,7 +1233,7 @@
       "VERY_HAPPY": "Très heureux",
       "VERY_SAD": "Très triste",
       "WHAT_TASKS_YOU_DID": "Quelles tâches avez-vous effectuées aujourd'hui ?",
-    "WORKER": "Travailleur",
+      "WORKER": "Travailleur",
       "WORKER_MOOD": "Comment se sentait cet travailleur pendant qu'il travaillait ?"
     },
     "MY_SHIFT": {

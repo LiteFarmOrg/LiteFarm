@@ -396,7 +396,7 @@ export default function PurePlantingDate({
           }}
         />
       )}
-      {((harvestIsMain && harvest_date) || (terminationIsMain && termination_date)) && (
+      {((harvestIsMain && harvest_date && Math.abs(new Date(harvest_date).getFullYear() - new Date().getFullYear()) < 1000) || (terminationIsMain && termination_date && Math.abs(new Date(termination_date).getFullYear() - new Date().getFullYear()) < 1000)) && (
         <FullMonthCalendarView
           date={
             harvestIsMain ? getDateInputFormat(harvest_date) : getDateInputFormat(termination_date)

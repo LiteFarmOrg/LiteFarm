@@ -1,0 +1,21 @@
+{
+  "CROP_CATALOGUE": {
+    "LOCATION": "Lieu",
+    "STATUS": "Status",
+    "SUPPLIERS": "Fournisseurs",
+    "ACTIVE": "Actif",
+    "ABANDONED": "Abandoné",
+    "COMPLETE": "Completer",
+    "PLANNED": "Plannifier",
+    "NEEDS_PLAN": "Plan Réquis"
+  },
+  "DOCUMENTS": {
+    "CLEANING_PRODUCT": "Produit Nettoyant",
+    "CROP_COMPLIANCE": "Conformité de Récolte",
+    "FERTILIZING_PRODUCT": "Produits Fertilisants",
+    "OTHER": "Autre",
+    "PEST_CONTROL_PRODUCT": "Produits Antiparasitaires",
+    "SOIL_AMENDMENT": "Amendement de Sol",
+    "UNCATEGORIZED": "Non Classé"
+  }
+}

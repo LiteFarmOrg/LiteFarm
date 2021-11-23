@@ -1,40 +1,27 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
-import {
-  isAdminSelector,
-  measurementSelector,
-  userFarmsByFarmSelector,
-  userFarmSelector,
-} from '../../userFarmSlice';
-import { taskWithProductById } from '../../taskSlice';
-import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import { isAdminSelector, measurementSelector, userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { productEntitiesSelector } from '../../productSlice';
 import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
+import { useReadonlyTask } from './useReadonlyTask';
+import { isTaskType } from '../useIsTaskType';
+import { useMaxZoom } from '../../Map/useMaxZoom';
 
 function TaskReadOnly({ history, match }) {
   const task_id = match.params.task_id;
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const task = useSelector(taskWithProductById(task_id));
+  const task = useReadonlyTask(task_id);
   const products = useSelector(productEntitiesSelector);
   const users = useSelector(userFarmsByFarmSelector);
   const user = useSelector(userFarmSelector);
   const isAdmin = useSelector(isAdminSelector);
   const isTaskTypeCustom = !!task.taskType.farm_id;
 
-  const task_locations = task.locations.map(({ location_id }) => ({ location_id }));
-  const managementPlanIds = task.managementPlans.map(
-    ({ management_plan_id }) => management_plan_id,
-  );
-  const managementPlansByLocationIds = useManagementPlanTilesByLocationIds(
-    task_locations,
-    managementPlanIds,
-  );
-
   const selectedTaskType = task.taskType;
-  const isHarvest = selectedTaskType?.task_translation_key === 'HARVEST_TASK';
+  const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
   const harvestUseTypes = useSelector(harvestUseTypesSelector);
 
   const onGoBack = () => {
@@ -59,7 +46,7 @@ function TaskReadOnly({ history, match }) {
   const onAbandon = () => {
     history.push(`/tasks/${task_id}/abandon`);
   };
-
+  const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (
     <PureTaskReadOnly
       task_id={task_id}
@@ -73,9 +60,10 @@ function TaskReadOnly({ history, match }) {
       isAdmin={isAdmin}
       system={system}
       products={products}
-      managementPlansByLocationIds={managementPlansByLocationIds}
       harvestUseTypes={harvestUseTypes}
       isTaskTypeCustom={isTaskTypeCustom}
+      maxZoomRef={maxZoomRef}
+      getMaxZoom={getMaxZoom}
     />
   );
 }

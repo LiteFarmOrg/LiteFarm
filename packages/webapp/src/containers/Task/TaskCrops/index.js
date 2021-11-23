@@ -1,8 +1,11 @@
 import PureTaskCrops from '../../../components/Task/PureTaskCrops';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useSelector } from 'react-redux';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { useActiveAndCurrentManagementPlanTilesByLocationIds } from './useManagementPlanTilesByLocationIds';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  useActiveAndCurrentManagementPlanTilesByLocationIds,
+  useCurrentWildManagementPlanTiles,
+} from './useManagementPlanTilesByLocationIds';
 import { cropLocationsSelector } from '../../locationSlice';
 import { useIsTaskType } from '../useIsTaskType';
 
@@ -39,22 +42,26 @@ function TaskCrops({
   locations,
 }) {
   const persistedPaths = [goBackPath, onContinuePath];
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const handleGoBack = () => {
     history.goBack();
   };
   const handleCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
   const onContinue = () => {
     history.push(onContinuePath);
   };
   const onError = () => {};
   const persistedFormData = useSelector(hookFormPersistSelector);
+  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
+  const isHarvestTask = useIsTaskType('HARVEST_TASK');
+  const showWildCrops = isTransplantTask || persistedFormData.show_wild_crop;
+  const wildManagementPlanTiles = useCurrentWildManagementPlanTiles();
   const activeAndCurrentManagementPlansByLocationIds = useActiveAndCurrentManagementPlanTilesByLocationIds(
     locations || persistedFormData.locations,
+    showWildCrops,
   );
-  const isTransplantTask = useIsTaskType('TRANSPLANT_TASK');
-
   return (
     <HookFormPersistProvider>
       <PureTaskCrops
@@ -66,6 +73,8 @@ function TaskCrops({
         managementPlansByLocationIds={activeAndCurrentManagementPlansByLocationIds}
         onContinue={onContinue}
         isMulti={!isTransplantTask}
+        isRequired={isHarvestTask || isTransplantTask}
+        wildManagementPlanTiles={showWildCrops ? wildManagementPlanTiles : undefined}
       />
     </HookFormPersistProvider>
   );

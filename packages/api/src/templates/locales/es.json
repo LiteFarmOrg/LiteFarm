@@ -25,7 +25,11 @@
   },
   "COMMON": {
     "JOIN": "Unete",
-    "LOG_IN": "Iniciar Sesión"
+    "LOG_IN": "Iniciar Sesión",
+    "OWNER": "Dueño/a",
+    "EXTENSION_OFFICER": "Oficial de extensión",
+    "WORKER": "Trabajador/a",
+    "MANAGER": "Gerente"
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
@@ -86,11 +90,13 @@
     "SUBJECT1": "en LiteFarm"
   },
   "EXPORT": {
-    "HI": "EXPORT.HI",
-    "SEASON": "EXPORT.SEASON",
-    "CERTIFICATION": "EXPORT.CERTIFICATION",
-    "GET_YOUR_EXPORT": "EXPORT.GET_YOUR_EXPORT",
-    "SUBJECT": "EXPORT.SUBJECT",
-    "PRIVACY": "EXPORT.PRIVACY"
+    "SEASON": "Esperamos que hayas tenido una increible temporada en",
+    "CERTIFICATION": "Puedes hacer clic en el link de abajo para descargar el zip con tus documentos de certificacion y todos los documentos adicionales ( imagenes de empaques de semillas, escaneos de tus facturas de insumos, etc.) Para tu periodo de reporte.",
+    "PRIVACY": "En Litefarm, tomamos tu privacidad enserio, asi que tendras que tener tu sesion iniciada antes de poder acceder a tus documentos. Disculpa por los inconvenientes ocasionados. Buena suerte con tu certificacion y gracias por usar Litefarm!",
+    "GET_EXPORT": "Obtener tus documentos",
+    "SUBJECT": "Tus documentos de certificacion de Litefarm",
+    "HI": "Hola",
+    "GET_YOUR_EXPORT": "Obtener documentos",
+    "LANGUAGE_DELAY" : "Los cultivos e insumos en el reporte estan en Ingles, pero muy pronto estara disponible en Español. Pedimos disculpas por los inconvenientes."
   }
 }

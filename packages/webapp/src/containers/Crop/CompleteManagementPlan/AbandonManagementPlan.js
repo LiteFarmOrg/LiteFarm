@@ -17,7 +17,7 @@ export default function AbandonManagementPlan({ match, history }) {
   const reasonOptions = useAbandonReasonOptions();
 
   const onGoBack = () => {
-    history.push(`/crop/${crop_variety_id}/${management_plan_id}/management_detail`);
+    history.push(`/crop/${crop_variety_id}/management_plan/${management_plan_id}/tasks`);
   };
   const onSubmit = (data) => {
     const reqBody = {

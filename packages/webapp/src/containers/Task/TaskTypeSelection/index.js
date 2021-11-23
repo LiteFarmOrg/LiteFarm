@@ -4,20 +4,23 @@ import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { useEffect } from 'react';
 import { getTaskTypes } from '../saga';
-import { defaultTaskTypesSelector, userCreatedTaskTypes } from '../../taskTypeSlice';
+import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
+import { hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 
 function TaskTypeSelection({ history, match }) {
   const userFarm = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const taskTypes = useSelector(defaultTaskTypesSelector);
-  const customTasks = useSelector(userCreatedTaskTypes);
+  const customTasks = useSelector(userCreatedTaskTypesSelector);
   const continuePath = '/add_task/task_date';
   const customTaskPath = '/add_task/manage_custom_tasks';
   const persistedPaths = [continuePath, customTaskPath];
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -30,16 +33,19 @@ function TaskTypeSelection({ history, match }) {
   const onContinue = () => history.push(continuePath);
 
   const handleGoBack = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
   const handleCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
-  const onError = () => {};
+  const onError = () => {
+  };
 
   const updatePlantTaskSpotlight = () => dispatch(setSpotlightToShown('planting_task'));
+
+  const hasCurrentManagementPlans = useSelector(currentAndPlannedManagementPlansSelector)?.length > 0;
 
   return (
     <>
@@ -57,6 +63,7 @@ function TaskTypeSelection({ history, match }) {
           isAdmin={isAdmin}
           shouldShowPlantTaskSpotLight={!planting_task}
           updatePlantTaskSpotlight={updatePlantTaskSpotlight}
+          hasCurrentManagementPlans={hasCurrentManagementPlans}
         />
       </HookFormPersistProvider>
     </>

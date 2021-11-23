@@ -58,6 +58,12 @@ const upsertManyWatercourseWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteWatercourse = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  watercourseAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const watercourseAdapter = createEntityAdapter({
   selectId: (watercourse) => watercourse.location_id,
@@ -77,7 +83,7 @@ const watercourseSlice = createSlice({
     getWatercoursesSuccess: upsertManyWatercourseWithLocation,
     postWatercourseSuccess: upsertOneWatercourseWithLocation,
     editWatercourseSuccess: upsertOneWatercourseWithLocation,
-    deleteWatercourseSuccess: watercourseAdapter.removeOne,
+    deleteWatercourseSuccess: softDeleteWatercourse,
   },
 });
 export const {
@@ -100,7 +106,9 @@ export const watercourseEntitiesSelector = watercourseSelectors.selectEntities;
 export const watercoursesSelector = createSelector(
   [watercourseSelectors.selectAll, loginSelector],
   (watercourses, { farm_id }) => {
-    return watercourses.filter((watercourse) => watercourse.farm_id === farm_id);
+    return watercourses.filter(
+      (watercourse) => watercourse.farm_id === farm_id && !watercourse.deleted,
+    );
   },
 );
 

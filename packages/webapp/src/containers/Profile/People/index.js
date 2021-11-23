@@ -158,8 +158,8 @@ class People extends Component {
   }
 
   deactivate = (user_id) => {
-    if (window.confirm('Do you want to remove this user from your farm?')) {
-      if (window.confirm('This action will remove the user from your farm.')) {
+    if (window.confirm(this.props.t('PROFILE.PEOPLE.DO_YOU_WANT_TO_REMOVE'))) {
+      if (window.confirm(this.props.t('PROFILE.PEOPLE.THIS_WILL_REMOVE'))) {
         this.props.dispatch(deactivateUser(user_id));
         this.closeEditModal();
       }
@@ -388,9 +388,7 @@ class People extends Component {
               <a className={styles.close} onClick={this.closeEditModal}>
                 <img src={closeButton} alt="" />
               </a>
-              <h3>
-                {this.props.t('common:EDIT')} {editTitle}
-              </h3>
+              <h3>{this.props.t('PROFILE.ACCOUNT.EDIT_USER')}</h3>
             </div>
             {this.state.editUser && (
               <div className={styles.formContainer}>

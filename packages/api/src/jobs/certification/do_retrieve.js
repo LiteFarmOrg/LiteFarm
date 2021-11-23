@@ -10,12 +10,12 @@ const bucketNames = {
 module.exports = (nextQueue, emailQueue) => (job, done) => {
   console.log('JOB DATA', JSON.stringify(job.data));
   console.log('STEP 1 > RETRIEVE DO', job.id);
-  const { farm_id, files, email } = job.data;
+  const { farm_id, files, email, farm_name } = job.data;
   const args = [
     's3', // command
     'cp', //sub command
     `s3://${getS3BucketName()}/${farm_id}/document`, // location
-    `temp/${farm_id}`, // destination
+    `temp/${farm_name}`, // destination
     '--recursive',
     '--endpoint=https://nyc3.digitaloceanspaces.com',
     '--exclude=*',
@@ -27,7 +27,7 @@ module.exports = (nextQueue, emailQueue) => (job, done) => {
       newName: file_name,
     }));
     Promise.all(fileNames.map(({ oldName, newName }) => {
-      const directory = path.join(process.env.EXPORT_WD, 'temp', farm_id);
+      const directory = path.join(process.env.EXPORT_WD, 'temp', farm_name);
       return fs.stat(path.join(directory, oldName)).then(() =>
         fs.rename(path.join(directory, oldName), path.join(directory, newName)),
       ).catch(e => console.log('Could not find file', newName));
@@ -51,6 +51,6 @@ function childProcessExitCheck(successFn, failFn) {
 }
 
 function getS3BucketName() {
-  const node_env = process.env.NODE_ENV;
+  const node_env = process.env.NODE_ENV || 'development';
   return bucketNames[node_env];
 }

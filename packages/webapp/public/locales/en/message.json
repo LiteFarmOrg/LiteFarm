@@ -18,22 +18,23 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
+      "ADD": "Error: failed to add varietal to database",
+      "ADD_ALREADY_EXISTS": "Error: Varietal exists",
       "DELETE": "Failed to delete crop variety",
       "UPDATE": "Failed to update crop variety"
     },
     "SUCCESS": {
+      "ADD": "Successfully saved varietal!",
       "DELETE": "Deleted crop variety",
       "UPDATE": "Successfully updated crop variety"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field Crop",
-      "EDIT": "Failed To Edit Field Crop"
+      "DELETE": "Failed To Delete Field Crop"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop",
-      "EDIT": "Successfully Edited Crop"
+      "DELETE": "Successfully Deleted Crop"
     }
   },
   "EXPENSE": {
@@ -58,32 +59,14 @@
       "UPDATE": "Successfully updated farm info!"
     }
   },
-  "FERTILIZER": {
-    "ERROR": {
-      "ADD": "failed to add fertilizer"
-    }
-  },
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Failed to add custom harvest use type",
       "AMOUNT_TOTAL": "Total does not equal the amount to allocate",
-      "GET_TYPES": "Failed to fetch harvest use types",
-      "REQUIRED_TASK": "A harvest use type name is required"
+      "GET_TYPES": "Failed to fetch harvest use types"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Successfully added custom harvest use type"
-    }
-  },
-  "LOG": {
-    "ERROR": {
-      "ADD": "Failed to add Log",
-      "DELETE": "Failed to delete Log",
-      "EDIT": "Failed to edit Log"
-    },
-    "SUCCESS": {
-      "ADD": "Successfully added Log!",
-      "DELETE": "Successfully deleted Log!",
-      "EDIT": "Successfully edited Log!"
     }
   },
   "LOGIN": {
@@ -114,6 +97,22 @@
     "ERROR": {
       "CREATE": "Failed to create certification.",
       "UPDATE": "Failed to update certification!"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "Failed to update management plan"
+    },
+    "SUCCESS": {
+      "EDIT": "Management plan successfully updated"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "Failed to update revenue"
+    },
+    "SUCCESS": {
+      "EDIT": "Revenue successfully updated"
     }
   },
   "SALE": {

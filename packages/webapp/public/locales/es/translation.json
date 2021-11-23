@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Dirección es requerida",
+    "DISABLE_GEO_LOCATION": "Los servicios de ubicación deben estar habilitados para encontrar su ubicación actual.",
     "ENTER_A_VALID_ADDRESS": "Por favor ingrese dirección válida o coordine",
     "ENTER_LOCATION_PLACEHOLDER": "Ingresa una ubicación",
     "FARM_IS_REQUIRED": "Nombre de finca es requerida",
@@ -25,7 +26,7 @@
     "AFFECT_PLANS": "¿Esta tarea afectará algún plan?",
     "ASSIGN_ALL_TO_PERSON": "Asignar todas las tareas no asignadas en esta fecha a esta persona",
     "ASSIGN_TASK": "Asignar tarea",
-    "ASSIGNEE": "Cesionario/a",
+    "ASSIGNEE": "Responsable",
     "CANCEL": "creación de tareas",
     "CLEANING_VIEW": {
       "ESTIMATED_WATER": "Uso de agua estimado",
@@ -57,12 +58,14 @@
         "WEEDING": "Desyerbar"
       }
     },
-    "GO_TO_CATALOGUE": "MISSING",
+    "GO_TO_CATALOGUE": "Ir al catálogo de cultivos",
     "HARVEST_EVERYTHING": "Cosecha todo lo que esté listo",
     "HARVESTING_INFO": "Cada plan generará una tarea individual de cosecha",
     "HOW_MUCH_IS_HARVESTED": "¿Cuánto se está cosechando?",
     "HR": "/h.",
     "MANAGE_CUSTOM_TASKS": "Administrar tareas personalizadas",
+    "NEED_MANAGEMENT_PLAN": "Necesitará un plan de manejo que está activo o planificado antes de poder programar una tarea de cosecha o una tarea de trasplante. Vaya al catálogo de cultivos para crear un plan ahora.",
+    "NO_MANAGEMENT_PLAN": "No hay ningun plan de manejo de cultivos elegibles",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Control biológico",
       "FLAME_WEEDING": "Deshierbe de llama",
@@ -77,18 +80,20 @@
       "SYSTEMIC_SPRAY": "Spray sistémico",
       "WHAT_PESTS": "¿Qué plaga (s) está tratando de controlar?"
     },
-    "PLANTING": "MISSING",
-    "PLANTING_METHOD": "MISSING",
-    "PLANTING_TASK": "MISSING",
-    "PLANTING_TASK_MODAL": "MISSING",
+    "PLANTING_FROM": "Plantar desde",
+    "PLANTING_METHOD": "Método de plantar",
+    "PLANTING_STOCK": "Plantón",
+    "PLANTING_TASK": "Tarea de plantar",
+    "PLANTING_TASK_MODAL": "Comenzar una nueva tarea de plantar crea un nuevo plan de manejo. Vaya al catálogo de cultivos para seleccionar el cultivo que le gustaría plantar.",
     "QUANTITY": "Cantidad",
     "RETIRE_CUSTOM_TASK": "¿Retirar tarea personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "¿Está seguro de que desea eliminar esta tarea personalizada?",
+    "SEED": "Semilla",
     "SELECT_ALL": "Seleccionar todo",
     "SELECT_ALL_PLANS": "Seleccionar todos los planes",
     "SELECT_TASK_TYPE": "Seleccionar tipo de tarea",
     "SOIL_AMENDMENT_VIEW": {
-      "IS_PERMITTED": "¿Está la enmienda del suelo en la lista de sustancias permitidas?",
+      "IS_PERMITTED": "¿Está el fetilizante del suelo en la lista de sustancias permitidas?",
       "MOISTURE_RETENTION": "Retención de humedad",
       "NUTRIENT_AVAILABILITY": "Disponibilidad de nutrientes",
       "OTHER": "Otro",
@@ -100,8 +105,10 @@
     "TASK": "tarea",
     "TASK_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Cuéntanos sobre la",
-    "TRANSPLANTING": "MISSING",
-    "WAGE_OVERRIDE": "Alterar el salario"
+    "TRANSPLANT_METHOD": "Método de trasplantar",
+    "WAGE_OVERRIDE": "Alterar el salario",
+    "WHAT_PLANTING_METHOD": "¿Cuál es el método de trasplante?",
+    "WILD_CROP": "Cultivos silvestres"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Largo de camas",
@@ -173,8 +180,7 @@
       "INFORMATION": "Indicaremos esta informacion a traves de la aplicacion con el icono de la hoja.",
       "TITLE": "Estas interesado en aplicar para:",
       "YOUR_CERTIFICATION": "Tu certificación"
-    },
-    "WARNING": "Esta funcionalidad esta en desarrollo y puede no estar lista esta temporada. Sin embargo, clickear 'Si' lo activara para ti cuando este listo."
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Quizas mas tarde",
@@ -195,15 +201,12 @@
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
     "FLOW_TITLE": "exportar de documentos de certificación",
-    "FROM": "Desde",
     "GOOD_NEWS": "¡Buenas noticias!",
     "HAVE_ALL_INFO": "Parece que LiteFarm tiene toda la información que necesitamos para procesar sus documentos de certificación. Se los enviaremos a:",
     "NEXT_WE_WILL_CHECK": "A continuación, verificaremos si su certificador requiere información adicional para procesar el envío de su certificación.",
     "NOTE_CANNOT_RESUBMIT": "Nota: Una vez que envíe la encuesta, no podrá editar sus respuestas. Para cambiarlos después del envío, comience una nueva exportación.",
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
-    "TO": "Hasta",
-    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'",
     "UH_OH": "¡Oh, no!",
     "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
     "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
@@ -230,7 +233,7 @@
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesita estar entre 1900 y",
     "BIRTH_YEAR_TOOLTIP": "Información sobre la edad es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "CREATE_BUTTON": "Crear cuenta",
-    "EMAIL": "correo electrónico",
+    "EMAIL": "Correo electrónico",
     "FULL_NAME": "Nombre completo",
     "GENDER": "Género",
     "GENDER_TOOLTIP": "La información de género es recolectada sólo por propósitos de estudio y sólo será compartida sin identificarlo(la) personalmente a Ud.",
@@ -255,8 +258,9 @@
       "SUPPLIERS": "Proveedores",
       "TITLE": "Título"
     },
-    "HERE_YOU_CAN": "Aca uno puede",
+    "HERE_YOU_CAN": "Acá uno puede",
     "LETS_BEGIN": "Vamos a comenzar",
+    "NEW_CROP_NAME": "Nombre de nuevo cultivo",
     "NO_RESULTS_FOUND": "No se han encontrado resultados. Por favor, cambie sus filtros.",
     "ON_YOUR_FARM": "En tu granja",
     "SELECT_A_CROP": "Seleccione un cultivo para agregarlo a su granja. Utilice la búsqueda y los filtros para encontrar cultivos más rápidamente.",
@@ -312,12 +316,17 @@
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Su certificador puede solicitar documentación que respalde su afirmación de que este cultivo no está modificado genéticamente.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Su certificador puede solicitar documentación que respalde su búsqueda.",
     "NEED_DOCUMENT_TREATED": "Su certificador puede solicitar documentación que describa cualquier tratamiento.",
-    "NUTRIENTS_IN_EDIBLE_PORTION": "MISSING",
+    "NUTRIENTS_IN_EDIBLE_PORTION": "Nutrientes en porción comestible (por 100g)",
     "PERENNIAL": "Perenne",
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
-    "PHYSIOLOGY_AND_ANATOMY": "MISSING",
+    "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento."
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "Desde",
+    "TO": "Hasta",
+    "TO_MUST_BE_AFTER_FROM": "La fecha 'Hasta' debe ser posterior a la fecha 'Desde'"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
@@ -329,7 +338,7 @@
     "ADD": {
       "ADD_MORE_PAGES": "Agregar más páginas",
       "DOCUMENT_NAME": "Nombre del documento",
-      "DOES_NOT_EXPIRE": "Este archivo no expirar",
+      "DOES_NOT_EXPIRE": "Este archivo no expira",
       "TITLE": "Agregar un documento",
       "TYPE": "Tipo",
       "VALID_UNTIL": "Válido hasta"
@@ -351,9 +360,9 @@
     "SPOTLIGHT": {
       "CDC": "Cuando llegue el momento de generar su exportación de certificación, LiteFarm exportará automáticamente todos los documentos de cumplimiento que sean válidos en la fecha de exportación que especifique. Los documentos de cumplimiento se archivarán automáticamente cuando expiran.",
       "HERE_YOU_CAN": "Aca uno puede:",
-      "YOU_CAN_ONE": "Cargue los documentos que desee incluir en la exportación de su certificación.",
+      "YOU_CAN_ONE": "Cargar los documentos que desee incluir en la exportación de su certificación.",
       "YOU_CAN_THREE": "Archivar documentos innecesarios",
-      "YOU_CAN_TWO": "Clasifique y controle las fechas de vencimiento de su documento"
+      "YOU_CAN_TWO": "Clasificar y controlar las fechas de vencimiento de su documento"
     },
     "TYPE": {
       "CLEANING_PRODUCT": "Producto de limpieza",
@@ -361,7 +370,7 @@
       "FERTILIZING_PRODUCT": "Producto fertilizante",
       "OTHER": "Otro",
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
-      "SOIL_AMENDMENT": "Enmienda del suelo"
+      "SOIL_AMENDMENT": "Fertilización y correción del suelo"
     },
     "VALID": "Válido"
   },
@@ -505,7 +514,7 @@
       "BARN": "Granero",
       "BZ": "Zona delimitada",
       "CA": "Area ceremonial",
-      "FENCE": "Valla",
+      "FENCE": "Cerca",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
       "GARDEN": "Huerto",
@@ -579,7 +588,7 @@
       }
     },
     "UNABLE_TO_RETIRE": {
-      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos activos o planificados.",
+      "BODY": "Solo puede retirar ubicaciones que no tengan cultivos o tareas activos o planificados.",
       "TITLE": "No se pudo retirar"
     },
     "WATER_VALVE": {
@@ -615,6 +624,22 @@
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Borrar todos los filtros"
   },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "Agregar ingresos",
+      "TITLE": "Ingresos reales"
+    },
+    "DATE": "Fecha",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "Ingresos anuales estimados",
+      "ESTIMATED_ANNUAL_YIELD": "Rendimiento anual estimado",
+      "ESTIMATED_PRICE_PER_UNIT": "Precio estimado por unidad",
+      "TITLE": "Ingresos estimados"
+    },
+    "REVENUE": "Ingresos",
+    "VIEW_WITHIN_DATE_RANGE": "Ver ingresos dentro de este intervalo de fechas",
+    "WHOLE_FARM_REVENUE": "Ingresos de toda la granja"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
     "EMAIL": "Correo electrónico",
@@ -640,9 +665,9 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Anfibio",
       "BIRDS": "Aves",
-      "CROPS": "Cultivos",
+      "CROP_VARIETIES": "Variedades de cultivos",
       "HEADER": "Numero de especies",
-      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
+      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en su finca desde los límites de su finca. Puede aumentar la biodiversidad de los cultivos en su granja agregando cultivos adicionales. Puede aumentar el recuento de biodiversidad no agrícola en su granja registrando ubicaciones en https://www.inaturalist.org/app.",
       "INSECTS": "Insectos",
       "PLANTS": "Plantas",
       "SPECIES_COUNT": "{{count}} Especies",
@@ -743,7 +768,7 @@
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesitar ser entre 1900 y",
     "BIRTH_YEAR_TOOLTIP": "Información sobre la edad es recolectada sólo por propósitos de estudio y sólo será compartida sin identificar personalmente a Ud.",
     "CHOOSE_ROLE": "Elegir rol",
-    "EMAIL": "correo electrónico",
+    "EMAIL": "Correo electrónico",
     "EMAIL_INFO": "Usuarios sin correo electrónico no podrán iniciar sesión",
     "FULL_NAME": "Nombre completo",
     "GENDER": "Género",
@@ -827,10 +852,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonar este plan de manejo",
     "ADD_A_TASK": "Agregar una tarea",
-    "ASSOCIATED_TASKS": "Tareas asociadas",
-    "EDIT_PLAN": "Editar plan",
+    "DETAILS": "Detalles",
     "FAILED_CROP": "¿Cultivo fallido?",
-    "PLAN_NOTES": "Notas del plan"
+    "TASKS": "Tareas"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plan de manejo abandonará todas las tareas incompletas asociadas con él y lo eliminará del mapa de su granja.",
@@ -867,17 +891,18 @@
     "DAYS_FROM_SEEDING": "Días desde la siembra hasta:",
     "DAYS_TO_HARVEST": "Días hasta la próxima cosecha:",
     "DAYS_TO_TERMINATION": "Días hasta la terminación:",
+    "DETAIL_SPOTLIGHT_CONTENTS": "Aquí puede editar los detalles de su cultivo.",
     "DETAIL_SPOTLIGHT_TITLE": "Detalles",
-    "DETAILS_SPOTLIGHT_1": "Editar los detalles de su cultivo",
-    "DETAILS_SPOTLIGHT_2": "Cargar o vincular documentos de cumplimiento",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "¿Quieres abandonar este plan?",
     "DROP_PIN": "Suelta un pin",
     "DURATION_TOOLTIP": "Estos son valores sugeridos. Ajústelo a las condiciones locales.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "La edición de este plan no modificará las tareas asignadas.",
     "ESTIMATED_SEED": "Semilla estimada requerida",
     "ESTIMATED_YIELD": "Rendimiento estimado",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "LiteFarm ha generado algunas tareas basadas en su plan. Puede editarlos o asignarlos en esta pantalla. Además, puede agregar más tareas a este plan o editar su plan.",
-      "TITLE": "Congrats! You’ve made your first management plan!"
+      "BODY_PART1": "LiteFarm ha generado algunas tareas basadas en su plan. Puede agregar más tareas o asignarlas en esta pantalla.",
+      "BODY_PART2": "Su plan se activará una vez que complete una tarea.",
+      "TITLE": "Felicitaciones!¡Ha hecho su primer plan de manejo!"
     },
     "FOR_HARVEST": "Para la cosecha",
     "GERMINATION": "Germinación",
@@ -929,7 +954,7 @@
     "SEEDING_DATE": "Fecha de siembra",
     "SEEDLING": "Plántula o planton",
     "SEEDLING_AGE": "¿Qué edad tiene la plántula o el planton?",
-    "SEEDLING_AGE_INFO": "La edad aproximada ayudará a LiteFarm a calcular las fechas de cosecha de las plántulas. Puede omitir esta pregunta para otros tipos de material de plantación.",
+    "SEEDLING_AGE_INFO": "La edad aproximada ayudará a LiteFarm a calcular las fechas de cosecha de las plántulas. Para esquejes y otro material de plantación sin una edad obvia, puede ingresar 0.",
     "SELECT_A_PLANTING_LOCATION": "Seleccione una ubicación de plantación",
     "SELECT_A_SEEDING_LOCATION": "Seleccione una ubicación de siembra",
     "SELECT_CURRENT_LOCATION": "Seleccione la ubicación actual del cultivo",
@@ -961,7 +986,7 @@
       }
     },
     "VARIETY": "Variedad",
-    "WHAT_IS_AGE": "¿Cuál es la edad del cultivo?",
+    "WHAT_IS_AGE": "¿Cuál es la edad aproximada del cultivo?",
     "WHAT_WAS_PLANTING_METHOD": "¿Cuál fue el método de plantación?",
     "WHERE_START_LOCATION": "¿Dónde está tu ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
@@ -979,8 +1004,8 @@
     "SPOTLIGHT": {
       "FARM": "Aquí tu puedes:, • Editar las características de su finca, • Recorre el mapa su finca, • Manejar sus trabajadores",
       "FARM_TITLE": "Este es el perfil de su finca",
-      "NOTIFICATION": "Aqui puedes:, • Manejar sus tareas, • Ver actualizaciones importantes, • Coordinar actividades de la finca",
-      "NOTIFICATION_TITLE": "Este es su Centro de Notificaciones",
+      "NOTIFICATION": "Aqui puedes:, • Manejar sus tareas, • Mira qué más está pasando, • Coordinar actividades de la finca",
+      "NOTIFICATION_TITLE": "Estas son tus tareas de la granja",
       "PROFILE": "Aquí encontrará:, • Su informacion, • Datos útiles, • El botón para cerrar la sesión",
       "PROFILE_TITLE": "Este es su perfil"
     }
@@ -1022,7 +1047,7 @@
     "WORD_LIMIT": "Solo se pueden mostrar {{limit}} caracteres"
   },
   "PREPARING_EXPORT": {
-    "MESSAGE": "LiteFarm está juntando sus documentos de certificación en segundo plano y recibirá un correo electrónico cuando hayamos terminado; podría demorar unos minutos ... Puede hacer clic fuera de este cuadro para continuar usando LiteFarm sin interrumpir el proceso.",
+    "MESSAGE": "LiteFarm está juntando sus documentos de certificación y usted recibirá un correo electrónico cuando hayamos terminado; puede demorar unos minutos ... Puede hacer clic fuera de este cuadro para continuar usando LiteFarm sin interrumpir el proceso.",
     "TITLE": "Se está preparando su exportación"
   },
   "PROFILE_FLOATER": {
@@ -1035,6 +1060,7 @@
     "ACCOUNT_TAB": "Cuenta",
     "ACCOUNT": {
       "CONVERT_TO_HAVE_ACCOUNT": "Convertir a este trabajador en usuario con cuenta",
+      "EDIT_USER": "Editar usuario",
       "EMAIL": "Correo electrónico",
       "ENGLISH": "Inglés",
       "FIRST_NAME": "Primer nombre",
@@ -1059,6 +1085,7 @@
     },
     "PEOPLE_TAB": "Personas",
     "PEOPLE": {
+      "DO_YOU_WANT_TO_REMOVE": "¿Quieres eliminar a este usuario/a de tu granja?",
       "EO": "Oficial de extensión",
       "FARM_MANAGER": "Jefe o gerente de la finca",
       "FARM_OWNER": "Dueño(a) de la finca",
@@ -1071,6 +1098,7 @@
       "ROLE": "Rol",
       "ROLE_CHANGE_ALERT": "Cambio de rol se reflejará completamente en la siguiente sesión. Trabajadores no pueden configurarse como Administradores.",
       "SEARCH": "Buscar",
+      "THIS_WILL_REMOVE": "Esta acción eliminará al usuario/a de su granja.",
       "USERS_FOUND": "Usuarios encontrados"
     },
     "TABLE": {
@@ -1098,14 +1126,14 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Seleccionar cultivo",
       "CROP_REQUIRED": "Cultivo es requerida",
+      "CROP_VARIETY": "Variedad de cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "DATE": "Fecha",
       "TABLE_HEADERS": {
-        "CROPS": "Cultivos",
+        "CROP_VARIETIES": "Variedad de cultivo",
         "QUANTITY": "Cantidad",
         "TOTAL": "Total"
       },
@@ -1122,7 +1150,7 @@
     },
     "EDIT_SALE": {
       "DATE": "Fecha",
-      "DELETE_CONFIRMATION": "stá seguro que quiere borrar esta venta?",
+      "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
       "TITLE": "Editar venta"
     },
     "ESTIMATED_REVENUE": {
@@ -1145,28 +1173,10 @@
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
       "ADD_NEW_SALE": "Agregar nueva venta",
       "BALANCE": "Balance",
-      "BALANCE_BY_CROP": "Balance (por cultivo)",
       "BALANCE_EXPLANATION": "Calculamos un saldo en tiempo real (\"costo de producción\") para cada cultivo en su granja. Esta es una ecuación simple de gastos menos ingresos. Los gastos de cada cultivo se calculan a partir de dos partes, una parte son los gastos de mano de obra de las horas registradas para las actividades agrícolas, la otra parte son los otros gastos registrados para toda la finca. Cuando se registran los gastos de toda la finca, los dividimos equitativamente entre los cultivos de la finca. 'Sin asignar' significa que se ha enviado un turno para un campo cuando todavía no hay un cultivo en ese campo. Este (los) turno (s) se asignarán a los cultivos a medida que se agreguen a ese campo dentro de la ventana de tiempo del informe financiero.",
       "BALANCE_FOR_FARM": "Balance (Finca completa)",
-      "ENSURE_ONE_CROP_WARNING": "Asegúrese de que se haya asignado al menos 1 cultivo y una venta o turno asociada para ver esta información.",
       "EXPENSES": "Gastos",
       "FINANCE_HELP": "Ayuda financiera",
-      "HAS_UNALLOCATED_LINE1": "*Sin asignar significa que se ha trabajado en un campo vacío para el rango de fechas seleccionado.",
-      "HAS_UNALLOCATED_LINE10_1": "Si se agrega lechuga al Campo1 pero no se envía ningún turno relacionado con lechuga ó Campo1, ó se envía después del 1 de abril, entonces se asignará maíz con una cantidad total de",
-      "HAS_UNALLOCATED_LINE10_2": "De Campo1.",
-      "HAS_UNALLOCATED_LINE2": "Si posteriormente se agregaron uno o más cultivos a un campo vacío, y existe un turno relacionado con los cultivos, entonces el trabajo realizado en ese campo vacío se distribuirá uniformemente en cada cultivo.",
-      "HAS_UNALLOCATED_LINE3_1": "Por rango de fecha",
-      "HAS_UNALLOCATED_LINE3_2": "1 de enero",
-      "HAS_UNALLOCATED_LINE3_3": "1 de abril",
-      "HAS_UNALLOCATED_LINE4": "Y dos campos vacíos",
-      "HAS_UNALLOCATED_LINE5_1": "Suponga que se han enviado turnos para ambos campos (costo =",
-      "HAS_UNALLOCATED_LINE5_2": "30 para cada campo)",
-      "HAS_UNALLOCATED_LINE6_1": "Luego, el valor inubicable sería",
-      "HAS_UNALLOCATED_LINE6_2": "Trabajo de Campo1 + Trabajo de CAmpo2 = -",
-      "HAS_UNALLOCATED_LINE7_1": "Después maíz y lechuga han sido plantados en",
-      "HAS_UNALLOCATED_LINE7_2": "y los turnos relacionados se han enviado dentro del rango de fechas, entonces el valor No asignado sería",
-      "HAS_UNALLOCATED_LINE8": "Trabajo de Campo2 = -",
-      "HAS_UNALLOCATED_LINE9": "Maíz y lechuga serán cada uno ubicados con un costo extra de",
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
@@ -1257,11 +1267,13 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
+    "CHANGES": "Leer sobre los cambios",
     "EMAIL_INVALID": "Correo invalido",
     "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Faltante",
+    "LITEFARM_UPDATED": "¡Hemos actualizado LiteFarm!",
     "PASSWORD_ERROR": "Contraseña incorrecta",
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
@@ -1299,6 +1311,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Abandonar esta tarea",
+    "ABANDON_TASK_DURATION": "¿Se completó algún trabajo para esta tarea?",
     "ABANDON": {
       "ABANDON": "Abandonar",
       "INFO": "Abandonar esta tarea cambiará su estado a abandonada y la eliminará de todas las listas de ‘Tareas pendientes’ y ‘No asignadas’ de todos los usuarios.",
@@ -1317,6 +1330,7 @@
       "TITLE": "Abandonar tarea",
       "WHAT_HAPPENED": "¿Qué sucedió?"
     },
+    "ABANDONMENT_DETAILS": "Detalles del abandono de la tarea",
     "ADD_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado ",
     "ADD_HARVEST_USE": "Agregar otro uso de la cosecha",
     "ADD_TASK": "Crea una tarea",
@@ -1332,14 +1346,18 @@
     "COMPLETE_TASK_CHANGES": "¿Tuvo que hacer algún cambio en esta tarea?",
     "COMPLETE_TASK_DURATION": "¿Cuánto tiempo tardó en completarse la tarea?",
     "COMPLETE_TASK_FLOW": "la terminación de la tarea",
+    "COMPLETION_DETAILS": "Detalles de finalización de la tarea",
     "COMPLETION_NOTES": "Notas de finalización de tarea",
     "COMPLETION_NOTES_CHAR_LIMIT": "Las notas deben tener menos de 10,000 caracteres",
+    "CREATE_CUSTOM_HARVEST_USE": "Crea un uso de cosecha personalizado",
+    "CURRENT": "Actual",
+    "DESCRIBE_HARVEST_USE": "Describe el uso de la cosecha",
     "DETAILS": "Detalles",
     "DID_YOU_ENJOY": "¿Disfrutaste esta tarea?",
     "DUE_DATE": "Fecha de vencimiento",
     "DURATION": "Duración",
-    "EDIT_TASK": "Editar tarea",
     "HARVEST_USE": "Usa de la cosecha?",
+    "HARVEST_USE_ALREADY_EXISTS": "El uso de cosecha ya existe",
     "HOW_WILL_HARVEST_BE_USED": "Como va a usar la cosecha?",
     "LOCATIONS": "Ubicacion (es)",
     "NO_TASKS_TO_DISPLAY": "No hay tareas para mostrar.",
@@ -1347,9 +1365,12 @@
     "PAGE_TITLE": "Tareas",
     "PREFER_NOT_TO_SAY": "Prefiero no decir",
     "PROVIDE_RATING": "Proveer una calificación",
+    "QUANTITY_CANNOT_EXCEED": "La cantidad de cosecha utilizada no puede exceder la cantidad a asignar",
+    "RATE_THIS_TASK": "Califica esta tarea",
     "REMOVE_HARVEST_USE": "Quitar",
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",
+    "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
     "STATUS": {
       "ABANDONED": "Abandonada",
       "COMPLETED": "Completada",
@@ -1361,7 +1382,8 @@
     "TASKS_COUNT": "{{count}} tarea",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
-    "TRANSPLANT_LOCATIONS": "MISSING",
+    "TRANSPLANT": "Trasplantar",
+    "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
     "UNASSIGNED": "Sin asignar"
   },
   "UNIT": {

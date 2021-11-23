@@ -45,7 +45,7 @@ export default function PureCeremonialArea({
   } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const showPerimeter = true;
   const onSubmit = (data) => {
     data[ceremonialEnum.total_area_unit] = data[ceremonialEnum.total_area_unit]?.value;
@@ -93,7 +93,6 @@ export default function PureCeremonialArea({
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         register={register}
-        handleSubmit={handleSubmit}
         setValue={setValue}
         getValues={getValues}
         watch={watch}

@@ -4,8 +4,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
 import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
-import { ReactComponent as Expense } from '../../assets/images/managementPlans/expense.svg';
-import { ReactComponent as Document } from '../../assets/images/managementPlans/Document.svg';
 import { Main, Title } from '../Typography';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '../Form/RadioGroup';
@@ -21,6 +19,7 @@ function PureCropDetail({
   isInterestedInOrganic,
   onRetire,
   onEdit,
+  isAdmin,
 }) {
   const { t } = useTranslation();
   const {
@@ -38,14 +37,17 @@ function PureCropDetail({
   return (
     <Layout
       buttonGroup={
-        <>
-          <Button color={'secondary'} fullLength onClick={onRetire}>
-            {t('common:RETIRE')}
-          </Button>
-          <Button onClick={onEdit} fullLength>
-            {t('common:EDIT')}
-          </Button>
-        </>
+        isAdmin && (
+          <>
+            {/*TODO: LF-2003 rework task/management plan/location/crop_variety soft delete*/}
+            {/*<Button color={'secondary'} fullLength onClick={onRetire}>*/}
+            {/*  {t('common:RETIRE')}*/}
+            {/*</Button>*/}
+            <Button onClick={onEdit} fullLength>
+              {t('common:EDIT')}
+            </Button>
+          </>
+        )
       }
     >
       <CropHeader
@@ -53,7 +55,7 @@ function PureCropDetail({
         crop_translation_key={variety.crop_translation_key}
         crop_variety_name={variety.crop_variety_name}
         crop_variety_photo_url={variety.crop_variety_photo_url}
-        supplierName={variety.supplier}
+        supplier={variety.supplier}
       />
       {!isEditing && (
         <>

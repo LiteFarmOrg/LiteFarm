@@ -38,8 +38,8 @@ export default function PureContainerForm({
   const PLANTING_DEPTH_UNIT = `${prefix}.container_method.planting_depth_unit`;
   const PLANTING_SOIL = `${prefix}.container_method.planting_soil`;
   const CONTAINER_TYPE = `${prefix}.container_method.container_type`;
-  const ESTIMATED_YIELD = `${prefix}.estimated_yield`;
-  const ESTIMATED_YIELD_UNIT = `${prefix}.estimated_yield_unit`;
+  const ESTIMATED_YIELD = `crop_management_plan.estimated_yield`;
+  const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const ESTIMATED_SEED = `${prefix}.estimated_seeds`;
   const ESTIMATED_SEED_UNIT = `${prefix}.estimated_seeds_unit`;
   const NOTES = `${prefix}.notes`;
@@ -81,6 +81,7 @@ export default function PureContainerForm({
       setShowEstimatedValue(false);
     }
   }, [in_ground, number_of_container, plants_per_container, total_plants, plant_spacing]);
+  const showEstimatedYield = prefix.endsWith('final');
 
   return (
     <>
@@ -192,7 +193,7 @@ export default function PureContainerForm({
                 style={{ paddingBottom: '40px' }}
                 errors={getInputErrors(errors, CONTAINER_TYPE)}
                 optional
-                hasLeaf
+                // TODO connect this later: hasLeaf
                 disabled={disabled}
               />
               <Input
@@ -208,7 +209,7 @@ export default function PureContainerForm({
             </>
           )}
           {showEstimatedValue && (
-            <div className={clsx(isFinalPage && styles.row, styles.paddingBottom40)}>
+            <div className={clsx(showEstimatedYield && styles.row, styles.paddingBottom40)}>
               <Unit
                 register={register}
                 label={t('MANAGEMENT_PLAN.ESTIMATED_SEED')}
@@ -224,7 +225,7 @@ export default function PureContainerForm({
                 required={false}
                 disabled={disabled}
               />
-              {isFinalPage && (
+              {showEstimatedYield && (
                 <Unit
                   register={register}
                   label={t('MANAGEMENT_PLAN.ESTIMATED_YIELD')}
@@ -237,7 +238,7 @@ export default function PureContainerForm({
                   hookFormGetValue={getValues}
                   hookFromWatch={watch}
                   control={control}
-                  required={isFinalPage}
+                  required={showEstimatedYield}
                   disabled={disabled}
                 />
               )}

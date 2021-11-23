@@ -1,8 +1,8 @@
 import {
   getDefaultLocationReqBody,
   getPlantingManagementPlansReqBody,
-  getPlantingMethodReqBody,
 } from '../../../containers/Crop/AddManagementPlan/ManagementPlanName/getManagementPlanReqBody';
+import { addDaysToDate, getDateInputFormat } from '../../../util/moment';
 
 const formDataAndReqBody = [
   {
@@ -25,8 +25,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -88,8 +87,7 @@ const formDataAndReqBody = [
             },
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             bed_method: {
               number_of_beds: 3,
               number_of_rows_in_bed: 3,
@@ -135,6 +133,8 @@ const formDataAndReqBody = [
         needs_transplant: true,
         for_cover: false,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -168,8 +168,7 @@ const formDataAndReqBody = [
               planting_method: 'CONTAINER_METHOD',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
               planting_task_type: 'PLANT_TASK',
@@ -185,8 +184,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -198,6 +196,8 @@ const formDataAndReqBody = [
           needs_transplant: true,
           for_cover: false,
           already_in_ground: false,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           transplant_date: '2021-08-19',
           is_seed: true,
           germination_date: '2021-08-14',
@@ -229,8 +229,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -279,8 +278,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0.119256,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             planting_method: 'BROADCAST_METHOD',
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
@@ -339,6 +337,8 @@ const formDataAndReqBody = [
         for_cover: true,
         harvest_days: 20,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -370,8 +370,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -388,8 +387,7 @@ const formDataAndReqBody = [
               notes: '2',
               estimated_seeds: 0.119256,
               estimated_seeds_unit: 'kg',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               planting_method: 'BROADCAST_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
@@ -434,8 +432,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -485,8 +482,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0.119256,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -542,6 +538,8 @@ const formDataAndReqBody = [
         needs_transplant: false,
         for_cover: false,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: true,
         transplant_days: 10,
         termination_days: 15,
@@ -575,8 +573,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -588,6 +585,8 @@ const formDataAndReqBody = [
           needs_transplant: false,
           for_cover: false,
           already_in_ground: false,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           is_seed: true,
           germination_date: '2021-08-14',
           harvest_date: '2021-08-29',
@@ -618,8 +617,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -669,8 +667,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0.119256,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -726,6 +723,8 @@ const formDataAndReqBody = [
         needs_transplant: false,
         for_cover: true,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: true,
         harvest_days: 20,
         transplant_days: 10,
@@ -759,8 +758,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -802,8 +800,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -870,8 +867,7 @@ const formDataAndReqBody = [
             notes: '9',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -909,6 +905,8 @@ const formDataAndReqBody = [
         needs_transplant: true,
         for_cover: false,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         seed_date: '2021-08-09',
         termination_days: 15,
@@ -942,8 +940,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -969,8 +966,7 @@ const formDataAndReqBody = [
               notes: '9',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               planting_method: 'BED_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
@@ -982,6 +978,8 @@ const formDataAndReqBody = [
           needs_transplant: true,
           for_cover: false,
           already_in_ground: false,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           transplant_date: '2021-08-19',
           is_seed: false,
           germination_date: '2021-08-14',
@@ -1016,8 +1014,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -1085,8 +1082,7 @@ const formDataAndReqBody = [
             notes: '6',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -1126,6 +1122,8 @@ const formDataAndReqBody = [
         germination_days: 5,
         harvest_days: 20,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         seed_date: '2021-08-09',
         crop_age: 1,
@@ -1158,8 +1156,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -1184,8 +1181,7 @@ const formDataAndReqBody = [
               notes: '6',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               planting_method: 'ROW_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
               is_final_planting_management_plan: false,
@@ -1230,8 +1226,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -1299,8 +1294,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -1340,6 +1334,8 @@ const formDataAndReqBody = [
         termination_days: 15,
         germination_days: 5,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         seed_date: '2021-08-09',
         crop_age: 1,
@@ -1372,8 +1368,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -1386,6 +1381,8 @@ const formDataAndReqBody = [
           needs_transplant: false,
           for_cover: false,
           already_in_ground: false,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           is_seed: false,
           harvest_date: '2021-08-29',
         },
@@ -1415,8 +1412,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -1484,8 +1480,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -1525,6 +1520,8 @@ const formDataAndReqBody = [
         transplant_days: 10,
         germination_days: 5,
         already_in_ground: false,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         seed_date: '2021-08-09',
         crop_age: 1,
@@ -1557,8 +1554,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -1600,8 +1596,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -1670,8 +1665,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -1708,6 +1702,8 @@ const formDataAndReqBody = [
         needs_transplant: true,
         for_cover: false,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         crop_age: 1,
         crop_age_unit: 'd',
@@ -1743,8 +1739,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -1761,6 +1756,8 @@ const formDataAndReqBody = [
           needs_transplant: true,
           for_cover: false,
           already_in_ground: true,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           transplant_date: '2021-08-19',
           is_wild: false,
           harvest_date: '2021-09-08',
@@ -1768,6 +1765,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
       farm: {
         default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
@@ -1794,8 +1792,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -1863,8 +1860,7 @@ const formDataAndReqBody = [
             notes: '6',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -1902,6 +1898,8 @@ const formDataAndReqBody = [
         for_cover: true,
         harvest_days: 20,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         is_seed: false,
         crop_age: 1,
         crop_age_unit: 'd',
@@ -1936,8 +1934,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -1962,8 +1959,7 @@ const formDataAndReqBody = [
               notes: '6',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               is_planting_method_known: true,
               planting_method: 'ROW_METHOD',
               location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
@@ -1981,6 +1977,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
       farm: {
         default_initial_location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
@@ -2008,8 +2005,7 @@ const formDataAndReqBody = [
               container_type: '5',
             },
             notes: '3',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             row_method: {
               same_length: false,
               total_rows_length: 0.02,
@@ -2078,8 +2074,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -2115,6 +2110,8 @@ const formDataAndReqBody = [
         needs_transplant: false,
         for_cover: false,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: false,
@@ -2142,8 +2139,7 @@ const formDataAndReqBody = [
           planting_management_plans: [
             {
               is_planting_method_known: false,
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               is_final_planting_management_plan: true,
             },
@@ -2152,12 +2148,15 @@ const formDataAndReqBody = [
           needs_transplant: false,
           for_cover: false,
           already_in_ground: true,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           is_wild: false,
           harvest_date: '2021-09-08',
         },
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2181,8 +2180,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             is_planting_method_known: true,
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             planting_method: 'CONTAINER_METHOD',
             row_method: {
               same_length: false,
@@ -2252,8 +2250,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             location_id: 'ce8f9676-f70a-11eb-8dd7-6f2c0c6a4580',
             container_method: {
               number_of_containers: 2,
@@ -2289,6 +2286,8 @@ const formDataAndReqBody = [
         needs_transplant: false,
         for_cover: true,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: false,
@@ -2326,8 +2325,7 @@ const formDataAndReqBody = [
               notes: '3',
               is_planting_method_known: true,
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -2344,6 +2342,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2367,8 +2366,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             is_planting_method_known: true,
             row_method: {
               same_length: false,
@@ -2438,8 +2436,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             container_method: {
               number_of_containers: 2,
               plants_per_container: 3,
@@ -2479,6 +2476,8 @@ const formDataAndReqBody = [
         needs_transplant: true,
         for_cover: false,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -2512,8 +2511,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -2521,8 +2519,6 @@ const formDataAndReqBody = [
               planting_task_type: 'TRANSPLANT_TASK',
             },
             {
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
               pin_coordinate: {
                 lat: 49.26901312980895,
                 lng: -123.18247816752015,
@@ -2534,6 +2530,8 @@ const formDataAndReqBody = [
           needs_transplant: true,
           for_cover: false,
           already_in_ground: true,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           transplant_date: '2021-08-19',
           is_wild: true,
           harvest_date: '2021-09-08',
@@ -2541,6 +2539,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2564,8 +2563,7 @@ const formDataAndReqBody = [
             },
             notes: '3',
             planting_method: 'CONTAINER_METHOD',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             is_planting_method_known: true,
             row_method: {
               same_length: false,
@@ -2635,8 +2633,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             container_method: {
               number_of_containers: 2,
               plants_per_container: 3,
@@ -2677,6 +2674,8 @@ const formDataAndReqBody = [
         for_cover: true,
         harvest_days: 20,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -2709,8 +2708,7 @@ const formDataAndReqBody = [
               },
               notes: '3',
               planting_method: 'CONTAINER_METHOD',
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
+
               location_id: '8b47b24e-f427-11eb-b310-9b4fc6232458',
               estimated_seeds: 0,
               estimated_seeds_unit: 'kg',
@@ -2736,6 +2734,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2750,8 +2749,6 @@ const formDataAndReqBody = [
         termination_days: 15,
         planting_management_plans: {
           final: {
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
             planting_method: 'CONTAINER_METHOD',
             container_method: {
               total_plants: 2,
@@ -2835,8 +2832,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             container_method: {
               number_of_containers: 2,
               plants_per_container: 3,
@@ -2873,6 +2869,8 @@ const formDataAndReqBody = [
         },
         harvest_days: 20,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -2908,6 +2906,7 @@ const formDataAndReqBody = [
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },
@@ -2918,8 +2917,6 @@ const formDataAndReqBody = [
         harvest_date: '2021-09-08',
         planting_management_plans: {
           final: {
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
             planting_method: 'CONTAINER_METHOD',
             container_method: {
               total_plants: 2,
@@ -3006,8 +3003,7 @@ const formDataAndReqBody = [
             notes: '2',
             estimated_seeds: 0,
             estimated_seeds_unit: 'kg',
-            estimated_yield: 0,
-            estimated_yield_unit: 'kg',
+
             container_method: {
               number_of_containers: 2,
               plants_per_container: 3,
@@ -3048,6 +3044,8 @@ const formDataAndReqBody = [
         termination_days: 15,
         harvest_days: 20,
         already_in_ground: true,
+        estimated_yield: 1,
+        estimated_yield_unit: 'kg',
         crop_age: 1,
         crop_age_unit: 'd',
         is_wild: true,
@@ -3069,8 +3067,6 @@ const formDataAndReqBody = [
         crop_management_plan: {
           planting_management_plans: [
             {
-              estimated_yield: 0,
-              estimated_yield_unit: 'kg',
               pin_coordinate: {
                 lat: 49.26907963598517,
                 lng: -123.18239233683167,
@@ -3082,12 +3078,15 @@ const formDataAndReqBody = [
           needs_transplant: false,
           for_cover: false,
           already_in_ground: true,
+          estimated_yield: 1,
+          estimated_yield_unit: 'kg',
           is_wild: true,
           harvest_date: '2021-09-08',
         },
         name: 'Plan 1',
         notes: '4',
         crop_variety_id: '4899200c-f7e4-11eb-8dd7-6f2c0c6a4580',
+        start_date: getDateInputFormat(addDaysToDate(new Date(), -1, { toUTC: false })),
       },
     },
   },

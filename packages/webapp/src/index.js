@@ -30,7 +30,7 @@ import outroSaga from './containers/Outro/saga';
 import locationSaga from './containers/LocationDetails/saga';
 import fieldLocationSaga from './containers/LocationDetails/AreaDetails/FieldDetailForm/saga';
 import documentSaga from './containers/Documents/saga';
-import managementPlanSaga from './containers/Crop/AddManagementPlan/ManagementPlanName/saga';
+import managementPlanSaga from './containers/Crop/saga';
 import gardenSaga from './containers/LocationDetails/AreaDetails/GardenDetailForm/saga';
 import gateSaga from './containers/LocationDetails/PointDetails/GateDetailForm/saga';
 import waterValveSaga from './containers/LocationDetails/PointDetails/WaterValveDetailForm/saga';
@@ -55,6 +55,7 @@ import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
+import exportSaga from './containers/ExportDownload/saga';
 import { Provider } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -119,6 +120,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
   });
 }
 
+
 sagaMiddleware.run(homeSaga);
 // sagaMiddleware.run(createAccount);
 sagaMiddleware.run(addFarmSaga);
@@ -166,6 +168,7 @@ sagaMiddleware.run(cropVarietyImageUploaderSaga);
 sagaMiddleware.run(certificationsSaga);
 sagaMiddleware.run(taskSaga);
 sagaMiddleware.run(abandonAndCompleteManagementPlanSaga);
+sagaMiddleware.run(exportSaga);
 
 const persistor = persistStore(store);
 

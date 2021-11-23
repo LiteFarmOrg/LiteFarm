@@ -31,7 +31,7 @@ export default function PureHarvestCompleteQuantity({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: false,
-    defaultValues: { 
+    defaultValues: {
       ...persistedFormData,
       actual_quantity: persistedFormData.actual_quantity || task.harvest_task.projected_quantity,
     },
@@ -45,7 +45,7 @@ export default function PureHarvestCompleteQuantity({
   const ACTUAL_HARVEST_QUANTITY_UNIT = 'actual_quantity_unit';
 
   const disabled = !isValid;
-  
+
   return (
     <Form
       buttonGroup={
@@ -70,7 +70,7 @@ export default function PureHarvestCompleteQuantity({
         register={register}
         label={t('ADD_TASK.QUANTITY')}
         name={ACTUAL_HARVEST_QUANTITY}
-        displayUnitName={ACTUAL_HARVEST_QUANTITY_UNIT} 
+        displayUnitName={ACTUAL_HARVEST_QUANTITY_UNIT}
         unitType={harvestAmounts}
         system={system}
         hookFormSetValue={setValue}
@@ -79,7 +79,6 @@ export default function PureHarvestCompleteQuantity({
         control={control}
         required
       />
-
     </Form>
   );
 }

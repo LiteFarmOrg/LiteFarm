@@ -8,11 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
-import {
-  canShowSuccessHeader,
-  setShowSuccessHeaderSelector,
-  setSuccessMessageSelector,
-} from '../mapSlice';
+import { canShowSuccessHeader, setShowSuccessHeaderSelector, setSuccessMessageSelector } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
@@ -44,6 +40,7 @@ import {
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import LocationSelectionModal from './LocationSelectionModal';
+import { useMaxZoom } from './useMaxZoom';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -151,15 +148,17 @@ export default function Map({ history }) {
     };
   };
   const { drawAssets } = useMapAssetRenderer({ isClickable: !drawingState.type });
+  const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
-    maps.Polygon.prototype.getPolygonBounds = function () {
+    getMaxZoom(maps);
+    maps.Polygon.prototype.getPolygonBounds = function() {
       var bounds = new maps.LatLngBounds();
-      this.getPath().forEach(function (element, index) {
+      this.getPath().forEach(function(element, index) {
         bounds.extend(element);
       });
       return bounds;
     };
-    maps.Polygon.prototype.getAveragePoint = function () {
+    maps.Polygon.prototype.getAveragePoint = function() {
       const latLngArray = this.getPath().getArray();
       let latSum = 0;
       let lngSum = 0;

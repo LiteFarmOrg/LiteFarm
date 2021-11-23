@@ -30,13 +30,31 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
           managementPlanName: management_plan.name,
           locationName: getLocationName(planting_management_plan),
           notes: getNotes(planting_management_plan),
-          ...getTasksMinMaxDate(tasks),
-          numberOfPendingTask: tasks.length,
+          ...getManagementPlanStartEndDate(management_plan, tasks),
+          numberOfPendingTask: tasks.filter(
+            (task) => task.abandoned_time === null && task.completed_time === null,
+          ).length,
           status,
           score: management_plan.rating,
           management_plan_id: management_plan.management_plan_id,
         };
-      });
+      })
+      .sort(
+        (
+          { startDate: startDate0, managementPlanName: managementPlanName0 },
+          { startDate: startDate1, managementPlanName: managementPlanName1 },
+        ) => {
+          if (startDate0 && !startDate1) {
+            return 1;
+          } else if (!startDate0 && startDate1) {
+            return -1;
+          } else if (startDate0 === startDate1)
+            return managementPlanName0 > managementPlanName1 ? 1 : -1;
+          const startTime0 = new Date(startDate0).getTime();
+          const startTime1 = new Date(startDate1).getTime();
+          return startTime0 - startTime1;
+        },
+      );
 
   return useMemo(() => {
     return [
@@ -48,11 +66,14 @@ export const useManagementPlanCardContents = (crop_variety_id) => {
   }, [tasksByManagementPlanId, managementPlanEntities, lastActiveTime, crop_variety_id]);
 };
 
-const getLocationName = ({ location, pin_coordinate }) => {
+export const getLocationName = ({ location, pin_coordinate }, numberOfDecimals) => {
   if (location) {
     return location.name;
   } else if (pin_coordinate) {
-    return `${roundToDecimals(pin_coordinate.lat)}, ${roundToDecimals(pin_coordinate.lng)}`;
+    return `${roundToDecimals(pin_coordinate.lat, numberOfDecimals)}, ${roundToDecimals(
+      pin_coordinate.lng,
+      numberOfDecimals,
+    )}`;
   }
 };
 
@@ -64,5 +85,12 @@ const roundToDecimals = (number, numberOfDecimals = 2) => {
 const getNotes = (planting_management_plan) => {
   if (planting_management_plan.row_method) return planting_management_plan.row_method.specify_rows;
   if (planting_management_plan.bed_method) return planting_management_plan.bed_method.specify_beds;
-  return planting_management_plan.notes;
+  return undefined;
+};
+
+const getManagementPlanStartEndDate = (management_plan, tasks) => {
+  const { startDate, endDate } = getTasksMinMaxDate(tasks);
+  const { complete_date, abandon_date } = management_plan;
+  const managementPlanEndDate = complete_date ? complete_date : abandon_date ? abandon_date : endDate;
+  return { startDate, endDate: managementPlanEndDate };
 };

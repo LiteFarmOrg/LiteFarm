@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import Square from '../Square';
 import PropTypes from 'prop-types';
 import { StatusLabel } from '../CardWithStatus/StatusLabel';
-import { managementPlanStatusText } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
+import { managementPlanStatusTranslateKey } from '../CardWithStatus/ManagementPlanCard/ManagementPlanCard';
+import { useTranslation } from 'react-i18next';
 
 export default function PureCropTile({
   className,
@@ -21,6 +22,7 @@ export default function PureCropTile({
   isSelected,
   status,
 }) {
+  const { t } = useTranslation();
   return (
     <div
       className={clsx(
@@ -62,7 +64,7 @@ export default function PureCropTile({
               borderRadius: '4px 4px 4px 4px',
             }}
             color={status}
-            label={managementPlanStatusText[status]}
+            label={t(`MANAGEMENT_PLAN.STATUS.${managementPlanStatusTranslateKey[status]}`)}
             sm
           />
         </div>

@@ -7,7 +7,7 @@ const LocationController = {
     return async (req, res, next) => {
       const { farm_id } = req.params;
       const locations = await LocationModel.query()
-        .where({ farm_id }).andWhere({ deleted: false })
+        .where({ farm_id })
         .withGraphJoined(`[
           figure.[area, line, point], 
           gate, water_valve, field, garden, buffer_zone, watercourse, fence, 

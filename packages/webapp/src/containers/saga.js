@@ -138,7 +138,16 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import { getHarvestUseTypes, getProducts, getTasks, getTaskTypes } from './Task/saga';
+import {
+  getHarvestUseTypes,
+  getHarvestUseTypesSaga,
+  getProducts,
+  getProductsSaga,
+  getTasks,
+  getTasksSaga,
+  getTaskTypes,
+  getTaskTypesSaga,
+} from './Task/saga';
 import {
   getCertificationSurveysSuccess,
   onLoadingCertifierSurveyFail,
@@ -366,10 +375,6 @@ const figureTypeActionMap = {
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
 };
 
-export const onLoadingManagementPlanAndPlantingMethodStart = createAction(
-  'onLoadingManagementPlanAndPlantingMethodStartSaga',
-);
-
 export function* onLoadingManagementPlanAndPlantingMethodStartSaga() {
   yield put(onLoadingBroadcastMethodStart());
   yield put(onLoadingBedMethodStart());
@@ -400,15 +405,15 @@ export function* getManagementPlanAndPlantingMethodSuccessSaga({ payload: manage
   );
   const plantingManagementPlans = managementPlans.reduce(
     (plantingManagementPlans, managementPlan) => {
-      for (const planting_management_plan of managementPlan.crop_management_plan
-        .planting_management_plans) {
+      for (const planting_management_plan of managementPlan?.crop_management_plan
+        ?.planting_management_plans || []) {
         plantingManagementPlans.push(planting_management_plan);
       }
       return plantingManagementPlans;
     },
     [],
   );
-  yield all([getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans })]);
+  yield call(getPlantingManagementPlansSuccessSaga, { payload: plantingManagementPlans });
 }
 
 export function* getPlantingManagementPlansSuccessSaga({ payload: plantingManagementPlans }) {
@@ -450,9 +455,9 @@ export function* getManagementPlansSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
-    yield put(onLoadingManagementPlanAndPlantingMethodStart());
+    yield call(onLoadingManagementPlanAndPlantingMethodStartSaga);
     const result = yield call(axios.get, managementPlanURL + '/farm/' + farm_id, header);
-    yield put(getManagementPlanAndPlantingMethodSuccess(result.data));
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
     yield put(onLoadingManagementPlanFail(e));
@@ -481,6 +486,34 @@ export function* getManagementPlansByDateSaga() {
   } catch (e) {
     yield put(onLoadingManagementPlanFail());
     console.log('failed to fetch field crops by date');
+  }
+}
+
+export const getCropsAndManagementPlans = createAction('getCropsAndManagementPlansSaga');
+
+export function* getCropsAndManagementPlansSaga() {
+  try {
+    yield all([call(getLocationsSaga), call(getCropsSaga)]);
+    yield call(getCropVarietiesSaga);
+    yield call(getManagementPlansSaga);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const getManagementPlansAndTasks = createAction('getManagementPlansAndTasksSaga');
+
+export function* getManagementPlansAndTasksSaga() {
+  try {
+    yield all([
+      call(getCropsAndManagementPlansSaga),
+      call(getProductsSaga),
+      call(getHarvestUseTypesSaga),
+      call(getTaskTypesSaga),
+    ]);
+    yield call(getTasksSaga);
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -593,11 +626,9 @@ export default function* getFarmIdSaga() {
     getManagementPlanAndPlantingMethodSuccessSaga,
   );
   yield takeLatest(
-    onLoadingManagementPlanAndPlantingMethodStart.type,
-    onLoadingManagementPlanAndPlantingMethodStartSaga,
-  );
-  yield takeLatest(
     waitForCertificationSurveyResultAndPushToHome.type,
     waitForCertificationSurveyResultAndPushToHomeSaga,
   );
+  yield takeLatest(getManagementPlansAndTasks.type, getManagementPlansAndTasksSaga);
+  yield takeLatest(getCropsAndManagementPlans.type, getCropsAndManagementPlansSaga);
 }

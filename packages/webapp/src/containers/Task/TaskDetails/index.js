@@ -5,15 +5,19 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productEntitiesSelector } from '../../productSlice';
 import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
-import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
-import { useManagementPlanTilesByLocationIds } from '../TaskCrops/useManagementPlanTilesByLocationIds';
+import {
+  useManagementPlanTilesByLocationIds,
+  useWildManagementPlanTiles,
+} from '../TaskCrops/useManagementPlanTilesByLocationIds';
 import { useIsTaskType } from '../useIsTaskType';
 
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
+  const entryPath = useSelector(hookFormPersistEntryPathSelector);
   const dispatch = useDispatch();
   const {
     country_id,
@@ -31,6 +35,8 @@ function TaskDetails({ history, match }) {
     persistedFormData.locations,
     managementPlanIds,
   );
+  const wildManagementPlanTiles = useWildManagementPlanTiles(persistedFormData.managementPlans);
+  const showWildCrops = persistedFormData.show_wild_crop;
 
   const persistedPaths = [goBackPath, continuePath, '/add_task/task_crops'];
 
@@ -40,7 +46,7 @@ function TaskDetails({ history, match }) {
   };
 
   const handleCancel = () => {
-    history.push('/tasks');
+    history.push(entryPath);
   };
 
   const onSubmit = () => {
@@ -66,6 +72,7 @@ function TaskDetails({ history, match }) {
         products={products}
         farm={{ farm_id, country_id, interested }}
         managementPlanByLocations={managementPlanByLocations}
+        wildManagementPlanTiles={showWildCrops && wildManagementPlanTiles}
       />
     </HookFormPersistProvider>
   );

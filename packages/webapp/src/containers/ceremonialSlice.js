@@ -35,6 +35,12 @@ const upsertManyCeremonialWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteCeremonial = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  ceremonialAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const ceremonialAdapter = createEntityAdapter({
   selectId: (ceremonial) => ceremonial.location_id,
@@ -54,7 +60,7 @@ const ceremonialSlice = createSlice({
     getCeremonialsSuccess: upsertManyCeremonialWithLocation,
     postCeremonialSuccess: upsertOneCeremonialWithLocation,
     editCeremonialSuccess: upsertOneCeremonialWithLocation,
-    deleteCeremonialSuccess: ceremonialAdapter.removeOne,
+    deleteCeremonialSuccess: softDeleteCeremonial,
   },
 });
 export const {
@@ -77,7 +83,9 @@ export const ceremonialEntitiesSelector = ceremonialSelectors.selectEntities;
 export const ceremonialsSelector = createSelector(
   [ceremonialSelectors.selectAll, loginSelector],
   (ceremonials, { farm_id }) => {
-    return ceremonials.filter((ceremonial) => ceremonial.farm_id === farm_id);
+    return ceremonials.filter(
+      (ceremonial) => ceremonial.farm_id === farm_id && !ceremonial.deleted,
+    );
   },
 );
 

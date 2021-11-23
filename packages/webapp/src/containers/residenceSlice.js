@@ -34,6 +34,12 @@ const upsertManyResidenceWithLocation = (state, { payload: locations }) => {
   );
   onLoadingSuccess(state);
 };
+const softDeleteResidence = (state, { payload: location_id }) => {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+  residenceAdapter.updateOne(state, { id: location_id, changes: { deleted: true } });
+};
 
 const residenceAdapter = createEntityAdapter({
   selectId: (residence) => residence.location_id,
@@ -53,7 +59,7 @@ const residenceSlice = createSlice({
     getResidencesSuccess: upsertManyResidenceWithLocation,
     postResidenceSuccess: upsertOneResidenceWithLocation,
     editResidenceSuccess: upsertOneResidenceWithLocation,
-    deleteResidenceSuccess: residenceAdapter.removeOne,
+    deleteResidenceSuccess: softDeleteResidence,
   },
 });
 export const {
@@ -76,7 +82,7 @@ export const residenceEntitiesSelector = residenceSelectors.selectEntities;
 export const residencesSelector = createSelector(
   [residenceSelectors.selectAll, loginSelector],
   (residences, { farm_id }) => {
-    return residences.filter((residence) => residence.farm_id === farm_id);
+    return residences.filter((residence) => residence.farm_id === farm_id && !residence.deleted);
   },
 );
 

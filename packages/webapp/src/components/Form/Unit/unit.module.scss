@@ -76,6 +76,7 @@
   display: flex;
   justify-content: space-between;
   height: 20px;
+  position: relative;
 }
 
 .hiddenInput {
@@ -98,6 +99,7 @@
   z-index: 0;
   display: flex;
   justify-content: flex-end;
+  pointer-events: none;
 }
 
 .verticleDivider {
@@ -123,4 +125,10 @@
 
 .noBorderRadius {
   border-radius: 0px;
+}
+
+.tooltipIconContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }

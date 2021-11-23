@@ -22,7 +22,7 @@ function LocationManagementPlan({ history, match }) {
   };
 
   const onAddCrop = () => {
-    console.log('clicked adding crop');
+    history.push(`/crop_catalogue`);
   };
   const location = useSelector(cropLocationByIdSelector(location_id));
 

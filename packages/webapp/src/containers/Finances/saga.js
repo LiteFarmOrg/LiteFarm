@@ -28,13 +28,14 @@ import {
   UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
-import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, race, take } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { axios, getHeader } from '../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
+import { createAction } from '@reduxjs/toolkit';
 
 export function* getSales() {
   const { salesURL } = apiConfig;
@@ -44,6 +45,7 @@ export function* getSales() {
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
     if (result) {
+      // TODO: change this after sale slice reducer is remade
       yield put(setSalesInState(result.data));
     }
   } catch (e) {
@@ -64,13 +66,9 @@ export function* addSale(action) {
     : i18n.t('message:SALE.ERROR.ADD');
   try {
     const result = yield call(axios.post, salesURL, action.sale, header);
-    if (result) {
-      yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-    }
+    yield put(enqueueSuccessSnackbar(addOrUpdateSuccess));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     yield put(enqueueErrorSnackbar(addOrUpdateFail));
   }
@@ -87,13 +85,9 @@ export function* updateSaleSaga(action) {
 
   try {
     const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
-    if (result) {
-      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-    }
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.UPDATE')));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     console.log(`failed to update sale`);
     yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.UPDATE')));
@@ -106,17 +100,13 @@ export function* deleteSale(action) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, salesURL + '/' + action.sale.id, header);
-    if (result) {
-      const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if (result) {
-        yield put(setSalesInState(result.data));
-      }
-      yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
-    }
+    const result = yield call(axios.delete, salesURL + '/' + action.sale.sale_id, header);
+    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.SUCCESS.DELETE')));
+    yield call(getSales);
+    history.push('/finances');
   } catch (e) {
     console.log(`failed to delete sale`);
-    yield put(enqueueSuccessSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
+    yield put(enqueueErrorSnackbar(i18n.t('message:SALE.ERROR.DELETE')));
   }
 }
 
@@ -266,6 +256,28 @@ export function* tempEditExpenseSaga(action) {
   }
 }
 
+export const patchEstimatedCropRevenue = createAction(`patchEstimatedCropRevenueSaga`);
+export function* patchEstimatedCropRevenueSaga({ payload: managementPlan }) {
+  const { managementPlanURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.patch,
+      managementPlanURL + `/${managementPlan.management_plan_id}`,
+      managementPlan,
+      header,
+    );
+    yield call(getManagementPlanAndPlantingMethodSuccessSaga, { payload: [managementPlan] });
+    yield put(enqueueSuccessSnackbar(i18n.t('message:REVENUE.SUCCESS.EDIT')));
+    history.push(`/estimated_revenue`);
+  } catch (e) {
+    console.log('Failed to update managementPlan to database');
+    yield put(enqueueErrorSnackbar(i18n.t('message:REVENUE.ERROR.EDIT')));
+  }
+}
+
 export default function* financeSaga() {
   yield takeLatest(GET_SALES, getSales);
   yield takeLeading(ADD_OR_UPDATE_SALE, addSale);
@@ -279,4 +291,5 @@ export default function* financeSaga() {
   yield takeLeading(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeLeading(UPDATE_SALE, updateSaleSaga);
   yield takeLeading(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
+  yield takeLeading(patchEstimatedCropRevenue.type, patchEstimatedCropRevenueSaga);
 }

@@ -11,11 +11,7 @@ import InputDuration from '../../Form/InputDuration';
 import FullYearCalendarView from '../../FullYearCalendar';
 import { cloneObject } from '../../../util';
 import FullMonthCalendarView from '../../MonthCalendar';
-import {
-  getDateDifference,
-  getDateInputFormat,
-  getLocalizedDateString,
-} from '../../../util/moment';
+import { getDateDifference, getDateInputFormat, getLocalizedDateString } from '../../../util/moment';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { getPlantingDatePaths } from '../getAddManagementPlanPath';
 import Unit from '../../Form/Unit';
@@ -27,6 +23,7 @@ export default function PurePlantingDate({
   crop_variety,
   history,
   system,
+  language,
 }) {
   const { t } = useTranslation();
 
@@ -40,9 +37,8 @@ export default function PurePlantingDate({
   const HARVEST_DAYS = 'crop_management_plan.harvest_days';
   const TRANSPLANT_DAYS = 'crop_management_plan.transplant_days';
   const TERMINATION_DAYS = 'crop_management_plan.termination_days';
-  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
-  const ESTIMATED_YIELD_UNIT =
-    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
+  const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
+  const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
   const {
     already_in_ground,
@@ -127,7 +123,8 @@ export default function PurePlantingDate({
     showEstimatedYield,
   } = useMemo(
     () => ({
-      showGerminationOffset: !already_in_ground && (is_seed || (!for_cover && needs_transplant)),
+      // showGerminationOffset: !already_in_ground && (is_seed || (!for_cover && needs_transplant)),
+      showGerminationOffset: !already_in_ground && is_seed,
       showTransplantOffset: needs_transplant && !transplantIsMain,
       showHarvestTerminationOffset: !harvestIsMain && !terminationIsMain,
       showHarvestOffset: !for_cover && !harvestIsMain && !terminationIsMain,
@@ -384,8 +381,9 @@ export default function PurePlantingDate({
           style={{ paddingBottom: '16px', paddingTop: '24px' }}
         />
       )}
-      {main_date && !harvestIsMain && !terminationIsMain && (
+      {main_date && Math.abs(new Date(main_date).getFullYear() - new Date().getFullYear()) < 1000 && !harvestIsMain && !terminationIsMain && (
         <FullYearCalendarView
+          language={language}
           {...{
             seed_date: [PLANT_DATE, SEED_DATE].includes(MAIN_DATE) ? seed_date : undefined,
             germination_date: showGerminationOffset ? germination_date : undefined,

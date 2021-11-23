@@ -59,6 +59,7 @@ import {
   onLoadingHarvestUseTypeFail,
   onLoadingHarvestUseTypeStart,
 } from '../harvestUseTypeSlice';
+import { managementPlanWithCurrentLocationEntitiesSelector } from './TaskCrops/managementPlansWithLocationSelector';
 
 const taskTypeEndpoint = [
   'cleaning_task',
@@ -173,30 +174,43 @@ export function* getTransplantTasksAndPlantingManagementPlansSuccessSaga({ paylo
       })),
     ),
   );
-  yield all([
-    getPlantingManagementPlansSuccessSaga({
-      payload: tasks
-        .map((task) => task.planting_management_plan)
-        .filter((planting_management_plan) => planting_management_plan),
-    }),
-  ]);
+  yield call(getPlantingManagementPlansSuccessSaga, {
+    payload: tasks
+      .map((task) => task.planting_management_plan)
+      .filter((planting_management_plan) => planting_management_plan),
+  });
 }
 
+// TODO: fix call(getTransplantTasksAndPlantingManagementPlansSuccessSaga) racing condition walk around
 const taskTypeActionMap = {
-  CLEANING_TASK: { success: getCleaningTasksSuccess, fail: onLoadingCleaningTaskFail },
-  FIELD_WORK_TASK: { success: getFieldWorkTasksSuccess, fail: onLoadingFieldWorkTaskFail },
-  PEST_CONTROL_TASK: { success: getPestControlTasksSuccess, fail: onLoadingPestControlTaskFail },
+  CLEANING_TASK: {
+    success: (tasks) => put(getCleaningTasksSuccess(tasks)),
+    fail: onLoadingCleaningTaskFail,
+  },
+  FIELD_WORK_TASK: {
+    success: (tasks) => put(getFieldWorkTasksSuccess(tasks)),
+    fail: onLoadingFieldWorkTaskFail,
+  },
+  PEST_CONTROL_TASK: {
+    success: (tasks) => put(getPestControlTasksSuccess(tasks)),
+    fail: onLoadingPestControlTaskFail,
+  },
   SOIL_AMENDMENT_TASK: {
-    success: getSoilAmendmentTasksSuccess,
+    success: (tasks) => put(getSoilAmendmentTasksSuccess(tasks)),
     fail: onLoadingSoilAmendmentTaskFail,
   },
-  HARVEST_TASK: { success: getHarvestTasksSuccess, fail: onLoadingHarvestTaskFail },
+  HARVEST_TASK: {
+    success: (tasks) => put(getHarvestTasksSuccess(tasks)),
+    fail: onLoadingHarvestTaskFail,
+  },
   PLANT_TASK: {
-    success: getPlantingTasksAndPlantingManagementPlansSuccess,
+    success: (tasks) =>
+      call(getPlantingTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingPlantTaskFail,
   },
   TRANSPLANT_TASK: {
-    success: getTransplantTasksAndPlantingManagementPlansSuccess,
+    success: (tasks) =>
+      call(getTransplantTasksAndPlantingManagementPlansSuccessSaga, { payload: tasks }),
     fail: onLoadingTransplantTaskFail,
   },
 };
@@ -212,9 +226,6 @@ export function* onLoadingTaskStartSaga() {
   yield put(onLoadingPlantTaskStart());
   yield put(onLoadingTransplantTaskStart());
 }
-
-export const postTasksSuccess = createAction('postTasksSuccessSaga');
-export const getTasksSuccess = createAction('getTasksSuccessSaga');
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
   yield put(addManyTasksFromGetReq(tasks));
@@ -235,10 +246,8 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
   }, tasksByTranslationKeyDefault);
   for (const task_translation_key in taskTypeActionMap) {
     try {
-      yield put(
-        taskTypeActionMap[task_translation_key].success(
-          tasksByTranslationKey[task_translation_key],
-        ),
+      yield taskTypeActionMap[task_translation_key].success(
+        tasksByTranslationKey[task_translation_key],
       );
     } catch (e) {
       yield put(taskTypeActionMap[task_translation_key].fail(e));
@@ -256,26 +265,31 @@ export function* getTasksSaga() {
   try {
     yield put(onLoadingTaskStart());
     const result = yield call(axios.get, `${taskUrl}/${farm_id}`, header);
-    yield put(getTasksSuccess(result.data));
+    yield call(getTasksSuccessSaga, { payload: result.data });
   } catch (e) {
     console.log(e);
   }
 }
 
-const getPostTaskBody = (data, endpoint) => {
+const getPostTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return getObjectInnerValues(
     produce(data, (data) => {
       const propertiesToRemove = taskTypeEndpoint.filter((taskType) => taskType !== endpoint);
       for (const key of propertiesToRemove) {
         delete data[key];
       }
-      data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : undefined;
-      delete data['override_hourly_wage'];
+      data.wage_at_moment = data.override_hourly_wage ? data.wage_at_moment : null;
+      data.managementPlans = data.managementPlans.map(({ management_plan_id }) => ({
+        planting_management_plan_id:
+          managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
+            .planting_management_plan_id,
+      }));
+      delete data['show_wild_crop'];
     }),
   );
 };
 
-const getPostHavestTaskBody = (data, endpoint) => {
+const getPostHarvestTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
   return data.harvest_tasks.map((harvest_task) => {
     const [location_id, management_plan_id] = harvest_task.id.split('.');
     return getObjectInnerValues({
@@ -287,23 +301,39 @@ const getPostHavestTaskBody = (data, endpoint) => {
         ),
       ),
       wage_at_moment: data.override_hourly_wage ? data.wage_at_moment : undefined,
-      locations: [{ location_id }],
-      managementPlans: [{ management_plan_id: Number(management_plan_id) }],
+      locations: location_id === 'PIN_LOCATION' ? undefined : [{ location_id }],
+      managementPlans: [
+        {
+          planting_management_plan_id:
+            managementPlanWithCurrentLocationEntities[management_plan_id].planting_management_plan
+              .planting_management_plan_id,
+        },
+      ],
       notes: harvest_task.notes,
+      show_wild_crop: undefined,
     });
   });
 };
 
-const getTransplantTaskBody = (data) => {
-  return produce(getPostTaskBody(data, 'transplant_task'), (data) => {
-    data.transplant_task.planting_management_plan.location_id = data.locations[0].location_id;
-    data.transplant_task.planting_management_plan = getPlantingMethodReqBody(
-      data.transplant_task.planting_management_plan,
-      { management_plan_id: data.managementPlans[0].management_plan_id },
-    );
-    delete data.managementPlans;
-    delete data.locations;
-  });
+const getTransplantTaskBody = (data, endpoint, managementPlanWithCurrentLocationEntities) => {
+  const management_plan_id = data.managementPlans[0].management_plan_id;
+  return produce(
+    getPostTaskBody(data, 'transplant_task', managementPlanWithCurrentLocationEntities),
+    (data) => {
+      data.transplant_task.planting_management_plan.location_id = data.locations[0].location_id;
+      data.transplant_task.prev_planting_management_plan_id =
+        managementPlanWithCurrentLocationEntities[
+          management_plan_id
+        ].planting_management_plan.planting_management_plan_id;
+      data.transplant_task.planting_management_plan = getPlantingMethodReqBody(
+        data.transplant_task.planting_management_plan,
+        { management_plan_id },
+      );
+      delete data.crop_management_plan;
+      delete data.managementPlans;
+      delete data.locations;
+    },
+  );
 };
 
 const taskTypeGetPostTaskBodyFunctionMap = {
@@ -311,13 +341,24 @@ const taskTypeGetPostTaskBodyFunctionMap = {
   FIELD_WORK_TASK: getPostTaskBody,
   PEST_CONTROL_TASK: getPostTaskBody,
   SOIL_AMENDMENT_TASK: getPostTaskBody,
-  HARVEST_TASK: getPostHavestTaskBody,
+  HARVEST_TASK: getPostHarvestTaskBody,
   TRANSPLANT_TASK: getTransplantTaskBody,
 };
 
-const getPostTaskReqBody = (data, endpoint, task_translation_key, isCustomTask) => {
-  if (isCustomTask) return getPostTaskBody(data, endpoint);
-  return taskTypeGetPostTaskBodyFunctionMap[task_translation_key](data, endpoint);
+const getPostTaskReqBody = (
+  data,
+  endpoint,
+  task_translation_key,
+  isCustomTask,
+  managementPlanWithCurrentLocationEntities,
+) => {
+  if (isCustomTask)
+    return getPostTaskBody(data, endpoint, managementPlanWithCurrentLocationEntities);
+  return taskTypeGetPostTaskBodyFunctionMap[task_translation_key](
+    data,
+    endpoint,
+    managementPlanWithCurrentLocationEntities,
+  );
 };
 
 export const createTask = createAction('createTaskSaga');
@@ -338,15 +379,25 @@ export function* createTaskSaga({ payload: data }) {
     ? 'harvest_tasks'
     : task_translation_key.toLowerCase();
   try {
+    const managementPlanWithCurrentLocationEntities = yield select(
+      managementPlanWithCurrentLocationEntitiesSelector,
+    );
     const result = yield call(
       axios.post,
       `${taskUrl}/${endpoint}`,
-      getPostTaskReqBody(data, endpoint, task_translation_key, isCustomTask),
+      getPostTaskReqBody(
+        data,
+        endpoint,
+        task_translation_key,
+        isCustomTask,
+        managementPlanWithCurrentLocationEntities,
+      ),
       header,
     );
     if (result) {
-      yield put(postTasksSuccess(isHarvest ? result.data : [result.data]));
+      yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
+
       history.push('/tasks');
     }
   } catch (e) {
@@ -380,6 +431,7 @@ const getCompletePlantingTaskBody = (task_translation_key) => (data) => {
       data.taskData[taskType].planting_management_plan.planting_management_plan_id =
         data.taskData[taskType].planting_management_plan_id;
       delete data.taskData[taskType].planting_management_plan_id;
+      delete data.taskData[taskType].prev_planting_management_plan;
     }
   }).taskData;
 };
@@ -518,6 +570,31 @@ export function* getHarvestUseTypesSaga() {
   }
 }
 
+export const addCustomHarvestUse = createAction('addCustomHarvestUseSaga');
+
+export function* addCustomHarvestUseSaga({ payload: data }) {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.post,
+      logURL + `/harvest_use_types/farm/${farm_id}`,
+      data,
+      header,
+    );
+    if (result) {
+      // TODO - add postHarvestUseTypeSuccess
+      yield put(getHarvestUseTypes());
+      yield put(enqueueSuccessSnackbar(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE')));
+    }
+  } catch (e) {
+    console.log('failed to add custom harvest use type');
+    yield put(enqueueErrorSnackbar(i18n.t('message:LOG_HARVEST.ERROR.ADD_USE_TYPE')));
+  }
+}
+
 export default function* taskSaga() {
   yield takeLeading(addCustomTaskType.type, addTaskTypeSaga);
   yield takeLeading(assignTask.type, assignTaskSaga);
@@ -525,14 +602,13 @@ export default function* taskSaga() {
   yield takeLatest(getTaskTypes.type, getTaskTypesSaga);
   yield takeLeading(assignTasksOnDate.type, assignTaskOnDateSaga);
   yield takeLatest(getTasks.type, getTasksSaga);
-  yield takeLatest(getTasksSuccess.type, getTasksSuccessSaga);
-  yield takeLeading(postTasksSuccess.type, getTasksSuccessSaga);
   yield takeLeading(onLoadingTaskStart.type, onLoadingTaskStartSaga);
   yield takeLatest(getProducts.type, getProductsSaga);
   yield takeLeading(completeTask.type, completeTaskSaga);
   yield takeLeading(abandonTask.type, abandonTaskSaga);
   yield takeLeading(deleteTaskType.type, deleteTaskTypeSaga);
   yield takeLatest(getHarvestUseTypes.type, getHarvestUseTypesSaga);
+  yield takeLeading(addCustomHarvestUse.type, addCustomHarvestUseSaga);
   yield takeLatest(
     getTransplantTasksAndPlantingManagementPlansSuccess.type,
     getTransplantTasksAndPlantingManagementPlansSuccessSaga,

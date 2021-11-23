@@ -192,9 +192,11 @@ describe('harvestUseType Tests', () => {
         });
       })
 
-      test('Worker should not add harvestUseType', async (done) => {
+      test('Worker should add harvestUseType', async (done) => {
         addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: worker.user_id }, (err, res) => {
-          expect(res.status).toBe(403);
+          expect(res.status).toBe(201);
+          expect(res.body.harvest_use_type_name).toBe(fakeHarvestUseType.harvest_use_type_name);
+          expect(res.body.farm_id).toBe(farm.farm_id);
           done();
         });
       })

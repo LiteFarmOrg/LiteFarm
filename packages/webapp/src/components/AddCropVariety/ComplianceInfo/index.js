@@ -150,7 +150,7 @@ export default function ComplianceInfo({
         )}
       </div>
 
-      <div
+      {/* <div
         style={{
           marginTop: '17px',
           marginBottom: '3px',
@@ -174,7 +174,7 @@ export default function ComplianceInfo({
         >
           {t('CROP.UPLOAD_LATER')}
         </Info>
-      </div>
+      </div> */}
     </Form>
   );
 }

@@ -40,10 +40,18 @@ export default function PureNextHarvest({
 
   const progress = 37.5;
 
-  const NEXT_HARVEST_DATE = 'crop_management_plan.harvest_date';
-  const ESTIMATED_YIELD = 'crop_management_plan.planting_management_plans.final.estimated_yield';
-  const ESTIMATED_YIELD_UNIT =
-    'crop_management_plan.planting_management_plans.final.estimated_yield_unit';
+  const HARVEST_DATE = 'crop_management_plan.harvest_date';
+  const TERMINATION_DATE = 'crop_management_plan.termination_date';
+  const [MAIN_DATE, title] = useMemo(() => {
+    if (persistedFormData.crop_management_plan.for_cover) {
+      return [TERMINATION_DATE, t('MANAGEMENT_PLAN.TERMINATION_DATE')];
+    } else {
+      return [HARVEST_DATE, t('MANAGEMENT_PLAN.NEXT_HARVEST')];
+    }
+  }, []);
+
+  const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
+  const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
   const { goBackPath, submitPath, cancelPath } = useMemo(
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
@@ -79,17 +87,17 @@ export default function PureNextHarvest({
 
       <div>
         <Label className={styles.label} style={{ marginBottom: '24px' }}>
-          {t('MANAGEMENT_PLAN.NEXT_HARVEST')}
+          {title}
         </Label>
 
         <Input
           style={{ marginBottom: '40px' }}
           type={'date'}
           label={t('common:DATE')}
-          hookFormRegister={register(NEXT_HARVEST_DATE, {
+          hookFormRegister={register(MAIN_DATE, {
             required: true,
           })}
-          errors={errors[NEXT_HARVEST_DATE] && t('common:REQUIRED')}
+          errors={errors[MAIN_DATE] && t('common:REQUIRED')}
           min={todayStr}
         />
         {showEstimatedYield && (

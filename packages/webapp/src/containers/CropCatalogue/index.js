@@ -11,7 +11,7 @@ import useCropTileListGap from '../../components/CropTile/useCropTileListGap';
 import PureCropTile from '../../components/CropTile';
 import PureCropTileContainer from '../../components/CropTile/CropTileContainer';
 import React, { useEffect, useState } from 'react';
-import { getCrops, getCropVarieties, getManagementPlans } from '../saga';
+import { getCropsAndManagementPlans } from '../saga';
 import MuiFullPagePopup from '../../components/MuiFullPagePopup/v2';
 import CropCatalogueFilterPage from '../Filter/CropCatalogue';
 import {
@@ -49,9 +49,7 @@ export default function CropCatalogue({ history }) {
   );
   const { ref: containerRef, gap, padding, cardWidth } = useCropTileListGap([sum, crops.length]);
   useEffect(() => {
-    dispatch(getCropVarieties());
-    dispatch(getCrops());
-    dispatch(getManagementPlans());
+    dispatch(getCropsAndManagementPlans());
   }, []);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -192,7 +190,11 @@ export default function CropCatalogue({ history }) {
               </>
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
-            <AddLink onClick={() => history.push('/crop/new')}>
+            <AddLink
+              onClick={() => {
+                history.push('/crop/new');
+              }}
+            >
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>
           </>

@@ -1405,5 +1405,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "Produced on",
+    "TITLE": "{{certification}} certification from {{certifier}} Survey Adendum"
   }
 }

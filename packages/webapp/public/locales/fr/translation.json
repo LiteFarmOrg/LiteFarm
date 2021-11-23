@@ -1,6 +1,7 @@
 {
   "ADD_FARM": {
     "ADDRESS_IS_REQUIRED": "Address civique est requise",
+    "DISABLE_GEO_LOCATION": "MISSING",
     "ENTER_A_VALID_ADDRESS": "Veuillez enregistrer une adresse valide ou coordonée",
     "ENTER_LOCATION_PLACEHOLDER": "Entrer votre region",
     "FARM_IS_REQUIRED": "Nom de la ferme est requise",
@@ -63,6 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "Combien est récolté ?",
     "HR": "/h",
     "MANAGE_CUSTOM_TASKS": "Gérer les tâches personnalisées",
+    "NEED_MANAGEMENT_PLAN": "MISSING",
+    "NO_MANAGEMENT_PLAN": "MISSING",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Contrôle biologique",
       "FLAME_WEEDING": "Sarclage à la flamme",
@@ -77,12 +80,15 @@
       "SYSTEMIC_SPRAY": "Pulvérisation systémique",
       "WHAT_PESTS": "Quels parasites essayez-vous de contrôler"
     },
+    "PLANTING_FROM": "MISSING",
     "PLANTING_METHOD": "Méthode de plantation",
+    "PLANTING_STOCK": "MISSING",
     "PLANTING_TASK": "Tâche de plantation",
     "PLANTING_TASK_MODAL": "Démarrer une nouvelle tâche de plantation crée un nouveau plan de gestion. Accédez au catalogue des cultures pour sélectionner la culture que vous souhaitez planter.",
     "QUANTITY": "MISSING",
     "RETIRE_CUSTOM_TASK": "Retirer la tâche personnalisée ?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Voulez-vous vraiment supprimer cette tâche personnalisée ?",
+    "SEED": "MISSING",
     "SELECT_ALL": "Tout sélectionner",
     "SELECT_ALL_PLANS": "Sélectionner tous les forfaits",
     "SELECT_TASK_TYPE": "Sélectionnez le type de tâche",
@@ -101,7 +107,8 @@
     "TELL_US_ABOUT_YOUR_TASK_TYPE_ONE": "Parlez-nous de",
     "TRANSPLANT_METHOD": "Méthode de transplantation",
     "WAGE_OVERRIDE": "Dérogation de salaire",
-    "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage ?"
+    "WHAT_PLANTING_METHOD": "Quelle est la méthode de repiquage ?",
+    "WILD_CROP": "MISSING"
   },
   "BED_PLAN": {
     "LENGTH_OF_BED": "Longueur des lits",
@@ -173,8 +180,7 @@
       "INFORMATION": "Nous indiquerons ces informations dans toute l'application avec une icône de la feuille.",
       "TITLE": "Vous êtes intéressé à postuler pour:",
       "YOUR_CERTIFICATION": "Votre certification"
-    },
-    "WARNING": "MISSING"
+    }
   },
   "CERTIFICATIONS_MODAL": {
     "MAYBE_LATER": "Peut-être plus tard",
@@ -189,23 +195,20 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Il semble que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à :",
-    "EMAIL": "Addresse Courriel",
-    "EMAIL_ERROR": "Addresse courriel valide requis",
+    "EMAIL": "MISSING",
+    "EMAIL_ERROR": "MISSING",
     "EXPORT": "MISSING",
     "EXPORT_DOCS": "Exporter les documents de certification",
     "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous vous les enverrons à :",
     "FLOW_TITLE": "export des documents de certification",
-    "FROM": "MISSING",
     "GOOD_NEWS": "Bonne nouvelle !",
     "HAVE_ALL_INFO": "Il semble que LiteFarm dispose de toutes les informations dont nous avons besoin pour traiter vos documents de certification. Nous vous les enverrons à :",
     "NEXT_WE_WILL_CHECK": "Nous vérifierons ensuite si votre certificateur a besoin d'informations supplémentaires pour traiter votre soumission de certification.",
     "NOTE_CANNOT_RESUBMIT": "Remarque : Une fois l'enquête envoyée, vous ne pourrez plus modifier vos réponses. Pour les modifier après l'envoi, commencez une nouvelle exportation.",
     "ORGANIC_CERTIFICATION_FROM": "Certification biologique de",
     "SELECT_REPORTING_PERIOD": "Sélectionnez votre période de rapport",
-    "TO": "MISSING",
-    "TO_MUST_BE_AFTER_FROM": "La date 'À' doit être postérieure à la date 'De'",
     "UH_OH": "Oups !",
-    "WHERE_TO_SEND_DOCS": "Où voulez-vous envoyer vos documents ?",
+    "WHERE_TO_SEND_DOCS": "MISSING",
     "WOULD_LIKE_ANSWERS": "Votre certificateur aimerait que vous répondiez à quelques questions supplémentaires avant que nous puissions exporter vos documents."
   },
   "CHOOSE_FARM": {
@@ -247,7 +250,7 @@
     "CROP_CATALOGUE": "Catalogue des cultures",
     "CROP_GROUP": "Recadrer le groupe",
     "CROP_GROUP_TOOL_TIP": "La sélection d’un groupe de cultures permet à LiteFarm de précompléter de nombreuses informations sur cette culture, telles que la saison de croissance, les valeurs nutritionnelles et le rendement estimé. Ne vous inquiétez pas: vous pouvez modifier ces valeurs ci-dessous une fois que vous avez sélectionné un groupe de cultures.",
-    "CROP_STATUS": "Statut de la culture sur :",
+    "CROP_STATUS": "MISSING",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document des informations nécessaires pour la production biologique",
     "FILTER": {
       "LOCATION": "MISSING",
@@ -257,6 +260,7 @@
     },
     "HERE_YOU_CAN": "Ici, vous pouvez :",
     "LETS_BEGIN": "Commencer",
+    "NEW_CROP_NAME": "MISSING",
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
@@ -298,7 +302,7 @@
     "SUPPLIER": "MISSING"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Lien vers un fichier de conformité",
+    "ADD_COMPLIANCE_FILE": "MISSING",
     "ADD_CROP": "Ajouter un recadrage",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "ANNUAL": "MISSING",
@@ -318,7 +322,12 @@
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale ?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
     "TREATED": "MISSING",
-    "UPLOAD_LATER": "Vous pouvez également télécharger des fichiers plus tard"
+    "UPLOAD_LATER": "MISSING"
+  },
+  "DATE_RANGE_PICKER": {
+    "FROM": "MISSING",
+    "TO": "MISSING",
+    "TO_MUST_BE_AFTER_FROM": "MISSING"
   },
   "DATE_RANGE": {
     "HELP_BODY": "Sélectionnez la plage de dates pour créer un rapport financier pour votre ferme pour une fenêtre de temps donnée.",
@@ -616,6 +625,22 @@
   "FILTER": {
     "CLEAR_ALL_FILTERS": "Effacer tous les filtres"
   },
+  "FINANCES": {
+    "ACTUAL_REVENUE": {
+      "ADD_REVENUE": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "DATE": "MISSING",
+    "ESTIMATED_REVENUE": {
+      "ESTIMATED_ANNUAL_REVENUE": "MISSING",
+      "ESTIMATED_ANNUAL_YIELD": "MISSING",
+      "ESTIMATED_PRICE_PER_UNIT": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "REVENUE": "MISSING",
+    "VIEW_WITHIN_DATE_RANGE": "MISSING",
+    "WHOLE_FARM_REVENUE": "MISSING"
+  },
   "HELP": {
     "ATTACHMENT_LABEL": "Télécharger une capture d'écran ou un fichier",
     "EMAIL": "Courriel",
@@ -641,7 +666,7 @@
     "BIODIVERSITY": {
       "AMPHIBIANS": "Amphibiens",
       "BIRDS": "Oiseaux",
-      "CROPS": "Cultures",
+      "CROP_VARIETIES": "MISSING",
       "HEADER": "Nombre d'espèces",
       "INFO": "La biodiversité est excellente pour les gens et la planète. Nous comptons la richesse en espèces de tous les enregistrements connus de la biodiversité sur votre ferme à partir des limites de vos champs. Vous pouvez augmenter le nombre de votre biodiversité sur votre ferme en utilisant le https:// www.inaturalist.org/app.",
       "INSECTS": "Insectes",
@@ -828,10 +853,9 @@
   "MANAGEMENT_DETAIL": {
     "ABANDON_PLAN": "Abandonner ce plan de gestion",
     "ADD_A_TASK": "Ajouter une tâche",
-    "ASSOCIATED_TASKS": "Tâches associées",
-    "EDIT_PLAN": "Modifier le plan",
+    "DETAILS": "MISSING",
     "FAILED_CROP": "Echec du recadrage ?",
-    "PLAN_NOTES": "Notes de plan"
+    "TASKS": "MISSING"
   },
   "MANAGEMENT_PLAN": {
     "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonner ce plan de gestion abandonnera toutes les tâches incomplètes qui lui sont associées et le supprimera de votre carte de ferme.",
@@ -868,16 +892,17 @@
     "DAYS_FROM_SEEDING": "Jours entre le départ et :",
     "DAYS_TO_HARVEST": "Jours entre le repiquage et la prochaine récolte :",
     "DAYS_TO_TERMINATION": "Jours entre la greffe et la résiliation :",
+    "DETAIL_SPOTLIGHT_CONTENTS": "MISSING",
     "DETAIL_SPOTLIGHT_TITLE": "Détails",
-    "DETAILS_SPOTLIGHT_1": "Modifiez les détails de votre culture",
-    "DETAILS_SPOTLIGHT_2": "Télécharger ou lier des documents de conformité",
     "DO_YOU_WANT_TO_ABANDON_CONTENT": "Voulez-vous abandonner ce plan ?",
     "DROP_PIN": "Lâcher la broche",
     "DURATION_TOOLTIP": "Ce sont des valeurs suggérées. Veuillez les ajuster en fonction de vos conditions locales.",
+    "EDITING_PLAN_WILL_NOT_MODIFY": "MISSING",
     "ESTIMATED_SEED": "Semence estimée requise",
     "ESTIMATED_YIELD": "Rendement estimé",
     "FIRST_MP_SPOTLIGHT": {
-      "BODY": "LiteFarm a généré quelques tâches basées sur votre plan. Vous pouvez les modifier ou les affecter sur cet écran. De plus, vous pouvez ajouter plus de tâches à ce plan ou modifier votre plan.",
+      "BODY_PART1": "MISSING",
+      "BODY_PART2": "MISSING",
       "TITLE": "Félicitations ! Vous avez établi votre premier plan de gestion !"
     },
     "FOR_HARVEST": "Pour la récolte",
@@ -1036,6 +1061,7 @@
     "ACCOUNT_TAB": "Compte",
     "ACCOUNT": {
       "CONVERT_TO_HAVE_ACCOUNT": "Convertir ce travailleur en utilisateur avec compte",
+      "EDIT_USER": "MISSING",
       "EMAIL": "Email",
       "ENGLISH": "anglais",
       "FIRST_NAME": "Prénom",
@@ -1060,6 +1086,7 @@
     },
     "PEOPLE_TAB": "People",
     "PEOPLE": {
+      "DO_YOU_WANT_TO_REMOVE": "MISSING",
       "EO": "Officier de vulgarisation",
       "FARM_MANAGER": "Gestionnaire de ferme",
       "FARM_OWNER": "Propriétaire de la ferme",
@@ -1072,6 +1099,7 @@
       "ROLE": "Rôle",
       "ROLE_CHANGE_ALERT": "Le changement de rôle prendra pleinement effet lors de la prochaine connexion. Les travailleurs ne peuvent pas se définir comme administrateurs.",
       "SEARCH": "Chercher",
+      "THIS_WILL_REMOVE": "MISSING",
       "USERS_FOUND": "Utilisateurs trouvés"
     },
     "TABLE": {
@@ -1099,14 +1127,14 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "CROP": "Récolte",
       "CROP_PLACEHOLDER": "Selectionner une récolte",
       "CROP_REQUIRED": "Requie",
+      "CROP_VARIETY": "MISSING",
       "CUSTOMER_NAME": "Nom de Client",
       "CUSTOMER_NAME_REQUIRED": "Requi",
       "DATE": "Date",
       "TABLE_HEADERS": {
-        "CROPS": "Récoltes",
+        "CROP_VARIETIES": "MISSING",
         "QUANTITY": "Quantité",
         "TOTAL": "Totale"
       },
@@ -1146,28 +1174,10 @@
       "ADD_NEW_EXPENSE": "Ajouter une nouvelle dépense",
       "ADD_NEW_SALE": "Ajouter une nouvelle vente",
       "BALANCE": "Solde",
-      "BALANCE_BY_CROP": "Solde (par culture)",
       "BALANCE_EXPLANATION": "Nous calculons un solde en temps réel (« coût de production ») pour chaque culture de votre ferme. Il s'agit d'une simple équation des dépenses moins les revenus. Les dépenses pour chaque culture sont calculées à partir de deux parties, une partie est le les dépenses de main-d'œuvre provenant des heures enregistrées pour les activités agricoles, l'autre partie provient des autres dépenses enregistrées pour l'ensemble de la ferme. Lorsque les dépenses sont enregistrées pour l'ensemble de la ferme, nous les répartissons également entre les cultures de la ferme. Non alloué signifie qu'un ou plusieurs quarts de travail a été soumis pour un champ alors qu'il n'y a pas encore de culture sur ce champ. Ce ou ces quarts de travail seront attribués aux cultures au fur et à mesure qu'elles sont ajoutées à ce champ dans la fenêtre de temps de rapport financier. ",
       "BALANCE_FOR_FARM": "Solde (Toute la ferme)",
-      "ENSURE_ONE_CROP_WARNING": "Veuillez vous assurer qu'au moins 1 récolte et une vente ou un quart de travail est associé pour voir ces informations.",
       "EXPENSES": "Dépenses",
       "FINANCE_HELP": "Aide Financière",
-      "HAS_UNALLOCATED_LINE1": "*Non alloué signifie que le travail a été effectué sur un champ vide pour la plage de dates sélectionnée.",
-      "HAS_UNALLOCATED_LINE10_1": "Si la laitue est ajoutée à Field1 mais qu'aucun changement lié à la laitue ou au Field1 n'est soumis, ou soumis après le 1er avril, alors le maïs sera alloué avec un montant total de",
-      "HAS_UNALLOCATED_LINE10_2": "De Field1.",
-      "HAS_UNALLOCATED_LINE2": "Si une ou plusieurs cultures ont été ajoutées ultérieurement à un champ vide et qu'il existe un décalage lié aux cultures, alors le travail effectué sur ce champ vide sera réparti uniformément sur chaque culture",
-      "HAS_UNALLOCATED_LINE3_1": "Pour la plage de dates",
-      "HAS_UNALLOCATED_LINE3_2": "1er janvier",
-      "HAS_UNALLOCATED_LINE3_3": "1er avril",
-      "HAS_UNALLOCATED_LINE4": "Et deux champs vides",
-      "HAS_UNALLOCATED_LINE5_1": "En supposant que les quarts de travail ont été soumis pour les deux champs (cost=",
-      "HAS_UNALLOCATED_LINE5_2": "30 pour chaque champ)",
-      "HAS_UNALLOCATED_LINE6_1": "alors la valeur non allouée serait",
-      "HAS_UNALLOCATED_LINE6_2": "Travail du Champ1 + Travail du Champ2 = -",
-      "HAS_UNALLOCATED_LINE7_1": "Le maïs et la laitue postérieurs ont été semés sur",
-      "HAS_UNALLOCATED_LINE7_2": "et les équipes associées ont été soumises dans la plage de dates, alors la valeur non allouée serait",
-      "HAS_UNALLOCATED_LINE8": "Travail de Field2 = -",
-      "HAS_UNALLOCATED_LINE9": "Le maïs et la laitue seront chacun alloués avec un coût supplémentaire de",
       "LABOUR_LABEL": "Labeur",
       "OTHER_EXPENSES_LABEL": "Autres dépenses",
       "REVENUE": "Revenu",
@@ -1258,11 +1268,13 @@
     "TITLE": "Postes"
   },
   "SIGNUP": {
+    "CHANGES": "MISSING",
     "EMAIL_INVALID": "Courriel non-valide",
     "ENTER_EMAIL": "Saiser votre addresse courriel",
     "EXPIRED_ERROR": "Nous avons mis notre infrastructure à jour vous devrez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour continuer.",
     "GOOGLE_BUTTON": "CONTINUER AVEC GOOGLE",
     "INVITED_ERROR": "Nous avons mis notre infrastructure à jour vous devrez réinitialiser votre mot de passe. Vérifiez votre boîte de courriels pour une invitation de ferme pour continuer.",
+    "LITEFARM_UPDATED": "MISSING",
     "PASSWORD_ERROR": "Mot de passe incorrect",
     "SIGN_IN": "Se Connecter",
     "SSO_ERROR": "Veuillez connecter par cliquer le bouton Google au-dessus",
@@ -1300,6 +1312,7 @@
   },
   "TASK": {
     "ABANDON_TASK": "Laisser cette tâche",
+    "ABANDON_TASK_DURATION": "MISSING",
     "ABANDON": {
       "ABANDON": "Abandon",
       "INFO": "Abandonner cette tâche changera son statut à Abandonné et la supprimera de tous utilisateurs sure les listes 'À faire' et 'non-assigné'.",
@@ -1318,6 +1331,7 @@
       "TITLE": "Abandonner la tâche",
       "WHAT_HAPPENED": "Que s'est-il passé ?"
     },
+    "ABANDONMENT_DETAILS": "MISSING",
     "ADD_CUSTOM_HARVEST_USE": "Créer une utilisation de récolte personnalisée",
     "ADD_HARVEST_USE": "Ajouter une autre utilisation de récolte",
     "ADD_TASK": "Créer une tâche",
@@ -1336,12 +1350,15 @@
     "COMPLETION_DETAILS": "MISSING",
     "COMPLETION_NOTES": "Notes de fin de tâche",
     "COMPLETION_NOTES_CHAR_LIMIT": "Les notes doivent comporter moins de 10 000 caractères",
+    "CREATE_CUSTOM_HARVEST_USE": "MISSING",
+    "CURRENT": "MISSING",
+    "DESCRIBE_HARVEST_USE": "MISSING",
     "DETAILS": "Détails",
     "DID_YOU_ENJOY": "Avez-vous apprécié cette tâche ?",
     "DUE_DATE": "Date d'échéance",
     "DURATION": "Durée",
-    "EDIT_TASK": "Modifier la tâche",
     "HARVEST_USE": "Utilisation de la récolte",
+    "HARVEST_USE_ALREADY_EXISTS": "MISSING",
     "HOW_WILL_HARVEST_BE_USED": "Comment la récolte sera-t-elle utilisée ?",
     "LOCATIONS": "Emplacement(s)",
     "NO_TASKS_TO_DISPLAY": "Il n'y a aucune tâche à afficher.",
@@ -1349,10 +1366,12 @@
     "PAGE_TITLE": "Tâches",
     "PREFER_NOT_TO_SAY": "Je préfère ne pas dire",
     "PROVIDE_RATING": "Fournir une note",
+    "QUANTITY_CANNOT_EXCEED": "MISSING",
     "RATE_THIS_TASK": "MISSING",
     "REMOVE_HARVEST_USE": "Supprimer",
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
+    "SELECT_WILD_CROP": "MISSING",
     "STATUS": {
       "ABANDONED": "Abandonné",
       "COMPLETED": "Terminé",
@@ -1364,6 +1383,7 @@
     "TASKS_COUNT": "{{count}} tâche",
     "TASKS_COUNT_plural": "{{count}} tâches",
     "TODO": "À faire",
+    "TRANSPLANT": "MISSING",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
     "UNASSIGNED": "Non affecté"
   },

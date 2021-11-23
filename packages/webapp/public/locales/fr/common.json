@@ -1,6 +1,7 @@
 {
   "ABANDON": "Abandonner",
   "ACTIVE": "Actif",
+  "ADD": "MISSING",
   "ALL": "Tout",
   "APPLY": "Appliquer",
   "BACK": "Retour",
@@ -13,16 +14,14 @@
   "DELETE": "Effacer",
   "DO_NOT_SHOW": "Ne plus afficher ce message",
   "EDIT": "Modifier",
-  "EDIT_DATE": "Modifier la Date",
-  "EG": "E.g.",
   "EXPORT": "Exporter",
   "FINISH": "Terminer",
   "FROM": "De",
   "GOT_IT": "J'ai compris !",
+  "HERE": "MISSING",
   "HIDE": "Cacher",
   "HOURS": "Heurs",
   "LOADING": "Chargement en cours...",
-  "LOCATION": "Lieu",
   "MARK_ABANDON": "Abandonner",
   "MARK_COMPLETE": "Marquer Complète",
   "MARK_COMPLETED": "Marquer Complèté",
@@ -48,8 +47,8 @@
   "SORRY": "Désoler",
   "SUBMIT": "Soumettre",
   "SUBMITTING": "Soumission en cours...",
-  "TO": "à",
   "UPDATE": "Mettre à Jour",
   "WORD_LIMIT_ERROR": "Seulement les charactères{{value}} peuvent être affichés",
-  "YES": "Oui"
+  "YES": "Oui",
+  "EDIT_DATE": "Modifier la Date"
 }

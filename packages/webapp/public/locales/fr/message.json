@@ -18,22 +18,23 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
+      "ADD": "MISSING",
+      "ADD_ALREADY_EXISTS": "MISSING",
       "DELETE": "MISSING",
       "UPDATE": "MISSING"
     },
     "SUCCESS": {
+      "ADD": "MISSING",
       "DELETE": "MISSING",
       "UPDATE": "MISSING"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "DELETE": "MISSING"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "DELETE": "MISSING"
     }
   },
   "EXPENSE": {
@@ -60,8 +61,12 @@
   },
   "LOG_HARVEST": {
     "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
       "AMOUNT_TOTAL": "MISSING",
       "GET_TYPES": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
     }
   },
   "LOGIN": {
@@ -92,6 +97,22 @@
     "ERROR": {
       "CREATE": "MISSING",
       "UPDATE": "MISSING"
+    }
+  },
+  "PLAN": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
+    }
+  },
+  "REVENUE": {
+    "ERROR": {
+      "EDIT": "MISSING"
+    },
+    "SUCCESS": {
+      "EDIT": "MISSING"
     }
   },
   "SALE": {

@@ -3,7 +3,7 @@ const i18n = require('../locales/i18n');
 const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
 const treatmentDocTransformation = (str) => str.substr(0, 1);
 const dataToCellMapping = {
-  crop_variety_name: 'A',
+  crop_variety: 'A',
   supplier: 'B',
   organic: 'D',
   searched: 'E',
@@ -34,7 +34,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
       const rowSeven = new RichText();
       const rowEight = new RichText();
       const rowNine = new RichText();
-      const reportDate = new Date().toISOString().split('T')[0].replace(/-/g, '/');
+      const reportDate = new Date().toISOString().split('T')[0];
 
       const { t } = i18n;
       rowSix.add(`2. ${t('RECORD_D.NOTE.TWO.PART_1')} `)
@@ -108,7 +108,27 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
       workbook.sheet(0).row(5).height(23);
       workbook.sheet(0).row(6).height(30);
       workbook.sheet(0).row(10).height(75);
-      data.map((row, i) => {
+
+      // transform crop variety in data to include crop name
+      const transform = data.map(({
+        crop_variety_name,
+        crop_translation_key,
+        supplier,
+        organic,
+        searched,
+        treated,
+        treated_doc,
+        genetically_engineered,
+      }) => ({
+        crop_variety: `${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`,
+        supplier,
+        organic,
+        searched,
+        treated,
+        treated_doc,
+        genetically_engineered,
+      }));
+      transform.map((row, i) => {
         const rowN = i + 11;
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;

@@ -32,8 +32,8 @@
   },
   "RECORD_I": {
     "HEADER": "Registro I",
-    "INPUTS": "Insumos",
-    "CLEANERS": "Productos de limpieza",
+    "INPUTS": "INSUMOS",
+    "CLEANERS": "PRODUCTOS DE LIMPIEZA",
     "REPORTING_PERIOD": "PERÍODO DE REGISTRO",
     "INPUT_CATEGORY": "Categoría de insumo",
     "BOTH": "MISSING",
@@ -44,7 +44,7 @@
         "PART_1": "Correcciones del suelo, nutrición de cultivos, aditivos y materiales para la producción de cultivos:",
         "PART_2": "por ejemplo, como mantillo, fertilizantes, aerosoles foliares, compost, estiércol, mezclas o componentes de tierra para macetas, turba, correcciones del suelo, etc."
       },
-      "TWO": "Productos de limpieza, desinfectantes, sustancias para el manejo de plagas de las instalaciones",
+      "TWO": "Productos de limpieza, desinfectantes, sustancias para el manejo de plagas de las instalaciones.",
       "PREP_INPUTS": "Nota: Productos de preparación: Los aditivos alimentarios, otros ingredientes y coadyuvantes de elaboración deben incluirse en el Registro PM - Lista de ingredientes maestros de elaboración y coadyuvantes de elaboración.",
       "LIVESTOCK_INPUTS": "Nota: Insumos para el ganado: los piensos, aditivos para piensos y complementos alimenticios, productos para el cuidado de la salud y ayudas a la producción, camas de animales, etc. deben incluirse en el Registro de insumos de LI-Ganadería."
     },

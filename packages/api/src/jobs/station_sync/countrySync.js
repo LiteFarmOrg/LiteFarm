@@ -1,36 +1,37 @@
 const { from } = require('rxjs');
-const { delay, concatMap, mergeMap, catchError } = require('rxjs/operators');
+const { delay, concatMap, catchError, finalize } = require('rxjs/operators');
 const rp = require('request-promise');
 
 const knex = require('./../../util/knex')
 const endPoints = require('../../endPoints');
 
-async function mapFarmsToCountryId() {
+async function mapFarmsToCountryId(knex = knex) {
   const countries = await knex('countries').select('id', 'country_name');
-  const farms = farmsWithNoCountryId();
-  console.log(countries);
-  from(farms)
-    .pipe(
-      mergeMap((farms) => from(farms)), // go through them 1 by 1
-      concatMap((field) =>
-        from(getCountryIdFromFarm(field))
-          .pipe(delay(1000)),
-      ),
-      catchError((error) => {
-        console.error(error);
-      }),
-    ).subscribe(async (farmData) => {
+  const farms = await farmsWithNoCountryId();
+  return new Promise((resolve) => {
+    from(farms)
+      .pipe(
+        concatMap((field) =>
+          from(getCountryIdFromFarm(field))
+            .pipe(delay(1000)),
+        ),
+        catchError((error) => {
+          console.error(error);
+        }),
+        finalize(() => resolve()),
+      ).subscribe(async (farmData) => {
       const { farm_id, results } = farmData;
       const country = results[0].address_components.find((component) =>
         component.types.includes('country'),
-      ).long_name;
-      console.log(farm_id, country)
-      await insertCountryIdToFarm(farm_id, country, countries);
+      )?.long_name;
+      country && await insertCountryIdToFarm(farm_id, country, countries);
     })
+
+  })
 }
 
 const farmsWithNoCountryId = async () => {
-  const data = await knex.raw('SELECT farm_id, grid_points FROM farm WHERE country_id IS NULL');
+  const data = await knex.raw('SELECT farm_id, grid_points FROM farm WHERE country_id IS NULL AND grid_points IS NOT NULL');
   return data.rows;
 }
 

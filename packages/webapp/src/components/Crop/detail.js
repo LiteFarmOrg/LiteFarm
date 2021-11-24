@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import RadioGroup from '../Form/RadioGroup';
 import styles from './styles.module.scss';
 import Layout from '../Layout';
+import Input, { integerOnKeyDown } from '../Form/Input';
 
 function PureCropDetail({
   history,
@@ -24,6 +25,7 @@ function PureCropDetail({
   const { t } = useTranslation();
   const {
     handleSubmit,
+    register,
     watch,
     control,
     formState: { errors, isValid },
@@ -33,6 +35,7 @@ function PureCropDetail({
   const TREATED = 'treated';
   const SEARCHED = 'searched';
   const GENETICALLY_ENGINEERED = 'genetically_engineered';
+  const HS_CODE_ID = 'hs_code_id';
   const isOrganic = isEditing ? watch(ORGANIC) : variety.organic;
   return (
     <Layout
@@ -144,6 +147,18 @@ function PureCropDetail({
           <RadioGroup disabled={!isEditing} hookFormControl={control} name={TREATED} showNotSure />
         </>
       )}
+      <Input
+        label={t('CROP_DETAIL.HS_CODE')}
+        style={{ paddingBottom: '32px', paddingTop: '24px' }}
+        hookFormRegister={register(HS_CODE_ID, {
+          valueAsNumber: true,
+        })}
+        type={'number'}
+        onKeyDown={integerOnKeyDown}
+        max={9999999999}
+        disabled={!isEditing}
+        optional
+      />
     </Layout>
   );
 }

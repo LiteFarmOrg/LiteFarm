@@ -1,0 +1,2718 @@
+[
+  {
+    "crop_common_name": "Tea",
+    "crop_genus": "Camellia",
+    "crop_specie": "sinensis",
+    "farm_id": null,
+    "hs_code_id": 90200
+  },
+  {
+    "crop_common_name": "Coffee",
+    "crop_genus": "Coffea",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 90100
+  },
+  {
+    "crop_common_name": "Hops",
+    "crop_genus": "Humulus",
+    "crop_specie": "lupulus",
+    "farm_id": null,
+    "hs_code_id": 121010
+  },
+  {
+    "crop_common_name": "Mint (all varieties)",
+    "crop_genus": "Mentha",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 1211908630
+  },
+  {
+    "crop_common_name": "Cacao (cocoa)",
+    "crop_genus": "Theobroma",
+    "crop_specie": "cacao",
+    "farm_id": null,
+    "hs_code_id": 18010000
+  },
+  {
+    "crop_common_name": "Oats, for grain",
+    "crop_genus": "Avena",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 100490
+  },
+  {
+    "crop_common_name": "Millet (Japanese)",
+    "crop_genus": "Echinochloa",
+    "crop_specie": "esculenta",
+    "farm_id": null,
+    "hs_code_id": 10082920
+  },
+  {
+    "crop_common_name": "Millet (finger)",
+    "crop_genus": "Eleusine",
+    "crop_specie": "coracana",
+    "farm_id": null,
+    "hs_code_id": 10082130
+  },
+  {
+    "crop_common_name": "Barley",
+    "crop_genus": "Hordeum",
+    "crop_specie": "vulgare",
+    "farm_id": null,
+    "hs_code_id": 100300
+  },
+  {
+    "crop_common_name": "Rice (African)",
+    "crop_genus": "Oryza",
+    "crop_specie": "glaberrima",
+    "farm_id": null,
+    "hs_code_id": 1006
+  },
+  {
+    "crop_common_name": "Rice",
+    "crop_genus": "Oryza",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 100620
+  },
+  {
+    "crop_common_name": "Millet (proso)",
+    "crop_genus": "Panicum",
+    "crop_specie": "miliaceum",
+    "farm_id": null,
+    "hs_code_id": 10082920
+  },
+  {
+    "crop_common_name": "Millet (bajra, pearl)",
+    "crop_genus": "Pennisetum",
+    "crop_specie": "glaucum",
+    "farm_id": null,
+    "hs_code_id": 10082920
+  },
+  {
+    "crop_common_name": "Rye",
+    "crop_genus": "Secale",
+    "crop_specie": "cereale",
+    "farm_id": null,
+    "hs_code_id": 11042985
+  },
+  {
+    "crop_common_name": "Millet (foxtail)",
+    "crop_genus": "Setaria",
+    "crop_specie": "italica",
+    "farm_id": null,
+    "hs_code_id": 10082920
+  },
+  {
+    "crop_common_name": "Sorghum broom (broom corn)",
+    "crop_genus": "Sorghum",
+    "crop_specie": "vulgare var. technicum",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Sorghum",
+    "crop_genus": "Sorghum",
+    "crop_specie": "bicolor",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Wheat",
+    "crop_genus": "Triticum",
+    "crop_specie": "aestivum",
+    "farm_id": null,
+    "hs_code_id": 100199
+  },
+  {
+    "crop_common_name": "Pineapple",
+    "crop_genus": "Ananas",
+    "crop_specie": "comosus",
+    "farm_id": null,
+    "hs_code_id": 8043000
+  },
+  {
+    "crop_common_name": "Grapefruit",
+    "crop_genus": "Citrus",
+    "crop_specie": "paradisi",
+    "farm_id": null,
+    "hs_code_id": 80540
+  },
+  {
+    "crop_common_name": "Strawberry",
+    "crop_genus": "Fragaria",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8101000
+  },
+  {
+    "crop_common_name": "Walnut",
+    "crop_genus": "Juglans",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 80231
+  },
+  {
+    "crop_common_name": "Apple",
+    "crop_genus": "Malus",
+    "crop_specie": "domestica",
+    "farm_id": null,
+    "hs_code_id": 8081000
+  },
+  {
+    "crop_common_name": "Banana",
+    "crop_genus": "Musa",
+    "crop_specie": "paradisiaca",
+    "farm_id": null,
+    "hs_code_id": 8039010
+  },
+  {
+    "crop_common_name": "Plantain",
+    "crop_genus": "Musa",
+    "crop_specie": "paradisiaca",
+    "farm_id": null,
+    "hs_code_id": 8039010
+  },
+  {
+    "crop_common_name": "Avocado",
+    "crop_genus": "Persea",
+    "crop_specie": "americana",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Dates",
+    "crop_genus": "Phoenix",
+    "crop_specie": "dactylifera",
+    "farm_id": null,
+    "hs_code_id": 8041000
+  },
+  {
+    "crop_common_name": "Pistachio nut",
+    "crop_genus": "Pistacia",
+    "crop_specie": "vera",
+    "farm_id": null,
+    "hs_code_id": 8025100
+  },
+  {
+    "crop_common_name": "Apricot",
+    "crop_genus": "Prunus",
+    "crop_specie": "armeniaca",
+    "farm_id": null,
+    "hs_code_id": 8091000
+  },
+  {
+    "crop_common_name": "Almond",
+    "crop_genus": "Prunus",
+    "crop_specie": "dulcis",
+    "farm_id": null,
+    "hs_code_id": 80212
+  },
+  {
+    "crop_common_name": "Peach",
+    "crop_genus": "Prunus",
+    "crop_specie": "persica",
+    "farm_id": null,
+    "hs_code_id": 80930
+  },
+  {
+    "crop_common_name": "Pear",
+    "crop_genus": "Pyrus",
+    "crop_specie": "communis",
+    "farm_id": null,
+    "hs_code_id": 80830
+  },
+  {
+    "crop_common_name": "Grapes",
+    "crop_genus": "Vitis",
+    "crop_specie": "vinifera",
+    "farm_id": null,
+    "hs_code_id": 8061010
+  },
+  {
+    "crop_common_name": "Chickpea (gram pea)",
+    "crop_genus": "Cicer",
+    "crop_specie": "arietinum",
+    "farm_id": null,
+    "hs_code_id": 71320
+  },
+  {
+    "crop_common_name": "Lentil",
+    "crop_genus": "Lens",
+    "crop_specie": "culinaris",
+    "farm_id": null,
+    "hs_code_id": 7134000
+  },
+  {
+    "crop_common_name": "Groundnut (peanut)",
+    "crop_genus": "Arachis",
+    "crop_specie": "hypogaea",
+    "farm_id": null,
+    "hs_code_id": 1202
+  },
+  {
+    "crop_common_name": "Safflower",
+    "crop_genus": "Carthamus",
+    "crop_specie": "tinctorius",
+    "farm_id": null,
+    "hs_code_id": 151219
+  },
+  {
+    "crop_common_name": "Soybean",
+    "crop_genus": "Glycine",
+    "crop_specie": "max",
+    "farm_id": null,
+    "hs_code_id": 120190
+  },
+  {
+    "crop_common_name": "Sunflower (girasol)",
+    "crop_genus": "Helianthus",
+    "crop_specie": "annuus",
+    "farm_id": null,
+    "hs_code_id": 120600
+  },
+  {
+    "crop_common_name": "Olive",
+    "crop_genus": "Olea",
+    "crop_specie": "europaea",
+    "farm_id": null,
+    "hs_code_id": 70992
+  },
+  {
+    "crop_common_name": "Sesame",
+    "crop_genus": "Sesamum",
+    "crop_specie": "indicum",
+    "farm_id": null,
+    "hs_code_id": 33049910
+  },
+  {
+    "crop_common_name": "Sisal",
+    "crop_genus": "Agave",
+    "crop_specie": "sisalana",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Cotton (all varieties)",
+    "crop_genus": "Gossypium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 520100
+  },
+  {
+    "crop_common_name": "Rubber",
+    "crop_genus": "Hevea",
+    "crop_specie": "brasiliensis",
+    "farm_id": null,
+    "hs_code_id": 4001
+  },
+  {
+    "crop_common_name": "Flax for fibre",
+    "crop_genus": "Linum",
+    "crop_specie": "usitatissimum",
+    "farm_id": null,
+    "hs_code_id": 5306
+  },
+  {
+    "crop_common_name": "Sweet potato",
+    "crop_genus": "Ipomoea",
+    "crop_specie": "batatas",
+    "farm_id": null,
+    "hs_code_id": 7142000
+  },
+  {
+    "crop_common_name": "Cassava",
+    "crop_genus": "Manihot",
+    "crop_specie": "esculenta",
+    "farm_id": null,
+    "hs_code_id": 190300
+  },
+  {
+    "crop_common_name": "Potato",
+    "crop_genus": "Solamum",
+    "crop_specie": "tuberosum",
+    "farm_id": null,
+    "hs_code_id": 70993
+  },
+  {
+    "crop_common_name": "Sugarcane for sugar or alcohol",
+    "crop_genus": "Saccharum",
+    "crop_specie": "officinarum",
+    "farm_id": null,
+    "hs_code_id": 121930
+  },
+  {
+    "crop_common_name": "Onion, yellow/white",
+    "crop_genus": "Allium",
+    "crop_specie": "cepa",
+    "farm_id": null,
+    "hs_code_id": 7122000
+  },
+  {
+    "crop_common_name": "Garlic, dry",
+    "crop_genus": "Allium",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 7032000
+  },
+  {
+    "crop_common_name": "Celery",
+    "crop_genus": "Apium",
+    "crop_specie": "graveolens",
+    "farm_id": null,
+    "hs_code_id": 70940
+  },
+  {
+    "crop_common_name": "Celeriac",
+    "crop_genus": "Apium",
+    "crop_specie": "graveolens var. rapaceum",
+    "farm_id": null,
+    "hs_code_id": 7069010
+  },
+  {
+    "crop_common_name": "Asparagus",
+    "crop_genus": "Asparagus",
+    "crop_specie": "officinalis",
+    "farm_id": null,
+    "hs_code_id": 70920
+  },
+  {
+    "crop_common_name": "Cabbage, Chinese",
+    "crop_genus": "Brassica",
+    "crop_specie": "pekinensis",
+    "farm_id": null,
+    "hs_code_id": 704
+  },
+  {
+    "crop_common_name": "Broccoli",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea",
+    "farm_id": null,
+    "hs_code_id": 7041000
+  },
+  {
+    "crop_common_name": "Cauliflower",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. botrytis",
+    "farm_id": null,
+    "hs_code_id": 7041000
+  },
+  {
+    "crop_common_name": "Cabbage (red, white, Savoy)",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. capitata",
+    "farm_id": null,
+    "hs_code_id": 704
+  },
+  {
+    "crop_common_name": "Brussels sprouts",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. gemmifera",
+    "farm_id": null,
+    "hs_code_id": 70420
+  },
+  {
+    "crop_common_name": "Watermelon",
+    "crop_genus": "Citrullus",
+    "crop_specie": "lanatus",
+    "farm_id": null,
+    "hs_code_id": 8071100
+  },
+  {
+    "crop_common_name": "Cantaloupe",
+    "crop_genus": "Cucumis",
+    "crop_specie": "melo",
+    "farm_id": null,
+    "hs_code_id": 80719
+  },
+  {
+    "crop_common_name": "Cucumber",
+    "crop_genus": "Cucumis",
+    "crop_specie": "sativus",
+    "farm_id": null,
+    "hs_code_id": 70700
+  },
+  {
+    "crop_common_name": "Squash",
+    "crop_genus": "Cucurbita",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 70993
+  },
+  {
+    "crop_common_name": "Artichoke",
+    "crop_genus": "Cynara",
+    "crop_specie": "cardunculus var. scolymus",
+    "farm_id": null,
+    "hs_code_id": 70991
+  },
+  {
+    "crop_common_name": "Carrot, edible",
+    "crop_genus": "Daucus",
+    "crop_specie": "carota ssp. sativa",
+    "farm_id": null,
+    "hs_code_id": 7061010
+  },
+  {
+    "crop_common_name": "Jerusalem artichoke",
+    "crop_genus": "Helianthus",
+    "crop_specie": "tuberosus",
+    "farm_id": null,
+    "hs_code_id": 7149090
+  },
+  {
+    "crop_common_name": "Lettuce",
+    "crop_genus": "Lactuca",
+    "crop_specie": "sativa var. capitata",
+    "farm_id": null,
+    "hs_code_id": 705
+  },
+  {
+    "crop_common_name": "Tomato",
+    "crop_genus": "Lycopersicon",
+    "crop_specie": "esculentum",
+    "farm_id": null,
+    "hs_code_id": 70200
+  },
+  {
+    "crop_common_name": "Parsnip",
+    "crop_genus": "Pastinaca",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 1209918054
+  },
+  {
+    "crop_common_name": "Radish",
+    "crop_genus": "Raphanus",
+    "crop_specie": "sativus",
+    "farm_id": null,
+    "hs_code_id": 70690
+  },
+  {
+    "crop_common_name": "Spinach",
+    "crop_genus": "Spinacia",
+    "crop_specie": "oleracea",
+    "farm_id": null,
+    "hs_code_id": 7103000
+  },
+  {
+    "crop_common_name": "Chili, dry (all varieties)",
+    "crop_genus": "Capsicum",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 9042211
+  },
+  {
+    "crop_common_name": "Caraway seeds",
+    "crop_genus": "Carum",
+    "crop_specie": "carvi",
+    "farm_id": null,
+    "hs_code_id": 9096131
+  },
+  {
+    "crop_common_name": "Cinnamon",
+    "crop_genus": "Cinnamomum",
+    "crop_specie": "verum",
+    "farm_id": null,
+    "hs_code_id": 906
+  },
+  {
+    "crop_common_name": "Cardamom",
+    "crop_genus": "Elettaria",
+    "crop_specie": "cardamomum",
+    "farm_id": null,
+    "hs_code_id": 908
+  },
+  {
+    "crop_common_name": "Drumstick tree",
+    "crop_genus": "Moringa",
+    "crop_specie": "oleifera",
+    "farm_id": null,
+    "hs_code_id": 12119029
+  },
+  {
+    "crop_common_name": "Mace",
+    "crop_genus": "Myristica",
+    "crop_specie": "fragrans",
+    "farm_id": null,
+    "hs_code_id": 908
+  },
+  {
+    "crop_common_name": "Nutmeg",
+    "crop_genus": "Myristica",
+    "crop_specie": "fragrans",
+    "farm_id": null,
+    "hs_code_id": 908
+  },
+  {
+    "crop_common_name": "Anise seeds",
+    "crop_genus": "Pimpinella",
+    "crop_specie": "anisum",
+    "farm_id": null,
+    "hs_code_id": 909
+  },
+  {
+    "crop_common_name": "Pepper, black",
+    "crop_genus": "Piper",
+    "crop_specie": "nigrum",
+    "farm_id": null,
+    "hs_code_id": 90411
+  },
+  {
+    "crop_common_name": "Vanilla",
+    "crop_genus": "Vanilla",
+    "crop_specie": "planifolia",
+    "farm_id": null,
+    "hs_code_id": 90500
+  },
+  {
+    "crop_common_name": "Ginger",
+    "crop_genus": "Zingiber",
+    "crop_specie": "officinale",
+    "farm_id": null,
+    "hs_code_id": 91010
+  },
+  {
+    "crop_common_name": "Quinoa",
+    "crop_genus": "Chenopodium",
+    "crop_specie": "quinoa",
+    "farm_id": null,
+    "hs_code_id": 10085000
+  },
+  {
+    "crop_common_name": "Tef",
+    "crop_genus": "Eragrostis",
+    "crop_specie": "abyssinica",
+    "farm_id": null,
+    "hs_code_id": 10089000
+  },
+  {
+    "crop_common_name": "Buckwheat",
+    "crop_genus": "Fagopyrum",
+    "crop_specie": "esculentum",
+    "farm_id": null,
+    "hs_code_id": 10081000
+  },
+  {
+    "crop_common_name": "Durum wheat",
+    "crop_genus": "Triticum",
+    "crop_specie": "durum",
+    "farm_id": null,
+    "hs_code_id": 100119
+  },
+  {
+    "crop_common_name": "Maize for cereals",
+    "crop_genus": "Zea",
+    "crop_specie": "mays",
+    "farm_id": null,
+    "hs_code_id": 110313
+  },
+  {
+    "crop_common_name": "Maize (corn)",
+    "crop_genus": "Zea",
+    "crop_specie": "mays",
+    "farm_id": null,
+    "hs_code_id": 100590
+  },
+  {
+    "crop_common_name": "Sapodilla",
+    "crop_genus": "Manilkara",
+    "crop_specie": "sapota",
+    "farm_id": null,
+    "hs_code_id": 8052100
+  },
+  {
+    "crop_common_name": "Cashew nuts",
+    "crop_genus": "Anacardium",
+    "crop_specie": "occidentale",
+    "farm_id": null,
+    "hs_code_id": 8013
+  },
+  {
+    "crop_common_name": "Custard apple",
+    "crop_genus": "Annona",
+    "crop_specie": "reticulata",
+    "farm_id": null,
+    "hs_code_id": 8109040
+  },
+  {
+    "crop_common_name": "Breadfruit",
+    "crop_genus": "Artocarpus",
+    "crop_specie": "altilis",
+    "farm_id": null,
+    "hs_code_id": 810902090
+  },
+  {
+    "crop_common_name": "Brazil nut",
+    "crop_genus": "Bertholletia",
+    "crop_specie": "excelsa",
+    "farm_id": null,
+    "hs_code_id": 8012
+  },
+  {
+    "crop_common_name": "Papaya (pawpaw)",
+    "crop_genus": "Carica",
+    "crop_specie": "papaya",
+    "farm_id": null,
+    "hs_code_id": 8072000
+  },
+  {
+    "crop_common_name": "Pecan nut",
+    "crop_genus": "Carya",
+    "crop_specie": "illinoinensis",
+    "farm_id": null,
+    "hs_code_id": 8029010
+  },
+  {
+    "crop_common_name": "Chestnut",
+    "crop_genus": "Castanea",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 80242
+  },
+  {
+    "crop_common_name": "Orange (bitter)",
+    "crop_genus": "Citrus",
+    "crop_specie": "aurantium",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Pomelo",
+    "crop_genus": "Citrus",
+    "crop_specie": "grandis",
+    "farm_id": null,
+    "hs_code_id": 80540
+  },
+  {
+    "crop_common_name": "Lemon",
+    "crop_genus": "Citrus",
+    "crop_specie": "limon",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Clementine",
+    "crop_genus": "Citrus",
+    "crop_specie": "clementina",
+    "farm_id": null,
+    "hs_code_id": 805100040
+  },
+  {
+    "crop_common_name": "Orange",
+    "crop_genus": "Citrus",
+    "crop_specie": "sinensis",
+    "farm_id": null,
+    "hs_code_id": 80510
+  },
+  {
+    "crop_common_name": "Lime, sour",
+    "crop_genus": "Citrus",
+    "crop_specie": "aurantifolia",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Hazelnut (filbert)",
+    "crop_genus": "Corylus",
+    "crop_specie": "avellana",
+    "farm_id": null,
+    "hs_code_id": 80221
+  },
+  {
+    "crop_common_name": "Quince",
+    "crop_genus": "Cydonia",
+    "crop_specie": "oblonga",
+    "farm_id": null,
+    "hs_code_id": 8084000
+  },
+  {
+    "crop_common_name": "Persimmon (kaki)",
+    "crop_genus": "Diospyros",
+    "crop_specie": "kaki",
+    "farm_id": null,
+    "hs_code_id": 8107000
+  },
+  {
+    "crop_common_name": "Fig",
+    "crop_genus": "Ficus",
+    "crop_specie": "carica",
+    "farm_id": null,
+    "hs_code_id": 80420
+  },
+  {
+    "crop_common_name": "Lychee",
+    "crop_genus": "Litchi",
+    "crop_specie": "chinensis",
+    "farm_id": null,
+    "hs_code_id": 8109060
+  },
+  {
+    "crop_common_name": "Macadamia (Queensland nut)",
+    "crop_genus": "Macadamia",
+    "crop_specie": "spp",
+    "farm_id": null,
+    "hs_code_id": 8026100
+  },
+  {
+    "crop_common_name": "Mango",
+    "crop_genus": "Mangifera",
+    "crop_specie": "indica",
+    "farm_id": null,
+    "hs_code_id": 80450
+  },
+  {
+    "crop_common_name": "Mulberry for fruit (all varieties)",
+    "crop_genus": "Morus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8102090
+  },
+  {
+    "crop_common_name": "Plum",
+    "crop_genus": "Prunus",
+    "crop_specie": "domestica",
+    "farm_id": null,
+    "hs_code_id": 8132000
+  },
+  {
+    "crop_common_name": "Nectarine",
+    "crop_genus": "Prunus",
+    "crop_specie": "persica var. nectarina",
+    "farm_id": null,
+    "hs_code_id": 80930
+  },
+  {
+    "crop_common_name": "Cherry (all varieties)",
+    "crop_genus": "Prunus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 80920
+  },
+  {
+    "crop_common_name": "Guava",
+    "crop_genus": "Psidium",
+    "crop_specie": "guajava",
+    "farm_id": null,
+    "hs_code_id": 80450
+  },
+  {
+    "crop_common_name": "Pomegranate",
+    "crop_genus": "Punica",
+    "crop_specie": "granatum",
+    "farm_id": null,
+    "hs_code_id": 8109094
+  },
+  {
+    "crop_common_name": "Currants (all varieties)",
+    "crop_genus": "Ribes",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8103000
+  },
+  {
+    "crop_common_name": "Gooseberry (all varieties)",
+    "crop_genus": "Ribes",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8103000
+  },
+  {
+    "crop_common_name": "Blackberries",
+    "crop_genus": "Rubus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8102090
+  },
+  {
+    "crop_common_name": "Raspberry (all varieties)",
+    "crop_genus": "Rubus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8102010
+  },
+  {
+    "crop_common_name": "Blueberry",
+    "crop_genus": "Vaccinium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8104000
+  },
+  {
+    "crop_common_name": "Cranberry",
+    "crop_genus": "Vaccinium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8104000
+  },
+  {
+    "crop_common_name": "Pigeon pea (guandu)",
+    "crop_genus": "Cajanus",
+    "crop_specie": "cajan",
+    "farm_id": null,
+    "hs_code_id": 71360
+  },
+  {
+    "crop_common_name": "Pea, edible dry, for grain",
+    "crop_genus": "Pisum",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 7131000
+  },
+  {
+    "crop_common_name": "Fenugreek",
+    "crop_genus": "Trigonella",
+    "crop_specie": "foenum-graecum",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Broad bean, dry",
+    "crop_genus": "Vicia",
+    "crop_specie": "faba",
+    "farm_id": null,
+    "hs_code_id": 7135000
+  },
+  {
+    "crop_common_name": "Beans, dry, edible, for grains",
+    "crop_genus": "Phaseolus",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 71339
+  },
+  {
+    "crop_common_name": "Cowpea, for grain",
+    "crop_genus": "Vigna",
+    "crop_specie": "unguiculata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Rapeseed (colza)",
+    "crop_genus": "Brassica",
+    "crop_specie": "napus",
+    "farm_id": null,
+    "hs_code_id": 1514
+  },
+  {
+    "crop_common_name": "Mustard, for seed",
+    "crop_genus": "Brassica",
+    "crop_specie": "nigra",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Coconut",
+    "crop_genus": "Cocos",
+    "crop_specie": "nucifera",
+    "farm_id": null,
+    "hs_code_id": 8011
+  },
+  {
+    "crop_common_name": "Oil palm",
+    "crop_genus": "Elaeis",
+    "crop_specie": "guineensis",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Poppy seed",
+    "crop_genus": "Papaver",
+    "crop_specie": "somniferum",
+    "farm_id": null,
+    "hs_code_id": 120791
+  },
+  {
+    "crop_common_name": "Mustard",
+    "crop_genus": "Sinapis",
+    "crop_specie": "alba",
+    "farm_id": null,
+    "hs_code_id": 9109927
+  },
+  {
+    "crop_common_name": "Hemp fibre",
+    "crop_genus": "Cannabis",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 5302
+  },
+  {
+    "crop_common_name": "Jute",
+    "crop_genus": "Corchorus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 5303
+  },
+  {
+    "crop_common_name": "Lemon grass",
+    "crop_genus": "Cymbopogon",
+    "crop_specie": "citratus",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Ryegrass",
+    "crop_genus": "Lolium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 12092500
+  },
+  {
+    "crop_common_name": "Alfalfa for fodder",
+    "crop_genus": "Medicago",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 12149090
+  },
+  {
+    "crop_common_name": "Tobacco",
+    "crop_genus": "Nicotiana",
+    "crop_specie": "tabacum",
+    "farm_id": null,
+    "hs_code_id": 2401
+  },
+  {
+    "crop_common_name": "Clover for fodder (all varieties)",
+    "crop_genus": "Trifolium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 12149090
+  },
+  {
+    "crop_common_name": "Dasheen",
+    "crop_genus": "Colocasia",
+    "crop_specie": "esculenta",
+    "farm_id": null,
+    "hs_code_id": 7144000
+  },
+  {
+    "crop_common_name": "Yam",
+    "crop_genus": "Dioscorea",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 71430
+  },
+  {
+    "crop_common_name": "Arrowroot",
+    "crop_genus": "Maranta",
+    "crop_specie": "arundinacea",
+    "farm_id": null,
+    "hs_code_id": 714
+  },
+  {
+    "crop_common_name": "Beet, fodder (mangel)",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 12092960
+  },
+  {
+    "crop_common_name": "Okra",
+    "crop_genus": "Abelmoschus",
+    "crop_specie": "esculentus",
+    "farm_id": null,
+    "hs_code_id": 709999020
+  },
+  {
+    "crop_common_name": "Mushrooms",
+    "crop_genus": "Agaricus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 70951
+  },
+  {
+    "crop_common_name": "Leek",
+    "crop_genus": "Allium",
+    "crop_specie": "ampeloprasum",
+    "farm_id": null,
+    "hs_code_id": 7039000
+  },
+  {
+    "crop_common_name": "Rutabaga (swede)",
+    "crop_genus": "Brassica",
+    "crop_specie": "napus var. napobrassica",
+    "farm_id": null,
+    "hs_code_id": 12149
+  },
+  {
+    "crop_common_name": "Kale",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. acephala",
+    "farm_id": null,
+    "hs_code_id": 7049090
+  },
+  {
+    "crop_common_name": "Kohlrabi",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. gongylodes",
+    "farm_id": null,
+    "hs_code_id": 7049090
+  },
+  {
+    "crop_common_name": "Turnip, for fodder",
+    "crop_genus": "Brassica",
+    "crop_specie": "rapa",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Endive",
+    "crop_genus": "Cichorium",
+    "crop_specie": "endivia",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Chicory",
+    "crop_genus": "Cichorium",
+    "crop_specie": "intybus",
+    "farm_id": null,
+    "hs_code_id": 705
+  },
+  {
+    "crop_common_name": "Melon (except watermelon)",
+    "crop_genus": "Cucumis",
+    "crop_specie": "melo",
+    "farm_id": null,
+    "hs_code_id": 8071
+  },
+  {
+    "crop_common_name": "Gourd",
+    "crop_genus": "Cucurbita",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 70993
+  },
+  {
+    "crop_common_name": "Pumpkin, edible",
+    "crop_genus": "Cucurbita",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Cardoon",
+    "crop_genus": "Cynara",
+    "crop_specie": "cardunculus",
+    "farm_id": null,
+    "hs_code_id": 709992000
+  },
+  {
+    "crop_common_name": "Fennel",
+    "crop_genus": "Foeniculum",
+    "crop_specie": "vulgare",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Gourd (African)",
+    "crop_genus": "Lagenaria",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 70993
+  },
+  {
+    "crop_common_name": "Cress",
+    "crop_genus": "Lepidium",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Rhubarb",
+    "crop_genus": "Rheum",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Eggplant",
+    "crop_genus": "Solanum",
+    "crop_specie": "gilo",
+    "farm_id": null,
+    "hs_code_id": 70930
+  },
+  {
+    "crop_common_name": "Salsify",
+    "crop_genus": "Tragopogon",
+    "crop_specie": "porrifolius",
+    "farm_id": null,
+    "hs_code_id": 706
+  },
+  {
+    "crop_common_name": "Abiu",
+    "crop_genus": "Pouteria",
+    "crop_specie": "caimito",
+    "farm_id": null,
+    "hs_code_id": 8109099
+  },
+  {
+    "crop_common_name": "Acai palm",
+    "crop_genus": "Euterpe",
+    "crop_specie": "oleracea",
+    "farm_id": null,
+    "hs_code_id": 22029020
+  },
+  {
+    "crop_common_name": "Achacha",
+    "crop_genus": "Garcinia",
+    "crop_specie": "humilis",
+    "farm_id": null,
+    "hs_code_id": 8109099
+  },
+  {
+    "crop_common_name": "Alfalfa for seed",
+    "crop_genus": "Medicago",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 12092100
+  },
+  {
+    "crop_common_name": "Alfalfa sprouts",
+    "crop_genus": "Medicago",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Allspice",
+    "crop_genus": "Pimenta",
+    "crop_specie": "dioica",
+    "farm_id": null,
+    "hs_code_id": 97112233
+  },
+  {
+    "crop_common_name": "Aloe vera",
+    "crop_genus": "Aloe",
+    "crop_specie": "vera",
+    "farm_id": null,
+    "hs_code_id": 1211
+  },
+  {
+    "crop_common_name": "Amaranth",
+    "crop_genus": "Amaranthus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 10089090
+  },
+  {
+    "crop_common_name": "Angico vermelho",
+    "crop_genus": "Anadenanthera",
+    "crop_specie": "colubrina",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Apple banana",
+    "crop_genus": "Musa",
+    "crop_specie": "balbisiana  ×  acuminata",
+    "farm_id": null,
+    "hs_code_id": 8039010
+  },
+  {
+    "crop_common_name": "Apple malay (Malay apple)",
+    "crop_genus": "Syzgium",
+    "crop_specie": "malaccense",
+    "farm_id": null,
+    "hs_code_id": 8109099
+  },
+  {
+    "crop_common_name": "Araza fruit",
+    "crop_genus": "Eugenia",
+    "crop_specie": "stipitata",
+    "farm_id": null,
+    "hs_code_id": 80450
+  },
+  {
+    "crop_common_name": "Areca (betel nut)",
+    "crop_genus": "Areca",
+    "crop_specie": "catechu",
+    "farm_id": null,
+    "hs_code_id": 21069030
+  },
+  {
+    "crop_common_name": "Arracacha",
+    "crop_genus": "Arracacia",
+    "crop_specie": "xanthorrhiza",
+    "farm_id": null,
+    "hs_code_id": 70690
+  },
+  {
+    "crop_common_name": "Arugula",
+    "crop_genus": "Eruca",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 709
+  },
+  {
+    "crop_common_name": "Bambara groundnut",
+    "crop_genus": "Vigna",
+    "crop_specie": "subterranea",
+    "farm_id": null,
+    "hs_code_id": 7133400
+  },
+  {
+    "crop_common_name": "Bamboo, common",
+    "crop_genus": "Bambusa",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 14011000
+  },
+  {
+    "crop_common_name": "Banana passionfruit",
+    "crop_genus": "Passiflora",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 810
+  },
+  {
+    "crop_common_name": "Basil",
+    "crop_genus": "Ocimum",
+    "crop_specie": "basilicum",
+    "farm_id": null,
+    "hs_code_id": 12119094
+  },
+  {
+    "crop_common_name": "Beans, harvested green",
+    "crop_genus": "Phaseolus",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 71333
+  },
+  {
+    "crop_common_name": "Beet, sugar",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 17011200
+  },
+  {
+    "crop_common_name": "Beet, sugar for fodder",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Beet, sugar for seeds",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 12091000
+  },
+  {
+    "crop_common_name": "Beet, table/red",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 7069030
+  },
+  {
+    "crop_common_name": "Bell pepper",
+    "crop_genus": "Capsicum",
+    "crop_specie": "annuum",
+    "farm_id": null,
+    "hs_code_id": 7096010
+  },
+  {
+    "crop_common_name": "Bergamot orange",
+    "crop_genus": "Citrus",
+    "crop_specie": "bergamia",
+    "farm_id": null,
+    "hs_code_id": 33019090
+  },
+  {
+    "crop_common_name": "Big Leaf Mahogany (Mogno brasileiro)",
+    "crop_genus": "Swietenia",
+    "crop_specie": "macrophylla",
+    "farm_id": null,
+    "hs_code_id": 44072100
+  },
+  {
+    "crop_common_name": "Bilimbi",
+    "crop_genus": "Averrhoa",
+    "crop_specie": "bilimbi",
+    "farm_id": null,
+    "hs_code_id": 1319
+  },
+  {
+    "crop_common_name": "Black oats",
+    "crop_genus": "Avena",
+    "crop_specie": "strigosa",
+    "farm_id": null,
+    "hs_code_id": 100490
+  },
+  {
+    "crop_common_name": "Black wattle",
+    "crop_genus": "Acacia",
+    "crop_specie": "mearnsii",
+    "farm_id": null,
+    "hs_code_id": 320120
+  },
+  {
+    "crop_common_name": "Brazilian grape tree",
+    "crop_genus": "Myrciaria",
+    "crop_specie": "cauliflora",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Brazilwood tree",
+    "crop_genus": "Paubrasilia",
+    "crop_specie": "echinata",
+    "farm_id": null,
+    "hs_code_id": 4407290185
+  },
+  {
+    "crop_common_name": "Broad bean, harvested green",
+    "crop_genus": "Vicia",
+    "crop_specie": "faba",
+    "farm_id": null,
+    "hs_code_id": 71333
+  },
+  {
+    "crop_common_name": "Brown salwood (Acácia mangium)",
+    "crop_genus": "Acacia",
+    "crop_specie": "mangium",
+    "farm_id": null,
+    "hs_code_id": 1211
+  },
+  {
+    "crop_common_name": "Buriti palm (Buriti)",
+    "crop_genus": "Mauritia",
+    "crop_specie": "flexuosa",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Butterfly pea",
+    "crop_genus": "Clitoria",
+    "crop_specie": "ternatea",
+    "farm_id": null,
+    "hs_code_id": 7131010
+  },
+  {
+    "crop_common_name": "Cabbage, for fodder",
+    "crop_genus": "Brassica",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 704
+  },
+  {
+    "crop_common_name": "Calendula",
+    "crop_genus": "Calendula",
+    "crop_specie": "officinalis",
+    "farm_id": null,
+    "hs_code_id": 6029060
+  },
+  {
+    "crop_common_name": "Cape gooseberry",
+    "crop_genus": "Physalis",
+    "crop_specie": "peruviana",
+    "farm_id": null,
+    "hs_code_id": 8103000
+  },
+  {
+    "crop_common_name": "Carob",
+    "crop_genus": "Ceratonia",
+    "crop_specie": "siliqua",
+    "farm_id": null,
+    "hs_code_id": 121292
+  },
+  {
+    "crop_common_name": "Carrot, for fodder",
+    "crop_genus": "Daucus",
+    "crop_specie": "carota ssp. sativa",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Castor bean",
+    "crop_genus": "Ricinus",
+    "crop_specie": "communis",
+    "farm_id": null,
+    "hs_code_id": 15153090
+  },
+  {
+    "crop_common_name": "Cega machado",
+    "crop_genus": "Physocalymma",
+    "crop_specie": "scaberrimum pohl",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Chard",
+    "crop_genus": "Beta",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Chayote",
+    "crop_genus": "Sechium",
+    "crop_specie": "edule",
+    "farm_id": null,
+    "hs_code_id": 7099910
+  },
+  {
+    "crop_common_name": "Cherry barbados (Barbados cherry)",
+    "crop_genus": "Malpighia",
+    "crop_specie": "emarginata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Cherry surinam (Surinam cherry)",
+    "crop_genus": "Eugenia",
+    "crop_specie": "uniflora",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Chia",
+    "crop_genus": "Salvia",
+    "crop_specie": "hispanica",
+    "farm_id": null,
+    "hs_code_id": 19053290
+  },
+  {
+    "crop_common_name": "Chichá do cerrado",
+    "crop_genus": "Sterculia",
+    "crop_specie": "chicha",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Chicory for greens",
+    "crop_genus": "Cichorium",
+    "crop_specie": "intybus",
+    "farm_id": null,
+    "hs_code_id": 7052900
+  },
+  {
+    "crop_common_name": "Chili, fresh (all varieties)",
+    "crop_genus": "Capsicum",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 7096010
+  },
+  {
+    "crop_common_name": "Chive",
+    "crop_genus": "Allium",
+    "crop_specie": "schoenoprasum",
+    "farm_id": null,
+    "hs_code_id": 703900000
+  },
+  {
+    "crop_common_name": "Chupa-chupa",
+    "crop_genus": "Quararibea",
+    "crop_specie": "cordata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Cilantro",
+    "crop_genus": "Coriandrum",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 709
+  },
+  {
+    "crop_common_name": "Citron",
+    "crop_genus": "Citrus",
+    "crop_specie": "medica",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Citronella",
+    "crop_genus": "Cymbopogon",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 33012942
+  },
+  {
+    "crop_common_name": "Clove",
+    "crop_genus": "Syzygium",
+    "crop_specie": "aromaticum",
+    "farm_id": null,
+    "hs_code_id": 90700
+  },
+  {
+    "crop_common_name": "Clover for seed (all varieties)",
+    "crop_genus": "Trifolium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 12092280
+  },
+  {
+    "crop_common_name": "Cochineal cactus (Palma / nopal)",
+    "crop_genus": "Opuntia",
+    "crop_specie": "cochenillifera",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Cocoyam (New cocoyam) (Xanthosoma spp.)",
+    "crop_genus": "Xanthosoma",
+    "crop_specie": "sagittifolium",
+    "farm_id": null,
+    "hs_code_id": 7144000
+  },
+  {
+    "crop_common_name": "Cola nut",
+    "crop_genus": "Cola",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8027000
+  },
+  {
+    "crop_common_name": "Collards",
+    "crop_genus": "Brassica",
+    "crop_specie": "oleracea var. viridis",
+    "farm_id": null,
+    "hs_code_id": 704
+  },
+  {
+    "crop_common_name": "Copaíba",
+    "crop_genus": "Copaifera",
+    "crop_specie": "langsdorfii",
+    "farm_id": null,
+    "hs_code_id": 33013099
+  },
+  {
+    "crop_common_name": "Coriander long (Long coriander)",
+    "crop_genus": "Eryngium",
+    "crop_specie": "antihystericum",
+    "farm_id": null,
+    "hs_code_id": 9092100
+  },
+  {
+    "crop_common_name": "Corn salad",
+    "crop_genus": "Valerianella",
+    "crop_specie": "locusta",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Corn sweet for vegetable",
+    "crop_genus": "Zea",
+    "crop_specie": "mays",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  },
+  {
+    "crop_common_name": "Cottonseed (all varieties)",
+    "crop_genus": "Gossypium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 120721
+  },
+  {
+    "crop_common_name": "Cowpea, harvested green",
+    "crop_genus": "Vigna",
+    "crop_specie": "unguiculata",
+    "farm_id": null,
+    "hs_code_id": 7133500
+  },
+  {
+    "crop_common_name": "Cupuaçu",
+    "crop_genus": "Theobroma",
+    "crop_specie": "grandiflorum",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Daikon radish (nabo forrajero, forage)",
+    "crop_genus": "Raphanus",
+    "crop_specie": "sativus var. longipinnatus",
+    "farm_id": null,
+    "hs_code_id": 7069020
+  },
+  {
+    "crop_common_name": "Dragonfruit",
+    "crop_genus": "Selenicereus",
+    "crop_specie": "undatus",
+    "farm_id": null,
+    "hs_code_id": 810902090
+  },
+  {
+    "crop_common_name": "Eddo (eddoe)",
+    "crop_genus": "Colocasia",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 7144000
+  },
+  {
+    "crop_common_name": "Epazote",
+    "crop_genus": "Dysphania",
+    "crop_specie": "ambrosioides",
+    "farm_id": null,
+    "hs_code_id": 902
+  },
+  {
+    "crop_common_name": "Espinheira santa",
+    "crop_genus": "Maytenus",
+    "crop_specie": "illicifolia",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Ethiopian nightshade",
+    "crop_genus": "Solanum",
+    "crop_specie": "aethiopicum",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Fique",
+    "crop_genus": "Furcraea",
+    "crop_specie": "macrophylla",
+    "farm_id": null,
+    "hs_code_id": 53089090
+  },
+  {
+    "crop_common_name": "Flax for oil seed (linseed)",
+    "crop_genus": "Linum",
+    "crop_specie": "usitatissimum",
+    "farm_id": null,
+    "hs_code_id": 15159091
+  },
+  {
+    "crop_common_name": "Formio (New Zealand flax)",
+    "crop_genus": "Phormium",
+    "crop_specie": "tenax",
+    "farm_id": null,
+    "hs_code_id": 53089090
+  },
+  {
+    "crop_common_name": "Garlic, green",
+    "crop_genus": "Allium",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 7032000
+  },
+  {
+    "crop_common_name": "Genipap tree",
+    "crop_genus": "Genipa",
+    "crop_specie": "americana",
+    "farm_id": null,
+    "hs_code_id": 810
+  },
+  {
+    "crop_common_name": "Geranium spp.",
+    "crop_genus": "Geranium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 330121
+  },
+  {
+    "crop_common_name": "Gingko biloba",
+    "crop_genus": "Gingko",
+    "crop_specie": "biloba",
+    "farm_id": null,
+    "hs_code_id": 13021990
+  },
+  {
+    "crop_common_name": "Gooseberry barbados (Barbados gooseberry)",
+    "crop_genus": "Pereskia",
+    "crop_specie": "aculeata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Grapes for raisins",
+    "crop_genus": "Vitis",
+    "crop_specie": "vinifera",
+    "farm_id": null,
+    "hs_code_id": 80620
+  },
+  {
+    "crop_common_name": "Grapes for table use",
+    "crop_genus": "Vitis",
+    "crop_specie": "vinifera",
+    "farm_id": null,
+    "hs_code_id": 8061010
+  },
+  {
+    "crop_common_name": "Grapes for wine",
+    "crop_genus": "Vitis",
+    "crop_specie": "vinifera",
+    "farm_id": null,
+    "hs_code_id": 8061010
+  },
+  {
+    "crop_common_name": "Grass, esparto",
+    "crop_genus": "Lygeum\n\nStipa",
+    "crop_specie": "spartum\n\ntenacissum",
+    "farm_id": null,
+    "hs_code_id": 46
+  },
+  {
+    "crop_common_name": "Grass, orchard",
+    "crop_genus": "Dactylis",
+    "crop_specie": "glomerata",
+    "farm_id": null,
+    "hs_code_id": 12149090
+  },
+  {
+    "crop_common_name": "Grass, Sudan",
+    "crop_genus": "Sorghum",
+    "crop_specie": "drumondii",
+    "farm_id": null,
+    "hs_code_id": 12092990
+  },
+  {
+    "crop_common_name": "Groundcherry",
+    "crop_genus": "Physalis",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 8134090
+  },
+  {
+    "crop_common_name": "Guaco",
+    "crop_genus": "Mikania",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 12119029
+  },
+  {
+    "crop_common_name": "Guaraná",
+    "crop_genus": "Paullinia",
+    "crop_specie": "cupana",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Gueroba",
+    "crop_genus": "Syagrus",
+    "crop_specie": "oleracea",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Hemp, manila (abaca)",
+    "crop_genus": "Musa",
+    "crop_specie": "textilis",
+    "farm_id": null,
+    "hs_code_id": 530500
+  },
+  {
+    "crop_common_name": "Hemp, sunn (crotalaria)",
+    "crop_genus": "Crotalaria",
+    "crop_specie": "juncea",
+    "farm_id": null,
+    "hs_code_id": 12119099
+  },
+  {
+    "crop_common_name": "Hempseed",
+    "crop_genus": "Cannabis",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 12079991
+  },
+  {
+    "crop_common_name": "Henequen",
+    "crop_genus": "Agave",
+    "crop_specie": "fourcroydes",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Henna",
+    "crop_genus": "Lawsonia",
+    "crop_specie": "inermis",
+    "farm_id": null,
+    "hs_code_id": 14041019
+  },
+  {
+    "crop_common_name": "Horseradish",
+    "crop_genus": "Armoracia",
+    "crop_specie": "rusticana",
+    "farm_id": null,
+    "hs_code_id": 706909020
+  },
+  {
+    "crop_common_name": "Ice-cream bean",
+    "crop_genus": "Inga",
+    "crop_specie": "edulis",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Imburana de cheiro, cumaru nordestino",
+    "crop_genus": "Amburana",
+    "crop_specie": "cearensis",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Inca peanut",
+    "crop_genus": "Plukenetia",
+    "crop_specie": "volubilis",
+    "farm_id": null,
+    "hs_code_id": 80200
+  },
+  {
+    "crop_common_name": "Indigo",
+    "crop_genus": "Indigofera",
+    "crop_specie": "tinctoria",
+    "farm_id": null,
+    "hs_code_id": 121190
+  },
+  {
+    "crop_common_name": "Jack bean",
+    "crop_genus": "Canavalia",
+    "crop_specie": "ensiformis",
+    "farm_id": null,
+    "hs_code_id": 71339
+  },
+  {
+    "crop_common_name": "Jackfruit",
+    "crop_genus": "Artocarpus",
+    "crop_specie": "heterophyllus",
+    "farm_id": null,
+    "hs_code_id": 8109090
+  },
+  {
+    "crop_common_name": "Jasmine",
+    "crop_genus": "Jasminum",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 6031901
+  },
+  {
+    "crop_common_name": "Jatobá do cerrado",
+    "crop_genus": "Hymenaea",
+    "crop_specie": "stigonocarpa",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Jícama",
+    "crop_genus": "Pachyrhizus",
+    "crop_specie": "erosus",
+    "farm_id": null,
+    "hs_code_id": 709990500
+  },
+  {
+    "crop_common_name": "Jointed flatsedge",
+    "crop_genus": "Cyperus",
+    "crop_specie": "articulatus",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Kapok",
+    "crop_genus": "Ceiba",
+    "crop_specie": "pentandra",
+    "farm_id": null,
+    "hs_code_id": 53089090
+  },
+  {
+    "crop_common_name": "Kenaf",
+    "crop_genus": "Hibiscus",
+    "crop_specie": "cannabinus",
+    "farm_id": null,
+    "hs_code_id": 53089090
+  },
+  {
+    "crop_common_name": "Lamb's-ear",
+    "crop_genus": "Stachys",
+    "crop_specie": "byzantina",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Laurel",
+    "crop_genus": "Laurus",
+    "crop_specie": "nobilis",
+    "farm_id": null,
+    "hs_code_id": 121190
+  },
+  {
+    "crop_common_name": "Lavender",
+    "crop_genus": "Lavandula",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 33012979
+  },
+  {
+    "crop_common_name": "Lemon balm",
+    "crop_genus": "Melissa",
+    "crop_specie": "officinalis",
+    "farm_id": null,
+    "hs_code_id": 121190
+  },
+  {
+    "crop_common_name": "Lemon Scented Gum (Eucalipto cheiroso)",
+    "crop_genus": "Eucalyptus",
+    "crop_specie": "citriodora",
+    "farm_id": null,
+    "hs_code_id": 3301
+  },
+  {
+    "crop_common_name": "Lespedeza (all varieties)",
+    "crop_genus": "Lespedeza",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Lime, sweet",
+    "crop_genus": "Citrus",
+    "crop_specie": "limetta",
+    "farm_id": null,
+    "hs_code_id": 8055000
+  },
+  {
+    "crop_common_name": "Lipstick tree",
+    "crop_genus": "Bixa",
+    "crop_specie": "orellana",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Liquorice",
+    "crop_genus": "Glycyrrhiza",
+    "crop_specie": "glabra",
+    "farm_id": null,
+    "hs_code_id": 17049010
+  },
+  {
+    "crop_common_name": "Loquat",
+    "crop_genus": "Eriobotrya",
+    "crop_specie": "japonica",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Lupin (lupino)",
+    "crop_genus": "Lupinus",
+    "crop_specie": "albus",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Lupine (all varieties)",
+    "crop_genus": "Lupinus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Macaw palm (Macaúba)",
+    "crop_genus": "Acrocomia",
+    "crop_specie": "aculeata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Maguey",
+    "crop_genus": "Agave",
+    "crop_specie": "americana",
+    "farm_id": null,
+    "hs_code_id": 17026090
+  },
+  {
+    "crop_common_name": "Maize hybrid",
+    "crop_genus": "Zea",
+    "crop_specie": "mays",
+    "farm_id": null,
+    "hs_code_id": 10051018
+  },
+  {
+    "crop_common_name": "Maize ordinary",
+    "crop_genus": "Zea",
+    "crop_specie": "mays",
+    "farm_id": null,
+    "hs_code_id": 100590
+  },
+  {
+    "crop_common_name": "Mandarin",
+    "crop_genus": "Citrus",
+    "crop_specie": "reticulata",
+    "farm_id": null,
+    "hs_code_id": 8052100
+  },
+  {
+    "crop_common_name": "Mangosteen",
+    "crop_genus": "Garcinia",
+    "crop_specie": "mangostana",
+    "farm_id": null,
+    "hs_code_id": 80450
+  },
+  {
+    "crop_common_name": "Mangosteen false (False mangosteen)",
+    "crop_genus": "Garcinia",
+    "crop_specie": "xanthochymus",
+    "farm_id": null,
+    "hs_code_id": 80450
+  },
+  {
+    "crop_common_name": "Marang",
+    "crop_genus": "Artocarpus",
+    "crop_specie": "odoratissimus",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Marcela",
+    "crop_genus": "Achyrocline",
+    "crop_specie": "satureioides",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Marjoram",
+    "crop_genus": "Origanum",
+    "crop_specie": "majorana",
+    "farm_id": null,
+    "hs_code_id": 7129050
+  },
+  {
+    "crop_common_name": "Maslin (mixed cereals)",
+    "crop_genus": "Mixture",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 11010000
+  },
+  {
+    "crop_common_name": "Medlar",
+    "crop_genus": "Mespilus",
+    "crop_specie": "germanica",
+    "farm_id": null,
+    "hs_code_id": 8119
+  },
+  {
+    "crop_common_name": "Mignonette vine",
+    "crop_genus": "Andredera",
+    "crop_specie": "cordifolia",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Millet (bulrush)",
+    "crop_genus": "Pennisetum",
+    "crop_specie": "glaucum",
+    "farm_id": null,
+    "hs_code_id": 10082920
+  },
+  {
+    "crop_common_name": "Miracle fruit",
+    "crop_genus": "Synsepalum",
+    "crop_specie": "dulcificum",
+    "farm_id": null,
+    "hs_code_id": 8119
+  },
+  {
+    "crop_common_name": "Mocambo tree",
+    "crop_genus": "Theobroma",
+    "crop_specie": "bicolor",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Mombin purple (Purple mombin or Spanish plum)",
+    "crop_genus": "Spondias",
+    "crop_specie": "purpurea",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Mombin yellow (Yellow mombin)",
+    "crop_genus": "Spondias",
+    "crop_specie": "mombin",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Momoqui (Sibipiruna)",
+    "crop_genus": "Caesalpinia",
+    "crop_specie": "pluviosa",
+    "farm_id": null,
+    "hs_code_id": 4403
+  },
+  {
+    "crop_common_name": "Monkey pepper (Pimenta de macaco)",
+    "crop_genus": "Xylopia",
+    "crop_specie": "aromatica",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Mulberry for silkworms",
+    "crop_genus": "Morus",
+    "crop_specie": "alba",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Mulberry indian (Indian mulberry)",
+    "crop_genus": "Morinda",
+    "crop_specie": "citrifolia",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Mulungu",
+    "crop_genus": "Erythrina",
+    "crop_specie": "verna",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Niger seed",
+    "crop_genus": "Guizotia",
+    "crop_specie": "abyssinica",
+    "farm_id": null,
+    "hs_code_id": 12099100
+  },
+  {
+    "crop_common_name": "Oca",
+    "crop_genus": "Oxalis",
+    "crop_specie": "tuberosus",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Onion, green",
+    "crop_genus": "Allium",
+    "crop_specie": "cepa",
+    "farm_id": null,
+    "hs_code_id": 70310
+  },
+  {
+    "crop_common_name": "Onion, red",
+    "crop_genus": "Allium",
+    "crop_specie": "cepa",
+    "farm_id": null,
+    "hs_code_id": 70310
+  },
+  {
+    "crop_common_name": "Onion, welsh (Welsh onion)",
+    "crop_genus": "Allium",
+    "crop_specie": "fistulosum",
+    "farm_id": null,
+    "hs_code_id": 70310
+  },
+  {
+    "crop_common_name": "Opium",
+    "crop_genus": "Papaver",
+    "crop_specie": "somniferum",
+    "farm_id": null,
+    "hs_code_id": 130211
+  },
+  {
+    "crop_common_name": "Oppositeleaf Russian thistle",
+    "crop_genus": "Salsola",
+    "crop_specie": "soda",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Oregano",
+    "crop_genus": "Origanum",
+    "crop_specie": "vulgare",
+    "farm_id": null,
+    "hs_code_id": 7129050
+  },
+  {
+    "crop_common_name": "Palm bahia piassaba (Bahia piassaba palm)",
+    "crop_genus": "Attalea",
+    "crop_specie": "funifera",
+    "farm_id": null,
+    "hs_code_id": 12071000
+  },
+  {
+    "crop_common_name": "Palm jussara (Jussara palm)",
+    "crop_genus": "Euterpe",
+    "crop_specie": "edulis",
+    "farm_id": null,
+    "hs_code_id": 12071000
+  },
+  {
+    "crop_common_name": "Palm palmyra",
+    "crop_genus": "Borassus",
+    "crop_specie": "flabellifer",
+    "farm_id": null,
+    "hs_code_id": 12071000
+  },
+  {
+    "crop_common_name": "Palm peach (Peach palm)",
+    "crop_genus": "Bactris",
+    "crop_specie": "gasipaes",
+    "farm_id": null,
+    "hs_code_id": 12071000
+  },
+  {
+    "crop_common_name": "Palm, sago (Metroxylon sagu)",
+    "crop_genus": "Metroxylon",
+    "crop_specie": "sagu",
+    "farm_id": null,
+    "hs_code_id": 12071000
+  },
+  {
+    "crop_common_name": "Parsley",
+    "crop_genus": "Petroselinum",
+    "crop_specie": "crispum",
+    "farm_id": null,
+    "hs_code_id": 12099150
+  },
+  {
+    "crop_common_name": "Passionfruit",
+    "crop_genus": "Passiflora",
+    "crop_specie": "edulis",
+    "farm_id": null,
+    "hs_code_id": 810
+  },
+  {
+    "crop_common_name": "Pea, harvested green",
+    "crop_genus": "Pisum",
+    "crop_specie": "sativum",
+    "farm_id": null,
+    "hs_code_id": 7131010
+  },
+  {
+    "crop_common_name": "Pennyroyal",
+    "crop_genus": "Mentha",
+    "crop_specie": "pulegium",
+    "farm_id": null,
+    "hs_code_id": 3301
+  },
+  {
+    "crop_common_name": "Pepper Brazilian (Brazilian pepper)",
+    "crop_genus": "Schinus",
+    "crop_specie": "terebinthifolia",
+    "farm_id": null,
+    "hs_code_id": 9041190
+  },
+  {
+    "crop_common_name": "Plum java (Java palm)",
+    "crop_genus": "Syzygium",
+    "crop_specie": "cumini",
+    "farm_id": null,
+    "hs_code_id": 80940
+  },
+  {
+    "crop_common_name": "Plum june (June palm)",
+    "crop_genus": "Spondias",
+    "crop_specie": "dulcis",
+    "farm_id": null,
+    "hs_code_id": 80940
+  },
+  {
+    "crop_common_name": "Pumpkin, for fodder",
+    "crop_genus": "Cucurbita",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Purslane",
+    "crop_genus": "Portulaca",
+    "crop_specie": "oleracea",
+    "farm_id": null,
+    "hs_code_id": 12119026
+  },
+  {
+    "crop_common_name": "Pyrethrum",
+    "crop_genus": "Chrysanthemum",
+    "crop_specie": "cinerariaefolium",
+    "farm_id": null,
+    "hs_code_id": 32011000
+  },
+  {
+    "crop_common_name": "Quickstick",
+    "crop_genus": "Gliricidia",
+    "crop_specie": "sepium",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Quinine",
+    "crop_genus": "Cinchona",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 12119039
+  },
+  {
+    "crop_common_name": "Rambutan",
+    "crop_genus": "Nephelium",
+    "crop_specie": "lappaceum",
+    "farm_id": null,
+    "hs_code_id": 810
+  },
+  {
+    "crop_common_name": "Redtop",
+    "crop_genus": "Agrostis",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Rhea, Ramie",
+    "crop_genus": "Boehmeria",
+    "crop_specie": "nivea",
+    "farm_id": null,
+    "hs_code_id": 53089010
+  },
+  {
+    "crop_common_name": "Rocoto pepper",
+    "crop_genus": "Capsicum",
+    "crop_specie": "pubescens",
+    "farm_id": null,
+    "hs_code_id": 70960
+  },
+  {
+    "crop_common_name": "Rose",
+    "crop_genus": "Rosa",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 60240
+  },
+  {
+    "crop_common_name": "Rose apple",
+    "crop_genus": "Syzygium",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Rose Gum Eucalyptus (Eucalipto grandis)",
+    "crop_genus": "Eucalyptus",
+    "crop_specie": "grandis",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Roselle",
+    "crop_genus": "Hibiscus",
+    "crop_specie": "sabdariffa",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Rosemary",
+    "crop_genus": "Salvia",
+    "crop_specie": "rosmarinus",
+    "farm_id": null,
+    "hs_code_id": 12119094
+  },
+  {
+    "crop_common_name": "Saba Nut (Castanha do maranhão)",
+    "crop_genus": "Bombacopsis",
+    "crop_specie": "glabra",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Saffron",
+    "crop_genus": "Crocus",
+    "crop_specie": "sativus",
+    "farm_id": null,
+    "hs_code_id": 910
+  },
+  {
+    "crop_common_name": "Sainfoin",
+    "crop_genus": "Onobrychis",
+    "crop_specie": "viciifolia",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Sangra d'agua",
+    "crop_genus": "Croton",
+    "crop_specie": "urucurana",
+    "farm_id": null,
+    "hs_code_id": 8109093
+  },
+  {
+    "crop_common_name": "Satsuma (manderine/tangerine)",
+    "crop_genus": "Citrus",
+    "crop_specie": "unshiu",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Schott (Mangarito)",
+    "crop_genus": "Xanthosoma",
+    "crop_specie": "riedelianum",
+    "farm_id": null,
+    "hs_code_id": 120740
+  },
+  {
+    "crop_common_name": "Scorzonera black salsify",
+    "crop_genus": "Scorzonera",
+    "crop_specie": "hispanica",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Sessile joyweed",
+    "crop_genus": "Alternanthera",
+    "crop_specie": "sessilis",
+    "farm_id": null,
+    "hs_code_id": 53041010
+  },
+  {
+    "crop_common_name": "Shea tree",
+    "crop_genus": "Vitellaria",
+    "crop_specie": "paradoxa",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Soapberry (Saboneteira)",
+    "crop_genus": "Sapindus",
+    "crop_specie": "saponaria",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Sorrel",
+    "crop_genus": "Rumex",
+    "crop_specie": "acetosa",
+    "farm_id": null,
+    "hs_code_id": 100790
+  },
+  {
+    "crop_common_name": "Soursop",
+    "crop_genus": "Annona",
+    "crop_specie": "muricata",
+    "farm_id": null,
+    "hs_code_id": 48070090
+  },
+  {
+    "crop_common_name": "Southern Blue Gum (Eucalipto glóbulus)",
+    "crop_genus": "Eucalyptus",
+    "crop_specie": "globulus",
+    "farm_id": null,
+    "hs_code_id": 8109094
+  },
+  {
+    "crop_common_name": "Soybean hay",
+    "crop_genus": "Glycine",
+    "crop_specie": "max",
+    "farm_id": null,
+    "hs_code_id": 120190
+  },
+  {
+    "crop_common_name": "Spelt",
+    "crop_genus": "Triticum",
+    "crop_specie": "spelta",
+    "farm_id": null,
+    "hs_code_id": 10019110
+  },
+  {
+    "crop_common_name": "St John's Wort",
+    "crop_genus": "Hypericum",
+    "crop_specie": "perforatum",
+    "farm_id": null,
+    "hs_code_id": 1302
+  },
+  {
+    "crop_common_name": "Starfruit",
+    "crop_genus": "Averrhoa",
+    "crop_specie": "carambola",
+    "farm_id": null,
+    "hs_code_id": 810902010
+  },
+  {
+    "crop_common_name": "Stevia",
+    "crop_genus": "Stevia",
+    "crop_specie": "rebaudiana",
+    "farm_id": null,
+    "hs_code_id": 2938900000
+  },
+  {
+    "crop_common_name": "Strawberry guava",
+    "crop_genus": "Psidium",
+    "crop_specie": "cattleianum",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Sugarcane for fodder",
+    "crop_genus": "Saccharum",
+    "crop_specie": "officinarum",
+    "farm_id": null,
+    "hs_code_id": 121930
+  },
+  {
+    "crop_common_name": "Sugarcane for thatching",
+    "crop_genus": "Saccharum",
+    "crop_specie": "officinarum",
+    "farm_id": null,
+    "hs_code_id": 121930
+  },
+  {
+    "crop_common_name": "Sunflower for fodder",
+    "crop_genus": "Helianthus",
+    "crop_specie": "annuus",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Sunflower for oil seed",
+    "crop_genus": "Helianthus",
+    "crop_specie": "annuus",
+    "farm_id": null,
+    "hs_code_id": 151219
+  },
+  {
+    "crop_common_name": "Swede for fodder",
+    "crop_genus": "Brassica",
+    "crop_specie": "napus var. napobrassica",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "Sweet pepper",
+    "crop_genus": "Capsicum",
+    "crop_specie": "annuum",
+    "farm_id": null,
+    "hs_code_id": 7096010
+  },
+  {
+    "crop_common_name": "Tahitian gooseberry tree",
+    "crop_genus": "Phyllanthus",
+    "crop_specie": "acidus",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Tangerine",
+    "crop_genus": "Citrus",
+    "crop_specie": "tangerina",
+    "farm_id": null,
+    "hs_code_id": 8052100
+  },
+  {
+    "crop_common_name": "Thyme",
+    "crop_genus": "Thymus",
+    "crop_specie": "vulgaris",
+    "farm_id": null,
+    "hs_code_id": 9109931
+  },
+  {
+    "crop_common_name": "Timothy Grass",
+    "crop_genus": "Phleum",
+    "crop_specie": "pratense",
+    "farm_id": null,
+    "hs_code_id": 1214900018
+  },
+  {
+    "crop_common_name": "Tingui",
+    "crop_genus": "Magonia",
+    "crop_specie": "pubescens A.",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Tree spinach",
+    "crop_genus": "Cnidoscolus",
+    "crop_specie": "aconitifolius",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Trefoil",
+    "crop_genus": "Lotus",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 1209299130
+  },
+  {
+    "crop_common_name": "Triticale",
+    "crop_genus": "Tritocosecale",
+    "crop_specie": "spp.",
+    "farm_id": null,
+    "hs_code_id": 10086000
+  },
+  {
+    "crop_common_name": "Tropical almond tree (Amendoeira da praia, sete copas)",
+    "crop_genus": "Terminalia",
+    "crop_specie": "catappa",
+    "farm_id": null,
+    "hs_code_id": 1211
+  },
+  {
+    "crop_common_name": "Tung tree",
+    "crop_genus": "Vernicia",
+    "crop_specie": "fordii",
+    "farm_id": null,
+    "hs_code_id": 15159011
+  },
+  {
+    "crop_common_name": "Turmeric",
+    "crop_genus": "Curcuma",
+    "crop_specie": "longa",
+    "farm_id": null,
+    "hs_code_id": 91030
+  },
+  {
+    "crop_common_name": "Urena (congo jute)",
+    "crop_genus": "Urena",
+    "crop_specie": "lobata",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Uvaia",
+    "crop_genus": "Eugenia",
+    "crop_specie": "pyriformis",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Velvet bean",
+    "crop_genus": "Mucuna",
+    "crop_specie": "pruriens",
+    "farm_id": null,
+    "hs_code_id": 70920
+  },
+  {
+    "crop_common_name": "Vetch for grain",
+    "crop_genus": "Vicia",
+    "crop_specie": "sativa",
+    "farm_id": null,
+    "hs_code_id": 1214
+  },
+  {
+    "crop_common_name": "West indian gherkin",
+    "crop_genus": "Cucumis",
+    "crop_specie": "anguria",
+    "farm_id": null,
+    "hs_code_id": 70700
+  },
+  {
+    "crop_common_name": "West Indian locust (Jatobá da mata)",
+    "crop_genus": "Hymenaea",
+    "crop_specie": "courbaril",
+    "farm_id": null,
+    "hs_code_id": 0
+  },
+  {
+    "crop_common_name": "Yacon",
+    "crop_genus": "Smallanthus",
+    "crop_specie": "sonchifolius",
+    "farm_id": null,
+    "hs_code_id": 130219
+  },
+  {
+    "crop_common_name": "Yerba mate",
+    "crop_genus": "Ilex",
+    "crop_specie": "paraguariensis",
+    "farm_id": null,
+    "hs_code_id": 90300
+  },
+  {
+    "crop_common_name": "Zucchini",
+    "crop_genus": "Cucurbita",
+    "crop_specie": "pepo",
+    "farm_id": null,
+    "hs_code_id": 7099990
+  }
+]

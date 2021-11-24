@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Label } from '../Typography';
-import Input from '../Form/Input';
+import Input, { integerOnKeyDown } from '../Form/Input';
 import styles from './styles.module.scss';
 import Radio from '../Form/Radio';
 import Form from '../Form';
@@ -64,6 +64,7 @@ export default function PureEditCropVariety({
   const COMMERCIAL_AVAILABILITY = 'searched';
   const GENETIC_EGINEERED = 'genetically_engineered';
   const TREATED = 'treated';
+  const HS_CODE_ID = 'hs_code_id';
 
   const disabled = !isValid;
 
@@ -234,6 +235,18 @@ export default function PureEditCropVariety({
               <RadioGroup hookFormControl={control} name={TREATED} required showNotSure />
             </div>
           )}
+          {(organic === true || organic === false) && <Input
+            label={t('CROP_DETAIL.HS_CODE')}
+            style={{ paddingBottom: '16px', paddingTop: '24px' }}
+            hookFormRegister={register(HS_CODE_ID, {
+              valueAsNumber: true,
+            })}
+            type={'number'}
+            onKeyDown={integerOnKeyDown}
+            max={9999999999}
+            optional
+          />}
+
         </>
       )}
     </Form>

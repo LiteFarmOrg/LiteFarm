@@ -14,7 +14,12 @@ exports.up = async function (knex) {
     t.dateTime('updated_at').notNullable();
   });
 
-  // TODO populate data
+  const query = `insert into organic_history (location_id, to_state, effective_date, created_at, updated_at)
+    select location_id, organic_status, '2000-01-01', NOW(), NOW() from `;
+
+  for (const table of ['field', 'garden', 'greenhouse']) {
+    await knex.raw(query + table + ';');
+  }
 };
 
 exports.down = function (knex) {

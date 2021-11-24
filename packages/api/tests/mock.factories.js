@@ -1711,24 +1711,6 @@ function fakeFile(defaultData = {}) {
   };
 }
 
-async function locationOrganicStatusFactory({
-  promisedFarm = farmFactory(),
-  promisedLocation = locationFactory({ promisedFarm }),
-  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
-} = {}, status = fakeLocationOrganicStatus()) {
-  const [location, field] = await Promise.all([promisedLocation, promisedField]);
-  const [{ created_by_user_id }] = location;
-  const [{ location_id }] = field;
-  const base = baseProperties(created_by_user_id);
-  return knex('location_organic_status').insert({ location_id, ...status, ...base }).returning('*');
-}
-
-function fakeLocationOrganicStatus() {
-  return {
-    status: 'Organic',
-  }
-}
-
 module.exports = {
   weather_stationFactory, fakeStation,
   usersFactory, fakeUser,
@@ -1798,5 +1780,4 @@ module.exports = {
   fakeCropVariety,
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
-  fakeLocationOrganicStatus, locationOrganicStatusFactory,
 };

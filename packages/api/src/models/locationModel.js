@@ -190,6 +190,15 @@ class Location extends baseModel {
       },
     };
   }
+
+  static async isCropEnabled(locationId) {
+    const location = await this.query().whereNotDeleted().findById(locationId)
+      .withGraphJoined(`[
+           field, garden, greenhouse
+        ]`);
+
+    return location?.field || location?.garden || location?.greenhouse;
+  }
 }
 
 module.exports = Location;

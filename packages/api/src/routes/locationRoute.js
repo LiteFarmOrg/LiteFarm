@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldRoute.js) is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify`
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const { modelMapping } = require('../middleware/validation/location');
 const validateLocationDependency = require('../middleware/validation/deleteLocation');
+const organicHistoryController = require('../controllers/organicHistoryController');
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']),
   getLocationsByFarm());
@@ -76,6 +77,15 @@ router.post('/garden', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gard
 
 router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
+
+router.post('/field/:location_id/organic-history', //hasFarmAccess({ body: 'farm_id' }), //checkScope(['add:farm_site_boundary']),
+  organicHistoryController.addEntry);
+
+router.post('/garden/:location_id/organic-history', //hasFarmAccess({ body: 'farm_id' }), //checkScope(['add:farm_site_boundary']),
+  organicHistoryController.addEntry);
+
+router.post('/greenhouse/:location_id/organic-history', //hasFarmAccess({ body: 'farm_id' }), //checkScope(['add:farm_site_boundary']),
+  organicHistoryController.addEntry);
 
 
 router.put('/field/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fields']),

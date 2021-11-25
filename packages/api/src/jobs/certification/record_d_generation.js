@@ -109,33 +109,17 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
       workbook.sheet(0).row(6).height(30);
       workbook.sheet(0).row(10).height(75);
 
-      // transform crop variety in data to include crop name
-      const transform = data.map(({
-        crop_variety_name,
-        crop_translation_key,
-        supplier,
-        organic,
-        searched,
-        treated,
-        treated_doc,
-        genetically_engineered,
-      }) => ({
-        crop_variety: `${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`,
-        supplier,
-        organic,
-        searched,
-        treated,
-        treated_doc,
-        genetically_engineered,
-      }));
-      transform.map((row, i) => {
-        const rowN = i + 11;
+      data.map((row, index) => {
+        const rowN = index + 11;
+        row.crop_variety = `${row.crop_variety_name} (${t(`crop:${row.crop_translation_key}`)})`;
+        delete row.crop_variety_name;
+        delete row.crop_translation_key;
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
           const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];
           workbook.sheet(0).cell(cell).value(value);
-        })
-      })
+        });
+      });
       return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
     })
 }

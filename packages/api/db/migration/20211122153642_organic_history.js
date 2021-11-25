@@ -1,4 +1,6 @@
 
+const NEW_PERMISSION_ID = 130;
+
 exports.up = async function (knex) {
   await knex.schema.createTable('organic_history', (t) => {
     t.increments('id').primary();
@@ -15,13 +17,28 @@ exports.up = async function (knex) {
   });
 
   const query = `insert into organic_history (location_id, to_state, effective_date, created_at, updated_at)
-    select location_id, organic_status, '2000-01-01', NOW(), NOW() from `;
+    select location_id, organic_status, '2000-01-01', NOW(), NOW() from`;
 
   for (const table of ['field', 'garden', 'greenhouse']) {
-    await knex.raw(query + table + ';');
+    await knex.raw(`${query} ${table};`);
   }
+
+  return Promise.all([
+    knex('permissions').insert([
+      { permission_id: NEW_PERMISSION_ID, name: 'add:organic_history', description: 'Add an organic history entry' },
+    ]),
+    knex('rolePermissions').insert([
+      { role_id: 1, permission_id: NEW_PERMISSION_ID },
+      { role_id: 2, permission_id: NEW_PERMISSION_ID },
+      { role_id: 5, permission_id: NEW_PERMISSION_ID },
+    ]),
+  ]);
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable('organic_history');
+  return Promise.all([
+    knex.schema.dropTable('organic_history'),
+    knex('rolePermissions').where('permission_id', NEW_PERMISSION_ID).del(),
+    knex('permissions').where('permission_id', NEW_PERMISSION_ID).del(),
+  ]);
 };

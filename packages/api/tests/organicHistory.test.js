@@ -26,9 +26,10 @@ const mocks = require('./mock.factories');
 const locationModel = require('../src/models/locationModel');
 
 describe('Location organic history tests', () => {
-  function postRequest(url, data, user_id, callback) {
-    chai.request(server).post(url)
+  function postRequest(url, data, farm_id, user_id, callback) {
+    chai.request(server).post(`/location/${data.location_id}/organic_history`)
       .set('Content-Type', 'application/json')
+      .set('farm_id', farm_id)
       .set('user_id', user_id)
       .send(data)
       .end(callback)
@@ -116,7 +117,7 @@ describe('Location organic history tests', () => {
   })
 
   afterAll(async (done) => {
-    // await tableCleanup(knex);
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });
@@ -130,7 +131,8 @@ describe('Location organic history tests', () => {
         .whereNotDeleted().findById(location.location_id)
         .withGraphFetched('[figure.[area], field]');
       postRequest(`/location/${cropLocation.location_id}/organic-history`,
-        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
+        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() },
+        farm.farm_id, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -144,7 +146,8 @@ describe('Location organic history tests', () => {
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
       postRequest(`/location/${cropLocation.location_id}/organic-history`,
-        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
+        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() },
+        farm.farm_id, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
           done();
@@ -158,7 +161,8 @@ describe('Location organic history tests', () => {
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
       postRequest(`/location/${cropLocation.location_id}/organic-history`,
-        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
+        { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() },
+        farm.farm_id, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
           done();

@@ -78,7 +78,7 @@ router.post('/garden', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gard
 router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
 
-router.post('/:location_id/organic-history', //hasFarmAccess({ body: 'farm_id' }), //checkScope(['add:farm_site_boundary']),
+router.post('/:location_id/organic_history', hasFarmAccess({ params: 'location_id' }), checkScope(['add:organic_history']),
   organicHistoryController.addEntry);
 
 

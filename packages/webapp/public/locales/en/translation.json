@@ -195,8 +195,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
-    "EMAIL": "Email",
-    "EMAIL_ERROR": "Valid email required",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
@@ -208,8 +206,10 @@
     "ORGANIC_CERTIFICATION_FROM": "Organic certification from",
     "SELECT_REPORTING_PERIOD": "Select your reporting period",
     "UH_OH": "Uh oh!",
-    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?",
-    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents."
+    "WOULD_LIKE_ANSWERS": "Your certifier would like you to answer a few additional questions before we can export your documents.",
+    "EMAIL": "Email",
+    "EMAIL_ERROR": "Valid email required",
+    "WHERE_TO_SEND_DOCS": "Where do you want your documents sent?"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Add new farm",
@@ -250,7 +250,6 @@
     "CROP_CATALOGUE": "Crop catalogue",
     "CROP_GROUP": "Crop group",
     "CROP_GROUP_TOOL_TIP": "Selecting a crop group allows LiteFarm to pre-populate a lot of information about this crop such as growing season, nutritional values, and estimated annual yield. Don't worry, you can change these values below once you've selected a crop group.",
-    "CROP_STATUS": "Crop status on:",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document necessary info for organic production",
     "FILTER": {
       "LOCATION": "Location",
@@ -264,6 +263,7 @@
     "NO_RESULTS_FOUND": "No results found. Please change your filters.",
     "ON_YOUR_FARM": "On your farm",
     "SELECT_A_CROP": "Select a crop to add it to your farm. Use search and filters to find crops more quickly.",
+    "CROP_STATUS": "Crop status on:",
     "FILTER_TITLE": "Crop Catalogue Filter"
   },
   "CROP_DETAIL": {
@@ -274,6 +274,7 @@
     "DETAIL_TAB": "Details",
     "EDIT_CROP_DETAIL": "Edit crop details",
     "GENETICALLY_ENGINEERED": "Is this crop genetically engineered?",
+    "HS_CODE": "HS Code",
     "MANAGEMENT_PLANS": "Management Plans",
     "MANAGEMENT_TAB": "Management",
     "ORGANIC": "Is the crop certified organic?",
@@ -302,7 +303,6 @@
     "SUPPLIER": "Supplier"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "ADD_CROP": "Add a crop",
     "ADD_IMAGE": "Add Custom Image",
     "ANNUAL": "Annual",
@@ -322,6 +322,7 @@
     "PERFORM_SEARCH": "Did you perform a commercial availability search?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiology and Anatomy",
     "TREATED": "Have the seeds for this crop been treated?",
+    "ADD_COMPLIANCE_FILE": "Link to a compliance file",
     "UPLOAD_LATER": "You can upload files at a later time as well"
   },
   "DATE_RANGE_PICKER": {
@@ -962,12 +963,6 @@
     "SELECTED_STARTING_LOCATION": "Always select this as the starting location for crops that will be transplanted",
     "SPOTLIGHT_HERE_YOU_CAN": "Here you can:",
     "STARTED": "Let's get started",
-    "STATUS": {
-      "ABANDONED": "Abandoned",
-      "ACTIVE": "Active",
-      "COMPLETED": "Completed",
-      "PLANNED": "Planned"
-    },
     "SUPPLIER": "Supplier",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "When will you terminate this crop?",
@@ -992,6 +987,12 @@
     "WHERE_START_LOCATION": "Where is your starting location?",
     "WHERE_TRANSPLANT_LOCATION": "Where will you transplant to?",
     "WILD_CROP": "Are you harvesting a wild crop?",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed",
+      "PLANNED": "Planned"
+    },
     "WHAT_WAS_PLANTING_METHOD_INFO": "Selecting the right planting method will help LiteFarm more accurately estimate the quantity of seed needed, yield, and other helpful insights.",
     "TRANSPLANT_LOCATION": "Where will you transplant to?"
   },
@@ -1372,20 +1373,20 @@
     "SELECT_DATE": "Select the task date",
     "SELECT_TASK_LOCATIONS": "Select the task location(s)",
     "SELECT_WILD_CROP": "This task targets a wild crop",
-    "STATUS": {
-      "ABANDONED": "Abandoned",
-      "COMPLETED": "Completed",
-      "FOR_REVIEW": "For Review",
-      "LATE": "Late",
-      "PLANNED": "Planned"
-    },
     "TASK": "task",
     "TASKS_COUNT": "{{count}} task",
     "TASKS_COUNT_plural": "{{count}} tasks",
     "TODO": "To do",
     "TRANSPLANT": "Transplant",
     "TRANSPLANT_LOCATIONS": "Select a transplant location",
-    "UNASSIGNED": "Unassigned"
+    "UNASSIGNED": "Unassigned",
+    "STATUS": {
+      "ABANDONED": "Abandoned",
+      "COMPLETED": "Completed",
+      "FOR_REVIEW": "For Review",
+      "LATE": "Late",
+      "PLANNED": "Planned"
+    }
   },
   "UNIT": {
     "TIME": {
@@ -1405,5 +1406,9 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
+  },
+  "SURVEY_STACK": {
+    "PRODUCED": "Produced on",
+    "TITLE": "{{certification}} certification from {{certifier}} Survey Adendum"
   }
 }

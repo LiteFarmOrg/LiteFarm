@@ -1,5 +1,5 @@
 module.exports = {
-  formatAlterTableEnumSql : (
+  formatAlterTableEnumSql: (
     tableName,
     columnName,
     enums,
@@ -29,4 +29,9 @@ module.exports = {
         '\'::text, \'', // eslint-disable-line
       )}'::text]));`;
   },
-};
+  getCropUniqueIdentifier: crop => {
+    const { crop_common_name, crop_genus, crop_specie, farm_id } = crop;
+    return { crop_common_name, crop_genus, crop_specie, farm_id };
+  },
+}
+;

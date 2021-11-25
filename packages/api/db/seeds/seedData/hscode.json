@@ -1,0 +1,946 @@
+[
+  {
+    "hs_code_id": 46,
+    "description": "Manufactures Of Straw, Of Esparto Or Of Other Plaiting Materials; Basket-Ware And Wickerwork"
+  },
+  {
+    "hs_code_id": 603,
+    "description": "Cut flowers and flower buds of a kind suitable for bouquets or\nfor ornamental purposes, fresh, dried, dyed, bleached,\nimpregnated or otherwise prepared"
+  },
+  {
+    "hs_code_id": 604,
+    "description": "Foliage, branches and other parts of plants, without flowers or\nflower buds, and grasses, mosses and lichens, being goods\nof a kind suitable for bouquets or for ornamental purposes,\nfresh, dried, dyed, bleached, impregnated or otherwise\nprepared"
+  },
+  {
+    "hs_code_id": 704,
+    "description": "Cabbage"
+  },
+  {
+    "hs_code_id": 705,
+    "description": "Lettuce and Chicory, fresh or chilled"
+  },
+  {
+    "hs_code_id": 706,
+    "description": "CARROTS, TURNIPS, SALAD BEETROOT, SALSIFY, CELERIAC, RADISHES AND SIMILAR EDIBLE ROOTS, FRESH OR CHILLED"
+  },
+  {
+    "hs_code_id": 709,
+    "description": "Other Vegetables, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 714,
+    "description": "Manioc, arrowroot, salep, Jerusalem artichokes, sweet potatoes and similar roots and tubers with high starch or inulin content, fresh, chilled, frozen or dried, whether or not sliced or in the form of pellets, sago pith"
+  },
+  {
+    "hs_code_id": 810,
+    "description": "Other fruit"
+  },
+  {
+    "hs_code_id": 902,
+    "description": "Tea"
+  },
+  {
+    "hs_code_id": 904,
+    "description": "Pepper (genus Piper), dried or crushed or ground fruit"
+  },
+  {
+    "hs_code_id": 906,
+    "description": "Cinnamon and Cinnamon Tree Flowers"
+  },
+  {
+    "hs_code_id": 908,
+    "description": "Nutmeg, Mace and Cardamoms"
+  },
+  {
+    "hs_code_id": 909,
+    "description": "Anise Seeds"
+  },
+  {
+    "hs_code_id": 910,
+    "description": "Ginger, saffron, turmeric (curcuma), thyme, bay leaves, curry\nand other spices"
+  },
+  {
+    "hs_code_id": 1006,
+    "description": "Rice"
+  },
+  {
+    "hs_code_id": 1202,
+    "description": "Peanuts"
+  },
+  {
+    "hs_code_id": 1211,
+    "description": "Plants and parts (including seeds and fruits), of a kind used primarily in perfumery, in pharmacy or for insecticidal, fungicidal or similar purposes, fresh, chilled, frozen or dried, whether or not cut, crushed or powdered"
+  },
+  {
+    "hs_code_id": 1214,
+    "description": "Rutabagas (swedes), mangolds, fodder roots, hay, alfalfa\n(lucerne), clover, sainfoin, forage kale, lupines, vetches and\nsimilar forage products, whether or not in the form of pellets"
+  },
+  {
+    "hs_code_id": 1302,
+    "description": ""
+  },
+  {
+    "hs_code_id": 1319,
+    "description": "Other tropical fruit"
+  },
+  {
+    "hs_code_id": 1511,
+    "description": "Palm oil and its fractions, whether or not refined, but not\nchemically modified"
+  },
+  {
+    "hs_code_id": 1514,
+    "description": "Rapeseed, colza or mustard oil, and fractions thereof, whether\nor not refined, but not chemically modified"
+  },
+  {
+    "hs_code_id": 2401,
+    "description": "Unmanufactured tabacco"
+  },
+  {
+    "hs_code_id": 3301,
+    "description": "Essential oil"
+  },
+  {
+    "hs_code_id": 3805,
+    "description": "Gum, wood or sulfate turpentine"
+  },
+  {
+    "hs_code_id": 4001,
+    "description": "Natural rubber, balata, gutta-percha, guayule, chicle and similar\nnatural gums, in primary forms or in plates, sheets or strip"
+  },
+  {
+    "hs_code_id": 4403,
+    "description": "Wood in the rough, whether or not stripped of bark or sapwood, or roughly squared"
+  },
+  {
+    "hs_code_id": 5302,
+    "description": "True hemp (Cannabis sativa L.), raw or processed but not\nspun; tow and waste of true hemp (including yarn waste and\ngarnetted stock)"
+  },
+  {
+    "hs_code_id": 5303,
+    "description": "Jute and other textile bast fibres (excluding flax, true hemp and ramie), raw or processed but not spun; tow and waste of these fibres (including yarn waste and garnetted stock)"
+  },
+  {
+    "hs_code_id": 5306,
+    "description": "Flax Yarn"
+  },
+  {
+    "hs_code_id": 8011,
+    "description": "Coconut"
+  },
+  {
+    "hs_code_id": 8012,
+    "description": "Brazil nuts"
+  },
+  {
+    "hs_code_id": 8013,
+    "description": "Cashew nuts"
+  },
+  {
+    "hs_code_id": 8071,
+    "description": "Melons, watermelon"
+  },
+  {
+    "hs_code_id": 8119,
+    "description": "Other fruits"
+  },
+  {
+    "hs_code_id": 12149,
+    "description": "Rutabaga"
+  },
+  {
+    "hs_code_id": 60240,
+    "description": "Roses (grafted or not)"
+  },
+  {
+    "hs_code_id": 70200,
+    "description": "Tomato, fresh or chilled"
+  },
+  {
+    "hs_code_id": 70310,
+    "description": "Onions and Shallots, fresh or chilled"
+  },
+  {
+    "hs_code_id": 70420,
+    "description": "Brussels Sprouts, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70690,
+    "description": "Salad Beets, Radishes, Etc NESOI, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70700,
+    "description": "Cucumbers and Gherkins, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70920,
+    "description": "Asparagus, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70930,
+    "description": "Eggplants, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70940,
+    "description": "Celery Other Than Celeriac, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70951,
+    "description": "Mushrooms"
+  },
+  {
+    "hs_code_id": 70960,
+    "description": "Peppers"
+  },
+  {
+    "hs_code_id": 70991,
+    "description": "Artichokes, fresh or chilled"
+  },
+  {
+    "hs_code_id": 70992,
+    "description": "Olives, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 70993,
+    "description": "Pumpkins, Squash and Gourds, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 71320,
+    "description": "Chickpeas, Dried Shelled, Include Seed"
+  },
+  {
+    "hs_code_id": 71333,
+    "description": "Beans (Vigna spp., Phaseolus spp.): (con.)\nKidney beans, including white pea beans (Phaseolus\nvulgaris)"
+  },
+  {
+    "hs_code_id": 71339,
+    "description": "Dried, shelled beans Vigna and Phaseolus, whether or not skinned or split (excl. beans of species Vigna mungo [L.] Hepper or Vigna radiata [L.] Wilczek, small red Adzuki beans, kidney beans, Bambara beans and cow peas)"
+  },
+  {
+    "hs_code_id": 71360,
+    "description": "Pigeon peas, dried and shelled"
+  },
+  {
+    "hs_code_id": 71430,
+    "description": "Yams"
+  },
+  {
+    "hs_code_id": 80200,
+    "description": "Other"
+  },
+  {
+    "hs_code_id": 80212,
+    "description": "Almonds, fresh or dried, shelled or peeled"
+  },
+  {
+    "hs_code_id": 80221,
+    "description": "Hazelnut"
+  },
+  {
+    "hs_code_id": 80231,
+    "description": "Walnuts fresh or dried"
+  },
+  {
+    "hs_code_id": 80242,
+    "description": "Chestnuts, Shelled, Fresh or Dried"
+  },
+  {
+    "hs_code_id": 80420,
+    "description": "Figs, Fresh or Dried"
+  },
+  {
+    "hs_code_id": 80450,
+    "description": "Guavas, Mangoes and Mangosteens, Fresh or Dried"
+  },
+  {
+    "hs_code_id": 80510,
+    "description": "Orange, Fresh"
+  },
+  {
+    "hs_code_id": 80540,
+    "description": "Grapefruit, Including Pomelos"
+  },
+  {
+    "hs_code_id": 80620,
+    "description": "Grapes, Dried"
+  },
+  {
+    "hs_code_id": 80719,
+    "description": "Other melon: Cantaloupe"
+  },
+  {
+    "hs_code_id": 80830,
+    "description": "Pears"
+  },
+  {
+    "hs_code_id": 80920,
+    "description": "Cherries, Sweet or Tart, Fresh"
+  },
+  {
+    "hs_code_id": 80930,
+    "description": "Peaches, Including Nectarines, Fresh"
+  },
+  {
+    "hs_code_id": 80940,
+    "description": "Plums, Prune and Sloes, Fresh"
+  },
+  {
+    "hs_code_id": 90100,
+    "description": "Coffee, whether or not roasted or decaffeinated; coffee husks\nand skins; coffee substitutes containing coffee in any\nproportion"
+  },
+  {
+    "hs_code_id": 90200,
+    "description": "Tea"
+  },
+  {
+    "hs_code_id": 90300,
+    "description": "Maté"
+  },
+  {
+    "hs_code_id": 90411,
+    "description": "Pepper of the genus Piper, whole"
+  },
+  {
+    "hs_code_id": 90500,
+    "description": "Vanilla"
+  },
+  {
+    "hs_code_id": 90700,
+    "description": "Clove"
+  },
+  {
+    "hs_code_id": 91010,
+    "description": "Ginger"
+  },
+  {
+    "hs_code_id": 91030,
+    "description": "Turmuric"
+  },
+  {
+    "hs_code_id": 100119,
+    "description": "Durum Wheat NESOI"
+  },
+  {
+    "hs_code_id": 100199,
+    "description": "Wheat and Meslin NESOI"
+  },
+  {
+    "hs_code_id": 100300,
+    "description": "Barley"
+  },
+  {
+    "hs_code_id": 100490,
+    "description": "Oats, NESOI"
+  },
+  {
+    "hs_code_id": 100590,
+    "description": "Maize other than seed corn"
+  },
+  {
+    "hs_code_id": 100620,
+    "description": "Rice"
+  },
+  {
+    "hs_code_id": 100790,
+    "description": "Sorghum Grain, NESOI"
+  },
+  {
+    "hs_code_id": 110313,
+    "description": "Groats And Meal Of Corn (maize)"
+  },
+  {
+    "hs_code_id": 120190,
+    "description": "Soybeans, NESOI"
+  },
+  {
+    "hs_code_id": 120600,
+    "description": "Sunflower Seeds, Whether or Not Broken"
+  },
+  {
+    "hs_code_id": 120721,
+    "description": "Cottonseeds"
+  },
+  {
+    "hs_code_id": 120740,
+    "description": "Sesame seeds"
+  },
+  {
+    "hs_code_id": 120791,
+    "description": "Poppy Seeds, whether or not broken"
+  },
+  {
+    "hs_code_id": 121010,
+    "description": "Hops cones, fresh or dried"
+  },
+  {
+    "hs_code_id": 121190,
+    "description": "Plants, parts,seeds & fruits,nes,f perfumery/pharm/insect/fung/sim,fr/chd/frz/dr"
+  },
+  {
+    "hs_code_id": 121292,
+    "description": "Locust beans (carob)"
+  },
+  {
+    "hs_code_id": 121930,
+    "description": "Sugar Cane"
+  },
+  {
+    "hs_code_id": 130211,
+    "description": "Opium"
+  },
+  {
+    "hs_code_id": 130219,
+    "description": "Yacon syrup"
+  },
+  {
+    "hs_code_id": 151219,
+    "description": "Sunflower seed oil, Saffower Oil, Refined, Fract. Etc."
+  },
+  {
+    "hs_code_id": 190300,
+    "description": "Tapioca and tapioca substitutes"
+  },
+  {
+    "hs_code_id": 320120,
+    "description": "Wattle extract"
+  },
+  {
+    "hs_code_id": 330121,
+    "description": "Geranium for Essential Oils"
+  },
+  {
+    "hs_code_id": 520100,
+    "description": "Cotton, not carded or combed"
+  },
+  {
+    "hs_code_id": 530500,
+    "description": "Coconut, abaca (Manila hemp or Musa textilis Nee), ramie and\nother vegetable textile fibers, not elsewhere specified or\nincluded, raw or processed but not spun; tow, noils and waste\nof these fibers (including yarn waste and garnetted stock)"
+  },
+  {
+    "hs_code_id": 6029060,
+    "description": "Other live plants (with soil attached to roots)"
+  },
+  {
+    "hs_code_id": 6031901,
+    "description": "Cut flowers and flower buds of a kind suitable for bouquets or\nfor ornamental purposes, fresh, dried, dyed, bleached,\nimpregnated or otherwise prepared"
+  },
+  {
+    "hs_code_id": 7032000,
+    "description": "Garlic"
+  },
+  {
+    "hs_code_id": 7039000,
+    "description": "Leeks, alliaceous, vegetables"
+  },
+  {
+    "hs_code_id": 7041000,
+    "description": "Cauliflowers and Headed Broccoli"
+  },
+  {
+    "hs_code_id": 7049090,
+    "description": "Kohlrabi, Kale, Similar"
+  },
+  {
+    "hs_code_id": 7052900,
+    "description": "Chicory, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 7061010,
+    "description": "Carrots, fresh or chilled"
+  },
+  {
+    "hs_code_id": 7061020,
+    "description": "Turnips, fresh or chilled"
+  },
+  {
+    "hs_code_id": 7069010,
+    "description": "Celeriac, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 7069020,
+    "description": "Other Radish"
+  },
+  {
+    "hs_code_id": 7069030,
+    "description": "Salad beetroot"
+  },
+  {
+    "hs_code_id": 7096010,
+    "description": "Sweet Peppers, Bell Peppers"
+  },
+  {
+    "hs_code_id": 7099910,
+    "description": "Chayote (fresh or dried)"
+  },
+  {
+    "hs_code_id": 7099990,
+    "description": "Other Vegetables, Fresh or Chilled"
+  },
+  {
+    "hs_code_id": 7101000,
+    "description": "Potato, fresh or chilled"
+  },
+  {
+    "hs_code_id": 7103000,
+    "description": "Spinach, New Zealand spinach and orache spinach (garden spinach)"
+  },
+  {
+    "hs_code_id": 7122000,
+    "description": "Onions, dried, cut, broken or in powder but not further prepared"
+  },
+  {
+    "hs_code_id": 7129050,
+    "description": "Marjoram, Oregano"
+  },
+  {
+    "hs_code_id": 7131000,
+    "description": "Peas, dried and shelled"
+  },
+  {
+    "hs_code_id": 7131010,
+    "description": "Peas, Pisum, Sativum"
+  },
+  {
+    "hs_code_id": 7133400,
+    "description": "Bambara Beans"
+  },
+  {
+    "hs_code_id": 7133500,
+    "description": "Cowpeas"
+  },
+  {
+    "hs_code_id": 7134000,
+    "description": "Lentils, Dried and shelled"
+  },
+  {
+    "hs_code_id": 7135000,
+    "description": "Broad Beans (Vicia Faba Var Major) and Horse Beans (Vicia faba Var Equina, Vicia Faba Var Minor)"
+  },
+  {
+    "hs_code_id": 7141000,
+    "description": "Manioc (Cassava) fresh, chilled, frozen"
+  },
+  {
+    "hs_code_id": 7142000,
+    "description": "Sweet Potatoes"
+  },
+  {
+    "hs_code_id": 7144000,
+    "description": "Taro, Colocasia, spp."
+  },
+  {
+    "hs_code_id": 7149090,
+    "description": "Jerusalem, artichokes, similar"
+  },
+  {
+    "hs_code_id": 8025100,
+    "description": "Pistachio"
+  },
+  {
+    "hs_code_id": 8026100,
+    "description": "Macadamia Nuts"
+  },
+  {
+    "hs_code_id": 8027000,
+    "description": "Cola spp."
+  },
+  {
+    "hs_code_id": 8029010,
+    "description": "Pecans, fresh or dried"
+  },
+  {
+    "hs_code_id": 8039010,
+    "description": "Bananas and plantains, fresh or dried"
+  },
+  {
+    "hs_code_id": 8041000,
+    "description": "Dates, Fresh or Dried"
+  },
+  {
+    "hs_code_id": 8043000,
+    "description": "Pineapples, fresh or dried"
+  },
+  {
+    "hs_code_id": 8052100,
+    "description": "Mandarins, Tangerines and Satsumas"
+  },
+  {
+    "hs_code_id": 8055000,
+    "description": "Lemon (Citrus limon, Citrus limonum) and limes (Citrus aurantifolia, Citrus latifolia)"
+  },
+  {
+    "hs_code_id": 8061010,
+    "description": "Grapes, Fresh, Table"
+  },
+  {
+    "hs_code_id": 8071100,
+    "description": "Watermelons"
+  },
+  {
+    "hs_code_id": 8072000,
+    "description": "Papaws, Papayas"
+  },
+  {
+    "hs_code_id": 8081000,
+    "description": "Apples"
+  },
+  {
+    "hs_code_id": 8084000,
+    "description": "Quinces"
+  },
+  {
+    "hs_code_id": 8091000,
+    "description": "Fresh apricots"
+  },
+  {
+    "hs_code_id": 8101000,
+    "description": "Strawberries, fresh"
+  },
+  {
+    "hs_code_id": 8102010,
+    "description": "Fresh raspberries"
+  },
+  {
+    "hs_code_id": 8102090,
+    "description": "Fresh blackberries, mulberries and loganberries"
+  },
+  {
+    "hs_code_id": 8103000,
+    "description": "Gooseberries"
+  },
+  {
+    "hs_code_id": 8104000,
+    "description": "Cranberries, blueberries and other fruits of the genus Vaccinium"
+  },
+  {
+    "hs_code_id": 8107000,
+    "description": "Fresh persimmon"
+  },
+  {
+    "hs_code_id": 8109040,
+    "description": "Custard Apple"
+  },
+  {
+    "hs_code_id": 8109060,
+    "description": "Lychee, Lichi"
+  },
+  {
+    "hs_code_id": 8109090,
+    "description": "Jackfruit"
+  },
+  {
+    "hs_code_id": 8109093,
+    "description": "Sapodilla"
+  },
+  {
+    "hs_code_id": 8109094,
+    "description": "Pomegranate, soursop, sweetsop, bell fruit, marian plum, passion fruit, cottonfruit, jujube and tampoi/rambal"
+  },
+  {
+    "hs_code_id": 8109099,
+    "description": "Fresh Fig, Morguz, Baru"
+  },
+  {
+    "hs_code_id": 8131000,
+    "description": "Dried Apricots"
+  },
+  {
+    "hs_code_id": 8132000,
+    "description": "Prunes, Dried Fruit"
+  },
+  {
+    "hs_code_id": 8134090,
+    "description": "Other fruits"
+  },
+  {
+    "hs_code_id": 9041190,
+    "description": "Pink Peppercorns"
+  },
+  {
+    "hs_code_id": 9042211,
+    "description": "Dried chilli"
+  },
+  {
+    "hs_code_id": 9092100,
+    "description": "Coriander"
+  },
+  {
+    "hs_code_id": 9096131,
+    "description": "Caraway or Fennel Seeds"
+  },
+  {
+    "hs_code_id": 9109927,
+    "description": "Mustard"
+  },
+  {
+    "hs_code_id": 9109931,
+    "description": "Wild, thyme, Thymus"
+  },
+  {
+    "hs_code_id": 10019110,
+    "description": "Spelt, seed, sowing"
+  },
+  {
+    "hs_code_id": 10051018,
+    "description": "Maize, Hybrid Seed"
+  },
+  {
+    "hs_code_id": 10081000,
+    "description": "Buckwheat"
+  },
+  {
+    "hs_code_id": 10082130,
+    "description": "Cereals, Seed"
+  },
+  {
+    "hs_code_id": 10082920,
+    "description": "Millet Seed"
+  },
+  {
+    "hs_code_id": 10085000,
+    "description": "Quinoa"
+  },
+  {
+    "hs_code_id": 10086000,
+    "description": "Triticale"
+  },
+  {
+    "hs_code_id": 10089000,
+    "description": "amaranth, wild rice, and other less-known grains"
+  },
+  {
+    "hs_code_id": 10089090,
+    "description": "Other Cereals"
+  },
+  {
+    "hs_code_id": 11010000,
+    "description": "Maslin flour"
+  },
+  {
+    "hs_code_id": 11042985,
+    "description": "Rye, grains, sliced"
+  },
+  {
+    "hs_code_id": 12071000,
+    "description": "Palm nuts and kernels"
+  },
+  {
+    "hs_code_id": 12079991,
+    "description": "Hemp seeds"
+  },
+  {
+    "hs_code_id": 12091000,
+    "description": "Sugar beet, seed"
+  },
+  {
+    "hs_code_id": 12092100,
+    "description": "Lucerne (alfalfa) seeds"
+  },
+  {
+    "hs_code_id": 12092280,
+    "description": "Clover, Trifolium, spp."
+  },
+  {
+    "hs_code_id": 12092500,
+    "description": "Rye grass (Lolium multiflorium Lam., Lolium perenne\nL.) seeds"
+  },
+  {
+    "hs_code_id": 12092960,
+    "description": "Fodder, beet seed"
+  },
+  {
+    "hs_code_id": 12092990,
+    "description": "Sudan Grass"
+  },
+  {
+    "hs_code_id": 12099100,
+    "description": "Vegetable seed"
+  },
+  {
+    "hs_code_id": 12099150,
+    "description": "Parsley"
+  },
+  {
+    "hs_code_id": 12119026,
+    "description": "Pyrethrum"
+  },
+  {
+    "hs_code_id": 12119029,
+    "description": "Leaves, powder, flowers and pods: Other"
+  },
+  {
+    "hs_code_id": 12119039,
+    "description": "Plants and parts of plants (including seeds and fruits), of a kind used primarily in perfumery, in pharmacy or for insecticidal, fungicidal or similar purpose, fresh or dried, whether or not cut, crushed or powdered"
+  },
+  {
+    "hs_code_id": 12119094,
+    "description": "Basil, Hyssop, Rosemary, Sage and Savory"
+  },
+  {
+    "hs_code_id": 12119099,
+    "description": "Sunn Hemp"
+  },
+  {
+    "hs_code_id": 12149090,
+    "description": "Hay, Lucerne, Clover"
+  },
+  {
+    "hs_code_id": 13021990,
+    "description": "Ginko Biloba"
+  },
+  {
+    "hs_code_id": 14011000,
+    "description": "Vegetable materials of a kind used primarily for plaiting (for\nexample, bamboos, rattans, reeds, rushes, osier, raffia,\ncleaned, bleached or dyed cereal straw, and lime bark)"
+  },
+  {
+    "hs_code_id": 14041019,
+    "description": "Henna powder"
+  },
+  {
+    "hs_code_id": 15153090,
+    "description": "Castor oil"
+  },
+  {
+    "hs_code_id": 15159011,
+    "description": "Tung, jojoba, oiticica"
+  },
+  {
+    "hs_code_id": 15159091,
+    "description": "Flaxseed Oil"
+  },
+  {
+    "hs_code_id": 17011200,
+    "description": "Beet, Sugar"
+  },
+  {
+    "hs_code_id": 17026090,
+    "description": "Other sugars, including chemically pure lactose, maltose,\nglucose and fructose, in solid form; sugar syrups not containing\nadded flavoring or coloring matter; artificial honey, whether or\nnot mixed with natural honey; caramel"
+  },
+  {
+    "hs_code_id": 17049010,
+    "description": "Liquorice Extract"
+  },
+  {
+    "hs_code_id": 18010000,
+    "description": "Cocoa Beans, whole or broken, raw or roasted"
+  },
+  {
+    "hs_code_id": 19053290,
+    "description": "Chia Seeds"
+  },
+  {
+    "hs_code_id": 21069030,
+    "description": "Betel nut (\"supari\")"
+  },
+  {
+    "hs_code_id": 22029020,
+    "description": "Other Fruit Pulp, Fruit Drinks"
+  },
+  {
+    "hs_code_id": 32011000,
+    "description": "Quebracho extract"
+  },
+  {
+    "hs_code_id": 33012942,
+    "description": "Lemon grass oil"
+  },
+  {
+    "hs_code_id": 33012979,
+    "description": "Lavender, Terpeneless essential oil"
+  },
+  {
+    "hs_code_id": 33013099,
+    "description": "Copaiba balsam"
+  },
+  {
+    "hs_code_id": 33019090,
+    "description": "Bergamot Essential Oil"
+  },
+  {
+    "hs_code_id": 33049910,
+    "description": "Shea butter"
+  },
+  {
+    "hs_code_id": 44072100,
+    "description": "Mahogany (timber) spp."
+  },
+  {
+    "hs_code_id": 48070090,
+    "description": "Sorrel"
+  },
+  {
+    "hs_code_id": 53041010,
+    "description": "Sisal fibre"
+  },
+  {
+    "hs_code_id": 53089010,
+    "description": "Ramie yarn"
+  },
+  {
+    "hs_code_id": 53089090,
+    "description": "Other vegetable textile fibers"
+  },
+  {
+    "hs_code_id": 97112233,
+    "description": "Pimenta Allspice"
+  },
+  {
+    "hs_code_id": 703900000,
+    "description": "Chives, fresh"
+  },
+  {
+    "hs_code_id": 706909020,
+    "description": "Horseradish, fresh or chilled"
+  },
+  {
+    "hs_code_id": 709990500,
+    "description": "Jicama and Breadfruit"
+  },
+  {
+    "hs_code_id": 709992000,
+    "description": "Other vegetables, fresh or chilled; Other; Other; Chard (or white beet) and cardoons"
+  },
+  {
+    "hs_code_id": 709999020,
+    "description": "Okra, fresh or chilled"
+  },
+  {
+    "hs_code_id": 805100040,
+    "description": "Mandarins (including tangerines and satsumas);\nclementines, wilkings and similar citrus hybrids"
+  },
+  {
+    "hs_code_id": 810902010,
+    "description": "Other fresh fruit (Tamarinds, cashew apples, lychees, jackfruit, sapodilla plums, passion fruit, carambola and pitahaya)\t810902090"
+  },
+  {
+    "hs_code_id": 810902090,
+    "description": "Other fresh fruit (Tamarinds, cashew apples, lychees, jackfruit, sapodilla plums, passion fruit, carambola and pitahaya)"
+  },
+  {
+    "hs_code_id": 1209299130,
+    "description": "Birdsfoot trefoil"
+  },
+  {
+    "hs_code_id": 1209918054,
+    "description": "Parsnip"
+  },
+  {
+    "hs_code_id": 1211908630,
+    "description": "Mint, fresh or chilled"
+  },
+  {
+    "hs_code_id": 1214900018,
+    "description": "Timothy Hay, Whether Or Not In The Form Of Pellets"
+  },
+  {
+    "hs_code_id": 2938900000,
+    "description": "Stevia"
+  },
+  {
+    "hs_code_id": 1211908620,
+    "description": "Basil (holy, sweet), fresh or chilled"
+  },
+  {
+    "hs_code_id": 4407290185,
+    "description": "Jatoba"
+  }
+]

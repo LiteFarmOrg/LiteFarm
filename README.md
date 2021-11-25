@@ -1,149 +1,114 @@
 # LiteFarm
+
 LiteFarm is the world’s first community-led, not-for-profit, digital platform joining farmers and scientists together for participatory assessment of social, environmental and economic outputs of farming systems. LiteFarm is the first application of its kind specifically tailored to the needs of diversified farmers with built-in pathways to provide expert decision support and help them earn additional income through payment for ecological services (PES) schemes and in-app certifications (such as organic). These approaches serve the multiple purposes of incentivizing adoption of sustainable land use practices through the provision of evidence-based decision support, and significantly increasing the amount of data being collected by diversified farming operations around the globe. It was developed with farmers at the center of the design process and built from the ground up with accessibility and approachability in mind. We are proud of our mission:
 
 _To meet farmers where they are and equip them with the tools they need to make informed and responsible decisions about the health of their farm, their livelihood, their community, and the planet._
 
-
 LiteFarm version 1.0.0 was released to the public in July 2020. The LiteFarm app is continually being developed, with farmers, researchers, designers and developers working together to create new localized modules and features into the future.  LiteFarm is deployed in Canada, the USA, and Latin America.
 
-If you’re a farmer and would like to join LiteFarm you can sign up today at app.litefarm.org. If you are a researcher or would like to find out more about this project you can contact the [UBC Centre for Sustainable Food Systems](https://ubcfarm.ubc.ca/litefarm/). If your a developer, all the details on how you can contribute to this project are right here, welcome to the team!
-# Overview
+If you’re a farmer and would like to join LiteFarm you can sign up today at app.litefarm.org. If you are a researcher or would like to find out more about this project you can contact the [UBC Centre for Sustainable Food Systems](https://ubcfarm.ubc.ca/litefarm/). If you're a developer, welcome to the team! All the details on how you can contribute to this project are right here.
+
+# Setup 
 
 LiteFarm is comprised of two applications which both reside in this monorepo.
 
-  - packages/webapp: the client-facing application
-    - [documentation(in progress)](https://docs.google.com/document/d/1JLWYWdf8fjZMRhKxWoa9__9ul8ZSJk7dzzSSfiT-eVM/edit?usp=sharing)
-  - packages/api: the back-end API server
-    - [documentation(in progress)](https://docs.google.com/document/d/19eDlagqurB7gf8iLdATjCi7scxs9gUG5bs9YZtMu_0k/edit?usp=sharing)
+- `packages/api`: the back-end API server
+- `packages/webapp`: the client-facing application
 
-# Quick Start
+## Preliminaries 
 
- ## Using docker-compose
- 1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/)
- 2. Setup the `Litefarm/packages/api/.env` file to include the following configs
-    ```
-     DEV_DATABASE=pg-litefarm
-     DEV_DATABASE_USER=postgres
-     DEV_DATABASE_HOST=db
-     DEV_DATABASE_PASSWORD=postgres
-     TEST_DATABASE=pg-litefarm
-     TEST_DATABASE_USER=postgres
-     TEST_DATABASE_HOST=test-db
-     TEST_DATABASE_PASSWORD=postgres
-     JWT_SECRET=somerandomand(better-be)securesecret
-    ```
-    or you can simply copy `Litefarm/packages/api/.env.sample` into it
-    * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
- 3. In the terminal, place the current directory into the root folder `LiteFarm/`
- 4. Execute `docker-compose -f docker-compose.dev.yml up`
+1. Install [node.js](https://nodejs.org/en/download/package-manager/) if you do not already have it.
+2. Use the `git clone` command to clone this repository to your computer.
 
- *Alternatively and if you're working in a linux or macos system you can call `make up`*
-   - This will take some time the first time, on the next attempt it should load way faster.
-   - It will setup the local development env by running migrations
-   - This will also start the backend, frontend and storybook containers.
- 5. After this you should be able to go to the app running on `localhost:3000`
- 6. Storybook is also available on `localhost:6006` 
- 
-## Manual installation
+## Configure LiteFarm applications
 
-### Setup Environment:
-  1. SSH
-      - [Setup your SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
-      - [Add it to github](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
-  2. Set up git
-      - set your name and email
-        - `git config --global user.name "Happy Farmer"`
-        - `git config --global user.email "happy.farmer@gmail.com"`
-      - set pull to rebase by default
-        - `git config --global pull.rebase true`
-  3. [install node.js](https://nodejs.org/en/download/package-manager/)
-  4. lerna
-      - `npm install -g lerna`
-  5. clone the repository
-      - `git clone https://github.com/LiteFarmOrg/LiteFarm.git`
+The applications are configured with environment variables stored in `.env` files. Configuration information includes secrets like API keys, so the `.env` files should never be added to source control. This repository does contain `.env.default` files for api and webapp. Begin with these, and customize as needed.
 
-### Setting up database/running migrations:  
-  1. Install postgreSQL 
-    1. Using Homebrew on Mac
-      - install homebrew
-        - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
-      - install postgresql
-        - `brew install postgresql`
-        - `brew services start postgresql`
-      - create user `postgres` and set password to `postgres`
-        - `psql postgres`
-        - `CREATE ROLE postgres WITH PASSWORD 'postgres';`
-        - `ALTER ROLE postgres CREATEDB;`
-        - `ALTER ROLE postgres WITH SUPERUSER;`
-        - `ALTER ROLE postgres WITH LOGIN;`
-        - `\q`      
-  2. create a database called mock_farm
-      - `psql postgres -U postgres`
-      - `CREATE DATABASE mock_farm;`
-  3. go to your terminal and go to the api directory doing `cd packages/api`
-  4. once there, run `npm run migrate:dev:db` to start the db migration (if you run into issues here, you can try dropping and recreating the database) 
-  5. Optionally, you can run `npm run migrate:dev:seed` to seed database with default data
+1. Create the api configuration file by copying `packages/api/env.default` to `packages/api/.env`. 
 
-  ### Setting up env vars in webapp and api:
-  custom environment variables are used in the application. Env vars containing sensitive information
-  is not uploaded to source control. For local development, custom env vars need to be added in the .env file.
-  Not all of these environment variables are necessary to run the applications. Only add them if they are necessary
-  for your development purposes. Do NOT add .env files to source control.
+2. Create the webapp configuration file by copying `packages/webapp/env.default` to `packages/webapp/.env`. For webapp to work, you must edit your new `.env` file to provide values for two required environment variables:
+     - `REACT_APP_GOOGLE_MAPS_API_KEY` is a Google Maps API key. You should obtain your own key value from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
+     - `REACT_APP_WEATHER_API_KEY` is an OpenWeather API key. You should obtain your own key value from [OpenWeather](https://openweathermap.org/api). 
 
-  1. add these environment variables to the .env file in `packages/webapp`:
-     - REACT_APP_GOOGLE_MAPS_API_KEY
-        - this env var is a google maps api key obtained from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
-        It is used to make the field module work in the application
-     - REACT_APP_WEATHER_API_KEY
-        - this env var can be obtained from [open weather API](https://openweathermap.org/api). The API is used
-        to load current weather information in the application home page after logging in.
-  ### Start the application:
-  1. cd LiteFarm
-  2. `lerna bootstrap` to install dependencies
-  3. in separate terminals:
-      - `cd packages/webapp && npm start`
-      - `cd packages/api && npm start`
-      - (for hot reloading in api: npm install -g nodemon && nodemon --exec npm start)
-  4. webapp will be running on http://localhost:3000 and the api on http://localhost:5000
-  5. Since this is a mobile web application, webapp should be viewed in a mobile view in the browser
+## Runtime setup
 
-# Testing:
+### Option 1: Docker containers
 
-### Webapp:
-  Automated testing for the front-end is done using [cypress](https://www.cypress.io/).
-  To run automated tests in a chrome browser:
-  - Ensure that the webapp portal is running by doing `npm start` in the root directory of the webapp package
-  - `npm run cypress-ui` in the root directory of the webapp package
+This approach runs the LiteFarm applications and the database server in Docker containers. If you prefer to run them directly on your hardware, skip to the next section.
 
-  The test modules are stored in `packages/webapp/cypress/integration`.
-  Additional tests can be added by adding more testing modules to this directory.
+1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/) if you do not already have them.
+2. In a terminal, navigate to the root folder for the repository.
+3. Execute `docker-compose -f docker-compose.dev.yml up`. Alternatively, you can run `make up` if you have `make` installed.
+    - The initial build will take some time. Subsequent incremental builds are much quicker. 
+    - This process will run [migrations](https://knexjs.org/#Migrations) to set up the PostgreSQL database, then start the Docker containers for webapp, api, databases, and Storybook.
+4. When the build completes, you can load the webapp at `http://localhost:3000`. Storybook is available on `http://localhost:6006`.
 
-  Unit tests can also be run by:
-  - `npm run test`.
+### Option 2: Your hardware 
 
-  Unit tests reside in `src/tests`, and additional unit tests can be added in this directory.
+This approach runs the LiteFarm applications and database server directly on your hardware. If you prefer Docker containers, see the previous section.
 
-  We are currently using [ESLint](https://eslint.org/) to maintain code style in the app.
-  The linter can be run by `npm run lint`.
+1. Install PostgreSQL by downloading installers or packages from https://www.postgresql.org/download/. Alternatively, Mac and Linux users can use homebrew as shown below.
 
-### Api:
-  There is currently end-to-end testing being done for the LiteFarm API using the [chai.js](https://www.chaijs.com/)
-  and [jest](https://jestjs.io/) libraries.
-  The test files can be found in `packages/api/tests`.
+   ```bash      
+   # Install homebrew.
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+   # Install PostgreSQL.
+   brew install postgresql
+   # Start DBMS service.
+   brew services start postgresql
+   ```
 
-  All of the tests run real queries to the database using a jwt token obtained through Auth0.
-  Therefore, locally run tests can affect the state of the db. This is addressed by running a script which deletes
-  test data that is generated during the tests. However, this is not fool-proof, and
-  it may be necessary to clear the local db in some cases.
+2. Set up the PostgreSQL role (account) and databases. (The `packages/api/.env.default` file specifies `pg-litefarm` and `test_farm`, respectively, for development and test database names.) You will use the `psql` client program. Account setup details will vary by OS. If an installer asks you to choose a password for the `postgres` (superuser) account, use `postgres`.
 
-  To run an end-to-end test, `npm run e2e` in the api directory.
+   - Linux. In a terminal, start the client with `sudo -u postgres psql`, then execute each of the following commands. (The last command terminates the client session.)
+       ```sql
+       ALTER ROLE postgres WITH PASSWORD 'postgres';
+       CREATE DATABASE "pg-litefarm";
+       CREATE DATABASE test_farm;
+       exit;       
+       ```
+       
+   - Windows. At the Start menu, type `psql` and the search results will show "SQL Shell (psql)". In the client, execute each of the following commands. (The last command terminates the client session.)
+   
+       ```sql
+       CREATE DATABASE "pg-litefarm";
+       CREATE DATABASE test_farm;
+       exit;       
+       ```
+   
+3. In a terminal, navigate to the root folder of the repository. Run `npx lerna bootstrap` to install the dependencies for both applications.
+   
+4. Edit the `packages/api/.env` file, setting the value of variable `DEV_DATABASE_HOST` to `localhost`
 
-  To run a test file with a specific name:
-   - `npm start`
-   - `jest test_name`
+5. In the terminal, navigate to the `packages/api` folder. 
 
-  It should be noted that any merges to develop and master branches in github will result in the code going through a CI pipeline, which
-  runs the end-to-end test. Therefore it is important to test locally first before creating any pull requests
-  to develop.
+6. Execute `npm run migrate:dev:db` to run the [migrations](https://knexjs.org/#Migrations) that set up the PostgreSQL database. (If you run into issues here, you can try dropping and recreating the database.) 
 
-  We are currently using [ESLint](https://eslint.org/) to maintain code style in the app. The linter can be run by `npm run lint`.
+7. Run `npm start` to launch the api application. 
+
+8. In a different terminal, navigate to the `packages/webapp` folder and run `npm start` to launch the webapp application. Load it in your browser at http://localhost:3000.
+
+# Testing
+
+## webapp
+
+To run [ESLint](https://eslint.org/) checks execute `npm run lint`
+
+Since this is a mobile web application, webapp should be viewed in a mobile view in the browser.
+
+Automated testing for the front-end is done using [cypress](https://www.cypress.io/). 
+
+1. In a terminal, navigate to the `packages/webapp` folder.
+2. Execute `npm test` to launch the tests.
+
+## api
+
+To run [ESLint](https://eslint.org/) checks execute `npm run lint`
+
+The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries automate tests that run real database operations using [JWT](https://jwt.io/introduction). The tests use a dedicated database named `test_farm`, distinct from the `pg-litefarm` database that the app normally uses .
+
+1. In a terminal, navigate to the `packages/api` folder. 
+2. Execute `npm run migrate:testing:db` to set up the test database.
+3. Execute `npm test` to launch the tests.
+
+It is good practice to use `psql` to `DROP` and `CREATE` the `test_farm` database before repeating this process.

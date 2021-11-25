@@ -121,15 +121,15 @@ describe('Location organic history tests', () => {
     done();
   });
 
-  describe('POST to create a new organic history entry for a crop-enabled location', () => {
-    test('For a field', async (done) => {
+  describe('POST to create a new organic history entry', () => {
+    test('works for a field', async (done) => {
       await mocks.fieldFactory({
         promisedLocation: [location],
       });
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id)
         .withGraphFetched('[figure.[area], field]');
-      postRequest(`/location/field/${cropLocation.location_id}/organic-history`,
+      postRequest(`/location/${cropLocation.location_id}/organic-history`,
         { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
@@ -137,13 +137,13 @@ describe('Location organic history tests', () => {
         });
     })
 
-    test('For a garden', async (done) => {
+    test('works for a garden', async (done) => {
       await mocks.gardenFactory({
         promisedLocation: [location],
       });
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
-      postRequest(`/location/garden/${cropLocation.location_id}/organic-history`,
+      postRequest(`/location/${cropLocation.location_id}/organic-history`,
         { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);
@@ -151,13 +151,13 @@ describe('Location organic history tests', () => {
         });
     })
 
-    test('For a greenhouse', async (done) => {
+    test('works for a greenhouse', async (done) => {
       await mocks.greenhouseFactory({
         promisedLocation: [location],
       });
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
-      postRequest(`/location/greenhouse/${cropLocation.location_id}/organic-history`,
+      postRequest(`/location/${cropLocation.location_id}/organic-history`,
         { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() }, owner.user_id,
         (err, res) => {
           expect(res.status).toBe(201);

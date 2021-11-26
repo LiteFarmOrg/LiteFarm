@@ -111,9 +111,12 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
 
       data.map((row, index) => {
         const rowN = index + 11;
+
+        // set crop_variety text
         row.crop_variety = `${row.crop_variety_name} (${t(`crop:${row.crop_translation_key}`)})`;
         delete row.crop_variety_name;
         delete row.crop_translation_key;
+
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
           const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];

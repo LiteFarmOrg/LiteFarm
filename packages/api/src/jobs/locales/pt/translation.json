@@ -56,6 +56,8 @@
       "CROP_FIELD_APPLIED_TO": "Cultivo / Campo / Unidade produtiva de aplicação",
       "NOTES": "Observações",
       "LISTED_IN_PSL": "Está na Lista de Substâncias Permitidas? (S/N)"
-    }
+    },
+    "LOCATIONS": "MISSING",
+    "VARIETALS": "MISSING"
   }
 }

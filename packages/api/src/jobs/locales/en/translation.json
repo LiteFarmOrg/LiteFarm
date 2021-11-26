@@ -56,6 +56,8 @@
       "CROP_FIELD_APPLIED_TO": "Crop / Field Applied to or Production Unit used in",
       "NOTES": "Notes",
       "LISTED_IN_PSL": "Listed in the PSL? (Y/N)"
-    }
+    },
+    "LOCATIONS": "Location(s)",
+    "VARIETALS": "Varietal(s)"
   }
 }

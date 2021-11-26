@@ -74,7 +74,12 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const result = await certifierModel.query().select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id').from('certifiers').join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id').join('farm', 'farm.country_id', '=', 'certifier_country.country_id').where('farm.farm_id', farm_id);
+        const result = await certifierModel.query()
+          .select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id')
+          .from('certifiers')
+          .join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id')
+          .join('farm', 'farm.country_id', '=', 'certifier_country.country_id')
+          .where('farm.farm_id', farm_id);
         if (!result) {
           res.sendStatus(404);
         } else {
@@ -108,7 +113,10 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(req.body.survey_id).update(req.body).returning('*');
+        const result = await organicCertifierSurveyModel.query()
+          .context({ user_id })
+          .findById(req.body.survey_id)
+          .update(req.body).returning('*');
         return res.status(200).send(result);
       } catch (error) {
         console.log(error);
@@ -238,7 +246,9 @@ const organicCertifierSurveyController = {
         AND p.farm_id = :farm_id
     `, { to_date, from_date, farm_id });
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
-    const taskIds = cleaningTask.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
+    const taskIds = cleaningTask.rows
+      .map(({ task_id }) => task_id)
+      .concat(pestTasks.rows.map(({ task_id }) => task_id));
     if(!taskIds.length) {
       return [];
     }
@@ -257,19 +267,18 @@ const organicCertifierSurveyController = {
       .whereIn('location_tasks.task_id', tasks);
     const managementPlans = await knex('planting_management_plan')
       .distinct('planting_management_plan.management_plan_id')
-      .select('crop_variety_name', 'management_tasks.task_id')
+      .select('crop_variety_name', 'management_tasks.task_id', 'crop.crop_translation_key')
       .join('management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
       .join('management_tasks', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .join('crop', 'crop.crop_id', 'crop_variety.crop_id')
       .whereIn('management_tasks.task_id', tasks);
     return { locations, managementPlans };
   },
 
   filterLocationsAndManagementPlans(task, locations, managementPlans){
-    const taskLocations = locations.filter(({ task_id }) => task.task_id === task_id);
-    const taskManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
-    task.affected = taskLocations.reduce((reducedString, { name }, i) => `${i !== 0 ? ', ' :''}${reducedString} Location: ${name}`, '');
-    task.affected += taskManagementPlans.reduce((reducedString, { crop_variety_name }) => `, ${reducedString} Variety: ${crop_variety_name}`, '')
+    task.affectedLocations = locations.filter(({ task_id }) => task.task_id === task_id);
+    task.affectedManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
     return task;
   },
 

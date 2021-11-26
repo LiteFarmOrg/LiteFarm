@@ -149,12 +149,12 @@ const organicCertifierSurveyController = {
         url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
       const { first_name, email, language_preference } = await userModel.query().where({ user_id }).first();
-      const { farm_name } = await farmModel.query().where({ farm_id }).first();
-      const data = await this.recordIAndDInfo(to_date, from_date, farm_id);
+      const { farm_name, units: { measurement } } = await farmModel.query().where({ farm_id }).first();
+      const data = await this.getRecords(to_date, from_date, farm_id);
       const extraInfo = { ...data };
       const body = {
         ...extraInfo, organicCertifierSurvey, certifier, certification,
-        files, farm_id, email, first_name, farm_name, language_preference,
+        files, farm_id, email, first_name, farm_name, measurement, language_preference,
         from_date, to_date, submission: submission_id,
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
@@ -163,12 +163,12 @@ const organicCertifierSurveyController = {
     };
   },
 
-  async recordIAndDInfo(to_date, from_date, farm_id) {
+  async getRecords(to_date, from_date, farm_id) {
     const recordD = await this.recordDQuery(to_date, from_date, farm_id);
     const recordICrops = await this.recordICropsQuery(to_date, from_date, farm_id);
     const recordICleaners = await this.recordICleanersQuery(to_date, from_date, farm_id);
-    await this.recordAQuery(to_date, from_date, farm_id);
-    return { recordD: recordD.rows, recordICrops, recordICleaners };
+    const recordA = await this.recordAQuery(to_date, from_date, farm_id);
+    return { recordD: recordD.rows, recordICrops, recordICleaners, recordA };
   },
 
   recordDQuery(to_date, from_date, farm_id) {
@@ -258,8 +258,6 @@ const organicCertifierSurveyController = {
   async recordAQuery(to_date, from_date, farm_id) {
     const fromDateTime = new Date(from_date).getTime();
     const toDateTime = new Date(to_date).getTime();
-    const hasBeenTransplanted = (plantingManagementPlans) =>
-      !!plantingManagementPlans.find(plantingManagementPlan => plantingManagementPlan.transplant_task && new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime() < fromDateTime);
 
 
     const managementPlans = await managementPlanModel.query().whereNotDeleted()
@@ -271,30 +269,37 @@ const organicCertifierSurveyController = {
         },
       })
       .where('crop_variety.farm_id', farm_id);
-    const locationIdCropMap = {};
-    for (const managementPlan of managementPlans) {
+    const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
       const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
       for (const plantingManagementPlan of plantingManagementPlans) {
         const location_id = plantingManagementPlan.location_id;
         !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
-        if (plantingManagementPlan.planting_task_type === 'TRANSPLANT_TASK') {
-          const transplantTaskCompleteTime = new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime();
-          if (fromDateTime < transplantTaskCompleteTime && transplantTaskCompleteTime < toDateTime) {
-            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-          }
-        } else if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
+      }
+      const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan => plantingManagementPlan.planting_task_type === 'TRANSPLANT_TASK' && plantingManagementPlan.transplant_task.task.completed_time && new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime() < toDateTime)
+        .sort(({ plant_task: { task: { completed_time: firstCompleteTime } } }, { plant_task: { task: { completed_time: secondCompleteTime } } }) => new Date(secondCompleteTime).getTime() - new Date(firstCompleteTime).getTime())
+        .find(completedTransplantTask => {
+          locationIdCropMap[completedTransplantTask.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+          return new Date(completedTransplantTask.transplant_task.task.completed_time).getTime() < fromDateTime;
+        });
+
+      !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
+        if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
           const plantTaskCompleteTime = new Date(plantingManagementPlan.plant_task.task.completed_time).getTime();
           if (fromDateTime < plantTaskCompleteTime && plantTaskCompleteTime < toDateTime) {
-            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+            locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
           }
-        } else {
-          if (!hasBeenTransplanted(plantingManagementPlans)) {
-            locationIdCropMap[location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-          }
+          return true;
+        } else if (!plantingManagementPlan.planting_task_type) {
+          plantingManagementPlan.location_id && (locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key));
+          return true;
         }
-      }
-    }
-    const locations = await locationModel.query()
+        return false;
+      });
+
+      return locationIdCropMap;
+    }, {});
+
+    const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
       .where({ farm_id })
       .withGraphJoined(`[
           figure.[area, line, point], 
@@ -303,12 +308,18 @@ const organicCertifierSurveyController = {
           greenhouse, barn, farm_site_boundary
         ]`);
 
-    const { units: { measurement } } = await farmModel.query().where({ farm_id });
-
+    const booleanTrueToX = bool => bool ? 'x' : '';
     return locations.map(location => {
+      const locationOrganicStatus = location[location.figure.type].organic_status;
       return ({
         name: location.name,
-        crops: Array.from(locationIdCropMap[location.location_id]),
+        crops: Array.from(locationIdCropMap[location.location_id] || []),
+        area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
+        isNew: booleanTrueToX(new Date(location.created_at).getTime() > fromDateTime),
+        isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
+        isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
+        isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
+        isNonProducing: booleanTrueToX(!['field', 'garden', 'greenhouse'].includes(location.figure.type)),
       });
     });
   },

@@ -1,103 +1,70 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
-const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
-const treatmentDocTransformation = (str) => str.substr(0, 1);
+
 const dataToCellMapping = {
-  crop_variety_name: 'A',
-  supplier: 'B',
-  organic: 'D',
-  searched: 'E',
-  treated: 'F',
-  treated_doc: 'G',
-  genetically_engineered: 'H',
+  name: 'A',
+  crops: 'B',
+  area: 'E',
+  isNew: 'F',
+  isTransitional: 'G',
+  isOrganic: 'H',
+  isNonOrganic: 'I',
+  isNonProducing: 'J',
 };
 
-const treatedTransformationMap = { YES: 'YES', NOT_SURE: 'NOT SURE', NO: 'N/A' };
-const dataTransformsMapping = {
-  organic: boolToStringTransformation,
-  searched: boolToStringTransformation,
-  treated: (treated) => treatedTransformationMap[treated],
-  treated_doc: treatmentDocTransformation,
-  genetically_engineered: boolToStringTransformation,
-};
-
-module.exports = (data, farm_id, from_date, to_date, farm_name) => {
+module.exports = (data, farm_id, from_date, to_date, farm_name, measurement) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
         verticalAlignment: 'center',
         fontFamily: 'Calibri',
         fill: 'F2F2F2',
+        fontSize: 11,
       };
       const RichText = XlsxPopulate.RichText;
-      const rowSix = new RichText();
-      const rowSeven = new RichText();
-      const rowEight = new RichText();
-      const rowNine = new RichText();
-      const reportDate = new Date().toISOString().split('T')[0].replace(/-/g, '/');
 
       const { t } = i18n;
-      rowSix.add(`2. ${t('RECORD_D.NOTE.TWO.PART_1')} `)
-        .add(` ${t('RECORD_D.NOTE.TWO.PART_2')} `, { bold: true })
-        .add(`${t('RECORD_D.NOTE.TWO.PART_3')}:`);
-      rowSeven.add(`     A.  ${t('RECORD_D.NOTE.TWO.A')}`);
-      rowEight.add(`     B.  ${t('RECORD_D.NOTE.TWO.B')}`);
-      rowNine.add(`     C.  ${t('RECORD_D.NOTE.TWO.C')}`);
 
-      workbook.sheet(0).range('A1:');
+
+      workbook.sheet(0).range('A1:L5').style(defaultStyles);
+      workbook.sheet(0).range('C4:E5').style({ ...defaultStyles, fill: 'D9D9D9' });
+      workbook.sheet(0).range('C4:E4').style({ ...defaultStyles, fill: 'D9D9D9', horizontalAlignment: 'center' });
+
+
+      workbook.sheet(0).range('A1:L1').merged(true).style({ ...defaultStyles, fontSize: 14, bold: true });
+      workbook.sheet(0).range('B2:J2').merged(true);
+      workbook.sheet(0).range('A3:L3').merged(true);
+      workbook.sheet(0).range('A4:B4').merged(true);
+      workbook.sheet(0).range('C4:E4').merged(true);
+      workbook.sheet(0).range('F4:K4').merged(true);
+      workbook.sheet(0).range('A5:B5').style({ ...defaultStyles, horizontalAlignment: 'center' });
+
 
       workbook.sheet(0).cell('A1').value(t('RECORD_A.HEADER'));
-      workbook.sheet(0).range('A1:H1').style({
-        bold: true,
-        fontSize: 20,
-        fill: 'F2F2F2',
-      });
-
-      workbook.sheet(0).range('A6:H9').style({
-        fill: 'F2F2F2',
-      });
-
-      workbook.sheet(0).range('A1:H1').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('A2:H2').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('A3:H3').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('A4:H4').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('A5:H5').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('A6:H6').style({ ...defaultStyles, ...getBlackBorder('top') });
-      workbook.sheet(0).range('A9:H9').style({ ...defaultStyles, ...getBlackBorder('bottom') });
-      workbook.sheet(0).range('H1:H10').style({ ...defaultStyles, ...getBlackBorder('right') });
-      workbook.sheet(0).range('A10:H10').style({
-        ...defaultStyles, wrapText: true, bold: true,
-        border: {
-          color: '000000',
-          style: 'thin',
-        },
-        horizontalAlignment: 'center',
-      });
-
-      workbook.sheet(0).cell('A2').value(t('OPERATION_NAME'));
+      workbook.sheet(0).cell('A2').value(`${t('RECORD_A.OPERATION_NAME')}:`);
       workbook.sheet(0).cell('B2').value(farm_name);
-      workbook.sheet(0).cell('F2').value(`${t('RECORD_D.DATE_COMPLETED')}: `);
-      workbook.sheet(0).cell('H2').value(reportDate);
-      workbook.sheet(0).cell('A3').value(t('RECORD_D.REPORTING_PERIOD'));
-      workbook.sheet(0).cell('B3').value(`${t('RECORD_D.FROM')}: `);
-      workbook.sheet(0).cell('C3').value(from_date);
-      workbook.sheet(0).cell('D3').value(`${t('RECORD_D.TO')}: `);
-      workbook.sheet(0).cell('E3').value(to_date);
-      workbook.sheet(0).cell('A4').value(t('RECORD_D.NOTE.LIST_ALL'));
-      workbook.sheet(0).cell('A5').value(`1. ${t('RECORD_D.NOTE.ONE')}`);
-      workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });
-      workbook.sheet(0).cell('A7').value(rowSeven).style({ wrapText: false });
-      workbook.sheet(0).cell('A8').value(rowEight).style({ wrapText: false });
-      workbook.sheet(0).cell('A9').value(rowNine).style({ wrapText: false });
-      workbook.sheet(0).cell('A10').value(t('RECORD_D.TABLE_COLUMN.SEED_CROP_OR_PLANTING_STOCK'));
-      workbook.sheet(0).cell('B10').value(t('RECORD_D.TABLE_COLUMN.SUPPLIER'));
-      workbook.sheet(0).cell('C10').value(t('RECORD_D.TABLE_COLUMN.LOT_NUMBER'));
-      workbook.sheet(0).cell('D10').value(t('RECORD_D.TABLE_COLUMN.STATUS_CERTIFIED_ORGANIC'));
-      workbook.sheet(0).cell('E10').value(t('RECORD_D.TABLE_COLUMN.IS_SEARCH_COMPLETED'));
-      workbook.sheet(0).cell('F10').value(t('RECORD_D.TABLE_COLUMN.LIST_SEED_TREATMENTS'));
-      workbook.sheet(0).cell('G10').value(t('RECORD_D.TABLE_COLUMN.TREATMENT_DOCS_AVAILABLE'));
-      workbook.sheet(0).cell('H10').value(t('RECORD_D.TABLE_COLUMN.NON_GE_DOCS_AVAILABLE'));
-      workbook.sheet(0).cell('I10').value(t('RECORD_D.TABLE_COLUMN.NOTES'));
+
+      workbook.sheet(0).cell('K2').value(`${t('RECORD_A.YEAR')}:`);
+      workbook.sheet(0).cell('L2').value(new Date().getFullYear());
+      workbook.sheet(0).cell('A3').value(t('RECORD_A.PLEASE_VERIFY'));
+      workbook.sheet(0).cell('C4').value(t('RECORD_A.SIZE_IN_PREFERRED_UNIT'));
+      workbook.sheet(0).cell('F4').value(t('RECORD_A.CURRENT_STATUS'));
+      const a5Text = new RichText().add(`${t('RECORD_A.NAME_OR_ID')} `, { bold: true })
+        .add(t('RECORD_A.INDIVIDUAL_PRODUCTION_UNIT'));
+      workbook.sheet(0).cell('A5').value(a5Text);
+      workbook.sheet(0).cell('B5').value(t('RECORD_A.CROPS_OR_ANIMALS'));
+      workbook.sheet(0).cell('C5').value(t('RECORD_A.ACRES'));
+      workbook.sheet(0).cell('D5').value(t('RECORD_A.ROW_FT'));
+      workbook.sheet(0).cell('E5').value(t('RECORD_A.SQ FT'));
+      workbook.sheet(0).cell('F5').value(t('RECORD_A.NEW_AREA'));
+      workbook.sheet(0).cell('G5').value(t('RECORD_A.TRANSITIONAL'));
+      workbook.sheet(0).cell('H5').value(t('RECORD_A.ORGANIC'));
+      workbook.sheet(0).cell('I5').value(t('RECORD_A.NON_ORGANIC'));
+      workbook.sheet(0).cell('J5').value(t('RECORD_A.NON_PRODUCING'));
+      workbook.sheet(0).cell('K5').value(t('RECORD_A.REMOVED'));
+      workbook.sheet(0).cell('L5').value(t('RECORD_A.WHY_REMOVED'));
+
+
       workbook.sheet(0).column('A').width(25);
       workbook.sheet(0).column('B').width(25);
       workbook.sheet(0).column('C').width(15);
@@ -113,23 +80,18 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
       workbook.sheet(0).row(5).height(23);
       workbook.sheet(0).row(6).height(30);
       workbook.sheet(0).row(10).height(75);
-      data.map((row, i) => {
-        const rowN = i + 11;
+      const getArea = (area, measurement) => (area * (measurement === 'imperial' ? 10.76391 : 1))?.toFixed(2);
+
+      data.map((row, index) => {
+        row.crops = row.crops.map(crop_translation_key => t(`crop:${crop_translation_key}`)).join(', ');
+        row.area = row.area ? getArea(row.area, measurement) : null;
+        const rowN = index + 6;
         Object.keys(row).map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
-          const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];
+          const value = row[k];
           workbook.sheet(0).cell(cell).value(value);
         });
       });
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordA.xlsx`);
     });
 };
-
-function getBlackBorder(direction) {
-  return {
-    [`${direction}Border`]: {
-      color: '000000',
-      style: 'thin',
-    },
-  };
-}

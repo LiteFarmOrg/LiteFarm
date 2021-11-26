@@ -1,91 +1,63 @@
 {
   "OPERATION_NAME": "NOME DA OPERAÇÃO",
-  "RECORD_A": {
-    "ACRES": "MISSING",
-    "AREA": "MISSING",
-    "BUILDING": "MISSING",
-    "CERTIFIED": "MISSING",
-    "CROPS_OR_ANIMALS": "MISSING",
-    "CURRENT_STATUS": "MISSING",
-    "HEADER": "MISSING",
-    "HECTARES": "MISSING",
-    "INDIVIDUAL_PRODUCTION_UNIT": "MISSING",
-    "NAME_OR_ID": "MISSING",
-    "NEW": "MISSING",
-    "NEW_AREA": "MISSING",
-    "NON_ORGANIC": "MISSING",
-    "NON_PRODUCING": "MISSING",
-    "OPERATION_NAME": "MISSING",
-    "ORGANIC_AREA": "MISSING",
-    "PLEASE_VERIFY": "MISSING",
-    "PRODUCTION": "MISSING",
-    "REMOVED": "MISSING",
-    "ROW_FT": "MISSING",
-    "ROW_M": "MISSING",
-    "SIZE_IN_PREFERRED_UNIT": "MISSING",
-    "SPLIT": "MISSING",
-    "SQ_FT": "MISSING",
-    "SQ_M": "MISSING",
-    "TRANSITIONAL": "MISSING",
-    "WHY_REMOVED": "MISSING",
-    "YEAR": "MISSING"
-  },
   "RECORD_D": {
-    "DATE_COMPLETED": "Data de Conclusão",
-    "FROM": "De",
     "HEADER": "Registro D- Sementes e Mudas",
+    "DATE_COMPLETED": "Data de Conclusão",
+    "REPORTING_PERIOD": "Período de Registro",
+    "FROM": "De",
+    "TO": "Até",
     "NOTE": {
       "LIST_ALL": "Liste TODAS as sementes e mudas utilizadas durante o período de registro. Tenha em mente:",
       "ONE": "Certifique-se de que os recibos de compra, rótulos, etiquetas e certificados orgânicos de todas as sementes/mudas estejam disponíveis para revisão durante a inspeção.",
       "TWO": {
-        "A": "Pesquisa de disponibilidade comercial",
-        "B": "Documentação que comprove que as sementes não são organismos geneticamente modificados (OGMs)",
-        "C": "Documentação que confirme que qualquer tratamento, como inoculantes ou revestimentos de sementes, esteja na lista de substâncias permitidas",
         "PART_1": "Quando for utilizada",
         "PART_2": "semente/muda não orgânica",
-        "PART_3": "a seguinte documentação deve estar disponível na inspeção"
+        "PART_3": "a seguinte documentação deve estar disponível na inspeção",
+        "A": "Pesquisa de disponibilidade comercial",
+        "B": "Documentação que comprove que as sementes não são organismos geneticamente modificados (OGMs)",
+        "C": "Documentação que confirme que qualquer tratamento, como inoculantes ou revestimentos de sementes, esteja na lista de substâncias permitidas"
       }
     },
-    "REPORTING_PERIOD": "Período de Registro",
     "TABLE_COLUMN": {
+      "SEED_CROP_OR_PLANTING_STOCK": "Variedade da semente/muda",
+      "SUPPLIER": "Fonte / Fornecedor",
+      "LOT_NUMBER": "Número do Lote (quando aplicável)",
+      "STATUS_CERTIFIED_ORGANIC": "Tipo de semente/muda = Certificado Orgânico (S/N)",
       "IS_SEARCH_COMPLETED": "Se não existir disponibilidade comercial, foi realizada a pesquisa (S/N)",
       "LIST_SEED_TREATMENTS": "Listar tratamento de sementes (caso exista)",
-      "LOT_NUMBER": "Número do Lote (quando aplicável)",
+      "TREATMENT_DOCS_AVAILABLE": "Documentos do Tratamento disponíveis (S/N)",
       "NON_GE_DOCS_AVAILABLE": "Documentos que comprovem que não são OGMs (S/N)",
-      "NOTES": "Observações / Datas do plantio de perenes / etc.",
-      "SEED_CROP_OR_PLANTING_STOCK": "Variedade da semente/muda",
-      "STATUS_CERTIFIED_ORGANIC": "Tipo de semente/muda = Certificado Orgânico (S/N)",
-      "SUPPLIER": "Fonte / Fornecedor",
-      "TREATMENT_DOCS_AVAILABLE": "Documentos do Tratamento disponíveis (S/N)"
-    },
-    "TO": "Até"
+      "NOTES": "Observações / Datas do plantio de perenes / etc."
+    }
   },
   "RECORD_I": {
-    "BOTH": "MISSING",
-    "CLEANERS": "PRODUTOS DE LIMPEZA",
     "HEADER": "Registro I",
-    "INPUT_CATEGORY": "Categoria do Insumo",
     "INPUTS": "INSUMOS",
+    "CLEANERS": "PRODUTOS DE LIMPEZA",
+    "REPORTING_PERIOD": "PERÍODO DO RELATÓRIO",
+    "INPUT_CATEGORY": "Categoria do Insumo",
+    "BOTH": "MISSING",
     "NOTE": {
       "LIST_ALL": "Liste TODOS os insumos usados nos últimos 12 meses ou desde seu último Registro I. Você pode utilizar este documento para manter um registro contínuo dos insumos usados ao longo da temporada.",
-      "LIVESTOCK_INPUTS": "Observação: Insumos para o gado: Alimentos, aditivos para rações e suplementos alimentares, produtos de saúde, insumos adicionais para a produção, camas de animais, etc. devem ser listados no Registro LI - Insumos para o gado.",
+      "PLEASE_USE_SEPARATE_RECORD": "Por favor, use um Registro I para cada categoria de insumo conforme descrito abaixo e faça o envio de cada no local de envio correspondente da Seção 99 - Envios:",
       "ONE": {
         "PART_1": "Adubação e correção de solo, nutrientes do cultivo, materiais adicionais para a produção do cultivo e materiais:",
         "PART_2": "por ex. cobertura seca, fertilizantes, sprays foliares, composto, estrume, misturas ou componentes de solo para vasos, musgo, corretivos de solo, etc."
       },
-      "PLEASE_USE_SEPARATE_RECORD": "Por favor, use um Registro I para cada categoria de insumo conforme descrito abaixo e faça o envio de cada no local de envio correspondente da Seção 99 - Envios:",
+      "TWO": "Produtos de limpeza, desinfetantes, sanitizantes, substâncias para controle de pragas.",
       "PREP_INPUTS": "Observação: Preparação de insumos: Aditivos alimentares, Outros ingredientes, Insumos adicionais do processamento devem ser listados no Registro PM - Processamento dos principais ingredientes e lista de insumos adicionais para o processamento.",
-      "TWO": "Produtos de limpeza, desinfetantes, sanitizantes, substâncias para controle de pragas."
+      "LIVESTOCK_INPUTS": "Observação: Insumos para o gado: Alimentos, aditivos para rações e suplementos alimentares, produtos de saúde, insumos adicionais para a produção, camas de animais, etc. devem ser listados no Registro LI - Insumos para o gado."
     },
-    "REPORTING_PERIOD": "PERÍODO DO RELATÓRIO",
     "TABLE_COLUMN": {
-      "CROP_FIELD_APPLIED_TO": "Cultivo / Campo / Unidade produtiva de aplicação",
-      "DATE_USED": "Data de Uso",
-      "LISTED_IN_PSL": "Está na Lista de Substâncias Permitidas? (S/N)",
-      "NOTES": "Observações",
       "PRODUCT_NAME": "Nome do Produto",
+      "SUPPLIER": "Nome da marca, fonte ou fornecedor",
       "QUANTITY": "Quantidade (kg)",
-      "SUPPLIER": "Nome da marca, fonte ou fornecedor"
-    }
+      "DATE_USED": "Data de Uso",
+      "CROP_FIELD_APPLIED_TO": "Cultivo / Campo / Unidade produtiva de aplicação",
+      "NOTES": "Observações",
+      "LISTED_IN_PSL": "Está na Lista de Substâncias Permitidas? (S/N)"
+    },
+    "LOCATIONS": "MISSING",
+    "VARIETALS": "MISSING"
   }
 }

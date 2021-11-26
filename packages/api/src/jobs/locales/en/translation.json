@@ -31,63 +31,63 @@
     "YEAR": "Year"
   },
   "RECORD_D": {
-    "HEADER": "Record D- Seed and Planting Stock",
     "DATE_COMPLETED": "Date Completed",
-    "REPORTING_PERIOD": "Reporting Period",
     "FROM": "From",
-    "TO": "To",
+    "HEADER": "Record D- Seed and Planting Stock",
     "NOTE": {
       "LIST_ALL": "List ALL seed and planting stock used during the reporting period.  Please note:",
       "ONE": "Ensure that purchase receipts, labels, tags and organic certificates for all seed/stock is available for review during inspection.",
       "TWO": {
-        "PART_1": "Where",
-        "PART_2": "non-organic seed/stock",
-        "PART_3": "is used, the following documentation is required to be available at inspection",
         "A": "Commercial Availability Search per COS 5.3- (Record D1 or equivalent)",
         "B": "Documentation confirming non-GE status",
-        "C": "Documentation confirming that any treatments, such as inoculants or seed coatings are PSL compliant (note: NOP compliance is not sufficient)"
+        "C": "Documentation confirming that any treatments, such as inoculants or seed coatings are PSL compliant (note: NOP compliance is not sufficient)",
+        "PART_1": "Where",
+        "PART_2": "non-organic seed/stock",
+        "PART_3": "is used, the following documentation is required to be available at inspection"
       }
     },
+    "REPORTING_PERIOD": "Reporting Period",
     "TABLE_COLUMN": {
-      "SEED_CROP_OR_PLANTING_STOCK": "Seed Crop/Variety or Planting Stock",
-      "SUPPLIER": "Source / Supplier",
-      "LOT_NUMBER": "Lot # (where applicable)",
-      "STATUS_CERTIFIED_ORGANIC": "Seed/Stock Status = Certified Organic (Y/N)",
       "IS_SEARCH_COMPLETED": "If Non-CO Seed/Stock, is a Search completed (Y/N)",
       "LIST_SEED_TREATMENTS": "List seed Treatments (If Any)",
-      "TREATMENT_DOCS_AVAILABLE": "Treatment Documents available (Y/N)",
+      "LOT_NUMBER": "Lot # (where applicable)",
       "NON_GE_DOCS_AVAILABLE": "Non-GE Documents available (Y/N)",
-      "NOTES": "Notes /Perennial planting dates / etc."
-    }
+      "NOTES": "Notes /Perennial planting dates / etc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Seed Crop/Variety or Planting Stock",
+      "STATUS_CERTIFIED_ORGANIC": "Seed/Stock Status = Certified Organic (Y/N)",
+      "SUPPLIER": "Source / Supplier",
+      "TREATMENT_DOCS_AVAILABLE": "Treatment Documents available (Y/N)"
+    },
+    "TO": "To"
   },
   "RECORD_I": {
-    "HEADER": "Record I",
-    "INPUTS": "INPUTS",
-    "CLEANERS": "CLEANERS",
-    "REPORTING_PERIOD": "REPORTING PERIOD",
-    "INPUT_CATEGORY": "Input Category",
     "BOTH": "Both",
+    "CLEANERS": "CLEANERS",
+    "HEADER": "Record I",
+    "INPUT_CATEGORY": "Input Category",
+    "INPUTS": "INPUTS",
+    "LOCATIONS": "Location(s)",
     "NOTE": {
       "LIST_ALL": "List ALL Inputs used in the last 12 months or since your last submitted Record I.   You may choose to use this document to keep a running record of inputs used throughout the season.",
-      "PLEASE_USE_SEPARATE_RECORD": "Please use a separate Input Record for each category of input as described below and upload each in the corresponding upload location of Section 99 - Uploads:",
+      "LIVESTOCK_INPUTS": "Note: Livestock Inputs: Feed, feed additives and feed supplements, health care products and production aids, animal bedding etc.  are to be listed on Record LI-Livestock Inputs.",
       "ONE": {
         "PART_1": "Soil Amendments, crop nutrition, crop production aids and materials:",
         "PART_2": "eg. as mulches, fertilizers, foliar sprays, compost, manure, potting soil mixes or components, peat moss, soil amendments etc."
       },
-      "TWO": "Cleaners, disinfectants, sanitizers, facility pest management substances.",
+      "PLEASE_USE_SEPARATE_RECORD": "Please use a separate Input Record for each category of input as described below and upload each in the corresponding upload location of Section 99 - Uploads:",
       "PREP_INPUTS": "Note: Preparation Inputs:  Food additives, Other ingredients, Processing aids are to be listed on Record PM - Processing Master Ingredients and processing aids list.",
-      "LIVESTOCK_INPUTS": "Note: Livestock Inputs: Feed, feed additives and feed supplements, health care products and production aids, animal bedding etc.  are to be listed on Record LI-Livestock Inputs."
+      "TWO": "Cleaners, disinfectants, sanitizers, facility pest management substances."
     },
+    "REPORTING_PERIOD": "REPORTING PERIOD",
     "TABLE_COLUMN": {
-      "PRODUCT_NAME": "Product name",
-      "SUPPLIER": "Brand Name or Source/Supplier",
-      "QUANTITY": "Quantity (kg)",
-      "DATE_USED": "Date Used",
       "CROP_FIELD_APPLIED_TO": "Crop / Field Applied to or Production Unit used in",
+      "DATE_USED": "Date Used",
+      "LISTED_IN_PSL": "Listed in the PSL? (Y/N)",
       "NOTES": "Notes",
-      "LISTED_IN_PSL": "Listed in the PSL? (Y/N)"
+      "PRODUCT_NAME": "Product name",
+      "QUANTITY": "Quantity (kg)",
+      "SUPPLIER": "Brand Name or Source/Supplier"
     },
-    "LOCATIONS": "Location(s)",
     "VARIETALS": "Varietal(s)"
   }
 }

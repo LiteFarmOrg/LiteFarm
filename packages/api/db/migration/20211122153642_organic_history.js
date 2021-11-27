@@ -3,7 +3,7 @@ const NEW_PERMISSION_ID = 130;
 
 exports.up = async function (knex) {
   await knex.schema.createTable('organic_history', (t) => {
-    t.increments('id').primary();
+    t.uuid('organic_history_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
     t.uuid('location_id')
       .references('location_id')
       .inTable('location').notNullable();

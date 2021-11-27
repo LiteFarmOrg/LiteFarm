@@ -22,7 +22,7 @@ class OrganicHistory extends baseModel {
   }
 
   static get idColumn() {
-    return 'id';
+    return 'organic_history_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated

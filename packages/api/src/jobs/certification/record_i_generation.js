@@ -104,8 +104,22 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).row(8).height(23);
       workbook.sheet(0).row(9).height(23);
       workbook.sheet(0).row(10).height(40);
+
       data.map((row, i) => {
         const rowN = i + 11;
+
+        // set affected text
+        row.affected = row.affectedLocations
+          .reduce((reducedString, { name }, i) =>
+            `${reducedString}${i === 0 ? '' : ', '}${name}`
+          , `${t('RECORD_I.LOCATIONS')}: `);
+        row.affected += row.affectedManagementPlans
+          .reduce((reducedString, { crop_variety_name, crop_translation_key }, i) =>
+            `${reducedString}${i === 0 ? '' : ', '}${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`
+          , `\n${t('RECORD_I.VARIETALS')}: `);
+        delete row.affectedLocations;
+        delete row.affectedManagementPlans;
+
         Object.keys(row).filter(k => k !== 'task_id').map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
           const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k]) : row[k];

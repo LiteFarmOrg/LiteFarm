@@ -6,7 +6,7 @@ i18n
   .init({
     fallbackLng: 'en',
     preload: ['en', 'es', 'pt'],
-    ns: ['translation'],
+    ns: ['translation', 'crop'],
     defaultNS: 'translation',
     backend: {
       loadPath: 'src/jobs/locales/{{lng}}/{{ns}}.json',

@@ -152,13 +152,14 @@ const organicCertifierSurveyController = {
         url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
       }))).reduce((a, b) => a.concat(b), []);
       const { first_name, email, language_preference } = await userModel.query().where({ user_id }).first();
-      const { farm_name } = await farmModel.query().where({ farm_id }).first();
+      const { farm_name, units } = await farmModel.query().where({ farm_id }).first();
+      console.log(`units: ${JSON.stringify(units)}`)
       const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
       const extraInfo = { ...data };
       const body = {
         ...extraInfo, organicCertifierSurvey, certifier, certification,
         files, farm_id, email, first_name, farm_name, language_preference,
-        from_date, to_date, submission: submission_id,
+        from_date, to_date, submission: submission_id, units,
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
       const retrieveQueue = new Queue('retrieve', redisConf);

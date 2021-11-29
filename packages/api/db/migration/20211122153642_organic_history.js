@@ -8,7 +8,7 @@ exports.up = async function (knex) {
       .references('location_id')
       .inTable('location').notNullable();
     t.enu('to_state', ['Non-Organic', 'Transitional', 'Organic']).defaultTo('Non-Organic');
-    t.dateTime('effective_date').notNullable();
+    t.dateTime('effective_date').notNullable().defaultTo(knex.fn.now());
     t.boolean('deleted').defaultTo(false);
     t.string('created_by_user_id').references('user_id').inTable('users');
     t.string('updated_by_user_id').references('user_id').inTable('users');

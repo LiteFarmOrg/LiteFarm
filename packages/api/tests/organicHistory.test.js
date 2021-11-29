@@ -145,7 +145,7 @@ describe('Location organic history tests', () => {
       });
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
-      postRequest(`/location/${cropLocation.location_id}/organic-history`,
+      postRequest(`/location/${cropLocation.location_id}/organic_history`,
         { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() },
         farm.farm_id, owner.user_id,
         (err, res) => {
@@ -160,7 +160,7 @@ describe('Location organic history tests', () => {
       });
       const cropLocation = await locationModel.query().context({ showHidden: true })
         .whereNotDeleted().findById(location.location_id);
-      postRequest(`/location/${cropLocation.location_id}/organic-history`,
+      postRequest(`/location/${cropLocation.location_id}/organic_history`,
         { location_id: cropLocation.location_id, to_state: 'Organic', effective_date: new Date() },
         farm.farm_id, owner.user_id,
         (err, res) => {

@@ -23,6 +23,7 @@ export function* postFieldLocationSaga({ payload: data }) {
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
   const locationObject = getLocationObjectFromField(formData);
+  let newLocationId;
 
   try {
     const result = yield call(
@@ -38,6 +39,7 @@ export function* postFieldLocationSaga({ payload: data }) {
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
+    newLocationId = result.data.location_id;
   } catch (e) {
     history.push({
       path: history.location.pathname,
@@ -48,6 +50,20 @@ export function* postFieldLocationSaga({ payload: data }) {
       },
     });
     console.log(e);
+  }
+
+  if (newLocationId) {
+    try {
+      yield call(
+        axios.post,
+        `${locationURL}/${newLocationId}/organic_history`,
+        { location_id: newLocationId, to_state: locationObject.field.organic_status, effective_date: new Date() },
+        header,
+      );
+    } catch (e) {
+      // TODO error handling?
+      console.log(e);
+    }
   }
 }
 
@@ -85,6 +101,24 @@ export function* editFieldLocationSaga({ payload: data }) {
       },
     });
     console.log(e);
+  }
+
+  // LF-2066
+  // For the time being when a user changes the status on the existing UI, ...
+  // it should [update] the location and POST a new entry in the organic history table. 
+  // For now, we’ll assume the day the change is made is the “effective date”. 
+  if (/* organic status was changed is */true) { //TODO how to determine this?
+    try {
+      yield call(
+        axios.post,
+        `${locationURL}/${location_id}/organic_history`,
+        { location_id, to_state: locationObject.field.organic_status, effective_date: new Date() },
+        header,
+      );
+    } catch (e) {
+      // TODO error handling?
+      console.log(e);
+    }
   }
 }
 

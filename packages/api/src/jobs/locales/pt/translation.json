@@ -1,5 +1,11 @@
 {
   "OPERATION_NAME": "NOME DA OPERAÇÃO",
+  "YES": "MISSING",
+  "NO": "MISSING",
+  "NOT_SURE": "MISSING",
+  "Y": "S",
+  "N": "N",
+  "N/A": "MISSING",
   "RECORD_D": {
     "HEADER": "Registro D- Sementes e Mudas",
     "DATE_COMPLETED": "Data de Conclusão",
@@ -36,6 +42,8 @@
     "CLEANERS_UPPERCASE": "PRODUTOS DE LIMPEZA",
     "REPORTING_PERIOD": "PERÍODO DO RELATÓRIO",
     "INPUT_CATEGORY": "Categoria do Insumo",
+    "SOIL_AMENDMENTS": "MISSING",
+    "CLEANERS": "Produtos de limpeza",
     "BOTH": "MISSING",
     "NOTE": {
       "LIST_ALL": "Liste TODOS os insumos usados nos últimos 12 meses ou desde seu último Registro I. Você pode utilizar este documento para manter um registro contínuo dos insumos usados ao longo da temporada.",

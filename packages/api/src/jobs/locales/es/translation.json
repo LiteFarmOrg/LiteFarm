@@ -1,5 +1,11 @@
 {
   "OPERATION_NAME": "NOMBRE DE OPERACIÓN",
+  "YES": "MISSING",
+  "NO": "NO",
+  "NOT_SURE": "MISSING",
+  "Y": "S",
+  "N": "N",
+  "N/A": "MISSING",
   "RECORD_D": {
     "HEADER": "Registro D- Semilla y Plántula",
     "DATE_COMPLETED": "Fecha de Finalización",
@@ -36,9 +42,11 @@
     "CLEANERS_UPPERCASE": "PRODUCTOS DE LIMPIEZA",
     "REPORTING_PERIOD": "PERÍODO DE REGISTRO",
     "INPUT_CATEGORY": "Categoría de insumo",
+    "SOIL_AMENDMENTS": "MISSING",
+    "CLEANERS": "Productos de limpieza",
     "BOTH": "MISSING",
     "NOTE": {
-      "LIST_ALL": "Registre TODAS los insumos utilizados en los últimos 12 meses o desde su último Registro I enviado. Puede utilizar este documento como un registro actualizado de los insumos utilizados durante la temporada.",
+      "LIST_ALL": "Registre TODOS los insumos utilizados en los últimos 12 meses o desde su último Registro I enviado. Puede utilizar este documento como un registro actualizado de los insumos utilizados durante la temporada.",
       "PLEASE_USE_SEPARATE_RECORD": "Utilice un registro de producto separado para cada categoría de producto como se describe a continuación y cargue cada uno en la ubicación de carga correspondiente de la Sección 99 - Cargas:",
       "ONE": {
         "PART_1": "Correcciones del suelo, nutrición de cultivos, aditivos y materiales para la producción de cultivos:",

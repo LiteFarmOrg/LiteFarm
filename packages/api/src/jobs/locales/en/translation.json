@@ -1,5 +1,11 @@
 {
   "OPERATION_NAME": "OPERATION NAME",
+  "YES": "YES",
+  "NO": "NO",
+  "NOT_SURE": "NOT SURE",
+  "Y": "Y",
+  "N": "N",
+  "N/A": "N/A",
   "RECORD_D": {
     "HEADER": "Record D- Seed and Planting Stock",
     "DATE_COMPLETED": "Date Completed",
@@ -36,7 +42,7 @@
     "CLEANERS_UPPERCASE": "CLEANERS",
     "REPORTING_PERIOD": "REPORTING PERIOD",
     "INPUT_CATEGORY": "Input Category",
-    "SOIL_AMENDMENTS": "Soil Amendments",
+    "SOIL_AMENDMENTS": "Soil amendments",
     "CLEANERS": "Cleaners",
     "BOTH": "Both",
     "NOTE": {

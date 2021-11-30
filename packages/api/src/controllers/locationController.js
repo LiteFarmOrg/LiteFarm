@@ -66,7 +66,7 @@ const LocationController = {
         const result = await LocationModel.transaction(async trx => {
           return await LocationModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
             { ...req.body, location_id: req.params.location_id },
-            { noInsert: true, noDelete: true, noUpdate: nonModifiable });
+            { noInsert: [...figures, ...assets, 'figure'], noDelete: true, noUpdate: nonModifiable });
         });
         return res.status(200).send(result);
       } catch (error) {

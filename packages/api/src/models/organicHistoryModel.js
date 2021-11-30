@@ -13,7 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
 const baseModel = require('./baseModel')
 
 class OrganicHistory extends baseModel {
@@ -31,33 +30,15 @@ class OrganicHistory extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id', 'to_state', 'effective_date'],
+      required: ['location_id', 'organic_status', 'effective_date'],
       properties: {
-        id: { type: 'integer' },
+        organic_history_id: { type: 'string' },
         location_id: { type: 'string' },
-        to_state: { type: 'string' },
-        effective_date: { type: 'date-time' },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        effective_date: { type: 'date' },
         ...this.baseProperties,
       },
       additionalProperties: false,
-    };
-  }
-
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-      location: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./locationModel.js'),
-        join: {
-          from: `${this.tableName}.location_id`,
-          to: 'location.location_id',
-        },
-        ...this.baseRelationMappings(this.tableName),
-      },
     };
   }
 }

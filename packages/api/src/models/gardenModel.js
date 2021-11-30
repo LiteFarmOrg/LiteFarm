@@ -43,7 +43,16 @@ class Garden extends Model {
 
   static get relationMappings() {
     // Import models here to prevent require loops.
-    return {};
+    return {
+      organic_history: {
+        modelClass: require('./organicHistoryModel'),
+        relation: Model.HasManyRelation,
+        join: {
+          from: 'garden.location_id',
+          to: 'organic_history.location_id',
+        },
+      },
+    };
   }
 }
 

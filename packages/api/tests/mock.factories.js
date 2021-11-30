@@ -172,6 +172,27 @@ function fakeField(defaultData = {}) {
   };
 }
 
+async function organicHistoryFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation, promisedArea }),
+} = {}, organicHistory = fakeOrganicHistory()) {
+  const [field] = await Promise.all([promisedField]);
+  const [{ location_id }] = field;
+  return knex('organic_history').insert({ location_id, ...organicHistory }).returning('*');
+}
+
+function fakeOrganicHistory(defaultData = {}) {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    effective_date: faker.date.past(),
+    ...defaultData,
+  };
+}
+
+
 async function gardenFactory({
   promisedStation = weather_stationFactory(),
   promisedFarm = farmFactory(),
@@ -1780,4 +1801,5 @@ module.exports = {
   fakeCropVariety,
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
+  fakeOrganicHistory, organicHistoryFactory,
 };

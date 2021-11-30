@@ -265,7 +265,7 @@ const organicCertifierSurveyController = {
     const taskIds = cleaningTask.rows
       .map(({ task_id }) => task_id)
       .concat(pestTasks.rows.map(({ task_id }) => task_id));
-    if(!taskIds.length) {
+    if (!taskIds.length) {
       return [];
     }
     const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
@@ -288,7 +288,12 @@ const organicCertifierSurveyController = {
           planting_management_plans: 'pmps',
         },
       })
-      .where('crop_variety.farm_id', farm_id);
+      .where('crop_variety.farm_id', farm_id)
+      .where('management_plan.start_date', '<=', to_date)
+      .where(builder => builder.where(builder => builder.whereNull('management_plan.complete_date').whereNull('management_plan.abandon_date'))
+        .orWhere(builder => builder.where('management_plan.complete_date', '>', from_date)
+          .orWhere('management_plan.abandon_date', '>', from_date)),
+      );
     const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
       const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
       for (const plantingManagementPlan of plantingManagementPlans) {
@@ -323,14 +328,32 @@ const organicCertifierSurveyController = {
       .where({ farm_id })
       .withGraphJoined(`[
           figure.[area, line, point], 
-          gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
+          gate, water_valve, field.[organic_history(orderByEffectiveDate)], 
+          garden.[organic_history(orderByEffectiveDate)], buffer_zone, watercourse, fence, 
           ceremonial_area, residence, surface_water, natural_area,
-          greenhouse, barn, farm_site_boundary
+          greenhouse.[organic_history(orderByEffectiveDate)], barn, farm_site_boundary
         ]`);
 
     const booleanTrueToX = bool => bool ? 'x' : '';
     return locations.map(location => {
-      const locationOrganicStatus = location[location.figure.type].organic_status;
+      const getLocationOrganicStatus = organic_history => {
+        if (!organic_history) return undefined;
+        let fromDateOrganicStatus = 'Transitional';
+        let toDateOrganicStatus;
+        for (const organicHistoryStatus of organic_history) {
+          const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
+          if (effectiveDateTime <= fromDateTime) {
+            fromDateOrganicStatus = organicHistoryStatus.organic_status;
+          } else if (effectiveDateTime <= toDateTime) {
+            toDateOrganicStatus = organicHistoryStatus.organic_status;
+          }
+        }
+        !toDateOrganicStatus && (toDateOrganicStatus = fromDateOrganicStatus);
+        if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic') return 'Organic';
+        else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
+        else return 'Transitional';
+      };
+      const locationOrganicStatus = getLocationOrganicStatus(location[location.figure.type]?.organic_history);
       return ({
         name: location.name,
         crops: Array.from(locationIdCropMap[location.location_id] || []),
@@ -361,7 +384,7 @@ const organicCertifierSurveyController = {
     return { locations, managementPlans };
   },
 
-  filterLocationsAndManagementPlans(task, locations, managementPlans){
+  filterLocationsAndManagementPlans(task, locations, managementPlans) {
     task.affectedLocations = locations.filter(({ task_id }) => task.task_id === task_id);
     task.affectedManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
     return task;

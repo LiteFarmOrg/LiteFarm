@@ -375,7 +375,7 @@ describe('ManagementPlan Tests', () => {
         return {
           name: faker.lorem.words(),
           notes: faker.lorem.words(),
-          crop_management_plan: { estimated_yield: faker.random.number(10000), harvest_date: 'shouldBeDiscarded' },
+          crop_management_plan: { estimated_yield: faker.datatype.number(10000), harvest_date: 'shouldBeDiscarded' },
           management_plan_id: transplantManagementPlan.management_plan_id,
         };
       }

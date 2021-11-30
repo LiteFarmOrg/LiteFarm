@@ -75,7 +75,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, measurement) => 
       workbook.sheet(0).cell('B2').value(farm_name);
 
       workbook.sheet(0).cell('K2').value(`${t('RECORD_A.YEAR')}:`);
-      workbook.sheet(0).cell('L2').value(new Date().getFullYear());
+      workbook.sheet(0).cell('L2').value(getDateRangeText(from_date, to_date));
       workbook.sheet(0).cell('A3').value(t('RECORD_A.PLEASE_VERIFY'));
       workbook.sheet(0).cell('C4').value(t('RECORD_A.SIZE_IN_PREFERRED_UNIT'));
       workbook.sheet(0).cell('F4').value(t('RECORD_A.CURRENT_STATUS'));
@@ -142,4 +142,10 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, measurement) => 
       });
       return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordA.xlsx`);
     });
+};
+
+const getDateRangeText = (from_date, to_date) => {
+  const from = new Date(from_date).getFullYear();
+  const to = new Date(to_date).getFullYear();
+  return from === to ? from : `${from}-${to}`;
 };

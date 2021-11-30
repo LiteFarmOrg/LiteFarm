@@ -82,7 +82,11 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, units, isInputs)
       workbook.sheet(0).cell('A9').value(rowNine).style({ wrapText: false });
       workbook.sheet(0).cell('A10').value(t('RECORD_I.TABLE_COLUMN.PRODUCT_NAME'));
       workbook.sheet(0).cell('B10').value(t('RECORD_I.TABLE_COLUMN.SUPPLIER'));
-      workbook.sheet(0).cell('C10').value(t('RECORD_I.TABLE_COLUMN.QUANTITY', { unit: units.measurement === 'metric' ? 'kg' : 'lb' }));
+      workbook.sheet(0).cell('C10').value(t('RECORD_I.TABLE_COLUMN.QUANTITY', {
+        unit: units.measurement === 'metric' ?
+          t('UNITS.KILOGRAM') :
+          t('UNITS.POUND'),
+      }));
       workbook.sheet(0).cell('D10').value(t('RECORD_I.TABLE_COLUMN.DATE_USED'));
       workbook.sheet(0).cell('E10').value(t('RECORD_I.TABLE_COLUMN.CROP_FIELD_APPLIED_TO'));
       workbook.sheet(0).cell('F10').value(t('RECORD_I.TABLE_COLUMN.NOTES'));

@@ -9,7 +9,6 @@ export default function RenderSurvey() {
   const certification = data?.certification
     ? t(`certifications:${data?.certification.certification_translation_key}`)
     : organicCertifierSurvey?.requested_certification;
-  console.log(certification, data, data?.certification?.certification_translation_key);
   const certifier = data?.certifier
     ? data?.certifier.certifier_name
     : organicCertifierSurvey?.requested_certifier;

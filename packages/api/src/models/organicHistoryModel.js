@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (gardenModel.js) is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
+const baseModel = require('./baseModel')
 
-class Garden extends Model {
+class OrganicHistory extends baseModel {
   static get tableName() {
-    return 'garden';
+    return 'organic_history';
   }
 
   static get idColumn() {
-    return 'location_id';
+    return 'organic_history_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -30,30 +30,17 @@ class Garden extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['location_id'],
+      required: ['location_id', 'organic_status', 'effective_date'],
       properties: {
+        organic_history_id: { type: 'string' },
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
-        station_id: { type: 'number' },
-        transition_date: { type: 'date' },
+        effective_date: { type: 'date' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-      organic_history: {
-        modelClass: require('./organicHistoryModel'),
-        relation: Model.HasManyRelation,
-        join: {
-          from: 'garden.location_id',
-          to: 'organic_history.location_id',
-        },
-      },
-    };
-  }
 }
 
-module.exports = Garden;
+module.exports = OrganicHistory;

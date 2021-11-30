@@ -3,6 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 import { pick } from '../util/pick';
+import { getDateInputFormat } from '../util/moment';
 
 const greenHouseProperties = [
   'organic_status',
@@ -18,7 +19,10 @@ export const getLocationObjectFromGreenHouse = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    greenhouse: pick(data, greenHouseProperties),
+    greenhouse: {
+      ...pick(data, greenHouseProperties),
+      organic_history: { effective_date: getDateInputFormat(), organic_status: data.organic_status },
+    },
     ...pick(data, locationProperties),
   };
 };

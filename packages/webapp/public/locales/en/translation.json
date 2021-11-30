@@ -1296,6 +1296,11 @@
     "INACTIVE": "Inactive",
     "INVITED": "Invited"
   },
+  "SURVEY_STACK": {
+    "PRODUCED": "Produced on",
+    "SURVEY_ADDENDUM": "Survey Addendum",
+    "TITLE": "{{certification}} certification from {{certifier}}"
+  },
   "SWITCH_OUTRO": {
     "BUTTON": "Let's Go!",
     "DESCRIPTION_BOTTOM": "Heading to: ",
@@ -1406,9 +1411,5 @@
   },
   "YEAR_SELECTOR": {
     "TITLE": "Select Year"
-  },
-  "SURVEY_STACK": {
-    "PRODUCED": "Produced on",
-    "TITLE": "{{certification}} certification from {{certifier}} Survey Adendum"
   }
 }

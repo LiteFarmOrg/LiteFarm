@@ -1,4 +1,4 @@
-let faker = require('faker');
+const faker = require('faker');
 const knex = require('../src/util/knex');
 
 function weather_stationFactory(station = fakeStation()) {
@@ -7,10 +7,10 @@ function weather_stationFactory(station = fakeStation()) {
 
 function fakeStation(defaultData = {}) {
   return {
-    id: faker.random.number(0x7FFFFFFF),
+    id: faker.datatype.number(0x7FFFFFFF),
     name: faker.address.country(),
     country: faker.address.countryCode(),
-    timezone: faker.random.number(1000),
+    timezone: faker.datatype.number(1000),
     ...defaultData,
   };
 }
@@ -25,11 +25,11 @@ function fakeUser(defaultData = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
-    user_id: faker.random.uuid(),
+    user_id: faker.datatype.uuid(),
     status_id: 1,
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
-    birth_year: faker.random.number({ min: 1900, max: new Date().getFullYear() }),
+    birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
     ...defaultData,
   };
 }
@@ -41,7 +41,7 @@ function fakeSSOUser(defaultData = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
-    user_id: faker.random.number(10),
+    user_id: faker.datatype.number(10),
     phone_number: faker.phone.phoneNumber(),
     ...defaultData,
   };
@@ -82,7 +82,7 @@ function fakeUserFarm(defaultData = {}) {
     status: 'Active',
     has_consent: true,
     step_one: false,
-    wage: { type: 'hourly', amount: faker.random.number(300) },
+    wage: { type: 'hourly', amount: faker.datatype.number(300) },
     ...defaultData,
   };
 }
@@ -137,7 +137,7 @@ function figureFactory(location_id, type) {
 
 function fakeArea(stringify = true, defaultData = {}) {
   return {
-    total_area: faker.random.number(2000),
+    total_area: faker.datatype.number(2000),
     grid_points: stringify ? JSON.stringify([...Array(3).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
@@ -145,7 +145,7 @@ function fakeArea(stringify = true, defaultData = {}) {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }))],
-    perimeter: faker.random.number(),
+    perimeter: faker.datatype.number(),
     total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
     perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
     ...defaultData,
@@ -161,7 +161,7 @@ async function fieldFactory({
   const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
   const [{ station_id }] = station;
   const [{ location_id }] = location;
-  return knex('field').insert({ location_id: location_id, station_id, ...field }).returning('*');
+  return knex('field').insert({ location_id, station_id, ...field }).returning('*');
 }
 
 function fakeField(defaultData = {}) {
@@ -172,6 +172,28 @@ function fakeField(defaultData = {}) {
   };
 }
 
+async function organic_historyFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation, promisedArea }),
+} = {}, organicHistory = fakeOrganicHistory()) {
+  const [field, user] = await Promise.all([promisedField, usersFactory()]);
+  const [{ location_id }] = field;
+  const [{ user_id }] = user;
+  return knex('organic_history').insert({ location_id, ...organicHistory, ...baseProperties(user_id) }).returning('*');
+}
+
+function fakeOrganicHistory(defaultData = {}) {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    effective_date: faker.date.past(),
+    ...defaultData,
+  };
+}
+
+
 async function gardenFactory({
   promisedStation = weather_stationFactory(),
   promisedFarm = farmFactory(),
@@ -181,7 +203,7 @@ async function gardenFactory({
   const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
   const [{ station_id }] = station;
   const [{ location_id }] = location;
-  return knex('garden').insert({ location_id: location_id, station_id, ...garden }).returning('*');
+  return knex('garden').insert({ location_id, station_id, ...garden }).returning('*');
 }
 
 function fakeGarden(defaultData = {}) {
@@ -225,8 +247,8 @@ async function lineFactory({
 
 function fakeLine(stringify = true, defaultData = {}) {
   return {
-    length: faker.random.number(),
-    width: faker.random.number(),
+    length: faker.datatype.number(),
+    width: faker.datatype.number(),
     line_points: stringify ? JSON.stringify([...Array(2).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
@@ -250,7 +272,7 @@ async function fenceFactory({
 
 function fakeFence(defaultData = {}) {
   return {
-    pressure_treated: faker.random.boolean(),
+    pressure_treated: faker.datatype.boolean(),
     ...defaultData,
   };
 }
@@ -348,70 +370,70 @@ function fakeCrop(defaultData = {}) {
       'Tobacco',
       'Tropical and subtropical fruits',
     ]),
-    max_rooting_depth: faker.random.number(10),
-    depletion_fraction: faker.random.number(10),
-    is_avg_depth: faker.random.boolean(),
-    initial_kc: faker.random.number(10),
-    mid_kc: faker.random.number(10),
-    end_kc: faker.random.number(10),
-    max_height: faker.random.number(10),
-    is_avg_kc: faker.random.boolean(),
+    max_rooting_depth: faker.datatype.number(10),
+    depletion_fraction: faker.datatype.number(10),
+    is_avg_depth: faker.datatype.boolean(),
+    initial_kc: faker.datatype.number(10),
+    mid_kc: faker.datatype.number(10),
+    end_kc: faker.datatype.number(10),
+    max_height: faker.datatype.number(10),
+    is_avg_kc: faker.datatype.boolean(),
     nutrient_notes: faker.lorem.words(),
-    percentrefuse: faker.random.number(10),
+    percentrefuse: faker.datatype.number(10),
     refuse: faker.lorem.words(),
-    protein: faker.random.number(10),
-    lipid: faker.random.number(10),
-    energy: faker.random.number(10),
-    ca: faker.random.number(10),
-    fe: faker.random.number(10),
-    mg: faker.random.number(10),
-    ph: faker.random.number(10),
-    k: faker.random.number(10),
-    na: faker.random.number(10),
-    zn: faker.random.number(10),
-    cu: faker.random.number(10),
-    fl: faker.random.number(10),
-    mn: faker.random.number(10),
-    se: faker.random.number(10),
-    vita_rae: faker.random.number(10),
-    vite: faker.random.number(10),
-    vitc: faker.random.number(10),
-    thiamin: faker.random.number(10),
-    riboflavin: faker.random.number(10),
-    niacin: faker.random.number(10),
-    pantothenic: faker.random.number(10),
-    vitb6: faker.random.number(10),
-    folate: faker.random.number(10),
-    vitb12: faker.random.number(10),
-    vitk: faker.random.number(10),
-    is_avg_nutrient: faker.random.boolean(),
-    user_added: faker.random.boolean(),
+    protein: faker.datatype.number(10),
+    lipid: faker.datatype.number(10),
+    energy: faker.datatype.number(10),
+    ca: faker.datatype.number(10),
+    fe: faker.datatype.number(10),
+    mg: faker.datatype.number(10),
+    ph: faker.datatype.number(10),
+    k: faker.datatype.number(10),
+    na: faker.datatype.number(10),
+    zn: faker.datatype.number(10),
+    cu: faker.datatype.number(10),
+    fl: faker.datatype.number(10),
+    mn: faker.datatype.number(10),
+    se: faker.datatype.number(10),
+    vita_rae: faker.datatype.number(10),
+    vite: faker.datatype.number(10),
+    vitc: faker.datatype.number(10),
+    thiamin: faker.datatype.number(10),
+    riboflavin: faker.datatype.number(10),
+    niacin: faker.datatype.number(10),
+    pantothenic: faker.datatype.number(10),
+    vitb6: faker.datatype.number(10),
+    folate: faker.datatype.number(10),
+    vitb12: faker.datatype.number(10),
+    vitk: faker.datatype.number(10),
+    is_avg_nutrient: faker.datatype.boolean(),
+    user_added: faker.datatype.boolean(),
     deleted: false,
-    nutrient_credits: faker.random.number(10),
+    nutrient_credits: faker.datatype.number(10),
     crop_photo_url: faker.internet.url(),
-    can_be_cover_crop: faker.random.boolean(),
-    planting_depth: faker.random.number(10),
-    yield_per_area: faker.random.number(10),
-    average_seed_weight: faker.random.number(10),
-    yield_per_plant: faker.random.number(10),
+    can_be_cover_crop: faker.datatype.boolean(),
+    planting_depth: faker.datatype.number(10),
+    yield_per_area: faker.datatype.number(10),
+    average_seed_weight: faker.datatype.number(10),
+    yield_per_plant: faker.datatype.number(10),
     seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
     lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
-    needs_transplant: faker.random.boolean(),
-    germination_days: faker.random.number({ min: 1, max: 10 }),
-    transplant_days: faker.random.number({ min: 11, max: 20 }),
-    harvest_days: faker.random.number({ min: 21, max: 30 }),
-    termination_days: faker.random.number({ min: 31, max: 40 }),
+    needs_transplant: faker.datatype.boolean(),
+    germination_days: faker.datatype.number({ min: 1, max: 10 }),
+    transplant_days: faker.datatype.number({ min: 11, max: 20 }),
+    harvest_days: faker.datatype.number({ min: 21, max: 30 }),
+    termination_days: faker.datatype.number({ min: 31, max: 40 }),
     planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
-    plant_spacing: faker.random.number(100),
-    seeding_rate: faker.random.number(10000),
+    plant_spacing: faker.datatype.number(100),
+    seeding_rate: faker.datatype.number(10000),
     ...defaultData,
   };
 }
 
 function fakeYield(defaultData = {}) {
   return {
-    yield_id: faker.random.number(0x7FFFFFFF),
-    'quantity_kg/m2': faker.random.number(10),
+    yield_id: faker.datatype.number(0x7FFFFFFF),
+    'quantity_kg/m2': faker.datatype.number(10),
     date: faker.date.future(),
     ...defaultData,
   };
@@ -419,8 +441,8 @@ function fakeYield(defaultData = {}) {
 
 function fakePrice(defaultData = {}) {
   return {
-    price_id: faker.random.number(0x7FFFFFFF),
-    'value_$/kg': faker.random.number(100),
+    price_id: faker.datatype.number(0x7FFFFFFF),
+    'value_$/kg': faker.datatype.number(100),
     date: faker.date.future(),
     ...defaultData,
   };
@@ -429,7 +451,7 @@ function fakePrice(defaultData = {}) {
 function fakeExpense(defaultData = {}) {
   return {
     expense_date: faker.date.future(),
-    value: faker.random.number(100),
+    value: faker.datatype.number(100),
     note: faker.helpers.randomize(),
     ...defaultData,
   };
@@ -526,20 +548,20 @@ async function insertPlantingMethod(plantingMethod = {
 
 function fakeCropManagementPlan(defaultData = {}) {
   return {
-    estimated_revenue: faker.random.number(10000),
-    estimated_yield: faker.random.number(10000),
-    estimated_price_per_mass: faker.random.number(10000),
+    estimated_revenue: faker.datatype.number(10000),
+    estimated_yield: faker.datatype.number(10000),
+    estimated_price_per_mass: faker.datatype.number(10000),
     seed_date: faker.date.past(),
     plant_date: faker.date.past(),
     germination_date: faker.date.past(),
     transplant_date: faker.date.past(),
     harvest_date: faker.date.future(),
     termination_date: faker.date.future(),
-    already_in_ground: faker.random.boolean(),
-    is_seed: faker.random.boolean(),
-    needs_transplant: faker.random.boolean(),
-    for_cover: faker.random.boolean(),
-    is_wild: faker.random.boolean(),
+    already_in_ground: faker.datatype.boolean(),
+    is_seed: faker.datatype.boolean(),
+    needs_transplant: faker.datatype.boolean(),
+    for_cover: faker.datatype.boolean(),
+    is_wild: faker.datatype.boolean(),
     ...defaultData,
   };
 }
@@ -586,10 +608,10 @@ async function planting_management_planFactory({
 
 function fakePlantingManagementPlan(defaultData = {}) {
   return {
-    is_final_planting_management_plan: faker.random.boolean(),
+    is_final_planting_management_plan: faker.datatype.boolean(),
     planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
     is_planting_method_known: true,
-    estimated_seeds: faker.random.number(10000),
+    estimated_seeds: faker.datatype.number(10000),
     notes: faker.lorem.words(),
     ...defaultData,
   };
@@ -637,14 +659,14 @@ async function container_methodFactory({
 }
 
 function fakeContainerMethod(defaultData = {}) {
-  const in_ground = faker.random.boolean();
+  const in_ground = faker.datatype.boolean();
   return {
     in_ground,
-    plant_spacing: in_ground ? null : faker.random.number(100),
-    total_plants: in_ground ? faker.random.number(100) : null,
-    number_of_containers: in_ground ? null : faker.random.number(100),
-    plants_per_container: in_ground ? null : faker.random.number(100),
-    planting_depth: faker.random.number(100),
+    plant_spacing: in_ground ? null : faker.datatype.number(100),
+    total_plants: in_ground ? faker.datatype.number(100) : null,
+    number_of_containers: in_ground ? null : faker.datatype.number(100),
+    plants_per_container: in_ground ? null : faker.datatype.number(100),
+    planting_depth: faker.datatype.number(100),
     planting_soil: in_ground ? null : faker.random.words(),
     container_type: in_ground ? null : faker.random.words(),
     ...defaultData,
@@ -693,9 +715,9 @@ async function broadcast_methodFactory({
 
 function fakeBroadcastMethod(defaultData = {}) {
   return {
-    percentage_planted: faker.random.number(10),
-    area_used: faker.random.number(10000),
-    seeding_rate: faker.random.number(10000),
+    percentage_planted: faker.datatype.number(10),
+    area_used: faker.datatype.number(10000),
+    seeding_rate: faker.datatype.number(10000),
     ...defaultData,
   };
 }
@@ -741,17 +763,17 @@ async function row_methodFactory({
 }
 
 function fakeRowMethod(defaultData = {}) {
-  const same_length = faker.random.boolean();
+  const same_length = faker.datatype.boolean();
   return {
-    same_length: same_length,
-    number_of_rows: same_length ? faker.random.number(999) : null,
-    row_length: same_length ? faker.random.number(10000) : null,
-    plant_spacing: faker.random.number(10000),
-    total_rows_length: same_length ? null : faker.random.number(10000),
+    same_length,
+    number_of_rows: same_length ? faker.datatype.number(999) : null,
+    row_length: same_length ? faker.datatype.number(10000) : null,
+    plant_spacing: faker.datatype.number(10000),
+    total_rows_length: same_length ? null : faker.datatype.number(10000),
     specify_rows: faker.lorem.words(),
-    planting_depth: faker.random.number(10000),
-    row_width: faker.random.number(10000),
-    row_spacing: faker.random.number(10000),
+    planting_depth: faker.datatype.number(10000),
+    row_width: faker.datatype.number(10000),
+    row_spacing: faker.datatype.number(10000),
     ...defaultData,
   };
 }
@@ -798,14 +820,14 @@ async function bed_methodFactory({
 
 function fakeBedMethod(defaultData = {}) {
   return {
-    number_of_beds: faker.random.number(1000),
-    number_of_rows_in_bed: faker.random.number(1000),
-    plant_spacing: faker.random.number(1000),
-    bed_length: faker.random.number(1000),
-    planting_depth: faker.random.number(1000),
-    bed_width: faker.random.number(1000),
-    bed_spacing: faker.random.number(1000),
-    specify_beds: `1-${faker.random.number(1000)}`,
+    number_of_beds: faker.datatype.number(1000),
+    number_of_rows_in_bed: faker.datatype.number(1000),
+    plant_spacing: faker.datatype.number(1000),
+    bed_length: faker.datatype.number(1000),
+    planting_depth: faker.datatype.number(1000),
+    bed_width: faker.datatype.number(1000),
+    bed_spacing: faker.datatype.number(1000),
+    specify_beds: `1-${faker.datatype.number(1000)}`,
     ...defaultData,
   };
 }
@@ -830,45 +852,45 @@ function fakeCropVariety(defaultData = {}) {
     seeding_type: faker.random.arrayElement(['SEED', 'SEEDLING_OR_PLANTING_STOCK']),
     lifecycle: faker.random.arrayElement(['ANNUAL', 'PERENNIAL']),
     compliance_file_url: faker.internet.url(),
-    organic: faker.random.boolean(),
+    organic: faker.datatype.boolean(),
     treated: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
-    genetically_engineered: faker.random.boolean(),
-    searched: faker.random.boolean(),
-    protein: faker.random.number(10),
-    lipid: faker.random.number(10),
-    energy: faker.random.number(10),
-    ca: faker.random.number(10),
-    fe: faker.random.number(10),
-    mg: faker.random.number(10),
-    ph: faker.random.number(10),
-    k: faker.random.number(10),
-    na: faker.random.number(10),
-    zn: faker.random.number(10),
-    cu: faker.random.number(10),
-    mn: faker.random.number(10),
-    vita_rae: faker.random.number(10),
-    vitc: faker.random.number(10),
-    thiamin: faker.random.number(10),
-    riboflavin: faker.random.number(10),
-    niacin: faker.random.number(10),
-    vitb6: faker.random.number(10),
-    folate: faker.random.number(10),
-    vitb12: faker.random.number(10),
-    nutrient_credits: faker.random.number(10),
+    genetically_engineered: faker.datatype.boolean(),
+    searched: faker.datatype.boolean(),
+    protein: faker.datatype.number(10),
+    lipid: faker.datatype.number(10),
+    energy: faker.datatype.number(10),
+    ca: faker.datatype.number(10),
+    fe: faker.datatype.number(10),
+    mg: faker.datatype.number(10),
+    ph: faker.datatype.number(10),
+    k: faker.datatype.number(10),
+    na: faker.datatype.number(10),
+    zn: faker.datatype.number(10),
+    cu: faker.datatype.number(10),
+    mn: faker.datatype.number(10),
+    vita_rae: faker.datatype.number(10),
+    vitc: faker.datatype.number(10),
+    thiamin: faker.datatype.number(10),
+    riboflavin: faker.datatype.number(10),
+    niacin: faker.datatype.number(10),
+    vitb6: faker.datatype.number(10),
+    folate: faker.datatype.number(10),
+    vitb12: faker.datatype.number(10),
+    nutrient_credits: faker.datatype.number(10),
     crop_variety_photo_url: faker.internet.url(),
-    can_be_cover_crop: faker.random.boolean(),
-    planting_depth: faker.random.number(10),
-    yield_per_area: faker.random.number(10),
-    average_seed_weight: faker.random.number(10),
-    yield_per_plant: faker.random.number(10),
-    needs_transplant: faker.random.boolean(),
-    germination_days: faker.random.number({ min: 1, max: 10 }),
-    transplant_days: faker.random.number({ min: 11, max: 20 }),
-    harvest_days: faker.random.number({ min: 21, max: 30 }),
-    termination_days: faker.random.number({ min: 31, max: 40 }),
+    can_be_cover_crop: faker.datatype.boolean(),
+    planting_depth: faker.datatype.number(10),
+    yield_per_area: faker.datatype.number(10),
+    average_seed_weight: faker.datatype.number(10),
+    yield_per_plant: faker.datatype.number(10),
+    needs_transplant: faker.datatype.boolean(),
+    germination_days: faker.datatype.number({ min: 1, max: 10 }),
+    transplant_days: faker.datatype.number({ min: 11, max: 20 }),
+    harvest_days: faker.datatype.number({ min: 21, max: 30 }),
+    termination_days: faker.datatype.number({ min: 31, max: 40 }),
     planting_method: faker.random.arrayElement(['BROADCAST_METHOD', 'CONTAINER_METHOD', 'BED_METHOD', 'ROW_METHOD']),
-    plant_spacing: faker.random.number(100),
-    seeding_rate: faker.random.number(10000),
+    plant_spacing: faker.datatype.number(100),
+    seeding_rate: faker.datatype.number(10000),
     ...defaultData,
   };
 }
@@ -884,12 +906,12 @@ async function fertilizerFactory({ promisedFarm = farmFactory() } = {}, fertiliz
 function fakeFertilizer(defaultData = {}) {
   return {
     fertilizer_type: faker.lorem.word(),
-    moisture_percentage: faker.random.number(100),
-    n_percentage: faker.random.number(100),
-    nh4_n_ppm: faker.random.number(100),
-    p_percentage: faker.random.number(100),
-    k_percentage: faker.random.number(100),
-    mineralization_rate: faker.random.number(100),
+    moisture_percentage: faker.datatype.number(100),
+    n_percentage: faker.datatype.number(100),
+    nh4_n_ppm: faker.datatype.number(100),
+    p_percentage: faker.datatype.number(100),
+    k_percentage: faker.datatype.number(100),
+    mineralization_rate: faker.datatype.number(100),
     ...defaultData,
   };
 }
@@ -908,7 +930,7 @@ function fakeTask(defaultData = {}) {
     due_date: faker.date.future(),
     notes: faker.lorem.words(),
     happiness: faker.random.arrayElement([0, 1, 2, 3, 4, 5]),
-    ...defaultData
+    ...defaultData,
   };
 }
 
@@ -927,7 +949,7 @@ function fakeProduct(defaultData = {}) {
     supplier: faker.lorem.words(3),
     on_permitted_substances_list: faker.random.arrayElement(['YES', 'NO', 'NOT_SURE']),
     type: faker.random.arrayElement(['soil_amendment_task', 'pest_control_task', 'cleaning_task']),
-    ...defaultData
+    ...defaultData,
   }
 }
 
@@ -943,9 +965,9 @@ async function soil_amendment_taskFactory({
 
 function fakeSoilAmendmentTask(defaultData = {}) {
   return {
-    product_quantity: faker.random.number(),
+    product_quantity: faker.datatype.number(),
     purpose: faker.random.arrayElement(['structure', 'moisture_retention', 'nutrient_availability', 'ph', 'other']),
-    ...defaultData
+    ...defaultData,
   };
 }
 
@@ -980,10 +1002,10 @@ async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide
 function fakePesticide(defaultData = {}) {
   return {
     pesticide_name: faker.lorem.word(),
-    entry_interval: faker.random.number(20),
-    harvest_interval: faker.random.number(20),
+    entry_interval: faker.datatype.number(20),
+    harvest_interval: faker.datatype.number(20),
     active_ingredients: faker.lorem.words(),
-    concentration: faker.random.number(3000),
+    concentration: faker.datatype.number(3000),
     ...defaultData,
   };
 }
@@ -1107,7 +1129,7 @@ function fakeHarvestUseType(defaultData = {}) {
 
 function fakeHarvestUse(defaultData = {}) {
   return {
-    quantity: faker.random.number(200),
+    quantity: faker.datatype.number(200),
     ...defaultData,
   };
 }
@@ -1117,7 +1139,7 @@ async function createDefaultState() {
     'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other',
   ];
   const uses = await Promise.all(useTypes.map(async (type) => {
-    let data = {
+    const data = {
       harvest_use_type_name: type,
     };
     const [use] = await knex('harvest_use_type').insert(data).returning('*');
@@ -1161,11 +1183,11 @@ async function pest_control_taskFactory({
 
 function fakePestControlTask(defaultData = {}) {
   return {
-    product_quantity: faker.random.number(2000),
+    product_quantity: faker.datatype.number(2000),
     pest_target: faker.lorem.words(2),
     control_method: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handWeeding', 'biologicalControl',
       'flameWeeding', 'soilFumigation', 'heatTreatment', 'other']),
-    ...defaultData
+    ...defaultData,
   };
 }
 
@@ -1177,7 +1199,7 @@ async function harvest_taskFactory({ promisedTask = taskFactory() } = {}, harves
 
 function fakeHarvestTask(defaultData = {}) {
   return {
-    projected_quantity: faker.random.number(1000),
+    projected_quantity: faker.datatype.number(1000),
     ...defaultData,
   };
 }
@@ -1185,18 +1207,18 @@ function fakeHarvestTask(defaultData = {}) {
 function fakeHarvestTasks(defaultData = {}, number) {
   return [...Array(number)].map(() =>
     ({
-      projected_quantity: faker.random.number(1000),
-      harvest_everything: faker.random.boolean(),
+      projected_quantity: faker.datatype.number(1000),
+      harvest_everything: faker.datatype.boolean(),
       ...defaultData,
-    })
+    }),
   );
 }
 
 async function harvest_useFactory({
-    promisedHarvestTask = harvest_taskFactory(),
-    promisedHarvestUseType = harvest_use_typeFactory(),
-    promisedPlantingManagementPlan = planting_management_planFactory(),
-  } = {},
+  promisedHarvestTask = harvest_taskFactory(),
+  promisedHarvestUseType = harvest_use_typeFactory(),
+  promisedPlantingManagementPlan = planting_management_planFactory(),
+} = {},
   harvestUse = fakeHarvestUse()) {
   const [harvestTask, harvestUseType, plantingManagementPlan] = await Promise.all([promisedHarvestTask, promisedHarvestUseType, promisedPlantingManagementPlan]);
   const [{ harvest_use_type_id }] = harvestUseType;
@@ -1251,26 +1273,26 @@ async function soil_taskFactory({ promisedTask = taskFactory() } = {}, soil_task
 function fakeSoilTask(defaultData = {}) {
   return {
     texture: faker.random.arrayElement(['sand', 'loamySand', 'sandyLoam', 'loam', 'siltLoam', 'silt', 'sandyClayLoam', 'clayLoam', 'siltyClayLoam', 'sandyClay', 'siltyClay', 'clay']),
-    k: faker.random.number(1000),
-    p: faker.random.number(1000),
-    n: faker.random.number(1000),
-    om: faker.random.number(1000),
-    ph: faker.random.number(1000),
-    'bulk_density_kg/m3': faker.random.number(1000),
-    organic_carbon: faker.random.number(1000),
-    inorganic_carbon: faker.random.number(1000),
-    s: faker.random.number(1000),
-    ca: faker.random.number(1000),
-    mg: faker.random.number(1000),
-    zn: faker.random.number(1000),
-    mn: faker.random.number(1000),
-    fe: faker.random.number(1000),
-    cu: faker.random.number(1000),
-    b: faker.random.number(1000),
-    cec: faker.random.number(1000),
-    c: faker.random.number(1000),
-    na: faker.random.number(1000),
-    total_carbon: faker.random.number(1000),
+    k: faker.datatype.number(1000),
+    p: faker.datatype.number(1000),
+    n: faker.datatype.number(1000),
+    om: faker.datatype.number(1000),
+    ph: faker.datatype.number(1000),
+    'bulk_density_kg/m3': faker.datatype.number(1000),
+    organic_carbon: faker.datatype.number(1000),
+    inorganic_carbon: faker.datatype.number(1000),
+    s: faker.datatype.number(1000),
+    ca: faker.datatype.number(1000),
+    mg: faker.datatype.number(1000),
+    zn: faker.datatype.number(1000),
+    mn: faker.datatype.number(1000),
+    fe: faker.datatype.number(1000),
+    cu: faker.datatype.number(1000),
+    b: faker.datatype.number(1000),
+    cec: faker.datatype.number(1000),
+    c: faker.datatype.number(1000),
+    na: faker.datatype.number(1000),
+    total_carbon: faker.datatype.number(1000),
     depth_cm: faker.random.arrayElement(['5', '10', '20', '30', '50', '100']),
     ...defaultData,
   };
@@ -1285,8 +1307,8 @@ async function irrigation_taskFactory({ promisedTask = taskFactory() } = {}, irr
 function fakeIrrigationTask(defaultData = {}) {
   return {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
-    hours: faker.random.number(10),
-    'flow_rate_l/min': faker.random.number(10),
+    hours: faker.datatype.number(10),
+    'flow_rate_l/min': faker.datatype.number(10),
     ...defaultData,
   };
 }
@@ -1315,7 +1337,7 @@ function fakeShift(defaultData = {}) {
   return {
     shift_date: new Date(),
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
-    wage_at_moment: faker.random.number(20),
+    wage_at_moment: faker.datatype.number(20),
     ...defaultData,
   };
 }
@@ -1343,8 +1365,8 @@ async function shiftTaskFactory({
 
 function fakeShiftTask(defaultData = {}) {
   return {
-    is_location: faker.random.boolean(),
-    duration: faker.random.number(200),
+    is_location: faker.datatype.boolean(),
+    duration: faker.datatype.number(200),
     ...defaultData,
   };
 }
@@ -1374,8 +1396,8 @@ function fakeExpenseType(defaultData = {}) {
 function fakeWaterBalance(defaultData = {}) {
   return {
     created_at: faker.date.future(),
-    soil_water: faker.random.number(2000),
-    plant_available_water: faker.random.number(2000),
+    soil_water: faker.datatype.number(2000),
+    plant_available_water: faker.datatype.number(2000),
     ...defaultData,
   };
 }
@@ -1390,7 +1412,7 @@ function fakeNitrogenSchedule(defaultData = {}) {
   return {
     created_at: faker.date.past(),
     scheduled_at: faker.date.future(),
-    frequency: faker.random.number(10),
+    frequency: faker.datatype.number(10),
     ...defaultData,
   };
 }
@@ -1403,8 +1425,8 @@ async function nitrogenScheduleFactory({ promisedFarm = farmFactory() } = {}, ni
 
 function fakeCropVarietySale(defaultData = {}) {
   return {
-    sale_value: faker.random.number(1000),
-    quantity: faker.random.number(1000),
+    sale_value: faker.datatype.number(1000),
+    quantity: faker.datatype.number(1000),
     quantity_unit: faker.random.arrayElement(['kg', 'mt', 'lb', 't']),
     ...defaultData,
   };
@@ -1424,7 +1446,7 @@ function fakeSupportTicket(farm_id, defaultData = {}) {
   const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
   const contact_method = ['email', 'whatsapp'];
   const status = ['Open', 'Closed', 'In progress'];
-  const numberOfImage = faker.random.number(10);
+  const numberOfImage = faker.datatype.number(10);
   const attachments = [];
   for (let i = 0; i < numberOfImage; i++) {
     attachments.push(faker.image.imageUrl());
@@ -1467,7 +1489,7 @@ function fakeOrganicCertifierSurvey(farm_id, defaultData = {}) {
     certification_id: faker.random.arrayElement(certificationIDS),
     created_at: past,
     updated_at: faker.date.between(past, now),
-    interested: faker.random.boolean(),
+    interested: faker.datatype.boolean(),
     farm_id,
     ...defaultData,
   };
@@ -1506,9 +1528,9 @@ async function barnFactory({
 
 function fakeBarn(defaultData = {}) {
   return {
-    wash_and_pack: faker.random.boolean(),
-    cold_storage: faker.random.boolean(),
-    used_for_animals: faker.random.boolean(),
+    wash_and_pack: faker.datatype.boolean(),
+    cold_storage: faker.datatype.boolean(),
+    used_for_animals: faker.datatype.boolean(),
     ...defaultData,
   };
 }
@@ -1544,8 +1566,8 @@ async function watercourseFactory({
 
 function fakeWatercourse(defaultData = {}) {
   return {
-    used_for_irrigation: faker.random.boolean(),
-    buffer_width: faker.random.number(),
+    used_for_irrigation: faker.datatype.boolean(),
+    buffer_width: faker.datatype.number(),
     ...defaultData,
   };
 }
@@ -1565,7 +1587,7 @@ function fakeWaterValve(defaultData = {}) {
   return {
     source: faker.random.arrayElement(['Municipal water', 'Surface water', 'Groundwater', 'Rain water']),
     flow_rate_unit: faker.random.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
-    flow_rate: faker.random.number(1000),
+    flow_rate: faker.datatype.number(1000),
     ...defaultData,
   };
 }
@@ -1583,7 +1605,7 @@ async function surface_waterFactory({
 
 function fakeSurfaceWater(defaultData = {}) {
   return {
-    used_for_irrigation: faker.random.boolean(),
+    used_for_irrigation: faker.datatype.boolean(),
     ...defaultData,
   };
 }
@@ -1711,7 +1733,6 @@ function fakeFile(defaultData = {}) {
   };
 }
 
-
 module.exports = {
   weather_stationFactory, fakeStation,
   usersFactory, fakeUser,
@@ -1723,7 +1744,7 @@ module.exports = {
   cropFactory, fakeCrop,
   management_planFactory, fakeManagementPlan,
   crop_management_planFactory, fakeCropManagementPlan,
-  planting_management_planFactory, fakePlantingManagementPlan: fakePlantingManagementPlan,
+  planting_management_planFactory, fakePlantingManagementPlan,
   container_methodFactory, fakeContainerMethod,
   broadcast_methodFactory, fakeBroadcastMethod,
   row_methodFactory, fakeRowMethod,
@@ -1781,4 +1802,5 @@ module.exports = {
   fakeCropVariety,
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
+  fakeOrganicHistory, organic_historyFactory,
 };

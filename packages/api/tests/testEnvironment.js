@@ -97,6 +97,7 @@ async function tableCleanup(knex) {
     DELETE FROM "farm_site_boundary";
     DELETE FROM "surface_water";
     DELETE FROM "natural_area";
+    DELETE FROM "organic_history";
     DELETE FROM "location";
     DELETE FROM "fertilizer";
     DELETE FROM "farmExpense";

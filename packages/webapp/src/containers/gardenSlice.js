@@ -3,6 +3,7 @@ import { areaProperties, figureProperties, locationProperties } from './constant
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
+import { getDateInputFormat } from '../util/moment';
 
 const gardenProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
 export const getLocationObjectFromGarden = (data) => {
@@ -11,7 +12,10 @@ export const getLocationObjectFromGarden = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    garden: pick(data, gardenProperties),
+    garden: {
+      ...pick(data, gardenProperties),
+      organic_history: { effective_date: getDateInputFormat(), organic_status: data.organic_status },
+    },
     ...pick(data, locationProperties),
   };
 };

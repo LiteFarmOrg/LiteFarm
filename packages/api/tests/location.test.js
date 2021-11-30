@@ -285,14 +285,21 @@ describe('Location tests', () => {
     });
 
     function locationData(asset) {
+      const typeMock = assetSpecificMock[asset]();
+      if (['field', 'garden', 'greenhouse'].includes(asset)) {
+        typeMock.organic_history = {
+          organic_status: typeMock.organic_status,
+          effective_date: '2021-01-01',
+        };
+      }
       return {
         ...mocks.fakeLocation(),
         figure: {
           type: asset,
-          [figureMapping[asset]]: assetMock[asset](false)
+          [figureMapping[asset]]: assetMock[asset](false),
         },
-        [asset]: assetSpecificMock[asset]()
-      }
+        [asset]: typeMock,
+      };
     }
 
     describe('Authorization', () => {
@@ -357,6 +364,7 @@ describe('Location tests', () => {
         done();
       })
     });
+
 
     test('should fail to create a barn if I send data for a field as well', (done) => {
       const validData = locationData(locations.BARN);

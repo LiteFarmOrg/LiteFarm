@@ -22,7 +22,10 @@ export default function RenderSurvey() {
         padding: '48px 96px',
       }}
     >
-      <h1 className={styles.title}>{t('SURVEY_STACK.TITLE', { certification, certifier })}</h1>
+      <h1 className={styles.title}>{t('SURVEY_STACK.TITLE', {
+        certification,
+        certifier,
+      })}<br />{t('SURVEY_STACK.SURVEY_ADDENDUM')}</h1>
       <p className={styles.date}>
         {t('SURVEY_STACK.PRODUCED')}: {getCurrentDateLong()}
       </p>

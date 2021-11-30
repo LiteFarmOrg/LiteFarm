@@ -32,10 +32,12 @@
   },
   "RECORD_I": {
     "HEADER": "Record I",
-    "INPUTS": "INPUTS",
-    "CLEANERS": "CLEANERS",
+    "INPUTS_UPPERCASE": "INPUTS",
+    "CLEANERS_UPPERCASE": "CLEANERS",
     "REPORTING_PERIOD": "REPORTING PERIOD",
     "INPUT_CATEGORY": "Input Category",
+    "SOIL_AMENDMENTS": "Soil Amendments",
+    "CLEANERS": "Cleaners",
     "BOTH": "Both",
     "NOTE": {
       "LIST_ALL": "List ALL Inputs used in the last 12 months or since your last submitted Record I.   You may choose to use this document to keep a running record of inputs used throughout the season.",

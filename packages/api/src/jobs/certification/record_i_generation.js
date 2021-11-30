@@ -52,7 +52,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       });
 
       const { t } = i18n;
-      const title = isInputs ? t('RECORD_I.INPUTS') : t('RECORD_I.CLEANERS');
+      const title = isInputs ? t('RECORD_I.INPUTS_UPPERCASE') : t('RECORD_I.CLEANERS_UPPERCASE');
       const RichText = XlsxPopulate.RichText;
       const rowFour = new RichText();
       const rowFive = new RichText();
@@ -74,7 +74,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).cell('E2').value(`${t('RECORD_I.REPORTING_PERIOD')}: `);
       workbook.sheet(0).cell('F2').value(from_date + ' - ' + to_date);
       workbook.sheet(0).cell('A3').value(t('RECORD_I.INPUT_CATEGORY'));
-      workbook.sheet(0).cell('B3').value(t('RECORD_I.BOTH'));
+      workbook.sheet(0).cell('B3').value(isInputs ? t('RECORD_I.SOIL_AMENDMENTS') : t('RECORD_I.CLEANERS'));
       workbook.sheet(0).cell('A4').value(rowFour).style({ wrapText: false });
       workbook.sheet(0).cell('A5').value(rowFive).style({ wrapText: false });
       workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });

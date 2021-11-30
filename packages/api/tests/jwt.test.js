@@ -363,7 +363,7 @@ describe('JWT Tests', () => {
     function fakeGoogleTokenContent() {
       const user = mocks.fakeUser();
       return {
-        sub: faker.random.number({min:100000000000000000000, max: 199999999999999999999}).toString(),
+        sub: faker.datatype.number({ min: 100000000000000000000, max: 199999999999999999999 }).toString(),
         email: faker.internet.email(user.first_name, user.last_name, 'gmail.com').toLowerCase(),
       };
     }

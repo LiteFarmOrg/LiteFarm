@@ -1279,7 +1279,7 @@ describe('Task tests', () => {
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       const abandonTaskBodyWithRating = {
         ...abandonTaskBody,
-        happiness: faker.random.number({ min: 1, max: 5 }),
+        happiness: faker.datatype.number({ min: 1, max: 5 }),
       };
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithRating, task.task_id, async (err, res) => {
         expect(res.status).toBe(406);
@@ -1295,7 +1295,7 @@ describe('Task tests', () => {
       await mocks.location_tasksFactory({ promisedTask: [task], promisedField: [location] });
       const abandonTaskBodyWithDuration = {
         ...abandonTaskBody,
-        duration: faker.random.number(1000),
+        duration: faker.datatype.number(1000),
       };
       abandonTaskRequest({ user_id, farm_id }, abandonTaskBodyWithDuration, task.task_id, async (err, res) => {
         expect(res.status).toBe(406);

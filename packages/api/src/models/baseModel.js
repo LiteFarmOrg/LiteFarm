@@ -66,26 +66,6 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     });
   }
 
-  static baseRelationMappings(mainTable) {
-    return ({
-      createdByUser: {
-        modelClass: require('./userModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: `${mainTable}.created_by_user_id`,
-          to: 'users.user_id',
-        },
-      },
-      updatedByUser: {
-        modelClass: require('./userModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: `${mainTable}.updated_by_user_id`,
-          to: 'users.user_id',
-        },
-      },
-    });
-  }
 }
 
 

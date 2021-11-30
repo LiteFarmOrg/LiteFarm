@@ -7,17 +7,17 @@ exports.up = async function (knex) {
     t.uuid('location_id')
       .references('location_id')
       .inTable('location').notNullable();
-    t.enu('to_state', ['Non-Organic', 'Transitional', 'Organic']).defaultTo('Non-Organic');
-    t.dateTime('effective_date').notNullable().defaultTo(knex.fn.now());
-    t.boolean('deleted').defaultTo(false);
+    t.enu('organic_status', ['Non-Organic', 'Transitional', 'Organic']).defaultTo('Non-Organic');
+    t.date('effective_date').notNullable();
+    t.boolean('deleted').notNullable().defaultTo(false);
     t.string('created_by_user_id').references('user_id').inTable('users');
     t.string('updated_by_user_id').references('user_id').inTable('users');
     t.dateTime('created_at').notNullable();
     t.dateTime('updated_at').notNullable();
   });
 
-  const query = `insert into organic_history (location_id, to_state, effective_date, created_at, updated_at)
-    select location_id, organic_status, '2000-01-01', NOW(), NOW() from`;
+  const query = `insert into organic_history (location_id, organic_status, effective_date, created_at, updated_at, created_by_user_id, updated_by_user_id)
+    select location_id, organic_status, '2000-01-01', NOW(), NOW(), '1', '1' from`;
 
   for (const table of ['field', 'garden', 'greenhouse']) {
     await knex.raw(`${query} ${table};`);

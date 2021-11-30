@@ -22,6 +22,11 @@ const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const { modelMapping } = require('../middleware/validation/location');
 const validateLocationDependency = require('../middleware/validation/deleteLocation');
 const organicHistoryController = require('../controllers/organicHistoryController');
+const {
+  organicHistoryLocationCheck,
+  organicHistoryCheckOnPut,
+  organicHistoryCheckOnPost,
+} = require('../middleware/validation/organicHistoryLocationCheck');
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:fields']),
   getLocationsByFarm());
@@ -64,29 +69,29 @@ router.post('/natural_area', hasFarmAccess({ body: 'farm_id' }), checkScope(['ad
   modelMapping['natural_area'], createLocation('natural_area'));
 
 router.post('/greenhouse', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:greenhouse']),
-  modelMapping['greenhouse'], createLocation('greenhouse'));
+  modelMapping['greenhouse'], organicHistoryCheckOnPost, createLocation('greenhouse'));
 
 router.post('/barn', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:barn']),
   modelMapping['barn'], createLocation('barn'));
 
 router.post('/field', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']),
-  modelMapping['field'], createLocation('field'));
+  modelMapping['field'], organicHistoryCheckOnPost, createLocation('field'));
 
 router.post('/garden', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:garden']),
-  modelMapping['garden'], createLocation('garden'));
+  modelMapping['garden'], organicHistoryCheckOnPost, createLocation('garden'));
 
 router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
 
-router.post('/:location_id/organic_history', hasFarmAccess({ params: 'location_id' }), checkScope(['add:organic_history']),
-  organicHistoryController.addEntry);
 
+router.post('/organic_history', hasFarmAccess({ body: 'location_id' }), checkScope(['add:organic_history']),
+  organicHistoryLocationCheck, organicHistoryController.addOrganicHistory());
 
 router.put('/field/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fields']),
-  modelMapping['field'], updateLocation('field'));
+  modelMapping['field'], organicHistoryCheckOnPut, updateLocation('field'));
 
 router.put('/garden/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:garden']),
-  modelMapping['garden'], updateLocation('garden'));
+  modelMapping['garden'], organicHistoryCheckOnPut, updateLocation('garden'));
 
 router.put('/barn/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:barn']),
   modelMapping['barn'], updateLocation('barn'));
@@ -119,7 +124,7 @@ router.put('/natural_area/:location_id', hasFarmAccess({ params: 'location_id' }
   modelMapping['natural_area'], updateLocation('natural_area'));
 
 router.put('/greenhouse/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:greenhouse']),
-  modelMapping['greenhouse'], updateLocation('greenhouse'));
+  modelMapping['greenhouse'], organicHistoryCheckOnPut, updateLocation('greenhouse'));
 
 router.put('/farm_site_boundary/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:farm_site_boundary']),
   modelMapping['farm_site_boundary'], updateLocation('farm_site_boundary'));

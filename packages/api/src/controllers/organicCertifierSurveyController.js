@@ -206,7 +206,12 @@ const organicCertifierSurveyController = {
 
   async recordICropsQuery(to_date, from_date, farm_id) {
     const soilTasks = await knex.raw(`
-        SELECT p.name, p.supplier, sat.product_quantity, t.completed_time as date_used, t.task_id,
+        SELECT p.name, p.supplier, sat.product_quantity,
+        CASE WHEN t.completed_time is null
+          THEN t.due_date
+          ELSE t.completed_time
+          END as date_used,
+        t.task_id,
         p.on_permitted_substances_list
         FROM task t 
         JOIN soil_amendment_task sat ON sat.task_id = t.task_id
@@ -240,7 +245,12 @@ const organicCertifierSurveyController = {
 
   async recordICleanersQuery(to_date, from_date, farm_id) {
     const cleaningTask = await knex.raw(`
-        SELECT p.name, p.supplier, ct.product_quantity, t.completed_time as date_used, t.task_id, 
+        SELECT p.name, p.supplier, ct.product_quantity,
+        CASE WHEN t.completed_time is null
+          THEN t.due_date
+          ELSE t.completed_time
+          END as date_used,
+        t.task_id, 
         p.on_permitted_substances_list
         FROM task t 
         JOIN cleaning_task ct ON ct.task_id = t.task_id

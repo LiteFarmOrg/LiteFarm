@@ -195,8 +195,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Il semble que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à :",
-    "EMAIL": "MISSING",
-    "EMAIL_ERROR": "MISSING",
     "EXPORT": "MISSING",
     "EXPORT_DOCS": "Exporter les documents de certification",
     "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous vous les enverrons à :",
@@ -208,8 +206,10 @@
     "ORGANIC_CERTIFICATION_FROM": "Certification biologique de",
     "SELECT_REPORTING_PERIOD": "Sélectionnez votre période de rapport",
     "UH_OH": "Oups !",
-    "WHERE_TO_SEND_DOCS": "MISSING",
-    "WOULD_LIKE_ANSWERS": "Votre certificateur aimerait que vous répondiez à quelques questions supplémentaires avant que nous puissions exporter vos documents."
+    "WOULD_LIKE_ANSWERS": "Votre certificateur aimerait que vous répondiez à quelques questions supplémentaires avant que nous puissions exporter vos documents.",
+    "EMAIL": "MISSING",
+    "EMAIL_ERROR": "MISSING",
+    "WHERE_TO_SEND_DOCS": "MISSING"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Ajouter une nouvelle ferme",
@@ -250,7 +250,6 @@
     "CROP_CATALOGUE": "Catalogue des cultures",
     "CROP_GROUP": "Recadrer le groupe",
     "CROP_GROUP_TOOL_TIP": "La sélection d’un groupe de cultures permet à LiteFarm de précompléter de nombreuses informations sur cette culture, telles que la saison de croissance, les valeurs nutritionnelles et le rendement estimé. Ne vous inquiétez pas: vous pouvez modifier ces valeurs ci-dessous une fois que vous avez sélectionné un groupe de cultures.",
-    "CROP_STATUS": "MISSING",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Document des informations nécessaires pour la production biologique",
     "FILTER": {
       "LOCATION": "MISSING",
@@ -264,6 +263,7 @@
     "NO_RESULTS_FOUND": "Aucun résultat trouvé. Veuillez modifier vos filtres.",
     "ON_YOUR_FARM": "Sur votre ferme",
     "SELECT_A_CROP": "Sélectionnez une culture pour l'ajouter à votre ferme. Utilisez la recherche et les filtres pour trouver les récoltes plus rapidement.",
+    "CROP_STATUS": "MISSING",
     "FILTER_TITLE": "Recadrer le filtre du catalogue"
   },
   "CROP_DETAIL": {
@@ -274,6 +274,7 @@
     "DETAIL_TAB": "Détails",
     "EDIT_CROP_DETAIL": "Modifier les détails de la culture",
     "GENETICALLY_ENGINEERED": "Cette culture est-elle génétiquement modifiée ?",
+    "HS_CODE": "MISSING",
     "MANAGEMENT_PLANS": "Plans de gestion",
     "MANAGEMENT_TAB": "Gestion",
     "ORGANIC": "MISSING",
@@ -302,7 +303,6 @@
     "SUPPLIER": "MISSING"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "MISSING",
     "ADD_CROP": "Ajouter un recadrage",
     "ADD_IMAGE": "Ajouter une image personnalisée",
     "ANNUAL": "MISSING",
@@ -322,6 +322,7 @@
     "PERFORM_SEARCH": "Avez-vous effectué une recherche de disponibilité commerciale ?",
     "PHYSIOLOGY_AND_ANATOMY": "Physiologie et anatomie",
     "TREATED": "MISSING",
+    "ADD_COMPLIANCE_FILE": "MISSING",
     "UPLOAD_LATER": "MISSING"
   },
   "DATE_RANGE_PICKER": {
@@ -962,12 +963,6 @@
     "SELECTED_STARTING_LOCATION": "Sélectionnez toujours ceci comme emplacement de départ pour les cultures qui seront transplantées",
     "SPOTLIGHT_HERE_YOU_CAN": "Ici, vous pouvez :",
     "STARTED": "Commencé",
-    "STATUS": {
-      "ABANDONED": "Abandonné",
-      "ACTIVE": "Actif",
-      "COMPLETED": "Completé",
-      "PLANNED": "Plannifié"
-    },
     "SUPPLIER": "Fournisseur",
     "TERMINATION": "Termination",
     "TERMINATION_DATE": "Quand voulez vous terminer cette récolte ?",
@@ -992,6 +987,12 @@
     "WHERE_START_LOCATION": "Où est votre position de départ ?",
     "WHERE_TRANSPLANT_LOCATION": "Où allez-vous transplanter?",
     "WILD_CROP": "Récoltez-vous une culture sauvage ?",
+    "STATUS": {
+      "ABANDONED": "Abandonné",
+      "ACTIVE": "Actif",
+      "COMPLETED": "Completé",
+      "PLANNED": "Plannifié"
+    },
     "WHAT_WAS_PLANTING_METHOD_INFO": "Sélectionner la bonne méthode de plantation aidera LiteFarm à estimer plus précisément la quantité de graines nécessaires, le rendement et d'autres informations utiles.",
     "TRANSPLANT_LOCATION": "Où allez-vous transplanter ?"
   },
@@ -1295,6 +1296,11 @@
     "INACTIVE": "Inactif",
     "INVITED": "Invité"
   },
+  "SURVEY_STACK": {
+    "PRODUCED": "MISSING",
+    "SURVEY_ADDENDUM": "MISSING",
+    "TITLE": "MISSING"
+  },
   "SWITCH_OUTRO": {
     "BUTTON": "Allons-y !",
     "DESCRIPTION_BOTTOM": "Dirigions vers: ",
@@ -1372,20 +1378,20 @@
     "SELECT_DATE": "Sélectionnez la date de la tâche",
     "SELECT_TASK_LOCATIONS": "Sélectionnez le(s) emplacement(s) de la tâche",
     "SELECT_WILD_CROP": "MISSING",
-    "STATUS": {
-      "ABANDONED": "Abandonné",
-      "COMPLETED": "Terminé",
-      "FOR_REVIEW": "Pour évaluer",
-      "LATE": "Tard",
-      "PLANNED": "Planifié"
-    },
     "TASK": "tâche",
     "TASKS_COUNT": "{{count}} tâche",
     "TASKS_COUNT_plural": "{{count}} tâches",
     "TODO": "À faire",
     "TRANSPLANT": "MISSING",
     "TRANSPLANT_LOCATIONS": "Sélectionnez un lieu de transplantation",
-    "UNASSIGNED": "Non affecté"
+    "UNASSIGNED": "Non affecté",
+    "STATUS": {
+      "ABANDONED": "Abandonné",
+      "COMPLETED": "Terminé",
+      "FOR_REVIEW": "Pour évaluer",
+      "LATE": "Tard",
+      "PLANNED": "Planifié"
+    }
   },
   "UNIT": {
     "TIME": {

@@ -9,6 +9,7 @@ export default function RenderSurvey() {
   const certification = data?.certification
     ? t(`certifications:${data?.certification.certification_translation_key}`)
     : organicCertifierSurvey?.requested_certification;
+  console.log(certification, data, data?.certification?.certification_translation_key);
   const certifier = data?.certifier
     ? data?.certifier.certifier_name
     : organicCertifierSurvey?.requested_certifier;
@@ -22,7 +23,10 @@ export default function RenderSurvey() {
         padding: '48px 96px',
       }}
     >
-      <h1 className={styles.title}>{t('SURVEY_STACK.TITLE', { certification, certifier })}</h1>
+      <h1 className={styles.title}>{t('SURVEY_STACK.TITLE', {
+        certification,
+        certifier,
+      })}<br />{t('SURVEY_STACK.SURVEY_ADDENDUM')}</h1>
       <p className={styles.date}>
         {t('SURVEY_STACK.PRODUCED')}: {getCurrentDateLong()}
       </p>

@@ -23,7 +23,6 @@ const { modelMapping } = require('../middleware/validation/location');
 const validateLocationDependency = require('../middleware/validation/deleteLocation');
 const organicHistoryController = require('../controllers/organicHistoryController');
 const {
-  organicHistoryLocationCheckOnGet,
   organicHistoryLocationCheckOnPost,
   organicHistoryCheckOnPut,
   organicHistoryCheckOnPost,
@@ -42,7 +41,7 @@ router.get('/check_delete/:location_id', hasFarmAccess({ params: 'location_id' }
   checkDeleteLocation())
 
 router.get('/:location_id/organic_history', hasFarmAccess({ param: 'location_id' }), checkScope(['get:organic_history']),
-  organicHistoryLocationCheckOnGet, organicHistoryController.getOrganicHistory);
+  organicHistoryController.getOrganicHistory);
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],

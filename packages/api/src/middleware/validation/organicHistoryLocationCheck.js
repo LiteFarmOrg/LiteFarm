@@ -4,14 +4,6 @@ const organicHistoryLocations = [
   'field', 'garden', 'greenhouse',
 ];
 
-async function organicHistoryLocationCheckOnGet(req, res, next) {
-  const location = await locationModel.query().join('figure', 'figure.location_id', 'location.location_id')
-    .where('location.location_id', req.params.location_id)
-    .whereIn('type', organicHistoryLocations);
-  if (!location.length) return res.status(400).send('Location must be crop enabled.');
-  return next();
-}
-
 async function organicHistoryLocationCheckOnPost(req, res, next) {
   const location = await locationModel.query().join('figure', 'figure.location_id', 'location.location_id')
     .where('location.location_id', req.body.location_id)
@@ -47,4 +39,4 @@ async function organicHistoryCheckOnPost(req, res, next) {
   return next();
 }
 
-module.exports = { organicHistoryLocationCheckOnGet, organicHistoryLocationCheckOnPost, organicHistoryCheckOnPut, organicHistoryCheckOnPost };
+module.exports = { organicHistoryLocationCheckOnPost, organicHistoryCheckOnPut, organicHistoryCheckOnPost };

@@ -31,8 +31,8 @@ module.exports = {
 
   async getOrganicHistory(req, res) {
     try {
-      const result = await organicHistoryModel.query().where({ location_id: req.params.location_id });
-      return res.status(200).send(result);
+      const result = await organicHistoryModel.query().whereNotDeleted().where({ location_id: req.params.location_id });
+      return result?.length ? res.status(200).send(result) : res.status(404).send('Organic history not found');
     } catch (error) {
       return res.status(400).json({ error });
     }

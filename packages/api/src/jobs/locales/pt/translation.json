@@ -89,7 +89,7 @@
     "TABLE_COLUMN": {
       "PRODUCT_NAME": "Nome do Produto",
       "SUPPLIER": "Nome da marca, fonte ou fornecedor",
-      "QUANTITY": "Quantidade (kg)",
+      "QUANTITY": "Quantidade ({{unit}})",
       "DATE_USED": "Data de Uso",
       "CROP_FIELD_APPLIED_TO": "Cultivo / Campo / Unidade produtiva de aplicação",
       "NOTES": "Observações",

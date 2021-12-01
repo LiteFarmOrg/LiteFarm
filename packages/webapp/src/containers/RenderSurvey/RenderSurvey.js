@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { getCurrentDateLong } from '../../util/moment';
 
 export default function RenderSurvey() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['certifications', 'translation']);
   const data = window?.data;
   const organicCertifierSurvey = data?.organicCertifierSurvey;
   const certification = data?.certification
@@ -22,10 +22,14 @@ export default function RenderSurvey() {
         padding: '48px 96px',
       }}
     >
-      <h1 className={styles.title}>{t('SURVEY_STACK.TITLE', {
-        certification,
-        certifier,
-      })}<br />{t('SURVEY_STACK.SURVEY_ADDENDUM')}</h1>
+      <h1 className={styles.title}>
+        {t('SURVEY_STACK.TITLE', {
+          certification,
+          certifier,
+        })}
+        <br />
+        {t('SURVEY_STACK.SURVEY_ADDENDUM')}
+      </h1>
       <p className={styles.date}>
         {t('SURVEY_STACK.PRODUCED')}: {getCurrentDateLong()}
       </p>
@@ -36,5 +40,7 @@ export default function RenderSurvey() {
         </div>
       ))}
     </div>
-  ) : <></>;
+  ) : (
+    <></>
+  );
 }

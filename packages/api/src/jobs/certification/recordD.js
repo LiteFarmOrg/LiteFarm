@@ -19,9 +19,9 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
   } = job.data;
   return i18n.changeLanguage(language_preference).then(() => Promise.all([
     recordDGenerator(recordD, exportId, from_date, to_date, farm_name),
-    recordIGeneration(recordICrops, exportId, from_date, to_date, farm_name, true),
+    recordIGeneration(recordICrops, exportId, from_date, to_date, farm_name, measurement, true),
     recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
-    recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name),
+    recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name, measurement),
   ])).then(() => {
     if (job.data.submission) {
       return Promise.resolve(nextQueue.add(job.data, { removeOnComplete: true }));

@@ -289,11 +289,11 @@ const organicCertifierSurveyController = {
         },
       })
       .where('crop_variety.farm_id', farm_id)
-      .where('management_plan.start_date', '<=', to_date)
       .where(builder => builder.where(builder => builder.whereNull('management_plan.complete_date').whereNull('management_plan.abandon_date'))
         .orWhere(builder => builder.where('management_plan.complete_date', '>', from_date)
           .orWhere('management_plan.abandon_date', '>', from_date)),
       );
+
     const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
       const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
       for (const plantingManagementPlan of plantingManagementPlans) {
@@ -309,8 +309,10 @@ const organicCertifierSurveyController = {
 
       !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
         if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
-          const plantTaskCompleteTime = new Date(plantingManagementPlan.plant_task.task.completed_time).getTime();
-          if (fromDateTime < plantTaskCompleteTime && plantTaskCompleteTime < toDateTime) {
+          const completed_time = plantingManagementPlan.plant_task.task.completed_time;
+          const abandoned_time = plantingManagementPlan.plant_task.task.abandoned_time;
+          const plantTaskCompleteTime = new Date(completed_time).getTime();
+          if (!(abandoned_time || (completed_time && plantTaskCompleteTime < fromDateTime))) {
             locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
           }
           return true;
@@ -323,7 +325,6 @@ const organicCertifierSurveyController = {
 
       return locationIdCropMap;
     }, {});
-
     const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
       .where({ farm_id })
       .withGraphJoined(`[

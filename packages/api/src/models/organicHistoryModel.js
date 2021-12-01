@@ -41,6 +41,15 @@ class OrganicHistory extends baseModel {
       additionalProperties: false,
     };
   }
+
+  static get modifiers() {
+    return {
+      orderByEffectiveDate(builder) {
+        builder.orderBy('effective_date');
+      },
+    };
+  }
+
 }
 
 module.exports = OrganicHistory;

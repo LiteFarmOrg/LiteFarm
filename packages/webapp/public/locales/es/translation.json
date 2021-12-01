@@ -195,8 +195,6 @@
   },
   "CERTIFICATIONS": {
     "COULD_NOT_CONTACT_CERTIFIER": "Parece que LiteFarm no exporta actualmente en el formato de su certificador. Aún puede exportar sus documentos, pero su certificador puede requerir información adicional. Se los enviaremos a:",
-    "EMAIL": "Correo electrónico",
-    "EMAIL_ERROR": "Se requiere un correo válido",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos de certificación",
     "FILES_ARE_READY": "Sus archivos de certificación ahora están listos para exportar. Se los enviaremos a:",
@@ -208,8 +206,10 @@
     "ORGANIC_CERTIFICATION_FROM": "Certificación orgánica de",
     "SELECT_REPORTING_PERIOD": "Seleccione su período de informe",
     "UH_OH": "¡Oh, no!",
-    "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?",
-    "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos."
+    "WOULD_LIKE_ANSWERS": "Su certificador desea que responda algunas preguntas adicionales antes de que podamos exportar sus documentos.",
+    "EMAIL": "Correo electrónico",
+    "EMAIL_ERROR": "Se requiere un correo válido",
+    "WHERE_TO_SEND_DOCS": "¿Dónde quiere que se envíen sus documentos?"
   },
   "CHOOSE_FARM": {
     "ADD_NEW": "Agregar otra finca",
@@ -250,7 +250,6 @@
     "CROP_CATALOGUE": "Catálogo de cultivos",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "La selección de un grupo de cultivos permite que LiteFarm rellene previamente mucha información sobre este cultivo, como la temporada de crecimiento, los valores nutricionales y el rendimiento estimado. No se preocupe, puede cambiar estos valores a continuación una vez que haya seleccionado un grupo de cultivos.",
-    "CROP_STATUS": "Estatus del cultivo activo",
     "DOCUMENT_NECESSARY_INFO_FOR_ORGANIC_PRODUCTION": "Documentar la información necesaria para la producción orgánica",
     "FILTER": {
       "LOCATION": "Ubicación",
@@ -264,6 +263,7 @@
     "NO_RESULTS_FOUND": "No se han encontrado resultados. Por favor, cambie sus filtros.",
     "ON_YOUR_FARM": "En tu granja",
     "SELECT_A_CROP": "Seleccione un cultivo para agregarlo a su granja. Utilice la búsqueda y los filtros para encontrar cultivos más rápidamente.",
+    "CROP_STATUS": "Estatus del cultivo activo",
     "FILTER_TITLE": "Filtro de catálogo de cultivos "
   },
   "CROP_DETAIL": {
@@ -274,6 +274,7 @@
     "DETAIL_TAB": "Detalles",
     "EDIT_CROP_DETAIL": "Editar los detalles del cultivo",
     "GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
+    "HS_CODE": "MISSING",
     "MANAGEMENT_PLANS": "Planes de manejo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "Orgánico",
@@ -301,7 +302,6 @@
     "SUPPLIER": "Proveedor/a"
   },
   "CROP": {
-    "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
     "ADD_CROP": "Agregar un cultivo",
     "ADD_IMAGE": "Agregar imagen personalizada",
     "ANNUAL": "Anual",
@@ -321,6 +321,7 @@
     "PERFORM_SEARCH": "¿Realizó una búsqueda de disponibilidad comercial?",
     "PHYSIOLOGY_AND_ANATOMY": "Fisiología y anatomía",
     "TREATED": "¿Se han tratado las semillas de este cultivo?",
+    "ADD_COMPLIANCE_FILE": "Enlace a un archivo de cumplimiento",
     "UPLOAD_LATER": "También puede cargar archivos en otro momento."
   },
   "DATE_RANGE_PICKER": {
@@ -961,12 +962,6 @@
     "SELECTED_STARTING_LOCATION": "Seleccione siempre esta como la ubicación de inicio para los cultivos que se trasplantarán",
     "SPOTLIGHT_HERE_YOU_CAN": "Aqui une puede:",
     "STARTED": "Empecemos",
-    "STATUS": {
-      "ABANDONED": "Abandonado",
-      "ACTIVE": "Activo",
-      "COMPLETED": "Terminado",
-      "PLANNED": "Planificado"
-    },
     "SUPPLIER": "Proveedor",
     "TERMINATION": "Terminar",
     "TERMINATION_DATE": "¿Cuándo terminará este cultivo?",
@@ -991,6 +986,12 @@
     "WHERE_START_LOCATION": "¿Dónde está tu ubicación inicial?",
     "WHERE_TRANSPLANT_LOCATION": "¿A dónde va a trasplantar?",
     "WILD_CROP": "¿Estás cosechando un cultivo silvestre?",
+    "STATUS": {
+      "ABANDONED": "Abandonado",
+      "ACTIVE": "Activo",
+      "COMPLETED": "Terminado",
+      "PLANNED": "Planificado"
+    },
     "WHAT_WAS_PLANTING_METHOD_INFO": "Seleccionar el método de siembra correcto ayudará a LiteFarm a estimar con mayor precisión la cantidad de semilla necesaria, el rendimiento y otros conocimientos útiles.",
     "TRANSPLANT_LOCATION": "¿A dónde vas a trasplantar?"
   },
@@ -1294,6 +1295,11 @@
     "INACTIVE": "Inactivo",
     "INVITED": "Invitado"
   },
+  "SURVEY_STACK": {
+    "PRODUCED": "MISSING",
+    "SURVEY_ADDENDUM": "MISSING",
+    "TITLE": "MISSING"
+  },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos!",
     "DESCRIPTION_BOTTOM": "Yendo a: ",
@@ -1371,20 +1377,20 @@
     "SELECT_DATE": "Seleccione la fecha de la tarea",
     "SELECT_TASK_LOCATIONS": "Seleccione la (s) ubicación (es) de la tarea",
     "SELECT_WILD_CROP": "Esta tarea se dirige a un cultivo silvestre",
-    "STATUS": {
-      "ABANDONED": "Abandonada",
-      "COMPLETED": "Completada",
-      "FOR_REVIEW": "Para la revisión",
-      "LATE": "Tarde",
-      "PLANNED": "Planificada"
-    },
     "TASK": "tarea",
     "TASKS_COUNT": "{{count}} tarea",
     "TASKS_COUNT_plural": "{{count}} tareas",
     "TODO": "Para hacer",
     "TRANSPLANT": "Trasplantar",
     "TRANSPLANT_LOCATIONS": "Seleccione una ubicación para el trasplante",
-    "UNASSIGNED": "Sin asignar"
+    "UNASSIGNED": "Sin asignar",
+    "STATUS": {
+      "ABANDONED": "Abandonada",
+      "COMPLETED": "Completada",
+      "FOR_REVIEW": "Para la revisión",
+      "LATE": "Tarde",
+      "PLANNED": "Planificada"
+    }
   },
   "UNIT": {
     "TIME": {

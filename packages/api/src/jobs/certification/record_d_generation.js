@@ -1,6 +1,6 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
-const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
+const boolToStringTransformation = (bool) => bool ? i18n.t('Y') : bool !== null ? i18n.t('N') : i18n.t('N/A');
 const treatmentDocTransformation = (str) => str.substr(0, 1);
 const dataToCellMapping = {
   crop_variety: 'A',
@@ -12,7 +12,7 @@ const dataToCellMapping = {
   genetically_engineered: 'H',
 }
 
-const treatedTransformationMap = { YES: 'YES', NOT_SURE: 'NOT SURE', NO: 'N/A' };
+const treatedTransformationMap = { YES: i18n.t('YES'), NOT_SURE: i18n.t('NOT_SURE'), NO: i18n.t('N/A') };
 const dataTransformsMapping = {
   organic: boolToStringTransformation,
   searched: boolToStringTransformation,
@@ -21,7 +21,7 @@ const dataTransformsMapping = {
   genetically_engineered: boolToStringTransformation,
 }
 
-module.exports = (data, farm_id, from_date, to_date, farm_name) => {
+module.exports = (data, exportId, from_date, to_date, farm_name) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
@@ -123,7 +123,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
           workbook.sheet(0).cell(cell).value(value);
         });
       });
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordD.xlsx`);
     })
 }
 

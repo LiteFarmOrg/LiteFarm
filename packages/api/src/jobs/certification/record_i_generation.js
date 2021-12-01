@@ -1,6 +1,5 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
-const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
@@ -14,7 +13,7 @@ const dataTransformsMapping = {
   product_quantity: (quantity) => quantity ? quantity.toFixed(2) : 0,
 }
 
-module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
+module.exports = (data, exportId, from_date, to_date, farm_name, isInputs) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
@@ -52,7 +51,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       });
 
       const { t } = i18n;
-      const title = isInputs ? t('RECORD_I.INPUTS') : t('RECORD_I.CLEANERS');
+      const title = isInputs ? t('RECORD_I.INPUTS_UPPERCASE') : t('RECORD_I.CLEANERS_UPPERCASE');
       const RichText = XlsxPopulate.RichText;
       const rowFour = new RichText();
       const rowFive = new RichText();
@@ -63,7 +62,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       rowFour.add(t('RECORD_I.NOTE.LIST_ALL'), { bold: true })
       rowFive.add(t('RECORD_I.NOTE.PLEASE_USE_SEPARATE_RECORD'), { bold: true })
       rowSix
-        .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')} `, { bold: true })
+        .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')}  `, { bold: true })
         .add(t('RECORD_I.NOTE.ONE.PART_2'))
       rowSeven.add(`2.  ${t('RECORD_I.NOTE.TWO')}`, { bold: true });
       rowEight.add(t('RECORD_I.NOTE.PREP_INPUTS'), { bold: true });
@@ -74,7 +73,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
       workbook.sheet(0).cell('E2').value(`${t('RECORD_I.REPORTING_PERIOD')}: `);
       workbook.sheet(0).cell('F2').value(from_date + ' - ' + to_date);
       workbook.sheet(0).cell('A3').value(t('RECORD_I.INPUT_CATEGORY'));
-      workbook.sheet(0).cell('B3').value(t('RECORD_I.BOTH'));
+      workbook.sheet(0).cell('B3').value(isInputs ? t('RECORD_I.SOIL_AMENDMENTS') : t('RECORD_I.CLEANERS'));
       workbook.sheet(0).cell('A4').value(rowFour).style({ wrapText: false });
       workbook.sheet(0).cell('A5').value(rowFive).style({ wrapText: false });
       workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });
@@ -116,7 +115,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
         row.affected += row.affectedManagementPlans
           .reduce((reducedString, { crop_variety_name, crop_translation_key }, i) =>
             `${reducedString}${i === 0 ? '' : ', '}${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`
-          , `\n${t('RECORD_I.VARIETALS')}: `);
+          , ` | ${t('RECORD_I.VARIETALS')}: `);
         delete row.affectedLocations;
         delete row.affectedManagementPlans;
 
@@ -126,7 +125,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordI-${title}.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordI-${title}.xlsx`);
     })
 }
 

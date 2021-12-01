@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fertilizerController.js) is part of LiteFarm.
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ const farmModel = require('../models/farmModel');
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
+const { v4: uuidv4 } = require('uuid');
 const redisConf = {
   redis: {
     host: process.env.REDIS_HOST,
@@ -156,7 +157,7 @@ const organicCertifierSurveyController = {
       const data = await this.recordIAndDInfo(to_date, from_date, farm_id)
       const extraInfo = { ...data };
       const body = {
-        ...extraInfo, organicCertifierSurvey, certifier, certification,
+        exportId: uuidv4(), ...extraInfo, organicCertifierSurvey, certifier, certification,
         files, farm_id, email, first_name, farm_name, language_preference,
         from_date, to_date, submission: submission_id,
       };

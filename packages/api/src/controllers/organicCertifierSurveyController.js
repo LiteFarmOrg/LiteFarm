@@ -290,10 +290,7 @@ const organicCertifierSurveyController = {
         },
       })
       .where('crop_variety.farm_id', farm_id)
-      .where(builder => builder.where(builder => builder.whereNull('management_plan.complete_date').whereNull('management_plan.abandon_date'))
-        .orWhere(builder => builder.where('management_plan.complete_date', '>', from_date)
-          .orWhere('management_plan.abandon_date', '>', from_date)),
-      );
+      .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ? OR management_plan.abandon_date > ?', [from_date, from_date])
 
     const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
       const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;

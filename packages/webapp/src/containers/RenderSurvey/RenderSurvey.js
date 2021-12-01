@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { getCurrentDateLong } from '../../util/moment';
 
 export default function RenderSurvey() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['certifications', 'translation']);
   const data = window?.data;
   const organicCertifierSurvey = data?.organicCertifierSurvey;
   const certification = data?.certification

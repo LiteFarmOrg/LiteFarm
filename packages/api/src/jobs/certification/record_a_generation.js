@@ -74,7 +74,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       workbook.sheet(0).cell('A2').value(`${t('RECORD_A.OPERATION_NAME')}:`);
       workbook.sheet(0).cell('B2').value(farm_name);
 
-      workbook.sheet(0).cell('K2').value(`${t('RECORD_A.YEAR')}:`);
+      workbook.sheet(0).cell('K2').value(`${t('RECORD_A.REPORTING_PERIOD')}:`);
       workbook.sheet(0).cell('L2').value(getDateRangeText(from_date, to_date));
       workbook.sheet(0).cell('A3').value(t('RECORD_A.PLEASE_VERIFY'));
       workbook.sheet(0).cell('C4').value(t('RECORD_A.SIZE_IN_PREFERRED_UNIT'));

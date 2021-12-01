@@ -1,4 +1,7 @@
 {
+  "N": "N",
+  "N/A": "MISSING",
+  "NOT_SURE": "MISSING",
   "OPERATION_NAME": "NOMBRE DE OPERACIÓN",
   "RECORD_A": {
     "ACRES": "MISSING",
@@ -20,6 +23,7 @@
     "PLEASE_VERIFY": "MISSING",
     "PRODUCTION": "MISSING",
     "REMOVED": "MISSING",
+    "REPORTING_PERIOD": "MISSING",
     "ROW_FT": "MISSING",
     "ROW_M": "MISSING",
     "SIZE_IN_PREFERRED_UNIT": "MISSING",
@@ -27,75 +31,69 @@
     "SQ_FT": "MISSING",
     "SQ_M": "MISSING",
     "TRANSITIONAL": "MISSING",
-    "WHY_REMOVED": "MISSING",
-    "YEAR": "MISSING"
+    "WHY_REMOVED": "MISSING"
   },
-  "YES": "MISSING",
-  "NO": "NO",
-  "NOT_SURE": "MISSING",
-  "Y": "S",
-  "N": "N",
-  "N/A": "MISSING",
   "RECORD_D": {
-    "HEADER": "Registro D- Semilla y Plántula",
     "DATE_COMPLETED": "Fecha de Finalización",
-    "REPORTING_PERIOD": "Período de registro",
     "FROM": "Desde",
-    "TO": "Hasta",
+    "HEADER": "Registro D- Semilla y Plántula",
     "NOTE": {
       "LIST_ALL": "Registre TODAS las semillas y plántulas utilizados durante el período del informe. Tenga en cuenta (Los próximos dos pasos podrían ser innecesarios o diferente dependiente de su proceso de certificación):",
       "ONE": "Asegúrese de que los recibos de compra, etiquetas, rótulos y certificados orgánicos de todas las semillas/plántulas estén disponibles para su revisión durante la inspección.",
       "TWO": {
-        "PART_1": "Cuando se utilizan",
-        "PART_2": "semillas/plántulas no orgánicas",
-        "PART_3": "puede ser que se requiere que la siguiente documentación esté disponible en la inspección",
         "A": "Búsqueda de disponibilidad comercial",
         "B": "Documentación que confirma la condición de no IG",
-        "C": "Documentación que confirme que cualquier tratamiento, como inoculantes o recubrimientos de semillas, cumple con la lista de sustancias permitidas"
+        "C": "Documentación que confirme que cualquier tratamiento, como inoculantes o recubrimientos de semillas, cumple con la lista de sustancias permitidas",
+        "PART_1": "Cuando se utilizan",
+        "PART_2": "semillas/plántulas no orgánicas",
+        "PART_3": "puede ser que se requiere que la siguiente documentación esté disponible en la inspección"
       }
     },
+    "REPORTING_PERIOD": "Período de registro",
     "TABLE_COLUMN": {
-      "SEED_CROP_OR_PLANTING_STOCK": "Cultivo/variedad de semillas o material de plántula",
-      "SUPPLIER": "Fuente / Proveedor",
-      "LOT_NUMBER": "Número de lote (cuando corresponda)",
-      "STATUS_CERTIFIED_ORGANIC": "Estado de la semilla/plántula = orgánico certificado (S / N)",
       "IS_SEARCH_COMPLETED": "Si se trata de semillas / existencias sin CO, ¿se completó una búsqueda (S / N)?",
       "LIST_SEED_TREATMENTS": "Indique los tratamientos de semillas (si corresponde)",
-      "TREATMENT_DOCS_AVAILABLE": "Documentos de tratamiento disponibles (S / N)",
+      "LOT_NUMBER": "Número de lote (cuando corresponda)",
       "NON_GE_DOCS_AVAILABLE": "Documentos que no son de IG disponibles (S / N)",
-      "NOTES": "Notas / Fechas de plantación perenne / etc."
-    }
+      "NOTES": "Notas / Fechas de plantación perenne / etc.",
+      "SEED_CROP_OR_PLANTING_STOCK": "Cultivo/variedad de semillas o material de plántula",
+      "STATUS_CERTIFIED_ORGANIC": "Estado de la semilla/plántula = orgánico certificado (S / N)",
+      "SUPPLIER": "Fuente / Proveedor",
+      "TREATMENT_DOCS_AVAILABLE": "Documentos de tratamiento disponibles (S / N)"
+    },
+    "TO": "Hasta"
   },
   "RECORD_I": {
-    "HEADER": "Registro I",
-    "INPUTS_UPPERCASE": "INSUMOS",
-    "CLEANERS_UPPERCASE": "PRODUCTOS DE LIMPIEZA",
-    "REPORTING_PERIOD": "PERÍODO DE REGISTRO",
-    "INPUT_CATEGORY": "Categoría de insumo",
-    "SOIL_AMENDMENTS": "MISSING",
     "CLEANERS": "Productos de limpieza",
-    "BOTH": "MISSING",
+    "CLEANERS_UPPERCASE": "PRODUCTOS DE LIMPIEZA",
+    "HEADER": "Registro I",
+    "INPUT_CATEGORY": "Categoría de insumo",
+    "INPUTS_UPPERCASE": "INSUMOS",
+    "LOCATIONS": "MISSING",
     "NOTE": {
       "LIST_ALL": "Registre TODOS los insumos utilizados en los últimos 12 meses o desde su último Registro I enviado. Puede utilizar este documento como un registro actualizado de los insumos utilizados durante la temporada.",
-      "PLEASE_USE_SEPARATE_RECORD": "Utilice un registro de producto separado para cada categoría de producto como se describe a continuación y cargue cada uno en la ubicación de carga correspondiente de la Sección 99 - Cargas:",
+      "LIVESTOCK_INPUTS": "Nota: Insumos para el ganado: los piensos, aditivos para piensos y complementos alimenticios, productos para el cuidado de la salud y ayudas a la producción, camas de animales, etc. deben incluirse en el Registro de insumos de LI-Ganadería.",
       "ONE": {
         "PART_1": "Correcciones del suelo, nutrición de cultivos, aditivos y materiales para la producción de cultivos:",
         "PART_2": "por ejemplo, como mantillo, fertilizantes, aerosoles foliares, compost, estiércol, mezclas o componentes de tierra para macetas, turba, correcciones del suelo, etc."
       },
-      "TWO": "Productos de limpieza, desinfectantes, sustancias para el manejo de plagas de las instalaciones.",
+      "PLEASE_USE_SEPARATE_RECORD": "Utilice un registro de producto separado para cada categoría de producto como se describe a continuación y cargue cada uno en la ubicación de carga correspondiente de la Sección 99 - Cargas:",
       "PREP_INPUTS": "Nota: Productos de preparación: Los aditivos alimentarios, otros ingredientes y coadyuvantes de elaboración deben incluirse en el Registro PM - Lista de ingredientes maestros de elaboración y coadyuvantes de elaboración.",
-      "LIVESTOCK_INPUTS": "Nota: Insumos para el ganado: los piensos, aditivos para piensos y complementos alimenticios, productos para el cuidado de la salud y ayudas a la producción, camas de animales, etc. deben incluirse en el Registro de insumos de LI-Ganadería."
+      "TWO": "Productos de limpieza, desinfectantes, sustancias para el manejo de plagas de las instalaciones."
     },
+    "REPORTING_PERIOD": "PERÍODO DE REGISTRO",
+    "SOIL_AMENDMENTS": "MISSING",
     "TABLE_COLUMN": {
-      "PRODUCT_NAME": "Nombre de Producto",
-      "SUPPLIER": "Nombre de marca o fuente / proveedor",
-      "QUANTITY": "Cantidad (kg)",
-      "DATE_USED": "Fecha de uso",
       "CROP_FIELD_APPLIED_TO": "Cultivo/campo aplicado o unidad de producción utilizada en",
+      "DATE_USED": "Fecha de uso",
+      "LISTED_IN_PSL": "¿Listado en el PSL? (S / N)",
       "NOTES": "Notas",
-      "LISTED_IN_PSL": "¿Listado en el PSL? (S / N)"
+      "PRODUCT_NAME": "Nombre de Producto",
+      "QUANTITY": "Cantidad (kg)",
+      "SUPPLIER": "Nombre de marca o fuente / proveedor"
     },
-    "LOCATIONS": "MISSING",
     "VARIETALS": "MISSING"
-  }
+  },
+  "Y": "S",
+  "YES": "MISSING"
 }

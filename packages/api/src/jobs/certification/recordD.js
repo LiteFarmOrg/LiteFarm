@@ -10,7 +10,7 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
     recordA,
     recordICrops,
     recordICleaners,
-    farm_id,
+    exportId,
     from_date,
     to_date,
     farm_name,
@@ -18,10 +18,10 @@ module.exports = (nextQueue, zipQueue, emailQueue) => (job) => {
     language_preference,
   } = job.data;
   return i18n.changeLanguage(language_preference).then(() => Promise.all([
-    recordDGenerator(recordD, farm_id, from_date, to_date, farm_name),
-    recordIGeneration(recordICrops, farm_id, from_date, to_date, farm_name, true),
-    recordAGenerator(recordA, farm_id, from_date, to_date, farm_name, measurement),
-    recordIGeneration(recordICleaners, farm_id, from_date, to_date, farm_name),
+    recordDGenerator(recordD, exportId, from_date, to_date, farm_name),
+    recordIGeneration(recordICrops, exportId, from_date, to_date, farm_name, true),
+    recordAGenerator(recordA, exportId, from_date, to_date, farm_name, measurement),
+    recordIGeneration(recordICleaners, exportId, from_date, to_date, farm_name),
   ])).then(() => {
     if (job.data.submission) {
       return Promise.resolve(nextQueue.add(job.data, { removeOnComplete: true }));

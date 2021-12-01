@@ -1,12 +1,10 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const rp = require('request-promise');
-const { Model } = require('objection');
-const knex = Model.knex();
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
-  const { farm_name, organicCertifierSurvey, certification, certifier } = job.data;
+  const { exportId, organicCertifierSurvey, certification, certifier } = job.data;
   const browser = await puppeteer.launch({ headless: true, ignoreDefaultArgs: ['--disable-extensions'] });
   const submission = await rp({ uri: `${surveyStackURL}/submissions/${job.data.submission}`, json: true });
   const survey = await rp({ uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`, json: true });
@@ -27,7 +25,7 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
     }, data);
     await page.goto(process.env.REPORT_URL, { waitUntil: 'networkidle2' });
     const readablePDF = await page.createPDFStream({ format: 'a4' });
-    const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${farm_name}/Additional survey questions.pdf`);
+    const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${exportId}/Additional survey questions.pdf`);
     readablePDF.pipe(writePDFStream);
     nextQueue.add(job.data);
     setTimeout(() => {

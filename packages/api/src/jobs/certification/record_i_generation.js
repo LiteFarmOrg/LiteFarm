@@ -1,6 +1,5 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
-const boolToStringTransformation = (bool) => bool ? 'Y' : bool !== null ? 'N' : 'N/A';
 const dataToCellMapping = {
   name: 'A',
   supplier: 'B',
@@ -14,7 +13,7 @@ const dataTransformsMapping = {
   product_quantity: (quantity) => quantity ? quantity.toFixed(2) : 0,
 }
 
-module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
+module.exports = (data, exportId, from_date, to_date, farm_name, isInputs) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
@@ -126,7 +125,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name, isInputs) => {
           workbook.sheet(0).cell(cell).value(value);
         })
       })
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordI-${title}.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordI-${title}.xlsx`);
     })
 }
 

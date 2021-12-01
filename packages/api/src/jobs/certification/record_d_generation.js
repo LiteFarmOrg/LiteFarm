@@ -21,7 +21,7 @@ const dataTransformsMapping = {
   genetically_engineered: boolToStringTransformation,
 }
 
-module.exports = (data, farm_id, from_date, to_date, farm_name) => {
+module.exports = (data, exportId, from_date, to_date, farm_name) => {
   return XlsxPopulate.fromBlankAsync()
     .then((workbook) => {
       const defaultStyles = {
@@ -123,7 +123,7 @@ module.exports = (data, farm_id, from_date, to_date, farm_name) => {
           workbook.sheet(0).cell(cell).value(value);
         });
       });
-      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${farm_name}/iCertify-RecordD.xlsx`);
+      return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordD.xlsx`);
     })
 }
 

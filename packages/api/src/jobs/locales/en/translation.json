@@ -89,7 +89,7 @@
     "TABLE_COLUMN": {
       "PRODUCT_NAME": "Product name",
       "SUPPLIER": "Brand Name or Source/Supplier",
-      "QUANTITY": "Quantity (kg)",
+      "QUANTITY": "Quantity ({{unit}})",
       "DATE_USED": "Date Used",
       "CROP_FIELD_APPLIED_TO": "Crop / Field Applied to or Production Unit used in",
       "NOTES": "Notes",

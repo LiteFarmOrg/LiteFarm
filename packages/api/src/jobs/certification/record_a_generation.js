@@ -113,7 +113,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       workbook.sheet(0).column('B').width(28);
       workbook.sheet(0).column('C').width(12);
       workbook.sheet(0).column('D').width(12);
-      workbook.sheet(0).column('E').width(12);
+      workbook.sheet(0).column('E').width(16);
       workbook.sheet(0).column('F').width(8);
       workbook.sheet(0).column('G').width(8);
       workbook.sheet(0).column('H').width(8);

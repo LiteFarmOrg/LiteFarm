@@ -27,10 +27,10 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
     const readablePDF = await page.createPDFStream({ format: 'a4' });
     const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${exportId}/Additional survey questions.pdf`);
     readablePDF.pipe(writePDFStream);
-    nextQueue.add(job.data);
-    setTimeout(() => {
-      return browser.close();
-    }, 1000);
+    readablePDF.on('end', async () => {
+      nextQueue.add(job.data);
+      await browser.close();
+    });
   } catch (e) {
     emailQueue.add({ fail: true });
     return browser.close();

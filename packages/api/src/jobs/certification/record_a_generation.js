@@ -74,12 +74,13 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       workbook.sheet(0).cell('A2').value(`${t('RECORD_A.OPERATION_NAME')}:`);
       workbook.sheet(0).cell('B2').value(farm_name);
 
-      workbook.sheet(0).cell('K2').value(`${t('RECORD_A.YEAR')}:`);
+      workbook.sheet(0).cell('K2').value(`${t('RECORD_A.REPORTING_PERIOD')}:`);
       workbook.sheet(0).cell('L2').value(getDateRangeText(from_date, to_date));
       workbook.sheet(0).cell('A3').value(t('RECORD_A.PLEASE_VERIFY'));
       workbook.sheet(0).cell('C4').value(t('RECORD_A.SIZE_IN_PREFERRED_UNIT'));
       workbook.sheet(0).cell('F4').value(t('RECORD_A.CURRENT_STATUS'));
-      const a5Text = new RichText().add(`${t('RECORD_A.NAME_OR_ID')} `, { bold: true })
+      const a5Text = new RichText().add(`${t('RECORD_A.NAME_OR_ID')}`, { bold: true })
+        .add(' ')
         .add(t('RECORD_A.INDIVIDUAL_PRODUCTION_UNIT'));
       workbook.sheet(0).cell('A5').value(a5Text);
       workbook.sheet(0).cell('B5').value(t('RECORD_A.CROPS_OR_ANIMALS'));
@@ -112,7 +113,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       workbook.sheet(0).column('B').width(28);
       workbook.sheet(0).column('C').width(12);
       workbook.sheet(0).column('D').width(12);
-      workbook.sheet(0).column('E').width(12);
+      workbook.sheet(0).column('E').width(16);
       workbook.sheet(0).column('F').width(8);
       workbook.sheet(0).column('G').width(8);
       workbook.sheet(0).column('H').width(8);
@@ -130,22 +131,23 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
 
       const getArea = (area, measurement) => (area * (measurement === 'imperial' ? 10.76391 : 1));
 
-      data.map((row, index) => {
-        row.crops = row.crops.map(crop_translation_key => t(`crop:${crop_translation_key}`)).join(', ');
-        row.area = row.area ? getArea(row.area, measurement) : null;
-        const rowN = index + 6;
-        Object.keys(row).map((k) => {
-          const cell = `${dataToCellMapping[k]}${rowN}`;
-          const value = row[k];
-          workbook.sheet(0).cell(cell).value(value);
+      data.sort((firstRow, secondRow) => firstRow.name > secondRow.name ? 1 : -1)
+        .map((row, index) => {
+          row.crops = row.crops.map(crop_translation_key => t(`crop:${crop_translation_key}`)).sort().join(', ');
+          row.area = row.area ? getArea(row.area, measurement) : null;
+          const rowN = index + 6;
+          Object.keys(row).map((k) => {
+            const cell = `${dataToCellMapping[k]}${rowN}`;
+            const value = row[k];
+            workbook.sheet(0).cell(cell).value(value);
+          });
         });
-      });
       return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordA.xlsx`);
     });
 };
 
 const getDateRangeText = (from_date, to_date) => {
-  const from = new Date(from_date).getFullYear();
-  const to = new Date(to_date).getFullYear();
-  return from === to ? from : `${from}-${to}`;
+  const from = from_date?.split('T').shift();
+  const to = to_date?.split('T').shift();
+  return from === to ? from : `${from} - ${to}`;
 };

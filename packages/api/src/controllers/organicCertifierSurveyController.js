@@ -358,7 +358,7 @@ const organicCertifierSurveyController = {
         name: location.name,
         crops: Array.from(locationIdCropMap[location.location_id] || []),
         area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
-        isNew: booleanTrueToX(new Date(location.created_at).getTime() > fromDateTime),
+        isNew: '',
         isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
         isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
         isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),

@@ -89,7 +89,7 @@
       "LISTED_IN_PSL": "¿Listado en el PSL? (S / N)",
       "NOTES": "Notas",
       "PRODUCT_NAME": "Nombre de Producto",
-      "QUANTITY": "Cantidad (kg)",
+      "QUANTITY": "Cantidad ({{unit}})",
       "SUPPLIER": "Nombre de marca o fuente / proveedor"
     },
     "VARIETALS": "MISSING"

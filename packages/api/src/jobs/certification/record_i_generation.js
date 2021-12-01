@@ -8,9 +8,12 @@ const dataToCellMapping = {
   affected: 'E',
   on_permitted_substances_list: 'G',
 }
+
+const boolToStringTransformationMap = { YES: i18n.t('Y'), NO: i18n.t('N'), NOT_SURE: i18n.t('N/A') };
 const dataTransformsMapping = {
   date_used: (date) => date ? date.split('T')[0] : '',
   product_quantity: (quantity) => quantity ? quantity.toFixed(2) : 0,
+  on_permitted_substances_list: (bool) => boolToStringTransformationMap[bool],
 }
 
 module.exports = (data, exportId, from_date, to_date, farm_name, isInputs) => {

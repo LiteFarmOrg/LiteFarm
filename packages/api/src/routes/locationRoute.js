@@ -23,7 +23,8 @@ const { modelMapping } = require('../middleware/validation/location');
 const validateLocationDependency = require('../middleware/validation/deleteLocation');
 const organicHistoryController = require('../controllers/organicHistoryController');
 const {
-  organicHistoryLocationCheck,
+  organicHistoryLocationCheckOnGet,
+  organicHistoryLocationCheckOnPost,
   organicHistoryCheckOnPut,
   organicHistoryCheckOnPost,
 } = require('../middleware/validation/organicHistoryLocationCheck');
@@ -39,6 +40,9 @@ router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkSc
 router.get('/check_delete/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
   validateLocationDependency,
   checkDeleteLocation())
+
+router.get('/:location_id/organic_history', hasFarmAccess({ param: 'location_id' }), checkScope(['get:organic_history']),
+  organicHistoryLocationCheckOnGet, organicHistoryController.getOrganicHistory);
 
 router.post('/gate', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gate']),
   modelMapping['gate'],
@@ -83,9 +87,8 @@ router.post('/garden', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:gard
 router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
 
-
 router.post('/organic_history', hasFarmAccess({ body: 'location_id' }), checkScope(['add:organic_history']),
-  organicHistoryLocationCheck, organicHistoryController.addOrganicHistory());
+  organicHistoryLocationCheckOnPost, organicHistoryController.addOrganicHistory());
 
 router.put('/field/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fields']),
   modelMapping['field'], organicHistoryCheckOnPut, updateLocation('field'));

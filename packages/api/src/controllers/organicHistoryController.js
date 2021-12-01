@@ -19,7 +19,7 @@ const organicHistoryModel = require('../models/organicHistoryModel');
 module.exports = {
 
   addOrganicHistory() {
-    return async (req, res, next) => {
+    return async (req, res) => {
       try {
         const result = await organicHistoryModel.query().context(req.user).insert(req.body);
         return res.status(201).send(result);
@@ -27,6 +27,15 @@ module.exports = {
         return res.status(400).json({ error });
       }
     };
+  },
+
+  async getOrganicHistory(req, res) {
+    try {
+      const result = await organicHistoryModel.query().where({ location_id: req.params.location_id });
+      return res.status(200).send(result);
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
   },
 
 };

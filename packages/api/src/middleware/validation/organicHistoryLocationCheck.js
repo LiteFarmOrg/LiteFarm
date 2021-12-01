@@ -18,8 +18,6 @@ async function organicHistoryLocationCheckOnPost(req, res, next) {
     .whereIn('type', organicHistoryLocations);
   if (!location.length) return res.status(400).send('Location must be crop enabled.');
   return next();
-
-
 }
 
 async function organicHistoryCheckOnPut(req, res, next) {
@@ -49,4 +47,4 @@ async function organicHistoryCheckOnPost(req, res, next) {
   return next();
 }
 
-module.exports = { organicHistoryLocationCheck, organicHistoryCheckOnPut, organicHistoryCheckOnPost };
+module.exports = { organicHistoryLocationCheckOnGet, organicHistoryLocationCheckOnPost, organicHistoryCheckOnPut, organicHistoryCheckOnPost };

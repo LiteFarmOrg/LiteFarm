@@ -121,10 +121,12 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
           .reduce((reducedString, { name }, i) =>
             `${reducedString}${i === 0 ? '' : ', '}${name}`
           , `${t('RECORD_I.LOCATIONS')}: `);
-        row.affected += row.affectedManagementPlans
-          .reduce((reducedString, { crop_variety_name, crop_translation_key }, i) =>
-            `${reducedString}${i === 0 ? '' : ', '}${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`
-          , ` | ${t('RECORD_I.VARIETALS')}: `);
+        if (row.affectedManagementPlans.length > 0) {
+          row.affected += row.affectedManagementPlans
+            .reduce((reducedString, { crop_variety_name, crop_translation_key }, i) =>
+              `${reducedString}${i === 0 ? '' : ', '}${crop_variety_name} (${t(`crop:${crop_translation_key}`)})`
+            , ` | ${t('RECORD_I.VARIETALS')}: `);
+        }
         delete row.affectedLocations;
         delete row.affectedManagementPlans;
 

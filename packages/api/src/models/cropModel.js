@@ -199,7 +199,7 @@ class Crop extends BaseModel {
         },
         plant_spacing: { type: ['number', null] },
         seeding_rate: { type: ['number', null] },
-        hs_code_id: { type: ['number', null] },
+        hs_code_id: { type: ['string', null] },
         ...this.baseProperties,
       },
       additionalProperties: false,

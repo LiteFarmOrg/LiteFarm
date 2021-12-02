@@ -19,8 +19,14 @@ export default function ComplianceInfo({
   persistedFormData,
   useHookFormPersist,
   match,
+  crop,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
+  const CERTIFIED_ORGANIC = 'organic';
+  const COMMERCIAL_AVAILABILITY = 'searched';
+  const GENETIC_EGINEERED = 'genetically_engineered';
+  const TREATED = 'treated';
+  const HS_CODE_ID = 'hs_code_id';
   const {
     register,
     handleSubmit,
@@ -31,16 +37,10 @@ export default function ComplianceInfo({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
-    defaultValues: { ...persistedFormData },
+    defaultValues: { [HS_CODE_ID]: crop?.[HS_CODE_ID], ...persistedFormData },
   });
   const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety`];
   useHookFormPersist(getValues, persistedPath);
-
-  const CERTIFIED_ORGANIC = 'organic';
-  const COMMERCIAL_AVAILABILITY = 'searched';
-  const GENETIC_EGINEERED = 'genetically_engineered';
-  const TREATED = 'treated';
-  const HS_CODE_ID = 'hs_code_id';
 
   const organic = watch(CERTIFIED_ORGANIC);
   const disabled = !isValid;
@@ -154,9 +154,7 @@ export default function ComplianceInfo({
       {(organic === true || organic === false) && <Input
         label={t('CROP_DETAIL.HS_CODE')}
         style={{ paddingBottom: '16px', paddingTop: '24px' }}
-        hookFormRegister={register(HS_CODE_ID, {
-          valueAsNumber: true,
-        })}
+        hookFormRegister={register(HS_CODE_ID)}
         type={'number'}
         onKeyDown={integerOnKeyDown}
         max={9999999999}

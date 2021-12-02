@@ -81,7 +81,9 @@ export default function TaskQuickAssignModal({
         style={{ marginBottom: '24px' }}
         isSearchable
       />
+      {/*TODO: properly fix checkbox label overflow ST-272*/}
       <Checkbox
+        style={{ paddingRight: '24px' }}
         label={t('ADD_TASK.ASSIGN_ALL_TO_PERSON')}
         onChange={() => setAssignAll(!assignAll)}
       />

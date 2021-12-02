@@ -56,10 +56,10 @@
       "LIST_SEED_TREATMENTS": "List seed Treatments (If Any)",
       "LOT_NUMBER": "Lot # (where applicable)",
       "NON_GE_DOCS_AVAILABLE": "Non-GE Documents available (Y/N)",
-      "NOTES": "Notes /Perennial planting dates / etc.",
+      "NOTES": "Notes/Perennial planting dates/etc.",
       "SEED_CROP_OR_PLANTING_STOCK": "Seed Crop/Variety or Planting Stock",
       "STATUS_CERTIFIED_ORGANIC": "Seed/Stock Status = Certified Organic (Y/N)",
-      "SUPPLIER": "Source / Supplier",
+      "SUPPLIER": "Source/Supplier",
       "TREATMENT_DOCS_AVAILABLE": "Treatment Documents available (Y/N)"
     },
     "TO": "To"
@@ -85,7 +85,7 @@
     "REPORTING_PERIOD": "REPORTING PERIOD",
     "SOIL_AMENDMENTS": "Soil amendments",
     "TABLE_COLUMN": {
-      "CROP_FIELD_APPLIED_TO": "Crop / Field Applied to or Production Unit used in",
+      "CROP_FIELD_APPLIED_TO": "Crop/Field Applied to or Production Unit used in",
       "DATE_USED": "Date Used",
       "LISTED_IN_PSL": "Listed in the PSL? (Y/N)",
       "NOTES": "Notes",

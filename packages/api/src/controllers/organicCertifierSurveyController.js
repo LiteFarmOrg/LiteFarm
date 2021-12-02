@@ -207,7 +207,7 @@ const organicCertifierSurveyController = {
 
   async recordICropsQuery(to_date, from_date, farm_id) {
     const soilTasks = await knex.raw(`
-        SELECT p.name, p.supplier, sat.product_quantity,
+        SELECT DISTINCT p.name, p.supplier, sat.product_quantity,
         CASE WHEN t.completed_time is null
           THEN t.due_date
           ELSE t.completed_time
@@ -400,6 +400,10 @@ const organicCertifierSurveyController = {
   pestTaskOnCropEnabled(to_date, from_date, farm_id) {
     return knex.raw(`
       SELECT p.name, p.supplier, pct.product_quantity, t.completed_time::date as date_used,
+      CASE WHEN t.completed_time is null
+        THEN t.due_date
+        ELSE t.completed_time
+        END as date_used,
       p.on_permitted_substances_list, t.task_id 
       FROM task t
       JOIN pest_control_task pct ON pct.task_id = t.task_id
@@ -420,7 +424,11 @@ const organicCertifierSurveyController = {
 
   pestTaskOnNonCropEnabled(to_date, from_date, farm_id) {
     return knex.raw(`
-      SELECT p.name, p.supplier, pct.product_quantity, t.completed_time::date as date_used,
+      SELECT p.name, p.supplier, pct.product_quantity,
+      CASE WHEN t.completed_time is null
+        THEN t.due_date
+        ELSE t.completed_time
+        END as date_used,
       p.on_permitted_substances_list, t.task_id 
       FROM task t
       JOIN pest_control_task pct ON pct.task_id = t.task_id

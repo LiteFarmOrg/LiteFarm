@@ -113,7 +113,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name) => {
       workbook.sheet(0).column('B').width(25);
       workbook.sheet(0).column('C').width(15);
       workbook.sheet(0).column('D').width(15);
-      workbook.sheet(0).column('E').width(15);
+      workbook.sheet(0).column('E').width(19);
       workbook.sheet(0).column('F').width(20);
       workbook.sheet(0).column('G').width(15);
       workbook.sheet(0).column('H').width(15);
@@ -123,7 +123,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name) => {
       workbook.sheet(0).row(4).height(23);
       workbook.sheet(0).row(5).height(23);
       workbook.sheet(0).row(6).height(30);
-      workbook.sheet(0).row(10).height(75);
+      workbook.sheet(0).row(10).height(88);
 
       data.map((row, index) => {
         const rowN = index + 11;

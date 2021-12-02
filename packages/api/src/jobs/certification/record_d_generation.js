@@ -1,7 +1,16 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
 const boolToStringTransformation = (bool) => bool ? i18n.t('Y') : bool !== null ? i18n.t('N') : i18n.t('N/A');
-const treatmentDocTransformation = (str) => str.substr(0, 1);
+const treatmentDocTransformation = (str) => {
+  switch (str) {
+  case 'YES':
+    return i18n.t('Y');
+  case 'NO':
+    return i18n.t('N');
+  default:
+    return i18n.t('N/A');
+  }
+};
 const dataToCellMapping = {
   crop_variety: 'A',
   supplier: 'B',
@@ -12,11 +21,18 @@ const dataToCellMapping = {
   genetically_engineered: 'H',
 }
 
-const treatedTransformationMap = { YES: i18n.t('YES'), NOT_SURE: i18n.t('NOT_SURE'), NO: i18n.t('N/A') };
+// the following i18n calls exist for the i18n parser to pick up the strings
+i18n.t('YES');
+i18n.t('NO');
+i18n.t('NOT_SURE');
+const treatedTransformation = (str) => {
+  if (str) return i18n.t(str);
+  else return '';
+};
 const dataTransformsMapping = {
   organic: boolToStringTransformation,
   searched: boolToStringTransformation,
-  treated: (treated) => treatedTransformationMap[treated],
+  treated: treatedTransformation,
   treated_doc: treatmentDocTransformation,
   genetically_engineered: boolToStringTransformation,
 }

@@ -9,11 +9,22 @@ const dataToCellMapping = {
   on_permitted_substances_list: 'G',
 }
 
-const boolToStringTransformationMap = { YES: i18n.t('Y'), NO: i18n.t('N'), NOT_SURE: i18n.t('N/A') };
+const boolToStringTransformation = (str) => {
+  switch (str) {
+  case 'YES':
+    return i18n.t('Y');
+  case 'NO':
+    return i18n.t('N');
+  case 'NOT_SURE':
+    return i18n.t('N/A');
+  default:
+    return '';
+  }
+};
 const dataTransformsMapping = {
   date_used: (date) => date ? date.split('T')[0] : '',
   product_quantity: (quantity, measurement) => quantity ? getQuantity(quantity, measurement) : 0,
-  on_permitted_substances_list: (bool) => boolToStringTransformationMap[bool],
+  on_permitted_substances_list: boolToStringTransformation,
 }
 
 const getQuantity = (quantity, measurement) => (quantity * (measurement === 'imperial' ? 2.20462 : 1)).toFixed(2);

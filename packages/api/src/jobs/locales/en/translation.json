@@ -1,7 +1,8 @@
 {
   "N": "N",
   "N/A": "N/A",
-  "NOT_SURE": "NOT SURE",
+  "NO": "No",
+  "NOT_SURE": "Not sure",
   "OPERATION_NAME": "OPERATION NAME",
   "RECORD_A": {
     "ACRES": "Acres",
@@ -95,5 +96,5 @@
     "VARIETALS": "Varietal(s)"
   },
   "Y": "Y",
-  "YES": "YES"
+  "YES": "Yes"
 }

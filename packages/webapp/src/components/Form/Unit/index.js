@@ -13,6 +13,7 @@ import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import Infoi from '../../Tooltip/Infoi';
 import { Controller, get, useFormState } from 'react-hook-form';
+import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
 
 export const getUnitOptionMap = () => ({
   m2: { label: 'm²', value: 'm2' },
@@ -139,6 +140,7 @@ const Unit = ({
   max = 1000000000,
   toolTipContent,
   onBlur,
+  hasLeaf,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -292,6 +294,7 @@ const Unit = ({
                 {t('common:OPTIONAL')}
               </Label>
             )}
+            {hasLeaf && <Leaf className={styles.leaf} />}
           </Label>
           {toolTipContent && (
             <div className={styles.tooltipIconContainer}>
@@ -427,6 +430,7 @@ Unit.propTypes = {
   to: PropTypes.string,
   required: PropTypes.bool,
   toolTipContent: PropTypes.string,
+  hasLeaf: PropTypes.bool,
 };
 
 export default Unit;

@@ -119,12 +119,12 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       workbook.sheet(0).column('H').width(8);
       workbook.sheet(0).column('I').width(8);
       workbook.sheet(0).column('J').width(10);
-      workbook.sheet(0).column('K').width(8);
-      workbook.sheet(0).column('L').width(20);
+      workbook.sheet(0).column('K').width(12);
+      workbook.sheet(0).column('L').width(24);
 
 
       workbook.sheet(0).row(1).height(30);
-      workbook.sheet(0).row(2).height(24);
+      workbook.sheet(0).row(2).height(28);
       workbook.sheet(0).row(3).height(36);
       workbook.sheet(0).row(4).height(32);
       workbook.sheet(0).row(5).height(144);

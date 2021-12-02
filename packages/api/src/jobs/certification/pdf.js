@@ -4,7 +4,7 @@ const rp = require('request-promise');
 const surveyStackURL = 'https://app.surveystack.io/api/';
 module.exports = (nextQueue, emailQueue) => async (job) => {
   console.log('STEP 3 > PDF');
-  const { exportId, organicCertifierSurvey, certification, certifier } = job.data;
+  const { exportId, organicCertifierSurvey, certification, certifier, language_preference } = job.data;
   const browser = await puppeteer.launch({ headless: true, ignoreDefaultArgs: ['--disable-extensions'] });
   const submission = await rp({ uri: `${surveyStackURL}/submissions/${job.data.submission}`, json: true });
   const survey = await rp({ uri: `${surveyStackURL}/surveys/${submission.meta.survey.id}`, json: true });
@@ -23,7 +23,12 @@ module.exports = (nextQueue, emailQueue) => async (job) => {
     await page.evaluateOnNewDocument((data) => {
       window.data = data;
     }, data);
-    await page.goto(process.env.REPORT_URL, { waitUntil: 'networkidle2' });
+    await page.goto(process.env.REPORT_URL);
+    await page.evaluate((language_preference) => {
+      localStorage.setItem('litefarm_lang', language_preference);
+    }, language_preference);
+    await page.reload({ waitUntil: ['networkidle0', 'domcontentloaded'] });
+
     const readablePDF = await page.createPDFStream({ format: 'a4' });
     const writePDFStream = fs.createWriteStream(`${process.env.EXPORT_WD}/temp/${exportId}/Additional survey questions.pdf`);
     readablePDF.pipe(writePDFStream);

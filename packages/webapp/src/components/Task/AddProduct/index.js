@@ -6,7 +6,7 @@ import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import { pest, soilAmounts, waterUsage } from '../../../util/unit';
 import Unit from '../../Form/Unit';
-import { Label, Main } from '../../Typography';
+import { Main } from '../../Typography';
 import { CANADA } from './constants';
 
 const AddProduct = ({
@@ -123,10 +123,9 @@ const AddProduct = ({
           <div style={{ marginBottom: '34px' }} />
         </>
       )}
-      <Label>
-        {t('ADD_PRODUCT.QUANTITY')} <Leaf style={{ marginLeft: '6px' }} />
-      </Label>
       <Unit
+        label={t('ADD_PRODUCT.QUANTITY')}
+        hasLeaf
         style={{ marginBottom: '40px' }}
         register={register}
         name={PRODUCT_QUANTITY}

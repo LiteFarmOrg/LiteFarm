@@ -23,11 +23,11 @@ const boolToStringTransformation = (str) => {
 };
 const dataTransformsMapping = {
   date_used: (date) => date ? date.split('T')[0] : '',
-  product_quantity: (quantity, measurement) => quantity ? getQuantity(quantity, measurement) : 0,
+  product_quantity: (quantity, measurement, isInputs) => quantity ? getQuantity(quantity, measurement, isInputs) : 0,
   on_permitted_substances_list: boolToStringTransformation,
-}
-
-const getQuantity = (quantity, measurement) => (quantity * (measurement === 'imperial' ? 2.20462 : 1)).toFixed(2);
+};
+//TODO: fix unit after cleaning task unit is fixed
+const getQuantity = (quantity, measurement, isInputs) => (quantity * (measurement === 'imperial' ? (isInputs ? 2.20462 : 0.264172) : 1)).toFixed(2);
 
 module.exports = (data, exportId, from_date, to_date, farm_name, measurement, isInputs) => {
   return XlsxPopulate.fromBlankAsync()
@@ -99,9 +99,10 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       workbook.sheet(0).cell('A10').value(t('RECORD_I.TABLE_COLUMN.PRODUCT_NAME'));
       workbook.sheet(0).cell('B10').value(t('RECORD_I.TABLE_COLUMN.SUPPLIER'));
       workbook.sheet(0).cell('C10').value(t('RECORD_I.TABLE_COLUMN.QUANTITY', {
-        unit: measurement === 'metric' ?
-          'kg' :
-          'lb',
+        unit: (() => {
+          if (isInputs) return measurement === 'metric' ? 'kg' : 'lb';
+          return measurement === 'metric' ? 'l' : 'gal';
+        })(),
       }));
       workbook.sheet(0).cell('D10').value(t('RECORD_I.TABLE_COLUMN.DATE_USED'));
       workbook.sheet(0).cell('E10').value(t('RECORD_I.TABLE_COLUMN.CROP_FIELD_APPLIED_TO'));
@@ -143,7 +144,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
 
         Object.keys(row).filter(k => k !== 'task_id').map((k) => {
           const cell = `${dataToCellMapping[k]}${rowN}`;
-          const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k], measurement) : row[k];
+          const value = dataTransformsMapping[k] ? dataTransformsMapping[k](row[k], measurement, isInputs) : row[k];
           workbook.sheet(0).cell(cell).value(value);
         })
       })

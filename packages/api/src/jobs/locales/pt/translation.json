@@ -1,8 +1,8 @@
 {
   "N": "N",
-  "N/A": "MISSING",
-  "NO": "MISSING",
-  "NOT_SURE": "MISSING",
+  "N/A": "N/A",
+  "NO": "Não",
+  "NOT_SURE": "Não tenho certeza",
   "OPERATION_NAME": "NOME DA OPERAÇÃO",
   "RECORD_A": {
     "ACRES": "MISSING",
@@ -56,10 +56,10 @@
       "LIST_SEED_TREATMENTS": "Listar tratamento de sementes (caso exista)",
       "LOT_NUMBER": "Número do Lote (quando aplicável)",
       "NON_GE_DOCS_AVAILABLE": "Documentos que comprovem que não são OGMs (S/N)",
-      "NOTES": "Observações / Datas do plantio de perenes / etc.",
+      "NOTES": "Observações/Datas do plantio de perenes/etc.",
       "SEED_CROP_OR_PLANTING_STOCK": "Variedade da semente/muda",
       "STATUS_CERTIFIED_ORGANIC": "Tipo de semente/muda = Certificado Orgânico (S/N)",
-      "SUPPLIER": "Fonte / Fornecedor",
+      "SUPPLIER": "Fonte/Fornecedor",
       "TREATMENT_DOCS_AVAILABLE": "Documentos do Tratamento disponíveis (S/N)"
     },
     "TO": "Até"
@@ -85,7 +85,7 @@
     "REPORTING_PERIOD": "PERÍODO DO RELATÓRIO",
     "SOIL_AMENDMENTS": "MISSING",
     "TABLE_COLUMN": {
-      "CROP_FIELD_APPLIED_TO": "Cultivo / Campo / Unidade produtiva de aplicação",
+      "CROP_FIELD_APPLIED_TO": "Cultivo/Campo/Unidade produtiva de aplicação",
       "DATE_USED": "Data de Uso",
       "LISTED_IN_PSL": "Está na Lista de Substâncias Permitidas? (S/N)",
       "NOTES": "Observações",
@@ -96,5 +96,5 @@
     "VARIETALS": "MISSING"
   },
   "Y": "S",
-  "YES": "MISSING"
+  "YES": "Sim"
 }

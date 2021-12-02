@@ -1,8 +1,8 @@
 {
   "N": "N",
-  "N/A": "MISSING",
-  "NO": "MISSING",
-  "NOT_SURE": "MISSING",
+  "N/A": "N/A",
+  "NO": "No",
+  "NOT_SURE": "No estoy seguro/a",
   "OPERATION_NAME": "NOMBRE DE OPERACIÓN",
   "RECORD_A": {
     "ACRES": "MISSING",
@@ -52,15 +52,15 @@
     },
     "REPORTING_PERIOD": "Período de registro",
     "TABLE_COLUMN": {
-      "IS_SEARCH_COMPLETED": "Si se trata de semillas / existencias sin CO, ¿se completó una búsqueda (S / N)?",
+      "IS_SEARCH_COMPLETED": "Si se trata de semillas/existencias sin OC, ¿se completó una búsqueda (S/N)?",
       "LIST_SEED_TREATMENTS": "Indique los tratamientos de semillas (si corresponde)",
       "LOT_NUMBER": "Número de lote (cuando corresponda)",
-      "NON_GE_DOCS_AVAILABLE": "Documentos que no son de IG disponibles (S / N)",
-      "NOTES": "Notas / Fechas de plantación perenne / etc.",
+      "NON_GE_DOCS_AVAILABLE": "Documentos que no son de IG disponibles (S/N)",
+      "NOTES": "Notas/Fechas de plantación perenne/etc.",
       "SEED_CROP_OR_PLANTING_STOCK": "Cultivo/variedad de semillas o material de plántula",
-      "STATUS_CERTIFIED_ORGANIC": "Estado de la semilla/plántula = orgánico certificado (S / N)",
-      "SUPPLIER": "Fuente / Proveedor",
-      "TREATMENT_DOCS_AVAILABLE": "Documentos de tratamiento disponibles (S / N)"
+      "STATUS_CERTIFIED_ORGANIC": "Estado de la semilla/plántula = orgánico certificado (S/N)",
+      "SUPPLIER": "Fuente/Proveedor",
+      "TREATMENT_DOCS_AVAILABLE": "Documentos de tratamiento disponibles (S/N)"
     },
     "TO": "Hasta"
   },
@@ -87,7 +87,7 @@
     "TABLE_COLUMN": {
       "CROP_FIELD_APPLIED_TO": "Cultivo/campo aplicado o unidad de producción utilizada en",
       "DATE_USED": "Fecha de uso",
-      "LISTED_IN_PSL": "¿Listado en el PSL? (S / N)",
+      "LISTED_IN_PSL": "¿Listado en la Lista de Sustancias Permitidas? (S/N)",
       "NOTES": "Notas",
       "PRODUCT_NAME": "Nombre de Producto",
       "QUANTITY": "Cantidad ({{unit}})",
@@ -96,5 +96,5 @@
     "VARIETALS": "MISSING"
   },
   "Y": "S",
-  "YES": "MISSING"
+  "YES": "Sí"
 }

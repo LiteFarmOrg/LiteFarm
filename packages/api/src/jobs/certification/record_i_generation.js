@@ -78,8 +78,8 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       rowFour.add(t('RECORD_I.NOTE.LIST_ALL'), { bold: true })
       rowFive.add(t('RECORD_I.NOTE.PLEASE_USE_SEPARATE_RECORD'), { bold: true })
       rowSix
-        .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')}  `, { bold: true })
-        .add(t('RECORD_I.NOTE.ONE.PART_2'))
+        .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')} `, { bold: true })
+        .add(` ${t('RECORD_I.NOTE.ONE.PART_2')}`)
       rowSeven.add(`2.  ${t('RECORD_I.NOTE.TWO')}`, { bold: true });
       rowEight.add(t('RECORD_I.NOTE.PREP_INPUTS'), { bold: true });
       rowNine.add(t('RECORD_I.NOTE.LIVESTOCK_INPUTS'), { bold: true });
@@ -114,7 +114,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       workbook.sheet(0).column('D').width(15);
       workbook.sheet(0).column('E').width(33);
       workbook.sheet(0).column('F').width(35);
-      workbook.sheet(0).column('G').width(11);
+      workbook.sheet(0).column('G').width(17);
       workbook.sheet(0).row(2).height(23);
       workbook.sheet(0).row(3).height(23);
       workbook.sheet(0).row(4).height(23);
@@ -123,7 +123,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       workbook.sheet(0).row(7).height(23);
       workbook.sheet(0).row(8).height(23);
       workbook.sheet(0).row(9).height(23);
-      workbook.sheet(0).row(10).height(40);
+      workbook.sheet(0).row(10).height(51);
 
       data.map((row, i) => {
         const rowN = i + 11;

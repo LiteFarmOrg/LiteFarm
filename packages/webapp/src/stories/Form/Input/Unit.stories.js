@@ -2,13 +2,7 @@ import React from 'react';
 import Unit, { getUnitOptionMap } from '../../../components/Form/Unit';
 import { componentDecorators } from '../../Pages/config/decorators';
 import { bufferZoneEnum, fieldEnum, waterValveEnum } from '../../../containers/constants';
-import {
-  area_perimeter,
-  area_total_area,
-  crop_age,
-  line_width,
-  water_valve_flow_rate,
-} from '../../../util/unit';
+import { area_perimeter, area_total_area, crop_age, line_width, water_valve_flow_rate } from '../../../util/unit';
 import { useForm } from 'react-hook-form';
 import convert from 'convert-units';
 
@@ -58,6 +52,17 @@ Default.args = {
   unitType: area_total_area,
   system: 'imperial',
   required: true,
+};
+
+export const HasLeaf = Template.bind({});
+HasLeaf.args = {
+  label: 'Default',
+  name: fieldEnum?.total_area,
+  displayUnitName: fieldEnum?.total_area_unit,
+  unitType: area_total_area,
+  system: 'imperial',
+  required: true,
+  hasLeaf: true,
 };
 
 export const Disabled = Template.bind({});

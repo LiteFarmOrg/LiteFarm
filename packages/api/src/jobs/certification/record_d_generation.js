@@ -1,16 +1,7 @@
 const XlsxPopulate = require('xlsx-populate');
 const i18n = require('../locales/i18n');
 const boolToStringTransformation = (bool) => bool ? i18n.t('Y') : bool !== null ? i18n.t('N') : i18n.t('N/A');
-const treatmentDocTransformation = (str) => {
-  switch (str) {
-  case 'YES':
-    return i18n.t('Y');
-  case 'NO':
-    return i18n.t('N');
-  default:
-    return i18n.t('N/A');
-  }
-};
+const blankTransformation = () => '';
 const dataToCellMapping = {
   crop_variety: 'A',
   supplier: 'B',
@@ -33,8 +24,8 @@ const dataTransformsMapping = {
   organic: boolToStringTransformation,
   searched: boolToStringTransformation,
   treated: treatedTransformation,
-  treated_doc: treatmentDocTransformation,
-  genetically_engineered: boolToStringTransformation,
+  treated_doc: blankTransformation,
+  genetically_engineered: blankTransformation,
 }
 
 module.exports = (data, exportId, from_date, to_date, farm_name) => {

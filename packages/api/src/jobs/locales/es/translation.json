@@ -67,6 +67,7 @@
   "RECORD_I": {
     "CLEANERS": "Productos de limpieza",
     "CLEANERS_UPPERCASE": "PRODUCTOS DE LIMPIEZA",
+    "CROP_PRODUCTION_AIDS": "MISSING",
     "HEADER": "Registro I",
     "INPUT_CATEGORY": "Categoría de insumo",
     "INPUTS_UPPERCASE": "INSUMOS",
@@ -83,7 +84,6 @@
       "TWO": "Productos de limpieza, desinfectantes, sustancias para el manejo de plagas de las instalaciones."
     },
     "REPORTING_PERIOD": "PERÍODO DE REGISTRO",
-    "SOIL_AMENDMENTS": "MISSING",
     "TABLE_COLUMN": {
       "CROP_FIELD_APPLIED_TO": "Cultivo/campo aplicado o unidad de producción utilizada en",
       "DATE_USED": "Fecha de uso",
@@ -91,7 +91,7 @@
       "NOTES": "Notas",
       "PRODUCT_NAME": "Nombre de Producto",
       "QUANTITY": "Cantidad ({{unit}})",
-      "SUPPLIER": "Nombre de marca o fuente / proveedor"
+      "SUPPLIER": "Nombre de marca o fuente/proveedor"
     },
     "VARIETALS": "MISSING"
   },

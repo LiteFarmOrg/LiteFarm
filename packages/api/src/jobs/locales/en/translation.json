@@ -67,6 +67,7 @@
   "RECORD_I": {
     "CLEANERS": "Cleaners",
     "CLEANERS_UPPERCASE": "CLEANERS",
+    "CROP_PRODUCTION_AIDS": "Crop Production Aids",
     "HEADER": "Record I",
     "INPUT_CATEGORY": "Input Category",
     "INPUTS_UPPERCASE": "INPUTS",
@@ -83,7 +84,6 @@
       "TWO": "Cleaners, disinfectants, sanitizers, facility pest management substances."
     },
     "REPORTING_PERIOD": "REPORTING PERIOD",
-    "SOIL_AMENDMENTS": "Soil amendments",
     "TABLE_COLUMN": {
       "CROP_FIELD_APPLIED_TO": "Crop/Field Applied to or Production Unit used in",
       "DATE_USED": "Date Used",

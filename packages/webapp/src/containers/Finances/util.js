@@ -30,6 +30,10 @@ export function calcTotalLabour(tasks, startDate, endDate) {
         // TODO: possibly implement check when wage can be yearly
         // if (s.wage.type === 'hourly')
         let rate = parseFloat(t.wage_at_moment).toFixed(2);
+        if (typeof rate !== 'number') {
+          // Production db has legacy NULLs in `task.wage_at_moment`; avoid NaN's
+          rate = 0.00;
+        }
         let hoursWorked = Number((t.duration / 60).toFixed(2));
         total += rate * hoursWorked;
       }

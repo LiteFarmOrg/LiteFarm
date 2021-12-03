@@ -117,22 +117,34 @@ const AddFarm = () => {
     autocomplete.addListener('place_changed', handlePlaceChanged);
   };
 
+  const setCountryNotFoundError = () => {
+    console.error('Error getting geocoding results, or no country was found at given coordinates');
+    setError(ADDRESS, { type: 'countryFound' });
+    setCountry('');
+  };
+
   const setCountryFromLatLng = (latlng, callback = () => {}) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: latlng }, (results, status) => {
       if (status === 'OK') {
-        let place = results[0];
-        const country = place.address_components.find((component) =>
-          component.types.includes('country'),
-        ).long_name;
-        setCountry(country);
-        callback();
+        let country;
+        for (const place of results) {
+          const countryComponent = place.address_components.find((component) =>
+            component.types.includes('country'),
+          );
+          if (countryComponent) {
+            country = countryComponent.long_name;
+            break;
+          }
+        }
+        if (country) {
+          setCountry(country);
+          callback();
+        } else {
+          setCountryNotFoundError();
+        }
       } else {
-        console.error(
-          'Error getting geocoding results, or no country was found at given coordinates',
-        );
-        setError(ADDRESS, { type: 'countryFound' });
-        setCountry('');
+        setCountryNotFoundError();
       }
     });
   };

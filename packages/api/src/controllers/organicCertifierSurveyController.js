@@ -399,7 +399,7 @@ const organicCertifierSurveyController = {
 
   pestTaskOnCropEnabled(to_date, from_date, farm_id) {
     return knex.raw(`
-      SELECT p.name, p.supplier, pct.product_quantity, t.completed_time::date as date_used,
+      SELECT DISTINCT p.name, p.supplier, pct.product_quantity, t.completed_time::date as date_used,
       CASE WHEN t.completed_time is null
         THEN t.due_date
         ELSE t.completed_time
@@ -424,7 +424,7 @@ const organicCertifierSurveyController = {
 
   pestTaskOnNonCropEnabled(to_date, from_date, farm_id) {
     return knex.raw(`
-      SELECT p.name, p.supplier, pct.product_quantity,
+      SELECT DISTINCT p.name, p.supplier, pct.product_quantity,
       CASE WHEN t.completed_time is null
         THEN t.due_date
         ELSE t.completed_time

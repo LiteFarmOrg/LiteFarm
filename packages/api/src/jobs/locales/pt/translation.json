@@ -2,7 +2,7 @@
   "N": "N",
   "N/A": "N/A",
   "NO": "Não",
-  "NOT_SURE": "Não tenho certeza",
+  "NOT_SURE": "Não tem certeza",
   "OPERATION_NAME": "NOME DA OPERAÇÃO",
   "RECORD_A": {
     "ACRES": "MISSING",
@@ -67,6 +67,7 @@
   "RECORD_I": {
     "CLEANERS": "Produtos de limpeza",
     "CLEANERS_UPPERCASE": "PRODUTOS DE LIMPEZA",
+    "CROP_PRODUCTION_AIDS": "MISSING",
     "HEADER": "Registro I",
     "INPUT_CATEGORY": "Categoria do Insumo",
     "INPUTS_UPPERCASE": "INSUMOS",
@@ -83,7 +84,6 @@
       "TWO": "Produtos de limpeza, desinfetantes, sanitizantes, substâncias para controle de pragas."
     },
     "REPORTING_PERIOD": "PERÍODO DO RELATÓRIO",
-    "SOIL_AMENDMENTS": "MISSING",
     "TABLE_COLUMN": {
       "CROP_FIELD_APPLIED_TO": "Cultivo/Campo/Unidade produtiva de aplicação",
       "DATE_USED": "Data de Uso",

@@ -16,7 +16,7 @@ const boolToStringTransformation = (str) => {
   case 'NO':
     return i18n.t('N');
   case 'NOT_SURE':
-    return i18n.t('N/A');
+    return '';
   default:
     return '';
   }
@@ -89,7 +89,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       workbook.sheet(0).cell('E2').value(`${t('RECORD_I.REPORTING_PERIOD')}: `);
       workbook.sheet(0).cell('F2').value(from_date + ' - ' + to_date);
       workbook.sheet(0).cell('A3').value(t('RECORD_I.INPUT_CATEGORY'));
-      workbook.sheet(0).cell('B3').value(isInputs ? t('RECORD_I.SOIL_AMENDMENTS') : t('RECORD_I.CLEANERS'));
+      workbook.sheet(0).cell('B3').value(isInputs ? t('RECORD_I.CROP_PRODUCTION_AIDS') : t('RECORD_I.CLEANERS'));
       workbook.sheet(0).cell('A4').value(rowFour).style({ wrapText: false });
       workbook.sheet(0).cell('A5').value(rowFive).style({ wrapText: false });
       workbook.sheet(0).cell('A6').value(rowSix).style({ wrapText: false });

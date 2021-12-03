@@ -63,6 +63,7 @@ const cropVarietyController = {
         const result = await post(CropVarietyModel, { ...relatedCrop, ...req.body }, req);
         return res.status(201).json(result);
       } catch (error) {
+        console.log(error);
         return res.status(400).json({ error });
       }
     };

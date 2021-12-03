@@ -23,6 +23,7 @@ function ComplianceInfoForm({ history, match }) {
     const cropData = {
       ...persistedFormData,
       ...data,
+      hs_code_id: data.hs_code_id || undefined,
       compliance_file_url: '',
     };
     if (isNewCrop) {

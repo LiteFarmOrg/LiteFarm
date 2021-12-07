@@ -183,6 +183,7 @@ const AddFarm = () => {
     gridPoints['lat'] = place.geometry.location.lat();
     gridPoints['lng'] = place.geometry.location.lng();
     setGridPoints(gridPoints);
+    trigger();
   };
 
   const handleBlur = () => {
@@ -207,9 +208,11 @@ const AddFarm = () => {
       // const geocoder = new google.maps.Geocoder();
       setCountryFromLatLng({ lat, lng }, () => {
         setAddress(inputtedAddress);
+        setValue(ADDRESS, inputtedAddress);
         gridPoints['lat'] = lat;
         gridPoints['lng'] = lng;
         setGridPoints(gridPoints);
+        trigger();
       });
     } else {
       if (inputtedAddress !== address) clearState();
@@ -241,6 +244,7 @@ const AddFarm = () => {
       setAddress(formattedAddress);
       setValue(ADDRESS, formattedAddress);
       setIsGettingLocation(false);
+      trigger();
     });
   };
 
@@ -248,12 +252,6 @@ const AddFarm = () => {
     setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
-
-  useEffect(() => {
-    if (farmAddress) {
-      trigger(ADDRESS);
-    }
-  }, [farmAddress]);
 
   return (
     <>

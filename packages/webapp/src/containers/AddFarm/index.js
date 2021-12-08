@@ -247,12 +247,12 @@ const AddFarm = () => {
 
   //TODO: update hookform, move all states in hookform, and rewrite the component
   useEffect(() => {
-    if (country) {
+    if (farmAddress) {
       setTimeout(() => {
         trigger(ADDRESS);
       }, 0);
     }
-  }, [country]);
+  }, [farmAddress, country]);
 
   return (
     <>

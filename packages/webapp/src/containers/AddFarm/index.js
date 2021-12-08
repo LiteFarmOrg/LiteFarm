@@ -250,7 +250,7 @@ const AddFarm = () => {
     if (country) {
       setTimeout(() => {
         trigger(ADDRESS);
-      }, 10);
+      }, 0);
     }
   }, [country]);
 

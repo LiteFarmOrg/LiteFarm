@@ -4,11 +4,7 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  userFarmReducerSelector,
-  userFarmSelector,
-  userFarmsByUserSelector,
-} from '../userFarmSlice';
+import { userFarmReducerSelector, userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -251,9 +247,11 @@ const AddFarm = () => {
 
   useEffect(() => {
     if (farmAddress) {
-      trigger(ADDRESS);
+      setTimeout(() => {
+        trigger(ADDRESS);
+      }, 0);
     }
-  }, [farmAddress]);
+  }, [farmAddress, country]);
 
   return (
     <>

@@ -403,20 +403,20 @@ describe('add management plan path test', () => {
           },
           expected: initialRowGuidancePath(variety_id),
         },
-        // Following test was failing. Perhaps logic is wrong; suspect it is obsolete. 
-        // {
-        //   persistedFormData: {
-        //     crop_management_plan: {
-        //       planting_management_plans: {
-        //         initial: {
-        //           planting_method: 'CONTAINER_METHOD',
-        //           is_planting_method_known: false,
-        //         },
-        //       },
-        //     },
-        //   },
-        //   expected: initialPlantingMethodPath(variety_id),
-        // },
+        {
+          persistedFormData: {
+            crop_management_plan: {
+              already_in_ground: true,
+              planting_management_plans: {
+                initial: {
+                  planting_method: 'CONTAINER_METHOD',
+                  is_planting_method_known: false,
+                },
+              },
+            },
+          },
+          expected: initialPlantingMethodPath(variety_id),
+        },
       ];
       test('getPrevTransplantLocationPath test', () => {
         const variety_id = 'variety_id';

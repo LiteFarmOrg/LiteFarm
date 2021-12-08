@@ -4,11 +4,7 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  userFarmReducerSelector,
-  userFarmSelector,
-  userFarmsByUserSelector,
-} from '../userFarmSlice';
+import { userFarmReducerSelector, userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -183,7 +179,6 @@ const AddFarm = () => {
     gridPoints['lat'] = place.geometry.location.lat();
     gridPoints['lng'] = place.geometry.location.lng();
     setGridPoints(gridPoints);
-    trigger();
   };
 
   const handleBlur = () => {
@@ -208,11 +203,9 @@ const AddFarm = () => {
       // const geocoder = new google.maps.Geocoder();
       setCountryFromLatLng({ lat, lng }, () => {
         setAddress(inputtedAddress);
-        setValue(ADDRESS, inputtedAddress);
         gridPoints['lat'] = lat;
         gridPoints['lng'] = lng;
         setGridPoints(gridPoints);
-        trigger();
       });
     } else {
       if (inputtedAddress !== address) clearState();
@@ -244,7 +237,6 @@ const AddFarm = () => {
       setAddress(formattedAddress);
       setValue(ADDRESS, formattedAddress);
       setIsGettingLocation(false);
-      trigger();
     });
   };
 
@@ -252,6 +244,15 @@ const AddFarm = () => {
     setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
+
+  //TODO: update hookform, move all states in hookform, and rewrite the component
+  useEffect(() => {
+    if (country) {
+      setTimeout(() => {
+        trigger(ADDRESS);
+      }, 10);
+    }
+  }, [country]);
 
   return (
     <>

@@ -5,7 +5,7 @@
   div {
     div {
       div {
-        max-width: 64px;
+        max-width: 100%;
 
         input {
           min-width: 0;
@@ -41,8 +41,10 @@
 
 .middleColumn {
   flex-basis: 35%;
+  max-width: 35%;
 }
 
 .rightcolumn {
   flex-basis: 35%;
+  max-width: 35%;
 }

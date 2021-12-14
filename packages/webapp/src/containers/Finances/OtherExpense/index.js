@@ -79,9 +79,12 @@ class OtherExpense extends Component {
     let dict = {};
 
     for (let e of expenses) {
+      // Remove the time from the expense date
+      const expenseDate = moment(moment(e.expense_date).format("MM/DD/YYYY"))
+
       if (
-        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
+        moment(expenseDate).utc().isSameOrAfter(moment(startDate)) &&
+        moment(expenseDate).utc().isSameOrBefore(moment(endDate))
       ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {

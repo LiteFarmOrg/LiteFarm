@@ -368,7 +368,7 @@ export default function Map({ history }) {
                 libraries: ['drawing', 'geometry', 'places'],
                 language: localStorage.getItem('litefarm_lang'),
               }}
-              defaultCenter={grid_points}
+              center={grid_points}
               defaultZoom={DEFAULT_ZOOM}
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}

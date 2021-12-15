@@ -79,12 +79,11 @@ class OtherExpense extends Component {
     let dict = {};
 
     for (let e of expenses) {
-      // Remove the time from the expense date
-      const expenseDate = moment(moment(e.expense_date).format("MM/DD/YYYY"))
+      const expenseDate = moment(e.expense_date).startOf('day').utc();
 
       if (
-        moment(expenseDate).utc().isSameOrAfter(moment(startDate)) &&
-        moment(expenseDate).utc().isSameOrBefore(moment(endDate))
+        expenseDate.isSameOrAfter(moment(startDate)) &&
+        expenseDate.isSameOrBefore(moment(endDate))
       ) {
         let id = e.expense_type_id;
         if (!dict.hasOwnProperty(id)) {
@@ -121,9 +120,11 @@ class OtherExpense extends Component {
     let subTotal = 0;
 
     for (let e of expenses) {
+      const expenseDate = moment(e.expense_date).startOf('day').utc();
+
       if (
-        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
+        expenseDate.isSameOrAfter(moment(startDate)) &&
+        expenseDate.isSameOrBefore(moment(endDate))
       ) {
         let amount = parseFloat(e.value);
         subTotal += amount;

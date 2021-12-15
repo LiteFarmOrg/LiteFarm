@@ -10,10 +10,6 @@ const style = {
   marginBottom: '28px',
 };
 
-const hiddenStyle = {
-  display: 'none',
-};
-
 export default function PureAddFarm({
   title,
   inputs = [{}, {}],
@@ -36,8 +32,6 @@ export default function PureAddFarm({
       <PageTitle onGoBack={onGoBack} title={title} style={{ marginBottom: '20px' }} />
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
-      <Input style={hiddenStyle} readOnly {...inputs[2]} />
-      <Input style={hiddenStyle} readOnly {...inputs[3]} />
       {map}
     </Form>
   );

@@ -112,8 +112,8 @@ class SalesSummary extends Component {
   filterByDate(sales) {
     return sales.filter((s) => {
       return (
-        moment(s.sale_date).isSameOrAfter(moment(this.state.startDate)) &&
-        moment(s.sale_date).isSameOrBefore(moment(this.state.endDate))
+        moment(s.sale_date).utc().isSameOrAfter(moment(this.state.startDate)) &&
+        moment(s.sale_date.startOf('day').utc().isSameOrBefore(moment(this.state.endDate))
       );
     });
   }

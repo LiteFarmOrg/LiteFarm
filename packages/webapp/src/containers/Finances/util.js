@@ -19,12 +19,14 @@ export function calcTotalLabour(tasks, startDate, endDate) {
   let total = 0;
   if (Array.isArray(tasks)) {
     for (let t of tasks) {
+      const completedTime = moment(t.completed_time).startOf('day').utc();
+      const abandonedTime = moment(t.abandoned_time).startOf('day').utc();
       if (
-        (moment(t.completed_time).utc().isSameOrAfter(moment(startDate)) &&
-          moment(t.completed_time).utc().isSameOrBefore(moment(endDate)) &&
+        ( completedTime.isSameOrAfter(moment(startDate)) &&
+          completedTime.isSameOrBefore(moment(endDate)) &&
           t.duration) ||
-        (moment(t.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
-          moment(t.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
+        ( abandonedTime.isSameOrAfter(moment(startDate)) &&
+          abandonedTime.isSameOrBefore(moment(endDate)) &&
           t.duration)
       ) {
         // TODO: possibly implement check when wage can be yearly
@@ -58,9 +60,10 @@ export function calcOtherExpense(expenses, startDate, endDate) {
   let total = 0;
   if (Array.isArray(expenses)) {
     for (let e of expenses) {
+      const expenseDate = moment(e.expense_date).startOf('day').utc();
       if (
-        moment(e.expense_date).utc().isSameOrAfter(moment(startDate)) &&
-        moment(e.expense_date).utc().isSameOrBefore(moment(endDate))
+        expenseDate.isSameOrAfter(moment(startDate)) &&
+        expenseDate.isSameOrBefore(moment(endDate))
       ) {
         total += parseFloat(e.value);
       }
@@ -75,9 +78,10 @@ export function calcSales(sales, startDate, endDate) {
 
   if (Array.isArray(sales)) {
     for (let s of sales) {
+      const saleDate = moment(s.sale_date).startOf('day').utc();
       if (
-        moment(s.sale_date).isSameOrAfter(moment(startDate)) &&
-        moment(s.sale_date).isSameOrBefore(moment(endDate))
+        saleDate.isSameOrAfter(moment(startDate)) &&
+        saleDate.isSameOrBefore(moment(endDate))
       ) {
         for (let c of s.cropSale) {
           total += parseFloat(c.sale_value);
@@ -96,9 +100,10 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
     for (let s of shifts) {
       let cid = s.crop_id;
       if (cid) {
+        const shiftDate = moment(s.shift_date).startOf('day').utc();
         if (
-          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
-          moment(s.shift_date).isSameOrBefore(moment(endDate))
+          shiftDate.isSameOrAfter(moment(startDate)) &&
+          shiftDate.isSameOrBefore(moment(endDate))
         ) {
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
@@ -171,9 +176,10 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 
   if (sales && sales.length) {
     for (let s of sales) {
+      const saleDate = moment(s.sale_date).startOf('day').utc();
       if (
-        moment(s.sale_date).isSameOrAfter(moment(startDate)) &&
-        moment(s.sale_date).isSameOrBefore(moment(endDate))
+        saleDate.isSameOrAfter(moment(startDate)) &&
+        saleDate.isSameOrBefore(moment(endDate))
       ) {
         for (let cropSale of s.cropSale) {
           let cid = cropSale.managementPlan.crop_id;

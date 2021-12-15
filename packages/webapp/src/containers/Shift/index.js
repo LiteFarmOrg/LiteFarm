@@ -77,7 +77,7 @@ class Shift extends Component {
     return shifts
       ?.filter(
         (shift) =>
-          moment(startDate).isSameOrBefore(shift.shift_date, 'day') &&
+          moment(startDate).startOf('day').utc().isSameOrBefore(shift.shift_date, 'day') &&
           moment(endDate).isSameOrAfter(shift.shift_date, 'day') &&
           this.checkFilter(shift, 'user_id', nameFilter),
       )

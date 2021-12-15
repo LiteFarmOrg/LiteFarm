@@ -12,12 +12,14 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
   const userFarmsOfFarm = useSelector(userFarmsByFarmSelector);
   for (let task of tasks) {
     const assignee = userFarmsOfFarm.find((user) => user.user_id === task.assignee_user_id);
+    const completedTime = moment(task.completed_time).startOf('day').utc();
+    const abandonedTime = moment(task.abandoned_time).startOf('day').utc();
     if (
-      (moment(task.completed_time).utc().isSameOrAfter(moment(startDate)) &&
-        moment(task.completed_time).utc().isSameOrBefore(moment(endDate)) &&
+      ( completedTime.isSameOrAfter(moment(startDate)) &&
+        completedTime.isSameOrBefore(moment(endDate)) &&
         task.duration) ||
-      (moment(task.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
-        moment(task.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
+      ( abandonedTime.isSameOrAfter(moment(startDate)) &&
+        abandonedTime.isSameOrBefore(moment(endDate)) &&
         task.duration)
     ) {
       if (sortObj.hasOwnProperty(task.assignee_user_id)) {

@@ -8,12 +8,14 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
   let sortObj = {};
   const { t } = useTranslation(['translation', 'task']);
   for (let task of tasks) {
+    const completedTime = moment(task.completed_time).startOf('day').utc();
+    const abandonedTime = moment(task.abandoned_time).startOf('day').utc();
     if (
-      (moment(task.completed_time).utc().isSameOrAfter(moment(startDate)) &&
-        moment(task.completed_time).utc().isSameOrBefore(moment(endDate)) &&
+      ( completedTime.isSameOrAfter(moment(startDate)) &&
+        completedTime.isSameOrBefore(moment(endDate)) &&
         task.duration) ||
-      (moment(task.abandoned_time).utc().isSameOrAfter(moment(startDate)) &&
-        moment(task.abandoned_time).utc().isSameOrBefore(moment(endDate)) &&
+      ( abandonedTime.isSameOrAfter(moment(startDate)) &&
+        abandonedTime.isSameOrBefore(moment(endDate)) &&
         task.duration)
     ) {
       if (sortObj.hasOwnProperty(task.task_type_id)) {

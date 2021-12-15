@@ -4,11 +4,7 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  userFarmReducerSelector,
-  userFarmSelector,
-  userFarmsByUserSelector,
-} from '../userFarmSlice';
+import { userFarmReducerSelector, userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -40,7 +36,7 @@ const AddFarm = () => {
   const ADDRESS = 'address';
   const GRID_POINTS = 'gridPoints';
   const COUNTRY = 'country';
-  const gridPoints = watch(GRID_POINTS, '{}');
+  const gridPoints = watch(GRID_POINTS, {});
   const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const farmNameRegister = register(FARMNAME, {
@@ -67,7 +63,7 @@ const AddFarm = () => {
   useEffect(() => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
-    setValue(GRID_POINTS, farm?.grid_points ? JSON.stringify(farm.grid_points) : '{}');
+    setValue(GRID_POINTS, farm?.grid_points ? farm.grid_points : {});
     setValue(COUNTRY, farm?.country ? farm.country : '');
     if (farm?.country) {
       trigger(); // Enables submit button after goBack to this page
@@ -77,7 +73,7 @@ const AddFarm = () => {
   const onSubmit = (data) => {
     const farmInfo = {
       ...data,
-      gridPoints: JSON.parse(gridPoints),
+      gridPoints,
       farm_id: farm ? farm.farm_id : undefined,
     };
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
@@ -115,7 +111,7 @@ const AddFarm = () => {
 
   const setCountryFromLatLng = (latlng, callback) => {
     const { lat, lng } = latlng;
-    setValue(GRID_POINTS, JSON.stringify({ lat, lng }));
+    setValue(GRID_POINTS, { lat, lng });
 
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
@@ -159,7 +155,7 @@ const AddFarm = () => {
   };
 
   const handleAddressChange = (e) => {
-    setValue(GRID_POINTS, '{}');
+    setValue(GRID_POINTS, {});
     setValue(COUNTRY, '');
     setValue(ADDRESS, e.target.value);
     const latlng = parseLatLng(e.target.value);
@@ -179,10 +175,10 @@ const AddFarm = () => {
       ).long_name;
 
       setValue(ADDRESS, place.formatted_address);
-      setValue(GRID_POINTS, JSON.stringify({
+      setValue(GRID_POINTS, {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
-      }));
+      });
       setValue(COUNTRY, countryLookup);
       trigger(ADDRESS);
     } else {
@@ -251,19 +247,10 @@ const AddFarm = () => {
             errors: addressErrors,
             onChange: handleAddressChange,
           },
-          {
-            label: 'gridPoints',
-            hookFormRegister: gridPointsRegister,
-            name: GRID_POINTS,
-          }, {
-            label: 'country',
-            hookFormRegister: countryRegister,
-            name: COUNTRY,
-          },
         ]}
         map={
           <Map
-            gridPoints={gridPoints ? JSON.parse(gridPoints) : {}}
+            gridPoints={gridPoints}
             isGettingLocation={isGettingLocation}
             errors={addressErrors}
           />

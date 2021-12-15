@@ -35,7 +35,7 @@ const AddFarm = () => {
     watch,
     trigger,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onTouched' });
+  } = useForm({ mode: 'onSubmit' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const GRID_POINTS = 'gridPoints';
@@ -52,8 +52,8 @@ const AddFarm = () => {
       countryFound: () => !!getValues(COUNTRY)
     },
   });
-  const gridPointsRegister = register(GRID_POINTS, {});
-  const countryRegister = register(COUNTRY, {});
+  const gridPointsRegister = register(GRID_POINTS, { required: true });
+  const countryRegister = register(COUNTRY, { required: true });
   const errorMessage = {
     required: t('ADD_FARM.ADDRESS_IS_REQUIRED'),
     placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
@@ -109,10 +109,6 @@ const AddFarm = () => {
     autocomplete.addListener('place_changed', handlePlaceChanged);
   };
 
-  const setCountryNotFoundError = () => {
-    setError(ADDRESS, { type: 'countryFound' });
-  };
-
   const setCountryFromLatLng = (latlng, callback) => {
     const { lat, lng } = latlng;
     setValue(GRID_POINTS, JSON.stringify({ lat, lng }));
@@ -120,7 +116,7 @@ const AddFarm = () => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
       if (status !== 'OK') {
-        setCountryNotFoundError();
+        trigger(ADDRESS);
         callback?.();
         return;
       }
@@ -138,10 +134,9 @@ const AddFarm = () => {
 
       if (country) {
         setValue(COUNTRY, country);
-        trigger(ADDRESS);
-      } else {
-        setCountryNotFoundError();
       }
+
+      trigger(ADDRESS);
 
       callback?.();
     });
@@ -158,6 +153,10 @@ const AddFarm = () => {
       : result;
   };
 
+  const handleAddressBlur = () => {
+    setTimeout(() => trigger(ADDRESS), 500);
+  };
+
   const handleAddressChange = (e) => {
     setValue(GRID_POINTS, '{}');
     setValue(COUNTRY, '');
@@ -166,7 +165,7 @@ const AddFarm = () => {
     if (latlng) {
       setCountryFromLatLng(latlng);
     } else {
-      trigger(ADDRESS);
+      trigger(COUNTRY);
     }
   };
 
@@ -184,9 +183,6 @@ const AddFarm = () => {
         lng: place.geometry.location.lng(),
       }));
       setValue(COUNTRY, countryLookup);
-      trigger(ADDRESS);
-    } else {
-      setCountryNotFoundError();
     }
   };
 
@@ -250,6 +246,7 @@ const AddFarm = () => {
             name: ADDRESS,
             errors: addressErrors,
             onChange: handleAddressChange,
+            onBlur: handleAddressBlur,
           },
           {
             label: 'gridPoints',

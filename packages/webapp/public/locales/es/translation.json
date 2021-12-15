@@ -274,7 +274,7 @@
     "DETAIL_TAB": "Detalles",
     "EDIT_CROP_DETAIL": "Editar los detalles del cultivo",
     "GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
-    "HS_CODE": "MISSING",
+    "HS_CODE": "Código de SA",
     "MANAGEMENT_PLANS": "Planes de manejo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "Orgánico",
@@ -1296,9 +1296,9 @@
     "INVITED": "Invitado"
   },
   "SURVEY_STACK": {
-    "PRODUCED": "MISSING",
-    "SURVEY_ADDENDUM": "MISSING",
-    "TITLE": "MISSING"
+    "PRODUCED": "Producido en",
+    "SURVEY_ADDENDUM": "Apéndice de la encuesta",
+    "TITLE": "{{certification}} certificación de {{certifier}}"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos!",

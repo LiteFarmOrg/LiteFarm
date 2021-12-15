@@ -150,8 +150,8 @@ class Finances extends Component {
           if (
             harvestDates.some(
               (harvestDate) =>
-                moment(this.state.startDate).isSameOrBefore(harvestDate, 'day') &&
-                moment(this.state.endDate).isSameOrAfter(harvestDate, 'day'),
+                moment(this.state.startDate).startOf('day').utc().isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.endDate).utc().isSameOrAfter(harvestDate, 'day'),
             )
           ) {
             totalRevenue += plan.estimated_revenue;
@@ -170,7 +170,7 @@ class Finances extends Component {
       for (let e of expenses) {
         if (
           moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
-          moment(e.exports).isSameOrBefore(moment(endDate))
+          moment(e.exports).startOf('day').utc().isSameOrBefore(moment(endDate))
         ) {
           total += Number(e.value);
         }
@@ -197,9 +197,10 @@ class Finances extends Component {
     if (shifts && shifts.length) {
       for (let s of shifts) {
         let management_plan_id = s.management_plan_id;
+        const shiftDate = moment(s.shift_date).startOf('day').utc();
         if (
-          moment(s.shift_date).isSameOrAfter(moment(startDate)) &&
-          moment(s.shift_date).isSameOrBefore(moment(endDate))
+          shiftDate.isSameOrAfter(moment(startDate)) &&
+          shiftDate.isSameOrBefore(moment(endDate))
         ) {
           if (management_plan_id !== null) {
             if (final.hasOwnProperty(management_plan_id)) {
@@ -330,9 +331,11 @@ class Finances extends Component {
 
     //apply sales
     for (let sale of sales || []) {
+      const saleDate = moment(sale.sale_date).startOf('day').utc();
+
       if (
-        moment(sale.sale_date).isSameOrAfter(moment(startDate)) &&
-        moment(sale.sale_date).isSameOrBefore(moment(endDate))
+        saleDate.isSameOrAfter(moment(startDate)) &&
+        saleDate.isSameOrBefore(moment(endDate))
       ) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {

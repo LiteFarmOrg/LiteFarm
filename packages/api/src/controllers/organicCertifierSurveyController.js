@@ -323,6 +323,7 @@ const organicCertifierSurveyController = {
 
       return locationIdCropMap;
     }, {});
+
     const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
       .where({ farm_id })
       .withGraphJoined(`[
@@ -334,8 +335,14 @@ const organicCertifierSurveyController = {
         ]`);
 
     const booleanTrueToX = bool => bool ? 'x' : '';
+
     return locations.map(location => {
-      const getLocationOrganicStatus = organic_history => {
+
+      const getLocationOrganicStatus = (location, hasCrops) => {
+        if (location.buffer_zone) {
+          return hasCrops ? 'Non-Organic' : 'Non-Producing';
+        }
+        const organic_history = location[location.figure.type]?.organic_history;
         if (!organic_history) return undefined;
         let fromDateOrganicStatus = 'Transitional';
         let toDateOrganicStatus;
@@ -352,16 +359,19 @@ const organicCertifierSurveyController = {
         else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
         else return 'Transitional';
       };
-      const locationOrganicStatus = getLocationOrganicStatus(location[location.figure.type]?.organic_history);
+
+      const crops = Array.from(locationIdCropMap[location.location_id] || []);
+      const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
+
       return ({
         name: location.name,
-        crops: Array.from(locationIdCropMap[location.location_id] || []),
+        crops,
         area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
         isNew: '',
         isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
         isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
         isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
-        isNonProducing: booleanTrueToX(!['field', 'garden', 'greenhouse'].includes(location.figure.type)),
+        isNonProducing: booleanTrueToX(locationOrganicStatus === 'Non-Producing'),
       });
     });
   },

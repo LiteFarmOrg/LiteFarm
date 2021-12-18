@@ -342,6 +342,7 @@ const organicCertifierSurveyController = {
         if (location.buffer_zone) {
           return hasCrops ? 'Non-Organic' : 'Non-Producing';
         }
+        if(!['field', 'garden', 'greenhouse'].includes(location.figure.type)) return 'Non-Producing';
         const organic_history = location[location.figure.type]?.organic_history;
         if (!organic_history) return undefined;
         let fromDateOrganicStatus = 'Transitional';

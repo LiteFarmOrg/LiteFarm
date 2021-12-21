@@ -71,10 +71,10 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) =
   if (shifts && shifts.length) {
     for (let s of shifts) {
       let management_plan_id = s.management_plan_id;
-      const shiftDate = moment(s.shift_date).startOf('day').utc();
+      const shiftDate = moment(s.shift_date);
       if (
-        shiftDate.isSameOrAfter(moment(startDate)) &&
-        shiftDate.isSameOrBefore(moment(endDate))
+        shiftDate.isSameOrAfter(startDate, 'day') &&
+        shiftDate.isSameOrBefore(endDate, 'day')
       ) {
         if (management_plan_id !== null) {
           if (final.hasOwnProperty(management_plan_id)) {

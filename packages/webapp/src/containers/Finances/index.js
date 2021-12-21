@@ -162,6 +162,8 @@ class Finances extends Component {
   }
 
   getTotalExpense = () => {
+    console.log('///////// Entrando')
+
     const { expenses } = this.props;
     const { startDate, endDate } = this.state;
 
@@ -169,8 +171,8 @@ class Finances extends Component {
     if (expenses && expenses.length) {
       for (let e of expenses) {
         if (
-          moment(e.expense_date).isSameOrAfter(moment(startDate)) &&
-          moment(e.exports).startOf('day').utc().isSameOrBefore(moment(endDate))
+          moment(e.expense_date).isSameOrAfter(startDate, 'day') &&
+          moment(e.expense_date).isSameOrBefore(endDate, 'day')
         ) {
           total += Number(e.value);
         }
@@ -197,10 +199,10 @@ class Finances extends Component {
     if (shifts && shifts.length) {
       for (let s of shifts) {
         let management_plan_id = s.management_plan_id;
-        const shiftDate = moment(s.shift_date).startOf('day').utc();
+        const shiftDate = moment(s.shift_date);
         if (
-          shiftDate.isSameOrAfter(moment(startDate)) &&
-          shiftDate.isSameOrBefore(moment(endDate))
+          shiftDate.isSameOrAfter(startDate, 'day') &&
+          shiftDate.isSameOrBefore(endDate, 'day')
         ) {
           if (management_plan_id !== null) {
             if (final.hasOwnProperty(management_plan_id)) {
@@ -331,11 +333,11 @@ class Finances extends Component {
 
     //apply sales
     for (let sale of sales || []) {
-      const saleDate = moment(sale.sale_date).startOf('day').utc();
+      const saleDate = moment(sale.sale_date);
 
       if (
-        saleDate.isSameOrAfter(moment(startDate)) &&
-        saleDate.isSameOrBefore(moment(endDate))
+        saleDate.isSameOrAfter(startDate, 'day') &&
+        saleDate.isSameOrBefore(endDate, 'day')
       ) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {

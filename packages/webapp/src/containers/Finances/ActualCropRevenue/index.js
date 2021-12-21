@@ -47,7 +47,8 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
           : t(`crop:${cropVariety.crop.crop_translation_key}`);
 
         return {
-          title: cropVarietyEntities[cvs.crop_variety_id].crop_variety_name,
+          key: cvs.crop_variety_id,
+          title: title,
           subtitle: `${convertedQuantity} ${cvs.quantity_unit}`,
           amount: cvs.sale_value,
         };

@@ -334,36 +334,37 @@ const organicCertifierSurveyController = {
         ]`);
 
     const booleanTrueToX = bool => bool ? 'x' : '';
-    return locations.map(location => {
-      const getLocationOrganicStatus = organic_history => {
-        if (!organic_history) return undefined;
-        let fromDateOrganicStatus = 'Transitional';
-        let toDateOrganicStatus;
-        for (const organicHistoryStatus of organic_history) {
-          const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
-          if (effectiveDateTime <= fromDateTime) {
-            fromDateOrganicStatus = organicHistoryStatus.organic_status;
-          } else if (effectiveDateTime <= toDateTime) {
-            toDateOrganicStatus = organicHistoryStatus.organic_status;
+    return locations.filter(location => location.farm_site_boundary === null)
+      .map(location => {
+        const getLocationOrganicStatus = organic_history => {
+          if (!organic_history) return undefined;
+          let fromDateOrganicStatus = 'Transitional';
+          let toDateOrganicStatus;
+          for (const organicHistoryStatus of organic_history) {
+            const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
+            if (effectiveDateTime <= fromDateTime) {
+              fromDateOrganicStatus = organicHistoryStatus.organic_status;
+            } else if (effectiveDateTime <= toDateTime) {
+              toDateOrganicStatus = organicHistoryStatus.organic_status;
+            }
           }
-        }
-        !toDateOrganicStatus && (toDateOrganicStatus = fromDateOrganicStatus);
-        if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic') return 'Organic';
-        else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
-        else return 'Transitional';
-      };
-      const locationOrganicStatus = getLocationOrganicStatus(location[location.figure.type]?.organic_history);
-      return ({
-        name: location.name,
-        crops: Array.from(locationIdCropMap[location.location_id] || []),
-        area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
-        isNew: '',
-        isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
-        isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
-        isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
-        isNonProducing: booleanTrueToX(!['field', 'garden', 'greenhouse'].includes(location.figure.type)),
+          !toDateOrganicStatus && (toDateOrganicStatus = fromDateOrganicStatus);
+          if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic') return 'Organic';
+          else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
+          else return 'Transitional';
+        };
+        const locationOrganicStatus = getLocationOrganicStatus(location[location.figure.type]?.organic_history);
+        return ({
+          name: location.name,
+          crops: Array.from(locationIdCropMap[location.location_id] || []),
+          area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
+          isNew: '',
+          isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
+          isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
+          isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
+          isNonProducing: booleanTrueToX(!['field', 'garden', 'greenhouse'].includes(location.figure.type)),
+        });
       });
-    });
   },
 
   async getTasksLocationsAndManagementPlans(tasks) {

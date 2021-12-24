@@ -36,6 +36,19 @@ class ManagementTasksModel extends Model {
       additionalProperties: false,
     };
   }
+
+  static get relationMappings() {
+    return {
+      task: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: require('./taskModel'),
+        join: {
+          from: 'management_tasks.task_id',
+          to: 'task.task_id',
+        },
+      },
+    };
+  }
 }
 
 module.exports = ManagementTasksModel;

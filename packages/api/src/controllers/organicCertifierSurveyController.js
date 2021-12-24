@@ -282,7 +282,7 @@ const organicCertifierSurveyController = {
 
 
     const managementPlans = await managementPlanModel.query().whereNotDeleted()
-      .withGraphJoined('[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task]]]]', {
+      .withGraphJoined('[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task], managementTasks.[task]]]]', {
         aliases: {
           crop_management_plan: 'cmp',
           planting_management_plan: 'pmp',
@@ -292,32 +292,53 @@ const organicCertifierSurveyController = {
       .where('crop_variety.farm_id', farm_id)
       .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ? OR management_plan.abandon_date > ?', [from_date, from_date])
 
-    const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
-      const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
-      for (const plantingManagementPlan of plantingManagementPlans) {
-        const location_id = plantingManagementPlan.location_id;
-        !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
-      }
-      const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan => plantingManagementPlan.planting_task_type === 'TRANSPLANT_TASK' && plantingManagementPlan.transplant_task.task.completed_time && new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime() < toDateTime)
-        .sort(({ plant_task: { task: { completed_time: firstCompleteTime } } }, { plant_task: { task: { completed_time: secondCompleteTime } } }) => new Date(secondCompleteTime).getTime() - new Date(firstCompleteTime).getTime())
-        .find(completedTransplantTask => {
-          locationIdCropMap[completedTransplantTask.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-          return new Date(completedTransplantTask.transplant_task.task.completed_time).getTime() < fromDateTime;
-        });
-
-      !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
-        if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
-          const completed_time = plantingManagementPlan.plant_task.task.completed_time;
-          const abandoned_time = plantingManagementPlan.plant_task.task.abandoned_time;
-          const plantTaskCompleteTime = new Date(completed_time).getTime();
-          if (!(abandoned_time || (completed_time && plantTaskCompleteTime < fromDateTime))) {
-            locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+    const locationIdCropMap = managementPlans
+      .filter(({ crop_management_plan: { planting_management_plans } }) => {
+        for (const planting_management_plan of planting_management_plans) {
+          const tasks = planting_management_plan.managementTasks.map(({ task }) => task);
+          if (planting_management_plan.plant_task) tasks.push(planting_management_plan.plant_task.task);
+          if (planting_management_plan.transplant_task) tasks.push(planting_management_plan.transplant_task.task);
+          for (const task of tasks) {
+            if ((task.complete_date && task.complete_date.getTime() >= fromDateTime && task.complete_date.getTime() <= toDateTime) || (task.due_date?.getTime() >= fromDateTime && task.due_date?.getTime() <= toDateTime)) return true;
           }
-          return true;
-        } else if (!plantingManagementPlan.planting_task_type) {
-          plantingManagementPlan.location_id && (locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key));
-          return true;
         }
+      })
+      .reduce((locationIdCropMap, managementPlan) => {
+        const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
+        for (const plantingManagementPlan of plantingManagementPlans) {
+          const location_id = plantingManagementPlan.location_id;
+          !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
+        }
+
+        /**
+         *
+         * [largest, toDateTime, transplant_task3, fromDateTime, transplant_task2, transplant_task1]
+         * where largest > transplant_task3.complete_date > transplant_task2.complete_date > transplant_task1.complete_date
+         * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2
+         * [largest, toDateTime, transplant_task3, transplant_task2, transplant_task1, fromDateTime]
+         * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2, transplant_task1, AND plant_task/wild crop location
+         */
+        const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan => plantingManagementPlan.transplant_task?.task?.completed_time
+          && plantingManagementPlan.transplant_task.task.completed_time.getTime() < toDateTime)
+          .sort(({ transplant_task: { task: { completed_time: firstCompleteTime } } }, { transplant_task: { task: { completed_time: secondCompleteTime } } }) => secondCompleteTime.getTime() - firstCompleteTime.getTime())
+          .find(completedTransplantTask => {
+            locationIdCropMap[completedTransplantTask.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+            return completedTransplantTask.transplant_task.task.completed_time.getTime() < fromDateTime;
+          });
+
+        !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
+          if (plantingManagementPlan.plant_task) {
+            const completed_time = plantingManagementPlan.plant_task.task.completed_time;
+            const abandoned_time = plantingManagementPlan.plant_task.task.abandoned_time;
+            const plantTaskCompleteTime = new Date(completed_time).getTime();
+            if (!(abandoned_time || (completed_time && plantTaskCompleteTime < fromDateTime))) {
+              locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+            }
+            return true;
+          } else if (!plantingManagementPlan.plant_task && !plantingManagementPlan.transplant_task) {
+            plantingManagementPlan.location_id && (locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key));
+            return true;
+          }
         return false;
       });
 
@@ -336,17 +357,17 @@ const organicCertifierSurveyController = {
 
     const booleanTrueToX = bool => bool ? 'x' : '';
 
-    return locations.filter(location => location.farm_site_boundary === null)
+    return locations.filter(location => !location.farm_site_boundary && !location?.figure?.point && !location?.fence && !location?.watercourse)
       .map(location => {
         const getLocationOrganicStatus = (location, hasCrops) => {
-        if (location.buffer_zone) {
-          return hasCrops ? 'Non-Organic' : 'Non-Producing';
-        }
-        if(!['field', 'garden', 'greenhouse'].includes(location.figure.type)) return 'Non-Producing';
-        const organic_history = location[location.figure.type]?.organic_history;
-        if (!organic_history) return undefined;
-        let fromDateOrganicStatus = 'Transitional';
-        let toDateOrganicStatus;
+          if (location.buffer_zone) {
+            return hasCrops ? 'Non-Organic' : 'Non-Producing';
+          }
+          if (!['field', 'garden', 'greenhouse'].includes(location.figure.type)) return 'Non-Producing';
+          const organic_history = location[location.figure.type]?.organic_history;
+          if (!organic_history) return undefined;
+          let fromDateOrganicStatus = 'Transitional';
+          let toDateOrganicStatus;
         for (const organicHistoryStatus of organic_history) {
           const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
           if (effectiveDateTime <= fromDateTime) {

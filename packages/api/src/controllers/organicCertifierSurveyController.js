@@ -336,9 +336,9 @@ const organicCertifierSurveyController = {
 
     const booleanTrueToX = bool => bool ? 'x' : '';
 
-    return locations.map(location => {
-
-      const getLocationOrganicStatus = (location, hasCrops) => {
+    return locations.filter(location => location.farm_site_boundary === null)
+      .map(location => {
+        const getLocationOrganicStatus = (location, hasCrops) => {
         if (location.buffer_zone) {
           return hasCrops ? 'Non-Organic' : 'Non-Producing';
         }

@@ -18,13 +18,13 @@
   },
   "CROP_VARIETY": {
     "ERROR": {
-      "ADD": "Erro: falha ao adicionar varietal ao banco de dados",
-      "ADD_ALREADY_EXISTS": "Erro: Varietal existe",
+      "ADD": "Erro: falha ao adicionar variedade ao banco de dados",
+      "ADD_ALREADY_EXISTS": "Erro: Variedade já existe",
       "DELETE": "Falha ao deletar variedade de cultivo",
       "UPDATE": "Falha ao atualizar variedade de cultivo"
     },
     "SUCCESS": {
-      "ADD": "Varietal salvo com sucesso!",
+      "ADD": "Variedade salvo com sucesso!",
       "DELETE": "Variedade de cultivo deletado",
       "UPDATE": "Variedade de cultivo atualizada com sucesso"
     }

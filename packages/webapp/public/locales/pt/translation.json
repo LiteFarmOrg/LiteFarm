@@ -273,8 +273,8 @@
     "COMMERCIAL_AVAILABILITY": "Você fez uma busca de disponibilidade comercial?",
     "DETAIL_TAB": "Detalhes",
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
-    "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "HS_CODE": "MISSING",
+    "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificado?",
+    "HS_CODE": "Código HS",
     "MANAGEMENT_PLANS": "Planos de Manejo",
     "MANAGEMENT_TAB": "Manejo",
     "ORGANIC": "O cultivo é certificado como orgânico?",
@@ -1297,9 +1297,9 @@
     "INVITED": "Convidado"
   },
   "SURVEY_STACK": {
-    "PRODUCED": "MISSING",
-    "SURVEY_ADDENDUM": "MISSING",
-    "TITLE": "MISSING"
+    "PRODUCED": "Produzido em",
+    "SURVEY_ADDENDUM": "Adendo de pesquisa",
+    "TITLE": "{{certification}} certificação de {{certifier}}"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",

@@ -68,9 +68,8 @@ export default function PureManagementPlanPlantingMethod({
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const PLANTING_METHOD = `${plantingMethodPrefix}.planting_method`;
   const planting_method = watch(PLANTING_METHOD);
-  const IS_PLANTING_METHOD_KNOWN = `crop_management_plan.planting_management_plans.${plantingMethodPrefix}.is_planting_method_known`;
+  const IS_PLANTING_METHOD_KNOWN = `${plantingMethodPrefix}.is_planting_method_known`;
   const is_planting_method_known = watch(IS_PLANTING_METHOD_KNOWN);
-
   useHookFormPersist(getValues);
 
   const onError = () => {};

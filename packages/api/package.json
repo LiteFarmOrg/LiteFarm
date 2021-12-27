@@ -107,7 +107,8 @@
     "start-server-and-test": "^1.11.7"
   },
   "resolutions": {
-    "set-value": "^4.1.0"
+    "set-value": "^4.1.0",
+    "glob-parent": "^6.0.2"
   },
   "lint-staged": {
     "*.{js}": [

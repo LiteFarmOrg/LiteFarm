@@ -357,7 +357,7 @@ const organicCertifierSurveyController = {
 
     const booleanTrueToX = bool => bool ? 'x' : '';
 
-    return locations.filter(location => !location.farm_site_boundary && !location?.figure?.point && !location?.fence && !location?.watercourse)
+    return locations.filter(location => !location.farm_site_boundary && !location?.figure?.point && !location?.fence && !location?.watercourse && !location?.surface_water)
       .map(location => {
         const getLocationOrganicStatus = (location, hasCrops) => {
           if (location.buffer_zone) {

@@ -20,7 +20,7 @@ const cropVarietyController = {
       const { farm_id } = req.params;
       try {
         const result = await CropVarietyModel.query().whereNotDeleted().where({ farm_id });
-        return res.status(200).send(result);
+        return result?.length ? res.status(200).send(result) : res.sendStatus(404);
       } catch (error) {
         return res.status(400).json({ error });
       }

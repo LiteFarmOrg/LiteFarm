@@ -17,7 +17,6 @@ import { combineReducers } from 'redux';
 import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
-import shiftReducer from '../containers/Shift/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
@@ -225,7 +224,6 @@ const appReducer = combineReducers({
   persistedStateReducer,
   tempStateReducer,
   baseReducer,
-  shiftReducer,
   insightReducer,
   financeReducer,
   farmReducer,

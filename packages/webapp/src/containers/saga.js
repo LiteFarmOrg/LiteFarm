@@ -78,19 +78,11 @@ import {
   onLoadingPlantingManagementPlanFail,
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
-import {
-  getHarvestUseTypes,
-  getHarvestUseTypesSaga,
-  getProducts,
-  getProductsSaga,
-  getTasks,
-  getTasksSaga,
-  getTaskTypes,
-  getTaskTypesSaga,
-} from './Task/saga';
+import { getHarvestUseTypesSaga, getProductsSaga, getTasksSaga, getTaskTypesSaga } from './Task/saga';
 import { getCertificationSurveysSuccess, onLoadingCertifierSurveyFail } from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
+import { addManyTasksFromGetReq } from './taskSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -499,26 +491,15 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       put(getCertificationSurveys()),
       put(getAllSupportedCertifications()),
       put(getAllSupportedCertifiers()),
-      put(getCrops()),
-      put(getCropVarieties()),
-      put(getLocations()),
-      put(getManagementPlans()),
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
-      put(getTaskTypes()),
-      put(getTasks()),
-      put(getHarvestUseTypes()),
-      put(getProducts()),
+      put(getManagementPlansAndTasks()),
     ];
 
     yield all([
       ...tasks,
-      // put(getLogs()),
-      // put(getAllShifts()),
       put(getSales()),
       put(getExpense()),
-      // put(resetLogFilter()),
-      // put(resetShiftFilter()),
     ]);
 
     const {
@@ -527,6 +508,10 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     localStorage.setItem('farm_token', farm_token);
     const appVersion = yield select(appVersionSelector);
     if (appVersion !== APP_VERSION) {
+      /**
+       * wait for getManagementPlansAndTasks to finish
+       */
+      yield race([take(addManyTasksFromGetReq.type)]);
       yield put(setAppVersion());
     }
   } catch (e) {

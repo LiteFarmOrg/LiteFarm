@@ -101,7 +101,7 @@ const cropController = {
           })
           : await cropController.get(farm_id);
         if (!rows.length) {
-          res.status(200).send(rows);
+          res.sendStatus(404);
         } else {
           res.status(200).send(rows);
         }

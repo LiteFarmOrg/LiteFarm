@@ -12,7 +12,7 @@ export default function PlantInContainer({ history, match }) {
   const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/container_method';
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getContainerMethodPaths(match.params.variety_id, persistedFormData, isFinalPage),
     [],
   );
@@ -28,9 +28,7 @@ export default function PlantInContainer({ history, match }) {
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
         isHistorical={isHistorical}
-        goBackPath={goBackPath}
         submitPath={submitPath}
-        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

@@ -35,15 +35,14 @@ function PureBroadcastPlan({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getBroadcastMethodPaths(variety_id, isFinalPage),
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
 
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
@@ -60,7 +59,7 @@ function PureBroadcastPlan({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={isFinalPage ? 75 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}

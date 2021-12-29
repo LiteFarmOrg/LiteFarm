@@ -8,6 +8,7 @@ export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
   persistedPaths: [],
+  historyStack: [],
   entryPath: '',
 };
 
@@ -15,6 +16,7 @@ const resetState = {
   formData: {},
   shouldUpdateFormData: false,
   persistedPaths: [],
+  historyStack: [],
   entryPath: '',
 };
 
@@ -123,6 +125,15 @@ const hookFormPersistSlice = createSlice({
     setManagementPlansData: (state, { payload: managementPlans }) => {
       state.formData.managementPlans = managementPlans;
     },
+    pushHistoryStack(state, { payload: path }) {
+      state.historyStack.push(path);
+    },
+    popHistoryStack(state) {
+      state.historyStack.pop();
+    },
+    replaceHistoryStack(state, { payload: path }) {
+      state.historyStack[state.historyStack.length - 1] = path;
+    },
   },
 });
 
@@ -144,6 +155,9 @@ export const {
   setCertifierId,
   setInterested,
   setManagementPlansData,
+  pushHistoryStack,
+  popHistoryStack,
+  replaceHistoryStack,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>
@@ -156,3 +170,5 @@ export const hookFormPersistedPathsSetSelector = createSelector(
   [hookFormPersistReducerSelector],
   (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),
 );
+export const hookFormPersistHistoryStackSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name].historyStack;

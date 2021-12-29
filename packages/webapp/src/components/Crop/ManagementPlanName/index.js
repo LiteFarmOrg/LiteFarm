@@ -1,5 +1,5 @@
 import Button from '../../Form/Button';
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import InputAutoSize from '../../Form/InputAutoSize';
 import { cloneObject } from '../../../util';
-import { getAddManagementPlanNamePaths } from '../getAddManagementPlanPath';
 
 export default function PureManagementPlanName({
   onSubmit,
@@ -39,14 +38,9 @@ export default function PureManagementPlanName({
       ...cloneObject(persistedFormData),
     },
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
-  const { goBackPath, cancelPath } = useMemo(
-    () => getAddManagementPlanNamePaths(variety_id, persistedFormData),
-    [],
-  );
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
 
   const disabled = !isValid;
 
@@ -61,7 +55,7 @@ export default function PureManagementPlanName({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={87.5}

@@ -13,10 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector, patchFarmSuccess } from '../userFarmSlice';
-import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga } from '../saga';
+import { axios, getHeader, getManagementPlanAndPlantingMethodSuccessSaga, onReqSuccessSaga } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteManagementPlanSuccess,
@@ -27,7 +27,6 @@ import i18n from '../../locales/i18n';
 import history from '../../history';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from '../Snackbar/snackbarSlice';
 import { getTasksSuccessSaga } from '../Task/saga';
-import { getCropManagementPlansSuccess } from '../cropManagementPlanSlice';
 
 const DEC = 10;
 
@@ -61,11 +60,11 @@ export function* postManagementPlanSaga({ payload: managementPlan }) {
     });
     yield call(getTasksSuccessSaga, { payload: result.data.tasks });
     const management_plan_id = result.data.management_plan.management_plan_id;
-    history.push(
-      `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/tasks`,
-      { fromCreation: true },
-    );
-    yield put(enqueueSuccessSnackbar(i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST')));
+    yield call(onReqSuccessSaga, {
+      pathname: `/crop/${managementPlan.crop_variety_id}/management_plan/${management_plan_id}/tasks`,
+      state: { fromCreation: true },
+      message: i18n.t('message:MANAGEMENT_PLAN.SUCCESS.POST'),
+    });
   } catch (e) {
     console.log(e);
     yield put(enqueueErrorSnackbar(i18n.t('message:MANAGEMENT_PLAN.ERROR.POST')));
@@ -86,7 +85,8 @@ export function* patchFarmDefaultInitialLocationSaga({ payload: farm }) {
       header,
     );
     yield put(patchFarmSuccess({ ...farm, farm_id, user_id }));
-  } catch (e) {}
+  } catch (e) {
+  }
 }
 
 export const patchManagementPlan = createAction(`patchManagementPlanSaga`);

@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (seedLogModel.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  */
 
 const Model = require('objection').Model;
-
 
 class transplantTaskModel extends Model {
   static get tableName() {
@@ -66,6 +65,18 @@ class transplantTaskModel extends Model {
         },
       },
     };
+  }
+
+  /**
+   * Populates test data for a new transplant task, given an existing task and two planting management plans.
+   *
+   * @param {string} task_id - The primary key of the `task` table record representing the task.
+   * @param {string} planting_management_plan_id - The primary key of the `planting_management_plan` record for the task.
+   * @param {string} planting_management_plan_id - The primary key of the "previous" `planting_management_plan` record for the task.
+   * @returns {object} The data contents of the new record in table `plant_task`.
+   */
+  static async createTestRecord(task_id, planting_management_plan_id, prev_planting_management_plan_id) {
+    return await transplantTaskModel.query().insert({ task_id, planting_management_plan_id, prev_planting_management_plan_id }).returning('*');
   }
 }
 

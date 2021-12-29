@@ -9,7 +9,7 @@ export default function BedPlan({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/bed_guidance';
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getBedGuidancePaths(variety_id, isFinalPage),
     [],
   );
@@ -21,9 +21,7 @@ export default function BedPlan({ history, match }) {
         isBed={true}
         variety_id={variety_id}
         isFinalPage={isFinalPage}
-        goBackPath={goBackPath}
         submitPath={submitPath}
-        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

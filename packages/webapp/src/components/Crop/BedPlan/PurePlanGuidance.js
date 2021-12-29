@@ -17,11 +17,8 @@ function PurePlanGuidance({
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
   history,
-  goBackPath,
   submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  onGoBack = () => history.goBack(),
   onSubmit = () => history.push(submitPath),
 }) {
   const { t } = useTranslation(['translation']);
@@ -38,9 +35,8 @@ function PurePlanGuidance({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
-  const onCancel = () => history.push(cancelPath);
 
   return (
     <Form
@@ -53,7 +49,7 @@ function PurePlanGuidance({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={isFinalPage ? 81.25 : 58}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}

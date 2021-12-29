@@ -16,7 +16,7 @@ export default function RowMethod({ history, match }) {
   const { already_in_ground, needs_transplant } = persistedFormData.crop_management_plan;
   const isHistoricalPage =
     already_in_ground && ((needs_transplant && !isFinalPage) || !needs_transplant);
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getRowMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],
   );
@@ -28,9 +28,7 @@ export default function RowMethod({ history, match }) {
         isFinalPage={isFinalPage}
         isHistoricalPage={isHistoricalPage}
         history={history}
-        goBackPath={goBackPath}
         submitPath={submitPath}
-        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

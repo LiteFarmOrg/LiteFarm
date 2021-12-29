@@ -9,7 +9,7 @@ export default function RowGuidance({ history, match }) {
   const variety_id = match.params.variety_id;
   const system = useSelector(measurementSelector);
   const isFinalPage = match?.path === '/crop/:variety_id/add_management_plan/row_guidance';
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getRowGuidancePaths(variety_id, isFinalPage),
     [],
   );
@@ -21,9 +21,7 @@ export default function RowGuidance({ history, match }) {
         isBed={false}
         isFinalPage={isFinalPage}
         variety_id={variety_id}
-        goBackPath={goBackPath}
         submitPath={submitPath}
-        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

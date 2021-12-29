@@ -18,12 +18,9 @@ export default function PurePlantInContainer({
   isFinalPage,
   isHistorical,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  goBackPath,
   submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
   onSubmit = () => history.push(submitPath),
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  onGoBack = () => history.goBack(),
 }) {
   const progress = useMemo(() => {
     if (isHistorical && !isFinalPage) return 55;
@@ -46,9 +43,8 @@ export default function PurePlantInContainer({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
-  const onCancel = () => history.push(cancelPath);
   const onError = () => {};
 
   const disabled = !isValid;
@@ -64,7 +60,7 @@ export default function PurePlantInContainer({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}

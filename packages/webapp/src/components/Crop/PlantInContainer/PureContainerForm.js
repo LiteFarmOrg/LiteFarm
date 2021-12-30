@@ -7,10 +7,7 @@ import Unit from '../../Form/Unit';
 import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
 import styles from './styles.module.scss';
 import { isNonNegativeNumber } from '../../Form/validations';
-import {
-  hookFormMaxLengthValidation,
-  hookFormMaxValidation,
-} from '../../Form/hookformValidationUtils';
+import { hookFormMaxLengthValidation, hookFormMaxValidation } from '../../Form/hookformValidationUtils';
 import clsx from 'clsx';
 import InputAutoSize from '../../Form/InputAutoSize';
 
@@ -49,6 +46,8 @@ export default function PureContainerForm({
   const plants_per_container = watch(PLANTS_PER_CONTAINER);
   const total_plants = watch(TOTAL_PLANTS);
   const plant_spacing = watch(PLANT_SPACING);
+
+  const isPlantSpacingRequired = ![1, 0].includes(total_plants);
 
   const [showEstimatedValue, setShowEstimatedValue] = useState(false);
   const shouldSkipEstimatedValueCalculationRef = useRef(true);
@@ -177,7 +176,8 @@ export default function PureContainerForm({
                 hookFormGetValue={getValues}
                 hookFromWatch={watch}
                 control={control}
-                required
+                required={isPlantSpacingRequired}
+                optional={!isPlantSpacingRequired}
                 disabled={disabled}
               />
             )}

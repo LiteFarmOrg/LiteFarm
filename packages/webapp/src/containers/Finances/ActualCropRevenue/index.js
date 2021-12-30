@@ -6,8 +6,10 @@ import { getManagementPlanCardDate } from '../../../util/moment';
 import { cropVarietyEntitiesSelector } from '../../cropVarietySlice';
 import { setSelectedSale } from '../actions';
 import { convertFromMetric, roundToTwoDecimal } from '../../../util';
+import { useTranslation } from 'react-i18next';
 
 const ActualCropRevenue = ({ sale, history, ...props }) => {
+  const { t } = useTranslation();
   const { sale_id, sale_date, customer_name, crop_variety_sale } = sale;
 
   const dispatch = useDispatch();
@@ -15,10 +17,7 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
   // TODO: optimize this - put in parent component or seek by id
   const cropVarietyEntities = useSelector(cropVarietyEntitiesSelector);
 
-  let total = 0;
-  for (const cvs of crop_variety_sale) {
-    total += cvs.sale_value;
-  }
+  const total = crop_variety_sale.reduce((total, sale) => total + sale.sale_value, 0);
 
   const onClickForward = () => {
     dispatch(setSelectedSale(sale));
@@ -35,8 +34,12 @@ const ActualCropRevenue = ({ sale, history, ...props }) => {
         const convertedQuantity = roundToTwoDecimal(
           convertFromMetric(cvs.quantity.toString(), cvs.quantity_unit, 'kg').toString(),
         );
+        const { crop_variety_name, crop: { crop_translation_key } } = cropVarietyEntities[cvs.crop_variety_id];
+        const title = crop_variety_name ? `${crop_variety_name}, ${t(`crop:${crop_translation_key}`)}`
+          : t(`crop:${crop_translation_key}`);
         return {
-          title: cropVarietyEntities[cvs.crop_variety_id].crop_variety_name,
+          key: cvs.crop_variety_id,
+          title,
           subtitle: `${convertedQuantity} ${cvs.quantity_unit}`,
           amount: cvs.sale_value,
         };

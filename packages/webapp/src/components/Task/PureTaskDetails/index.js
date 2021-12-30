@@ -11,6 +11,7 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
 
 export default function PureTaskDetails({
   handleGoBack,
@@ -31,7 +32,7 @@ export default function PureTaskDetails({
   const taskType = selectedTaskType.task_translation_key;
   const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
-  const isHarvest = taskType === 'HARVEST_TASK';
+  const isHarvest = isTaskType('HARVEST_TASK');
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },

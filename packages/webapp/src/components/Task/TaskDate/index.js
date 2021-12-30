@@ -11,7 +11,6 @@ import { Main } from '../../Typography';
 export default function PureTaskDate({
   onContinue,
   onGoBack,
-  onCancel,
   persistedFormData,
   useHookFormPersist,
 }) {
@@ -30,8 +29,7 @@ export default function PureTaskDate({
 
   const progress = 28;
 
-  const persistedPath = ['/add_task/task_type_selection', '/add_task/task_locations'];
-  useHookFormPersist(getValues, persistedPath);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const DUE_DATE = 'due_date';
 
@@ -49,7 +47,7 @@ export default function PureTaskDate({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
         title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         value={progress}

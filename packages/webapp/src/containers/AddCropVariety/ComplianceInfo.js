@@ -34,12 +34,9 @@ function ComplianceInfoForm({ history, match }) {
   };
 
   const onGoBack = () => {
-    history.push(`/crop/${crop_id}/add_crop_variety`);
+    history.goBack();
   };
 
-  const onCancel = () => {
-    history.push(`/crop_catalogue`);
-  };
 
   return (
     <HookFormPersistProvider>
@@ -48,7 +45,6 @@ function ComplianceInfoForm({ history, match }) {
         onSubmit={onSubmit}
         onError={onError}
         onGoBack={onGoBack}
-        onCancel={onCancel}
         match={match}
         crop={crop}
       />

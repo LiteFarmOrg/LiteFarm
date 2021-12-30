@@ -7,7 +7,6 @@ import { getTaskTypes } from '../saga';
 import { defaultTaskTypesSelector, userCreatedTaskTypesSelector } from '../../taskTypeSlice';
 import { showedSpotlightSelector } from '../../showedSpotlightSlice';
 import { setSpotlightToShown } from '../../Map/saga';
-import { hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { currentAndPlannedManagementPlansSelector } from '../../managementPlanSlice';
 
 function TaskTypeSelection({ history, match }) {
@@ -20,7 +19,7 @@ function TaskTypeSelection({ history, match }) {
   const persistedPaths = [continuePath, customTaskPath];
   const { planting_task } = useSelector(showedSpotlightSelector);
   const isAdmin = useSelector(isAdminSelector);
-  const entryPath = useSelector(hookFormPersistEntryPathSelector);
+
 
   useEffect(() => {
     dispatch(getTaskTypes());
@@ -33,11 +32,7 @@ function TaskTypeSelection({ history, match }) {
   const onContinue = () => history.push(continuePath);
 
   const handleGoBack = () => {
-    history.push(entryPath);
-  };
-
-  const handleCancel = () => {
-    history.push(entryPath);
+    history.goBack();
   };
 
   const onError = () => {
@@ -53,7 +48,6 @@ function TaskTypeSelection({ history, match }) {
         <PureTaskTypeSelection
           history={history}
           onCustomTask={onCustomTask}
-          handleCancel={handleCancel}
           handleGoBack={handleGoBack}
           persistedPaths={persistedPaths}
           onContinue={onContinue}

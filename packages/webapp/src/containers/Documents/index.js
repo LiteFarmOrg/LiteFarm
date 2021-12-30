@@ -19,6 +19,7 @@ import DocumentsFilterPage from '../Filter/Documents';
 import { documentsFilterSelector, isFilterCurrentlyActiveSelector } from '../filterSlice';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
+import { setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function Documents({ history }) {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export default function Documents({ history }) {
   const lang = getLanguageFromLocalStorage();
 
   const getDisplayedDate = (date) => {
-    var formattedDate = moment(date).locale(lang).format('MMM D, YY');
+    const formattedDate = moment(date).locale(lang).format('MMM D, YY');
     return (
       date &&
       formattedDate.substring(0, formattedDate.length - 2) +
@@ -71,6 +72,11 @@ export default function Documents({ history }) {
   const tileClick = (document_id) => {
     history.push(`/documents/${document_id}`);
   };
+
+  const onUpload = () => {
+    dispatch(setPersistedPaths(['/documents/add_document']));
+    history.push('/documents/add_document');
+  };
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('DOCUMENTS.DOCUMENTS')} style={{ paddingBottom: '20px' }} />
@@ -99,7 +105,7 @@ export default function Documents({ history }) {
           <DocumentUploader
             style={{ marginBottom: '24px' }}
             linkText={t('DOCUMENTS.ADD_DOCUMENT')}
-            onUpload={() => history.push('/documents/add_document')}
+            onUpload={onUpload}
           />
           {!!validDocuments.length && (
             <>

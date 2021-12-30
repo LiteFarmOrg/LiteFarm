@@ -106,8 +106,8 @@ const taskController = {
           happiness,
           duration,
           wage_at_moment: override_hourly_wage ? wage_at_moment : wage.amount,
-        });
-        return result ? res.sendStatus(200) : res.status(404).send('Task not found');
+        }).returning('*');
+        return result ? res.status(200).send(result) : res.status(404).send('Task not found');
       } catch (error) {
         console.log(error);
         return res.status(400).json({ error });

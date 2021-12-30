@@ -19,10 +19,6 @@ function TaskCompleteStepOne({ history, match }) {
     history.push(persistedPaths[0]);
   };
 
-  const onCancel = () => {
-    history.push(`/tasks/${task_id}/read_only`);
-  };
-
   const onGoBack = () => {
     history.goBack();
   };
@@ -31,7 +27,6 @@ function TaskCompleteStepOne({ history, match }) {
     <HookFormPersistProvider>
       <PureCompleteStepOne
         onContinue={onContinue}
-        onCancel={onCancel}
         onGoBack={onGoBack}
         system={system}
         farm={farm_id}

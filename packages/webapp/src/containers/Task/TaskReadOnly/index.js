@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureTaskReadOnly from '../../../components/Task/TaskReadOnly';
 import { isAdminSelector, measurementSelector, userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { productEntitiesSelector } from '../../productSlice';
-import { setFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { setFormData, setPersistedPaths } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { harvestUseTypesSelector } from '../../harvestUseTypeSlice';
 import { useReadonlyTask } from './useReadonlyTask';
 import { isTaskType } from '../useIsTaskType';
@@ -29,6 +29,12 @@ function TaskReadOnly({ history, match }) {
   };
 
   const onComplete = () => {
+    dispatch(setPersistedPaths([
+      `/tasks/${task_id}/complete_harvest_quantity`,
+      `/tasks/${task_id}/complete`,
+      `/tasks/${task_id}/before_complete`,
+      `/tasks/${task_id}/harvest_uses`,
+    ]));
     if (isHarvest) {
       history.push(`/tasks/${task_id}/complete_harvest_quantity`);
     } else if (isTaskTypeCustom) {

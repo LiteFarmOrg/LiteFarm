@@ -17,13 +17,13 @@ export default function PureCompleteStepOne({
   persistedFormData,
   onContinue,
   onGoBack,
-  onCancel,
   selectedTaskType,
   selectedTask,
   farm,
   system,
   products,
-  persistedPaths,
+
+
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -44,7 +44,8 @@ export default function PureCompleteStepOne({
     defaultValues: { need_changes: false, ...defaultsToUse },
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
   const CHANGES_NEEDED = 'need_changes';
   const changesRequired = watch(CHANGES_NEEDED);
   const taskType = selectedTaskType?.task_translation_key;
@@ -61,7 +62,7 @@ export default function PureCompleteStepOne({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={33}

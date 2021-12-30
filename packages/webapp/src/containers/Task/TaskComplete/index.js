@@ -13,10 +13,6 @@ function TaskComplete({ history, match }) {
     dispatch(completeTask({ task_id, data }));
   };
 
-  const onCancel = () => {
-    history.push('/tasks');
-  };
-
   const onGoBack = () => {
     history.goBack();
   };
@@ -25,7 +21,6 @@ function TaskComplete({ history, match }) {
     <HookFormPersistProvider>
       <PureTaskComplete
         onSave={onSave}
-        onCancel={onCancel}
         onGoBack={onGoBack}
         persistedPaths={persistedPaths}
       />

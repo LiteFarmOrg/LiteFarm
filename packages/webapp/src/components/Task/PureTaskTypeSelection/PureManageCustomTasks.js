@@ -13,7 +13,6 @@ export const PureManageCustomTasks = ({
   onAddCustomTask,
   onError,
   persistedFormData,
-  persistedPaths,
   useHookFormPersist,
   history,
   onEditCustomTask,
@@ -26,7 +25,7 @@ export const PureManageCustomTasks = ({
     mode: 'onChange',
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  useHookFormPersist(getValues);
 
   const TASK_TYPE_ID = 'task_type_id';
   register(TASK_TYPE_ID);

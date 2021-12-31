@@ -22,7 +22,8 @@ const getScopes = async (user_id, farm_id) => {
     .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
     .where('userFarm.farm_id', farm_id)
     .where('userFarm.user_id', user_id)
-    .where('userFarm.status', 'Active');
+    .where('userFarm.status', 'Active')
+    .where('userFarm.has_consent', true);
 
   return dataPoints;
 };

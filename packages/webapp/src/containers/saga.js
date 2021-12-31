@@ -106,6 +106,8 @@ axios.interceptors.response.use(
       if (localStorage.getItem('id_token')) {
         logout();
       }
+    } else if (error?.response?.status === 403 && history.location.pathname !== '/403') {
+      history.push('/403', { error });
     }
     return Promise.reject(error);
   },
@@ -493,7 +495,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   try {
     yield put(selectFarmSuccess(userFarm));
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
-    if (!has_consent) return;
+    if (!has_consent) return history.push('/consent');
 
     const tasks = [
       put(getCertificationSurveys()),
@@ -534,6 +536,7 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   }
 }
 
+//TODO: remove after removing certification spotlight
 export const waitForCertificationSurveyResultAndPushToHome = createAction(
   'waitForCertificationSurveyResultAndPushToHomeSaga',
 );

@@ -285,6 +285,10 @@ const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualReven
 const UpdateEstimatedCropRevenue = React.lazy(() =>
   import('./containers/Finances/UpdateEstimatedCropRevenue'),
 );
+const Forbidden = React.lazy(() =>
+  import('./containers/ErrorHandler/Forbidden/Forbidden'),
+);
+
 
 const Routes = () => {
   useScrollToTop();
@@ -626,7 +630,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -920,7 +925,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -1013,7 +1019,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

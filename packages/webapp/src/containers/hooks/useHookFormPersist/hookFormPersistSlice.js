@@ -8,14 +8,16 @@ export const initialState = {
   formData: {},
   shouldUpdateFormData: true,
   persistedPaths: [],
-  entryPath: '',
+  historyStack: [],
+
 };
 
 const resetState = {
   formData: {},
   shouldUpdateFormData: false,
   persistedPaths: [],
-  entryPath: '',
+  historyStack: [],
+
 };
 
 const getCorrectedPayload = (payload) => {
@@ -66,9 +68,6 @@ const hookFormPersistSlice = createSlice({
     },
     setPersistedPaths: (state, { payload: persistedPaths }) => {
       state.persistedPaths = persistedPaths;
-    },
-    setEntryPath: (state, { payload: entryPath }) => {
-      state.entryPath = entryPath;
     },
     //Prevent useHookPersistUnMount from updating formData after reset
     resetAndLockFormData: (state) => resetState,
@@ -123,6 +122,15 @@ const hookFormPersistSlice = createSlice({
     setManagementPlansData: (state, { payload: managementPlans }) => {
       state.formData.managementPlans = managementPlans;
     },
+    pushHistoryStack(state, { payload: path }) {
+      state.historyStack.push(path);
+    },
+    popHistoryStack(state) {
+      state.historyStack.pop();
+    },
+    replaceHistoryStack(state, { payload: path }) {
+      state.historyStack[state.historyStack.length - 1] = path;
+    },
   },
 });
 
@@ -130,7 +138,6 @@ export const {
   upsertFormData,
   setFormData,
   setPersistedPaths,
-  setEntryPath,
   resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
@@ -144,15 +151,18 @@ export const {
   setCertifierId,
   setInterested,
   setManagementPlansData,
+  pushHistoryStack,
+  popHistoryStack,
+  replaceHistoryStack,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name];
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
-export const hookFormPersistEntryPathSelector = (state) =>
-  state?.tempStateReducer[hookFormPersistSlice.name].entryPath;
 export const hookFormPersistedPathsSetSelector = createSelector(
   [hookFormPersistReducerSelector],
   (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),
 );
+export const hookFormPersistHistoryStackSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name].historyStack;

@@ -10,7 +10,7 @@ export default function BedPlan({ history, match }) {
   const system = useSelector(measurementSelector);
   const crop_variety = useSelector(cropVarietySelector(match.params.variety_id));
   const isFinalPage = match.path === '/crop/:variety_id/add_management_plan/bed_method';
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getBedMethodPaths(crop_variety.crop_variety_id, isFinalPage),
     [],
   );
@@ -22,9 +22,7 @@ export default function BedPlan({ history, match }) {
         system={system}
         crop_variety={crop_variety}
         isFinalPage={isFinalPage}
-        goBackPath={goBackPath}
         submitPath={submitPath}
-        cancelPath={cancelPath}
       />
     </HookFormPersistProvider>
   );

@@ -73,9 +73,9 @@ const getSupportedTaskTypesSet = (isAdmin) => {
 export const PureTaskTypeSelection = ({
   onCustomTask,
   handleGoBack,
-  handleCancel,
   history,
-  persistedPaths,
+
+
   persistedFormData,
   useHookFormPersist,
   onContinue,
@@ -92,7 +92,8 @@ export const PureTaskTypeSelection = ({
     defaultValues: persistedFormData,
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
   const TASK_TYPE_ID = 'task_type_id';
   register(TASK_TYPE_ID);
   const selected_task_type = watch(TASK_TYPE_ID);
@@ -130,7 +131,7 @@ export const PureTaskTypeSelection = ({
         <MultiStepPageTitle
           style={{ marginBottom: '20px' }}
           onGoBack={handleGoBack}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={14}

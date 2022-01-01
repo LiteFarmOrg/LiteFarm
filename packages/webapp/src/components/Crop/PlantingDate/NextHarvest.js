@@ -36,7 +36,7 @@ export default function PureNextHarvest({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const progress = 37.5;
 
@@ -53,13 +53,12 @@ export default function PureNextHarvest({
   const ESTIMATED_YIELD = 'crop_management_plan.estimated_yield';
   const ESTIMATED_YIELD_UNIT = 'crop_management_plan.estimated_yield_unit';
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getNextHarvestPaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
 
   const showEstimatedYield = !persistedFormData.crop_management_plan.for_cover;
 
@@ -76,7 +75,7 @@ export default function PureNextHarvest({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}

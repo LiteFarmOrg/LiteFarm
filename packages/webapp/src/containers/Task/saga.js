@@ -1,7 +1,7 @@
 import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
-import { axios, getHeader, getPlantingManagementPlansSuccessSaga } from '../saga';
+import { axios, getHeader, getPlantingManagementPlansSuccessSaga, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { loginSelector } from '../userFarmSlice';
 import history from '../../history';
@@ -396,9 +396,10 @@ export function* createTaskSaga({ payload: data }) {
     );
     if (result) {
       yield call(getTasksSuccessSaga, { payload: isHarvest ? result.data : [result.data] });
-      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.CREATE.SUCCESS')));
-
-      history.push('/tasks');
+      yield call(onReqSuccessSaga, {
+        message: i18n.t('message:TASK.CREATE.SUCCESS'),
+        pathname: '/tasks',
+      });
     }
   } catch (e) {
     console.log(e);
@@ -462,8 +463,10 @@ export function* completeTaskSaga({ payload: { task_id, data } }) {
     );
     if (result) {
       yield put(putTaskSuccess({ id: task_id, changes: result.data }));
-      yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.COMPLETE.SUCCESS')));
-      history.push('/tasks');
+      yield call(onReqSuccessSaga, {
+        message: i18n.t('message:TASK.COMPLETE.SUCCESS'),
+        pathname: '/tasks',
+      });
     }
   } catch (e) {
     console.log(e);
@@ -481,7 +484,7 @@ export function* abandonTaskSaga({ payload: data }) {
   try {
     const result = yield call(axios.patch, `${taskUrl}/abandon/${task_id}`, patchData, header);
     if (result) {
-      // yield put(putTaskSuccess({ id: task_id, changes: patchData }));
+      yield put(putTaskSuccess({ id: task_id, changes: result.data }));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK.ABANDON.SUCCESS')));
       history.push('/tasks');
     }
@@ -543,7 +546,7 @@ export function* deleteTaskTypeSaga({ payload: id }) {
     if (result) {
       yield put(deleteTaskTypeSuccess(id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:TASK_TYPE.DELETE.SUCCESS')));
-      history.push('/add_task/manage_custom_tasks');
+      history.goBack();
     }
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:TASK_TYPE.DELETE.FAILED')));

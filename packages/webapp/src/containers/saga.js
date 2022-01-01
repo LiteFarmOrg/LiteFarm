@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
+import { all, call, delay, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import { loginSelector, patchFarmSuccess, putUserSuccess, selectFarmSuccess, userFarmSelector } from './userFarmSlice';
@@ -91,6 +91,7 @@ import {
 import { getCertificationSurveysSuccess, onLoadingCertifierSurveyFail } from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
+import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -539,9 +540,19 @@ export const waitForCertificationSurveyResultAndPushToHome = createAction(
 );
 
 export function* waitForCertificationSurveyResultAndPushToHomeSaga() {
-  console.log('waitForCertificationSurveyResultAndPushSaga');
   yield race([take(getCertificationSurveysSuccess.type), take(onLoadingCertifierSurveyFail.type)]);
   history.push({ pathname: '/' });
+}
+
+export function* onReqSuccessSaga({ pathname, state, message }) {
+  const historyStack = yield select(hookFormPersistHistoryStackSelector);
+  const unlisten = history.listen(() => {
+    unlisten();
+    history.push(pathname, state);
+  });
+  history.go(-historyStack.length);
+  yield delay(100);
+  yield put(enqueueSuccessSnackbar(message));
 }
 
 const formatDate = (currDate) => {

@@ -37,7 +37,7 @@ export default function PurePlantedAlready({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const progress = 12.5;
 
@@ -66,7 +66,7 @@ export default function PurePlantedAlready({
     }
   }, []);
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getPlantedAlreadyPaths(cropVariety.crop_variety_id),
     [],
   );
@@ -103,8 +103,7 @@ export default function PurePlantedAlready({
     }
     history.push(submitPath);
   };
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
 
   const already_in_ground = watch(ALREADY_IN_GROUND);
   const is_seed = watch(IS_SEED);
@@ -122,7 +121,7 @@ export default function PurePlantedAlready({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}

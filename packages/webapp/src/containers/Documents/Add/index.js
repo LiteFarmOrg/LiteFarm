@@ -15,12 +15,9 @@ function AddDocument({ history }) {
   };
 
   const onBack = () => {
-    onCancel();
+    history.goBack();
   };
 
-  const onCancel = () => {
-    history.push('/documents');
-  };
 
   const deleteImage = (url) => {
     dispatch(deleteUploadedFile({ url }));
@@ -28,7 +25,6 @@ function AddDocument({ history }) {
 
   return (
     <PureDocumentDetailView
-      onCancel={onCancel}
       onGoBack={onBack}
       submit={handleSubmit}
       deleteImage={deleteImage}

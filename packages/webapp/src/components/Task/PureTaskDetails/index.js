@@ -14,12 +14,12 @@ import InputAutoSize from '../../Form/InputAutoSize';
 
 export default function PureTaskDetails({
   handleGoBack,
-  handleCancel,
   onSubmit,
   onError,
   persistedFormData,
   useHookFormPersist,
-  persistedPaths,
+
+
   products,
   system,
   selectedTaskType,
@@ -96,7 +96,8 @@ export default function PureTaskDetails({
     formState: { errors, isValid },
   } = formFunctions;
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
   const NOTES = 'notes';
   register(NOTES, { required: false });
 
@@ -115,7 +116,7 @@ export default function PureTaskDetails({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={isHarvest ? 67 : 71}

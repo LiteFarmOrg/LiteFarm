@@ -228,7 +228,6 @@ export function* onLoadingTaskStartSaga() {
 }
 
 export function* getTasksSuccessSaga({ payload: tasks }) {
-  yield put(addManyTasksFromGetReq(tasks));
   const taskTypeEntities = yield select(taskTypeEntitiesSelector);
   const tasksByTranslationKeyDefault = Object.keys(taskTypeActionMap).reduce(
     (tasksByTranslationKeyDefault, task_translation_key) => {
@@ -254,6 +253,7 @@ export function* getTasksSuccessSaga({ payload: tasks }) {
       console.log(e);
     }
   }
+  yield put(addManyTasksFromGetReq(tasks));
 }
 
 export const getTasks = createAction('getTasksSaga');

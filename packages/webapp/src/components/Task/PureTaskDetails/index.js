@@ -32,7 +32,7 @@ export default function PureTaskDetails({
   const taskType = selectedTaskType.task_translation_key;
   const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
-  const isHarvest = isTaskType('HARVEST_TASK');
+  const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },

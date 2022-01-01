@@ -30,7 +30,7 @@
     "i18n-scheduler": "npx i18next 'src/jobs/certification/**/*.js' -c 'src/jobs/locales/i18next-parser.config.js'",
     "scheduler": "cp ../webapp/public/locales/en/crop.json src/jobs/locales/en && cp ../webapp/public/locales/es/crop.json src/jobs/locales/es && cp ../webapp/public/locales/pt/crop.json src/jobs/locales/pt && cp ../webapp/public/locales/fr/crop.json src/jobs/locales/fr && node src/jobs/index.js",
     "fix-lint": "eslint src --fix",
-    "precommit": ""
+    "precommit": "lint-staged"
   },
   "jest": {
     "verbose": true,

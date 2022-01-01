@@ -24,11 +24,6 @@ function HarvestUses({ history, match }) {
     history.push(`/tasks/${task_id}/complete`);
   };
 
-  const onCancel = () => {
-    history.goBack();
-    history.goBack();
-  };
-
   const onGoBack = () => {
     history.goBack();
   };
@@ -38,7 +33,6 @@ function HarvestUses({ history, match }) {
       <HookFormPersistProvider>
         <PureHarvestUses
           system={system}
-          onCancel={onCancel}
           onGoBack={onGoBack}
           onContinue={onContinue}
           persistedPaths={persistedPaths}

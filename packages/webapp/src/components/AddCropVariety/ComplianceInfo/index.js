@@ -15,7 +15,6 @@ export default function ComplianceInfo({
   onSubmit,
   onError,
   onGoBack,
-  onCancel,
   persistedFormData,
   useHookFormPersist,
   match,
@@ -39,8 +38,8 @@ export default function ComplianceInfo({
     shouldUnregister: true,
     defaultValues: { [HS_CODE_ID]: crop?.[HS_CODE_ID], ...persistedFormData },
   });
-  const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety`];
-  useHookFormPersist(getValues, persistedPath);
+  const { historyCancel } = useHookFormPersist(getValues);
+
 
   const organic = watch(CERTIFIED_ORGANIC);
   const disabled = !isValid;
@@ -65,7 +64,7 @@ export default function ComplianceInfo({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
         value={progress}
         style={{

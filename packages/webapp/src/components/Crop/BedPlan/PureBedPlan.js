@@ -17,11 +17,8 @@ function PureBedPlan({
   persistedFormData,
   isFinalPage,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  goBackPath,
   submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  onGoBack = () => history.goBack(),
 }) {
   const { t } = useTranslation();
   const {
@@ -37,10 +34,9 @@ function PureBedPlan({
     shouldUnregister: false,
     mode: 'onChange',
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const onSubmit = () => history.push(submitPath);
-  const onCancel = () => history.push(cancelPath);
 
   return (
     <Form
@@ -53,7 +49,7 @@ function PureBedPlan({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}

@@ -1,5 +1,4 @@
 import {
-  getAddManagementPlanNamePaths,
   getPlantingLocationPaths,
   getPlantingMethodPaths,
   getPrevTransplantLocationPath,
@@ -7,7 +6,6 @@ import {
 import produce from 'immer';
 import {
   addManagementPlanNamePath,
-  finalBedGuidancePath,
   finalBedPath,
   finalBroadcastPath,
   finalContainerPath,
@@ -18,11 +16,9 @@ import {
   initialBedPath,
   initialBroadcastPath,
   initialContainerPath,
-  initialLocationPath,
   initialPlantingMethodPath,
   initialRowGuidancePath,
   initialRowPath,
-  plantingDatePath,
 } from '../../../components/Crop/addManagementPlanPaths';
 
 const persistedFormList = [
@@ -191,41 +187,41 @@ describe('add management plan path test', () => {
   describe('initial location test', () => {
     const getExpectedPaths = (variety_id) => [
       {
-        goBackPath: plantingDatePath(variety_id),
+
         submitPath: initialContainerPath(variety_id),
       },
       {
-        goBackPath: plantingDatePath(variety_id),
+
         submitPath: initialPlantingMethodPath(variety_id),
       },
       {},
       {},
       {
-        goBackPath: plantingDatePath(variety_id),
+
         submitPath: initialPlantingMethodPath(variety_id),
       },
       {
-        goBackPath: plantingDatePath(variety_id),
-        submitPath: initialPlantingMethodPath(variety_id),
-      },
-      {},
-      {},
-      {
-        goBackPath: plantingDatePath(variety_id),
-        submitPath: initialPlantingMethodPath(variety_id),
-      },
-      {
-        goBackPath: plantingDatePath(variety_id),
+
         submitPath: initialPlantingMethodPath(variety_id),
       },
       {},
       {},
       {
-        goBackPath: plantingDatePath(variety_id),
+
+        submitPath: initialPlantingMethodPath(variety_id),
+      },
+      {
+
+        submitPath: initialPlantingMethodPath(variety_id),
+      },
+      {},
+      {},
+      {
+
         submitPath: finalLocationPath(variety_id),
       },
       {
-        goBackPath: plantingDatePath(variety_id),
+
         submitPath: finalLocationPath(variety_id),
       },
       {},
@@ -243,15 +239,14 @@ describe('add management plan path test', () => {
           };
         });
         if (persistedFormData.crop_management_plan.needs_transplant) {
-          const { goBackPath, submitPath } = getPlantingLocationPaths(
+          const { submitPath } = getPlantingLocationPaths(
             variety_id,
             persistedFormData,
             false,
           );
-          const { goBackPath: expectedGoBackPath, submitPath: expectedSubmitPath } = expectedPaths[
+          const { submitPath: expectedSubmitPath } = expectedPaths[
             index
-          ];
-          expect(goBackPath).toBe(expectedGoBackPath);
+            ];
           expect(submitPath).toBe(expectedSubmitPath);
         }
       }
@@ -261,67 +256,67 @@ describe('add management plan path test', () => {
     describe('getPlantingLocationPaths test', () => {
       const getExpectedPaths = (variety_id) => [
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialContainerPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialLocationPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: initialLocationPath(variety_id),
+
           submitPath: finalPlantingMethodPath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: addManagementPlanNamePath(variety_id),
         },
         {
-          goBackPath: plantingDatePath(variety_id),
+
           submitPath: addManagementPlanNamePath(variety_id),
         },
       ];
@@ -336,15 +331,14 @@ describe('add management plan path test', () => {
               is_planting_method_known: true,
             };
           });
-          const { goBackPath, submitPath } = getPlantingLocationPaths(
+          const { submitPath } = getPlantingLocationPaths(
             variety_id,
             persistedFormData,
             true,
           );
-          const { goBackPath: expectedGoBackPath, submitPath: expectedSubmitPath } = expectedPaths[
+          const { submitPath: expectedSubmitPath } = expectedPaths[
             index
-          ];
-          expect(goBackPath).toBe(expectedGoBackPath);
+            ];
           expect(submitPath).toBe(expectedSubmitPath);
         }
       });
@@ -418,13 +412,7 @@ describe('add management plan path test', () => {
           expected: initialPlantingMethodPath(variety_id),
         },
       ];
-      test('getPrevTransplantLocationPath test', () => {
-        const variety_id = 'variety_id';
-        for (const { persistedFormData, expected } of getTestDatas(variety_id)) {
-          const goBackPath = getPrevTransplantLocationPath(variety_id, persistedFormData);
-          expect(goBackPath).toBe(expected);
-        }
-      });
+
     });
   });
 
@@ -589,44 +577,6 @@ describe('add management plan path test', () => {
           }
         }),
       ];
-    });
-  });
-
-  describe('Add management plan name test', () => {
-    const getExpectedPaths = (variety_id) => [
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalPlantingMethodPath(variety_id),
-      finalPlantingMethodPath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalBedGuidancePath(variety_id),
-      finalLocationPath(variety_id),
-      finalLocationPath(variety_id),
-    ];
-    test('getAddManagementPlanNamePaths', () => {
-      const variety_id = 'variety_id';
-      const expectedPaths = getExpectedPaths(variety_id);
-      for (const index in persistedFormList) {
-        const persistedFormData = produce(persistedFormList[index], (persistedFormData) => {
-          persistedFormData.crop_management_plan.planting_management_plans = {
-            final: {
-              is_planting_method_known: false,
-              planting_method: 'BED_METHOD',
-            },
-          };
-        });
-        const expected = expectedPaths[index];
-        const { goBackPath } = getAddManagementPlanNamePaths(variety_id, persistedFormData);
-        expect(goBackPath).toBe(expected);
-      }
     });
   });
 });

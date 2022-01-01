@@ -4,7 +4,9 @@ import Button from '../../Form/Button';
 import React from 'react';
 import PageTitle from '../../PageTitle/v2';
 
-const PureEditCustomTaskUpdate = ({ persistedPaths, handleGoBack, history }) => {
+const PureEditCustomTaskUpdate = ({
+  handleGoBack, history,
+}) => {
   const { t } = useTranslation();
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import Form from '../../Form';
@@ -14,7 +14,6 @@ import { cloneObject } from '../../../util';
 const PureTaskAssignment = ({
   onSubmit,
   handleGoBack,
-  handleCancel,
   onError,
   userFarmOptions,
   wageData,
@@ -51,7 +50,7 @@ const PureTaskAssignment = ({
     },
   });
 
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const override = watch(OVERRIDE_HOURLY_WAGE);
 
@@ -82,7 +81,7 @@ const PureTaskAssignment = ({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={86}

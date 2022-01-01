@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
@@ -10,12 +10,12 @@ import { harvestAmounts } from '../../../../util/unit';
 
 export default function PureHarvestCompleteQuantity({
   onContinue,
-  onCancel,
   onGoBack,
   system,
   task,
   persistedFormData,
-  persistedPaths,
+
+
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -37,7 +37,8 @@ export default function PureHarvestCompleteQuantity({
     },
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
 
   const progress = 25;
 
@@ -58,7 +59,7 @@ export default function PureHarvestCompleteQuantity({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}

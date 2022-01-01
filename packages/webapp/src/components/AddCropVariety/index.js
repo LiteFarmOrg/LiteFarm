@@ -20,7 +20,6 @@ export default function PureAddCropVariety({
   crop,
   imageUploader,
   handleGoBack,
-  handleCancel,
 }) {
   const { t } = useTranslation(['translation', 'common', 'crop']);
   const VARIETY = 'crop_variety_name';
@@ -44,9 +43,9 @@ export default function PureAddCropVariety({
       ...persistedFormData,
     },
   });
-  const persistedPath = [`/crop/${match.params.crop_id}/add_crop_variety/compliance`, '/crop/new'];
 
-  useHookFormPersist(getValues, persistedPath);
+  const { historyCancel } = useHookFormPersist(getValues);
+
 
   const disabled = !isValid;
 
@@ -74,7 +73,7 @@ export default function PureAddCropVariety({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={handleGoBack}
-        onCancel={handleCancel}
+        onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
         value={progress}
       />

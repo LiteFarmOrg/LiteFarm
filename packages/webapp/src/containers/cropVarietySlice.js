@@ -3,6 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { cropEntitiesSelector } from './cropSlice';
 import { pick } from '../util/pick';
+import produce from 'immer';
 
 const getCropVariety = (obj) => {
   return pick(obj, [
@@ -126,23 +127,25 @@ const cropVarietySelectors = cropVarietyAdapter.getSelectors(
   (state) => state.entitiesReducer[cropVarietySlice.name],
 );
 
-export const cropVarietyEntitiesSelector = cropVarietySelectors.selectEntities;
+export const cropVarietyEntitiesSelector = createSelector(
+  [cropVarietySelectors.selectEntities, cropEntitiesSelector],
+  (cropVarietyEntities, cropEntities) => {
+    return produce(cropVarietyEntities, (cropVarietyEntities) => {
+      for (const crop_variety_id in cropVarietyEntities) {
+        const cropVariety = cropVarietyEntities[crop_variety_id];
+        const crop = cropEntities[cropVariety.crop_id];
+        cropVarietyEntities[crop_variety_id] = { ...crop, ...cropVariety, crop };
+      }
+    });
+  },
+);
 
 export const cropVarietiesSelector = createSelector(
-  [cropVarietySelectors.selectAll, cropEntitiesSelector, loginSelector],
-  (cropVarieties, cropEntities, { farm_id }) => {
-    const cropVarietiesOfCurrentFarm = cropVarieties.filter(
+  [cropVarietyEntitiesSelector, loginSelector],
+  (cropVarietyEntities, { farm_id }) => {
+    return Object.values(cropVarietyEntities).filter(
       (cropVariety) => cropVariety.farm_id === farm_id,
     );
-
-    return cropVarietiesOfCurrentFarm.map((cropVariety) => {
-      const crop = cropEntities[cropVariety.crop_id];
-      return {
-        ...crop,
-        ...cropVariety,
-        crop,
-      };
-    });
   },
 );
 

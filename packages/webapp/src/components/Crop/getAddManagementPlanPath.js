@@ -17,22 +17,15 @@ import {
   initialRowGuidancePath,
   initialRowPath,
   needsTransplantPath,
-  plantedAlreadyPath,
   plantingDatePath,
 } from './addManagementPlanPaths';
 
-export const cancelAddManagementPlanPath = (variety_id) => `/crop/${variety_id}/management`;
-
 export const getPlantedAlreadyPaths = (variety_id) => ({
-  goBackPath: cancelAddManagementPlanPath(variety_id),
   submitPath: needsTransplantPath(variety_id),
-  cancelPath: cancelAddManagementPlanPath(variety_id),
 });
 
 export const getTransplantPaths = (variety_id) => ({
-  goBackPath: plantedAlreadyPath(variety_id),
   submitPath: plantingDatePath(variety_id),
-  cancelPath: cancelAddManagementPlanPath(variety_id),
 });
 
 export const getPlantingDatePaths = (variety_id, persistedFormData) => {
@@ -44,9 +37,7 @@ export const getPlantingDatePaths = (variety_id, persistedFormData) => {
     is_seed,
   } = persistedFormData.crop_management_plan;
   return {
-    goBackPath: needsTransplantPath(variety_id),
     submitPath: needs_transplant ? initialLocationPath(variety_id) : finalLocationPath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
@@ -80,17 +71,7 @@ export const getPlantingLocationPaths = (variety_id, persistedFormData, isFinalL
     needs_transplant,
     is_seed,
   } = persistedFormData.crop_management_plan;
-  const getGoBackPath = () => {
-    if (!needs_transplant || !isFinalLocationPage) {
-      return plantingDatePath(variety_id);
-    } else if (already_in_ground && is_wild) {
-      return initialLocationPath(variety_id);
-    } else if (!already_in_ground && is_seed && !for_cover) {
-      return initialContainerPath(variety_id);
-    } else {
-      return getPrevTransplantLocationPath(variety_id, persistedFormData);
-    }
-  };
+
 
   const getSubmitPath = () => {
     if (already_in_ground && is_wild && !isFinalLocationPage) {
@@ -107,9 +88,7 @@ export const getPlantingLocationPaths = (variety_id, persistedFormData, isFinalL
   };
 
   return {
-    goBackPath: getGoBackPath(),
     submitPath: getSubmitPath(),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 /**
@@ -119,7 +98,7 @@ export const getPlantingLocationPaths = (variety_id, persistedFormData, isFinalL
  * @param {boolean} isFinalPlantingMethodPage
  * @param {string} planting_method
  * @param {boolean} is_planting_method_known
- * @return {{goBackPath: string, submitPath: string, cancelPath: string}}
+ * @return {{ submitPath: string}}
  */
 export const getPlantingMethodPaths = (
   variety_id,
@@ -163,56 +142,38 @@ export const getPlantingMethodPaths = (
   };
 
   return {
-    goBackPath: isFinalPlantingMethodPage
-      ? finalLocationPath(variety_id)
-      : initialLocationPath(variety_id),
     submitPath: getSubmitPath(),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
 export const getBedMethodPaths = (variety_id, isFinalPage) => {
   return {
-    goBackPath: isFinalPage
-      ? finalPlantingMethodPath(variety_id)
-      : initialPlantingMethodPath(variety_id),
     submitPath: isFinalPage ? finalBedGuidancePath(variety_id) : initialBedGuidancePath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 export const getBedGuidancePaths = (variety_id, isFinalPage) => {
   return {
-    goBackPath: isFinalPage ? finalBedPath(variety_id) : initialBedPath(variety_id),
     submitPath: isFinalPage ? addManagementPlanNamePath(variety_id) : finalLocationPath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
 export const getRowMethodPaths = (variety_id, isFinalPage) => {
   return {
-    goBackPath: isFinalPage
-      ? finalPlantingMethodPath(variety_id)
-      : initialPlantingMethodPath(variety_id),
+
     submitPath: isFinalPage ? finalRowGuidancePath(variety_id) : initialRowGuidancePath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
 export const getRowGuidancePaths = (variety_id, isFinalPage) => {
   return {
-    goBackPath: isFinalPage ? finalRowPath(variety_id) : initialRowPath(variety_id),
     submitPath: isFinalPage ? addManagementPlanNamePath(variety_id) : finalLocationPath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
 export const getBroadcastMethodPaths = (variety_id, isFinalPage) => {
   return {
-    goBackPath: isFinalPage
-      ? finalPlantingMethodPath(variety_id)
-      : initialPlantingMethodPath(variety_id),
+
     submitPath: isFinalPage ? addManagementPlanNamePath(variety_id) : finalLocationPath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
@@ -224,49 +185,8 @@ export const getContainerMethodPaths = (variety_id, persistedFormData, isFinalPa
     needs_transplant,
     is_seed,
   } = persistedFormData.crop_management_plan;
-  const getGoBackPath = () => {
-    if (!already_in_ground && is_seed && !for_cover && !isFinalPage) {
-      return initialLocationPath(variety_id);
-    } else if (!isFinalPage) {
-      return initialPlantingMethodPath(variety_id);
-    } else {
-      return finalPlantingMethodPath(variety_id);
-    }
-  };
   return {
-    goBackPath: getGoBackPath(),
     submitPath: isFinalPage ? addManagementPlanNamePath(variety_id) : finalLocationPath(variety_id),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
   };
 };
 
-export const getAddManagementPlanNamePaths = (variety_id, persistedFormData) => {
-  const {
-    already_in_ground,
-    is_wild,
-    for_cover,
-    needs_transplant,
-    is_seed,
-    planting_management_plans: { final, initial = {} },
-  } = persistedFormData.crop_management_plan;
-  const plantingMethodPathMap = {
-    CONTAINER_METHOD: finalContainerPath(variety_id),
-    BED_METHOD: finalBedGuidancePath(variety_id),
-    BROADCAST_METHOD: finalBroadcastPath(variety_id),
-    ROW_METHOD: finalRowGuidancePath(variety_id),
-  };
-
-  const getGoBackPath = () => {
-    if (already_in_ground && !is_wild && !needs_transplant && !final.is_planting_method_known) {
-      return finalPlantingMethodPath(variety_id);
-    } else if (already_in_ground && is_wild && !needs_transplant) {
-      return finalLocationPath(variety_id);
-    } else {
-      return plantingMethodPathMap[final.planting_method];
-    }
-  };
-  return {
-    goBackPath: getGoBackPath(),
-    cancelPath: cancelAddManagementPlanPath(variety_id),
-  };
-};

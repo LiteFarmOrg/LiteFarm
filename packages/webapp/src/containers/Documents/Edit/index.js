@@ -25,7 +25,7 @@ export default function EditDocument({ history, match }) {
     }
   }, []);
   const onGoBack = () => {
-    history.push(`/documents/${document_id}`);
+    history.goBack();
   };
 
   const onSubmit = (data) => {

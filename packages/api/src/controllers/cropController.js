@@ -100,14 +100,10 @@ const cropController = {
             farm_id,
           })
           : await cropController.get(farm_id);
-        if (!rows.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(rows);
-        }
+          return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

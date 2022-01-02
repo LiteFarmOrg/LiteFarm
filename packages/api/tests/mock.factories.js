@@ -73,7 +73,7 @@ async function userFarmFactory({
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
   const [{ user_id }] = user;
   const [{ farm_id }] = farm;
-  return knex('userFarm').insert({ user_id, farm_id, ...userFarm }).returning('*');
+  return knex('userFarm').insert({ user_id, farm_id, has_consent: true, ...userFarm }).returning('*');
 }
 
 function fakeUserFarm(defaultData = {}) {

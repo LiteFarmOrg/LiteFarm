@@ -322,6 +322,7 @@ async function farmExpenseFactory({
 function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
+    crop_translation_key: faker.lorem.words(),
     crop_genus: faker.lorem.words(),
     crop_specie: faker.lorem.words(),
     crop_group: faker.random.arrayElement([
@@ -571,7 +572,7 @@ async function planting_management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedFarm, promisedCrop }),
   promisedManagementPlan = management_planFactory({
     promisedFarm,
     promisedLocation,
@@ -1803,4 +1804,5 @@ module.exports = {
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
   fakeOrganicHistory, organic_historyFactory,
+  baseProperties,
 };

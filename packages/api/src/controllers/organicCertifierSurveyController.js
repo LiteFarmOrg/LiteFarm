@@ -299,7 +299,7 @@ const organicCertifierSurveyController = {
           if (planting_management_plan.plant_task) tasks.push(planting_management_plan.plant_task.task);
           if (planting_management_plan.transplant_task) tasks.push(planting_management_plan.transplant_task.task);
           for (const task of tasks) {
-            if ((task.complete_date && task.complete_date.getTime() >= fromDateTime && task.complete_date.getTime() <= toDateTime) || (task.due_date?.getTime() >= fromDateTime && task.due_date?.getTime() <= toDateTime)) return true;
+            if ((task.completed_time && task.completed_time.getTime() >= fromDateTime && task.completed_time.getTime() <= toDateTime) || (!task.completed_time && task.due_date?.getTime() >= fromDateTime && task.due_date?.getTime() <= toDateTime)) return true;
           }
         }
       })
@@ -313,7 +313,7 @@ const organicCertifierSurveyController = {
         /**
          *
          * [largest, toDateTime, transplant_task3, fromDateTime, transplant_task2, transplant_task1]
-         * where largest > transplant_task3.complete_date > transplant_task2.complete_date > transplant_task1.complete_date
+         * where largest > transplant_task3.completed_time > transplant_task2.completed_time > transplant_task1.completed_time
          * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2
          * [largest, toDateTime, transplant_task3, transplant_task2, transplant_task1, fromDateTime]
          * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2, transplant_task1, AND plant_task/wild crop location
@@ -386,6 +386,7 @@ const organicCertifierSurveyController = {
       const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
 
       return ({
+        location_id: location.location_id,
         name: location.name,
         crops,
         area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,

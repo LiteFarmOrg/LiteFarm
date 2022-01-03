@@ -69,14 +69,16 @@ export default function PureTaskReadOnly({
     ),
   };
 
-
-  const assignee = users.find(user => user.user_id === task.assignee_user_id);
+  const assignee = users.find((user) => user.user_id === task.assignee_user_id);
   const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
 
   const isCompleted = !!task.completed_time;
   const isAbandoned = !!task.abandoned_time;
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
+
+  const showTaskNotes =
+    !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
   return (
     <Layout
       buttonGroup={
@@ -131,7 +133,6 @@ export default function PureTaskReadOnly({
         />
       )}
       <LocationPicker
-
         onSelectLocation={() => {
           //  TODO: fix onSelectLocationRef in LocationPicker
         }}
@@ -305,19 +306,22 @@ export default function PureTaskReadOnly({
           products,
           task,
         })}
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t('common:NOTES')}
-        value={task.notes}
-        optional
-        disabled
-      />
-
-      {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) && isCurrent && (
-        <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
-          {t('TASK.ABANDON_TASK')}
-        </Underlined>
+      {showTaskNotes && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('common:NOTES')}
+          value={task.notes}
+          optional
+          disabled
+        />
       )}
+
+      {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
+        isCurrent && (
+          <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
+            {t('TASK.ABANDON_TASK')}
+          </Underlined>
+        )}
     </Layout>
   );
 }

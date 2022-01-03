@@ -19,7 +19,11 @@ const farmTokenController = require('../controllers/farmTokenController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
-
-router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:user_farm_info']), farmTokenController.getFarmToken());
+router.get(
+  '/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:user_farm_info'], { checkConsent: false }),
+  farmTokenController.getFarmToken(),
+);
 
 module.exports = router;

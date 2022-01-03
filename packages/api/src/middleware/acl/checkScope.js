@@ -15,27 +15,31 @@
 
 const userFarmModel = require('../../models/userFarmModel');
 
-const getScopes = async (user_id, farm_id) => {
+const getScopes = async (user_id, farm_id, { checkConsent }) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
-  const dataPoints = await userFarmModel.query().distinct('permissions.name', 'userFarm.role_id')
+  const permissionQuery = userFarmModel
+    .query()
+    .distinct('permissions.name', 'userFarm.role_id')
     .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
     .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
     .where('userFarm.farm_id', farm_id)
     .where('userFarm.user_id', user_id)
-    .where('userFarm.status', 'Active')
-    .where('userFarm.has_consent', true);
+    .where('userFarm.status', 'Active');
 
-  return dataPoints;
+  return checkConsent ? permissionQuery.where('userFarm.has_consent', true) : permissionQuery;
 };
 
 /**
  * Middleware for checking permissions for user. Read auth0 documentation on adding custom claims to id_tokens, and check rules page in litefarm auth0 dashboard
  * for more information. Permissions were added to id_token by adding a custom claim using rules in auth0
  * @param expectedScopes - array of required scopes to make request [ 'get:crops', 'add:sales' ]
+ * @param checkConsent {boolean}
  */
-const checkScope = (expectedScopes) => {
-  if (!Array.isArray(expectedScopes)){
-    throw new Error('Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)');
+const checkScope = (expectedScopes, { checkConsent = true } = {}) => {
+  if (!Array.isArray(expectedScopes)) {
+    throw new Error(
+      'Parameter expectedScopes must be an array of strings representing the scopes for the endpoint(s)',
+    );
   }
 
   return async (req, res, next) => {
@@ -50,18 +54,20 @@ const checkScope = (expectedScopes) => {
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 
-    const scopes = await getScopes(user_id, farm_id);
+    const scopes = await getScopes(user_id, farm_id, { checkConsent });
 
-    const allowed = expectedScopes.some(function(expectedScope) {
-      return scopes.find(permission => permission.name === expectedScope);
+    const allowed = expectedScopes.some(function (expectedScope) {
+      return scopes.find((permission) => permission.name === expectedScope);
     });
     if (scopes.length) {
       req.role = scopes[0].role_id;
     }
-    return allowed ?
-      next() :
-      res.status(403).send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);
-  }
+    return allowed
+      ? next()
+      : res
+          .status(403)
+          .send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);
+  };
 };
 
 module.exports = checkScope;

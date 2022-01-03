@@ -274,23 +274,17 @@ const organicCertifierSurveyController = {
   },
 
   async recordAQuery(endDate, startDate, farmId) {
-    // Specialized task tables and their foreign keys to planting management plans.
-    const taskTables = [
-      { name: 'plant_task', pmpId: 'planting_management_plan_id' },
-      { name: 'transplant_task', pmpId: 'planting_management_plan_id' },
-      { name: 'transplant_task', pmpId: 'prev_planting_management_plan_id' },
-      { name: 'management_tasks', pmpId: 'planting_management_plan_id' },
-    ];
+    const specializedTaskTables = ['plant_task', 'transplant_task', 'management_tasks'];
 
     // Get the location and crop for all farm tasks active during the reporting period.
     let query = '';
-    for (const table of taskTables) {
+    for (const table of specializedTaskTables) {
       if (query.length > 0) query += ' UNION ';
       query += `
       SELECT location_id, crop_translation_key
       FROM task 
-      JOIN ${table.name} tt ON task.task_id = tt.task_id
-      JOIN planting_management_plan pmp ON tt.${table.pmpId} = pmp.planting_management_plan_id
+      JOIN ${table} tt ON task.task_id = tt.task_id
+      JOIN planting_management_plan pmp ON tt.planting_management_plan_id = pmp.planting_management_plan_id
       JOIN management_plan mp ON pmp.management_plan_id = mp.management_plan_id
       JOIN crop_variety cv ON mp.crop_variety_id = cv.crop_variety_id
       JOIN crop ON cv.crop_id = crop.crop_id
@@ -304,7 +298,6 @@ const organicCertifierSurveyController = {
     }
     const tasks = await knex.raw(query,
       [
-        farmId, startDate, endDate, startDate, endDate, startDate, endDate,
         farmId, startDate, endDate, startDate, endDate, startDate, endDate,
         farmId, startDate, endDate, startDate, endDate, startDate, endDate,
         farmId, startDate, endDate, startDate, endDate, startDate, endDate,

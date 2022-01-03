@@ -666,15 +666,20 @@ describe('organicCertifierSurvey Tests', () => {
 
     for (const scenario of testScenarios) {
       test(`should ${scenario.include ? '' : 'not '}include crops from transplant tasks ${scenario.title}`, async (done) => {
-        const task_id = await createTask(scenario.options);
+        const plantTaskId = await createTask(scenario.options);
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id: plantTaskId }] },
+          { planting_management_plan_id },
+        );
 
-        const [previousPlantingMgtPlan] = await mocks.planting_management_planFactory({
+        const transplantTaskId = await createTask(scenario.options);
+        const [transplantMgtPlan] = await mocks.planting_management_planFactory({
           promisedFarm: [{ farm_id }],
           promisedCrop: [{ crop_id }],
           promisedCropVariety: [cropVariety],
         });
 
-        await TransplantTask.createTestRecord(task_id, planting_management_plan_id, previousPlantingMgtPlan.planting_management_plan_id);
+        await TransplantTask.createTestRecord(transplantTaskId, transplantMgtPlan.planting_management_plan_id, planting_management_plan_id);
 
         getExportRequest(exportOptions, exportIds, (err, res) => {
           expect(err).toBeNull();

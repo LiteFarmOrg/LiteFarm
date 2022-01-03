@@ -68,15 +68,15 @@ class transplantTaskModel extends Model {
   }
 
   /**
-   * Populates test data for a new transplant task, given an existing task and two planting management plans.
+   * Populates test data for a new transplant task, given IDs for an existing task and two planting management plans.
    *
-   * @param {string} task_id - The primary key of the `task` table record representing the task.
-   * @param {string} planting_management_plan_id - The primary key of the `planting_management_plan` record for the task.
-   * @param {string} planting_management_plan_id - The primary key of the "previous" `planting_management_plan` record for the task.
-   * @returns {object} The data contents of the new record in table `plant_task`.
+   * @param {number} taskId - The primary key of the `task` table record representing the task.
+   * @param {string} transplantMgtPlanId - The primary key of the `planting_management_plan` record for the tranplanting task.
+   * @param {string} plantMgtPlanId - The primary key of the `planting_management_plan` record for the original planting task.
+   * @returns {object} The data contents of the new record in table `transplant_task`.
    */
-  static async createTestRecord(task_id, planting_management_plan_id, prev_planting_management_plan_id) {
-    return await transplantTaskModel.query().insert({ task_id, planting_management_plan_id, prev_planting_management_plan_id }).returning('*');
+  static async createTestRecord(taskId, transplantMgtPlanId, plantMgtPlanId) {
+    return await transplantTaskModel.query().insert({ task_id: taskId, planting_management_plan_id: transplantMgtPlanId, prev_planting_management_plan_id: plantMgtPlanId }).returning('*');
   }
 }
 

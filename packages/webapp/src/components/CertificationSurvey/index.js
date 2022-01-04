@@ -7,7 +7,6 @@ import Layout from '../Layout';
 import RegisteredCertifierQuestionsSurvey from './RegisteredCertifierQuestions';
 import RegisteredCertifierNoQuestionsSurvey from './RegisteredCertifierNoQuestions';
 import UnregisteredCertifierSurvey from './UnregisteredCertifier';
-import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 
 const PureCertificationSurveyPage = ({
   onExport,
@@ -16,6 +15,7 @@ const PureCertificationSurveyPage = ({
   certifier,
   requested_certifier,
   persistedFormData,
+  useHookFormPersist,
   onSurveyComplete,
   email,
 }) => {

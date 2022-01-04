@@ -41,6 +41,12 @@ const chooseFarmFlowSlice = createSlice({
     endSwitchFarmModal: (state, { payload: farm_id }) => {
       updateFarmState(state, { farm_id, showSwitchFarmModal: false });
     },
+    startExportModal: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showExportModal: true });
+    },
+    endExportModal: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showExportModal: false });
+    },
   },
 });
 export const {
@@ -50,6 +56,8 @@ export const {
   startInvitationFlowOnChooseFarmScreen,
   startSwitchFarmModal,
   endSwitchFarmModal,
+  startExportModal,
+  endExportModal,
 } = chooseFarmFlowSlice.actions;
 export default chooseFarmFlowSlice.reducer;
 

@@ -12,7 +12,6 @@ import {
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const postBufferZoneLocation = createAction(`postBufferZoneLocationSaga`);
 
@@ -32,12 +31,12 @@ export function* postBufferZoneLocationSaga({ payload: data }) {
       header,
     );
     yield put(postBufferZoneSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    history.goBack();
   } catch (e) {
     history.push({
       path: history.location.pathname,
@@ -69,7 +68,7 @@ export function* editBufferZoneLocationSaga({ payload: data }) {
       header,
     );
     yield put(editBufferZoneSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );

@@ -1,23 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
-import { getUnitOptionMap } from '../../../components/Form/Unit';
 import { cloneObject } from '../../../util';
 import { createSelector } from 'reselect';
 
 export const initialState = {
   formData: {},
-  shouldUpdateFormData: true,
+
   persistedPaths: [],
   historyStack: [],
-
-};
-
-const resetState = {
-  formData: {},
-  shouldUpdateFormData: false,
-  persistedPaths: [],
-  historyStack: [],
-
 };
 
 const getCorrectedPayload = (payload) => {
@@ -56,53 +45,15 @@ const hookFormPersistSlice = createSlice({
       Object.assign(state.formData, payload);
     },
     hookFormPersistUnMount: (state, { payload }) => {
-      if (!state.shouldUpdateFormData) {
-        return initialState;
-      } else {
-        Object.assign(state.formData, getCorrectedPayload(payload));
-      }
+      Object.assign(state.formData, getCorrectedPayload(payload));
     },
     setFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
       state.formData = payload;
     },
     setPersistedPaths: (state, { payload: persistedPaths }) => {
       state.persistedPaths = persistedPaths;
     },
-    //Prevent useHookPersistUnMount from updating formData after reset
-    resetAndLockFormData: (state) => resetState,
     resetAndUnLockFormData: (state) => initialState,
-
-    setAreaDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[fieldEnum.total_area_unit] = getUnitOptionMap()[payload[fieldEnum.total_area_unit]];
-      formData[fieldEnum.perimeter_unit] = getUnitOptionMap()[payload[fieldEnum.perimeter_unit]];
-      state.formData = formData;
-    },
-    setLineDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[bufferZoneEnum.length_unit] = getUnitOptionMap()[
-        payload[bufferZoneEnum.length_unit]
-      ];
-      formData[bufferZoneEnum.width_unit] = getUnitOptionMap()[payload[bufferZoneEnum.width_unit]];
-      formData[bufferZoneEnum.total_area_unit] = getUnitOptionMap()[
-        payload[bufferZoneEnum.total_area_unit]
-      ];
-      formData[watercourseEnum.buffer_width_unit] = getUnitOptionMap()[
-        payload[watercourseEnum.buffer_width_unit]
-      ];
-      state.formData = formData;
-    },
-    setPointDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[waterValveEnum.flow_rate_unit] = getUnitOptionMap()[
-        payload[waterValveEnum.flow_rate_unit]
-      ];
-      state.formData = formData;
-    },
 
     setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
       state.formData.submission_id = submission_id;
@@ -138,12 +89,8 @@ export const {
   upsertFormData,
   setFormData,
   setPersistedPaths,
-  resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
-  setAreaDetailFormData,
-  setLineDetailFormData,
-  setPointDetailFormData,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,

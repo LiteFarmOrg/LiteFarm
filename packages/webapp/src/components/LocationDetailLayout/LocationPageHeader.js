@@ -1,12 +1,12 @@
 import PageTitle from '../PageTitle/v2';
 import React from 'react';
 import {
-  setZoomLevelSelector,
+  setPosition,
   setPositionSelector,
   setZoomLevel,
-  setPosition,
+  setZoomLevelSelector,
 } from '../../containers/mapSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 export default function LocationPageHeader({
@@ -16,11 +16,9 @@ export default function LocationPageHeader({
   isViewLocationPage,
   isEditLocationPage,
   title,
+  onCancel,
 }) {
   const { t } = useTranslation();
-  const onCancel = () => {
-    history.push('/map');
-  };
   const dispatch = useDispatch();
   const currentZoomLevel = useSelector(setZoomLevelSelector);
   const position = useSelector(setPositionSelector);
@@ -28,16 +26,16 @@ export default function LocationPageHeader({
     dispatch(setZoomLevel(null));
     dispatch(setPosition(null));
     isCreateLocationPage &&
-      history.push({
+      history.replace({
         pathname: '/map',
         isStepBack: true,
       });
     isViewLocationPage &&
-      history.push({
+      history.replace({
         pathname: '/map',
         cameraInfo: { zoom: currentZoomLevel, location: position },
       });
-    isEditLocationPage && history.push(match.url.replace('edit', 'details'));
+    isEditLocationPage && history.goBack();
   };
   return (
     <PageTitle

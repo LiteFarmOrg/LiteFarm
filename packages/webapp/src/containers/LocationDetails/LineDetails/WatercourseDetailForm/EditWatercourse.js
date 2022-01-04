@@ -4,13 +4,8 @@ import { deleteWatercourseLocation, editWatercourseLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { watercourseSelector } from '../../../watercourseSlice';
-import {
-  hookFormPersistSelector,
-  setLineDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData, useLocationPageType } from '../../utils';
+import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
@@ -33,10 +28,6 @@ function EditWatercourseDetailForm({ history, match }) {
       );
   };
   const watercourse = useSelector(watercourseSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setLineDetailFormData(getFormData(watercourse)));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -83,7 +74,7 @@ function EditWatercourseDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={watercourse}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

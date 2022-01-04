@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../../Form/Radio';
 import Input from '../../../Form/Input';
 import { greenhouseEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
@@ -11,11 +10,21 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
+
 import { getDateInputFormat } from '../../../../util/moment';
 import RadioGroup from '../../../Form/RadioGroup';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureGreenhouse({
+export default function PureGreenhouseWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureGreenhouse {...props} />
+    </PersistedFormWrapper>
+  );
+}
+
+export function PureGreenhouse({
   history,
   match,
   submitForm,
@@ -23,15 +32,18 @@ export default function PureGreenhouse({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
 }) {
   const { t } = useTranslation();
   const getDefaultValues = () => {
-    const defaultValues = {};
-    defaultValues[greenhouseEnum.transition_date] = getDateInputFormat(new Date());
-    return defaultValues;
+    return {
+      [greenhouseEnum.transition_date]: getDateInputFormat(new Date()),
+      [greenhouseEnum.organic_status]: 'Non-Organic',
+      ...persistedFormData,
+    };
   };
   const {
     register,
@@ -48,14 +60,8 @@ export default function PureGreenhouse({
     shouldUnregister: true,
     defaultValues: getDefaultValues(),
   });
-  const persistedPath = getPersistPath('greenhouse', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
 
@@ -70,23 +76,21 @@ export default function PureGreenhouse({
     const greenhouseHeated = data[greenhouseEnum.greenhouse_heated];
     data[greenhouseEnum.total_area_unit] = data[greenhouseEnum.total_area_unit]?.value;
     data[greenhouseEnum.perimeter_unit] = data[greenhouseEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
 
       type: 'greenhouse',
       supplemental_lighting: supplementalLighting,
       co2_enrichment: co2Enrichment,
       greenhouse_heated: greenhouseHeated,
-    };
+    });
     submitForm({ formData });
   };
   const title =
     (isCreateLocationPage && t('FARM_MAP.GREENHOUSE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GREENHOUSE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
   return (
     <Form
       buttonGroup={
@@ -109,6 +113,7 @@ export default function PureGreenhouse({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       {isViewLocationPage && (
         <RouterTab
@@ -143,8 +148,6 @@ export default function PureGreenhouse({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       >
         <div>
           <div style={{ marginBottom: '20px' }}>
@@ -153,34 +156,27 @@ export default function PureGreenhouse({
             </Label>
             <img src={Leaf} style={{ display: 'inline-block' }} />
           </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GREENHOUSE.NON_ORGANIC')}
-              defaultChecked={true}
-              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
-              value={'Non-Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GREENHOUSE.ORGANIC')}
-              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
-              value={'Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GREENHOUSE.TRANSITIONING')}
-              hookFormRegister={register(greenhouseEnum.organic_status, { required: true })}
-              value={'Transitional'}
-              disabled={isViewLocationPage}
-            />
-          </div>
+          <RadioGroup
+            required={true}
+            disabled={isViewLocationPage}
+            hookFormControl={control}
+            name={greenhouseEnum.organic_status}
+            radios={[
+              {
+                label: t('FARM_MAP.GREENHOUSE.NON_ORGANIC'),
+                value: 'Non-Organic',
+              },
+              {
+                label: t('FARM_MAP.GREENHOUSE.ORGANIC'),
+                value: 'Organic',
+              },
+              {
+                label: t('FARM_MAP.GREENHOUSE.TRANSITIONING'),
+                value: 'Transitional',
+              },
+            ]}
+          />
+
           <div style={{ paddingBottom: greenhouseTypeSelection === 'Organic' ? '9px' : '20px' }}>
             {greenhouseTypeSelection === 'Transitional' && (
               <Input

@@ -6,9 +6,17 @@ import LocationButtons from '../../LocationButtons';
 import { naturalAreaEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
-import { getPersistPath } from '../../utils';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureNaturalArea({
+export default function PureNaturalAreaWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureNaturalArea {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureNaturalArea({
   history,
   match,
   submitForm,
@@ -16,6 +24,7 @@ export default function PureNaturalArea({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -34,15 +43,10 @@ export default function PureNaturalArea({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('natural_area', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
@@ -50,21 +54,19 @@ export default function PureNaturalArea({
   const onSubmit = (data) => {
     data[naturalAreaEnum.total_area_unit] = data[naturalAreaEnum.total_area_unit]?.value;
     data[naturalAreaEnum.perimeter_unit] = data[naturalAreaEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
 
       type: 'natural_area',
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.NATURAL_AREA.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.NATURAL_AREA.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -88,6 +90,7 @@ export default function PureNaturalArea({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <AreaDetails
         name={t('FARM_MAP.NATURAL_AREA.NAME')}
@@ -104,8 +107,6 @@ export default function PureNaturalArea({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       />
     </Form>
   );

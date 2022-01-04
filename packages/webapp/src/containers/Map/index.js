@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
-import { canShowSuccessHeader, setShowSuccessHeaderSelector, setSuccessMessageSelector } from '../mapSlice';
+import {
+  canShowSuccessHeader,
+  setShowSuccessHeaderSelector,
+  setSuccessMessageSelector,
+} from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
@@ -35,8 +39,10 @@ import {
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
 import {
+  hookFormPersistedPathsSetSelector,
   hookFormPersistSelector,
   resetAndUnLockFormData,
+  setPersistedPaths,
   upsertFormData,
 } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import LocationSelectionModal from './LocationSelectionModal';
@@ -68,6 +74,14 @@ export default function Map({ history }) {
       width: 8,
     },
   };
+  const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
+  useEffect(() => {
+    return () => {
+      persistedPathsSet.size &&
+        !persistedPathsSet.has(history.location.pathname) &&
+        dispatch(resetAndUnLockFormData());
+    };
+  }, []);
   useEffect(() => {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
@@ -100,12 +114,6 @@ export default function Map({ history }) {
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, [showHeader]);
-
-  useEffect(() => {
-    if (isLineWithWidth() && !drawingState.isActive) {
-      dispatch(upsertFormData(initialLineData[drawingState.type]));
-    }
-  }, [drawingState.type, drawingState.isActive]);
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
@@ -151,14 +159,14 @@ export default function Map({ history }) {
   const { getMaxZoom } = useMaxZoom();
   const handleGoogleMapApi = (map, maps) => {
     getMaxZoom(maps);
-    maps.Polygon.prototype.getPolygonBounds = function() {
+    maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
-      this.getPath().forEach(function(element, index) {
+      this.getPath().forEach(function (element, index) {
         bounds.extend(element);
       });
       return bounds;
     };
-    maps.Polygon.prototype.getAveragePoint = function() {
+    maps.Polygon.prototype.getAveragePoint = function () {
       const latLngArray = this.getPath().getArray();
       let latSum = 0;
       let lngSum = 0;
@@ -281,6 +289,9 @@ export default function Map({ history }) {
     } else if (isLine(locationType) && !showedSpotlight.draw_line) {
       setShowDrawLineSpotlightModal(true);
     }
+    isLineWithWidth(locationType) && dispatch(upsertFormData(initialLineData[locationType]));
+    const submitPath = `/create_location/${locationType}`;
+    dispatch(setPersistedPaths([submitPath, '/map']));
     startDrawing(locationType);
   };
 
@@ -325,8 +336,8 @@ export default function Map({ history }) {
     history.push(`/create_location/${drawingState.type}`);
   };
 
-  const isLineWithWidth = () => {
-    return lineTypesWithWidth.includes(drawingState.type);
+  const isLineWithWidth = (type = drawingState.type) => {
+    return lineTypesWithWidth.includes(type);
   };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;

@@ -7,12 +7,21 @@ import { area_total_area, line_length, line_width, watercourse_width } from '../
 import Unit from '../../../Form/Unit';
 import { watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';
-import { getPersistPath } from '../../utils';
+
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RadioGroup from '../../../Form/RadioGroup';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureWatercourse({
+export default function PureWatercourseWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureWatercourse {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureWatercourse({
   history,
   match,
   submitForm,
@@ -20,6 +29,7 @@ export default function PureWatercourse({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -39,37 +49,21 @@ export default function PureWatercourse({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('watercourse', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: {
-      name,
-      line_points,
-      length,
-      width,
 
-      buffer_width,
-      total_area,
-    },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
   const onSubmit = (data) => {
     const usedForIrrigation = data[watercourseEnum.used_for_irrigation];
-    const formData = {
-      line_points,
-      length,
-      width,
-      buffer_width,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
       type: 'watercourse',
       used_for_irrigation: usedForIrrigation,
-    };
+    });
     formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit]?.value;
     formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit]?.value;
     formData[watercourseEnum.buffer_width_unit] =
@@ -81,7 +75,7 @@ export default function PureWatercourse({
   const title =
     (isCreateLocationPage && t('FARM_MAP.WATERCOURSE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.WATERCOURSE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -105,6 +99,7 @@ export default function PureWatercourse({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <LineDetails
         name={t('FARM_MAP.WATERCOURSE.NAME')}
@@ -131,7 +126,6 @@ export default function PureWatercourse({
               label={t('FARM_MAP.WATERCOURSE.LENGTH')}
               name={watercourseEnum.length}
               displayUnitName={watercourseEnum.length_unit}
-              defaultValue={length}
               errors={errors[watercourseEnum.length]}
               unitType={line_length}
               system={system}
@@ -166,7 +160,6 @@ export default function PureWatercourse({
               hookFromWatch={watch}
               control={control}
               required
-              defaultValue={total_area}
               disabled={isViewLocationPage}
             />
           </div>
@@ -185,7 +178,6 @@ export default function PureWatercourse({
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
-              defaultValue={width}
             />
           </div>
           <div>
@@ -203,7 +195,6 @@ export default function PureWatercourse({
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
-              defaultValue={buffer_width}
             />
           </div>
           <div>

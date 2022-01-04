@@ -4,13 +4,8 @@ import { deleteFieldLocation, editFieldLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { fieldSelector } from '../../../fieldSlice';
-import {
-  hookFormPersistSelector,
-  setAreaDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData, useLocationPageType } from '../../utils';
+import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
@@ -27,10 +22,6 @@ function EditFieldDetailForm({ history, match }) {
       dispatch(editFieldLocation({ ...data, ...match.params, figure_id: field.figure_id }));
   };
   const field = useSelector(fieldSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setAreaDetailFormData(getFormData(field)));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error) {
@@ -76,7 +67,7 @@ function EditFieldDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={field}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

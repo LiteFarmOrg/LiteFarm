@@ -12,12 +12,7 @@ import {
 import { useCallback, useEffect, useLayoutEffect } from 'react';
 import history from '../../../history';
 
-export default function useHookFormPersist(
-  getValues = () => ({}),
-  persistedPathNames = [],
-  setValue,
-  shouldDirty = true,
-) {
+export default function useHookFormPersist(getValues = () => ({}), persistedPathNames = []) {
   const dispatch = useDispatch();
 
   const historyStack = useSelector(hookFormPersistHistoryStackSelector);
@@ -31,7 +26,6 @@ export default function useHookFormPersist(
     history.go(-historyStack.length);
   }, [historyStack]);
 
-
   const formData = useSelector(hookFormPersistSelector);
   const persistedPathsSet = useSelector(hookFormPersistedPathsSetSelector);
   useLayoutEffect(() => {
@@ -44,17 +38,17 @@ export default function useHookFormPersist(
       ) {
         dispatch(hookFormPersistUnMount(getValues()));
         switch (history.action) {
-        case 'PUSH':
-          dispatch(pushHistoryStack(history.location.pathname));
-          break;
-        case 'POP':
-          dispatch(popHistoryStack());
-          break;
-        case 'REPLACE':
-          dispatch(replaceHistoryStack(history.location.pathname));
-          break;
-        default:
-          break;
+          case 'PUSH':
+            dispatch(pushHistoryStack(history.location.pathname));
+            break;
+          case 'POP':
+            dispatch(popHistoryStack());
+            break;
+          case 'REPLACE':
+            dispatch(replaceHistoryStack(history.location.pathname));
+            break;
+          default:
+            break;
         }
       } else {
         if (history.action === 'PUSH') {
@@ -71,24 +65,6 @@ export default function useHookFormPersist(
       }
     };
   }, []);
-  //TODO: remove and refactor location multistep forms LF-2122
-  useEffect(() => {
-    if (!!setValue) {
-      for (const key in formData) {
-        isValueValid(formData[key]) &&
-          setValue(key, formData[key], { shouldValidate: true, shouldDirty });
-      }
-      const initiatedField = Object.keys(getValues());
-      const setHiddenValues = setTimeout(() => {
-        for (const key in formData) {
-          !initiatedField.includes(key) &&
-            isValueValid(formData[key]) &&
-            setValue(key, formData[key], { shouldValidate: true, shouldDirty });
-        }
-      }, 100);
-      return () => clearTimeout(setHiddenValues);
-    }
-  }, [history.location.pathname, formData]);
 
   return { persistedData: formData, historyCancel };
 }

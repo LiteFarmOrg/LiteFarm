@@ -6,9 +6,18 @@ import LocationButtons from '../../LocationButtons';
 import { ceremonialEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
-import { getPersistPath } from '../../utils';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureCeremonialArea({
+export default function PureCeremonialAreaWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureCeremonialArea {...props} />
+    </PersistedFormWrapper>
+  );
+}
+
+export function PureCeremonialArea({
   history,
   match,
   submitForm,
@@ -16,6 +25,7 @@ export default function PureCeremonialArea({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -34,15 +44,10 @@ export default function PureCeremonialArea({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('ceremonial_area', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
@@ -50,19 +55,17 @@ export default function PureCeremonialArea({
   const onSubmit = (data) => {
     data[ceremonialEnum.total_area_unit] = data[ceremonialEnum.total_area_unit]?.value;
     data[ceremonialEnum.perimeter_unit] = data[ceremonialEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
       type: 'ceremonial_area',
-    };
+    });
     submitForm({ formData });
   };
   const title =
     (isCreateLocationPage && t('FARM_MAP.CEREMONIAL_AREA.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.CEREMONIAL_AREA.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
   return (
     <Form
       buttonGroup={
@@ -85,6 +88,7 @@ export default function PureCeremonialArea({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <AreaDetails
         name={t('FARM_MAP.CEREMONIAL_AREA.NAME')}
@@ -101,8 +105,6 @@ export default function PureCeremonialArea({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       />
     </Form>
   );

@@ -7,10 +7,19 @@ import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
-import { getPersistPath } from '../../utils';
-import RadioGroup from '../../../Form/RadioGroup';
 
-export default function PureSurfaceWater({
+import RadioGroup from '../../../Form/RadioGroup';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+
+export default function PureSurfaceWaterWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureSurfaceWater {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureSurfaceWater({
   history,
   match,
   submitForm,
@@ -18,6 +27,7 @@ export default function PureSurfaceWater({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -36,15 +46,10 @@ export default function PureSurfaceWater({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('surface_water', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
@@ -53,21 +58,19 @@ export default function PureSurfaceWater({
     const usedForIrrigation = data[surfaceWaterEnum.used_for_irrigation];
     data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit]?.value;
     data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
       type: 'surface_water',
       used_for_irrigation: usedForIrrigation,
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.SURFACE_WATER.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.SURFACE_WATER.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -91,6 +94,7 @@ export default function PureSurfaceWater({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <AreaDetails
         name={t('FARM_MAP.SURFACE_WATER.NAME')}
@@ -107,8 +111,6 @@ export default function PureSurfaceWater({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       >
         <div>
           <div style={{ marginBottom: '20px' }}>

@@ -2,16 +2,25 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import { barnEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
-import { getPersistPath } from '../../utils';
-import RadioGroup from '../../../Form/RadioGroup';
 
-export default function PureBarn({
+import RadioGroup from '../../../Form/RadioGroup';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+
+export default function PureBarnWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureBarn {...props} />
+    </PersistedFormWrapper>
+  );
+}
+
+export function PureBarn({
   history,
   match,
   submitForm,
@@ -19,6 +28,7 @@ export default function PureBarn({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -37,15 +47,10 @@ export default function PureBarn({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('barn', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
@@ -56,23 +61,21 @@ export default function PureBarn({
     const usedForAnimals = data[barnEnum.used_for_animals];
     data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit]?.value;
     data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
       type: 'barn',
       wash_and_pack: washPackSelection,
       cold_storage: coldStorage,
       used_for_animals: usedForAnimals,
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.BARN.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.BARN.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -96,6 +99,7 @@ export default function PureBarn({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <AreaDetails
         name={t('FARM_MAP.BARN.NAME')}
@@ -112,8 +116,6 @@ export default function PureBarn({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       >
         <div>
           <div style={{ marginBottom: '20px' }}>

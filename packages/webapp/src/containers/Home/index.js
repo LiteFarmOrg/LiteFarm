@@ -10,6 +10,7 @@ import RequestConfirmationComponent from '../../components/Modals/RequestConfirm
 import { dismissHelpRequestModal, showHelpRequestModalSelector } from './homeSlice';
 import {
   chooseFarmFlowSelector,
+  endExportModal,
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -25,16 +26,16 @@ export default function Home({ history }) {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
-  const { showSpotLight } = useSelector(chooseFarmFlowSelector);
+  const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
   const showSwitchFarmModal = useSelector(switchFarmSelector);
   const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
+  const dismissExportModal = () => dispatch(endExportModal(userFarm.farm_id));
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
-  const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
 
   // TODO: remove after mini release LF-2131: Certification modal logic
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
@@ -83,7 +84,7 @@ export default function Home({ history }) {
         />
       )}
 
-      {showExportModal && <PreparingExportModal dismissModal={() => setShowExportModal(false)} />}
+      {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
 
       {showCertificationsModal && (
         <CertificationsModal

@@ -6,12 +6,21 @@ import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
 import { area_total_area, line_width } from '../../../../util/unit';
 import LocationButtons from '../../LocationButtons';
-import { getPersistPath } from '../../utils';
+
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureBufferZone({
+export default function PureBufferZoneWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureBufferZone {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureBufferZone({
   history,
   match,
   submitForm,
@@ -19,6 +28,7 @@ export default function PureBufferZone({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -37,26 +47,19 @@ export default function PureBufferZone({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('buffer_zone', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, line_points, width, length, total_area },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
   const onSubmit = (data) => {
-    const formData = {
-      length,
-      line_points,
-      width,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
       type: 'buffer_zone',
-    };
+    });
     formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit]?.value;
     formData[bufferZoneEnum.length_unit] = formData[bufferZoneEnum.length_unit]?.value;
     formData[bufferZoneEnum.total_area_unit] = formData[bufferZoneEnum.total_area_unit]?.value;
@@ -66,7 +69,7 @@ export default function PureBufferZone({
   const title =
     (isCreateLocationPage && t('FARM_MAP.BUFFER_ZONE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.BUFFER_ZONE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -90,6 +93,7 @@ export default function PureBufferZone({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       {isViewLocationPage && (
         <RouterTab
@@ -122,7 +126,6 @@ export default function PureBufferZone({
         control={control}
         errors={errors}
         system={system}
-        width={width}
       >
         <div>
           <div>
@@ -140,7 +143,6 @@ export default function PureBufferZone({
               hookFromWatch={watch}
               control={control}
               disabled={!isEditLocationPage}
-              defaultValue={width}
             />
           </div>
           <div
@@ -166,7 +168,6 @@ export default function PureBufferZone({
               hookFromWatch={watch}
               control={control}
               required
-              defaultValue={total_area}
               disabled={isViewLocationPage}
             />
           </div>

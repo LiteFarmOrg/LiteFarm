@@ -4,12 +4,7 @@ import { deleteCeremonialLocation, editCeremonialLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { ceremonialSelector } from '../../../ceremonialSlice';
-import {
-  hookFormPersistSelector,
-  setAreaDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
@@ -33,10 +28,6 @@ function EditCeremonialDetailForm({ history, match }) {
       );
   };
   const ceremonial = useSelector(ceremonialSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setAreaDetailFormData(ceremonial));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -83,7 +74,7 @@ function EditCeremonialDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={ceremonial}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

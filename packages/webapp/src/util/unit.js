@@ -113,7 +113,7 @@ export const container_planting_depth = {
   databaseUnit: databaseUnit.length,
 };
 
-export const length_of_bed = {
+export const length_of_bed_or_row = {
   metric: {
     units: ['cm', 'm'],
     defaultUnit: 'm',

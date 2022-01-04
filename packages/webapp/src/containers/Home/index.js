@@ -20,8 +20,6 @@ import { setSpotlightToShown } from '../Map/saga';
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { doesCertifierSurveyExistSelector } from '../OrganicCertifierSurvey/slice';
 import { CertificationsModal } from '../../components/Modals/CertificationsModal';
-import { postOrganicCertifierSurvey } from '../OrganicCertifierSurvey/saga';
-import { getOrganicSurveyReqBody } from '../OrganicCertifierSurvey/SetCertificationSummary/utils/getOrganicSurveyReqBody';
 import { setIntroducingCertifications } from '../Navigation/navbarSlice';
 
 export default function Home({ history }) {
@@ -39,27 +37,18 @@ export default function Home({ history }) {
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
 
-  // Certification modal logic
+  // TODO: remove after mini release LF-2131: Certification modal logic
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
+
   const isAdmin = useSelector(isAdminSelector);
   const [showCertificationsModal, setShowCertificationsModal] = useState(
     !doesCertifierSurveyExist && isAdmin,
   );
   const onClickMaybeLater = () => {
-    dispatch(
-      postOrganicCertifierSurvey({
-        survey: getOrganicSurveyReqBody({ interested: false }),
-      }),
-    );
     dispatch(setIntroducingCertifications(true));
   };
   const onClickCertificationsYes = () => {
-    dispatch(
-      postOrganicCertifierSurvey({
-        survey: getOrganicSurveyReqBody({ interested: false }),
-        callback: () => history.push('/certification/interested_in_organic'),
-      }),
-    );
+    history.push('/certification/interested_in_organic');
   };
 
   return (

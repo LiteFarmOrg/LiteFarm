@@ -133,7 +133,7 @@ export default function PureRowForm({
                 name={TOTAL_LENGTH}
                 displayUnitName={TOTAL_LENGTH_UNIT}
                 errors={errors[TOTAL_LENGTH]}
-                unitType={container_plant_spacing}
+                unitType={length_of_bed_or_row}
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}

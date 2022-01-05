@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (farm.test.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,7 +12,6 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -30,6 +29,7 @@ const emailTemplate = require('../src/templates/sendEmailTemplate');
 jest.mock('../src/templates/sendEmailTemplate');
 
 const organicCertifierSurveyModel = require('../src/models/organicCertifierSurveyModel');
+const TransplantTask = require('../src/models/transplantTaskModel');
 
 describe('organicCertifierSurvey Tests', () => {
   let middleware;
@@ -48,7 +48,7 @@ describe('organicCertifierSurvey Tests', () => {
 
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).post(`/organic_certifier_survey`)
+    chai.request(server).post('/organic_certifier_survey')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -57,7 +57,7 @@ describe('organicCertifierSurvey Tests', () => {
   }
 
   function putRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).put(`/organic_certifier_survey`)
+    chai.request(server).put('/organic_certifier_survey')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -66,7 +66,7 @@ describe('organicCertifierSurvey Tests', () => {
   }
 
   function getExportRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
-    chai.request(server).post(`/organic_certifier_survey/request_export`)
+    chai.request(server).post('/organic_certifier_survey/request_export')
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -124,7 +124,7 @@ describe('organicCertifierSurvey Tests', () => {
     done();
   });
 
-  describe('Get supported certifier and certification', function() {
+  describe('Get supported certifier and certification', function () {
     let organicCertifierSurvey;
     beforeEach(async () => {
       [organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [ownerFarm] });
@@ -142,7 +142,6 @@ describe('organicCertifierSurvey Tests', () => {
       });
 
       test('User should get all supported certifiers', async (done) => {
-        console.log(organicCertifierSurvey);
         getAllSupportedCertifiersRequest({
           user_id: manager.user_id,
         }, (err, res) => {
@@ -249,7 +248,7 @@ describe('organicCertifierSurvey Tests', () => {
 
   // })
 
-  describe('Delete certifier survey', function() {
+  describe('Delete certifier survey', function () {
     let organicCertifierSurvey;
     beforeEach(async () => {
       [organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [ownerFarm] });
@@ -491,7 +490,7 @@ describe('organicCertifierSurvey Tests', () => {
   });
 
   describe('Export test', () => {
-    function managementPlanDates(start, seed, completed=null, abandoned = null) {
+    function managementPlanDates(start, seed, completed = null, abandoned = null) {
       return {
         start_date: new Date(start),
         complete_date: completed ? new Date(completed) : null,
@@ -499,9 +498,9 @@ describe('organicCertifierSurvey Tests', () => {
       }
     }
 
-    test('Should get records from canadian farm that were active before the to_date and NOT completed before the from date' , async (done) => {
+    test('Should get records from canadian farm that were active before the to_date and NOT completed before the from date', async (done) => {
       const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{ farm_id, user_id }] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
       const completeBeforeTheToDate = await mocks.crop_management_planFactory({
         promisedFarm: [{ farm_id }],
@@ -523,17 +522,17 @@ describe('organicCertifierSurvey Tests', () => {
         from_date: '2021-02-01',
         to_date: '2021-05-20',
         email: faker.internet.email(),
-        farm_id: farm_id
-      }, {farm_id, user_id} , (err,res) => {
+        farm_id,
+      }, { farm_id, user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.recordD.length).toBe(1);
         done();
       })
     });
 
-    test('Should get records from canadian farm that were active before the to_date and NOT abandoned' , async (done) => {
+    test('Should get records from canadian farm that were active before the to_date and NOT abandoned', async (done) => {
       const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{ farm_id, user_id }] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       const cropVariety = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ organic: true }));
       const completeBeforeTheToDate = await mocks.crop_management_planFactory({
         promisedFarm: [{ farm_id }],
@@ -555,23 +554,23 @@ describe('organicCertifierSurvey Tests', () => {
         from_date: '2021-02-01',
         to_date: '2021-05-20',
         email: faker.internet.email(),
-        farm_id: farm_id
-      }, {farm_id, user_id} , (err,res) => {
+        farm_id,
+      }, { farm_id, user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.recordD.length).toBe(1);
         done();
       })
     });
 
-    test('Should get no records from canadian farm if no management plans (Possible failure scenario in the future)' , async (done) => {
-      const [{ farm_id, user_id }] = await mocks.userFarmFactory({} , fakeUserFarm());
-      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{farm_id, user_id}] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
+    test('Should get no records from canadian farm if no management plans (Possible failure scenario in the future)', async (done) => {
+      const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{ farm_id, user_id }] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
       getExportRequest({
         from_date: '2021-02-01',
         to_date: '2021-05-20',
         email: faker.internet.email(),
-        farm_id: farm_id
-      }, {farm_id, user_id} , (err,res) => {
+        farm_id,
+      }, { farm_id, user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.recordD.length).toBe(0);
         done();
@@ -580,6 +579,305 @@ describe('organicCertifierSurvey Tests', () => {
 
 
   })
+
+  describe('Record A data', () => {
+    const MAY31 = '2020-05-31';
+    const JUNE01 = '2020-06-01';
+    const JUNE30 = '2020-06-30';
+    const JULY01 = '2020-07-01';
+    const START_OF_DAY = 'T00:00:00';
+    const END_OF_DAY = 'T23:59:59';
+    const EXPECTED_CROP = 'crop "translation" key for testing';
+    let farm_id;
+    let user_id;
+    let crop_id;
+    let cropVariety;
+    let planting_management_plan_id;
+    let exportIds;
+    let exportOptions;
+
+    beforeEach(async () => {
+      [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+      exportIds = { farm_id, user_id };
+      exportOptions = {
+        from_date: JUNE01,
+        to_date: JUNE30,
+        email: faker.internet.email(),
+        farm_id,
+      };
+
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      await mocks.areaFactory({ promisedFarm: [{ farm_id }], promisedLocation: [location] });
+
+      await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{ farm_id, user_id }] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
+      [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }], createdUser: [{ user_id }] }, mocks.fakeCrop({ crop_translation_key: EXPECTED_CROP }));
+      [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ crop_variety_name: 'test', crop_id }));
+
+      [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [location],
+        promisedCrop: [{ crop_id }],
+        promisedCropVariety: [cropVariety],
+      });
+    });
+
+    const createTask = async (options) => {
+      const fakeTask = mocks.fakeTask({
+        owner_user_id: user_id,
+        assignee_user_id: user_id,
+        planned_time: faker.date.future(),
+        due_date: faker.date.future(),
+        ...options,
+      });
+
+      const [{ task_id }] = await mocks.taskFactory({
+        promisedUser: [{ user_id }],
+      }, fakeTask);
+
+      return task_id;
+    };
+
+    const testScenarios = [
+      { include: true, title: 'completed on report start date', options: { completed_time: `'${JUNE01}${START_OF_DAY}'` } },
+      { include: true, title: 'completed on report end date', options: { completed_time: `'${JUNE30}${END_OF_DAY}'` } },
+      { include: true, title: 'due on report start date', options: { due_date: JUNE01 } },
+      { include: true, title: 'due on report end date', options: { due_date: JUNE30 } },
+      { include: false, title: 'completed just before the report start date', options: { completed_time: `'${MAY31}${END_OF_DAY}'` } },
+      { include: false, title: 'completed just after the report end date', options: { completed_time: `'${JULY01}${START_OF_DAY}'` } },
+      { include: false, title: 'due just before the report start date', options: { due_date: MAY31 } },
+      { include: false, title: 'due just after the report end date', options: { due_date: JULY01 } },
+    ];
+
+    for (const scenario of testScenarios) {
+      test(`should ${scenario.include ? '' : 'not '}include crops from plant tasks ${scenario.title}`, async (done) => {
+        const task_id = await createTask(scenario.options);
+
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id }] },
+          { planting_management_plan_id },
+        );
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(scenario.include ? 1 : 0);
+          if (scenario.include) expect(res.body.recordA[0].crops[0]).toEqual(EXPECTED_CROP);
+          done();
+        });
+      });
+    }
+
+    for (const scenario of testScenarios) {
+      test(`should not include crops from abandoned plant tasks ${scenario.title}`, async (done) => {
+        const task_id = await createTask({ ...scenario.options, abandoned_time: faker.date.past() });
+
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id }] },
+          { planting_management_plan_id },
+        );
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
+        });
+      });
+    }
+
+    for (const scenario of testScenarios) {
+      test(`should ${scenario.include ? '' : 'not '}include crops from transplant tasks ${scenario.title}`, async (done) => {
+        const plantTaskId = await createTask(scenario.options);
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id: plantTaskId }] },
+          { planting_management_plan_id },
+        );
+
+        const transplantTaskId = await createTask(scenario.options);
+        const [transplantMgtPlan] = await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCrop: [{ crop_id }],
+          promisedCropVariety: [cropVariety],
+        });
+
+        await TransplantTask.createTestRecord(transplantTaskId, transplantMgtPlan.planting_management_plan_id, planting_management_plan_id);
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          if (scenario.include) expect(res.body.recordA.every(location => location.crops[0] === EXPECTED_CROP)).toBeTruthy();
+          done();
+        });
+      });
+    }
+
+    for (const scenario of testScenarios) {
+      test(`should not include crops from abandoned transplant tasks ${scenario.title}`, async (done) => {
+        const plantTaskId = await createTask(scenario.options);
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id: plantTaskId }] },
+          { planting_management_plan_id },
+        );
+
+        const transplantTaskId = await createTask({ ...scenario.options, abandoned_time: faker.date.past() });
+        const [transplantMgtPlan] = await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedCrop: [{ crop_id, crop_translation_key: 'abandoned transplant' }],
+          promisedCropVariety: [cropVariety],
+        });
+
+        await TransplantTask.createTestRecord(transplantTaskId, transplantMgtPlan.planting_management_plan_id, planting_management_plan_id);
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          const cropCount = res.body.recordA.reduce((previousValue, currentValue) => previousValue + currentValue.crops.length, 0);
+          expect(cropCount).toEqual(scenario.include ? 1 : 0);
+          done();
+        });
+      });
+    }
+
+    for (const scenario of testScenarios) {
+      test(`should ${scenario.include ? '' : 'not '}include crops from management tasks ${scenario.title}`, async (done) => {
+        const task_id = await createTask(scenario.options);
+
+        await mocks.management_tasksFactory(
+          { promisedTask: [{ task_id }], promisedPlantingManagementPlan: [{ planting_management_plan_id }] },
+        );
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(scenario.include ? 1 : 0);
+          if (scenario.include) expect(res.body.recordA[0].crops[0]).toEqual(EXPECTED_CROP);
+          done();
+        });
+      });
+    }
+
+    for (const scenario of testScenarios) {
+      test(`should not include crops from abandoned management tasks ${scenario.title}`, async (done) => {
+        const task_id = await createTask({ ...scenario.options, abandoned_time: faker.date.past() });
+
+        await mocks.management_tasksFactory(
+          { promisedTask: [{ task_id }], promisedPlantingManagementPlan: [{ planting_management_plan_id }] },
+        );
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
+        });
+      });
+    }
+
+    test('should include wild crops', async (done) => {
+      getExportRequest(exportOptions, exportIds, (err, res) => {
+        expect(err).toBeNull();
+        expect(res.status).toBe(200);
+        expect(res.body.recordA).toHaveLength(1);
+        expect(res.body.recordA[0].crops).toHaveLength(1);
+        done();
+      });
+    });
+
+    test('should not include wild crops for abandoned management plan', async (done) => {
+      const [{ management_plan_id }] = await mocks.management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedCrop: [{ crop_id }],
+        promisedCropVariety: [cropVariety],
+      }, { ...mocks.fakeManagementPlan(), abandon_date: faker.date.past() },
+      );
+
+      const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+      await mocks.planting_management_planFactory({
+        promisedFarm: [{ farm_id }],
+        promisedLocation: [location],
+        promisedCrop: [{ crop_id }],
+        promisedCropVariety: [cropVariety],
+        promisedManagementPlan: [{ management_plan_id }],
+      });
+
+      getExportRequest(exportOptions, exportIds, (err, res) => {
+        expect(err).toBeNull();
+        expect(res.status).toBe(200);
+        expect(res.body.recordA).toHaveLength(2);
+        const cropCount = res.body.recordA.reduce((previousValue, currentValue) => previousValue + currentValue.crops.length, 0);
+        expect(cropCount).toEqual(1);
+        done();
+      });
+    });
+
+    test('should exclude farm site boundary, surface water, and watercourse locations', async (done) => {
+      await mocks.farm_site_boundaryFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.surface_waterFactory({ promisedFarm: [{ farm_id }] });
+      await mocks.watercourseFactory({ promisedFarm: [{ farm_id }] });
+
+      getExportRequest(exportOptions, exportIds, (err, res) => {
+        expect(err).toBeNull();
+        expect(res.status).toBe(200);
+        // Length of 1 indicates that the three locations created just above were excluded.
+        expect(res.body.recordA).toHaveLength(1);
+        done();
+      });
+    });
+
+    const bufferZoneScenarios = [
+      { hasCrops: true, title: 'with', category: 'Non-Organic' },
+      { hasCrops: false, title: 'without', category: 'Non-Producing' },
+    ];
+
+    for (const scenario of bufferZoneScenarios) {
+      test(`should categorize buffer zones ${scenario.title} crops as ${scenario.category}`, async (done) => {
+        const [buffer] = await mocks.buffer_zoneFactory({ promisedFarm: [{ farm_id }] });
+
+        if (scenario.hasCrops) {
+          const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
+            promisedFarm: [{ farm_id }],
+            promisedLocation: [buffer],
+            promisedField: [buffer],
+            promisedCrop: [{ crop_id }],
+            promisedCropVariety: [cropVariety],
+          });
+
+          const task_id = await createTask({ due_date: JUNE01 });
+
+          await mocks.management_tasksFactory(
+            { promisedTask: [{ task_id }], promisedPlantingManagementPlan: [{ planting_management_plan_id }] },
+          );
+        }
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          for (const location of res.body.recordA) {
+            // The buffer zone can be identified by an area of zero.
+            if (location.area === 0) {
+              if (scenario.hasCrops) {
+                expect(location.isNonOrganic).toBeTruthy();
+                expect(location.isNonProducing).toBeFalsy();
+              } else {
+                expect(location.isNonOrganic).toBeFalsy();
+                expect(location.isNonProducing).toBeTruthy();
+              }
+            }
+          }
+          done();
+        });
+      });
+    }
+  });
 
   // describe('Patch organic certifier survey', () => {
   //   let fakeOrganicCertifierSurvey;
@@ -738,3 +1036,5 @@ describe('organicCertifierSurvey Tests', () => {
 
 
 });
+
+/* global jest describe test expect beforeEach beforeAll afterAll */

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Copyright 2019-2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@ const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
 const managementPlanModel = require('../models/managementPlanModel');
 const locationModel = require('../models/locationModel');
-
+const OrganicHistory = require('../models/organicHistoryModel');
 
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
@@ -276,95 +276,111 @@ const organicCertifierSurveyController = {
     });
   },
 
-  async recordAQuery(to_date, from_date, farm_id) {
-    const fromDateTime = new Date(from_date).getTime();
-    const toDateTime = new Date(to_date).getTime();
+  async recordAQuery(endDate, startDate, farmId) {
+    const specializedTaskTables = ['plant_task', 'transplant_task', 'management_tasks'];
 
+    // Build a query for the location and crop for all farm tasks active during the reporting period ...
+    let query = '';
+    let params = [];
+    for (const table of specializedTaskTables) {
+      if (query.length > 0) query += ' UNION ';
+      query += `
+      SELECT location_id, crop_translation_key
+      FROM task 
+      JOIN ${table} tt ON task.task_id = tt.task_id
+      JOIN planting_management_plan pmp ON tt.planting_management_plan_id = pmp.planting_management_plan_id
+      JOIN management_plan mp ON pmp.management_plan_id = mp.management_plan_id
+      JOIN crop_variety cv ON mp.crop_variety_id = cv.crop_variety_id
+      JOIN crop ON cv.crop_id = crop.crop_id
+      WHERE task.deleted = FALSE 
+        AND task.abandoned_time IS NULL
+        AND cv.farm_id = ? 
+        AND COALESCE(task.completed_time::date, task.due_date) >= ? 
+        AND COALESCE(task.completed_time::date, task.due_date) <= ? 
+      `;
 
-    const managementPlans = await managementPlanModel.query().whereNotDeleted()
-      .withGraphJoined('[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task]]]]', {
-        aliases: {
-          crop_management_plan: 'cmp',
-          planting_management_plan: 'pmp',
-          planting_management_plans: 'pmps',
-        },
-      })
-      .where('crop_variety.farm_id', farm_id)
-      .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ? OR management_plan.abandon_date > ?', [from_date, from_date])
+      params = params.concat([farmId, startDate, endDate]);
+    }
 
-    const locationIdCropMap = managementPlans.reduce((locationIdCropMap, managementPlan) => {
-      const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
-      for (const plantingManagementPlan of plantingManagementPlans) {
-        const location_id = plantingManagementPlan.location_id;
-        !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
-      }
-      const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan => plantingManagementPlan.planting_task_type === 'TRANSPLANT_TASK' && plantingManagementPlan.transplant_task.task.completed_time && new Date(plantingManagementPlan.transplant_task.task.completed_time).getTime() < toDateTime)
-        .sort(({ plant_task: { task: { completed_time: firstCompleteTime } } }, { plant_task: { task: { completed_time: secondCompleteTime } } }) => new Date(secondCompleteTime).getTime() - new Date(firstCompleteTime).getTime())
-        .find(completedTransplantTask => {
-          locationIdCropMap[completedTransplantTask.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-          return new Date(completedTransplantTask.transplant_task.task.completed_time).getTime() < fromDateTime;
-        });
+    // ... and the location of all wild crops.
+    query += `
+      UNION
+      SELECT location_id, crop_translation_key
+      FROM planting_management_plan pmp
+      JOIN management_plan mp ON pmp.management_plan_id = mp.management_plan_id
+      JOIN crop_variety cv ON mp.crop_variety_id = cv.crop_variety_id
+      JOIN crop ON cv.crop_id = crop.crop_id
+      WHERE pmp.planting_management_plan_id NOT IN 
+        (SELECT planting_management_plan_id FROM plant_task 
+          UNION SELECT planting_management_plan_id FROM transplant_task
+          UNION SELECT planting_management_plan_id FROM management_tasks 
+        )
+        AND pmp.location_id IS NOT NULL
+        AND cv.farm_id = ? 
+        AND abandon_date IS NULL
+        `;
+    // AND (
+    //   (start_date >= ? AND start_date <= ?)
+    //   OR
+    //   (start_date <= ? AND complete_date >= ?)
+    // )`;
 
-      !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
-        if (plantingManagementPlan.planting_task_type === 'PLANT_TASK') {
-          const completed_time = plantingManagementPlan.plant_task.task.completed_time;
-          const abandoned_time = plantingManagementPlan.plant_task.task.abandoned_time;
-          const plantTaskCompleteTime = new Date(completed_time).getTime();
-          if (!(abandoned_time || (completed_time && plantTaskCompleteTime < fromDateTime))) {
-            locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-          }
-          return true;
-        } else if (!plantingManagementPlan.planting_task_type) {
-          plantingManagementPlan.location_id && (locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key));
-          return true;
-        }
-        return false;
-      });
+    params = params.concat([farmId]); // , startDate, endDate, startDate, startDate]);
 
-      return locationIdCropMap;
-    }, {});
-    const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
-      .where({ farm_id })
-      .withGraphJoined(`[
-          figure.[area, line, point], 
-          gate, water_valve, field.[organic_history(orderByEffectiveDate)], 
-          garden.[organic_history(orderByEffectiveDate)], buffer_zone, watercourse, fence, 
-          ceremonial_area, residence, surface_water, natural_area,
-          greenhouse.[organic_history(orderByEffectiveDate)], barn, farm_site_boundary
-        ]`);
+    const crops = await knex.raw(query, params);
+
+    // Group the crops by location.
+    const cropsByLocation = [];
+    for (const crop of crops.rows) {
+      if (!cropsByLocation[crop.location_id]) cropsByLocation[crop.location_id] = new Set();
+      cropsByLocation[crop.location_id].add(crop.crop_translation_key);
+    }
+
+    // Find all Record A locations on the farm.
+    const locations = await knex.raw(`
+      SELECT location.location_id, name, type, total_area 
+      FROM location
+      JOIN figure ON location.location_id = figure.location_id 
+      JOIN area ON figure.figure_id = area.figure_id
+      WHERE location.deleted = FALSE
+        AND type NOT IN ('farm_site_boundary', 'surface_water', 'watercourse')
+        AND farm_id = ?
+      UNION
+      SELECT location.location_id, name, type, total_area 
+      FROM location 
+      JOIN figure ON location.location_id = figure.location_id 
+      JOIN line ON figure.figure_id = line.figure_id 
+      WHERE location.deleted = FALSE
+        AND type = 'buffer_zone' 
+        AND farm_id = ?
+      `, [farmId, farmId]);
 
     const booleanTrueToX = bool => bool ? 'x' : '';
-    return locations.filter(location => location.farm_site_boundary === null)
-      .map(location => {
-        const getLocationOrganicStatus = organic_history => {
-          if (!organic_history) return undefined;
-          let fromDateOrganicStatus = 'Transitional';
-          let toDateOrganicStatus;
-          for (const organicHistoryStatus of organic_history) {
-            const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
-            if (effectiveDateTime <= fromDateTime) {
-              fromDateOrganicStatus = organicHistoryStatus.organic_status;
-            } else if (effectiveDateTime <= toDateTime) {
-              toDateOrganicStatus = organicHistoryStatus.organic_status;
-            }
-          }
-          !toDateOrganicStatus && (toDateOrganicStatus = fromDateOrganicStatus);
-          if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic') return 'Organic';
-          else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
-          else return 'Transitional';
-        };
-        const locationOrganicStatus = getLocationOrganicStatus(location[location.figure.type]?.organic_history);
-        return ({
-          name: location.name,
-          crops: Array.from(locationIdCropMap[location.location_id] || []),
-          area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
-          isNew: '',
-          isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
-          isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
-          isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
-          isNonProducing: booleanTrueToX(!['field', 'garden', 'greenhouse'].includes(location.figure.type)),
-        });
+    const cropEnabledTypes = ['field', 'garden', 'greenhouse', 'buffer_zone'];
+
+    // Build the Record A entries for included locations.
+    const data = [];
+    for (const location of locations.rows) {
+      const crops = Array.from(cropsByLocation[location.location_id] || []);
+      const hasCrops = !!crops.length;
+      const isBufferZone = location.type === 'buffer_zone';
+      const locationOrganicStatus = isBufferZone
+        ? ''
+        : await OrganicHistory.getOrganicStatusForDateRange(location.location_id, startDate, endDate);
+
+      data.push({
+        name: location.name,
+        crops,
+        area: location.total_area || 0,
+        isNew: '',
+        isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
+        isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
+        isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic' || (isBufferZone && hasCrops)),
+        isNonProducing: booleanTrueToX(!cropEnabledTypes.includes(location.type) || (isBufferZone && !hasCrops)),
       });
+    }
+
+    return data;
   },
 
   async getTasksLocationsAndManagementPlans(tasks) {

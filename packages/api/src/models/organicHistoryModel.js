@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Copyright 2019-2022 LiteFarm.org
  *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
@@ -50,6 +50,42 @@ class OrganicHistory extends baseModel {
     };
   }
 
+  /**
+  * Gets organic status for a specified location and date.
+  * @param {string} locationId - The uuid of the target location.
+  * @param {string} targetDate
+  * @returns {string} The location's organic status on the target date.
+  */
+  static async getOrganicStatus(locationId, targetDate) {
+    const data = await OrganicHistory.knex().raw(`
+    SELECT effective_date, organic_status 
+    FROM organic_history 
+    WHERE effective_date <= ? 
+    AND location_id = ? 
+    ORDER BY effective_date DESC LIMIT 1;
+    `, [targetDate, locationId],
+    );
+
+    return data.rows[0]?.organic_status ? data.rows[0].organic_status : '';
+  }
+
+  /**
+* Gets organic status for a specified location and date range.
+* @param {string} locationId - The uuid of the target location.
+* @param {string} startDate - The first day of the date range.
+* @param {string} endDate - The last day of the date range.
+* @returns {string} The location's organic status for the date range.
+*/
+  static async getOrganicStatusForDateRange(locationId, startDate, endDate) {
+    if (new Date(startDate) > new Date(endDate)) return '';
+
+    const startStatus = await OrganicHistory.getOrganicStatus(locationId, startDate);
+    const endStatus = await OrganicHistory.getOrganicStatus(locationId, endDate);
+
+    if (endStatus === 'Non-Organic') return 'Non-Organic';
+    else if (startStatus === endStatus) return startStatus;
+    else return 'Transitional';
+  }
 }
 
 module.exports = OrganicHistory;

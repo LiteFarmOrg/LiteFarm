@@ -39,9 +39,9 @@ export function* postFarmSaga({ payload: farm }) {
   const { user_id } = yield select(loginSelector);
   yield put(setLoadingStart());
   let addFarmData = {
-    farm_name: farm.farmName,
+    farm_name: farm.farm_name,
     address: farm.address,
-    grid_points: farm.gridPoints,
+    grid_points: farm.grid_points,
     country: farm.country,
   };
   const header = getHeader(user_id);
@@ -86,9 +86,9 @@ export function* patchFarmSaga({ payload: farm }) {
   const header = getHeader(user_id, farm_id);
 
   let patchFarmData = {
-    farm_name: farm.farmName,
+    farm_name: farm.farm_name,
     address: farm.address,
-    grid_points: farm.gridPoints,
+    grid_points: farm.grid_points,
     country: farm.country,
   };
 

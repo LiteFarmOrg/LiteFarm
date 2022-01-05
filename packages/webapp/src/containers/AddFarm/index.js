@@ -149,6 +149,10 @@ const AddFarm = () => {
       : result;
   };
 
+  const handleNameBlur = () => {
+    trigger(FARMNAME);
+  };
+
   const handleAddressBlur = () => {
     setTimeout(() => trigger(ADDRESS), 500);
   };
@@ -227,6 +231,7 @@ const AddFarm = () => {
             hookFormRegister: farmNameRegister,
             name: FARMNAME,
             errors: errors[FARMNAME] && errors[FARMNAME].message,
+            onBlur: handleNameBlur,
           },
           {
             label: t('ADD_FARM.FARM_LOCATION'),

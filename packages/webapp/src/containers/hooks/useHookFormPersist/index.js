@@ -52,16 +52,19 @@ export default function useHookFormPersist(getValues = () => ({}), persistedPath
         }
       } else {
         if (history.action === 'PUSH') {
-          const pathname = history.location.pathname;
-          const unlisten = history.listen(() => {
-            if (history.action === 'POP') {
-              unlisten();
-              history.push(pathname);
-            }
-          });
-          history.go(-historyStack.length - 1);
+          setTimeout(() => {
+            const pathname = history.location.pathname;
+            const unlisten = history.listen(() => {
+              if (history.action === 'POP') {
+                unlisten();
+                history.push(pathname);
+              }
+            });
+            history.go(-historyStack.length - 1);
+          }, 100);
         }
-        dispatch(resetAndUnLockFormData());
+
+        setTimeout(() => dispatch(resetAndUnLockFormData()), 0);
       }
     };
   }, []);

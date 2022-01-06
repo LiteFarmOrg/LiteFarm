@@ -57,11 +57,13 @@ export default function useHookFormPersist(getValues = () => ({}), persistedPath
             if (history.action === 'POP') {
               unlisten();
               history.push(pathname);
+              dispatch(resetAndUnLockFormData());
             }
           });
-          history.go(-historyStack.length - 1);
+          history.go(-(historyStack.length || 1) - 1);
+        } else {
+          dispatch(resetAndUnLockFormData());
         }
-        dispatch(resetAndUnLockFormData());
       }
     };
   }, []);

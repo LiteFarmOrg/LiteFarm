@@ -21,7 +21,6 @@ const farmModel = require('../models/farmModel');
 const managementPlanModel = require('../models/managementPlanModel');
 const locationModel = require('../models/locationModel');
 
-
 const documentModel = require('../models/documentModel');
 const knex = require('./../util/knex');
 const Queue = require('bull');
@@ -40,7 +39,10 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await organicCertifierSurveyModel.query().whereNotDeleted().where({ farm_id })
+        const result = await organicCertifierSurveyModel
+          .query()
+          .whereNotDeleted()
+          .where({ farm_id })
           .first();
         if (!result) {
           res.sendStatus(404);
@@ -80,10 +82,24 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const { farm_id } = req.params;
-        const result = await certifierModel.query()
-          .select('certifiers.certifier_id', 'certifiers.certification_id', 'certifiers.certifier_name', 'certifiers.certifier_acronym', 'certifiers.survey_id', 'certifier_country.country_id', 'certifier_country.certifier_country_id')
+        const result = await certifierModel
+          .query()
+          .select(
+            'certifiers.certifier_id',
+            'certifiers.certification_id',
+            'certifiers.certifier_name',
+            'certifiers.certifier_acronym',
+            'certifiers.survey_id',
+            'certifier_country.country_id',
+            'certifier_country.certifier_country_id',
+          )
           .from('certifiers')
-          .join('certifier_country', 'certifiers.certifier_id', '=', 'certifier_country.certifier_id')
+          .join(
+            'certifier_country',
+            'certifiers.certifier_id',
+            '=',
+            'certifier_country.certifier_id',
+          )
           .join('farm', 'farm.country_id', '=', 'certifier_country.country_id')
           .where('farm.farm_id', farm_id);
         if (!result) {
@@ -105,7 +121,11 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
-        const result = await organicCertifierSurveyModel.query().context({ user_id }).insert(req.body).returning('*');
+        const result = await organicCertifierSurveyModel
+          .query()
+          .context({ user_id })
+          .insert(req.body)
+          .returning('*');
         res.status(201).send(result);
       } catch (error) {
         res.status(400).json({
@@ -119,10 +139,12 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
-        const result = await organicCertifierSurveyModel.query()
+        const result = await organicCertifierSurveyModel
+          .query()
           .context({ user_id })
           .findById(req.body.survey_id)
-          .update(req.body).returning('*');
+          .update(req.body)
+          .returning('*');
         return res.status(200).send(result);
       } catch (error) {
         console.log(error);
@@ -137,34 +159,70 @@ const organicCertifierSurveyController = {
     return async (req, res) => {
       // TODO: getting email from request body is commented out for now
       const { farm_id, from_date, to_date, submission_id } = req.body;
-      const invalid = [farm_id, from_date, to_date].some(property => !property);
+      const invalid = [farm_id, from_date, to_date].some((property) => !property);
       if (invalid) {
         return res.status(400).json({
           message: 'Bad request. Missing properties',
         });
       }
-      const organicCertifierSurvey = await knex('organicCertifierSurvey').where({ farm_id }).first();
-      const certification = organicCertifierSurvey.certification_id ? await knex('certifications')
-        .where({ certification_id: organicCertifierSurvey.certification_id }).first() : undefined;
-      const certifier = organicCertifierSurvey.certifier_id ? await knex('certifiers')
-        .where({ certifier_id: organicCertifierSurvey.certifier_id }).first() : undefined;
-      const documents = await documentModel.query()
+      const organicCertifierSurvey = await knex('organicCertifierSurvey')
+        .where({ farm_id })
+        .first();
+      const certification = organicCertifierSurvey.certification_id
+        ? await knex('certifications')
+            .where({ certification_id: organicCertifierSurvey.certification_id })
+            .first()
+        : undefined;
+      const certifier = organicCertifierSurvey.certifier_id
+        ? await knex('certifiers')
+            .where({ certifier_id: organicCertifierSurvey.certifier_id })
+            .first()
+        : undefined;
+      const documents = await documentModel
+        .query()
         .withGraphJoined('files')
         .where((builder) => {
-          builder.whereBetween('valid_until', [from_date, to_date]).orWhere({ no_expiration: true });
-        }).andWhere({ farm_id });
+          builder
+            .whereBetween('valid_until', [from_date, to_date])
+            .orWhere({ no_expiration: true });
+        })
+        .andWhere({ farm_id });
       const user_id = req.user.user_id;
-      const files = documents.map(({ files, name }) => files.map(({ url, file_name }) => ({
-        url, file_name: files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
-      }))).reduce((a, b) => a.concat(b), []);
-      const { first_name, email, language_preference } = await userModel.query().where({ user_id }).first();
-      const { farm_name, units: { measurement } } = await farmModel.query().where({ farm_id }).first();
+      const files = documents
+        .map(({ files, name }) =>
+          files.map(({ url, file_name }) => ({
+            url,
+            file_name:
+              files.length > 1 ? `${name}-${file_name}` : `${name}.${file_name.split('.').pop()}`,
+          })),
+        )
+        .reduce((a, b) => a.concat(b), []);
+      const { first_name, email, language_preference } = await userModel
+        .query()
+        .where({ user_id })
+        .first();
+      const {
+        farm_name,
+        units: { measurement },
+      } = await farmModel.query().where({ farm_id }).first();
       const data = await this.getRecords(to_date, from_date, farm_id);
       const extraInfo = { ...data };
       const body = {
-        exportId: uuidv4(), ...extraInfo, organicCertifierSurvey, certifier, certification,
-        files, farm_id, email, first_name, farm_name, measurement, language_preference,
-        from_date, to_date, submission: submission_id,
+        exportId: uuidv4(),
+        ...extraInfo,
+        organicCertifierSurvey,
+        certifier,
+        certification,
+        files,
+        farm_id,
+        email,
+        first_name,
+        farm_name,
+        measurement,
+        language_preference,
+        from_date,
+        to_date,
+        submission: submission_id,
       };
       res.status(200).json({ message: 'Processing', ...extraInfo });
       const retrieveQueue = new Queue('retrieve', redisConf);
@@ -181,59 +239,81 @@ const organicCertifierSurveyController = {
   },
 
   recordDQuery(to_date, from_date, farm_id) {
-    return knex.raw(`
-      SELECT cp.crop_variety_name, c.crop_translation_key, cp.supplier, cp.organic, cp.searched, cp.treated,
-        CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
-        cp.genetically_engineered
-        FROM management_plan mp 
-        JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id 
-        JOIN crop c ON cp.crop_id = c.crop_id
-        JOIN crop_management_plan cpm ON cpm.management_plan_id = mp.management_plan_id
-        JOIN farm f ON cp.farm_id = f.farm_id
+    return knex.raw(
+      `
+        SELECT cp.crop_variety_name,
+               c.crop_translation_key,
+               cp.supplier,
+               cp.organic,
+               cp.searched,
+               cp.treated,
+               CASE cp.treated WHEN 'NOT_SURE' then 'NO' ELSE cp.treated END AS treated_doc,
+               cp.genetically_engineered
+        FROM management_plan mp
+                 JOIN crop_variety cp ON mp.crop_variety_id = cp.crop_variety_id
+                 JOIN crop c ON cp.crop_id = c.crop_id
+                 JOIN crop_management_plan cpm ON cpm.management_plan_id = mp.management_plan_id
+                 JOIN farm f ON cp.farm_id = f.farm_id
         WHERE (mp.complete_date IS NULL OR mp.complete_date > :from_date::date)
-        AND ( mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date )
-        AND ( mp.start_date IS NULL OR mp.start_date < :to_date::date )
-        AND ( mp.start_date IS NOT NULL OR (
-            cpm.seed_date < :to_date::date OR
+          AND (mp.abandon_date IS NULL OR mp.abandon_date > :from_date::date)
+          AND (mp.start_date IS NULL OR mp.start_date < :to_date::date)
+          AND (mp.start_date IS NOT NULL OR (
+                cpm.seed_date < :to_date::date OR
             cpm.plant_date < :to_date::date OR
             cpm.germination_date < :to_date::date OR
             cpm.transplant_date < :to_date::date OR
             cpm.harvest_date < :to_date::date OR
             cpm.termination_date < :to_date::date
-        ) )
-        AND cp.organic IS NOT NULL AND cp.farm_id  = :farm_id
-    `, { to_date, from_date, farm_id });
+            ))
+          AND cp.organic IS NOT NULL
+          AND cp.farm_id = :farm_id
+    `,
+      { to_date, from_date, farm_id },
+    );
   },
 
   async recordICropsQuery(to_date, from_date, farm_id) {
-    const soilTasks = await knex.raw(`
-        SELECT DISTINCT p.name, p.supplier, sat.product_quantity,
-        CASE WHEN t.completed_time is null
-          THEN t.due_date
-          ELSE t.completed_time
-          END as date_used,
-        t.task_id,
-        p.on_permitted_substances_list
-        FROM task t 
-        JOIN soil_amendment_task sat ON sat.task_id = t.task_id
-        JOIN product p ON p.product_id = sat.product_id 
-        JOIN location_tasks tl ON t.task_id = tl.task_id
-        JOIN location l ON tl.location_id = l.location_id
-        JOIN (
-            SELECT location_id FROM field WHERE organic_status != 'Non-Organic' 
-            UNION 
-            SELECT location_id FROM greenhouse WHERE organic_status != 'Non-Organic'
-            UNION 
-            SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
+    const soilTasks = await knex.raw(
+      `
+        SELECT DISTINCT p.name,
+                        p.supplier,
+                        sat.product_quantity,
+                        CASE
+                            WHEN t.completed_time is null
+                                THEN t.due_date
+                            ELSE t.completed_time
+                            END as date_used,
+                        t.task_id,
+                        p.on_permitted_substances_list
+        FROM task t
+                 JOIN soil_amendment_task sat ON sat.task_id = t.task_id
+                 JOIN product p ON p.product_id = sat.product_id
+                 JOIN location_tasks tl ON t.task_id = tl.task_id
+                 JOIN location l ON tl.location_id = l.location_id
+                 JOIN (
+            SELECT location_id
+            FROM field
+            WHERE organic_status != 'Non-Organic'
+            UNION
+            SELECT location_id
+            FROM greenhouse
+            WHERE organic_status != 'Non-Organic'
+            UNION
+            SELECT location_id
+            FROM garden
+            WHERE organic_status != 'Non-Organic'
         ) lu ON lu.location_id = l.location_id
-        WHERE 
-        ( ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
-        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ))
-        AND abandoned_time IS NULL
-        AND p.farm_id = :farm_id
-    `, { to_date, from_date, farm_id });
+        WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+               (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
+          AND abandoned_time IS NULL
+          AND p.farm_id = :farm_id
+    `,
+      { to_date, from_date, farm_id },
+    );
     const pestTasks = await this.pestTaskOnCropEnabled(to_date, from_date, farm_id);
-    const taskIds = soilTasks.rows.map(({ task_id }) => task_id).concat(pestTasks.rows.map(({ task_id }) => task_id));
+    const taskIds = soilTasks.rows
+      .map(({ task_id }) => task_id)
+      .concat(pestTasks.rows.map(({ task_id }) => task_id));
     if (!taskIds.length) {
       return [];
     }
@@ -245,23 +325,28 @@ const organicCertifierSurveyController = {
   },
 
   async recordICleanersQuery(to_date, from_date, farm_id) {
-    const cleaningTask = await knex.raw(`
-        SELECT p.name, p.supplier, ct.product_quantity,
-        CASE WHEN t.completed_time is null
-          THEN t.due_date
-          ELSE t.completed_time
-          END as date_used,
-        t.task_id, 
-        p.on_permitted_substances_list
-        FROM task t 
-        JOIN cleaning_task ct ON ct.task_id = t.task_id
-        JOIN product p ON p.product_id = ct.product_id 
-        WHERE 
-        ( ( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
-        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
-        AND abandoned_time IS NULL
-        AND p.farm_id = :farm_id
-    `, { to_date, from_date, farm_id });
+    const cleaningTask = await knex.raw(
+      `
+        SELECT p.name,
+               p.supplier,
+               ct.product_quantity,
+               CASE
+                   WHEN t.completed_time is null
+                       THEN t.due_date
+                   ELSE t.completed_time
+                   END as date_used,
+               t.task_id,
+               p.on_permitted_substances_list
+        FROM task t
+                 JOIN cleaning_task ct ON ct.task_id = t.task_id
+                 JOIN product p ON p.product_id = ct.product_id
+        WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+               (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
+          AND abandoned_time IS NULL
+          AND p.farm_id = :farm_id
+    `,
+      { to_date, from_date, farm_id },
+    );
     const pestTasks = await this.pestTaskOnNonCropEnabled(to_date, from_date, farm_id);
     const taskIds = cleaningTask.rows
       .map(({ task_id }) => task_id)
@@ -278,45 +363,55 @@ const organicCertifierSurveyController = {
 
   async recordAQuery(to_date, from_date, farm_id) {
     const fromDate = new Date(from_date);
-    fromDate.setUTCHours(0,0,0,0);
+    fromDate.setUTCHours(0, 0, 0, 0);
     const endDate = new Date(to_date);
-    endDate.setUTCHours(23,59,59,999);
+    endDate.setUTCHours(23, 59, 59, 999);
     const fromDateTime = fromDate.getTime();
     const toDateTime = endDate.getTime();
 
-
-    const managementPlans = await managementPlanModel.query().whereNotDeleted()
-      .withGraphJoined('[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task], managementTasks.[task]]]]', {
-        aliases: {
-          crop_management_plan: 'cmp',
-          planting_management_plan: 'pmp',
-          planting_management_plans: 'pmps',
+    const managementPlans = await managementPlanModel
+      .query()
+      .whereNotDeleted()
+      .withGraphJoined(
+        '[crop_variety.[crop], crop_management_plan.[planting_management_plans.[transplant_task.[task], plant_task.[task], managementTasks.[task]]]]',
+        {
+          aliases: {
+            crop_management_plan: 'cmp',
+            planting_management_plan: 'pmp',
+            planting_management_plans: 'pmps',
+          },
         },
-      })
+      )
       .where('crop_variety.farm_id', farm_id)
-      .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ?', [from_date])
+      .whereRaw(
+        '(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ?',
+        [from_date],
+      );
 
     const locationIdCropMap = managementPlans
       .filter(({ crop_management_plan: { planting_management_plans } }) => {
         for (const planting_management_plan of planting_management_plans) {
           const tasks = planting_management_plan.managementTasks.map(({ task }) => task);
-          if (planting_management_plan.plant_task) tasks.push(planting_management_plan.plant_task.task);
-          if (planting_management_plan.transplant_task) tasks.push(planting_management_plan.transplant_task.task);
+          if (planting_management_plan.plant_task)
+            tasks.push(planting_management_plan.plant_task.task);
+          if (planting_management_plan.transplant_task)
+            tasks.push(planting_management_plan.transplant_task.task);
 
-          const nonAbandonedTasks = tasks.filter(task=> !task.abandoned_time);
+          const nonAbandonedTasks = tasks.filter((task) => !task.abandoned_time);
           let hasTasksBeforeReportingPeriod;
           let hasTasksAfterReportingPeriod;
           for (const task of nonAbandonedTasks) {
             const taskDateTime = task?.completed_time?.getTime() || task.due_date?.getTime();
-            if (taskDateTime>=fromDateTime && taskDateTime<=toDateTime) return true;
-            if(taskDateTime<fromDateTime) hasTasksBeforeReportingPeriod = true;
-            if(taskDateTime>toDateTime) hasTasksAfterReportingPeriod = true;
-            if(hasTasksBeforeReportingPeriod && hasTasksAfterReportingPeriod) return true;
+            if (taskDateTime >= fromDateTime && taskDateTime <= toDateTime) return true;
+            if (taskDateTime < fromDateTime) hasTasksBeforeReportingPeriod = true;
+            if (taskDateTime > toDateTime) hasTasksAfterReportingPeriod = true;
+            if (hasTasksBeforeReportingPeriod && hasTasksAfterReportingPeriod) return true;
           }
         }
       })
       .reduce((locationIdCropMap, managementPlan) => {
-        const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
+        const plantingManagementPlans =
+          managementPlan.crop_management_plan.planting_management_plans;
         for (const plantingManagementPlan of plantingManagementPlans) {
           const location_id = plantingManagementPlan.location_id;
           !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
@@ -324,35 +419,60 @@ const organicCertifierSurveyController = {
         /**
          * https://lucid.app/lucidchart/482f5f34-1ff7-4166-a1c4-7c23560fe7b5/edit?invitationId=inv_f1389038-4f0a-4b67-a826-adc754bfeb9f
          */
-        const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan =>
-        {
-          if(plantingManagementPlan?.transplant_task?.task?.abandoned_time) return false;
-          const transplantTaskDateTime = plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() || plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
-          if(!transplantTaskDateTime) return true;
-          return transplantTaskDateTime < toDateTime;
-        })
+        const hasBeenTransplanted = plantingManagementPlans
+          .filter((plantingManagementPlan) => {
+            if (plantingManagementPlan?.transplant_task?.task?.abandoned_time) return false;
+            const transplantTaskDateTime =
+              plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() ||
+              plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
+            if (!transplantTaskDateTime) return true;
+            return transplantTaskDateTime < toDateTime;
+          })
           //TODO: sort in db query
-          .sort((task1, task2) =>
-          {
-            if(!task1.transplant_task) return 1;
-            if(!task2.transplant_task) return -1;
-            const { transplant_task: { task: { completed_time: firstCompleteTime, due_date: firstDueDate } } } = task1;
-            const { transplant_task: { task: { completed_time: secondCompleteTime, due_date: secondDueDate } } } = task2;
-            return (secondCompleteTime || firstDueDate).getTime() - (firstCompleteTime || secondDueDate).getTime()})
-          .find(plantingManagementPlan => {
-            locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-            const transplantTaskDateTime = plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() || plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
+          .sort((task1, task2) => {
+            if (!task1.transplant_task) return 1;
+            if (!task2.transplant_task) return -1;
+            const {
+              transplant_task: {
+                task: { completed_time: firstCompleteTime, due_date: firstDueDate },
+              },
+            } = task1;
+            const {
+              transplant_task: {
+                task: { completed_time: secondCompleteTime, due_date: secondDueDate },
+              },
+            } = task2;
+            return (
+              (secondCompleteTime || firstDueDate).getTime() -
+              (firstCompleteTime || secondDueDate).getTime()
+            );
+          })
+          .find((plantingManagementPlan) => {
+            locationIdCropMap[plantingManagementPlan.location_id].add(
+              managementPlan.crop_variety.crop.crop_translation_key,
+            );
+            const transplantTaskDateTime =
+              plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() ||
+              plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
             return transplantTaskDateTime && transplantTaskDateTime < fromDateTime;
           });
 
+        return locationIdCropMap;
+      }, {});
 
-      return locationIdCropMap;
-    }, {});
-
-    const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
+    const locations = await locationModel
+      .query()
+      .context({ showHidden: true })
+      .whereNotDeleted()
       .where({ farm_id })
-      .whereNotIn('figure.type', ['farm_site_boundary', 'gate', 'water_valve', 'fence', 'watercourse', 'surface_water'])
-      .withGraphJoined(`[
+      .whereNotIn('figure.type', [
+        'farm_site_boundary',
+        'gate',
+        'water_valve',
+        'fence',
+        'watercourse',
+        'surface_water',
+      ]).withGraphJoined(`[
           figure.[area, line, point], 
           gate, water_valve, field.[organic_history(orderByEffectiveDate)], 
           garden.[organic_history(orderByEffectiveDate)], buffer_zone, watercourse, fence, 
@@ -360,18 +480,19 @@ const organicCertifierSurveyController = {
           greenhouse.[organic_history(orderByEffectiveDate)], barn, farm_site_boundary
         ]`);
 
-    const booleanTrueToX = bool => bool ? 'x' : '';
+    const booleanTrueToX = (bool) => (bool ? 'x' : '');
 
-    return locations.map(location => {
-        const getLocationOrganicStatus = (location, hasCrops) => {
-          if (location.buffer_zone) {
-            return hasCrops ? 'Non-Organic' : 'Non-Producing';
-          }
-          if (!['field', 'garden', 'greenhouse'].includes(location.figure.type)) return 'Non-Producing';
-          const organic_history = location[location.figure.type]?.organic_history;
-          if (!organic_history) return undefined;
-          let fromDateOrganicStatus = 'Transitional';
-          let toDateOrganicStatus;
+    return locations.map((location) => {
+      const getLocationOrganicStatus = (location, hasCrops) => {
+        if (location.buffer_zone) {
+          return hasCrops ? 'Non-Organic' : 'Non-Producing';
+        }
+        if (!['field', 'garden', 'greenhouse'].includes(location.figure.type))
+          return 'Non-Producing';
+        const organic_history = location[location.figure.type]?.organic_history;
+        if (!organic_history) return undefined;
+        let fromDateOrganicStatus = 'Transitional';
+        let toDateOrganicStatus;
         for (const organicHistoryStatus of organic_history) {
           const effectiveDateTime = new Date(organicHistoryStatus.effective_date).getTime();
           if (effectiveDateTime <= fromDateTime) {
@@ -381,7 +502,8 @@ const organicCertifierSurveyController = {
           }
         }
         !toDateOrganicStatus && (toDateOrganicStatus = fromDateOrganicStatus);
-        if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic') return 'Organic';
+        if (fromDateOrganicStatus === toDateOrganicStatus && fromDateOrganicStatus === 'Organic')
+          return 'Organic';
         else if (toDateOrganicStatus === 'Non-Organic') return 'Non-Organic';
         else return 'Transitional';
       };
@@ -389,7 +511,7 @@ const organicCertifierSurveyController = {
       const crops = Array.from(locationIdCropMap[location.location_id] || []);
       const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
 
-      return ({
+      return {
         location_id: location.location_id,
         name: location.name,
         crops,
@@ -399,7 +521,7 @@ const organicCertifierSurveyController = {
         isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
         isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
         isNonProducing: booleanTrueToX(locationOrganicStatus === 'Non-Producing'),
-      });
+      };
     });
   },
 
@@ -412,8 +534,16 @@ const organicCertifierSurveyController = {
     const managementPlans = await knex('planting_management_plan')
       .distinct('planting_management_plan.management_plan_id')
       .select('crop_variety_name', 'management_tasks.task_id', 'crop.crop_translation_key')
-      .join('management_plan', 'planting_management_plan.management_plan_id', 'management_plan.management_plan_id')
-      .join('management_tasks', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
+      .join(
+        'management_plan',
+        'planting_management_plan.management_plan_id',
+        'management_plan.management_plan_id',
+      )
+      .join(
+        'management_tasks',
+        'management_tasks.planting_management_plan_id',
+        'planting_management_plan.planting_management_plan_id',
+      )
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .join('crop', 'crop.crop_id', 'crop_variety.crop_id')
       .whereIn('management_tasks.task_id', tasks);
@@ -422,80 +552,117 @@ const organicCertifierSurveyController = {
 
   filterLocationsAndManagementPlans(task, locations, managementPlans) {
     task.affectedLocations = locations.filter(({ task_id }) => task.task_id === task_id);
-    task.affectedManagementPlans = managementPlans?.filter(({ task_id }) => task.task_id === task_id);
+    task.affectedManagementPlans = managementPlans?.filter(
+      ({ task_id }) => task.task_id === task_id,
+    );
     return task;
   },
 
   async isCanadianFarm(farm_id) {
-    const certifierCountry = await knex.raw(`SELECT * FROM "organicCertifierSurvey" ocs 
-            JOIN certifier_country cf ON ocs.certifier_id = cf.certifier_id
-            JOIN countries c ON c.id = cf.country_id 
-            WHERE country_name = 'Canada' AND farm_id = ?`, [farm_id]);
+    const certifierCountry = await knex.raw(
+      `SELECT *
+                                             FROM "organicCertifierSurvey" ocs
+                                                      JOIN certifier_country cf ON ocs.certifier_id = cf.certifier_id
+                                                      JOIN countries c ON c.id = cf.country_id
+                                             WHERE country_name = 'Canada'
+                                               AND farm_id = ?`,
+      [farm_id],
+    );
     return certifierCountry.rows.length > 0;
   },
 
   pestTaskOnCropEnabled(to_date, from_date, farm_id) {
-    return knex.raw(`
-      SELECT DISTINCT p.name, p.supplier, pct.product_quantity, t.completed_time::date as date_used,
-      CASE WHEN t.completed_time is null
-        THEN t.due_date
-        ELSE t.completed_time
-        END as date_used,
-      p.on_permitted_substances_list, t.task_id 
-      FROM task t
-      JOIN pest_control_task pct ON pct.task_id = t.task_id
-      JOIN product p ON p.product_id = pct.product_id 
-      JOIN location_tasks tl ON t.task_id = tl.task_id
-      JOIN location l ON tl.location_id = l.location_id
-      JOIN (
-          SELECT location_id FROM field WHERE organic_status != 'Non-Organic' 
-          UNION 
-          SELECT location_id FROM greenhouse WHERE organic_status != 'Non-Organic'
-          UNION 
-          SELECT location_id FROM garden WHERE organic_status != 'Non-Organic'
-      )  lu ON lu.location_id = l.location_id
-      WHERE ( (completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR 
-            ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
-      AND p.farm_id = :farm_id`, { to_date, from_date, farm_id });
+    return knex.raw(
+      `
+        SELECT DISTINCT p.name,
+                        p.supplier,
+                        pct.product_quantity,
+                        t.completed_time::date as date_used, CASE
+                                                                 WHEN t.completed_time is null
+                                                                     THEN t.due_date
+                                                                 ELSE t.completed_time
+            END as date_used,
+                        p.on_permitted_substances_list,
+                        t.task_id
+        FROM task t
+                 JOIN pest_control_task pct ON pct.task_id = t.task_id
+                 JOIN product p ON p.product_id = pct.product_id
+                 JOIN location_tasks tl ON t.task_id = tl.task_id
+                 JOIN location l ON tl.location_id = l.location_id
+                 JOIN (
+            SELECT location_id
+            FROM field
+            WHERE organic_status != 'Non-Organic'
+            UNION
+            SELECT location_id
+            FROM greenhouse
+            WHERE organic_status != 'Non-Organic'
+            UNION
+            SELECT location_id
+            FROM garden
+            WHERE organic_status != 'Non-Organic'
+        ) lu ON lu.location_id = l.location_id
+        WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+               (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
+          AND p.farm_id = :farm_id`,
+      { to_date, from_date, farm_id },
+    );
   },
 
   pestTaskOnNonCropEnabled(to_date, from_date, farm_id) {
-    return knex.raw(`
-      SELECT DISTINCT p.name, p.supplier, pct.product_quantity,
-      CASE WHEN t.completed_time is null
-        THEN t.due_date
-        ELSE t.completed_time
-        END as date_used,
-      p.on_permitted_substances_list, t.task_id 
-      FROM task t
-      JOIN pest_control_task pct ON pct.task_id = t.task_id
-      JOIN product p ON p.product_id = pct.product_id 
-      JOIN location_tasks tl ON t.task_id = tl.task_id
-      JOIN location l ON tl.location_id = l.location_id
-      JOIN (
-          SELECT location_id FROM buffer_zone
-          UNION 
-          SELECT location_id FROM water_valve
-          UNION 
-          SELECT location_id FROM watercourse
-          UNION 
-          SELECT location_id FROM barn
-          UNION 
-          SELECT location_id FROM ceremonial_area
-          UNION 
-          SELECT location_id FROM fence
-          UNION 
-          SELECT location_id FROM gate
-          UNION 
-          SELECT location_id FROM natural_area
-          UNION 
-          SELECT location_id FROM surface_water
-          UNION 
-          SELECT location_id FROM residence
-      )  lu ON lu.location_id = l.location_id
-      WHERE (( completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date ) OR
-        ( due_date::date <= :to_date::date AND due_date::date >= :from_date::date ) )
-      AND p.farm_id = :farm_id`, { to_date, from_date, farm_id });
+    return knex.raw(
+      `
+        SELECT DISTINCT p.name,
+                        p.supplier,
+                        pct.product_quantity,
+                        CASE
+                            WHEN t.completed_time is null
+                                THEN t.due_date
+                            ELSE t.completed_time
+                            END as date_used,
+                        p.on_permitted_substances_list,
+                        t.task_id
+        FROM task t
+                 JOIN pest_control_task pct ON pct.task_id = t.task_id
+                 JOIN product p ON p.product_id = pct.product_id
+                 JOIN location_tasks tl ON t.task_id = tl.task_id
+                 JOIN location l ON tl.location_id = l.location_id
+                 JOIN (
+            SELECT location_id
+            FROM buffer_zone
+            UNION
+            SELECT location_id
+            FROM water_valve
+            UNION
+            SELECT location_id
+            FROM watercourse
+            UNION
+            SELECT location_id
+            FROM barn
+            UNION
+            SELECT location_id
+            FROM ceremonial_area
+            UNION
+            SELECT location_id
+            FROM fence
+            UNION
+            SELECT location_id
+            FROM gate
+            UNION
+            SELECT location_id
+            FROM natural_area
+            UNION
+            SELECT location_id
+            FROM surface_water
+            UNION
+            SELECT location_id
+            FROM residence
+        ) lu ON lu.location_id = l.location_id
+        WHERE ((completed_time::date <= :to_date::date AND completed_time::date >= :from_date::date) OR
+               (due_date::date <= :to_date::date AND due_date::date >= :from_date::date))
+          AND p.farm_id = :farm_id`,
+      { to_date, from_date, farm_id },
+    );
   },
 
   delOrganicCertifierSurvey() {
@@ -513,7 +680,6 @@ const organicCertifierSurveyController = {
       }
     };
   },
-
 };
 
 module.exports = organicCertifierSurveyController;

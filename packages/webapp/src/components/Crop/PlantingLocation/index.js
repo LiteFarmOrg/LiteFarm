@@ -28,7 +28,7 @@ export default function PurePlantingLocation({
     defaultValues: cloneObject(persistedFormData),
     shouldUnregister: false,
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const {
     crop_management_plan: { needs_transplant, is_seed, is_wild, already_in_ground },
@@ -104,13 +104,8 @@ export default function PurePlantingLocation({
       getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).submitPath,
     );
   const onGoBack = () =>
-    history.push(
-      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).goBackPath,
-    );
-  const onCancel = () =>
-    history.push(
-      getPlantingLocationPaths(variety_id, persistedFormData, isFinalLocationPage).cancelPath,
-    );
+    history.goBack();
+
 
   return (
     <>
@@ -125,7 +120,7 @@ export default function PurePlantingLocation({
       >
         <MultiStepPageTitle
           onGoBack={onGoBack}
-          onCancel={onCancel}
+          onCancel={historyCancel}
           cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
           title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
           value={isFinalLocationPage ? 60 : 37.5}

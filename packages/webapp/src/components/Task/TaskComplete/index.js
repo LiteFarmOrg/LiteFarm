@@ -14,10 +14,10 @@ import { getObjectInnerValues } from '../../../util';
 
 export default function PureTaskComplete({
   onSave,
-  onCancel,
   onGoBack,
   persistedFormData,
-  persistedPaths,
+
+
   useHookFormPersist,
 }) {
   const { t } = useTranslation();
@@ -35,7 +35,8 @@ export default function PureTaskComplete({
     defaultValues: { ...persistedFormData },
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
 
   const progress = 66;
 
@@ -89,7 +90,7 @@ export default function PureTaskComplete({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}

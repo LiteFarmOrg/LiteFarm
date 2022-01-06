@@ -12,7 +12,6 @@ import {
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
-import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const postCeremonialLocation = createAction(`postCeremonialLocationSaga`);
 
@@ -32,12 +31,12 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(postCeremonialSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    history.goBack();
   } catch (e) {
     history.push({
       path: history.location.pathname,
@@ -69,7 +68,7 @@ export function* editCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(editCeremonialSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_PATCH')]),
     );

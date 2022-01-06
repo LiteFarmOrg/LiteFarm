@@ -16,11 +16,8 @@ export default function PureRowMethod({
   isFinalPage,
   history,
   prefix = `crop_management_plan.planting_management_plans.${isFinalPage ? 'final' : 'initial'}`,
-  goBackPath,
   submitPath,
-  cancelPath,
-  //TODO: always use history.goBack() in management plan flow LF-1972
-  onGoBack = () => (goBackPath ? history.push(goBackPath) : history.goBack()),
+  onGoBack = () => history.goBack(),
   isHistoricalPage,
 }) {
   const { t } = useTranslation();
@@ -38,10 +35,9 @@ export default function PureRowMethod({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const onSubmit = () => history.push(submitPath);
-  const onCancel = () => history.push(cancelPath);
 
   return (
     <Form
@@ -54,7 +50,7 @@ export default function PureRowMethod({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         value={isFinalPage ? 75 : 55}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
@@ -88,7 +84,5 @@ PureRowMethod.prototype = {
   system: PropTypes.oneOf(['imperial', 'metric']),
   isFinalPage: PropTypes.bool,
   history: PropTypes.object,
-  goBackPath: PropTypes.string,
   submitPath: PropTypes.string,
-  cancelPath: PropTypes.string,
 };

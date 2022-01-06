@@ -6,9 +6,7 @@ import Button from '../Form/Button';
 import MultiStepPageTitle from '../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-// import Input from '../Form/Input';
 import { Main } from '../Typography';
-import useHookFormPersist from '../../containers/hooks/useHookFormPersist';
 import DateRangePicker from '../Form/DateRangePicker';
 import { addDaysToDate } from '../../util/moment';
 
@@ -20,6 +18,7 @@ const PureCertificationReportingPeriod = ({
   handleGoBack,
   handleCancel,
   persistedFormData,
+  useHookFormPersist,
   defaultEmail,
 }) => {
   const { t } = useTranslation();
@@ -38,9 +37,9 @@ const PureCertificationReportingPeriod = ({
       ...persistedFormData,
     },
   });
-  const persistedPath = ['/certification', '/certification/survey'];
+  const persistedPath = ['/certification/survey'];
 
-  useHookFormPersist(getValues, persistedPath);
+  const { historyCancel } = useHookFormPersist(getValues, persistedPath);
 
   // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   // const emailRegister = register(EMAIL, {
@@ -62,7 +61,7 @@ const PureCertificationReportingPeriod = ({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('CERTIFICATIONS.EXPORT_DOCS')}
           cancelModalTitle={t('CERTIFICATIONS.FLOW_TITLE')}
           value={progress}

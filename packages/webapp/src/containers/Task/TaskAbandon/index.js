@@ -17,8 +17,8 @@ function TaskAbandon({ history, match }) {
   useEffect(() => {
     // Redirect user to the task's read only view if task is abandoned
     // or if user is worker and not assigned to the task
-    if (task.abandoned_time || (!isAdmin && task.assignee_user_id !== user_id)) {
-      history.push(backPath);
+    if (task.abandoned_time || (!isAdmin && task.assignee_user_id !== user_id && task.owner_user_id !== user_id)) {
+      history.goBack();
     }
   }, []);
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
+import { container_plant_spacing, length_of_bed_or_row, seedYield } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import RadioGroup from '../../Form/RadioGroup';
 import PropTypes from 'prop-types';
@@ -113,7 +113,7 @@ export default function PureRowForm({
                   name={LENGTH_OF_ROW}
                   displayUnitName={LENGTH_OF_ROW_UNIT}
                   errors={errors[LENGTH_OF_ROW]}
-                  unitType={container_planting_depth}
+                  unitType={length_of_bed_or_row}
                   system={system}
                   hookFormSetValue={setValue}
                   hookFormGetValue={getValues}
@@ -133,7 +133,7 @@ export default function PureRowForm({
                 name={TOTAL_LENGTH}
                 displayUnitName={TOTAL_LENGTH_UNIT}
                 errors={errors[TOTAL_LENGTH]}
-                unitType={container_plant_spacing}
+                unitType={length_of_bed_or_row}
                 system={system}
                 hookFormSetValue={setValue}
                 hookFormGetValue={getValues}

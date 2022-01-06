@@ -10,6 +10,7 @@ import RequestConfirmationComponent from '../../components/Modals/RequestConfirm
 import { dismissHelpRequestModal, showHelpRequestModalSelector } from './homeSlice';
 import {
   chooseFarmFlowSelector,
+  endExportModal,
   endSwitchFarmModal,
   switchFarmSelector,
 } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -19,46 +20,35 @@ import { setSpotlightToShown } from '../Map/saga';
 import PreparingExportModal from '../../components/Modals/PreparingExportModal';
 import { doesCertifierSurveyExistSelector } from '../OrganicCertifierSurvey/slice';
 import { CertificationsModal } from '../../components/Modals/CertificationsModal';
-import { postOrganicCertifierSurvey } from '../OrganicCertifierSurvey/saga';
-import { getOrganicSurveyReqBody } from '../OrganicCertifierSurvey/SetCertificationSummary/utils/getOrganicSurveyReqBody';
 import { setIntroducingCertifications } from '../Navigation/navbarSlice';
 
 export default function Home({ history }) {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
-  const { showSpotLight } = useSelector(chooseFarmFlowSelector);
+  const { showSpotLight, showExportModal } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
   const showSwitchFarmModal = useSelector(switchFarmSelector);
   const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
+  const dismissExportModal = () => dispatch(endExportModal(userFarm.farm_id));
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   const { introduce_map, navigation } = useSelector(showedSpotlightSelector);
   const showNotifyUpdatedFarmModal = !introduce_map && navigation;
-  const [showExportModal, setShowExportModal] = useState(history.location.state?.showExportModal);
 
-  // Certification modal logic
+  // TODO: remove after mini release LF-2131: Certification modal logic
   const doesCertifierSurveyExist = useSelector(doesCertifierSurveyExistSelector);
+
   const isAdmin = useSelector(isAdminSelector);
   const [showCertificationsModal, setShowCertificationsModal] = useState(
     !doesCertifierSurveyExist && isAdmin,
   );
   const onClickMaybeLater = () => {
-    dispatch(
-      postOrganicCertifierSurvey({
-        survey: getOrganicSurveyReqBody({ interested: false }),
-      }),
-    );
     dispatch(setIntroducingCertifications(true));
   };
   const onClickCertificationsYes = () => {
-    dispatch(
-      postOrganicCertifierSurvey({
-        survey: getOrganicSurveyReqBody({ interested: false }),
-        callback: () => history.push('/certification/interested_in_organic'),
-      }),
-    );
+    history.push('/certification/interested_in_organic');
   };
 
   return (
@@ -94,7 +84,7 @@ export default function Home({ history }) {
         />
       )}
 
-      {showExportModal && <PreparingExportModal dismissModal={() => setShowExportModal(false)} />}
+      {showExportModal && <PreparingExportModal dismissModal={() => dismissExportModal(false)} />}
 
       {showCertificationsModal && (
         <CertificationsModal

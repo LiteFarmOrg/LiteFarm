@@ -12,7 +12,6 @@ import {
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
-import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const postWatercourseLocation = createAction(`postWatercourseLocationSaga`);
 
@@ -32,7 +31,7 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       header,
     );
     yield put(postWatercourseSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
@@ -40,7 +39,7 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    history.goBack();
   } catch (e) {
     history.push({
       path: history.location.pathname,
@@ -72,7 +71,7 @@ export function* editWatercourseLocationSaga({ payload: data }) {
       header,
     );
     yield put(editWatercourseSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'),

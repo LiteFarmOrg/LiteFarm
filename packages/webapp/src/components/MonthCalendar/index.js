@@ -94,11 +94,11 @@ function FullMonthCalendarView({ date, stage }) {
               justifyContent: 'space-evenly',
             }}
           >
-            {[...Array(previousMonthDays)].map(() => (
-              <div style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
+            {[...Array(previousMonthDays)].map((_, index) => (
+              <div key={index} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
             ))}
             {[...Array(numberOfDays)].map((_, dayNumber) => (
-              <div style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}>
+              <div key={dayNumber} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }}>
                 <span
                   style={{
                     backgroundColor: dayNumber + 1 === targetDate.getDate() && stageToColor[stage],
@@ -109,8 +109,8 @@ function FullMonthCalendarView({ date, stage }) {
                 </span>
               </div>
             ))}
-            {[...Array(nextMonthDays)].map(() => (
-              <div style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
+            {[...Array(nextMonthDays)].map((_, index) => (
+              <div key={index} style={{ flex: '1 0 13%', marginTop: '10px', alignSelf: 'center' }} />
             ))}
           </div>
         </div>

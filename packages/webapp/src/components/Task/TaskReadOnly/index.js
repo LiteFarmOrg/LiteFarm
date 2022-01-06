@@ -9,7 +9,6 @@ import { Label, Main, Semibold, Underlined } from '../../Typography';
 import styles from './styles.module.scss';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PureCropTileContainer from '../../CropTile/CropTileContainer';
-import useCropTileListGap from '../../CropTile/useCropTileListGap';
 import PageBreak from '../../PageBreak';
 import { useForm } from 'react-hook-form';
 import TimeSlider from '../../Form/Slider/TimeSlider';
@@ -49,7 +48,7 @@ export default function PureTaskReadOnly({
   const taskType = task.taskType;
   const dueDate = task.due_date.split('T')[0];
   const locationIds = task.locations.map(({ location_id }) => location_id);
-  const owner = task.owner_user_id;
+  const owner_user_id = task.owner_user_id;
   const {
     register,
     handleSubmit,
@@ -70,25 +69,20 @@ export default function PureTaskReadOnly({
     ),
   };
 
-  const self = user.user_id;
-
-  let assignee = null;
-  for (let user of users) {
-    if (user.user_id === task.assignee_user_id) {
-      assignee = user.first_name + ' ' + user.last_name;
-    }
-  }
-
-  const { ref: gap, padding } = useCropTileListGap([]);
+  const assignee = users.find((user) => user.user_id === task.assignee_user_id);
+  const assigneeName = assignee && `${assignee.first_name} ${assignee.last_name}`;
 
   const isCompleted = !!task.completed_time;
   const isAbandoned = !!task.abandoned_time;
   const isCurrent = !isCompleted && !isAbandoned;
   const taskStatus = getTaskStatus(task);
+
+  const showTaskNotes =
+    !isTaskType(taskType, 'PLANT_TASK') && !isTaskType(taskType, 'TRANSPLANT_TASK');
   return (
     <Layout
       buttonGroup={
-        self === task.assignee_user_id &&
+        user.user_id === task.assignee_user_id &&
         isCurrent && (
           <>
             <Button color={'primary'} onClick={onComplete} fullLength>
@@ -111,7 +105,7 @@ export default function PureTaskReadOnly({
           )
         }
         // TODO: Evaluate edit tasks
-        // onEdit={(isAdmin || owner === self) && isCurrent ? onEdit : false}
+        // onEdit={(isAdmin || owner_user_id === user.user_id) && isCurrent ? onEdit : false}
         // editLink={t('TASK.EDIT_TASK')}
       />
 
@@ -119,7 +113,7 @@ export default function PureTaskReadOnly({
         style={{ marginBottom: '40px' }}
         label={t('ADD_TASK.ASSIGNEE')}
         disabled={true}
-        value={assignee ? assignee : t('TASK.UNASSIGNED')}
+        value={assigneeName ? assigneeName : t('TASK.UNASSIGNED')}
       />
 
       <Input
@@ -139,7 +133,6 @@ export default function PureTaskReadOnly({
         />
       )}
       <LocationPicker
-
         onSelectLocation={() => {
           //  TODO: fix onSelectLocationRef in LocationPicker
         }}
@@ -158,7 +151,7 @@ export default function PureTaskReadOnly({
             <div style={{ paddingBottom: '16px' }}>
               <PageBreak label={task.locationsById[location_id].name} />
             </div>
-            <PureCropTileContainer gap={gap} padding={padding}>
+            <PureCropTileContainer gap={24}>
               {task.managementPlansByLocation[location_id]?.map((managementPlan) => {
                 return (
                   <PureManagementPlanTile
@@ -181,7 +174,7 @@ export default function PureTaskReadOnly({
             <div style={{ paddingBottom: '16px' }}>
               <PageBreak label={pin_coordinate} />
             </div>
-            <PureCropTileContainer gap={gap} padding={padding}>
+            <PureCropTileContainer gap={24}>
               <PureManagementPlanTile
                 managementPlan={managementPlan}
                 date={managementPlan.firstTaskDate}
@@ -313,19 +306,22 @@ export default function PureTaskReadOnly({
           products,
           task,
         })}
-      <InputAutoSize
-        style={{ marginBottom: '40px' }}
-        label={t('common:NOTES')}
-        value={task.notes}
-        optional
-        disabled
-      />
-
-      {(self === task.assignee_user_id || self === owner || isAdmin) && isCurrent && (
-        <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
-          {t('TASK.ABANDON_TASK')}
-        </Underlined>
+      {showTaskNotes && (
+        <InputAutoSize
+          style={{ marginBottom: '40px' }}
+          label={t('common:NOTES')}
+          value={task.notes}
+          optional
+          disabled
+        />
       )}
+
+      {(user.user_id === task.assignee_user_id || user.user_id === owner_user_id || isAdmin) &&
+        isCurrent && (
+          <Underlined style={{ marginBottom: '16px' }} onClick={onAbandon}>
+            {t('TASK.ABANDON_TASK')}
+          </Underlined>
+        )}
     </Layout>
   );
 }

@@ -10,7 +10,8 @@ const PureAddCustomTask = ({
   handleGoBack,
   history,
   useHookFormPersist,
-  persistedPaths,
+
+
   persistedFormData,
   onSave,
 }) => {

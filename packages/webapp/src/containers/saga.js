@@ -13,28 +13,76 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { all, call, put, race, select, take, takeLatest, takeLeading } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  delay,
+  put,
+  race,
+  select,
+  take,
+  takeLatest,
+  takeLeading,
+} from 'redux-saga/effects';
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
-import { loginSelector, patchFarmSuccess, putUserSuccess, selectFarmSuccess, userFarmSelector } from './userFarmSlice';
+import {
+  loginSelector,
+  patchFarmSuccess,
+  putUserSuccess,
+  selectFarmSuccess,
+  userFarmSelector,
+} from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
-import { getNaturalAreasSuccess, onLoadingNaturalAreaFail, onLoadingNaturalAreaStart } from './naturalAreaSlice';
-import { getCeremonialsSuccess, onLoadingCeremonialFail, onLoadingCeremonialStart } from './ceremonialSlice';
+import {
+  getNaturalAreasSuccess,
+  onLoadingNaturalAreaFail,
+  onLoadingNaturalAreaStart,
+} from './naturalAreaSlice';
+import {
+  getCeremonialsSuccess,
+  onLoadingCeremonialFail,
+  onLoadingCeremonialStart,
+} from './ceremonialSlice';
 import {
   getFarmSiteBoundarysSuccess,
   onLoadingFarmSiteBoundaryFail,
   onLoadingFarmSiteBoundaryStart,
 } from './farmSiteBoundarySlice';
-import { getResidencesSuccess, onLoadingResidenceFail, onLoadingResidenceStart } from './residenceSlice';
-import { getGreenhousesSuccess, onLoadingGreenhouseFail, onLoadingGreenhouseStart } from './greenhouseSlice';
-import { getSurfaceWatersSuccess, onLoadingSurfaceWaterFail, onLoadingSurfaceWaterStart } from './surfaceWaterSlice';
-import { getBufferZonesSuccess, onLoadingBufferZoneFail, onLoadingBufferZoneStart } from './bufferZoneSlice';
-import { getWatercoursesSuccess, onLoadingWatercourseFail, onLoadingWatercourseStart } from './watercourseSlice';
+import {
+  getResidencesSuccess,
+  onLoadingResidenceFail,
+  onLoadingResidenceStart,
+} from './residenceSlice';
+import {
+  getGreenhousesSuccess,
+  onLoadingGreenhouseFail,
+  onLoadingGreenhouseStart,
+} from './greenhouseSlice';
+import {
+  getSurfaceWatersSuccess,
+  onLoadingSurfaceWaterFail,
+  onLoadingSurfaceWaterStart,
+} from './surfaceWaterSlice';
+import {
+  getBufferZonesSuccess,
+  onLoadingBufferZoneFail,
+  onLoadingBufferZoneStart,
+} from './bufferZoneSlice';
+import {
+  getWatercoursesSuccess,
+  onLoadingWatercourseFail,
+  onLoadingWatercourseStart,
+} from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
-import { getWaterValvesSuccess, onLoadingWaterValveFail, onLoadingWaterValveStart } from './waterValveSlice';
+import {
+  getWaterValvesSuccess,
+  onLoadingWaterValveFail,
+  onLoadingWaterValveStart,
+} from './waterValveSlice';
 import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import { getAllCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -53,7 +101,11 @@ import {
   getAllSupportedCertifiers,
   getCertificationSurveys,
 } from './OrganicCertifierSurvey/saga';
-import { getAllCropVarietiesSuccess, onLoadingCropVarietyFail, onLoadingCropVarietyStart } from './cropVarietySlice';
+import {
+  getAllCropVarietiesSuccess,
+  onLoadingCropVarietyFail,
+  onLoadingCropVarietyStart,
+} from './cropVarietySlice';
 import {
   getBroadcastMethodsSuccess,
   onLoadingBroadcastMethodFail,
@@ -64,9 +116,21 @@ import {
   onLoadingContainerMethodFail,
   onLoadingContainerMethodStart,
 } from './containerMethodSlice';
-import { getBedMethodsSuccess, onLoadingBedMethodFail, onLoadingBedMethodStart } from './bedMethodSlice';
-import { getRowMethodsSuccess, onLoadingRowMethodFail, onLoadingRowMethodStart } from './rowMethodSlice';
-import { getAllDocumentsSuccess, onLoadingDocumentFail, onLoadingDocumentStart } from './documentSlice';
+import {
+  getBedMethodsSuccess,
+  onLoadingBedMethodFail,
+  onLoadingBedMethodStart,
+} from './bedMethodSlice';
+import {
+  getRowMethodsSuccess,
+  onLoadingRowMethodFail,
+  onLoadingRowMethodStart,
+} from './rowMethodSlice';
+import {
+  getAllDocumentsSuccess,
+  onLoadingDocumentFail,
+  onLoadingDocumentStart,
+} from './documentSlice';
 import { enqueueErrorSnackbar, enqueueSuccessSnackbar } from './Snackbar/snackbarSlice';
 import {
   getCropManagementPlansSuccess,
@@ -79,18 +143,19 @@ import {
   onLoadingPlantingManagementPlanStart,
 } from './plantingManagementPlanSlice';
 import {
-  getHarvestUseTypes,
   getHarvestUseTypesSaga,
-  getProducts,
   getProductsSaga,
-  getTasks,
   getTasksSaga,
-  getTaskTypes,
   getTaskTypesSaga,
 } from './Task/saga';
-import { getCertificationSurveysSuccess, onLoadingCertifierSurveyFail } from './OrganicCertifierSurvey/slice';
+import {
+  getCertificationSurveysSuccess,
+  onLoadingCertifierSurveyFail,
+} from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
+import { addManyTasksFromGetReq } from './taskSlice';
+import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -98,7 +163,7 @@ const getLocationsUrl = (farm_id) => `${url}/location/farm/${farm_id}`;
 
 export const axios = require('axios');
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     return response;
   },
   function (error) {
@@ -106,6 +171,8 @@ axios.interceptors.response.use(
       if (localStorage.getItem('id_token')) {
         logout();
       }
+    } else if (error?.response?.status === 403 && history.location.pathname !== '/403') {
+      history.push('/403', { error });
     }
     return Promise.reject(error);
   },
@@ -159,11 +226,7 @@ export function* getCropsSaga() {
     yield put(onLoadingCropStart());
     const appVersion = yield select(appVersionSelector);
     const queryString = appVersion === APP_VERSION ? '?fetch_all=false' : '';
-    const result = yield call(
-      axios.get,
-      `${cropURL}/farm/${farm_id}${queryString}`,
-      header,
-    );
+    const result = yield call(axios.get, `${cropURL}/farm/${farm_id}${queryString}`, header);
     yield put(getAllCropsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCropFail());
@@ -493,33 +556,18 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   try {
     yield put(selectFarmSuccess(userFarm));
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
-    if (!has_consent) return;
+    if (!has_consent) return history.push('/consent');
 
     const tasks = [
       put(getCertificationSurveys()),
       put(getAllSupportedCertifications()),
       put(getAllSupportedCertifiers()),
-      put(getCrops()),
-      put(getCropVarieties()),
-      put(getLocations()),
-      put(getManagementPlans()),
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
-      put(getTaskTypes()),
-      put(getTasks()),
-      put(getHarvestUseTypes()),
-      put(getProducts()),
+      put(getManagementPlansAndTasks()),
     ];
 
-    yield all([
-      ...tasks,
-      // put(getLogs()),
-      // put(getAllShifts()),
-      put(getSales()),
-      put(getExpense()),
-      // put(resetLogFilter()),
-      // put(resetShiftFilter()),
-    ]);
+    yield all([...tasks, put(getSales()), put(getExpense())]);
 
     const {
       data: { farm_token },
@@ -527,6 +575,10 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     localStorage.setItem('farm_token', farm_token);
     const appVersion = yield select(appVersionSelector);
     if (appVersion !== APP_VERSION) {
+      /**
+       * wait for getManagementPlansAndTasks to finish
+       */
+      yield race([take(addManyTasksFromGetReq.type)]);
       yield put(setAppVersion());
     }
   } catch (e) {
@@ -534,14 +586,27 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
   }
 }
 
+//TODO: remove after removing certification spotlight
 export const waitForCertificationSurveyResultAndPushToHome = createAction(
   'waitForCertificationSurveyResultAndPushToHomeSaga',
 );
 
 export function* waitForCertificationSurveyResultAndPushToHomeSaga() {
-  console.log('waitForCertificationSurveyResultAndPushSaga');
   yield race([take(getCertificationSurveysSuccess.type), take(onLoadingCertifierSurveyFail.type)]);
   history.push({ pathname: '/' });
+}
+
+export function* onReqSuccessSaga({ pathname, state, message }) {
+  const historyStack = yield select(hookFormPersistHistoryStackSelector);
+  const unlisten = history.listen(() => {
+    unlisten();
+    history.push(pathname, state);
+  });
+  history.go(-historyStack.length);
+  yield delay(100);
+  if (message) {
+    yield put(enqueueSuccessSnackbar(message));
+  }
 }
 
 const formatDate = (currDate) => {

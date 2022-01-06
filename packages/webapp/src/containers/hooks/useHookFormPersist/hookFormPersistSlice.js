@@ -1,21 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
-import { getUnitOptionMap } from '../../../components/Form/Unit';
 import { cloneObject } from '../../../util';
 import { createSelector } from 'reselect';
 
 export const initialState = {
   formData: {},
-  shouldUpdateFormData: true,
-  persistedPaths: [],
-  entryPath: '',
-};
 
-const resetState = {
-  formData: {},
-  shouldUpdateFormData: false,
   persistedPaths: [],
-  entryPath: '',
+  historyStack: [],
 };
 
 const getCorrectedPayload = (payload) => {
@@ -54,56 +45,15 @@ const hookFormPersistSlice = createSlice({
       Object.assign(state.formData, payload);
     },
     hookFormPersistUnMount: (state, { payload }) => {
-      if (!state.shouldUpdateFormData) {
-        return initialState;
-      } else {
-        Object.assign(state.formData, getCorrectedPayload(payload));
-      }
+      Object.assign(state.formData, getCorrectedPayload(payload));
     },
     setFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
       state.formData = payload;
     },
     setPersistedPaths: (state, { payload: persistedPaths }) => {
       state.persistedPaths = persistedPaths;
     },
-    setEntryPath: (state, { payload: entryPath }) => {
-      state.entryPath = entryPath;
-    },
-    //Prevent useHookPersistUnMount from updating formData after reset
-    resetAndLockFormData: (state) => resetState,
     resetAndUnLockFormData: (state) => initialState,
-
-    setAreaDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[fieldEnum.total_area_unit] = getUnitOptionMap()[payload[fieldEnum.total_area_unit]];
-      formData[fieldEnum.perimeter_unit] = getUnitOptionMap()[payload[fieldEnum.perimeter_unit]];
-      state.formData = formData;
-    },
-    setLineDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[bufferZoneEnum.length_unit] = getUnitOptionMap()[
-        payload[bufferZoneEnum.length_unit]
-      ];
-      formData[bufferZoneEnum.width_unit] = getUnitOptionMap()[payload[bufferZoneEnum.width_unit]];
-      formData[bufferZoneEnum.total_area_unit] = getUnitOptionMap()[
-        payload[bufferZoneEnum.total_area_unit]
-      ];
-      formData[watercourseEnum.buffer_width_unit] = getUnitOptionMap()[
-        payload[watercourseEnum.buffer_width_unit]
-      ];
-      state.formData = formData;
-    },
-    setPointDetailFormData: (state, { payload }) => {
-      state.shouldUpdateFormData = true;
-      const formData = { ...payload };
-      formData[waterValveEnum.flow_rate_unit] = getUnitOptionMap()[
-        payload[waterValveEnum.flow_rate_unit]
-      ];
-      state.formData = formData;
-    },
 
     setSubmissionIdCertificationFormData: (state, { payload: submission_id }) => {
       state.formData.submission_id = submission_id;
@@ -123,6 +73,15 @@ const hookFormPersistSlice = createSlice({
     setManagementPlansData: (state, { payload: managementPlans }) => {
       state.formData.managementPlans = managementPlans;
     },
+    pushHistoryStack(state, { payload: path }) {
+      state.historyStack.push(path);
+    },
+    popHistoryStack(state) {
+      state.historyStack.pop();
+    },
+    replaceHistoryStack(state, { payload: path }) {
+      state.historyStack[state.historyStack.length - 1] = path;
+    },
   },
 });
 
@@ -130,13 +89,8 @@ export const {
   upsertFormData,
   setFormData,
   setPersistedPaths,
-  setEntryPath,
-  resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
-  setAreaDetailFormData,
-  setLineDetailFormData,
-  setPointDetailFormData,
   setSubmissionIdCertificationFormData,
   uploadFileSuccess,
   deleteUploadedFile,
@@ -144,15 +98,18 @@ export const {
   setCertifierId,
   setInterested,
   setManagementPlansData,
+  pushHistoryStack,
+  popHistoryStack,
+  replaceHistoryStack,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 const hookFormPersistReducerSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name];
 export const hookFormPersistSelector = (state) =>
   state?.tempStateReducer[hookFormPersistSlice.name].formData;
-export const hookFormPersistEntryPathSelector = (state) =>
-  state?.tempStateReducer[hookFormPersistSlice.name].entryPath;
 export const hookFormPersistedPathsSetSelector = createSelector(
   [hookFormPersistReducerSelector],
   (hookFormPersistReducer) => new Set(hookFormPersistReducer.persistedPaths),
 );
+export const hookFormPersistHistoryStackSelector = (state) =>
+  state?.tempStateReducer[hookFormPersistSlice.name].historyStack;

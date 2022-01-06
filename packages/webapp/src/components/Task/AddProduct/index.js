@@ -49,15 +49,16 @@ const AddProduct = ({
   const PRODUCT_ID = `${type}.product_id`;
 
   const processProduct = (value) => {
+    setValue(`${type}.product.product_id`, undefined);
     let product = products.find(({ product_id }) => product_id === value?.value);
     if (product) {
       const { supplier, on_permitted_substances_list } = product;
-      setValue(NAME, value?.label);
+      setValue(NAME, value?.label, { shouldValidate: true });
       setValue(PRODUCT_ID, value?.value);
       setValue(SUPPLIER, supplier);
       setValue(PERMITTED, on_permitted_substances_list, { shouldValidate: true });
     } else {
-      setValue(NAME, value?.label);
+      setValue(NAME, value?.label, { shouldValidate: true });
       setValue(PRODUCT_ID, null);
       setValue(SUPPLIER, null);
       setValue(PERMITTED, null);

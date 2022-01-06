@@ -6,7 +6,7 @@ import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 import { getCurrencyFromStore } from '../../../util/getFromReduxStore';
 import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookFormPersistProvider';
 import { taskTypeSelector } from '../../taskTypeSlice';
-import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { createTask } from '../saga';
 
 export default function TaskManagement({ history, match }) {
@@ -26,7 +26,7 @@ export default function TaskManagement({ history, match }) {
   const [isFarmWorker] = useState(userFarm.role_id === 3);
   const currencySymbol = grabCurrencySymbol(getCurrencyFromStore());
   const worker = users[userFarm.user_id];
-  const entryPath = useSelector(hookFormPersistEntryPathSelector);
+
 
   useEffect(() => {
     let wage_data = [];
@@ -71,9 +71,7 @@ export default function TaskManagement({ history, match }) {
   const handleGoBack = () => {
     history.goBack();
   };
-  const handleCancel = () => {
-    history.push(entryPath);
-  };
+
   const onError = () => {
     console.log('onError called');
   };
@@ -83,7 +81,6 @@ export default function TaskManagement({ history, match }) {
       <PureTaskAssignment
         onSubmit={onSubmit}
         handleGoBack={handleGoBack}
-        handleCancel={handleCancel}
         onError={onError}
         userFarmOptions={options}
         wageData={wageData}

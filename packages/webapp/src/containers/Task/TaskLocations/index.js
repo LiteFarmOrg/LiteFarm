@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  hookFormPersistEntryPathSelector,
-  hookFormPersistSelector,
-  setManagementPlansData,
-} from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector, setManagementPlansData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureTaskLocations from '../../../components/Task/TaskLocations';
 import { taskTypeIdNoCropsSelector } from '../../taskTypeSlice';
@@ -118,16 +114,12 @@ function TaskLocations({
   onGoBack,
   readOnlyPinCoordinates,
 }) {
-  const entryPath = useSelector(hookFormPersistEntryPathSelector);
-  const onCancel = () => {
-    history.push(entryPath);
-  };
+
   const { grid_points } = useSelector(userFarmSelector);
   const { maxZoomRef, getMaxZoom } = useMaxZoom();
   return (
     <HookFormPersistProvider>
       <PureTaskLocations
-        onCancel={onCancel}
         onContinue={onContinue}
         onGoBack={onGoBack}
         farmCenterCoordinate={grid_points}

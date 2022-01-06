@@ -25,7 +25,7 @@ export const getUnitOptionMap = () => ({
   km: { label: 'km', value: 'km' },
   in: { label: 'in', value: 'in' },
   ft: { label: 'ft', value: 'ft' },
-  'fl-oz': { label: 'floz', value: 'fl-oz' },
+  'fl-oz': { label: 'fl oz', value: 'fl-oz' },
   gal: { label: 'gal', value: 'gal' },
   l: { label: 'l', value: 'l' },
   ml: { label: 'ml', value: 'ml' },

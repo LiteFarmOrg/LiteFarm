@@ -98,7 +98,7 @@ export default function useCropCatalogue(filterString) {
   const cropCataloguesStatus = useMemo(() => {
     const cropCataloguesStatus = { active: 0, planned: 0, past: 0 };
     for (const managementPlansByStatus of cropCatalogueFilteredByStatus) {
-      for (const status in managementPlansByStatus) {
+      for (const status in cropCataloguesStatus) {
         cropCataloguesStatus[status] += managementPlansByStatus[status].length;
       }
     }

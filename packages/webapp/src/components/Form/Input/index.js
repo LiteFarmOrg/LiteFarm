@@ -121,7 +121,7 @@ const Input = ({
         ref={mergeRefs(hookFormRegister?.ref, input)}
         type={inputType}
         min={inputType === 'date' ? min : undefined}
-        max={inputType === 'date' ? max : undefined}
+        max={inputType === 'date' ? (max || '9999-12-31') : undefined}
         onKeyDown={onKeyDown}
         name={name}
         placeholder={(!disabled && placeholder) || (isSearchBar && t('common:SEARCH'))}

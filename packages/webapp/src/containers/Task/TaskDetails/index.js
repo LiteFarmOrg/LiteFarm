@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
 import { productEntitiesSelector } from '../../productSlice';
 import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
-import { hookFormPersistSelector, hookFormPersistEntryPathSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
 import {
@@ -17,7 +17,8 @@ import { useIsTaskType } from '../useIsTaskType';
 function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
-  const entryPath = useSelector(hookFormPersistEntryPathSelector);
+
+
   const dispatch = useDispatch();
   const {
     country_id,
@@ -45,10 +46,6 @@ function TaskDetails({ history, match }) {
     history.goBack();
   };
 
-  const handleCancel = () => {
-    history.push(entryPath);
-  };
-
   const onSubmit = () => {
     history.push('/add_task/task_assignment');
   };
@@ -62,7 +59,6 @@ function TaskDetails({ history, match }) {
   return (
     <HookFormPersistProvider>
       <PureTaskDetails
-        handleCancel={handleCancel}
         handleGoBack={handleGoBack}
         onError={onError}
         onSubmit={onSubmit}

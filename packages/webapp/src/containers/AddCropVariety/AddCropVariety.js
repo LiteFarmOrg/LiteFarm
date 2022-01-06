@@ -56,8 +56,7 @@ function AddCropVarietyForm({ history, match }) {
             <AddLink>{t('CROP.ADD_IMAGE')}</AddLink>
           </ImagePickerWrapper>
         }
-        handleGoBack={() => history.push(isNewCrop ? `/crop/new` : `/crop_catalogue`)}
-        handleCancel={() => history.push(`/crop_catalogue`)}
+        handleGoBack={() => history.goBack()}
       />
     </HookFormPersistProvider>
   );

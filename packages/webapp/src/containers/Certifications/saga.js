@@ -1,10 +1,10 @@
 import history from '../../history';
-import { all, call, put, select, takeLeading } from 'redux-saga/effects';
+import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import i18n from '../../locales/i18n';
+import { startExportModal } from '../ChooseFarm/chooseFarmFlowSlice';
 
 const exportUrl = () => `${url}/organic_certifier_survey/request_export`;
 
@@ -19,7 +19,8 @@ export function* exportCertificationDataSaga({ payload: exportData }) {
       ...exportData,
     };
     const result = yield call(axios.post, exportUrl(), postData, header);
-    history.push('/', { showExportModal: true });
+    yield put(startExportModal(farm_id));
+    history.push('/');
   } catch (error) {
     console.log('failed to submit reporting period', error);
   }

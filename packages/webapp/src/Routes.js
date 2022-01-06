@@ -34,11 +34,7 @@ const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
 const Profile = React.lazy(() => import('./containers/Profile'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
-const Shift = React.lazy(() => import('./containers/Shift'));
-const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne'));
-const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
 const Finances = React.lazy(() => import('./containers/Finances'));
-const MyShift = React.lazy(() => import('./containers/Shift/MyShift'));
 const ChooseFarm = React.lazy(() => import('./containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('./containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('./containers/InviteSignUp'));
@@ -285,6 +281,10 @@ const ActualRevenue = React.lazy(() => import('./containers/Finances/ActualReven
 const UpdateEstimatedCropRevenue = React.lazy(() =>
   import('./containers/Finances/UpdateEstimatedCropRevenue'),
 );
+const Forbidden = React.lazy(() =>
+  import('./containers/ErrorHandler/Forbidden/Forbidden'),
+);
+
 
 const Routes = () => {
   useScrollToTop();
@@ -359,10 +359,6 @@ const Routes = () => {
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
-            <Route path="/shift" exact component={Shift} />
-            <Route path="/shift_step_one" exact component={ShiftStepOne} />
-            <Route path="/shift_step_two" exact component={ShiftStepTwo} />
-            <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/crop/:crop_id/add_crop_variety" exact component={AddCrop} />
             <Route
@@ -626,7 +622,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect
               to={'/'}
               //TODO change to 404
@@ -643,10 +640,6 @@ const Routes = () => {
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/help" exact component={HelpRequest} />
-            <Route path="/shift" exact component={Shift} />
-            <Route path="/shift_step_one" exact component={ShiftStepOne} />
-            <Route path="/shift_step_two" exact component={ShiftStepTwo} />
-            <Route path="/my_shift" exact component={MyShift} />
             <Route path="/crop/new" exact component={AddNewCrop} />
             <Route path="/tasks" exact component={Tasks} />
             <Route path="/tasks/:task_id/read_only" exact component={TaskReadOnly} />
@@ -920,7 +913,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>
@@ -963,10 +957,6 @@ const Routes = () => {
             <Route path="/buffer_zone/:location_id" component={BufferZoneDetails} />
             <Route path="/watercourse/:location_id" component={WatercourseDetails} />
 
-            <Route path="/shift" exact component={Shift} />
-            <Route path="/shift_step_one" exact component={ShiftStepOne} />
-            <Route path="/shift_step_two" exact component={ShiftStepTwo} />
-            <Route path="/my_shift" exact component={MyShift} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
@@ -1013,7 +1003,8 @@ const Routes = () => {
             <Route path="/add_task/bed_guidance" exact component={TaskBedGuidance} />
             <Route path="/add_task/container_method" exact component={TaskContainerMethod} />
             <Route path="/add_task/row_method" exact component={TaskRowMethod} />
-            <Route path="/add_task/row_guidance" exact component={TaskRowGuidance} />
+            <Route path='/add_task/row_guidance' exact component={TaskRowGuidance} />
+            <Route path='/403' exact component={Forbidden} />
             <Redirect to={'/'} />
           </Switch>
         </Suspense>

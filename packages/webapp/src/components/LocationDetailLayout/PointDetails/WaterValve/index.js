@@ -2,17 +2,26 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetails from '../index';
 import { useForm } from 'react-hook-form';
-import Radio from '../../../Form/Radio';
 import Unit from '../../../Form/Unit';
 import { waterValveEnum } from '../../../../containers/constants';
 import { water_valve_flow_rate } from '../../../../util/unit';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
-import { getPersistPath } from '../../utils';
+
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import RadioGroup from '../../../Form/RadioGroup';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureWaterValve({
+export default function PureWaterValveWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureWaterValve {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureWaterValve({
   history,
   match,
   submitForm,
@@ -20,6 +29,7 @@ export default function PureWaterValve({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -39,32 +49,26 @@ export default function PureWaterValve({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: { [waterValveEnum.source]: 'Municipal water', ...persistedFormData },
   });
-  const persistedPath = getPersistPath('water_valve', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, point, type },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
 
   const onSubmit = (data) => {
-    const formData = {
-      type,
-      point,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
-    };
+    });
     formData[waterValveEnum.flow_rate_unit] = formData[waterValveEnum.flow_rate_unit]?.value;
     submitForm({ formData });
   };
   const title =
     (isCreateLocationPage && t('FARM_MAP.WATER_VALVE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.WATER_VALVE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -88,6 +92,7 @@ export default function PureWaterValve({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <PointDetails
         name={t('FARM_MAP.WATER_VALVE.NAME')}
@@ -109,43 +114,32 @@ export default function PureWaterValve({
           <Label style={{ marginBottom: '25px' }}>
             {t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}
           </Label>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
-              defaultChecked={true}
-              value={'Municipal water'}
-              hookFormRegister={register(waterValveEnum.source, { required: false })}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-              value={'Surface water'}
-              hookFormRegister={register(waterValveEnum.source, { required: false })}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-              value={'Groundwater'}
-              hookFormRegister={register(waterValveEnum.source, { required: false })}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '30px' }}
-              label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-              value={'Rain water'}
-              hookFormRegister={register(waterValveEnum.source, { required: false })}
-              disabled={isViewLocationPage}
-            />
-          </div>
+
+          <RadioGroup
+            disabled={isViewLocationPage}
+            hookFormControl={control}
+            style={{ marginBottom: '14px' }}
+            name={waterValveEnum.source}
+            radios={[
+              {
+                label: t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER'),
+                value: 'Municipal water',
+              },
+              {
+                label: t('FARM_MAP.WATER_VALVE.SURFACE_WATER'),
+                value: 'Surface water',
+              },
+              {
+                label: t('FARM_MAP.WATER_VALVE.GROUNDWATER'),
+                value: 'Groundwater',
+              },
+              {
+                label: t('FARM_MAP.WATER_VALVE.RAIN_WATER'),
+                value: 'Rain water',
+              },
+            ]}
+          />
+
           <Unit
             register={register}
             classes={{ container: { flexGrow: 1, paddingBottom: '40px' } }}

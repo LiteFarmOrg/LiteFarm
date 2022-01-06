@@ -172,7 +172,7 @@ export default function PurePlantingDate({
     shouldUnregister: false,
     defaultValues: cloneObject(persistedFormData),
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const seed_date = watch(SEED_DATE);
   const plant_date = watch(PLANT_DATE);
@@ -235,13 +235,12 @@ export default function PurePlantingDate({
     if (error?.type === 'min') return t('common:MIN_ERROR', { value: min });
   };
 
-  const { goBackPath, submitPath, cancelPath } = useMemo(
+  const { submitPath } = useMemo(
     () => getPlantingDatePaths(crop_variety.crop_variety_id, persistedFormData),
     [],
   );
   const onSubmit = () => history.push(submitPath);
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
 
   const onError = () => {};
 
@@ -258,7 +257,7 @@ export default function PurePlantingDate({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={37.5}

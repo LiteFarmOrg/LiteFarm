@@ -277,8 +277,12 @@ const organicCertifierSurveyController = {
   },
 
   async recordAQuery(to_date, from_date, farm_id) {
-    const fromDateTime = new Date(from_date).getTime();
-    const toDateTime = new Date(to_date).getTime();
+    const fromDate = new Date(from_date);
+    fromDate.setUTCHours(0,0,0,0);
+    const endDate = new Date(to_date);
+    endDate.setUTCHours(23,59,59,999);
+    const fromDateTime = fromDate.getTime();
+    const toDateTime = endDate.getTime();
 
 
     const managementPlans = await managementPlanModel.query().whereNotDeleted()
@@ -290,7 +294,7 @@ const organicCertifierSurveyController = {
         },
       })
       .where('crop_variety.farm_id', farm_id)
-      .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ? OR management_plan.abandon_date > ?', [from_date, from_date])
+      .whereRaw('(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ?', [from_date])
 
     const locationIdCropMap = managementPlans
       .filter(({ crop_management_plan: { planting_management_plans } }) => {
@@ -298,8 +302,16 @@ const organicCertifierSurveyController = {
           const tasks = planting_management_plan.managementTasks.map(({ task }) => task);
           if (planting_management_plan.plant_task) tasks.push(planting_management_plan.plant_task.task);
           if (planting_management_plan.transplant_task) tasks.push(planting_management_plan.transplant_task.task);
-          for (const task of tasks) {
-            if ((task.completed_time && task.completed_time.getTime() >= fromDateTime && task.completed_time.getTime() <= toDateTime) || (!task.completed_time && task.due_date?.getTime() >= fromDateTime && task.due_date?.getTime() <= toDateTime)) return true;
+
+          const nonAbandonedTasks = tasks.filter(task=> !task.abandoned_time);
+          let hasTasksBeforeReportingPeriod;
+          let hasTasksAfterReportingPeriod;
+          for (const task of nonAbandonedTasks) {
+            const taskDateTime = task?.completed_time?.getTime() || task.due_date?.getTime();
+            if (taskDateTime>=fromDateTime && taskDateTime<=toDateTime) return true;
+            if(taskDateTime<fromDateTime) hasTasksBeforeReportingPeriod = true;
+            if(taskDateTime>toDateTime) hasTasksAfterReportingPeriod = true;
+            if(hasTasksBeforeReportingPeriod && hasTasksAfterReportingPeriod) return true;
           }
         }
       })
@@ -309,44 +321,37 @@ const organicCertifierSurveyController = {
           const location_id = plantingManagementPlan.location_id;
           !locationIdCropMap[location_id] && (locationIdCropMap[location_id] = new Set());
         }
-
         /**
-         *
-         * [largest, toDateTime, transplant_task3, fromDateTime, transplant_task2, transplant_task1]
-         * where largest > transplant_task3.completed_time > transplant_task2.completed_time > transplant_task1.completed_time
-         * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2
-         * [largest, toDateTime, transplant_task3, transplant_task2, transplant_task1, fromDateTime]
-         * In this case the following logic will add current management_plan.crop_variety to location of transplant_task3, transplant_task2, transplant_task1, AND plant_task/wild crop location
+         * https://lucid.app/lucidchart/482f5f34-1ff7-4166-a1c4-7c23560fe7b5/edit?invitationId=inv_f1389038-4f0a-4b67-a826-adc754bfeb9f
          */
-        const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan => plantingManagementPlan.transplant_task?.task?.completed_time
-          && plantingManagementPlan.transplant_task.task.completed_time.getTime() < toDateTime)
-          .sort(({ transplant_task: { task: { completed_time: firstCompleteTime } } }, { transplant_task: { task: { completed_time: secondCompleteTime } } }) => secondCompleteTime.getTime() - firstCompleteTime.getTime())
-          .find(completedTransplantTask => {
-            locationIdCropMap[completedTransplantTask.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-            return completedTransplantTask.transplant_task.task.completed_time.getTime() < fromDateTime;
+        const hasBeenTransplanted = plantingManagementPlans.filter(plantingManagementPlan =>
+        {
+          if(plantingManagementPlan?.transplant_task?.task?.abandoned_time) return false;
+          const transplantTaskDateTime = plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() || plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
+          if(!transplantTaskDateTime) return true;
+          return transplantTaskDateTime < toDateTime;
+        })
+          //TODO: sort in db query
+          .sort((task1, task2) =>
+          {
+            if(!task1.transplant_task) return 1;
+            if(!task2.transplant_task) return -1;
+            const { transplant_task: { task: { completed_time: firstCompleteTime, due_date: firstDueDate } } } = task1;
+            const { transplant_task: { task: { completed_time: secondCompleteTime, due_date: secondDueDate } } } = task2;
+            return (secondCompleteTime || firstDueDate).getTime() - (firstCompleteTime || secondDueDate).getTime()})
+          .find(plantingManagementPlan => {
+            locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
+            const transplantTaskDateTime = plantingManagementPlan?.transplant_task?.task?.completed_time?.getTime() || plantingManagementPlan.transplant_task?.task?.due_date?.getTime();
+            return transplantTaskDateTime && transplantTaskDateTime < fromDateTime;
           });
 
-        !hasBeenTransplanted && plantingManagementPlans.find(plantingManagementPlan => {
-          if (plantingManagementPlan.plant_task) {
-            const completed_time = plantingManagementPlan.plant_task.task.completed_time;
-            const abandoned_time = plantingManagementPlan.plant_task.task.abandoned_time;
-            const plantTaskCompleteTime = new Date(completed_time).getTime();
-            if (!(abandoned_time || (completed_time && plantTaskCompleteTime < fromDateTime))) {
-              locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key);
-            }
-            return true;
-          } else if (!plantingManagementPlan.plant_task && !plantingManagementPlan.transplant_task) {
-            plantingManagementPlan.location_id && (locationIdCropMap[plantingManagementPlan.location_id].add(managementPlan.crop_variety.crop.crop_translation_key));
-            return true;
-          }
-        return false;
-      });
 
       return locationIdCropMap;
     }, {});
 
     const locations = await locationModel.query().context({ showHidden: true }).whereNotDeleted()
       .where({ farm_id })
+      .whereNotIn('figure.type', ['farm_site_boundary', 'gate', 'water_valve', 'fence', 'watercourse', 'surface_water'])
       .withGraphJoined(`[
           figure.[area, line, point], 
           gate, water_valve, field.[organic_history(orderByEffectiveDate)], 
@@ -357,8 +362,7 @@ const organicCertifierSurveyController = {
 
     const booleanTrueToX = bool => bool ? 'x' : '';
 
-    return locations.filter(location => !location.farm_site_boundary && !location?.figure?.point && !location?.fence && !location?.watercourse && !location?.surface_water)
-      .map(location => {
+    return locations.map(location => {
         const getLocationOrganicStatus = (location, hasCrops) => {
           if (location.buffer_zone) {
             return hasCrops ? 'Non-Organic' : 'Non-Producing';

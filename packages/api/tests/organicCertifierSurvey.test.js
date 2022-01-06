@@ -45,6 +45,8 @@ describe('organicCertifierSurvey Tests', () => {
       req.user.user_id = req.get('user_id');
       next();
     });
+    email = require('../src/templates/sendEmailTemplate');
+    email.sendEmail.mockClear();
   });
 
 
@@ -143,7 +145,6 @@ describe('organicCertifierSurvey Tests', () => {
       });
 
       test('User should get all supported certifiers', async (done) => {
-        console.log(organicCertifierSurvey);
         getAllSupportedCertifiersRequest({
           user_id: manager.user_id,
         }, (err, res) => {
@@ -579,296 +580,468 @@ describe('organicCertifierSurvey Tests', () => {
       })
     });
 
-    describe('Record A test', () => {
 
-      test('Should include management plan with a planned task within the reporting period', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
-          promisedFarm,
-          promisedLocation,
-          promisedCrop,
+    describe('Record A data', () => {
+      const MAY30 = '2020-05-30';
+      const MAY31 = '2020-05-31';
+      const JUNE01 = '2020-06-01';
+      const JUNE02 = '2020-06-02';
+      const JUNE30 = '2020-06-30';
+      const JULY01 = '2020-07-01';
+      const START_OF_DAY = 'T00:00:00Z';
+      const END_OF_DAY = 'T23:59:59Z';
+      const EXPECTED_CROP = 'crop "translation" key for testing';
+      let farm_id;
+      let user_id;
+      let crop_id;
+      let cropVariety;
+      let location;
+      let planting_management_plan_id;
+      let exportIds;
+      let exportOptions;
+      let management_plan_id;
+
+      beforeEach(async () => {
+        [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
+        exportIds = { farm_id, user_id };
+        exportOptions = {
+          from_date: JUNE01,
+          to_date: JUNE30,
+          email: faker.internet.email(),
+          farm_id,
+        };
+
+        [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+        await mocks.areaFactory({ promisedFarm: [{ farm_id }], promisedLocation: [location] });
+
+        await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [{ farm_id, user_id }] }, mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }));
+        [{ crop_id }] = await mocks.cropFactory({ promisedFarm: [{ farm_id }], createdUser: [{ user_id }] }, mocks.fakeCrop({ crop_translation_key: EXPECTED_CROP }));
+        [cropVariety] = await mocks.crop_varietyFactory({ promisedFarm: [{ farm_id }] }, mocks.fakeCropVariety({ crop_variety_name: 'test', crop_id }));
+
+        [{ planting_management_plan_id, management_plan_id }] = await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [location],
+          promisedCrop: [{ crop_id }],
+          promisedCropVariety: [cropVariety],
         });
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Planting',
-          task_translation_key: 'PLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ due_date: '1000-01-01' }));
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-01' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
-        });
-        await knex('plant_task').insert({ task_id, planting_management_plan_id });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(1);
-        expect(recordA[0].crops).toStrictEqual([crop_translation_key]);
-        done();
       });
 
-      test('Should not include management plan with a planned task out of the reporting period', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
-          promisedFarm,
-          promisedLocation,
-          promisedCrop,
+      const createTask = async (options) => {
+        const fakeTask = mocks.fakeTask({
+          owner_user_id: user_id,
+          assignee_user_id: user_id,
+          planned_time: faker.date.future(),
+          due_date: faker.date.future(),
+          ...options,
         });
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Planting',
-          task_translation_key: 'PLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ due_date: '1000-01-01' }));
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-03' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
+
+        const [{ task_id }] = await mocks.taskFactory({
+          promisedUser: [{ user_id }],
+        }, fakeTask);
+
+        return task_id;
+      };
+
+      const createManagementTaskWithinReportingPeriod = async()=>{
+        await createManagementTask({due_date: JUNE01})
+      }
+
+      const createManagementTask = async(options)=>{
+        const newTaskId = await createTask(options);
+        await mocks.management_tasksFactory(
+          { promisedTask: [{ task_id: newTaskId }], promisedPlantingManagementPlan: [{planting_management_plan_id}] },
+        );
+      }
+
+      const createTransplantTask = async(options, {management_plan_id: transplantTaskManagementPlanId=management_plan_id}= {}) => {
+        const [{location_id}] = await mocks.fieldFactory({promisedFarm: [{ farm_id }]});
+
+        const [transplantMgtPlan] = await knex('planting_management_plan').insert({...mocks.fakePlantingManagementPlan({location_id, management_plan_id: transplantTaskManagementPlanId})}).returning('*');
+        const task_id = await createTask(options);
+        await mocks.transplant_taskFactory(
+          { promisedTask: [{ task_id }] },
+          { planting_management_plan_id: transplantMgtPlan.planting_management_plan_id },
+        );
+        const {management_plan_id} = transplantMgtPlan;
+        return {management_plan_id}
+      }
+
+      const createPlantTask = async(options) => {
+        const task_id = await createTask(options);
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id }] },
+          { planting_management_plan_id },
+        );
+      }
+
+      const testScenarios = [
+        { include: { plant_task: true, in_ground: true, no_active_task: true, transplant_task: {plant_task: true, in_ground: true, transplant_task: true} }, title: 'completed on report start date', options: { completed_time: `'${JUNE01}${START_OF_DAY}'` } },
+        { include: { plant_task: true, in_ground: true, no_active_task: true, transplant_task: {plant_task: true, in_ground: true, transplant_task: true} }, title: 'completed on report end date', options: { completed_time: `'${JUNE30}${END_OF_DAY}'` } },
+        { include: { plant_task: true, in_ground: true, no_active_task: true, transplant_task: {plant_task: true, in_ground: true, transplant_task: true} }, title: 'due on report start date', options: { due_date: JUNE01 } },
+        { include: { plant_task: true, in_ground: true, no_active_task: true, transplant_task: {plant_task: true, in_ground: true, transplant_task: true} }, title: 'due on report end date', options: { due_date: JUNE30 } },
+        { include: { plant_task: true, in_ground: true, no_active_task: false, transplant_task: {plant_task: false, in_ground: false, transplant_task: true} }, title: 'completed just before the report start date', options: { completed_time: `'${MAY31}${END_OF_DAY}'` } },
+        { include: { plant_task: true, in_ground: true, no_active_task: false, transplant_task: {plant_task: true, in_ground: true, transplant_task: false} }, title: 'completed just after the report end date', options: { completed_time: `'${JULY01}${START_OF_DAY}'` } },
+        { include: { plant_task: true, in_ground: true, no_active_task: false, transplant_task: {plant_task: false, in_ground: false, transplant_task: true} }, title: 'due just before the report start date', options: { due_date: MAY31 } },
+        { include: { plant_task: true, in_ground: true, no_active_task: false, transplant_task: {plant_task: true, in_ground: true, transplant_task: false} }, title: 'due just after the report end date', options: { due_date: JULY01 } },
+      ];
+
+
+
+      for (const scenario of testScenarios) {
+        const include = scenario.include.plant_task;
+        test(`Plant task location: should ${include ? '' : 'not '}include crops from plant tasks ${scenario.title}`, async (done) => {
+          await createPlantTask(scenario.options);
+          await createManagementTaskWithinReportingPeriod();
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(1);
+            expect(res.body.recordA[0].crops).toHaveLength(include ? 1 : 0);
+            if (include) expect(res.body.recordA[0].crops[0]).toEqual(EXPECTED_CROP);
+            done();
+          });
         });
-        await knex('plant_task').insert({ task_id, planting_management_plan_id });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(1);
-        expect(recordA[0].crops.length).toBe(0);
-        done();
+      }
+
+      for (const scenario of testScenarios) {
+        const include = scenario.include.in_ground;
+        test(`In ground management plan location: should ${include ? '' : 'not '}include crops from in ground management plan location ${scenario.title}`, async (done) => {
+
+          await createManagementTaskWithinReportingPeriod();
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(1);
+            expect(res.body.recordA[0].crops).toHaveLength(include ? 1 : 0);
+            if (include) expect(res.body.recordA[0].crops[0]).toEqual(EXPECTED_CROP);
+            done();
+          });
+        });
+      }
+
+      for (const scenario of testScenarios) {
+        const include = scenario.include.no_active_task;
+        test(`No active task: should ${include ? '' : 'not '}include crops from plant task location ${scenario.title}`, async (done) => {
+          await createPlantTask(scenario.options);
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(1);
+            expect(res.body.recordA[0].crops).toHaveLength(include ? 1 : 0);
+            if (include) expect(res.body.recordA[0].crops[0]).toEqual(EXPECTED_CROP);
+            done();
+          });
+        });
+      }
+
+      for (const scenario of testScenarios) {
+        test(`Abandoned transplant tasks: should not include crops from abandoned transplant tasks ${scenario.title}`, async (done) => {
+          await createTransplantTask({ ...scenario.options, abandoned_time: `'${JULY01}${START_OF_DAY}'` });
+          await createManagementTaskWithinReportingPeriod();
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(2);
+            for(const record of res.body.recordA){
+              if(record.location_id === location.location_id){
+                expect(record.crops.length).toBe(1);
+              }else{
+                expect(record.crops.length).toBe(0);
+              }
+            }
+            done();
+          });
+        });
+      }
+
+      for (const scenario of testScenarios) {
+        const include = scenario.include.transplant_task.transplant_task;
+        test(`Transplant task with previous plant_task: should ${include ? '' : 'not '}include crops from transplant tasks ${scenario.title}`, async (done) => {
+
+          await createPlantTask({due_date: MAY30});
+          await createTransplantTask(scenario.options);
+
+          await createManagementTaskWithinReportingPeriod();
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(2);
+            for(const record of res.body.recordA){
+              if(record.location_id === location.location_id){
+                expect(record.crops.length).toBe(scenario.include.transplant_task.plant_task ? 1 : 0);
+              }else{
+                expect(record.crops.length).toBe(include ? 1 : 0);
+              }
+            }
+            done();
+          });
+        });
+      }
+
+      for (const scenario of testScenarios) {
+        const include = scenario.include.transplant_task.transplant_task;
+        test(`Transplant task with in ground management plan: should ${include ? '' : 'not '}include crops from transplant tasks ${scenario.title}`, async (done) => {
+
+          await createTransplantTask(scenario.options);
+
+          await createManagementTaskWithinReportingPeriod();
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(2);
+            for(const record of res.body.recordA){
+              if(record.location_id === location.location_id){
+                expect(record.crops.length).toBe(scenario.include.transplant_task.in_ground ? 1 : 0);
+              }else{
+                expect(record.crops.length).toBe(include ? 1 : 0);
+              }
+            }
+            done();
+          });
+        });
+      }
+
+
+      for (const scenario of testScenarios) {
+        test(`should not include crops from abandoned management tasks ${scenario.title}`, async (done) => {
+
+          await createManagementTask({due_date: JUNE01, abandoned_time: `'${JULY01}${START_OF_DAY}'`});
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(1);
+            expect(res.body.recordA[0].crops).toHaveLength(0);
+            done();
+          });
+        });
+      }
+
+      test(`should not include crops from in ground management plan pin location`, async (done) => {
+        await createManagementTaskWithinReportingPeriod();
+        await knex('planting_management_plan').where({ planting_management_plan_id }).update({pin_coordinate: {lat: 45, lng: 45}, location_id: null});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
+        });
       });
 
-      test('Should include management plan with a completed task within the reporting period', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
-          promisedFarm,
-          promisedLocation,
-          promisedCrop,
+      test(`No active task: should not include crops from in ground management plan location`, async (done) => {
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
         });
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Planting',
-          task_translation_key: 'PLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ due_date: '1000-01-01' }));
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({
-          due_date: '2021-01-01',
-          completed_time: new Date('2021-01-01'),
-        }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
-        });
-        await knex('plant_task').insert({ task_id, planting_management_plan_id });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(1);
-        expect(recordA[0].crops).toStrictEqual([crop_translation_key]);
-        done();
       });
 
-      test('Should not include management plan with a task completed out of the reporting period, but planned within the reporting period', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
-          promisedFarm,
-          promisedLocation,
-          promisedCrop,
+      test(`Task before reporting period: should not include crops from in ground management plan location`, async (done) => {
+        await createTask({due_date: MAY31});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
         });
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Planting',
-          task_translation_key: 'PLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ due_date: '1000-01-01' }));
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({
-          due_date: '2021-01-01',
-          completed_time: new Date('2021-01-04'),
-        }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
-        });
-        await knex('plant_task').insert({ task_id, planting_management_plan_id });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(1);
-        expect(recordA[0].crops.length).toBe(0);
-        done();
       });
 
-      test('Should include already_in_ground management plan location', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
-          promisedFarm,
-          promisedLocation,
-          promisedCrop,
+      test(`Task after reporting period: should not include crops from in ground management plan location`, async (done) => {
+        await createTask({completed_time: `'${JULY01}${START_OF_DAY}'`});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
         });
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-01' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
-        });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(1);
-        expect(recordA[0].crops).toStrictEqual([crop_translation_key]);
-        done();
       });
 
-      test('When there is a completed transplant task before reporting period, should not include already_in_ground management plan location', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{
-          planting_management_plan_id,
-          management_plan_id,
-        }] = await mocks.planting_management_planFactory({ promisedFarm, promisedLocation, promisedCrop });
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-01' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
+      test(`Reporting period between two tasks: should include crops from in ground management plan location`, async (done) => {
+        await createManagementTask({completed_time: `'${MAY31}${START_OF_DAY}'`});
+        await createManagementTask({due_date: JULY01});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(1);
+          done();
         });
-        const [transplantLocation] = await mocks.fieldFactory({ promisedFarm });
-        const [transplantPlantingManagementPlan] = await knex('planting_management_plan').insert(mocks.fakePlantingManagementPlan({
-          management_plan_id,
-          location_id: transplantLocation.location_id,
-        })).returning('*');
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Transplant task',
-          task_translation_key: 'TRANSPLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ completed_time: new Date('2020-12-31') }));
-        await knex('transplant_task').insert({
-          task_id,
-          planting_management_plan_id: transplantPlantingManagementPlan.planting_management_plan_id,
+      });
+
+      test('should not include wild crops for management plan completed before reporting period', async (done) => {
+        await knex('management_plan').where({management_plan_id}).update({complete_date: MAY31});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          expect(res.body.recordA[0].crops).toHaveLength(0);
+          done();
         });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(2);
-        for (const record of recordA) {
-          if (record.location_id === location_id) {
-            expect(record.crops.length).toBe(0);
-          } else {
-            expect(record.crops.length).toBe(1);
+      });
+
+      test('should include in ground management plan location/transplant task location for management plan completed after the start of reporting period', async (done) => {
+        await knex('management_plan').where({management_plan_id}).update({complete_date: JUNE02});
+        await createTransplantTask({due_date: JUNE30});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          for(const record of res.body.recordA){
+            expect(record.crops).toHaveLength(1);
           }
-        }
-        done();
+          done();
+        });
       });
 
-      test('When there is a completed transplant task within reporting period, should include both already_in_ground management plan location and transplant location', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{
-          planting_management_plan_id,
-          management_plan_id,
-        }] = await mocks.planting_management_planFactory({ promisedFarm, promisedLocation, promisedCrop });
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-01' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
-        });
-        const [transplantLocation] = await mocks.fieldFactory({ promisedFarm });
-        const [transplantPlantingManagementPlan] = await knex('planting_management_plan').insert(mocks.fakePlantingManagementPlan({
-          management_plan_id,
-          location_id: transplantLocation.location_id,
-        })).returning('*');
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Transplant task',
-          task_translation_key: 'TRANSPLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({ completed_time: new Date('2021-01-01') }));
-        await knex('transplant_task').insert({
-          task_id,
-          planting_management_plan_id: transplantPlantingManagementPlan.planting_management_plan_id,
-        });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(2);
-        for (const record of recordA) {
-          if (record.location_id === location_id) {
-            expect(record.crops.length).toBe(1);
-          } else {
-            expect(record.crops.length).toBe(1);
+      test('should include plant_task/transplant_task location for management plan completed after the start of reporting period', async (done) => {
+        await knex('management_plan').where({management_plan_id}).update({complete_date: JUNE02});
+        await createPlantTask({due_date: JUNE01});
+        await createTransplantTask({due_date: JUNE30});
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          for(const record of res.body.recordA){
+            expect(record.crops).toHaveLength(1);
           }
-        }
-        done();
+          done();
+        });
       });
 
-      test('When there is a completed transplant task after reporting period, should only include already_in_ground management plan location', async (done) => {
-        const [{ farm_id, user_id }] = await mocks.userFarmFactory({}, fakeUserFarm());
-        const promisedFarm = [{ farm_id }];
-        const [{ location_id }] = await mocks.locationFactory({ promisedFarm });
-        const promisedLocation = [{ location_id }];
-        const [{ crop_translation_key, crop_id }] = await mocks.cropFactory({ promisedFarm });
-        const promisedCrop = [{ crop_id }];
-        const [{
-          planting_management_plan_id,
-          management_plan_id,
-        }] = await mocks.planting_management_planFactory({ promisedFarm, promisedLocation, promisedCrop });
-        const promisedTask = await mocks.taskFactory({}, mocks.fakeTask({ due_date: '2021-01-01' }));
-        await mocks.management_tasksFactory({
-          promisedTask,
-          promisedPlantingManagementPlan: [{ planting_management_plan_id }],
+      test('should not include wild crops for abandoned management plan', async (done) => {
+        const [{ management_plan_id }] = await mocks.management_planFactory({
+            promisedFarm: [{ farm_id }],
+            promisedCrop: [{ crop_id }],
+            promisedCropVariety: [cropVariety],
+          }, { ...mocks.fakeManagementPlan(), abandon_date: MAY31 },
+        );
+
+        const [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+
+        await mocks.planting_management_planFactory({
+          promisedFarm: [{ farm_id }],
+          promisedLocation: [location],
+          promisedCrop: [{ crop_id }],
+          promisedCropVariety: [cropVariety],
+          promisedManagementPlan: [{ management_plan_id }],
         });
-        const [transplantLocation] = await mocks.fieldFactory({ promisedFarm });
-        const [transplantPlantingManagementPlan] = await knex('planting_management_plan').insert(mocks.fakePlantingManagementPlan({
-          management_plan_id,
-          location_id: transplantLocation.location_id,
-        })).returning('*');
-        const [{ task_type_id }] = await knex('task_type').insert({
-          farm_id: null,
-          task_name: 'Transplant task',
-          task_translation_key: 'TRANSPLANT_TASK', ...mocks.baseProperties(user_id),
-        }).returning('*');
-        const promisedTaskType = [{ task_type_id }];
-        const [{ task_id }] = await mocks.taskFactory({ promisedTaskType }, mocks.fakeTask({
-          due_date: '2021-01-01',
-          completed_time: new Date('2021-01-04'),
-        }));
-        await knex('transplant_task').insert({
-          task_id,
-          planting_management_plan_id: transplantPlantingManagementPlan.planting_management_plan_id,
-        });
-        const recordA = await recordAQuery('2021-01-02', '2021-01-01', farm_id);
-        expect(recordA.length).toBe(2);
-        for (const record of recordA) {
-          if (record.location_id === location_id) {
-            expect(record.crops.length).toBe(1);
-          } else {
-            expect(record.crops.length).toBe(0);
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(2);
+          for(const record of res.body.recordA){
+            expect(record.crops).toHaveLength(0);
           }
-        }
-        done();
+          done();
+        });
       });
 
+      test('should not include transplanted crops for abandoned management plan', async (done) => {
+        const [{ management_plan_id }] = await mocks.management_planFactory({
+            promisedFarm: [{ farm_id }],
+            promisedCrop: [{ crop_id }],
+            promisedCropVariety: [cropVariety],
+          }, { ...mocks.fakeManagementPlan(), abandon_date: JULY01 },
+        );
+
+
+        await createTransplantTask({completed_time: `'${JUNE30}${START_OF_DAY}`}, { management_plan_id });
+
+
+        const [location] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
+
+        const [{planting_management_plan_id}] = await knex('planting_management_plan').insert({ management_plan_id, location_id: location.location_id }).returning('*');
+
+        const task_id = await createTask({completed_time: `'${JUNE01}${START_OF_DAY}`});
+        await mocks.plant_taskFactory(
+          { promisedTask: [{ task_id }] },
+          { planting_management_plan_id },
+        );
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(3);
+          for(const record of res.body.recordA){
+            expect(record.crops).toHaveLength(0);
+          }
+          done();
+        });
+      });
+
+      test('should exclude gate, water valve, farm site boundary, fence, surface water, and watercourse locations', async (done) => {
+        await mocks.farm_site_boundaryFactory({ promisedFarm: [{ farm_id }] });
+        await mocks.surface_waterFactory({ promisedFarm: [{ farm_id }] });
+        await mocks.watercourseFactory({ promisedFarm: [{ farm_id }] });
+        await mocks.gateFactory({ promisedFarm: [{ farm_id }] });
+        await mocks.water_valveFactory({ promisedFarm: [{ farm_id }] });
+        await mocks.fenceFactory({ promisedFarm: [{ farm_id }] });
+
+        getExportRequest(exportOptions, exportIds, (err, res) => {
+          expect(err).toBeNull();
+          expect(res.status).toBe(200);
+          expect(res.body.recordA).toHaveLength(1);
+          done();
+        });
+      });
+
+      const bufferZoneScenarios = [
+        { hasCrops: true, title: 'with', category: 'Non-Organic' },
+        { hasCrops: false, title: 'without', category: 'Non-Producing' },
+      ];
+
+      for (const scenario of bufferZoneScenarios) {
+        test(`should categorize buffer zones ${scenario.title} crops as ${scenario.category}`, async (done) => {
+          const [buffer] = await mocks.buffer_zoneFactory({ promisedFarm: [{ farm_id }] });
+
+          if (scenario.hasCrops) {
+            const [{ planting_management_plan_id }] = await mocks.planting_management_planFactory({
+              promisedFarm: [{ farm_id }],
+              promisedLocation: [buffer],
+              promisedField: [buffer],
+              promisedCrop: [{ crop_id }],
+              promisedCropVariety: [cropVariety],
+            });
+
+            const task_id = await createTask({ due_date: JUNE01 });
+
+            await mocks.management_tasksFactory(
+              { promisedTask: [{ task_id }], promisedPlantingManagementPlan: [{ planting_management_plan_id }] },
+            );
+          }
+
+          getExportRequest(exportOptions, exportIds, (err, res) => {
+            expect(err).toBeNull();
+            expect(res.status).toBe(200);
+            expect(res.body.recordA).toHaveLength(2);
+            for (const location of res.body.recordA) {
+              // The buffer zone can be identified by an area of zero.
+              if (location.area === 0) {
+                if (scenario.hasCrops) {
+                  expect(location.isNonOrganic).toBeTruthy();
+                  expect(location.isNonProducing).toBeFalsy();
+                } else {
+                  expect(location.isNonOrganic).toBeFalsy();
+                  expect(location.isNonProducing).toBeTruthy();
+                }
+              }
+            }
+            done();
+          });
+        });
+      }
     });
 
 

@@ -1242,6 +1242,19 @@ function fakePlantTask(defaultData = {}) {
   };
 }
 
+async function transplant_taskFactory({ promisedTask = taskFactory() } = {}, transplant_task = fakePlantTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('transplant_task').insert({ task_id, ...transplant_task }).returning('*');
+}
+
+
+function fakeTransplantTask(defaultData = {}) {
+  return {
+    ...defaultData,
+  };
+}
+
 async function field_work_taskFactory({ promisedTask = taskFactory() } = {}, field_work_task = fakeFieldWorkTask()) {
   const [activity] = await Promise.all([promisedTask]);
   const [{ task_id }] = activity;
@@ -1762,6 +1775,7 @@ module.exports = {
   pest_control_taskFactory, fakePestControlTask,
   harvest_taskFactory, fakeHarvestTask, fakeHarvestTasks,
   plant_taskFactory, fakePlantTask,
+  transplant_taskFactory, fakeTransplantTask,
   field_work_taskFactory, fakeFieldWorkTask,
   soil_taskFactory, fakeSoilTask,
   irrigation_taskFactory, fakeIrrigationTask,

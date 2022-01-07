@@ -30,6 +30,7 @@ function fakeUser(defaultData = {}) {
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.datatype.number({ min: 1900, max: new Date().getFullYear() }),
+    do_not_email: false,
     ...defaultData,
   };
 }

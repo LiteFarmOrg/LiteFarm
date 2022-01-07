@@ -371,7 +371,8 @@
       "FERTILIZING_PRODUCT": "Producto fertilizante",
       "OTHER": "Otro",
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
-      "SOIL_AMENDMENT": "Fertilización y correción del suelo"
+      "SOIL_AMENDMENT": "Fertilización y correción del suelo",
+      "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo"
     },
     "VALID": "Válido"
   },

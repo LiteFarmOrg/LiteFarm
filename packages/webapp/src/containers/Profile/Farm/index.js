@@ -7,7 +7,7 @@ import { actions, Control, Form } from 'react-redux-form';
 import { Button } from 'react-bootstrap';
 import { getFarmSchedule, sendFarmDataRequst } from './actions';
 import { farmDataSelector } from './selector';
-import { userFarmSelector } from '../../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { putFarm } from '../../saga';
 import { integerOnKeyDown } from '../../../components/Form/Input';
@@ -26,8 +26,8 @@ class Farm extends Component {
   }
 
   componentDidMount() {
-    const { farm } = this.props;
-    this.props.dispatch(getFarmSchedule());
+    const { farm, isAdmin } = this.props;
+    isAdmin && this.props.dispatch(getFarmSchedule());
     if (farm) {
       this.props.dispatch(actions.change('profileForms.farmInfo.currency', farm.units.currency));
       this.props.dispatch(
@@ -168,6 +168,7 @@ const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),
     schedule: farmDataSelector(state),
+    isAdmin: isAdminSelector(state),
   };
 };
 

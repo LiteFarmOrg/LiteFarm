@@ -27,6 +27,7 @@ import {
 import apiConfig, { url } from '../apiConfig';
 import history from '../history';
 import {
+  isAdminSelector,
   loginSelector,
   patchFarmSuccess,
   putUserSuccess,
@@ -558,16 +559,21 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return history.push('/consent');
 
-    const tasks = [
+    const isAdmin = yield select(isAdminSelector);
+    const adminTasks = [
       put(getCertificationSurveys()),
       put(getAllSupportedCertifications()),
       put(getAllSupportedCertifiers()),
+      put(getSales()),
+      put(getExpense()),
+    ];
+    const tasks = [
       put(getRoles()),
       put(getAllUserFarmsByFarmId()),
       put(getManagementPlansAndTasks()),
     ];
 
-    yield all([...tasks, put(getSales()), put(getExpense())]);
+    yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
 
     const {
       data: { farm_token },
@@ -578,7 +584,11 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
       /**
        * wait for getManagementPlansAndTasks to finish
        */
-      yield race([take(addManyTasksFromGetReq.type)]);
+      if (isAdmin) {
+        yield race([take(addManyTasksFromGetReq.type)]);
+      } else {
+        history.push({ pathname: '/' });
+      }
       yield put(setAppVersion());
     }
   } catch (e) {

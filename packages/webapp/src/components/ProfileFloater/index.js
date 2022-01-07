@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactComponent as LogoutIcon } from '../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../assets/images/navbar/my-info.svg';
 import { ReactComponent as HelpIcon } from '../../assets/images/navbar/help-profile.svg';
+import { ReactComponent as VideoIcon } from '../../assets/images/video_icon.svg';
 import { ReactComponent as SwitchFarmIcon } from '../../assets/images/navbar/switch-farm.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,7 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
       <ListOption
         clickFn={onTutorials}
         iconText={t('PROFILE_FLOATER.TUTORIALS')}
-        icon={<HelpIcon />}
+        icon={<VideoIcon />}
       />
 
       <ListOption

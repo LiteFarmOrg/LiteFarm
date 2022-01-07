@@ -322,6 +322,7 @@ async function farmExpenseFactory({
 function fakeCrop(defaultData = {}) {
   return {
     crop_common_name: faker.lorem.words(),
+    crop_translation_key: faker.lorem.words(),
     crop_genus: faker.lorem.words(),
     crop_specie: faker.lorem.words(),
     crop_group: faker.random.arrayElement([
@@ -571,7 +572,7 @@ async function planting_management_planFactory({
   promisedLocation = locationFactory({ promisedFarm }),
   promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory({ promisedFarm }),
-  promisedCropVariety = crop_varietyFactory({ promisedCrop }),
+  promisedCropVariety = crop_varietyFactory({ promisedFarm, promisedCrop }),
   promisedManagementPlan = management_planFactory({
     promisedFarm,
     promisedLocation,
@@ -1241,6 +1242,19 @@ function fakePlantTask(defaultData = {}) {
   };
 }
 
+async function transplant_taskFactory({ promisedTask = taskFactory() } = {}, transplant_task = fakePlantTask()) {
+  const [activity] = await Promise.all([promisedTask]);
+  const [{ task_id }] = activity;
+  return knex('transplant_task').insert({ task_id, ...transplant_task }).returning('*');
+}
+
+
+function fakeTransplantTask(defaultData = {}) {
+  return {
+    ...defaultData,
+  };
+}
+
 async function field_work_taskFactory({ promisedTask = taskFactory() } = {}, field_work_task = fakeFieldWorkTask()) {
   const [activity] = await Promise.all([promisedTask]);
   const [{ task_id }] = activity;
@@ -1761,6 +1775,7 @@ module.exports = {
   pest_control_taskFactory, fakePestControlTask,
   harvest_taskFactory, fakeHarvestTask, fakeHarvestTasks,
   plant_taskFactory, fakePlantTask,
+  transplant_taskFactory, fakeTransplantTask,
   field_work_taskFactory, fakeFieldWorkTask,
   soil_taskFactory, fakeSoilTask,
   irrigation_taskFactory, fakeIrrigationTask,
@@ -1803,4 +1818,5 @@ module.exports = {
   fakeDocument, documentFactory,
   fakeFile, fileFactory,
   fakeOrganicHistory, organic_historyFactory,
+  baseProperties,
 };

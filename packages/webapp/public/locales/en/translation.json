@@ -1056,7 +1056,8 @@
     "HELP": "Help",
     "INFO": "My info",
     "LOG_OUT": "Log Out",
-    "SWITCH": "Switch Farm"
+    "SWITCH": "Switch Farm",
+    "TUTORIALS": "Tutorials"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Account",

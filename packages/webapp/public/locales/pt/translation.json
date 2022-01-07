@@ -1056,7 +1056,8 @@
     "HELP": "Ajuda",
     "INFO": "Minha informação",
     "LOG_OUT": "Sair",
-    "SWITCH": "Mudar de fazenda"
+    "SWITCH": "Mudar de fazenda",
+    "TUTORIALS": "MISSING"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Conta",

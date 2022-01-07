@@ -197,6 +197,11 @@ export default function PureNavBar({
     history.push('/Profile');
     closeFloater();
   };
+  const openTutorialsClick = () => {
+    // TODO - Make the magic happens here
+    console.log("Opening tutorials ...")
+    closeFloater();
+  }
 
   // Pure Notification Floater
   const notificationTeaserClick = () => {
@@ -346,6 +351,7 @@ export default function PureNavBar({
             <PureProfileFloater
               openProfile={isProfileFloaterOpen}
               helpClick={helpClick}
+              tutorialsClick={openTutorialsClick}
               myInfoClick={myInfoClick}
               logOutClick={logOutClick}
               switchFarmClick={switchFarmClick}

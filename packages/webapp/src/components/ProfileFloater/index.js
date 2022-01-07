@@ -8,7 +8,9 @@ import { useTranslation } from 'react-i18next';
 import Floater from 'react-floater';
 import PropTypes from 'prop-types';
 
-export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLogout }) {
+export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
+  onTutorials, onLogout }) {
+
   const { t } = useTranslation();
   return (
     <div
@@ -32,7 +34,18 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLo
         icon={<SwitchFarmIcon style={{ transform: 'translateX(1px)' }} />}
       />
 
-      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
+      <ListOption
+        clickFn={onHelp}
+        iconText={t('PROFILE_FLOATER.HELP')}
+        icon={<HelpIcon />}
+      />
+
+      <ListOption
+        clickFn={onTutorials}
+        iconText={t('PROFILE_FLOATER.TUTORIALS')}
+        icon={<HelpIcon />}
+      />
+
       <ListOption
         clickFn={onLogout}
         iconText={t('PROFILE_FLOATER.LOG_OUT')}
@@ -50,6 +63,7 @@ export default function PureProfileFloater({
   myInfoClick,
   logOutClick,
   switchFarmClick,
+  tutorialsClick,
 }) {
   return (
     <Floater
@@ -58,6 +72,7 @@ export default function PureProfileFloater({
           onHelp={helpClick}
           onInfo={myInfoClick}
           onLogout={logOutClick}
+          onTutorials={tutorialsClick}
           onSwitchFarm={switchFarmClick}
         />
       }

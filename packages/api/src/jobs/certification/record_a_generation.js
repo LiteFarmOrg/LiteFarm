@@ -1,5 +1,5 @@
 const XlsxPopulate = require('xlsx-populate');
-const i18n = require('../locales/i18n');
+const { i18n, t, tCrop } = require('../locales/i18nt');
 
 module.exports = (data, exportId, from_date, to_date, farm_name, measurement) => {
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
@@ -29,8 +29,6 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       wrapText: true,
     };
     const RichText = XlsxPopulate.RichText;
-
-    const { t } = i18n;
 
     const NON_DATA_ROW_COUNT = 6;
     const lastLineNumber = NON_DATA_ROW_COUNT + data.length;
@@ -159,7 +157,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       .sort((firstRow, secondRow) => (firstRow.name > secondRow.name ? 1 : -1))
       .map((row, index) => {
         row.crops = row.crops
-          .map((crop_translation_key) => t(`crop:${crop_translation_key}`))
+          .map((crop_translation_key) => tCrop(crop_translation_key))
           .sort()
           .join(', ');
         row.area = row.area ? getArea(row.area) : null;

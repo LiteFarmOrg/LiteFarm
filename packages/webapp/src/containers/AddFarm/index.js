@@ -131,7 +131,7 @@ const AddFarm = () => {
           setValue(COUNTRY, country, { shouldValidate: true });
           callback?.();
         }),
-      500,
+      isGettingLocation ? 0 : 500,
     );
   };
 
@@ -298,18 +298,18 @@ function Map({ gridPoints, errors, isGettingLocation }) {
           <MapPinWrapper {...gridPoints} />
         </GoogleMap>
       )) || (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '152px',
-            flexGrow: 1,
-          }}
-        >
-          {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
-        </div>
-      )}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '152px',
+              flexGrow: 1,
+            }}
+          >
+            {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
+          </div>
+        )}
     </div>
   );
 }

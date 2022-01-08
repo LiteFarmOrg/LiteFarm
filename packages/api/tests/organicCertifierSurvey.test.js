@@ -813,7 +813,7 @@ describe('organic certification Tests', () => {
           farm_id,
         };
 
-        [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
+        [location] = await mocks.fieldFactory({ promisedFarm: [{ farm_id }] });
 
         await mocks.organicCertifierSurveyFactory(
           { promisedUserFarm: [{ farm_id, user_id }] },
@@ -833,6 +833,7 @@ describe('organic certification Tests', () => {
         ] = await mocks.planting_management_planFactory({
           promisedFarm: [{ farm_id }],
           promisedLocation: [location],
+          promisedField: [location],
           promisedCrop: [{ crop_id }],
           promisedCropVariety: [cropVariety],
         });
@@ -1000,6 +1001,7 @@ describe('organic certification Tests', () => {
 
           const [inactiveManagementPlan] = await mocks.crop_management_planFactory({
             promisedFarm: [{ farm_id }],
+            promisedLocation: [location],
             promisedField: [location],
           });
 

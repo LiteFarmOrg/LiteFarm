@@ -382,7 +382,6 @@ const organicCertifierSurveyController = {
       for (const plantingManagementPlan of plantingManagementPlans) {
         if (plantingManagementPlan.pin_coordinate) {
           const { lat, lng } = plantingManagementPlan.pin_coordinate;
-          console.log(managementPlan);
           wildCropRecords.push({
             name: `${lat}, ${lng}`,
             crops: [managementPlan.crop_variety.crop.crop_translation_key],
@@ -452,71 +451,73 @@ const organicCertifierSurveyController = {
       .query()
       .context({ showHidden: true })
       .whereNotDeleted()
-      .where({ farm_id })
-      .whereNotIn('figure.type', [
-        'farm_site_boundary',
-        'gate',
-        'water_valve',
-        'fence',
-        'watercourse',
-        'surface_water',
-      ]).withGraphJoined(`[
+      .where({ farm_id }).withGraphFetched(`[
           figure.[area, line, point], 
-          gate, water_valve, field.[organic_history(orderByEffectiveDate)], 
-          garden.[organic_history(orderByEffectiveDate)], buffer_zone, watercourse, fence, 
+          gate, water_valve, field.[organic_history(orderByEffectiveDateAsc)], 
+          garden.[organic_history(orderByEffectiveDateAsc)], buffer_zone, watercourse, fence, 
           ceremonial_area, residence, surface_water, natural_area,
-          greenhouse.[organic_history(orderByEffectiveDate)], barn, farm_site_boundary
+          greenhouse.[organic_history(orderByEffectiveDateAsc)], barn, farm_site_boundary
         ]`);
 
     const booleanTrueToX = (bool) => (bool ? 'x' : '');
     const startOfToDate = new Date(`${to_date}T00:00:00.000`);
     startOfToDate.setHours(0, 0, 0, 0);
-    const locationRecords = locations.map((location) => {
-      const getLocationOrganicStatus = (location, hasCrops) => {
-        if (location.buffer_zone) {
-          return hasCrops ? 'Non-Organic' : 'Non-Producing';
-        }
-        if (!hasCrops) return 'Non-Producing';
-        const organic_history = location[location.figure.type]?.organic_history;
-        if (
-          !organic_history ||
-          !organic_history.length ||
-          organic_history[0].effective_date > startOfToDate
-        )
-          return undefined;
-        let isOrganic;
-        let isNonOrganic;
+    const excludedLocationTypes = new Set([
+      'farm_site_boundary',
+      'gate',
+      'water_valve',
+      'fence',
+      'watercourse',
+      'surface_water',
+    ]);
+    const locationRecords = locations
+      .filter(({ figure: { type } }) => !excludedLocationTypes.has(type))
+      .map((location) => {
+        const getLocationOrganicStatus = (location, hasCrops) => {
+          if (location.buffer_zone) {
+            return hasCrops ? 'Non-Organic' : 'Non-Producing';
+          }
+          if (!hasCrops) return 'Non-Producing';
+          const organic_history = location[location.figure.type]?.organic_history;
+          if (
+            !organic_history ||
+            !organic_history.length ||
+            organic_history[0].effective_date > startOfToDate
+          )
+            return undefined;
+          let isOrganic;
+          let isNonOrganic;
 
-        for (const { effective_date, organic_status } of organic_history) {
-          if (effective_date <= startOfFromDate) {
-            isOrganic = organic_status === 'Organic';
-            isNonOrganic = organic_status === 'Non-Organic';
-          } else if (effective_date <= startOfToDate) {
-            if (organic_status === 'Non-Organic' || isNonOrganic) {
-              return 'Non-Organic';
-            } else if (organic_status !== 'Organic') {
-              isOrganic = false;
+          for (const { effective_date, organic_status } of organic_history) {
+            if (effective_date <= startOfFromDate) {
+              isOrganic = organic_status === 'Organic';
+              isNonOrganic = organic_status === 'Non-Organic';
+            } else if (effective_date <= startOfToDate) {
+              if (organic_status === 'Non-Organic' || isNonOrganic) {
+                return 'Non-Organic';
+              } else if (organic_status !== 'Organic') {
+                isOrganic = false;
+              }
             }
           }
-        }
-        return isNonOrganic ? 'Non-Organic' : isOrganic ? 'Organic' : 'Transitional';
-      };
+          return isNonOrganic ? 'Non-Organic' : isOrganic ? 'Organic' : 'Transitional';
+        };
 
-      const crops = Array.from(locationIdCropMap[location.location_id] || []);
-      const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
+        const crops = Array.from(locationIdCropMap[location.location_id] || []);
+        const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
 
-      return {
-        location_id: location.location_id,
-        name: location.name,
-        crops,
-        area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
-        isNew: '',
-        isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
-        isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
-        isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
-        isNonProducing: booleanTrueToX(locationOrganicStatus === 'Non-Producing'),
-      };
-    });
+        return {
+          location_id: location.location_id,
+          name: location.name,
+          crops,
+          area: location.figure?.area?.total_area || location.figure?.line?.total_area || 0,
+          isNew: '',
+          isTransitional: booleanTrueToX(locationOrganicStatus === 'Transitional'),
+          isOrganic: booleanTrueToX(locationOrganicStatus === 'Organic'),
+          isNonOrganic: booleanTrueToX(locationOrganicStatus === 'Non-Organic'),
+          isNonProducing: booleanTrueToX(locationOrganicStatus === 'Non-Producing'),
+        };
+      });
     return [...locationRecords, ...wildCropRecords];
   },
 

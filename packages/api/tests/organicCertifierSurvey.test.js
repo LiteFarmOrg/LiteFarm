@@ -815,8 +815,6 @@ describe('organic certification Tests', () => {
 
         [location] = await mocks.locationFactory({ promisedFarm: [{ farm_id }] });
 
-        await mocks.areaFactory({ promisedFarm: [{ farm_id }], promisedLocation: [location] });
-
         await mocks.organicCertifierSurveyFactory(
           { promisedUserFarm: [{ farm_id, user_id }] },
           mocks.fakeOrganicCertifierSurvey(farm_id, { certifier_id: 1 }),
@@ -1480,7 +1478,10 @@ describe('organic certification Tests', () => {
         for (const { organicHistories, description, organic_status } of organicStatusScenarios) {
           test(`${description} => ${organic_status}`, async (done) => {
             for (const organicHistory of organicHistories) {
-              await mocks.organic_historyFactory({ promisedField: [location] }, organicHistory);
+              await mocks.organic_historyFactory(
+                { promisedLocation: [location], promisedField: [location], promisedArea: null },
+                organicHistory,
+              );
             }
             await createManagementTaskWithinReportingPeriod();
             const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
@@ -1496,7 +1497,10 @@ describe('organic certification Tests', () => {
               .where({ planting_management_plan_id })
               .update({ location_id: null, pin_coordinate: { lat: 45, lng: 45 } });
             for (const organicHistory of organicHistories) {
-              await mocks.organic_historyFactory({ promisedField: [location] }, organicHistory);
+              await mocks.organic_historyFactory(
+                { promisedLocation: [location], promisedField: [location], promisedArea: null },
+                organicHistory,
+              );
             }
             const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
             expect(recordA).toHaveLength(1);

@@ -311,10 +311,19 @@ const organicCertifierSurveyController = {
     if (!taskIds.length) {
       return [];
     }
-    const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
+    const {
+      managementPlans,
+      locations,
+      pinCoordinates,
+    } = await this.getTasksLocationsAndManagementPlans(taskIds);
     const tasks = pestTasks.rows.concat(soilTasks.rows);
     return tasks.map((task) => {
-      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(
+        task,
+        locations,
+        managementPlans,
+        pinCoordinates,
+      );
     });
   },
 
@@ -348,16 +357,46 @@ const organicCertifierSurveyController = {
     if (!taskIds.length) {
       return [];
     }
-    const { managementPlans, locations } = await this.getTasksLocationsAndManagementPlans(taskIds);
+    const {
+      managementPlans,
+      locations,
+      pinCoordinates,
+    } = await this.getTasksLocationsAndManagementPlans(taskIds);
     const tasks = pestTasks.rows.concat(cleaningTask.rows);
     return tasks.map((task) => {
-      return this.filterLocationsAndManagementPlans(task, locations, managementPlans);
+      return this.filterLocationsAndManagementPlans(
+        task,
+        locations,
+        managementPlans,
+        pinCoordinates,
+      );
     });
   },
 
   async recordAQuery(to_date, from_date, farm_id, activeManagementPlans) {
     const startOfFromDate = new Date(`${from_date}T00:00:00`);
     const endOfEndDate = new Date(`${to_date}T23:59:59`);
+
+    const wildCropRecords = activeManagementPlans.reduce((wildCropRecords, managementPlan) => {
+      const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
+      for (const plantingManagementPlan of plantingManagementPlans) {
+        if (plantingManagementPlan.pin_coordinate) {
+          const { lat, lng } = plantingManagementPlan.pin_coordinate;
+          console.log(managementPlan);
+          wildCropRecords.push({
+            name: `${lat}, ${lng}`,
+            crops: [managementPlan.crop_variety.crop.crop_translation_key],
+            area: null,
+            isNew: '',
+            isTransitional: '',
+            isOrganic: '',
+            isNonOrganic: '',
+            isNonProducing: '',
+          });
+        }
+      }
+      return wildCropRecords;
+    }, []);
 
     const locationIdCropMap = activeManagementPlans.reduce((locationIdCropMap, managementPlan) => {
       const plantingManagementPlans = managementPlan.crop_management_plan.planting_management_plans;
@@ -432,7 +471,7 @@ const organicCertifierSurveyController = {
     const booleanTrueToX = (bool) => (bool ? 'x' : '');
     const startOfToDate = new Date(`${to_date}T00:00:00.000`);
     startOfToDate.setHours(0, 0, 0, 0);
-    return locations.map((location) => {
+    const locationRecords = locations.map((location) => {
       const getLocationOrganicStatus = (location, hasCrops) => {
         if (location.buffer_zone) {
           return hasCrops ? 'Non-Organic' : 'Non-Producing';
@@ -478,6 +517,7 @@ const organicCertifierSurveyController = {
         isNonProducing: booleanTrueToX(locationOrganicStatus === 'Non-Producing'),
       };
     });
+    return [...locationRecords, ...wildCropRecords];
   },
 
   async getActiveManagementPlans(to_date, from_date, farm_id) {
@@ -545,11 +585,29 @@ const organicCertifierSurveyController = {
       .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
       .join('crop', 'crop.crop_id', 'crop_variety.crop_id')
       .whereIn('management_tasks.task_id', tasks);
-    return { locations, managementPlans };
+    const pinCoordinates = await knex('planting_management_plan')
+      .distinct('planting_management_plan.pin_coordinate')
+      .select('planting_management_plan.pin_coordinate', 'management_tasks.task_id')
+      .join(
+        'management_plan',
+        'planting_management_plan.management_plan_id',
+        'management_plan.management_plan_id',
+      )
+      .join(
+        'management_tasks',
+        'management_tasks.planting_management_plan_id',
+        'planting_management_plan.planting_management_plan_id',
+      )
+      .join('crop_variety', 'crop_variety.crop_variety_id', 'management_plan.crop_variety_id')
+      .join('crop', 'crop.crop_id', 'crop_variety.crop_id')
+      .whereIn('management_tasks.task_id', tasks)
+      .whereNotNull('planting_management_plan.pin_coordinate');
+    return { locations, managementPlans, pinCoordinates };
   },
 
-  filterLocationsAndManagementPlans(task, locations, managementPlans) {
+  filterLocationsAndManagementPlans(task, locations, managementPlans, pinCoordinates) {
     task.affectedLocations = locations.filter(({ task_id }) => task.task_id === task_id);
+    task.affectedCoordinates = pinCoordinates.filter(({ task_id }) => task.task_id === task_id);
     task.affectedManagementPlans = managementPlans?.filter(
       ({ task_id }) => task.task_id === task_id,
     );

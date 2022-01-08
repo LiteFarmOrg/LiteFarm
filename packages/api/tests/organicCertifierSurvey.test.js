@@ -1150,8 +1150,15 @@ describe('organic certification Tests', () => {
           .where({ planting_management_plan_id })
           .update({ pin_coordinate: { lat: 45, lng: 45 }, location_id: null });
         const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
-        expect(recordA).toHaveLength(1);
-        expect(recordA[0].crops).toHaveLength(0);
+        expect(recordA).toHaveLength(2);
+        for (const record of recordA) {
+          if (record.location_id === location.location_id) {
+            expect(record.crops).toHaveLength(0);
+          } else {
+            expect(record.crops).toHaveLength(1);
+            expect(record.name).toBe('45, 45');
+          }
+        }
         done();
       });
 

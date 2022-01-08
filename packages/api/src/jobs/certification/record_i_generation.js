@@ -190,6 +190,11 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
         (reducedString, { name }, i) => `${reducedString}${i === 0 ? '' : ', '}${name}`,
         `${t('RECORD_I.LOCATIONS')}: `,
       );
+      row.affected = row.affectedCoordinates.reduce(
+        (reducedString, { pin_coordinate }, i) =>
+          `${reducedString}${i === 0 ? '' : ', '}${pin_coordinate.lat}, ${pin_coordinate.lng}`,
+        row.affected,
+      );
       if (row.affectedManagementPlans.length > 0) {
         row.affected += row.affectedManagementPlans.reduce(
           (reducedString, { crop_variety_name, crop_translation_key }, i) =>
@@ -201,6 +206,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
       }
       delete row.affectedLocations;
       delete row.affectedManagementPlans;
+      delete row.affectedCoordinates;
 
       Object.keys(row)
         .filter((k) => k !== 'task_id')
@@ -212,9 +218,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
           workbook.sheet(0).cell(cell).value(value);
         });
     });
-    return workbook.toFileAsync(
-      `${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordI-${title}.xlsx`,
-    );
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/RecordI-${title}.xlsx`);
   });
 };
 

@@ -154,7 +154,14 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
     const getArea = (area) => area * imperialOrMetric(10.76391, 1);
 
     data
-      .sort((firstRow, secondRow) => (firstRow.name > secondRow.name ? 1 : -1))
+      .sort((firstRow, secondRow) => {
+        if (!firstRow.location_id && secondRow.location_id) {
+          return 1;
+        } else if (!secondRow.location_id && firstRow.location_id) {
+          return -1;
+        }
+        return firstRow.name > secondRow.name ? 1 : -1;
+      })
       .map((row, index) => {
         row.crops = row.crops
           .map((crop_translation_key) => tCrop(crop_translation_key))
@@ -169,7 +176,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
           sheet.cell(cell).value(value);
         });
       });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordA.xlsx`);
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/RecordA.xlsx`);
   });
 };
 

@@ -99,7 +99,7 @@ Since this is a mobile web application, webapp should be viewed in a mobile view
 Automated testing for the front-end is done using [cypress](https://www.cypress.io/). 
 
 1. In a terminal, navigate to the `packages/webapp` folder.
-2. Execute `npm test` to launch the tests.
+2. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
 ## api
 
@@ -109,6 +109,6 @@ The [chai.js](https://www.chaijs.com/) and [jest](https://jestjs.io/) libraries 
 
 1. In a terminal, navigate to the `packages/api` folder. 
 2. Execute `npm run migrate:testing:db` to set up the test database.
-3. Execute `npm test` to launch the tests.
+3. Execute `npm test` to launch the tests. Or, to generate test coverage information, run `npm test -- --coverage .` and then see the `coverage/index.html` file.
 
 It is good practice to use `psql` to `DROP` and `CREATE` the `test_farm` database before repeating this process.

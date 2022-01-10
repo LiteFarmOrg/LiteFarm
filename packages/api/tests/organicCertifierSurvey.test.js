@@ -776,7 +776,6 @@ describe('organicCertifierSurvey Tests', () => {
         const fakeTask = mocks.fakeTask({
           owner_user_id: user_id,
           assignee_user_id: user_id,
-          planned_time: faker.date.future(),
           due_date: faker.date.future(),
           ...options,
         });

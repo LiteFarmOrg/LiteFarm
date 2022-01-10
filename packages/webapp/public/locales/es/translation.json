@@ -255,7 +255,7 @@
       "LOCATION": "Ubicación",
       "STATUS": "Estatus",
       "SUPPLIERS": "Proveedores",
-      "TITLE": "Título"
+      "TITLE": "Filtro de catálogo de cultivos"
     },
     "HERE_YOU_CAN": "Acá uno puede",
     "LETS_BEGIN": "Vamos a comenzar",
@@ -1397,8 +1397,8 @@
     "TIME": {
       "DAY": "dias",
       "MONTH": "meses",
-      "WEEK": "años",
-      "YEAR": "dias"
+      "WEEK": "semanas",
+      "YEAR": "años"
     },
     "VALID_VALUE": "Introduzca un valor entre 0 y"
   },

@@ -1055,7 +1055,8 @@
     "HELP": "Ayuda",
     "INFO": "Mi información",
     "LOG_OUT": "Cerrar sesión",
-    "SWITCH": "Cambiar de finca"
+    "SWITCH": "Cambiar de finca",
+    "TUTORIALS": "Tutoriales"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Cuenta",

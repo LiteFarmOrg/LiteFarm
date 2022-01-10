@@ -1056,7 +1056,8 @@
     "HELP": "À l'aide",
     "INFO": "Mes infos",
     "LOG_OUT": "Déconnexion",
-    "SWITCH": "Changer de ferme"
+    "SWITCH": "Changer de ferme",
+    "TUTORIALS": "MISSING"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Compte",

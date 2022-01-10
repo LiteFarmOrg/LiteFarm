@@ -277,7 +277,7 @@
     "HS_CODE": "Código HS",
     "MANAGEMENT_PLANS": "Planos de Manejo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "O cultivo é certificado como orgânico?",
+    "ORGANIC": "MISSING",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes desta cultura foram tratadas?"
   },
@@ -312,7 +312,7 @@
       "TITLE": "Editar cultivo?"
     },
     "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "IS_ORGANIC": "O cultivo é certificada como orgânica?",
+    "IS_ORGANIC": "MISSING",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",

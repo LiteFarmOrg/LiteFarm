@@ -21,7 +21,7 @@ import {
   userFarmSelector,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { axios, getHeader, selectFarmAndFetchAll } from '../saga';
+import { axios, fetchAllSaga, getHeader } from '../saga';
 import history from '../../history';
 import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -57,7 +57,7 @@ export function* patchConsentSaga({ payload }) {
     const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
-      yield put(selectFarmAndFetchAll({ farm_id }));
+      yield call(fetchAllSaga);
       history.push('/outro', { farm_id, farm_name });
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));

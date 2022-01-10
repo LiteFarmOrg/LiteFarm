@@ -1,6 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (20190416183353_add_column_in_fertilizer.js) is part of LiteFarm.
+ *  Copyright (C) 2019-2022 LiteFarm.org
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

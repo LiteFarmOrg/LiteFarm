@@ -1,8 +1,8 @@
 export const getTasksMinMaxDate = (tasks = []) => {
   let startDate;
   let endDate;
-  for (const { planned_time } of tasks) {
-    const date = new Date(planned_time).getTime();
+  for (const { due_date } of tasks) {
+    const date = new Date(due_date).getTime();
     if (!startDate) {
       startDate = date;
     } else if (date < startDate) {

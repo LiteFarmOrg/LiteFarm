@@ -30,7 +30,6 @@ export const getTask = (obj) => {
     'duration',
     'wage_at_moment',
     'happiness',
-    'planned_time',
     'completed_time',
     'late_time',
     'for_review_time',

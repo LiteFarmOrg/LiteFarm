@@ -44,9 +44,9 @@ module.exports = (data, exportId, from_date, to_date, farm_name) => {
     const reportDate = new Date().toISOString().split('T')[0];
 
     rowSix
-      .add(`2. ${t('RECORD_D.NOTE.TWO.PART_1')} `)
-      .add(` ${t('RECORD_D.NOTE.TWO.PART_2')} `, { bold: true })
-      .add(`${t('RECORD_D.NOTE.TWO.PART_3')}:`);
+      .add(`2. ${t('RECORD_D.NOTE.TWO.PART_1')}`)
+      .add(` ${t('RECORD_D.NOTE.TWO.PART_2')}`, { bold: true })
+      .add(` ${t('RECORD_D.NOTE.TWO.PART_3')}:`);
     rowSeven.add(`     A.  ${t('RECORD_D.NOTE.TWO.A')}`);
     rowEight.add(`     B.  ${t('RECORD_D.NOTE.TWO.B')}`);
     rowNine.add(`     C.  ${t('RECORD_D.NOTE.TWO.C')}`);

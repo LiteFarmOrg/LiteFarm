@@ -118,7 +118,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
     rowFour.add(t('RECORD_I.NOTE.LIST_ALL'), { bold: true });
     rowFive.add(t('RECORD_I.NOTE.PLEASE_USE_SEPARATE_RECORD'), { bold: true });
     rowSix
-      .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')} `, { bold: true })
+      .add(`1. ${t('RECORD_I.NOTE.ONE.PART_1')}`, { bold: true })
       .add(` ${t('RECORD_I.NOTE.ONE.PART_2')}`);
     rowSeven.add(`2.  ${t('RECORD_I.NOTE.TWO')}`, { bold: true });
     rowEight.add(t('RECORD_I.NOTE.PREP_INPUTS'), { bold: true });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from 'react-router-dom';
 import ReactJoyride, { STATUS } from 'react-joyride';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -198,8 +199,17 @@ export default function PureNavBar({
     closeFloater();
   };
   const openTutorialsClick = () => {
-    // TODO - Make the magic happens here
-    console.log("Opening tutorials ...")
+    const playlistIDs = {
+      'es': 'PLDRpVZ4VsXJhghxfEQuApFQTeCWUbGBN9',
+      'pt': 'PLDRpVZ4VsXJg0ke20m47MmJq6uAJAlAGF',
+      'en': 'PLDRpVZ4VsXJgVGrmmXJooNqceXvre8IDY'
+    };
+
+    const playList = playlistIDs[selectedLanguage] || playlistIDs['en'];
+    const url = 'https://www.youtube.com/playlist?list=' + playList;
+
+    const win = window.open(url, '_blank');
+    win.focus();
     closeFloater();
   }
 

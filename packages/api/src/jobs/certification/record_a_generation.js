@@ -1,5 +1,5 @@
 const XlsxPopulate = require('xlsx-populate');
-const i18n = require('../locales/i18n');
+const { i18n, t, tCrop } = require('../locales/i18nt');
 
 module.exports = (data, exportId, from_date, to_date, farm_name, measurement) => {
   return XlsxPopulate.fromBlankAsync().then((workbook) => {
@@ -29,8 +29,6 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
       wrapText: true,
     };
     const RichText = XlsxPopulate.RichText;
-
-    const { t } = i18n;
 
     const NON_DATA_ROW_COUNT = 6;
     const lastLineNumber = NON_DATA_ROW_COUNT + data.length;
@@ -156,10 +154,17 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
     const getArea = (area) => area * imperialOrMetric(10.76391, 1);
 
     data
-      .sort((firstRow, secondRow) => (firstRow.name > secondRow.name ? 1 : -1))
+      .sort((firstRow, secondRow) => {
+        if (!firstRow.location_id && secondRow.location_id) {
+          return 1;
+        } else if (!secondRow.location_id && firstRow.location_id) {
+          return -1;
+        }
+        return firstRow.name > secondRow.name ? 1 : -1;
+      })
       .map((row, index) => {
         row.crops = row.crops
-          .map((crop_translation_key) => t(`crop:${crop_translation_key}`))
+          .map((crop_translation_key) => tCrop(crop_translation_key))
           .sort()
           .join(', ');
         row.area = row.area ? getArea(row.area) : null;
@@ -171,7 +176,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
           sheet.cell(cell).value(value);
         });
       });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/iCertify-RecordA.xlsx`);
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/RecordA.xlsx`);
   });
 };
 

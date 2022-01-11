@@ -39,6 +39,7 @@ function PureDocumentDetailView({
       value: 'PEST_CONTROL_PRODUCT',
     },
     SOIL_AMENDMENT: { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
+    SOIL_SAMPLE_RESULTS: { label: t('DOCUMENTS.TYPE.SOIL_SAMPLE_RESULTS'), value: 'SOIL_SAMPLE_RESULTS'},
     OTHER: { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
   };
 

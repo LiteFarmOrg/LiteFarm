@@ -539,7 +539,7 @@ const organicCertifierSurveyController = {
       )
       .where('crop_variety.farm_id', farm_id)
       .whereRaw(
-        '(management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ?',
+        '((management_plan.complete_date IS NULL and management_plan.abandon_date IS NULL) OR management_plan.complete_date > ?)',
         [from_date],
       );
     return managementPlans.filter(({ crop_management_plan: { planting_management_plans } }) => {

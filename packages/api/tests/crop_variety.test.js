@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  Copyright (C) 2021 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (farm.test.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify

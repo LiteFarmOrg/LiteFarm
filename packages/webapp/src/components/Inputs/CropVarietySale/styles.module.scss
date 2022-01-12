@@ -2,20 +2,6 @@
   width: 100%;
   margin-bottom: 25px;
 
-  div {
-    div {
-      div {
-
-
-
-        div {
-          //margin-left: 4px;
-          //min-width: 10%;
-        }
-      }
-    }
-  }
-
   .button {
     display: flex;
     -webkit-border-radius: 28px;
@@ -38,7 +24,7 @@
 }
 
 .leftColumn {
-  flex-bas: 30%;
+  flex-basis: 30%;
   padding-right: 4%;
 }
 
@@ -49,7 +35,7 @@
 
   div {
     max-width: 100%;
-    min-width: 8ch;
+    min-width: 7ch;
 
     div {
       div:nth-child(1) {
@@ -59,7 +45,7 @@
 
       div:nth-child(2) {
         width: 10%;
-        margin-left: 2px;
+        margin-left: 5px;
         text-align: left;
       }
     }
@@ -72,10 +58,16 @@
 
   div {
     max-width: 100%;
-    min-width: 10ch;
+    min-width: 8ch;
   }
 
   div > div > div:nth-child(2) {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  input {
+    font-size: 16px !important;
   }
 }

@@ -255,7 +255,7 @@
       "LOCATION": "Ubicación",
       "STATUS": "Estatus",
       "SUPPLIERS": "Proveedores",
-      "TITLE": "Título"
+      "TITLE": "Filtro de catálogo de cultivos"
     },
     "HERE_YOU_CAN": "Acá uno puede",
     "LETS_BEGIN": "Vamos a comenzar",
@@ -277,7 +277,7 @@
     "HS_CODE": "Código de SA",
     "MANAGEMENT_PLANS": "Planes de manejo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "Orgánico",
+    "ORGANIC": "¿La semilla o el cultivo están certificados como orgánicos?",
     "PERENNIAL": "Perenne",
     "TREATED": "¿Se han tratado las semillas de este cultivo?"
   },
@@ -312,7 +312,7 @@
       "TITLE": "Quiere editar este cultivo?"
     },
     "IS_GENETICALLY_ENGINEERED": "¿Este cultivo está modificado genéticamente?",
-    "IS_ORGANIC": "¿El cultivo está certificado como orgánico?",
+    "IS_ORGANIC": "¿La semilla o el cultivo están certificados como orgánicos?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Su certificador puede solicitar documentación que respalde su afirmación de que este cultivo no está modificado genéticamente.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Su certificador puede solicitar documentación que respalde su búsqueda.",
     "NEED_DOCUMENT_TREATED": "Su certificador puede solicitar documentación que describa cualquier tratamiento.",
@@ -371,7 +371,8 @@
       "FERTILIZING_PRODUCT": "Producto fertilizante",
       "OTHER": "Otro",
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
-      "SOIL_AMENDMENT": "Fertilización y correción del suelo"
+      "SOIL_AMENDMENT": "Fertilización y correción del suelo",
+      "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo"
     },
     "VALID": "Válido"
   },
@@ -1055,7 +1056,8 @@
     "HELP": "Ayuda",
     "INFO": "Mi información",
     "LOG_OUT": "Cerrar sesión",
-    "SWITCH": "Cambiar de finca"
+    "SWITCH": "Cambiar de finca",
+    "TUTORIALS": "Tutoriales"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Cuenta",
@@ -1396,8 +1398,8 @@
     "TIME": {
       "DAY": "dias",
       "MONTH": "meses",
-      "WEEK": "años",
-      "YEAR": "dias"
+      "WEEK": "semanas",
+      "YEAR": "años"
     },
     "VALID_VALUE": "Introduzca un valor entre 0 y"
   },

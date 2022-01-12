@@ -277,7 +277,7 @@
     "HS_CODE": "MISSING",
     "MANAGEMENT_PLANS": "Plans de gestion",
     "MANAGEMENT_TAB": "Gestion",
-    "ORGANIC": "MISSING",
+    "ORGANIC": "La semence ou la culture est-elle certifiée biologique ?",
     "PERENNIAL": "vivace",
     "TREATED": "MISSING",
     "ORGANIC_COMPLIANCE": "Conformité organique"
@@ -313,7 +313,7 @@
       "TITLE": "Modifier le recadrage ?"
     },
     "IS_GENETICALLY_ENGINEERED": "La culture est-elle génétiquement modifiée ?",
-    "IS_ORGANIC": "La culture est-elle certifiée biologique ?",
+    "IS_ORGANIC": "La semence ou la culture est-elle certifiée biologique ?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Votre certificateur peut demander des documents à l'appui de votre affirmation que cette culture n'est pas génétiquement modifiée.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Votre certificateur peut demander des documents à l'appui de votre recherche.",
     "NEED_DOCUMENT_TREATED": "Votre certificateur peut demander des documents décrivant les traitements.",
@@ -372,7 +372,8 @@
       "FERTILIZING_PRODUCT": "Produit fertilisant",
       "OTHER": "MISSING",
       "PEST_CONTROL_PRODUCT": "Produit antiparasitaire",
-      "SOIL_AMENDMENT": "Amendement du sol"
+      "SOIL_AMENDMENT": "Amendement du sol",
+      "SOIL_SAMPLE_RESULTS": "MISSING"
     },
     "VALID": "MISSING"
   },
@@ -1056,7 +1057,8 @@
     "HELP": "À l'aide",
     "INFO": "Mes infos",
     "LOG_OUT": "Déconnexion",
-    "SWITCH": "Changer de ferme"
+    "SWITCH": "Changer de ferme",
+    "TUTORIALS": "MISSING"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Compte",

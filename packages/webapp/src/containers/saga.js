@@ -155,7 +155,6 @@ import {
 } from './OrganicCertifierSurvey/slice';
 import { appVersionSelector, setAppVersion } from './appSettingSlice';
 import { APP_VERSION } from '../util/constants';
-import { addManyTasksFromGetReq } from './taskSlice';
 import { hookFormPersistHistoryStackSelector } from './hooks/useHookFormPersist/hookFormPersistSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
@@ -551,6 +550,36 @@ export function* checkAppVersionSaga() {
   if (isStoreOutdated) logout();
 }
 
+export function* fetchAllSaga() {
+  const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
+  if (!has_consent) return history.push('/consent');
+
+  const isAdmin = yield select(isAdminSelector);
+  const adminTasks = [
+    put(getCertificationSurveys()),
+    put(getAllSupportedCertifications()),
+    put(getAllSupportedCertifiers()),
+    put(getSales()),
+    put(getExpense()),
+  ];
+  const tasks = [
+    put(getRoles()),
+    put(getAllUserFarmsByFarmId()),
+    put(getManagementPlansAndTasks()),
+  ];
+
+  yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
+
+  const {
+    data: { farm_token },
+  } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
+  localStorage.setItem('farm_token', farm_token);
+  const appVersion = yield select(appVersionSelector);
+  if (appVersion !== APP_VERSION) {
+    yield put(setAppVersion());
+  }
+}
+
 export const selectFarmAndFetchAll = createAction('selectFarmAndFetchAllSaga');
 
 export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
@@ -558,38 +587,15 @@ export function* selectFarmAndFetchAllSaga({ payload: userFarm }) {
     yield put(selectFarmSuccess(userFarm));
     const { has_consent, user_id, farm_id } = yield select(userFarmSelector);
     if (!has_consent) return history.push('/consent');
-
+    yield call(fetchAllSaga);
     const isAdmin = yield select(isAdminSelector);
-    const adminTasks = [
-      put(getCertificationSurveys()),
-      put(getAllSupportedCertifications()),
-      put(getAllSupportedCertifiers()),
-      put(getSales()),
-      put(getExpense()),
-    ];
-    const tasks = [
-      put(getRoles()),
-      put(getAllUserFarmsByFarmId()),
-      put(getManagementPlansAndTasks()),
-    ];
-
-    yield all(isAdmin ? [...tasks, ...adminTasks] : tasks);
-
-    const {
-      data: { farm_token },
-    } = yield call(axios.get, `${url}/farm_token/farm/${farm_id}`, getHeader(user_id, farm_id));
-    localStorage.setItem('farm_token', farm_token);
-    const appVersion = yield select(appVersionSelector);
-    if (appVersion !== APP_VERSION) {
-      /**
-       * wait for getManagementPlansAndTasks to finish
-       */
-      if (isAdmin) {
-        yield race([take(addManyTasksFromGetReq.type)]);
-      } else {
-        history.push({ pathname: '/' });
-      }
-      yield put(setAppVersion());
+    /**
+     * wait for getManagementPlansAndTasks to finish
+     */
+    if (isAdmin) {
+      yield put(waitForCertificationSurveyResultAndPushToHome());
+    } else {
+      history.push({ pathname: '/' });
     }
   } catch (e) {
     console.error('failed to fetch farm info', e);

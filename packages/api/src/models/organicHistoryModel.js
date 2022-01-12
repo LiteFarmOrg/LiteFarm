@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const baseModel = require('./baseModel')
+const baseModel = require('./baseModel');
 
 class OrganicHistory extends baseModel {
   static get tableName() {
@@ -44,12 +44,11 @@ class OrganicHistory extends baseModel {
 
   static get modifiers() {
     return {
-      orderByEffectiveDate(builder) {
+      orderByEffectiveDateAsc(builder) {
         builder.orderBy('effective_date');
       },
     };
   }
-
 }
 
 module.exports = OrganicHistory;

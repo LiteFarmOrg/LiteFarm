@@ -16,11 +16,11 @@ import { getArrayWithUniqueValues } from '../../../util/getArrayWithUniqueValues
 
 const PureTaskCrops = ({
   handleGoBack,
-  handleCancel,
   onError,
   persistedFormData,
   onContinue,
-  persistedPaths,
+
+
   useHookFormPersist,
   managementPlansByLocationIds,
   wildManagementPlanTiles,
@@ -42,7 +42,8 @@ const PureTaskCrops = ({
     defaultValues: cloneObject(persistedFormData),
   });
   //TODO managementPlans should be an array or management_plan_id
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
   const [filter, setFilter] = useState();
   const onFilterChange = (e) => {
     setFilter(e.target.value);
@@ -229,7 +230,7 @@ const PureTaskCrops = ({
             );
             handleGoBack();
           }}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={57}

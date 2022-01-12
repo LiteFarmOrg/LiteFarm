@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PureCertificationSurveyPage from '../../../components/CertificationSurvey';
 import { certifierSurveySelector } from '../../OrganicCertifierSurvey/slice';
@@ -30,7 +30,7 @@ function CertificationSurveyPage({ history, match }) {
     <HookFormPersistProvider>
       <PureCertificationSurveyPage
         onExport={onExport}
-        handleGoBack={() => history.push('/certification/report_period')}
+        handleGoBack={() => history.goBack()}
         handleCancel={() => history.push('/certification')}
         certifierSurvey={certifierSurvey}
         interested={interested}

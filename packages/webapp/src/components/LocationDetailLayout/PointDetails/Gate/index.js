@@ -3,17 +3,27 @@ import { useTranslation } from 'react-i18next';
 import PointDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../LocationButtons';
-import { getPersistPath } from '../../utils';
+
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureGate({
+export default function PureGateWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureGate {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureGate({
   history,
   match,
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
   submitForm,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -29,32 +39,26 @@ export default function PureGate({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('gate', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, point, type },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const disabled = !isValid;
 
   const onError = (data) => {};
   const onSubmit = (data) => {
-    const formData = {
-      type,
-      point,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.GATE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GATE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -78,6 +82,7 @@ export default function PureGate({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <PointDetails
         name={t('FARM_MAP.GATE.NAME')}

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import PageTitle from '../../components/PageTitle/v2';
 import PageBreak from '../../components/PageBreak';
 import PureSearchbarAndFilter from '../../components/PopupFilter/PureSearchbarAndFilter';
-import CropStatusInfoBox from '../../components/CropCatalogue/CropStatusInfoBox';
 import { AddLink, Semibold } from '../../components/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { cropSelector } from '../cropSlice';
@@ -33,6 +32,7 @@ import CropVarietyFilterPage from '../Filter/CropVariety';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
 import useFilterVarieties from '../CropCatalogue/useFilterVarieties';
 import { ACTIVE, COMPLETE, NEEDS_PLAN, PLANNED } from '../Filter/constants';
+import { useStartAddCropVarietyFlow } from './useStartAddCropVarietyFlow';
 
 export default function CropVarieties({ history, match }) {
   const { t } = useTranslation();
@@ -105,8 +105,9 @@ export default function CropVarieties({ history, match }) {
     history.push(`/crop/${varietyId}/management`);
   };
 
+  const { onAddCropVariety } = useStartAddCropVarietyFlow();
   const goToVarietyCreation = () => {
-    history.push(`/crop/${crop_id}/add_crop_variety`);
+    onAddCropVariety(crop_id);
   };
 
   const cropVarietyFilter = useSelector(cropVarietyFilterSelector(crop_id));

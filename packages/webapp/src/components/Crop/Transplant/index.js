@@ -35,15 +35,15 @@ export default function PureTransplant({
     defaultValues: cloneObject(persistedFormData),
   });
 
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const variety_id = match?.params?.variety_id;
-  const { goBackPath, submitPath, cancelPath } = getTransplantPaths(variety_id);
+  const { submitPath } = getTransplantPaths(variety_id);
   const onSubmit = () => {
     history?.push(submitPath);
   };
-  const onGoBack = () => history.push(goBackPath);
-  const onCancel = () => history.push(cancelPath);
+  const onGoBack = () => history.goBack();
+
 
   const disabled = !isValid;
 
@@ -58,7 +58,7 @@ export default function PureTransplant({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={progress}

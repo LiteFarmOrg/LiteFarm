@@ -38,7 +38,7 @@ const PureSoilAmendmentTask = ({
       <Controller
         control={control}
         name={PURPOSE}
-        rules={{}}
+        rules={{ required: true }}
         render={({ field: { onChange, value } }) => (
           <ReactSelect
             label={t('ADD_TASK.SOIL_AMENDMENT_VIEW.PURPOSE')}
@@ -60,6 +60,7 @@ const PureSoilAmendmentTask = ({
           name={OTHER_PURPOSE}
           disabled={disabled}
           hookFormRegister={register(OTHER_PURPOSE)}
+          optional
         />
       )}
       <AddProduct

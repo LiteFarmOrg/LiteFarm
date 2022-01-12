@@ -29,48 +29,54 @@ export const managementPlansWithCurrentLocationSelector = createSelector(
     taskEntities,
     plantingManagementPlanByManagementPlanEntities,
   ) => {
-    return produce(managementPlans, (managementPlans) => {
-      for (const index in managementPlans) {
-        const { management_plan_id } = managementPlans[index];
-        const transplantTasks = transplantTasksByManagementPlanId[management_plan_id] || [];
-        let latestCompletedTime;
-        for (const transplantTask of transplantTasks) {
-          const { completed_time } = taskEntities[transplantTask.task_id];
-          const completedTimeInNumericalTime = completed_time && new Date(completed_time).getTime();
-          if (
-            completedTimeInNumericalTime &&
-            (!latestCompletedTime || completedTimeInNumericalTime > latestCompletedTime)
-          ) {
-            latestCompletedTime = completedTimeInNumericalTime;
-            managementPlans[index].location = transplantTask.planting_management_plan.location;
-            managementPlans[index].planting_management_plan =
-              transplantTask.planting_management_plan;
+    //TODO: add location history table and remove try catch block LF-2088
+    try {
+      return produce(managementPlans, (managementPlans) => {
+        for (const index in managementPlans) {
+          const { management_plan_id } = managementPlans[index];
+          const transplantTasks = transplantTasksByManagementPlanId[management_plan_id] || [];
+          let latestCompletedTime;
+          for (const transplantTask of transplantTasks) {
+            const { completed_time } = taskEntities[transplantTask.task_id];
+            const completedTimeInNumericalTime = completed_time && new Date(completed_time).getTime();
+            if (
+              completedTimeInNumericalTime &&
+              (!latestCompletedTime || completedTimeInNumericalTime > latestCompletedTime)
+            ) {
+              latestCompletedTime = completedTimeInNumericalTime;
+              managementPlans[index].location = transplantTask.planting_management_plan.location;
+              managementPlans[index].planting_management_plan =
+                transplantTask.planting_management_plan;
+            }
+          }
+          if (!latestCompletedTime) {
+            const plant_task = plantTasksByManagementPlanId[management_plan_id];
+            if (plant_task) {
+              managementPlans[index].location = plant_task.planting_management_plan.location;
+              managementPlans[index].planting_management_plan = plant_task.planting_management_plan;
+            } else {
+              //In ground wild crop location and planting method
+              const planting_management_plan = plantingManagementPlanByManagementPlanEntities[
+                management_plan_id
+                ]?.find(
+                (planting_management_plan) =>
+                  !transplantTasksByManagementPlanId[management_plan_id]?.find?.(
+                    (transplantTask) =>
+                      planting_management_plan.planting_management_plan_id ===
+                      transplantTask.planting_management_plan_id,
+                  ),
+              );
+              managementPlans[index].pin_coordinate = planting_management_plan?.pin_coordinate;
+              managementPlans[index].location = planting_management_plan?.location;
+              managementPlans[index].planting_management_plan = planting_management_plan;
+            }
           }
         }
-        if (!latestCompletedTime) {
-          const plant_task = plantTasksByManagementPlanId[management_plan_id];
-          if (plant_task) {
-            managementPlans[index].location = plant_task.planting_management_plan.location;
-            managementPlans[index].planting_management_plan = plant_task.planting_management_plan;
-          } else {
-            //In ground wild crop location and planting method
-            const planting_management_plan = plantingManagementPlanByManagementPlanEntities[
-              management_plan_id
-            ]?.find(
-              (planting_management_plan) =>
-                !transplantTasksByManagementPlanId[management_plan_id]?.find?.(
-                  (transplantTask) =>
-                    planting_management_plan.planting_management_plan_id ===
-                    transplantTask.planting_management_plan_id,
-                ),
-            );
-            managementPlans[index].pin_coordinate = planting_management_plan?.pin_coordinate;
-            managementPlans[index].location = planting_management_plan?.location;
-            managementPlans[index].planting_management_plan = planting_management_plan;
-          }
-        }
-      }
-    });
+      });
+    } catch (e) {
+      return [];
+    }
+
   },
 );
 

@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   userFarmReducerSelector,
-  userFarmSelector,
   userFarmsByUserSelector,
+  userFarmSelector,
 } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
@@ -18,8 +18,8 @@ import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/a
 import { useTranslation } from 'react-i18next';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 import history from '../../history';
-
-const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
+import { useThrottle } from '../hooks/useThrottle';
+import { pick } from '../../util/pick';
 
 const AddFarm = () => {
   const { t } = useTranslation();
@@ -28,64 +28,53 @@ const AddFarm = () => {
   const farms = useSelector(userFarmsByUserSelector);
   const isFirstFarm = !farms.length;
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
+  const FARMNAME = 'farm_name';
+  const ADDRESS = 'address';
+  const GRID_POINTS = 'grid_points';
+  const COUNTRY = 'country';
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
     setError,
-    clearErrors,
     watch,
     trigger,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onTouched' });
-  const FARMNAME = 'farmName';
-  const ADDRESS = 'address';
-  const farmName = watch(FARMNAME, undefined);
-  const farmAddress = watch(ADDRESS, undefined);
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: pick(farm, [FARMNAME, ADDRESS, GRID_POINTS, COUNTRY]),
+  });
+
+  const gridPoints = watch(GRID_POINTS);
   const disabled = !isValid;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
-  const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
-  const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
-  const [country, setCountry] = useState(farm?.country ? farm.country : '');
   const farmNameRegister = register(FARMNAME, {
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
   });
   const addressRegister = register(ADDRESS, {
     required: { value: true, message: t('ADD_FARM.ADDRESS_IS_REQUIRED') },
-    validate: {
-      placeSelected: (data) => address && gridPoints && data[address],
-      countryFound: (data) => country && data[address],
-    },
+  });
+  const gridPointsRegister = register(GRID_POINTS, {
+    required: { value: true, message: t('ADD_FARM.ENTER_A_VALID_ADDRESS') },
+  });
+  const countryRegister = register(COUNTRY, {
+    required: { value: true, message: t('ADD_FARM.INVALID_FARM_LOCATION') },
   });
   const errorMessage = {
-    required: t('ADD_FARM.ADDRESS_IS_REQUIRED'),
-    placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
-    countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
-    noAddress: t('ADD_FARM.NO_ADDRESS'),
     geolocationDisabled: t('ADD_FARM.DISABLE_GEO_LOCATION'),
   };
 
-  const addressErrors = errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type];
-
-  useEffect(() => {
-    setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
-    setValue(ADDRESS, farm?.address ? farm.address : '');
-    setGridPoints(farm?.grid_points ? farm.grid_points : {});
-    setCountry(farm?.country ? farm.country : '');
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(gridPoints)) {
-      clearErrors(ADDRESS);
-    }
-  }, [gridPoints]);
+  const addressErrors =
+    errors[ADDRESS]?.message ||
+    errors[GRID_POINTS]?.message ||
+    errors[COUNTRY]?.message ||
+    errorMessage[errors[ADDRESS]?.type];
 
   const onSubmit = (data) => {
     const farmInfo = {
       ...data,
       gridPoints,
-      country,
       farm_id: farm ? farm.farm_id : undefined,
     };
     farm.farm_id ? dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo));
@@ -95,15 +84,15 @@ const AddFarm = () => {
     history.push('/farm_selection');
   };
 
-  let autocomplete;
+  const placesAutocompleteRef = useRef();
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
       language: getLanguageFromLocalStorage(),
-    }; // To disable any eslint 'google not defined' errors
+    };
 
     // Initialize Google Autocomplete
-    /*global google*/ autocomplete = new google.maps.places.Autocomplete(
+    placesAutocompleteRef.current = new google.maps.places.Autocomplete(
       document.getElementById('autocomplete'),
       options,
     );
@@ -111,115 +100,98 @@ const AddFarm = () => {
     // Avoid paying for data that you don't need by restricting the set of
     // place fields that are returned to just the address components and formatted
     // address.
-    autocomplete.setFields(['geometry', 'formatted_address', 'address_component']);
+    placesAutocompleteRef.current.setFields(['geometry', 'formatted_address', 'address_component']);
 
     // Fire Event when a suggested name is selected
-    autocomplete.addListener('place_changed', handlePlaceChanged);
+    placesAutocompleteRef.current.addListener('place_changed', handlePlaceChanged);
   };
 
-  const setCountryNotFoundError = () => {
-    console.error('Error getting geocoding results, or no country was found at given coordinates');
-    setError(ADDRESS, { type: 'countryFound' });
-    setCountry('');
+  const geocoderRef = useRef();
+  const geocoderTimeout = useThrottle();
+  const setCountryFromLatLng = (latlng, callback) => {
+    const { lat, lng } = latlng;
+    if (!geocoderRef.current) {
+      geocoderRef.current = new google.maps.Geocoder();
+    }
+    geocoderTimeout(
+      () =>
+        geocoderRef.current.geocode({ location: { lat, lng } }, (results, status) => {
+          let country;
+          status === 'OK' &&
+            results.find((place) =>
+              place?.address_components?.find((component) => {
+                if (component?.types?.includes?.('country')) {
+                  country = component.long_name;
+                  return true;
+                }
+                return false;
+              }),
+            );
+          setValue(GRID_POINTS, { lat, lng }, { shouldValidate: true });
+          setValue(COUNTRY, country, { shouldValidate: true });
+          callback?.();
+        }),
+      isGettingLocation ? 0 : 500,
+    );
   };
 
-  const setCountryFromLatLng = (latlng, callback = () => {}) => {
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: latlng }, (results, status) => {
-      if (status === 'OK') {
-        let country;
-        for (const place of results) {
-          const countryComponent = place.address_components.find((component) =>
-            component.types.includes('country'),
-          );
-          if (countryComponent) {
-            country = countryComponent.long_name;
-            break;
-          }
-        }
-        if (country) {
-          setCountry(country);
-          callback();
-        } else {
-          setCountryNotFoundError();
-        }
-      } else {
-        setCountryNotFoundError();
-      }
-    });
+  const parseLatLng = (latLngString) => {
+    const coordRegex = /^(-?\d+(?:\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
+    const matches = coordRegex.exec(latLngString);
+    if (!matches) return null;
+
+    const result = { lat: parseFloat(matches[1]), lng: parseFloat(matches[2]) };
+    return Number.isNaN(result.lat) ||
+      Number.isNaN(result.lng) ||
+      result.lat < -90 ||
+      result.lat > 90 ||
+      result.lng < -180 ||
+      result.lng > 180
+      ? null
+      : result;
   };
 
-  const clearState = () => {
-    setAddress('');
-    setGridPoints({});
-    setCountry('');
+  const handleAddressChange = (e) => {
+    const latlng = parseLatLng(e.target.value);
+    if (latlng) {
+      setCountryFromLatLng(latlng);
+    } else {
+      /**
+       * GOOGLE MAP listener handlePlaceChanged is delayed, so gridPoints and country will be cleared before handlePlaceChanged is called.
+       * Since forced validation is delayed by 100ms, clearing GRID_POINTS and COUNTRY would not trigger error before handlePlaceChanged is called.
+       */
+      setValue(GRID_POINTS, undefined);
+      setValue(COUNTRY, undefined);
+    }
+  };
+
+  const handleAddressBlur = () => {
+    setTimeout(() => {
+      trigger([GRID_POINTS, COUNTRY]);
+    }, 100);
   };
 
   const handlePlaceChanged = () => {
-    const gridPoints = {};
-    const place = autocomplete.getPlace();
-    // const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
-    const isCoord = coordRegex.test(getValues(ADDRESS));
+    const place = placesAutocompleteRef.current.getPlace();
+    if (place?.geometry?.location) {
+      const countryLookup = place.address_components.find((component) =>
+        component.types.includes('country'),
+      ).long_name;
 
-    if (!place.geometry && !isCoord) {
-      setValue(ADDRESS, '');
-      clearState();
-      return;
-    }
-    if (isCoord) {
-      return;
-    }
-
-    // const pieces = place.formatted_address.split(', ');
-    // // get last part of address, which is the country
-    // setCountry(pieces[pieces.length - 1]);
-    const country = place.address_components.find((component) =>
-      component.types.includes('country'),
-    ).long_name;
-    setCountry(country);
-
-    setAddress(place.formatted_address);
-    setValue(ADDRESS, place.formatted_address);
-    gridPoints['lat'] = place.geometry.location.lat();
-    gridPoints['lng'] = place.geometry.location.lng();
-    setGridPoints(gridPoints);
-    trigger();
-  };
-
-  const handleBlur = () => {
-    const gridPoints = {};
-    // const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
-    const inputtedAddress = getValues(ADDRESS);
-    const isCoord = coordRegex.test(inputtedAddress);
-    if (isCoord) {
-      // convert input to array of numbers
-      let coords = inputtedAddress.split(/[,\s]\s*/).map((str) => parseFloat(str));
-      // perform check on lat lng values
-      let lat = coords[0];
-      let lng = coords[1];
-      if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-        setError(ADDRESS, {
-          type: 'placeSelected',
-        });
-        clearState();
-        return;
-      }
-
-      // const geocoder = new google.maps.Geocoder();
-      setCountryFromLatLng({ lat, lng }, () => {
-        setAddress(inputtedAddress);
-        setValue(ADDRESS, inputtedAddress);
-        gridPoints['lat'] = lat;
-        gridPoints['lng'] = lng;
-        setGridPoints(gridPoints);
-        trigger();
-      });
-    } else {
-      if (inputtedAddress !== address) clearState();
+      setValue(
+        GRID_POINTS,
+        {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        },
+        { shouldValidate: true },
+      );
+      setValue(COUNTRY, countryLookup, { shouldValidate: true });
+      setValue(ADDRESS, place.formatted_address, { shouldValidate: true });
     }
   };
 
-  const handleGetGeoError = (e) => {
+  const handleGetGeoError = () => {
     setIsGettingLocation(false);
     setError(ADDRESS, {
       type: 'geolocationDisabled',
@@ -233,18 +205,11 @@ const AddFarm = () => {
   };
 
   const handleGetGeoSuccess = (position) => {
-    let gridPoints = {};
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-    const formattedAddress = `${lat}, ${lng}`;
+    setValue(ADDRESS, `${lat}, ${lng}`, { shouldValidate: true });
     setCountryFromLatLng({ lat, lng }, () => {
-      gridPoints['lat'] = lat;
-      gridPoints['lng'] = lng;
-      setGridPoints(gridPoints);
-      setAddress(formattedAddress);
-      setValue(ADDRESS, formattedAddress);
       setIsGettingLocation(false);
-      trigger();
     });
   };
 
@@ -252,7 +217,6 @@ const AddFarm = () => {
     setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
-
   return (
     <>
       <Script
@@ -270,7 +234,7 @@ const AddFarm = () => {
             label: t('ADD_FARM.FARM_NAME'),
             hookFormRegister: farmNameRegister,
             name: FARMNAME,
-            errors: errors[FARMNAME] && errors[FARMNAME].message,
+            errors: errors[FARMNAME]?.message,
           },
           {
             label: t('ADD_FARM.FARM_LOCATION'),
@@ -284,17 +248,14 @@ const AddFarm = () => {
             hookFormRegister: addressRegister,
             id: 'autocomplete',
             name: ADDRESS,
-            reset: () => {
-              setValue(ADDRESS, undefined);
-              clearErrors(ADDRESS);
-            },
             errors: addressErrors,
-            onBlur: handleBlur,
+            onBlur: handleAddressBlur,
+            onChange: handleAddressChange,
           },
         ]}
         map={
           <Map
-            gridPoints={gridPoints}
+            gridPoints={gridPoints || {}}
             isGettingLocation={isGettingLocation}
             errors={addressErrors}
           />
@@ -322,7 +283,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
       {(!isGettingLocation && gridPoints && gridPoints.lat && (
         <GoogleMap
           style={{ flexGrow: 1 }}
-          defaultCenter={gridPoints}
+          center={gridPoints}
           defaultZoom={17}
           yesIWantToUseGoogleMapApiInternals
           options={(maps) => ({
@@ -337,18 +298,18 @@ function Map({ gridPoints, errors, isGettingLocation }) {
           <MapPinWrapper {...gridPoints} />
         </GoogleMap>
       )) || (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '152px',
-            flexGrow: 1,
-          }}
-        >
-          {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
-        </div>
-      )}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '152px',
+              flexGrow: 1,
+            }}
+          >
+            {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
+          </div>
+        )}
     </div>
   );
 }
@@ -358,3 +319,5 @@ function MapPinWrapper() {
 }
 
 export default AddFarm;
+
+/* global google */

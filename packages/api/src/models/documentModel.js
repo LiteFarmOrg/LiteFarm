@@ -40,7 +40,9 @@ class Document extends baseModel {
         no_expiration: { type: ['boolean', null] },
         type: {
           type: ['string', null],
-          enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT', 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'OTHER'],
+          enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT',
+                 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS',
+                 'OTHER'],
         },
         ...this.baseProperties,
       },

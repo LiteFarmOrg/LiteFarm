@@ -15,7 +15,6 @@ export default function PureTaskLocations({
   readOnlyPinCoordinates,
   onContinue,
   onGoBack,
-  onCancel,
   farmCenterCoordinate,
   persistedFormData,
   useHookFormPersist,
@@ -44,7 +43,7 @@ export default function PureTaskLocations({
     defaultValues: cloneObject({ ...persistedFormData, locations: defaultLocations }),
     shouldUnregister: false,
   });
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
   const SHOW_WILD_CROP = 'show_wild_crop';
   const show_wild_crop = watch(SHOW_WILD_CROP);
   const LOCATIONS = 'locations';
@@ -91,7 +90,7 @@ export default function PureTaskLocations({
       >
         <MultiStepPageTitle
           onGoBack={onGoBack}
-          onCancel={onCancel}
+          onCancel={historyCancel}
           cancelModalTitle={t('TASK.ADD_TASK_FLOW')}
           title={t('MANAGEMENT_DETAIL.ADD_A_TASK')}
           value={progress}
@@ -125,7 +124,6 @@ export default function PureTaskLocations({
 PureTaskLocations.prototype = {
   onContinue: PropTypes.func,
   onGoBack: PropTypes.func,
-  onCancel: PropTypes.func,
   storedLocations: PropTypes.array,
   locations: PropTypes.arrayOf(PropTypes.object),
   farmCenterCoordinate: PropTypes.object,

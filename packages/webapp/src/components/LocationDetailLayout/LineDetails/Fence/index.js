@@ -8,12 +8,21 @@ import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
 import LocationButtons from '../../LocationButtons';
-import { getPersistPath } from '../../utils';
+
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RadioGroup from '../../../Form/RadioGroup';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureFence({
+export default function PureFenceWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureFence {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureFence({
   history,
   match,
   submitForm,
@@ -21,6 +30,7 @@ export default function PureFence({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -39,26 +49,21 @@ export default function PureFence({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('fence', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, line_points, length },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
   const onSubmit = (data) => {
     const isPressureTreated = data[fenceEnum.pressure_treated];
-    const formData = {
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
-      line_points: line_points,
       pressure_treated: isPressureTreated,
       type: 'fence',
-    };
+    });
     formData[fenceEnum.width] = 0;
     formData[fenceEnum.width_unit] = formData[fenceEnum.width_unit]?.value;
     formData[fenceEnum.length_unit] = formData[fenceEnum.length_unit]?.value;
@@ -69,7 +74,7 @@ export default function PureFence({
   const title =
     (isCreateLocationPage && t('FARM_MAP.FENCE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -93,6 +98,7 @@ export default function PureFence({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <LineDetails
         name={t('FARM_MAP.FENCE.NAME')}
@@ -119,7 +125,6 @@ export default function PureFence({
               label={t('FARM_MAP.FENCE.LENGTH')}
               name={fenceEnum.length}
               displayUnitName={fenceEnum.length_unit}
-              defaultValue={length}
               errors={errors[fenceEnum.length]}
               unitType={line_length}
               system={system}

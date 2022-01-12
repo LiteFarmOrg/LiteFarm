@@ -113,6 +113,20 @@ export const container_planting_depth = {
   databaseUnit: databaseUnit.length,
 };
 
+export const length_of_bed_or_row = {
+  metric: {
+    units: ['cm', 'm'],
+    defaultUnit: 'm',
+    breakpoints: [100],
+  },
+  imperial: {
+    units: ['in', 'ft'],
+    defaultUnit: 'ft',
+    breakpoints: [12],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 export const container_plant_spacing = {
   metric: {
     units: ['cm', 'm'],

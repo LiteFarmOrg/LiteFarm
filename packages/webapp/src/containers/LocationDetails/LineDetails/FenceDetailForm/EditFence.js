@@ -4,13 +4,8 @@ import { deleteFenceLocation, editFenceLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { fenceSelector } from '../../../fenceSlice';
-import {
-  hookFormPersistSelector,
-  setLineDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData, useLocationPageType } from '../../utils';
+import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
@@ -27,10 +22,6 @@ function EditFenceDetailForm({ history, match }) {
       dispatch(editFenceLocation({ ...data, ...match.params, figure_id: fence.figure_id }));
   };
   const fence = useSelector(fenceSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setLineDetailFormData(getFormData(fence)));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -77,7 +68,7 @@ function EditFenceDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={fence}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

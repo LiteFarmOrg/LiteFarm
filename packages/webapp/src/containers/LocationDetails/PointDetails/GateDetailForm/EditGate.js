@@ -4,13 +4,8 @@ import { deleteGateLocation, editGateLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { gateSelector } from '../../../gateSlice';
-import {
-  hookFormPersistSelector,
-  setPointDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData, useLocationPageType } from '../../utils';
+import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
@@ -27,10 +22,6 @@ function EditGateDetailForm({ history, match }) {
       dispatch(editGateLocation({ ...data, ...match.params, figure_id: gate.figure_id }));
   };
   const gate = useSelector(gateSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setPointDetailFormData(getFormData(gate)));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -77,7 +68,7 @@ function EditGateDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={gate}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

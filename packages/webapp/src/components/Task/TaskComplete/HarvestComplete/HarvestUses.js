@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import MultiStepPageTitle from '../../../PageTitle/MultiStepPageTitle';
 import { useTranslation } from 'react-i18next';
 import Form from '../../../Form';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
-import { AddLink, Label, Main, SubtractLink, Error } from '../../../Typography';
+import { AddLink, Error, Label, Main, SubtractLink } from '../../../Typography';
 import Unit from '../../../Form/Unit';
 import { harvestAmounts, roundToTwoDecimal } from '../../../../util/unit';
 import ReactSelect from '../../../Form/ReactSelect';
@@ -15,11 +15,11 @@ import PageBreak from '../../../PageBreak';
 
 export default function PureHarvestUses({
   onContinue,
-  onCancel,
   onGoBack,
   system,
   persistedFormData,
-  persistedPaths,
+
+
   useHookFormPersist,
   amount,
   unit,
@@ -47,7 +47,8 @@ export default function PureHarvestUses({
     },
   });
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
 
   const progress = 50;
 
@@ -100,7 +101,7 @@ export default function PureHarvestUses({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('TASK.COMPLETE_TASK_FLOW')}
         title={t('TASK.COMPLETE_TASK')}
         value={progress}

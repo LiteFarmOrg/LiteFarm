@@ -18,3 +18,14 @@ const setOptionObjectToValueProperty = (fieldNameKey, formDataObject) => {
     }
   }
 };
+
+export const getFormDataWithoutNulls = (obj) => {
+  for (const key in obj) {
+    if (obj[key] === null) {
+      delete obj[key];
+    } else if (obj[key] instanceof Object) {
+      getFormDataWithoutNulls(obj[key]);
+    }
+  }
+  return obj;
+};

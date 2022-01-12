@@ -12,7 +12,6 @@ import {
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
-import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export const postResidenceLocation = createAction(`postResidenceLocationSaga`);
 
@@ -32,7 +31,7 @@ export function* postResidenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(postResidenceSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),
@@ -40,7 +39,7 @@ export function* postResidenceLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
-    history.push({ pathname: '/map' });
+    history.goBack();
   } catch (e) {
     history.push({
       path: history.location.pathname,
@@ -72,7 +71,7 @@ export function* editResidenceLocationSaga({ payload: data }) {
       header,
     );
     yield put(editResidenceSuccess(result.data));
-    yield put(resetAndLockFormData());
+
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.RESIDENCE'),

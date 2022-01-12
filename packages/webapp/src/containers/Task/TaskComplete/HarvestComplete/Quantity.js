@@ -15,9 +15,6 @@ function HarvestCompleteQuantity({ history, match }) {
     history.push(`/tasks/${task_id}/harvest_uses`);
   };
 
-  const onCancel = () => {
-    history.goBack();
-  };
 
   const onGoBack = () => {
     history.goBack();
@@ -26,7 +23,6 @@ function HarvestCompleteQuantity({ history, match }) {
   return (
     <HookFormPersistProvider>
       <PureHarvestCompleteQuantity
-        onCancel={onCancel}
         onGoBack={onGoBack}
         onContinue={onContinue}
         system={system}

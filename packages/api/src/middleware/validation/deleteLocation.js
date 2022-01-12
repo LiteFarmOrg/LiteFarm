@@ -37,14 +37,6 @@ async function validateLocationDependency(req, res, next) {
     return res.status(400).send('Location cannot be deleted when it is referenced by a task');
   }
 
-  const managementPlanShifts = await taskModel.query()
-    .join('management_tasks', 'management_tasks.task_id', 'task.task_id')
-    .join('planting_management_plan', 'management_tasks.planting_management_plan_id', 'planting_management_plan.planting_management_plan_id')
-    .whereNotDeleted().where('planting_management_plan.location_id', location_id).andWhere(raw('task.due_date >= CURRENT_DATE'));
-  if (managementPlanShifts.length) {
-    return res.status(400).send('Location cannot be deleted when it has pending shifts');
-  }
-
   return next();
 }
 

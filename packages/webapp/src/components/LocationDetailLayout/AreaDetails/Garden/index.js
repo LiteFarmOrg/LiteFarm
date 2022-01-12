@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../../Form/Radio';
 import Input, { getInputErrors } from '../../../Form/Input';
 import { gardenEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
@@ -11,10 +10,21 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
-import { getDateInputFormat } from '../../../../util/moment';
 
-export default function PureGarden({
+import { getDateInputFormat } from '../../../../util/moment';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import RadioGroup from '../../../Form/RadioGroup';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
+
+export default function PureGardenWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureGarden {...props} />
+    </PersistedFormWrapper>
+  );
+}
+
+export function PureGarden({
   history,
   match,
   submitForm,
@@ -22,15 +32,18 @@ export default function PureGarden({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
 }) {
   const { t } = useTranslation();
   const getDefaultValues = () => {
-    const defaultValues = {};
-    defaultValues[gardenEnum.transition_date] = getDateInputFormat(new Date());
-    return defaultValues;
+    return {
+      [gardenEnum.transition_date]: getDateInputFormat(new Date()),
+      [gardenEnum.organic_status]: 'Non-Organic',
+      ...persistedFormData,
+    };
   };
   const {
     register,
@@ -47,14 +60,8 @@ export default function PureGarden({
     shouldUnregister: true,
     defaultValues: getDefaultValues(),
   });
-  const persistedPath = getPersistPath('garden', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
@@ -63,21 +70,19 @@ export default function PureGarden({
   const onSubmit = (data) => {
     data[gardenEnum.total_area_unit] = data[gardenEnum.total_area_unit]?.value;
     data[gardenEnum.perimeter_unit] = data[gardenEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
 
       type: 'garden',
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.GARDEN.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.GARDEN.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -101,6 +106,7 @@ export default function PureGarden({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       {isViewLocationPage && (
         <RouterTab
@@ -132,8 +138,6 @@ export default function PureGarden({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       >
         <div>
           <div style={{ marginBottom: '20px' }}>
@@ -149,34 +153,26 @@ export default function PureGarden({
             </Label>
             <img src={Leaf} style={{ display: 'inline-block' }} />
           </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
-              defaultChecked={true}
-              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
-              value={'Non-Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GARDEN.ORGANIC')}
-              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
-              value={'Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.GARDEN.TRANSITIONING')}
-              hookFormRegister={register(gardenEnum.organic_status, { required: true })}
-              value={'Transitional'}
-              disabled={isViewLocationPage}
-            />
-          </div>
+          <RadioGroup
+            required={true}
+            disabled={isViewLocationPage}
+            hookFormControl={control}
+            name={gardenEnum.organic_status}
+            radios={[
+              {
+                label: t('FARM_MAP.GARDEN.NON_ORGANIC'),
+                value: 'Non-Organic',
+              },
+              {
+                label: t('FARM_MAP.GARDEN.ORGANIC'),
+                value: 'Organic',
+              },
+              {
+                label: t('FARM_MAP.GARDEN.TRANSITIONING'),
+                value: 'Transitional',
+              },
+            ]}
+          />
           <div style={{ paddingBottom: '20px' }}>
             {gardenTypeSelection === 'Transitional' && (
               <Input

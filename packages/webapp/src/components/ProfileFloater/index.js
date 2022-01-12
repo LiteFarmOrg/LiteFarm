@@ -2,13 +2,16 @@ import React from 'react';
 import { ReactComponent as LogoutIcon } from '../../assets/images/navbar/logout.svg';
 import { ReactComponent as MyInfoIcon } from '../../assets/images/navbar/my-info.svg';
 import { ReactComponent as HelpIcon } from '../../assets/images/navbar/help-profile.svg';
+import { ReactComponent as VideoIcon } from '../../assets/images/video_icon.svg';
 import { ReactComponent as SwitchFarmIcon } from '../../assets/images/navbar/switch-farm.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
 import Floater from 'react-floater';
 import PropTypes from 'prop-types';
 
-export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLogout }) {
+export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
+  onTutorials, onLogout }) {
+
   const { t } = useTranslation();
   return (
     <div
@@ -32,7 +35,18 @@ export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp, onLo
         icon={<SwitchFarmIcon style={{ transform: 'translateX(1px)' }} />}
       />
 
-      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
+      <ListOption
+        clickFn={onHelp}
+        iconText={t('PROFILE_FLOATER.HELP')}
+        icon={<HelpIcon />}
+      />
+
+      <ListOption
+        clickFn={onTutorials}
+        iconText={t('PROFILE_FLOATER.TUTORIALS')}
+        icon={<VideoIcon />}
+      />
+
       <ListOption
         clickFn={onLogout}
         iconText={t('PROFILE_FLOATER.LOG_OUT')}
@@ -50,6 +64,7 @@ export default function PureProfileFloater({
   myInfoClick,
   logOutClick,
   switchFarmClick,
+  tutorialsClick,
 }) {
   return (
     <Floater
@@ -58,6 +73,7 @@ export default function PureProfileFloater({
           onHelp={helpClick}
           onInfo={myInfoClick}
           onLogout={logOutClick}
+          onTutorials={tutorialsClick}
           onSwitchFarm={switchFarmClick}
         />
       }

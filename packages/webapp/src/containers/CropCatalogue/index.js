@@ -24,9 +24,10 @@ import { isAdminSelector } from '../userFarmSlice';
 import useCropCatalogue from './useCropCatalogue';
 import useStringFilteredCrops from './useStringFilteredCrops';
 import useSortByCropTranslation from './useSortByCropTranslation';
-import { resetAndUnLockFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { resetAndUnLockFormData, setPersistedPaths } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 import CatalogSpotlight from './CatalogSpotlight';
 import ActiveFilterBox from '../../components/ActiveFilterBox';
+import { useStartAddCropVarietyFlow } from '../CropVarieties/useStartAddCropVarietyFlow';
 
 export default function CropCatalogue({ history }) {
   const { t } = useTranslation();
@@ -70,6 +71,15 @@ export default function CropCatalogue({ history }) {
     dispatch(resetAndUnLockFormData());
   }, []);
 
+  const { onAddCropVariety } = useStartAddCropVarietyFlow();
+  const onAddCrop = () => {
+    dispatch(setPersistedPaths([
+      '/crop/new',
+      '/crop/new/add_crop_variety',
+      '/crop/new/add_crop_variety/compliance',
+    ]));
+    history.push('/crop/new');
+  };
   return (
     <Layout classes={{ container: { backgroundColor: 'white' } }}>
       <PageTitle title={t('CROP_CATALOGUE.CROP_CATALOGUE')} style={{ paddingBottom: '20px' }} />
@@ -181,7 +191,7 @@ export default function CropCatalogue({ history }) {
                         style={{ width: cardWidth }}
                         isCropTemplate
                         onClick={() => {
-                          history.push(`/crop/${crop.crop_id}/add_crop_variety`);
+                          onAddCropVariety(crop.crop_id);
                         }}
                       />
                     );
@@ -191,9 +201,7 @@ export default function CropCatalogue({ history }) {
             )}
             <Text style={{ paddingBottom: '8px' }}>{t('CROP_CATALOGUE.CAN_NOT_FIND')}</Text>
             <AddLink
-              onClick={() => {
-                history.push('/crop/new');
-              }}
+              onClick={onAddCrop}
             >
               {t('CROP_CATALOGUE.ADD_CROP')}
             </AddLink>

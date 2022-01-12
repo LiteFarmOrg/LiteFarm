@@ -11,15 +11,16 @@ import PureFieldWorkTask from '../FieldWorkTask';
 import PurePestControlTask from '../PestControlTask';
 import PureHarvestingTask from '../HarvestingTask';
 import InputAutoSize from '../../Form/InputAutoSize';
+import { isTaskType } from '../../../containers/Task/useIsTaskType';
 
 export default function PureTaskDetails({
   handleGoBack,
-  handleCancel,
   onSubmit,
   onError,
   persistedFormData,
   useHookFormPersist,
-  persistedPaths,
+
+
   products,
   system,
   selectedTaskType,
@@ -31,7 +32,7 @@ export default function PureTaskDetails({
   const taskType = selectedTaskType.task_translation_key;
   const taskName = selectedTaskType.task_name;
   const isCustomType = !!selectedTaskType.farm_id;
-  const isHarvest = taskType === 'HARVEST_TASK';
+  const isHarvest = isTaskType(selectedTaskType, 'HARVEST_TASK');
 
   const defaults = {
     CLEANING_TASK: { cleaning_task: { agent_used: false } },
@@ -96,7 +97,8 @@ export default function PureTaskDetails({
     formState: { errors, isValid },
   } = formFunctions;
 
-  useHookFormPersist(getValues, persistedPaths);
+  const { historyCancel } = useHookFormPersist(getValues);
+
   const NOTES = 'notes';
   register(NOTES, { required: false });
 
@@ -115,7 +117,7 @@ export default function PureTaskDetails({
         <MultiStepPageTitle
           style={{ marginBottom: '24px' }}
           onGoBack={handleGoBack}
-          onCancel={handleCancel}
+          onCancel={historyCancel}
           title={t('ADD_TASK.ADD_A_TASK')}
           cancelModalTitle={t('ADD_TASK.CANCEL')}
           value={isHarvest ? 67 : 71}

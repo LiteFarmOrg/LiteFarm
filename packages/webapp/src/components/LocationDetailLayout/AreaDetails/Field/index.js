@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
-import Radio from '../../../Form/Radio';
 import Input from '../../../Form/Input';
 import { fieldEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
@@ -11,10 +10,24 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
-import { getPersistPath } from '../../utils';
-import { getDateInputFormat } from '../../../../util/moment';
 
-export default function PureField({
+import { getDateInputFormat } from '../../../../util/moment';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import RadioGroup from '../../../Form/RadioGroup';
+import {
+  getFormDataWithoutNulls,
+  getProcessedFormData,
+} from '../../../../containers/hooks/useHookFormPersist/utils';
+
+export default function PureFieldWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureField {...props} />
+    </PersistedFormWrapper>
+  );
+}
+
+export function PureField({
   history,
   match,
   submitForm,
@@ -22,15 +35,19 @@ export default function PureField({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
 }) {
+  getProcessedFormData();
   const { t } = useTranslation();
   const getDefaultValues = () => {
-    const defaultValues = {};
-    defaultValues[fieldEnum.transition_date] = getDateInputFormat(new Date());
-    return defaultValues;
+    return {
+      [fieldEnum.transition_date]: getDateInputFormat(new Date()),
+      [fieldEnum.organic_status]: 'Non-Organic',
+      ...persistedFormData,
+    };
   };
   const {
     register,
@@ -47,14 +64,8 @@ export default function PureField({
     shouldUnregister: true,
     defaultValues: getDefaultValues(),
   });
-  const persistedPath = getPersistPath('field', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
@@ -63,21 +74,19 @@ export default function PureField({
   const onSubmit = (data) => {
     data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit]?.value;
     data[fieldEnum.perimeter_unit] = data[fieldEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
 
       type: 'field',
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.FIELD.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.FIELD.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -101,6 +110,7 @@ export default function PureField({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       {isViewLocationPage && (
         <RouterTab
@@ -134,8 +144,6 @@ export default function PureField({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       >
         <div>
           <div style={{ marginBottom: '20px' }}>
@@ -144,34 +152,28 @@ export default function PureField({
             </Label>
             <img src={Leaf} style={{ display: 'inline-block' }} />
           </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.FIELD.NON_ORGANIC')}
-              defaultChecked={true}
-              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
-              value={'Non-Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.FIELD.ORGANIC')}
-              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
-              value={'Organic'}
-              disabled={isViewLocationPage}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '16px' }}
-              label={t('FARM_MAP.FIELD.TRANSITIONING')}
-              hookFormRegister={register(fieldEnum.organic_status, { required: true })}
-              value={'Transitional'}
-              disabled={isViewLocationPage}
-            />
-          </div>
+
+          <RadioGroup
+            required={true}
+            disabled={isViewLocationPage}
+            hookFormControl={control}
+            name={fieldEnum.organic_status}
+            radios={[
+              {
+                label: t('FARM_MAP.FIELD.NON_ORGANIC'),
+                value: 'Non-Organic',
+              },
+              {
+                label: t('FARM_MAP.FIELD.ORGANIC'),
+                value: 'Organic',
+              },
+              {
+                label: t('FARM_MAP.FIELD.TRANSITIONING'),
+                value: 'Transitional',
+              },
+            ]}
+          />
+
           <div style={{ paddingBottom: '20px' }}>
             {fieldTypeSelection === 'Transitional' && (
               <Input

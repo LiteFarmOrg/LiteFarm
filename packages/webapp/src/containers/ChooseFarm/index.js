@@ -28,7 +28,7 @@ import { getSpotlightFlags, getUserFarms, patchUserFarmStatusWithIDToken } from 
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 import { startSwitchFarmModal } from './chooseFarmFlowSlice';
-import { selectFarmAndFetchAll, waitForCertificationSurveyResultAndPushToHome } from '../saga';
+import { selectFarmAndFetchAll } from '../saga';
 
 function ChooseFarm() {
   const { t } = useTranslation();
@@ -66,7 +66,6 @@ function ChooseFarm() {
       if (currentFarmId) {
         dispatch(startSwitchFarmModal(selectedFarmId));
       }
-      dispatch(waitForCertificationSurveyResultAndPushToHome());
       dispatch(selectFarmAndFetchAll({ farm_id: selectedFarmId }));
     } else {
       dispatch(patchUserFarmStatusWithIDToken(farm));

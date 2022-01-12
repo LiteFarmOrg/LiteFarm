@@ -52,8 +52,7 @@ export default function PureAddNewCrop({
     mode: 'onChange',
     defaultValues: { ...persistedFormData },
   });
-  const persistedPath = ['/crop/new/add_crop_variety', '/crop/new/add_crop_variety/compliance'];
-  useHookFormPersist(getValues, persistedPath);
+  const { historyCancel } = useHookFormPersist(getValues);
   const allCropGroupAverages = useSelector(cropGroupAveragesSelector);
 
   const cropGroupOptions = [
@@ -95,7 +94,7 @@ export default function PureAddNewCrop({
       <MultiStepPageTitle
         style={{ marginBottom: '24px' }}
         onGoBack={handleGoBack}
-        onCancel={handleCancel}
+        onCancel={historyCancel}
         title={t('CROP.ADD_CROP')}
         value={progress}
       />

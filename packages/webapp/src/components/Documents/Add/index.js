@@ -10,7 +10,8 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import PageTitle from '../../PageTitle/v2';
 import { ReactComponent as TrashIcon } from '../../../assets/images/document/trash.svg';
 import { Controller, useForm } from 'react-hook-form';
-import CertifierSelectionMenuItem from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
+import CertifierSelectionMenuItem
+  from '../../OrganicCertifierSurvey/CertifierSelection/CertifierSelectionMenu/CertiferSelectionMenuItem';
 import { Loading } from '../../Loading/Loading';
 import { ContainerWithIcon } from '../../ContainerWithIcon/ContainerWithIcon';
 
@@ -23,7 +24,6 @@ function PureDocumentDetailView({
   imageComponent,
   persistedFormData,
   isEdit,
-  persistedPath,
   documentUploader,
 }) {
   const { t } = useTranslation();
@@ -39,6 +39,7 @@ function PureDocumentDetailView({
       value: 'PEST_CONTROL_PRODUCT',
     },
     SOIL_AMENDMENT: { label: t('DOCUMENTS.TYPE.SOIL_AMENDMENT'), value: 'SOIL_AMENDMENT' },
+    SOIL_SAMPLE_RESULTS: { label: t('DOCUMENTS.TYPE.SOIL_SAMPLE_RESULTS'), value: 'SOIL_SAMPLE_RESULTS'},
     OTHER: { label: t('DOCUMENTS.TYPE.OTHER'), value: 'OTHER' },
   };
 
@@ -96,7 +97,8 @@ function PureDocumentDetailView({
 
   const {
     persistedData: { uploadedFiles },
-  } = useHookFormPersist(getValues, persistedPath);
+    historyCancel,
+  } = useHookFormPersist(getValues);
   const [isFirstFileUpdateEnded, setIsFilesUpdated] = useState(false);
   const onFileUpdateEnd = () => {
     setIsFilesUpdated(true);
@@ -135,7 +137,7 @@ function PureDocumentDetailView({
       {!isEdit && (
         <MultiStepPageTitle
           onGoBack={onGoBack}
-          onCancel={onCancel}
+          onCancel={historyCancel}
           value={66}
           title={t('DOCUMENTS.ADD.TITLE')}
           style={{ marginBottom: '24px' }}

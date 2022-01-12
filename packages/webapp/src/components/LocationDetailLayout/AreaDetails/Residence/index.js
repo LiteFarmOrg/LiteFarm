@@ -6,9 +6,17 @@ import LocationButtons from '../../LocationButtons';
 import { residenceEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
-import { getPersistPath } from '../../utils';
+import { PersistedFormWrapper } from '../../PersistedFormWrapper';
+import { getFormDataWithoutNulls } from '../../../../containers/hooks/useHookFormPersist/utils';
 
-export default function PureResidence({
+export default function PureResidenceWrapper(props) {
+  return (
+    <PersistedFormWrapper>
+      <PureResidence {...props} />
+    </PersistedFormWrapper>
+  );
+}
+export function PureResidence({
   history,
   match,
   submitForm,
@@ -16,6 +24,7 @@ export default function PureResidence({
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
+  persistedFormData,
   useHookFormPersist,
   handleRetire,
   isAdmin,
@@ -34,15 +43,10 @@ export default function PureResidence({
   } = useForm({
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: persistedFormData,
   });
-  const persistedPath = getPersistPath('residence', match, {
-    isCreateLocationPage,
-    isViewLocationPage,
-    isEditLocationPage,
-  });
-  const {
-    persistedData: { name, grid_points, total_area, perimeter },
-  } = useHookFormPersist(getValues, persistedPath, setValue, !!isCreateLocationPage);
+
+  const { historyCancel } = useHookFormPersist?.(getValues) || {};
 
   const onError = (data) => {};
   const disabled = !isValid;
@@ -51,21 +55,19 @@ export default function PureResidence({
     data[residenceEnum.total_area_unit] = data[residenceEnum.total_area_unit]?.value;
 
     data[residenceEnum.perimeter_unit] = data[residenceEnum.perimeter_unit]?.value;
-    const formData = {
-      grid_points,
-      total_area,
-      perimeter,
+    const formData = getFormDataWithoutNulls({
+      ...persistedFormData,
       ...data,
 
       type: 'residence',
-    };
+    });
     submitForm({ formData });
   };
 
   const title =
     (isCreateLocationPage && t('FARM_MAP.RESIDENCE.TITLE')) ||
     (isEditLocationPage && t('FARM_MAP.RESIDENCE.EDIT_TITLE')) ||
-    (isViewLocationPage && name);
+    (isViewLocationPage && persistedFormData.name);
 
   return (
     <Form
@@ -89,6 +91,7 @@ export default function PureResidence({
         isEditLocationPage={isEditLocationPage}
         history={history}
         match={match}
+        onCancel={historyCancel}
       />
       <AreaDetails
         name={t('FARM_MAP.RESIDENCE.NAME')}
@@ -105,8 +108,6 @@ export default function PureResidence({
         showPerimeter={showPerimeter}
         errors={errors}
         system={system}
-        total_area={total_area}
-        perimeter={perimeter}
       />
     </Form>
   );

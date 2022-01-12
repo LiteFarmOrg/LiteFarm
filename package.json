@@ -8,12 +8,8 @@
     "lint": "lerna run lint",
     "preinstall": "npx npm-force-resolutions",
     "start": "lerna run start",
-    "bootstrap": "lerna bootstrap"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
-    }
+    "bootstrap": "lerna bootstrap",
+    "prepare": "husky install"
   },
   "jest": {
     "testPathIgnorePatterns": [

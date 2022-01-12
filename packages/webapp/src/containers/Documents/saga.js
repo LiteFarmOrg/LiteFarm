@@ -2,7 +2,7 @@ import { call, put, select, takeLeading } from 'redux-saga/effects';
 import { createAction } from '@reduxjs/toolkit';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { axios, getHeader } from '../saga';
+import { axios, getHeader, onReqSuccessSaga } from '../saga';
 import i18n from '../../locales/i18n';
 import { archiveDocumentSuccess, postDocumentSuccess, putDocumentSuccess } from '../documentSlice';
 import history from '../../history';
@@ -22,8 +22,9 @@ export function* postDocumentSaga({ payload: documentData }) {
       header,
     );
     yield put(postDocumentSuccess(result.data));
-    yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.CREATE')));
-    history.push('/documents');
+    yield call(onReqSuccessSaga, {
+      message: i18n.t('message:ATTACHMENTS.SUCCESS.CREATE'),
+    });
   } catch (e) {
     yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.CREATE')));
     console.log(e);
@@ -41,7 +42,7 @@ export function* archiveDocumentSaga({ payload: document_id }) {
     if (result) {
       yield put(archiveDocumentSuccess(document_id));
       yield put(enqueueSuccessSnackbar(i18n.t('message:ATTACHMENTS.SUCCESS.ARCHIVE')));
-      history.push('/documents');
+      history.goBack();
     } else {
       yield put(enqueueErrorSnackbar(i18n.t('message:ATTACHMENTS.ERROR.FAILED_ARCHIVE')));
     }

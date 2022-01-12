@@ -68,10 +68,9 @@ export default function PureManagementPlanPlantingMethod({
   const ESTIMATED_YIELD_UNIT = `crop_management_plan.estimated_yield_unit`;
   const PLANTING_METHOD = `${plantingMethodPrefix}.planting_method`;
   const planting_method = watch(PLANTING_METHOD);
-  const IS_PLANTING_METHOD_KNOWN = `crop_management_plan.planting_management_plans.${plantingMethodPrefix}.is_planting_method_known`;
+  const IS_PLANTING_METHOD_KNOWN = `${plantingMethodPrefix}.is_planting_method_known`;
   const is_planting_method_known = watch(IS_PLANTING_METHOD_KNOWN);
-
-  useHookFormPersist(getValues);
+  const { historyCancel } = useHookFormPersist(getValues);
 
   const onError = () => {};
 
@@ -86,25 +85,8 @@ export default function PureManagementPlanPlantingMethod({
       ).submitPath,
     );
   const onGoBack = () =>
-    history.push(
-      getPlantingMethodPaths(
-        variety_id,
-        persistedFormData,
-        isFinalPlantingMethod,
-        planting_method,
-        is_planting_method_known,
-      ).goBackPath,
-    );
-  const onCancel = () =>
-    history.push(
-      getPlantingMethodPaths(
-        variety_id,
-        persistedFormData,
-        isFinalPlantingMethod,
-        planting_method,
-        is_planting_method_known,
-      ).cancelPath,
-    );
+    history.goBack();
+
 
   const disabled = !isValid;
 
@@ -119,7 +101,7 @@ export default function PureManagementPlanPlantingMethod({
     >
       <MultiStepPageTitle
         onGoBack={onGoBack}
-        onCancel={onCancel}
+        onCancel={historyCancel}
         cancelModalTitle={t('MANAGEMENT_PLAN.MANAGEMENT_PLAN_FLOW')}
         title={t('MANAGEMENT_PLAN.ADD_MANAGEMENT_PLAN')}
         value={isFinalPlantingMethod ? 62.5 : 54}

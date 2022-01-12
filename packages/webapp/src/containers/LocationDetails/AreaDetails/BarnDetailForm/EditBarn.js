@@ -4,13 +4,8 @@ import { deleteBarnLocation, editBarnLocation } from './saga';
 import { checkLocationDependencies } from '../../saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { isAdminSelector, measurementSelector } from '../../../userFarmSlice';
-import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { barnSelector } from '../../../barnSlice';
-import {
-  hookFormPersistSelector,
-  setAreaDetailFormData,
-} from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData, useLocationPageType } from '../../utils';
+import { useLocationPageType } from '../../utils';
 import UnableToRetireModal from '../../../../components/Modals/UnableToRetireModal';
 import RetireConfirmationModal from '../../../../components/Modals/RetireConfirmationModal';
 import {
@@ -27,10 +22,6 @@ function EditBarnDetailForm({ history, match }) {
       dispatch(editBarnLocation({ ...data, ...match.params, figure_id: barn.figure_id }));
   };
   const barn = useSelector(barnSelector(match.params.location_id));
-  const formData = useSelector(hookFormPersistSelector);
-  useEffect(() => {
-    dispatch(setAreaDetailFormData(getFormData(barn)));
-  }, []);
 
   useEffect(() => {
     if (history?.location?.state?.error?.retire) {
@@ -77,7 +68,7 @@ function EditBarnDetailForm({ history, match }) {
         match={match}
         submitForm={submitForm}
         system={system}
-        useHookFormPersist={useHookFormPersist}
+        persistedFormData={barn}
         isEditLocationPage={isEditLocationPage}
         isViewLocationPage={isViewLocationPage}
         handleRetire={handleRetire}

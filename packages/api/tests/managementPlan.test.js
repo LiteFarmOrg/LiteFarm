@@ -520,7 +520,7 @@ describe('ManagementPlan Tests', () => {
           done();
         });
       });
-      const getDateInputFormat = (date) => moment(date).utc().format('YYYY-MM-DD');
+      const getDateInputFormat = (date) => moment(date).format('YYYY-MM-DD');
 
 
       test('Abandon management plan with one pending task that reference this management plan and another management_plan', async (done) => {

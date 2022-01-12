@@ -3,7 +3,7 @@ import { HookFormPersistProvider } from '../../hooks/useHookFormPersist/HookForm
 import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../saga';
-import { productEntitiesSelector } from '../../productSlice';
+import { productsSelector } from '../../productSlice';
 import { taskTypeIdNoCropsSelector, taskTypeSelector } from '../../taskTypeSlice';
 import { hookFormPersistSelector } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -18,7 +18,6 @@ function TaskDetails({ history, match }) {
   const continuePath = '/add_task/task_assignment';
   const goBackPath = '/add_task/task_locations';
 
-
   const dispatch = useDispatch();
   const {
     country_id,
@@ -26,7 +25,7 @@ function TaskDetails({ history, match }) {
   } = useSelector(userFarmSelector);
   const { interested, farm_id } = useSelector(certifierSurveySelector, shallowEqual);
   const persistedFormData = useSelector(hookFormPersistSelector);
-  const products = useSelector(productEntitiesSelector);
+  const products = useSelector(productsSelector);
   const taskTypesBypassCrops = useSelector(taskTypeIdNoCropsSelector);
   const selectedTaskType = useSelector(taskTypeSelector(persistedFormData.task_type_id));
   const managementPlanIds = persistedFormData.managementPlans?.map(

@@ -32,7 +32,6 @@ const PureSoilAmendmentTask = ({
   const purposeExposedValue = purposeValue?.value
     ? purposeValue
     : { value: purposeValue, label: purpose[purposeValue] };
-  const filtered = products.filter(({ type }) => type === 'soil_amendment_task');
   return (
     <>
       <Controller
@@ -71,7 +70,7 @@ const PureSoilAmendmentTask = ({
         getValues={getValues}
         setValue={setValue}
         control={control}
-        products={filtered}
+        products={products}
         formState={formState}
         farm={farm}
         disabled={disabled}

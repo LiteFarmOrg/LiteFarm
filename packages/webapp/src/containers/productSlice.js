@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { pick } from '../util/pick';
 import { createSelector } from 'reselect';
 
@@ -52,17 +52,18 @@ export default productSlice.reducer;
 
 export const productReducerSelector = (state) => state.entitiesReducer[productSlice.name];
 
-export const productEntitiesSelector = createSelector(
-  productReducerSelector,
-  ({ ids, entities }) => {
-    return ids.map((id) => entities[id]);
-  },
-);
-
-const productSelector = productAdapter.getSelectors(
+const productSelectors = productAdapter.getSelectors(
   (state) => state.entitiesReducer[productSlice.name],
 );
 
-export const productSelectors = productSelector.selectEntities;
+export const productsSelector = createSelector(
+  [productSelectors.selectAll, loginSelector],
+  (products, { farm_id }) => {
+    return products.filter((product) => product.farm_id === farm_id);
+  },
+);
 
-export const productById = (product_id) => (state) => productSelector.selectById(state, product_id);
+export const productEntitiesSelector = productSelectors.selectEntities;
+
+export const productSelector = (product_id) => (state) =>
+  productSelectors.selectById(state, product_id);

@@ -24,6 +24,12 @@ const AddProduct = ({
 }) => {
   const { t } = useTranslation();
   const { farm_id, interested, country_id } = farm;
+
+  const productsOfType = useMemo(() => products.filter((product) => product.type === type), [
+    products.length,
+    type,
+  ]);
+
   const [productValue, setProductValue] = useState(null);
   const typesOfProduct = {
     cleaning_task: {
@@ -50,7 +56,7 @@ const AddProduct = ({
 
   const processProduct = (value) => {
     setValue(`${type}.product.product_id`, undefined);
-    let product = products.find(({ product_id }) => product_id === value?.value);
+    let product = productsOfType.find(({ product_id }) => product_id === value?.value);
     if (product) {
       const { supplier, on_permitted_substances_list } = product;
       setValue(NAME, value?.label, { shouldValidate: true });
@@ -86,7 +92,7 @@ const AddProduct = ({
     <>
       <ReactSelect
         label={t('ADD_PRODUCT.PRODUCT_LABEL')}
-        options={transformProductsToLabel(products)}
+        options={transformProductsToLabel(productsOfType)}
         onChange={(e) => {
           processProduct(e);
           setProductValue(e);

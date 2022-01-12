@@ -3,7 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util/pick';
 import { managementPlanEntitiesSelector } from './managementPlanSlice';
-import { productEntitiesSelector } from './productSlice';
+import { productsSelector } from './productSlice';
 import { locationEntitiesSelector } from './locationSlice';
 import { cleaningTaskEntitiesSelector } from './slice/taskSlice/cleaningTaskSlice';
 import { fieldWorkTaskEntitiesSelector } from './slice/taskSlice/fieldWorkTaskSlice';
@@ -272,7 +272,7 @@ export const getAbandonedTasks = (tasks) => tasks.filter((task) => task.abandone
 export const abandonedTasksSelector = createSelector([tasksSelector], getAbandonedTasks);
 
 export const taskWithProductSelector = (task_id) =>
-  createSelector([taskSelector(task_id), productEntitiesSelector], (task, products) => {
+  createSelector([taskSelector(task_id), productsSelector], (task, products) => {
     const taskTypeLowerCase = task.taskType.task_translation_key.toLowerCase();
     const taskHasProduct = !!task[taskTypeLowerCase]?.product_id;
     if (taskHasProduct) {

@@ -24,7 +24,6 @@ const PureCleaningTask = ({
   const AGENT_USED = 'cleaning_task.agent_used';
   const WATER_USAGE = 'cleaning_task.water_usage';
   const WATER_USAGE_UNIT = 'cleaning_task.water_usage_unit';
-  const filtered = products.filter(({ type }) => type === 'cleaning_task');
   const isCleaningAgentUsed = watch(AGENT_USED);
 
   useEffect(() => {
@@ -65,7 +64,7 @@ const PureCleaningTask = ({
           setValue={setValue}
           control={control}
           formState={formState}
-          products={filtered}
+          products={products}
           farm={farm}
           disabled={disabled}
         />

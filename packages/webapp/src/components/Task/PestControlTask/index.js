@@ -42,7 +42,6 @@ const PurePestControlTask = ({
       ? controlMethodValue
       : { value: controlMethodValue, label: controlMethod[controlMethodValue] };
   }, [controlMethodValue]);
-  const filtered = products.filter(({ type }) => type === 'pest_control_task');
 
   useEffect(() => {
     if (
@@ -108,7 +107,7 @@ const PurePestControlTask = ({
           setValue={setValue}
           control={control}
           formState={formState}
-          products={filtered}
+          products={products}
           farm={farm}
           disabled={disabled}
         />

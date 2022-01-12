@@ -162,8 +162,6 @@ class Finances extends Component {
   }
 
   getTotalExpense = () => {
-    console.log('///////// Entrando')
-
     const { expenses } = this.props;
     const { startDate, endDate } = this.state;
 

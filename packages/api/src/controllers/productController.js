@@ -22,10 +22,13 @@ const productController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await productModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({
-          farm_id,
-          deleted: false,
-        });
+        const rows = await productModel
+          .query()
+          .context({ user_id: req.user.user_id })
+          .whereNotDeleted()
+          .where({
+            farm_id,
+          });
         if (!rows.length) {
           res.sendStatus(404);
         } else {
@@ -38,7 +41,7 @@ const productController = {
           error,
         });
       }
-    }
+    };
   },
   addProduct() {
     return async (req, res) => {
@@ -58,6 +61,6 @@ const productController = {
       }
     };
   },
-}
+};
 
 module.exports = productController;

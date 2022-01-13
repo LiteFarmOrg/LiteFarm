@@ -1323,7 +1323,7 @@ describe('organic certification Tests', () => {
 
       const bufferZoneScenarios = [
         { hasCrops: true, title: 'with', category: 'Non-Organic' },
-        { hasCrops: false, title: 'without', category: 'Non-Producing' },
+        { hasCrops: false, title: 'without', category: 'Non-Organic' },
       ];
 
       for (const scenario of bufferZoneScenarios) {
@@ -1351,13 +1351,10 @@ describe('organic certification Tests', () => {
           for (const location of recordA) {
             // The buffer zone can be identified by an area of zero.
             if (location.area === 0) {
-              if (scenario.hasCrops) {
-                expect(location.isNonOrganic).toBeTruthy();
-                expect(location.isNonProducing).toBeFalsy();
-              } else {
-                expect(location.isNonOrganic).toBeFalsy();
-                expect(location.isNonProducing).toBeTruthy();
-              }
+              expect(location.isNonOrganic).toBeTruthy();
+              expect(location.isNonProducing).toBeFalsy();
+              expect(location.isOrganic).toBeFalsy();
+              expect(location.isTransitional).toBeFalsy();
             }
           }
           done();
@@ -1506,7 +1503,7 @@ describe('organic certification Tests', () => {
             }
             const recordA = await getRecordAWithManagementPlans(JUNE30, JUNE01, farm_id);
             expect(recordA).toHaveLength(1);
-            expectOrganicStatus(recordA[0], NON_PRODUCING);
+            expectOrganicStatus(recordA[0], organic_status);
             done();
           });
         }

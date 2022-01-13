@@ -23,10 +23,20 @@ exports.up = async function (knex) {
     if (product_id) {
       const product = await knex('product').where({ product_id }).first();
       const farm_id = await getTaskFarmId(task);
-      if (farm_id && product.farm_id && product.farm_id !== farm_id) {
-        const [newProduct] = await knex('product')
-          .insert({ ...product, farm_id, product_id: undefined })
-          .returning('*');
+      if (farm_id && product.farm_id !== farm_id) {
+        let [newProduct] = await knex('product').where({
+          farm_id,
+          name: product.name,
+          type: product.type,
+          supplier: product.supplier,
+          on_permitted_substances_list: product.on_permitted_substances_list,
+        });
+        if (!newProduct) {
+          [newProduct] = await knex('product')
+            .insert({ ...product, farm_id, product_id: undefined, deleted: false })
+            .returning('*');
+        }
+
         const task_id = task.task_id;
         await knex('soil_amendment_task')
           .where({ task_id })

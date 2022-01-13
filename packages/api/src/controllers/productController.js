@@ -29,11 +29,7 @@ const productController = {
           .where({
             farm_id,
           });
-        if (!rows.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(rows);
-        }
+        return res.status(200).send(rows);
       } catch (error) {
         //handle more exceptions
         console.log(error);

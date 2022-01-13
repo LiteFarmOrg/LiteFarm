@@ -470,14 +470,15 @@ const organicCertifierSurveyController = {
       'watercourse',
       'surface_water',
     ]);
+    const cropEnabledAreaTypes = new Set(['field', 'garden', 'greenhouse']);
     const locationRecords = locations
       .filter(({ figure: { type } }) => !excludedLocationTypes.has(type))
       .map((location) => {
-        const getLocationOrganicStatus = (location, hasCrops) => {
+        const getLocationOrganicStatus = (location) => {
           if (location.buffer_zone) {
-            return hasCrops ? 'Non-Organic' : 'Non-Producing';
+            return 'Non-Organic';
           }
-          if (!hasCrops) return 'Non-Producing';
+          if (!cropEnabledAreaTypes.has(location?.figure?.type)) return 'Non-Producing';
           const organic_history = location[location.figure.type]?.organic_history;
           if (
             !organic_history ||
@@ -504,7 +505,7 @@ const organicCertifierSurveyController = {
         };
 
         const crops = Array.from(locationIdCropMap[location.location_id] || []);
-        const locationOrganicStatus = getLocationOrganicStatus(location, !!crops.length);
+        const locationOrganicStatus = getLocationOrganicStatus(location);
 
         return {
           location_id: location.location_id,

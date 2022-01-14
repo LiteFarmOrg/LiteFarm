@@ -78,7 +78,7 @@ export default function PureManagementTasks({
         ]}
       />
 
-      {isAdmin && (
+      {isAdmin && isActive && (
         <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>

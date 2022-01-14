@@ -17,7 +17,6 @@ export default function PureManagementTasks({
   variety,
   plan,
   isAdmin,
-  isActive,
   hasPendingTasks,
   history,
   match,
@@ -37,10 +36,13 @@ export default function PureManagementTasks({
     }
   };
 
+  const isActiveOrPlanned = !plan.abandon_date && !plan.complete_date;
+
   return (
     <Layout
       buttonGroup={
-        isAdmin && isActive && (
+        isAdmin &&
+        isActiveOrPlanned && (
           <>
             <Button fullLength onClick={onMarkComplete}>
               {t('common:MARK_COMPLETED')}
@@ -78,14 +80,14 @@ export default function PureManagementTasks({
         ]}
       />
 
-      {isAdmin && isActive && (
+      {isAdmin && isActiveOrPlanned && (
         <AddLink style={{ marginTop: '16px', marginBottom: '14px' }} onClick={onAddTask}>
           {t('MANAGEMENT_DETAIL.ADD_A_TASK')}
         </AddLink>
       )}
       {children}
 
-      {isAdmin && isActive && (
+      {isAdmin && isActiveOrPlanned && (
         <div className={styles.abandonwrapper} style={{ marginTop: '24px', marginBottom: '26px' }}>
           <Label>{t('MANAGEMENT_DETAIL.FAILED_CROP')}</Label>
           <Underlined style={{ marginLeft: '6px' }} onClick={onAbandon}>

@@ -101,6 +101,7 @@ class User extends Model {
           enum: ['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE'],
         },
         birth_year: { type: ['number', null], multipleOf: 1.0, minimum: 1900, maximum: new Date().getFullYear() },
+        do_not_email: {type: 'boolean'},
         created_at: { type: 'date-time' },
         updated_at: { type: 'date-time' },
       },

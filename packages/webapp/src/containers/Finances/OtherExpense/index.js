@@ -126,7 +126,7 @@ class OtherExpense extends Component {
         expenseDate.isSameOrAfter(startDate, 'day') &&
         expenseDate.isSameOrBefore(endDate, 'day')
       ) {
-        let amount = parseFloat(e.value);
+        let amount = Number(e.value);
         subTotal += amount;
         detailedHistory.push({
           date: moment(e.expense_date),

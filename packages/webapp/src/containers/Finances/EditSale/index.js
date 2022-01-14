@@ -89,9 +89,9 @@ class EditSale extends Component {
 
     const crop_variety_sale = this.state.chosenOptions.map((c) => {
       return {
-        sale_value: form?.[c.label]?.value ? parseFloat(form[c.label].value).toFixed(2) : 0,
+        sale_value: form?.[c.label]?.value ? Number(form[c.label].value).toFixed(2) : 0,
         quantity: form?.[c.label]?.quantity
-          ? convertToMetric(parseFloat(form[c.label].quantity), this.state.quantity_unit, 'kg')
+          ? convertToMetric(Number(form[c.label].quantity), this.state.quantity_unit, 'kg')
           : 0,
         quantity_unit: this.state.quantity_unit,
         crop_variety_id: c.value,

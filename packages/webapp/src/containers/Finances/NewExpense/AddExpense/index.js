@@ -93,7 +93,7 @@ class AddExpense extends Component {
 
       for (let v of values) {
         if (v.note !== '' && !isNaN(v.value) && v.value >= 0) {
-          let value = parseFloat(parseFloat(v.value).toFixed(2));
+          let value = Number(Number(v.value).toFixed(2));
           let temp = {
             farm_id,
             note: v.note,

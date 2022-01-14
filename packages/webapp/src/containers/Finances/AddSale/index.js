@@ -38,12 +38,10 @@ class AddSale extends Component {
     const { dispatch } = this.props;
     const crop_variety_sale = this.state.chosenOptions.map((c) => {
       return {
-        sale_value: sale ? sale[c.label].value && parseFloat(sale[c.label].value).toFixed(2) : 0,
+        sale_value: sale ? sale[c.label].value && Number(sale[c.label].value).toFixed(2) : 0,
         quantity: sale
           ? sale[c.label].quantity &&
-            parseFloat(
-              convertToMetric(parseFloat(sale[c.label].quantity), this.state.quantity_unit, 'kg'),
-            )
+            Number(convertToMetric(Number(sale[c.label].quantity), this.state.quantity_unit, 'kg'))
           : 0,
         quantity_unit: this.state.quantity_unit,
         crop_variety_id: c.value,

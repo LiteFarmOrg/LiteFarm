@@ -15,10 +15,10 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
     const completedTime = moment(task.completed_time);
     const abandonedTime = moment(task.abandoned_time);
     if (
-      ( completedTime.isSameOrAfter(startDate, 'day') &&
+      (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&
         task.duration) ||
-      ( abandonedTime.isSameOrAfter(startDate, 'day') &&
+      (abandonedTime.isSameOrAfter(startDate, 'day') &&
         abandonedTime.isSameOrBefore(endDate, 'day') &&
         task.duration)
     ) {
@@ -34,9 +34,9 @@ const Employee = ({ currencySymbol, tasks, startDate, endDate }) => {
         let wage_amount = 0;
 
         // if (s.wage.type === 'hourly') {
-        //   wage_amount = Number(parseFloat(s.wage_at_moment).toFixed(2));
+        //   wage_amount = Number(Number(s.wage_at_moment).toFixed(2));
         // }
-        wage_amount = Number(parseFloat(task.wage_at_moment).toFixed(2));
+        wage_amount = Number(Number(task.wage_at_moment).toFixed(2));
         sortObj[task.assignee_user_id] = {
           time: Number(task.duration),
           wage_amount,

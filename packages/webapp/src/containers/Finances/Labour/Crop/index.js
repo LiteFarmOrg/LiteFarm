@@ -72,10 +72,7 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) =
     for (let s of shifts) {
       let management_plan_id = s.management_plan_id;
       const shiftDate = moment(s.shift_date);
-      if (
-        shiftDate.isSameOrAfter(startDate, 'day') &&
-        shiftDate.isSameOrBefore(endDate, 'day')
-      ) {
+      if (shiftDate.isSameOrAfter(startDate, 'day') && shiftDate.isSameOrBefore(endDate, 'day')) {
         if (management_plan_id !== null) {
           if (final.hasOwnProperty(management_plan_id)) {
             final[management_plan_id].profit =
@@ -123,9 +120,9 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) =
 
     let waitForAllocate = getCropsByFieldID(uk, managementPlans);
 
-    let avg = Number(parseFloat(uShift.value / waitForAllocate.length).toFixed(2));
+    let avg = Number(Number(uShift.value / waitForAllocate.length).toFixed(2));
 
-    let durationAvg = Number(parseFloat(uShift.duration / waitForAllocate.length).toFixed(2));
+    let durationAvg = Number(Number(uShift.duration / waitForAllocate.length).toFixed(2));
 
     let fkeys = Object.keys(final);
 
@@ -157,17 +154,17 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, managementPlans }) =
     }
   }
 
-  unAllocatedObj.time = parseFloat(unAllocatedObj.time / 60).toFixed(2) + ' HR';
+  unAllocatedObj.time = Number(unAllocatedObj.time / 60).toFixed(2) + ' HR';
   unAllocatedObj.labour_cost =
-    currencySymbol + parseFloat(unAllocatedObj.labour_cost).toFixed(2).toString();
+    currencySymbol + Number(unAllocatedObj.labour_cost).toFixed(2).toString();
 
   let fkeys = Object.keys(final);
 
   for (let fk of fkeys) {
     data.push({
       crop: final[fk].crop,
-      time: parseFloat(final[fk].duration / 60).toFixed(2) + ' HR',
-      labour_cost: currencySymbol + parseFloat(final[fk].profit * -1).toFixed(2),
+      time: Number(final[fk].duration / 60).toFixed(2) + ' HR',
+      labour_cost: currencySymbol + Number(final[fk].profit * -1).toFixed(2),
     });
   }
 

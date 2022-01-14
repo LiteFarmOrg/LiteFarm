@@ -111,7 +111,7 @@ class LegacyEstimatedRevenue extends Component {
         minWidth: 75,
         Footer: (
           <div>
-            {this.state.currencySymbol + parseFloat(this.state.totalRevenue).toFixed(2) || 'none'}
+            {this.state.currencySymbol + Number(this.state.totalRevenue).toFixed(2) || 'none'}
           </div>
         ),
       },

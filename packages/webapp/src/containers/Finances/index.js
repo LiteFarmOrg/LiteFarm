@@ -22,17 +22,13 @@ import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from
 import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
 import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
-import { Alert } from 'react-bootstrap';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedManagementPlansSelector,
-  managementPlansSelector,
-} from '../managementPlanSlice';
+import { managementPlansSelector } from '../managementPlanSlice';
 import { getManagementPlans } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
@@ -150,7 +146,10 @@ class Finances extends Component {
           if (
             harvestDates.some(
               (harvestDate) =>
-                moment(this.state.startDate).startOf('day').utc().isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.startDate)
+                  .startOf('day')
+                  .utc()
+                  .isSameOrBefore(harvestDate, 'day') &&
                 moment(this.state.endDate).utc().isSameOrAfter(harvestDate, 'day'),
             )
           ) {
@@ -158,7 +157,7 @@ class Finances extends Component {
           }
         });
     }
-    return parseFloat(totalRevenue).toFixed(2);
+    return Number(totalRevenue).toFixed(2);
   }
 
   getTotalExpense = () => {
@@ -198,10 +197,7 @@ class Finances extends Component {
       for (let s of shifts) {
         let management_plan_id = s.management_plan_id;
         const shiftDate = moment(s.shift_date);
-        if (
-          shiftDate.isSameOrAfter(startDate, 'day') &&
-          shiftDate.isSameOrBefore(endDate, 'day')
-        ) {
+        if (shiftDate.isSameOrAfter(startDate, 'day') && shiftDate.isSameOrBefore(endDate, 'day')) {
           if (management_plan_id !== null) {
             if (final.hasOwnProperty(management_plan_id)) {
               final[management_plan_id].profit =
@@ -249,7 +245,7 @@ class Finances extends Component {
       // a list of crop ids
       let waitForAllocate = this.getCropsByFieldID(uk);
 
-      let avg = Number(parseFloat(uShift.value / waitForAllocate.length).toFixed(2));
+      let avg = Number(Number(uShift.value / waitForAllocate.length).toFixed(2));
 
       let fkeys = Object.keys(final);
 
@@ -267,7 +263,7 @@ class Finances extends Component {
     }
 
     let cropKeys = Object.keys(final);
-    let averageExpense = Number(parseFloat(totalExpense / cropKeys.length).toFixed(2));
+    let averageExpense = Number(Number(totalExpense / cropKeys.length).toFixed(2));
     // apply expense evenly to each crop
     for (let ck of cropKeys) {
       final[ck].profit -= averageExpense;
@@ -333,10 +329,7 @@ class Finances extends Component {
     for (let sale of sales || []) {
       const saleDate = moment(sale.sale_date);
 
-      if (
-        saleDate.isSameOrAfter(startDate, 'day') &&
-        saleDate.isSameOrBefore(endDate, 'day')
-      ) {
+      if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);
@@ -396,7 +389,7 @@ class Finances extends Component {
     } = this.state;
     const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
-    const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
+    const totalExpense = (Number(otherExpense) + Number(labourExpense)).toFixed(2);
     return (
       <div className={styles.financesContainer}>
         <Title style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.TITLE')}</Title>
@@ -473,7 +466,7 @@ class Finances extends Component {
               <p>{this.props.t('SALE.FINANCES.BALANCE')}:</p>
               <p>
                 {this.state.currencySymbol +
-                  (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2)}
+                  (Number(totalRevenue) - Number(totalExpense)).toFixed(2)}
               </p>
             </div>
           </div>

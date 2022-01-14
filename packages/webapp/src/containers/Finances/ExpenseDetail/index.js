@@ -53,7 +53,7 @@ class ExpenseDetail extends Component {
       let expenseDate = moment(e.expense_date).format('YYYY-MM-DD');
       if (targetDate === expenseDate) {
         let id = e.expense_type_id;
-        total += parseFloat(e.value);
+        total += Number(e.value);
         filteredExpenses.push(e);
         if (!dict.hasOwnProperty(id)) {
           dict[id] = {

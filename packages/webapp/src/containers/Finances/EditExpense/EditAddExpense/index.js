@@ -5,14 +5,14 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
 import {
-  expenseTypeSelector,
-  selectedEditExpenseSelector,
   expenseDetailSelector,
   expensesToEditSelector,
+  expenseTypeSelector,
+  selectedEditExpenseSelector,
 } from '../../selectors';
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
-import { Field, actions, Form, Control } from 'react-redux-form';
+import { actions, Control, Field, Form } from 'react-redux-form';
 import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { addRemoveExpense } from '../../actions';
 import { Alert } from 'react-bootstrap';
@@ -109,7 +109,7 @@ class EditAddExpense extends Component {
       for (let v of values) {
         if (v.note !== '' && !isNaN(v.value) && v.value > 0) {
           // dumb JS can't retain the Float type if done otherwise
-          let value = parseFloat(parseFloat(v.value).toFixed(2));
+          let value = Number(Number(v.value).toFixed(2));
           let temp = {
             farm_id,
             note: v.note,

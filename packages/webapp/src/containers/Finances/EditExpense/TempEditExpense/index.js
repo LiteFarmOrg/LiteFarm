@@ -55,7 +55,7 @@ class TempEditExpense extends Component {
     let data = {
       expense_date: date,
       note: currentExpenseDetail.note,
-      value: parseFloat(parseFloat(currentExpenseDetail.value).toFixed(2)),
+      value: Number(Number(currentExpenseDetail.value).toFixed(2)),
     };
 
     this.props.dispatch(tempEditExpense(expenseToEdit.expense_item_id, data));

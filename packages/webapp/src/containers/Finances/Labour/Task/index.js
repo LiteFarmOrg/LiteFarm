@@ -11,21 +11,21 @@ const Task = ({ currencySymbol, tasks, startDate, endDate }) => {
     const completedTime = moment(task.completed_time);
     const abandonedTime = moment(task.abandoned_time);
     if (
-      ( completedTime.isSameOrAfter(startDate, 'day') &&
+      (completedTime.isSameOrAfter(startDate, 'day') &&
         completedTime.isSameOrBefore(endDate, 'day') &&
         task.duration) ||
-      ( abandonedTime.isSameOrAfter(startDate, 'day') &&
+      (abandonedTime.isSameOrAfter(startDate, 'day') &&
         abandonedTime.isSameOrBefore(endDate, 'day') &&
         task.duration)
     ) {
       if (sortObj.hasOwnProperty(task.task_type_id)) {
         sortObj[task.task_type_id].time += parseInt(task.duration, 10);
         sortObj[task.task_type_id].labour_cost +=
-          parseFloat(task.wage_at_moment) * (task.duration / 60);
+          Number(task.wage_at_moment) * (task.duration / 60);
       } else {
         sortObj[task.task_type_id] = {
           time: parseInt(task.duration, 10),
-          labour_cost: parseFloat(task.wage_at_moment) * (task.duration / 60),
+          labour_cost: Number(task.wage_at_moment) * (task.duration / 60),
           task: t(`task:${task.taskType.task_translation_key}`),
         };
       }

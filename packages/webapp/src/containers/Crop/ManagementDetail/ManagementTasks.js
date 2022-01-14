@@ -17,7 +17,6 @@ export default function ManagementTasks({ history, match }) {
 
   const management_plan_id = match.params.management_plan_id;
   const plan = useSelector(managementPlanSelector(management_plan_id));
-
   const isAdmin = useSelector(isAdminSelector);
 
   const onBack = () => {
@@ -40,7 +39,11 @@ export default function ManagementTasks({ history, match }) {
         onBack={onBack}
         onCompleted={onCompleted}
         onAbandon={onAbandon}
-        onAddTask={onAddTask(dispatch, history, `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`)}
+        onAddTask={onAddTask(
+          dispatch,
+          history,
+          `/crop/${variety_id}/management_plan/${management_plan_id}/tasks`,
+        )}
         isAdmin={isAdmin}
         variety={variety}
         plan={plan}

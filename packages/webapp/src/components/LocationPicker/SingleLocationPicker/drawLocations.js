@@ -13,7 +13,8 @@ import {
   lineStyles,
   selectedIcons,
 } from '../../../containers/Map/mapStyles';
-import styles, { defaultColour } from '../../../containers/Map/styles.module.scss';
+import styles from '../../../containers/Map/styles.module.scss';
+import mapColors from '../../../containers/Map/colors';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
 import clsx from 'clsx';
 
@@ -38,7 +39,7 @@ const drawArea = (map, maps, mapBounds, location) => {
 
   const polygon = new maps.Polygon({
     paths: points,
-    strokeColor: defaultColour,
+    strokeColor: mapColors.defaultColour,
     strokeWeight: 2,
     fillColor: colour,
     fillOpacity: DEFAULT_POLYGON_OPACITY,
@@ -125,7 +126,7 @@ const drawLine = (map, maps, mapBounds, location) => {
   });
   const polyline = new maps.Polyline({
     path: points,
-    strokeColor: defaultColour,
+    strokeColor: mapColors.defaultColour,
     strokeOpacity: 1.0,
     strokeWeight: 2,
     icons: [
@@ -142,7 +143,7 @@ const drawLine = (map, maps, mapBounds, location) => {
       strokeColor: colour,
       icons: [
         {
-          icon: lineSymbol(defaultColour),
+          icon: lineSymbol(mapColors.defaultColour),
           offset: '0',
           repeat: dashLength,
         },
@@ -151,7 +152,7 @@ const drawLine = (map, maps, mapBounds, location) => {
   });
   maps.event.addListener(polyline, 'mouseout', function () {
     this.setOptions({
-      strokeColor: defaultColour,
+      strokeColor: mapColors.defaultColour,
       icons: [
         {
           icon: lineSymbol(colour),

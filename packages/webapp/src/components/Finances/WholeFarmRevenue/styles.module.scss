@@ -9,3 +9,12 @@
 .textColor {
   color: var(--teal700);
 }
+.gridContainer {
+  display: grid;
+  grid-template-columns: 7fr 3fr 24px;
+  column-gap: 12px;
+}
+
+.gridItem {
+  align-self: center;
+}

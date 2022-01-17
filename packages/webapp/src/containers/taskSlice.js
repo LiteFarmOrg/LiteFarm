@@ -17,7 +17,7 @@ import { transplantTaskEntitiesSelector } from './slice/taskSlice/transplantTask
 import { plantingManagementPlanEntitiesSelector } from './plantingManagementPlanSlice';
 
 export const getTask = (obj) => {
-  return pick(obj, [
+  const task = pick(obj, [
     'task_id',
     'due_date',
     'owner_user_id',
@@ -41,6 +41,9 @@ export const getTask = (obj) => {
     'other_abandonment_reason',
     'abandonment_notes',
   ]);
+  //TODO: investigate why incomplete tasks wage_at_moment are null
+  if (task.wage_at_moment === null) task.wage_at_moment = 0;
+  return task;
 };
 
 const upsertManyTasks = (state, { payload: tasks }) => {

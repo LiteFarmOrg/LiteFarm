@@ -1,6 +1,6 @@
 {
   "ADD_FARM": {
-    "ADDRESS_IS_REQUIRED": "Address civique est requise",
+    "ADDRESS_IS_REQUIRED": "Addresse civique est requise",
     "DISABLE_GEO_LOCATION": "MISSING",
     "ENTER_A_VALID_ADDRESS": "Veuillez enregistrer une adresse valide ou coordonée",
     "ENTER_LOCATION_PLACEHOLDER": "Entrer votre region",
@@ -14,7 +14,7 @@
     "TELL_US_ABOUT_YOUR_FARM": "Parlez-nous de votre ferme"
   },
   "ADD_PRODUCT": {
-    "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter...",
+    "PRESS_ENTER": "Tapez et appuyez sur Entrée pour ajouter ...",
     "PRODUCT_LABEL": "Produit",
     "QUANTITY": "Quantité",
     "SUPPLIER_LABEL": "Fournisseur"

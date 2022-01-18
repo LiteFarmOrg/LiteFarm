@@ -19,7 +19,7 @@ import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
-import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
+import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
 import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
 import { roundToTwoDecimal } from '../../util';
@@ -29,7 +29,7 @@ import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { managementPlansSelector } from '../managementPlanSlice';
-import { getManagementPlans } from '../saga';
+import { getManagementPlansAndTasks } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
@@ -87,10 +87,9 @@ class Finances extends Component {
   componentDidMount() {
     const { dateRange } = this.props;
     this.props.dispatch(getSales());
-    this.props.dispatch(getShifts());
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
-    this.props.dispatch(getManagementPlans());
+    this.props.dispatch(getManagementPlansAndTasks());
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({

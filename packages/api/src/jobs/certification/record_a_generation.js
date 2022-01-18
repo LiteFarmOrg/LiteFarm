@@ -176,7 +176,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement) =>
           sheet.cell(cell).value(value);
         });
       });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/RecordA.xlsx`);
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Record A.xlsx`);
   });
 };
 

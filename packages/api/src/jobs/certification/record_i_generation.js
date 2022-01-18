@@ -106,8 +106,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
         horizontalAlignment: 'center',
       });
 
-    const { t } = i18n;
-    const title = isInputs ? t('RECORD_I.INPUTS_UPPERCASE') : t('RECORD_I.CLEANERS_UPPERCASE');
+    const title = isInputs ? t('RECORD_I.CROP_PRODUCTION_AIDS') : t('RECORD_I.CLEANERS');
     const RichText = XlsxPopulate.RichText;
     const rowFour = new RichText();
     const rowFive = new RichText();
@@ -218,7 +217,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
           workbook.sheet(0).cell(cell).value(value);
         });
     });
-    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/RecordI-${title}.xlsx`);
+    return workbook.toFileAsync(`${process.env.EXPORT_WD}/temp/${exportId}/Record I - ${title}.xlsx`);
   });
 };
 

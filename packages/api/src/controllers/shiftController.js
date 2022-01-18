@@ -193,13 +193,14 @@ const shiftController = {
         const { user_id } = req.headers;
         const role = req.role;
         const data = await knex.select([
-          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
+          'task_type.task_name', 'task_type.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
           'shiftTask.location_id', 'shiftTask.management_plan_id', 'location.name', 'crop.crop_id', 'crop.crop_translation_key',
-          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'management_plan.area_used', 'management_plan.estimated_production', 'shift.shift_date',
-          'management_plan.estimated_revenue', 'management_plan.start_date', 'management_plan.end_date', 'shift.wage_at_moment', 'shift.mood',
+          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'shift.shift_date',
+          'management_plan.start_date',  'shift.wage_at_moment', 'shift.mood',
           'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
-        ]).from('shiftTask', 'taskType')
-          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+        ]).from('shiftTask')
+          .leftJoin('task', 'task.task_id', 'shiftTask.task_id')
+          .leftJoin('task_type', 'task_type.task_type_id', 'task.task_type_id')
           .leftJoin('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id')
           .leftJoin('location', 'shiftTask.location_id', 'location.location_id')
           .leftJoin('crop_variety', 'management_plan.crop_variety_id', 'crop_variety.crop_variety_id')
@@ -214,6 +215,7 @@ const shiftController = {
           .where('shift.farm_id', farm_id)
           .andWhere('shift.deleted', false)
           .andWhere('shiftTask.deleted', false);
+
         if (data) {
           res.status(200).send(data);
         } else {
@@ -235,14 +237,15 @@ const shiftController = {
         const farm_id = req.params.farm_id;
         const { user_id } = req.headers;
         const data = await knex.select([
-          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
+          'task_type.task_name', 'task_type.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
           'shiftTask.location_id', 'shiftTask.management_plan_id', 'location.name', 'crop.crop_id', 'crop.crop_translation_key',
-          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'management_plan.area_used', 'management_plan.estimated_production', 'shift.shift_date',
+          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'management_plan.estimated_production', 'shift.shift_date',
           'management_plan.estimated_revenue', 'management_plan.start_date', 'management_plan.end_date', 'shift.wage_at_moment', 'shift.mood',
           'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
           'shift.created_by_user_id as created_by',
-        ]).from('shiftTask', 'taskType')
-          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+        ]).from('shiftTask')
+          .leftJoin('task', 'task.task_id', 'shiftTask.task_id')
+          .leftJoin('task_type', 'task_type.task_type_id', 'task.task_type_id')
           .leftJoin('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id')
           .leftJoin('location', 'shiftTask.location_id', 'location.location_id')
           .leftJoin('crop_variety', 'management_plan.crop_variety_id', 'crop_variety.crop_variety_id')

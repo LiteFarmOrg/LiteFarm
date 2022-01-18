@@ -34,6 +34,7 @@ import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
+import { isTaskType } from '../Task/useIsTaskType';
 
 const moment = extendMoment(Moment);
 
@@ -135,9 +136,10 @@ class Finances extends Component {
         .filter(({ abandon_date }) => !abandon_date)
         .forEach((plan) => {
           // check if this plan has a harvest task projected within the time frame
-          const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
-            (task) => task.task_type_id === 8,
-          );
+          const harvestTasks =
+            this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter((task) =>
+              isTaskType(task.taskType, 'HARVEST_TASK'),
+            ) || [];
           const harvestDates = harvestTasks?.map((task) =>
             moment(task.due_date).utc().format('YYYY-MM-DD'),
           );

@@ -197,6 +197,8 @@
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm doesn’t currently export in the format of your certifier. You can still export your documents but your certifier may require additional information. We’ll send them to you at:",
     "EXPORT": "Export",
     "EXPORT_DOCS": "Export certification docs",
+    "EXPORT_DOWNLOADING_MESSAGE": "Downloading your organic certification files ...",
+    "EXPORT_FILE_TITLE": "Organic certification",
     "FILES_ARE_READY": "Your certification files are now ready to export. We’ll send them to you at:",
     "FLOW_TITLE": "certification documents export",
     "GOOD_NEWS": "Good news!",

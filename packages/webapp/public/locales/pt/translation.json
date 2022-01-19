@@ -197,6 +197,8 @@
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos da certificação",
+    "EXPORT_DOWNLOADING_MESSAGE": "MISSING",
+    "EXPORT_FILE_TITLE": "MISSING",
     "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
     "FLOW_TITLE": "exportação de documentos de certificação",
     "GOOD_NEWS": "Boas notícias!",

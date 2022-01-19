@@ -1,6 +1,6 @@
 /*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (saga.js) is part of LiteFarm.
+ *  Copyright 2019-2022 LiteFarm.org
+ *  This file is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@ import { select, takeLatest } from 'redux-saga/effects';
 
 import { createAction } from '@reduxjs/toolkit';
 import { userFarmSelector } from '../userFarmSlice';
+import i18n from '../../locales/i18n';
 
 export const downloadExport = createAction('downloadExportSaga');
 
@@ -24,7 +25,7 @@ export function* downloadExportSaga({ payload }) {
     farm_name
   } = yield select(userFarmSelector);
   try {
-    const fileName = farm_name ? `${farm_name}${payload.from}-${payload.to}.zip` : undefined;
+    const fileName = farm_name ? `${farm_name} ${i18n.t('CERTIFICATIONS.EXPORT_FILE_TITLE')} ${payload.from} - ${payload.to}.zip` : undefined;
     const config = {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('farm_token'),
@@ -35,7 +36,7 @@ export function* downloadExportSaga({ payload }) {
     const url = new URL(payload.file);
     url.hostname = 'images.litefarm.workers.dev';
     const res = yield fetch(url, config);
-    if(res.status !== 403) {
+    if (res.status !== 403) {
       const blob = yield res.blob();
       downloadBlob(blob, fileName);
     }
@@ -47,7 +48,6 @@ export function* downloadExportSaga({ payload }) {
 export default function* exportSaga() {
   yield takeLatest(downloadExport.type, downloadExportSaga);
 }
-
 
 function downloadBlob(blob, name = 'export.zip') {
   const blobUrl = URL.createObjectURL(blob);

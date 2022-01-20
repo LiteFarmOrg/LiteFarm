@@ -197,8 +197,8 @@
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos da certificação",
-    "EXPORT_DOWNLOADING_MESSAGE": "MISSING",
-    "EXPORT_FILE_TITLE": "MISSING",
+    "EXPORT_DOWNLOADING_MESSAGE": "Baixando seus arquivos de certificação orgânica...",
+    "EXPORT_FILE_TITLE": "Certificação orgânica",
     "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
     "FLOW_TITLE": "exportação de documentos de certificação",
     "GOOD_NEWS": "Boas notícias!",
@@ -243,12 +243,12 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "CROP_CATALOGUE": {
-    "ADD_CROP": "Adicionar um novo corte cultivo",
+    "ADD_CROP": "Adicionar um novo cultivo",
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
-    "CREATE_MANAGEMENT_PLANS": "Crie planos de manejo",
+    "CREATE_MANAGEMENT_PLANS": "Crie planos de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
@@ -277,9 +277,9 @@
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificado?",
     "HS_CODE": "Código HS",
-    "MANAGEMENT_PLANS": "Planos de Manejo",
+    "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "MISSING",
+    "ORGANIC": "A semente ou cultivo é orgânica certificada?",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes desta cultura foram tratadas?"
   },
@@ -296,9 +296,9 @@
     "CROP_VARIETIES": "variedade",
     "NEEDS_PLAN": "Precisa de um plano",
     "RETIRE": {
-      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de manejo de seu catálogo de cultivos. Você quer prosseguir?",
+      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de cultivo de seu catálogo de cultivos. Você quer prosseguir?",
       "RETIRE_CROP_TITLE": "Retirar colheita?",
-      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
+      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de cultivo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
     },
     "SUPPLIER": "Fornecedor"
@@ -314,7 +314,7 @@
       "TITLE": "Editar cultivo?"
     },
     "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "IS_ORGANIC": "MISSING",
+    "IS_ORGANIC": "A semente ou cultivo é orgânica certificada?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
@@ -374,8 +374,8 @@
       "OTHER": "Outro",
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
       "SOIL_AMENDMENT": "Adubação e correção do solo",
-      "SOIL_SAMPLE_RESULTS": "MISSING",
-      "WATER_SAMPLE_RESULTS": "MISSING"
+      "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
+      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
     },
     "VALID": "Válido"
   },
@@ -1061,7 +1061,7 @@
     "INFO": "Minha informação",
     "LOG_OUT": "Sair",
     "SWITCH": "Mudar de fazenda",
-    "TUTORIALS": "MISSING"
+    "TUTORIALS": "Tutoriais"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Conta",

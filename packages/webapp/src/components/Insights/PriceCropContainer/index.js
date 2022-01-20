@@ -53,7 +53,7 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
 
   const { ownPriceSeries, networkPriceSeries, max } = state;
 
-  const yTitle = t('INSIGHTS.PRICES.Y_TITLE', { currency: currencySymbol, mass: getMassUnit() });
+  const yTitle = t('INSIGHTS.PRICES.Y_TITLE', { currency: currencySymbol, mass: getMassUnit(), interpolation: { escapeValue: false } });
   return (
     <div style={{ marginBottom: '12px' }}>
       <Semibold>{name}</Semibold>

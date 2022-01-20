@@ -189,6 +189,7 @@ module.exports = (data, exportId, from_date, to_date, farm_name, measurement, is
         (reducedString, { name }, i) => `${reducedString}${i === 0 ? '' : ', '}${name}`,
         `${t('RECORD_I.LOCATIONS')}: `,
       );
+      if (row.affectedLocations?.length) row.affected += ', ';
       row.affected = row.affectedCoordinates.reduce(
         (reducedString, { pin_coordinate }, i) =>
           `${reducedString}${i === 0 ? '' : ', '}${pin_coordinate.lat}, ${pin_coordinate.lng}`,

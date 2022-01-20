@@ -16,6 +16,8 @@
     "OTHER": "Otro",
     "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
     "SOIL_AMENDMENT": "Aditivo de suelo",
+    "SOIL_SAMPLE_RESULTS": "MISSING",
+    "WATER_SAMPLE_RESULTS": "MISSING",
     "UNCATEGORIZED": "Sin categorizar"
   }
 }

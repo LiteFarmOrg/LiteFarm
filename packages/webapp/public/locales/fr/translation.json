@@ -375,7 +375,8 @@
       "OTHER": "MISSING",
       "PEST_CONTROL_PRODUCT": "Produit antiparasitaire",
       "SOIL_AMENDMENT": "Amendement du sol",
-      "SOIL_SAMPLE_RESULTS": "MISSING"
+      "SOIL_SAMPLE_RESULTS": "MISSING",
+      "WATER_SAMPLE_RESULTS": "MISSING"
     },
     "VALID": "MISSING"
   },

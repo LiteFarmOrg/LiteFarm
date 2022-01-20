@@ -374,7 +374,8 @@
       "OTHER": "Otro",
       "PEST_CONTROL_PRODUCT": "Producto de control de plagas",
       "SOIL_AMENDMENT": "Fertilización y correción del suelo",
-      "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo"
+      "SOIL_SAMPLE_RESULTS": "Resultados de muestras del suelo",
+      "WATER_SAMPLE_RESULTS": "MISSING"
     },
     "VALID": "Válido"
   },

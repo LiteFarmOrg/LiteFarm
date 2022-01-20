@@ -16,6 +16,8 @@
     "OTHER": "Outro",
     "PEST_CONTROL_PRODUCT": "Produto de controle de praga",
     "SOIL_AMENDMENT": "Correção de solo",
+    "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
+    "WATER_SAMPLE_RESULTS": "Resultados da amostra de água",
     "UNCATEGORIZED": "Não categorizado"
   }
 }

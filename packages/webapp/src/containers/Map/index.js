@@ -81,7 +81,7 @@ export default function Map({ history }) {
         !persistedPathsSet.has(history.location.pathname) &&
         dispatch(resetAndUnLockFormData());
     };
-  }, []);
+  }, [persistedPathsSet]);
   useEffect(() => {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());

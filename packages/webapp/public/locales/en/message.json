@@ -76,14 +76,14 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Failed to abandon management plan!",
-      "COMPLETE": "Failed to complete management plan!",
-      "POST": "Failed to add management plan!"
+      "ABANDON": "Failed to abandon crop plan!",
+      "COMPLETE": "Failed to complete crop plan!",
+      "POST": "Failed to add crop plan!"
     },
     "SUCCESS": {
-      "ABANDON": "Successfully abandoned management plan!",
-      "COMPLETE": "Successfully completed management plan!",
-      "POST": "Successfully added management plan!"
+      "ABANDON": "Successfully abandoned crop plan!",
+      "COMPLETE": "Successfully completed crop plan!",
+      "POST": "Successfully added crop plan!"
     }
   },
   "MAP": {
@@ -101,10 +101,10 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Failed to update management plan"
+      "EDIT": "Failed to update crop plan"
     },
     "SUCCESS": {
-      "EDIT": "Management plan successfully updated"
+      "EDIT": "crop plan successfully updated"
     }
   },
   "REVENUE": {

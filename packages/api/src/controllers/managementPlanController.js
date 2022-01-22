@@ -37,17 +37,16 @@ const managementPlanController = {
             req.body, { noUpdate: true, noDelete: true, noInsert: ['location', 'crop_variety'] });
 
           const tasks = [];
-          const getTask = (planned_time, task_type_id, task = {}) => {
+          const getTask = (due_date, task_type_id, task = {}) => {
             return {
-              due_date: planned_time,
-              planned_time,
+              due_date,
               task_type_id,
               owner_user_id: req.user.user_id,
               ...task,
             };
           };
           if (!req.body.crop_management_plan.already_in_ground) {
-            const planned_time = req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
+            const due_date = req.body.crop_management_plan.plant_date || req.body.crop_management_plan.seed_date;
             const { planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'PLANT_TASK',
             );
@@ -56,12 +55,12 @@ const managementPlanController = {
               'farm_id': null,
               'task_translation_key': 'PLANT_TASK',
             }).first();
-            const plantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, plantTaskType.task_type_id, { plant_task: { planting_management_plan_id } }));
+            const plantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(due_date, plantTaskType.task_type_id, { plant_task: { planting_management_plan_id } }));
             tasks.push(plantTask);
           }
 
           if (req.body.crop_management_plan.needs_transplant) {
-            const planned_time = req.body.crop_management_plan.transplant_date;
+            const due_date = req.body.crop_management_plan.transplant_date;
             const { planting_management_plan_id } = management_plan.crop_management_plan.planting_management_plans.find(
               planting_management_plan => planting_management_plan.planting_task_type === 'TRANSPLANT_TASK',
             );
@@ -73,7 +72,7 @@ const managementPlanController = {
               'farm_id': null,
               'task_translation_key': 'TRANSPLANT_TASK',
             }).first();
-            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, transplantTaskType.task_type_id, {
+            const transplantTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(due_date, transplantTaskType.task_type_id, {
               transplant_task: {
                 planting_management_plan_id,
                 prev_planting_management_plan_id,
@@ -93,22 +92,22 @@ const managementPlanController = {
             managementPlans: [{ planting_management_plan_id }],
           };
           if (!req.body.crop_management_plan.for_cover) {
-            const planned_time = req.body.crop_management_plan.harvest_date;
+            const due_date = req.body.crop_management_plan.harvest_date;
             const harvestTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'HARVEST_TASK',
             }).first();
-            const harvestTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, harvestTaskType.task_type_id, { harvest_task: { harvest_everything: true }, ...taskManagementPlansAndLocations }), {
+            const harvestTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(due_date, harvestTaskType.task_type_id, { harvest_task: { harvest_everything: true }, ...taskManagementPlansAndLocations }), {
               relate: ['locations', 'managementPlans'],
             });
             tasks.push(harvestTask);
           } else {
-            const planned_time = req.body.crop_management_plan.termination_date;
+            const due_date = req.body.crop_management_plan.termination_date;
             const fieldWorkTaskType = await taskTypeModel.query(trx).where({
               'farm_id': null,
               'task_translation_key': 'FIELD_WORK_TASK',
             }).first();
-            const fieldWorkTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(planned_time, fieldWorkTaskType.task_type_id, { field_work_task: { type: 'TERMINATION' }, ...taskManagementPlansAndLocations }), {
+            const fieldWorkTask = await taskModel.query(trx).context(req.user).upsertGraph(getTask(due_date, fieldWorkTaskType.task_type_id, { field_work_task: { type: 'TERMINATION' }, ...taskManagementPlansAndLocations }), {
               relate: ['locations', 'managementPlans'],
             });
             tasks.push(fieldWorkTask);

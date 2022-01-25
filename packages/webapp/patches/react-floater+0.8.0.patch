@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-floater/esm/modules/helpers.js b/node_modules/react-floater/esm/modules/helpers.js
+index 0aa134d..57527c0 100644
+--- a/node_modules/react-floater/esm/modules/helpers.js
++++ b/node_modules/react-floater/esm/modules/helpers.js
+@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || function () {
+     };
+     return __assign.apply(this, arguments);
+ };
+-import * as deepmerge from 'deepmerge';
++import deepmerge from 'deepmerge';
+ import * as ExecutionEnvironment from 'exenv';
+ import is from 'is-lite';
+ export var canUseDOM = ExecutionEnvironment.canUseDOM;
+diff --git a/node_modules/react-floater/esm/modules/styles.js b/node_modules/react-floater/esm/modules/styles.js
+index f27feef..6226a81 100644
+--- a/node_modules/react-floater/esm/modules/styles.js
++++ b/node_modules/react-floater/esm/modules/styles.js
+@@ -9,7 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
+         }
+     return t;
+ };
+-import * as deepmerge from 'deepmerge';
++import deepmerge from 'deepmerge';
+ var defaultOptions = {
+     zIndex: 100,
+ };

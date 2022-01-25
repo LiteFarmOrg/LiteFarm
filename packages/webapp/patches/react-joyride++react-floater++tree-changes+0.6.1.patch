@@ -1,0 +1,62 @@
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/helpers.js b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/helpers.js
+index 81237c4..a166111 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/helpers.js
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/helpers.js
+@@ -1,4 +1,4 @@
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import is from 'is-lite';
+ export function canHaveLength() {
+     var args = [];
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/hook.js b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/hook.js
+index 23a7a8d..a11bfd9 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/hook.js
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/hook.js
+@@ -1,5 +1,5 @@
+ import { useEffect, useRef } from 'react';
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import treeChanges from './index';
+ export default function useTreeChanges(value) {
+     var previousValue = useRef(value);
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/index.js b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/index.js
+index 6712fc9..2bae68a 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/index.js
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/esm/index.js
+@@ -1,4 +1,4 @@
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import is from 'is-lite';
+ import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';
+ export default function treeChanges(previousData, data) {
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/helpers.ts b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/helpers.ts
+index 7949222..a24aebf 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/helpers.ts
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/helpers.ts
+@@ -1,4 +1,4 @@
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import is from 'is-lite';
+ import { CompareValuesOptions, Data, Key, Options, ValidTypes, Value } from './types';
+ 
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/hook.ts b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/hook.ts
+index 751ea21..f7e2e63 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/hook.ts
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/hook.ts
+@@ -1,5 +1,5 @@
+ import { useEffect, useRef } from 'react';
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ 
+ import treeChanges from './index';
+ import { Data, KeyType, TreeChanges } from './types';
+diff --git a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/index.ts b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/index.ts
+index 1772b2d..13357f8 100644
+--- a/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/index.ts
++++ b/node_modules/react-joyride/node_modules/react-floater/node_modules/tree-changes/src/index.ts
+@@ -1,4 +1,4 @@
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import is from 'is-lite';
+ import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';
+ 

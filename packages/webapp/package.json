@@ -13,7 +13,9 @@
     "format": "npx prettier --write ./src",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "postinstall": "patch-package",
+    "preinstall": "npx npm-force-resolutions"
   },
   "lint-staged": {
     "*.{js, jsx}": [
@@ -87,9 +89,13 @@
     "eslint-plugin-react": "^7.22.0",
     "i18next-parser": "^3.6.0",
     "lint-staged": "^10.5.4",
+    "patch-package": "^6.4.7",
     "sass": "^1.49.0",
     "typescript": "^4.4.4",
     "vite": "^2.7.2",
     "vite-plugin-svgr": "^1.0.1"
+  },
+  "resolutions": {
+    "tree-changes": "^0.6.1"
   }
 }

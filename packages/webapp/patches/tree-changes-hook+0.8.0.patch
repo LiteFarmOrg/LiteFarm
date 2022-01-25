@@ -1,0 +1,22 @@
+diff --git a/node_modules/tree-changes-hook/esm/index.js b/node_modules/tree-changes-hook/esm/index.js
+index 40d41c2..38c5ab9 100644
+--- a/node_modules/tree-changes-hook/esm/index.js
++++ b/node_modules/tree-changes-hook/esm/index.js
+@@ -1,5 +1,5 @@
+ import { useEffect, useRef } from 'react';
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import treeChanges from 'tree-changes';
+ export default function useTreeChanges(value) {
+     var previousValue = useRef(value);
+diff --git a/node_modules/tree-changes-hook/src/index.ts b/node_modules/tree-changes-hook/src/index.ts
+index 788a0e3..1379bec 100644
+--- a/node_modules/tree-changes-hook/src/index.ts
++++ b/node_modules/tree-changes-hook/src/index.ts
+@@ -1,5 +1,5 @@
+ import { useEffect, useRef } from 'react';
+-import * as equal from 'fast-deep-equal';
++import equal from 'fast-deep-equal';
+ import treeChanges, { Data, KeyType, TreeChanges } from 'tree-changes';
+ 
+ export default function useTreeChanges<T extends Data>(value: T) {

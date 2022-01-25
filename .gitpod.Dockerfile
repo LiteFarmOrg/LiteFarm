@@ -11,6 +11,3 @@ RUN service postgresql start && \
     psql -c 'CREATE DATABASE "pg-litefarm";' && \
     psql -c "CREATE DATABASE test_farm;" && \
     psql -c "ALTER ROLE postgres WITH PASSWORD 'postgres';"
-
-USER gitpod
-RUN npx lerna bootstrap 

@@ -1,5 +1,5 @@
 import React from 'react';
-import PureCropDetail from '../../../components/Crop/detail';
+import PureCropDetail from '../../../components/Crop/Detail';
 import decorator from '../config/decorators';
 
 export default {

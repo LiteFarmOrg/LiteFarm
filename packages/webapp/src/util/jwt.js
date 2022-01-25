@@ -1,4 +1,4 @@
-import { purgeState } from '../index';
+import { purgeState } from '../main';
 import history from '../history';
 
 export const getAccessToken = () => {

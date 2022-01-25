@@ -7,12 +7,14 @@ tasks:
       cd packages/api
       cp .env.default .env
       npm install
+      cd ../..
     command: cd packages/api && npm start
   - name: Web app server
     init: |
       cd packages/webapp
       cp .env.default .env
       npm install
+      cd ../..
     command: cd packages/webapp && npm start
     
 vscode:

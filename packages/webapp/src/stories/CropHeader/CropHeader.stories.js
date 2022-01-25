@@ -1,6 +1,6 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import CropHeader from '../../components/Crop/cropHeader';
+import CropHeader from '../../components/Crop/CropHeader';
 
 export default {
   title: 'Components/CropHeader',

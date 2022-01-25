@@ -1,5 +1,5 @@
 import React from 'react';
-import PureCropManagement from '../../../components/Crop/management';
+import PureCropManagement from '../../../components/Crop/Management';
 import decorator from '../config/decorators';
 import { Abandoned, Active, Completed, Planned } from '../../Card/ManagementPlanCard.stories';
 import { chromaticSmallScreen } from '../config/chromatic';

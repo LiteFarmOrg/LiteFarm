@@ -8,7 +8,7 @@ import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
 import Input from '../../Form/Input';
-import { seedYield } from '../../../util/unit';
+import { seedYield } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
 import styles from './styles.module.scss';
 import { getNextHarvestPaths } from '../getAddManagementPlanPath';

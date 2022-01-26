@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
 import { watercourseEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
-import { line_width } from '../../../util/unit';
+import { line_width } from '../../../util/convert-units/unit';
 import { cloneObject } from '../../../util';
 
 export default function PureLineBox({

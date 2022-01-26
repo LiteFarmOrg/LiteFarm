@@ -9,11 +9,11 @@ import i18n from '../../../locales/i18n';
 import { integerOnKeyDown, numberOnKeyDown, preventNumberScrolling } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
-import convert from 'convert-units';
-import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
+import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/convert-units/unit';
 import Infoi from '../../Tooltip/Infoi';
 import { Controller, get, useFormState } from 'react-hook-form';
 import { ReactComponent as Leaf } from '../../../assets/images/signUp/leaf.svg';
+import { convert } from '../../../util/convert-units/convert';
 
 export const getUnitOptionMap = () => ({
   m2: { label: 'm²', value: 'm2' },

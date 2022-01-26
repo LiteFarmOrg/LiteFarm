@@ -9,7 +9,7 @@ import MultiStepPageTitle from '../../PageTitle/MultiStepPageTitle';
 import RadioGroup from '../../Form/RadioGroup';
 import { cloneObject } from '../../../util';
 import Unit from '../../Form/Unit';
-import { seedYield } from '../../../util/unit';
+import { seedYield } from '../../../util/convert-units/unit';
 import { getPlantingMethodPaths } from '../getAddManagementPlanPath';
 import { PurePlantingMethod } from './PurePlantingMethod';
 

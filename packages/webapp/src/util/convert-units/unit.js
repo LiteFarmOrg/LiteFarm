@@ -1,5 +1,5 @@
-import convert from 'convert-units';
-import { getUnitOptionMap } from '../components/Form/Unit';
+import { getUnitOptionMap } from '../../components/Form/Unit';
+import { convert } from './convert';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';

@@ -6,7 +6,6 @@ import { ReactComponent as VideoIcon } from '../../assets/images/video_icon.svg'
 import { ReactComponent as SwitchFarmIcon } from '../../assets/images/navbar/switch-farm.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
-import Floater from 'react-floater';
 import PropTypes from 'prop-types';
 
 export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
@@ -67,7 +66,7 @@ export default function PureProfileFloater({
   tutorialsClick,
 }) {
   return (
-    <Floater
+    <div
       component={
         <PureProfileFloaterComponent
           onHelp={helpClick}
@@ -84,7 +83,7 @@ export default function PureProfileFloater({
       }}
     >
       {children}
-    </Floater>
+    </div>
   );
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import { container_planting_depth, length_of_bed_or_row, seedYield } from '../../../util/unit';
+import { container_planting_depth, length_of_bed_or_row, seedYield } from '../../../util/convert-units/unit';
 import clsx from 'clsx';
 import Unit from '../../Form/Unit';
 import { isNonNegativeNumber } from '../../Form/validations';

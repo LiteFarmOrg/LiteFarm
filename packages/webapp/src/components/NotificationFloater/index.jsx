@@ -3,8 +3,6 @@ import { ReactComponent as NotificationTeaserIcon } from '../../assets/images/no
 import { useTranslation } from 'react-i18next';
 import ListOption from '../Navigation/NavBar/ListOption';
 
-import Floater from 'react-floater';
-
 export function PureNotificationFloaterComponent({ notificationTeaser }) {
   const { t } = useTranslation();
   return (
@@ -32,7 +30,7 @@ export default function PureNotificationFloater({
   notificationTeaserClick,
 }) {
   return (
-    <Floater
+    <div
       component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
       placement={'bottom-end'}
       open={openProfile}
@@ -41,6 +39,6 @@ export default function PureNotificationFloater({
       }}
     >
       {children}
-    </Floater>
+    </div>
   );
 }

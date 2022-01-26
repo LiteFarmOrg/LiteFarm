@@ -5,8 +5,6 @@ import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/p
 import { ReactComponent as CertificationsIcon } from '../../assets/images/farm-profile/certificate.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
-
-import Floater from 'react-floater';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 
@@ -87,7 +85,7 @@ export default function PureMyFarmFloater({
     />
   );
   return (
-    <Floater
+    <div
       component={Wrapper}
       placement={'bottom-end'}
       open={openProfile || isIntroductionActive}
@@ -99,6 +97,6 @@ export default function PureMyFarmFloater({
       }}
     >
       {children}
-    </Floater>
+    </div>
   );
 }

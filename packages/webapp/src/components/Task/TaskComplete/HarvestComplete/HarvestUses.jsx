@@ -6,7 +6,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
 import { AddLink, Error, Label, Main, SubtractLink } from '../../../Typography';
 import Unit from '../../../Form/Unit';
-import { harvestAmounts, roundToTwoDecimal } from '../../../../util/unit';
+import { harvestAmounts, roundToTwoDecimal } from '../../../../util/convert-units/unit';
 import ReactSelect from '../../../Form/ReactSelect';
 import UnitLabel from './UnitLabel';
 import { cloneObject } from '../../../../util';

@@ -6,7 +6,7 @@ import { Info } from '../../Typography';
 import PureManagementPlanTile from '../../CropTile/ManagementPlanTile';
 import PageBreak from '../../PageBreak';
 import Unit from '../../Form/Unit';
-import { harvestAmounts } from '../../../util/unit';
+import { harvestAmounts } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import Checkbox from '../../Form/Checkbox';
 

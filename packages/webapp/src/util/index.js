@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import convert from 'convert-units';
+import { convert } from './convert-units/convert';
 import { getMeasurementFromStore } from './getFromReduxStore';
 
 const METRIC = 'metric';

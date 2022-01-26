@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
-import { container_plant_spacing, length_of_bed_or_row, seedYield } from '../../../util/unit';
+import { container_plant_spacing, length_of_bed_or_row, seedYield } from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
 import RadioGroup from '../../Form/RadioGroup';
 import PropTypes from 'prop-types';

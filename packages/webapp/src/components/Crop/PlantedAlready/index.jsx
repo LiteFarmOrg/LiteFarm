@@ -8,7 +8,7 @@ import RadioGroup from '../../Form/RadioGroup';
 import Button from '../../Form/Button';
 import Unit from '../../Form/Unit';
 import { Label } from '../../Typography';
-import { crop_age, getDurationInDaysDefaultUnit } from '../../../util/unit';
+import { crop_age, getDurationInDaysDefaultUnit } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import { cloneObject } from '../../../util';
 import { getDateDifference, getDateInputFormat } from '../../../util/moment';

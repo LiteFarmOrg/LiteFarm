@@ -10,7 +10,7 @@ export default defineConfig({
     mdPlugin({ mode: [Mode.HTML, Mode.TOC, Mode.REACT] }),
     svgrPlugin({
       svgrOptions: {
-        icon: true,
+        icon: false,
       },
     }),
   ],

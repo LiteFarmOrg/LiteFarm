@@ -6,11 +6,12 @@ tasks:
     init: |
       cd packages/api
       cp .env.default .env
+      npm run migrate:dev:db
       npm install
       cd ../..
       psql -c 'CREATE DATABASE "pg-litefarm";'
       psql -c "CREATE DATABASE test_farm;"
-      psql -c "ALTER ROLE postgres WITH PASSWORD 'postgres';"
+      psql -c "ALTER ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'postgres';"
     command: cd packages/api && npm start
   - name: Web app server
     init: |

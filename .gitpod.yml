@@ -8,6 +8,9 @@ tasks:
       cp .env.default .env
       npm install
       cd ../..
+      psql -c 'CREATE DATABASE "pg-litefarm";'
+      psql -c "CREATE DATABASE test_farm;"
+      psql -c "ALTER ROLE postgres WITH PASSWORD 'postgres';"
     command: cd packages/api && npm start
   - name: Web app server
     init: |
@@ -23,6 +26,8 @@ vscode:
 
 ports:
   - port: 3000
-    onOpen: open-preview
+    visibility: public
+    onOpen: open-browser
   - port: 5000
     visibility: public
+    onOpen: ignore

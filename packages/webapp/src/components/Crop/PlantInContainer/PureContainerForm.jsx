@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors, integerOnKeyDown } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
 import Unit from '../../Form/Unit';
-import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/unit';
+import { container_plant_spacing, container_planting_depth, seedYield } from '../../../util/convert-units/unit';
 import styles from './styles.module.scss';
 import { isNonNegativeNumber } from '../../Form/validations';
 import { hookFormMaxLengthValidation, hookFormMaxValidation } from '../../Form/hookformValidationUtils';

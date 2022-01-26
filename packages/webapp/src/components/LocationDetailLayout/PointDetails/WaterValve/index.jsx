@@ -4,7 +4,7 @@ import PointDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Unit from '../../../Form/Unit';
 import { waterValveEnum } from '../../../../containers/constants';
-import { water_valve_flow_rate } from '../../../../util/unit';
+import { water_valve_flow_rate } from '../../../../util/convert-units/unit';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../../../assets/theme';
 import clsx from 'clsx';
-import convert from 'convert-units';
-import { roundToTwoDecimal } from '../../../../util/unit';
+import { convert } from '../../../../util/convert-units/convert';
+import { roundToTwoDecimal } from '../../../../util/convert-units/unit';
 
 const useStyles = makeStyles({
   container: {

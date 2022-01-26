@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import { Label } from '../../../Typography';
-import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/unit';
+import { area_total_area, line_length, line_width, watercourse_width } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import { watercourseEnum } from '../../../../containers/constants';
 import LocationButtons from '../../LocationButtons';

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import { line_length } from '../../../../util/unit';
+import { line_length } from '../../../../util/convert-units/unit';
 import Unit from '../../../Form/Unit';
 import LocationButtons from '../../LocationButtons';
 

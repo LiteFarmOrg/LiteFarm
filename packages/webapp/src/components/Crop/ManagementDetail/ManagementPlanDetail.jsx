@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import RouterTab from '../../RouterTab';
 import { useForm } from 'react-hook-form';
-import { seedYield } from '../../../util/unit';
+import { seedYield } from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
 import InputAutoSize from '../../Form/InputAutoSize';
 

@@ -4,7 +4,7 @@ import { ReactComponent as Leaf } from '../../../assets/images/farmMapFilter/Lea
 import { useTranslation } from 'react-i18next';
 import Input, { getInputErrors } from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { pest, soilAmounts, waterUsage } from '../../../util/unit';
+import { pest, soilAmounts, waterUsage } from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
 import { Main } from '../../Typography';
 import { CANADA } from './constants';

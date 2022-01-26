@@ -4,7 +4,7 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
-import { area_total_area, line_width } from '../../../../util/unit';
+import { area_total_area, line_width } from '../../../../util/convert-units/unit';
 import LocationButtons from '../../LocationButtons';
 
 import Form from '../../../Form';

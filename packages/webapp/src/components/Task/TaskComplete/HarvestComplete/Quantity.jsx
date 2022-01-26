@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../../../Form/Button';
 import { Main } from '../../../Typography';
 import Unit from '../../../Form/Unit';
-import { harvestAmounts } from '../../../../util/unit';
+import { harvestAmounts } from '../../../../util/convert-units/unit';
 
 export default function PureHarvestCompleteQuantity({
   onContinue,

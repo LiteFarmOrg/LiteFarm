@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { harvestAmounts } from '../../../util/unit';
+import { harvestAmounts } from '../../../util/convert-units/unit';
 import Checkbox from '../../Form/Checkbox';
 import Unit from '../../Form/Unit';
 import ReactSelect from '../../Form/ReactSelect';

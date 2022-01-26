@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Main } from '../../Typography';
 import Input from '../../Form/Input';
 import RadioGroup from '../../Form/RadioGroup';
-import { waterUsage } from '../../../util/unit';
+import { waterUsage } from '../../../util/convert-units/unit';
 import Unit from '../../Form/Unit';
 import AddProduct from '../AddProduct';
 

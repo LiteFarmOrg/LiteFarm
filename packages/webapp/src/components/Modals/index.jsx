@@ -1,11 +1,10 @@
-import Floater from 'react-floater';
 import React from 'react';
 import ModalComponent from './ModalComponent/v1';
 
 function Modal({ children, dismissModal }) {
   return (
     <>
-      <Floater
+      <div
         autoOpen
         placement={'center'}
         styles={{ floaterCentered: { transform: 'translate(-50%, -70%)', zIndex: 1300 } }}

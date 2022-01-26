@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 import { Semibold, Text } from '../../Typography';
 import Input, { getInputErrors } from '../../Form/Input';
 import Unit from '../../Form/Unit';
-import { seedYield } from '../../../util/unit';
-import convert from 'convert-units';
+import { seedYield } from '../../../util/convert-units/unit';
+import { convert } from '../../../util/convert-units/convert';
 import { roundToTwoDecimal } from '../../../util';
 
 function PureUpdateEstimatedCropRevenue({ system, managementPlan, onGoBack, onSubmit }) {

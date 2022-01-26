@@ -1,29 +1,21 @@
 import React from 'react';
 import ModalComponent from './ModalComponent/v1';
+import Floater from 'react-floater';
+import { Dialog } from '@material-ui/core';
 
 function Modal({ children, dismissModal }) {
   return (
-    <>
-      <div
-        autoOpen
-        placement={'center'}
-        styles={{ floaterCentered: { transform: 'translate(-50%, -70%)', zIndex: 1300 } }}
-        component={children}
-      />
-
-      <div
-        onClick={dismissModal}
-        style={{
-          position: 'fixed',
-          zIndex: 1300,
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(25, 25, 40, 0.8)',
-        }}
-      />
-    </>
+    <Dialog
+      component={children}
+      // PaperProps={{ className: classes.paper }}
+      // fullWidth={true}
+      open={true}
+      onClose={dismissModal}
+      // scroll={'body'}
+      // classes={{ root: classes.root }}
+    >
+      {children}
+    </Dialog>
   );
 }
 

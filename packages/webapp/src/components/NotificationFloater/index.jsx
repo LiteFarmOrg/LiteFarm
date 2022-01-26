@@ -3,6 +3,9 @@ import { ReactComponent as NotificationTeaserIcon } from '../../assets/images/no
 import { useTranslation } from 'react-i18next';
 import ListOption from '../Navigation/NavBar/ListOption';
 
+import Floater from 'react-floater';
+import { Tooltip } from '@material-ui/core';
+
 export function PureNotificationFloaterComponent({ notificationTeaser }) {
   const { t } = useTranslation();
   return (
@@ -30,15 +33,15 @@ export default function PureNotificationFloater({
   notificationTeaserClick,
 }) {
   return (
-    <div
-      component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
+    <Tooltip
+      title={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
       placement={'bottom-end'}
-      open={openProfile}
-      styles={{
-        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
-      }}
+      // open={openProfile}
+      // styles={{
+      //   floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
+      // }}
     >
       {children}
-    </div>
+    </Tooltip>
   );
 }

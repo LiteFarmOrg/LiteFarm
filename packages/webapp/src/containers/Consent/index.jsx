@@ -6,18 +6,18 @@ import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import englishOwnerConsent from './locales/en/Owner.Consent.md';
-import englishWorkerConsent from './locales/en/Worker.Consent.md';
-import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
-import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
-import spanishOwnerConsent from './locales/es/Owner.Consent.md';
-import spanishWorkerConsent from './locales/es/Worker.Consent.md';
+import { ReactComponent as EnglishOwnerConsent } from './locales/en/Owner.Consent.md';
+import { ReactComponent as EnglishWorkerConsent } from './locales/en/Worker.Consent.md';
+import { ReactComponent as PortugueseOwnerConsent } from './locales/pt/Owner.Consent.md';
+import { ReactComponent as PortugueseWorkerConsent } from './locales/pt/Worker.Consent.md';
+import { ReactComponent as SpanishOwnerConsent } from './locales/es/Owner.Consent.md';
+import { ReactComponent as SpanishWorkerConsent } from './locales/es/Worker.Consent.md';
 import { getLanguageFromLocalStorage } from '../../util/getLanguageFromLocalStorage';
 
 const languageConsent = {
-  en: { worker: englishWorkerConsent, owner: englishOwnerConsent },
-  es: { worker: spanishWorkerConsent, owner: spanishOwnerConsent },
-  pt: { worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
+  en: { worker: <EnglishWorkerConsent />, owner: <EnglishOwnerConsent /> },
+  es: { worker: <SpanishWorkerConsent />, owner: <SpanishOwnerConsent /> },
+  pt: { worker: <PortugueseWorkerConsent />, owner: <PortugueseOwnerConsent /> },
 };
 
 const getLanguageConsent = (language) => languageConsent[language] || languageConsent.en;
@@ -40,7 +40,7 @@ function ConsentForm({
     formState: { errors },
   } = useForm();
   const [consentVersion] = useState('3.0');
-  const [consent, setConsentText] = useState('');
+  const consent = role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
   const checkboxName = 'consentCheckbox';
   const hasConsent = watch(checkboxName, false);
   const checkBoxRegister = register(checkboxName, {
@@ -57,17 +57,6 @@ function ConsentForm({
     dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
   };
 
-  useEffect(() => {
-    setValue(checkboxName, role.has_consent ?? false);
-    const consent =
-      role.role_id === 3 ? getLanguageConsent(language).worker : getLanguageConsent(language).owner;
-    fetch(consent)
-      .then((r) => r.text())
-      .then((text) => {
-        setConsentText(text);
-      });
-  }, []);
-
   return (
     <PureConsent
       checkboxArgs={{
@@ -77,7 +66,7 @@ function ConsentForm({
       }}
       onSubmit={handleSubmit(updateConsent)}
       onGoBack={goBackTo ? goBack : null}
-      text={consent}
+      consent={consent}
       disabled={!hasConsent}
     />
   );

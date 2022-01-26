@@ -6,7 +6,9 @@ import { ReactComponent as VideoIcon } from '../../assets/images/video_icon.svg'
 import { ReactComponent as SwitchFarmIcon } from '../../assets/images/navbar/switch-farm.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
+import Floater from 'react-floater';
 import PropTypes from 'prop-types';
+import { Tooltip } from '@material-ui/core';
 
 export function PureProfileFloaterComponent({ onInfo, onSwitchFarm, onHelp,
   onTutorials, onLogout }) {
@@ -66,8 +68,8 @@ export default function PureProfileFloater({
   tutorialsClick,
 }) {
   return (
-    <div
-      component={
+    <Tooltip
+      title={
         <PureProfileFloaterComponent
           onHelp={helpClick}
           onInfo={myInfoClick}
@@ -77,13 +79,13 @@ export default function PureProfileFloater({
         />
       }
       placement={'bottom-end'}
-      open={openProfile}
-      styles={{
-        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
-      }}
+      // open={openProfile}
+      // styles={{
+      //   floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
+      // }}
     >
       {children}
-    </div>
+    </Tooltip>
   );
 }
 

@@ -5,8 +5,11 @@ import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/p
 import { ReactComponent as CertificationsIcon } from '../../assets/images/farm-profile/certificate.svg';
 import ListOption from '../Navigation/NavBar/ListOption';
 import { useTranslation } from 'react-i18next';
+
+import Floater from 'react-floater';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
+import { Tooltip } from '@material-ui/core';
 
 export function PureMyFarmFloaterComponent({
   farmInfo,
@@ -85,18 +88,18 @@ export default function PureMyFarmFloater({
     />
   );
   return (
-    <div
-      component={Wrapper}
+    <Tooltip
+      title={Wrapper}
       placement={'bottom-end'}
-      open={openProfile || isIntroductionActive}
-      styles={{
-        floater: {
-          zIndex: 1500,
-          display: openProfile || isIntroductionActive ? 'initial' : 'none',
-        },
-      }}
+      // open={openProfile || isIntroductionActive}
+      // styles={{
+      //   floater: {
+      //     zIndex: 1500,
+      //     display: openProfile || isIntroductionActive ? 'initial' : 'none',
+      //   },
+      // }}
     >
       {children}
-    </div>
+    </Tooltip>
   );
 }

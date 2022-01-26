@@ -2,13 +2,12 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import clsx from 'clsx';
 import styles from './consent.module.scss';
-import ReactMarkdown from 'react-markdown';
 import Checkbox from '../Form/Checkbox';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTitle from '../PageTitle/v2';
 
-export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
+export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, consent, disabled }) {
   const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
@@ -29,7 +28,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
         style={{ marginBottom: '16px' }}
       />
       <div className={clsx(styles.consentTextContainer)}>
-        <ReactMarkdown children={text} />
+        {consent}
       </div>
       <div
         style={{

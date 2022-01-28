@@ -8,6 +8,7 @@ tasks:
       cd packages/api
       cp .env.default .env
       npm install
+      pg_start
       psql -c 'CREATE DATABASE "pg-litefarm";'
       psql -c "CREATE DATABASE test_farm;"
       psql -tc "SELECT 1 FROM pg_user WHERE usename = 'postgres'" | grep -q 1 || psql -c "CREATE ROLE postgres"

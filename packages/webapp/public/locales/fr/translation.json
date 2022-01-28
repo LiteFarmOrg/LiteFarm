@@ -197,6 +197,8 @@
     "COULD_NOT_CONTACT_CERTIFIER": "Il semble que LiteFarm n'exporte pas actuellement au format de votre certificateur. Vous pouvez toujours exporter vos documents mais votre certificateur peut avoir besoin d'informations supplémentaires. Nous vous les enverrons à :",
     "EXPORT": "MISSING",
     "EXPORT_DOCS": "Exporter les documents de certification",
+    "EXPORT_DOWNLOADING_MESSAGE": "MISSING",
+    "EXPORT_FILE_TITLE": "MISSING",
     "FILES_ARE_READY": "Vos fichiers de certification sont maintenant prêts à être exportés. Nous vous les enverrons à :",
     "FLOW_TITLE": "export des documents de certification",
     "GOOD_NEWS": "Bonne nouvelle !",
@@ -373,7 +375,8 @@
       "OTHER": "MISSING",
       "PEST_CONTROL_PRODUCT": "Produit antiparasitaire",
       "SOIL_AMENDMENT": "Amendement du sol",
-      "SOIL_SAMPLE_RESULTS": "MISSING"
+      "SOIL_SAMPLE_RESULTS": "MISSING",
+      "WATER_SAMPLE_RESULTS": "MISSING"
     },
     "VALID": "MISSING"
   },

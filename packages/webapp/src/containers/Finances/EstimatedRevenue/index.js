@@ -12,6 +12,7 @@ import EstimatedCropRevenue from '../EstimatedCropRevenue';
 import FinanceListHeader from '../../../components/Finances/FinanceListHeader';
 import { managementPlansSelector } from '../../managementPlanSlice';
 import { taskEntitiesByManagementPlanIdSelector } from '../../taskSlice';
+import { isTaskType } from '../../Task/useIsTaskType';
 
 export default function EstimatedRevenue({ history, match }) {
   const { t } = useTranslation();
@@ -44,9 +45,10 @@ export default function EstimatedRevenue({ history, match }) {
         const { crop_variety_id } = plan;
         if (!acc[crop_variety_id]) acc[crop_variety_id] = [];
 
-        const harvestTasks = tasksByManagementPlanId[plan.management_plan_id]?.filter(
-          (task) => task.task_type_id === 8,
-        );
+        const harvestTasks =
+          tasksByManagementPlanId[plan.management_plan_id]?.filter((task) =>
+            isTaskType(task.taskType, 'HARVEST_TASK'),
+          ) || [];
         const harvestDates = harvestTasks?.map((task) =>
           moment(task.due_date).utc().format('YYYY-MM-DD'),
         );

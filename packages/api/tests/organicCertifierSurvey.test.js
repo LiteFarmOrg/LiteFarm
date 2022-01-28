@@ -843,7 +843,6 @@ describe('organic certification Tests', () => {
         const fakeTask = mocks.fakeTask({
           owner_user_id: user_id,
           assignee_user_id: user_id,
-          planned_time: faker.date.future(),
           due_date: faker.date.future(),
           ...options,
         });
@@ -1472,6 +1471,11 @@ describe('organic certification Tests', () => {
             description: 'transitional-startDate-nonOrganic-endDate[organic]',
             organic_status: NON_ORGANIC,
           },
+          {
+            organicHistories: [{ effective_date: JULY01, organic_status: ORGANIC }],
+            description: 'startDate-endDate-organic',
+            organic_status: undefined,
+          },
         ];
 
         for (const { organicHistories, description, organic_status } of organicStatusScenarios) {
@@ -1491,7 +1495,7 @@ describe('organic certification Tests', () => {
         }
 
         for (const { organicHistories, description, organic_status } of organicStatusScenarios) {
-          test(`No management plan: ${description} => ${NON_PRODUCING}`, async (done) => {
+          test(`No management plan: ${description} => ${organic_status}`, async (done) => {
             await knex('planting_management_plan')
               .where({ planting_management_plan_id })
               .update({ location_id: null, pin_coordinate: { lat: 45, lng: 45 } });

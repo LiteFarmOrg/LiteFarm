@@ -58,13 +58,16 @@ const shiftController = {
         }
         const tasks = body.tasks;
         const shiftUsers = body.shift_users;
-        for(let sUser of shiftUsers){ // eslint-disable-line
+        for (let sUser of shiftUsers) {
+          // eslint-disable-line
           const temp = body;
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
           const user_id = req.user.user_id;
-          const shift_result = await baseController.postWithResponse(shiftModel, temp, req, { trx });
+          const shift_result = await baseController.postWithResponse(shiftModel, temp, req, {
+            trx,
+          });
           const shift_id = shift_result.shift_id;
           shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
         }
@@ -84,8 +87,12 @@ const shiftController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const sID = (req.params.shift_id).toString();
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).where('shift_id', sID).delete();
+        const sID = req.params.shift_id.toString();
+        const isShiftTaskDeleted = await shiftTaskModel
+          .query(trx)
+          .context({ user_id: req.user.user_id })
+          .where('shift_id', sID)
+          .delete();
         const isShiftDeleted = await baseController.delete(shiftModel, sID, req, { trx });
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
@@ -98,7 +105,7 @@ const shiftController = {
         await trx.rollback();
         res.status(400).send(error);
       }
-    }
+    };
   },
 
   getShiftByID() {
@@ -121,7 +128,7 @@ const shiftController = {
           error,
         });
       }
-    }
+    };
   },
 
   updateShift() {
@@ -133,16 +140,31 @@ const shiftController = {
           res.status(400).send('missing tasks');
         }
         const user_id = req.user.user_id;
-        const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, req, { trx });
+        const updatedShift = await baseController.put(
+          shiftModel,
+          req.params.shift_id,
+          req.body,
+          req,
+          { trx },
+        );
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
         }
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).delete().where('shift_id', req.params.shift_id);
+        const isShiftTaskDeleted = await shiftTaskModel
+          .query(trx)
+          .context({ user_id: req.user.user_id })
+          .delete()
+          .where('shift_id', req.params.shift_id);
         if (!isShiftTaskDeleted) {
           await trx.rollback();
           res.status(404).send('can not find shift tasks');
         }
-        const tasks_added = await shiftController.insertTasks(req.body.tasks, trx, req.params.shift_id, user_id );
+        const tasks_added = await shiftController.insertTasks(
+          req.body.tasks,
+          trx,
+          req.params.shift_id,
+          user_id,
+        );
         updatedShift[0].tasks = tasks_added;
         await trx.commit();
         res.status(200).send(updatedShift);
@@ -152,7 +174,7 @@ const shiftController = {
           error,
         });
       }
-    }
+    };
   },
 
   getShiftByUserID() {
@@ -168,7 +190,11 @@ const shiftController = {
             //res.status(404).send('Shift not found');
             continue;
           }
-          const taskRow = await baseController.getByForeignKey(shiftTaskModel, 'shift_id', shift_id);
+          const taskRow = await baseController.getByForeignKey(
+            shiftTaskModel,
+            'shift_id',
+            shift_id,
+          );
           if (!taskRow.length) {
             //res.status(404).send('Shift task not found');
             continue;
@@ -183,7 +209,7 @@ const shiftController = {
           error,
         });
       }
-    }
+    };
   },
 
   getShiftByFarmID() {
@@ -192,28 +218,55 @@ const shiftController = {
         const farm_id = req.params.farm_id;
         const { user_id } = req.headers;
         const role = req.role;
-        const data = await knex.select([
-          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
-          'shiftTask.location_id', 'shiftTask.management_plan_id', 'location.name', 'crop.crop_id', 'crop.crop_translation_key',
-          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'management_plan.area_used', 'management_plan.estimated_production', 'shift.shift_date',
-          'management_plan.estimated_revenue', 'management_plan.start_date', 'management_plan.end_date', 'shift.wage_at_moment', 'shift.mood',
-          'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
-        ]).from('shiftTask', 'taskType')
-          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
-          .leftJoin('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id')
+        const data = await knex
+          .select([
+            'task_type.task_name',
+            'task_type.task_translation_key',
+            'shiftTask.task_id',
+            'shiftTask.shift_id',
+            'shiftTask.is_location',
+            'shiftTask.location_id',
+            'shiftTask.management_plan_id',
+            'location.name',
+            'crop.crop_id',
+            'crop.crop_translation_key',
+            'crop.crop_common_name',
+            'crop_variety.crop_variety_name',
+            'shift.shift_date',
+            'management_plan.start_date',
+            'shift.wage_at_moment',
+            'shift.mood',
+            'userFarm.user_id',
+            'userFarm.farm_id',
+            'userFarm.wage',
+            'users.first_name',
+            'users.last_name',
+            'shiftTask.duration',
+          ])
+          .from('shiftTask')
+          .leftJoin('task', 'task.task_id', 'shiftTask.task_id')
+          .leftJoin('task_type', 'task_type.task_type_id', 'task.task_type_id')
+          .leftJoin(
+            'management_plan',
+            'management_plan.management_plan_id',
+            'shiftTask.management_plan_id',
+          )
           .leftJoin('location', 'shiftTask.location_id', 'location.location_id')
-          .leftJoin('crop_variety', 'management_plan.crop_variety_id', 'crop_variety.crop_variety_id')
+          .leftJoin(
+            'crop_variety',
+            'management_plan.crop_variety_id',
+            'crop_variety.crop_variety_id',
+          )
           .leftJoin('crop', 'crop_variety.crop_id', 'crop.crop_id')
           .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
-          .join('userFarm', function() {
-            this
-              .on('shift.farm_id', 'userFarm.farm_id')
-              .on('shift.user_id', 'userFarm.user_id');
+          .join('userFarm', function () {
+            this.on('shift.farm_id', 'userFarm.farm_id').on('shift.user_id', 'userFarm.user_id');
           })
           .join('users', 'userFarm.user_id', 'users.user_id')
           .where('shift.farm_id', farm_id)
           .andWhere('shift.deleted', false)
           .andWhere('shiftTask.deleted', false);
+
         if (data) {
           res.status(200).send(data);
         } else {
@@ -226,7 +279,7 @@ const shiftController = {
           error,
         });
       }
-    }
+    };
   },
 
   getShiftByUserFarm() {
@@ -234,24 +287,53 @@ const shiftController = {
       try {
         const farm_id = req.params.farm_id;
         const { user_id } = req.headers;
-        const data = await knex.select([
-          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_location',
-          'shiftTask.location_id', 'shiftTask.management_plan_id', 'location.name', 'crop.crop_id', 'crop.crop_translation_key',
-          'crop.crop_common_name', 'crop_variety.crop_variety_name', 'management_plan.area_used', 'management_plan.estimated_production', 'shift.shift_date',
-          'management_plan.estimated_revenue', 'management_plan.start_date', 'management_plan.end_date', 'shift.wage_at_moment', 'shift.mood',
-          'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
-          'shift.created_by_user_id as created_by',
-        ]).from('shiftTask', 'taskType')
-          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
-          .leftJoin('management_plan', 'management_plan.management_plan_id', 'shiftTask.management_plan_id')
+        const data = await knex
+          .select([
+            'task_type.task_name',
+            'task_type.task_translation_key',
+            'shiftTask.task_id',
+            'shiftTask.shift_id',
+            'shiftTask.is_location',
+            'shiftTask.location_id',
+            'shiftTask.management_plan_id',
+            'location.name',
+            'crop.crop_id',
+            'crop.crop_translation_key',
+            'crop.crop_common_name',
+            'crop_variety.crop_variety_name',
+            'management_plan.estimated_production',
+            'shift.shift_date',
+            'management_plan.estimated_revenue',
+            'management_plan.start_date',
+            'management_plan.end_date',
+            'shift.wage_at_moment',
+            'shift.mood',
+            'userFarm.user_id',
+            'userFarm.farm_id',
+            'userFarm.wage',
+            'users.first_name',
+            'users.last_name',
+            'shiftTask.duration',
+            'shift.created_by_user_id as created_by',
+          ])
+          .from('shiftTask')
+          .leftJoin('task', 'task.task_id', 'shiftTask.task_id')
+          .leftJoin('task_type', 'task_type.task_type_id', 'task.task_type_id')
+          .leftJoin(
+            'management_plan',
+            'management_plan.management_plan_id',
+            'shiftTask.management_plan_id',
+          )
           .leftJoin('location', 'shiftTask.location_id', 'location.location_id')
-          .leftJoin('crop_variety', 'management_plan.crop_variety_id', 'crop_variety.crop_variety_id')
+          .leftJoin(
+            'crop_variety',
+            'management_plan.crop_variety_id',
+            'crop_variety.crop_variety_id',
+          )
           .leftJoin('crop', 'crop_variety.crop_id', 'crop.crop_id')
           .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
-          .join('userFarm', function() {
-            this
-              .on('shift.farm_id', 'userFarm.farm_id')
-              .on('shift.user_id', 'userFarm.user_id');
+          .join('userFarm', function () {
+            this.on('shift.farm_id', 'userFarm.farm_id').on('shift.user_id', 'userFarm.user_id');
           })
           .join('users', 'userFarm.user_id', 'users.user_id')
           .where('shift.farm_id', farm_id)
@@ -270,7 +352,7 @@ const shiftController = {
           error,
         });
       }
-    }
+    };
   },
 
   async insertTasks(tasks, trx, shift_id, user_id) {
@@ -284,16 +366,19 @@ const shiftController = {
         }
         task.shift_id = shift_id;
         //eslint-disable-next-line
-        let inserted = await shiftTaskModel.query(trx).context({ user_id }).insert(task).returning('*');
+        let inserted = await shiftTaskModel
+          .query(trx)
+          .context({ user_id })
+          .insert(task)
+          .returning('*');
         result.push(inserted);
       }
       return result;
     } catch (error) {
       console.error(error);
-      throw new Error('Could not insert tasks')
+      throw new Error('Could not insert tasks');
     }
-
   },
-}
+};
 
 module.exports = shiftController;

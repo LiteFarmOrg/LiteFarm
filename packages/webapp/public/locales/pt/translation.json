@@ -64,8 +64,8 @@
     "HOW_MUCH_IS_HARVESTED": "Quanto está sendo colhido?",
     "HR": "/hr",
     "MANAGE_CUSTOM_TASKS": "Gerenciar tarefas personalizadas",
-    "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de manejo de cultura ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
-    "NO_MANAGEMENT_PLAN": "Não há plano de manejo de safra elegível",
+    "NEED_MANAGEMENT_PLAN": "Você precisará de um plano de cultivo de cultura ativo ou planejado antes de poder agendar uma tarefa de colheita ou tarefa de transplante. Vá para o catálogo de safras para criar um plano agora.",
+    "NO_MANAGEMENT_PLAN": "Não há plano de cultivo de safra elegível",
     "PEST_CONTROL_VIEW": {
       "BIOLOGICAL_CONTROL": "Controle biológico",
       "FLAME_WEEDING": "Capina com fogo",
@@ -84,7 +84,7 @@
     "PLANTING_METHOD": "Método de plantio",
     "PLANTING_STOCK": "Muda",
     "PLANTING_TASK": "Tarefa de plantio",
-    "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa, um novo plano de manejo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
+    "PLANTING_TASK_MODAL": "Quando se inicia uma nova tarefa de plantio, um novo plano de cultivo é criado. Vá ao catálogo de cultivos para selecionar o cultivo que você gostaria de plantar.",
     "QUANTITY": "Quantidade",
     "RETIRE_CUSTOM_TASK": "Retirar tarefa personalizada?",
     "RETIRE_CUSTOM_TASK_CONTENT": "Tem certeza que você quer deletar essa tarefa?",
@@ -197,6 +197,8 @@
     "COULD_NOT_CONTACT_CERTIFIER": "It looks like LiteFarm wasn’t able to contact your certifier. You can still export your documents but your certifier may require additional information.",
     "EXPORT": "Exportar",
     "EXPORT_DOCS": "Exportar documentos da certificação",
+    "EXPORT_DOWNLOADING_MESSAGE": "Baixando seus arquivos de certificação orgânica...",
+    "EXPORT_FILE_TITLE": "Certificação orgânica",
     "FILES_ARE_READY": "Os arquivos da sua certificação estão prontos para exportar. Nós os enviaremos para você no",
     "FLOW_TITLE": "exportação de documentos de certificação",
     "GOOD_NEWS": "Boas notícias!",
@@ -241,12 +243,12 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "CROP_CATALOGUE": {
-    "ADD_CROP": "Adicionar um novo corte cultivo",
+    "ADD_CROP": "Adicionar um novo cultivo",
     "ADD_CROPS_T0_YOUR_FARM": "Adicionar cultivos à sua fazenda",
     "ADD_TO_YOUR_FARM": "Adicionar à sua fazenda",
     "CAN_NOT_FIND": "Não consegue encontrar o que está procurando?",
     "COVER_CROP": "Isso pode ser cultivado como uma cultivo de cobertura?",
-    "CREATE_MANAGEMENT_PLANS": "Crie planos de manejo",
+    "CREATE_MANAGEMENT_PLANS": "Crie un plano de cultivo",
     "CROP_CATALOGUE": "Catálogo de cultivo",
     "CROP_GROUP": "Grupo de cultivo",
     "CROP_GROUP_TOOL_TIP": "A seleção de um grupo de cultivo permite que a LiteFarm preencha várias informações sobre este cultivo, como estação de crescimento, valores nutricionais e produtividade estimada. Não se preocupe, você pode alterar os valores abaixo depois de selecionar um grupo de cultivo.",
@@ -275,9 +277,9 @@
     "EDIT_CROP_DETAIL": "Editar detalhes de cultivo",
     "GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificado?",
     "HS_CODE": "Código HS",
-    "MANAGEMENT_PLANS": "Planos de Manejo",
+    "MANAGEMENT_PLANS": "Planos de cultivo",
     "MANAGEMENT_TAB": "Manejo",
-    "ORGANIC": "MISSING",
+    "ORGANIC": "A semente ou cultivo é orgânica certificada?",
     "PERENNIAL": "Perene",
     "TREATED": "As sementes desta cultura foram tratadas?"
   },
@@ -294,9 +296,9 @@
     "CROP_VARIETIES": "variedade",
     "NEEDS_PLAN": "Precisa de um plano",
     "RETIRE": {
-      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de manejo de seu catálogo de cultivos. Você quer prosseguir?",
+      "CONFIRMATION": "Retirar este cultivo irá removê-la e todos os seus planos de cultivo de seu catálogo de cultivos. Você quer prosseguir?",
       "RETIRE_CROP_TITLE": "Retirar colheita?",
-      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham planos de manejo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
+      "UNABLE_TO_RETIRE": "Você só pode retirar cultivos que não tenham um plano de cultivo ativos ou futuros. Você precisará concluir ou abandonar esses planos para retirar este cultivo",
       "UNABLE_TO_RETIRE_TITLE": "Incapaz de se retirar"
     },
     "SUPPLIER": "Fornecedor"
@@ -308,11 +310,11 @@
     "ANNUAL_OR_PERENNIAL": "O cultivo é anual ou perene?",
     "EDIT_CROP": "Editar cultivo",
     "EDIT_MODAL": {
-      "BODY": "A edição deste cultivo não modificará nenhum plano de manejo de cultivo existente. Apenas os planos de gerenciamento criados após suas edições serão afetados. Continuar com a edição?",
+      "BODY": "A edição deste cultivo não modificará nenhum plano de cultivo de cultivo existente. Apenas os planos de cultivo criados após suas edições serão afetados. Continuar com a edição?",
       "TITLE": "Editar cultivo?"
     },
     "IS_GENETICALLY_ENGINEERED": "Este cultivo é geneticamente modificada?",
-    "IS_ORGANIC": "MISSING",
+    "IS_ORGANIC": "A semente ou cultivo é orgânica certificada?",
     "NEED_DOCUMENT_GENETICALLY_ENGINEERED": "Seu certificador pode solicitar documentação que comprove sua afirmação de que este cultivo não foi geneticamente modificada.",
     "NEED_DOCUMENT_PERFORM_SEARCH": "Seu certificador pode solicitar documentação de suporte à sua busca.",
     "NEED_DOCUMENT_TREATED": "Seu certificador pode solicitar documentação descrevendo quaisquer tratamentos.",
@@ -372,7 +374,8 @@
       "OTHER": "Outro",
       "PEST_CONTROL_PRODUCT": "Produto de controle de pragas",
       "SOIL_AMENDMENT": "Adubação e correção do solo",
-      "SOIL_SAMPLE_RESULTS": "MISSING"
+      "SOIL_SAMPLE_RESULTS": "Resultados da amostra de solo",
+      "WATER_SAMPLE_RESULTS": "Resultados da amostra de água"
     },
     "VALID": "Válido"
   },
@@ -852,16 +855,16 @@
     "SUBSURFACE": "Subsuperfície"
   },
   "MANAGEMENT_DETAIL": {
-    "ABANDON_PLAN": "Abandonar este plano de manejo",
+    "ABANDON_PLAN": "Abandonar este plano de cultivo",
     "ADD_A_TASK": "Adicione uma tarefa",
     "DETAILS": "Detalhes",
     "FAILED_CROP": "Colheita falhou?",
     "TASKS": "Tarefas"
   },
   "MANAGEMENT_PLAN": {
-    "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plano de manejo ira abandonar todas as tarefas incompletas associadas a ele e removê-lo do mapa de sua propriedade",
-    "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonar plano de manejo?",
-    "ADD_MANAGEMENT_PLAN": "Adicionar um plano de manejo",
+    "ABANDON_MANAGEMENT_PLAN_CONTENT": "Abandonar este plano de cultivo ira abandonar todas as tarefas incompletas associadas a ele e removê-lo do mapa de sua propriedade",
+    "ABANDON_MANAGEMENT_PLAN_TITLE": "Abandonar plano de cultivo?",
+    "ADD_MANAGEMENT_PLAN": "Adicionar um plano de cultivo",
     "AGE": "Época",
     "AS_COVER_CROP": "Como cultivo de cobertura",
     "BEDS": "Canteiros",
@@ -872,7 +875,7 @@
       "COMPLETE_PLAN": "Plano completo",
       "DATE_OF_CHANGE": "Data de mudança do status",
       "NOTES_CHAR_LIMIT": "As observações não podem exceder 10.000 caractéres",
-      "RATING": "Avaliar este plano de manejo",
+      "RATING": "Avaliar este plano de cultivo",
       "REASON": {
         "CROP_FAILURE": "Quebra de safra",
         "LABOUR_ISSUE": "Problema de trabalho",
@@ -904,7 +907,7 @@
     "FIRST_MP_SPOTLIGHT": {
       "BODY_PART1": "LiteFarm gerou algumas tarefas com base em seu plano. Você pode adicionar mais tarefas ou atribuí-las nesta tela.",
       "BODY_PART2": "Seu plano será ativado assim que você concluir uma tarefa.",
-      "TITLE": "Parabéns! Você realizou o seu primeiro plano de manejo!"
+      "TITLE": "Parabéns! Você realizou o seu primeiro plano de cultivo!"
     },
     "FOR_HARVEST": "Para a colheita",
     "GERMINATION": "Germinação",
@@ -912,14 +915,14 @@
     "HARVEST_DATE": "Quando será a próxima colheita?",
     "HISTORICAL_CONTAINER_OR_IN_GROUND": "Foi plantado em um recipiente ou no solo?",
     "IN_GROUND": "No solo",
-    "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de manejo da cultura. ",
+    "INCOMPLETE_TASK_CONTENT": "Este plano têm tarefas que ainda não foram completadas. Você precisará marcar as tarefas como concluídas, a fim de concluir este plano de cultivo. ",
     "INCOMPLETE_TASK_TITLE": "Você tem tarefas incompletas",
     "INDIVIDUAL_CONTAINER": "Individual ou recipiente",
     "IS_TRANSPLANT": "Este cultivo será transplantado?",
     "KNOW_HOW_IS_CROP_PLANTED": "Você sabe como o cultivo foi plantado?",
     "LOCATION_SUBTEXT": "Apenas os locais que podem cultivar são mostrados.",
-    "MANAGEMENT_PLAN_FLOW": "criação do plano de manejo",
-    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para esta cultura",
+    "MANAGEMENT_PLAN_FLOW": "criação do plano de cultivo",
+    "MANAGEMENT_SPOTLIGHT_1": "Criar novos planos para esta cultivo",
     "MANAGEMENT_SPOTLIGHT_2": "Visualizar e modifique os planos para este cultivo",
     "MANAGEMENT_SPOTLIGHT_3": "Criar e atribuir tarefas",
     "MANAGEMENT_SPOTLIGHT_TITLE": "Manejo",
@@ -928,7 +931,7 @@
     "NUMBER_OF_CONTAINER": "Nº dos recipientes",
     "PENDING_TASK": "Tarefas pendentes",
     "PLAN_AND_ID": "Plan {{id}}",
-    "PLAN_NAME": "Nome do plano de manejo",
+    "PLAN_NAME": "Nome do plano de cultivo",
     "PLAN_NOTES": "Notas do plano",
     "PLANT_SPACING": "Espaçamento de plantas",
     "PLANTED_ALREADY": "Você vai plantar este cultivo ou ele já está plantado?",
@@ -1045,7 +1048,7 @@
     "SPACE_BETWEEN": "Espaço entre {{types}}",
     "SPECIFY": "Especificar {{types}}",
     "SPECIFY_PLACEHOLDER": "Ex. {{types}} 1 - 4",
-    "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de manejo esteja visível. ",
+    "TOOLTIP": "Os 40 primeiros caracteres deste campo serão exibidos em qualquer lugar em que seu plano de cultivo esteja visível. ",
     "WIDTH": "{{types}} Largura",
     "WORD_LIMIT": "Somente {{limit}} caracteres podem ser exibidos"
   },
@@ -1058,7 +1061,7 @@
     "INFO": "Minha informação",
     "LOG_OUT": "Sair",
     "SWITCH": "Mudar de fazenda",
-    "TUTORIALS": "MISSING"
+    "TUTORIALS": "Tutoriais"
   },
   "PROFILE": {
     "ACCOUNT_TAB": "Conta",

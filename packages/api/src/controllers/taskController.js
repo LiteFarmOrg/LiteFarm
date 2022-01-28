@@ -124,18 +124,17 @@ const taskController = {
         // after the validation middleware.
         const data = req.body;
         const { user_id } = req.user;
-        data.planned_time = data.due_date;
         data.owner_user_id = user_id;
         const result = await TaskModel.transaction(async trx => {
           const { task_id } = await TaskModel.query(trx).context({ user_id: req.user.user_id })
-            .upsertGraph(req.body, {
+            .upsertGraph(data, {
               noUpdate: true,
               noDelete: true,
               noInsert: nonModifiable,
               relate: ['locations', 'managementPlans'],
             });
           const [task] = await TaskModel.query(trx).withGraphFetched(`
-          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task, 
+          [locations, managementPlans, taskType, soil_amendment_task, irrigation_task,scouting_task,
           field_work_task, cleaning_task, pest_control_task, soil_task, harvest_task, plant_task]
           `).where({ task_id });
           return removeNullTypes(task);
@@ -156,12 +155,10 @@ const taskController = {
         const harvest_tasks = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
-        //TODO: use cases of planned_time and due_date
 
         const result = await TaskModel.transaction(async trx => {
           const result = [];
           for (const harvest_task of harvest_tasks) {
-            harvest_task.planned_time = harvest_task.due_date;
             harvest_task.owner_user_id = user_id;
             if (harvest_task.assignee_user_id && !harvest_task.wage_at_moment) {
               const { wage } = await userFarmModel.query().where({
@@ -198,10 +195,8 @@ const taskController = {
         const transplant_task = req.body;
         const { farm_id } = req.headers;
         const { user_id } = req.user;
-        //TODO: use cases of planned_time and due_date
 
         const result = await TaskModel.transaction(async trx => {
-          transplant_task.planned_time = transplant_task.due_date;
           transplant_task.owner_user_id = user_id;
           if (transplant_task.assignee_user_id && !transplant_task.wage_at_moment) {
             const { wage } = await userFarmModel.query().where({

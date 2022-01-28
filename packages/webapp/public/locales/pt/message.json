@@ -76,14 +76,14 @@
   },
   "MANAGEMENT_PLAN": {
     "ERROR": {
-      "ABANDON": "Erro em abandonar o plano de manejo!",
-      "COMPLETE": "Erro ao completar o plano de manejo!",
-      "POST": "Erro ao adicionar plano de gestão!"
+      "ABANDON": "Erro em abandonar o plano de cultivo!",
+      "COMPLETE": "Erro ao completar o plano de cultivo!",
+      "POST": "Erro ao adicionar plano de cultivo!"
     },
     "SUCCESS": {
-      "ABANDON": "Plano de manejo abandonado com sucesso!",
-      "COMPLETE": "Plano de manejo concluído com sucesso! ",
-      "POST": "Plano de gestão adicionado com sucesso!"
+      "ABANDON": "Plano de cultivo abandonado com sucesso!",
+      "COMPLETE": "Plano de cultivo concluído com sucesso! ",
+      "POST": "Plano de cultivo adicionado com sucesso!"
     }
   },
   "MAP": {
@@ -101,10 +101,10 @@
   },
   "PLAN": {
     "ERROR": {
-      "EDIT": "Falha ao atualizar o plano de manejo"
+      "EDIT": "Falha ao atualizar o plano de cultivo"
     },
     "SUCCESS": {
-      "EDIT": "Plano de manejo atualizado com sucesso"
+      "EDIT": "Plano de cultivo atualizado com sucesso"
     }
   },
   "REVENUE": {

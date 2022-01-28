@@ -41,8 +41,8 @@ class Document extends baseModel {
         type: {
           type: ['string', null],
           enum: ['CLEANING_PRODUCT', 'CROP_COMPLIANCE', 'FERTILIZING_PRODUCT',
-                 'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS',
-                 'OTHER'],
+            'PEST_CONTROL_PRODUCT', 'SOIL_AMENDMENT', 'SOIL_SAMPLE_RESULTS',
+            'WATER_SAMPLE_RESULTS', 'OTHER'],
         },
         ...this.baseProperties,
       },

@@ -1,4 +1,5 @@
 {
+  "EXPORT_README_TITLE": "Comprender su exportación de certificación",
   "N": "N",
   "N/A": "N/A",
   "NO": "No",
@@ -66,11 +67,9 @@
   },
   "RECORD_I": {
     "CLEANERS": "Productos de limpieza",
-    "CLEANERS_UPPERCASE": "PRODUCTOS DE LIMPIEZA",
     "CROP_PRODUCTION_AIDS": "Ayudas a la producción de cultivos",
     "HEADER": "Registro I",
     "INPUT_CATEGORY": "Categoría de insumo",
-    "INPUTS_UPPERCASE": "INSUMOS",
     "LOCATIONS": "Ubicación(es)",
     "NOTE": {
       "LIST_ALL": "Registre TODOS los insumos utilizados en los últimos 12 meses o desde su último Registro I enviado. Puede utilizar este documento como un registro actualizado de los insumos utilizados durante la temporada.",

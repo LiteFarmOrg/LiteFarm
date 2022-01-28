@@ -19,25 +19,22 @@ import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
-import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
+import { getDefaultExpenseType, getExpense, getSales, setDateRange } from './actions';
 import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
-import { Alert } from 'react-bootstrap';
 import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import {
-  currentAndPlannedManagementPlansSelector,
-  managementPlansSelector,
-} from '../managementPlanSlice';
-import { getManagementPlans } from '../saga';
+import { managementPlansSelector } from '../managementPlanSlice';
+import { getManagementPlansAndTasks } from '../saga';
 import Button from '../../components/Form/Button';
 import { Semibold, Title } from '../../components/Typography';
 import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 import { taskEntitiesByManagementPlanIdSelector, tasksSelector } from '../taskSlice';
+import { isTaskType } from '../Task/useIsTaskType';
 
 const moment = extendMoment(Moment);
 
@@ -90,10 +87,9 @@ class Finances extends Component {
   componentDidMount() {
     const { dateRange } = this.props;
     this.props.dispatch(getSales());
-    this.props.dispatch(getShifts());
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
-    this.props.dispatch(getManagementPlans());
+    this.props.dispatch(getManagementPlansAndTasks());
     //TODO fetch userFarm
     if (dateRange && dateRange.startDate && dateRange.endDate) {
       this.setState({
@@ -140,9 +136,10 @@ class Finances extends Component {
         .filter(({ abandon_date }) => !abandon_date)
         .forEach((plan) => {
           // check if this plan has a harvest task projected within the time frame
-          const harvestTasks = this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter(
-            (task) => task.task_type_id === 8,
-          );
+          const harvestTasks =
+            this.props.tasksByManagementPlanId[plan.management_plan_id]?.filter((task) =>
+              isTaskType(task.taskType, 'HARVEST_TASK'),
+            ) || [];
           const harvestDates = harvestTasks?.map((task) =>
             moment(task.due_date).utc().format('YYYY-MM-DD'),
           );
@@ -150,7 +147,10 @@ class Finances extends Component {
           if (
             harvestDates.some(
               (harvestDate) =>
-                moment(this.state.startDate).startOf('day').utc().isSameOrBefore(harvestDate, 'day') &&
+                moment(this.state.startDate)
+                  .startOf('day')
+                  .utc()
+                  .isSameOrBefore(harvestDate, 'day') &&
                 moment(this.state.endDate).utc().isSameOrAfter(harvestDate, 'day'),
             )
           ) {
@@ -198,10 +198,7 @@ class Finances extends Component {
       for (let s of shifts) {
         let management_plan_id = s.management_plan_id;
         const shiftDate = moment(s.shift_date);
-        if (
-          shiftDate.isSameOrAfter(startDate, 'day') &&
-          shiftDate.isSameOrBefore(endDate, 'day')
-        ) {
+        if (shiftDate.isSameOrAfter(startDate, 'day') && shiftDate.isSameOrBefore(endDate, 'day')) {
           if (management_plan_id !== null) {
             if (final.hasOwnProperty(management_plan_id)) {
               final[management_plan_id].profit =
@@ -333,10 +330,7 @@ class Finances extends Component {
     for (let sale of sales || []) {
       const saleDate = moment(sale.sale_date);
 
-      if (
-        saleDate.isSameOrAfter(startDate, 'day') &&
-        saleDate.isSameOrBefore(endDate, 'day')
-      ) {
+      if (saleDate.isSameOrAfter(startDate, 'day') && saleDate.isSameOrBefore(endDate, 'day')) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);
@@ -386,14 +380,8 @@ class Finances extends Component {
     const totalRevenue = this.getRevenue();
     const estimatedRevenue = this.getEstimatedRevenue(this.props.managementPlans);
     const { tasks, expenses } = this.props;
-    const {
-      balanceByCrop,
-      startDate,
-      endDate,
-      hasUnAllocated,
-      showUnTip,
-      unTipButton,
-    } = this.state;
+    const { balanceByCrop, startDate, endDate, hasUnAllocated, showUnTip, unTipButton } =
+      this.state;
     const labourExpense = roundToTwoDecimal(calcTotalLabour(tasks, startDate, endDate));
     const otherExpense = calcOtherExpense(expenses, startDate, endDate);
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);

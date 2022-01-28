@@ -79,7 +79,7 @@
     "build-storybook": "build-storybook -s public",
     "precommit": "lint-staged",
     "npm6install": "npx -p npm@6 npm install",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx --yes npm-force-resolutions"
   },
   "lint-staged": {
     "*.{js}": [

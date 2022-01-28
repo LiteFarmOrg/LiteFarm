@@ -22,6 +22,7 @@ import { useThrottle } from '../hooks/useThrottle';
 import { pick } from '../../util/pick';
 
 const AddFarm = () => {
+  const simulateExternalApis = process.env.NODE_ENV === 'development' && process.env.REACT_APP_GOOGLE_MAPS_API_KEY === '?'; 
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
@@ -155,10 +156,13 @@ const AddFarm = () => {
     const latlng = parseLatLng(e.target.value);
     if (latlng) {
       setCountryFromLatLng(latlng);
-    } else {
+    } else if (simulateExternalApis) {
+      setValue(GRID_POINTS, {lat: 49, lng: -123});
+      setValue(COUNTRY, 'Canada');
+    } else { 
       /**
        * GOOGLE MAP listener handlePlaceChanged is delayed, so gridPoints and country will be cleared before handlePlaceChanged is called.
-       * Since forced validation is delayed by 100ms, clearing GRID_POINTS and COUNTRY would not trigger error before handlePlaceChanged is called.
+       * Since forced validation is delayed, clearing GRID_POINTS and COUNTRY would not trigger error before handlePlaceChanged is called.
        */
       setValue(GRID_POINTS, undefined);
       setValue(COUNTRY, undefined);

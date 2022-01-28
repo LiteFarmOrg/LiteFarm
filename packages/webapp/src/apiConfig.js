@@ -18,7 +18,15 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const REACT_APP_ENV = process.env.REACT_APP_ENV || 'development';
 
 if (NODE_ENV === 'development') {
-  URI = window.location.href.replace(/3000.*/, '5000');
+  let regex;
+  URI = window.location.href;
+  if (URI.match(/^https:\/\/3000-/)) {
+    regex = /3000/; // gitpod serves URL with port ABCD from virtual host https://ABCD-...
+    if (URI.match(/.*\/$/)) URI = URI.slice(0, -1); // remove trailing slash
+  } else {
+    regex = /3000.*/;
+  }
+  URI = URI.replace(regex, '5000');
 } else if (NODE_ENV === 'production') {
   if (REACT_APP_ENV === 'production') {
     URI = 'https://api.app.litefarm.org';

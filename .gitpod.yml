@@ -8,10 +8,11 @@ tasks:
       cp .env.default .env
       npm run migrate:dev:db
       npm install
-      cd ../..
       psql -c 'CREATE DATABASE "pg-litefarm";'
       psql -c "CREATE DATABASE test_farm;"
       psql -c "CREATE ROLE postgres WITH LOGIN SUPERUSER PASSWORD 'postgres';"
+      npm run migrate:dev:db
+      cd ../..
     command: cd packages/api && npm start
   - name: Web app server
     init: |
